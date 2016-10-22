@@ -190,16 +190,6 @@
 		</field>
 
 		<field
-			name="show_vote"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			label="JGLOBAL_SHOW_VOTE_LABEL"
-			description="JGLOBAL_SHOW_VOTE_DESC"
-			default="0">
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
-		<field
 			name="show_readmore"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -762,7 +752,7 @@
 			type="text"
 			size="15"
 			label="JGLOBAL_DATE_FORMAT_LABEL"
-			description="JGLOBAL_DATE_FORMAT_DESC" 
+			description="JGLOBAL_DATE_FORMAT_DESC"
 			showon="list_show_date:created,modified,published"
 		/>
 

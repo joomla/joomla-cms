@@ -17,6 +17,14 @@ defined('_JEXEC') or die;
 class PlgContentVote extends JPlugin
 {
 	/**
+	 * Application object
+	 *
+	 * @var    JApplicationCms
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
 	 * Displays the voting area if in an article
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin
@@ -101,5 +109,101 @@ class PlgContentVote extends JPlugin
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Adds additional fields to supported forms
+	 *
+	 * @param   JForm  $form  The form to be altered.
+	 * @param   mixed  $data  The associated data for the form.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onContentPrepareForm($form, $data)
+	{
+		if (!($form instanceof JForm))
+		{
+			throw new RuntimeException(JText::_('JERROR_NOT_A_FORM'), 500);
+		}
+
+		// Each form has different handling procedures
+		switch ($form->getName())
+		{
+			case 'com_config.component':
+				// Component configuration, check via the request whether we're manipulating com_content
+				if ($this->app->input->getCmd('component') !== 'com_content')
+				{
+					return true;
+				}
+
+				$this->loadLanguage();
+
+				// Create a SimpleXMLElement for the component config's fieldset
+				$element = new SimpleXMLElement(file_get_contents(__DIR__ . '/voting/component.xml'));
+
+				// Add the field
+				$form->setField($element);
+
+				return true;
+
+			case 'com_content.article':
+				// Add the voting fields to the form.
+				JForm::addFormPath(__DIR__ . '/voting');
+				$form->loadFile('content', false);
+
+				return true;
+
+			case 'com_menus.item':
+				// Here we'll have to switch based on the chosen view
+				$xml = $form->getXml();
+
+				switch (strtoupper($xml->metadata->layout->attributes()->option))
+				{
+					case 'COM_CONTENT_ARTICLE_VIEW_DEFAULT_OPTION':
+						// Add the voting fields to the form.
+						JForm::addFormPath(__DIR__ . '/voting');
+						$form->loadFile('menu_single_article', false);
+
+						return true;
+
+					case 'COM_CONTENT_CATEGORIES_VIEW_DEFAULT_OPTION':
+						// Add the voting fields to the form.
+						JForm::addFormPath(__DIR__ . '/voting');
+						$form->loadFile('menu_categories', false);
+
+						return true;
+
+					case 'COM_CONTENT_CATEGORY_VIEW_BLOG_OPTION':
+						// Add the voting fields to the form.
+						JForm::addFormPath(__DIR__ . '/voting');
+						$form->loadFile('menu_category_blog', false);
+
+						return true;
+
+					case 'COM_CONTENT_CATEGORY_VIEW_DEFAULT_OPTION':
+						// Add the voting fields to the form.
+						JForm::addFormPath(__DIR__ . '/voting');
+						$form->loadFile('menu_category_default', false);
+
+						return true;
+
+					case 'COM_CONTENT_FEATURED_VIEW_DEFAULT_OPTION':
+						// Add the voting fields to the form.
+						JForm::addFormPath(__DIR__ . '/voting');
+						$form->loadFile('menu_featured_article', false);
+
+						return true;
+
+					default:
+						// Unsupported option
+						return true;
+				}
+
+			default:
+				// Unsupported form
+				return true;
+		}
 	}
 }
