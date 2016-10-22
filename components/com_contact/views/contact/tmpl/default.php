@@ -34,11 +34,11 @@ jimport('joomla.html.html.bootstrap');
 
 	<?php $show_contact_category = $tparams->get('show_contact_category'); ?>
 
-	<?php if ($show_contact_category == 'show_no_link') : ?>
+	<?php if ($show_contact_category === 'show_no_link') : ?>
 		<h3>
 			<span class="contact-category"><?php echo $this->contact->category_title; ?></span>
 		</h3>
-	<?php elseif ($show_contact_category == 'show_with_link') : ?>
+	<?php elseif ($show_contact_category === 'show_with_link') : ?>
 		<?php $contactLink = ContactHelperRoute::getCategoryRoute($this->contact->catid); ?>
 		<h3>
 			<span class="contact-category"><a href="<?php echo $contactLink; ?>">
@@ -65,13 +65,13 @@ jimport('joomla.html.html.bootstrap');
 	
 	<?php $presentation_style = $tparams->get('presentation_style'); ?>
 
-	<?php if ($presentation_style == 'sliders') : ?>
+	<?php if ($presentation_style === 'sliders') : ?>
 		<?php echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'basic-details')); ?>
 		<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_DETAILS'), 'basic-details'); ?>
-	<?php elseif ($presentation_style == 'tabs') : ?>
+	<?php elseif ($presentation_style === 'tabs') : ?>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic-details')); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic-details', JText::_('COM_CONTACT_DETAILS')); ?>
-	<?php elseif ($presentation_style == 'plain') : ?>
+	<?php elseif ($presentation_style === 'plain') : ?>
 		<?php echo '<h3>' . JText::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
 	<?php endif; ?>
 
@@ -97,26 +97,26 @@ jimport('joomla.html.html.bootstrap');
 		<?php echo JText::_('COM_CONTACT_VCARD'); ?></a>
 	<?php endif; ?>
 
-	<?php if ($presentation_style == 'sliders') : ?>
+	<?php if ($presentation_style === 'sliders') : ?>
 		<?php echo JHtml::_('bootstrap.endSlide'); ?>
-	<?php elseif ($presentation_style == 'tabs') : ?>
+	<?php elseif ($presentation_style === 'tabs') : ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_email_form') && ($this->contact->email_to || $this->contact->user_id)) : ?>
-		<?php if ($presentation_style == 'sliders') : ?>
+		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_EMAIL_FORM'), 'display-form'); ?>
-		<?php elseif ($presentation_style == 'tabs') : ?>
+		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-form', JText::_('COM_CONTACT_EMAIL_FORM')); ?>
-		<?php elseif ($presentation_style == 'plain') : ?>
+		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_EMAIL_FORM') . '</h3>'; ?>
 		<?php endif; ?>
 
 		<?php echo $this->loadTemplate('form'); ?>
 
-		<?php if ($presentation_style == 'sliders') : ?>
+		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
-		<?php elseif ($presentation_style == 'tabs') : ?>
+		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 	<?php endif; ?>
@@ -126,47 +126,47 @@ jimport('joomla.html.html.bootstrap');
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_articles') && $this->contact->user_id && $this->contact->articles) : ?>
-		<?php if ($presentation_style == 'sliders') : ?>
+		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('JGLOBAL_ARTICLES'), 'display-articles'); ?>
-		<?php elseif ($presentation_style == 'tabs') : ?>
+		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-articles', JText::_('JGLOBAL_ARTICLES')); ?>
-		<?php elseif ($presentation_style == 'plain') : ?>
+		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('JGLOBAL_ARTICLES') . '</h3>'; ?>
 		<?php endif; ?>
 
 		<?php echo $this->loadTemplate('articles'); ?>
 
-		<?php if ($presentation_style == 'sliders') : ?>
+		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
-		<?php elseif ($presentation_style == 'tabs') : ?>
+		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_profile') && $this->contact->user_id && JPluginHelper::isEnabled('user', 'profile')) : ?>
-		<?php if ($presentation_style == 'sliders') : ?>
+		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>
-		<?php elseif ($presentation_style == 'tabs') : ?>
+		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-profile', JText::_('COM_CONTACT_PROFILE')); ?>
-		<?php elseif ($presentation_style == 'plain') : ?>
+		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_PROFILE') . '</h3>'; ?>
 		<?php endif; ?>
 
 		<?php echo $this->loadTemplate('profile'); ?>
 
-		<?php if ($presentation_style == 'sliders') : ?>
+		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
-		<?php elseif ($presentation_style == 'tabs') : ?>
+		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($this->contact->misc && $tparams->get('show_misc')) : ?>
-		<?php if ($presentation_style == 'sliders') : ?>
+		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_OTHER_INFORMATION'), 'display-misc'); ?>
-		<?php elseif ($presentation_style == 'tabs') : ?>
+		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-misc', JText::_('COM_CONTACT_OTHER_INFORMATION')); ?>
-		<?php elseif ($presentation_style == 'plain') : ?>
+		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_OTHER_INFORMATION') . '</h3>'; ?>
 		<?php endif; ?>
 
@@ -185,16 +185,16 @@ jimport('joomla.html.html.bootstrap');
 			</dl>
 		</div>
 
-		<?php if ($presentation_style == 'sliders') : ?>
+		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
-		<?php elseif ($presentation_style == 'tabs') : ?>
+		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 
-	<?php if ($presentation_style == 'sliders') : ?>
+	<?php if ($presentation_style === 'sliders') : ?>
 		<?php echo JHtml::_('bootstrap.endAccordion'); ?>
-	<?php elseif ($presentation_style == 'tabs') : ?>
+	<?php elseif ($presentation_style === 'tabs') : ?>
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	<?php endif; ?>
 
