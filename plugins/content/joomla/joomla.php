@@ -299,4 +299,33 @@ class PlgContentJoomla extends JPlugin
 
 		return true;
 	}
+
+	/**
+	 * Delete #__content_frontpage item if the deleted article was featured
+	 *
+	 * @param   string  $context  The context for the content passed to the plugin.
+	 * @param   object  $data     The data relating to the content that was deleted.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onContentAfterDelete($context, $data)
+	{
+		// Skip plugin if we are deleting something other than articles
+		if ($context != 'com_content.article')
+		{
+			return true;
+		}
+
+		// Now check to see if this article was featured if so delete it from the #__content_frontpage table
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			    ->delete($db->quoteName('#__content_frontpage'))
+			    ->where('content_id = ' . $data->id);
+		$db->setQuery($query);
+		$db->execute();
+
+		return true;
+	}
 }
