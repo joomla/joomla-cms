@@ -52,27 +52,39 @@ if (!Array.prototype.indexOf)
 	 */
 	window.jQuery && (function ($) {
 
+		/**
+		 * Method to check condition and change the target visibility
+		 * @param {jQuery} target
+		 */
 		function linkedoptions (target) {
-			var showfield = true, itemval, jsondata = target.data('showon');
+			var showfield = true,
+				jsondata  = target.data('showon') || [],
+				itemval, condition, fieldName, $fields;
 
 			// Check if target conditions are satisfied
-			$.each(jsondata, function(j, item) {
-				var $fields = $('[name="' + jsondata[j]['field'] + '"], [name="' + jsondata[j]['field'] + '[]"]');
-				jsondata[j]['valid'] = 0;
+			for (var j = 0, lj = jsondata.length; j < lj; j++) {
+				condition  = jsondata[j] || {};
+				fieldName  = condition.field;
+				$fields    = $('[name="' + fieldName + '"], [name="' + fieldName + '[]"]');
+
+				condition['valid'] = 0;
 
 				// Test in each of the elements in the field array if condition is valid
 				$fields.each(function() {
+					var $field = $(this);
+
 					// If checkbox or radio box the value is read from proprieties
-					if (['checkbox','radio'].indexOf($(this).attr('type')) != -1)
+					if (['checkbox','radio'].indexOf($field.attr('type')) !== -1)
 					{
-						itemval = $(this).prop('checked') ? $(this).val() : '';
+						itemval = $field.prop('checked') ? $field.val() : '';
 					}
 					else
 					{
-						itemval = $(this).val();
+						itemval = $field.val();
 					}
 
-					// Convert to array to allow multiple values in the field (e.g. type=list multiple) and normalize as string
+					// Convert to array to allow multiple values in the field (e.g. type=list multiple)
+					// and normalize as string
 					if (!(typeof itemval === 'object'))
 					{
 						itemval = JSON.parse('["' + itemval + '"]');
@@ -81,18 +93,18 @@ if (!Array.prototype.indexOf)
 					// Test if any of the values of the field exists in showon conditions
 					for (var i in itemval)
 					{
-						if (jsondata[j]['values'].indexOf(itemval[i]) != -1)
+						if (condition['values'].indexOf(itemval[i]) !== -1)
 						{
-							jsondata[j]['valid'] = 1;
+							condition['valid'] = 1;
 						}
 					}
 				});
 
 				// Verify conditions
 				// First condition (no operator): current condition must be valid
-				if (jsondata[j]['op'] == '')
+				if (condition['op'] === '')
 				{
-					if (jsondata[j]['valid'] == 0)
+					if (condition['valid'] === 0)
 					{
 						showfield = false;
 					}
@@ -101,17 +113,17 @@ if (!Array.prototype.indexOf)
 				else
 				{
 					// AND operator: both the previous and current conditions must be valid
-					if (jsondata[j]['op'] == 'AND' && jsondata[j]['valid'] + jsondata[j-1]['valid'] < 2)
+					if (condition['op'] === 'AND' && condition['valid'] + jsondata[j-1]['valid'] < 2)
 					{
 						showfield = false;
 					}
 					// OR operator: one of the previous and current conditions must be valid
-					if (jsondata[j]['op'] == 'OR'  && jsondata[j]['valid'] + jsondata[j-1]['valid'] > 0)
+					if (condition['op'] === 'OR'  && condition['valid'] + jsondata[j-1]['valid'] > 0)
 					{
 						showfield = true;
 					}
 				}
-			});
+			}
 
 			// If conditions are satisfied show the target field(s), else hide
 			(showfield) ? target.slideDown() : target.slideUp();
@@ -124,22 +136,30 @@ if (!Array.prototype.indexOf)
 		function setUpShowon (container) {
 			container = container || document;
 
-			$(container).find('[data-showon]').each(function() {
-				var target = $(this), jsondata = target.data('showon') || [],
-					field, $fields;
+			var $showonFields = $(container).find('[data-showon]');
 
-				$.each(jsondata, function(j, item) {
-					field   = jsondata[j]['field'];
-					$fields = $('[name="' + field + '"], [name="' + field + '[]"]');
+			// Setup each 'showon' field
+			for (var is = 0, ls = $showonFields.length; is < ls; is++) {
+				// Use anonymous function to capture arguments
+				(function () {
+					var $target = $($showonFields[is]), jsondata = $target.data('showon') || [],
+						field, $fields = $();
 
-					// Attach events to referenced element
-					$fields.each(function() {
-						linkedoptions(target);
-					}).on('change', function() {
-						linkedoptions(target);
+					// Collect an all referenced elements
+					for (var ij = 0, lj = jsondata.length; ij < lj; ij++) {
+						field   = jsondata[ij]['field'];
+						$fields = $fields.add($(container).find('[name="' + field + '"], [name="' + field + '[]"]'));
+					}
+
+					// Check current condition for element
+					linkedoptions($target);
+
+					// Attach events to referenced element, to check condition on change
+					$fields.on('change', function() {
+						linkedoptions($target);
 					});
-				});
-			});
+				})();
+			}
 		}
 
 		$(document).ready(function() {
