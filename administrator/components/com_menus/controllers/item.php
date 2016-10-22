@@ -554,18 +554,26 @@ class MenusControllerItem extends JControllerForm
 	{
 		$app = JFactory::getApplication();
 
+		$results  = array();
 		$menutype = $this->input->get->get('menutype');
 
-		$model = $this->getModel('Items', '', array());
-		$model->setState('filter.menutype', $menutype);
-		$model->setState('list.select', 'a.id, a.title, a.level');
-
-		$results = $model->getItems();
-
-		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i = 0, $n = count($results); $i < $n; $i++)
+		if ($menutype)
 		{
-			$results[$i]->title = str_repeat('- ', $results[$i]->level) . $results[$i]->title;
+			$model = $this->getModel('Items', '', array());
+			$model->getState();
+			$model->setState('filter.menutype', $menutype);
+			$model->setState('list.select', 'a.id, a.title, a.level');
+			$model->setState('list.start', '0');
+			$model->setState('list.limit', '0');
+
+			/** @var  MenusModelItems  $model */
+			$results = $model->getItems();
+
+			// Pad the option text with spaces using depth level as a multiplier.
+			for ($i = 0, $n = count($results); $i < $n; $i++)
+			{
+				$results[$i]->title = str_repeat(' - ', $results[$i]->level) . $results[$i]->title;
+			}
 		}
 
 		// Output a JSON object

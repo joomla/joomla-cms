@@ -812,6 +812,12 @@ class MenusModelItem extends JModelAdmin
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
+		// Currently anything setting affecting target page for a backend menu is not supported, hence load no modules.
+		if ($this->getState('item.client_id') == 1)
+		{
+			return false;
+		}
+
 		/**
 		 * Join on the module-to-menu mapping table.
 		 * We are only interested if the module is displayed on ALL or THIS menu item (or the inverse ID number).
@@ -826,7 +832,7 @@ class MenusModelItem extends JModelAdmin
 		$query->select('ag.title AS access_title')
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access')
 			->where('a.published >= 0')
-			->where('a.client_id = 0')
+			->where('a.client_id = ' . (int) $this->getState('item.client_id'))
 			->order('a.position, a.ordering');
 
 		$db->setQuery($query);
@@ -1054,7 +1060,8 @@ class MenusModelItem extends JModelAdmin
 		$formFile = false;
 
 		// Load the specific type file
-		$typeFile = $clientId == 1 ? 'itemadmin_' . $type : 'item_' . $type;
+		$typeFile   = $clientId == 1 ? 'itemadmin_' . $type : 'item_' . $type;
+		$clientInfo = JApplicationHelper::getClientInfo($clientId);
 
 		// Initialise form with component view params if available.
 		if ($type == 'component')
@@ -1073,7 +1080,7 @@ class MenusModelItem extends JModelAdmin
 			{
 				// The option determines the base path to work with.
 				$option = $args['option'];
-				$base = JPATH_SITE . '/components/' . $option;
+				$base = $clientInfo->path . '/components/' . $option;
 			}
 
 			if (isset($args['view']))
@@ -1106,8 +1113,9 @@ class MenusModelItem extends JModelAdmin
 				// template folder is first part of file name -- template:folder
 				if (!$formFile && (strpos($layout, ':') > 0))
 				{
-					$temp = explode(':', $layout);
-					$templatePath = JPath::clean(JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $option . '/' . $view . '/' . $temp[1] . '.xml');
+					list($altTmpl, $altLayout) = explode(':', $layout);
+
+					$templatePath = JPath::clean($clientInfo->path . '/templates/' . $altTmpl . '/html/' . $option . '/' . $view . '/' . $altLayout . '.xml');
 
 					if (is_file($templatePath))
 					{
@@ -1169,14 +1177,16 @@ class MenusModelItem extends JModelAdmin
 			// We don't have a component. Load the form XML to get the help path
 			$xmlFile = JPath::find(JPATH_ROOT . '/administrator/components/com_menus/models/forms', $typeFile . '.xml');
 
-			// Attempt to load the xml file.
-			if ($xmlFile && !$xml = simplexml_load_file($xmlFile))
+			if ($xmlFile)
 			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-			}
+				if (!$xml = simplexml_load_file($xmlFile))
+				{
+					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				}
 
-			// Get the help data from the XML file if present.
-			$help = $xml->xpath('/form/help');
+				// Get the help data from the XML file if present.
+				$help = $xml->xpath('/form/help');
+			}
 		}
 
 		if (!empty($help))
@@ -1190,16 +1200,9 @@ class MenusModelItem extends JModelAdmin
 			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
 		}
 
-
-		if (!$form->loadFile($typeFile, false, false))
+		if (!$form->loadFile($typeFile, true, false))
 		{
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-		}
-
-		if ($type == 'alias')
-		{
-			// Aliased menu item must be from same clientid
-			$form->setFieldAttribute('aliasoptions', 'clientid', $clientId, 'params');
 		}
 
 		// Association menu items, we currently do not support this for admin menu… may be later
@@ -1383,6 +1386,10 @@ class MenusModelItem extends JModelAdmin
 		// We have a new item, so it is not a change.
 		else
 		{
+			$menuType = $this->getMenuType($data['menutype']);
+
+			$data['client_id'] = $menuType->client_id;
+
 			$table->setLocation($data['parent_id'], 'last-child');
 		}
 

@@ -122,7 +122,7 @@
 			type="list"
 			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
 			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
-			default="Parent"
+			default="0"
 			filter="int"
 			>
 				<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>

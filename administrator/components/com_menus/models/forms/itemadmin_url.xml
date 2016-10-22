@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<!-- Add fields to the request variables for the layout. -->
-
 	<fields name="params">
+		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
+		>
 
-		<fieldset name="aliasoptions">
-			<field name="aliasoptions" type="modal_menu"
-				description="COM_MENUS_ITEM_FIELD_ALIAS_MENU_DESC"
-				label="COM_MENUS_ITEM_FIELD_ALIAS_MENU_LABEL"
-				clientid="0"
-				required="true"
-				select="true"
-				new="true"
-				edit="true"
-				clear="true"
-			/>
-		</fieldset>
-
-		<fieldset name="menu-options"
-				label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
-			>
-
-			<field name="menu-anchor_title" type="text"
-				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
+			<field name="menu-anchor_title"
+				type="text" label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC" />
 
-			<field name="menu-anchor_css" type="text"
-				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+			<field name="menu-anchor_css"
+				type="text" label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
 				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC" />
+
+			<field name="menu-anchor_rel" type="list"
+				label="COM_MENUS_ITEM_FIELD_ANCHOR_REL_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_REL_DESC"
+				default=""
+			>
+				<option value="">JNONE</option>
+				<option value="alternate"/>
+				<option value="author"/>
+				<option value="bookmark"/>
+				<option value="help"/>
+				<option value="license"/>
+				<option value="next"/>
+				<option value="nofollow"/>
+				<option value="noreferrer"/>
+				<option value="prefetch"/>
+				<option value="prev"/>
+				<option value="search"/>
+				<option value="tag"/>
+			</field>
 
 			<field name="menu_image" type="media"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
@@ -56,5 +59,5 @@
 			</field>
 		</fieldset>
 	</fields>
-	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_ALIAS" />
+	<help key="JHELP_MENUS_MENU_ITEM_EXTERNAL_URL" />
 </form>
