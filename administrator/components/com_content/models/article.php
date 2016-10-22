@@ -832,7 +832,7 @@ class ContentModelArticle extends JModelAdmin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function delete_featured($pks)
 	{
