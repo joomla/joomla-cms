@@ -25,6 +25,63 @@ class PlgContentVote extends JPlugin
 	protected $app;
 
 	/**
+	 * Database object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
+
+	/**
+	 * Method to save a vote.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function onAjaxVote()
+	{
+		// Check for request forgeries.
+		if (!JSession::checkToken())
+		{
+			throw new Exception(JText::_('JINVALID_TOKEN'));
+		}
+
+		$user_rating = $this->app->input->getInt('user_rating', -1);
+
+		if ($user_rating > -1)
+		{
+			$id = $this->app->input->getInt('id', 0);
+
+			try
+			{
+				$this->storeVote($id, $user_rating);
+
+				return [
+					'success' => true,
+					'message' => JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'),
+				];
+			}
+			catch (Exception $e)
+			{
+				$this->app->getLogger()->warning(
+					'Failed to save vote on content.',
+					[
+						'exception' => $e,
+						'category'  => 'error',
+					]
+				);
+
+				return [
+					'success' => false,
+					'message' => JText::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'),
+				];
+			}
+		}
+	}
+
+	/**
 	 * Displays the voting area if in an article
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin
@@ -205,5 +262,65 @@ class PlgContentVote extends JPlugin
 				// Unsupported form
 				return true;
 		}
+	}
+
+	/**
+	 * Save user vote on article
+	 *
+	 * @param   integer  $pk    Article ID
+	 * @param   integer  $rate  Voting rate
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function storeVote($pk = 0, $rate = 0)
+	{
+		if ($rate >= 1 && $rate <= 5 && $pk > 0)
+		{
+			$userIP = $this->app->input->server->getString('REMOTE_ADDR');
+
+			// Initialize variables.
+			$db    = $this->db;
+			$query = $db->getQuery(true);
+
+			// Query for an existing rating for this item
+			$query->select('*')
+				->from($db->quoteName('#__content_rating'))
+				->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+
+			// Set the query and load the result.
+			$rating = $db->setQuery($query)->loadObject();
+
+			// If there are no ratings yet, insert a new record
+			if (!$rating)
+			{
+				$query = $db->getQuery(true);
+
+				$columnList = [$db->quoteName('content_id'), $db->quoteName('lastip'), $db->quoteName('rating_sum'), $db->quoteName('rating_count')];
+				$valueList  = [(int) $pk, $db->quote($userIP), (int) $rate, 1];
+
+				$query->clear()
+					->insert($db->quoteName('#__content_rating'))
+					->columns($columnList)
+					->values(implode(', ', $valueList));
+
+				$db->setQuery($query)->execute();
+			}
+			// If there is already a rating, add the new vote unless the previous voter's IP address matches the current address
+			elseif ($userIP != ($rating->lastip))
+			{
+				$query->clear()
+					->update($db->quoteName('#__content_rating'))
+					->set($db->quoteName('rating_count') . ' = rating_count + 1')
+					->set($db->quoteName('rating_sum') . ' = rating_sum + ' . (int) $rate)
+					->set($db->quoteName('lastip') . ' = ' . $db->quote($userIP))
+					->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+
+				$db->setQuery($query)->execute();
+			}
+		}
+
+		throw new RuntimeException(JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), __METHOD__ . '()');
 	}
 }
