@@ -18,5 +18,8 @@
     "grunt-shell": "latest",
     "grunt-zip": "^0.17.1"
   },
-  "license": "GPL-2.0+"
+  "license": "GPL-2.0+",
+  "devDependencies": {
+    "grunt-fetch-pages": "^2.0.0"
+  }
 }

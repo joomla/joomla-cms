@@ -55,6 +55,7 @@ vendors:
                   'version': '3.7.2'
                   'dependencies': ''
 
+
 ## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:
         js:
@@ -77,3 +78,7 @@ CmAddons:
             - 'addon/display/fullscreen.css'
             - 'addon/fold/foldgutter.css'
             - 'addon/scroll/simplescrollbars.css'
+
+polyfills:
+        - 'Element.prototype.classList'
+        - 'Event'
