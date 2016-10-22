@@ -40,9 +40,6 @@ vendors:
     'dragula':
                   'version': '3.7.2'
                   'dependencies': ''
-    'selectize':
-                  'version': '0.12.4'
-                  'dependencies': ''
 
 ### These are always fetced with curl ###
     'codemirror':

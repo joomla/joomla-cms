@@ -17,7 +17,6 @@ abstract class ExternalAssets{
 			'tinymce' => array('version' => '4.4.3','dependencies' => ''),
 			'awesomplete' => array('version' => '1.1.1','dependencies' => ''),
 			'dragula' => array('version' => '3.7.2','dependencies' => ''),
-			'selectize' => array('version' => '0.12.4','dependencies' => ''),
 			'codemirror' => array('version' => '5.19.0','dependencies' => ''),
 			'jcrop' => array('version' => '2.0.4','dependencies' => ''),
 			'autocomplete' => array('version' => '1.2.26','dependencies' => ''),
