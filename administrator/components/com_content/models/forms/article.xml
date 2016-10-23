@@ -172,14 +172,14 @@
 			</field>
 
 			<field name="show_tags"
-				type="list"
-				class="chzn-color"
-				label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
-				description="COM_CONTENT_FIELD_SHOW_TAGS_DESC"
-			>
+			       type="list"
+			       label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
+			       description="COM_CONTENT_FIELD_SHOW_TAGS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="1">JSHOW</option>
-				<option value="0">JHIDE</option>
+			       <option value="0">JNONE</option>
+			       <option value="1">COM_CONTENT_OPTION_STANDARD_MODE</option>
+			       <option value="2">COM_CONTENT_OPTION_CONTENT_MODE</option>
+			       <option value="3">COM_CONTENT_OPTION_BOTH</option>
 			</field>
 
 			<field name="show_intro"
