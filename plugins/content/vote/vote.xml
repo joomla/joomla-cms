@@ -10,6 +10,7 @@
 	<version>3.0.0</version>
 	<description>PLG_VOTE_XML_DESCRIPTION</description>
 	<files>
+		<folder>voting</folder>
 		<filename plugin="vote">vote.php</filename>
 	</files>
 	<languages>
