@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\String\StringHelper;
+use Joomla\Registry\Registry;
 
 jimport('joomla.filesystem.path');
 
@@ -357,55 +358,26 @@ class JFormHelper
 			// Requires a particular extension enabled
 			$regex   = '#(config|(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+)))($|\{([a-z0-9_:\[\]\-]+)\})#i';
 
-			if (preg_match($regex, $requirement, $matches))
+			if (preg_match($regex, $requirement, $m))
 			{
 				// When requiring global config options.
-				if ($matches[1] === 'config' && isset($matches[6]))
+				if ($m[1] === 'config' && isset($m[7]) && !static::fulfillsRequirementsParams(JFactory::getConfig(), $m[7]))
 				{
-					if (!static::fulfillsRequirementsParams(JFactory::getConfig(), $matches[7]))
-					{
-						return false;
-					}
+					return false;
 				}
 
-				// When requiring components.
-				elseif ($matches[2] === 'com')
+				// When requiring components. Check if is installed and enabled and the required params, if any.
+				elseif ($m[2] === 'com' && (!JComponentHelper::isEnabled($m[2] . '_' . $m[3])
+					|| (isset($m[7]) && !static::fulfillsRequirementsParams(JComponentHelper::getComponent($m[2] . '_' . $m[3])->params, $m[7]))))
 				{
-					// Check if is installed and enabled.
-					if (!JComponentHelper::isEnabled($matches[2] . '_' . $matches[3]))
-					{
-						return false;
-					}
-
-					// Check the required params, if any.
-					elseif (isset($matches[6]))
-					{
-						if (!static::fulfillsRequirementsParams(JComponentHelper::getComponent($matches[2] . '_' . $matches[3])->params, $matches[7]))
-						{
-							return false;
-						}
-					}
+					return false;
 				}
 
-				// When requiring plugins.
-				elseif ($matches[2] === 'plg')
+				// When requiring plugins. Check if is installed and enabled and the required params, if any.
+				elseif ($m[2] === 'plg' && (!JPluginHelper::isEnabled($m[4], $m[5])
+					|| (isset($m[7]) && !static::fulfillsRequirementsParams(new Registry(JPluginHelper::getPlugin($m[4], $m[5])->params, $m[7]), $m[7]))))
 				{
-					// Check if is installed and enabled.
-					if (!JPluginHelper::isEnabled($matches[4], $matches[5]))
-					{
-						return false;
-					}
-
-					// Check the required params, if any.
-					elseif (isset($matches[7]))
-					{
-						$params = new Joomla\Registry\Registry(JPluginHelper::getPlugin($matches[4], $matches[5])->params, $matches[7]);
-
-						if (!static::fulfillsRequirementsParams($params, $matches[7]))
-						{
-							return false;
-						}
-					}
+					return false;
 				}
 			}
 		}
@@ -423,7 +395,7 @@ class JFormHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function fulfillsRequirementsParams(Joomla\Registry\Registry $params, $requiredParams = '')
+	protected static function fulfillsRequirementsParams(Registry $params, $requiredParams = '')
 	{
 		$requireParams = explode('[AND]', $requiredParams);
 
