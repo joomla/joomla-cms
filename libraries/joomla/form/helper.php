@@ -358,7 +358,7 @@ class JFormHelper
 					||
 					// When requiring plugins. Check if is installed and enabled and the required params, if any.
 					($m[2] === 'plg' && (!JPluginHelper::isEnabled($m[4], $m[5])
-					|| (isset($m[7]) && !static::fulfillsRequirementsParams(new Registry(JPluginHelper::getPlugin($m[4], $m[5])->params, $m[7]), $m[7]))))
+					|| (isset($m[7]) && !static::fulfillsRequirementsParams(new Registry(JPluginHelper::getPlugin($m[4], $m[5])->params), $m[7]))))
 				)
 				{
 					return false;
