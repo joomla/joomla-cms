@@ -164,72 +164,34 @@ class SearchViewSearch extends JViewLegacy
 				$hl1          = '<span class="highlight">';
 				$hl2          = '</span>';
 				$posCollector = array();
-				$mbString     = extension_loaded('mbstring');
 
-				if ($mbString)
-				{
-					// E.g. german umlauts like ä are converted to ae and so
-					// $pos calculated with $srow doesn't match for $row
-					$correctPos     = (mb_strlen($srow) > mb_strlen($row));
-					$highlighterLen = mb_strlen($hl1 . $hl2);
-				}
-				else
-				{
-					// E.g. german umlauts like ä are converted to ae and so
-					// $pos calculated with $srow desn't match for $row
-					$correctPos     = (JString::strlen($srow) > JString::strlen($row));
-					$highlighterLen = JString::strlen($hl1 . $hl2);
-				}
+				// E.g. german umlauts like ä are converted to ae and so
+				// $pos calculated with $srow desn't match for $row
+				$correctPos     = (JString::strlen($srow) > JString::strlen($row));
+				$highlighterLen = JString::strlen($hl1 . $hl2);
 
 				foreach ($searchwords as $hlword)
 				{
-					if ($mbString)
+					if (($pos = JString::strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 					{
-						if (($pos = mb_strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
+						// Iconv transliterates '€' to 'EUR'
+						// TODO: add other expanding translations?
+						$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
+						$pos              -= $eur_compensation;
+
+						if ($correctPos)
 						{
-							// Iconv transliterates '€' to 'EUR'
-							// TODO: add other expanding translations?
-							$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
-							$pos              -= $eur_compensation;
+							// Calculate necessary corrections from 0 to current $pos
+							$ChkRow     = JString::substr($row, 0, $pos);
+							$sChkRowLen = JString::strlen(strtolower(SearchHelper::remove_accents($ChkRow)));
+							$ChkRowLen  = JString::strlen($ChkRow);
 
-							if ($correctPos)
-							{
-								// Calculate necessary corrections from 0 to current $pos
-								$ChkRow     = mb_substr($row, 0, $pos);
-								$sChkRowLen = mb_strlen(strtolower(SearchHelper::remove_accents($ChkRow)));
-								$ChkRowLen  = mb_strlen($ChkRow);
-
-								// Correct $pos
-								$pos -= ($sChkRowLen - $ChkRowLen);
-							}
-
-							// Collect pos and searchword
-							$posCollector[$pos] = $hlword;
+							// Correct $pos
+							$pos -= ($sChkRowLen - $ChkRowLen);
 						}
-					}
-					else
-					{
-						if (($pos = JString::strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
-						{
-							// Iconv transliterates '€' to 'EUR'
-							// TODO: add other expanding translations?
-							$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
-							$pos              -= $eur_compensation;
 
-							if ($correctPos)
-							{
-								// Calculate necessary corrections from 0 to current $pos
-								$ChkRow     = JString::substr($row, 0, $pos);
-								$sChkRowLen = JString::strlen(strtolower(SearchHelper::remove_accents($ChkRow)));
-								$ChkRowLen  = JString::strlen($ChkRow);
-
-								// Correct $pos
-								$pos -= ($sChkRowLen - $ChkRowLen);
-							}
-
-							// Collect pos and searchword
-							$posCollector[$pos] = $hlword;
-						}
+						// Collect pos and searchword
+						$posCollector[$pos] = $hlword;
 					}
 				}
 
@@ -253,17 +215,9 @@ class SearchViewSearch extends JViewLegacy
 						if ($chkOverlap >= 0)
 						{
 							// Set highlighter around searchword
-							if ($mbString)
-							{
-								$hlwordLen = mb_strlen($hlword);
-								$row       = mb_substr($row, 0, $pos) . $hl1 . mb_substr($row, $pos, $hlwordLen) . $hl2 . mb_substr($row, $pos + $hlwordLen);
-							}
-							else
-							{
-								$hlwordLen = JString::strlen($hlword);
-								$row = JString::substr($row, 0, $pos) . $hl1 . JString::substr($row, $pos, JString::strlen($hlword))
-									. $hl2 . JString::substr($row, $pos + JString::strlen($hlword));
-							}
+							$hlwordLen = JString::strlen($hlword);
+							$row = JString::substr($row, 0, $pos) . $hl1 . JString::substr($row, $pos, JString::strlen($hlword))
+								. $hl2 . JString::substr($row, $pos + JString::strlen($hlword));
 
 							$cnt++;
 							$lastHighlighterEnd = $pos + $hlwordLen + $highlighterLen;
