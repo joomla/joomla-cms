@@ -48,11 +48,13 @@ class PlgContentVote extends JPlugin
 			throw new Exception(JText::_('JINVALID_TOKEN'));
 		}
 
-		$user_rating = $this->app->input->getInt('user_rating', -1);
+		$this->loadLanguage();
+
+		$user_rating = $this->app->input->post->getInt('user_rating', -1);
 
 		if ($user_rating > -1)
 		{
-			$id = $this->app->input->getInt('id', 0);
+			$id = $this->app->input->post->getInt('id', 0);
 
 			try
 			{
@@ -60,7 +62,8 @@ class PlgContentVote extends JPlugin
 
 				return [
 					'success' => true,
-					'message' => JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'),
+					'message' => JText::_('PLG_VOTE_ARTICLE_VOTE_SUCCESS'),
+					'token'   => JSession::getFormToken(true),
 				];
 			}
 			catch (Exception $e)
@@ -75,10 +78,13 @@ class PlgContentVote extends JPlugin
 
 				return [
 					'success' => false,
-					'message' => JText::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'),
+					'message' => JText::_('PLG_VOTE_ARTICLE_VOTE_FAILURE'),
+					'token'   => JSession::getFormToken(true),
 				];
 			}
 		}
+
+		throw new RuntimeException(JText::sprintf('PLG_VOTE_INVALID_RATING', $rate));
 	}
 
 	/**
@@ -93,7 +99,7 @@ class PlgContentVote extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
+	public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
 	{
 		$parts = explode(".", $context);
 
@@ -139,9 +145,6 @@ class PlgContentVote extends JPlugin
 
 			if ($view == 'article' && $row->state == 1)
 			{
-				$uri = clone JUri::getInstance();
-				$uri->setVar('hitcount', '0');
-
 				// Create option list for voting select box
 				$options = array();
 
@@ -150,18 +153,24 @@ class PlgContentVote extends JPlugin
 					$options[] = JHtml::_('select.option', $i, JText::sprintf('PLG_VOTE_VOTE', $i));
 				}
 
+				// Load required media
+				JHtml::_('jquery.framework');
+				JHtml::_('behavior.core');
+				JHtml::_('script', 'plg_content_vote/voting.js', false, true);
+
+				$action = JRoute::_('index.php?option=com_ajax&group=content&plugin=vote&format=json');
+
 				// Generate voting form
-				$html .= '<form method="post" action="' . htmlspecialchars($uri->toString(), ENT_COMPAT, 'UTF-8') . '" class="form-inline">';
+				$html .= '<form method="post" action="' . $action . '" class="form-inline" id="vote-submission">';
 				$html .= '<span class="content_vote">';
 				$html .= '<label class="unseen element-invisible" for="content_vote_' . $row->id . '">' . JText::_('PLG_VOTE_LABEL') . '</label>';
 				$html .= JHtml::_('select.genericlist', $options, 'user_rating', null, 'value', 'text', '5', 'content_vote_' . $row->id);
 				$html .= '&#160;<input class="btn btn-mini" type="submit" name="submit_vote" value="' . JText::_('PLG_VOTE_RATE') . '" />';
-				$html .= '<input type="hidden" name="task" value="article.vote" />';
-				$html .= '<input type="hidden" name="hitcount" value="0" />';
-				$html .= '<input type="hidden" name="url" value="' . htmlspecialchars($uri->toString(), ENT_COMPAT, 'UTF-8') . '" />';
+				$html .= '<input type="hidden" name="id" value="' . $row->id . '" />';
 				$html .= JHtml::_('form.token');
 				$html .= '</span>';
 				$html .= '</form>';
+				$html .= '<div id="vote-message"></div>';
 			}
 		}
 
@@ -354,6 +363,8 @@ class PlgContentVote extends JPlugin
 					->values(implode(', ', $valueList));
 
 				$db->setQuery($query)->execute();
+
+				return;
 			}
 			// If there is already a rating, add the new vote unless the previous voter's IP address matches the current address
 			elseif ($userIP != ($rating->lastip))
@@ -366,9 +377,11 @@ class PlgContentVote extends JPlugin
 					->where($db->quoteName('content_id') . ' = ' . (int) $pk);
 
 				$db->setQuery($query)->execute();
+
+				return;
 			}
 		}
 
-		throw new RuntimeException(JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), __METHOD__ . '()');
+		throw new RuntimeException(JText::sprintf('PLG_VOTE_INVALID_RATING', $rate));
 	}
 }
