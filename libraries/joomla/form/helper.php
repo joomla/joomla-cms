@@ -328,7 +328,7 @@ class JFormHelper
 	 */
 	public static function fulfillsRequirements($requires = '')
 	{
-		if ($requiredString === '')
+		if ($requires === '')
 		{
 			return true;
 		}
@@ -337,7 +337,7 @@ class JFormHelper
 		$requires = str_replace(',', '[AND]', $requires);
 
 		// Filter requirements
-		$requires = explode('[AND]', (string) $requires);
+		$requires = explode('[AND]', $requires);
 
 		foreach ($requires as $require)
 		{
