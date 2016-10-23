@@ -333,25 +333,22 @@ class JFormHelper
 			return true;
 		}
 
-		// B/C part. Will be removed in 4.0
-		$requires = str_replace(',', '[AND]', $requires);
-
 		// Filter requirements
-		$requires = explode('[AND]', $requires);
+		$requirements = explode('[AND]', $requires);
 
-		foreach ($requires as $require)
+		foreach ($requirements as $requirement)
 		{
 			// B/C part. Will be removed in 4.0
-			switch ($require)
+			switch ($requirement)
 			{
 				case 'multilanguage':
-					$require = 'plg_system_languagefilter';
+					$requirement = 'plg_system_languagefilter';
 					break;
 				case 'associations':
-					$require = 'plg_system_languagefilter{item_associations:1}';
+					$requirement = 'plg_system_languagefilter{item_associations:1}';
 					break;
 				case 'vote':
-					$require = 'plg_content_vote';
+					$requirement = 'plg_content_vote';
 					break;
 				default:
 					break;
@@ -360,7 +357,7 @@ class JFormHelper
 			// Requires a particular extension enabled
 			$regex   = '#(config|(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+)))($|\{([a-z0-9_:,\-]+)\})#i';
 
-			if (preg_match($regex, $require, $matches))
+			if (preg_match($regex, $requirement, $matches))
 			{
 				// When requiring global config options.
 				if ($matches[1] === 'config' && isset($matches[6]))
