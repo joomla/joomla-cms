@@ -210,24 +210,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function framework($debug = null)
 	{
-		// Only load once
-		if (!empty(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		// Load jQuery
-		JHtml::_('jquery.framework');
-
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$config = JFactory::getConfig();
-			$debug = (boolean) $config->get('debug');
-		}
-
-		JHtml::_('script', 'jui/bootstrap.min.js', false, true, false, false, $debug);
-		static::$loaded[__METHOD__] = true;
+		JHtml::_('asset.load', 'bootstrap.js');
 
 		return;
 	}
@@ -888,15 +871,14 @@ abstract class JHtmlBootstrap
 		// Load Bootstrap main CSS
 		if ($includeMainCss)
 		{
-			JHtml::_('stylesheet', 'jui/bootstrap.min.css', $attribs, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-responsive.min.css', $attribs, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-extended.css', $attribs, true);
+			JHtml::_('asset.load', 'bootstrap.responsive');
+			JHtml::_('asset.load', 'bootstrap.extended');
 		}
 
 		// Load Bootstrap RTL CSS
 		if ($direction === 'rtl')
 		{
-			JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', $attribs, true);
+			JHtml::_('asset.load', 'bootstrap.css.rtl');
 		}
 	}
 }

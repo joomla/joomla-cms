@@ -24,31 +24,8 @@ $frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'htt
 $background_color = $this->params->get('loginBackgroundColor') ? $this->params->get('loginBackgroundColor') : '';
 $color_is_light = ($background_color && colorIsLight($background_color));
 
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
-JHtml::_('bootstrap.tooltip');
-
-// Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
-
-// Load optional RTL Bootstrap CSS
-JHtml::_('bootstrap.loadCss', false, $this->direction);
-
-// Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (is_file($file))
-{
-	$doc->addStyleSheet($file);
-}
-
-// Load custom.css
-$file = 'templates/' . $this->template . '/css/custom.css';
-
-if (is_file($file))
-{
-	$doc->addStyleSheetVersion($file);
-}
+// Load the template asset
+JHtml::_('asset.load', $doc->direction == 'rtl' ? 'template.isis.rtl' : 'template.isis.ltr');
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');

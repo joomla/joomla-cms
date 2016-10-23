@@ -1,0 +1,257 @@
+{
+	"title" : "Joomla! System",
+	"name"  : "system",
+	"author": "Joomla! CMS",
+
+	"assets": [
+		{
+			"name": "core",
+			"version": "3.x",
+			"js": [
+				"system/core.js"
+			]
+		},
+		{
+			"name": "mootools",
+			"version": "1.4.5",
+			"js": [
+				"system/mootools-core.js"
+			],
+			"dependency": [
+				"core"
+			]
+		},
+		{
+			"name": "mootools-more",
+			"version": "1.4.0.1",
+			"js": [
+				"system/mootools-more.js"
+			],
+			"dependency": [
+				"mootools"
+			]
+		},
+		{
+			"name": "calendar",
+			"js": [
+				"[LANGUAGE_TAG]/calendar.js",
+				"[LANGUAGE_TAG]/calendar-setup.js"
+			],
+			"css": [
+				"system/calendar-jos.css"
+			],
+			"attribute": {
+				"system/calendar-jos.css": {
+					"media": "all",
+					"title": "Green"
+				}
+			}
+		},
+		{
+			"name": "caption",
+			"js": [
+				"system/caption.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "combobox",
+			"js": [
+				"system/combobox.js"
+			],
+			"dependency": [
+				"core",
+				"jquery"
+			]
+		},
+
+		{
+			"name": "frontediting",
+			"js": [
+				"system/frontediting.js"
+			],
+			"css": [
+				"system/frontediting.css"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "helpsite",
+			"js": [
+				"system/helpsite.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "highlighter",
+			"js": [
+				"system/highlighter.js"
+			],
+			"dependency": [
+				"core",
+				"jquery"
+			]
+		},
+		{
+			"name": "html5fallback",
+			"js": [
+				"system/html5fallback.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "jcrop",
+			"version": "0.9.12",
+			"js": [
+				"system/jquery.Jcrop.min.js"
+			],
+			"css": [
+				"system/jquery.Jcrop.min.css"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "modal",
+			"version": "1.3",
+			"js": [
+				"system/modal.js"
+			],
+			"css": [
+				"system/modal.css"
+			],
+			"dependency": [
+				"mootools",
+				"jquery"
+			]
+		},
+		{
+			"name": "mootree",
+			"version": "rev.18",
+			"js": [
+				"system/mootree.js"
+			],
+			"css": [
+				"system/mootree.css"
+			],
+			"dependency": [
+				"mootools",
+				"jquery"
+			]
+		},
+		{
+			"name": "multiselect",
+			"js": [
+				"system/multiselect.js"
+			],
+			"dependency": [
+				"core",
+				"jquery"
+			]
+		},
+		{
+			"name": "passwordstrength",
+			"js": [
+				"system/passwordstrength.js"
+			],
+			"dependency": [
+				"mootools"
+			]
+		},
+		{
+			"name": "permissions",
+			"js": [
+				"system/permissions.min.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "progressbar",
+			"js": [
+				"system/progressbar.js"
+			],
+			"dependency": [
+				"mootools-more"
+			]
+		},
+		{
+			"name": "punycode",
+			"version": "1.2.4",
+			"js": [
+				"system/punycode.js"
+			]
+		},
+		{
+			"name": "repeatable",
+			"js": [
+				"system/repeatable.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "switcher",
+			"js": [
+				"system/switcher.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "tabs-state",
+			"js": [
+				"system/tabs-state.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "tabs",
+			"js": [
+				"system/tabs.js"
+			],
+			"dependency": [
+				"mootools"
+			]
+		},
+		{
+			"name": "validate",
+			"js": [
+				"system/validate.js"
+			],
+			"dependency": [
+				"core",
+				"jquery",
+				"punycode"
+			]
+		},
+		{
+			"name": "adminlist",
+			"css": [
+				"system/adminlist.css"
+			],
+			"dependency": []
+		},
+		{
+			"name": "system",
+			"css": [
+				"system/system.css"
+			],
+			"dependency": []
+		}
+	]
+}

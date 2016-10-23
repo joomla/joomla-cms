@@ -25,29 +25,8 @@ $frontEndUri = JUri::getInstance(JUri::root());
 $frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
 $mainPageUri = $frontEndUri->toString();
 
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
-
-$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
-
-// Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
-
-// Load specific language related CSS
-$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (file_exists($languageCss) && filesize($languageCss) > 0)
-{
-	$doc->addStyleSheetVersion($languageCss);
-}
-
-// Load custom.css
-$customCss = 'templates/' . $this->template . '/css/custom.css';
-
-if (file_exists($customCss) && filesize($customCss) > 0)
-{
-	$doc->addStyleSheetVersion($customCss);
-}
+// Load the template asset
+JHtml::_('asset.load', $doc->direction == 'rtl' ? 'template.isis.rtl' : 'template.isis.ltr');
 
 // Detecting Active Variables
 $option   = $input->get('option', '');

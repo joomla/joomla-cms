@@ -33,21 +33,7 @@ abstract class JHtmlSearchtools
 	 */
 	public static function main()
 	{
-		// Only load once
-		if (empty(static::$loaded[__METHOD__]))
-		{
-			// Requires jQuery but allows to skip its loading
-			if ($loadJquery = (!isset($options['loadJquery']) || $options['loadJquery'] != 0))
-			{
-				JHtml::_('jquery.framework');
-			}
-
-			// Load the jQuery plugin && CSS
-			JHtml::_('script', 'jui/jquery.searchtools.min.js', false, true);
-			JHtml::_('stylesheet', 'jui/jquery.searchtools.css', false, true);
-
-			static::$loaded[__METHOD__] = true;
-		}
+		JHtml::_('asset.load', 'jquery.searchtools');
 
 		return;
 	}

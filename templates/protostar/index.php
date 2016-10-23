@@ -38,18 +38,16 @@ else
 	$fullWidth = 0;
 }
 
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
+// Load the template asset
+$asset = JHtml::_('asset.load', $doc->direction == 'rtl' ? 'template.protostar.rtl' : 'template.protostar.ltr');
 
-$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
-
-// Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
-
-// Use of Google Font
+// Check for GoogleFont
 if ($this->params->get('googleFont'))
 {
-	$doc->addStyleSheet('//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	$css = $asset->getCss();
+	array_unshift($css, '//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	$asset->setCss($css);
+
 	$doc->addStyleDeclaration("
 	h1, h2, h3, h4, h5, h6, .site-title {
 		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
@@ -79,16 +77,6 @@ if ($this->params->get('templateColor'))
 	}");
 }
 
-// Check for a custom CSS file
-$userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
-
-if (file_exists($userCss) && filesize($userCss) > 0)
-{
-	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/user.css');
-}
-
-// Load optional RTL Bootstrap CSS
-JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Adjusting content width
 if ($this->countModules('position-7') && $this->countModules('position-8'))

@@ -1,0 +1,43 @@
+{
+	"title"  : "Joomla! isis template",
+	"name"   : "template.isis",
+	"author" : "Joomla! CMS",
+	"version": "1.0",
+
+	"assets": [
+		{
+			"name": "template.isis",
+			"versionAttach": true,
+			"dependency": [
+				"bootstrap.js"
+			],
+			"js": [
+				"template.js"
+			]
+		},
+		{
+			"name": "template.isis.ltr",
+			"versionAttach": true,
+			"dependency": [
+				"template.isis"
+			],
+			"css": [
+				"template.css",
+				"language/[LANGUAGE_TAG]/[LANGUAGE_TAG].css",
+				"custom.css"
+			]
+		},
+		{
+			"name": "template.isis.rtl",
+			"versionAttach": true,
+			"dependency": [
+				"template.isis"
+			],
+			"css": [
+				"template-rtl.css",
+				"language/[LANGUAGE_TAG]/[LANGUAGE_TAG].css",
+				"custom.css"
+			]
+		}
+	]
+}

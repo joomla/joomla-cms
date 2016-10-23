@@ -1,0 +1,224 @@
+{
+	"title" : "Joomla! JUI",
+	"name"  : "jui",
+	"author": "Joomla! CMS",
+
+	"assets": [
+		{
+			"name": "bootstrap",
+			"version": "2.3.2",
+			"dependency": [
+				"bootstrap.css",
+				"bootstrap.js"
+			]
+		},
+		{
+			"name": "bootstrap.js",
+			"version": "2.3.2",
+			"js": [
+				"jui/bootstrap.min.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "bootstrap.css",
+			"version": "2.3.2",
+			"css": [
+				"jui/bootstrap.min.css"
+			]
+		},
+		{
+			"name": "bootstrap.css.ltr",
+			"version": "2.3.2",
+			"dependency": [
+				"bootstrap.css"
+			]
+		},
+		{
+			"name": "bootstrap.css.rtl",
+			"version": "2.3.2",
+			"css": [
+				"jui/bootstrap-rtl.css"
+			]
+		},
+		{
+			"name": "bootstrap.extended",
+			"version": "2.3.2",
+			"css": [
+				"jui/bootstrap-extended.css"
+			],
+			"dependency": [
+				"bootstrap.css"
+			]
+		},
+		{
+			"name": "bootstrap.responsive",
+			"version": "2.3.2",
+			"css": [
+				"jui/bootstrap-responsive.min.css"
+			],
+			"dependency": [
+				"bootstrap.css"
+			]
+		},
+		{
+			"name": "cms",
+			"version": "3.x",
+			"js": [
+				"jui/cms.js"
+			],
+			"dependency": [
+				"core",
+				"jquery"
+			]
+		},
+		{
+			"name": "fielduser",
+			"js": [
+				"jui/fielduser.min.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "html5shiv",
+			"version": "3.7.3",
+			"js": [
+				"jui/html5.js"
+			]
+		},
+		{
+			"name": "icomoon",
+			"css": [
+				"jui/icomoon.css"
+			]
+		},
+		{
+			"name": "icomoon-lte-ie7",
+			"js": [
+				"jui/icomoon-lte-ie7.js"
+			]
+		},
+		{
+			"name": "jquery",
+			"version": "1.11.3",
+			"js": [
+				"jui/jquery.min.js",
+				"jui/jquery-migrate.min.js",
+				"jui/jquery-noconflict.js"
+			]
+		},
+		{
+			"name": "jquery.autocomplete",
+			"version": "1.2.24",
+			"js": [
+				"jui/jquery.autocomplete.min.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "chosen",
+			"version": "0.14.0",
+			"js": [
+				"jui/chosen.jquery.min.js"
+			],
+			"css": [
+				"jui/chosen.css"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "chosen.ajax",
+			"js": [
+				"jui/ajax-chosen.min.js"
+			],
+			"dependency": [
+				"chosen"
+			]
+		},
+		{
+			"name": "jquery-minicolors",
+			"js": [
+				"jui/jquery.minicolors.min.js"
+			],
+			"css": [
+				"jui/jquery.minicolors.css"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "jquery.searchtools",
+			"js": [
+				"jui/jquery.searchtools.min.js"
+			],
+			"css": [
+				"jui/jquery.searchtools.css"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "jquery-simplecolorpicker",
+			"js": [
+				"jui/jquery.simplecolors.min.js"
+			],
+			"css": [
+				"jui/jquery.simplecolors.css"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "jquery.ui.core",
+			"version": "1.9.2",
+			"js": [
+				"jui/jquery.ui.core.min.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "jquery.ui.sortable",
+			"version": "1.9.2",
+			"js": [
+				"jui/jquery.ui.sortable.min.js"
+			],
+			"dependency": [
+				"jquery.ui.core"
+			]
+		},
+		{
+			"name": "sortablelist",
+			"js": [
+				"jui/sortablelist.js"
+			],
+			"css": [
+				"jui/sortablelist.css"
+			],
+			"dependency": [
+				"jquery.ui.sortable"
+			]
+		},
+		{
+			"name": "jquery.treeselectmenu",
+			"js": [
+				"jui/treeselectmenu.jquery.min.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		}
+	]
+}

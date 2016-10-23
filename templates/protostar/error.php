@@ -41,9 +41,6 @@ else
 	$fullWidth = 0;
 }
 
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
-
 // Logo file or site title param
 if ($params->get('logoFile'))
 {

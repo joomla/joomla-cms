@@ -1,0 +1,38 @@
+{
+	"title"  : "Joomla! protostar template",
+	"name"   : "template.protostar",
+	"author" : "Joomla! CMS",
+	"version": "1.0",
+
+	"assets": [
+		{
+			"name": "template.protostar",
+			"versionAttach": true,
+			"dependency": [
+				"bootstrap.js"
+			],
+			"js": [
+				"template.js"
+			],
+			"css": [
+				"template.css",
+				"user.css"
+			]
+		},
+		{
+			"name": "template.protostar.ltr",
+			"versionAttach": true,
+			"dependency": [
+				"template.protostar"
+			]
+		},
+		{
+			"name": "template.protostar.rtl",
+			"versionAttach": true,
+			"dependency": [
+				"bootstrap.css.rtl",
+				"template.protostar"
+			]
+		}
+	]
+}

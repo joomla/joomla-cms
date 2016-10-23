@@ -14,17 +14,24 @@ $doc             = JFactory::getDocument();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
-// Output as HTML5
 $doc->setHtml5(true);
 
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
+// Load the template asset
+$asset = JHtml::_('asset.load', $doc->direction == 'rtl' ? 'template.protostar.rtl' : 'template.protostar.ltr');
 
-// Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+// Check for GoogleFont
+if ($this->params->get('googleFont'))
+{
+	$css = $asset->getCss();
+	array_unshift($css, '//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	$asset->setCss($css);
 
-// Load optional rtl Bootstrap css and Bootstrap bugfixes
-JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
+	$doc->addStyleDeclaration("
+	h1, h2, h3, h4, h5, h6, .site-title {
+		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
+	}");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

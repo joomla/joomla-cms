@@ -23,11 +23,7 @@ defined('JPATH_BASE') or die;
 
 extract($displayData);
 
-// Depends on jQuery UI
-JHtml::_('jquery.ui', array('core', 'sortable'));
-
-JHtml::_('script', 'jui/sortablelist.js', false, true);
-JHtml::_('stylesheet', 'jui/sortablelist.css', false, true, false);
+JHtml::_('asset.load', 'sortablelist');
 
 // Attach sortable to document
 JFactory::getDocument()->addScriptDeclaration(

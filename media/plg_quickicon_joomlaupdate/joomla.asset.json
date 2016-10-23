@@ -1,0 +1,17 @@
+{
+	"title" : "plg_quickicon_joomlaupdate",
+	"name"  : "plg_quickicon_joomlaupdate",
+	"author": "Joomla! CMS",
+
+	"assets": [
+		{
+			"name": "plg.quickicon.jupdatecheck",
+			"js": [
+				"plg_quickicon_joomlaupdate/jupdatecheck.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		}
+	]
+}
