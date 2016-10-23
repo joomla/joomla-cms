@@ -11,6 +11,8 @@ require_once __DIR__ . '/stubs/PlgSystemBase.php';
 require_once __DIR__ . '/stubs/PlgSystemJoomla.php';
 require_once __DIR__ . '/stubs/PlgSystemPrivate.php';
 
+use Joomla\Application\AbstractApplication;
+
 /**
  * Test class for JPlugin.
  *
@@ -47,7 +49,7 @@ class JPluginTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-	
+
 		parent::tearDown();
 	}
 
@@ -64,9 +66,9 @@ class JPluginTest extends TestCase
 		$plugin = new PlgSystemJoomla;
 
 		$this->assertInstanceOf(
-			'JApplicationBase',
+			AbstractApplication::class,
 			TestReflection::getValue($plugin, 'app'),
-			'Assert the $app property is an instance of JApplicationBase'
+			'Assert the $app property is an instance of ' . AbstractApplication::class
 		);
 
 		$this->assertInstanceOf(

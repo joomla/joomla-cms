@@ -22,7 +22,7 @@ use Joomla\Session\SessionEvent;
  *
  * @since  3.2
  */
-class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
+abstract class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 {
 	use ContainerAwareTrait;
 
