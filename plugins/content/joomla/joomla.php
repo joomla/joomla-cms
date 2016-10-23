@@ -25,13 +25,16 @@ class PlgContentJoomla extends JPlugin
 	 * @param   object   $article  A JTableContent object
 	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
-	 * @return  boolean   true if function not enabled, is in frontend or is new. Else true or
+	 * @return  boolean   true if function not enabled, is in front-end or is new. Else true or
 	 *                    false depending on success of save function.
 	 *
 	 * @since   1.6
 	 */
 	public function onContentAfterSave($context, $article, $isNew)
 	{
+	        //First check for article/tag mapping.
+		$this->setArticleTagOrdering($context, $article, $isNew);
+
 		// Check we are handling the frontend edit form.
 		if ($context != 'com_content.form')
 		{
@@ -72,7 +75,6 @@ class PlgContentJoomla extends JPlugin
 
 		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
 		$debug = JFactory::getConfig()->get('debug_lang');
-		$result = true;
 
 		foreach ($users as $user_id)
 		{
@@ -298,5 +300,113 @@ class PlgContentJoomla extends JPlugin
 		$cctable->publish($ccIds, $value);
 
 		return true;
+	}
+
+
+	/**
+	 * Create (or update) a row whenever an article is tagged.
+	 * The article/tag mapping allows to order the articles against a given tag. 
+	 *
+	 * @param   string   $context  The context of the content passed to the plugin (added in 1.6)
+	 * @param   object   $article  A JTableContent object
+	 * @param   boolean  $isNew    If the content is just about to be created
+	 *
+	 * @return  void
+	 *
+	 */
+	private function setArticleTagOrdering($context, $article, $isNew)
+	{
+	  //Filter the sent event.
+	  if($context == 'com_content.article' || $context == 'com_content.form') { 
+	    //Get the jform data.
+	    $jform = JFactory::getApplication()->input->post->get('jform', array(), 'array');
+
+	    // Create a new query object.
+	    $db = JFactory::getDbo();
+	    $query = $db->getQuery(true);
+
+	    //Check we have tags before treating data.
+	    if(isset($jform['tags'])) {
+	      //Retrieve all the rows matching the item id.
+	      $query->select('article_id, tag_id, IFNULL(ordering, "NULL") AS ordering')
+		    ->from('#__content_tag_map')
+		    ->where('article_id='.(int)$article->id);
+	      $db->setQuery($query);
+	      $tags = $db->loadObjectList();
+
+	      $values = array();
+	      foreach($jform['tags'] as $tagId) {
+		$newTag = true; 
+		//In order to preserve the ordering of the old tags we check if 
+		//they match those newly selected.
+		foreach($tags as $tag) {
+		  if($tag->tag_id == $tagId) {
+		    $values[] = $tag->article_id.','.$tag->tag_id.','.$tag->ordering;
+		    $newTag = false; 
+		    break;
+		  }
+		}
+
+		if($newTag) {
+		  $values[] = $article->id.','.$tagId.',NULL';
+		}
+	      }
+
+	      //Delete all the rows matching the item id.
+	      $query->clear();
+	      $query->delete('#__content_tag_map')
+		    ->where('article_id='.(int)$article->id);
+	      $db->setQuery($query);
+	      $db->query();
+
+	      $columns = array('article_id', 'tag_id', 'ordering');
+	      //Insert a new row for each tag linked to the item.
+	      $query->clear();
+	      $query->insert('#__content_tag_map')
+		    ->columns($columns)
+		    ->values($values);
+	      $db->setQuery($query);
+	      $db->query();
+	    }
+	    else { //No tags selected or tags removed.
+	      //Delete all the rows matching the item id.
+	      $query->delete('#__content_tag_map')
+		    ->where('article_id='.(int)$article->id);
+	      $db->setQuery($query);
+	      $db->query();
+	    }
+	  }
+	}
+
+
+	/**
+	 * This is an event that is called right after the content is deleted.
+	 *
+	 * @param   string  $context  The context for the content passed to the plugin.
+	 * @param   object  $data     The data relating to the content that was deleted.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.6
+	 */
+	public function onContentAfterDelete($context, $data)
+	{
+	  //Filter the sent event.
+	  if($context == 'com_content.article') {
+	    // Create a new query object.
+	    $db = JFactory::getDbo();
+	    $query = $db->getQuery(true);
+
+	    //Delete all the mapping rows linked to the article id. 
+	    $query->delete('#__content_tag_map')
+		  ->where('article_id='.(int)$data->id);
+	    $db->setQuery($query);
+	    $db->query();
+
+	    return true;
+	  }
+	  else { //Hand over to Joomla.
+	    return true;
+	  }
 	}
 }

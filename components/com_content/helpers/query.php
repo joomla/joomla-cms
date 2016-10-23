@@ -20,25 +20,32 @@ class ContentHelperQuery
 	 * Translate an order code to a field for primary category ordering.
 	 *
 	 * @param   string  $orderby  The ordering code.
+	 * @param   boolean $tagView    Flag to determine which table to use.
 	 *
 	 * @return  string  The SQL field(s) to order by.
 	 *
 	 * @since   1.5
 	 */
-	public static function orderbyPrimary($orderby)
+	public static function orderbyPrimary($orderby, $tagView = false)
 	{
+		//Set the prefix to use according to the view.
+		$prefix = 'c.'; //Use content table.
+		if($tagView) {
+		  $prefix = 'n.'; //Use order mapping table.
+		}
+
 		switch ($orderby)
 		{
 			case 'alpha' :
-				$orderby = 'c.path, ';
+				$orderby = $prefix.'path, ';
 				break;
 
 			case 'ralpha' :
-				$orderby = 'c.path DESC, ';
+				$orderby = $prefix.'path DESC, ';
 				break;
 
 			case 'order' :
-				$orderby = 'c.lft, ';
+				$orderby = $prefix.'lft, ';
 				break;
 
 			default :
@@ -54,14 +61,21 @@ class ContentHelperQuery
 	 *
 	 * @param   string  $orderby    The ordering code.
 	 * @param   string  $orderDate  The ordering code for the date.
+	 * @param   boolean $tagView    Flag to determine which table to use.
 	 *
 	 * @return  string  The SQL field(s) to order by.
 	 *
 	 * @since   1.5
 	 */
-	public static function orderbySecondary($orderby, $orderDate = 'created')
+	public static function orderbySecondary($orderby, $orderDate = 'created', $tagView = false)
 	{
 		$queryDate = self::getQueryDate($orderDate);
+
+		//Set the prefix to use according to the view.
+		$prefix = 'a.'; //Use content table.
+		if($tagView) {
+		  $prefix = 'n.'; //Use order mapping table.
+		}
 
 		switch ($orderby)
 		{
@@ -90,7 +104,7 @@ class ContentHelperQuery
 				break;
 
 			case 'order' :
-				$orderby = 'a.ordering';
+				$orderby = $prefix.'ordering';
 				break;
 
 			case 'author' :
@@ -110,7 +124,7 @@ class ContentHelperQuery
 				break;
 
 			default :
-				$orderby = 'a.ordering';
+				$orderby = $prefix.'ordering';
 				break;
 		}
 

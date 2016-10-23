@@ -30,6 +30,14 @@ if ($saveOrder)
 }
 
 $assoc = JLanguageAssociations::isEnabled();
+
+//Check if only the tag filter is selected.
+$tagFilter = $tagId = 0;
+if(ContentHelper::checkSelectedFilter('tag', true)) {
+  $post = JFactory::getApplication()->input->post->getArray();
+  $tagId = $post['filter']['tag'];
+  $tagFilter = true;
+}
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
@@ -106,8 +114,18 @@ $assoc = JLanguageAssociations::isEnabled();
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 					$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
 					$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+
+					//Set the sortable group id according to the
+					//filter selection.
+
+					//Group id by default.
+					$sortableGroupId = $item->catid;
+					if($tagFilter) {
+					  //Group by tag id.
+					  $sortableGroupId = $tagId;
+					}
 					?>
-					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
+					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $sortableGroupId; ?>">
 						<td class="order nowrap center hidden-phone">
 							<?php
 							$iconClass = '';

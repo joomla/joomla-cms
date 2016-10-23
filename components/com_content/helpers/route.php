@@ -231,4 +231,31 @@ abstract class ContentHelperRoute
 
 		return !empty($default->id) ? $default->id : null;
 	}
+
+
+	/**
+	 * Get the tag route.
+	 *
+	 * @param   integer  $id  The tag ID.
+	 *
+	 * @return  string  The article route.
+	 *
+	 */
+	public static function getTagRoute($id)
+	{
+	  $needles = array('tag'  => array((int) $id));
+
+	  if($id < 1) {
+	    $link = '';
+	  }
+	  else {
+	    $link = 'index.php?option=com_content&view=tag&id='.$id;
+
+	    if($item = self::_findItem($needles)) {
+	      $link .= '&Itemid='.$item;
+	    }
+	  }
+	 
+	  return $link;
+	}
 }
