@@ -319,7 +319,7 @@ class JFormHelper
 	}
 
 	/**
-	 * Method to check if fulfills requirements.
+	 * Method to check if form fulfils requirements.
 	 *
 	 * @param   string  $requires  The requires attribute string.
 	 *
@@ -348,15 +348,12 @@ class JFormHelper
 		{
 			if (preg_match('#(config|(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+)))($|\{([a-z0-9_:\[\]\-]+)\})#i', $requirement, $m))
 			{
-				// When requiring global config options.
+				// Check config params, or, for components and plugins, if they are installed and enabled and their params, if required.
 				if (($m[1] === 'config' && isset($m[7]) && !static::fulfillsRequirementsParams(JFactory::getConfig(), $m[7]))
-					// When requiring components. Check if is installed and enabled and the required params, if any.
 					|| ($m[2] === 'com' && (!JComponentHelper::isEnabled($m[2] . '_' . $m[3])
 					|| (isset($m[7]) && !static::fulfillsRequirementsParams(JComponentHelper::getComponent($m[2] . '_' . $m[3])->params, $m[7]))))
-					// When requiring plugins. Check if is installed and enabled and the required params, if any.
 					|| ($m[2] === 'plg' && (!JPluginHelper::isEnabled($m[4], $m[5])
-					|| (isset($m[7]) && !static::fulfillsRequirementsParams(new Registry(JPluginHelper::getPlugin($m[4], $m[5])->params), $m[7]))))
-				)
+					|| (isset($m[7]) && !static::fulfillsRequirementsParams(new Registry(JPluginHelper::getPlugin($m[4], $m[5])->params), $m[7])))))
 				{
 					return false;
 				}
