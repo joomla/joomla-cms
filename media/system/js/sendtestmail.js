@@ -35,21 +35,30 @@ var sendTestMail = function() {
 			}
 		}
 
-		// Prepare the options
-		var ajaxOptions = {
-			url:    document.getElementById('sendtestmail').getAttribute('data-ajaxuri') + urlExtra,
-			method: 'POST',
-			data:    '',
-			perform: true,
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		};
-
-		var xhr = Joomla.request(ajaxOptions);
-
-		Joomla.ajaxErrorsMessages(xhr, xhr.response, error)
+		Joomla.request(
+			{
+				url:    document.getElementById('sendtestmail').getAttribute('data-ajaxuri') + urlExtra,
+				method: 'POST',
+				data:    '',
+				perform: true,
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				onSuccess: function(response, xhr)
+				{
+					response = JSON.parse(response);
+					if (typeof response.messages == 'object' && response.messages !== null) {
+						Joomla.renderMessages(response.messages);
+					}
+				},
+				onError: function(xhr)
+				{
+					Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+					window.scrollTo(0, 0);
+				}
+			}
+		);
 	}
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-	document.querySelector('#sendtestmail').addEventListener('click', sendTestMail);
+	document.getElementById('sendtestmail').addEventListener('click', sendTestMail);
 });
