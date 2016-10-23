@@ -37,8 +37,7 @@ class ContentHelper extends JHelperContent
 		JHtmlSidebar::addEntry(
 			JText::_('COM_CONTENT_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_content',
-			$vName == 'categories'
-		);
+			$vName == 'categories');
 		JHtmlSidebar::addEntry(
 			JText::_('COM_CONTENT_SUBMENU_FEATURED'),
 			'index.php?option=com_content&view=featured',
@@ -114,5 +113,90 @@ class ContentHelper extends JHelperContent
 		}
 
 		return $items;
+	}
+
+
+	/**
+	 * Detects if the given filter is currently selected. If the $unique argument is
+	 * set to true, the function also checks that the given filter is the only one 
+	 * being selected.
+	 *
+	 * @param   string  $filterName  The name of the filter.
+	 * @param   boolean $unique      Flag.
+	 *
+	 * @return  boolean  True if the given arguments match, false otherwise.
+	 *
+	 */
+	public static function checkSelectedFilter($filterName, $unique = false)
+	{
+	  $post = JFactory::getApplication()->input->post->getArray();
+
+	  //Ensure the given filter has been selected.
+	  if(isset($post['filter'][$filterName]) && !empty($post['filter'][$filterName])) {
+	    //Ensure that only the given filter has been selected.
+	    if($unique) {
+	      $filter = 0;
+	      foreach($post['filter'] as $value) {
+		if(!empty($value)) {
+		  $filter++;
+		}
+	      }
+
+	      if($filter > 1) {
+		return false;
+	      }
+	    }
+
+	    return true;
+	  }
+
+	  return false;
+	}
+
+
+	/**
+	 * Orders the articles against the selected tag. The ordering is set into the
+	 * specific mapping table.
+	 *
+	 * @param   array $pks           The article ids to order.
+	 * @param   integer $tagId       The id of the tag currently selected.
+	 * @param   integer $limitStart  The offset of the item to start at.
+	 *
+	 * @return  boolean  True if the ordering succeeds, false otherwise.
+	 *
+	 */
+	public static function mappingTableOrder($pks, $tagId, $limitStart)
+	{
+	  //Check first the user can edit state.
+	  $user = JFactory::getUser();
+	  if(!$user->authorise('core.edit.state', 'com_content')) {
+	    return false;
+	  }
+
+	  //Start ordering from 1 by default.
+	  $ordering = 1;
+	  //When pagination is used set ordering from limitstart value.
+	  if($limitStart) {
+	    $ordering = (int)$limitStart + 1;
+	  }
+
+	  $db = JFactory::getDbo();
+	  $query = $db->getQuery(true);
+
+	  //Update the ordering values of the mapping table. 
+	  foreach($pks as $pk) {
+	    $query->clear();
+	    $query->update('#__content_tag_map')
+		  //Update the item ordering via the mapping table.
+		  ->set('ordering='.$ordering)
+		  ->where('article_id='.(int)$pk)
+		  ->where('tag_id='.(int)$tagId);
+	    $db->setQuery($query);
+	    $db->query();
+
+	    $ordering++;
+	  }
+
+	  return true;
 	}
 }
