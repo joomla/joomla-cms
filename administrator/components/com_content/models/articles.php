@@ -313,6 +313,17 @@ class ContentModelArticles extends JModelList
 		$orderCol = $this->state->get('list.ordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'desc');
 
+		//In case only the tag filter is selected we want the articles to be displayed according
+		//to the mapping table ordering.
+		if(is_numeric($tagId) && ContentHelper::checkSelectedFilter('tag', true) && $orderCol == 'a.ordering') {
+		  //Join over the content tag mapping table.
+		  $query->select('ISNULL(tm.ordering), tm.ordering AS tm_ordering')
+			->join('LEFT', '#__content_tag_map AS tm ON a.id=tm.article_id AND tm.tag_id='.(int)$tagId);
+
+		  //Switch to the mapping table ordering.
+		  $orderCol = 'ISNULL(tm.ordering) ASC, tm_ordering';
+		}
+
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
 		{
 			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
