@@ -23,7 +23,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php endif; ?>
 
 <?php if ($params->get('show_title')) : ?>
-	<h2 class="item-title" itemprop="headline">
+	<h2 class="item-title" itemprop="name">
 	<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
 		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>" itemprop="url">
 			<?php echo $this->escape($this->item->title); ?>
@@ -55,7 +55,16 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
 	<?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
-		<?php echo JLayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
+	  <?php //Display "standard" tags (ie: ruled by the tag component). ?>
+	  <?php if($params->get('show_tags') == 1 || $params->get('show_tags') == 3) : ?>
+	      <?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+	      <?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+	  <?php endif; ?>
+
+	  <?php //Display "content" tags (ie: ruled by the tag view). ?>
+	  <?php if($params->get('show_tags') == 2 || $params->get('show_tags') == 3) : ?>
+	      <?php echo JLayoutHelper::render('joomla.content.tagview', $this->item); ?>
+	  <?php endif; ?>
 	<?php endif; ?>
 <?php endif; ?>
 
@@ -95,7 +104,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php endif; ?>
 
 <?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-	|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != $this->db->getNullDate() )) : ?>
+	|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != '0000-00-00 00:00:00' )) : ?>
 	</div>
 <?php endif; ?>
 
