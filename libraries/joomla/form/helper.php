@@ -334,31 +334,19 @@ class JFormHelper
 			return true;
 		}
 
+		// B/C part. Will be removed in 4.0
+		$requires = str_replace(
+			array('multilanguage', 'associations', 'vote'),
+			array('plg_system_languagefilter', 'plg_system_languagefilter{item_associations:1}', 'plg_content_vote'),
+			$requires
+		);
+
 		// Filter requirements
 		$requirements = explode(',', $requires);
 
 		foreach ($requirements as $requirement)
 		{
-			// B/C part. Will be removed in 4.0
-			switch ($requirement)
-			{
-				case 'multilanguage':
-					$requirement = 'plg_system_languagefilter';
-					break;
-				case 'associations':
-					$requirement = 'plg_system_languagefilter{item_associations:1}';
-					break;
-				case 'vote':
-					$requirement = 'plg_content_vote';
-					break;
-				default:
-					break;
-			}
-
-			// Requires a particular extension enabled
-			$regex   = '#(config|(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+)))($|\{([a-z0-9_:\[\]\-]+)\})#i';
-
-			if (preg_match($regex, $requirement, $m))
+			if (preg_match('#(config|(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+)))($|\{([a-z0-9_:\[\]\-]+)\})#i', $requirement, $m))
 			{
 				// When requiring global config options.
 				if ($m[1] === 'config' && isset($m[7]) && !static::fulfillsRequirementsParams(JFactory::getConfig(), $m[7]))
