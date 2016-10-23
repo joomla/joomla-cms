@@ -334,7 +334,7 @@ class JFormHelper
 		}
 
 		// Filter requirements
-		$requirements = explode('[AND]', $requires);
+		$requirements = explode(',', $requires);
 
 		foreach ($requirements as $requirement)
 		{
@@ -355,7 +355,7 @@ class JFormHelper
 			}
 
 			// Requires a particular extension enabled
-			$regex   = '#(config|(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+)))($|\{([a-z0-9_:,\-]+)\})#i';
+			$regex   = '#(config|(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+)))($|\{([a-z0-9_:\[\]\-]+)\})#i';
 
 			if (preg_match($regex, $requirement, $matches))
 			{
@@ -425,7 +425,7 @@ class JFormHelper
 	 */
 	protected static function fulfillsRequirementsParams(Joomla\Registry\Registry $params, $requiredParams = '')
 	{
-		$requireParams = explode(',', $requiredParams);
+		$requireParams = explode('[AND]', $requiredParams);
 
 		foreach ($requireParams as $requireParam)
 		{
