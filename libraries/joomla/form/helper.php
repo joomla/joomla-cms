@@ -320,21 +320,24 @@ class JFormHelper
 	/**
 	 * Method to check if fulfills requirements.
 	 *
-	 * @param   string  $requiredString  The requires attribute string.
+	 * @param   string  $requires  The requires attribute string.
 	 *
 	 * @return  boolean  True if yes, false otherwise.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function fulfillsRequirements($requiredString = '')
+	public static function fulfillsRequirements($requires = '')
 	{
 		if ($requiredString === '')
 		{
 			return true;
 		}
 
+		// B/C part. Will be removed in 4.0
+		$requires = str_replace(',', '[AND]', $requires);
+
 		// Filter requirements
-		$requires = explode(',', (string) $requiredString);
+		$requires = explode('[AND]', (string) $requires);
 
 		foreach ($requires as $require)
 		{
@@ -355,7 +358,7 @@ class JFormHelper
 			}
 
 			// Requires a particular extension enabled
-			$regex   = '#(config|(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+)))($|\[([a-z0-9_:\-]+)\])#i';
+			$regex   = '#(config|(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+)))($|\{([a-z0-9_:,\-]+)\})#i';
 
 			if (preg_match($regex, $require, $matches))
 			{

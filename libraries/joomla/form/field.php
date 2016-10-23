@@ -191,7 +191,7 @@ abstract class JFormField
 	protected $group;
 
 	/**
-	 * The required state for the form field.  If true then there must be a value for the field to
+	 * The required state for the form field. If true then there must be a value for the field to
 	 * be considered valid.
 	 *
 	 * @var    boolean
@@ -200,7 +200,7 @@ abstract class JFormField
 	protected $required = false;
 
 	/**
-	 * The disabled state for the form field.  If true then the field will be disabled and user can't
+	 * The disabled state for the form field. If true then the field will be disabled and user can't
 	 * interact with the field.
 	 *
 	 * @var    boolean
@@ -209,12 +209,20 @@ abstract class JFormField
 	protected $disabled = false;
 
 	/**
-	 * The readonly state for the form field.  If true then the field will be readonly.
+	 * The readonly state for the form field. If true then the field will be readonly.
 	 *
 	 * @var    boolean
 	 * @since  3.2
 	 */
 	protected $readonly = false;
+
+	/**
+	 * The requires attribute of the form field. Contains the conditions to render or not the field.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $requires = '';
 
 	/**
 	 * The form field type.
@@ -396,6 +404,7 @@ abstract class JFormField
 			case 'autofocus':
 			case 'autocomplete':
 			case 'spellcheck':
+			case 'requires':
 				return $this->$name;
 
 			case 'input':
@@ -451,6 +460,7 @@ abstract class JFormField
 			case 'validate':
 			case 'pattern':
 			case 'group':
+			case 'requires':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
@@ -573,7 +583,7 @@ abstract class JFormField
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'default',
 			'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'requires');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -583,6 +593,12 @@ abstract class JFormField
 		foreach ($attributes as $attributeName)
 		{
 			$this->__set($attributeName, $element[$attributeName]);
+		}
+
+		// Do not setup the field if the requirements are not fulfilled.
+		if ($this->requires && !JFormHelper::fulfillsRequirements($this->requires))
+		{
+			return false;
 		}
 
 		// Allow for repeatable elements
