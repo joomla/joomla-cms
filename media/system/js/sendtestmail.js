@@ -37,9 +37,9 @@ var sendTestMail = function() {
 
 		Joomla.request(
 			{
-				url:    document.getElementById('sendtestmail').getAttribute('data-ajaxuri') + urlExtra,
+				url:    document.getElementById('sendtestmail').getAttribute('data-ajaxuri'),
 				method: 'POST',
-				data:    '',
+				data:    urlExtra,
 				perform: true,
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 				onSuccess: function(response, xhr)
@@ -52,10 +52,12 @@ var sendTestMail = function() {
 				onError: function(xhr)
 				{
 					Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
-					window.scrollTo(0, 0);
 				}
 			}
 		);
+
+		// Scroll to page top
+		window.scrollTo(0, 0);
 	}
 };
 
