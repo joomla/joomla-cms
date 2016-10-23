@@ -348,7 +348,7 @@ class JFormHelper
 					$require = 'plg_system_languagefilter';
 					break;
 				case 'associations':
-					$require = 'plg_system_languagefilter[item_associations:1]';
+					$require = 'plg_system_languagefilter{item_associations:1}';
 					break;
 				case 'vote':
 					$require = 'plg_content_vote';
