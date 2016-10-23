@@ -246,7 +246,7 @@ class MenusModelItems extends JModelList
 		$query->from($db->quoteName('#__menu') . ' AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
+		$query->select('l.title AS language_title, l.image AS language_image, l.sef AS language_sef')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users.

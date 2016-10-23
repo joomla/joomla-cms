@@ -204,39 +204,79 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= '</script>' . $lnEnd;
 		}
 
-		$defaultJsMimes = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
+		$defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
+		$html5NoValueAttributes = array('defer', 'async');
+		$mediaVersion           = $document->getMediaVersion();
 
 		// Generate script file links
-		foreach ($document->_scripts as $strSrc => $strAttr)
+		foreach ($document->_scripts as $src => $attribs)
 		{
-			$buffer .= $tab . '<script src="' . $strSrc . '"';
+			// Check if script uses IE conditional statements.
+			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
 
-			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultJsMimes)))
+			// Check if script uses media version.
+			if (strpos($src, '?') === false && isset($attribs['options']) && isset($attribs['options']['version']) && $attribs['options']['version'])
 			{
-				$buffer .= ' type="' . $strAttr['mime'] . '"';
+				$src .= '?' . ($attribs['options']['version'] === 'auto' ? $mediaVersion : $attribs['options']['version']);
 			}
 
-			if ($strAttr['defer'])
-			{
-				$buffer .= ' defer';
+			$buffer .= $tab;
 
-				if (!$document->isHtml5())
+			// This is for IE conditional statements support.
+			if (!is_null($conditional))
+			{
+				$buffer .= '<!--[if ' . $conditional . ']>';
+			}
+
+			$buffer .= '<script src="' . $src . '"';
+
+			// Add script tag attributes.
+			foreach ($attribs as $attrib => $value)
+			{
+				// Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
+				if ($attrib === 'options')
 				{
-					$buffer .= '="defer"';
+					continue;
+				}
+
+				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+				if (in_array($attrib, array('type', 'mime')) && $document->isHtml5() && in_array($value, $defaultJsMimes))
+				{
+					continue;
+				}
+
+				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+				if ($attrib === 'mime')
+				{
+					$attrib = 'type';
+				}
+				// B/C defer and async can be set to yes when using the old method.
+				elseif (in_array($attrib, array('defer', 'async')) && $value === true)
+				{
+					$value = $attrib;
+				}
+
+				// Add attribute to script tag output.
+				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
+
+				if (!($document->isHtml5() && in_array($attrib, $html5NoValueAttributes)))
+				{
+					// Json encode value if it's an array.
+					$value = !is_scalar($value) ? json_encode($value) : $value;
+
+					$buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
 				}
 			}
 
-			if ($strAttr['async'])
-			{
-				$buffer .= ' async';
+			$buffer .= '></script>';
 
-				if (!$document->isHtml5())
-				{
-					$buffer .= '="async"';
-				}
+			// This is for IE conditional statements support.
+			if (!is_null($conditional))
+			{
+				$buffer .= '<![endif]-->';
 			}
 
-			$buffer .= '></script>' . $lnEnd;
+			$buffer .= $lnEnd;
 		}
 
 		// Generate script declarations

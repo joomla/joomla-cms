@@ -398,8 +398,9 @@ class CategoriesModelCategory extends JModelAdmin
 
 		if (file_exists($path))
 		{
-			require_once $path;
 			$cName = ucfirst($eName) . ucfirst($section) . 'HelperCategory';
+
+			JLoader::register($cName, $path);
 
 			if (class_exists($cName) && is_callable(array($cName, 'onPrepareForm')))
 			{
