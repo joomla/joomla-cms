@@ -102,7 +102,6 @@ class JComponentHelper
 				->where($db->quoteName('element') . ' = ' . $db->quote($option))
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
 				->where($db->quoteName('state') . ' = 0')
-				->where($db->quoteName('enabled') . ' = 1')
 		)->loadResult();
 	}
 
