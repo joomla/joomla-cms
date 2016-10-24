@@ -7607,8 +7607,8 @@ div.awesomplete {
 .minicolors-theme-bootstrap .rgba {
   width: 220px; }
 
-.editor .mce-container {
-  margin-bottom: 1rem; }
+.editor .toggle-editor {
+  margin-top: 1em; }
 
 html, body {
   font-size: 14px; }
