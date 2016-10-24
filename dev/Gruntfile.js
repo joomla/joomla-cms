@@ -44,6 +44,8 @@ module.exports = function(grunt) {
 			cmmod    : '../media/vendor/codemirror/mode',
 			cmthem   : '../media/vendor/codemirror/theme',
 			polyfills : '../media/vendor/polyfills/js',
+			jupdate    : '../media/plg_quickicon_joomlaupdate/js',
+			extupdate : '../media/plg_quickicon_extensionupdate/js',
 		},
 
 		// Let's clean up the system
@@ -224,6 +226,18 @@ module.exports = function(grunt) {
 					},
 					{
 						src: ['<%= folder.cmthem %>/*/*.js','!<%= folder.cmthem %>/*/*.min.js'],
+						dest: '',
+						expand: true,
+						ext: '.min.js'
+					},
+					{
+						src: ['<%= folder.jupdate %>/*.js','!<%= folder.jupdate %>/*.min.js'],
+						dest: '',
+						expand: true,
+						ext: '.min.js'
+					},
+					{
+						src: ['<%= folder.extupdate %>/*.js','!<%= folder.extupdate %>/*.min.js'],
 						dest: '',
 						expand: true,
 						ext: '.min.js'

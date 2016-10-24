@@ -1,46 +1,77 @@
 /**
- * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package         Joomla.JavaScript
+ * @copyright       Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-jQuery(document).ready(function() {
-	var ajax_structure = {
-		success: function(data, textStatus, jqXHR) {
-			var link = jQuery('#plg_quickicon_extensionupdate').find('span.j-links-link');
+/**
+ * Ajax call to get the update status of the installed extensions
+ */
+(function() {
+	"use strict";
 
-			try {
-				var updateInfoList = jQuery.parseJSON(data);
-			} catch (e) {
-				// An error occurred
-				link.html(plg_quickicon_extensionupdate_text.ERROR);
-			}
+	var checkForExtensionsUpdates = function() {
 
-			if (updateInfoList instanceof Array) {
-				if (updateInfoList.length == 0) {
-					// No updates
-					link.html(plg_quickicon_extensionupdate_text.UPTODATE);
-				} else {
-					var updateString = plg_quickicon_extensionupdate_text.UPDATEFOUND_MESSAGE.replace("%s", updateInfoList.length);
-					jQuery('#system-message-container').prepend(
-						'<div class="alert alert-error alert-joomlaupdate">'
-						+ updateString
-						+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_extensionupdate_url + '\'">'
-						+ plg_quickicon_extensionupdate_text.UPDATEFOUND_BUTTON + '</button>'
-						+ '</div>'
-					);
-					var updateString = plg_quickicon_extensionupdate_text.UPDATEFOUND.replace("%s", updateInfoList.length);
-					link.html(updateString);
+		if (Joomla.getOptions('js-extensions-update')) {
+
+			var options = Joomla.getOptions('js-extensions-update');
+			Joomla.request(
+				{
+					url: options.ajaxUrl + '&eid=0&skip=700',
+					method: 'GET',
+					data:    '',
+					perform: true,
+					onSuccess: function(response, xhr)
+					{
+						var link = document.getElementById('plg_quickicon_extensionupdate').querySelector('span.j-links-link');
+
+						var updateInfoList = JSON.parse(response);
+
+						if (updateInfoList instanceof Array) {
+							if (updateInfoList.length === 0) {
+								/** No updates **/
+								link.innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE');
+								console.log('no update');
+								console.log(Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE'));
+							} else {
+// Testing replace #30 if (updateInfoList.length === 1) {
+// And uncomment next line
+// updateInfoList = ['r', '3']
+
+								var messages = {
+									"message": [
+										Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE').replace("%s", updateInfoList.length)
+										+ '<button class="btn btn-primary" onclick="document.location=\'' + options.url + '\'">'
+										+ Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON') + '</button>'
+									], "error": ["info"]
+								};
+
+								/** Render the message **/
+								Joomla.renderMessages(messages);
+
+								/** Scroll to page top **/
+								window.scrollTo(0, 0);
+
+								link.innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').replace("%s", updateInfoList.length);
+							}
+						} else {
+							/** An error occurred **/
+							link.innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR');
+						}
+
+					},
+					onError: function(xhr)
+					{
+						/** An error occurred **/
+						document.getElementById('plg_quickicon_extensionupdate').querySelector('span.j-links-link').innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR');
+					}
 				}
-			} else {
-				// An error occurred
-				link.html(plg_quickicon_extensionupdate_text.ERROR);
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			// An error occurred
-			jQuery('#plg_quickicon_extensionupdate').find('span.j-links-link').html(plg_quickicon_extensionupdate_text.ERROR);
-		},
-		url: plg_quickicon_extensionupdate_ajax_url + '&eid=0&skip=700'
+			);
+		}
 	};
-	ajax_object = new jQuery.ajax(ajax_structure);
-});
+
+	/** Add a listener on content loaded to initiate the check **/
+	document.addEventListener('DOMContentLoaded', function() {
+		checkForExtensionsUpdates();
+	});
+})();
