@@ -251,14 +251,19 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->having;
 				}
 
-				if ($this->order)
-				{
-					$query .= (string) $this->order;
-				}
-
 				if ($this->union)
 				{
 					$query .= (string) $this->union;
+				}
+
+				if ($this->unionAll)
+				{
+					$query .= (string) $this->unionAll;
+				}
+
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
 				}
 
 				break;
