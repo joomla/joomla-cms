@@ -54,6 +54,7 @@ vendors:
     'dragula':
                   'version': '3.7.2'
                   'dependencies': ''
+<<<<<<< Updated upstream
 
 
 ## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
@@ -82,3 +83,5 @@ CmAddons:
 polyfills:
         - 'Element.prototype.classList'
         - 'Event'
+=======
+>>>>>>> Stashed changes
