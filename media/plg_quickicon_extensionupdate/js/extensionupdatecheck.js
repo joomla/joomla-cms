@@ -31,13 +31,7 @@
 							if (updateInfoList.length === 0) {
 								/** No updates **/
 								link.innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE');
-								console.log('no update');
-								console.log(Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE'));
 							} else {
-// Testing replace #30 if (updateInfoList.length === 1) {
-// And uncomment next line
-// updateInfoList = ['r', '3']
-
 								var messages = {
 									"message": [
 										Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE').replace("%s", updateInfoList.length)
