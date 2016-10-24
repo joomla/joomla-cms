@@ -21,6 +21,12 @@ JHtml::_('behavior.keepalive');
 	<?php endif; ?>
 	</div>
 <?php endif; ?>
+	<ul class="unstyled">
+		<li>
+			<a href="<?php echo JRoute::_('index.php?option=com_users&view=profile'); ?>">
+			<?php echo JText::_('MOD_LOGIN_PROFILE'); ?></a>
+		</li>
+	</ul>
 	<div class="logout-button">
 		<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo JText::_('JLOGOUT'); ?>" />
 		<input type="hidden" name="option" value="com_users" />
