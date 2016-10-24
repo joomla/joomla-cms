@@ -130,6 +130,8 @@ class ContentViewArticle extends JViewLegacy
 
 		$offset = $this->state->get('list.offset');
 
+		$full_fix = true;
+
 		// Check the view access to the article (the model has already computed the values).
 		if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0'))
 		{
@@ -139,13 +141,19 @@ class ContentViewArticle extends JViewLegacy
 			return;
 		}
 
-		if ($item->params->get('show_intro', '1') == '1')
+		if (!$item->params->get('access-view') && $item->params->get('show_noauth', '0'))
+		{
+			$item->text = $item->introtext;
+		}
+		elseif ($item->fulltext && $item->params->get('show_intro', '1'))
 		{
 			$item->text = $item->introtext . ' ' . $item->fulltext;
+			$full_fix = false;
 		}
 		elseif ($item->fulltext)
 		{
 			$item->text = $item->fulltext;
+			$full_fix = false;
 		}
 		else
 		{
@@ -159,6 +167,13 @@ class ContentViewArticle extends JViewLegacy
 
 		JPluginHelper::importPlugin('content');
 		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
+
+		// Copy "text" to "introtext" for B/C (some templates might still use introtext...)
+		// Don't do that when introtex != text, for full B/C with (non core) templates using introtext when that's not supposed to happen
+		if ($full_fix)
+		{
+			$item->introtext = $item->text;
+		}
 
 		$item->event = new stdClass;
 		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
