@@ -9,8 +9,6 @@
 defined('_JEXEC') or die;
 ?>
 
------Please save file as UTF8
-
 -------------------- Joomla! Credits ---------------------
 
 The current list of contributors is available on GitHub at:
