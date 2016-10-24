@@ -32,12 +32,12 @@ var resetHelpSiteList = function() {
 				document.getElementById(select_id).innerHTML = '';
 
 				// Build options
-				response.data.forEach(function(key, val) {
-					if (val.value !== '' || showDefault === 'true') {
+				response.forEach(function(item) {
+					if (item.value !== '' || showDefault === 'true') {
 						node = document.createElement('option');
-						node.value = val.value;
-						node.innerHTML = val.text
-						document.getElementById(select_id).appendChild(items);
+						node.value = item.value;
+						node.innerHTML = item.text;
+						document.getElementById(select_id).appendChild(node);
 					}
 				});
 			},
