@@ -336,7 +336,6 @@ module.exports = function(grunt) {
 			'curl:cmGet',
 			'curl:jCrop',
 			'curl:autoComplete',
-			'fetchpages:polyfills',
 			'unzip:cmUnzip',
 			'unzip:autoUnzip',
 			'unzip:jcropUnzip',
@@ -347,11 +346,23 @@ module.exports = function(grunt) {
 			'clean:temp'
 		]
 	);
-	
-	grunt.registerTask('minify', 'Minifies scripts and styles.', function() {
+
+	grunt.registerTask('polyfills', 'Download the polyfills from FT.', function() {
 		grunt.task.run([
-			'uglify:allJs',
-			'cssmin:allCss',
+			'fetchpages:polyfills'
 		]);
 	});
+
+	grunt.registerTask('scripts', 'Minifies the javascript files.', function() {
+		grunt.task.run([
+			'uglify:allJs'
+		]);
+	});
+
+	grunt.registerTask('styles', 'Minifies the stylesheet files.', function() {
+		grunt.task.run([
+			'cssmin:allCss'
+		]);
+	});
+
 };
