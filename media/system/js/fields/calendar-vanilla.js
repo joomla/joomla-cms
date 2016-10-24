@@ -27,16 +27,6 @@
 		return str;
 	};
 
-	/** Global method to change input values with the data-alt-value values. **/
-	window.getJoomlaCalendarValuesFromAlt = function() {
-
-		var calendars = document.querySelectorAll(".field-calendar");
-		for (var i = 0; i < calendars.length; i++) {
-			var input = calendars[i].getElementsByTagName('input')[0];
-			input.value = (input.getAttribute("data-alt-value") && (input.getAttribute("data-alt-value") !== '0000-00-00 00:00:00' || input.getAttribute("data-alt-value") !== '' )) ? input.getAttribute("data-alt-value") : '0000-00-00 00:00:00';
-		}
-	};
-
 	var JoomlaCalendar = function (element) {
 
 		// Initialize only if the element exists
@@ -978,9 +968,20 @@
 		return false;
 	};
 
+	/** Method to change input values with the data-alt-value values. **/
+	JoomlaCalendar.prototype.setAltValue = function() {
+		var input = this.inputField;
+
+		if (input.getAttribute("data-alt-value") && input.getAttribute("data-alt-value")) {
+			input.value = input.getAttribute("data-alt-value");
+		} else {
+			input.value = '';
+		}
+	};
+
 	/** Init the Calendars on the page */
 	JoomlaCalendar.init = function (className) {
-		var elements, i;
+		var elements, i, instance;
 
 		elements = document.querySelectorAll(className);
 
@@ -1006,16 +1007,16 @@
 		JoomlaCalLocale.clear = JoomlaCalLocale.clear ? JoomlaCalLocale.clear : 'Clear';
 
 		for (i = 0; i < elements.length; i++) {
-			if (!elements[i]._joomlaCalendar) {
-				new JoomlaCalendar(elements[i]);
+			element  = elements[i];
+			instance = element._joomlaCalendar;
+
+			if (!instance) {
+				instance = new JoomlaCalendar(element);
+				instance.inputField.form.addEventListener('submit', function () {
+					instance.setAltValue();
+				});
 			}
 		}
-
-		var formTmp = elements[0].getElementsByTagName('input')[0].form;
-		if (formTmp) {
-			formTmp.addEventListener('submit', getJoomlaCalendarValuesFromAlt, true);
-		}
-
 	};
 
 	window.JoomlaCalendar = JoomlaCalendar;
