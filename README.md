@@ -17,7 +17,7 @@ What is Joomla?
 ---------------------
 * [Joomla!](https://www.joomla.org/about-joomla.html) is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
 * It is a simple and powerful web server application which requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run. You can find [full technical requirements here](https://www.joomla.org/about-joomla/technical-requirements.html).
-* Joomla! is **free and OpenSource software** distributed under the GNU General Public License version 2 or later.
+* Joomla! is **free and Open Source software** distributed under the GNU General Public License version 2 or later.
 
 Is Joomla! for you?
 ---------------------
@@ -65,7 +65,7 @@ Where can you get support and help?
 * [Frequently Asked Questions](https://docs.joomla.org/Category:FAQ) (FAQ);
 * Find the [information you need](https://docs.joomla.org/Start_here);
 * Find [help and other users](https://www.joomla.org/about-joomla/create-and-share.html);
-* Post questions at [our forums](http://forum.joomla.org);
+* Post questions at [our forums](https://forum.joomla.org);
 * [Joomla Resources Directory](http://resources.joomla.org/) (JRD).
 
 Do you already have a Joomla! site that isn't built with Joomla! 3.x?
