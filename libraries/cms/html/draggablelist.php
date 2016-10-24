@@ -50,8 +50,6 @@ abstract class JHtmlDraggablelist
 
 		// Please consider using data attributes instead of passing arguments here!
 		if (!empty($tableId) && !empty($saveOrderingUrl) && !empty($formId) && !empty($sortDir)) {
-			// Depends on Joomla.getOptions()
-			JHtml::_('behavior.core');
 
 			$doc->addScriptOptions(
 				'draggable-list',
@@ -65,12 +63,13 @@ abstract class JHtmlDraggablelist
 			);
 		}
 
+		// Depends on Joomla.getOptions()
+		JHtml::_('behavior.core');
+
 		// Attach draggable to document
 		JHtml::_('script', 'vendor/dragula/dragula.min.js', false, true);
-		JHtml::_('script', 'system/draggable.js', false, true);
+		JHtml::_('script', 'system/draggable.min.js', false, true);
 		JHtml::_('stylesheet', 'vendor/dragula/dragula.min.css', false, true, false);
-
-		$doc->addStyleDeclaration(".gu-mirror{display:table;}.gu-mirror td {display:table-cell;}");
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;
