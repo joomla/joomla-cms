@@ -102,6 +102,7 @@ class JComponentHelper
 				->where($db->quoteName('element') . ' = ' . $db->quote($option))
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
 				->where($db->quoteName('state') . ' = 0')
+				->where($db->quoteName('enabled') . ' = 1')
 		)->loadResult();
 	}
 
@@ -440,7 +441,8 @@ class JComponentHelper
 			->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
-			->where($db->quoteName('state') . ' = 0');
+			->where($db->quoteName('state') . ' = 0')
+			->where($db->quoteName('enabled') . ' = 1');
 		$db->setQuery($query);
 
 		$cache = JFactory::getCache('_system', 'callback');
