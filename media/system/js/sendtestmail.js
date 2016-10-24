@@ -11,7 +11,7 @@
 
 var sendTestMail = function() {
 
-	var urlExtra = '', email_data = {
+	var email_data = {
 		smtpauth  : document.querySelector('[name="jform[smtpauth]"]').value,
 		smtpuser  : document.querySelector('[name="jform[smtpuser]"]').value,
 		smtppass  : document.querySelector('[name="jform[smtppass]"]').value,
@@ -27,38 +27,29 @@ var sendTestMail = function() {
 	// Remove js messages, if they exist.
 	Joomla.removeMessages();
 
-	// Serialise the data
-	if (email_data){
-		for (var p in email_data){
-			if (email_data.hasOwnProperty(p)) {
-				urlExtra += '&' + p + '=' + email_data[p];
+	Joomla.request(
+		{
+			url:    document.getElementById('sendtestmail').getAttribute('data-ajaxuri'),
+			method: 'POST',
+			data:    JSON.stringify(email_data),
+			perform: true,
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			onSuccess: function(response, xhr)
+			{
+				response = JSON.parse(response);
+				if (typeof response.messages == 'object' && response.messages !== null) {
+					Joomla.renderMessages(response.messages);
+				}
+			},
+			onError: function(xhr)
+			{
+				Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
 			}
 		}
+	);
 
-		Joomla.request(
-			{
-				url:    document.getElementById('sendtestmail').getAttribute('data-ajaxuri'),
-				method: 'POST',
-				data:    urlExtra,
-				perform: true,
-				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-				onSuccess: function(response, xhr)
-				{
-					response = JSON.parse(response);
-					if (typeof response.messages == 'object' && response.messages !== null) {
-						Joomla.renderMessages(response.messages);
-					}
-				},
-				onError: function(xhr)
-				{
-					Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
-				}
-			}
-		);
-
-		// Scroll to page top
-		window.scrollTo(0, 0);
-	}
+	// Scroll to page top
+	window.scrollTo(0, 0);
 };
 
 document.addEventListener('DOMContentLoaded', function() {
