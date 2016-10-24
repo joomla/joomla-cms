@@ -30,7 +30,7 @@ JHtml::_('bootstrap.tooltip');
 				<small class="hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LATEST_CREATED_BY'); ?>">
 					<?php echo $item->author_name; ?>
 				</small>
-				<span class="tag tag-default tag-pill pull-xs-right">
+				<span class="tag tag-default tag-pill float-xs-right">
 					<span class="small">
 						<span class="icon-calendar"></span>
 						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>

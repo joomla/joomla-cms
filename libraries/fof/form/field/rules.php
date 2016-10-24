@@ -445,15 +445,15 @@ class FOFFormFieldRules extends JFormFieldRules implements FOFFormField
         foreach ($groups as $group)
         {
             // Initial Active Tab
-            $active = "";
+            $active = '';
 
             if ($group->value == 1)
             {
-                $active = "active";
+                $active = 'active';
             }
 
-            $html[] = '<li class="' . $active . '">';
-            $html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
+            $html[] = '<li class="nav-item ' . $active . '">';
+            $html[] = '<a class="nav-link" href="#permission-' . $group->value . '" data-toggle="tab">';
             $html[] = str_repeat('<span class="level">&ndash;</span> ', $curLevel = $group->level) . $group->text;
             $html[] = '</a>';
             $html[] = '</li>';
@@ -467,11 +467,11 @@ class FOFFormFieldRules extends JFormFieldRules implements FOFFormField
         foreach ($groups as $group)
         {
             // Initial Active Pane
-            $active = "";
+            $active = '';
 
             if ($group->value == 1)
             {
-                $active = " active";
+                $active = ' active';
             }
 
             $html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value . '">';

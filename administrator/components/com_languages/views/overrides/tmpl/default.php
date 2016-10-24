@@ -21,7 +21,7 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container">
 		<div id="filter-bar" class="btn-toolbar clearfix">
-			<div class="filter-search btn-group pull-xs-left">
+			<div class="filter-search btn-group float-xs-left">
 				<div class="input-group">
 					<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" />
 					<div class="input-group-btn">
@@ -30,7 +30,7 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 					</div>
 				</div>
 			</div>
-			<div class="btn-group pull-xs-right hidden-sm-down">
+			<div class="btn-group float-xs-right hidden-sm-down">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>

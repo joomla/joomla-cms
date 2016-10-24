@@ -12,7 +12,7 @@ jQuery(function($)
 		$div = $li.find('div.treeselect-item:first');
 
 		// Add icons
-		$li.prepend('<span class="pull-left icon-"></span>');
+		$li.prepend('<span class="float-xs-left icon-"></span>');
 
 		// Append clearfix
 		$div.after('<div class="clearfix"></div>');

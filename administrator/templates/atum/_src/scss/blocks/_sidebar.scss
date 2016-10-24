@@ -1,0 +1,294 @@
+// Sidebar
+
+.wrapper {
+  padding-top: 48px;
+  padding-left: 0;
+  transition: all .5s ease;
+
+  @include media-breakpoint-up(md) {
+    padding-left: 250px;
+  }
+}
+.wrapper.closed {
+  padding-left: 0;
+
+  @include media-breakpoint-up(md) {
+    padding-left: 55px;
+  }
+
+  .status {
+    margin-left: 55px;
+    transition: all .5s ease;
+  }
+}
+
+.sidebar-wrapper {
+  position: fixed;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  margin-left: 0;
+  background: #2e2633;
+  transform: translateX(-250px);
+  transition: all .5s ease;
+
+  @include media-breakpoint-up(md) {
+    left: 250px;
+    width: 250px;
+    margin-left: -250px;
+    transform: translateX(0);
+  }
+
+  @include media-breakpoint-down(sm) {
+    z-index: 1;
+  }
+
+  .main-brand {
+    padding: 25px 20px;
+    font-size: 30px;
+    text-align: center;
+    text-indent: 0;
+    border: 0;
+    box-shadow: none;
+	  
+    a {
+      padding: 0 20px;
+      border: 0;
+      box-shadow: none;
+
+      &:hover {
+        background: none;
+      }
+    }
+
+	img {
+      width: 100%;
+	}
+  }
+}
+.wrapper.closed .sidebar-wrapper {
+  transform: translateX(0);
+
+  @include media-breakpoint-up(md) {
+    width: 55px;
+    transform: translateX(0);
+  }
+}
+
+// Menu
+.menu-collapse {
+  z-index: 1001;
+  width: 54px;
+  height: 50px;
+  text-align: center;
+  background: #2e2633;
+  border-bottom: 1px solid #433849;
+
+  .menu-text {
+    margin-right: 5px;
+    font-size: 16px;
+    line-height: 50px;
+    color: #d9d9d9;
+
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
+  .menu-toggle {
+    position: relative;
+    display: block;
+    float: right;
+    width: $atum-button-width;
+    height: $atum-button-height;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background $atum-button-transistion-duration;
+
+    &:focus {
+      outline: none;
+    }
+
+    span {
+      position: absolute;
+      top: ($atum-button-height / 2) - ($atum-bar-thickness / 2);
+      right: $atum-button-pad;
+      left: $atum-button-pad;
+      display: block;
+      height: $atum-bar-thickness;
+      background: #d9d9d9;
+      transition: transform $atum-button-transistion-duration;
+
+      &::before,
+      &::after {
+        position: absolute;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: $atum-bar-thickness;
+        content: "";
+        background-color: #d9d9d9;
+      }
+
+      &::before {
+        top: -$atum-bar-thickness - $atum-button-bar-space;
+        transition: transform $atum-button-transistion-duration, width $atum-button-transistion-duration, top $atum-button-transistion-duration;
+        transform-origin: top left;
+
+        @include media-breakpoint-down(sm) {
+          transform-origin: top right;
+        }
+      }
+
+      &::after {
+        bottom: -$atum-bar-thickness - $atum-button-bar-space;
+        transition: transform $atum-button-transistion-duration, width $atum-button-transistion-duration, bottom $atum-button-transistion-duration;
+        transform-origin: bottom left;
+
+        @include media-breakpoint-down(sm) {
+          transform-origin: bottom right;
+        }
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      float: none;
+      margin: 0 auto;
+    }
+  }
+
+  .menu-toggle .active {
+    span {
+      transform: rotate(180deg);
+
+      &::before,
+      &::after {
+        width: 50%;
+      }
+
+      &::before {
+        top: 0;
+        transform: translateX(-$atum-bar-thickness) translateY($atum-bar-thickness / 2) rotate(-45deg);
+
+        @include media-breakpoint-down(sm) {
+          transform: translateX($atum-button-width / 2 - $atum-button-pad + $atum-bar-thickness) translateY($atum-bar-thickness / 2) rotate(45deg);
+        }
+      }
+
+      &::after {
+        bottom: 0;
+        transform: translateX(-$atum-bar-thickness) translateY(-$atum-bar-thickness / 2) rotate(45deg);
+
+        @include media-breakpoint-down(sm) {
+          bottom: 4px;
+          transform: translateX($atum-button-width / 2 - $atum-button-pad + $atum-bar-thickness) translateY($atum-bar-thickness / 2) rotate(-45deg);
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    position: fixed;
+    width: 250px;
+    padding: 0 20px;
+    margin-right: 20px;
+    text-align: right;
+  }
+}
+
+.main-nav {
+  width: 250px;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  list-style: none;
+
+  &.second {
+    margin-bottom: 0;
+  }
+  
+  > li {
+    >.no-dropdown {
+      color: #bbb;
+      &:hover {
+        background: none;
+        color: #bbb;
+      }
+    }
+  }
+
+  li {
+    line-height: 40px;
+
+    a {
+	  display: block;
+      color: #d9d9d9;
+      text-decoration: none;
+      border-top: 1px solid rgba(0,0,0,.3);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+
+      &:hover {
+        color: #d9d9d9;
+        text-decoration: none;
+        background: rgba(255,255,255,.2);
+      }
+
+      &:active,
+      &:focus {
+        text-decoration: none;
+        outline: 0;
+      }
+    }
+
+    ul li {
+      text-indent: 20px;
+    }
+  }
+
+  .fa {
+    margin: 0 15px;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .collapse-level-1 {
+    background: #201826;
+  }
+
+  .collapse-level-2 {
+    background: #0a070b;
+
+    > li > a {
+      text-indent: 35px;
+    }
+  }
+
+  > .parent {
+    > .collapse-arrow::after,
+    li > .collapse-arrow::after {
+      display: inline-block;
+      float: right;
+      width: 0;
+      height: 0;
+      margin-top: 18px;
+      margin-right: 10px;
+      vertical-align: middle;
+      content: "";
+      border-top: 0;
+      border-right: .3em solid transparent;
+      border-bottom: .3em solid;
+      border-left: .3em solid transparent;
+    }
+    > .collapse-arrow.collapsed::after,
+    li > .collapse-arrow.collapsed::after {
+      border-top: .3em solid;
+      border-right: .3em solid transparent;
+      border-bottom: 0;
+      border-left: .3em solid transparent;
+    }
+  }
+}

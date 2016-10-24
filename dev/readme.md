@@ -23,8 +23,8 @@ Make sure that you have updated the settings.yaml file in order to update the li
 
 Will update the following external sourced static assets that Joomla is using.
 
-- Jquery:........... version .... 3.1.0
-- Jquery-migrate:... version .... 3.0.0
+- Jquery:........... version .... 2.1.4
+- Jquery-migrate:... version .... 1.4.1
 - Bootstrap:........ version .... 4.0.0-alpha.4'
 - Tether:........... version .... 1.3.7
 - Font awesome:..... version .... 4.6.3
@@ -35,10 +35,10 @@ Will update the following external sourced static assets that Joomla is using.
 - MediaElement:..... version .... 2.22.0
 - Punycode.......... version .... 1.4.1
 - TinyMCE:.......... version .... 4.4.3
+- Awesomplete:...... version .... 1.1.1
 
 The following are always fetched with curl (no module available)
 
 - Codemirror........ version .... 5.19.0
-- Combobox.......... version .... 1.1.7
 - Jcrop............. version .... 2.0.4
 - Autocomplete...... version .... 1.2.26

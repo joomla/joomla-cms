@@ -1,14 +1,14 @@
 vendors:
 #### PLEASE ALTER ONLY THE VERSIONS NUMBERS BELLOW. USE x.x.x NOT LATEST! ###
     'jquery':
-                 'version': '2.1.4'
+                 'version': '2.2.4'
                  'dependencies': ''
 
     'jquery-migrate':
                   'version': '1.4.1'
                   'dependencies': 'jquery'
     'bootstrap':
-                  'version': '~4.0.0-alpha.4'
+                  'version': '~4.0.0-alpha.5'
                   'dependencies': 'jquery, tether'
     'tether':
                   'version': '1.3.7'
@@ -37,6 +37,10 @@ vendors:
     'tinymce':
                   'version': '4.4.3'
                   'dependencies': ''
+    'awesomplete':
+                  'version': '1.1.1'
+                  'dependencies': ''
+
 ### These are always fetced with curl ###
     'codemirror':
                   'version': '5.19.0'
@@ -44,12 +48,13 @@ vendors:
     'jcrop':
                   'version': '2.0.4'
                   'dependencies': ''
-    'combobox':
-                  'version': '1.1.7'
-                  'dependencies': ''
     'autocomplete':
                   'version': '1.2.26'
                   'dependencies': ''
+    'dragula':
+                  'version': '3.7.2'
+                  'dependencies': ''
+
 
 ## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:
@@ -73,3 +78,7 @@ CmAddons:
             - 'addon/display/fullscreen.css'
             - 'addon/fold/foldgutter.css'
             - 'addon/scroll/simplescrollbars.css'
+
+polyfills:
+        - 'Element.prototype.classList'
+        - 'Event'

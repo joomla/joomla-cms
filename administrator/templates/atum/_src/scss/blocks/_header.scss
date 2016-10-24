@@ -1,0 +1,57 @@
+// Header
+
+.header {
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  height: 50px;
+  padding-right: 25px;
+  background: $atum-template-color;
+
+  .page-title {
+    float: right;
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: normal;
+    line-height: 2.4rem;
+    color: #fff;
+
+    .icon-list {
+      color: #fff;
+    }
+
+    [class^="icon-"] {
+      margin-right: 15px;
+    }
+  }
+
+  .navbar-brand {
+    display: inline-block;
+    float: none;
+    padding: 0;
+    line-height: 1;
+    color: #fff;
+
+    &:hover,
+    &:focus {
+      color: #fff;
+    }
+
+    @include media-breakpoint-only(sm) {
+      margin-right: 0;
+      margin-left: 10px;
+    }
+  }
+
+  .container-title {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 55px;
+
+    @include media-breakpoint-up(md) {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 265px;
+    }
+  }
+}
