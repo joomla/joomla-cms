@@ -217,7 +217,7 @@ class UsersControllerUser extends UsersController
 	/**
 	 * Method to logout directly and redirect to page.
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.5
 	 */
