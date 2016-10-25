@@ -74,12 +74,6 @@ abstract class JSessionStorage
 				}
 			}
 
-			// Validate the session storage is supported on this platform
-			if (!$class::isSupported())
-			{
-				throw new JSessionExceptionUnsupported(sprintf('The %s Session Storage is not supported on this platform.', $name));
-			}
-
 			self::$instances[$name] = new $class($options);
 		}
 

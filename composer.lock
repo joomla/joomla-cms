@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "15ae8f9ee2aa080639758e0925fa9b45",
-    "content-hash": "ea772882d62aa0ce41eaaa27dcb93653",
+    "hash": "5b47efe033f77287ec494ee290722ee3",
+    "content-hash": "aba2886147d35a687252ead03795777a",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -386,23 +386,22 @@
         },
         {
             "name": "joomla/registry",
-            "version": "1.5.2",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "bd3592c6f0554a72811df52aeaea98c7815f6e5a"
+                "reference": "b9fd1812e19619bb4722a0711b691dbfefff8ee9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/bd3592c6f0554a72811df52aeaea98c7815f6e5a",
-                "reference": "bd3592c6f0554a72811df52aeaea98c7815f6e5a",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/b9fd1812e19619bb4722a0711b691dbfefff8ee9",
+                "reference": "b9fd1812e19619bb4722a0711b691dbfefff8ee9",
                 "shasum": ""
             },
             "require": {
                 "joomla/compat": "~1.0",
                 "joomla/utilities": "~1.0",
-                "php": ">=5.3.10|>=7.0",
-                "symfony/polyfill-php55": "~1.0"
+                "php": ">=5.3.10|>=7.0"
             },
             "require-dev": {
                 "joomla/test": "~1.0",
@@ -435,7 +434,7 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2016-05-14 20:42:05"
+            "time": "2016-04-18 23:57:43"
         },
         {
             "name": "joomla/session",
