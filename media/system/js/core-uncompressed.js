@@ -341,49 +341,32 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * Writes a dynamically generated list
 	 *
-	 * @param string
+	 * @param selectParams string
 	 *          The parameters to insert into the <select> tag
-	 * @param array
+	 * @param source array
 	 *          A javascript array of list options in the form [key,value,text]
-	 * @param string
+	 * @param key string
 	 *          The key to display for the initial state of the list
-	 * @param string
-	 *          The original key that was selected
-	 * @param string
+	 * @param orig_val string
 	 *          The original item value that was selected
-	 * @param string
+	 * @param element DOMElement
 	 *          The elem where the list will be written
 	 */
-	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
-		var html = '<select ' + selectParams + '>',
-			hasSelection = key == orig_key,
-			i = 0,
-			selected, x, item;
+	window.writeDynaList = function ( selectParams, source, key, orig_val, element ) {
+		var html = '<select ' + selectParams + '>', i, item;
 
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
-
-			item = source[ x ];
+		for (i = 0; i < source.length; i++) {
+			item = source[ i ];
 
 			if ( item[ 0 ] != key ) { continue; }
 
-			selected = '';
-
-			if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
-				selected = 'selected="selected"';
-			}
-
-			html += '<option value="' + item[ 1 ] + '" ' + selected + '>' + item[ 2 ] + '</option>';
-
-			i++;
+			html += '<option value="' + item[ 1 ] + '"' + ( orig_val == item[ 1 ] ? ' selected="selected"' : '' ) + '>'
+				+ item[ 2 ] + '</option>';
 		}
+
 		html += '</select>';
 
-		if (element) {
-			element.innerHTML = html;
-		} else {
-			document.writeln( html );
-		}
+		element.innerHTML = html;
 	};
 
 	/**
