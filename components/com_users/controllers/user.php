@@ -365,7 +365,7 @@ class UsersControllerUser extends UsersController
 	}
 
 	/**
-	 * Method to login a user.
+	 * Method to request a username reminder.
 	 *
 	 * @return  boolean
 	 *
@@ -431,7 +431,7 @@ class UsersControllerUser extends UsersController
 	}
 
 	/**
-	 * Method to login a user.
+	 * Method to resend a user.
 	 *
 	 * @return  void
 	 *
