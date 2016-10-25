@@ -1007,7 +1007,7 @@
 		JoomlaCalLocale.clear = JoomlaCalLocale.clear ? JoomlaCalLocale.clear : 'Clear';
 
 		for (i = 0; i < elements.length; i++) {
-			element  = elements[i];
+			var element  = elements[i];
 			instance = element._joomlaCalendar;
 
 			if (!instance) {
