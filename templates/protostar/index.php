@@ -137,7 +137,7 @@ else
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 	<!-- Body -->
-	<div class="body">
+	<div class="body" id="top">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<!-- Header -->
 			<header class="header" role="banner">
@@ -203,7 +203,7 @@ else
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
 			<p class="pull-right">
-				<a href="#" id="back-top">
+				<a href="#top" id="back-top">
 					<?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?>
 				</a>
 			</p>
