@@ -311,7 +311,18 @@ class PlgEditorTinymce extends JPlugin
 		$access = array_flip($access);
 
 		$html_height = $this->params->get('html_height', '550');
+		
+		if (is_numeric($height))
+		{
+			$html_height = $height;
+		}
+		
 		$html_width  = $this->params->get('html_width', '');
+		
+		if (is_numeric($width))
+		{
+			$html_width = $width;
+		}
 
 		if ($html_width == 750)
 		{
@@ -966,7 +977,8 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->height  = $height;
 		$textarea->content = $content;
 
-		$editor = '<div class="editor">';
+		$cssWidth  = ($textarea->width) ? ' style="width: ' . (int) $textarea->width . 'px"' : '';
+		$editor = '<div class="editor"' . $cssWidth . '>';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
