@@ -7,68 +7,75 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-	// The container where the draggable will be enabled
-	var url, formSelector, direction, container = document.querySelector('.js-draggable');
+	/** The container where the draggable will be enabled **/
+	var url, formSelector, direction, isNested, container = document.querySelector('.js-draggable');
 
 	if (container) {
-		// The script expects a form with a class js-form
-		// A table with the tbody with a class js-draggable
-		//                        with a data-url with the ajax request end point and
-		//                        with a data-direction for asc/desc
+		/** The script expects a form with a class js-form
+		 *  A table with the tbody with a class js-draggable
+		 *                         with a data-url with the ajax request end point and
+		 *                         with a data-direction for asc/desc
+		 */
 		url = container.getAttribute('data-url');
 		direction = container.getAttribute('data-direction');
-		formSelector = '.js-form';
+		isNested = container.getAttribute('data-nested');
 	} else if (Joomla.getOptions('draggable-list')) {
 
 		var options = Joomla.getOptions('draggable-list');
 
 		container = document.querySelector(options.id);
-		// This is here to make the transition to new forms easier.
-		// Should be removed when everybody' using the default class!
+		/**
+		 * This is here to make the transition to new forms easier.
+		 */
 		if (!container.classList.contains('js-draggable')) {
 			container.classList.add('js-draggable');
 		}
 
 		url = options.url;
-		formSelector = options.formId;
 		direction = options.direction;
+		isNested = options.nested;
 	}
 
 	if (container) {
-		// IOS 10 BUG
+		/** IOS 10 BUG **/
 		document.addEventListener("touchstart", function() {},false);
 
 		var draggableTable = dragula(
 				[container],
 				{
-					direction: 'vertical',               // Y axis is considered when determining where an element would be dropped
-					copy: false,                         // elements are moved by default, not copied
-					copySortSource: false,               // elements in copy-source containers can be reordered
-					revertOnSpill: true,                 // spilling will put the element back where it was dragged from, if this is true
-					removeOnSpill: false                 // spilling will `.remove` the element, if this is true
+					/** Y axis is considered when determining where an element would be dropped **/
+					direction: 'vertical',
+					/** elements are moved by default, not copied **/
+					copy: false,
+					/** elements in copy-source containers can be reordered **/
+					copySortSource: false,
+					/** spilling will put the element back where it was dragged from, if this is true **/
+					revertOnSpill: true,
+					/** spilling will `.remove` the element, if this is true **/
+					removeOnSpill: false
 				}
 			);
 
 		var getOrderData = function (container, direction) {
 			var i, l, result = [],
-				orderRows = container.querySelectorAll('input[name="order[]"]'),
+				orderRows = container.querySelectorAll('[name="order[]"]'),
 				inputRows = container.querySelectorAll('[name="cid[]"]');
 
 			if (direction  === 'desc') {
-				// Reverse the array
+				/** Reverse the array **/
 				orderRows = Array.prototype.slice.call(orderRows);
 				inputRows = Array.prototype.slice.call(inputRows);
 				orderRows.reverse();
 				inputRows.reverse();
 			}
 
-			// Get the order array
+			/** Get the order array **/
 			for (i= 0, l = orderRows.length; l > i; i++) {
 				orderRows[i].value = i;
 				result.push("order[]=" + encodeURIComponent(i));
 			}
 
-			// Get the id array
+			/** Get the id array **/
 			for(i = 0, l = inputRows.length; l>i; i++) {
 				result.push("cid[]=" + encodeURIComponent(inputRows[i].value));
 			}
@@ -76,17 +83,33 @@ document.addEventListener('DOMContentLoaded', function() {
 			return result;
 		};
 
+		/** Disable any elements that do not belong in the same group **/
+		draggableTable.on('drag', function(el, source) {
+
+			if (isNested) {
+				var rows = source.getElementsByTagName('tr');
+				for (var i = 0, l = rows.length; l>i; i++) {
+					if (parseInt(el.getAttribute('data-dragable-group')) !== parseInt(rows[i].getAttribute('data-dragable-group'))) {
+						rows[i].style.display = 'none';
+						rows[i].querySelector('[name="cid[]"]').setAttribute('name', 'input_TEMP_rename__');
+						rows[i].querySelector('[name="order[]"]').setAttribute('name', 'order_TEMP_rename__');
+					}
+				}
+			}
+		});
+
+		/** The logic for the drop event **/
 		draggableTable.on('drop', function() {
 			if (url) {
-				// Detach task field if exists
+				/** Detach task field if exists **/
 				var task = document.querySelector('[name="task"]');
 
-				// Detach task field if exists
+				/** Detach task field if exists **/
 				if (task) {
 					task.setAttribute('name', 'some__Temporary__Name__');
 				}
 
-				// Prepare the options
+				/** Prepare the options **/
 				var ajaxOptions = {
 					url:    url,
 					method: 'POST',
@@ -96,9 +119,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				Joomla.request(ajaxOptions);
 
-				// Re-Append original task field
+				/** Re-Append original task field **/
 				if (task) {
 					task.setAttribute('name', 'task');
+				}
+			}
+		});
+
+		/** Restore any elements that have been altered **/
+		draggableTable.on('dragend', function(el) {
+			if (isNested) {
+				var rows = container.querySelectorAll('tr');
+
+				for (var i = 0, l = rows.length; l > i; i++) {
+					if (rows[i].style.display === 'none') {
+						rows[i].style.display = '';
+						rows[i].querySelector('[name="input_TEMP_rename__"]').setAttribute('name', 'cid[]');
+						rows[i].querySelector('[name="order_TEMP_rename__"]').setAttribute('name', 'order[]');
+					}
 				}
 			}
 		});

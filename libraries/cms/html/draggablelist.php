@@ -58,7 +58,7 @@ abstract class JHtmlDraggablelist
 					'formId'     => $formId,
 					'direction'  => $sortDir,
 					'url'        => $saveOrderingUrl . '&' . JSession::getFormToken() . '=1',
-					'nestedList' => $nestedList
+					'nested'     => $nestedList
 				)
 			);
 		}
