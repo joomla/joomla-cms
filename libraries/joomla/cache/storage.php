@@ -167,12 +167,6 @@ class JCacheStorage
 			}
 		}
 
-		// Validate the cache storage is supported on this platform
-		if (!$class::isSupported())
-		{
-			throw new JCacheExceptionUnsupported(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
-		}
-
 		return new $class($options);
 	}
 
