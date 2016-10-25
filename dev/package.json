@@ -14,12 +14,10 @@
     "grunt-contrib-cssmin": "latest",
     "grunt-contrib-uglify": "latest",
     "grunt-curl": "^2.2.0",
+    "grunt-fetch-pages": "^2.0.0",
     "grunt-git": "latest",
     "grunt-shell": "latest",
     "grunt-zip": "^0.17.1"
   },
-  "license": "GPL-2.0+",
-  "devDependencies": {
-    "grunt-fetch-pages": "^2.0.0"
-  }
+  "license": "GPL-2.0+"
 }
