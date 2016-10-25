@@ -51,8 +51,8 @@
 			<option value="0">JNO</option>
 		</field>
 
-		<field 
-			name="show_intro" 
+		<field
+			name="show_intro"
 			type="list"
 			description="JGLOBAL_SHOW_INTRO_DESC"
 			label="JGLOBAL_SHOW_INTRO_LABEL">
@@ -177,16 +177,6 @@
 			type="list"
 			label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 			description="JGLOBAL_SHOW_NAVIGATION_DESC">
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
-
-		<field
-			name="show_vote"
-			type="list"
-			label="JGLOBAL_SHOW_VOTE_LABEL"
-			description="JGLOBAL_SHOW_VOTE_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>

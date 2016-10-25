@@ -17,6 +17,77 @@ defined('_JEXEC') or die;
 class PlgContentVote extends JPlugin
 {
 	/**
+	 * Application object
+	 *
+	 * @var    JApplicationCms
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
+	 * Database object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
+
+	/**
+	 * Method to save a vote.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function onAjaxVote()
+	{
+		// Check for request forgeries.
+		if (!JSession::checkToken())
+		{
+			throw new Exception(JText::_('JINVALID_TOKEN'));
+		}
+
+		$this->loadLanguage();
+
+		$user_rating = $this->app->input->post->getInt('user_rating', -1);
+
+		if ($user_rating > -1)
+		{
+			$id = $this->app->input->post->getInt('id', 0);
+
+			try
+			{
+				$this->storeVote($id, $user_rating);
+
+				return [
+					'success' => true,
+					'message' => JText::_('PLG_VOTE_ARTICLE_VOTE_SUCCESS'),
+					'token'   => JSession::getFormToken(true),
+				];
+			}
+			catch (Exception $e)
+			{
+				$this->app->getLogger()->warning(
+					'Failed to save vote on content.',
+					[
+						'exception' => $e,
+						'category'  => 'error',
+					]
+				);
+
+				return [
+					'success' => false,
+					'message' => JText::_('PLG_VOTE_ARTICLE_VOTE_FAILURE'),
+					'token'   => JSession::getFormToken(true),
+				];
+			}
+		}
+
+		throw new RuntimeException(JText::sprintf('PLG_VOTE_INVALID_RATING', $rate));
+	}
+
+	/**
 	 * Displays the voting area if in an article
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin
@@ -28,7 +99,7 @@ class PlgContentVote extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
+	public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
 	{
 		$parts = explode(".", $context);
 
@@ -66,7 +137,7 @@ class PlgContentVote extends JPlugin
 			$html .= '<div class="content_rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">';
 			$html .= '<p class="unseen element-invisible">'
 					. JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>')
-					. '<meta itemprop="ratingCount" content="' . (int) $row->rating_count . '" />'
+					. '<meta itemprop="ratingCount" content="' . (int) @$row->rating_count . '" />'
 					. '<meta itemprop="worstRating" content="0" />'
 					. '</p>';
 			$html .= $img;
@@ -74,9 +145,6 @@ class PlgContentVote extends JPlugin
 
 			if ($view == 'article' && $row->state == 1)
 			{
-				$uri = clone JUri::getInstance();
-				$uri->setVar('hitcount', '0');
-
 				// Create option list for voting select box
 				$options = array();
 
@@ -85,21 +153,235 @@ class PlgContentVote extends JPlugin
 					$options[] = JHtml::_('select.option', $i, JText::sprintf('PLG_VOTE_VOTE', $i));
 				}
 
+				// Load required media
+				JHtml::_('jquery.framework');
+				JHtml::_('behavior.core');
+				JHtml::_('script', 'plg_content_vote/voting.js', false, true);
+
+				$action = JRoute::_('index.php?option=com_ajax&group=content&plugin=vote&format=json');
+
 				// Generate voting form
-				$html .= '<form method="post" action="' . htmlspecialchars($uri->toString(), ENT_COMPAT, 'UTF-8') . '" class="form-inline">';
+				$html .= '<form method="post" action="' . $action . '" class="form-inline" id="vote-submission">';
 				$html .= '<span class="content_vote">';
 				$html .= '<label class="unseen element-invisible" for="content_vote_' . $row->id . '">' . JText::_('PLG_VOTE_LABEL') . '</label>';
 				$html .= JHtml::_('select.genericlist', $options, 'user_rating', null, 'value', 'text', '5', 'content_vote_' . $row->id);
 				$html .= '&#160;<input class="btn btn-mini" type="submit" name="submit_vote" value="' . JText::_('PLG_VOTE_RATE') . '" />';
-				$html .= '<input type="hidden" name="task" value="article.vote" />';
-				$html .= '<input type="hidden" name="hitcount" value="0" />';
-				$html .= '<input type="hidden" name="url" value="' . htmlspecialchars($uri->toString(), ENT_COMPAT, 'UTF-8') . '" />';
+				$html .= '<input type="hidden" name="id" value="' . $row->id . '" />';
 				$html .= JHtml::_('form.token');
 				$html .= '</span>';
 				$html .= '</form>';
+				$html .= '<div id="vote-message"></div>';
 			}
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Add the voting data for items to the data object
+	 *
+	 * @param   string   $context   The context of the content being passed to the plugin.
+	 * @param   object   &$article  The article object.  Note $article->text is also available
+	 * @param   mixed    &$params   The article params
+	 * @param   integer  $page      The 'page' number
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function onContentPrepare($context, &$article, &$params, $page = 0)
+	{
+		switch ($context)
+		{
+			case 'com_content.article':
+			case 'com_content.category':
+			case 'com_content.featured':
+				// Fetch the data from the voting table
+				try
+				{
+					$query = $this->db->getQuery(true)
+						->select('ROUND(rating_sum / rating_count, 0) AS rating, rating_count')
+						->from('#__content_rating')
+						->where('content_id = ' . (int) $article->id);
+
+					$data = $this->db->setQuery($query)->loadObject();
+
+					// If we have data, merge it to the article object
+					if ($data)
+					{
+						$article->rating       = $data->rating;
+						$article->rating_count = $data->rating_count;
+					}
+				}
+				catch (JDatabaseExceptionExecuting $e)
+				{
+					// Let's not fatal out here
+				}
+
+				break;
+
+			default:
+				// Unsupported context
+		}
+	}
+
+	/**
+	 * Adds additional fields to supported forms
+	 *
+	 * @param   JForm  $form  The form to be altered.
+	 * @param   mixed  $data  The associated data for the form.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onContentPrepareForm($form, $data)
+	{
+		if (!($form instanceof JForm))
+		{
+			throw new RuntimeException(JText::_('JERROR_NOT_A_FORM'), 500);
+		}
+
+		// Each form has different handling procedures
+		switch ($form->getName())
+		{
+			case 'com_config.component':
+				// Component configuration, check via the request whether we're manipulating com_content
+				if ($this->app->input->getCmd('component') !== 'com_content')
+				{
+					return true;
+				}
+
+				$this->loadLanguage();
+
+				// Create a SimpleXMLElement for the component config's fieldset
+				$element = new SimpleXMLElement(file_get_contents(__DIR__ . '/voting/component.xml'));
+
+				// Add the field
+				$form->setField($element);
+
+				return true;
+
+			case 'com_content.article':
+				// Add the voting fields to the form.
+				JForm::addFormPath(__DIR__ . '/voting');
+				$form->loadFile('content', false);
+
+				return true;
+
+			case 'com_menus.item':
+				// Here we'll have to switch based on the chosen view
+				$xml = $form->getXml();
+
+				switch (strtoupper($xml->metadata->layout->attributes()->option))
+				{
+					case 'COM_CONTENT_ARTICLE_VIEW_DEFAULT_OPTION':
+						// Add the voting fields to the form.
+						JForm::addFormPath(__DIR__ . '/voting');
+						$form->loadFile('menu_single_article', false);
+
+						return true;
+
+					case 'COM_CONTENT_CATEGORIES_VIEW_DEFAULT_OPTION':
+						// Add the voting fields to the form.
+						JForm::addFormPath(__DIR__ . '/voting');
+						$form->loadFile('menu_categories', false);
+
+						return true;
+
+					case 'COM_CONTENT_CATEGORY_VIEW_BLOG_OPTION':
+						// Add the voting fields to the form.
+						JForm::addFormPath(__DIR__ . '/voting');
+						$form->loadFile('menu_category_blog', false);
+
+						return true;
+
+					case 'COM_CONTENT_CATEGORY_VIEW_DEFAULT_OPTION':
+						// Add the voting fields to the form.
+						JForm::addFormPath(__DIR__ . '/voting');
+						$form->loadFile('menu_category_default', false);
+
+						return true;
+
+					case 'COM_CONTENT_FEATURED_VIEW_DEFAULT_OPTION':
+						// Add the voting fields to the form.
+						JForm::addFormPath(__DIR__ . '/voting');
+						$form->loadFile('menu_featured_article', false);
+
+						return true;
+
+					default:
+						// Unsupported option
+						return true;
+				}
+
+			default:
+				// Unsupported form
+				return true;
+		}
+	}
+
+	/**
+	 * Save user vote on article
+	 *
+	 * @param   integer  $pk    Article ID
+	 * @param   integer  $rate  Voting rate
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function storeVote($pk = 0, $rate = 0)
+	{
+		if ($rate >= 1 && $rate <= 5 && $pk > 0)
+		{
+			$userIP = $this->app->input->server->getString('REMOTE_ADDR');
+
+			// Initialize variables.
+			$db    = $this->db;
+			$query = $db->getQuery(true);
+
+			// Query for an existing rating for this item
+			$query->select('*')
+				->from($db->quoteName('#__content_rating'))
+				->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+
+			// Set the query and load the result.
+			$rating = $db->setQuery($query)->loadObject();
+
+			// If there are no ratings yet, insert a new record
+			if (!$rating)
+			{
+				$query = $db->getQuery(true);
+
+				$columnList = [$db->quoteName('content_id'), $db->quoteName('lastip'), $db->quoteName('rating_sum'), $db->quoteName('rating_count')];
+				$valueList  = [(int) $pk, $db->quote($userIP), (int) $rate, 1];
+
+				$query->clear()
+					->insert($db->quoteName('#__content_rating'))
+					->columns($columnList)
+					->values(implode(', ', $valueList));
+
+				$db->setQuery($query)->execute();
+
+				return;
+			}
+			// If there is already a rating, add the new vote unless the previous voter's IP address matches the current address
+			elseif ($userIP != ($rating->lastip))
+			{
+				$query->clear()
+					->update($db->quoteName('#__content_rating'))
+					->set($db->quoteName('rating_count') . ' = rating_count + 1')
+					->set($db->quoteName('rating_sum') . ' = rating_sum + ' . (int) $rate)
+					->set($db->quoteName('lastip') . ' = ' . $db->quote($userIP))
+					->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+
+				$db->setQuery($query)->execute();
+
+				return;
+			}
+		}
+
+		throw new RuntimeException(JText::sprintf('PLG_VOTE_INVALID_RATING', $rate));
 	}
 }

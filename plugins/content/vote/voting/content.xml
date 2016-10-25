@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="attribs">
+		<fieldset
+			name="basic">
+			<field
+				name="show_vote"
+				type="list"
+				class="chzn-color"
+				label="JGLOBAL_SHOW_VOTE_LABEL"
+				description="JGLOBAL_SHOW_VOTE_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
+		</fieldset>
+		<fieldset
+			name="basic-limited">
+			<field
+				name="show_vote"
+				type="hidden"
+				label="JGLOBAL_SHOW_VOTE_LABEL"
+				description="JGLOBAL_SHOW_VOTE_DESC"
+			>
+			</field>
+		</fieldset>
+	</fields>
+</form>
