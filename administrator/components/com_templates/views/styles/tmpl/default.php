@@ -83,11 +83,11 @@ $colSpan = $clientId === 1 ? 5 : 6;
 						<td>
 							<?php if ($this->preview && $item->client_id == '0') : ?>
 								<a target="_blank" href="<?php echo JUri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
-								<span class="icon-eye-open hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>" ></span></a>
+								<span class="icon-eye-open hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>" ></span></a>
 							<?php elseif ($item->client_id == '1') : ?>
-								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>" ></span>
-							<?php else : ?>
-								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>" ></span>
+								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>" ></span>
+							<?php else: ?>
+								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>" ></span>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>">

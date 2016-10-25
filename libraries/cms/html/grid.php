@@ -36,7 +36,7 @@ abstract class JHtmlGrid
 
 		// Build the title.
 		$title = ($value) ? JText::_('JYES') : JText::_('JNO');
-		$title = JHtml::tooltipText($title, JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'), 0);
+		$title = JHtml::_('tooltipText', $title, JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'), 0);
 
 		// Build the <a> tag.
 		$bool = ($value) ? 'true' : 'false';
@@ -126,7 +126,7 @@ abstract class JHtmlGrid
 		JHtml::_('behavior.core');
 		JHtml::_('bootstrap.tooltip');
 
-		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip)
+		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::_('tooltipText', $tip)
 			. '" onclick="' . $action . '" />';
 	}
 
@@ -299,7 +299,7 @@ abstract class JHtmlGrid
 			$date = JHtml::_('date', $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
 			$time = JHtml::_('date', $row->checked_out_time, 'H:i');
 
-			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::tooltipText('JLIB_HTML_CHECKED_OUT', $row->editor) . '<br />' . $date . '<br />'
+			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::_('tooltipText', 'JLIB_HTML_CHECKED_OUT', $row->editor) . '<br />' . $date . '<br />'
 				. $time . '">';
 		}
 

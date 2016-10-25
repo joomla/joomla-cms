@@ -136,7 +136,7 @@ if ($showPreview)
 		'style' => $style,
 	);
 
-	$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
+	$img = JHtml::_('image', $src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 	$previewImg = '<div id="' . $id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
 	$previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
 		. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
@@ -151,7 +151,7 @@ if ($showPreview)
 					'class' => 'hasTipPreview'
 					);
 
-		echo JHtml::tooltip($tooltip, $options);
+		echo JHtml::_('tooltip', $tooltip, $options);
 		echo '</div>';
 	}
 	else

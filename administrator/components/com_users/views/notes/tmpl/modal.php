@@ -28,7 +28,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 			</div>
 
 			<div class="fltlft utitle">
-				<?php echo JHtml::date($item->created_time, 'D d M Y H:i'); ?>
+				<?php echo JHtml::_('date', $item->created_time, 'D d M Y H:i'); ?>
 			</div>
 
 			<?php $category_image = $item->cparams->get('image'); ?>

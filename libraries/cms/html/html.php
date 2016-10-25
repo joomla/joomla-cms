@@ -665,7 +665,7 @@ abstract class JHtml
 	 *
 	 * @return  array|string|null  Nothing if $returnPath is false, null, path or array of path if specific JavaScript browser files were detected
 	 *
-	 * @see     JHtml::stylesheet()
+	 * @see     JHtml::_('stylesheet', )
 	 * @since   1.5
 	 * @deprecated 4.0  The (file, framework, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
 	 *                  use (file, options, attributes) instead.

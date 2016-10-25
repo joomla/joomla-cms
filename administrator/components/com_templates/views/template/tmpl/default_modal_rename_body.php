@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 <div id="template-manager-rename" class="form-horizontal">
 	<div class="control-group">
 		<div class="control-label">
-			<label for="new_name" class="modalTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>">
-				<?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME'); ?>
+			<label for="new_name" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>">
+				<?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?>
 			</label>
 		</div>
 		<div class="controls">
