@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Methods supporting a list of article records.
  *
@@ -95,17 +97,8 @@ class ContentModelArticles extends JModelList
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-		$this->setState('filter.access', $access);
-
-		$authorId = $app->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
-		$this->setState('filter.author_id', $authorId);
-
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
-
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
-		$this->setState('filter.category_id', $categoryId);
 
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
@@ -113,8 +106,27 @@ class ContentModelArticles extends JModelList
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
-		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-		$this->setState('filter.tag', $tag);
+		$formSubmited = $app->input->post->get('form_submited');
+
+		$access     = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
+		$authorId   = $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+		$tag        = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+
+		if ($formSubmited)
+		{
+			$access = $app->input->post->get('access');
+			$this->setState('filter.access', $access);
+
+			$authorId = $app->input->post->get('author_id');
+			$this->setState('filter.author_id', $authorId);
+
+			$categoryId = $app->input->post->get('category_id');
+			$this->setState('filter.category_id', $categoryId);
+
+			$tag = $app->input->post->get('tag');
+			$this->setState('filter.tag', $tag);
+		}
 
 		// List state information.
 		parent::populateState($ordering, $direction);
@@ -144,11 +156,12 @@ class ContentModelArticles extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.access');
+		$id .= ':' . serialize($this->getState('filter.access'));
 		$id .= ':' . $this->getState('filter.published');
-		$id .= ':' . $this->getState('filter.category_id');
-		$id .= ':' . $this->getState('filter.author_id');
+		$id .= ':' . serialize($this->getState('filter.category_id'));
+		$id .= ':' . serialize($this->getState('filter.author_id'));
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . serialize($this->getState('filter.tag'));
 
 		return parent::getStoreId($id);
 	}
@@ -172,7 +185,7 @@ class ContentModelArticles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
+				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 					', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.ordering, a.featured, a.language, a.hits' .
 					', a.publish_up, a.publish_down'
 			)
@@ -209,9 +222,17 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		$access = $this->getState('filter.access');
+
+		if (is_numeric($access))
 		{
 			$query->where('a.access = ' . (int) $access);
+		}
+		elseif (is_array($access))
+		{
+			$access = ArrayHelper::toInteger($access);
+			$access = implode(',', $access);
+			$query->where('a.access IN (' . $access . ')');
 		}
 
 		// Implement View Level Access
@@ -249,7 +270,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($categoryId))
 		{
-			JArrayHelper::toInteger($categoryId);
+			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			$query->where('a.catid IN (' . $categoryId . ')');
 		}
@@ -267,6 +288,12 @@ class ContentModelArticles extends JModelList
 		{
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
 			$query->where('a.created_by ' . $type . (int) $authorId);
+		}
+		elseif (is_array($authorId))
+		{
+			$authorId = ArrayHelper::toInteger($authorId);
+			$authorId = implode(',', $authorId);
+			$query->where('a.created_by IN (' . $authorId . ')');
 		}
 
 		// Filter by search in title.
@@ -296,17 +323,34 @@ class ContentModelArticles extends JModelList
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
-		// Filter by a single tag.
-		$tagId = $this->getState('filter.tag');
+		// Filter by a single or group of tags.
+		$hasTag = false;
+		$tagId  = $this->getState('filter.tag');
 
 		if (is_numeric($tagId))
 		{
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
-				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
-				);
+			$hasTag = true;
+
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+		}
+		elseif (is_array($tagId))
+		{
+			$tagId = ArrayHelper::toInteger($tagId);
+			$tagId = implode(',', $tagId);
+			if (!empty($tagId))
+			{
+				$hasTag = true;
+
+				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
+			}
+		}
+
+		if ($hasTag)
+		{
+			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+						. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+						. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+					);
 		}
 
 		// Add the list ordering clause.

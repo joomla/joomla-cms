@@ -25,14 +25,25 @@
 				<field
 					name="catid"
 					type="category"
-					label="JCATEGORY"
-					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC"
 					extension="com_content"
 					multiple="true"
+					class="multipleCategories"
 					default=""
 					size="10"
-					>
-					<option value="">JOPTION_ALL_CATEGORIES</option>
+					label="JCATEGORY"
+					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC"
+				>
+				</field>
+
+				<field
+					name="tag"
+					type="tag"
+					mode="nested"
+					multiple="true"
+					class="multipleTags"
+					label="JTAG"
+					description="JTAG_DESC"
+				>
 				</field>
 
 				<field
