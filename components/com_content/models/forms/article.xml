@@ -203,6 +203,15 @@
 			description="JFIELD_ACCESS_DESC"
 			class="inputbox"
 			size="1" />
+
+		<field
+			name="captcha"
+			type="captcha"
+			label="COM_CONTENT_CAPTCHA_LABEL"
+			description="COM_CONTENT_CAPTCHA_DESC"
+			validate="captcha"
+			namespace="article" 
+		/>
 	</fieldset>
 		<fields name="images">
 		<fieldset name="image-intro">
