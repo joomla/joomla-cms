@@ -99,6 +99,16 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				<fieldset class="adminform">
 					<?php echo $this->form->getInput('articletext'); ?>
 				</fieldset>
+				<fieldset class="adminform">
+					<?php echo $this->form->getInput('test1'); ?>
+				</fieldset>
+				<fieldset class="adminform">
+					<?php echo $this->form->getInput('test2'); ?>
+				</fieldset>
+				<fieldset class="adminform">
+					<?php echo $this->form->getInput('test3'); ?>
+				</fieldset>
+
 			</div>
 			<div class="span3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>

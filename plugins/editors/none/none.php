@@ -37,10 +37,10 @@ class PlgEditorNone extends JPlugin
 	 * Not applicable in this editor.
 	 *
 	 * @return  void
+	 * @deprecated 4.0 Use directly the returned code
 	 */
-	public function onSave()
+	public function onSave($editor)
 	{
-		return;
 	}
 
 	/**
@@ -49,10 +49,11 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onGetContent($id)
 	{
-		return "document.getElementById('$id').value;\n";
+		return 'Joomla.editors.instances[' . json_encode($id) . '].getValue();';
 	}
 
 	/**
@@ -62,10 +63,11 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $html  The content to set.
 	 *
 	 * @return  string
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onSetContent($id, $html)
 	{
-		return "document.getElementById('$id').value = $html;\n";
+		return 'Joomla.editors.instances[' . json_encode($id) . '].setValue(' . json_encode($html) . ');';
 	}
 
 	/**
@@ -74,10 +76,10 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $id  The id of the editor field
 	 *
 	 * @return  void
+	 * @deprecated 4.0
 	 */
 	public function onGetInsertMethod($id)
 	{
-		return null;
 	}
 
 	/**
@@ -116,9 +118,11 @@ class PlgEditorNone extends JPlugin
 			$height .= 'px';
 		}
 
-		$editor = '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
-				. '" style="width: ' . $width . '; height: ' . $height . ';">' . $content . '</textarea>'
-				. $this->_displayButtons($id, $buttons, $asset, $author);
+		$editor = '<div class="js-editor-none">'
+			. '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
+			. '" style="width: ' . $width . '; height: ' . $height . ';">' . $content . '</textarea>'
+			. $this->_displayButtons($id, $buttons, $asset, $author)
+			. '</div>';
 
 		return $editor;
 	}
@@ -131,37 +135,15 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $asset    The object asset
 	 * @param   object  $author   The author.
 	 *
-	 * @return  string HTML
+	 * @return  void|string HTML
 	 */
 	public function _displayButtons($name, $buttons, $asset, $author)
 	{
-		$return = '';
-
-		$args = array(
-			'name'  => $name,
-			'event' => 'onGetInsertMethod'
-		);
-
-		$results = (array) $this->update($args);
-
-		if ($results)
-		{
-			foreach ($results as $result)
-			{
-				if (is_string($result) && trim($result))
-				{
-					$return .= $result;
-				}
-			}
-		}
-
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
-			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
+			return JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
-
-		return $return;
 	}
 }

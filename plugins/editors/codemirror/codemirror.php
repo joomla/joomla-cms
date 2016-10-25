@@ -100,10 +100,11 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Code executes directly on submit
 	 */
 	public function onSave($id)
 	{
-		return sprintf('document.getElementById(%1$s).value = Joomla.editors.instances[%1$s].getValue();', json_encode((string) $id));
 	}
 
 	/**
@@ -112,6 +113,8 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onGetContent($id)
 	{
@@ -125,6 +128,8 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string  $content  The content to set.
 	 *
 	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onSetContent($id, $content)
 	{
@@ -134,25 +139,12 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Adds the editor specific insert method.
 	 *
-	 * @return  boolean
+	 * @return  void
+	 *
+	 * @deprecated 4.0 Code is loaded in the init script
 	 */
 	public function onGetInsertMethod()
 	{
-		static $done = false;
-
-		// Do this only once.
-		if ($done)
-		{
-			return true;
-		}
-
-		$done = true;
-
-		JFactory::getDocument()->addScriptDeclaration('
-		;function jInsertEditorText(text, editor) { Joomla.editors.instances[editor].replaceSelection(text); }
-		');
-
-		return true;
 	}
 
 	/**
@@ -298,24 +290,6 @@ class PlgEditorCodemirror extends JPlugin
 	protected function displayButtons($name, $buttons, $asset, $author)
 	{
 		$return = '';
-
-		$args = array(
-			'name'  => $name,
-			'event' => 'onGetInsertMethod'
-		);
-
-		$results = (array) $this->update($args);
-
-		if ($results)
-		{
-			foreach ($results as $result)
-			{
-				if (is_string($result) && trim($result))
-				{
-					$return .= $result;
-				}
-			}
-		}
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{

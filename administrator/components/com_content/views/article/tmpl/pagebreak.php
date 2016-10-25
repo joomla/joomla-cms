@@ -32,7 +32,7 @@ $document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 			<div class="controls"><input type="text" id="alt" name="alt" /></div>
 		</div>
 
-		<button onclick="insertPagebreak();" class="btn btn-success pull-right">
+		<button onclick="insertPagebreak('<?php echo $this->eName; ?>');" class="btn btn-success pull-right">
 			<?php echo JText::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?>
 		</button>
 

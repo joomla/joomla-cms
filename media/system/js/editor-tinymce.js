@@ -6,11 +6,9 @@
 ;(function(tinyMCE, Joomla, window, document){
 	"use strict";
 
-	// This line is for Mootools b/c
-	window.getSize = window.getSize || function(){return {x: window.innerWidth, y: window.innerHeight};};
-
+	// @deprecated 4.0 Use directly Joomla.editors.instances[editor].replaceSelection(text);
 	window.jInsertEditorText = function ( text, editor ) {
-		tinyMCE.activeEditor.execCommand('mceInsertContent', false, text);
+		Joomla.editors.instances[editor].replaceSelection(text);
 	};
 
 	var JoomlaTinyMCE = {
@@ -26,10 +24,31 @@
 			target = target || document;
 			var pluginOptions = Joomla.getOptions ? Joomla.getOptions('plg_editor_tinymce', {})
 					:  (Joomla.optionsStorage.plg_editor_tinymce || {}),
-				$editors = target.querySelectorAll('.joomla-editor-tinymce');
+				editors = target.querySelectorAll('.js-editor-tinymce');
 
-			for(var i = 0, l = $editors.length; i < l; i++) {
-				this.setupEditor($editors[i], pluginOptions);
+			for(var i = 0, l = editors.length; i < l; i++) {
+				var editor = document.querySelector('textarea');
+				this.setupEditor(editor, pluginOptions);
+
+				/** Register Editor */
+				Joomla.editors.instances[editor.id] = {
+					'id': editor.id,
+					'getValue': function () { return tinyMCE.editors[this.id].getContent(); },
+					'setValue': function (text) { return tinyMCE.editors[this.id].setContent(text); },
+					'replaceSelection': function (text) { return tinyMCE.editors[this.id].execCommand('mceInsertContent', false, text); },
+					'onSave': function() { if (tinyMCE.editors[this.id].isHidden()) { tinyMCE.editors[this.id].show()}; return '';}
+				};
+
+				/** On save **/
+				editor.form.addEventListener('submit', function() {
+					var editors = document.querySelectorAll('.js-editor-tinymce');
+					for(var i = 0, l = editors.length; i < l; i++) {
+						var editor = document.querySelector('textarea');
+						if (tinyMCE.get(editor.id).isHidden()) {
+							tinyMCE.get(editor.id).show();
+						}
+					}
+				})
 			}
 		},
 
@@ -67,15 +86,15 @@
 
 	Joomla.JoomlaTinyMCE = JoomlaTinyMCE;
 
-	// Init on doomready
-	document.addEventListener('DOMContentLoaded', function () {
+	// Init on DOMContentLoaded
+	document.addEventListener('DOMContentLoaded', function(){
 		Joomla.JoomlaTinyMCE.setupEditors();
 
 		// Init in subform field
 		if(window.jQuery) {
-			jQuery(document).on('subform-row-add', function (event, row) {
+			jQuery(document).on('subform-row-add', function(event, row){
 				Joomla.JoomlaTinyMCE.setupEditors(row);
-			});
+			})
 		}
 	});
 

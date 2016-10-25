@@ -17,7 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			var type = event.target.getAttribute('data-module'),
 				name = event.target.getAttribute('data-title'),
 				editor = event.target.getAttribute('data-editor');
-			window.parent.jInsertEditorText("{loadmodule " + type + "," + name + "}", editor);
+
+			/** Use the API, if editor supports it **/
+			if (window.Joomla && Joomla.editors.instances.hasOwnProperty(editor)) {
+				Joomla.editors.instances[editor].replaceSelection("{loadmodule " + type + "," + name + "}")
+			} else {
+				window.parent.jInsertEditorText("{loadmodule " + type + "," + name + "}", editor);
+			}
+
 			window.parent.jModalClose();
 		});
 	}
@@ -28,7 +35,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			event.preventDefault();
 			var position = event.target.getAttribute('data-position'),
 				editor = event.target.getAttribute('data-editor');
-			window.parent.jInsertEditorText("{loadposition " + position + "}", editor);
+
+			/** Use the API, if editor supports it **/
+			if (window.Joomla && Joomla.editors.instances.hasOwnProperty(editor)) {
+				Joomla.editors.instances[editor].replaceSelection("{loadposition " + position + "}")
+			} else {
+				window.parent.jInsertEditorText("{loadposition " + position + "}", editor);
+			}
+
 			window.parent.jModalClose();
 		});
 	}

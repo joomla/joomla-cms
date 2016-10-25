@@ -5,7 +5,7 @@
 
 "use strict";
 
-var insertReadmore = function(editor) {
+window.insertReadmore = function(editor) {
 	if (!Joomla.getOptions('xtd-readmore')) {
 		// Something went wrong!
 		return false;
@@ -21,6 +21,11 @@ var insertReadmore = function(editor) {
 		alert(options.exists);
 		return false;
 	} else {
-		window.jInsertEditorText('<hr id="system-readmore" />', editor);
+		/** Use the API, if editor supports it **/
+		if (window.Joomla && Joomla.editors.instances.hasOwnProperty(editor)) {
+			Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore" />')
+		} else {
+			window.parent.jInsertEditorText('<hr id="system-readmore" />', editor);
+		}
 	}
 };

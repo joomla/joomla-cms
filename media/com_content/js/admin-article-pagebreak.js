@@ -5,9 +5,9 @@
 (function() {
 	"use strict";
 
-	window.insertPagebreak = function() {
+	window.insertPagebreak = function(editor) {
 		/** Get the pagebreak title **/
-		var alt, tag, editor, title = document.getElementById('title').value;
+		var alt, tag, title = document.getElementById('title').value;
 
 		if (!window.parent.Joomla.getOptions('xtd-pagebreak')) {
 			// Something went wrong!
@@ -19,12 +19,18 @@
 		/** don't know which attribute to use... **/
 		alt = document.getElementById('alt').value;
 
-		editor = window.parent.Joomla.getOptions('xtd-pagebreak').editor;
 		title  = (title != '') ? 'title="' + title + '"' : '';
 		alt    = (alt != '') ? 'alt="' + alt + '"' : '';
 
 		tag = '<hr class="system-pagebreak" ' + title + ' ' + alt + '/>';
-		window.parent.jInsertEditorText(tag, editor);
+
+		/** Use the API, if editor supports it **/
+		if (window.Joomla && Joomla.editors.instances.hasOwnProperty(editor)) {
+			Joomla.editors.instances[editor].replaceSelection(tag)
+		} else {
+			window.parent.jInsertEditorText(tag, editor);
+		}
+
 		window.parent.jModalClose();
 		return false;
 	};
