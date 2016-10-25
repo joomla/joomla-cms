@@ -164,6 +164,28 @@ class TestHelper
 	}
 
 	/**
+	 * Adds a logger to include Joomla deprecations in the unit test results
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function registerDeprecationLogger()
+	{
+		JLog::addLogger(
+			array(
+				'logger'   => 'callback',
+				'callback' => function (JLogEntry $entry)
+				{
+					@trigger_error($entry->message, E_USER_DEPRECATED);
+				},
+			),
+			JLog::ALL,
+			array('deprecated')
+		);
+	}
+
+	/**
 	 * Adds optional logging support for the unit test run
 	 *
 	 * @return  void
