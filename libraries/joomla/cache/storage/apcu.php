@@ -263,11 +263,9 @@ class JCacheStorageApcu extends JCacheStorage
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning = new stdClass;
-		$returning->locklooped = false;
+		$returning = (object) array('locklooped' => false);
 
 		$looptime = $locktime * 10;
-
 		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
 		$data_lock = apcu_add($cache_id, 1, $locktime);
@@ -282,8 +280,6 @@ class JCacheStorageApcu extends JCacheStorage
 			{
 				if ($lock_counter > $looptime)
 				{
-					$returning->locked = false;
-					$returning->locklooped = true;
 					break;
 				}
 
@@ -291,6 +287,8 @@ class JCacheStorageApcu extends JCacheStorage
 				$data_lock = apcu_add($cache_id, 1, $locktime);
 				$lock_counter++;
 			}
+
+			$returning->locklooped = true;
 		}
 
 		$returning->locked = $data_lock;
