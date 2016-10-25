@@ -145,7 +145,7 @@ class ContentModelArchive extends ContentModelArticles
 			$limit      = $app->input->get('limit', $params->get('display_num', 20), 'uint');
 			$limitstart = $app->input->get('limitstart', 0, 'uint');
 
-			$query = $this->_buildQuery();
+			$query      = $this->_buildQuery();
 
 			$this->_data = $this->_getList($query, $limitstart, $limit);
 		}
@@ -174,7 +174,7 @@ class ContentModelArchive extends ContentModelArticles
 		foreach ($result as $k => $row)
 		{
 			$result[$k]->odd = $odd;
-			$odd = 1 - $odd;
+			$odd             = 1 - $odd;
 		}
 
 		return $result;
@@ -184,12 +184,12 @@ class ContentModelArchive extends ContentModelArticles
 	 * Gets the archived articles years
 	 *
 	 * @return   array
-	 * 
+	 *
 	 * @since    3.6.0
 	 */
 	public function getYears()
 	{
-		$db = $this->getDbo();
+		$db       = $this->getDbo();
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate  = $db->quote(JFactory::getDate()->toSql());
 
@@ -203,6 +203,7 @@ class ContentModelArchive extends ContentModelArticles
 			->order('1 ASC');
 
 		$db->setQuery($query);
+
 		return $db->loadColumn();
 	}
 }

@@ -25,10 +25,10 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 			array($urls->urlc, $urls->urlctext, $urls->targetc, 'c')
 			);
 			foreach ($urlarray as $url) :
-				$link = $url[0];
-				$label = $url[1];
+				$link   = $url[0];
+				$label  = $url[1];
 				$target = $url[2];
-				$id = $url[3];
+				$id     = $url[3];
 
 				if ( ! $link) :
 					continue;

@@ -16,15 +16,15 @@ defined('_JEXEC') or die;
  */
 class ContentViewArchive extends JViewLegacy
 {
-	protected $state = null;
+	protected $state      = null;
 
-	protected $item = null;
+	protected $item       = null;
 
-	protected $items = null;
+	protected $items      = null;
 
 	protected $pagination = null;
 
-	protected $years = null;
+	protected $years      = null;
 
 	/**
 	 * Execute and display a template script.
@@ -111,8 +111,8 @@ class ContentViewArchive extends JViewLegacy
 
 		// Year Field
 		$this->years = $this->getModel()->getYears();
-		$years = array();
-		$years[] = JHtml::_('select.option', null, JText::_('JYEAR'));
+		$years       = array();
+		$years[]     = JHtml::_('select.option', null, JText::_('JYEAR'));
 
 		for ($i = 0; $i < count($this->years); $i++)
 		{

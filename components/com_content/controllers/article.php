@@ -328,10 +328,10 @@ class ContentControllerArticle extends JControllerForm
 
 		if ($user_rating > -1)
 		{
-			$url = $this->input->getString('url', '');
-			$id = $this->input->getInt('id', 0);
+			$url      = $this->input->getString('url', '');
+			$id       = $this->input->getInt('id', 0);
 			$viewName = $this->input->getString('view', $this->default_view);
-			$model = $this->getModel($viewName);
+			$model    = $this->getModel($viewName);
 
 			if ($model->storeVote($id, $user_rating))
 			{

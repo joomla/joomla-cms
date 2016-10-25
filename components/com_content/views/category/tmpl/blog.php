@@ -68,7 +68,7 @@ JHtml::_('behavior.caption');
 
 	<?php
 	$introcount = (count($this->intro_items));
-	$counter = 0;
+	$counter    = 0;
 	?>
 
 	<?php if (!empty($this->intro_items)) : ?>
