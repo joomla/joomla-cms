@@ -38,7 +38,8 @@ class PlgButtonMenu extends JPlugin
 		 * Use the built-in element view to select the menu item.
 		 * Currently uses blank class.
 		 */
-		$link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1&amp;editor=' . $name;
+		$link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;'
+			. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
 		$button          = new JObject;
 		$button->modal   = true;
