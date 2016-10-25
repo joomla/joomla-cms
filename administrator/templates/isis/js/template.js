@@ -249,13 +249,11 @@ jQuery(function($)
 
 	}
 
-
 	/**
 	 * USED IN: All views with toolbar and sticky bar enabled
 	 */
 	var navTop;
 	var isFixed = false;
-
 
 	if (document.getElementById('isisJsData') && document.getElementById('isisJsData').getAttribute('data-tmpl-sticky') == "true") {
 		processScrollInit();
