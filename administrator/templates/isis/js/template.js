@@ -118,7 +118,7 @@ jQuery(function($)
 	// add color classes to chosen field based on value
 	$('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function(){
 		var select = $(this);
-		var cls = this.className.replace(/^.(chzn-color[a-z0-9-_]*)$.*/, '\1');
+		var cls = this.className.replace(/^.(chzn-color[a-z0-9-_]*)$.*/, '$1');
 		var container = select.next('.chzn-container').find('.chzn-single');
 		container.addClass(cls).attr('rel', 'value_' + select.val());
 		select.on('change click', function()
@@ -160,10 +160,10 @@ jQuery(function($)
 			$dropdownMenu.css('max-height', maxHeight);
 
 			// Get the submenu position
-			linkWidth        = $(this).outerWidth(true);
-			menuWidth        = $dropdownMenu.width();
-			linkPaddingLeft  = $(this).children('a').css('padding-left');
-			offsetLeft       = Math.round($(this).offset().left) - parseInt(linkPaddingLeft);
+			var linkWidth        = $(this).outerWidth(true);
+			var menuWidth        = $dropdownMenu.width();
+			var linkPaddingLeft  = $(this).children('a').css('padding-left');
+			var offsetLeft       = Math.round($(this).offset().left) - parseInt(linkPaddingLeft);
 
 			emptyMenu.empty().hide();
 
