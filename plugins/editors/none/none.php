@@ -36,7 +36,10 @@ class PlgEditorNone extends JPlugin
 	 *
 	 * Not applicable in this editor.
 	 *
+	 * @param   string  $editor  the editor id
+	 *
 	 * @return  void
+	 *
 	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onSave($editor)
@@ -49,6 +52,7 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string
+	 *
 	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onGetContent($id)
@@ -63,6 +67,7 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $html  The content to set.
 	 *
 	 * @return  string
+	 *
 	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onSetContent($id, $html)
@@ -76,6 +81,7 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $id  The id of the editor field
 	 *
 	 * @return  void
+	 *
 	 * @deprecated 4.0
 	 */
 	public function onGetInsertMethod($id)

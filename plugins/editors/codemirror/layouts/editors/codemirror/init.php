@@ -32,7 +32,8 @@ JFactory::getDocument()->addScriptOptions(
 		'fsCombo' => $fullScreenCombo,
 		'modPath' => JUri::root(true) . '/' . $modePath . $extJS,
 		'options' => $options,
-	));
+	)
+);
 
 JHtml::_('behavior.core');
 JHtml::_('script', 'system/editor-codemirror.js', false, true);

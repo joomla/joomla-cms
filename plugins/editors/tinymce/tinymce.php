@@ -58,7 +58,7 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * TinyMCE WYSIWYG Editor - get the editor content
 	 *
-	 * @param   string  $editor  The name of the editor
+	 * @param   string  $id  The name of the editor
 	 *
 	 * @since   1.5
 	 *
@@ -74,8 +74,8 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * TinyMCE WYSIWYG Editor - set the editor content
 	 *
-	 * @param   string  $editor  The name of the editor
-	 * @param   string  $html    The html to place in the editor
+	 * @param   string  $id    The name of the editor
+	 * @param   string  $html  The html to place in the editor
 	 *
 	 * @since   1.5
 	 *
@@ -91,7 +91,7 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * TinyMCE WYSIWYG Editor - copy editor content to form field
 	 *
-	 * @param   string  $editor  The name of the editor
+	 * @param   string  $id  The name of the editor
 	 *
 	 * @since   1.5
 	 *

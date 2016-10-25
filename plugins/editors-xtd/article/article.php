@@ -42,7 +42,8 @@ class PlgButtonArticle extends JPlugin
 			|| $user->authorise('core.edit', 'com_content')
 			|| $user->authorise('core.edit.own', 'com_content'))
 		{
-			$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1&amp;editor=' . $name;
+			$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'
+				. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
 			$button = new JObject;
 			$button->modal   = true;
