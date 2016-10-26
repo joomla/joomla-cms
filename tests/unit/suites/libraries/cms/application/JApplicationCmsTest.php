@@ -406,7 +406,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 				array('Expires: Wed, 17 Aug 2005 00:00:00 GMT', true, null),
 				array('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT', true, null),
 				array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
-				array('Pragma: no-cache', true, null),
+				array('Pragma: no-cache', true, null)
 			),
 			$this->class->headers
 		);
@@ -462,7 +462,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 				array('Expires: Wed, 17 Aug 2005 00:00:00 GMT', true, null),
 				array('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT', true, null),
 				array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
-				array('Pragma: no-cache', true, null),
+				array('Pragma: no-cache', true, null)
 			),
 			$this->class->headers
 		);
@@ -514,7 +514,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 				array('Expires: Wed, 17 Aug 2005 00:00:00 GMT', true, null),
 				array('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT', true, null),
 				array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
-				array('Pragma: no-cache', true, null),
+				array('Pragma: no-cache', true, null)
 			),
 			$this->class->headers
 		);
@@ -616,7 +616,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 				array('Expires: Wed, 17 Aug 2005 00:00:00 GMT', true, null),
 				array('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT', true, null),
 				array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
-				array('Pragma: no-cache', true, null),
+				array('Pragma: no-cache', true, null)
 			),
 			$this->class->headers
 		);
