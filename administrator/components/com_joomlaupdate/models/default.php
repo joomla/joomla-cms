@@ -46,7 +46,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				break;
 
 			// "Custom"
-			// TODO: check if the customurl is valid and not just "not empty".
 			case 'custom':
 				if (trim($params->get('customurl', '')) != '')
 				{
