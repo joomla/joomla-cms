@@ -1,0 +1,65 @@
+// Form
+
+.control-group::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+form:not(.form-no-margin) {
+  .control-group {
+    margin-bottom: 18px;
+	
+	.control-label {
+      width: auto;
+      padding-top: 5px;
+      padding-right: 5px;
+      float: left;
+      text-align: left;
+    }
+    .controls {
+      margin-left: 180px;
+    }
+  }
+}
+form .form-no-margin {
+  .control-group {
+    .controls {
+      margin-left: 0;
+    }
+    .control-label {
+      float: none;
+    }
+  }
+}
+.spacer hr {
+  width: 380px;
+}
+label.btn {
+  margin-bottom: 0;
+}
+.card .custom-select {
+  width: 100%;
+}
+td .form-control {
+  display: inline-block;
+  width: auto;
+}
+legend {
+  margin-bottom: 1.1rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+.checkboxes {
+  padding-top: 5px;
+
+  .checkbox input {
+    position: static;
+    margin-left: 0;
+  }
+}
+.form-check {
+  padding-top: 5px;
+  margin-bottom: 0;
+}
+.modal label {
+  width: 100%;
+}

@@ -100,7 +100,7 @@ abstract class JHtmlJquery
 			// Only attempt to load the component if it's supported in core and hasn't already been loaded
 			if (in_array($component, $supported) && empty(static::$loaded[__METHOD__][$component]))
 			{
-				JHtml::_('script', 'jui/jquery.ui.' . $component . '.min.js', false, true, false, false, $debug);
+				JHtml::_('script', 'vendor/jquery-ui/jquery.ui.' . $component . '.min.js', false, true, false, false, $debug);
 				static::$loaded[__METHOD__][$component] = true;
 			}
 		}

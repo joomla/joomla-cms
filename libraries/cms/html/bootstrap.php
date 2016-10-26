@@ -888,15 +888,14 @@ abstract class JHtmlBootstrap
 		// Load Bootstrap main CSS
 		if ($includeMainCss)
 		{
-			JHtml::_('stylesheet', 'jui/bootstrap.min.css', $attribs, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-responsive.min.css', $attribs, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-extended.css', $attribs, true);
+			JHtml::_('stylesheet', 'vendor/bootstrap/bootstrap.min.css', $attribs, true);
 		}
 
+		// BOOTSTRAP RTL - WILL SORT OUT LATER DOWN THE LINE
 		// Load Bootstrap RTL CSS
-		if ($direction === 'rtl')
-		{
-			JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', $attribs, true);
-		}
+		//if ($direction === 'rtl')
+		//{
+			//JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', $attribs, true);
+		//}
 	}
 }

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 ?>
 <?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
 <div class="btn-toolbar">
-	<div class="btn-group pull-xs-right">
+	<div class="btn-group float-xs-right">
 		<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 	</div>
 </div>
@@ -71,7 +71,7 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 	<div class="btn-toolbar">
-		<div class="btn-group pull-xs-right">
+		<div class="btn-group float-xs-right">
 			<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 		</div>
 	</div>

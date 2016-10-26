@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 
-<div class="pull-xs-left">
+<div class="float-xs-left">
 	<?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
 	<?php echo JHtml::_('templates.thumbModal', $this->template->element, $this->template->client_id); ?>
 </div>

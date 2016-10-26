@@ -5,9 +5,10 @@ module.exports = function(grunt) {
 		preText     = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
 		postText    = '  },\n  "license": "GPL-2.0+"\n}',
 		name,
-		disabledNPM = ['jcrop', 'autocomplete', 'coddemirror', 'combobox'],
+		disabledNPM = ['jcrop', 'autocomplete', 'coddemirror'],
 		vendorsTxt = '',
-		vendorsArr = '';
+		vendorsArr = '',
+		polyFillsUrls =[];
 
 	for (name in settings.vendors) {
 		if (disabledNPM.indexOf(name) < 0 ) {
@@ -17,6 +18,13 @@ module.exports = function(grunt) {
 
 	for (name in settings.vendors) {
 		vendorsArr += '\'' + name + '\' => array(\'version\' => \'' + settings.vendors[name].version + '\',' + '\'dependencies\' => \'' + settings.vendors[name].dependencies + '\'),\n\t\t\t';
+	}
+
+	// Build the array of the polyfills urls for curl
+	for (name in settings.polyfills) {
+		var filename = settings.polyfills[name].toLowerCase();
+		if (filename === 'element.prototype.classlist') filename = 'classlist';
+		polyFillsUrls.push({url: 'https://cdn.polyfill.io/v2/polyfill.js?features=' + settings.polyfills[name] + '&flags=always,gated&ua=Mozilla/4.0%20(compatible;%20MSIE%208.0;%20Windows%20NT%206.0;%20Trident/4.0)', localFile: 'polyfill.' + filename + '.js'});
 	}
 
 	// Build the package.json and assets.php for all 3rd Party assets
@@ -35,6 +43,7 @@ module.exports = function(grunt) {
 			cmlib    : '../media/vendor/codemirror/lib',
 			cmmod    : '../media/vendor/codemirror/mode',
 			cmthem   : '../media/vendor/codemirror/theme',
+			polyfills : '../media/vendor/polyfills/js',
 		},
 
 		// Let's clean up the system
@@ -48,6 +57,7 @@ module.exports = function(grunt) {
 					'../media/vendor/bootstrap/**',
 					'../media/vendor/tether/**',
 					'../media/vendor/jcrop/**',
+					'../media/vendor/dragula/**',
 					'../media/vendor/font-awesome/**',
 					'../media/vendor/tinymce/plugins/*',
 					'../media/vendor/tinymce/skins/*',
@@ -55,10 +65,11 @@ module.exports = function(grunt) {
 					'!../media/vendor/tinymce/plugins/*jdragdrop*',  // Joomla owned
 					'../media/vendor/punycode/*',
 					'../media/vendor/codemirror/*',
-					'../media/vendor/combobox/*',
 					'../media/vendor/autocomplete/*',
 					'../media/vendor/mediaelement/*',
 					'../media/vendor/chosenjs/*',
+					'../media/vendor/awesomplete/*',
+					'../media/vendor/polyfills/*',
 				],
 				expand: true,
 				options: {
@@ -94,14 +105,22 @@ module.exports = function(grunt) {
 				src: 'https://github.com/tapmodo/Jcrop/archive/v' + settings.vendors.jcrop.version + '.zip',
 				dest: 'assets/tmp/jcrop.zip'
 			},
-			'comboBox': {
-				src: 'https://github.com/danielfarrell/bootstrap-combobox/archive/' + settings.vendors.combobox.version + '.zip',
-				dest: 'assets/tmp/combo.zip'
-			},
 			'autoComplete': {
 				src: 'https://github.com/devbridge/jQuery-Autocomplete/archive/v' + settings.vendors.autocomplete.version + '.zip',
 				dest: 'assets/tmp/autoc.zip'
 			},
+		},
+		fetchpages: {
+			polyfills: {
+				options: {
+					baseURL: '',
+					destinationFolder: '../media/vendor/polyfills/js/',
+					urls: polyFillsUrls,
+					cleanHTML: false,
+					fetchBaseURL: false,
+					followLinks: false
+				}
+			}
 		},
 		unzip: {
 			'cmUnzip': {
@@ -112,15 +131,6 @@ module.exports = function(grunt) {
 				},
 				src: 'assets/tmp/cmzip.zip',
 				dest: 'assets/tmp/codemirror/'
-			},
-			'comboUnzip': {
-				router: function (filepath) {
-					var re = new RegExp(settings.vendors.combobox.version + '/', 'g');
-					var newFilename = filepath.replace(re, '');
-					return newFilename;
-				},
-				src: 'assets/tmp/combo.zip',
-				dest: 'assets/tmp/combobox/'
 			},
 			'autoUnzip': {
 				router: function (filepath) {
@@ -218,6 +228,14 @@ module.exports = function(grunt) {
 						expand: true,
 						ext: '.min.js'
 					},
+					{
+						src: '<%= folder.polyfills %>/polyfill.classlist.js',
+						dest: '<%= folder.polyfills %>/polyfill.classlist.min.js',
+					},
+					{
+						src: '<%= folder.polyfills %>/polyfill.event.js',
+						dest: '<%= folder.polyfills %>/polyfill.event.min.js',
+					},
 					// Uglifying punicode.js fails!!!
 					// {
 					// 	src: ['<%= folder.puny %>/*.js','!<%= folder.puny %>/*.min.js'],
@@ -280,20 +298,6 @@ module.exports = function(grunt) {
 						cwd: 'assets/node_modules/punycode/',
 						src: ['punycode.js', 'LICENSE-MIT.txt'],
 						dest: '../media/vendor/punycode/js/',
-						filter: 'isFile'
-					},
-					{ // Bootstrap-combobox
-						expand: true,
-						cwd: 'assets/tmp/combobox/bootstrap-combobox-js',
-						src: 'bootstrap-combobox.js',
-						dest: '../media/vendor/combobox/js/',
-						filter: 'isFile'
-					},
-					{ // Bootstrap-combobox
-						expand: true,
-						cwd: 'assets/tmp/combobox/bootstrap-combobox-css',
-						src: 'bootstrap-combobox.css',
-						dest: '../media/vendor/combobox/css/',
 						filter: 'isFile'
 					},
 					{ // jcrop
@@ -442,6 +446,10 @@ module.exports = function(grunt) {
 						src: ['assets/tmp/jcrop/jcrop-MIT-LICENSE.txt'],
 						dest: '../media/vendor/jcrop/jcrop-MIT-LICENSE.txt',
 					},
+					{ // Dragula
+						src: ['assets/node_modules/dragula/license'],
+						dest: '../media/vendor/dragula/license',
+					},
 					{ // Media Element
 						expand: true,
 						cwd: 'assets/node_modules/mediaelement/build',
@@ -468,6 +476,33 @@ module.exports = function(grunt) {
 						cwd: 'assets/node_modules/jquery-minicolors',
 						src: ['*.css', '*.png'],
 						dest: '../media/vendor/minicolors/css/',
+						filter: 'isFile'
+					},
+					{ // Awesomplete
+						expand: true,
+						cwd: 'assets/node_modules/awesomplete',
+						src: ['awesomplete.js', 'awesomplete.min.js'],
+						dest: '../media/vendor/awesomplete/js/',
+						filter: 'isFile'
+					},
+					{ // Awesomplete
+						expand: true,
+						cwd: 'assets/node_modules/awesomplete',
+						src: ['awesomplete.css'],
+						dest: '../media/vendor/awesomplete/css/',
+					},
+					{ // Dragula
+						expand: true,
+						cwd: 'assets/node_modules/dragula/dist',
+						src: ['*.js'],
+						dest: '../media/vendor/dragula/js/',
+						filter: 'isFile'
+					},
+					{ // Dragula
+						expand: true,
+						cwd: 'assets/node_modules/dragula/dist',
+						src: ['*.css'],
+						dest: '../media/vendor/dragula/css/',
 						filter: 'isFile'
 					},
 				]
@@ -498,6 +533,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-zip');
 	grunt.loadNpmTasks('grunt-curl');
+	grunt.loadNpmTasks('grunt-fetch-pages');
 
 	grunt.registerTask('default',
 		[
@@ -505,10 +541,9 @@ module.exports = function(grunt) {
 			'shell:update',
 			'curl:cmGet',
 			'curl:jCrop',
-			'curl:comboBox',
 			'curl:autoComplete',
+			'fetchpages:polyfills',
 			'unzip:cmUnzip',
-			'unzip:comboUnzip',
 			'unzip:autoUnzip',
 			'unzip:jcropUnzip',
 			'concat:someFiles',
