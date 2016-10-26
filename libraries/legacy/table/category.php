@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -148,7 +148,7 @@ class JTableCategory extends JTableNested
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -174,15 +174,13 @@ class JTableCategory extends JTableNested
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['metadata']);
+			$registry = new Registry($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
 
@@ -219,9 +217,17 @@ class JTableCategory extends JTableNested
 		}
 		else
 		{
-			// New category
-			$this->created_time = $date->toSql();
-			$this->created_user_id = $user->get('id');
+			// New category. A category created_time and created_user_id field can be set by the user,
+			// so we don't touch either of these if they are set.
+			if (!(int) $this->created_time)
+			{
+				$this->created_time = $date->toSql();
+			}
+
+			if (empty($this->created_user_id))
+			{
+				$this->created_user_id = $user->get('id');
+			}
 		}
 
 		// Verify that the alias is unique

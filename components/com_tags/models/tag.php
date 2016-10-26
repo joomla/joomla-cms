@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Tags Component Tag Model
@@ -175,9 +177,7 @@ class TagsModelTag extends JModelList
 		$this->setState('params', $params);
 
 		// Load state from the request.
-		$ids = $app->input->get('id', array(), 'array');
-
-		JArrayHelper::toInteger($ids);
+		$ids = ArrayHelper::toInteger($app->input->get('id', array(), 'array'));
 
 		$pkString = implode(',', $ids);
 
@@ -193,7 +193,7 @@ class TagsModelTag extends JModelList
 
 			// Sanitise
 			$typesr = explode(',', $typesr);
-			JArrayHelper::toInteger($typesr);
+			$typesr = ArrayHelper::toInteger($typesr);
 
 			$this->setState('tag.typesr', $typesr);
 		}
@@ -290,7 +290,7 @@ class TagsModelTag extends JModelList
 
 					// Convert the JTable to a clean JObject.
 					$properties = $table->getProperties(1);
-					$this->item[] = JArrayHelper::toObject($properties, 'JObject');
+					$this->item[] = ArrayHelper::toObject($properties, 'JObject');
 				}
 				catch (RuntimeException $e)
 				{
@@ -324,6 +324,11 @@ class TagsModelTag extends JModelList
 			$table = JTable::getInstance('Tag', 'TagsTable');
 			$table->load($pk);
 			$table->hit($pk);
+
+			if (!$table->hasPrimaryKey())
+			{
+				JError::raiseError(404, JText::_('COM_TAGS_TAG_NOT_FOUND'));
+			}
 		}
 
 		return true;

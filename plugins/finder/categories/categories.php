@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
+JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
 /**
  * Smart Search adapter for Joomla Categories.
@@ -199,7 +199,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			 */
 			foreach ($pks as $pk)
 			{
-				$query = clone($this->getStateQuery());
+				$query = clone $this->getStateQuery();
 				$query->where('a.id = ' . (int) $pk);
 
 				$this->db->setQuery($query);
@@ -251,33 +251,21 @@ class PlgFinderCategories extends FinderIndexerAdapter
 
 		$item->setLanguage();
 
-		// Need to import component route helpers dynamically, hence the reason it's handled here.
-		$path = JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
-
-		if (is_file($path))
-		{
-			include_once $path;
-		}
-
 		$extension = ucfirst(substr($item->extension, 4));
 
 		// Initialize the item parameters.
-		$registry = new Registry;
-		$registry->loadString($item->params);
-		$item->params = $registry;
+		$item->params = new Registry($item->params);
 
-		$registry = new Registry;
-		$registry->loadString($item->metadata);
-		$item->metadata = $registry;
+		$item->metadata = new Registry($item->metadata);
 
 		/*
-		 * Add the meta-data processing instructions based on the category's
+		 * Add the metadata processing instructions based on the category's
 		 * configuration parameters.
 		 */
-		// Add the meta-author.
+		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
-		// Handle the link to the meta-data.
+		// Handle the link to the metadata.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
@@ -294,6 +282,9 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->url = $this->getUrl($item->id, $item->extension, $this->layout);
 
 		$class = $extension . 'HelperRoute';
+
+		// Need to import component route helpers dynamically, hence the reason it's handled here.
+		JLoader::register($class, JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php');
 
 		if (class_exists($class) && method_exists($class, 'getCategoryRoute'))
 		{
@@ -341,7 +332,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load com_content route helper as it is the fallback for routing in the indexer in this instance.
-		include_once JPATH_SITE . '/components/com_content/helpers/route.php';
+		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 		return true;
 	}

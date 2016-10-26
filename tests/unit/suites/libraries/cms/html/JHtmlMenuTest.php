@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,10 +42,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 */
 	public function testMenus()
 	{
-		$this->assertThat(
-			JHtml::_('select.options', JHtml::_('menu.menus'), 'value', 'text'),
-			$this->stringContains('<option value="mainmenu">Main Menu</option>')
-		);
+		$this->assertContains('<option value="mainmenu">Main Menu</option>', JHtmlSelect::options(JHtmlMenu::menus(), 'value', 'text'));
 	}
 
 	/**
@@ -57,9 +54,9 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 */
 	public function testMenuitems()
 	{
-		$this->assertThat(
-			JHtml::_('select.options', JHtml::_('menu.menuitems'), array('published' => '1')),
-			$this->stringContains('<option value="mainmenu.435">- Home</option>')
+		$this->assertContains(
+			'<option value="mainmenu.435">- Home</option>',
+			JHtmlSelect::options(JHtmlMenu::menuitems(), array('published' => '1'))
 		);
 	}
 }

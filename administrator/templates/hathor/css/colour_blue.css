@@ -328,6 +328,21 @@
 	border-radius: 3px;
 	width: 175px;
 }
+.subform-repeatable-wrapper div.btn-toolbar {
+	float: none;
+}
+.subform-repeatable-wrapper .text-right {
+	text-align: right;
+}
+.subform-repeatable-wrapper .ui-sortable-helper {
+	background: #ffffff;
+}
+.subform-repeatable-wrapper tr.ui-sortable-helper {
+	display: table;
+}
+.subform-repeatable-wrapper .subform-repeatable-group {
+	clear: both;
+}
 .label,
 .badge {
 	display: inline-block;
@@ -860,6 +875,7 @@ table.adminlist {
 	color: #2c2c2c;
 }
 table.adminlist.modal {
+	border-top: 1px solid #738498;
 	border-right: 1px solid #738498;
 	border-left: 1px solid #738498;
 }

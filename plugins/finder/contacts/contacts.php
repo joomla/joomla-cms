@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Contacts
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
+JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
 /**
  * Finder adapter for Joomla Contacts.
@@ -259,9 +259,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Initialize the item parameters.
-		$registry = new Registry;
-		$registry->loadString($item->params);
-		$item->params = $registry;
+		$item->params = new Registry($item->params);
 
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
@@ -278,7 +276,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		}
 
 		/*
-		 * Add the meta-data processing instructions based on the contact
+		 * Add the metadata processing instructions based on the contact
 		 * configuration parameters.
 		 */
 		// Handle the contact position.
@@ -329,7 +327,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 			$item->addInstruction(FinderIndexer::META_CONTEXT, 'fax');
 		}
 
-		// Handle the contact e-mail address.
+		// Handle the contact email address.
 		if ($item->params->get('show_email', true))
 		{
 			$item->addInstruction(FinderIndexer::META_CONTEXT, 'email');
@@ -388,7 +386,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		require_once JPATH_SITE . '/components/com_contact/helpers/route.php';
+		JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 
 		// This is a hack to get around the lack of a route helper.
 		FinderIndexerHelper::getContentPath('index.php?option=com_contact');

@@ -3,12 +3,10 @@
  * @package     Joomla.UnitTest
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/mediawiki/http.php';
-require_once JPATH_PLATFORM . '/joomla/mediawiki/object.php';
 require_once __DIR__ . '/stubs/JMediawikiObjectMock.php';
 
 /**
@@ -65,6 +63,22 @@ class JMediawikiObjectTest extends PHPUnit_Framework_TestCase
 		$this->client = $this->getMock('JMediawikiHttp', array('get', 'post', 'delete', 'patch', 'put'));
 
 		$this->object = new JMediawikiObjectMock($this->options, $this->client);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options);
+		unset($this->client);
+		unset($this->object);
 	}
 
 	/**

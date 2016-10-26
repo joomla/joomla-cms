@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,15 +16,15 @@ defined('_JEXEC') or die;
  */
 class ModulesController extends JControllerLegacy
 {
-/**
- * Constructor.
- *
- * @param   array  $config  An optional associative array of configuration settings.
- * Recognized key values include 'name', 'default_task', 'model_path', and
- * 'view_path' (this list is not meant to be comprehensive).
- *
- * @since   3.5
- */
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *                          Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                          'view_path' (this list is not meant to be comprehensive).
+	 *
+	 * @since   3.5
+	 */
 	public function __construct($config = array())
 	{
 		$this->input = JFactory::getApplication()->input;

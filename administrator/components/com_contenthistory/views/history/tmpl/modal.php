@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_users
+ * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JHtml::_('bootstrap.tooltip');
+JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('behavior.multiselect');
 JHtml::_('jquery.framework');
 
@@ -87,106 +87,104 @@ JFactory::getDocument()->addScriptDeclaration("
 );
 
 ?>
-<h3><?php echo JText::_('COM_CONTENTHISTORY_MODAL_TITLE'); ?></h3>
-<div class="btn-group pull-right">
-	<button id="toolbar-load" type="submit" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>"
-		data-url="<?php echo JRoute::_($loadUrl);?>" id="content-url">
-		<span class="icon-upload"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></button>
-	<button id="toolbar-preview" type="button" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>"
-		data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1');?>">
-		<span class="icon-search"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></button>
-	<button id="toolbar-compare" type="button" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>"
-		data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . JSession::getFormToken() . '=1');?>">
-		<span class="icon-zoom-in"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></button>
-    <button onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $deleteMessage; ?>');}else{ Joomla.submitbutton('history.keep')}" class="btn hasTooltip"
-    	title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>">
-    	<span class="icon-lock"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></button>
-    <button onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $deleteMessage; ?>');}else{ Joomla.submitbutton('history.delete')}" class="btn hasTooltip"
-    	title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
-    	<span class="icon-delete"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></button>
-</div>
-<div class="clearfix"></div>
-<form action="<?php echo JRoute::_($formUrl);?>" method="post" name="adminForm" id="adminForm">
-<div id="j-main-container">
-	<table class="table table-striped table-condensed">
-		<thead>
-			<tr>
-				<th width="1%" class="center hidden-phone">
-					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
-				</th>
-				<th width="15%">
-					<?php echo JText::_('JDATE'); ?>
-				</th>
-				<th width="15%">
-					<?php echo JText::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
-				</th>
-				<th width="10%">
-					<?php echo JText::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
-				</th>
-				<th width="15%">
-					<?php echo JText::_('JAUTHOR'); ?>
-				</th>
-				<th width="10%">
-					<?php echo JText::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
-				</th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="15">
-					<?php echo $this->pagination->getListFooter(); ?>
-				</td>
-			</tr>
-		</tfoot>
-		<tbody>
-		<?php $i = 0; ?>
-		<?php foreach ($this->items as $item) : ?>
-			<tr class="row<?php echo $i % 2; ?>">
-				<td class="center hidden-phone">
-					<?php echo JHtml::_('grid.id', $i, $item->version_id); ?>
-				</td>
-				<td align="left">
-					<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
-						href="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1&version_id=' . $item->version_id);?>">
-						<?php echo JHtml::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
-					</a>
-					<?php if ($item->sha1_hash == $hash) :?>
-						<span class="icon-featured"></span>&nbsp;
-					<?php endif; ?>
-				</td>
-				<td align="left">
-					<?php echo htmlspecialchars($item->version_note); ?>
-				</td>
-				<td class="center">
-					<?php if ($item->keep_forever) : ?>
-						<a class="btn btn-micro active" rel="tooltip" href="javascript:void(0);"
-							onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
-							data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_OFF'); ?>">
-							<?php echo JText::_('JYES'); ?>&nbsp;<span class="icon-lock"></span>
+<div class="container-popup">
+
+	<div class="btn-group pull-right">
+		<button id="toolbar-load" type="submit" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo JRoute::_($loadUrl);?>">
+			<span class="icon-upload"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span></button>
+		<button id="toolbar-preview" type="button" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1');?>">
+			<span class="icon-search"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></span></button>
+		<button id="toolbar-compare" type="button" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . JSession::getFormToken() . '=1');?>">
+			<span class="icon-zoom-in"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span></button>
+		<button onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $deleteMessage; ?>');}else{ Joomla.submitbutton('history.keep')}" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>">
+			<span class="icon-lock"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></span></button>
+		<button onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $deleteMessage; ?>');}else{ Joomla.submitbutton('history.delete')}" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
+			<span class="icon-delete"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></span></button>
+	</div>
+
+	<div class="clearfix"></div>
+	<hr class="hr-condensed" />
+
+	<form action="<?php echo JRoute::_($formUrl);?>" method="post" name="adminForm" id="adminForm">
+		<table class="table table-striped table-condensed">
+			<thead>
+				<tr>
+					<th width="1%" class="center">
+						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+					</th>
+					<th width="15%">
+						<?php echo JText::_('JDATE'); ?>
+					</th>
+					<th width="15%" class="nowrap hidden-phone">
+						<?php echo JText::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
+					</th>
+					<th width="10%" class="nowrap">
+						<?php echo JText::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
+					</th>
+					<th width="15%" class="nowrap hidden-phone">
+						<?php echo JText::_('JAUTHOR'); ?>
+					</th>
+					<th width="10%" class="nowrap center">
+						<?php echo JText::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="15">
+						<?php echo $this->pagination->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
+			<?php $i = 0; ?>
+			<?php foreach ($this->items as $item) : ?>
+				<tr class="row<?php echo $i % 2; ?>">
+					<td class="center">
+						<?php echo JHtml::_('grid.id', $i, $item->version_id); ?>
+					</td>
+					<td>
+						<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
+							href="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1&version_id=' . $item->version_id);?>">
+							<?php echo JHtml::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
 						</a>
-					<?php else : ?>
-						<a class="btn btn-micro active" rel="tooltip" href="javascript:void(0);"
-							onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
-							data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_ON'); ?>">
-							<?php echo JText::_('JNO'); ?>
-						</a>
-					<?php endif; ?>
-				</td>
-				<td align="left">
-					<?php echo htmlspecialchars($item->editor); ?>
-				</td>
-				<td class="center">
-					<?php echo number_format((int) $item->character_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?>
-				</td>
-			</tr>
-			<?php $i++; ?>
-		<?php endforeach; ?>
-		</tbody>
-	</table>
-	<div>
-		<?php echo JHtml::_('form.token'); ?>
+						<?php if ($item->sha1_hash == $hash) :?>
+							<span class="icon-featured"></span>&nbsp;
+						<?php endif; ?>
+					</td>
+					<td class="hidden-phone">
+						<?php echo htmlspecialchars($item->version_note); ?>
+					</td>
+					<td>
+						<?php if ($item->keep_forever) : ?>
+							<a class="btn btn-mini active" rel="tooltip" href="javascript:void(0);"
+								onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
+								data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_OFF'); ?>">
+								<?php echo JText::_('JYES'); ?>&nbsp;<span class="icon-lock"></span>
+							</a>
+						<?php else : ?>
+							<a class="btn btn-mini active" rel="tooltip" href="javascript:void(0);"
+								onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
+								data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_ON'); ?>">
+								<?php echo JText::_('JNO'); ?>
+							</a>
+						<?php endif; ?>
+					</td>
+					<td class="hidden-phone">
+						<?php echo htmlspecialchars($item->editor); ?>
+					</td>
+					<td class="center">
+						<?php echo number_format((int) $item->character_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?>
+					</td>
+				</tr>
+				<?php $i++; ?>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-	</div>
-	</div>
-</form>
+		<?php echo JHtml::_('form.token'); ?>
+
+	</form>
+</div>

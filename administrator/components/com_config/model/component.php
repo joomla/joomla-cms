@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,6 +58,7 @@ class ConfigModelComponent extends ConfigModelForm
 	public function getForm($data = array(), $loadData = true)
 	{
 		$state = $this->getState();
+		$option = $state->get('component.option');
 
 		if ($path = $state->get('component.path'))
 		{
@@ -67,7 +68,7 @@ class ConfigModelComponent extends ConfigModelForm
 		else
 		{
 			// Add the search path for the admin component config.xml file.
-			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $state->get('component.option'));
+			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
 		// Get the form.
@@ -83,6 +84,10 @@ class ConfigModelComponent extends ConfigModelForm
 		{
 			return false;
 		}
+
+		$lang = JFactory::getLanguage();
+		$lang->load($option, JPATH_BASE, null, false, true)
+		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
 
 		return $form;
 	}
@@ -173,7 +178,7 @@ class ConfigModelComponent extends ConfigModelForm
 			throw new RuntimeException($table->getError());
 		}
 
-		$result = $dispatcher->trigger('onExtensionBeforeSave', array($context, &$table, false));
+		$result = $dispatcher->trigger('onExtensionBeforeSave', array($context, $table, false));
 
 			// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -182,7 +187,7 @@ class ConfigModelComponent extends ConfigModelForm
 		}
 
 		// Trigger the after save event.
-		$dispatcher->trigger('onExtensionAfterSave', array($context, &$table, false));
+		$dispatcher->trigger('onExtensionAfterSave', array($context, $table, false));
 
 		// Clean the component cache.
 		$this->cleanCache('_system', 0);

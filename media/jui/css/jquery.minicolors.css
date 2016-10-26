@@ -247,6 +247,20 @@
 	margin: 0px;
 }
 
+/* Input width depending on format */
+.minicolors-theme-bootstrap .hex {
+	width: 65px;
+}
+.minicolors-theme-bootstrap .keywords {
+	width: 100px;
+}
+.minicolors-theme-bootstrap .rgb {
+	width: 160px;
+}
+.minicolors-theme-bootstrap .rgba {
+	width: 220px;
+}
+
 /* When the input is disabled */
 .minicolors-theme-bootstrap .minicolors-input[disabled] {
 	background-color: #eee;
@@ -299,7 +313,7 @@
 .minicolors-theme-bootstrap .minicolors-slider,
 .minicolors-theme-bootstrap .minicolors-opacity-slider {
 	top: 6px;
-	left: 157px;
+	margin-left: 5px;
 }
 
 .minicolors-theme-bootstrap .minicolors-grid {

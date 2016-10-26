@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,7 +35,7 @@ class JCacheControllerOutput extends JCacheController
 	/**
 	 * Object to test locked state
 	 *
-	 * @var    object
+	 * @var    stdClass
 	 * @since  11.1
 	 */
 	protected $_locktest = null;
@@ -43,10 +43,10 @@ class JCacheControllerOutput extends JCacheController
 	/**
 	 * Start the cache
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  boolean  True if the cache is hit (false else)
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -55,8 +55,8 @@ class JCacheControllerOutput extends JCacheController
 		// If we have data in cache use that.
 		$data = $this->cache->get($id, $group);
 
-		$this->_locktest = new stdClass;
-		$this->_locktest->locked = null;
+		$this->_locktest             = new stdClass;
+		$this->_locktest->locked     = null;
 		$this->_locktest->locklooped = null;
 
 		if ($data === false)
@@ -101,21 +101,20 @@ class JCacheControllerOutput extends JCacheController
 	/**
 	 * Stop the cache buffer and store the cached data
 	 *
-	 * @return  boolean  True if cache stored
+	 * @return  boolean  True if the cache data was stored
 	 *
 	 * @since   11.1
 	 */
 	public function end()
 	{
 		// Get data from output buffer and echo it
-		$data = ob_get_contents();
-		ob_end_clean();
+		$data = ob_get_clean();
 		echo $data;
 
-		// Get id and group and reset them placeholders
-		$id = $this->_id;
-		$group = $this->_group;
-		$this->_id = null;
+		// Get the ID and group and reset the placeholders
+		$id           = $this->_id;
+		$group        = $this->_group;
+		$this->_id    = null;
 		$this->_group = null;
 
 		// Get the storage handler and store the cached data

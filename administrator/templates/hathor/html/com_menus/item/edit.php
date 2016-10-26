@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,10 +93,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					<?php $this->form->setFieldAttribute('link', 'readonly', 'false');?>
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
-				<?php endif; ?>
-
-				<?php if ($this->item->type == 'alias') : ?>
-					<li> <?php echo $this->form->getLabel('aliastip'); ?></li>
 				<?php endif; ?>
 
 				<?php if ($this->item->type != 'url') : ?>

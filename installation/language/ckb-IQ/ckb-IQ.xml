@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.2"
+	version="3.6"
 	client="installation">
 	<name>Kurdish Soranî (کوردى)</name>
 	<version>3.2.0</version>
 	<creationDate>January 2011</creationDate>
 	<author>Kurdish Soranî Translation team</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
 	<files>
 		<filename>ckb-IQ.ini</filename>
 	</files>

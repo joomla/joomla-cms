@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -130,7 +130,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<th class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>
 				</th>
-				<td>
+				<td class="pull-left break-word">
 					<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
 					<img src="<?php echo JUri::root();?>/media/system/images/calendar.png" style="border:1px;float:right" class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date), '', 0); ?>" />
 					<?php endif; ?>

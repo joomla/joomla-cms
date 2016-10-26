@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,16 +27,14 @@ $document = JFactory::getDocument();
 	<?php if ($document->direction != "rtl") : ?>
 	<li>
 		<a href="<?php echo JRoute::_($link);?>">
-			<strong><?php echo $name; ?></strong>
-		</a>
+			<strong><?php echo $name; ?></strong></a>
 		<small class="hasPopover" data-placement="right" title="<?php echo $name; ?>" data-content="<?php echo $desc; ?>"><?php echo $short_desc; ?></small>
 	</li>
 	<?php else : ?>
 	<li>
 		<small rel="popover" data-placement="left" title="<?php echo $name; ?>" data-content="<?php echo $desc; ?>"><?php echo $short_desc; ?></small>
 		<a href="<?php echo JRoute::_($link); ?>">
-			<strong><?php echo $name; ?></strong>
-		</a>
+			<strong><?php echo $name; ?></strong></a>
 	</li>
 	<?php endif; ?>
 <?php endforeach; ?>

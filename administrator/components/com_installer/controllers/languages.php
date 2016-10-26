@@ -2,11 +2,13 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License, see LICENSE.php
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Languages Installer Controller
@@ -81,13 +83,12 @@ class InstallerControllerLanguages extends JControllerLegacy
 
 		// Get array of selected languages
 		$lids = $this->input->get('cid', array(), 'array');
-		JArrayHelper::toInteger($lids, array());
+		$lids = ArrayHelper::toInteger($lids, array());
 
 		if (!$lids)
 		{
 			// No languages have been selected
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));
 		}
 		else
 		{

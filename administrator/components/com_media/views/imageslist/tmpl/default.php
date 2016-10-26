@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,16 @@ if ($lang->isRtl())
 }
 
 JFactory::getDocument()->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
+JFactory::getDocument()->addStyleDeclaration(
+	"
+		@media (max-width: 767px) {
+			li.imgOutline.thumbnail.height-80.width-80.center {
+				float: left;
+				margin-left: 15px;
+			}
+		}
+	"
+);
 ?>
 <?php if (count($this->images) > 0 || count($this->folders) > 0) : ?>
 	<ul class="manager thumbnails">

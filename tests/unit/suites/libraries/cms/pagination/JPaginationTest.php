@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,7 +59,7 @@ class JPaginationTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->app);
 		parent::tearDown();
 	}
 
@@ -447,7 +447,7 @@ class JPaginationTest extends TestCase
 
 		$result = $pagination->getPagesLinks();
 
-		$this->assertEquals($result, $expected, 'The expected output of the pagination is incorrect');
+		$this->assertXmlStringEqualsXmlString($result, $expected, 'The expected output of the pagination is incorrect');
 
 		unset($pagination);
 	}
@@ -651,7 +651,7 @@ class JPaginationTest extends TestCase
 
 		$string = TestReflection::invoke($pagination, '_list_render', $list);
 
-		$this->assertEquals($string, $expected, 'The list render method is not outputting the expected results');
+		$this->assertXmlStringEqualsXmlString($string, $expected, 'The list render method is not outputting the expected results');
 
 		unset($pagination);
 	}

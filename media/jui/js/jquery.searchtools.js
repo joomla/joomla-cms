@@ -232,7 +232,7 @@
 			$(chosenId).removeClass('active');
 		},
 		getFilterFields: function () {
-			return this.filterContainer.find('select');
+			return this.filterContainer.find('select,input');
 		},
 		getListFields: function () {
 			return this.listContainer.find('select');
