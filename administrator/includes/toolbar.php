@@ -634,7 +634,7 @@ abstract class JToolbarHelper
 	
 
 	
-	public static function group($buttons = array(), $class = 'btn-success')
+	public static function saveGroup($buttons = array(), $class = 'btn-success')
 	{
 		// Options array for JLayout
 		$options          = array();
@@ -646,20 +646,20 @@ abstract class JToolbarHelper
 		$bar->appendButton('Custom', $layout->render($options));
 
 		$i = 0;
-		foreach ($buttons as $button)
+		foreach ($buttons as $function => $task)
 		{
-			$options['group'] = $button['group'];
+			$options['group'] = true;
 
 			if ($i++ == 0)
 			{
-				call_user_func_array('JToolbarHelper::' . $button['function'], array($button['task']));
+				call_user_func_array('JToolbarHelper::' . $function, array($task));
 
 				$layout = new JLayoutFile('joomla.toolbar.group.groupmid');
 				$bar->appendButton('Custom', $layout->render($options));
 			}
 			else
 			{
-				call_user_func_array('JToolbarHelper::' . $button['function'], array($button['task']));
+				call_user_func_array('JToolbarHelper::' . $function, array($task));
 			}
 		}
 
