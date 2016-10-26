@@ -27,14 +27,13 @@ JFactory::getDocument()->addScriptDeclaration(
 	jQuery(document).ready(function() {
 		jQuery("#jform_image").on("change", function() {
 			var flag = this.value;
-			if (!jQuery("#flag img").attr("src")) {
-				jQuery("#flag img").attr("src", "' . JUri::root(true) . '" + "/media/mod_languages/images/" + flag + ".gif");
-			} else {
-				jQuery("#flag img").attr("src", function(index, attr) {
-					return attr.replace(jQuery("#flag img").attr("title") + ".gif", flag + ".gif")
-				})
+			if (flag) {
+				jQuery("#flag img").attr("src", "' . JUri::root(true) . '" + "/media/mod_languages/images/" + flag + ".gif").attr("alt", flag);
 			}
-			jQuery("#flag img").attr("title", flag).attr("alt", flag);
+			else
+			{
+				jQuery("#flag img").removeAttr("src").removeAttr("alt");
+			}
 	});
 });'
 );
@@ -59,7 +58,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					<div class="controls">
 						<?php echo $this->form->getInput('image'); ?>
 						<span id="flag">
-							<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), array('title' => $this->form->getValue('image')), true); ?>
+							<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), null, true); ?>
 						</span>
 					</div>
 			</div>

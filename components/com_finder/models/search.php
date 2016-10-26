@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 // Register dependent classes.
@@ -376,7 +377,7 @@ class FinderModelSearch extends JModelList
 		foreach ($this->includedTerms as $token => $ids)
 		{
 			// Get the mapping table suffix.
-			$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
+			$suffix = StringHelper::substr(md5(StringHelper::substr($token, 0, 1)), 0, 1);
 
 			// Initialize the mapping group.
 			if (!array_key_exists($suffix, $maps))
@@ -523,7 +524,7 @@ class FinderModelSearch extends JModelList
 					do
 					{
 						// Get the map table suffix.
-						$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
+						$suffix = StringHelper::substr(md5(StringHelper::substr($token, 0, 1)), 0, 1);
 
 						// Adjust the query to join on the appropriate mapping table.
 						$query = clone($base);
@@ -654,7 +655,7 @@ class FinderModelSearch extends JModelList
 		foreach ($this->includedTerms as $token => $ids)
 		{
 			// Get the mapping table suffix.
-			$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
+			$suffix = StringHelper::substr(md5(StringHelper::substr($token, 0, 1)), 0, 1);
 
 			// Initialize the mapping group.
 			if (!array_key_exists($suffix, $maps))
@@ -844,7 +845,7 @@ class FinderModelSearch extends JModelList
 					do
 					{
 						// Get the map table suffix.
-						$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
+						$suffix = StringHelper::substr(md5(StringHelper::substr($token, 0, 1)), 0, 1);
 
 						// Adjust the query to join on the appropriate mapping table.
 						$query = clone($base);
@@ -942,7 +943,7 @@ class FinderModelSearch extends JModelList
 		foreach ($this->excludedTerms as $token => $id)
 		{
 			// Get the mapping table suffix.
-			$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
+			$suffix = StringHelper::substr(md5(StringHelper::substr($token, 0, 1)), 0, 1);
 
 			// Initialize the mapping group.
 			if (!array_key_exists($suffix, $maps))
@@ -1125,7 +1126,7 @@ class FinderModelSearch extends JModelList
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
 		$order = $input->getWord('filter_order', $params->get('sort_order', 'relevance'));
-		$order = JString::strtolower($order);
+		$order = StringHelper::strtolower($order);
 		switch ($order)
 		{
 			case 'date':
@@ -1156,7 +1157,7 @@ class FinderModelSearch extends JModelList
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
 		$dirn = $input->getWord('filter_order_Dir', $params->get('sort_direction', 'desc'));
-		$dirn = JString::strtolower($dirn);
+		$dirn = StringHelper::strtolower($dirn);
 		switch ($dirn)
 		{
 			case 'asc':
