@@ -2,9 +2,11 @@
  * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-"use strict";
+
 
 (function (window, Joomla) {
+	"use strict";
+
 	jQuery(document).ready(function() {
 		var cm = CodeMirror, $ = jQuery;
 
@@ -58,19 +60,16 @@
 
 		for(var i = 0, l = editors.length; i < l; i++) {
 			var editor = editors[i].getElementsByTagName('textarea')[0];
+			var newOptions = Joomla.extend({'field': editor}, options.options);
 
 			/** Register Editor */
-			Joomla.editors.instances[editor.id] = CodeMirror.fromTextArea(editor, options.options);
-
+			var instance = CodeMirror.fromTextArea(editor, newOptions);
+			Joomla.editors.instances[editor.id] = instance;
 			//Joomla.editors.instances[editor.id].setValue(editor.value);
 
 			/** On save **/
-			editor.form.addEventListener('submit', function() {
-				var editors = document.querySelectorAll('.js-editor-cm');
-				for(var i = 0, l = editors.length; i < l; i++) {
-					var editor = editors[i].getElementsByTagName('textarea')[0];
-					editor.value = Joomla.editors.instances[editor.id].getValue();
-				}
+			instance.options.field.form.addEventListener('submit', function() {
+				instance.options.field.value = instance.getValue();
 			});
 		}
 	});
