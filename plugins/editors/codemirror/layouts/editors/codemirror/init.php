@@ -83,13 +83,14 @@ JFactory::getDocument()->addScriptDeclaration(
 
 			// Initialize any CodeMirrors on page load and when a subform is added
 			$(function ($) {
-				initCodeMirror(null, $('body'));
+				initCodeMirror();
 				$('body').on('subform-row-add', initCodeMirror);
 			});
 
 			function initCodeMirror(event, container)
 			{
-				$('textarea.codemirror-source', container).each(function () {
+				container = container || document;
+				$(container).find('textarea.codemirror-source').each(function () {
 					var input = $(this).removeClass('codemirror-source');
 					var id = input.prop('id');
 
