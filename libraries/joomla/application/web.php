@@ -581,7 +581,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @return  void
 	 *
-	 * @since 3.6.4
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected function setCacheHeaders()
 	{
