@@ -52,9 +52,8 @@ class NewsfeedsViewCategory extends JViewCategory
 		foreach ($this->items as $item)
 		{
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp       = new Registry($item->params);
 			$item->params = clone $this->params;
-			$item->params->merge($temp);
+			$item->params->merge($item->params);
 		}
 
 		return parent::display($tpl);
