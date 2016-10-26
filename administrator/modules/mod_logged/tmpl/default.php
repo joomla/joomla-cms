@@ -31,7 +31,9 @@ JHtml::_('bootstrap.tooltip');
 				</strong>
 
 				<small class="small hasTooltip" title="<?php echo JHtml::tooltipText('JCLIENT'); ?>">
-					<?php if ($user->client_id) : ?>
+					<?php if ($user->client_id === null) : ?>
+						<?php // Don't display a client ?>
+					<?php elseif ($user->client_id) : ?>
 						<?php echo JText::_('JADMINISTRATION'); ?>
 					<?php else : ?>
 						<?php echo JText::_('JSITE'); ?>

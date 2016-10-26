@@ -63,7 +63,7 @@ define(['jquery', 'testsRoot/sendtestmail/spec-setup', 'jasmineJquery'], functio
 				request.respondWith(mailResponses.success);
 			});
 
-			it("should make a AJAX request of type POST", function() {
+			it("should make an AJAX request of type POST", function() {
 				console.log(request);
 				expect(request.method).toBe('POST');
 			});

@@ -12,13 +12,19 @@
 	<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
 		<fieldset name="request"
+			addfieldpath="/administrator/components/com_categories/models/fields">
 		>
-
-			<field name="id" type="category"
+			<field 
+				name="id"
+				type="modal_category"
+				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
-				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				required="true"
+				select="true"
+				new="true"
+				edit="true"
+				clear="true"
 			/>
 		</fieldset>
 	</fields>
@@ -194,6 +200,30 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="list_show_votes"
+				type="list"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JGLOBAL_LIST_VOTES_LABEL"
+				description="JGLOBAL_LIST_VOTES_DESC"
+			>
+				<option value="" requires="vote">JGLOBAL_USE_GLOBAL</option>
+				<option value="1" requires="vote">JSHOW</option>
+				<option value="0" requires="vote">JHIDE</option>
+			</field>
+
+			<field name="list_show_ratings"
+				type="list"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JGLOBAL_LIST_RATINGS_LABEL"
+				description="JGLOBAL_LIST_RATINGS_DESC"
+			>
+				<option value="" requires="vote">JGLOBAL_USE_GLOBAL</option>
+				<option value="1" requires="vote">JSHOW</option>
+				<option value="0" requires="vote">JHIDE</option>
+			</field>
+
 			<field
 			name="spacer1"
 			type="spacer"
@@ -227,6 +257,10 @@
 				<option value="rhits">JGLOBAL_LEAST_HITS</option>
 				<option value="random">JGLOBAL_RANDOM_ORDER</option>
 				<option value="order">JGLOBAL_ORDERING</option>
+				<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+				<option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+				<option value="rank" requires="vote"> JGLOBAL_RATINGS_DESC</option>
+				<option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
 			</field>
 
 			<field name="order_date" type="list"
@@ -345,6 +379,17 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			</field>
+			
+			<field
+				name="show_associations"
+				type="list"
+				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
+				description="JGLOBAL_SHOW_ASSOCIATIONS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 			</field>
 
 			<field name="show_author" type="list"
