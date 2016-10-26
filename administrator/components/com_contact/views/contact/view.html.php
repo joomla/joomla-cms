@@ -115,11 +115,11 @@ class ContactViewContact extends JViewLegacy
 			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
 			{
 				JToolbarHelper::saveGroup(
-					array(
+					[
 						'apply'    => 'contact.apply',
 						'save'     => 'contact.save',
 						'save2new' => 'contact.save2new'
-					),
+					],
 					'btn-success'
 				);
 			}
