@@ -632,7 +632,6 @@ abstract class JToolbarHelper
 		$bar->appendButton('Custom', $layout->render($options), 'versions');
 	}
 
-
 	/**
 	 * Writes a save button for a given option, with an additional dropdown
 	 *
@@ -687,7 +686,6 @@ abstract class JToolbarHelper
 		$layout = new JLayoutFile('joomla.toolbar.group.groupclose');
 		$bar->appendButton('Custom', $layout->render());
 	}
-
 
 	/**
 	 * Displays a modal button

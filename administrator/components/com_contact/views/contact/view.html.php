@@ -130,30 +130,37 @@ class ContactViewContact extends JViewLegacy
 		{
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+			
+			$toolbarButtons = [];
 
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				JToolbarHelper::apply('contact.apply');
-				JToolbarHelper::save('contact.save');
+				$toolbarButtons['apply'] = 'contact.apply';
+				$toolbarButtons['save']  = 'contact.save';
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
 				if ($canDo->get('core.create'))
 				{
-					JToolbarHelper::save2new('contact.save2new');
+					$toolbarButtons['save2new'] = 'contact.save2new';
 				}
 			}
 
 			// If checked out, we can still save
 			if ($canDo->get('core.create'))
 			{
-				JToolbarHelper::save2copy('contact.save2copy');
+				$toolbarButtons['save2copy'] = 'contact.save2copy';
 			}
 
 			if ($this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				JToolbarHelper::versions('com_contact.contact', $this->item->id);
 			}
+
+			JToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
 
 			JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
