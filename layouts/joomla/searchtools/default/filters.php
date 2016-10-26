@@ -24,7 +24,7 @@ foreach ($filters as $field)
 			$showonarr[] = array(
 				'field'  => $showon[0],
 				'values' => explode(',', $showon[1]),
-				'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
+				'op'     => preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches) ? $matches[1] : ''
 			);
 		}
 		$data['view']->filterForm->setFieldAttribute($field->fieldname, 'dataShowOn', json_encode($showonarr), $field->group);
@@ -36,7 +36,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 ?>
 <?php if ($filters) : ?>
 	<?php foreach ($filters as $fieldName => $field) : ?>
-		<?php if ($fieldName != 'filter_search') : ?>
+		<?php if ($fieldName !== 'filter_search') : ?>
 			<?php
 			$showOn = '';
 			if ($showOnData = $field->getAttribute('dataShowOn'))
