@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
+JHtml::_('jquery.framework');
 JHtml::_('behavior.formvalidator');
 
 JFactory::getDocument()->addScriptDeclaration("

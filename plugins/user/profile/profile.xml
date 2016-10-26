@@ -154,6 +154,10 @@
 					type="modal_article"
 					label="PLG_USER_PROFILE_FIELD_TOS_ARTICLE_LABEL"
 					description="PLG_USER_PROFILE_FIELD_TOS_ARTICLE_DESC"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
 				/>
 
 				<field
