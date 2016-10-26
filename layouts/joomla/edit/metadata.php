@@ -22,7 +22,7 @@ $fieldSets = $form->getFieldsets('metadata');
 
 	<?php
 	// Include the real fields in this panel.
-	if ($name == 'jmetadata')
+	if ($name === 'jmetadata')
 	{
 		echo $form->renderField('metadesc');
 		echo $form->renderField('metakey');
@@ -31,7 +31,7 @@ $fieldSets = $form->getFieldsets('metadata');
 
 	foreach ($form->getFieldset($name) as $field)
 	{
-		if ($field->name != 'jform[metadata][tags][]')
+		if ($field->name !== 'jform[metadata][tags][]')
 		{
 			echo $field->renderField();
 		}

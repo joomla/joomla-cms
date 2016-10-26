@@ -5951,18 +5951,6 @@ fieldset.radio.btn-group {
 }
 /* Input Prepend Chosen Select Boxes */
 /* Common styling for Chosen Select Boxes with Input Prepend/Append */
-.input-prepend .chzn-container-single .chzn-single,
-.input-append .chzn-container-single .chzn-single {
-  border-color: #cccccc;
-  height: 26px;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.input-prepend .chzn-container-single .chzn-drop,
-.input-append .chzn-container-single .chzn-drop {
-  border-color: #cccccc;
-}
 .input-prepend > .add-on,
 .input-append > .add-on {
   vertical-align: top;
@@ -7254,16 +7242,18 @@ a:focus {
 .view-login .input-medium {
   width: 176px;
 }
+.view-login #lang_chzn {
+  width: 233px !important;
+}
+.view-login #lang_chzn .chzn-single div {
+  width: 43px;
+}
+.view-login .input-prepend .add-on,
+.view-login .controls .btn-group > .btn {
+  margin-left: 0;
+}
 .navbar-inverse {
   color: #333333;
-}
-.login .chzn-single {
-  width: 222px !important;
-}
-.login .chzn-container,
-.login .chzn-drop {
-  width: 230px !important;
-  max-width: 230px !important;
 }
 .login .btn-large {
   margin-top: 15px;
