@@ -233,15 +233,14 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 		// Works as a flag to include/exclude the data in the copied table:
 		if ($withData)
 		{
-			 $whereClause = ' where 11 = 11';
+			$whereClause = ' where 11 = 11';
 		}
 		else
 		{
 			$whereClause = ' where 11 = 1';
 		}
 
-		$query->setQuery('CREATE TABLE ' . $this->quoteName($toTable) .
-							' as SELECT * FROM ' . $this->quoteName($fromTable) . $whereClause);
+		$query->setQuery('CREATE TABLE ' . $this->quoteName($toTable) . ' as SELECT * FROM ' . $this->quoteName($fromTable) . $whereClause);
 
 		$this->setQuery($query);
 
@@ -273,9 +272,12 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		$this->setQuery($query);
 
-		try {
+		try
+		{
 			$this->execute();
-		} catch(JDatabaseExceptionExecuting $e) {
+		}
+		catch(JDatabaseExceptionExecuting $e)
+		{
 			/**
 			* Code 942 is for when the table doesn't exist
 			* so we can safely ignore that code and catch any others.
@@ -285,7 +287,6 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 				throw $e;
 			}
 		}
-
 
 		return $this;
 	}
@@ -694,7 +695,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 * Mainly needed when using the transaction
 	 * methods within the driver.
 	 *
-	 * @param   int  $dmode  Oracle Commit Mode
+	 * @param   int  $mode  Oracle Commit Mode
 	 *
 	 * @return boolean
 	 *
@@ -895,7 +896,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 * @throws  RuntimeException
 	 * @throws  Exception
 	 */
-	public function execute($commitMode = OCI_COMMIT_ON_SUCCESS)
+	public function execute()
 	{
 		$this->connect();
 
