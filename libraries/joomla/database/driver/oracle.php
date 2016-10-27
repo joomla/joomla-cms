@@ -218,9 +218,11 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	{
 		$this->connect();
 
-		// Must use escape() method since the table
-		// identifier can't be used as a bind variable
-		// in this case:
+		/**
+		*  Must use escape() method since the table
+		* identifier can't be used as a bind variable
+		* in this case:
+		*/
 		$query = $this->getQuery(true)
 			->setQuery('DROP TABLE ' . $this->escape($tableName));
 
