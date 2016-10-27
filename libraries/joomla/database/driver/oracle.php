@@ -1140,11 +1140,12 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		if (!$toSavepoint || $this->transactionDepth <= 1)
 		{
-			oci_commit($this->connection);
-
-			// Reset internal values:
-			$this->transactionDepth = 0;
-			$this->setCommitMode(OCI_COMMIT_ON_SUCCESS);
+			if (oci_commit($this->connection))
+			{
+				// Reset internal values:
+				$this->transactionDepth = 0;
+				$this->setCommitMode(OCI_COMMIT_ON_SUCCESS);
+			}
 
 			return;
 		}
@@ -1168,9 +1169,11 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		if (!$toSavepoint || $this->transactionDepth <= 1)
 		{
-			if ($this->setQuery('ROLLBACK')->execute())
+			if (oci_rollback($this->connection))
 			{
+				// Reset internal values:
 				$this->transactionDepth = 0;
+				$this->setCommitMode(OCI_COMMIT_ON_SUCCESS);
 			}
 
 			return;
