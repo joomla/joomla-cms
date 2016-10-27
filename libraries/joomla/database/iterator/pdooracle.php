@@ -14,6 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  12.1
  */
-class JDatabaseIteratorOracle extends JDatabaseIteratorPdo
+class JDatabaseIteratorPdooracle extends JDatabaseIteratorPdo
 {
 }
