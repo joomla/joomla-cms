@@ -41,20 +41,20 @@ document.addEventListener('DOMContentLoaded', function() {
 		document.addEventListener("touchstart", function() {},false);
 
 		var draggableTable = dragula(
-				[container],
-				{
-					/** Y axis is considered when determining where an element would be dropped **/
-					direction: 'vertical',
-					/** elements are moved by default, not copied **/
-					copy: false,
-					/** elements in copy-source containers can be reordered **/
-					copySortSource: false,
-					/** spilling will put the element back where it was dragged from, if this is true **/
-					revertOnSpill: true,
-					/** spilling will `.remove` the element, if this is true **/
-					removeOnSpill: false
-				}
-			);
+			[container],
+			{
+				/** Y axis is considered when determining where an element would be dropped **/
+				direction: 'vertical',
+				/** elements are moved by default, not copied **/
+				copy: false,
+				/** elements in copy-source containers can be reordered **/
+				copySortSource: true,
+				/** spilling will put the element back where it was dragged from, if this is true **/
+				revertOnSpill: true,
+				/** spilling will `.remove` the element, if this is true **/
+				removeOnSpill: false
+			}
+		);
 
 		var getOrderData = function (container, direction) {
 			var i, l, result = [],
@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		/** Disable any elements that do not belong in the same group **/
 		draggableTable.on('drag', function(el, source) {
-
 			if (isNested) {
 				var rows = source.getElementsByTagName('tr');
 				for (var i = 0, l = rows.length; l>i; i++) {
@@ -96,6 +95,12 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				}
 			}
+		});
+
+		/** Alter the class of the shadow element **/
+		draggableTable.on('cloned', function(clone, original) {
+			var el = document.querySelector('.gu-mirror');
+			el.classList.add('table');
 		});
 
 		/** The logic for the drop event **/
