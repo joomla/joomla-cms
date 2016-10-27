@@ -11,32 +11,35 @@ Joomla.editors = Joomla.editors || {};
 
 // An object to hold each editor instance on page, only define if not defined.
 Joomla.editors.instances = Joomla.editors.instances || {
-		/**
-		 * Editors MUST register, per instance, the following:
-		 *
-		 * getValue         Type  Function
-		 *          Should return the complete data from the editor
-		 *          Example: function () { return this.element.value; }
-		 * setValue         Type  Function
-		 *          Should replace the complete data of the editor
-		 *          Example: function (text) { return this.element.value = text; }
-		 * replaceSelection  Type  Function
-		 *          Should replace the selected text of the editor
-		 *          If nothing selected, will insert the data at the cursor
-		 *          Example: function (text) { return insertAtCursor(this.element, text); }
-		 *
-		 * USAGE (jform_articletext is the editor id)
-		 * getValue:
-		 *      Joomla.editors.instances['jform_articletext'].getValue();
-		 * setValue:
-		 *      Joomla.editors.instances['jform_articletext'].setValue('Joomla! rocks');
-		 * replaceSelection:
-		 *      Joomla.editors.instances['jform_articletext'].replaceSelection('Joomla! rocks')
-		 *
-		 * *********************************************************
-		 * ANY INTERACTION WITH THE EDITORS SHOULD USE THE ABOVE API
-		 * *********************************************************
-		 */
+	/**
+	 * *****************************************************************
+	 * All Editors MUST register, per instance, the following callbacks:
+	 * *****************************************************************
+	 *
+	 * getValue         Type  Function  Should return the complete data from the editor
+	 *                                  Example: function () { return this.element.value; }
+	 * setValue         Type  Function  Should replace the complete data of the editor
+	 *                                  Example: function (text) { return this.element.value = text; }
+	 * replaceSelection Type  Function  Should replace the selected text of the editor
+	 *                                  If nothing selected, will insert the data at the cursor
+	 *                                  Example: function (text) { return insertAtCursor(this.element, text); }
+	 *
+	 * USAGE (assuming that jform_articletext is the textarea id)
+	 * {
+	 *   To get the current editor value:
+	 *      Joomla.editors.instances['jform_articletext'].getValue();
+	 *   To set the current editor value:
+	 *      Joomla.editors.instances['jform_articletext'].setValue('Joomla! rocks');
+	 *   To replace(selection) or insert a value at  the current editor cursor:
+	 *      replaceSelection: Joomla.editors.instances['jform_articletext'].replaceSelection('Joomla! rocks')
+	 * }
+	 *
+	 * *********************************************************
+	 * ANY INTERACTION WITH THE EDITORS SHOULD USE THE ABOVE API
+	 * *********************************************************
+	 *
+	 * jInsertEditorText() @deprecated 4.0
+	 */
 	};
 
 (function( Joomla, document ) {
