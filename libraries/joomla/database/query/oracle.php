@@ -50,7 +50,7 @@ class JDatabaseQueryOracle extends JDatabaseQuery implements JDatabaseQueryPrepa
 	 *
 	 * @since   12.1
 	 */
-	public function bind($key = null, &$value = null, $dataType = SQLT_CHR, $length = 0, $driverOptions = array())
+	public function bind($key = null, &$value = null, $dataType = SQLT_CHR, $length = -1, $driverOptions = array())
 	{
 		// Case 1: Empty Key (reset $bounded array)
 		if (empty($key))
