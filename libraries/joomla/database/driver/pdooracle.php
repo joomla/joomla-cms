@@ -271,7 +271,7 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 
 		$query->select('*');
 		$query->from('ALL_TAB_COLUMNS');
-		$query->where('table_name = :tableName');
+		$query->where('table_name = UPPER(:tableName)');
 
 		$prefixedTable = str_replace('#__', strtoupper($this->tablePrefix), $table);
 		$query->bind(':tableName', $prefixedTable);
@@ -321,8 +321,8 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 
 		$table = strtoupper($table);
 		$query->select('*')
-			->from('ALL_CONSTRAINTS')
-			->where('table_name = :tableName')
+			->from('ALL_CONSTRAINTS NATURAL JOIN ALL_CONS_COLUMNS')
+			->where('table_name = UPPER(:tableName)')
 			->bind(':tableName', $table);
 
 		$this->setQuery($query);
@@ -363,7 +363,7 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 
 		if ($databaseName)
 		{
-			$query->where('owner = :database')
+			$query->where('owner = UPPER(:database)')
 				->bind(':database', $databaseName);
 		}
 
