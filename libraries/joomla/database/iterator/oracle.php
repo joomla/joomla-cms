@@ -97,7 +97,7 @@ class JDatabaseIteratorOracle extends JDatabaseIterator
 	*/
 	public function toLower()
 	{
-	    $this->tolower = true;
+		$this->tolower = true;
 	}
 
 	/**
@@ -109,7 +109,7 @@ class JDatabaseIteratorOracle extends JDatabaseIterator
 	*/
 	public function toUpper()
 	{
-	    $this->tolower = false;
+		$this->tolower = false;
 	}
 
 	/**
@@ -121,7 +121,7 @@ class JDatabaseIteratorOracle extends JDatabaseIterator
 	*/
 	public function returnLobValues()
 	{
-	    $this->returnlobs = true;
+		$this->returnlobs = true;
 	}
 
 	/**
@@ -132,7 +132,7 @@ class JDatabaseIteratorOracle extends JDatabaseIterator
 	*/
 	public function returnLobObjects()
 	{
-	    $this->returnlobs = false;
+		$this->returnlobs = false;
 	}
 
 	/**
@@ -146,29 +146,29 @@ class JDatabaseIteratorOracle extends JDatabaseIterator
 	*/
 	public function getMode($numeric = false)
 	{
-	    if ($numeric === false)
-	    {
-	        if ($this->returnlobs)
-	        {
-	            $mode = OCI_ASSOC+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
-	        }
-	        else
-	        {
-	            $mode = OCI_ASSOC+OCI_RETURN_NULLS;
-	        }
-	    }
-	    else
-	    {
-	        if ($this->returnlobs)
-	        {
-	            $mode = OCI_NUM+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
-	        }
-	        else
-	        {
-	            $mode = OCI_NUM+OCI_RETURN_NULLS;
-	        }
-	    }
+		if ($numeric === false)
+		{
+			if ($this->returnlobs)
+			{
+				$mode = OCI_ASSOC+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
+			}
+			else
+			{
+				$mode = OCI_ASSOC+OCI_RETURN_NULLS;
+			}
+		}
+		else
+		{
+			if ($this->returnlobs)
+			{
+				$mode = OCI_NUM+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
+			}
+			else
+			{
+				$mode = OCI_NUM+OCI_RETURN_NULLS;
+			}
+		}
 
-	    return $mode;
+		return $mode;
 	}
 }
