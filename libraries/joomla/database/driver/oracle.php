@@ -66,7 +66,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
     *
     * @var int
     */
-    protected $numRows = 0;
+	protected $numRows = 0;
 
 	/**
     * Is used to decide whether a result set
@@ -74,13 +74,13 @@ class JDatabaseDriverOracle extends JDatabaseDriver
     *
     * @var boolean
     */
-    protected $tolower = true;
+	protected $tolower = true;
 
-    /**
+	/**
     * Is used to decide whether a result set
     * should return the LOB values or the LOB objects
     */
-    protected $returnlobs = true;
+	protected $returnlobs = true;
 
 	/**
 	 * @var    resource  The prepared statement.
@@ -146,13 +146,13 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 			return;
 		}
 
-		// perform a number of fatality checks, then return gracefully
+		// Perform a number of fatality checks, then return gracefully
 		if (!function_exists('oci_connect'))
 		{
 			throw new JDatabaseExceptionConnecting('The oci8 extension may not be available.', 1);
 		}
 
-		// connect to the server
+		// Connect to the server
 		$user = $this->options['user'];
 		$password = $this->options['password'];
 		$host = $this->options['host'];
@@ -566,9 +566,9 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	/**
 	 * Sets the SQL statement string for later execution.
 	 *
-	 * @param   mixed    $query          The SQL statement to set either as a JDatabaseQuery object or a string.
-	 * @param   integer  $offset         The affected row offset to set.
-	 * @param   integer  $limit          The maximum affected rows to set.
+	 * @param   mixed    $query   The SQL statement to set either as a JDatabaseQuery object or a string.
+	 * @param   integer  $offset  The affected row offset to set.
+	 * @param   integer  $limit   The maximum affected rows to set.
 	 *
 	 * @return  JDatabaseDriver  This object to support method chaining.
 	 *
@@ -1225,73 +1225,82 @@ class JDatabaseDriverOracle extends JDatabaseDriver
     *
     * @return void
     */
-    public function toLower()
-    {
-        $this->tolower = true;
-    }
+	public function toLower()
+	{
+		$this->tolower = true;
+	}
 
-    /**
-    * Sets the $tolower variable to false
-    * so that field names will be created
-    * using uppercase values.
-    *
-    * @return void
-    */
-    public function toUpper()
-    {
-        $this->tolower = false;
-    }
+	/**
+	* Sets the $tolower variable to false
+	* so that field names will be created
+	* using uppercase values.
+	*
+	* @return void
+	*/
+	public function toUpper()
+	{
+		$this->tolower = false;
+	}
 
-    /**
-    * Sets the $returnlobs variable to true
-    * so that LOB object values will be
-    * returned rather than an OCI-Lob Object.
-    *
-    * @return void
-    */
-    public function returnLobValues()
-    {
-        $this->returnlobs = true;
-    }
+	/**
+	* Sets the $returnlobs variable to true
+	* so that LOB object values will be
+	* returned rather than an OCI-Lob Object.
+	*
+	* @return void
+	*/
+	public function returnLobValues()
+	{
+		$this->returnlobs = true;
+	}
 
-    /**
-    * Sets the $returnlobs variable to false
-    * so that OCI-Lob Objects will be returned.
-    *
-    * @return void
-    */
-    public function returnLobObjects()
-    {
-        $this->returnlobs = false;
-    }
+	/**
+	* Sets the $returnlobs variable to false
+	* so that OCI-Lob Objects will be returned.
+	*
+	* @return void
+	*/
+	public function returnLobObjects()
+	{
+		$this->returnlobs = false;
+	}
 
-    /**
-    * Depending on the value for $returnlobs,
+	/**
+	* Depending on the value for $returnlobs,
     * this method returns the proper constant
     * combinations to be passed to the oci* functions
     *
-    * @return int
-    */
-    public function getMode($numeric = false)
-    {
-        if ($numeric === false) {
-            if ($this->returnlobs) {
-                $mode = OCI_ASSOC+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
-            }
-            else {
-                $mode = OCI_ASSOC+OCI_RETURN_NULLS;
-            }
-        } else {
-            if ($this->returnlobs) {
-                $mode = OCI_NUM+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
-            }
-            else {
-                $mode = OCI_NUM+OCI_RETURN_NULLS;
-            }
-        }
+    * @param   bool  $numeric  Assoc or Numeric Mode
+    *
+	* @return int
+	*/
+	public function getMode($numeric = false)
+	{
+		if ($numeric === false)
+		{
+			if ($this->returnlobs)
+			{
+				$mode = OCI_ASSOC+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
+			}
+			else
+			{
+				$mode = OCI_ASSOC+OCI_RETURN_NULLS;
+			}
+		}
+		else
+		{
+			if ($this->returnlobs)
+			{
+				$mode = OCI_NUM+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
+			}
+			else
+			{
+				$mode = OCI_NUM+OCI_RETURN_NULLS;
+			}
+		}
 
-        return $mode;
-    }
+		return $mode;
+	}
 
 	/**
 	 * Return the query string to create new Database.
