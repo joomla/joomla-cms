@@ -66,13 +66,13 @@ class JDatabaseDriverOracle extends JDatabaseDriver
     *
     * @var boolean
     */
-    var $tolower = true;
+    protected $tolower = true;
 
     /**
     * Is used to decide whether a result set
     * should return the LOB values or the LOB objects
     */
-    var $returnlobs = true;
+    protected $returnlobs = true;
 
 	/**
 	 * @var    resource  The prepared statement.
@@ -292,6 +292,34 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	public function getDateFormat()
 	{
 		return $this->dateformat;
+	}
+
+	/**
+	 * Get a new iterator on the current query.
+	 *
+	 * @param   string  $column  An option column to use as the iterator key.
+	 * @param   string  $class   The class of object that is returned.
+	 *
+	 * @return  JDatabaseIterator  A new database iterator.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function getIterator($column = null, $class = 'stdClass')
+	{
+		$iterator = parent::getIterator($column, $class);
+
+		if (!$this->tolower)
+		{
+			$iterator->toUpper();
+		}
+
+		if (!$this->returnlobs)
+		{
+			$iterator->returnLobObjects();
+		}
+
+		return $iterator;
 	}
 
 	/**
