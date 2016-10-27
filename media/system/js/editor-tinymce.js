@@ -29,26 +29,6 @@
 			for(var i = 0, l = editors.length; i < l; i++) {
 				var editor = document.querySelector('textarea');
 				this.setupEditor(editor, pluginOptions);
-
-				/** Register Editor */
-				Joomla.editors.instances[editor.id] = {
-					'id': editor.id,
-					'getValue': function () { return tinyMCE.editors[this.id].getContent(); },
-					'setValue': function (text) { return tinyMCE.editors[this.id].setContent(text); },
-					'replaceSelection': function (text) { return tinyMCE.editors[this.id].execCommand('mceInsertContent', false, text); },
-					'onSave': function() { if (tinyMCE.editors[this.id].isHidden()) { tinyMCE.editors[this.id].show()}; return '';}
-				};
-
-				/** On save **/
-				editor.form.addEventListener('submit', function() {
-					var editors = document.querySelectorAll('.js-editor-tinymce');
-					for(var i = 0, l = editors.length; i < l; i++) {
-						var editor = document.querySelector('textarea');
-						if (tinyMCE.get(editor.id).isHidden()) {
-							tinyMCE.get(editor.id).show();
-						}
-					}
-				})
 			}
 		},
 
@@ -79,7 +59,26 @@
 				options.setup = new Function('editor', options.setupCallbackString);
 			}
 
-			tinyMCE.init(options);
+			// Create a new instance
+			var ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
+			ed.render();
+
+			/** Register the editor's instance to Joomla Object */
+			Joomla.editors.instances[element.id] = {
+				// Required by Joomla's API for the XTD-Buttons
+				'getValue': function () { return tinyMCE.editors[this.id].getContent(); },
+				'setValue': function (text) { return tinyMCE.editors[this.id].setContent(text); },
+				'replaceSelection': function (text) { return tinyMCE.editors[this.id].execCommand('mceInsertContent', false, text); },
+				// Some extra instance dependent
+				'id': element.id,
+				'instance': ed,
+				'onSave': function() { if (tinyMCE.editors[this.id].isHidden()) { tinyMCE.editors[this.id].show()}; return '';},
+			};
+
+			/** On save **/
+			ed.targetElm.form.addEventListener('submit', function() {
+				Joomla.editors.instances[ed.targetElm.id].onSave();
+			})
 		}
 
 	};
