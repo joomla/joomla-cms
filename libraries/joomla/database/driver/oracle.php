@@ -1059,7 +1059,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 * @throws  RuntimeException
 	 */
 	public function transactionCommit($toSavepoint = false)
@@ -1068,12 +1068,15 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		if (!$toSavepoint || $this->transactionDepth <= 1)
 		{
-			parent::transactionCommit($toSavepoint);
+			if ($this->setQuery('COMMIT')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
 		}
-		else
-		{
-			$this->transactionDepth--;
-		}
+
+		$this->transactionDepth--;
 	}
 
 	/**
@@ -1083,7 +1086,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 * @throws  RuntimeException
 	 */
 	public function transactionRollback($toSavepoint = false)
@@ -1092,17 +1095,20 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		if (!$toSavepoint || $this->transactionDepth <= 1)
 		{
-			parent::transactionRollback($toSavepoint);
-		}
-		else
-		{
-			$savepoint = 'SP_' . ($this->transactionDepth - 1);
-			$this->setQuery('ROLLBACK TO SAVEPOINT ' . $this->quoteName($savepoint));
-
-			if ($this->execute())
+			if ($this->setQuery('ROLLBACK')->execute())
 			{
-				$this->transactionDepth--;
+				$this->transactionDepth = 0;
 			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . ($this->transactionDepth - 1);
+		$this->setQuery('ROLLBACK TO SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth--;
 		}
 	}
 
@@ -1113,7 +1119,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 * @throws  RuntimeException
 	 */
 	public function transactionStart($asSavepoint = false)
@@ -1122,7 +1128,12 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		if (!$asSavepoint || !$this->transactionDepth)
 		{
-			return parent::transactionStart($asSavepoint);
+			if ($this->setQuery('START TRANSACTION')->execute())
+			{
+				$this->transactionDepth = 1;
+			}
+
+			return;
 		}
 
 		$savepoint = 'SP_' . $this->transactionDepth;
