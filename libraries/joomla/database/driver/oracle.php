@@ -276,7 +276,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 		{
 			$this->execute();
 		}
-		catch(JDatabaseExceptionExecuting $e)
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			/**
 			* Code 942 is for when the table doesn't exist
