@@ -226,19 +226,40 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 		$this->connect();
 
 		$result = array();
+		$type = 'TABLE';
 		$query = $this->getQuery(true)
-			->select('dbms_metadata.get_ddl(:type, :tableName)')
+			->select('dbms_metadata.get_ddl(:type, UPPER(:tableName), UPPER(:schema))')
 			->from('dual')
-			->bind(':type', 'TABLE');
+			->bind(':type', $type);
 
 		// Sanitize input to an array and iterate over the list.
 		settype($tables, 'array');
 
+		$defaultSchema = strtoupper($this->options['user']);
 		foreach ($tables as $table)
 		{
-			$query->bind(':tableName', $table);
+			$table = strtoupper($table);
+			$parts = explode('.', $table);
+
+			if (count($parts) === 1)
+			{
+				$query->bind(':tableName', $table);
+				$query->bind(':schema', $defaultSchema);
+			}
+			elseif (count($parts) === 2)
+			{
+				$query->bind(':tableName', $parts[1]);
+				$query->bind(':schema', $parts[0]);
+			}
+
 			$this->setQuery($query);
-			$statement = (string) $this->loadResult();
+			$statement = $this->loadResult();
+
+			if (is_resource($statement))
+			{
+				$statement = stream_get_contents($statement);
+			}
+
 			$result[$table] = $statement;
 		}
 
