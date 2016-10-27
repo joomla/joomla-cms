@@ -8,14 +8,14 @@
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('radiobasic');
+JFormHelper::loadFieldClass('radio');
 
 /**
  * Sample data Form Field class.
  *
  * @since  1.6
  */
-class InstallationFormFieldSample extends JFormFieldRadioBasic
+class InstallationFormFieldSample extends JFormFieldRadio
 {
 	/**
 	 * The form field type.
@@ -52,7 +52,7 @@ class InstallationFormFieldSample extends JFormFieldRadioBasic
 
 		// Add option to not install sample data.
 		$options[] = JHtml::_('select.option', '',
-			JHtml::_('tooltip', JText::_('INSTL_SITE_INSTALL_SAMPLE_NONE_DESC'), '', '', JText::_('INSTL_SITE_INSTALL_SAMPLE_NONE'))
+			JHtml::_('tooltip', JText::_('INSTL_SITE_INSTALL_SAMPLE_NONE_DESC'), '', '', JText::_('JNO'))
 		);
 
 		// Build the options list from the list of files.
@@ -62,7 +62,7 @@ class InstallationFormFieldSample extends JFormFieldRadioBasic
 			{
 				$options[] = JHtml::_('select.option', $file, JFactory::getLanguage()->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET') ?
 					JHtml::_('tooltip', JText::_('INSTL_' . strtoupper($file = JFile::stripExt($file)) . '_SET_DESC'), '', '',
-						JText::_('INSTL_' . ($file = JFile::stripExt($file)) . '_SET')
+						JText::_('JYES')
 					) : $file
 				);
 			}
@@ -97,6 +97,11 @@ class InstallationFormFieldSample extends JFormFieldRadioBasic
 			}
 		}
 
-		return parent::getInput();
+		if (empty($this->layout))
+		{
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+		}
+
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
 }
