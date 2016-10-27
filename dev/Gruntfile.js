@@ -264,6 +264,7 @@ module.exports = function(grunt) {
 					{ src: ['assets/tmp/codemirror/LICENSE'], dest: '../media/vendor/codemirror/LICENSE'},
 					{ src: ['assets/tmp/jcrop/jcrop-MIT-LICENSE.txt'], dest: '../media/vendor/jcrop/jcrop-MIT-LICENSE.txt'},
 					{ src: ['assets/node_modules/dragula/license'], dest: '../media/vendor/dragula/license'},
+					{ src: ['assets/node_modules/awesomplete/LICENSE'], dest: '../media/vendor/awesomplete/LICENSE'},
 				]
 			}
 		},
