@@ -161,40 +161,6 @@ abstract class JHtmlBehavior
 	}
 
 	/**
-	 * Add unobtrusive JavaScript support for submenu switcher support
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function switcher()
-	{
-		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		JHtml::_('script', 'system/switcher.min.js', true, true);
-
-		$script = "
-			document.switcher = null;
-			jQuery(function($){
-				var toggler = document.getElementById('submenu');
-				var element = document.getElementById('config-document');
-				if (element) {
-					document.switcher = new JSwitcher(toggler, element);
-				}
-			});";
-
-		JFactory::getDocument()->addScriptDeclaration($script);
-		static::$loaded[__METHOD__] = true;
-	}
-
-	/**
 	 * Add unobtrusive JavaScript support for a combobox effect.
 	 *
 	 * Note that this control is only reliable in absolutely positioned elements.
