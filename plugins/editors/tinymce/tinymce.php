@@ -731,21 +731,22 @@ class PlgEditorTinymce extends JPlugin
 
 		$externalPlugins  = array();
 		$joomlaLanguages  = array();
+		$jLangPlugin      = '';
 
 		if ($this->params->get('langs_wcag', 0) && $this->params->get('langstags'))
 		{
 			include_once __DIR__ . '/helpers/tinymce.php';
 
 			JText::script('PLG_TINY_LANGUAGES_LABEL');
-			$pluginFile = JHtml::_('script', 'editors/tinymce/plugin-joomlalanguages.js', false, true, true);
-			$externalPlugins['joomlalanguages'] = $pluginFile;
+			JHtml::_('script', 'editors/tinymce/plugin-joomlalanguages.js', array('version' => 'auto', 'relative' => true));
 
 			$toolbar4_add[]    = 'joomlalanguages';
+			$jLangPlugin       = 'joomlalanguages';
 			$extended_elements = 'span[lang|dir|class|[xml:lang]],' . $extended_elements;
 
 			$availLangs        = TinymceHelper::getAllLanguages();
 			$selectedLangs     = (array) $this->params->get('langstags', '');
-			$selectedLangs     = array_flip($selectedLangs); // Make easy to test active
+			$selectedLangs     = array_flip($selectedLangs);
 
 			foreach ($availLangs as $key => $value)
 			{
@@ -917,7 +918,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
-				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ' . $dragDropPlg;
+				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ' . $dragDropPlg . ' ' . $jLangPlugin;
 				$scriptOptions['toolbar1'] = $toolbar1 . ' | ' . ' joomlalanguages ' . $toolbar5;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['importcss_append']  = true;
