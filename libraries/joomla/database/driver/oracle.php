@@ -61,6 +61,14 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	protected $charset;
 
 	/**
+    * Saves the number of rows value
+    * before it gets reset by freeResult().
+    *
+    * @var int
+    */
+    protected $numRows = 0;
+
+	/**
     * Is used to decide whether a result set
     * should generate lowercase field names
     *
@@ -222,9 +230,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 */
 	public function getAffectedRows()
 	{
-		$this->connect();
-
-		return oci_num_rows($this->connection);
+		return $this->numRows;
 	}
 
 	/**
@@ -263,7 +269,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 */
 	public function getNumRows($cursor = null)
 	{
-		return oci_num_rows($cursor ? $cursor : $this->cursor);
+		return $this->numRows;
 	}
 
 	/**
@@ -550,7 +556,6 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 * @param   mixed    $query          The SQL statement to set either as a JDatabaseQuery object or a string.
 	 * @param   integer  $offset         The affected row offset to set.
 	 * @param   integer  $limit          The maximum affected rows to set.
-	 * @param   array    $driverOptions  The optional PDO driver options.
 	 *
 	 * @return  JDatabaseDriver  This object to support method chaining.
 	 *
@@ -808,6 +813,8 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 			}
 		}
 
+		$this->numRows = (int) oci_num_rows($this->prepared);
+
 		return $this->prepared;
 	}
 
@@ -847,7 +854,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	}
 
 	/**
-	 * Test to see if the PDO ODBC connector is available.
+	 * Test to see if the oci8 functions are available.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
@@ -1095,7 +1102,12 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	{
 		$mode = $this->getMode(true);
 
-		return oci_fetch_array($cursor ? $cursor : $this->prepared, $mode);
+		$row = oci_fetch_array($cursor ? $cursor : $this->prepared, $mode);
+
+		// Update Number of Rows Value:
+		$this->numRows = (int) oci_num_rows($cursor ? $cursor : $this->prepared);
+
+		return $row;
 	}
 
 	/**
@@ -1117,6 +1129,9 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 		{
 			$row = array_change_key_case($row);
 		}
+
+		// Update Number of Rows Value:
+		$this->numRows = (int) oci_num_rows($cursor ? $cursor : $this->prepared);
 
 		return $row;
 	}
