@@ -342,7 +342,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 		$result = array();
 		$type = 'TABLE';
 		$query = $this->getQuery(true)
-			->select('dbms_metadata.get_ddl(:type, :tableName, :schema)')
+			->select('dbms_metadata.get_ddl(:type, UPPER(:tableName), UPPER(:schema))')
 			->from('dual')
 			->bind(':type', $type);
 
@@ -392,17 +392,11 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 		$columns = array();
 		$query = $this->getQuery(true);
 
-		//$fieldCasing = $this->getOption(PDO::ATTR_CASE);
-
-		//$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
-
-		$table = strtoupper($table);
-
 		$query->select('*');
 		$query->from('ALL_TAB_COLUMNS');
-		$query->where('table_name = :tableName');
+		$query->where('table_name = UPPER(:tableName)');
 
-		$prefixedTable = str_replace('#__', strtoupper($this->tablePrefix), $table);
+		$prefixedTable = str_replace('#__', $this->tablePrefix, $table);
 		$query->bind(':tableName', $prefixedTable);
 		$this->setQuery($query);
 		$fields = $this->loadObjectList();
@@ -423,8 +417,6 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 			}
 		}
 
-		//$this->setOption(PDO::ATTR_CASE, $fieldCasing);
-
 		return $columns;
 	}
 
@@ -444,20 +436,13 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		$query = $this->getQuery(true);
 
-		//$fieldCasing = $this->getOption(PDO::ATTR_CASE);
-
-		//$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
-
-		$table = strtoupper($table);
 		$query->select('*')
-			->from('ALL_CONSTRAINTS')
-			->where('table_name = :tableName')
+			->from('ALL_CONSTRAINTS NATURAL JOIN ALL_CONS_COLUMNS')
+			->where('table_name = UPPER(:tableName)')
 			->bind(':tableName', $table);
 
 		$this->setQuery($query);
 		$keys = $this->loadObjectList();
-
-		//$this->setOption(PDO::ATTR_CASE, $fieldCasing);
 
 		return $keys;
 	}
@@ -492,7 +477,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		if ($databaseName)
 		{
-			$query->where('owner = :database')
+			$query->where('owner = UPPER(:database)')
 				->bind(':database', $databaseName);
 		}
 
@@ -539,8 +524,6 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	public function insertid()
 	{
 		// Not really supported on Oracle:
-		//$this->connect();
-
 		return null;
 	}
 
@@ -872,7 +855,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 */
 	public static function isSupported()
 	{
-		return class_exists('PDO') && in_array('oci', PDO::getAvailableDrivers());
+		return function_exists('oci_connect');
 	}
 
 	/**
