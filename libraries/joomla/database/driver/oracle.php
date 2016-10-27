@@ -77,6 +77,14 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	protected $tolower = true;
 
 	/**
+    * Contains the query type of the
+    * query about to be executed
+    *
+    * @var   string
+    */
+	protected $queryType = '';
+
+	/**
     * Is used to decide whether a result set
     * should return the LOB values or the LOB objects
     */
@@ -272,6 +280,19 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	public function getNumRows($cursor = null)
 	{
 		return $this->numRows;
+	}
+
+	/**
+	 * Returns the Query Type returned by
+	 * oci_statement_type() in the setQuery() call.
+	 *
+	 * @return  string   The query type
+	 *
+	 * @since   12.1
+	 */
+	public function getQueryType()
+	{
+		return $this->queryType;
 	}
 
 	/**
@@ -598,6 +619,8 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		// Use the stringified version in the prepare call:
 		$this->prepared = oci_parse($this->connection, $sql);
+
+		$this->queryType = oci_statement_type($this->prepared);
 
 		// Store reference to the original JDatabaseQuery instance within the class.
 		// This is important since binding variables depends on it within execute():
