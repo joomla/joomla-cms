@@ -244,7 +244,21 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		$this->setQuery($query);
 
-		$this->execute();
+		try
+		{
+			$this->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			/**
+			* Code 955 is for when the table already exists
+			* so we can safely ignore that code and catch any others.
+			*/
+			if ($e->getCode() !== 955)
+			{
+				throw $e;
+			}
+		}
 
 		return $this;
 	}
