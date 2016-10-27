@@ -218,13 +218,15 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	{
 		$this->connect();
 
+		$tableName = strtoupper($tableName);
+
 		/**
 		*  Must use escape() method since the table
 		* identifier can't be used as a bind variable
 		* in this case:
 		*/
 		$query = $this->getQuery(true)
-			->setQuery('DROP TABLE ' . $this->escape($tableName));
+			->setQuery('DROP TABLE ' . $this->quoteName($tableName));
 
 		$this->setQuery($query);
 
@@ -873,7 +875,10 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
 	{
-		$this->setQuery('RENAME ' . $oldTable . ' TO ' . $newTable)->execute();
+		$oldTable = strtoupper($oldTable);
+		$newTable = strtoupper($newTable);
+
+		$this->setQuery('RENAME ' . $this->quoteName($oldTable) . ' TO ' . $this->quoteName($newTable))->execute();
 
 		return $this;
 	}
