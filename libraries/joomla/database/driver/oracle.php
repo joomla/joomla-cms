@@ -45,6 +45,14 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	protected $nameQuote = '"';
 
 	/**
+	 * Returns the current commit mode
+	 *
+	 * @var   int
+	 * @since 12.1
+	 */
+	protected $commitMode = OCI_COMMIT_ON_SUCCESS;
+
+	/**
 	 * Returns the current dateformat
 	 *
 	 * @var   string
@@ -203,6 +211,44 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	}
 
 	/**
+	 * Copies a table with/without it's data in the database.
+	 *
+	 * @param   string   $fromTable  The name of the database table to copy from.
+	 * @param   string   $toTable    The name of the database table to create.
+	 * @param   boolean  $withData   Optionally include the data in the new table.
+	 *
+	 * @return  JDatabaseDriverOracle  Returns this object to support chaining.
+	 *
+	 * @since   12.1
+	 */
+	public function copyTable($fromTable, $toTable, $withData = false)
+	{
+		$this->connect();
+
+		$tableName = strtoupper($tableName);
+
+		$query = $this->getQuery(true);
+
+		if ($withData)
+		{
+			 $whereClause = ' where 11 = 11';
+		}
+		else
+		{
+			$whereClause = ' where 11 = 1';
+		}
+
+		$query->setQuery('CREATE TABLE ' . $this->quoteName($toTable) .
+							' as SELECT * FROM ' . $this->quoteName($fromTable) . $whereClause);
+
+		$this->setQuery($query);
+
+		$this->execute();
+
+		return $this;
+	}
+
+	/**
 	 * Drops a table from the database.
 	 *
 	 * Note: The IF EXISTS flag is unused in the Oracle driver.
@@ -220,17 +266,24 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		$tableName = strtoupper($tableName);
 
-		/**
-		*  Must use escape() method since the table
-		* identifier can't be used as a bind variable
-		* in this case:
-		*/
 		$query = $this->getQuery(true)
 			->setQuery('DROP TABLE ' . $this->quoteName($tableName));
 
 		$this->setQuery($query);
 
-		$this->execute();
+		try {
+			$this->execute();
+		} catch(JDatabaseExceptionExecuting $e) {
+			/**
+			* Code 942 is for when the table doesn't exist
+			* so we can safely ignore that code and catch any others.
+			*/
+			if ($e->getCode() !== 942)
+			{
+				throw $e;
+			}
+		}
+
 
 		return $this;
 	}
@@ -634,6 +687,23 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	}
 
 	/**
+	 * Sets the Oracle Commit Mode.
+	 *
+	 * Mainly needed when using the transaction
+	 * methods within the driver.
+	 *
+	 * @param   int  $dmode  Oracle Commit Mode
+	 *
+	 * @return boolean
+	 *
+	 * @since  12.1
+	 */
+	public function setCommitMode($mode = OCI_COMMIT_ON_SUCCESS)
+	{
+		$this->commitMode = $mode;
+	}
+
+	/**
 	 * Sets the Oracle Date Format for the session
 	 * Default date format for Oracle is = DD-MON-RR
 	 * The default date format for this driver is:
@@ -745,7 +815,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 * @throws  RuntimeException
 	 * @throws  Exception
 	 */
-	public function execute()
+	public function execute($commitMode = OCI_COMMIT_ON_SUCCESS)
 	{
 		$this->connect();
 
@@ -792,7 +862,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 				}
 			}
 
-			$this->executed = @oci_execute($this->prepared);
+			$this->executed = @oci_execute($this->prepared, $this->commitMode);
 		}
 
 		if ($this->debug)
@@ -1068,10 +1138,11 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		if (!$toSavepoint || $this->transactionDepth <= 1)
 		{
-			if ($this->setQuery('COMMIT')->execute())
-			{
-				$this->transactionDepth = 0;
-			}
+			oci_commit($this->connection);
+
+			// Reset internal values:
+			$this->transactionDepth = 0;
+			$this->setCommitMode(OCI_COMMIT_ON_SUCCESS);
 
 			return;
 		}
@@ -1128,10 +1199,8 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		if (!$asSavepoint || !$this->transactionDepth)
 		{
-			if ($this->setQuery('START TRANSACTION')->execute())
-			{
-				$this->transactionDepth = 1;
-			}
+			$this->setCommitMode(OCI_NO_AUTO_COMMIT);
+			$this->transactionDepth = 1;
 
 			return;
 		}
