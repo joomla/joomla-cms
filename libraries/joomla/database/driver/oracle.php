@@ -225,10 +225,12 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$tableName = strtoupper($tableName);
+		$fromTable = strtoupper($fromTable);
+		$toTable = strtoupper($toTable);
 
 		$query = $this->getQuery(true);
 
+		// Works as a flag to include/exclude the data in the copied table:
 		if ($withData)
 		{
 			 $whereClause = ' where 11 = 11';
