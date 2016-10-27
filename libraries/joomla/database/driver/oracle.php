@@ -792,6 +792,84 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	}
 
 	/**
+	 * Method to get an array of the result set rows from the database query where each row is an associative array
+	 * of ['field_name' => 'row_value'].  The array of rows can optionally be keyed by a field name, but defaults to
+	 * a sequential numeric array.
+	 *
+	 * NOTE: Chosing to key the result array by a non-unique field name can result in unwanted
+	 * behavior and should be avoided.
+	 *
+	 * @param   string  $key     The name of a field on which to key the result array.
+	 * @param   string  $column  An optional column name. Instead of the whole row, only this column value will be in
+	 * the result array.
+	 *
+	 * @return  mixed   The return value or null if the query failed.
+	 *
+	 * @since   11.1
+	 * @throws  RuntimeException
+	 */
+	public function loadAssocList($key = null, $column = null)
+	{
+		if (!empty($key))
+		{
+			if ($this->tolower)
+			{
+				$key = strtolower($key);
+			}
+			else
+			{
+				$key = strtoupper($key);
+			}
+		}
+
+		if (!empty($column))
+		{
+			if ($this->tolower)
+			{
+				$column = strtolower($column);
+			}
+			else
+			{
+				$column = strtoupper($column);
+			}
+		}
+
+		return parent::loadAssocList($key, $column);
+	}
+
+	/**
+	 * Method to get an array of the result set rows from the database query where each row is an object.  The array
+	 * of objects can optionally be keyed by a field name, but defaults to a sequential numeric array.
+	 *
+	 * NOTE: Choosing to key the result array by a non-unique field name can result in unwanted
+	 * behavior and should be avoided.
+	 *
+	 * @param   string  $key    The name of a field on which to key the result array.
+	 * @param   string  $class  The class name to use for the returned row objects.
+	 *
+	 * @return  mixed   The return value or null if the query failed.
+	 *
+	 * @since   11.1
+	 * @throws  RuntimeException
+	 */
+	public function loadObjectList($key = '', $class = 'stdClass')
+	{
+		if (!empty($key))
+		{
+			if ($this->tolower)
+			{
+				$key = strtolower($key);
+			}
+			else
+			{
+				$key = strtoupper($key);
+			}
+		}
+
+		return parent::loadObjectList($key, $class);
+	}
+
+	/**
 	 * Locks a table in the database.
 	 *
 	 * @param   string  $table  The name of the table to unlock.
