@@ -335,13 +335,7 @@ class FinderModelIndex extends JModelList
 		$db->truncateTable('#__finder_links');
 
 		// Truncate the links terms tables.
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Get the mapping table suffix.
-			$suffix = dechex($i);
-
-			$db->truncateTable('#__finder_links_terms' . $suffix);
-		}
+		$db->truncateTable('#__finder_links_terms');
 
 		// Truncate the terms table.
 		$db->truncateTable('#__finder_terms');

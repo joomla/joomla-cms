@@ -78,15 +78,12 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		 */
 		if (!$isNew)
 		{
-			for ($i = 0; $i <= 15; $i++)
-			{
-				// Flush the maps for the link.
-				$query->clear()
-					->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
-					->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
-				$db->setQuery($query);
-				$db->execute();
-			}
+			// Flush the maps for the link.
+			$query->clear()
+				->delete($db->quoteName('#__finder_links_terms'))
+				->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+			$db->setQuery($query);
+			$db->execute();
 
 			// Remove the taxonomy maps.
 			FinderIndexerTaxonomy::removeMaps($linkId);
@@ -396,29 +393,19 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		 * this link. Then, we insert all of that data into the appropriate
 		 * mapping table.
 		 */
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Get the mapping table suffix.
-			$suffix = dechex($i);
 
-			/*
-			 * We have to run this query 16 times, one for each link => term
-			 * mapping table.
-			 */
-			$db->setQuery(
-				'INSERT INTO ' . $db->quoteName('#__finder_links_terms' . $suffix) .
-				' (' . $db->quoteName('link_id') .
-				', ' . $db->quoteName('term_id') .
-				', ' . $db->quoteName('weight') . ')' .
-				' SELECT ' . (int) $linkId . ', ' . $db->quoteName('term_id') . ',' .
-				' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
-				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
-				' WHERE ' . $db->quoteName('map_suffix') . ' = ' . $db->quote($suffix) .
-				' GROUP BY ' . $db->quoteName('term') .
-				' ORDER BY ' . $db->quoteName('term') . ' DESC'
-			);
-			$db->execute();
-		}
+		$db->setQuery(
+			'INSERT INTO ' . $db->quoteName('#__finder_links_terms') .
+			' (' . $db->quoteName('link_id') .
+			', ' . $db->quoteName('term_id') .
+			', ' . $db->quoteName('weight') . ')' .
+			' SELECT ' . (int) $linkId . ', ' . $db->quoteName('term_id') . ',' .
+			' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
+			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
+			' GROUP BY ' . $db->quoteName('term') .
+			' ORDER BY ' . $db->quoteName('term') . ' DESC'
+		);
+		$db->execute();
 
 		// Mark afterMapping in the profiler.
 		static::$profiler ? static::$profiler->mark('afterMapping') : null;
@@ -465,23 +452,20 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		$query = $db->getQuery(true);
 
 		// Update the link counts and remove the mapping records.
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Update the link counts for the terms.
-			$query->update($db->quoteName('#__finder_terms') . ' AS t')
-				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id')
-				->set('t.links = t.links - 1')
-				->where('m.link_id = ' . $db->quote((int) $linkId));
-			$db->setQuery($query);
-			$db->execute();
+		// Update the link counts for the terms.
+		$query->update($db->quoteName('#__finder_terms') . ' AS t')
+			->join('INNER', $db->quoteName('#__finder_links_terms') . ' AS m ON m.term_id = t.term_id')
+			->set('t.links = t.links - 1')
+			->where('m.link_id = ' . $db->quote((int) $linkId));
+		$db->setQuery($query);
+		$db->execute();
 
-			// Remove all records from the mapping tables.
-			$query->clear()
-				->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
-				->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
-			$db->setQuery($query);
-			$db->execute();
-		}
+		// Remove all records from the mapping tables.
+		$query->clear()
+			->delete($db->quoteName('#__finder_links_terms'))
+			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+		$db->setQuery($query);
+		$db->execute();
 
 		// Delete all orphaned terms.
 		$query->clear()
@@ -530,13 +514,6 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		// Optimize the links table.
 		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links'));
 		$db->execute();
-
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Optimize the terms mapping table.
-			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
-			$db->execute();
-		}
 
 		// Optimize the terms mapping table.
 		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));

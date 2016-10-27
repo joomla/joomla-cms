@@ -400,7 +400,6 @@ class FinderIndexerHelper
 			// Get and configure the site router.
 			$config = JFactory::getConfig();
 			$router = JRouter::getInstance('site');
-			$router->setMode($config->get('sef', 1));
 		}
 
 		// Build the relative route.
