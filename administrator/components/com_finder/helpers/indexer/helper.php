@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
 JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
@@ -62,7 +63,7 @@ class FinderIndexerHelper
 	public static function tokenize($input, $lang, $phrase = false)
 	{
 		static $cache;
-		$store = JString::strlen($input) < 128 ? md5($input . '::' . $lang . '::' . $phrase) : null;
+		$store = StringHelper::strlen($input) < 128 ? md5($input . '::' . $lang . '::' . $phrase) : null;
 
 		// Check if the string has been tokenized already.
 		if ($store && isset($cache[$store]))
@@ -89,7 +90,7 @@ class FinderIndexerHelper
 		 *  7. Replace the assorted single quotation marks with the ASCII standard single quotation.
 		 *  8. Remove multiple space characters and replaces with a single space.
 		 */
-		$input = JString::strtolower($input);
+		$input = StringHelper::strtolower($input);
 		$input = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
 		$input = preg_replace('#(^|\s)[+-.,]+([\pL\pM]+)#mui', ' $1', $input);
 		$input = preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', $input);
@@ -98,7 +99,7 @@ class FinderIndexerHelper
 		$input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
 		$input = preg_replace('#\s+#mui', ' ', $input);
-		$input = JString::trim($input);
+		$input = StringHelper::trim($input);
 
 		// Explode the normalized string to get the terms.
 		$terms = explode(' ', $input);
@@ -120,7 +121,7 @@ class FinderIndexerHelper
 				// Split apart any groups of Chinese characters.
 				for ($j = 0; $j < $charCount; $j++)
 				{
-					$tSplit = JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
+					$tSplit = StringHelper::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
 
 					if (!empty($tSplit))
 					{
@@ -215,12 +216,12 @@ class FinderIndexerHelper
 	public static function stem($token, $lang)
 	{
 		// Trim apostrophes at either end of the token.
-		$token = JString::trim($token, '\'');
+		$token = StringHelper::trim($token, '\'');
 
 		// Trim everything after any apostrophe in the token.
-		if (($pos = JString::strpos($token, '\'')) !== false)
+		if (($pos = StringHelper::strpos($token, '\'')) !== false)
 		{
-			$token = JString::substr($token, 0, $pos);
+			$token = StringHelper::substr($token, 0, $pos);
 		}
 
 		// Stem the token if we have a valid stemmer to use.
@@ -374,7 +375,7 @@ class FinderIndexerHelper
 			else
 			{
 				// Get the language key using string position.
-				$data[$lang] = JString::substr($lang, 0, JString::strpos($lang, '-'));
+				$data[$lang] = StringHelper::substr($lang, 0, StringHelper::strpos($lang, '-'));
 			}
 		}
 
@@ -470,8 +471,7 @@ class FinderIndexerHelper
 		// Instantiate the parameter object if necessary.
 		if (!($params instanceof Registry))
 		{
-			$registry = new Registry;
-			$registry->loadString($params);
+			$registry = new Registry($params);
 			$params = $registry;
 		}
 

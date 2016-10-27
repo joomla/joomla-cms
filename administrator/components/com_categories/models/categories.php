@@ -385,10 +385,10 @@ class CategoriesModelCategories extends JModelList
 
 		if (file_exists($file))
 		{
-			require_once $file;
-
 			$prefix = ucfirst($eName);
 			$cName = $prefix . 'Helper';
+
+			JLoader::register($cName, $file);
 
 			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
 			{

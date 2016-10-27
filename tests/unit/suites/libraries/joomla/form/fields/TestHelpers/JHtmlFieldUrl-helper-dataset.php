@@ -129,7 +129,7 @@ class JHtmlFieldUrlTest_DataSet
 			array(
 				'id' => 'myTestId',
 				'name' => 'myTestName',
-				'maxLength' => 250,
+				'maxlength' => 250,
 			),
 			'<input type="url" name="myTestName" id="myTestId" value="" maxlength="250" />',
 		),
@@ -140,7 +140,7 @@ class JHtmlFieldUrlTest_DataSet
 				'name' => 'myTestName',
 				'required' => true,
 			),
-			'<input type="url" name="myTestName" id="myTestId" value="" required aria-required="true" />',
+			'<input type="url" name="myTestName" class="required" id="myTestId" value="" required aria-required="true" />',
 		),
 	);
 }
