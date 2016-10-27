@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 jimport('joomla.utilities.utility');
 
 /**
@@ -28,14 +30,6 @@ jimport('joomla.utilities.utility');
  */
 class PlgContentPagebreak extends JPlugin
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  3.1
-	 */
-	protected $autoloadLanguage = true;
-
 	/**
 	 * Plugin that adds a pagebreak into the text and truncates text at that point
 	 *
@@ -80,7 +74,7 @@ class PlgContentPagebreak extends JPlugin
 		}
 
 		// Simple performance check to determine whether bot should process further.
-		if (JString::strpos($row->text, 'class="system-pagebreak') === false)
+		if (StringHelper::strpos($row->text, 'class="system-pagebreak') === false)
 		{
 			return true;
 		}
@@ -99,6 +93,9 @@ class PlgContentPagebreak extends JPlugin
 
 			return;
 		}
+
+		// Load plugin language files only when needed (ex: not needed if no system-pagebreak class exists).
+		$this->loadLanguage();
 
 		// Find all instances of plugin and put in $matches.
 		$matches = array();

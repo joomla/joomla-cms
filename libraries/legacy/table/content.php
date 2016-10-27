@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Content table
@@ -141,15 +142,13 @@ class JTableContent extends JTable
 
 		if (isset($array['attribs']) && is_array($array['attribs']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['attribs']);
+			$registry = new Registry($array['attribs']);
 			$array['attribs'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['metadata']);
+			$registry = new Registry($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
 
@@ -254,7 +253,7 @@ class JTableContent extends JTable
 			$bad_characters = array("\n", "\r", "\"", "<", ">");
 
 			// Remove bad characters
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
+			$after_clean = StringHelper::str_ireplace($bad_characters, "", $this->metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);

@@ -104,7 +104,7 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// These are used by Google Authenticator to tell accounts apart
 		$username = JFactory::getUser($user_id)->username;
-		$hostname = JFactory::getUri()->getHost();
+		$hostname = JUri::getInstance()->getHost();
 
 		// This is the URL to the QR code for Google Authenticator
 		$url = $totp->getUrl($username, $hostname, $secret);

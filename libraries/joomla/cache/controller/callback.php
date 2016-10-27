@@ -56,7 +56,7 @@ class JCacheControllerCallback extends JCacheController
 	public function get($callback, $args = array(), $id = false, $wrkarounds = false, $woptions = array())
 	{
 		// Normalize callback
-		if (is_array($callback))
+		if (is_array($callback) || is_callable($callback))
 		{
 			// We have a standard php callback array -- do nothing
 		}

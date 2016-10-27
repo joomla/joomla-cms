@@ -59,9 +59,9 @@ class ContactControllerContact extends JControllerForm
 		// Check for a valid session cookie
 		if ($params->get('validate_session', 0))
 		{
-			if (JFactory::getSession()->getState() != 'active')
+			if (JFactory::getSession()->getState() !== 'active')
 			{
-				JError::raiseWarning(403, JText::_('COM_CONTACT_SESSION_INVALID'));
+				JError::raiseWarning(403, JText::_('JLIB_ENVIRONMENT_SESSION_INVALID'));
 
 				// Save the data in the session.
 				$app->setUserState('com_contact.contact.data', $data);

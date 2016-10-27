@@ -160,9 +160,7 @@ class UsersModelRemind extends JModelForm
 		$config = JFactory::getConfig();
 
 		// Assemble the login link.
-		$itemid = UsersHelperRoute::getLoginRoute();
-		$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-		$link = 'index.php?option=com_users&view=login' . $itemid;
+		$link = 'index.php?option=com_users&view=login';
 		$mode = $config->get('force_ssl', 0) == 2 ? 1 : (-1);
 
 		// Put together the email template data.

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
@@ -445,7 +446,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			if ($lang_code === $this->default_lang)
 			{
 				$redirectHttpCode = 301;
-			
+
 				// We cannot cache this redirect in browser. 301 is cachable by default so we need to force to not cache it in browsers.
 				$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 				$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
@@ -453,7 +454,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				$this->app->setHeader('Pragma', 'no-cache');
 				$this->app->sendHeaders();
 			}
-			
+
 			// Redirect to language.
 			$this->app->redirect($redirectUri, $redirectHttpCode);
 		}
@@ -506,8 +507,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		if ($this->params->get('automatic_change', '1') == '1' && key_exists('params', $user))
 		{
-			$registry = new Registry;
-			$registry->loadString($user['params']);
+			$registry = new Registry($user['params']);
 			$this->user_lang_code = $registry->get('language');
 
 			if (empty($this->user_lang_code))
@@ -535,8 +535,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		if ($this->params->get('automatic_change', '1') == '1' && key_exists('params', $user) && $success)
 		{
-			$registry = new Registry;
-			$registry->loadString($user['params']);
+			$registry = new Registry($user['params']);
 			$lang_code = $registry->get('language');
 
 			if (empty($lang_code))
@@ -691,21 +690,22 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$doc = JFactory::getDocument();
 
-		if ($this->app->isSite() && $this->params->get('alternate_meta') && $doc->getType() == 'html')
+		if ($this->app->isSite() && $this->params->get('alternate_meta', 1) && $doc->getType() == 'html')
 		{
-			$languages = $this->lang_codes;
-			$homes = JLanguageMultilang::getSiteHomePages();
-			$menu = $this->app->getMenu();
-			$active = $menu->getActive();
-			$levels = JFactory::getUser()->getAuthorisedViewLevels();
+			$languages             = $this->lang_codes;
+			$homes                 = JLanguageMultilang::getSiteHomePages();
+			$menu                  = $this->app->getMenu();
+			$active                = $menu->getActive();
+			$levels                = JFactory::getUser()->getAuthorisedViewLevels();
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
-			$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
-			$is_home = false;
+			$server                = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
+			$is_home               = false;
+			$currentInternalUrl    = 'index.php?' . http_build_query($this->app->getRouter()->getVars());
 
 			if ($active)
 			{
-				$active_link = JRoute::_($active->link . '&Itemid=' . $active->id, false);
-				$current_link = JUri::getInstance()->toString(array('path', 'query'));
+				$active_link  = JRoute::_($active->link . '&Itemid=' . $active->id);
+				$current_link = JRoute::_($currentInternalUrl);
 
 				// Load menu associations
 				if ($active_link == $current_link)
@@ -720,7 +720,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			// Load component associations.
 			$option = $this->app->input->get('option');
-			$cName = JString::ucfirst(JString::str_ireplace('com_', '', $option)) . 'HelperAssociation';
+			$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
 			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
 			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
@@ -747,7 +747,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 					// Current language link
 					case ($i == $this->current_lang):
-						$language->link = JUri::getInstance()->toString(array('path', 'query'));
+						$language->link = JRoute::_($currentInternalUrl);
 						break;
 
 					// Component association
@@ -758,6 +758,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					// Menu items association
 					// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
 					case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
+
 						$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
 						break;
 
