@@ -411,15 +411,28 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$columns[$field->COLUMN_NAME] = $field->DATA_TYPE;
+				if ($this->tolower)
+				{
+					$columns[strtolower($field->column_name)] = $field->data_type;
+				}
+				else
+				{
+					$columns[$field->COLUMN_NAME] = $field->DATA_TYPE;
+				}
 			}
 		}
 		else
 		{
 			foreach ($fields as $field)
 			{
-				$columns[$field->COLUMN_NAME] = $field;
-				$columns[$field->COLUMN_NAME]->Default = null;
+				if ($this->tolower)
+				{
+					$columns[strtolower($field->column_name)] = $field;
+				}
+				else
+				{
+					$columns[$field->COLUMN_NAME] = $field;
+				}
 			}
 		}
 
