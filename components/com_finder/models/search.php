@@ -364,7 +364,7 @@ class FinderModelSearch extends JModelList
 		$start = 0;
 		$items = array();
 		$sorted = array();
-		$maps = array();
+		$allIDs = array();
 		$excluded = $this->getExcludedLinkIds();
 
 		/*
@@ -375,205 +375,164 @@ class FinderModelSearch extends JModelList
 		 */
 		foreach ($this->includedTerms as $token => $ids)
 		{
-			// Get the mapping table suffix.
-			$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
-
-			// Initialize the mapping group.
-			if (!array_key_exists($suffix, $maps))
-			{
-				$maps[$suffix] = array();
-			}
-			// Add the terms to the mapping group.
-			$maps[$suffix] = array_merge($maps[$suffix], $ids);
+			$allIDs = array_merge($allIDs, $ids);
 		}
 
-		/*
-		 * When the query contains search terms we need to find and process the
-		 * result total iteratively using a do-while loop.
-		 */
-		do
+		// Create a container for the fetched results.
+		$results = array();
+		$more = false;
+
+		// Create a storage key for this set.
+		$setId = $this->getStoreId('getResultsTotal:' . serialize(array_values($allIDs)) . ':' . $start . ':' . $limit);
+
+		// Use the cached data if possible.
+		if ($this->retrieve($setId))
 		{
-			// Create a container for the fetched results.
-			$results = array();
-			$more = false;
+			$results = $this->retrieve($setId);
+		}
+		// Load the data from the database.
+		else
+		{
+			// Adjust the query to join on the appropriate mapping table.
+			$query = clone($base);
+			$query->join('INNER', '#__finder_links_terms AS m ON m.link_id = l.link_id')
+				->where('m.term_id IN (' . implode(',', $allIDs) . ')');
 
-			/*
-			 * Iterate through the mapping groups and load the total from each
-			 * mapping table.
-			 */
-			foreach ($maps as $suffix => $ids)
+			// Load the results from the database.
+			$this->_db->setQuery($query, $start, $limit);
+			$temp = $this->_db->loadObjectList();
+
+			// We loaded the data unkeyed but we need it to be keyed for later.
+			$junk = $temp;
+			$temp = array();
+
+			// Convert to an associative array.
+			for ($i = 0, $c = count($junk); $i < $c; $i++)
 			{
-				// Create a storage key for this set.
-				$setId = $this->getStoreId('getResultsTotal:' . serialize(array_values($ids)) . ':' . $start . ':' . $limit);
-
-				// Use the cached data if possible.
-				if ($this->retrieve($setId))
-				{
-					$temp = $this->retrieve($setId);
-				}
-				// Load the data from the database.
-				else
-				{
-					// Adjust the query to join on the appropriate mapping table.
-					$query = clone($base);
-					$query->join('INNER', '#__finder_links_terms' . $suffix . ' AS m ON m.link_id = l.link_id')
-						->where('m.term_id IN (' . implode(',', $ids) . ')');
-
-					// Load the results from the database.
-					$this->_db->setQuery($query, $start, $limit);
-					$temp = $this->_db->loadObjectList();
-
-					// Set the more flag to true if any of the sets equal the limit.
-					$more = (count($temp) === $limit) ? true : false;
-
-					// We loaded the data unkeyed but we need it to be keyed for later.
-					$junk = $temp;
-					$temp = array();
-
-					// Convert to an associative array.
-					for ($i = 0, $c = count($junk); $i < $c; $i++)
-					{
-						$temp[$junk[$i]->link_id] = $junk[$i];
-					}
-
-					// Store this set in cache.
-					$this->store($setId, $temp);
-				}
-
-				// Merge the results.
-				$results = array_merge($results, $temp);
+				$temp[$junk[$i]->link_id] = $junk[$i];
 			}
 
-			// Check if there are any excluded terms to deal with.
-			if (count($excluded))
-			{
-				// Remove any results that match excluded terms.
-				for ($i = 0, $c = count($results); $i < $c; $i++)
-				{
-					if (in_array($results[$i]->link_id, $excluded))
-					{
-						unset($results[$i]);
-					}
-				}
+			// Store this set in cache.
+			$this->store($setId, $temp);
+			$results = $temp;
+		}
 
-				// Reset the array keys.
-				$results = array_values($results);
-			}
-
-			// Iterate through the set to extract the unique items.
+		// Check if there are any excluded terms to deal with.
+		if (count($excluded))
+		{
+			// Remove any results that match excluded terms.
 			for ($i = 0, $c = count($results); $i < $c; $i++)
 			{
-				if (!isset($sorted[$results[$i]->link_id]))
+				if (in_array($results[$i]->link_id, $excluded))
 				{
-					$sorted[$results[$i]->link_id] = $results[$i]->ordering;
+					unset($results[$i]);
 				}
 			}
 
-			/*
-			 * If the query contains just optional search terms and we have
-			 * enough items for the page, we can stop here.
-			 */
-			if (empty($this->requiredTerms))
+			// Reset the array keys.
+			$results = array_values($results);
+		}
+
+		// Iterate through the set to extract the unique items.
+		for ($i = 0, $c = count($results); $i < $c; $i++)
+		{
+			if (!isset($sorted[$results[$i]->link_id]))
 			{
-				// If we need more items and they're available, make another pass.
-				if ($more && count($sorted) < $limit)
-				{
-					// Increment the batch starting point and continue.
-					$start += $limit;
-					continue;
-				}
-
-				// Push the total into cache.
-				$this->store($store, min(count($sorted), $limit));
-
-				// Return the total.
-				return $this->retrieve($store);
+				$sorted[$results[$i]->link_id] = $results[$i]->ordering;
 			}
+		}
 
-			/*
-			 * The query contains required search terms so we have to iterate
-			 * over the items and remove any items that do not match all of the
-			 * required search terms. This is one of the most expensive steps
-			 * because a required token could theoretically eliminate all of
-			 * current terms which means we would have to loop through all of
-			 * the possibilities.
-			 */
-			foreach ($this->requiredTerms as $token => $required)
-			{
-				// Create a storage key for this set.
-				$setId = $this->getStoreId('getResultsTotal:required:' . serialize(array_values($required)) . ':' . $start . ':' . $limit);
+		$items = $results;
 
-				// Use the cached data if possible.
-				if ($this->retrieve($setId))
-				{
-					$reqTemp = $this->retrieve($setId);
-				}
-					// Check if the token was matched.
-				elseif (empty($required))
-				{
-					return null;
-				}
-					// Load the data from the database.
-				else
-				{
-					// Setup containers in case we have to make multiple passes.
-					$reqStart = 0;
-					$reqTemp = array();
-
-					do
-					{
-						// Get the map table suffix.
-						$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
-
-						// Adjust the query to join on the appropriate mapping table.
-						$query = clone($base);
-						$query->join('INNER', '#__finder_links_terms' . $suffix . ' AS m ON m.link_id = l.link_id')
-							->where('m.term_id IN (' . implode(',', $required) . ')');
-
-						// Load the results from the database.
-						$this->_db->setQuery($query, $reqStart, $limit);
-						$temp = $this->_db->loadObjectList('link_id');
-
-						// Set the required token more flag to true if the set equal the limit.
-						$reqMore = (count($temp) === $limit) ? true : false;
-
-						// Merge the matching set for this token.
-						$reqTemp = $reqTemp + $temp;
-
-						// Increment the term offset.
-						$reqStart += $limit;
-					}
-					while ($reqMore == true);
-
-					// Store this set in cache.
-					$this->store($setId, $reqTemp);
-				}
-
-				// Remove any items that do not match the required term.
-				$sorted = array_intersect_key($sorted, $reqTemp);
-			}
-
+		/*
+		 * If the query contains just optional search terms and we have
+		 * enough items for the page, we can stop here.
+		 */
+		if (empty($this->requiredTerms))
+		{
 			// If we need more items and they're available, make another pass.
 			if ($more && count($sorted) < $limit)
 			{
-				// Increment the batch starting point.
+				// Increment the batch starting point and continue.
 				$start += $limit;
-
-				// Merge the found items.
-				$items = $items + $sorted;
-
-				continue;
 			}
-			// Otherwise, end the loop.
-			{
-				// Merge the found items.
-				$items = $items + $sorted;
 
-				$more = false;
-			}
-			// End do-while loop.
+			// Push the total into cache.
+			$this->store($store, min(count($sorted), $limit));
+
+			// Return the total.
+			return $this->retrieve($store);
 		}
-		while ($more === true);
+
+		/*
+		 * The query contains required search terms so we have to iterate
+		 * over the items and remove any items that do not match all of the
+		 * required search terms. This is one of the most expensive steps
+		 * because a required token could theoretically eliminate all of
+		 * current terms which means we would have to loop through all of
+		 * the possibilities.
+		 */
+		foreach ($this->requiredTerms as $token => $required)
+		{
+			// Create a storage key for this set.
+			$setId = $this->getStoreId('getResultsTotal:required:' . serialize(array_values($required)) . ':' . $start . ':' . $limit);
+
+			// Use the cached data if possible.
+			if ($this->retrieve($setId))
+			{
+				$reqTemp = $this->retrieve($setId);
+			}
+				// Check if the token was matched.
+			elseif (empty($required))
+			{
+				return null;
+			}
+				// Load the data from the database.
+			else
+			{
+				// Setup containers in case we have to make multiple passes.
+				$reqStart = 0;
+				$reqTemp = array();
+
+				do
+				{
+					// Adjust the query to join on the appropriate mapping table.
+					$query = clone($base);
+					$query->join('INNER', '#__finder_links_terms AS m ON m.link_id = l.link_id')
+						->where('m.term_id IN (' . implode(',', $required) . ')');
+
+					// Load the results from the database.
+					$this->_db->setQuery($query, $reqStart, $limit);
+					$temp = $this->_db->loadObjectList('link_id');
+
+					// Set the required token more flag to true if the set equal the limit.
+					$reqMore = (count($temp) === $limit) ? true : false;
+
+					// Merge the matching set for this token.
+					$reqTemp = $reqTemp + $temp;
+
+					// Increment the term offset.
+					$reqStart += $limit;
+				}
+				while ($reqMore == true);
+
+				// Store this set in cache.
+				$this->store($setId, $reqTemp);
+			}
+
+			// Remove any items that do not match the required term.
+			$sorted = array_intersect_key($sorted, $reqTemp);
+		}
+
+		// If we need more items and they're available, make another pass.
+		if ($more && count($sorted) < $limit)
+		{
+			// Increment the batch starting point.
+			$start += $limit;
+
+			// Merge the found items.
+			$items = $items + $sorted;
+		}
 
 		// Set the total.
 		$total = count($items);
@@ -641,261 +600,194 @@ class FinderModelSearch extends JModelList
 		$start = 0;
 		$limit = (int) $this->getState('match.limit');
 		$items = array();
+		$results = array();
 		$sorted = array();
-		$maps = array();
+		$allIDs = array();
 		$excluded = $this->getExcludedLinkIds();
 
-		/*
-		 * Iterate through the included search terms and group them by mapping
-		 * table suffix. This ensures that we never have to do more than 16
-		 * queries to get a batch. This may seem like a lot but it is rarely
-		 * anywhere near 16 because of the improved mapping algorithm.
-		 */
 		foreach ($this->includedTerms as $token => $ids)
 		{
-			// Get the mapping table suffix.
-			$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
+			$allIDs = array_merge($allIDs, $ids);
+		}
 
-			// Initialize the mapping group.
-			if (!array_key_exists($suffix, $maps))
+		// Create a storage key for this set.
+		$setId = $this->getStoreId('getResultsData:' . serialize(array_values($allIDs)) . ':' . $start . ':' . $limit);
+
+		// Use the cached data if possible.
+		if ($this->retrieve($setId))
+		{
+			$results = $this->retrieve($setId);
+		}
+		// Load the data from the database.
+		else
+		{
+			// Adjust the query to join on the appropriate mapping table.
+			$query = clone($base);
+			$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
+				->where('m.term_id IN (' . implode(',', $allIDs) . ')');
+
+			// Load the results from the database.
+			$this->_db->setQuery($query, $start, $limit);
+			$results = $this->_db->loadObjectList('link_id');
+
+			// Store this set in cache.
+			$this->store($setId, $results);
+
+			// The data is keyed by link_id to ease caching, we don't need it till later.
+			$results = array_values($results);
+		}
+
+		// Check if there are any excluded terms to deal with.
+		if (count($excluded))
+		{
+			// Remove any results that match excluded terms.
+			for ($i = 0, $c = count($results); $i < $c; $i++)
 			{
-				$maps[$suffix] = array();
+				if (in_array($results[$i]->link_id, $excluded))
+				{
+					unset($results[$i]);
+				}
 			}
 
-			// Add the terms to the mapping group.
-			$maps[$suffix] = array_merge($maps[$suffix], $ids);
+			// Reset the array keys.
+			$results = array_values($results);
 		}
 
 		/*
-		 * When the query contains search terms we need to find and process the
-		 * results iteratively using a do-while loop.
+		 * If we are ordering by relevance we have to add up the relevance
+		 * scores that are contained in the ordering field.
 		 */
-		do
+		if ($ordering === 'm.weight')
 		{
-			// Create a container for the fetched results.
-			$results = array();
-			$more = false;
-
-			/*
-			 * Iterate through the mapping groups and load the results from each
-			 * mapping table.
-			 */
-			foreach ($maps as $suffix => $ids)
+			// Iterate through the set to extract the unique items.
+			for ($i = 0, $c = count($results); $i < $c; $i++)
 			{
-				// Create a storage key for this set.
-				$setId = $this->getStoreId('getResultsData:' . serialize(array_values($ids)) . ':' . $start . ':' . $limit);
-
-				// Use the cached data if possible.
-				if ($this->retrieve($setId))
+				// Add the total weights for all included search terms.
+				if (isset($sorted[$results[$i]->link_id]))
 				{
-					$temp = $this->retrieve($setId);
+					$sorted[$results[$i]->link_id] += (float) $results[$i]->ordering;
 				}
-				// Load the data from the database.
 				else
 				{
-					// Adjust the query to join on the appropriate mapping table.
-					$query = clone($base);
-					$query->join('INNER', $this->_db->quoteName('#__finder_links_terms' . $suffix) . ' AS m ON m.link_id = l.link_id')
-						->where('m.term_id IN (' . implode(',', $ids) . ')');
-
-					// Load the results from the database.
-					$this->_db->setQuery($query, $start, $limit);
-					$temp = $this->_db->loadObjectList('link_id');
-
-					// Store this set in cache.
-					$this->store($setId, $temp);
-
-					// The data is keyed by link_id to ease caching, we don't need it till later.
-					$temp = array_values($temp);
-				}
-
-				// Set the more flag to true if any of the sets equal the limit.
-				$more = (count($temp) === $limit) ? true : false;
-
-				// Merge the results.
-				$results = array_merge($results, $temp);
-			}
-
-			// Check if there are any excluded terms to deal with.
-			if (count($excluded))
-			{
-				// Remove any results that match excluded terms.
-				for ($i = 0, $c = count($results); $i < $c; $i++)
-				{
-					if (in_array($results[$i]->link_id, $excluded))
-					{
-						unset($results[$i]);
-					}
-				}
-
-				// Reset the array keys.
-				$results = array_values($results);
-			}
-
-			/*
-			 * If we are ordering by relevance we have to add up the relevance
-			 * scores that are contained in the ordering field.
-			 */
-			if ($ordering === 'm.weight')
-			{
-				// Iterate through the set to extract the unique items.
-				for ($i = 0, $c = count($results); $i < $c; $i++)
-				{
-					// Add the total weights for all included search terms.
-					if (isset($sorted[$results[$i]->link_id]))
-					{
-						$sorted[$results[$i]->link_id] += (float) $results[$i]->ordering;
-					}
-					else
-					{
-						$sorted[$results[$i]->link_id] = (float) $results[$i]->ordering;
-					}
+					$sorted[$results[$i]->link_id] = (float) $results[$i]->ordering;
 				}
 			}
-			/*
-			 * If we are ordering by start date we have to add convert the
-			 * dates to unix timestamps.
-			 */
-			elseif ($ordering === 'l.start_date')
-			{
-				// Iterate through the set to extract the unique items.
-				for ($i = 0, $c = count($results); $i < $c; $i++)
-				{
-					if (!isset($sorted[$results[$i]->link_id]))
-					{
-						$sorted[$results[$i]->link_id] = strtotime($results[$i]->ordering);
-					}
-				}
-			}
-			/*
-			 * If we are not ordering by relevance or date, we just have to add
-			 * the unique items to the set.
-			 */
-			else
-			{
-				// Iterate through the set to extract the unique items.
-				for ($i = 0, $c = count($results); $i < $c; $i++)
-				{
-					if (!isset($sorted[$results[$i]->link_id]))
-					{
-						$sorted[$results[$i]->link_id] = $results[$i]->ordering;
-					}
-				}
-			}
-
-			// Sort the results.
-			natcasesort($items);
-			if ($direction === 'DESC')
-			{
-				$items = array_reverse($items, true);
-			}
-
-			/*
-			 * If the query contains just optional search terms and we have
-			 * enough items for the page, we can stop here.
-			 */
-			if (empty($this->requiredTerms))
-			{
-				// If we need more items and they're available, make another pass.
-				if ($more && count($sorted) < ($this->getState('list.start') + $this->getState('list.limit')))
-				{
-					// Increment the batch starting point and continue.
-					$start += $limit;
-					continue;
-				}
-
-				// Push the results into cache.
-				$this->store($store, $sorted);
-
-				// Return the requested set.
-				return array_slice($this->retrieve($store), (int) $this->getState('list.start'), (int) $this->getState('list.limit'), true);
-			}
-
-			/*
-			 * The query contains required search terms so we have to iterate
-			 * over the items and remove any items that do not match all of the
-			 * required search terms. This is one of the most expensive steps
-			 * because a required token could theoretically eliminate all of
-			 * current terms which means we would have to loop through all of
-			 * the possibilities.
-			 */
-			foreach ($this->requiredTerms as $token => $required)
-			{
-				// Create a storage key for this set.
-				$setId = $this->getStoreId('getResultsData:required:' . serialize(array_values($required)) . ':' . $start . ':' . $limit);
-
-				// Use the cached data if possible.
-				if ($this->retrieve($setId))
-				{
-					$reqTemp = $this->retrieve($setId);
-				}
-				// Check if the token was matched.
-				elseif (empty($required))
-				{
-					return null;
-				}
-				// Load the data from the database.
-				else
-				{
-					// Setup containers in case we have to make multiple passes.
-					$reqStart = 0;
-					$reqTemp = array();
-
-					do
-					{
-						// Get the map table suffix.
-						$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
-
-						// Adjust the query to join on the appropriate mapping table.
-						$query = clone($base);
-						$query->join('INNER', $this->_db->quoteName('#__finder_links_terms' . $suffix) . ' AS m ON m.link_id = l.link_id')
-							->where('m.term_id IN (' . implode(',', $required) . ')');
-
-						// Load the results from the database.
-						$this->_db->setQuery($query, $reqStart, $limit);
-						$temp = $this->_db->loadObjectList('link_id');
-
-						// Set the required token more flag to true if the set equal the limit.
-						$reqMore = (count($temp) === $limit) ? true : false;
-
-						// Merge the matching set for this token.
-						$reqTemp = $reqTemp + $temp;
-
-						// Increment the term offset.
-						$reqStart += $limit;
-					}
-					while ($reqMore == true);
-
-					// Store this set in cache.
-					$this->store($setId, $reqTemp);
-				}
-
-				// Remove any items that do not match the required term.
-				$sorted = array_intersect_key($sorted, $reqTemp);
-			}
-
-			// If we need more items and they're available, make another pass.
-			if ($more && count($sorted) < ($this->getState('list.start') + $this->getState('list.limit')))
-			{
-				// Increment the batch starting point.
-				$start += $limit;
-
-				// Merge the found items.
-				$items = array_merge($items, $sorted);
-
-				continue;
-			}
-			// Otherwise, end the loop.
-			else
-			{
-				// Set the found items.
-				$items = $sorted;
-
-				$more = false;
-			}
-		// End do-while loop.
 		}
-		while ($more === true);
+		/*
+		 * If we are ordering by start date we have to add convert the
+		 * dates to unix timestamps.
+		 */
+		elseif ($ordering === 'l.start_date')
+		{
+			// Iterate through the set to extract the unique items.
+			for ($i = 0, $c = count($results); $i < $c; $i++)
+			{
+				if (!isset($sorted[$results[$i]->link_id]))
+				{
+					$sorted[$results[$i]->link_id] = strtotime($results[$i]->ordering);
+				}
+			}
+		}
+		/*
+		 * If we are not ordering by relevance or date, we just have to add
+		 * the unique items to the set.
+		 */
+		else
+		{
+			// Iterate through the set to extract the unique items.
+			for ($i = 0, $c = count($results); $i < $c; $i++)
+			{
+				if (!isset($sorted[$results[$i]->link_id]))
+				{
+					$sorted[$results[$i]->link_id] = $results[$i]->ordering;
+				}
+			}
+		}
+
+		$items = $sorted;
+
+		// Sort the results.
+		natcasesort($items);
+		if ($direction === 'DESC')
+		{
+			$items = array_reverse($items, true);
+		}
+
+		/*
+		 * If the query contains just optional search terms and we have
+		 * enough items for the page, we can stop here.
+		 */
+		if (empty($this->requiredTerms))
+		{
+			// Push the results into cache.
+			$this->store($store, $sorted);
+
+			// Return the requested set.
+			return array_slice($this->retrieve($store), (int) $this->getState('list.start'), (int) $this->getState('list.limit'), true);
+		}
+
+		/*
+		 * The query contains required search terms so we have to iterate
+		 * over the items and remove any items that do not match all of the
+		 * required search terms. This is one of the most expensive steps
+		 * because a required token could theoretically eliminate all of
+		 * current terms which means we would have to loop through all of
+		 * the possibilities.
+		 */
+		foreach ($this->requiredTerms as $token => $required)
+		{
+			// Create a storage key for this set.
+			$setId = $this->getStoreId('getResultsData:required:' . serialize(array_values($required)) . ':' . $start . ':' . $limit);
+
+			// Use the cached data if possible.
+			if ($this->retrieve($setId))
+			{
+				$reqTemp = $this->retrieve($setId);
+			}
+			// Check if the token was matched.
+			elseif (empty($required))
+			{
+				return null;
+			}
+			// Load the data from the database.
+			else
+			{
+				// Setup containers in case we have to make multiple passes.
+				$reqStart = 0;
+				$reqTemp = array();
+
+				// Adjust the query to join on the appropriate mapping table.
+				$query = clone($base);
+				$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
+					->where('m.term_id IN (' . implode(',', $required) . ')');
+
+				// Load the results from the database.
+				$this->_db->setQuery($query, $reqStart, $limit);
+				$temp = $this->_db->loadObjectList('link_id');
+
+				// Merge the matching set for this token.
+				$reqTemp = $reqTemp + $temp;
+
+				// Increment the term offset.
+				$reqStart += $limit;
+
+				// Store this set in cache.
+				$this->store($setId, $reqTemp);
+			}
+
+			// Remove any items that do not match the required term.
+			$sorted = array_intersect_key($sorted, $reqTemp);
+		}
+
+		// If we need more items and they're available, make another pass.
+		if (count($sorted) < ($this->getState('list.start') + $this->getState('list.limit')))
+		{
+			// Increment the batch starting point.
+			$start += $limit;
+
+			// Merge the found items.
+			$items = array_merge($items, $sorted);
+		}
 
 		// Push the results into cache.
 		$this->store($store, $items);
@@ -931,7 +823,7 @@ class FinderModelSearch extends JModelList
 
 		// Initialize containers.
 		$links = array();
-		$maps = array();
+		$allIDs = array();
 
 		/*
 		 * Iterate through the excluded search terms and group them by mapping
@@ -941,17 +833,7 @@ class FinderModelSearch extends JModelList
 		 */
 		foreach ($this->excludedTerms as $token => $id)
 		{
-			// Get the mapping table suffix.
-			$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
-
-			// Initialize the mapping group.
-			if (!array_key_exists($suffix, $maps))
-			{
-				$maps[$suffix] = array();
-			}
-
-			// Add the terms to the mapping group.
-			$maps[$suffix][] = (int) $id;
+			$allIDs[] = (int) $id;
 		}
 
 		/*
@@ -961,23 +843,20 @@ class FinderModelSearch extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		foreach ($maps as $suffix => $ids)
-		{
 
-			// Create the query to get the links ids.
-			$query->clear()
-				->select('link_id')
-				->from($db->quoteName('#__finder_links_terms' . $suffix))
-				->where($db->quoteName('term_id') . ' IN (' . implode(',', $ids) . ')')
-				->group($db->quoteName('link_id'));
+		// Create the query to get the links ids.
+		$query->clear()
+			->select('link_id')
+			->from($db->quoteName('#__finder_links_terms'))
+			->where($db->quoteName('term_id') . ' IN (' . implode(',', $allIDs) . ')')
+			->group($db->quoteName('link_id'));
 
-			// Load the link ids from the database.
-			$db->setQuery($query);
-			$temp = $db->loadColumn();
+		// Load the link ids from the database.
+		$db->setQuery($query);
+		$temp = $db->loadColumn();
 
-			// Merge the link ids.
-			$links = array_merge($links, $temp);
-		}
+		// Merge the link ids.
+		$links = array_merge($links, $temp);
 
 		// Sanitize the link ids.
 		$links = array_unique($links);
