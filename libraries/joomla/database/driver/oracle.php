@@ -210,9 +210,11 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	{
 		$this->connect();
 
+		// Must use escape() method since the table
+		// identifier can't be used as a bind variable
+		// in this case:
 		$query = $this->getQuery(true)
-			->setQuery('DROP TABLE :tableName');
-		$query->bind(':tableName', $tableName);
+			->setQuery('DROP TABLE ' . $this->escape($tableName));
 
 		$this->setQuery($query);
 
@@ -763,7 +765,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 				}
 			}
 
-			$this->executed = oci_execute($this->prepared);
+			$this->executed = @oci_execute($this->prepared);
 		}
 
 		if ($this->debug)
