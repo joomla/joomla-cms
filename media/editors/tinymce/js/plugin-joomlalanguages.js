@@ -26,29 +26,54 @@
             menu.push(menuItem);
         }
 
+        // Walk the DOM
+        function walkTheDOM(element, func) {
+            func(element);
+            element = element.firstChild;
+            while (element) {
+                walkTheDOM(element, func);
+                element = element.nextSibling;
+            }
+        }
+
         /**
          * Apply language to selected string
          */
         function applyLanguage() {
             var lang = this.settings.lang;
-
             editor.focus();
             if (editor.selection.getContent().length) {
                 var tmpNode = editor.selection.getNode();
 
-                if (/^<span/.test(tmpNode.outerHTML.toLowerCase())) {
-                    tmpNode.setAttribute("lang", lang.code);
-                    tmpNode.setAttribute("dir", lang.dir);
-                    tmpNode.setAttribute("xml:lang", lang.code);
-                } else {
-                    var content = '<span lang="' + lang.code + '" dir="' + lang.dir + '" xml:lang="' + lang.code + '">'
-                        + editor.selection.getContent() + '</span>';
+               walkTheDOM(tmpNode, function (element) {
 
-                    editor.selection.setContent(content);
-                }
+                   // Is it a Text node?
+                    if (element.childNodes.length === 0 && element.nodeType === 3) {
+                        editor.focus();
+                        editor.selection.select(element);
+
+                        if (element.parentNode && element.parentNode.tagName.toLowerCase() === 'span') {
+                            editor.selection.select(element.parentNode);
+                            element.parentNode.setAttribute("lang", lang.code);
+                            element.parentNode.setAttribute("dir", lang.dir);
+                            element.parentNode.setAttribute("xml:lang", lang.code);
+
+                            editor.selection.setNode(element.parentNode);
+                        } else {
+                            var content = document.createElement('span');
+                            content.setAttribute('lang', lang.code);
+                            content.setAttribute('dir', lang.dir);
+                            content.setAttribute('xml:lang', lang.code);
+                            content.innerHTML = element.data;
+
+                            editor.selection.setNode(content);
+                      }
+
+                        editor.nodeChanged();
+                        editor.focus();
+                    }
+                });
             }
-            editor.nodeChanged();
-            editor.focus();
         }
 
         // Register the button

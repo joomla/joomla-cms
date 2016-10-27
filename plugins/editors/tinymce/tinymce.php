@@ -918,7 +918,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
 				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ' . $dragDropPlg;
-				$scriptOptions['toolbar1'] = $toolbar1 . ' | ' . $toolbar5;
+				$scriptOptions['toolbar1'] = $toolbar1 . ' | ' . ' joomlalanguages ' . $toolbar5;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['importcss_append']  = true;
 				$scriptOptions['height'] = $html_height;
@@ -1004,7 +1004,7 @@ class PlgEditorTinymce extends JPlugin
 				// Set some vars
 				$name    = 'button-' . $i . str_replace(" ", "", $button->get('text'));
 				$title   = $button->get('text');
-				$onclick = ($button->get('onclick')) ? $button->get('onclick') : null;
+				$onclick = $button->get('onclick') ? $button->get('onclick') : null;
 				$options = $button->get('options');
 				$icon    = $button->get('name');
 
@@ -1022,7 +1022,7 @@ class PlgEditorTinymce extends JPlugin
 
 				// Now we can built the script
 				$tempConstructor = '
-			!(function(){';
+			;(function(){';
 
 				// Get the modal width/height
 				if ($options && is_scalar($options))
