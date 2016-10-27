@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @see    https://secure.php.net/pdo
  * @since  12.1
  */
-class JDatabaseDriverOracle extends JDatabaseDriverPdo
+class JDatabaseDriverOracle extends JDatabaseDriver
 {
 	/**
 	 * The name of the database driver.
@@ -61,6 +61,34 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	protected $charset;
 
 	/**
+    * Is used to decide whether a result set
+    * should generate lowercase field names
+    *
+    * @var boolean
+    */
+    var $tolower = true;
+
+    /**
+    * Is used to decide whether a result set
+    * should return the LOB values or the LOB objects
+    */
+    var $returnlobs = true;
+
+	/**
+	 * @var    resource  The prepared statement.
+	 * @since  12.1
+	 */
+	protected $prepared;
+
+	/**
+	 * Contains the current query execution status
+	 *
+	 * @var array
+	 * @since 12.1
+	 */
+	protected $executed = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection
@@ -69,7 +97,11 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public function __construct($options)
 	{
-		$options['driver'] = 'oci';
+		$options['host']    = (isset($options['host'])) ? $options['host']   : 'localhost';
+		$options['user']    = (isset($options['user'])) ? $options['user']   : '';
+		$options['password']    = (isset($options['password'])) ? $options['password']   : '';
+		$options['select']    = (isset($options['select'])) ? (bool) $options['select']   : true;
+		$options['port']    = (isset($options['port'])) ? (bool) (int) $options['port']   : 1521;
 		$options['charset']    = (isset($options['charset'])) ? $options['charset']   : 'AL32UTF8';
 		$options['dateformat'] = (isset($options['dateformat'])) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
@@ -106,7 +138,23 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 			return;
 		}
 
-		parent::connect();
+		// perform a number of fatality checks, then return gracefully
+		if (!function_exists('oci_connect'))
+		{
+			throw new JDatabaseExceptionConnecting('The oci8 extension may not be available.', 1);
+		}
+
+		// connect to the server
+		$user = $this->options['user'];
+		$password = $this->options['password'];
+		$host = $this->options['host'];
+		$port = $this->options['port'];
+		$database = $this->options['database'];
+
+		if (!($this->connection = @oci_connect($user, $password, "//$host:$port/$database")))
+		{
+			throw new JDatabaseExceptionConnecting('Could not connect to the Oracle database using the information provided', 2);
+		}
 
 		if (isset($this->options['schema']))
 		{
@@ -125,9 +173,17 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public function disconnect()
 	{
+		foreach ($this->disconnectHandlers as $h)
+		{
+			call_user_func_array($h, array( &$this));
+		}
+
 		// Close the connection.
-		$this->freeResult();
-		unset($this->connection);
+		if (is_resource($this->connection))
+		{
+			oci_close($this->connection);
+			$this->connection = null;
+		}
 	}
 
 	/**
@@ -158,6 +214,20 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Get the number of affected rows by the last INSERT, UPDATE, REPLACE or DELETE for the previous executed SQL statement.
+	 *
+	 * @return  integer  The number of affected rows.
+	 *
+	 * @since   12.1
+	 */
+	public function getAffectedRows()
+	{
+		$this->connect();
+
+		return oci_num_rows($this->connection);
+	}
+
+	/**
 	 * Method to get the database collation in use by sampling a text field of a table in the database.
 	 *
 	 * @return  mixed  The collation in use by the database or boolean false if not supported.
@@ -178,6 +248,22 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	public function getConnectionCollation()
 	{
 		return $this->charset;
+	}
+
+	/**
+	 * Get the number of returned rows for the previous executed SQL statement.
+	 * This command is only valid for statements like SELECT or SHOW that return an actual result set.
+	 * To retrieve the number of rows affected by an INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
+	 *
+	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
+	 *
+	 * @return  integer   The number of returned rows.
+	 *
+	 * @since   12.1
+	 */
+	public function getNumRows($cursor = null)
+	{
+		return oci_num_rows($cursor ? $cursor : $this->cursor);
 	}
 
 	/**
@@ -263,9 +349,9 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$columns = array();
 		$query = $this->getQuery(true);
 
-		$fieldCasing = $this->getOption(PDO::ATTR_CASE);
+		//$fieldCasing = $this->getOption(PDO::ATTR_CASE);
 
-		$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
+		//$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
 
 		$table = strtoupper($table);
 
@@ -294,7 +380,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 			}
 		}
 
-		$this->setOption(PDO::ATTR_CASE, $fieldCasing);
+		//$this->setOption(PDO::ATTR_CASE, $fieldCasing);
 
 		return $columns;
 	}
@@ -400,6 +486,22 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Method to get the auto-incremented value from the last INSERT statement.
+	 *
+	 * @return  mixed  The value of the auto-increment field from the last inserted row.
+	 *                 If the value is greater than maximal int value, it will return a string.
+	 *
+	 * @since   12.1
+	 */
+	public function insertid()
+	{
+		// Not really supported on Oracle:
+		//$this->connect();
+
+		return null;
+	}
+
+	/**
 	 * Select a database for use.
 	 *
 	 * @param   string  $database  The name of the database to select for use.
@@ -414,6 +516,48 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->connect();
 
 		return true;
+	}
+
+	/**
+	 * Sets the SQL statement string for later execution.
+	 *
+	 * @param   mixed    $query          The SQL statement to set either as a JDatabaseQuery object or a string.
+	 * @param   integer  $offset         The affected row offset to set.
+	 * @param   integer  $limit          The maximum affected rows to set.
+	 * @param   array    $driverOptions  The optional PDO driver options.
+	 *
+	 * @return  JDatabaseDriver  This object to support method chaining.
+	 *
+	 * @since   12.1
+	 */
+	public function setQuery($query, $offset = null, $limit = null)
+	{
+		$this->connect();
+
+		$this->freeResult();
+
+		if (is_string($query))
+		{
+			// Allows taking advantage of bound variables in a direct query:
+			$query = $this->getQuery(true)->setQuery($query);
+		}
+
+		if ($query instanceof JDatabaseQueryLimitable && !is_null($offset) && !is_null($limit))
+		{
+			$query = $query->processLimit($query, $limit, $offset);
+		}
+
+		// Create a stringified version of the query (with prefixes replaced):
+		$sql = $this->replacePrefix((string) $query);
+
+		// Use the stringified version in the prepare call:
+		$this->prepared = oci_parse($this->connection, $sql);
+
+		// Store reference to the original JDatabaseQuery instance within the class.
+		// This is important since binding variables depends on it within execute():
+		parent::setQuery($query, $offset, $limit);
+
+		return $this;
 	}
 
 	/**
@@ -470,6 +614,39 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Method to escape a string for usage in an SQL statement.
+	 *
+	 * Oracle escaping reference:
+	 * http://www.orafaq.com/wiki/SQL_FAQ#How_does_one_escape_special_characters_when_writing_SQL_queries.3F
+	 *
+	 * SQLite escaping notes:
+	 * http://www.sqlite.org/faq.html#q14
+	 *
+	 * Method body is as implemented by the Zend Framework
+	 *
+	 * Note: Using query objects with bound variables is
+	 * preferable to the below.
+	 *
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Unused optional parameter to provide extra escaping.
+	 *
+	 * @return  string  The escaped string.
+	 *
+	 * @since   12.1
+	 */
+	public function escape($text, $extra = false)
+	{
+		if (is_int($text) || is_float($text))
+		{
+			return $text;
+		}
+
+		$text = str_replace("'", "''", $text);
+
+		return addcslashes($text, "\000\n\r\\\032");
+	}
+
+	/**
 	 * Locks a table in the database.
 	 *
 	 * @param   string  $table  The name of the table to unlock.
@@ -484,6 +661,128 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->setQuery('LOCK TABLE ' . $this->quoteName($table) . ' IN EXCLUSIVE MODE')->execute();
 
 		return $this;
+	}
+
+	/**
+	 * Execute the SQL statement.
+	 *
+	 * @return  mixed  A database cursor resource on success, boolean false on failure.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 * @throws  Exception
+	 */
+	public function execute()
+	{
+		$this->connect();
+
+		// Take a local copy so that we don't modify the original query and cause issues later
+		$query = $this->replacePrefix((string) $this->sql);
+
+		if (!is_resource($this->connection))
+		{
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
+		}
+
+		// Increment the query counter.
+		$this->count++;
+
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+
+		// If debugging is enabled then let's log the query.
+		if ($this->debug)
+		{
+			// Add the query to the object queue.
+			$this->log[] = $query;
+
+			JLog::add($query, JLog::DEBUG, 'databasequery');
+
+			$this->timings[] = microtime(true);
+		}
+
+		// Execute the query.
+		$this->executed = false;
+
+		if (is_resource($this->prepared))
+		{
+			// Bind the variables:
+			if ($this->sql instanceof JDatabaseQueryPreparable)
+			{
+				$bounded = $this->sql->getBounded();
+
+				foreach ($bounded as $key => $obj)
+				{
+					oci_bind_by_name($this->prepared, $key, $obj->value, $obj->length, $obj->dataType);
+				}
+			}
+
+			$this->executed = oci_execute($this->prepared);
+		}
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
+		}
+
+		// If an error occurred handle it.
+		if (!$this->executed)
+		{
+			// Get the error number and message before we execute any more queries.
+			$errorNum = $this->getErrorNumber();
+			$errorMsg = $this->getErrorMessage($query);
+
+			// Check if the server was disconnected.
+			if (!$this->connected())
+			{
+				try
+				{
+					// Attempt to reconnect.
+					$this->connection = null;
+					$this->connect();
+				}
+				// If connect fails, ignore that exception and throw the normal exception.
+				catch (RuntimeException $e)
+				{
+					// Get the error number and message.
+					$this->errorNum = $this->getErrorNumber();
+					$this->errorMsg = $this->getErrorMessage($query);
+
+					// Throw the normal query exception.
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
+					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum, $e);
+				}
+
+				// Since we were able to reconnect, run the query again.
+				return $this->execute();
+			}
+			// The server was not disconnected.
+			else
+			{
+				// Get the error number and message from before we tried to reconnect.
+				$this->errorNum = $errorNum;
+				$this->errorMsg = $errorMsg;
+
+				// Throw the normal query exception.
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
+				throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
+			}
+		}
+
+		return $this->prepared;
 	}
 
 	/**
@@ -531,6 +830,56 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	public static function isSupported()
 	{
 		return class_exists('PDO') && in_array('oci', PDO::getAvailableDrivers());
+	}
+
+	/**
+	 * Determines if the connection to the server is active.
+	 *
+	 * @return  boolean  True if connected to the database engine.
+	 *
+	 * @since   12.1
+	 */
+	public function connected()
+	{
+		// Flag to prevent recursion into this function.
+		static $checkingConnected = false;
+
+		if ($checkingConnected)
+		{
+			// Reset this flag and throw an exception.
+			$checkingConnected = true;
+			die('Recursion trying to check if connected.');
+		}
+
+		// Backup the query state.
+		$query = $this->sql;
+		$limit = $this->limit;
+		$offset = $this->offset;
+		$prepared = $this->prepared;
+
+		try
+		{
+			// Set the checking connection flag.
+			$checkingConnected = true;
+
+			// Run a simple query to check the connection.
+			$this->setQuery($this->getConnectedQuery());
+			$status = (bool) $this->loadResult();
+		}
+		// If we catch an exception here, we must not be connected.
+		catch (Exception $e)
+		{
+			$status = false;
+		}
+
+		// Restore the query state.
+		$this->sql = $query;
+		$this->limit = $limit;
+		$this->offset = $offset;
+		$this->prepared = $prepared;
+		$checkingConnected = false;
+
+		return $status;
 	}
 
 	/**
@@ -708,6 +1057,100 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Method to fetch a row from the result set cursor as an array.
+	 *
+	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 *
+	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
+	 *
+	 * @since   12.1
+	 */
+	protected function fetchArray($cursor = null)
+	{
+		$mode = $this->getMode(true);
+
+		return oci_fetch_array($cursor ? $cursor : $this->prepared, $mode);
+	}
+
+	/**
+	 * Method to fetch a row from the result set cursor as an associative array.
+	 *
+	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 *
+	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
+	 *
+	 * @since   12.1
+	 */
+	protected function fetchAssoc($cursor = null)
+	{
+		$mode = $this->getMode();
+
+		$row = oci_fetch_array($cursor ? $cursor : $this->prepared, $mode);
+
+		if ($row && $this->tolower)
+		{
+			$row = array_change_key_case($row);
+		}
+
+		return $row;
+	}
+
+	/**
+	 * Method to fetch a row from the result set cursor as an object.
+	 *
+	 * @param   mixed   $cursor  The optional result set cursor from which to fetch the row.
+	 * @param   string  $class   The class name to use for the returned row object.
+	 *
+	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
+	 *
+	 * @since   12.1
+	 */
+	protected function fetchObject($cursor = null, $class = 'stdClass')
+	{
+		$row = $this->fetchAssoc($cursor);
+
+		if ($row)
+		{
+			if ($class !== 'stdClass')
+			{
+				$row = new $class($row);
+			}
+			else
+			{
+				$row = (object) $row;
+			}
+		}
+
+		return $row;
+	}
+
+	/**
+	 * Method to free up the memory used for the result set.
+	 *
+	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	protected function freeResult($cursor = null)
+	{
+		$this->executed = false;
+
+		if (is_resource($cursor))
+		{
+			oci_free_statement($cursor);
+			$cursor = null;
+		}
+
+		if (is_resource($this->prepared))
+		{
+			oci_free_statement($this->prepared);
+			$this->prepared = null;
+		}
+	}
+
+	/**
 	 * Get the query strings to alter the character set and collation of a table.
 	 *
 	 * @param   string  $tableName  The name of the table
@@ -720,6 +1163,81 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	{
 		return array();
 	}
+
+	/**
+    * Sets the $tolower variable to true
+    * so that field names will be created
+    * using lowercase values.
+    *
+    * @return void
+    */
+    public function toLower()
+    {
+        $this->tolower = true;
+    }
+
+    /**
+    * Sets the $tolower variable to false
+    * so that field names will be created
+    * using uppercase values.
+    *
+    * @return void
+    */
+    public function toUpper()
+    {
+        $this->tolower = false;
+    }
+
+    /**
+    * Sets the $returnlobs variable to true
+    * so that LOB object values will be
+    * returned rather than an OCI-Lob Object.
+    *
+    * @return void
+    */
+    public function returnLobValues()
+    {
+        $this->returnlobs = true;
+    }
+
+    /**
+    * Sets the $returnlobs variable to false
+    * so that OCI-Lob Objects will be returned.
+    *
+    * @return void
+    */
+    public function returnLobObjects()
+    {
+        $this->returnlobs = false;
+    }
+
+    /**
+    * Depending on the value for $returnlobs,
+    * this method returns the proper constant
+    * combinations to be passed to the oci* functions
+    *
+    * @return int
+    */
+    public function getMode($numeric = false)
+    {
+        if ($numeric === false) {
+            if ($this->returnlobs) {
+                $mode = OCI_ASSOC+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
+            }
+            else {
+                $mode = OCI_ASSOC+OCI_RETURN_NULLS;
+            }
+        } else {
+            if ($this->returnlobs) {
+                $mode = OCI_NUM+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
+            }
+            else {
+                $mode = OCI_NUM+OCI_RETURN_NULLS;
+            }
+        }
+
+        return $mode;
+    }
 
 	/**
 	 * Return the query string to create new Database.
@@ -736,5 +1254,52 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	protected function getCreateDatabaseQuery($options, $utf)
 	{
 		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
+	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorNumber()
+	{
+		$error = oci_error($this->prepared);
+
+		if ($error !== false)
+		{
+			return $error['code'];
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Return the actual SQL Error message
+	 *
+	 * @param   string  $query  The SQL Query that fails
+	 *
+	 * @return  string  The SQL Error message
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorMessage($query)
+	{
+		$error = oci_error($this->prepared);
+
+		if ($error !== false)
+		{
+			// Replace the Databaseprefix with `#__` if we are not in Debug
+			if (!$this->debug)
+			{
+				$errorMessage = str_replace($this->tablePrefix, '#__', $error['message']);
+				$query        = str_replace($this->tablePrefix, '#__', $query);
+			}
+
+			return $error['message'] . ' SQL=' . $query;
+		}
+
+		return '';
 	}
 }
