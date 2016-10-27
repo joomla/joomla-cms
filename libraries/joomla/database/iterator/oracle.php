@@ -85,7 +85,7 @@ class JDatabaseIteratorOracle extends JDatabaseIterator
 	 */
 	protected function freeResult()
 	{
-		oci_free_statement($this->cursor);
+		@oci_free_statement($this->cursor);
 	}
 
 	/**
