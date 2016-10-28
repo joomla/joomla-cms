@@ -38,13 +38,19 @@
 			required="true"
 		/>
 
+		<field name="note_password" type="note"
+			class="alert alert-warning"
+			label="Password must contain:" description="1 symbol(s), 1 uppercase letter(s), 1 lowercase letter(s), 1 number(s)"
+		/>
+
 		<field
 			name="admin_password"
 			type="password"
 			id="admin_password"
-			class="form-control"
+			class="form-control validate-password-strength"
 			label="INSTL_ADMIN_PASSWORD_LABEL"
 			required="true"
+			force="on"
 			filter="raw"
 			autocomplete="off"
 		/>

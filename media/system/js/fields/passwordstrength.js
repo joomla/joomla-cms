@@ -1,3 +1,10 @@
+"use strict";
+
+/**
+ * PasswordStrength script by Thomas Kjaergaard
+ * License: MIT
+ * Repo: https://github.com/tkjaergaard/Password-Strength
+ */
 var PasswordStrength;
 
 PasswordStrength = (function() {
@@ -37,7 +44,12 @@ PasswordStrength = (function() {
 
 })();
 
+/**
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
 document.addEventListener('DOMContentLoaded', function(){
+	"use strict";
 
 	/** Method to check the input and set the meter **/
 	var getMeter = function(element) {
@@ -61,15 +73,15 @@ document.addEventListener('DOMContentLoaded', function(){
 			label = element.parentNode.querySelector('#password-' + i);
 
 		if (score > 79){
-			meter.setAttribute('class', 'progress progress-success');
+			meter.setAttribute('class', 'progress progress-warning');
 			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_VSTRONG');
 		}
 		if (score > 64 && score < 80){
-			meter.setAttribute('class', 'progress progress-success');
+			meter.setAttribute('class', 'progress progress-warning');
 			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_STRONG');
 		}
 		if (score > 50 && score < 65){
-			meter.setAttribute('class', 'progress progress-info');
+			meter.setAttribute('class', 'progress progress-warning');
 			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_NORMAL');
 		}
 		if (score > 40 && score < 51){
@@ -80,7 +92,9 @@ document.addEventListener('DOMContentLoaded', function(){
 			meter.setAttribute('class', 'progress progress-danger');
 			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_WEAK');
 		}
-
+		if (score === 100){
+			meter.setAttribute('class', 'progress progress-success');
+		}
 		meter.value = score;
 
 		if (!element.value.length) {
@@ -130,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	/** Set a handler for the validation script **/
 	if (fields[0]) {
-		document.formvalidator.setHandler('passwordExtra', function(value) {
+		document.formvalidator.setHandler('password-strength', function(value) {
 
 			var returnedValue = false,
 				fields = document.querySelectorAll('.js-password-strength'),
@@ -149,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			});
 
 			var score = strength.getScore(value);
-console.log(score);
+
 			if (score === 100 ) returnedValue = true;
 
 			return returnedValue;

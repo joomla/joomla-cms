@@ -23,19 +23,20 @@
 		       validate="email"
 		/>
 
-		<field name="note_password" type="note"
-			class="alert alert-info"
-			label="Password must contain:" description="1 symbol(s), 1 uppercase letter(s), 1 lowercase letter(s), 1 number(s)" />
-
 		<field name="password" type="password"
 			autocomplete="off"
 			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 			filter="raw"
-			class="validate-passwordExtra"
+			class="validate-password-strength"
 			strengthmeter="true"
 			force="on"
 			label="JGLOBAL_PASSWORD"
 			size="30"
+		/>
+
+		<field name="note_password" type="note"
+			class="alert alert-warning"
+			label="JFIELD_PASSWORD_NOTE_LBL" description="JFIELD_PASSWORD_NOTE_DESC"
 		/>
 
 		<field name="password2" type="password"
