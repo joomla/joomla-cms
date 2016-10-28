@@ -73,13 +73,6 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 		$options['charset']    = (isset($options['charset'])) ? $options['charset']   : 'AL32UTF8';
 		$options['dateformat'] = (isset($options['dateformat'])) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
-		if (!isset($options['driverOptions']))
-		{
-			$options['driverOptions'] = [
-				PDO::ATTR_CASE => PDO::CASE_LOWER
-			];
-		}
-
 		$this->charset = $options['charset'];
 		$this->dateformat = $options['dateformat'];
 
@@ -359,17 +352,11 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 		$columns = array();
 		$query = $this->getQuery(true);
 
-		$fieldCasing = $this->getOption(PDO::ATTR_CASE);
-
-		$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
-
-		$table = strtoupper($table);
-
 		$query->select('*');
 		$query->from('ALL_TAB_COLUMNS');
 		$query->where('table_name = UPPER(:tableName)');
 
-		$prefixedTable = str_replace('#__', strtoupper($this->tablePrefix), $table);
+		$prefixedTable = str_replace('#__', $this->tablePrefix, $table);
 		$query->bind(':tableName', $prefixedTable);
 		$this->setQuery($query);
 		$fields = $this->loadObjectList();
@@ -378,19 +365,30 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 		{
 			foreach ($fields as $field)
 			{
-				$columns[$field->COLUMN_NAME] = $field->DATA_TYPE;
+				if ($this->useLowercaseFieldNames())
+				{
+					$columns[strtolower($field->column_name)] = $field->data_type;
+				}
+				else
+				{
+					$columns[$field->COLUMN_NAME] = $field->DATA_TYPE;
+				}
 			}
 		}
 		else
 		{
 			foreach ($fields as $field)
 			{
-				$columns[$field->COLUMN_NAME] = $field;
-				$columns[$field->COLUMN_NAME]->Default = null;
+				if ($this->useLowercaseFieldNames())
+				{
+					$columns[strtolower($field->column_name)] = $field;
+				}
+				else
+				{
+					$columns[$field->COLUMN_NAME] = $field;
+				}
 			}
 		}
-
-		$this->setOption(PDO::ATTR_CASE, $fieldCasing);
 
 		return $columns;
 	}
@@ -411,11 +409,6 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 
 		$query = $this->getQuery(true);
 
-		$fieldCasing = $this->getOption(PDO::ATTR_CASE);
-
-		$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
-
-		$table = strtoupper($table);
 		$query->select('*')
 			->from('ALL_CONSTRAINTS NATURAL JOIN ALL_CONS_COLUMNS')
 			->where('table_name = UPPER(:tableName)')
@@ -423,8 +416,6 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 
 		$this->setQuery($query);
 		$keys = $this->loadObjectList();
-
-		$this->setOption(PDO::ATTR_CASE, $fieldCasing);
 
 		return $keys;
 	}
@@ -627,30 +618,6 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 	public static function isSupported()
 	{
 		return class_exists('PDO') && in_array('oci', PDO::getAvailableDrivers());
-	}
-
-	/**
-    * Sets the $tolower variable to true
-    * so that field names will be created
-    * using lowercase values.
-    *
-    * @return void
-    */
-	public function toLower()
-	{
-		$this->setOption(PDO::ATTR_CASE, PDO::CASE_LOWER);
-	}
-
-	/**
-	* Sets the $tolower variable to false
-	* so that field names will be created
-	* using uppercase values.
-	*
-	* @return void
-	*/
-	public function toUpper()
-	{
-		$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
 	}
 
 	/**
