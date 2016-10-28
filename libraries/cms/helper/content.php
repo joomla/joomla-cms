@@ -117,7 +117,9 @@ class JHelperContent
 
 		if ($actions === false)
 		{
-			JLog::add(JText::sprintf('JLIB_ERROR_COMPONENT_SPECIFIC_ACCESS_XML_FILE_INVALID_FORMAT_OR_MISSING', $component), JLog::ERROR, 'jerror');
+			JLog::add(
+				JText::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), JLog::ERROR, 'jerror'
+			);
 
 			return $result;
 		}
