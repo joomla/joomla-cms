@@ -131,6 +131,59 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Copies a table with/without it's data in the database.
+	 *
+	 * @param   string   $fromTable  The name of the database table to copy from.
+	 * @param   string   $toTable    The name of the database table to create.
+	 * @param   boolean  $withData   Optionally include the data in the new table.
+	 *
+	 * @return  JDatabaseDriverOracle  Returns this object to support chaining.
+	 *
+	 * @since   12.1
+	 */
+	public function copyTable($fromTable, $toTable, $withData = false)
+	{
+		$this->connect();
+
+		$fromTable = strtoupper($fromTable);
+		$toTable = strtoupper($toTable);
+
+		$query = $this->getQuery(true);
+
+		// Works as a flag to include/exclude the data in the copied table:
+		if ($withData)
+		{
+			$whereClause = ' where 11 = 11';
+		}
+		else
+		{
+			$whereClause = ' where 11 = 1';
+		}
+
+		$query->setQuery('CREATE TABLE ' . $this->quoteName($toTable) . ' as SELECT * FROM ' . $this->quoteName($fromTable) . $whereClause);
+
+		$this->setQuery($query);
+
+		try
+		{
+			$this->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			/**
+			* Code 955 is for when the table already exists
+			* so we can safely ignore that code and catch any others.
+			*/
+			if ($e->getCode() !== 955)
+			{
+				throw $e;
+			}
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Drops a table from the database.
 	 *
 	 * Note: The IF EXISTS flag is unused in the Oracle driver.
@@ -146,13 +199,28 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
+		$tableName = strtoupper($tableName);
+
 		$query = $this->getQuery(true)
-			->setQuery('DROP TABLE :tableName');
-		$query->bind(':tableName', $tableName);
+			->setQuery('DROP TABLE ' . $this->quoteName($tableName));
 
 		$this->setQuery($query);
 
-		$this->execute();
+		try
+		{
+			$this->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			/**
+			* Code 942 is for when the table doesn't exist
+			* so we can safely ignore that code and catch any others.
+			*/
+			if ($e->getCode() !== 942)
+			{
+				throw $e;
+			}
+		}
 
 		return $this;
 	}
