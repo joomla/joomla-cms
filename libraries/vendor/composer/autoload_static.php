@@ -36,6 +36,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Symfony\\Polyfill\\Php55\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
         ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
         'J' => 
         array (
             'Joomla\\Utilities\\Tests\\' => 23,
@@ -47,7 +51,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Registry\\' => 16,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
-            'Joomla\\Filter\\Tests\\' => 20,
             'Joomla\\Filter\\' => 14,
             'Joomla\\Event\\Tests\\' => 19,
             'Joomla\\Event\\' => 13,
@@ -75,6 +78,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'Joomla\\Utilities\\Tests\\' => 
         array (
@@ -111,10 +118,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Input\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/input/src',
-        ),
-        'Joomla\\Filter\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/filter/Tests',
         ),
         'Joomla\\Filter\\' => 
         array (
@@ -156,13 +159,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'SimplePie' => 
             array (
                 0 => __DIR__ . '/..' . '/simplepie/simplepie/library',
-            ),
-        ),
-        'P' => 
-        array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
             ),
         ),
         'J' => 

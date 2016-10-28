@@ -21,16 +21,48 @@ use Joomla\String\StringHelper;
 class InputFilter
 {
 	/**
+	 * Defines the InputFilter instance should use a whitelist method for sanitising tags.
+	 *
+	 * @var    integer
+	 * @since  1.3.0
+	 */
+	const TAGS_WHITELIST = 0;
+
+	/**
+	 * Defines the InputFilter instance should use a blacklist method for sanitising tags.
+	 *
+	 * @var    integer
+	 * @since  1.3.0
+	 */
+	const TAGS_BLACKLIST = 1;
+
+	/**
+	 * Defines the InputFilter instance should use a whitelist method for sanitising attributes.
+	 *
+	 * @var    integer
+	 * @since  1.3.0
+	 */
+	const ATTR_WHITELIST = 0;
+
+	/**
+	 * Defines the InputFilter instance should use a blacklist method for sanitising attributes.
+	 *
+	 * @var    integer
+	 * @since  1.3.0
+	 */
+	const ATTR_BLACKLIST = 1;
+
+	/**
 	 * A container for InputFilter instances.
 	 *
 	 * @var    InputFilter[]
 	 * @since  1.0
-	 * @deprecated  2.0
+	 * @deprecated  1.2.0
 	 */
 	protected static $instances = array();
 
 	/**
-	 * The array of permitted tags (white list).
+	 * The array of permitted tags (whitelist).
 	 *
 	 * @var    array
 	 * @since  1.0
@@ -38,7 +70,7 @@ class InputFilter
 	public $tagsArray;
 
 	/**
-	 * The array of permitted tag attributes (white list).
+	 * The array of permitted tag attributes (whitelist).
 	 *
 	 * @var    array
 	 * @since  1.0
@@ -46,7 +78,7 @@ class InputFilter
 	public $attrArray;
 
 	/**
-	 * The method for sanitising tags: WhiteList method = 0 (default), BlackList method = 1
+	 * The method for sanitising tags
 	 *
 	 * @var    integer
 	 * @since  1.0
@@ -54,7 +86,7 @@ class InputFilter
 	public $tagsMethod;
 
 	/**
-	 * The method for sanitising attributes: WhiteList method = 0 (default), BlackList method = 1
+	 * The method for sanitising attributes
 	 *
 	 * @var    integer
 	 * @since  1.0
@@ -125,18 +157,19 @@ class InputFilter
 	 *
 	 * @since   1.0
 	 */
-	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
+	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = self::TAGS_WHITELIST, $attrMethod = self::ATTR_WHITELIST,
+		$xssAuto = 1)
 	{
 		// Make sure user defined arrays are in lowercase
 		$tagsArray = array_map('strtolower', (array) $tagsArray);
 		$attrArray = array_map('strtolower', (array) $attrArray);
 
 		// Assign member variables
-		$this->tagsArray = $tagsArray;
-		$this->attrArray = $attrArray;
+		$this->tagsArray  = $tagsArray;
+		$this->attrArray  = $attrArray;
 		$this->tagsMethod = $tagsMethod;
 		$this->attrMethod = $attrMethod;
-		$this->xssAuto = $xssAuto;
+		$this->xssAuto    = $xssAuto;
 	}
 
 	/**
@@ -242,7 +275,22 @@ class InputFilter
 
 			case 'BOOL':
 			case 'BOOLEAN':
-				$result = (bool) $source;
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (bool) $eachString;
+					}
+				}
+				else
+				{
+					$result = (bool) $source;
+				}
+
 				break;
 
 			case 'WORD':
@@ -501,14 +549,13 @@ class InputFilter
 	 */
 	protected function remove($source)
 	{
-		$loopCounter = 0;
-
 		// Iteration provides nested tag protection
-		while ($source != $this->cleanTags($source))
+		do
 		{
+			$temp = $source;
 			$source = $this->cleanTags($source);
-			$loopCounter++;
 		}
+		while ($temp != $source);
 
 		return $source;
 	}
@@ -785,33 +832,31 @@ class InputFilter
 			}
 
 			// XSS attribute value filtering
-			if (isset($attrSubSet[1]))
-			{
-				// Trim leading and trailing spaces
-				$attrSubSet[1] = trim($attrSubSet[1]);
-
-				// Strips unicode, hex, etc
-				$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
-
-				// Strip normal newline within attr value
-				$attrSubSet[1] = preg_replace('/[\n\r]/', '', $attrSubSet[1]);
-
-				// Strip double quotes
-				$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
-
-				// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
-				if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
-				{
-					$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
-				}
-
-				// Strip slashes
-				$attrSubSet[1] = stripslashes($attrSubSet[1]);
-			}
-			else
+			if (!isset($attrSubSet[1]))
 			{
 				continue;
 			}
+
+			// Trim leading and trailing spaces
+			$attrSubSet[1] = trim($attrSubSet[1]);
+
+			// Strips unicode, hex, etc
+			$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
+
+			// Strip normal newline within attr value
+			$attrSubSet[1] = preg_replace('/[\n\r]/', '', $attrSubSet[1]);
+
+			// Strip double quotes
+			$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
+
+			// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
+			if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
+			{
+				$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
+			}
+
+			// Strip slashes
+			$attrSubSet[1] = stripslashes($attrSubSet[1]);
 
 			// Autostrip script tags
 			if (self::checkAttribute($attrSubSet))
@@ -935,20 +980,17 @@ class InputFilter
 		if (!stripos($test, ':expression'))
 		{
 			// Not found, so we are done
-			$return = $source;
-		}
-		else
-		{
-			// At this point, we have stripped out the comments and have found :expression
-			// Test stripped string for :expression followed by a '('
-			if (preg_match_all('#:expression\s*\(#', $test, $matches))
-			{
-				// If found, remove :expression
-				$test = str_ireplace(':expression', '', $test);
-				$return = $test;
-			}
+			return $source;
 		}
 
-		return $return;
+		// At this point, we have stripped out the comments and have found :expression
+		// Test stripped string for :expression followed by a '('
+		if (preg_match_all('#:expression\s*\(#', $test, $matches))
+		{
+			// If found, remove :expression
+			return str_ireplace(':expression', '', $test);
+		}
+
+		return $source;
 	}
 }
