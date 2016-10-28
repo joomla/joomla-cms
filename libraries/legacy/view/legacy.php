@@ -19,6 +19,13 @@ defined('JPATH_PLATFORM') or die;
 class JViewLegacy extends JObject
 {
 	/**
+	 * The active document object
+	 *
+	 * @var    JDocument
+	 */
+	public $document;
+
+	/**
 	 * The name of the view
 	 *
 	 * @var    array
@@ -819,5 +826,35 @@ class JViewLegacy extends JObject
 		}
 
 		return $this->form;
+	}
+
+	/**
+	 * Sets the document title according to Global Configuration options
+	 *
+	 * @param   string  $title  The page title
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	public function setDocumentTitle($title)
+	{
+		$app = JFactory::getApplication();
+
+		// Check for empty title and add site name if param is set
+		if (empty($title))
+		{
+			$title = $app->get('sitename');
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
+		{
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
+		{
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+		}
+
+		$this->document->setTitle($title);
 	}
 }

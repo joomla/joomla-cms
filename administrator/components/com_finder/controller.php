@@ -17,7 +17,9 @@ defined('_JEXEC') or die;
 class FinderController extends JControllerLegacy
 {
 	/**
-	 * @var    string  The default view.
+	 * The default view.
+	 *
+	 * @var    string
 	 * @since  2.5
 	 */
 	protected $default_view = 'index';
@@ -28,13 +30,13 @@ class FinderController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController  A JController object to support chaining.
+	 * @return  FinderController  A JControllerLegacy object to support chaining.
 	 *
 	 * @since	2.5
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		include_once JPATH_COMPONENT . '/helpers/finder.php';
+		JLoader::register('FinderHelper', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/finder.php');
 
 		$view   = $this->input->get('view', 'index', 'word');
 		$layout = $this->input->get('layout', 'index', 'word');
@@ -51,8 +53,6 @@ class FinderController extends JControllerLegacy
 			return false;
 		}
 
-		parent::display();
-
-		return $this;
+		return parent::display();
 	}
 }

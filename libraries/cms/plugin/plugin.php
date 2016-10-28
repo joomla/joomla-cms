@@ -71,8 +71,7 @@ abstract class JPlugin extends JEvent
 			}
 			else
 			{
-				$this->params = new Registry;
-				$this->params->loadString($config['params']);
+				$this->params = new Registry($config['params']);
 			}
 		}
 
@@ -136,9 +135,16 @@ abstract class JPlugin extends JEvent
 			$extension = 'Plg_' . $this->_type . '_' . $this->_name;
 		}
 
-		$lang = JFactory::getLanguage();
+		$extension = strtolower($extension);
+		$lang      = JFactory::getLanguage();
 
-		return $lang->load(strtolower($extension), $basePath, null, false, true)
-			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, true);
+		// If language already loaded, don't load it again.
+		if ($lang->getPaths($extension))
+		{
+			return true;
+		}
+
+		return $lang->load($extension, $basePath, null, false, true)
+			|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, true);
 	}
 }

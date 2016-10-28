@@ -261,7 +261,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			$this->parent->pushStep(
 				array(
 					'type' => 'folder',
-					'path' => $this->parent->getPath('extension_root')
+					'path' => $this->parent->getPath('extension_root'),
 				)
 			);
 		}
@@ -912,13 +912,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		{
 			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
-			if (is_file($manifestScriptFile))
-			{
-				// Load the file
-				include_once $manifestScriptFile;
-			}
-
 			$classname = $this->getScriptClassName();
+
+			JLoader::register($classname, $manifestScriptFile);
 
 			if (class_exists($classname))
 			{

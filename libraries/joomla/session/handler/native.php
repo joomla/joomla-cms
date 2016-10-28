@@ -22,7 +22,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * @var    boolean
 	 * @since  3.5
 	 */
-	private $started;
+	private $started = false;
 
 	/**
 	 * Has the session been closed
@@ -30,7 +30,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * @var    boolean
 	 * @since  3.5
 	 */
-	private $closed;
+	private $closed = false;
 
 	/**
 	 * Starts the session
@@ -151,6 +151,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 
 		// Workaround for https://bugs.php.net/bug.php?id=61470 as suggested by David Grudl
 		session_write_close();
+		$this->closed = true;
 
 		if (isset($_SESSION))
 		{
@@ -186,7 +187,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 			$session = JFactory::getSession();
 			$data    = $session->getData();
 
-			// Before storing it, let's serialize and encode the JRegistry object
+			// Before storing it, let's serialize and encode the Registry object
 			$_SESSION['joomla'] = base64_encode(serialize($data));
 
 			session_write_close();

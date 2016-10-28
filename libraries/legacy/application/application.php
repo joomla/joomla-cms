@@ -560,7 +560,7 @@ class JApplication extends JApplicationBase
 			return $registry->set($key, $value);
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -609,18 +609,16 @@ class JApplication extends JApplicationBase
 	 * @param   array  $credentials  Array('username' => string, 'password' => string)
 	 * @param   array  $options      Array('remember' => boolean)
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean|JException  True on success, false if failed or silent handling is configured, or a JException object on authentication error.
 	 *
 	 * @since   11.1
 	 * @deprecated  4.0
 	 */
 	public function login($credentials, $options = array())
 	{
-		// Get the global JAuthentication object.
-		jimport('joomla.user.authentication');
-
 		JPluginHelper::importPlugin('user');
 
+		// Get the global JAuthentication object.
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
@@ -823,7 +821,7 @@ class JApplication extends JApplicationBase
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $router;
@@ -870,7 +868,7 @@ class JApplication extends JApplicationBase
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $pathway;
@@ -900,7 +898,7 @@ class JApplication extends JApplicationBase
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $menu;
@@ -1099,7 +1097,7 @@ class JApplication extends JApplicationBase
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new Registry('session'));
+			$session->set('registry', new Registry);
 			$session->set('user', new JUser);
 		}
 	}
@@ -1123,11 +1121,11 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if this application is administrator.
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
-		return ($this->_clientId == 1);
+		return $this->isClient('administrator');
 	}
 
 	/**
@@ -1136,11 +1134,25 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if this application is site.
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
-		return ($this->_clientId == 0);
+		return $this->isClient('site');
+	}
+
+	/**
+	 * Check the client interface by name.
+	 *
+	 * @param   string  $identifier  String identifier for the application interface
+	 *
+	 * @return  boolean  True if this application is of the given type client interface.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isClient($identifier)
+	{
+		return $this->getName() == $identifier;
 	}
 
 	/**
@@ -1168,7 +1180,7 @@ class JApplication extends JApplicationBase
 	 */
 	public function isSSLConnection()
 	{
-		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
+		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
 	}
 
 	/**

@@ -11,22 +11,15 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
+/** @var JDocumentError $this */
+
 // Getting params from template
 $params = JFactory::getApplication()->getTemplate(true)->params;
 
-$app             = JFactory::getApplication();
-$doc             = JFactory::getDocument();
-$lang            = JFactory::getLanguage();
-$this->language  = $doc->language;
-$this->direction = $doc->direction;
-$input           = $app->input;
-$user            = JFactory::getUser();
-
-// Output document as HTML5.
-if (is_callable(array($doc, 'setHtml5')))
-{
-	$doc->setHtml5(true);
-}
+$app   = JFactory::getApplication();
+$lang  = JFactory::getLanguage();
+$input = $app->input;
+$user  = JFactory::getUser();
 
 // Gets the FrontEnd Main page Uri
 $frontEndUri = JUri::getInstance(JUri::root());
@@ -136,6 +129,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 			<div class="container-fluid">
 				<?php if ($params->get('admin_menus') != '0') : ?>
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="element-invisible"><?php echo JTEXT::_('TPL_ISIS_TOGGLE_MENU'); ?></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
@@ -155,8 +149,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 					<?php $this->menumodules = JModuleHelper::getModules('menu'); ?>
 					<?php foreach ($this->menumodules as $menumodule) : ?>
 						<?php $output = JModuleHelper::renderModule($menumodule, array('style' => 'none')); ?>
-						<?php $params = new Registry; ?>
-						<?php $params->loadString($menumodule->params); ?>
+						<?php $params = new Registry($menumodule->params); ?>
 						<?php echo $output; ?>
 					<?php endforeach; ?>
 					<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
@@ -212,8 +205,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 				<?php $this->statusmodules = JModuleHelper::getModules('status'); ?>
 				<?php foreach ($this->statusmodules as $statusmodule) : ?>
 					<?php $output = JModuleHelper::renderModule($statusmodule, array('style' => 'no')); ?>
-					<?php $params = new Registry; ?>
-					<?php $params->loadString($statusmodule->params); ?>
+					<?php $params = new Registry($statusmodule->params); ?>
 					<?php echo $output; ?>
 				<?php endforeach; ?>
 			</div>
@@ -234,7 +226,24 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 						<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
 					</blockquote>
 					<?php if ($this->debug) : ?>
-						<?php echo $this->renderBacktrace(); ?>
+						<div>
+							<?php echo $this->renderBacktrace(); ?>
+							<?php // Check if there are more Exceptions and render their data as well ?>
+							<?php if ($this->error->getPrevious()) : ?>
+								<?php $loop = true; ?>
+								<?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
+								<?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+								<?php $this->setError($this->_error->getPrevious()); ?>
+								<?php while ($loop === true) : ?>
+									<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
+									<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+									<?php echo $this->renderBacktrace(); ?>
+									<?php $loop = $this->setError($this->_error->getPrevious()); ?>
+								<?php endwhile; ?>
+								<?php // Reset the main error object to the base error ?>
+								<?php $this->setError($this->error); ?>
+							<?php endif; ?>
+						</div>
 					<?php endif; ?>
 					<p><a href="<?php echo $this->baseurl; ?>" class="btn"><span class="icon-dashboard"></span> <?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
 					<!-- End Content -->

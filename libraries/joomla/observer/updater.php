@@ -75,7 +75,7 @@ class JObserverUpdater implements JObserverUpdaterInterface
 			return $this->observers[$observerClass];
 		}
 
-		return null;
+		return;
 	}
 
 	/**

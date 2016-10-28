@@ -25,7 +25,7 @@ class LanguagesModelStrings extends JModelLegacy
 	 */
 	public function refresh()
 	{
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
+		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		$app = JFactory::getApplication();
 

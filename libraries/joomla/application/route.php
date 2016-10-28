@@ -57,7 +57,7 @@ class JRoute
 			// Make sure that we have our router
 			if (!self::$_router[$client])
 			{
-				return null;
+				return;
 			}
 		}
 

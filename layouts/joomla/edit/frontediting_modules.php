@@ -28,7 +28,7 @@ if (preg_match('/<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]* jmoddiv"/', $modu
 // Add css class jmoddiv and data attributes for module-editing URL and for the tooltip:
 $editUrl = JUri::base() . 'administrator/index.php?option=com_modules&task=module.edit&id=' . (int) $mod->id;
 
-if ($parameters->get('redirect_edit', 'site') == 'site')
+if ($parameters->get('redirect_edit', 'site') === 'site')
 {
 	$editUrl = JUri::base() . 'index.php?option=com_config&controller=config.display.modules&id=' . (int) $mod->id . $redirectUri;
 	$target  = '_self';
@@ -38,7 +38,7 @@ if ($parameters->get('redirect_edit', 'site') == 'site')
 $count = 0;
 $moduleHtml = preg_replace(
 	// Replace first tag of module with a class
-	'/^(\s*<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]*)"/',
+	'/^(\s*<(?:div|span|nav|ul|ol|h\d|section|aside|nav|address|article) [^>]*class="[^"]*)"/',
 	// By itself, adding class jmoddiv and data attributes for the url and tooltip:
 	'\\1 jmoddiv" data-jmodediturl="' . $editUrl . '" data-target="' . $target . '" data-jmodtip="'
 	.	JHtml::tooltipText(
@@ -48,7 +48,7 @@ $moduleHtml = preg_replace(
 		)
 	. '"'
 	// And if menu editing is enabled and allowed and it's a menu module, add data attributes for menu editing:
-	.	($menusEditing && $mod->module == 'mod_menu' ?
+	.	($menusEditing && $mod->module === 'mod_menu' ?
 			'" data-jmenuedittip="' . JHtml::tooltipText('JLIB_HTML_EDIT_MENU_ITEM', 'JLIB_HTML_EDIT_MENU_ITEM_ID') . '"'
 			:
 			''

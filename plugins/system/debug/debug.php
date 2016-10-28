@@ -83,6 +83,14 @@ class PlgSystemDebug extends JPlugin
 	protected $app;
 
 	/**
+	 * Container for callback functions to be triggered when rendering the console.
+	 *
+	 * @var    callable[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private static $displayCallbacks = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -156,6 +164,21 @@ class PlgSystemDebug extends JPlugin
 		// Prepare disconnect handler for SQL profiling.
 		$db = JFactory::getDbo();
 		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
+
+		// Log deprecated class aliases
+		foreach (JLoader::getDeprecatedAliases() as $deprecation)
+		{
+			JLog::add(
+				sprintf(
+					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
+					$deprecation['old'],
+					$deprecation['new'],
+					$deprecation['version']
+				),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
 	}
 
 	/**
@@ -249,7 +272,10 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('errors');
 			}
 
-			$html[] = $this->display('session');
+			if ($this->params->get('session', 1))
+			{
+				$html[] = $this->display('session');
+			}
 
 			if ($this->params->get('profile', 1))
 			{
@@ -291,9 +317,54 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
+		foreach (self::$displayCallbacks as $name => $callable)
+		{
+			$html[] = $this->displayCallback($name, $callable);
+		}
+
 		$html[] = '</div>';
 
 		echo str_replace('</body>', implode('', $html) . '</body>', $contents);
+	}
+
+	/**
+	 * Add a display callback to be rendered with the debug console.
+	 *
+	 * @param   string    $name      The name of the callable, this is used to generate the section title.
+	 * @param   callable  $callable  The callback function to be added.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  InvalidArgumentException
+	 */
+	public static function addDisplayCallback($name, $callable)
+	{
+		// TODO - When PHP 5.4 is the minimum the parameter should be typehinted "callable" and this check removed
+		if (!is_callable($callable))
+		{
+			throw new InvalidArgumentException('A valid callback function must be given.');
+		}
+
+		self::$displayCallbacks[$name] = $callable;
+
+		return true;
+	}
+
+	/**
+	 * Remove a registered display callback
+	 *
+	 * @param   string  $name  The name of the callable.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function removeDisplayCallback($name)
+	{
+		unset(self::$displayCallbacks[$name]);
+
+		return true;
 	}
 
 	/**
@@ -336,7 +407,7 @@ class PlgSystemDebug extends JPlugin
 	 * General display method.
 	 *
 	 * @param   string  $item    The item to display.
-	 * @param   array   $errors  Errors occured during execution.
+	 * @param   array   $errors  Errors occurred during execution.
 	 *
 	 * @return  string
 	 *
@@ -360,7 +431,7 @@ class PlgSystemDebug extends JPlugin
 			return __METHOD__ . ' -- Unknown method: ' . $fncName . '<br />';
 		}
 
-		$html = '';
+		$html = array();
 
 		$js = "toggleContainer('dbg_container_" . $item . "');";
 
@@ -373,6 +444,38 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $item . '">';
 		$html[] = $this->$fncName();
+		$html[] = '</div>';
+
+		return implode('', $html);
+	}
+
+	/**
+	 * Display method for callback functions.
+	 *
+	 * @param   string    $name      The name of the callable.
+	 * @param   callable  $callable  The callable function.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function displayCallback($name, $callable)
+	{
+		$title = JText::_('PLG_DEBUG_' . strtoupper($name));
+
+		$html = array();
+
+		$js = "toggleContainer('dbg_container_" . $name . "');";
+
+		$class = 'dbg-header';
+
+		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
+
+		// @todo set with js.. ?
+		$style = ' style="display: none;"';
+
+		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $name . '">';
+		$html[] = call_user_func($callable);
 		$html[] = '</div>';
 
 		return implode('', $html);
@@ -518,7 +621,7 @@ class PlgSystemDebug extends JPlugin
 		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
 		{
 			$totalTime += $mark->time;
-			$totalMem += $mark->memory;
+			$totalMem += (float) $mark->memory;
 			$htmlMark = sprintf(
 				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.2f&nbsp;ms</span> / <span class="label label-default">%.2f&nbsp;ms</span>'
 				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="label label-memory">%0.3f MB</span> / <span class="label label-default">%0.2f MB</span>'
@@ -586,7 +689,7 @@ class PlgSystemDebug extends JPlugin
 			);
 
 			$barsMem[] = (object) array(
-				'width' => round($mark->memory / ($totalMem / 100), 4),
+				'width' => round((float) $mark->memory / ($totalMem / 100), 4),
 				'class' => $barClassMem,
 				'tip' => $mark->tip . ' ' . round($mark->memory, 3) . '  MB',
 			);
@@ -1042,7 +1145,7 @@ class PlgSystemDebug extends JPlugin
 					{
 						if ($dup != $id)
 						{
-							$dups[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
+							$dups[] = '<a class="alert-link" href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
 						}
 					}
 
@@ -1107,7 +1210,7 @@ class PlgSystemDebug extends JPlugin
 
 				foreach ($dups as $dup)
 				{
-					$links[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
+					$links[] = '<a class="alert-link" href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
 				}
 
 				$html[] = '<div>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_NUMBER', count($links)) . ': ' . implode('&nbsp; ', $links) . '</div>';
@@ -1232,7 +1335,9 @@ class PlgSystemDebug extends JPlugin
 
 		$html = array();
 
-		$html[] = '<table class="table table-striped dbg-query-table"><tr>';
+		$html[] = '<table class="table table-striped dbg-query-table">';
+		$html[] = '<thead>';
+		$html[] = '<tr>';
 
 		foreach (array_keys($table[0]) as $k)
 		{
@@ -1240,7 +1345,8 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		$html[] = '</tr>';
-
+		$html[] = '</thead>';
+		$html[] = '<tbody>';
 		$durations = array();
 
 		foreach ($table as $tr)
@@ -1284,7 +1390,7 @@ class PlgSystemDebug extends JPlugin
 				}
 				elseif ($k == 'Error')
 				{
-					// An error in the EXPLAIN query occured, display it instead of the result (means original query had syntax error most probably).
+					// An error in the EXPLAIN query occurred, display it instead of the result (means original query had syntax error most probably).
 					$html[] = '<td class="dbg-warning">' . htmlspecialchars($td);
 					$hasWarnings = true;
 				}
@@ -1336,7 +1442,7 @@ class PlgSystemDebug extends JPlugin
 
 			$html[] = '</tr>';
 		}
-
+		$html[] = '</tbody>';
 		$html[] = '</table>';
 
 		return implode('', $html);
@@ -1632,9 +1738,9 @@ class PlgSystemDebug extends JPlugin
 			$j = 1;
 
 			$html[] = '<table cellpadding="0" cellspacing="0">';
-
+			$html[] = '<thead>';
 			$html[] = '<tr>';
-			$html[] = '<td colspan="3"><strong>Call stack</strong></td>';
+			$html[] = '<th colspan="3"><strong>Call stack</strong></th>';
 			$html[] = '</tr>';
 
 			$html[] = '<tr>';
@@ -1642,6 +1748,8 @@ class PlgSystemDebug extends JPlugin
 			$html[] = '<th>Function</th>';
 			$html[] = '<th>Location</th>';
 			$html[] = '</tr>';
+			$html[] = '</thead>';
+			$html[] = '<tbody>';
 
 			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{
@@ -1669,7 +1777,7 @@ class PlgSystemDebug extends JPlugin
 				$html[] = '</tr>';
 				$j++;
 			}
-
+			$html[] = '</tbody>';
 			$html[] = '</table>';
 		}
 
@@ -1857,6 +1965,7 @@ class PlgSystemDebug extends JPlugin
 			$htmlCallStack .= '<div>';
 			$htmlCallStack .= '<table class="table table-striped dbg-query-table">';
 			$htmlCallStack .= '<thead>';
+			$htmlCallStack .= '<tr>';
 			$htmlCallStack .= '<th>#</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_CALLER') . '</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_FILE_AND_LINE') . '</th>';

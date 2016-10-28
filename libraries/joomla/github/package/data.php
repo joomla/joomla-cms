@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/git/
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  *
  * https://developer.github.com/v3/git/
  * Git DB API
@@ -50,7 +51,5 @@ class JGithubPackageData extends JGithubPackage
 {
 	protected $name = 'Data';
 
-	protected $packages = array(
-		'blobs', 'commits', 'refs', 'tags', 'trees'
-	);
+	protected $packages = array('blobs', 'commits', 'refs', 'tags', 'trees');
 }

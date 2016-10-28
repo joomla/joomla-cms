@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Uri\UriHelper;
+
 JLoader::register('idna_convert', JPATH_LIBRARIES . '/idna_convert/idna_convert.class.php');
 
 /**
@@ -65,7 +67,7 @@ abstract class JStringPunycode
 	 */
 	public static function urlToPunycode($uri)
 	{
-		$parsed = JString::parse_url($uri);
+		$parsed = UriHelper::parse_url($uri);
 
 		if (!isset($parsed['host']) || $parsed['host'] == '')
 		{
@@ -136,7 +138,7 @@ abstract class JStringPunycode
 			return;
 		}
 
-		$parsed = JString::parse_url($uri);
+		$parsed = UriHelper::parse_url($uri);
 
 		if (!isset($parsed['host']) || $parsed['host'] == '')
 		{
@@ -192,12 +194,12 @@ abstract class JStringPunycode
 	}
 
 	/**
-	 * Transforms a UTF-8 e-mail to a Punycode e-mail
+	 * Transforms a UTF-8 email to a Punycode email
 	 * This assumes a valid email address
 	 *
-	 * @param   string  $email  The UTF-8 e-mail to transform
+	 * @param   string  $email  The UTF-8 email to transform
 	 *
-	 * @return  string  The punycode e-mail
+	 * @return  string  The punycode email
 	 *
 	 * @since   3.1.2
 	 */
@@ -227,12 +229,12 @@ abstract class JStringPunycode
 	}
 
 	/**
-	 * Transforms a Punycode e-mail to a UTF-8 e-mail
+	 * Transforms a Punycode email to a UTF-8 email
 	 * This assumes a valid email address
 	 *
-	 * @param   string  $email  The punycode e-mail to transform
+	 * @param   string  $email  The punycode email to transform
 	 *
-	 * @return  string  The punycode e-mail
+	 * @return  string  The punycode email
 	 *
 	 * @since   3.1.2
 	 */

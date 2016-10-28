@@ -140,7 +140,8 @@ class JLogLoggerDatabase extends JLogLogger
 			'user' => $this->user,
 			'password' => $this->password,
 			'database' => $this->database,
-			'prefix' => $this->prefix);
+			'prefix' => $this->prefix,
+		);
 
 		$db = JDatabaseDriver::getInstance($options);
 

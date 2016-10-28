@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/helpers/route.php';
+JLoader::register('FinderHelperRoute', JPATH_COMPONENT . '/helpers/route.php');
 
 $controller = JControllerLegacy::getInstance('Finder');
 $controller->execute(JFactory::getApplication()->input->get('task'));

@@ -96,7 +96,9 @@ JFactory::getDocument()->addStyleDeclaration($css);
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
 				</td>
 				<td>
-					<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
+					<input class="input_box" id="install_package" name="install_package" type="file" size="57" /><br>
+					<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
+					<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 				</td>
 			</tr>
 			<tr>

@@ -117,6 +117,12 @@ class JFormFieldList extends JFormField
 				{
 					continue;
 				}
+
+				// Requires vote plugin enabled
+				if (in_array('vote', $requires) && !JPluginHelper::isEnabled('content', 'vote'))
+				{
+					continue;
+				}
 			}
 
 			$value = (string) $option['value'];
@@ -138,7 +144,7 @@ class JFormFieldList extends JFormField
 					'disable'  => $disabled,
 					'class'    => (string) $option['class'],
 					'selected' => ($checked || $selected),
-					'checked'  => ($checked || $selected)
+					'checked'  => ($checked || $selected),
 				);
 
 			// Set some event handler attributes. But really, should be using unobtrusive js.

@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -22,7 +22,7 @@ class FOFModelBehaviorLanguage extends FOFModelBehavior
 	 * list in a model. It is used to blacklist the language filter
 	 *
 	 * @param   FOFModel        &$model  The model which calls this event
-	 * @param   JDatabaseQuery  &$query  The model which calls this event
+	 * @param   FOFDatabaseQuery  &$query  The model which calls this event
 	 *
 	 * @return  void
 	 */
@@ -39,7 +39,7 @@ class FOFModelBehaviorLanguage extends FOFModelBehavior
 	 * list in a model. It is used to apply automatic query filters.
 	 *
 	 * @param   FOFModel        &$model  The model which calls this event
-	 * @param   JDatabaseQuery  &$query  The model which calls this event
+	 * @param   FOFDatabaseQuery  &$query  The model which calls this event
 	 *
 	 * @return  void
 	 */

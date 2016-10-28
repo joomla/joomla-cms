@@ -62,9 +62,6 @@ if ($saveOrder)
 						<th class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
-						</th>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
@@ -127,6 +124,7 @@ if ($saveOrder)
 						<td class="center">
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+								<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
 								<?php // Create dropdown items and render the dropdown list.
 								if ($canChange)
 								{
@@ -161,9 +159,6 @@ if ($saveOrder)
 								<div class="small"><?php echo $item->email; ?></div>
 							<?php endif; ?>
 						</td>
-						<td class="center hidden-phone">
-							<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
-						</td>
 						<td class="small hidden-phone">
 							<?php echo $item->access_level; ?>
 						</td>
@@ -175,11 +170,7 @@ if ($saveOrder)
 						</td>
 						<?php endif;?>
 						<td class="small hidden-phone">
-							<?php if ($item->language == '*') : ?>
-								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else : ?>
-								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif; ?>
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo $item->id; ?>

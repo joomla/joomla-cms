@@ -51,6 +51,14 @@ class JOAuth2ClientTest extends TestCase
 	private static $closed = null;
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -59,7 +67,7 @@ class JOAuth2ClientTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -71,6 +79,27 @@ class JOAuth2ClientTest extends TestCase
 		$this->input = new JInput($array);
 		$this->application = $this->getMockWeb();
 		$this->object = new JOAuth2Client($this->options, $this->http, $this->input, $this->application);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($this->options);
+		unset($this->input);
+		unset($this->http);
+		unset($this->application);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

@@ -168,7 +168,7 @@ class JAccessRules
 			return $this->data[$action]->allow($identity);
 		}
 
-		return null;
+		return;
 	}
 
 	/**

@@ -78,8 +78,8 @@
 			<option value="a.published DESC">JSTATUS_DESC</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
-			<option value="a.menutype ASC">COM_MENUS_HEADING_MENU_ASC</option>
-			<option value="a.menutype DESC">COM_MENUS_HEADING_MENU_DESC</option>
+			<option value="menutype_title ASC">COM_MENUS_HEADING_MENU_ASC</option>
+			<option value="menutype_title DESC">COM_MENUS_HEADING_MENU_DESC</option>
 			<option value="a.home ASC">COM_MENUS_HEADING_HOME_ASC</option>
 			<option value="a.home DESC">COM_MENUS_HEADING_HOME_DESC</option>
 			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>

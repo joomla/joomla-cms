@@ -513,6 +513,7 @@ ul.menu li ul li ul li ul li ul {
 .tooltip.left {
 	margin-left: 3px;
 }
+.popover,
 .tooltip-inner {
 	text-align: right;
 }

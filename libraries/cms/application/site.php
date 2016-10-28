@@ -351,8 +351,7 @@ final class JApplicationSite extends JApplicationCms
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
 
-				$temp = new Registry;
-				$temp->loadString($menu->params);
+				$temp = new Registry($menu->params);
 				$params[$hash]->merge($temp);
 				$title = $menu->title;
 			}
@@ -401,8 +400,7 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$config = JFactory::getConfig();
-		$options['mode'] = $config->get('sef');
+		$options['mode'] = JFactory::getConfig()->get('sef');
 
 		return parent::getRouter($name, $options);
 	}
@@ -485,9 +483,7 @@ final class JApplicationSite extends JApplicationCms
 
 			foreach ($templates as &$template)
 			{
-				$registry = new Registry;
-				$registry->loadString($template->params);
-				$template->params = $registry;
+				$template->params = new Registry($template->params);
 
 				// Create home element
 				if ($template->home == 1 && !isset($templates[0]) || $this->_language_filter && $template->home == $tag)
@@ -520,7 +516,10 @@ final class JApplicationSite extends JApplicationCms
 				{
 					if ($tmpl->template == $template_override)
 					{
-						$template->template = $template_override;
+						$template = $tmpl;
+
+						$template->params = new Registry($template->params);
+
 						break;
 					}
 				}
@@ -585,8 +584,21 @@ final class JApplicationSite extends JApplicationCms
 			$user->groups = array($guestUsergroup);
 		}
 
-		// If a language was specified it has priority, otherwise use user or default language settings
-		JPluginHelper::importPlugin('system', 'languagefilter');
+		/*
+		 * If a language was specified it has priority, otherwise use user or default language settings
+		 * Check this only if the languagefilter plugin is enabled
+		 *
+		 * @TODO - Remove the hardcoded dependency to the languagefilter plugin
+		 */
+		if (JPluginHelper::isEnabled('system', 'languagefilter'))
+		{
+			$plugin = JPluginHelper::getPlugin('system', 'languagefilter');
+
+			$pluginParams = new Registry($plugin->params);
+
+			$this->setLanguageFilter(true);
+			$this->setDetectBrowser($pluginParams->get('detect_browser', '1') == '1');
+		}
 
 		if (empty($options['language']))
 		{
@@ -600,7 +612,7 @@ final class JApplicationSite extends JApplicationCms
 			}
 		}
 
-		if ($this->_language_filter && empty($options['language']))
+		if ($this->getLanguageFilter() && empty($options['language']))
 		{
 			// Detect cookie language
 			$lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
@@ -624,7 +636,7 @@ final class JApplicationSite extends JApplicationCms
 			}
 		}
 
-		if ($this->_detect_browser && empty($options['language']))
+		if ($this->getDetectBrowser() && empty($options['language']))
 		{
 			// Detect browser language
 			$lang = JLanguageHelper::detectLanguage();
@@ -661,7 +673,17 @@ final class JApplicationSite extends JApplicationCms
 
 		// Finish initialisation
 		parent::initialiseApp($options);
+	}
 
+	/**
+	 * Load the library language files for the application
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.3
+	 */
+	protected function loadLibraryLanguage()
+	{
 		/*
 		 * Try the lib_joomla file in the current language (without allowing the loading of the file in the default language)
 		 * Fallback to the default language if necessary
