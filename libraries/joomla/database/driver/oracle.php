@@ -82,7 +82,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
     *
     * @var boolean
     */
-	protected $tolower = true;
+	protected $toLower = true;
 
 	/**
     * Contains the query type of the
@@ -412,7 +412,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	{
 		$iterator = parent::getIterator($column, $class);
 
-		if (!$this->tolower)
+		if (!$this->useLowercaseFieldNames())
 		{
 			$iterator->toUpper();
 		}
@@ -508,7 +508,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				if ($this->tolower)
+				if ($this->useLowercaseFieldNames())
 				{
 					$columns[strtolower($field->column_name)] = $field->data_type;
 				}
@@ -522,7 +522,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				if ($this->tolower)
+				if ($this->useLowercaseFieldNames())
 				{
 					$columns[strtolower($field->column_name)] = $field;
 				}
@@ -827,7 +827,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	{
 		if (!empty($key))
 		{
-			if ($this->tolower)
+			if ($this->useLowercaseFieldNames())
 			{
 				$key = strtolower($key);
 			}
@@ -839,7 +839,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		if (!empty($column))
 		{
-			if ($this->tolower)
+			if ($this->useLowercaseFieldNames())
 			{
 				$column = strtolower($column);
 			}
@@ -871,7 +871,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	{
 		if (!empty($key))
 		{
-			if ($this->tolower)
+			if ($this->useLowercaseFieldNames())
 			{
 				$key = strtolower($key);
 			}
@@ -1313,6 +1313,17 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	}
 
 	/**
+	* Indicates whether to use lowercase
+	* field names throughout the class or not.
+	*
+	* @return bool
+	*/
+	public function useLowercaseFieldNames()
+	{
+		return $this->toLower;
+	}
+
+	/**
 	 * Method to fetch a row from the result set cursor as an array.
 	 *
 	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
@@ -1348,7 +1359,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		$row = oci_fetch_array($cursor ? $cursor : $this->prepared, $mode);
 
-		if ($row && $this->tolower)
+		if ($row && $this->useLowercaseFieldNames())
 		{
 			$row = array_change_key_case($row);
 		}
@@ -1437,7 +1448,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
     */
 	public function toLower()
 	{
-		$this->tolower = true;
+		$this->toLower = true;
 	}
 
 	/**
@@ -1449,7 +1460,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	*/
 	public function toUpper()
 	{
-		$this->tolower = false;
+		$this->toLower = false;
 	}
 
 	/**
