@@ -22,13 +22,38 @@ class JDatabaseIteratorOracle extends JDatabaseIterator
 	*
 	* @var boolean
 	*/
-	protected $tolower = true;
+	protected $toLower = true;
 
 	/**
 	* Is used to decide whether a result set
 	* should return the LOB values or the LOB objects
 	*/
-	protected $returnlobs = true;
+	protected $returnLobs = true;
+
+	/**
+	 * Database iterator constructor.
+	 *
+	 * @param   mixed   $cursor  The database cursor.
+	 * @param   string  $column  An option column to use as the iterator key.
+	 * @param   string  $class   The class of object that is returned.
+	 *
+	 * @throws  InvalidArgumentException
+	 */
+	public function __construct($cursor, $column = null, $class = 'stdClass', $toLower = true, $returnLobs = true)
+	{
+		if (!class_exists($class))
+		{
+			throw new InvalidArgumentException(sprintf('new %s(*%s*, cursor)', get_class($this), gettype($class)));
+		}
+
+		$this->cursor = $cursor;
+		$this->class = $class;
+		$this->toLower = (bool) $toLower;
+		$this->returnLobs = (bool) $returnLobs;
+		$this->_column = $column;
+		$this->_fetched = 0;
+		$this->next();
+	}
 
 	/**
 	 * Get the number of rows in the result set for the executed SQL given by the cursor.
@@ -56,7 +81,7 @@ class JDatabaseIteratorOracle extends JDatabaseIterator
 
 		$row = oci_fetch_array($this->cursor, $mode);
 
-		if ($row && $this->tolower)
+		if ($row && $this->toLower)
 		{
 			$row = array_change_key_case($row);
 		}
@@ -89,54 +114,7 @@ class JDatabaseIteratorOracle extends JDatabaseIterator
 	}
 
 	/**
-	* Sets the $tolower variable to true
-	* so that field names will be created
-	* using lowercase values.
-	*
-	* @return void
-	*/
-	public function toLower()
-	{
-		$this->tolower = true;
-	}
-
-	/**
-	* Sets the $tolower variable to false
-	* so that field names will be created
-	* using uppercase values.
-	*
-	* @return void
-	*/
-	public function toUpper()
-	{
-		$this->tolower = false;
-	}
-
-	/**
-	* Sets the $returnlobs variable to true
-	* so that LOB object values will be
-	* returned rather than an OCI-Lob Object.
-	*
-	* @return void
-	*/
-	public function returnLobValues()
-	{
-		$this->returnlobs = true;
-	}
-
-	/**
-	* Sets the $returnlobs variable to false
-	* so that OCI-Lob Objects will be returned.
-	*
-	* @return void
-	*/
-	public function returnLobObjects()
-	{
-		$this->returnlobs = false;
-	}
-
-	/**
-	* Depending on the value for $returnlobs,
+	* Depending on the value for $returnLobs,
 	* this method returns the proper constant
 	* combinations to be passed to the oci* functions
 	*
@@ -148,7 +126,7 @@ class JDatabaseIteratorOracle extends JDatabaseIterator
 	{
 		if ($numeric === false)
 		{
-			if ($this->returnlobs)
+			if ($this->returnLobs)
 			{
 				$mode = OCI_ASSOC+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
 			}
@@ -159,7 +137,7 @@ class JDatabaseIteratorOracle extends JDatabaseIterator
 		}
 		else
 		{
-			if ($this->returnlobs)
+			if ($this->returnLobs)
 			{
 				$mode = OCI_NUM+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
 			}
