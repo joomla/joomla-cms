@@ -46,6 +46,7 @@ extract($displayData);
 
 if ($meter)
 {
+	JHtml::_('behavior.formvalidator');
 	JHtml::_('script', 'system/fields/passwordstrength.js', false, true);
 
 	$class = 'js-password-strength ' . $class;
