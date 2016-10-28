@@ -295,7 +295,7 @@ class PlgSystemUpdatenotification extends JPlugin
 			$assets = JTable::getInstance('Asset', 'JTable');
 			$rootId = $assets->getRootId();
 			$rules = JAccess::getAssetRules($rootId)->getData();
-			$rawGroups = $rules['core.admin'];
+			$rawGroups = $rules['core.admin']->getData();
 			$groups    = array();
 
 			if (empty($rawGroups))
