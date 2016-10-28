@@ -96,7 +96,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
     * Is used to decide whether a result set
     * should return the LOB values or the LOB objects
     */
-	protected $returnlobs = true;
+	protected $returnLobs = true;
 
 	/**
 	 * @var    resource  The prepared statement.
@@ -410,19 +410,18 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 */
 	public function getIterator($column = null, $class = 'stdClass')
 	{
-		$iterator = parent::getIterator($column, $class);
+		// Derive the class name from the driver.
+		$iteratorClass = 'JDatabaseIterator' . ucfirst($this->name);
 
-		if (!$this->useLowercaseFieldNames())
+		// Make sure we have an iterator class for this driver.
+		if (!class_exists($iteratorClass))
 		{
-			$iterator->toUpper();
+			// If it doesn't exist we are at an impasse so throw an exception.
+			throw new JDatabaseExceptionUnsupported(sprintf('class *%s* is not defined', $iteratorClass));
 		}
 
-		if (!$this->returnlobs)
-		{
-			$iterator->returnLobObjects();
-		}
-
-		return $iterator;
+		// Return a new iterator
+		return new $iteratorClass($this->execute(), $column, $class, $this->toLower, $this->returnLobs);
 	}
 
 	/**
@@ -1440,7 +1439,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	}
 
 	/**
-    * Sets the $tolower variable to true
+    * Sets the $toLower variable to true
     * so that field names will be created
     * using lowercase values.
     *
@@ -1452,7 +1451,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	}
 
 	/**
-	* Sets the $tolower variable to false
+	* Sets the $toLower variable to false
 	* so that field names will be created
 	* using uppercase values.
 	*
@@ -1464,7 +1463,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	}
 
 	/**
-	* Sets the $returnlobs variable to true
+	* Sets the $returnLobs variable to true
 	* so that LOB object values will be
 	* returned rather than an OCI-Lob Object.
 	*
@@ -1472,22 +1471,22 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	*/
 	public function returnLobValues()
 	{
-		$this->returnlobs = true;
+		$this->returnLobs = true;
 	}
 
 	/**
-	* Sets the $returnlobs variable to false
+	* Sets the $returnLobs variable to false
 	* so that OCI-Lob Objects will be returned.
 	*
 	* @return void
 	*/
 	public function returnLobObjects()
 	{
-		$this->returnlobs = false;
+		$this->returnLobs = false;
 	}
 
 	/**
-	* Depending on the value for $returnlobs,
+	* Depending on the value for $returnLobs,
     * this method returns the proper constant
     * combinations to be passed to the oci* functions
     *
@@ -1499,7 +1498,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	{
 		if ($numeric === false)
 		{
-			if ($this->returnlobs)
+			if ($this->returnLobs)
 			{
 				$mode = OCI_ASSOC+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
 			}
@@ -1510,7 +1509,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 		}
 		else
 		{
-			if ($this->returnlobs)
+			if ($this->returnLobs)
 			{
 				$mode = OCI_NUM+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
 			}
