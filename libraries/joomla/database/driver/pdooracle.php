@@ -758,4 +758,26 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 	{
 		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
 	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorNumber()
+	{
+		// The SQL Error Information
+		$errorInfo = $this->connection->errorInfo();
+
+		// Error Number Info is Actually Contained Here:
+		if (isset($errorInfo[1]) && is_int($errorInfo[1]))
+		{
+			return $errorInfo[1];
+		}
+
+		// Fallback option (less reliable info):
+		return (int) $this->connection->errorCode();
+	}
 }
