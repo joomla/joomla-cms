@@ -81,6 +81,8 @@ if (!empty($this->items))
 		$headerDate     = '';
 		$headerAuthor   = '';
 		$headerHits     = '';
+		$headerVotes    = '';
+		$headerRatings  = '';
 		$headerEdit     = '';
 		?>
 		<?php if ($this->params->get('show_headings')) : ?>
@@ -89,6 +91,8 @@ if (!empty($this->items))
 			$headerDate     = 'headers="categorylist_header_date"';
 			$headerAuthor   = 'headers="categorylist_header_author"';
 			$headerHits     = 'headers="categorylist_header_hits"';
+			$headerVotes    = 'headers="categorylist_header_votes"';
+			$headerRatings  = 'headers="categorylist_header_ratings"';
 			$headerEdit     = 'headers="categorylist_header_edit"';
 			?>
 			<thead>
@@ -117,6 +121,16 @@ if (!empty($this->items))
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
+				<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
+					<th id="categorylist_header_votes">
+						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+					</th>
+				<?php endif; ?>
+				<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+					<th id="categorylist_header_ratings">
+						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
+					</th>
+				<?php endif; ?>
 				<?php if ($isEditable) : ?>
 					<th id="categorylist_header_edit"><?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?></th>
 				<?php endif; ?>
@@ -135,6 +149,18 @@ if (!empty($this->items))
 					<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 						<?php echo $this->escape($article->title); ?>
 					</a>
+					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
+						<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
+						<?php foreach ($associations as $association) : ?>
+							<?php if ($this->params->get('flags', 1)) : ?>
+								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+								&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+							<?php else : ?>
+								<?php $class = 'label label-association label-' . $association['language']->sef; ?>
+								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+							<?php endif; ?>
+						<?php endforeach; ?>
+					<?php endif; ?>
 				<?php else: ?>
 					<?php
 					echo $this->escape($article->title) . ' : ';
@@ -147,6 +173,18 @@ if (!empty($this->items))
 					<a href="<?php echo $link; ?>" class="register">
 						<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 					</a>
+					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
+						<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
+						<?php foreach ($associations as $association) : ?>
+							<?php if ($this->params->get('flags', 1)) : ?>
+								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+								&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+							<?php else : ?>
+								<?php $class = 'label label-association label-' . $association['language']->sef; ?>
+								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+							<?php endif; ?>
+						<?php endforeach; ?>
+					<?php endif; ?>
 				<?php endif; ?>
 				<?php if ($article->state == 0) : ?>
 					<span class="list-published label label-warning">
@@ -177,7 +215,7 @@ if (!empty($this->items))
 				<td <?php echo $headerAuthor; ?> class="list-author">
 					<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 						<?php $author = $article->author ?>
-						<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
+						<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author); ?>
 						<?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
 						<?php else: ?>
@@ -191,6 +229,20 @@ if (!empty($this->items))
 							<span class="badge badge-info">
 								<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
 							</span>
+						</td>
+			<?php endif; ?>
+			<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
+				<td <?php echo $headerVotes; ?> class="list-votes">
+					<span class="badge badge-success">
+						<?php echo JText::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
+					</span>
+				</td>
+			<?php endif; ?>
+			<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+				<td <?php echo $headerRatings; ?> class="list-ratings">
+					<span class="badge badge-warning">
+						<?php echo JText::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
+					</span>
 				</td>
 			<?php endif; ?>
 			<?php if ($isEditable) : ?>
@@ -225,5 +277,5 @@ if (!empty($this->items))
 			<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
 	<?php endif; ?>
-<?php  endif; ?>
+<?php endif; ?>
 </form>

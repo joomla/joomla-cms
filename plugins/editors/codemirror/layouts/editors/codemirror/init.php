@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 $params   = $displayData->params;
 $basePath = $params->get('basePath', 'media/editors/codemirror/');
 $modePath = $params->get('modePath', 'media/editors/codemirror/mode/%N/%N');
-$extJS    = JFactory::getConfig()->get('debug') ? '.js' : '.min.js';
-$extCSS   = JFactory::getConfig()->get('debug') ? '.css' : '.min.css';
+$extJS    = JDEBUG ? '.js' : '.min.js';
+$extCSS   = JDEBUG ? '.css' : '.min.css';
 
 JHtml::_('script', $basePath . 'lib/codemirror' . $extJS);
 JHtml::_('script', $basePath . 'lib/addons' . $extJS);
