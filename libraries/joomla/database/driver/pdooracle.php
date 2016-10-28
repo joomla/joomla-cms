@@ -73,6 +73,13 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 		$options['charset']    = (isset($options['charset'])) ? $options['charset']   : 'AL32UTF8';
 		$options['dateformat'] = (isset($options['dateformat'])) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
+		if (!isset($options['driverOptions']))
+		{
+			$options['driverOptions'] = [
+				PDO::ATTR_CASE => PDO::CASE_LOWER
+			];
+		}
+
 		$this->charset = $options['charset'];
 		$this->dateformat = $options['dateformat'];
 
@@ -620,6 +627,30 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 	public static function isSupported()
 	{
 		return class_exists('PDO') && in_array('oci', PDO::getAvailableDrivers());
+	}
+
+	/**
+    * Sets the $tolower variable to true
+    * so that field names will be created
+    * using lowercase values.
+    *
+    * @return void
+    */
+	public function toLower()
+	{
+		$this->setOption(PDO::ATTR_CASE, PDO::CASE_LOWER);
+	}
+
+	/**
+	* Sets the $tolower variable to false
+	* so that field names will be created
+	* using uppercase values.
+	*
+	* @return void
+	*/
+	public function toUpper()
+	{
+		$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
 	}
 
 	/**
