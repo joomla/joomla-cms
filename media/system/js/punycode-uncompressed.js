@@ -1,5 +1,6 @@
 /*! https://mths.be/punycode v1.4.1 by @mathias - do not update to v2 */
 ;(function(root) {
+	'use strict';
 
 	/** Detect free variables */
 	var freeExports = typeof exports == 'object' && exports &&

@@ -8,6 +8,7 @@
  *
  */
 (function($) {
+	'use strict';
 
 	$.fn.extend({
 		/**
@@ -43,7 +44,7 @@
 		}
 	});
 
-	$(document).ready(function () {
+	$(function () {
 
 		// Tooltip maximal dimensions for intelligent placement:
 		var actualWidth = 200;

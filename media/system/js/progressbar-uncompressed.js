@@ -15,13 +15,15 @@
  */
 
 Fx.ProgressBar = function(_element, _options) {
+	'use strict';
+
     var $, useHtml5, now, $element, indeterminate, options = {
         onComplete : function() {
         },
         text : null,
         html5 : true
     },
-    
+
     initialize = function(_element, _options) {
         $ = jQuery.noConflict();
         $.extend(options, _options);
@@ -58,11 +60,11 @@ Fx.ProgressBar = function(_element, _options) {
         $element = $(element);
         set(0);
     },
-    
+
     supportsHtml5 = function() {
         return 'value' in document.createElement('progress');
     },
-    
+
     setIndeterminate = function() {
         indeterminate = true;
 
@@ -73,7 +75,7 @@ Fx.ProgressBar = function(_element, _options) {
             $element.removeAttr('aria-valuenow').attr('title', '');
         }
     },
-    
+
     set = function(to) {
         var $text = $(options.text);
 
@@ -98,7 +100,7 @@ Fx.ProgressBar = function(_element, _options) {
 
         return this;
     };
-    
+
     initialize(_element, _options);
 
     return {
@@ -106,4 +108,4 @@ Fx.ProgressBar = function(_element, _options) {
         setIndeterminate : setIndeterminate,
         element : $element.get(0)
     };
-}
+};

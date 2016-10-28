@@ -1,16 +1,19 @@
-jQuery(document).ready(function ($){
+jQuery(function ($) {
+	'use strict';
+
 	$('.minicolors').each(function() {
-		$(this).minicolors({
-			control: $(this).attr('data-control') || 'hue',
-			format: $(this).attr('data-validate') === 'color'
+		var $this = $(this),
+			format = $this.data('format');
+
+		$this.minicolors({
+			control: $this.data('control') || 'hue',
+			format: $this.data('validate') === 'color'
 				? 'hex'
-				: ($(this).attr('data-format') === 'rgba'
-				? 'rgb'
-				: $(this).attr('data-format'))
+				: (format === 'rgba' ? 'rgb' : format)
 			|| 'hex',
-			keywords: $(this).attr('data-keywords') || '',
-			opacity: $(this).attr('data-format') === 'rgba' ? true : false || false,
-			position: $(this).attr('data-position') || 'default',
+			keywords: $this.data('keywords') || '',
+			opacity: format === 'rgba',
+			position: $this.data('position') || 'default',
 			theme: 'bootstrap'
 		});
 	});

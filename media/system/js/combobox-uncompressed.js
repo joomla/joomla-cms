@@ -13,6 +13,8 @@
 
 (function($,document,undefined)
 {
+	'use strict';
+
 	var combobox = function(options, elem)
 	{
 		var self = {},

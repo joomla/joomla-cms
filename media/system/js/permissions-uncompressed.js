@@ -2,6 +2,8 @@
  * Function to send Permissions via Ajax to Com-Config Application Controller
  */
 function sendPermissions(event) {
+	'use strict';
+
 	// set the icon while storing the values
 	var icon = document.getElementById('icon_' + this.id);
 	icon.removeAttribute('class');
@@ -104,6 +106,8 @@ function sendPermissions(event) {
  * Function to get parameters out of the url
  */
 function getUrlParam(variable) {
+	'use strict';
+
 	var query = window.location.search.substring(1);
 	var vars = query.split('&');
 	for (var i=0;i<vars.length;i++)
