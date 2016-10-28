@@ -111,13 +111,13 @@ class JHelperContent
 
 		$user = JFactory::getUser();
 
-		$path = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
-
-		$actions = JAccess::getActionsFromFile($path, '/access/section[@name="component"]/');
+		$actions = JAccess::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', '/access/section[@name="component"]/'
+		);
 
 		if ($actions === false)
 		{
-			JLog::add(JText::sprintf('JLIB_ERROR_COMPONENT_SPECIFIC_ACCESS_XML_FILE_INVALID_FORMAT_OR_MISSING', $path), JLog::ERROR, 'jerror');
+			JLog::add(JText::sprintf('JLIB_ERROR_COMPONENT_SPECIFIC_ACCESS_XML_FILE_INVALID_FORMAT_OR_MISSING', $component), JLog::ERROR, 'jerror');
 
 			return $result;
 		}
