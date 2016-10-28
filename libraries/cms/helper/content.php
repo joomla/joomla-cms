@@ -100,21 +100,27 @@ class JHelperContent
 			return $result;
 		}
 
-		$user   = JFactory::getUser();
-		$result = new JObject;
-
-		$path = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
+		$assetName = $component;
 
 		if ($section && $id)
 		{
-			$assetName = $component . '.' . $section . '.' . (int) $id;
-		}
-		else
-		{
-			$assetName = $component;
+			$assetName .=  '.' . $section . '.' . (int) $id;
 		}
 
-		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='component']/");
+		$result = new JObject;
+
+		$user = JFactory::getUser();
+
+		$path = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
+
+		$actions = JAccess::getActionsFromFile($path, '/access/section[@name="component"]/');
+
+		if ($actions === false)
+		{
+			JLog::add(JText::sprintf('JLIB_ERROR_COMPONENT_SPECIFIC_ACCESS_XML_FILE_INVALID_FORMAT_OR_MISSING', $path), JLog::ERROR, 'jerror');
+
+			return $result;
+		}
 
 		foreach ($actions as $action)
 		{
