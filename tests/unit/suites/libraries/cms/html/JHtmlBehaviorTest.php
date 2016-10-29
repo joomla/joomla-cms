@@ -50,7 +50,7 @@ class JHtmlBehaviorTest extends TestCase
 		// We generate a random template name so that we don't collide or hit anything
 		JFactory::$application->expects($this->any())
 			->method('getTemplate')
-			->willReturn('mytemplate' . rand(1, 10000));
+			->willReturn('mytemplate' . mt_rand(1, 10000));
 
 		$this->backupServer = $_SERVER;
 

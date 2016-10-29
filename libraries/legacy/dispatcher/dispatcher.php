@@ -12,16 +12,15 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Deprecated class placeholder.  You should use JEventDispatcher instead.
  *
- * @since       11.1
- * @deprecated  12.3 (Platform) & 4.0 (CMS)
- * @codeCoverageIgnore
+ * @since       1.5
+ * @deprecated  3.0
  */
 class JDispatcher extends JEventDispatcher
 {
 	/**
 	 * Constructor.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct()
 	{

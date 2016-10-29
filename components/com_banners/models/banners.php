@@ -227,6 +227,11 @@ class BannersModelBanners extends JModelList
 		$db        = $this->getDbo();
 		$query     = $db->getQuery(true);
 
+		if (!count($items))
+		{
+			return;
+		}
+		
 		foreach ($items as $item)
 		{
 			$bid[] = (int) $item->id;

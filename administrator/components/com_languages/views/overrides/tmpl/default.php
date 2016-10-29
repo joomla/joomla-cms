@@ -16,7 +16,13 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $client    = $this->state->get('filter.client') == '0' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction')); ?>
+$listDirn  = $this->escape($this->state->get('list.direction'));
+
+$opposite_client   = $this->state->get('filter.client') == '1' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
+$opposite_filename = constant('JPATH_' . strtoupper(1 - $this->state->get('filter.client')? 'administrator' : 'site')) 
+	. '/language/overrides/' . $this->state->get('filter.language', 'en-GB') . '.override.ini';
+$opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
+?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -94,7 +100,12 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 							<?php echo $language; ?>
 						</td>
 						<td class="hidden-phone">
-							<?php echo $client; ?>
+							<?php echo $client; ?><?php 
+							if (isset($opposite_strings[$key]) && ($opposite_strings[$key] == $text))
+							{
+								echo '/' . $opposite_client;
+							}
+							?>
 						</td>
 					</tr>
 				<?php $i++; ?>
