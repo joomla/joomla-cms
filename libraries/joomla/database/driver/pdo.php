@@ -734,6 +734,36 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	}
 
 	/**
+	 * Returns the Query Type
+	 *
+	 * Currently only a rough implementation
+	 * and may not always be accurate.
+	 *
+	 *
+	 * @return  string   The query type
+	 *
+	 * @since   12.1
+	 */
+	public function getQueryType()
+	{
+		$query = $this->getQuery();
+
+		// Create a stringified version of the query (with prefixes replaced):
+		$sql = $this->replacePrefix((string) $query);
+
+		$firstSpace = strpos($sql, ' ');
+		$queryType = strtoupper(substr($sql, 0, $firstSpace));
+
+		if ($queryType === 'WITH')
+		{
+			// Fudge things a bit here and assume a SELECT:
+			$queryType = 'SELECT';
+		}
+
+		return $queryType;
+	}
+
+	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 *
 	 * @return  string  The value of the auto-increment field from the last inserted row.
