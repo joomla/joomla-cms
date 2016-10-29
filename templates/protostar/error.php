@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die;
 
-$app             = JFactory::getApplication();
-$doc             = JFactory::getDocument();
-$user            = JFactory::getUser();
-$this->language  = $doc->language;
-$this->direction = $doc->direction;
+/** @var JDocumentError $this */
+
+$app = JFactory::getApplication();
 
 // Getting params from template
 $params = $app->getTemplate(true)->params;
@@ -116,17 +114,17 @@ else
 					</a>
 					<div class="header-search pull-right">
 						<?php // Display position-0 modules ?>
-						<?php echo $doc->getBuffer('modules', 'position-0', array('style' => 'none')); ?>
+						<?php echo $this->getBuffer('modules', 'position-0', array('style' => 'none')); ?>
 					</div>
 				</div>
 			</header>
 			<div class="navigation">
 				<?php // Display position-1 modules ?>
-				<?php echo $doc->getBuffer('modules', 'position-1', array('style' => 'none')); ?>
+				<?php echo $this->getBuffer('modules', 'position-1', array('style' => 'none')); ?>
 			</div>
 			<!-- Banner -->
 			<div class="banner">
-				<?php echo $doc->getBuffer('modules', 'banner', array('style' => 'xhtml')); ?>
+				<?php echo $this->getBuffer('modules', 'banner', array('style' => 'xhtml')); ?>
 			</div>
 			<div class="row-fluid">
 				<div id="content" class="span12">
@@ -148,7 +146,7 @@ else
 								<?php if (JModuleHelper::getModule('search')) : ?>
 									<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
 									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
-									<?php echo $doc->getBuffer('module', 'search'); ?>
+									<?php echo $this->getBuffer('module', 'search'); ?>
 								<?php endif; ?>
 								<p><?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
 								<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn"><span class="icon-home"></span> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
@@ -189,7 +187,7 @@ else
 	<div class="footer">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<hr />
-			<?php echo $doc->getBuffer('modules', 'footer', array('style' => 'none')); ?>
+			<?php echo $this->getBuffer('modules', 'footer', array('style' => 'none')); ?>
 			<p class="pull-right">
 				<a href="#top" id="back-top">
 					<?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?>
@@ -200,6 +198,6 @@ else
 			</p>
 		</div>
 	</div>
-	<?php echo $doc->getBuffer('modules', 'debug', array('style' => 'none')); ?>
+	<?php echo $this->getBuffer('modules', 'debug', array('style' => 'none')); ?>
 </body>
 </html>

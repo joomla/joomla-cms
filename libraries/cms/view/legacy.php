@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * Class holding methods for displaying presentation data.
  *
- * @since  12.2
+ * @since  2.5.5
  */
 class JViewLegacy extends JObject
 {
@@ -22,6 +22,7 @@ class JViewLegacy extends JObject
 	 * The active document object
 	 *
 	 * @var    JDocument
+	 * @since  3.0
 	 */
 	public $document;
 
@@ -29,6 +30,7 @@ class JViewLegacy extends JObject
 	 * The name of the view
 	 *
 	 * @var    array
+	 * @since  3.0
 	 */
 	protected $_name = null;
 
@@ -36,6 +38,7 @@ class JViewLegacy extends JObject
 	 * Registered models
 	 *
 	 * @var    array
+	 * @since  3.0
 	 */
 	protected $_models = array();
 
@@ -43,13 +46,15 @@ class JViewLegacy extends JObject
 	 * The base path of the view
 	 *
 	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_basePath = null;
 
 	/**
 	 * The default model
 	 *
-	 * @var	string
+	 * @var	   string
+	 * @since  3.0
 	 */
 	protected $_defaultModel = null;
 
@@ -57,6 +62,7 @@ class JViewLegacy extends JObject
 	 * Layout name
 	 *
 	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_layout = 'default';
 
@@ -64,6 +70,7 @@ class JViewLegacy extends JObject
 	 * Layout extension
 	 *
 	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_layoutExt = 'php';
 
@@ -71,36 +78,49 @@ class JViewLegacy extends JObject
 	 * Layout template
 	 *
 	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_layoutTemplate = '_';
 
 	/**
 	 * The set of search directories for resources (templates)
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.0
 	 */
 	protected $_path = array('template' => array(), 'helper' => array());
 
 	/**
 	 * The name of the default template source file.
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_template = null;
 
 	/**
 	 * The output of the template script.
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_output = null;
 
 	/**
 	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_charset = 'UTF-8';
+
+	/**
+	 * A form object
+	 *
+	 * @var    JForm
+	 * @since  3.2
+	 */
+	public $form;
 
 	/**
 	 * Constructor
@@ -114,7 +134,7 @@ class JViewLegacy extends JObject
 	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
 	 *                          layout: the layout (optional) to use to display the view
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function __construct($config = array())
 	{
@@ -201,7 +221,7 @@ class JViewLegacy extends JObject
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function display($tpl = null)
 	{
@@ -225,7 +245,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  mixed  The escaped value.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function escape($var)
 	{
@@ -240,7 +260,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  mixed  The return value of the method
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function get($property, $default = null)
 	{
@@ -283,7 +303,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  mixed  JModelLegacy object
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function getModel($name = null)
 	{
@@ -299,6 +319,8 @@ class JViewLegacy extends JObject
 	 * Get the layout.
 	 *
 	 * @return  string  The layout name
+	 *
+	 * @since   3.0
 	 */
 	public function getLayout()
 	{
@@ -309,6 +331,8 @@ class JViewLegacy extends JObject
 	 * Get the layout template.
 	 *
 	 * @return  string  The layout template name
+	 *
+	 * @since   3.0
 	 */
 	public function getLayoutTemplate()
 	{
@@ -323,7 +347,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  string  The name of the model
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception
 	 */
 	public function getName()
@@ -354,9 +378,9 @@ class JViewLegacy extends JObject
 	 * @param   JModelLegacy  $model    The model to add to the view.
 	 * @param   boolean       $default  Is this the default model?
 	 *
-	 * @return  object   The added model.
+	 * @return  JModelLegacy  The added model.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function setModel($model, $default = false)
 	{
@@ -378,7 +402,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  string  Previous value.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function setLayout($layout)
 	{
@@ -406,9 +430,9 @@ class JViewLegacy extends JObject
 	 *
 	 * @param   string  $value  The extension.
 	 *
-	 * @return  string   Previous value
+	 * @return  string  Previous value
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function setLayoutExt($value)
 	{
@@ -429,7 +453,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function addTemplatePath($path)
 	{
@@ -443,7 +467,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function addHelperPath($path)
 	{
@@ -457,7 +481,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  string  The output of the the template script.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception
 	 */
 	public function loadTemplate($tpl = null)
@@ -538,7 +562,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function loadHelper($hlp = null)
 	{
@@ -564,7 +588,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function _setPath($type, $path)
 	{
@@ -600,7 +624,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function _addPath($type, $path)
 	{
@@ -635,7 +659,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  string  The filename
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function _createFileName($type, $parts = array())
 	{
@@ -668,5 +692,35 @@ class JViewLegacy extends JObject
 		}
 
 		return $this->form;
+	}
+
+	/**
+	 * Sets the document title according to Global Configuration options
+	 *
+	 * @param   string  $title  The page title
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	public function setDocumentTitle($title)
+	{
+		$app = JFactory::getApplication();
+
+		// Check for empty title and add site name if param is set
+		if (empty($title))
+		{
+			$title = $app->get('sitename');
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
+		{
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
+		{
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+		}
+
+		$this->document->setTitle($title);
 	}
 }

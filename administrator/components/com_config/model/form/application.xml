@@ -460,6 +460,27 @@
 		/>
 
 		<field
+			name="replyto"
+			type="email"
+			label="COM_CONFIG_FIELD_MAIL_REPLY_TO_EMAIL_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_REPLY_TO_EMAIL_DESC"
+			filter="string"
+			size="30"
+			validate="email"
+			showon="mailonline:1"
+		/>
+
+		<field
+			name="replytoname"
+			type="text"
+			label="COM_CONFIG_FIELD_MAIL_REPLY_TO_NAME_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_REPLY_TO_NAME_DESC"
+			filter="string"
+			size="30"
+			showon="mailonline:1"
+		/>
+
+		<field
 			name="mailer"
 			type="list"
 			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
@@ -759,6 +780,18 @@
 			size="6" />
 
 		<field
+			name="shared_session"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
+			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="session_handler"
 			type="sessionhandler"
 			default="filesystem"
@@ -1053,6 +1086,10 @@
 				name="core.edit.own"
 				title="JACTION_EDITOWN"
 				description="COM_CONFIG_ACTION_EDITOWN_DESC" />
+			<action
+				name="core.edit.value"
+				title="JACTION_EDITVALUE"
+				description="COM_CONFIG_ACTION_EDITVALUE_DESC" />
 		</field>
 
 	</fieldset>

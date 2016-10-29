@@ -153,8 +153,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Get the newsfeed
 		$newsfeed = $item;
 
-		$temp = new Registry;
-		$temp->loadString($item->params);
+		$temp = new Registry($item->params);
 		$params->merge($temp);
 
 		try

@@ -52,6 +52,14 @@ class JFormFieldPassword extends JFormField
 	protected $meter = false;
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.password';
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -142,44 +150,29 @@ class JFormFieldPassword extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.7
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
 		// Initialize some field attributes.
-		$size         = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$class        = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$readonly     = $this->readonly ? ' readonly' : '';
-		$disabled     = $this->disabled ? ' disabled' : '';
-		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
-		$autofocus    = $this->autofocus ? ' autofocus' : '';
+		$extraData = array(
+			'maxLength' => $this->maxLength,
+			'meter'     => $this->meter,
+			'threshold' => $this->threshold,
+			'meter'     => $this->meter,
+		);
 
-		if ($this->meter)
-		{
-			JHtml::_('script', 'system/passwordstrength.js', true, true);
-			$script = 'new Form.PasswordStrength("' . $this->id . '",
-				{
-					threshold: ' . $this->threshold . ',
-					onUpdate: function(element, strength, threshold) {
-						element.set("data-passwordstrength", strength);
-					}
-				}
-			);';
-
-			// Load script on document load.
-			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function(){" . $script . "});"
-			);
-		}
-
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
-
-		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
-			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $hint . $autocomplete .
-			$class . $readonly . $disabled . $size . $maxLength . $required . $autofocus . ' />';
+		return array_merge($data, $extraData);
 	}
 }

@@ -231,7 +231,7 @@ final class JVersion
 			$mediaVersion = JLibraryHelper::getParams('joomla')->get('mediaversion', '');
 
 			// Refresh assets in debug mode or when the media version is not set
-			if (JFactory::getConfig()->get('debug', 0) || empty($mediaVersion))
+			if (JDEBUG || empty($mediaVersion))
 			{
 				$mediaVersion = $this->generateMediaVersion();
 
