@@ -9,35 +9,47 @@ var PasswordStrength;
 
 PasswordStrength = (function() {
 	function PasswordStrength(settings) {
-		this.lowercase = settings.lowercase || 1;
-		this.uppercase = settings.uppercase || 1;
-		this.numbers = settings.numbers || 1;
-		this.special = settings.special || 1;
-		this.length = settings.length || 8;
+		this.lowercase = settings.lowercase || 0;
+		this.uppercase = settings.uppercase || 0;
+		this.numbers = settings.numbers || 0;
+		this.special = settings.special || 0;
+		this.length = settings.length || 4;
 	}
 
 	PasswordStrength.prototype.getScore = function(value) {
-		var score;
-		score = 0;
-		score += this.calc(value, /[a-z]/g, this.lowercase);
-		score += this.calc(value, /[A-Z]/g, this.uppercase);
-		score += this.calc(value, /[0-9]/g, this.numbers);
-		score += this.calc(value, /[\$\!\#\?\=\;\:\*\-\_\€\%\&\(\)\`\´]/g, this.special);
-		score += value.length > this.length ? 20 : 20 / this.length * value.length;
+		var score = 0, mods = 0;
+			var sets = ['lowercase', 'uppercase', 'numbers', 'special', 'length'];
+			for (var i = 0, l = sets.length; l>i; i++) {
+				if (this.hasOwnProperty(sets[i]) && this[sets[i]] > 0) {
+					mods = mods + 1;
+				}
+			}
+
+		score += this.calc(value, /[a-z]/g, this.lowercase, mods);
+		score += this.calc(value, /[A-Z]/g, this.uppercase, mods);
+		score += this.calc(value, /[0-9]/g, this.numbers, mods);
+		score += this.calc(value, /[\$\!\#\?\=\;\:\*\-\_\€\%\&\(\)\`\´]/g, this.special, mods);
+		if (mods == 1) {
+			score += value.length > this.length ? 100 : 100 / this.length * value.length;
+		} else {
+			score += value.length > this.length ? (100 / mods) : (100 / mods) / this.length * value.length;
+		}
+
 		return score;
 	};
 
-	PasswordStrength.prototype.calc = function(value, pattern, length) {
+	PasswordStrength.prototype.calc = function(value, pattern, length, mods) {
 		var count;
 		count = value.match(pattern);
-		if (count && count.length > length) {
-			return 20;
+		if (count && count.length > length && length != 0) {
+			return 100 / mods;
 		}
-		if (count) {
-			return 20 / length * count.length;
+		if (count && length > 0) {
+			return (100 / mods) / length * count.length;
 		} else {
 			return 0;
 		}
+
 	};
 
 	return PasswordStrength;
@@ -108,7 +120,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	/** Loop  through the fields **/
 	for(var i = 0, l = fields.length; i<l; i++) {
-
 		var startClass = '',
 			initialVal = '';
 
@@ -139,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		/** Add a listener for input data change **/
 		fields[i].addEventListener('keyup', function(event) {
 			getMeter(event.target);
-		})
+		});
 	}
 
 	/** Set a handler for the validation script **/
@@ -163,7 +174,6 @@ document.addEventListener('DOMContentLoaded', function(){
 			});
 
 			var score = strength.getScore(value);
-
 			if (score === 100 ) returnedValue = true;
 
 			return returnedValue;
