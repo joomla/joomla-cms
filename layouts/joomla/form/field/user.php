@@ -46,11 +46,11 @@ extract($displayData);
  */
 
 JHtml::_('behavior.modal', 'a.modal_' . $id);
-JHtml::script('jui/fielduser.min.js', false, true, false, false, true);
+JHtml::_('script', 'jui/fielduser.min.js', false, true, false, false, true);
 
 $uri = new JUri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
 
-$uri->setVar('field', htmlspecialchars($id, ENT_COMPAT, 'UTF-8'));
+$uri->setVar('field', $this->escape($id));
 
 if ($required)
 {
@@ -68,13 +68,13 @@ if (!empty($excluded))
 }
 
 // Invalidate the input value if no user selected
-if (htmlspecialchars($userName, ENT_COMPAT, 'UTF-8') === JText::_('JLIB_FORM_SELECT_USER'))
+if ($this->escape($userName) === JText::_('JLIB_FORM_SELECT_USER'))
 {
 	$userName = '';
 }
 
 $inputAttributes = array(
-	'type' => 'text', 'id' => $id, 'value' => htmlspecialchars($userName, ENT_COMPAT, 'UTF-8')
+	'type' => 'text', 'id' => $id, 'value' => $this->escape($userName)
 );
 
 if ($size)
