@@ -48,6 +48,7 @@ class ConfigViewApplicationJson extends ConfigViewCmsJson
 			"sitename"            => null,
 			"offline"             => null,
 			"access"              => null,
+			"guest_usergroup"     => null,
 			"list_limit"          => null,
 			"MetaDesc"            => null,
 			"MetaKeys"            => null,

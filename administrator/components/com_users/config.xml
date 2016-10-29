@@ -24,14 +24,6 @@
 		</field>
 
 		<field
-			name="guest_usergroup"
-			type="usergrouplist"
-			default="1"
-			label="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_LABEL"
-			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC">
-		</field>
-
-		<field
 			name="sendpassword"
 			type="radio"
 			class="btn-group btn-group-yesno"
