@@ -192,6 +192,48 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Drops an entire database (Use with Caution!).
+	 *
+	 * Note: The IF EXISTS flag is unused in the Oracle driver.
+	 *
+	 * @param   string   $databaseName  The name of the database table to drop.
+	 * @param   boolean  $ifExists      Optionally specify that the table must exist before it is dropped.
+	 *
+	 * @return  JDatabaseDriver  Returns this object to support chaining.
+	 *
+	 * @since   12.1
+	 */
+	public function dropDatabase($databaseName, $ifExists = true)
+	{
+		$this->connect();
+
+		$databaseName = strtoupper($databaseName);
+
+		$query = $this->getQuery(true)
+			->setQuery('DROP USER ' . $this->quoteName($databaseName) . ' CASCADE');
+
+		$this->setQuery($query);
+
+		try
+		{
+			$this->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			/**
+			* Code 1918 is for when the database doesn't exist
+			* so we can safely ignore that code and catch any others.
+			*/
+			if ($e->getCode() !== 1918)
+			{
+				throw $e;
+			}
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Drops a table from the database.
 	 *
 	 * Note: The IF EXISTS flag is unused in the Oracle driver.
@@ -709,6 +751,70 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Create a new database using information from $options object, obtaining query string
+	 * from protected member.
+	 *
+	 * For Oracle, it differs compared to MySQL. Instead of creating new databases within
+	 * the overall MySQL RDBMS, in Oracle the RDBMS = Database. Within that Database Instance
+	 * you can have multiple "schemas" which are equivalent to Oracle Users within the system.
+	 * These schemas are basically the same as the different databases that can be created in
+	 * MySQL. So here, the db_name provided will be used as the new Oracle USER and db_user
+	 * will more or less be ignored. An additional parameter named db_password must be included
+	 * in order for the new user to have a password set upon creation.
+	 *
+	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
+	 * 									This object must have "db_name" and "db_password" set for Oracle.
+	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 *
+	 * @return  JDatabaseDriver  Returns this object to support chaining.
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 */
+	public function createDatabase($options, $utf = true)
+	{
+		if (is_null($options))
+		{
+			throw new RuntimeException('$options object must not be null.');
+		}
+		elseif (empty($options->db_name))
+		{
+			throw new RuntimeException('$options object must have db_name set.');
+		}
+		elseif (empty($options->db_password))
+		{
+			throw new RuntimeException('$options object must have db_password set.');
+		}
+
+		$options->db_user = $options->db_name;
+
+		try
+		{
+			$this->setQuery($this->getCreateDatabaseQuery($options, $utf))->execute();
+
+			$this->setQuery('GRANT create session TO ' . $this->quoteName($options->db_name))->execute();
+			$this->setQuery('GRANT create table TO ' . $this->quoteName($options->db_name))->execute();
+			$this->setQuery('GRANT create view TO ' . $this->quoteName($options->db_name))->execute();
+			$this->setQuery('GRANT create any trigger TO ' . $this->quoteName($options->db_name))->execute();
+			$this->setQuery('GRANT create any procedure TO ' . $this->quoteName($options->db_name))->execute();
+			$this->setQuery('GRANT create sequence TO ' . $this->quoteName($options->db_name))->execute();
+			$this->setQuery('GRANT create synonym TO ' . $this->quoteName($options->db_name))->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			/**
+			* Error 1920 gets thrown when the user already exists:
+			*/
+			if ($e->getCode() !== 1920)
+			{
+				throw $e;
+			}
+		}
+
+		return $this;
+	}
+
+	/**
 	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
 	 * <var>tablePrefix</var> class variable.
 	 *
@@ -936,8 +1042,16 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 	}
 
 	/**
-	 * Return the query string to create new Database.
-	 * Each database driver, other than MySQL, need to override this member to return correct string.
+	 * Return the query string to create new User/Database in Oracle.
+	 *
+	 * For the Oracle drivers, db_user is ignored and db_name is the main field
+	 * that is used. Simply set db_user to be the same as db_name when passing in
+	 * the $options object.
+	 *
+	 * Optionally, you may also include the "db_default_tablespace" and "db_temporary_tablespace"
+	 * attributes and those will be used when creating the user (these must already be created in
+	 * the Oracle RDBMS before being used!). A quota for the permanent tablespace may also be optionally set
+	 * using "db_default_tablespace_quota".
 	 *
 	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
 	 *                   This object must have "db_name" and "db_user" set.
@@ -949,7 +1063,37 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 	 */
 	protected function getCreateDatabaseQuery($options, $utf)
 	{
-		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
+		$options->db_name = strtoupper($options->db_name);
+		$options->db_user = $options->db_name;
+
+		$defaultPermanentTablespaceQuery = "select PROPERTY_VALUE
+											  from database_properties
+											  where property_name = 'DEFAULT_PERMANENT_TABLESPACE'";
+
+		$defaultTemporaryTablespaceQuery = "select PROPERTY_VALUE
+											  from database_properties
+											  where property_name = 'DEFAULT_TEMP_TABLESPACE'";
+
+		$defaultPermanentTablespace = $this->setQuery($defaultPermanentTablespaceQuery)->loadResult();
+		$defaultTemporaryTablespace = $this->setQuery($defaultTemporaryTablespaceQuery)->loadResult();
+
+		// Set Tablespace Options with defaults if needed:
+		$options->db_default_tablespace = (isset($options->db_default_tablespace)) ? $options->db_default_tablespace : $defaultPermanentTablespace;
+		$options->db_temporary_tablespace = (isset($options->db_temporary_tablespace)) ? $options->db_temporary_tablespace : $defaultTemporaryTablespace;
+
+		// Set Tablespace Quota Options with defaults if needed:
+		$options->db_default_tablespace_quota = (isset($options->db_default_tablespace_quota)) ? $options->db_default_tablespace_quota : 'UNLIMITED';
+
+		// Setup the clauses to be added into the query:
+		$defaultTablespaceClause = ' DEFAULT TABLESPACE ' . $this->quoteName($options->db_default_tablespace);
+		$temporaryTablespaceClause = ' TEMPORARY TABLESPACE ' . $this->quoteName($options->db_temporary_tablespace);
+		$defaultTablespaceQuotaClause = ' QUOTA  ' . $options->db_default_tablespace_quota . ' ON ' . $this->quoteName($options->db_default_tablespace);
+
+		return 'CREATE USER ' . $this->quoteName($options->db_name) .
+					' IDENTIFIED BY ' . $this->quoteName($options->db_password) .
+					$defaultTablespaceClause .
+					$temporaryTablespaceClause .
+  					$defaultTablespaceQuotaClause;
 	}
 
 	/**
