@@ -166,8 +166,7 @@ abstract class JModuleHelper
 		$app->scope = $module->module;
 
 		// Get module parameters
-		$params = new Registry;
-		$params->loadString($module->params);
+		$params = new Registry($module->params);
 
 		// Get the template
 		$template = $app->getTemplate();
@@ -181,12 +180,17 @@ abstract class JModuleHelper
 		{
 			$lang = JFactory::getLanguage();
 
+			$coreLanguageDirectory      = JPATH_BASE;
+			$extensionLanguageDirectory = dirname($path);
+
+			$langPaths = $lang->getPaths();
+
 			// Only load the module's language file if it hasn't been already
-			if (!$lang->getPaths($module->module))
+			if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
 			{
 				// 1.5 or Core then 1.6 3PD
-				$lang->load($module->module, JPATH_BASE, null, false, true) ||
-					$lang->load($module->module, dirname($path), null, false, true);
+				$lang->load($module->module, $coreLanguageDirectory, null, false, true) ||
+					$lang->load($module->module, $extensionLanguageDirectory, null, false, true);
 			}
 
 			$content = '';

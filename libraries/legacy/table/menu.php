@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Menu table
  *
- * @since  11.1
+ * @since  1.5
  */
 class JTableMenu extends JTableNested
 {
@@ -23,7 +23,7 @@ class JTableMenu extends JTableNested
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -42,7 +42,7 @@ class JTableMenu extends JTableNested
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     JTable::bind()
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -72,8 +72,7 @@ class JTableMenu extends JTableNested
 
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
@@ -86,7 +85,7 @@ class JTableMenu extends JTableNested
 	 * @return  boolean  True on success
 	 *
 	 * @see     JTable::check()
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function check()
 	{
@@ -160,7 +159,7 @@ class JTableMenu extends JTableNested
 	 * @return  mixed  False on failure, positive integer on success.
 	 *
 	 * @see     JTable::store()
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
 	{
@@ -181,7 +180,7 @@ class JTableMenu extends JTableNested
 		else
 		{
 			$itemSearch = array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id);
-			$errorType  = '';
+			$error      = false;
 
 			// Check if the alias already exists. For multilingual site.
 			if (JLanguageMultilang::isEnabled())
@@ -191,7 +190,7 @@ class JTableMenu extends JTableNested
 					|| ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0))
 					|| ($this->language == '*' && $table->load($itemSearch) && ($table->id != $this->id || $this->id == 0)))
 				{
-					$errorType = 'MULTILINGUAL';
+					$error = true;
 				}
 			}
 			// Check if the alias already exists. For monolingual site.
@@ -200,15 +199,16 @@ class JTableMenu extends JTableNested
 				// If not exists a menu item at the same level with the same alias (in any language).
 				if ($table->load($itemSearch) && ($table->id != $this->id || $this->id == 0))
 				{
-					$errorType = 'MONOLINGUAL';
+					$error = true;
 				}
 			}
 
-			// The alias already exists. Send an error message.
-			if ($errorType)
+			// The alias already exists. Enqueue an error message.
+			if ($error)
 			{
-				$message = JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS' . ($this->menutype != $table->menutype ? '_ROOT' : ''));
-				$this->setError($message);
+				$menuTypeTable = JTable::getInstance('MenuType', 'JTable', array('dbo' => $this->getDbo()));
+				$menuTypeTable->load(array('menutype' => $table->menutype));
+				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title));
 
 				return false;
 			}

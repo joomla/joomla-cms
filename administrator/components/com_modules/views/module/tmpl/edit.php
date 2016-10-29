@@ -13,6 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.combobox');
+JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0));
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
@@ -129,7 +130,7 @@ $script .= "
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (updStatus == -2) {
-							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTrashed") . "</span>');
+							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTRASHED") . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (document.formvalidator.isValid(document.getElementById('module-form'))) {

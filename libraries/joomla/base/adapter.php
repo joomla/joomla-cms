@@ -138,9 +138,9 @@ class JAdapter extends JObject
 		}
 
 		// Try to load the adapter object
-		require_once $fullpath;
-
 		$class = $this->_classprefix . ucfirst($name);
+
+		JLoader::register($class, $fullpath);
 
 		if (!class_exists($class))
 		{
