@@ -82,6 +82,9 @@ class ContactModelCategories extends JModelList
 		$id	.= ':' . $this->getState('filter.published');
 		$id	.= ':' . $this->getState('filter.access');
 		$id	.= ':' . $this->getState('filter.parentId');
+		$id	.= ':' . $this->getState('filter.get_children');
+		$id	.= ':' . $this->getState('filter.get_parents');
+		$id	.= ':' . $this->getState('filter.category_id');
 
 		return parent::getStoreId($id);
 	}
