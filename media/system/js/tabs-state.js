@@ -31,7 +31,12 @@ jQuery(function($) {
         }
 
         // Array with active tabs hrefs
-        var activeTabsHrefs = JSON.parse(localStorage.getItem('active-tabs'));
+        if (localStorage.getItem('href') == window.location.href) {
+        	var activeTabsHrefs = JSON.parse(localStorage.getItem('active-tabs'));
+        } else {
+        	var activeTabsHrefs = null;
+        }
+		window.localStorage.setItem('href', window.location.href);
 
         // jQuery object with all tabs links
         var $tabs = $('a[data-toggle="tab"]');
