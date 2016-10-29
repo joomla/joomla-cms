@@ -88,9 +88,9 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if (empty($options['driverOptions']) || !isset($options['driverOptions'][PDO::ATTR_CASE]))
 		{
 			// Set Field Casing to Lowercase by Default:
-			$options['driverOptions'] = [
+			$options['driverOptions'] = array(
 				PDO::ATTR_CASE => PDO::CASE_LOWER
-			];
+			);
 		}
 
 		if (!empty($hostParts[1]))
