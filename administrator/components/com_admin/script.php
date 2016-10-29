@@ -1452,7 +1452,7 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/plugins/compat3x/editable_selects.js',
 			'/media/editors/tinymce/plugins/compat3x/form_utils.js',
 			'/media/editors/tinymce/plugins/compat3x/mctabs.js',
-			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js', 
+			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js',
 			'/media/editors/tinymce/plugins/compat3x/validate.js',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Dumper.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Escaper.php',
@@ -1698,7 +1698,8 @@ class JoomlaInstallerScript
 			'com_tags',
 			'com_contenthistory',
 			'com_ajax',
-			'com_postinstall'
+			'com_postinstall',
+			'com_fields',
 		);
 
 		foreach ($newComponents as $component)
