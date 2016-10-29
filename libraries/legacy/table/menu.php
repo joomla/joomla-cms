@@ -72,8 +72,7 @@ class JTableMenu extends JTableNested
 
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
@@ -204,7 +203,7 @@ class JTableMenu extends JTableNested
 				}
 			}
 
-			// The alias already exists. Enqueue a error message.
+			// The alias already exists. Enqueue an error message.
 			if ($error)
 			{
 				$menuTypeTable = JTable::getInstance('MenuType', 'JTable', array('dbo' => $this->getDbo()));

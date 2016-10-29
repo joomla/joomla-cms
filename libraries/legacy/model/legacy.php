@@ -191,7 +191,7 @@ abstract class JModelLegacy extends JObject
 				return false;
 			}
 
-			require_once $path;
+			JLoader::register($modelClass, $path);
 
 			if (!class_exists($modelClass))
 			{
