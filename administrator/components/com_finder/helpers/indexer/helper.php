@@ -471,8 +471,7 @@ class FinderIndexerHelper
 		// Instantiate the parameter object if necessary.
 		if (!($params instanceof Registry))
 		{
-			$registry = new Registry;
-			$registry->loadString($params);
+			$registry = new Registry($params);
 			$params = $registry;
 		}
 

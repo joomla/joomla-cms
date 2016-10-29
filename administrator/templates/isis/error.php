@@ -129,6 +129,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 			<div class="container-fluid">
 				<?php if ($params->get('admin_menus') != '0') : ?>
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="element-invisible"><?php echo JTEXT::_('TPL_ISIS_TOGGLE_MENU'); ?></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
@@ -148,8 +149,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 					<?php $this->menumodules = JModuleHelper::getModules('menu'); ?>
 					<?php foreach ($this->menumodules as $menumodule) : ?>
 						<?php $output = JModuleHelper::renderModule($menumodule, array('style' => 'none')); ?>
-						<?php $params = new Registry; ?>
-						<?php $params->loadString($menumodule->params); ?>
+						<?php $params = new Registry($menumodule->params); ?>
 						<?php echo $output; ?>
 					<?php endforeach; ?>
 					<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
@@ -205,8 +205,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 				<?php $this->statusmodules = JModuleHelper::getModules('status'); ?>
 				<?php foreach ($this->statusmodules as $statusmodule) : ?>
 					<?php $output = JModuleHelper::renderModule($statusmodule, array('style' => 'no')); ?>
-					<?php $params = new Registry; ?>
-					<?php $params->loadString($statusmodule->params); ?>
+					<?php $params = new Registry($statusmodule->params); ?>
 					<?php echo $output; ?>
 				<?php endforeach; ?>
 			</div>

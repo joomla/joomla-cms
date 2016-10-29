@@ -59,7 +59,7 @@ class ContactControllerContact extends JControllerForm
 		// Check for a valid session cookie
 		if ($params->get('validate_session', 0))
 		{
-			if (JFactory::getSession()->getState() != 'active')
+			if (JFactory::getSession()->getState() !== 'active')
 			{
 				JError::raiseWarning(403, JText::_('JLIB_ENVIRONMENT_SESSION_INVALID'));
 

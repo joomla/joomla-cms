@@ -97,7 +97,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 						$query['Itemid'] = $this->lookup[$language][$view . $layout];
 						return;
 					}
-					foreach ($ids as $id)
+					foreach ($ids as $id => $segment)
 					{
 						if (isset($this->lookup[$language][$view . $layout][(int) $id]))
 						{
