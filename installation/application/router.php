@@ -18,13 +18,15 @@ class JRouterInstallation extends JRouter
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   JUri  &$url  The uri.
+	 * @param   JUri  &$uri     The uri.
+	 * @param   bool  $setVars  Set the parsed data in the internal
+	 *                             storage for current-request-URLs
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.5
 	 */
-	public function parse(&$url)
+	public function parse(&$uri, $setVars = false)
 	{
 		return true;
 	}

@@ -92,7 +92,7 @@
 			description="COM_BANNERS_FIELD_DESCRIPTION_DESC"
 			filter="JComponentHelper::filterText"
 			buttons="true"
-			hide="readmore,pagebreak,module,article"
+			hide="readmore,pagebreak,module,article,contact,menu"
 		/>
 
 		<field

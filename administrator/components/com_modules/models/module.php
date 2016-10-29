@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Module model.
@@ -481,7 +483,7 @@ class ModulesModelModule extends JModelAdmin
 
 		while ($table->load(array('position' => $position, 'title' => $title)))
 		{
-			$title = JString::increment($title);
+			$title = StringHelper::increment($title);
 		}
 
 		return array($title);
@@ -521,9 +523,9 @@ class ModulesModelModule extends JModelAdmin
 		}
 		else
 		{
-			$clientId = JArrayHelper::getValue($data, 'client_id');
-			$module   = JArrayHelper::getValue($data, 'module');
-			$id       = JArrayHelper::getValue($data, 'id');
+			$clientId = ArrayHelper::getValue($data, 'client_id');
+			$module   = ArrayHelper::getValue($data, 'module');
+			$id       = ArrayHelper::getValue($data, 'id');
 		}
 
 		// Add the default fields directory
@@ -692,11 +694,10 @@ class ModulesModelModule extends JModelAdmin
 
 			// Convert to the JObject before adding other data.
 			$properties        = $table->getProperties(1);
-			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
-			$registry = new Registry;
-			$registry->loadString($table->params);
+			$registry = new Registry($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Determine the page assignment mode.

@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Controller (Controllers are where you put all the actual code.) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
- * @since  12.2
+ * @since  2.5.5
  */
 class JControllerLegacy
 {
@@ -23,7 +23,7 @@ class JControllerLegacy
 	 * The base path of the controller
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $basePath;
 
@@ -31,7 +31,7 @@ class JControllerLegacy
 	 * The default view for the display method.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $default_view;
 
@@ -39,7 +39,7 @@ class JControllerLegacy
 	 * The mapped task that was performed.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $doTask;
 
@@ -47,7 +47,7 @@ class JControllerLegacy
 	 * Redirect message.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $message;
 
@@ -55,7 +55,7 @@ class JControllerLegacy
 	 * Redirect message type.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $messageType;
 
@@ -63,7 +63,7 @@ class JControllerLegacy
 	 * Array of class methods
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $methods;
 
@@ -71,7 +71,7 @@ class JControllerLegacy
 	 * The name of the controller
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $name;
 
@@ -79,7 +79,7 @@ class JControllerLegacy
 	 * The prefix of the models
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $model_prefix;
 
@@ -87,7 +87,7 @@ class JControllerLegacy
 	 * The set of search directories for resources (views).
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $paths;
 
@@ -95,7 +95,7 @@ class JControllerLegacy
 	 * URL for redirection.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $redirect;
 
@@ -103,7 +103,7 @@ class JControllerLegacy
 	 * Current or most recently performed task.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $task;
 
@@ -111,7 +111,7 @@ class JControllerLegacy
 	 * Array of class methods to call for a given task.
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $taskMap;
 
@@ -119,7 +119,7 @@ class JControllerLegacy
 	 * Hold a JInput object for easier access to the input variables.
 	 *
 	 * @var    JInput
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $input;
 
@@ -127,7 +127,7 @@ class JControllerLegacy
 	 * Instance container.
 	 *
 	 * @var    JControllerLegacy
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected static $instance;
 
@@ -146,6 +146,8 @@ class JControllerLegacy
 	 * @param   string  $prefix  A prefix for models
 	 *
 	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
@@ -160,7 +162,7 @@ class JControllerLegacy
 	 *
 	 * @return  string  The filename.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected static function createFileName($type, $parts = array())
 	{
@@ -213,7 +215,7 @@ class JControllerLegacy
 	 *
 	 * @return  JControllerLegacy
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
@@ -274,18 +276,19 @@ class JControllerLegacy
 		// Include the class if not present.
 		if (!class_exists($class))
 		{
-			// If the controller file path exists, include it.
-			if (file_exists($path))
+			JLoader::register($class, $path);
+
+			if (!class_exists($class))
 			{
-				require_once $path;
-			}
-			elseif (isset($backuppath) && file_exists($backuppath))
-			{
-				require_once $backuppath;
-			}
-			else
-			{
-				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
+				if (isset($backuppath) && file_exists($backuppath))
+				{
+					JLoader::register($class, $backuppath);
+				}
+
+				if (!class_exists($class))
+				{
+					throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
+				}
 			}
 		}
 
@@ -316,7 +319,7 @@ class JControllerLegacy
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function __construct($config = array())
 	{
@@ -443,7 +446,7 @@ class JControllerLegacy
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function addPath($type, $path)
 	{
@@ -474,6 +477,8 @@ class JControllerLegacy
 	 * @param   mixed  $path  The directory (string) or list of directories (array) to add.
 	 *
 	 * @return  JControllerLegacy  This object to support chaining.
+	 *
+	 * @since   3.0
 	 */
 	public function addViewPath($path)
 	{
@@ -488,7 +493,7 @@ class JControllerLegacy
 	 *
 	 * @return  boolean  True if the ID is in the edit list.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function checkEditId($context, $id)
 	{
@@ -529,7 +534,7 @@ class JControllerLegacy
 	 *
 	 * @return  JModelLegacy|boolean   Model object on success; otherwise false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
@@ -555,7 +560,7 @@ class JControllerLegacy
 	 *
 	 * @return  JViewLegacy|null  View object on success; null or error result on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
@@ -578,7 +583,7 @@ class JControllerLegacy
 				return null;
 			}
 
-			require_once $path;
+			JLoader::register($viewClass, $path);
 
 			if (!class_exists($viewClass))
 			{
@@ -606,7 +611,7 @@ class JControllerLegacy
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -673,7 +678,7 @@ class JControllerLegacy
 	 *
 	 * @return  mixed   The value returned by the called method.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception
 	 */
 	public function execute($task)
@@ -710,7 +715,7 @@ class JControllerLegacy
 	 *
 	 * @return  JModelLegacy|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function getModel($name = '', $prefix = '', $config = array())
 	{
@@ -755,7 +760,7 @@ class JControllerLegacy
 	 *
 	 * @return  string  The name of the dispatcher
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception
 	 */
 	public function getName()
@@ -780,7 +785,7 @@ class JControllerLegacy
 	 *
 	 * @return  string  The task that is being performed or was most recently performed.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function getTask()
 	{
@@ -792,7 +797,7 @@ class JControllerLegacy
 	 *
 	 * @return  array  Array[i] of task names.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function getTasks()
 	{
@@ -809,7 +814,7 @@ class JControllerLegacy
 	 *
 	 * @return  JViewLegacy  Reference to the view or an error.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception
 	 */
 	public function getView($name = '', $type = '', $prefix = '', $config = array())
@@ -865,7 +870,7 @@ class JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function holdEditId($context, $id)
 	{
@@ -899,7 +904,7 @@ class JControllerLegacy
 	 *
 	 * @return  boolean  False if no redirect exists.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function redirect()
 	{
@@ -924,7 +929,7 @@ class JControllerLegacy
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function registerDefaultTask($method)
 	{
@@ -941,7 +946,7 @@ class JControllerLegacy
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function registerTask($task, $method)
 	{
@@ -960,7 +965,7 @@ class JControllerLegacy
 	 *
 	 * @return  JControllerLegacy  This object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function unregisterTask($task)
 	{
@@ -977,7 +982,7 @@ class JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function releaseEditId($context, $id)
 	{
@@ -1015,7 +1020,7 @@ class JControllerLegacy
 	 *
 	 * @return  string  Previous message
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function setMessage($text, $type = 'message')
 	{
@@ -1034,7 +1039,7 @@ class JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function setPath($type, $path)
 	{
@@ -1054,7 +1059,7 @@ class JControllerLegacy
 	 *
 	 * @return  JControllerLegacy  This object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function setRedirect($url, $msg = null, $type = null)
 	{

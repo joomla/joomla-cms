@@ -153,7 +153,7 @@ class FinderCli extends JApplicationCli
 	 */
 	private function index()
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
+		JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
 
 		// Disable caching.
 		$config = JFactory::getConfig();

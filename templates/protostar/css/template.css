@@ -7673,3 +7673,9 @@ body.modal-open {
 li {
 	word-wrap: break-word;
 }
+ul.manager .height-50 .icon-folder-2 {
+	height: 35px;
+	width: 35px;
+	line-height: 35px;
+	font-size: 30px;
+}

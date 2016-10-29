@@ -214,14 +214,11 @@ class PlgFinderTags extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Initialize the item parameters.
-		$registry = new Registry;
-		$registry->loadString($item->params);
+		$registry = new Registry($item->params);
 		$item->params = JComponentHelper::getParams('com_tags', true);
 		$item->params->merge($registry);
 
-		$registry = new Registry;
-		$registry->loadString($item->metadata);
-		$item->metadata = $registry;
+		$item->metadata = new Registry($item->metadata);
 
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);

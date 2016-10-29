@@ -76,8 +76,7 @@ class TagsViewTag extends JViewLegacy
 			// Prepare the data.
 			if (!empty($itemElement))
 			{
-				$temp = new Registry;
-				$temp->loadString($itemElement->params);
+				$temp = new Registry($itemElement->params);
 				$itemElement->params = clone $params;
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);

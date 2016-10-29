@@ -1503,9 +1503,18 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @return  integer  The SQL Error number
 	 *
 	 * @since   3.4.6
+	 *
+	 * @throws  \JDatabaseExceptionExecuting  Thrown if the global cursor is false indicating a query failed
 	 */
 	protected function getErrorNumber()
 	{
+		if ($this->cursor === false)
+		{
+			$this->errorMsg = pg_last_error($this->connection);
+
+			throw new JDatabaseExceptionExecuting($this->sql, $this->errorMsg);
+		}
+
 		return (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
 	}
 

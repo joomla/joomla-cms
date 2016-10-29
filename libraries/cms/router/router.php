@@ -121,7 +121,7 @@ class JRouter
 	 * Function to convert a route to an internal URI
 	 *
 	 * @param   JUri  &$uri     The uri.
-	 * @param   bool  $setVars  Set the parsed data in the internal 
+	 * @param   bool  $setVars  Set the parsed data in the internal
 	 *                             storage for current-request-URLs
 	 *
 	 * @return  array

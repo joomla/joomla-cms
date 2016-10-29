@@ -19,8 +19,10 @@
 				description="COM_NEWSFEEDS_FIELD_SELECT_FEED_DESC"
 				label="COM_NEWSFEEDS_FIELD_SELECT_FEED_LABEL"
 				required="true"
+				select="true"
+				new="true"
 				edit="true"
-				clear="false"
+				clear="true"
 			/>
 		</fieldset>
 	</fields>

@@ -125,7 +125,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			}
 
 			$tmpInstaller  = new JInstaller;
-			$installResult = $tmpInstaller->{$this->route}($package['dir']);
+			$installResult = $tmpInstaller->install($package['dir']);
 
 			if (!$installResult)
 			{
@@ -523,14 +523,10 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		{
 			$manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
 
-			if (is_file($manifestScriptFile))
-			{
-				// Load the file
-				include_once $manifestScriptFile;
-			}
-
 			// Set the class name
 			$classname = $row->element . 'InstallerScript';
+
+			JLoader::register($classname, $manifestScriptFile);
 
 			if (class_exists($classname))
 			{

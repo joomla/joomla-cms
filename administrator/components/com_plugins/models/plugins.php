@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Methods supporting a list of plugin records.
  *
@@ -148,7 +150,7 @@ class PluginsModelPlugins extends JModelList
 
 			$orderingDirection = strtolower($this->getState('list.direction'));
 			$direction         = ($orderingDirection == 'desc') ? -1 : 1;
-			JArrayHelper::sortObjects($result, $ordering, $direction, true, true);
+			$result = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
