@@ -1682,7 +1682,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 					' IDENTIFIED BY ' . $this->quoteName($options->db_password) .
 					$defaultTablespaceClause .
 					$temporaryTablespaceClause .
-  					$defaultTablespaceQuotaClause;
+					$defaultTablespaceQuotaClause;
 	}
 
 	/**
