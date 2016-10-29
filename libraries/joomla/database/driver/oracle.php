@@ -264,14 +264,14 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	}
 
 	/**
-	 * Drops a table from the database.
+	 * Drops an entire database (Use with Caution!).
 	 *
 	 * Note: The IF EXISTS flag is unused in the Oracle driver.
 	 *
-	 * @param   string   $tableName  The name of the database table to drop.
-	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
+	 * @param   string   $databaseName  The name of the database table to drop.
+	 * @param   boolean  $ifExists      Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabaseDriverOracle  Returns this object to support chaining.
+	 * @return  JDatabaseDriver  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 */
@@ -1184,7 +1184,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 	 * 									This object must have "db_name" and "db_password" set for Oracle.
 	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
 	 *
-	 * @return  JDatabaseDriverOracle  Returns this object to support chaining.
+	 * @return  JDatabaseDriver  Returns this object to support chaining.
 	 *
 	 * @since   12.2
 	 * @throws  RuntimeException
@@ -1217,7 +1217,8 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 			$this->setQuery('GRANT create any procedure TO ' . $this->quoteName($options->db_name))->execute();
 			$this->setQuery('GRANT create sequence TO ' . $this->quoteName($options->db_name))->execute();
 			$this->setQuery('GRANT create synonym TO ' . $this->quoteName($options->db_name))->execute();
-		} catch (JDatabaseExceptionExecuting $e)
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			/**
 			* Error 1920 gets thrown when the user already exists:
@@ -1656,13 +1657,11 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		$defaultPermanentTablespaceQuery = "select PROPERTY_VALUE
 											  from database_properties
-											  where property_name = 'DEFAULT_PERMANENT_TABLESPACE'"
-		;
+											  where property_name = 'DEFAULT_PERMANENT_TABLESPACE'";
 
 		$defaultTemporaryTablespaceQuery = "select PROPERTY_VALUE
 											  from database_properties
-											  where property_name = 'DEFAULT_TEMP_TABLESPACE'"
-		;
+											  where property_name = 'DEFAULT_TEMP_TABLESPACE'";
 
 		$defaultPermanentTablespace = $this->setQuery($defaultPermanentTablespaceQuery)->loadResult();
 		$defaultTemporaryTablespace = $this->setQuery($defaultTemporaryTablespaceQuery)->loadResult();
@@ -1682,9 +1681,8 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 		return 'CREATE USER ' . $this->quoteName($options->db_name) .
 					' IDENTIFIED BY ' . $this->quoteName($options->db_password) .
 					$defaultTablespaceClause .
-  					$temporaryTablespaceClause .
-  					$defaultTablespaceQuotaClause
-		;
+					$temporaryTablespaceClause .
+  					$defaultTablespaceQuotaClause;
 	}
 
 	/**
