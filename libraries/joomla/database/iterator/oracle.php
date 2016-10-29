@@ -27,15 +27,19 @@ class JDatabaseIteratorOracle extends JDatabaseIterator
 	/**
 	* Is used to decide whether a result set
 	* should return the LOB values or the LOB objects
+	*
+	* @var boolean
 	*/
 	protected $returnLobs = true;
 
 	/**
 	 * Database iterator constructor.
 	 *
-	 * @param   mixed   $cursor  The database cursor.
-	 * @param   string  $column  An option column to use as the iterator key.
-	 * @param   string  $class   The class of object that is returned.
+	 * @param   mixed   $cursor      The database cursor.
+	 * @param   string  $column      An option column to use as the iterator key.
+	 * @param   string  $class       The class of object that is returned.
+	 * @param   bool    $toLower     The class of object that is returned.
+	 * @param   bool    $returnLobs  The class of object that is returned.
 	 *
 	 * @throws  InvalidArgumentException
 	 */
