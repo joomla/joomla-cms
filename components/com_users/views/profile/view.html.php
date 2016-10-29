@@ -90,7 +90,7 @@ class UsersViewProfile extends JViewLegacy
 
 		JPluginHelper::importPlugin('content');
 		$this->data->text = '';
-		JEventDispatcher::getInstance()->trigger('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
+		JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
 		unset($this->data->text);
 
 		// Check for layout override

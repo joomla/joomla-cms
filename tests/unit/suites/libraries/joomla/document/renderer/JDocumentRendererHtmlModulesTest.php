@@ -15,11 +15,6 @@
 class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 {
 	/**
-	 * @var  JEventDispatcher
-	 */
-	protected $dispatcher;
-
-	/**
 	 * Flag indicating execution of onAfterRenderModules event in JDocumentRendererHtmlModules::render
 	 * method.
 	 *
@@ -43,9 +38,8 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 
 		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$session     = $this->getMockSession();
-		$this->dispatcher      = new JEventDispatcher;
-		TestReflection::setValue($this->dispatcher, 'instance', $this->dispatcher);
-		$this->dispatcher->register('onAfterRenderModules', array($this, 'eventCallback'));
+
+		JFactory::$application->registerEvent('onAfterRenderModules', array($this, 'eventCallback'));
 	}
 
 	/**
@@ -59,7 +53,6 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-		TestReflection::setValue($this->dispatcher, 'instance', null);
 		parent::tearDown();
 	}
 

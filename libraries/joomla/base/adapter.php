@@ -130,6 +130,8 @@ class JAdapter extends JObject
 			return true;
 		}
 
+		$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
+
 		// Assemble the class name for the requested adapter
 		$class = $this->_classprefix . ucfirst($name);
 

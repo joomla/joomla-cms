@@ -77,7 +77,7 @@ class MessagesViewMessages extends JViewLegacy
 		}
 
 		JToolbarHelper::divider();
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 		$bar->appendButton(
 			'Popup',
 			'cog',

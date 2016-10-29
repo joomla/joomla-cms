@@ -88,7 +88,7 @@ class FieldsViewFields extends JViewLegacy
 		}
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		// Avoid nonsense situation.
 		if ($component == 'com_fields')

@@ -257,7 +257,7 @@ class ContactViewContact extends JViewLegacy
 		if ($params->get('show_user_custom_fields') && $item->user_id && $contactUser = JFactory::getUser($item->user_id))
 		{
 			$contactUser->text = '';
-			JEventDispatcher::getInstance()->trigger('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
+			JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
 
 			if (!isset($contactUser->fields))
 			{
