@@ -129,6 +129,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 			<div class="container-fluid">
 				<?php if ($params->get('admin_menus') != '0') : ?>
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="element-invisible"><?php echo JTEXT::_('TPL_ISIS_TOGGLE_MENU'); ?></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>

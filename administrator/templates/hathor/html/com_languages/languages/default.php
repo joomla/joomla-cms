@@ -126,7 +126,11 @@ $saveOrder = $listOrder == 'a.ordering';
 					<?php echo $this->escape($item->sef); ?>
 				</td>
 				<td class="center">
-					<?php echo $this->escape($item->image); ?>&nbsp;<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->image, array('title' => $item->image), true); ?>
+					<?php if ($item->image) : ?>
+						<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, null, true); ?>&nbsp;<?php echo $this->escape($item->image); ?>
+					<?php else : ?>
+						<?php echo JText::_('JNONE'); ?>
+					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange);?>

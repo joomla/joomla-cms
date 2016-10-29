@@ -310,7 +310,7 @@ class JHtmlTest extends TestCase
 		$urlfilename = 'image1.jpg';
 
 		// We generate a random template name so that we don't collide or hit anything.
-		$template = 'mytemplate' . rand(1, 10000);
+		$template = 'mytemplate' . mt_rand(1, 10000);
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
@@ -575,7 +575,7 @@ class JHtmlTest extends TestCase
 		$urlfilename = 'script1.js';
 
 		// We generate a random template name so that we don't collide or hit anything.
-		$template = 'mytemplate' . rand(1, 10000);
+		$template = 'mytemplate' . mt_rand(1, 10000);
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
@@ -924,7 +924,7 @@ class JHtmlTest extends TestCase
 		$urlfilename = 'style1.css';
 
 		// We generate a random template name so that we don't collide or hit anything.
-		$template = 'mytemplate' . rand(1, 10000);
+		$template = 'mytemplate' . mt_rand(1, 10000);
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
@@ -1290,7 +1290,7 @@ class JHtmlTest extends TestCase
 	public function testTooltip()
 	{
 		// We generate a random template name so that we don't collide or hit anything
-		$template = 'mytemplate' . rand(1, 10000);
+		$template = 'mytemplate' . mt_rand(1, 10000);
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
