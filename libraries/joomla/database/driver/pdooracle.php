@@ -654,6 +654,8 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 	 */
 	public function lockTable($table)
 	{
+		$table = strtoupper($table);
+
 		$this->setQuery('LOCK TABLE ' . $this->quoteName($table) . ' IN EXCLUSIVE MODE')->execute();
 
 		return $this;
