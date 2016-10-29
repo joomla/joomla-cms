@@ -22,7 +22,7 @@ JHtml::_('behavior.core');
 JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 
 // Add installation js
-JHtml::_('script', 'installation/template/js/installation.js');
+JHtml::_('script', 'installation/template/js/installation.js', array('version' => 'auto'));
 
 // Add html5 shiv
 JHtml::_('script', 'jui/html5.js', array('relative' => true, 'conditional' => 'lt IE 9'));
