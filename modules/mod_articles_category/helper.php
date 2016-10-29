@@ -348,15 +348,15 @@ abstract class ModArticlesCategoryHelper
 		$baseLength = strlen($html);
 
 		// First get the plain text string. This is the rendered text we want to end up with.
-		$ptString = JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = false);
+		$ptString = JHtml::_('string.truncateComplex', $html, $maxLength, $noSplit = true, $allowHtml = false);
 
 		for ($maxLength; $maxLength < $baseLength;)
 		{
 			// Now get the string if we allow html.
-			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = true);
+			$htmlString = JHtml::_('string.truncateComplex', $html, $maxLength, $noSplit = true, $allowHtml = true);
 
 			// Now get the plain text from the html string.
-			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
+			$htmlStringToPtString = JHtml::_('string.truncateComplex', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
 
 			// If the new plain text string matches the original plain text string we are done.
 			if ($ptString == $htmlStringToPtString)
