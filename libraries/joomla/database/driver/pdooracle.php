@@ -1093,7 +1093,7 @@ class JDatabaseDriverPdooracle extends JDatabaseDriverPdo
 					' IDENTIFIED BY ' . $this->quoteName($options->db_password) .
 					$defaultTablespaceClause .
 					$temporaryTablespaceClause .
-  					$defaultTablespaceQuotaClause;
+					$defaultTablespaceQuotaClause;
 	}
 
 	/**
