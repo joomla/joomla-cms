@@ -50,7 +50,7 @@ class JDocumentRendererHtmlModules extends JDocumentRenderer
 			$buffer .= $moduleHtml;
 		}
 
-		JFactory::getApplication()->triggerEvent('onAfterRenderModules', array(&$buffer, &$params));
+		$app->triggerEvent('onAfterRenderModules', array(&$buffer, &$params));
 
 		return $buffer;
 	}

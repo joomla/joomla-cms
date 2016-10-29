@@ -37,9 +37,11 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
-		JFactory::$session     = $this->getMockSession();
+		JFactory::$application->expects($this->any())
+			->method('triggerEvent')
+			->willReturnCallback([$this, 'eventCallback']);
 
-		JFactory::$application->registerEvent('onAfterRenderModules', array($this, 'eventCallback'));
+		JFactory::$session = $this->getMockSession();
 	}
 
 	/**
@@ -83,9 +85,8 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 	 */
 	public function testRender()
 	{
-		$document               = new JDocumentHtml;
-		$renderer               = $document->loadRenderer('modules');
-		$params                 = array('name' => 'position-0', 'style' => 'xhtml');
+		$renderer               = new JDocumentRendererHtmlModules(new JDocumentHtml);
+		$params                 = ['name' => 'position-0', 'style' => 'xhtml'];
 		$this->callbackExecuted = false;
 		$output                 = $renderer->render('position-0', $params);
 		$htmlClean              = trim(preg_replace('~>\s+<~', '><', $output));
@@ -101,21 +102,24 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Callback for event 'onAfterRenderModules'
+	 * Callback for the DispatcherInterface trigger method.
 	 *
-	 * @param   string  &$buffer  contains rendered output from JDocumentRendererHtmlModules::render
+	 * @param   string  $event  The event to trigger.
+	 * @param   array   $args   An array of arguments.
 	 *
-	 * @param   array   &$params  template position and style parameters
+	 * @return  array  An array of results from each function call.
 	 *
-	 * @return  void
-	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function eventCallback(&$buffer, &$params)
+	public function eventCallback($event, array $args = [])
 	{
-		$this->assertContains('mod_search63', $buffer, 'buffer empty when processing onAfterRenderModules event');
-		$this->assertArrayHasKey('name', $params, "params['name'] empty when processing onAfterRenderModules event");
-		$this->callbackExecuted = true;
+		switch ($event)
+		{
+			case 'onAfterRenderModules':
+				$this->assertContains('mod_search63', $args[0], 'buffer empty when processing onAfterRenderModules event');
+				$this->assertArrayHasKey('name', $args[1], "params['name'] empty when processing onAfterRenderModules event");
+				$this->callbackExecuted = true;
+		}
 	}
 }
 
