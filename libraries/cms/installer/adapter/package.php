@@ -125,7 +125,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			}
 
 			$tmpInstaller  = new JInstaller;
-			$installResult = $tmpInstaller->{$this->route}($package['dir']);
+			$installResult = $tmpInstaller->install($package['dir']);
 
 			if (!$installResult)
 			{

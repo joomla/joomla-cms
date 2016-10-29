@@ -207,8 +207,20 @@ $loggeduser = JFactory::getUser();
 		</tbody>
 	</table>
 
-	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
+	<?php // Load the batch processing form if user is allowed ?>
+	<?php if ($loggeduser->authorise('core.create', 'com_users')
+		&& $loggeduser->authorise('core.edit', 'com_users')
+		&& $loggeduser->authorise('core.edit.state', 'com_users')) : ?>
+		<?php echo JHtml::_(
+			'bootstrap.renderModal',
+			'collapseModal',
+			array(
+				'title' => JText::_('COM_USERS_BATCH_OPTIONS'),
+				'footer' => $this->loadTemplate('batch_footer')
+			),
+			$this->loadTemplate('batch_body')
+		); ?>
+	<?php endif;?>
 
 	<?php echo $this->pagination->getListFooter(); ?>
 	<div>
