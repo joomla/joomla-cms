@@ -739,7 +739,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 * Currently only a rough implementation
 	 * and may not always be accurate.
 	 *
-	 *
 	 * @return  string   The query type
 	 *
 	 * @since   12.1
