@@ -116,7 +116,7 @@ if (!$readonly)
 					'footer' => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
 				)
 			); ?>
-			<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>" class="field-user-input" data-onchange="<?php echo $this->escape($onchange); ?>" />
 		<?php endif; ?>
 	</div>
+	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>" class="field-user-input" data-onchange="<?php echo $this->escape($onchange); ?>" />
 </div>
