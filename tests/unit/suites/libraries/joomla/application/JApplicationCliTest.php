@@ -51,6 +51,8 @@ class JApplicationCliTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		TestReflection::setValue('JApplicationCli', 'instance', null);
+
 		unset($this->class);
 		parent::tearDown();
 	}
@@ -211,7 +213,7 @@ class JApplicationCliTest extends TestCase
 		$this->assertInstanceOf(
 			'JApplicationCliInspector',
 			JApplicationCli::getInstance('JApplicationCliInspector'),
-			'Tests that getInstance will instantiate a valid child class of JCli.'
+			'Tests that getInstance will instantiate a valid child class of JApplicationCli.'
 		);
 
 		TestReflection::setValue('JApplicationCli', 'instance', 'foo');
@@ -229,8 +231,6 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function testGetInstanceForUnexistingClass()
 	{
-		TestReflection::setValue('JApplicationCli', 'instance', null);
-
 		JApplicationCli::getInstance('Foo');
 	}
 

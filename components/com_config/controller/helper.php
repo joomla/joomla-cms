@@ -26,7 +26,7 @@ class ConfigControllerHelper
 	 * not prefixed with Config.
 	 * Additional options maybe added to parameterise the controller.
 	 *
-	 * @param   JApplicationBase  $app  An application object
+	 * @param   \Joomla\Application\AbstractApplication  $app  An application object
 	 *
 	 * @return  JController  A JController object
 	 *
