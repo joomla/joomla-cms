@@ -41,7 +41,7 @@
 
 								// Add chosen to the element
 								var $el = $("#" + $id);
-								if ($el && $el.data('chosen')) {
+								if ($el.length && $el.data('chosen') && $.fn.chosen) {
 									$el.chosen('destroy');
 									$el.chosen();
 								}
