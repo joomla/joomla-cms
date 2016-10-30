@@ -62,7 +62,7 @@ class PlgContentContact extends JPlugin
 
 		if ($contact)
 		{
-			require_once JPATH_ROOT . '/components/com_contact/helpers/route.php';
+			JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 			$row->contact_link = JRoute::_(ContactHelperRoute::getContactRoute($contact->contactid . ':' . $contact->alias, $contact->catid));
 		}
 		else
