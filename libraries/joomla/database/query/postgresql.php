@@ -655,4 +655,25 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	{
 		return ' RANDOM() ';
 	}
+
+	/**
+	 * Find a value in a varchar used like a set.
+	 *
+	 * Ensure that the value is an integer before passing to the method.
+	 *
+	 * Usage:
+	 * $query->find_in_set((int) $parent->id, 'a.assigned_cat_ids')
+	 *
+	 * @param   string  $value  The value to search for.
+	 *
+	 * @param   string  $set    The set of values.
+	 *
+	 * @return  string  Returns the find_in_set() postgresql translation.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function find_in_set($value, $set)
+	{
+		return " $value = ANY (string_to_array($set, ',')::integer[]) ";
+	}
 }
