@@ -98,6 +98,21 @@ if ($user->authorise('core.manage', 'com_users'))
 		$menu->getParent();
 	}
 
+	if (JComponentHelper::getComponent('com_users')->params->get('custom_fields_enable', '1'))
+	{
+		$menu->addChild(
+			new JMenuNode(
+				JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_users.user', 'class:fields'
+			)
+		);
+
+		$menu->addChild(
+			new JMenuNode(
+				JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_categories&extension=com_users.user.fields', 'class:category'
+			)
+		);
+	}
+
 	if (JFactory::getApplication()->get('massmailoff', 0) != 1)
 	{
 		$menu->addSeparator();
@@ -209,6 +224,22 @@ if ($user->authorise('core.manage', 'com_content'))
 		);
 		$menu->getParent();
 	}
+
+	if (JComponentHelper::getComponent('com_content')->params->get('custom_fields_enable', '1'))
+	{
+		$menu->addChild(
+			new JMenuNode(
+				JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_content.article', 'class:fields'
+			)
+		);
+
+		$menu->addChild(
+			new JMenuNode(
+				JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_categories&extension=com_content.article.fields', 'class:category'
+			)
+		);
+	}
+
 	$menu->addChild(
 		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured', 'class:featured')
 	);
