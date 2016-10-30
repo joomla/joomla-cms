@@ -48,16 +48,6 @@ else
 	$inboxLink = JRoute::_('index.php?option=com_messages');
 }
 
-// Set the inbox class.
-if ($unread)
-{
-	$inboxClass = 'unread-messages';
-}
-else
-{
-	$inboxClass = 'no-unread-messages';
-}
-
 $online_num = 0;
 
 // Get the number of frontend logged in users if shared sessions is not enabled.
