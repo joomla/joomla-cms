@@ -198,21 +198,6 @@ class LanguagesModelInstalled extends JModelList
 		{
 			$this->data = array();
 
-			// Get information.
-			$db = $this->getDbo();
-			$query = $db->getQuery(true);
-
-			// Select languages installed from the extensions table.
-			$query->select($db->quoteName(array('element', 'client_id', 'extension_id')))
-				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('language'))
-				->where($db->quoteName('state') . ' = 0')
-				->where($db->quoteName('enabled') . ' = 1');
-
-			// For client_id = 1 do we need to check language table also?
-			$db->setQuery($query);
-			$langlist = $db->loadObjectList('element');
-
 			$isCurrentLanguageRtl = JFactory::getLanguage()->isRtl();
 			$params               = JComponentHelper::getParams('com_languages');
 			$installedLanguages   = JLanguageHelper::getInstalledLanguages(null, true, true, null, 'name', 'asc');
