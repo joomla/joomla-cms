@@ -11,7 +11,23 @@
 
   .btn-group {
     margin-top: 5px;
-    margin-left: 5px;
+
+    .tag,
+    [class*="fa-"] {
+      margin-right: 5px;
+    }
+  }
+
+  .btn-group::after {
+    content: '';
+    border-left: 1px solid #999;
+    margin: 0 10px;
+  }
+  .btn-group.logout::after,
+  .btn-group.details::after {
+    content: '';
+    border-left: 0;
+    margin: 0;
   }
 
   p {
