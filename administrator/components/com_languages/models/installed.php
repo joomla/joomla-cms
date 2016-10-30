@@ -200,14 +200,16 @@ class LanguagesModelInstalled extends JModelList
 
 			$isCurrentLanguageRtl = JFactory::getLanguage()->isRtl();
 			$params               = JComponentHelper::getParams('com_languages');
-			$installedLanguages   = JLanguageHelper::getInstalledLanguages(null, true, true, null, 'name', 'asc');
+			$installedLanguages   = JLanguageHelper::getInstalledLanguages(null, true, true, null, null, null);
 
 			// Compute all the languages.
 			foreach ($installedLanguages as $clientId => $languages)
 			{
+				$defaultLanguage = $params->get(JApplicationHelper::getClientInfo($clientId)->name, 'en-GB');
+
 				foreach ($languages as $lang)
 				{
-					$client       = JApplicationHelper::getClientInfo($lang->client_id);
+					
 					$clientPath   = (int) $lang->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 
 					$row               = new stdClass;
@@ -220,14 +222,14 @@ class LanguagesModelInstalled extends JModelList
 					$row->creationDate = $lang->manifest['creationDate'];
 					$row->authorEmail  = $lang->manifest['authorEmail'];
 					$row->version      = $lang->manifest['version'];
-					$row->published    = $params->get($client->name, 'en-GB') === $row->language ? 1 : 0;
+					$row->published    = $defaultLanguage === $row->language ? 1 : 0;
 					$row->checked_out  = 0;
 
 					// Fix wrongly set parentheses in RTL languages
 					if ($isCurrentLanguageRtl)
 					{
-						$row->name        = html_entity_decode($row->name . '&#x200E;', ENT_QUOTES, 'UTF-8');
-						$row->nativeTitle = html_entity_decode($row->nativeTitle . '&#x200E;', ENT_QUOTES, 'UTF-8');
+						$row->name       = html_entity_decode($row->name . '&#x200E;', ENT_QUOTES, 'UTF-8');
+						$row->nativeName = html_entity_decode($row->nativeName . '&#x200E;', ENT_QUOTES, 'UTF-8');
 					}
 
 
@@ -258,6 +260,7 @@ class LanguagesModelInstalled extends JModelList
 			if (!empty($search))
 			{
 				if (stripos($installedLanguage->name, $search) === false
+					&& stripos($installedLanguage->nativeName, $search) === false
 					&& stripos($installedLanguage->language, $search) === false)
 				{
 					unset($installedLanguages[$key]);
