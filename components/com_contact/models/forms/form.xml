@@ -148,11 +148,15 @@
 			size="30"
 		/>
 
-		<field name="checked_out" type="hidden"
+		<field name="checked_out"
+			type="hidden"
+			label="JGLOBAL_FIELD_CHECKEDOUT_LABEL"
 			filter="unset"
 		/>
 
-		<field name="checked_out_time" type="hidden"
+		<field name="checked_out_time"
+			type="hidden"
+			label="JGLOBAL_FIELD_CHECKEDOUT_TIME_LABEL"
 			filter="unset"
 		/>
 

@@ -94,9 +94,17 @@
 		filter="unset"
 		 />
 
-		<field name="checked_out" type="hidden" filter="unset" />
+		<field name="checked_out"
+			type="hidden"
+			label="JGLOBAL_FIELD_CHECKEDOUT_LABEL"
+			filter="unset"
+		/>
 
-		<field name="checked_out_time" type="hidden" filter="unset" />
+		<field name="checked_out_time"
+			type="hidden"
+			label="JGLOBAL_FIELD_CHECKEDOUT_TIME_LABEL"
+			filter="unset"
+		/>
 
 		<field name="publish_up" type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
