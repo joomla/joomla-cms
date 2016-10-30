@@ -220,7 +220,8 @@ class LanguagesModelInstalled extends JModelList
 				$clientPath   = (int) $lang->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 				$metafilePath = $clientPath . '/language/' . $lang->element . '/' . $lang->element . '.xml';
 
-				$info = JApplicationHelper::parseXMLLangMetaFile($metafilePath);
+				$info = JInstaller::parseXMLInstallFile($metafilePath);
+
 				if (!is_array($info))
 				{
 					$app = JFactory::getApplication();
