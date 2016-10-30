@@ -51,6 +51,14 @@ class JFormFieldNumber extends JFormField
 	protected $step = 0;
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.number';
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -135,47 +143,29 @@ class JFormFieldNumber extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.7
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
 		// Initialize some field attributes.
-		$size     = !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$extraData = array(
+			'max'   => $this->max,
+			'min'   => $this->min,
+			'step'  => $this->step,
+			'value' => $this->value,
+		);
 
-		// Must use isset instead of !empty for max/min because "zero" boundaries are always acceptable
-		$max      = isset($this->max) ? ' max="' . $this->max . '"' : '';
-		$min      = isset($this->min) ? ' min="' . $this->min . '"' : '';
-
-		$step     = !empty($this->step) ? ' step="' . $this->step . '"' : '';
-		$class    = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$readonly = $this->readonly ? ' readonly' : '';
-		$disabled = $this->disabled ? ' disabled' : '';
-		$required = $this->required ? ' required aria-required="true"' : '';
-		$hint     = strlen($hint) ? ' placeholder="' . $hint . '"' : '';
-
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
-		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
-
-		$autofocus = $this->autofocus ? ' autofocus' : '';
-
-		if (is_numeric($this->value))
-		{
-			$value = (float) $this->value;
-		}
-		else
-		{
-			$value = "";
-			$value = (isset($this->min)) ? $this->min : $value;
-		}
-
-		// Initialize JavaScript field attributes.
-		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
-
-		return '<input type="number" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly
-			. $hint . $onchange . $max . $step . $min . $required . $autocomplete . $autofocus . ' />';
+		return array_merge($data, $extraData);
 	}
 }

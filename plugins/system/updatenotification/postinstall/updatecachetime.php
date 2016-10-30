@@ -49,7 +49,7 @@ function updatecachetime_postinstall_action()
 	// Store the changes
 	if (!$table->store())
 	{
-		// If there is a error show it to the admin
+		// If there is an error show it to the admin
 		JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 	}
 }

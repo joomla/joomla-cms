@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('groupedlist');
  *
  * @since  11.1
  */
-class JFormFieldTimezone extends JFormFieldGroupedList
+class JFormFieldTimezone extends JFormFieldGroupedList implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
