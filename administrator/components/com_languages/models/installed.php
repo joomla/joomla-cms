@@ -209,9 +209,6 @@ class LanguagesModelInstalled extends JModelList
 
 				foreach ($languages as $lang)
 				{
-					
-					$clientPath   = (int) $lang->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
-
 					$row               = new stdClass;
 					$row->language     = $lang->element;
 					$row->name         = $lang->metadata['name'];
