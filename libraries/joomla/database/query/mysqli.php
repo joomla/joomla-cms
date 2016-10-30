@@ -148,7 +148,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 * Ensure that the value is an integer before passing to the method.
 	 *
 	 * Usage:
-	 * $query->find_in_set((int) $parent->id, 'a.assigned_cat_ids')
+	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
 	 *
 	 * @param   string  $value  The value to search for.
 	 *
@@ -158,7 +158,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function find_in_set($value, $set)
+	public function findInSet($value, $set)
 	{
 		return " find_in_set(" . $value . ", " . $set . ")";
 	}
