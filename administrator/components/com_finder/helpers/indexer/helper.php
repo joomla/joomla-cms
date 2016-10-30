@@ -63,12 +63,30 @@ class FinderIndexerHelper
 	public static function tokenize($input, $lang, $phrase = false)
 	{
 		static $cache;
+
+		// Instantiate a cache object.
+		if ($cache === null)
+		{
+			$options = array(
+				'defaultgroup' => __METHOD__,
+				'storage'	   => 'memory',
+				'maxBuffers'   => 1,
+				);
+			$cache = JCache::getInstance('', $options);
+			$cache->setCaching(true);
+		}
+
 		$store = StringHelper::strlen($input) < 128 ? md5($input . '::' . $lang . '::' . $phrase) : null;
 
 		// Check if the string has been tokenized already.
-		if ($store && isset($cache[$store]))
+		if ($store)
 		{
-			return $cache[$store];
+			$tokens = $cache->get($store);
+
+			if ($tokens)
+			{
+				return $tokens;
+			}
 		}
 
 		$tokens = array();
@@ -191,9 +209,10 @@ class FinderIndexerHelper
 
 		if ($store)
 		{
-			$cache[$store] = count($tokens) > 1 ? $tokens : array_shift($tokens);
+			$data = count($tokens) > 1 ? $tokens : array_shift($tokens);
+			$cache->store($data, $store);
 
-			return $cache[$store];
+			return $data;
 		}
 		else
 		{
