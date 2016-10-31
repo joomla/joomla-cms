@@ -212,7 +212,7 @@ class LanguagesModelInstalled extends JModelList
 					$row               = new stdClass;
 					$row->language     = $lang->element;
 					$row->name         = $lang->metadata['name'];
-					$row->nativeName   = isset($lang->metadata['nativeName']) ? $lang->metadata['nativeName'] : JText::_('JLIB_UNKNOWN');
+					$row->nativeName   = isset($lang->metadata['nativeName']) ? $lang->metadata['nativeName'] : '-';
 					$row->client_id    = (int) $lang->client_id;
 					$row->extension_id = (int) $lang->extension_id;
 					$row->author       = $lang->manifest['author'];
