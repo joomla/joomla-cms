@@ -31,7 +31,7 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 
 		afterAll(function () {
 			jasmine.Ajax.uninstall();
-			
+
 			Joomla.renderMessages = renderFn;
 			Joomla.removeMessages = removeFn;
 			Joomla.ajaxErrorsMessages = ajxerrFn;
@@ -53,17 +53,17 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 
 		describe("on success with resp.data.result == 'true' & resp.messages an object", function() {
 			var $spanContainer = $('#ajax-test');
-        
+
 			beforeAll(function() {
 				sendPermissions(event);
 				request = jasmine.Ajax.requests.mostRecent();
 				request.respondWith(responses.success);
 			});
-        
+
 			it("should make an AJAX request of type POST", function() {
 				expect(request.method).toBe('POST');
 			});
-        
+
 			it("should set attribute class in icon to icon-save", function() {
 				expect($('#icon_0')).toHaveAttr('class', 'icon-save');
 			});
@@ -75,7 +75,7 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			it("should class in icon to icon-save", function() {
 				expect($spanContainer.find('span')).toContainText('Sample text');
 			});
-        
+
 			it("should call Joomla.renderMessages({})", function() {
 				expect(Joomla.renderMessages).toHaveBeenCalledWith({});
 			});
@@ -116,7 +116,7 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			it("should call Joomla.ajaxErrorsMessages(jqXHR, 'error', 'HTTP/1.1 404 Not Found')", function() {
 				expect(Joomla.ajaxErrorsMessages).toHaveBeenCalledWith(jasmine.any(Object), 'error', 'HTTP/1.1 404 Not Found');
 			});
-			
+
 			it("should call Joomla.renderMessages(undefined)", function() {
 				expect(Joomla.renderMessages).toHaveBeenCalledWith(undefined);
 			});
@@ -124,11 +124,11 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			it("should call window.scrollTo(0, 0)", function() {
 				expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
 			});
-        
+
 			it("should remove attribute style from icon", function() {
 				expect($('#icon_0')).not.toHaveAttr('style');
 			});
-        
+
 			it("should set attribute class in icon to icon-cancel", function() {
 				expect($('#icon_0')).toHaveAttr('class', 'icon-cancel');
 			});
