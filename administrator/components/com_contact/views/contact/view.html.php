@@ -136,20 +136,20 @@ class ContactViewContact extends JViewLegacy
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				$toolbarButtons['apply'] = 'contact.apply';
-				$toolbarButtons['save']  = 'contact.save';
+				$toolbarButtons[] = ['apply', 'contact.apply'];
+				$toolbarButtons[] = ['save', 'contact.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
 				if ($canDo->get('core.create'))
 				{
-					$toolbarButtons['save2new'] = 'contact.save2new';
+					$toolbarButtons[] = ['save2new', 'contact.save2new'];
 				}
 			}
 
 			// If checked out, we can still save
 			if ($canDo->get('core.create'))
 			{
-				$toolbarButtons['save2copy'] = 'contact.save2copy';
+				$toolbarButtons[] = ['save2copy', 'contact.save2copy'];
 			}
 
 			if ($this->state->params->get('save_history', 0) && $itemEditable)
