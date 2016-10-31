@@ -8612,8 +8612,8 @@ body.modal-open {
 	position: absolute;
 	left: 0;
 	z-index: 1;
-	width: 26px;
 	height: 26px;
+	width: 26px;
 }
 #mediamanager-form .imgDelete a.close {
 	background-color: #bd362f;
@@ -8621,6 +8621,7 @@ body.modal-open {
 	top: 0;
 	line-height: 28px;
 	font-size: 12px;
+	padding-left: 1px;
 	color: #fff;
 	border-bottom-right-radius: 3px;
 	border-top-left-radius: 3px;
