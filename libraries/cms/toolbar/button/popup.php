@@ -26,17 +26,17 @@ class JToolbarButtonPopup extends JToolbarButton
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string   $type         Unused string, formerly button type.
-	 * @param   string   $name         Modal name, used to generate element ID
-	 * @param   string   $text         The link text
-	 * @param   string   $url          URL for popup
-	 * @param   integer  $width        Width of popup
-	 * @param   integer  $height       Height of popup
-	 * @param   integer  $bodyHeight   Optional height of the modal body in viewport units (vh)
-	 * @param   integer  $modalWidth   Optional width of the modal in viewport units (vh)
-	 * @param   string   $onClose      JavaScript for the onClose event.
-	 * @param   string   $title        The title text
-	 * @param   string   $footer       The footer html
+	 * @param   string   $type          Unused string, formerly button type.
+	 * @param   string   $name          Modal name, used to generate element ID
+	 * @param   string   $text          The link text
+	 * @param   string   $url           URL for popup
+	 * @param   integer  $iframeWidth   Width of popup
+	 * @param   integer  $iframeHeight  Height of popup
+	 * @param   integer  $bodyHeight    Optional height of the modal body in viewport units (vh)
+	 * @param   integer  $modalWidth    Optional width of the modal in viewport units (vh)
+	 * @param   string   $onClose       JavaScript for the onClose event.
+	 * @param   string   $title         The title text
+	 * @param   string   $footer        The footer html
 	 *
 	 * @return  string  HTML string for the button
 	 *
