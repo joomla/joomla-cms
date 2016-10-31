@@ -299,5 +299,4 @@ class PlgContentJoomla extends JPlugin
 
 		return true;
 	}
-
 }
