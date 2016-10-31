@@ -112,7 +112,7 @@ if ($user->authorise('core.manage', 'com_users'))
 		$menu->getParent();
 	}
 
-	if (JComponentHelper::getComponent('com_users')->params->get('custom_fields_enable', '1'))
+	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getComponent('com_users')->params->get('custom_fields_enable', '1'))
 	{
 		$menu->addChild(
 				new JMenuNode(
@@ -245,7 +245,7 @@ if ($user->authorise('core.manage', 'com_content'))
 		$menu->getParent();
 	}
 
-	if (JComponentHelper::getComponent('com_content')->params->get('custom_fields_enable', '1'))
+	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getComponent('com_content')->params->get('custom_fields_enable', '1'))
 	{
 		$menu->addChild(
 			new JMenuNode(
