@@ -42,11 +42,12 @@ if (!isset($params['animation']) || $params['animation'])
 	array_push($modalClasses, 'fade');
 }
 
-$modalWidth = isset($params['modalWidth']) ? round((int) $params['modalWidth'], -1) : '';
+$modalWidth       = isset($params['modalWidth']) ? round((int) $params['modalWidth'], -1) : '';
+$modalDialogClass = '';
 
 if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100)
 {
-	array_push($modalClasses, 'jviewport-width' . $modalWidth);
+	$modalDialogClass = ' jviewport-width' . $modalWidth;
 }
 
 $modalAttributes = array(
@@ -151,7 +152,7 @@ $script[] = "});";
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
 <div id="<?php echo $selector; ?>" role="dialog" <?php echo JArrayHelper::toString($modalAttributes); ?>>
-	<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>" role="document">
 		<div class="modal-content">
 			<?php
 				// Header
