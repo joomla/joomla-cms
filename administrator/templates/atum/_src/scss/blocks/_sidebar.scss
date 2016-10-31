@@ -1,7 +1,6 @@
 // Sidebar
 
 .wrapper {
-  padding-top: 48px;
   padding-left: 0;
   transition: all .5s ease;
 
@@ -28,7 +27,8 @@
   width: 250px;
   height: 100%;
   margin-left: 0;
-  background: #2e2633;
+  background: $atum-gradient-outer;
+  background: linear-gradient(to bottom, $atum-gradient-outer 0%, $atum-gradient-inner 50%, $atum-gradient-outer 100%);
   transform: translateX(-250px);
   transition: all .5s ease;
 
@@ -44,7 +44,7 @@
   }
 
   .main-brand {
-    padding: 25px 20px;
+    padding: 25px 0;
     font-size: 30px;
     text-align: center;
     text-indent: 0;
@@ -62,7 +62,7 @@
     }
 
 	img {
-      width: 100%;
+       max-width: 190px;
 	}
   }
 }
@@ -73,22 +73,24 @@
     width: 55px;
     transform: translateX(0);
   }
+
+  .main-brand img {
+    max-width: 40px;
+  }
 }
 
 // Menu
 .menu-collapse {
   z-index: 1001;
-  width: 54px;
+  width: 40px;
   height: 50px;
   text-align: center;
-  background: #2e2633;
-  border-bottom: 1px solid #433849;
 
   .menu-text {
     margin-right: 5px;
     font-size: 16px;
     line-height: 50px;
-    color: #d9d9d9;
+    color: $atum-template-color;
 
     @include media-breakpoint-down(sm) {
       display: none;
@@ -97,8 +99,7 @@
 
   .menu-toggle {
     position: relative;
-    display: block;
-    float: right;
+    display: inline-block;
     width: $atum-button-width;
     height: $atum-button-height;
     padding: 0;
@@ -118,7 +119,7 @@
       left: $atum-button-pad;
       display: block;
       height: $atum-bar-thickness;
-      background: #d9d9d9;
+      background: $atum-template-color;
       transition: transform $atum-button-transistion-duration;
 
       &::before,
@@ -128,8 +129,8 @@
         display: block;
         width: 100%;
         height: $atum-bar-thickness;
-        content: "";
-        background-color: #d9d9d9;
+        content: '';
+        background-color: $atum-template-color;
       }
 
       &::before {
@@ -190,11 +191,7 @@
   }
 
   @include media-breakpoint-up(md) {
-    position: fixed;
-    width: 250px;
-    padding: 0 20px;
-    margin-right: 20px;
-    text-align: right;
+
   }
 }
 
@@ -225,7 +222,7 @@
 
     a {
 	  display: block;
-      color: #d9d9d9;
+      color: #fff;
       text-decoration: none;
       border-top: 1px solid rgba(0,0,0,.3);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
@@ -256,11 +253,11 @@
   }
 
   .collapse-level-1 {
-    background: #201826;
+    background: rgba(0,0,0,.4);
   }
 
   .collapse-level-2 {
-    background: #0a070b;
+    background: rgba(0,0,0,.8);
 
     > li > a {
       text-indent: 35px;
@@ -277,7 +274,7 @@
       margin-top: 18px;
       margin-right: 10px;
       vertical-align: middle;
-      content: "";
+      content: '';
       border-top: 0;
       border-right: .3em solid transparent;
       border-bottom: .3em solid;

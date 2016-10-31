@@ -23,9 +23,9 @@
 		/**
 		 * Sidebar
 		 */
-		var sidebar = $('#sidebar-wrapper');
-		var wrapper = $('#wrapper');
-		var menu    = sidebar.find('#menu');
+		var sidebar = $('#sidebar-wrapper'),
+			wrapper = $('#wrapper'),
+			menu    = sidebar.find('#menu');
 
 		// Apply 2nd level collapse
 		menu.find('.nav > .parent > ul')
@@ -36,13 +36,15 @@
 
 		function animateWrapper()
 		{
-			var logo       = $('#main-brand');
+			var logoLg     = $('#main-brand');
+			var logoSm     = $('#main-brand-sm');
 			var menuToggle = $('#header').find('.menu-toggle');
 			var isClosed   = wrapper.hasClass('closed');
 
 			if (isClosed)
 			{
-				logo.stop(true, false).fadeIn();
+				logoSm.addClass('hidden-xs-up');
+				logoLg.removeClass('hidden-xs-up');
 				wrapper.removeClass('closed');
 				menuToggle.removeClass('active');
 				isClosed = false;
@@ -52,7 +54,8 @@
 				sidebar.find('.collapse').removeClass('in');
 				sidebar.find('.collapse-arrow').addClass('collapsed');
 				menuToggle.addClass('active');
-				logo.stop(true, false).fadeOut();
+				logoSm.removeClass('hidden-xs-up');
+				logoLg.addClass('hidden-xs-up');
 				wrapper.addClass('closed');
 				isClosed = true;
 			}
