@@ -648,39 +648,35 @@ abstract class JToolbarHelper
 		$options          = array();
 		$options['class'] = $class;
 
+		$validOptions = array(
+			'apply' => 'JTOOLBAR_APPLY',
+			'save' => 'JTOOLBAR_SAVE',
+			'save2new' => 'JTOOLBAR_SAVE_AND_NEW',
+			'save2copy' => 'JTOOLBAR_SAVE_AS_COPY'
+		);
+
 		$bar = JToolbar::getInstance('toolbar');
 
 		$layout = new JLayoutFile('joomla.toolbar.group.groupopen');
 		$bar->appendButton('Custom', $layout->render($options));
+		$firstItem = false;
 
 		foreach ($buttons as $button)
 		{
-			$options['group'] = true;
-
-			if ($button[0] === 'apply')
+			if (!array_key_exists($button[0], $validOptions))
 			{
-				$altText = isset($button[2]) ? $button[2] : 'JTOOLBAR_APPLY';
-				call_user_func_array('JToolbarHelper::' . $button[0], array($button[1], $altText));
+				continue;
+			}
 
+			$options['group'] = true;
+			$altText = isset($button[2]) ? $button[2] : $validOptions[$button[0]];
+			call_user_func_array('JToolbarHelper::' . $button[0], array($button[1], $altText, $firstItem));
+
+			if (!$firstItem)
+			{
 				$layout = new JLayoutFile('joomla.toolbar.group.groupmid');
 				$bar->appendButton('Custom', $layout->render($options));
-			}
-			else
-			{
-				if ($button[0] === 'save')
-				{
-					$altText = isset($button[2]) ? $button[2] : 'JTOOLBAR_SAVE';
-				}
-				else if ($button[0] === 'save2new')
-				{
-					$altText = isset($button[2]) ? $button[2] : 'JTOOLBAR_SAVE_AND_NEW';
-				}
-				else
-				{
-					$altText = isset($button[2]) ? $button[2] : 'JTOOLBAR_SAVE_AS_COPY';
-				}
-
-				call_user_func_array('JToolbarHelper::' . $button[0], array($button[1], $altText, true));
+				$firstItem = true;
 			}
 		}
 
