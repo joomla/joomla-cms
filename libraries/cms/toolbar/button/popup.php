@@ -42,7 +42,7 @@ class JToolbarButtonPopup extends JToolbarButton
 	 *
 	 * @since   3.0
 	 */
-	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $width = 640, $height = 480, $bodyHeight = null, $modalWidth = null,
+	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $iframeWidth = 640, $iframeHeight = 480, $bodyHeight = null, $modalWidth = null,
 		$onClose = '', $title = '', $footer = null)
 	{
 		// If no $title is set, use the $text element
@@ -72,8 +72,8 @@ class JToolbarButtonPopup extends JToolbarButton
 		$params = array();
 		$params['title']      = $options['title'];
 		$params['url']        = $options['doTask'];
-		$params['height']     = $height;
-		$params['width']      = $width;
+		$params['height']     = $iframeHeight;
+		$params['width']      = $iframeWidth;
 		$params['bodyHeight'] = $bodyHeight;
 		$params['modalWidth'] = $modalWidth;
 
