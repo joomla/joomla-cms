@@ -70,7 +70,6 @@ class FinderIndexerHelper
 			$options = array(
 				'defaultgroup' => __METHOD__,
 				'storage'	   => 'memory',
-				'maxBuffers'   => 1,
 				);
 			$cache = JCache::getInstance('', $options);
 			$cache->setCaching(true);
