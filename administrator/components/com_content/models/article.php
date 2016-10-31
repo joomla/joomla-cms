@@ -828,23 +828,27 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Delete #__content_frontpage items if the deleted articles was featured
 	 *
-	 * @param   object    $pks   The primary key related to the contents that was deleted.
+	 * @param   object  &$pks  The primary key related to the contents that was deleted.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function delete_featured($pks)
+	public function delete(&$pks)
 	{
+		$return = parent::delete($pks);
 
-		// Now check to see if this articles was featured if so delete it from the #__content_frontpage table
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__content_frontpage'))
-			->where('content_id IN (' . implode(',', $pks) . ')');
-		$db->setQuery($query);
-		$db->execute();
+		if ($return)
+		{
+			// Now check to see if this articles was featured if so delete it from the #__content_frontpage table
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__content_frontpage'))
+				->where('content_id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query);
+			$db->execute();
+		}
 
-		return true;
+		return $return;
 	}
 }
