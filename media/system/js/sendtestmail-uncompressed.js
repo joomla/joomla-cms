@@ -6,6 +6,8 @@
 var sendTestMail = function () {
 	'use strict';
 
+	var $ = jQuery;
+
 	var email_data = {
 		smtpauth  : $('input[name="jform[smtpauth]"]:checked').val(),
 		smtpuser  : $('input[name="jform[smtpuser]"]').val(),
