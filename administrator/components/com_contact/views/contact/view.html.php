@@ -116,9 +116,9 @@ class ContactViewContact extends JViewLegacy
 			{
 				JToolbarHelper::saveGroup(
 					[
-						'apply'    => 'contact.apply',
-						'save'     => 'contact.save',
-						'save2new' => 'contact.save2new'
+						['apply', 'contact.apply'],
+						['save', 'contact.save'],
+						['save2new', 'contact.save2new']
 					],
 					'btn-success'
 				);

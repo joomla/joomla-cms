@@ -635,7 +635,7 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a save button for a given option, with an additional dropdown
 	 *
-	 * @param   array   $buttons  An array of buttons functions/tasks
+	 * @param   array   $buttons  An array of buttons
 	 * @param   string  $class    The button class
 	 *
 	 * @return  void
@@ -653,33 +653,34 @@ abstract class JToolbarHelper
 		$layout = new JLayoutFile('joomla.toolbar.group.groupopen');
 		$bar->appendButton('Custom', $layout->render($options));
 
-		foreach ($buttons as $function => $task)
+		foreach ($buttons as $button)
 		{
 			$options['group'] = true;
 
-			if ($function === 'apply')
+			if ($button[0] === 'apply')
 			{
-				call_user_func_array('JToolbarHelper::' . $function, array($task));
+				$altText = isset($button[2]) ? $button[2] : 'JTOOLBAR_APPLY';
+				call_user_func_array('JToolbarHelper::' . $button[0], array($button[1], $altText));
 
 				$layout = new JLayoutFile('joomla.toolbar.group.groupmid');
 				$bar->appendButton('Custom', $layout->render($options));
 			}
 			else
 			{
-				if ($function === 'save')
+				if ($button[0] === 'save')
 				{
-					$altText = 'JTOOLBAR_SAVE';
+					$altText = isset($button[2]) ? $button[2] : 'JTOOLBAR_SAVE';
 				}
-				else if ($function === 'save2new')
+				else if ($button[0] === 'save2new')
 				{
-					$altText = 'JTOOLBAR_SAVE_AND_NEW';
+					$altText = isset($button[2]) ? $button[2] : 'JTOOLBAR_SAVE_AND_NEW';
 				}
 				else
 				{
-					$altText = 'JTOOLBAR_SAVE_AS_COPY';
+					$altText = isset($button[2]) ? $button[2] : 'JTOOLBAR_SAVE_AS_COPY';
 				}
 
-				call_user_func_array('JToolbarHelper::' . $function, array($task, $altText, true));
+				call_user_func_array('JToolbarHelper::' . $button[0], array($button[1], $altText, true));
 			}
 		}
 
