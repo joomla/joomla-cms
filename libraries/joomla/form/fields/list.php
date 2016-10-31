@@ -24,4 +24,29 @@ class JFormFieldList extends JFormAbstractlist implements JFormDomfieldinterface
 	 * @since  11.1
 	 */
 	protected $type = 'List';
+
+	/**
+	 * Method to add an option to the list field.
+	 *
+	 * @param   string  $text        Text/Language variable of the option.
+	 * @param   array   $attributes  Array of attributes ('name' => 'value' format)
+	 *
+	 * @return  JFormFieldList  For chaining.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addOption($text, $attributes = array())
+	{
+		if ($text && $this->element instanceof SimpleXMLElement)
+		{
+			$child = $this->element->addChild('option', $text);
+
+			foreach ($attributes as $name => $value)
+			{
+				$child->addAttribute($name, $value);
+			}
+		}
+
+		return $this;
+	}
 }
