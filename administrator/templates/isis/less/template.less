@@ -1557,7 +1557,7 @@ body.modal-open {
 	}
 	.thumbnail {
 		background-color: #f4f4f4;
-		border-radius: 2px;
+		border-radius: @inputBorderRadius;
 		border: 0;
 		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05) inset;
 		padding: 0px;
@@ -1584,6 +1584,10 @@ body.modal-open {
 		*, *:before {
 	    	-webkit-transition: all 0.2s ease;
 			transition: all 0.2s ease;
+			-webkit-background-clip: padding-box;
+			background-clip: padding-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
 	    }
 		input[type="radio"], input[type="checkbox"] {
 			margin: 0;
@@ -1637,11 +1641,12 @@ body.modal-open {
 	    	display: none;
 	    }
 	    label {
-	    	display: inline-block;
+	    	display: block;
 	    	line-height: 120px;
 	    	position: relative;
 	    	width: 100%;
 	    	border-radius: @inputBorderRadius;
+	    	overflow: hidden;
 	    	&:before {
 		  		font-family: "IcoMoon";
     			font-style: normal;
@@ -1662,8 +1667,8 @@ body.modal-open {
 	    	}
 	    }
 	    img {
-	    	max-height: 120px !important;
-	    	width: auto !important;
+	    	max-height: 120px;
+	    	width: auto;
 	    }
 	    :checked + label {
 	    	background-color: #ddd;
@@ -1680,29 +1685,48 @@ body.modal-open {
 			right: 0;
 			bottom: 0;
 			content: '';
-			border: 4px solid @btnSuccessBackground;
-			border-bottom-left-radius: 6px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+			border: 3px solid @btnSuccessBackground;
+			border-radius: 6px;
 		}
+	}
+	.imgDelete a.close, .imgPreview a {
+	    padding: 0;
+	    position: absolute;
+	    left: 0;
+	    z-index: 1;
+	    width: 26px;
+	    height: 26px;
+	}
+	.imgDelete a.close {
+	    background-color: @btnDangerBackground;
+	    border-color: @btnDangerBackground rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2) @btnDangerBackground;
+	    top: 0;
+	    line-height: 28px;
+	    font-size: 12px;
+	    color: #fff;
+		border-bottom-right-radius: @inputBorderRadius;
+		border-top-left-radius: @inputBorderRadius;
+		z-index: 10;
+		opacity: 0;
+		-webkit-transform: scale(0.5);
+		transform: scale(0.5);
+		&:hover {
+			background-color: darken(@btnDangerBackground, 15%);
+		}
+	}
+	.thumbnail:hover .imgDelete a.close {
+		opacity: 1;
+		-webkit-transform: scale(1);
+		transform: scale(1);
 	}
 	.imgPreview a {
 	    background-color: #fff;
 	    border-color: rgba(0, 0, 0, 0.2);
 	    bottom: 0;
 	    line-height: 26px;
-	    padding: 0;
-	    position: absolute;
-	    left: 0;
-	    text-align: center;
-	    width: 26px;
-	    height: 26px;
-	    z-index: 1;
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 		border: 1px solid rgba(0, 0, 0, 0.1);
-		border-bottom-color: transparent;
-		border-left-color: transparent;  
-		border-top-right-radius: @inputBorderRadius;
-		border-bottom-left-radius: @inputBorderRadius;
+		border-width: 1px 1px 0 0; 
+		border-radius: 0 @inputBorderRadius 0 0;
 		&:hover {
 			background-color: #eee;
 		}

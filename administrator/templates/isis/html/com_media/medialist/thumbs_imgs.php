@@ -19,8 +19,18 @@ $dispatcher = JEventDispatcher::getInstance();
 	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$img, &$params)); ?>
 	<li class="imgOutline thumbnail center">
 
+		<?php if ($this->canDelete):?>
+		<div class="imgDelete">
+			<a class="close delete-item" target="_top"
+			href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $img->name; ?>"
+			rel="<?php echo $img->name; ?>" title="<?php echo JText::_('JACTION_DELETE'); ?>"><span class="icon-delete"> </span></a>
+		</div>
+		<?php endif; ?>
+
 		<div class="thumbImg">
+			<?php if ($this->canDelete):?>
 			<?php echo JHtml::_('grid.id', $i, $img->name, false, 'rm', 'cb-image'); ?>
+			<?php endif; ?>
 			<label for="cb-image<?php echo $i ?>">
 				<?php echo JHtml::_('image', COM_MEDIA_BASEURL . '/' . $img->path_relative, JText::sprintf('COM_MEDIA_IMAGE_TITLE', $img->title, JHtml::_('number.bytes', $img->size)), array('width' => $img->width_60, 'height' => $img->height_60)); ?>
 			</label>
