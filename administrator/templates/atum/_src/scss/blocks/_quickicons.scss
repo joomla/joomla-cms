@@ -1,0 +1,27 @@
+// Quick Icons
+
+.quick-icons {
+  a {
+    display: block;
+    padding: 40px 0; 
+    margin-bottom: 15px;
+    background: linear-gradient(to right, $atum-gradient-outer 0%, $atum-gradient-inner 50%, $atum-gradient-outer 100%);
+    text-align: center;
+    text-transform: uppercase;
+    color: $white;
+
+	-webkit-transition: -webkit-transform .3s ease;
+	transition: -webkit-transform .3s ease;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+
+      -webkit-transform: scale(1.05);
+      transform: scale(1.05);
+
+	  -webkit-transition: -webkit-transform .3s ease;
+	  transition: transform .3s ease;
+    }
+  }
+}

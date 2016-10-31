@@ -19,6 +19,7 @@
 @import "blocks/_header";
 @import "blocks/_icons";
 @import "blocks/_login";
+@import "blocks/_quickicons";
 @import "blocks/_sidebar";
 @import "blocks/_status";
 @import "blocks/_table";
@@ -64,7 +65,7 @@ small, .small {
 .container-main {
   position: relative;
   padding-top: 65px;
-  background: #fff;
+  background: #eaebec;
 }
 .content {
   background: #fff;
