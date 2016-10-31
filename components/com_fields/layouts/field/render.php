@@ -26,6 +26,6 @@ if (!$value)
 ?>
 
 <dd class="field-entry <?php echo $class; ?>" id="field-entry-<?php echo $field->id; ?>">
-	<span class="field-label"><?php echo htmlentities($label); ?>: </span>
+	<span class="field-label"><?php echo htmlentities(JText::_($label)); ?>: </span>
 	<span class="field-value"><?php echo $value; ?></span>
 </dd>
