@@ -150,10 +150,11 @@ abstract class JFormAbstractlist extends JFormField
 
 		if ($this->element['useglobal'])
 		{
-			$tmp = new stdClass;
+			$tmp        = new stdClass;
 			$tmp->value = '';
-			$tmp->text = JText::_('JGLOBAL_USE_GLOBAL');
-			$component = JFactory::getApplication()->input->getCmd('option');
+			$tmp->text  = JText::_('JGLOBAL_USE_GLOBAL');
+			$component  = JFactory::getApplication()->input->getCmd('option');
+
 			// Get correct component for menu items
 			if ($component == 'com_menus')
 			{
@@ -161,35 +162,43 @@ abstract class JFormAbstractlist extends JFormField
 				$uri       = new JUri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
+
 			$params = JComponentHelper::getParams($component);
 			$value  = $params->get($this->fieldname);
+
 			// Try with global configuration
 			if (is_null($value))
 			{
 				$value = JFactory::getConfig()->get($this->fieldname);
 			}
+
 			// Try with menu configuration
 			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
 				$value = JComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}
+
 			if (!is_null($value))
 			{
 				$value = (string) $value;
+
 				foreach ($options as $option)
 				{
 					if ($option->value === $value)
 					{
 						$value = $option->text;
+
 						break;
 					}
 				}
+
 				$tmp->text = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
 			}
 			else
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('JGLOBAL_USE_GLOBAL_VALUE_NOT_FOUND'), 'notice');
 			}
+
 			array_unshift($options, $tmp);
 		}
 
