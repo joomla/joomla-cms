@@ -11,14 +11,12 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  1.6
  */
-class JFormFieldCategoryEdit extends JFormFieldList
+class JFormFieldCategoryEdit extends JFormAbstractlist
 {
 	/**
 	 * To allow creation of new categories.
@@ -161,7 +159,15 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// Filter language
 		if (!empty($this->element['language']))
 		{
-			$subQuery->where('language = ' . $db->quote($this->element['language']));
+			if (strpos($this->element['language'], ',') !== false)
+			{
+				$language = implode(',', $db->quote(explode(',', $this->element['language'])));
+			}
+			else
+			{
+				$language = $db->quote($this->element['language']);
+			}
+			$subQuery->where($db->quoteName('language') . ' IN (' . $language . ')');
 		}
 
 		// Filter on the published state

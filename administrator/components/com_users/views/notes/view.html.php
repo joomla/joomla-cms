@@ -83,8 +83,7 @@ class UsersViewNotes extends JViewLegacy
 		// Turn parameters into registry objects
 		foreach ($this->items as $item)
 		{
-			$item->cparams = new Registry;
-			$item->cparams->loadString($item->category_params);
+			$item->cparams = new Registry($item->category_params);
 		}
 
 		$this->addToolbar();

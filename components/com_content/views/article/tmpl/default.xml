@@ -17,8 +17,10 @@
 			<field name="id" type="modal_article"
 				label="COM_CONTENT_FIELD_SELECT_ARTICLE_LABEL"
 				required="true"
+				select="true"
+				new="true"
 				edit="true"
-				clear="false"
+				clear="true"
 				description="COM_CONTENT_FIELD_SELECT_ARTICLE_DESC"
 			/>
 		</fieldset>
@@ -120,6 +122,17 @@
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="show_associations"
+			type="radio"
+			class="btn-group"
+			label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
+			description="JGLOBAL_SHOW_ASSOCIATIONS_DESC">
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field

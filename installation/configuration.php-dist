@@ -62,14 +62,16 @@ class JConfig
 	public $session_handler = 'database';
 
 	/* Mail Settings */
-	public $mailer = 'mail';
-	public $mailfrom = '';
-	public $fromname = '';
-	public $sendmail = '/usr/sbin/sendmail';
-	public $smtpauth = '0';
-	public $smtpuser = '';
-	public $smtppass = '';
-	public $smtphost = 'localhost';
+	public $mailer      = 'mail';
+	public $mailfrom    = '';
+	public $fromname    = '';
+	public $replyto     = '';
+	public $replytoname = '';
+	public $sendmail    = '/usr/sbin/sendmail';
+	public $smtpauth    = '0';
+	public $smtpuser    = '';
+	public $smtppass    = '';
+	public $smtphost    = 'localhost';
 
 	/* Cache Settings */
 	public $caching = '0';
