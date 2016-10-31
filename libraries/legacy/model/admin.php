@@ -749,7 +749,6 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function triggerBeforeDelete(JEventDispatcher $dispatcher, $context, $table)
 	{
-		// Trigger the before delete event.
 		$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
 
 		if (in_array(false, $result, true))
@@ -805,7 +804,9 @@ abstract class JModelAdmin extends JModelForm
 				{
 					$context = $this->option . '.' . $this->name;
 
-					if ($this->triggerBeforeDelete($dispatcher, $context, $table) === false) {
+					// Trigger the before delete event.
+					if ($this->triggerBeforeDelete($dispatcher, $context, $table) === false)
+					{
 						return false;
 					}
 
