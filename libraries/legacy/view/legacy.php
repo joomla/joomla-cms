@@ -124,14 +124,6 @@ class JViewLegacy extends JObject
 	protected $_charset = 'UTF-8';
 
 	/**
-	 * A form object
-	 *
-	 * @var    JForm
-	 * @since  3.2
-	 */
-	public $form;
-
-	/**
 	 * Constructor
 	 *
 	 * @param   array  $config  A named configuration array for object construction.
