@@ -14,11 +14,8 @@ vendors:
                   'version': '1.3.7'
                   'dependencies': 'jquery, tether'
     'font-awesome':
-                  'version': '4.6.3'
+                  'version': '4.7.0'
                   'dependencies': ''
-    'chosenjs':
-                  'version': '1.4.3'
-                  'dependencies': 'jquery, tether'
     'jquery-minicolors':
                   'version': '2.1.10'
                   'dependencies': 'jquery'
@@ -40,6 +37,9 @@ vendors:
     'awesomplete':
                   'version': '1.1.1'
                   'dependencies': ''
+    'dragula':
+                  'version': '3.7.2'
+                  'dependencies': ''
 
 ### These are always fetced with curl ###
     'codemirror':
@@ -51,34 +51,9 @@ vendors:
     'autocomplete':
                   'version': '1.2.26'
                   'dependencies': ''
-    'dragula':
-                  'version': '3.7.2'
-                  'dependencies': ''
 
-
-## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
-CmAddons:
-        js:
-            - 'addon/display/fullscreen.js'
-            - 'addon/display/panel.js'
-            - 'addon/edit/closebrackets.js'
-            - 'addon/edit/closetag.js'
-            - 'addon/edit/matchbrackets.js'
-            - 'addon/edit/matchtags.js'
-            - 'addon/fold/brace-fold.js'
-            - 'addon/fold/foldcode.js'
-            - 'addon/fold/foldgutter.js'
-            - 'addon/fold/xml-fold.js'
-            - 'addon/mode/loadmode.js'
-            - 'addon/mode/multiplex.js'
-            - 'addon/scroll/simplescrollbars.js'
-            - 'addon/selection/active-line.js'
-            - 'keymap/vim.js'
-        css:
-            - 'addon/display/fullscreen.css'
-            - 'addon/fold/foldgutter.css'
-            - 'addon/scroll/simplescrollbars.css'
-
+### The javascript polyfills
 polyfills:
         - 'Element.prototype.classList'
         - 'Event'
+

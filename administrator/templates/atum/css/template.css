@@ -4902,15 +4902,15 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
     display: none !important; } }
 
 /*!
- *  Font Awesome 4.6.3 by @davegandy - http://fontawesome.io - @fontawesome
+ *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
 /* FONT PATH
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.eot?v=4.6.3");
-  src: url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.6.3") format("embedded-opentype"), url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.woff2?v=4.6.3") format("woff2"), url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.woff?v=4.6.3") format("woff"), url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.ttf?v=4.6.3") format("truetype"), url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular") format("svg");
+  src: url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.eot?v=4.7.0");
+  src: url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0") format("embedded-opentype"), url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0") format("woff2"), url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.woff?v=4.7.0") format("woff"), url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.ttf?v=4.7.0") format("truetype"), url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular") format("svg");
   font-weight: normal;
   font-style: normal; }
 
@@ -6767,6 +6767,7 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   content: ""; }
 
 .fa-battery-4:before,
+.fa-battery:before,
 .fa-battery-full:before {
   content: ""; }
 
@@ -7113,8 +7114,163 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
 .fa-font-awesome:before {
   content: ""; }
 
+.fa-handshake-o:before {
+  content: ""; }
+
+.fa-envelope-open:before {
+  content: ""; }
+
+.fa-envelope-open-o:before {
+  content: ""; }
+
+.fa-linode:before {
+  content: ""; }
+
+.fa-address-book:before {
+  content: ""; }
+
+.fa-address-book-o:before {
+  content: ""; }
+
+.fa-vcard:before,
+.fa-address-card:before {
+  content: ""; }
+
+.fa-vcard-o:before,
+.fa-address-card-o:before {
+  content: ""; }
+
+.fa-user-circle:before {
+  content: ""; }
+
+.fa-user-circle-o:before {
+  content: ""; }
+
+.fa-user-o:before {
+  content: ""; }
+
+.fa-id-badge:before {
+  content: ""; }
+
+.fa-drivers-license:before,
+.fa-id-card:before {
+  content: ""; }
+
+.fa-drivers-license-o:before,
+.fa-id-card-o:before {
+  content: ""; }
+
+.fa-quora:before {
+  content: ""; }
+
+.fa-free-code-camp:before {
+  content: ""; }
+
+.fa-telegram:before {
+  content: ""; }
+
+.fa-thermometer-4:before,
+.fa-thermometer:before,
+.fa-thermometer-full:before {
+  content: ""; }
+
+.fa-thermometer-3:before,
+.fa-thermometer-three-quarters:before {
+  content: ""; }
+
+.fa-thermometer-2:before,
+.fa-thermometer-half:before {
+  content: ""; }
+
+.fa-thermometer-1:before,
+.fa-thermometer-quarter:before {
+  content: ""; }
+
+.fa-thermometer-0:before,
+.fa-thermometer-empty:before {
+  content: ""; }
+
+.fa-shower:before {
+  content: ""; }
+
+.fa-bathtub:before,
+.fa-s15:before,
+.fa-bath:before {
+  content: ""; }
+
+.fa-podcast:before {
+  content: ""; }
+
+.fa-window-maximize:before {
+  content: ""; }
+
+.fa-window-minimize:before {
+  content: ""; }
+
+.fa-window-restore:before {
+  content: ""; }
+
+.fa-times-rectangle:before,
+.fa-window-close:before {
+  content: ""; }
+
+.fa-times-rectangle-o:before,
+.fa-window-close-o:before {
+  content: ""; }
+
+.fa-bandcamp:before {
+  content: ""; }
+
+.fa-grav:before {
+  content: ""; }
+
+.fa-etsy:before {
+  content: ""; }
+
+.fa-imdb:before {
+  content: ""; }
+
+.fa-ravelry:before {
+  content: ""; }
+
+.fa-eercast:before {
+  content: ""; }
+
+.fa-microchip:before {
+  content: ""; }
+
+.fa-snowflake-o:before {
+  content: ""; }
+
+.fa-superpowers:before {
+  content: ""; }
+
+.fa-wpexplorer:before {
+  content: ""; }
+
+.fa-meetup:before {
+  content: ""; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0; }
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto; }
+
 /* B/C for icomoon */
-/* IcoMoon Convertion */
+/* IcoMoon Conversion */
 [class^="icon-"],
 [class*=" icon-"] {
   display: inline-block;
@@ -7498,8 +7654,19 @@ legend {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 -15px 15px rgba(255, 255, 255, 0.6);
   transition: all .5s ease; }
   .status .btn-group {
-    margin-top: 5px;
-    margin-left: 5px; }
+    margin-top: 5px; }
+    .status .btn-group .tag,
+    .status .btn-group [class*="fa-"] {
+      margin-right: 5px; }
+  .status .btn-group::after {
+    content: '';
+    border-left: 1px solid #999;
+    margin: 0 10px; }
+  .status .btn-group.logout::after,
+  .status .btn-group.details::after {
+    content: '';
+    border-left: 0;
+    margin: 0; }
   .status p {
     margin: 0; }
   .status p,
@@ -7590,6 +7757,79 @@ div.awesomplete {
 .nav.nav-tabs {
   margin-bottom: 20px; }
 
+.jviewport-height10 {
+  height: 10vh; }
+
+.jviewport-height20 {
+  height: 20vh; }
+
+.jviewport-height30 {
+  height: 30vh; }
+
+.jviewport-height40 {
+  height: 40vh; }
+
+.jviewport-height50 {
+  height: 50vh; }
+
+.jviewport-height60 {
+  height: 60vh; }
+
+.jviewport-height70 {
+  height: 70vh; }
+
+.jviewport-height80 {
+  height: 80vh; }
+
+.jviewport-height90 {
+  height: 90vh; }
+
+.jviewport-height100 {
+  height: 100vh; }
+
+[class*=jviewport-height] iframe {
+  height: 100%; }
+
+.modal-dialog.jviewport-width10 {
+  width: 10vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width20 {
+  width: 20vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width30 {
+  width: 30vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width40 {
+  width: 40vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width50 {
+  width: 50vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width60 {
+  width: 60vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width70 {
+  width: 70vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width80 {
+  width: 80vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width90 {
+  width: 90vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width100 {
+  width: 100vw;
+  max-width: none; }
+
 .gu-mirror {
   position: fixed !important;
   margin: 0 !important;
@@ -7610,8 +7850,8 @@ div.awesomplete {
 .minicolors-theme-bootstrap .rgba {
   width: 220px; }
 
-.editor .mce-container {
-  margin-bottom: 1rem; }
+.editor .toggle-editor {
+  margin-top: 1rem; }
 
 html, body {
   font-size: 14px; }

@@ -117,7 +117,15 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 							{
 								if (input.val() == '')
 								{
-									label.addClass('active btn-primary');
+									// Check for the sample data "No" button
+									if (input.attr('id') == 'jform_sample_file0')
+									{
+										label.addClass('active btn-danger');
+									}
+									else
+									{
+										label.addClass('active btn-primary');
+									}
 								}
 								else if (input.val() == 0)
 								{

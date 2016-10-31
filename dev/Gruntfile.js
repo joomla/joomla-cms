@@ -10,12 +10,39 @@ module.exports = function(grunt) {
 		vendorsArr = '',
 		polyFillsUrls =[];
 
+	// Set some directories for codemirror
+	settings.CmAddons = {};
+	settings.CmAddons.js = [
+		'addon/display/fullscreen.js',
+		'addon/display/panel.js',
+		'addon/edit/closebrackets.js',
+		'addon/edit/closetag.js',
+		'addon/edit/matchbrackets.js',
+		'addon/edit/matchtags.js',
+		'addon/fold/brace-fold.js',
+		'addon/fold/foldcode.js',
+		'addon/fold/foldgutter.js',
+		'addon/fold/xml-fold.js',
+		'addon/mode/loadmode.js',
+		'addon/mode/multiplex.js',
+		'addon/scroll/simplescrollbars.js',
+		'addon/selection/active-line.js',
+		'keymap/vim.js'
+	];
+	settings.CmAddons.css = [
+		'addon/display/fullscreen.css',
+		'addon/fold/foldgutter.css',
+		'addon/scroll/simplescrollbars.css'
+	];
+
+	// Loop to get some text for the packgae.json
 	for (name in settings.vendors) {
 		if (disabledNPM.indexOf(name) < 0 ) {
 			vendorsTxt += '"' + name + '": "' + settings.vendors[name].version + '",';
 		}
 	}
 
+	// Loop to get some text for the assets.php
 	for (name in settings.vendors) {
 		vendorsArr += '\'' + name + '\' => array(\'version\' => \'' + settings.vendors[name].version + '\',' + '\'dependencies\' => \'' + settings.vendors[name].dependencies + '\'),\n\t\t\t';
 	}
@@ -34,26 +61,18 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		folder : {
-			system   : '../media/system/js',
-			fields   : '../media/system/js/fields',
-			legacy   : '../media/system/js/legacy',
-			puny     : '../media/vendor/punycode/js',
-			cmadd    : '../media/vendor/codemirror/addon',
-			cmkey    : '../media/vendor/codemirror/keymap',
-			cmlib    : '../media/vendor/codemirror/lib',
-			cmmod    : '../media/vendor/codemirror/mode',
-			cmthem   : '../media/vendor/codemirror/theme',
-			polyfills : '../media/vendor/polyfills/js',
+			system     : '../media/system/js',
+			fields     : '../media/system/js/fields',
+			legacy     : '../media/system/js/legacy',
+			puny       : '../media/vendor/punycode/js',
+			codemirror : '../media/vendor/codemirror',
 		},
 
 		// Let's clean up the system
 		clean: {
 			assets: {
 				src: [
-					'assets/node_modules/**',
-					'assets/tmp/**',
 					'../media/vendor/jquery/js/*',
-					'!../media/vendor/jquery/js/*jquery-noconflict.js*', // Joomla owned
 					'../media/vendor/bootstrap/**',
 					'../media/vendor/tether/**',
 					'../media/vendor/jcrop/**',
@@ -69,23 +88,16 @@ module.exports = function(grunt) {
 					'../media/vendor/mediaelement/*',
 					'../media/vendor/chosenjs/*',
 					'../media/vendor/awesomplete/*',
-					'../media/vendor/polyfills/*',
-				],
-				expand: true,
-				options: {
-					force: true
-				},
-			},
-			tmp: {
-				src: [
-					'assets/',
+					'assets/node_modules/**'
 				],
 				expand: true,
 				options: {
 					force: true
 				}
-			}
+			},
+			temp: { src: [ 'assets/node_modules/**', 'assets/package.json' ], expand: true, options: { force: true } }
 		},
+
 		// Update all the packages to the version specified in assets/package.json
 		shell: {
 			update: {
@@ -95,6 +107,7 @@ module.exports = function(grunt) {
 				].join('&&')
 			}
 		},
+
 		// Get the latest codemirror
 		curl: {
 			'cmGet': {
@@ -109,18 +122,6 @@ module.exports = function(grunt) {
 				src: 'https://github.com/devbridge/jQuery-Autocomplete/archive/v' + settings.vendors.autocomplete.version + '.zip',
 				dest: 'assets/tmp/autoc.zip'
 			},
-		},
-		fetchpages: {
-			polyfills: {
-				options: {
-					baseURL: '',
-					destinationFolder: '../media/vendor/polyfills/js/',
-					urls: polyFillsUrls,
-					cleanHTML: false,
-					fetchBaseURL: false,
-					followLinks: false
-				}
-			}
 		},
 		unzip: {
 			'cmUnzip': {
@@ -149,8 +150,23 @@ module.exports = function(grunt) {
 				},
 				src: 'assets/tmp/jcrop.zip',
 				dest: 'assets/tmp/jcrop/'
-			},
+			}
 		},
+
+		// Fetch the polyfills
+		fetchpages: {
+			polyfills: {
+				options: {
+					baseURL: '',
+					destinationFolder: '../media/vendor/polyfills/js/',
+					urls: polyFillsUrls,
+					cleanHTML: false,
+					fetchBaseURL: false,
+					followLinks: false
+				}
+			}
+		},
+
 		// Concatenate some javascript files
 		concat: {
 			someFiles: {
@@ -171,340 +187,119 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Transfer all the assets to media/vendor
+		copy: {
+			fromSource: {
+				files: [
+					// jQuery js files
+					{ expand: true, cwd: 'assets/node_modules/jquery/dist/', src: ['*', '!(core.js)'], dest: '../media/vendor/jquery/js/', filter: 'isFile'},
+					// jQuery js migrate files
+					{ expand: true, cwd: 'assets/node_modules/jquery-migrate/dist/', src: ['**'], dest: '../media/vendor/jquery/js/', filter: 'isFile'},
+					//Bootastrap js files
+					{ expand: true, cwd: 'assets/node_modules/bootstrap/dist/js/', src: ['**'], dest: '../media/vendor/bootstrap/js/', filter: 'isFile'},
+					//Bootastrap scss files
+					{ expand: true, cwd: 'assets/node_modules/bootstrap/scss/', src: ['**'], dest: '../media/vendor/bootstrap/scss/', filter: 'isFile'},
+					//Bootastrap css files
+					{ expand: true, cwd: 'assets/node_modules/bootstrap/dist/css/', src: ['**'], dest: '../media/vendor/bootstrap/css/', filter: 'isFile'},
+					//Teether js files
+					{ expand: true, cwd: 'assets/node_modules/tether/dist/js/', src: ['**'], dest: '../media/vendor/tether/js/', filter: 'isFile'},
+					// Punycode js files
+					{ expand: true, cwd: 'assets/node_modules/punycode/', src: ['punycode.js', 'LICENSE-MIT.txt'], dest: '../media/vendor/punycode/js/', filter: 'isFile'},
+					// jcrop css files
+					{ expand: true, cwd: 'assets/tmp/jcrop/jcrop-css', src: ['**'], dest: '../media/vendor/jcrop/css/', filter: 'isFile'},
+					// jcrop js files
+					{ expand: true, cwd: 'assets/tmp/jcrop/jcrop-js', src: ['jcrop.min.js', 'jcrop.js'], dest: '../media/vendor/jcrop/js/', filter: 'isFile'},
+					// autocomplete js files
+					{ expand: true, cwd: 'assets/tmp/autocomplete/dist', src: ['jquery.autocomplete.min.js', 'jquery.autocomplete.js', 'license.txt'], dest: '../media/vendor/autocomplete/js/', filter: 'isFile'},
+					// chosen css, png files
+					{ expand: true, cwd: 'assets/node_modules/chosenjs', src: ['chosen.css', 'chosen.min.js', 'chosen-sprite.png', 'chosen-sprite@2x.png'], dest: '../media/vendor/chosenjs/css/', filter: 'isFile'},
+					// chosen js files
+					{ expand: true, cwd: 'assets/node_modules/chosenjs', src: ['chosen.jquery.min.js', 'chosen.jquery.js'], dest: '../media/vendor/chosenjs/js/', filter: 'isFile'},
+					//Font Awesome css files
+					{ expand: true, cwd: 'assets/node_modules/font-awesome/css/', src: ['**'], dest: '../media/vendor/font-awesome/css/', filter: 'isFile'},
+					//Font Awesome scss files
+					{ expand: true, cwd: 'assets/node_modules/font-awesome/scss/', src: ['**'], dest: '../media/vendor/font-awesome/scss/', filter: 'isFile'},
+					//Font Awesome fonts files
+					{ expand: true, cwd: 'assets/node_modules/font-awesome/fonts/', src: ['**'], dest: '../media/vendor/font-awesome/fonts/', filter: 'isFile'},
+					// tinyMCE plugins
+					{ expand: true, cwd: 'assets/node_modules/tinymce/plugins/', src: ['**'], dest: '../media/vendor/tinymce/plugins/', filter: 'isFile'},
+					// tinyMCE skins
+					{ expand: true, cwd: 'assets/node_modules/tinymce/skins/', src: ['**'], dest: '../media/vendor/tinymce/skins/', filter: 'isFile'},
+					// tinyMCE themes
+					{ expand: true, cwd: 'assets/node_modules/tinymce/themes/', src: ['**'], dest: '../media/vendor/tinymce/themes/', filter: 'isFile'},
+					// tinyMCE js files
+					{ expand: true, cwd: 'assets/node_modules/tinymce/', src: ['tinymce.js','tinymce.min.js','license.txt','changelog.txt'], dest: '../media/vendor/tinymce/', filter: 'isFile'},
+					// Code mirror addon files
+					{ expand: true, cwd: 'assets/tmp/codemirror/addon/', src: ['**'], dest: '../media/vendor/codemirror/addon/', filter: 'isFile'},
+					// Code mirror keymap files
+					{ expand: true, cwd: 'assets/tmp/codemirror/keymap/', src: ['**'], dest: '../media/vendor/codemirror/keymap/', filter: 'isFile'},
+					// Code mirror lib files
+					{ expand: true, cwd: 'assets/tmp/codemirror/lib', src: ['**'], dest: '../media/vendor/codemirror/lib/', filter: 'isFile'},
+					// Code mirror mode files
+					{ expand: true, cwd: 'assets/tmp/codemirror/mode', src: ['**'], dest: '../media/vendor/codemirror/mode/', filter: 'isFile'},
+					// Code mirror theme files
+					{ expand: true, cwd: 'assets/tmp/codemirror/theme', src: ['**'], dest: '../media/vendor/codemirror/theme/', filter: 'isFile'},
+					// Media Element js, swf, xap files
+					{ expand: true, cwd: 'assets/node_modules/mediaelement/build', src: ['*.js', '*.swf', '*.xap', '!jquery.js'], dest: '../media/vendor/mediaelement/js/', filter: 'isFile'},
+					// Media Element css, png, gif, svg files
+					{ expand: true, cwd: 'assets/node_modules/mediaelement/build', src: ['*.css', '*.png', '*.svg', '*.gif'], dest: '../media/vendor/mediaelement/css/', filter: 'isFile'},
+					// MiniColors js files
+					{ expand: true, cwd: 'assets/node_modules/jquery-minicolors', src: ['*.js'], dest: '../media/vendor/minicolors/js/', filter: 'isFile'},
+					// MiniColors css, ong files
+					{ expand: true, cwd: 'assets/node_modules/jquery-minicolors', src: ['*.css', '*.png'], dest: '../media/vendor/minicolors/css/', filter: 'isFile'},
+					// Awesomplete js files
+					{ expand: true, cwd: 'assets/node_modules/awesomplete', src: ['awesomplete.js', 'awesomplete.min.js'], dest: '../media/vendor/awesomplete/js/', filter: 'isFile'},
+					// Awesomplete css files
+					{ expand: true, cwd: 'assets/node_modules/awesomplete', src: ['awesomplete.css'], dest: '../media/vendor/awesomplete/css/'},
+					// Dragula js files
+					{ expand: true, cwd: 'assets/node_modules/dragula/dist', src: ['*.js'], dest: '../media/vendor/dragula/js/', filter: 'isFile'},
+					// Dragula css files
+					{ cwd: 'assets/node_modules/dragula/dist', src: ['*.css'], dest: '../media/vendor/dragula/css/', expand: true, filter: 'isFile'},
+
+					// Licenses
+					{ src: ['assets/node_modules/jquery/LICENSE.txt'], dest: '../media/vendor/jquery/LICENSE.txt'},
+					{ src: ['assets/tmp/jcop/jcrop-MIT-LICENSE.txt'], dest: '../media/vendor/jcrop/jcrop-MIT-LICENSE.txt'},
+					{ src: ['assets/node_modules/bootstrap/LICENSE'], dest: '../media/vendor/bootstrap/LICENSE'},
+					{ src: ['assets/node_modules/tether/LICENSE'], dest: '../media/vendor/tether/LICENSE'},
+					{ src: ['assets/tmp/codemirror/LICENSE'], dest: '../media/vendor/codemirror/LICENSE'},
+					{ src: ['assets/tmp/jcrop/jcrop-MIT-LICENSE.txt'], dest: '../media/vendor/jcrop/jcrop-MIT-LICENSE.txt'},
+					{ src: ['assets/node_modules/dragula/license'], dest: '../media/vendor/dragula/license'},
+					{ src: ['assets/node_modules/awesomplete/LICENSE'], dest: '../media/vendor/awesomplete/LICENSE'},
+				]
+			}
+		},
+
 		// Minimize some javascript files
 		uglify: {
 			allJs: {
 				files: [
 					{
-						src: ['<%= folder.system %>/*.js','!<%= folder.system %>/*.min.js'],
-						dest: '',
-						expand: true,
-						ext: '.min.js'
-					},
-					{
-					 	src: [
-							'<%= folder.fields %>/*.js',
-							'!<%= folder.fields %>/*.min.js',
-							'!<%= folder.fields %>/calendar.js',  // exclude calendar
-							'!<%= folder.fields %>/calendar-*.js' // exclude calendar
+						src: [
+							'<%= folder.system %>/*.js',
+							'!<%= folder.system %>/*.min.js',
+							'<%= folder.system %>/fields/*.js',
+							'!<%= folder.system %>/fields/*.min.js',
+							'!<%= folder.system %>/fields/calendar.js',  // exclude calendar
+							'!<%= folder.system %>/fields/calendar-*.js', // exclude calendar
+							'<%= folder.system %>/legacy/*.js',
+							'!<%= folder.system %>/legacy/*.min.js',
+							'<%= folder.codemirror %>/addon/*/*.js',
+							'!<%= folder.codemirror %>/addon*/*.min.js',
+							'<%= folder.codemirror %>/keymap/*.js',
+							'!<%= folder.codemirror %>/keymap/*.min.js',
+							'<%= folder.codemirror %>/lib/*.js',
+							'!<%= folder.codemirror %>/lib/*.min.js',
+							'<%= folder.codemirror %>/mode/*/*.js',
+							'!<%= folder.codemirror %>/mode/*/*.min.js',
+							'<%= folder.codemirror %>/theme/*/*.js',
+							'!<%= folder.codemirror %>/theme/*/*.min.js',
+							// '<%= folder.puny %>/*.js',            // Uglifying punicode.js fails!!!
+							// '!<%= folder.puny %>/*.min.js',       // Uglifying punicode.js fails!!!
 						],
-					 	dest: '',
-					 	expand: true,
-					 	ext: '.min.js'
-					},
-					{
-					 	src: ['<%= folder.legacy %>/*.js', '!<%= folder.legacy %>/*.min.js'],
-					 	dest: '',
-					 	expand: true,
-					 	ext: '.min.js'
-					},
-					{
-						src: ['<%= folder.cmadd %>/*/*.js','!<%= folder.cmadd %>/*/*.min.js'],
 						dest: '',
 						expand: true,
 						ext: '.min.js'
-					},
-					{
-						src: ['<%= folder.cmkey %>/*.js','!<%= folder.cmkey %>/*.min.js'],
-						dest: '',
-						expand: true,
-						ext: '.min.js'
-					},
-					{
-						src: ['<%= folder.cmlib %>/*.js','!<%= folder.cmlib %>/*.min.js'],
-						dest: '',
-						expand: true,
-						ext: '.min.js'
-					},
-					{
-						src: ['<%= folder.cmmod %>/*/*.js','!<%= folder.cmmod %>/*/*.min.js'],
-						dest: '',
-						expand: true,
-						ext: '.min.js'
-					},
-					{
-						src: ['<%= folder.cmthem %>/*/*.js','!<%= folder.cmthem %>/*/*.min.js'],
-						dest: '',
-						expand: true,
-						ext: '.min.js'
-					},
-					{
-						src: '<%= folder.polyfills %>/polyfill.classlist.js',
-						dest: '<%= folder.polyfills %>/polyfill.classlist.min.js',
-					},
-					{
-						src: '<%= folder.polyfills %>/polyfill.event.js',
-						dest: '<%= folder.polyfills %>/polyfill.event.min.js',
-					},
-					// Uglifying punicode.js fails!!!
-					// {
-					// 	src: ['<%= folder.puny %>/*.js','!<%= folder.puny %>/*.min.js'],
-					// 	dest: '',
-					// 	expand: true,
-					// 	ext: '.min.js'
-					// }
-				]
-			}
-		},
-
-		// Transfer all the assets to media/vendor
-		copy: {
-			fromSource: {
-				files: [
-					{ // jQuery files
-						expand: true,
-						cwd: 'assets/node_modules/jquery/dist/',
-						src: ['*', '!(core.js)'],
-						dest: '../media/vendor/jquery/js/',
-						filter: 'isFile'
-					},
-					{ // jQuery migrate files
-						expand: true,
-						cwd: 'assets/node_modules/jquery-migrate/dist/',
-						src: ['**'],
-						dest: '../media/vendor/jquery/js/',
-						filter: 'isFile'
-					},
-					{ //Bootastrap js files
-						expand: true,
-						cwd: 'assets/node_modules/bootstrap/dist/js/',
-						src: ['**'],
-						dest: '../media/vendor/bootstrap/js/',
-						filter: 'isFile'
-					},
-					{ //Bootastrap scss files
-						expand: true,
-						cwd: 'assets/node_modules/bootstrap/scss/',
-						src: ['**'],
-						dest: '../media/vendor/bootstrap/scss/',
-						filter: 'isFile'
-					},
-					{ //Bootastrap css files
-						expand: true,
-						cwd: 'assets/node_modules/bootstrap/dist/css/',
-						src: ['**'],
-						dest: '../media/vendor/bootstrap/css/',
-						filter: 'isFile'
-					},
-					{ //Teether js files
-						expand: true,
-						cwd: 'assets/node_modules/tether/dist/js/',
-						src: ['**'],
-						dest: '../media/vendor/tether/js/',
-						filter: 'isFile'
-					},
-					{ // Punycode
-						expand: true,
-						cwd: 'assets/node_modules/punycode/',
-						src: ['punycode.js', 'LICENSE-MIT.txt'],
-						dest: '../media/vendor/punycode/js/',
-						filter: 'isFile'
-					},
-					{ // jcrop
-						expand: true,
-						cwd: 'assets/tmp/jcrop/jcrop-css',
-						src: ['**'],
-						dest: '../media/vendor/jcrop/css/',
-						filter: 'isFile'
-					},
-					{ // jcrop
-						expand: true,
-						cwd: 'assets/tmp/jcrop/jcrop-js',
-						src: ['jcrop.min.js', 'jcrop.js'],
-						dest: '../media/vendor/jcrop/js/',
-						filter: 'isFile'
-					},
-					{ // autocomplete
-						expand: true,
-						cwd: 'assets/tmp/autocomplete/dist',
-						src: ['jquery.autocomplete.min.js', 'jquery.autocomplete.js', 'license.txt'],
-						dest: '../media/vendor/autocomplete/js/',
-						filter: 'isFile'
-					},
-					{ // chosen
-						expand: true,
-						cwd: 'assets/node_modules/chosenjs',
-						src: ['chosen.css', 'chosen.min.js', 'chosen-sprite.png', 'chosen-sprite@2x.png'],
-						dest: '../media/vendor/chosenjs/css/',
-						filter: 'isFile'
-					},
-					{ // chosen
-						expand: true,
-						cwd: 'assets/node_modules/chosenjs',
-						src: ['chosen.jquery.min.js', 'chosen.jquery.js'],
-						dest: '../media/vendor/chosenjs/js/',
-						filter: 'isFile'
-					},
-					{ //Font Awesome css files
-						expand: true,
-						cwd: 'assets/node_modules/font-awesome/css/',
-						src: ['**'],
-						dest: '../media/vendor/font-awesome/css/',
-						filter: 'isFile'
-					},
-					{ //Font Awesome scss files
-						expand: true,
-						cwd: 'assets/node_modules/font-awesome/scss/',
-						src: ['**'],
-						dest: '../media/vendor/font-awesome/scss/',
-						filter: 'isFile'
-					},
-					{ //Font Awesome fonts files
-						expand: true,
-						cwd: 'assets/node_modules/font-awesome/fonts/',
-						src: ['**'],
-						dest: '../media/vendor/font-awesome/fonts/',
-						filter: 'isFile'
-					},
-					// tinyMCE
-					{ // tinyMCE files
-						expand: true,
-						cwd: 'assets/node_modules/tinymce/plugins/',
-						src: ['**'],
-						dest: '../media/vendor/tinymce/plugins/',
-						filter: 'isFile'
-					},
-					{ // tinyMCE files
-						expand: true,
-						cwd: 'assets/node_modules/tinymce/skins/',
-						src: ['**'],
-						dest: '../media/vendor/tinymce/skins/',
-						filter: 'isFile'
-					},
-					{ // tinyMCE files
-						expand: true,
-						cwd: 'assets/node_modules/tinymce/themes/',
-						src: ['**'],
-						dest: '../media/vendor/tinymce/themes/',
-						filter: 'isFile'
-					},
-					{ // tinyMCE files
-						expand: true,
-						cwd: 'assets/node_modules/tinymce/',
-						src: ['tinymce.js','tinymce.min.js','license.txt','changelog.txt'],
-						dest: '../media/vendor/tinymce/',
-						filter: 'isFile'
-					},
-					// Code mirror
-					{ // Code mirror files
-						expand: true,
-						cwd: 'assets/tmp/codemirror/addon/',
-						src: ['**'],
-						dest: '../media/vendor/codemirror/addon/',
-						filter: 'isFile'
-					},
-					{ // Code mirror files
-						expand: true,
-						cwd: 'assets/tmp/codemirror/keymap/',
-						src: ['**'],
-						dest: '../media/vendor/codemirror/keymap/',
-						filter: 'isFile'
-					},
-					{ // Code mirror files
-						expand: true,
-						cwd: 'assets/tmp/codemirror/lib',
-						src: ['**'],
-						dest: '../media/vendor/codemirror/lib/',
-						filter: 'isFile'
-					},
-					{ // Code mirror files
-						expand: true,
-						cwd: 'assets/tmp/codemirror/mode',
-						src: ['**'],
-						dest: '../media/vendor/codemirror/mode/',
-						filter: 'isFile'
-					},
-					{ // Code mirror files
-						expand: true,
-						cwd: 'assets/tmp/codemirror/theme',
-						src: ['**'],
-						dest: '../media/vendor/codemirror/theme/',
-						filter: 'isFile'
-					},
-					// Licenses
-					{ // jQuery
-						src: ['assets/node_modules/jquery/LICENSE.txt'],
-						dest: '../media/vendor/jquery/LICENSE.txt',
-					},
-					{ // jCrop
-						src: ['assets/tmp/jcop/jcrop-MIT-LICENSE.txt'],
-						dest: '../media/vendor/jcrop/jcrop-MIT-LICENSE.txt',
-					},
-					{ // Bootstrap
-						src: ['assets/node_modules/bootstrap/LICENSE'],
-						dest: '../media/vendor/bootstrap/LICENSE',
-					},
-					{ // tether
-						src: ['assets/node_modules/tether/LICENSE'],
-						dest: '../media/vendor/tether/LICENSE',
-					},
-					{ // Code mirror
-						src: ['assets/tmp/codemirror/LICENSE'],
-						dest: '../media/vendor/codemirror/LICENSE',
-					},
-					{ // Jcrop
-						src: ['assets/tmp/jcrop/jcrop-MIT-LICENSE.txt'],
-						dest: '../media/vendor/jcrop/jcrop-MIT-LICENSE.txt',
-					},
-					{ // Dragula
-						src: ['assets/node_modules/dragula/license'],
-						dest: '../media/vendor/dragula/license',
-					},
-					{ // Media Element
-						expand: true,
-						cwd: 'assets/node_modules/mediaelement/build',
-						src: ['*.js', '*.swf', '*.xap', '!jquery.js'],
-						dest: '../media/vendor/mediaelement/js/',
-						filter: 'isFile'
-					},
-					{ // Media Element
-						expand: true,
-						cwd: 'assets/node_modules/mediaelement/build',
-						src: ['*.css', '*.png', '*.svg', '*.gif'],
-						dest: '../media/vendor/mediaelement/css/',
-						filter: 'isFile'
-					},
-					{ // MiniColors
-						expand: true,
-						cwd: 'assets/node_modules/jquery-minicolors',
-						src: ['*.js'],
-						dest: '../media/vendor/minicolors/js/',
-						filter: 'isFile'
-					},
-					{ // MiniColors
-						expand: true,
-						cwd: 'assets/node_modules/jquery-minicolors',
-						src: ['*.css', '*.png'],
-						dest: '../media/vendor/minicolors/css/',
-						filter: 'isFile'
-					},
-					{ // Awesomplete
-						expand: true,
-						cwd: 'assets/node_modules/awesomplete',
-						src: ['awesomplete.js', 'awesomplete.min.js'],
-						dest: '../media/vendor/awesomplete/js/',
-						filter: 'isFile'
-					},
-					{ // Awesomplete
-						expand: true,
-						cwd: 'assets/node_modules/awesomplete',
-						src: ['awesomplete.css'],
-						dest: '../media/vendor/awesomplete/css/',
-					},
-					{ // Dragula
-						expand: true,
-						cwd: 'assets/node_modules/dragula/dist',
-						src: ['*.js'],
-						dest: '../media/vendor/dragula/js/',
-						filter: 'isFile'
-					},
-					{ // Dragula
-						expand: true,
-						cwd: 'assets/node_modules/dragula/dist',
-						src: ['*.css'],
-						dest: '../media/vendor/dragula/css/',
-						filter: 'isFile'
-					},
+					}
 				]
 			}
 		},
@@ -542,7 +337,6 @@ module.exports = function(grunt) {
 			'curl:cmGet',
 			'curl:jCrop',
 			'curl:autoComplete',
-			'fetchpages:polyfills',
 			'unzip:cmUnzip',
 			'unzip:autoUnzip',
 			'unzip:jcropUnzip',
@@ -550,15 +344,26 @@ module.exports = function(grunt) {
 			'copy:fromSource',
 			'uglify:allJs',
 			'cssmin:allCss',
-			'clean:tmp',
+			'clean:temp'
 		]
 	);
-	
-	grunt.registerTask('minify', 'Minifies scripts and styles.', function() {
+
+	grunt.registerTask('polyfills', 'Download the polyfills from FT.', function() {
 		grunt.task.run([
-			'uglify:allJs',
-			'cssmin:allCss',
-			'clean:tmp',
+			'fetchpages:polyfills'
 		]);
 	});
+
+	grunt.registerTask('scripts', 'Minifies the javascript files.', function() {
+		grunt.task.run([
+			'uglify:allJs'
+		]);
+	});
+
+	grunt.registerTask('styles', 'Minifies the stylesheet files.', function() {
+		grunt.task.run([
+			'cssmin:allCss'
+		]);
+	});
+
 };

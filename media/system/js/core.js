@@ -264,6 +264,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			// Message class
 			alertClass = (type == 'notice') ? 'alert-info' : 'alert-' + type;
 			alertClass = (type == 'message') ? 'alert-success' : alertClass;
+			alertClass = (type == 'error') ? 'alert-danger' : alertClass;
 
 			messagesBox.className = 'alert ' + alertClass;
 
@@ -432,104 +433,6 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		form.filter_order.value = order;
 		form.filter_order_Dir.value = dir;
 		Joomla.submitform( task, form );
-	};
-
-	/**
-	 * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
-	 *
-	 * Writes a dynamically generated list
-	 *
-	 * @param string
-	 *          The parameters to insert into the <select> tag
-	 * @param array
-	 *          A javascript array of list options in the form [key,value,text]
-	 * @param string
-	 *          The key to display for the initial state of the list
-	 * @param string
-	 *          The original key that was selected
-	 * @param string
-	 *          The original item value that was selected
-	 * @param string
-	 *          The elem where the list will be written
-	 */
-	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
-		var html = '<select ' + selectParams + '>',
-			hasSelection = key == orig_key,
-			i = 0,
-			selected, x, item;
-
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
-
-			item = source[ x ];
-
-			if ( item[ 0 ] != key ) { continue; }
-
-			selected = '';
-
-			if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
-				selected = 'selected="selected"';
-			}
-
-			html += '<option value="' + item[ 1 ] + '" ' + selected + '>' + item[ 2 ] + '</option>';
-
-			i++;
-		}
-		html += '</select>';
-
-		if (element) {
-			element.innerHTML = html;
-		} else {
-			document.writeln( html );
-		}
-	};
-
-	/**
-	 * USED IN: administrator/components/com_content/views/article/view.html.php
-	 * actually, probably not used anywhere.
-	 *
-	 * Changes a dynamically generated list
-	 *
-	 * @param string
-	 *          The name of the list to change
-	 * @param array
-	 *          A javascript array of list options in the form [key,value,text]
-	 * @param string
-	 *          The key to display
-	 * @param string
-	 *          The original key that was selected
-	 * @param string
-	 *          The original item value that was selected
-	 */
-	window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
-		var list = document.adminForm[ listname ],
-			hasSelection = key == orig_key,
-			i, x, item, opt;
-
-		// empty the list
-		while ( list.firstChild ) list.removeChild( list.firstChild );
-
-		i = 0;
-
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
-
-			item = source[x];
-
-			if ( item[ 0 ] != key ) { continue; }
-
-			opt = new Option();
-			opt.value = item[ 1 ];
-			opt.text = item[ 2 ];
-
-			if ( ( hasSelection && orig_val == opt.value ) || (!hasSelection && i === 0) ) {
-				opt.selected = true;
-			}
-
-			list.options[ i++ ] = opt;
-		}
-
-		list.length = i;
 	};
 
 	/**
