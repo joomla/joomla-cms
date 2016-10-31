@@ -18,7 +18,7 @@ class UsersRouter extends JComponentRouterView
 {
 	/**
 	 * Users Component router constructor
-	 * 
+	 *
 	 * @param   JApplicationCms  $app   The application object
 	 * @param   JMenu            $menu  The menu object to work with
 	 */
@@ -45,7 +45,7 @@ class UsersRouter extends JComponentRouterView
 		}
 		else
 		{
-			require_once JPATH_SITE . '/components/com_users/helpers/legacyrouter.php';
+			JLoader::register('UsersRouterRulesLegacy', __DIR__ . '/helpers/legacyrouter.php');
 			$this->attachRule(new UsersRouterRulesLegacy($this));
 		}
 	}

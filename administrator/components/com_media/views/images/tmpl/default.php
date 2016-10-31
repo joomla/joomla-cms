@@ -89,7 +89,7 @@ else // XTD Image plugin
 		<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
 
 		<div class="well">
-			<div class="row">
+			<div class="row-fluid">
 				<div class="span6 control-group">
 					<div class="control-label">
 						<label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL') ?></label>
@@ -115,7 +115,7 @@ else // XTD Image plugin
 				<?php endif;?>
 			</div>
 			<?php if (!$this->state->get('field.id')):?>
-				<div class="row">
+				<div class="row-fluid">
 					<div class="span6 control-group">
 						<div class="control-label">
 							<label for="f_alt"><?php echo JText::_('COM_MEDIA_IMAGE_DESCRIPTION') ?></label>
@@ -133,7 +133,7 @@ else // XTD Image plugin
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row-fluid">
 					<div class="span6 control-group">
 						<div class="control-label">
 							<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label>
@@ -175,7 +175,11 @@ else // XTD Image plugin
 						</div>
 						<div class="controls">
 							<input required type="file" id="upload-file" name="Filedata[]" multiple /><button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
-							<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
+							<p class="help-block">
+								<?php $cMax    = (int) $this->config->get('upload_maxsize'); ?>
+								<?php $maxSize = JUtility::getMaxUploadSize($cMax . 'MB'); ?>
+								<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', JHtml::_('number.bytes', $maxSize)); ?>
+							</p>
 						</div>
 					</div>
 				</fieldset>
