@@ -119,20 +119,4 @@ class ContentControllerArticles extends JControllerAdmin
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
-
-	/**
-	 * Function that allows child controller access to model data
-	 * after the item has been deleted.
-	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   integer       $ids    The array of ids for items being deleted.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 */
-	protected function postDeleteHook(JModelLegacy $model, $ids = null)
-	{
-		return $model->delete_featured($ids);
-	}
 }
