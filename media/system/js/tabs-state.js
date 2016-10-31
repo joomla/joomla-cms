@@ -24,7 +24,7 @@ jQuery(function($) {
             activeTabsHrefs.push(href);
 
             // Store the selected tabs hrefs in localStorage
-            localStorage.setItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+$/, ''), JSON.stringify(activeTabsHrefs));
+            localStorage.setItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, ''), JSON.stringify(activeTabsHrefs));
         }
 
         function activateTab(href) {
@@ -36,7 +36,7 @@ jQuery(function($) {
         }
 
         // Array with active tabs hrefs
-        var activeTabsHrefs = JSON.parse(localStorage.getItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+$/, '')));
+        var activeTabsHrefs = JSON.parse(localStorage.getItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, '')));
 
         // jQuery object with all tabs links
         var $tabs = $('a[data-toggle="tab"]');
@@ -52,7 +52,7 @@ jQuery(function($) {
             // When moving from tab area to a different view
             $.each(activeTabsHrefs, function(index, tabHref) {
                 if (!hasTab(tabHref)) {
-                    localStorage.removeItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+$/, ''));
+                    localStorage.removeItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, ''));
 
                     return true;
                 }
