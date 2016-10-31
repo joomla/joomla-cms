@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Test class for JFormFieldList.
  *

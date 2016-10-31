@@ -90,7 +90,7 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	public function initialise($options)
 	{
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Load the backend language files so that the DB error messages work.
@@ -214,7 +214,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Check database version.
@@ -428,7 +428,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Set the character set to UTF-8 for pre-existing databases.
@@ -477,7 +477,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Check database type.
@@ -716,7 +716,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Build the path to the sample data file.
