@@ -737,6 +737,48 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
+	 * Method triggered before delete event for a table.
+	 *
+	 * @param   JEventDispatcher  $dispatcher  The dispatcher to use.
+	 * @param   string            $context     The context of the content passed to the plugin.
+	 * @param   JTable            $table       A JTable object.
+	 *
+	 * @return  boolean  True if successful, false if an error occurs.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function triggerBeforeDelete(JEventDispatcher $dispatcher, $context, $table)
+	{
+		// Trigger the before delete event.
+		$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
+
+		if (in_array(false, $result, true))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method triggered after delete event for a table.
+	 *
+	 * @param   JEventDispatcher  $dispatcher  The dispatcher to use.
+	 * @param   string            $context     The context of the content passed to the plugin.
+	 * @param   JTable            $table       A JTable object.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function triggerAfterDelete(JEventDispatcher $dispatcher, $context, $table)
+	{
+		$dispatcher->trigger($this->event_after_delete, array($context, $table));
+	}
+
+	/**
 	 * Method to delete one or more records.
 	 *
 	 * @param   array  &$pks  An array of record primary keys.
@@ -763,13 +805,7 @@ abstract class JModelAdmin extends JModelForm
 				{
 					$context = $this->option . '.' . $this->name;
 
-					// Trigger the before delete event.
-					$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
-
-					if (in_array(false, $result, true))
-					{
-						$this->setError($table->getError());
-
+					if ($this->triggerBeforeDelete($dispatcher, $context, $table) === false) {
 						return false;
 					}
 
@@ -813,7 +849,7 @@ abstract class JModelAdmin extends JModelForm
 					}
 
 					// Trigger the after event.
-					$dispatcher->trigger($this->event_after_delete, array($context, $table));
+					$this->triggerAfterDelete($dispatcher, $context, $table);
 				}
 				else
 				{
