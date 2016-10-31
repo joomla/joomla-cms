@@ -554,4 +554,33 @@ class FieldsHelper
 
 		return $items;
 	}
+
+	/**
+	 * Gets the fields system plugin extension id.
+	 *
+	 * @return  int  The fields system plugin extension id.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getFieldsPluginId()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+		->select($db->quoteName('extension_id'))
+		->from($db->quoteName('#__extensions'))
+		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+		->where($db->quoteName('element') . ' = ' . $db->quote('fields'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $result;
+	}
 }
