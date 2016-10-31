@@ -22,6 +22,8 @@ class ContentHelperPreview
 	 * @param   object  $article  The article item object
 	 *
 	 * @return  string  The article URL
+	 *
+	 * @since   4.0
 	 */
 	public static function url($article)
 	{
@@ -29,7 +31,7 @@ class ContentHelperPreview
 		$sef  = '';
 
 		// Get the home Itemid for the language
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('id')
@@ -46,6 +48,7 @@ class ContentHelperPreview
 		{
 			$query->where($db->qn('language') . ' = ' . $db->q('*'));
 		}
+
 		$db->setQuery($query);
 
 		$Itemid = '&amp;Itemid=' . (int) $db->loadResult();
@@ -66,15 +69,9 @@ class ContentHelperPreview
 			{
 				$lang = '&amp;lang=' . $sef;
 			}
-			else
-			{
-				$lang = '';
-			}
 		}
 
-		$url = JUri::root() . 'index.php?option=com_content&amp;view=article&amp;id=' . (int) $article->id
+		return JUri::root() . 'index.php?option=com_content&amp;view=article&amp;id=' . (int) $article->id
 		. '&amp;catid=' . (int) $article->catid . $lang . $Itemid;
-
-		return $url;
 	}
 }
