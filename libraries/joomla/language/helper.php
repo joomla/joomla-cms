@@ -34,11 +34,11 @@ class JLanguageHelper
 	{
 		$list      = array();
 		$clientId  = $basePath === JPATH_ADMINISTRATOR ? 1 : 0;
-		$languages = !$installed ? JLanguage::getKnownLanguages($basePath) : static::getInstalledLanguages($clientId, true);
+		$languages = $installed ? static::getInstalledLanguages($clientId, true) : JLanguage::getKnownLanguages($basePath);
 
 		foreach ($languages as $languageCode => $language)
 		{
-			$metadata = !$installed ? $language : $language->metadata;
+			$metadata = $installed ? $language->metadata : $language;
 
 			$list[] = array(
 				'text'     => isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'],
