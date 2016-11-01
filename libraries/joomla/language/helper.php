@@ -38,8 +38,10 @@ class JLanguageHelper
 
 		foreach ($languages as $languageCode => $language)
 		{
+			$metadata = !$installed ? $language : $language->metadata;
+
 			$list[] = array(
-				'text'     => isset($language->metadata['nativeName']) ? $language->metadata['nativeName'] : $language->metadata['name'],
+				'text'     => isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'],
 				'value'    => $languageCode,
 				'selected' => $languageCode == $actualLanguage ? 'selected="selected"' : null,
 			);
