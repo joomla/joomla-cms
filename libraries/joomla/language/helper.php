@@ -32,41 +32,17 @@ class JLanguageHelper
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
-		$list = array();
+		$list      = array();
+		$clientId  = $basePath === JPATH_ADMINISTRATOR ? 1 : 0;
+		$languages = !$installed ? JLanguage::getKnownLanguages($basePath) : static::getInstalledLanguages($clientId, true);
 
-		// Cache activation
-		$langs = JLanguage::getKnownLanguages($basePath);
-
-		if ($installed)
+		foreach ($languages as $languageCode => $language)
 		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('element')
-				->from('#__extensions')
-				->where('type=' . $db->quote('language'))
-				->where('state=0')
-				->where('enabled=1')
-				->where('client_id=' . ($basePath == JPATH_ADMINISTRATOR ? 1 : 0));
-			$db->setQuery($query);
-			$installed_languages = $db->loadObjectList('element');
-		}
-
-		foreach ($langs as $lang => $metadata)
-		{
-			if (!$installed || array_key_exists($lang, $installed_languages))
-			{
-				$option = array(
-					'text'  => isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'],
-					'value' => $lang,
-				);
-
-				if ($lang === $actualLanguage)
-				{
-					$option['selected'] = 'selected="selected"';
-				}
-
-				$list[] = $option;
-			}
+			$list[] = array(
+				'text'     => isset($language->metadata['nativeName']) ? $language->metadata['nativeName'] : $language->metadata['name'],
+				'value'    => $languageCode,
+				'selected' => $languageCode == $actualLanguage ? 'selected="selected"' : null,
+			);
 		}
 
 		return $list;
