@@ -28,13 +28,11 @@ CREATE TABLE [#__fields](
 	[created_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[created_user_id] [bigint] NOT NULL DEFAULT 0,
 	[created_by_alias] [nvarchar](255) NOT NULL DEFAULT '',
-	[version] [bigint] NOT NULL DEFAULT 1,
 	[modified_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[modified_by] [bigint] NOT NULL DEFAULT 0,
 	[publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[access] [int] NOT NULL DEFAULT 1,
-	[hits] [bigint] NOT NULL DEFAULT 0,
 CONSTRAINT [PK_#__fields_id] PRIMARY KEY CLUSTERED(
 	[id] ASC)
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON
