@@ -86,6 +86,14 @@ if (file_exists($userCss) && filesize($userCss) > 0)
 	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/user.css');
 }
 
+// Check for a custom js file
+$userJs = JPATH_SITE . '/templates/' . $this->template . '/js/user.js';
+
+if (file_exists($userJs && filesize($userJs) > 0)
+{
+	$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/user.js');
+}
+
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
