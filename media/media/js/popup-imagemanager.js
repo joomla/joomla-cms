@@ -205,16 +205,24 @@
 		},
 
 		/**
-		 * Called from outside when a file is selected
-		 *
-		 * @param   string  file  Relative path to the file.
-		 *
-		 * @return  void
-		 */
-		populateFields: function (file)
-		{
-			$("#f_url").val(image_base_path + file);
-		},
+         * Called from outside when a file is selected
+         *
+         * @param   string  file  Relative path to the file.
+         *
+         * @return  void
+         */
+        populateFields: function (file)
+        {
+            $.each($('a.img-preview', $('#imageframe').contents()), function(i, v) {
+                if (v.href == "javascript:ImageManager.populateFields('" + file + "')") {
+                    $(v, $('#imageframe').contents()).addClass('selected');
+                } else {
+                    $(v, $('#imageframe').contents()).removeClass('selected');
+                }
+            });
+
+            $("#f_url").val(image_base_path + file);
+        },
 
 		/**
 		 * Not used.

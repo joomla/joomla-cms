@@ -19,18 +19,6 @@ if ($lang->isRtl())
 }
 
 JFactory::getDocument()->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
-JFactory::getDocument()->addScriptDeclaration("
-    var ImageManager = window.parent.ImageManager;
- 
-    jQuery(function($){
- 
-        $('.thumbnail').on('click', function() {
-            var parents = $(this).parents('.thumbnails');
-            parents.find('.thumbnail').removeClass('selected')
-            $(this).addClass('selected');
-        });
-    });
-");
 JFactory::getDocument()->addStyleDeclaration(
 	"
 		@media (max-width: 767px) {
