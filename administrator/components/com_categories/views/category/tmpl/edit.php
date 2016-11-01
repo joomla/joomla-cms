@@ -48,6 +48,15 @@ $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+
+// Custom fields have no associations
+$isCustomFields = false;
+$extension = $input->get('extension', '', 'CMD');
+
+if (substr($extension, -strlen('.fields')) === '.fields')
+{
+	$isCustomFields = true;
+}
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -82,7 +91,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if ( ! $isModal && $assoc && $extensionassoc) : ?>
+		<?php if ( ! $isModal && $assoc && $extensionassoc && ! $isCustomFields) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
