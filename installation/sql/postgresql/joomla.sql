@@ -672,13 +672,11 @@ CREATE TABLE "#__fields" (
   "created_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created_user_id" bigint DEFAULT 0 NOT NULL,
   "created_by_alias" varchar(255) DEFAULT '' NOT NULL,
-  "version" bigint DEFAULT 0 NOT NULL,
   "modified_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "modified_by" bigint DEFAULT 0 NOT NULL,
   "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "access" bigint DEFAULT 0 NOT NULL,
-  "hits" integer DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__fields_idx_checked_out" ON "#__fields" ("checked_out");
