@@ -229,7 +229,6 @@ class LanguagesModelInstalled extends JModelList
 						$row->nativeName = html_entity_decode($row->nativeName . '&#x200E;', ENT_QUOTES, 'UTF-8');
 					}
 
-
 					$this->data[] = $row;
 				}
 			}
