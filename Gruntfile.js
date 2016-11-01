@@ -82,7 +82,6 @@ module.exports = function(grunt) {
 					'media/vendor/tinymce/plugins/*',
 					'media/vendor/tinymce/skins/*',
 					'media/vendor/tinymce/themes/*',
-					'!media/vendor/tinymce/plugins/*jdragdrop*',  // Joomla owned
 					'media/vendor/punycode/*',
 					'media/vendor/codemirror/*',
 					'media/vendor/autocomplete/*',

@@ -64,6 +64,13 @@
 				options.save_onsavecallback = function() { window.parent.Joomla.submitbutton(window.parent.Joomla.getOptions('keySave').task) };
 			}
 
+			// Check if drag and drop is enabled
+			if (window.parent.Joomla.getOptions('dnd-enabled')) {
+				// Loads a plugin from an external URL
+				tinymce.PluginManager.load('jdragdrop', window.parent.Joomla.getOptions('dnd-path'));
+			}
+
+
 			tinyMCE.init(options);
 		}
 
