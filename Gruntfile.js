@@ -270,7 +270,7 @@ module.exports = function(grunt) {
 		},
 
 		// Compile Sass source files to CSS
-		sass: {
+		scss: {
 			dev: {
 				options: {
 					precision: '5',
@@ -365,7 +365,7 @@ module.exports = function(grunt) {
 			'unzip:jcropUnzip',
 			'concat:someFiles',
 			'copy:fromSource',
-			'sass:dist',
+			'scss:dist',
 			'uglify:allJs',
 			'cssmin:allCss',
 			'clean:temp'
