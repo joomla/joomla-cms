@@ -24,4 +24,11 @@
 	  transition: transform .3s ease;
     }
   }
+
+  .danger a {
+    background: $brand-danger;
+  }
+  .success a {
+    background: $brand-success;
+  }
 }

@@ -7629,6 +7629,12 @@ legend {
     -webkit-transition: -webkit-transform .3s ease;
     transition: transform .3s ease; }
 
+.quick-icons .danger a {
+  background: #d9534f; }
+
+.quick-icons .success a {
+  background: #5cb85c; }
+
 .js-stools {
   width: 100%; }
   .js-stools .btn-wrapper {
