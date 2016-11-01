@@ -202,8 +202,11 @@ class JLanguageHelper
 			}
 		}
 
-		$languages = array();
 		$clients   = $clientId === null ? array(0, 1) : array((int) $clientId);
+		$languages = array(
+			0 => array(),
+			1 => array(),
+		);
 
 		foreach ($installedLanguages as $language)
 		{
