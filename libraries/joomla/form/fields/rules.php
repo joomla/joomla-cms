@@ -240,10 +240,11 @@ class JFormFieldRules extends JFormField
 		$html[] = '<p class="rule-desc">' . JText::_('JLIB_RULES_SETTINGS_DESC') . '</p>';
 
 		// Begin tabs
-		$html[] = '<div class="clearfix" data-ajaxuri="' . $ajaxUri . '" id="permissions-sliders">';
+		$html[] = '<div class="row mb-2" data-ajaxuri="' . $ajaxUri . '" id="permissions-sliders">';
 
 		// Building tab nav
-		$html[] = '<ul class="nav nav-pills nav-stacked col-md-3">';
+		$html[] = '<div class="col-md-3">';
+		$html[] = '<ul class="nav nav-pills nav-stacked">';
 
 		foreach ($groups as $group)
 		{
@@ -263,6 +264,7 @@ class JFormFieldRules extends JFormField
 		}
 
 		$html[] = '</ul>';
+		$html[] = '</div>';
 
 		$html[] = '<div class="tab-content col-md-9">';
 
