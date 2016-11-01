@@ -26,23 +26,25 @@ class JToolbarButtonStandard extends JToolbarButton
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string   $type  Unused string.
-	 * @param   string   $name  The name of the button icon class.
-	 * @param   string   $text  Button text.
-	 * @param   string   $task  Task associated with the button.
-	 * @param   boolean  $list  True to allow lists
+	 * @param   string   $type   Unused string.
+	 * @param   string   $name   The name of the button icon class.
+	 * @param   string   $text   Button text.
+	 * @param   string   $task   Task associated with the button.
+	 * @param   boolean  $list   True to allow lists
+	 * @param   boolean  $group  Does the button belong to a group?
 	 *
 	 * @return  string  HTML string for the button
 	 *
 	 * @since   3.0
 	 */
-	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true)
+	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $group = false)
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
 		$options['text']   = JText::_($text);
 		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
+		$options['group']  = $group;
 
 		switch ($name)
 		{

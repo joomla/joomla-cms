@@ -469,7 +469,7 @@ abstract class JToolbarHelper
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add an apply button
-		$bar->appendButton('Apply', 'apply', $alt, $task, false);
+		$bar->appendButton('Standard', 'apply', $alt, $task, false);
 	}
 
 	/**
@@ -483,12 +483,12 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.5
 	 */
-	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE')
+	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE', $group = false)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add a save button.
-		$bar->appendButton('Standard', 'save', $alt, $task, false);
+		$bar->appendButton('Standard', 'save', $alt, $task, false, $group);
 	}
 
 	/**
@@ -502,12 +502,12 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.6
 	 */
-	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW')
+	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW', $group = false)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
-		$bar->appendButton('Standard', 'save-new', $alt, $task, false);
+		$bar->appendButton('Standard', 'save-new', $alt, $task, false, $group);
 	}
 
 	/**
@@ -522,12 +522,12 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.6
 	 */
-	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY')
+	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY', $group = false)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
-		$bar->appendButton('Standard', 'save-copy', $alt, $task, false);
+		$bar->appendButton('Standard', 'save-copy', $alt, $task, false, $group);
 	}
 
 	/**
@@ -630,6 +630,58 @@ abstract class JToolbarHelper
 		$bar    = JToolbar::getInstance('toolbar');
 		$layout = new JLayoutFile('joomla.toolbar.versions');
 		$bar->appendButton('Custom', $layout->render($options), 'versions');
+	}
+
+	/**
+	 * Writes a save button for a given option, with an additional dropdown
+	 *
+	 * @param   array   $buttons  An array of buttons
+	 * @param   string  $class    The button class
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function saveGroup($buttons = array(), $class = 'btn-success')
+	{
+		// Options array for JLayout
+		$options          = array();
+		$options['class'] = $class;
+
+		$validOptions = array(
+			'apply' => 'JTOOLBAR_APPLY',
+			'save' => 'JTOOLBAR_SAVE',
+			'save2new' => 'JTOOLBAR_SAVE_AND_NEW',
+			'save2copy' => 'JTOOLBAR_SAVE_AS_COPY'
+		);
+
+		$bar = JToolbar::getInstance('toolbar');
+
+		$layout = new JLayoutFile('joomla.toolbar.group.groupopen');
+		$bar->appendButton('Custom', $layout->render($options));
+		$firstItem = false;
+
+		foreach ($buttons as $button)
+		{
+			if (!array_key_exists($button[0], $validOptions))
+			{
+				continue;
+			}
+
+			$options['group'] = true;
+			$altText = isset($button[2]) ? $button[2] : $validOptions[$button[0]];
+			call_user_func_array('JToolbarHelper::' . $button[0], array($button[1], $altText, $firstItem));
+
+			if (!$firstItem)
+			{
+				$layout = new JLayoutFile('joomla.toolbar.group.groupmid');
+				$bar->appendButton('Custom', $layout->render($options));
+				$firstItem = true;
+			}
+		}
+
+		$layout = new JLayoutFile('joomla.toolbar.group.groupclose');
+		$bar->appendButton('Custom', $layout->render());
 	}
 
 	/**
