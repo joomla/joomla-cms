@@ -65,8 +65,13 @@ class PluginsViewPlugin extends JViewLegacy
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::apply('plugin.apply');
-			JToolbarHelper::save('plugin.save');
+			JToolbarHelper::saveGroup(
+				[
+					['apply', 'plugin.apply'],
+					['save', 'plugin.save']
+				],
+				'btn-success'
+			);
 		}
 
 		JToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
