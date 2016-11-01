@@ -89,7 +89,7 @@ if (file_exists($userCss) && filesize($userCss) > 0)
 // Check for a custom js file
 $userJs = JPATH_SITE . '/templates/' . $this->template . '/js/user.js';
 
-if (file_exists($userJs && filesize($userJs) > 0)
+if (file_exists($userJs) && filesize($userJs) > 0)
 {
 	$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/user.js');
 }
