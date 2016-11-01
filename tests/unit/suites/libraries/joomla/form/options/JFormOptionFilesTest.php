@@ -74,7 +74,7 @@ class JFormOptionFilesTest extends TestCase
 	 */
 	public function testGetOptions()
 	{
-		$element = simplexml_load_string('<option provider="files" directory="." />');
+		$element = simplexml_load_string('<option type="files" directory="." />');
 		$options = JFormOption::getOptions($element, 'TestField');
 
 		$this->assertNotEmpty(

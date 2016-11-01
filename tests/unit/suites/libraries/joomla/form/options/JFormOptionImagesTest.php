@@ -74,7 +74,7 @@ class JFormOptionImagesTest extends TestCase
 	 */
 	public function testGetOptions()
 	{
-		$element = simplexml_load_string('<option provider="images" directory="./images" />');
+		$element = simplexml_load_string('<option type="images" directory="./images" />');
 		$options = JFormOption::getOptions($element, 'TestField');
 
 		$this->assertNotEmpty(

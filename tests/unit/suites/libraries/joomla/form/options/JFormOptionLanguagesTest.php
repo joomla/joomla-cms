@@ -90,7 +90,7 @@ class JFormOptionLanguagesTest extends TestCaseDatabase
 	 */
 	public function testGetOptions()
 	{
-		$element = simplexml_load_string('<option provider="languages" />');
+		$element = simplexml_load_string('<option type="languages" />');
 		$options = JFormOption::getOptions($element, 'TestField');
 
 		$this->assertNotEmpty(

@@ -75,7 +75,7 @@ class JFormOptionModelTest extends TestCase
 	public function testGetOptions()
 	{
 		$element = simplexml_load_string(
-			'<option provider="model"
+			'<option type="model"
 				modelName="JModelTest"
 				modelPath="tests.unit.suites.libraries.joomla.form._testproviders.model"
 				modelBase="JPATH_BASE" />'
@@ -100,7 +100,7 @@ class JFormOptionModelTest extends TestCase
 	public function testGetLegacyOptions()
 	{
 		$element = simplexml_load_string(
-			'<option provider="model"
+			'<option type="model"
 				modelName="JModelLegacyForOptionModelTest"
 				modelPath="tests.unit.suites.libraries.joomla.form._testproviders.legacy"
 				modelBase="JPATH_BASE" />'

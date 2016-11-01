@@ -75,7 +75,7 @@ class JFormOptionClassTest extends TestCase
 	public function testGetOptions()
 	{
 		$element = simplexml_load_string(
-			'<option provider="class"
+			'<option type="class"
 				className="ClassOptionHelper"
 				classPath="tests.unit.suites.libraries.joomla.form._testproviders.class"
 				classBase="JPATH_BASE" />'

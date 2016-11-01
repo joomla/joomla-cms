@@ -74,7 +74,7 @@ class JFormOptionSessionHandlersTest extends TestCase
 	 */
 	public function testGetOptions()
 	{
-		$element = simplexml_load_string('<option provider="sessionhandlers" />');
+		$element = simplexml_load_string('<option type="sessionhandlers" />');
 
 		$options = JFormOption::getOptions($element, 'TestField');
 

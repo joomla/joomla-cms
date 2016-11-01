@@ -90,7 +90,7 @@ class JFormOptionPluginsTest extends TestCaseDatabase
 	 */
 	public function testGetOptions()
 	{
-		$element = simplexml_load_string('<option provider="plugins" />');
+		$element = simplexml_load_string('<option type="plugins" />');
 		$options = JFormOption::getOptions($element, 'TestField');
 
 		$this->assertNotEmpty(

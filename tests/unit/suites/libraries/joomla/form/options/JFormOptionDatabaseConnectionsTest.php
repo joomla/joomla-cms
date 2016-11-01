@@ -74,7 +74,7 @@ class JFormOptionDatabaseConnectionsTest extends TestCase
 	 */
 	public function testGetOptions()
 	{
-		$element = simplexml_load_string('<option provider="databaseconnections" />');
+		$element = simplexml_load_string('<option type="databaseconnections" />');
 
 		$options = JFormOption::getOptions($element, 'TestField');
 
@@ -132,7 +132,7 @@ class JFormOptionDatabaseConnectionsTest extends TestCase
 		// Request only a subset of them.
 		$supported = array_slice($connectors, 0, 2);
 
-		$xml = '<option provider="databaseconnections" supported="' . implode(',', $supported) . '" />';
+		$xml = '<option type="databaseconnections" supported="' . implode(',', $supported) . '" />';
 		$element = simplexml_load_string($xml);
 
 		$options = JFormOption::getOptions($element, 'TestField');
@@ -169,7 +169,7 @@ class JFormOptionDatabaseConnectionsTest extends TestCase
 	public function testGetOptionsSupportedNone()
 	{
 		// Request a type of connection that does is not available.
-		$xml = '<option provider="databaseconnections" supported="AFakeTypeWhichCouldNotPossiblyExist" />';
+		$xml = '<option type="databaseconnections" supported="AFakeTypeWhichCouldNotPossiblyExist" />';
 		$element = simplexml_load_string($xml);
 
 		$options = JFormOption::getOptions($element, 'TestField');

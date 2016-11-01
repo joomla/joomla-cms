@@ -90,7 +90,7 @@ class JFormOptionSQLTest extends TestCaseDatabase
 	 */
 	public function testGetOptions()
 	{
-		$element = simplexml_load_string('<option provider="sql" value_field="title" key_field="id" query="SELECT * FROM `#__categories`" />');
+		$element = simplexml_load_string('<option type="sql" text_field="title" value_field="id" query="SELECT * FROM `#__categories`" />');
 		$options = JFormOption::getOptions($element, 'TestField');
 
 		$this->assertNotEmpty(
