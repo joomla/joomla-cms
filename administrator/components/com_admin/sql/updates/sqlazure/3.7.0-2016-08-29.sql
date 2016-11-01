@@ -11,19 +11,19 @@ CREATE TABLE [#__fields](
 	[title] [nvarchar](255) NOT NULL DEFAULT '',
 	[alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[label] [nvarchar](255) NOT NULL DEFAULT '',
-	[default_value] [nvarchar](max) NOT NULL,
+	[default_value] [nvarchar](max) NOT NULL DEFAULT '',
 	[type] [nvarchar](255) NOT NULL DEFAULT '',
 	[options] [nvarchar](255) NOT NULL DEFAULT '',
 	[note] [nvarchar](255) NOT NULL DEFAULT '',
-	[description] [nvarchar](max) NOT NULL,
+	[description] [nvarchar](max) NOT NULL DEFAULT '',
 	[state] [smallint] NOT NULL DEFAULT 0,
 	[required] [smallint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
 	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[ordering] [int] NOT NULL DEFAULT 0,
-	[params] [nvarchar](max) NOT NULL,
-	[fieldparams] [nvarchar](max) NOT NULL,
-	[attributes] [nvarchar](max) NOT NULL,
+	[params] [nvarchar](max) NOT NULL DEFAULT '',
+	[fieldparams] [nvarchar](max) NOT NULL DEFAULT '',
+	[attributes] [nvarchar](max) NOT NULL DEFAULT '',
 	[language] [nvarchar](7) NOT NULL DEFAULT '',
 	[created_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[created_user_id] [bigint] NOT NULL DEFAULT 0,
@@ -83,10 +83,12 @@ CREATE NONCLUSTERED INDEX [idx_item_id] ON [#__fields_values](
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 SET IDENTITY_INSERT [#__extensions] ON;
-	INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
-	SELECT 33, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
-	INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
-	SELECT 461, 'plg_system_fields', 'plugin', 'fields', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
-	INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
-	SELECT 462, 'plg_fields_gallery', 'plugin', 'gallery', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
-SET IDENTITY_INSERT [#__extensions]  OFF; 
+
+INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
+SELECT 33, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 461, 'plg_system_fields', 'plugin', 'fields', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 462, 'plg_fields_gallery', 'plugin', 'gallery', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+
+SET IDENTITY_INSERT [#__extensions] OFF; 
