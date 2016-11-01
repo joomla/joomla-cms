@@ -27,7 +27,7 @@ $unread = (int) $db->loadResult();
 $count = 0;
 
 // Get the number of backend logged in users if shared sessions is not enabled.
-if (!$config->get('shared_session', '0'))
+if ($config->get('session_name', '') == '')
 {
 	$query->clear()
 		->select('COUNT(session_id)')
@@ -61,7 +61,7 @@ else
 $online_num = 0;
 
 // Get the number of frontend logged in users if shared sessions is not enabled.
-if (!$config->get('shared_session', '0'))
+if ($config->get('session_name', '') == '')
 {
 	$query->clear()
 		->select('COUNT(session_id)')
@@ -75,7 +75,7 @@ if (!$config->get('shared_session', '0'))
 $total_users = 0;
 
 // Get the number of logged in users if shared sessions is enabled.
-if ($config->get('shared_session', '0'))
+if ($config->get('session_name', '') != '')
 {
 	$query->clear()
 		->select('COUNT(session_id)')

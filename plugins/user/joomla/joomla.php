@@ -271,7 +271,7 @@ class PlgUserJoomla extends JPlugin
 			return true;
 		}
 
-		$sharedSessions = $this->app->get('shared_session', '0');
+		$sharedSessions = JFactory::getConfig()->get('session_name', '') != '';
 
 		// Check to see if we're deleting the current session
 		if ($my->id == $user['id'] && (!$sharedSessions && $options['clientid'] == $this->app->getClientId()))

@@ -198,7 +198,7 @@ class JApplicationCms extends JApplicationWeb
 				$db->quote($user->username),
 			);
 
-			if (!$this->get('shared_session', '0'))
+			if (JFactory::getConfig()->get('session_name', '') == '')
 			{
 				$columns[] = $db->quoteName('client_id');
 				$values[] = (int) $this->getClientId();
