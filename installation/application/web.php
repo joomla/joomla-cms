@@ -296,7 +296,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	{
 		$langfiles = array();
 
-		// if db connection, fetch them from the database.
+		// If db connection, fetch them from the database.
 		if ($db)
 		{
 			foreach (JLanguageHelper::getInstalledLanguages() as $clientId => $language)
