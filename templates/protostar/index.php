@@ -87,12 +87,7 @@ if (file_exists($userCss) && filesize($userCss) > 0)
 }
 
 // Check for a custom js file
-$userJs = JPATH_SITE . '/templates/' . $this->template . '/js/user.js';
-
-if (file_exists($userJs) && filesize($userJs) > 0)
-{
-	$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/user.js');
-}
+JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
