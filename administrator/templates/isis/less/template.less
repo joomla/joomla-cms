@@ -1539,31 +1539,23 @@ body.modal-open {
   text-shadow: none;
 }
 
-/* Media Manager */
-#folderframe.thumbnail {
-	border: 0;
-	box-shadow: none;
-	padding: 0;
+/* Media */
+iframe#imageframe {
+	height: 240px;
 }
-#mediamanager-form {
-	> .muted {
-		padding: 0px;
-	}
-	.checkbox {
-		margin-bottom: 15px;
-	}
-	.thumbnails {
-		margin-left: 0;
-	}
+.thumbnails {
+	@thumbSize:100px;
+	margin-left: 0;
 	.thumbnail {
 		background-color: #f4f4f4;
 		border-radius: @inputBorderRadius;
 		border: 0;
 		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05) inset;
 		padding: 0px;
-		height: 120px;
-		width: 120px;
-		margin: 0 18px 18px 0;
+		height: @thumbSize;
+		width: @thumbSize;
+		margin: 8px 16px;
+		margin-left: 0 !important;
 		position: relative;
 		text-align: center;
 		overflow: hidden;
@@ -1589,50 +1581,18 @@ body.modal-open {
 			-webkit-box-sizing: border-box;
 			box-sizing: border-box;
 	    }
-		input[type="radio"], input[type="checkbox"] {
+	    input[type="radio"], input[type="checkbox"] {
 			margin: 0;
 			opacity: 0.55;
 			position: absolute;
 			top: 5px;
 			left: 5px;
 		}
-		.imgBorder {
-			line-height: 120px;
-		}
 		.controls, .imginfoBorder {
 			display: none;
 		}
-		.height-50 {
-		    background-color: #fafafa;
-		    height: 77px;
-		    position: relative;
-		    z-index: 1;
-		    width:100%;
-		    display: inline-block;
-		    a, .icon-folder-2 {
-		    	display: inline-block;
-		    	line-height: 75px;
-		    	margin-top: -1px;
-		    }
-		    a {
-		    	&:after {
-				    bottom: 0;
-				    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset;
-				    content: "";
-				    display: block;
-				    left: 0;
-				    overflow: hidden;
-				    position: absolute;
-				    right: 0;
-				    top: 0;
-				}
-		    }
-		    .icon-folder-2 {
-		    	font-size: 40px;
-		    }
-		}
 	}
-	.thumbImg {
+	.imgThumb {
 	    position: relative;
 	    z-index: 1;
 	    width:100%;
@@ -1640,9 +1600,9 @@ body.modal-open {
 	    input {
 	    	display: none;
 	    }
-	    label {
+	    label, .imgThumbInside {
 	    	display: block;
-	    	line-height: 120px;
+	    	line-height: @thumbSize;
 	    	position: relative;
 	    	width: 100%;
 	    	border-radius: @inputBorderRadius;
@@ -1667,26 +1627,27 @@ body.modal-open {
 	    	}
 	    }
 	    img {
-	    	max-height: 120px;
 	    	width: auto;
 	    }
-	    :checked + label {
-	    	background-color: #ddd;
-		}
-	    :checked + label:before {
-			-webkit-transform: scale(1);
-			transform: scale(1);
-			opacity: 1;
-		}
-		:checked + label:after {
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			content: '';
-			border: 3px solid @btnSuccessBackground;
-			border-radius: 6px;
+	}
+	.selected, .imgInput {
+		:checked + label, .imgThumbInside {
+		    background-color: #ddd;
+			&:before {
+				-webkit-transform: scale(1);
+				transform: scale(1);
+				opacity: 1;
+			}
+			&:after {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				content: '';
+				border: 3px solid @btnSuccessBackground;
+				border-radius: 5px;
+			}
 		}
 	}
 	.imgDelete a.close, .imgPreview a {
@@ -1720,7 +1681,9 @@ body.modal-open {
 		-webkit-transform: scale(1);
 		transform: scale(1);
 	}
-	.imgPreview a {
+	.imgPreview a, .imgDetails {
+		position: absolute;
+		left:0;
 	    background-color: #fff;
 	    border-color: rgba(0, 0, 0, 0.2);
 	    bottom: 0;
@@ -1728,8 +1691,85 @@ body.modal-open {
 		border: 1px solid rgba(0, 0, 0, 0.1);
 		border-width: 1px 1px 0 0; 
 		border-radius: 0 @inputBorderRadius 0 0;
+		z-index: 1;
 		&:hover {
 			background-color: #eee;
 		}
 	}
+	.imgDetails {
+		padding: 0 5px;
+		line-height: 20px;
+		color: #555;
+	}
+	.imgFolder {
+		span {
+			line-height: 90px;
+			font-size: 38px;
+			margin: 0;
+			width: auto;
+		}
+	}
+	.imgFolder + .imgDetails {
+		color: inherit;
+	}
 }
+
+// Media Manager
+#folderframe.thumbnail {
+	border: 0;
+	box-shadow: none;
+	padding: 0;
+}
+#mediamanager-form {
+	> .muted {
+		padding: 0px;
+	}
+	.checkbox {
+		margin-bottom: 15px;
+	}
+	.thumbnails {
+		.thumbnail {
+			height: 120px;
+			width: 120px;
+			margin: 0 18px 18px 0;
+		}
+		.imgThumb {
+			label {
+				line-height: 120px;
+			}
+		}
+	}
+
+	.height-50 {
+	    background-color: #fafafa;
+	    height: 77px;
+	    position: relative;
+	    z-index: 1;
+	    width:100%;
+	    display: inline-block;
+	    a, .icon-folder-2 {
+	    	display: inline-block;
+	    	line-height: 75px;
+	    	margin-top: -1px;
+	    }
+	    a {
+	    	&:after {
+			    bottom: 0;
+			    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset;
+			    content: "";
+			    display: block;
+			    left: 0;
+			    overflow: hidden;
+			    position: absolute;
+			    right: 0;
+			    top: 0;
+			}
+	    }
+	    .icon-folder-2 {
+	    	font-size: 40px;
+	    }
+	}
+
+}
+
+// Media XTD Button

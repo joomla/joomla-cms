@@ -8456,34 +8456,27 @@ body.modal-open {
 .subhead {
 	text-shadow: none;
 }
-#folderframe.thumbnail {
-	border: 0;
-	box-shadow: none;
-	padding: 0;
+iframe#imageframe {
+	height: 240px;
 }
-#mediamanager-form > .muted {
-	padding: 0px;
-}
-#mediamanager-form .checkbox {
-	margin-bottom: 15px;
-}
-#mediamanager-form .thumbnails {
+.thumbnails {
 	margin-left: 0;
 }
-#mediamanager-form .thumbnail {
+.thumbnails .thumbnail {
 	background-color: #f4f4f4;
 	border-radius: 3px;
 	border: 0;
 	box-shadow: 0 0 0 1px rgba(0,0,0,0.05) inset;
 	padding: 0px;
-	height: 120px;
-	width: 120px;
-	margin: 0 18px 18px 0;
+	height: 100px;
+	width: 100px;
+	margin: 8px 16px;
+	margin-left: 0 !important;
 	position: relative;
 	text-align: center;
 	overflow: hidden;
 }
-#mediamanager-form .thumbnail .close {
+.thumbnails .thumbnail .close {
 	background-color: #ccc;
 	border-left: 1px solid rgba(0,0,0,0.1);
 	height: 22px;
@@ -8494,11 +8487,11 @@ body.modal-open {
 	top: 0;
 	right: 0;
 }
-#mediamanager-form .thumbnail .close:hover {
+.thumbnails .thumbnail .close:hover {
 	background-color: #bbb;
 }
-#mediamanager-form .thumbnail *,
-#mediamanager-form .thumbnail *:before {
+.thumbnails .thumbnail *,
+.thumbnails .thumbnail *:before {
 	-webkit-transition: all 0.2s ease;
 	transition: all 0.2s ease;
 	-webkit-background-clip: padding-box;
@@ -8506,67 +8499,38 @@ body.modal-open {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
-#mediamanager-form .thumbnail input[type="radio"],
-#mediamanager-form .thumbnail input[type="checkbox"] {
+.thumbnails .thumbnail input[type="radio"],
+.thumbnails .thumbnail input[type="checkbox"] {
 	margin: 0;
 	opacity: 0.55;
 	position: absolute;
 	top: 5px;
 	left: 5px;
 }
-#mediamanager-form .thumbnail .imgBorder {
-	line-height: 120px;
-}
-#mediamanager-form .thumbnail .controls,
-#mediamanager-form .thumbnail .imginfoBorder {
+.thumbnails .thumbnail .controls,
+.thumbnails .thumbnail .imginfoBorder {
 	display: none;
 }
-#mediamanager-form .thumbnail .height-50 {
-	background-color: #fafafa;
-	height: 77px;
+.thumbnails .imgThumb {
 	position: relative;
 	z-index: 1;
 	width: 100%;
 	display: inline-block;
 }
-#mediamanager-form .thumbnail .height-50 a,
-#mediamanager-form .thumbnail .height-50 .icon-folder-2 {
-	display: inline-block;
-	line-height: 75px;
-	margin-top: -1px;
-}
-#mediamanager-form .thumbnail .height-50 a:after {
-	bottom: 0;
-	box-shadow: 0 0 0 1px rgba(0,0,0,0.08) inset;
-	content: "";
-	display: block;
-	left: 0;
-	overflow: hidden;
-	position: absolute;
-	right: 0;
-	top: 0;
-}
-#mediamanager-form .thumbnail .height-50 .icon-folder-2 {
-	font-size: 40px;
-}
-#mediamanager-form .thumbImg {
-	position: relative;
-	z-index: 1;
-	width: 100%;
-	display: inline-block;
-}
-#mediamanager-form .thumbImg input {
+.thumbnails .imgThumb input {
 	display: none;
 }
-#mediamanager-form .thumbImg label {
+.thumbnails .imgThumb label,
+.thumbnails .imgThumb .imgThumbInside {
 	display: block;
-	line-height: 120px;
+	line-height: 100px;
 	position: relative;
 	width: 100%;
 	border-radius: 3px;
 	overflow: hidden;
 }
-#mediamanager-form .thumbImg label:before {
+.thumbnails .imgThumb label:before,
+.thumbnails .imgThumb .imgThumbInside:before {
 	font-family: "IcoMoon";
 	font-style: normal;
 	content: 'G';
@@ -8584,19 +8548,27 @@ body.modal-open {
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 	border-radius: 0 3px;
 }
-#mediamanager-form .thumbImg img {
-	max-height: 120px;
+.thumbnails .imgThumb img {
 	width: auto;
 }
-#mediamanager-form .thumbImg :checked + label {
+.thumbnails .selected :checked + label,
+.thumbnails .selected .imgThumbInside,
+.thumbnails .imgInput :checked + label,
+.thumbnails .imgInput .imgThumbInside {
 	background-color: #ddd;
 }
-#mediamanager-form .thumbImg :checked + label:before {
+.thumbnails .selected :checked + label:before,
+.thumbnails .selected .imgThumbInside:before,
+.thumbnails .imgInput :checked + label:before,
+.thumbnails .imgInput .imgThumbInside:before {
 	-webkit-transform: scale(1);
 	transform: scale(1);
 	opacity: 1;
 }
-#mediamanager-form .thumbImg :checked + label:after {
+.thumbnails .selected :checked + label:after,
+.thumbnails .selected .imgThumbInside:after,
+.thumbnails .imgInput :checked + label:after,
+.thumbnails .imgInput .imgThumbInside:after {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -8604,10 +8576,10 @@ body.modal-open {
 	bottom: 0;
 	content: '';
 	border: 3px solid #46a546;
-	border-radius: 6px;
+	border-radius: 5px;
 }
-#mediamanager-form .imgDelete a.close,
-#mediamanager-form .imgPreview a {
+.thumbnails .imgDelete a.close,
+.thumbnails .imgPreview a {
 	padding: 0;
 	position: absolute;
 	left: 0;
@@ -8615,7 +8587,7 @@ body.modal-open {
 	height: 26px;
 	width: 26px;
 }
-#mediamanager-form .imgDelete a.close {
+.thumbnails .imgDelete a.close {
 	background-color: #bd362f;
 	border-color: #bd362f rgba(0,0,0,0.2) rgba(0,0,0,0.2) #bd362f;
 	top: 0;
@@ -8630,15 +8602,18 @@ body.modal-open {
 	-webkit-transform: scale(0.5);
 	transform: scale(0.5);
 }
-#mediamanager-form .imgDelete a.close:hover {
+.thumbnails .imgDelete a.close:hover {
 	background-color: #802420;
 }
-#mediamanager-form .thumbnail:hover .imgDelete a.close {
+.thumbnails .thumbnail:hover .imgDelete a.close {
 	opacity: 1;
 	-webkit-transform: scale(1);
 	transform: scale(1);
 }
-#mediamanager-form .imgPreview a {
+.thumbnails .imgPreview a,
+.thumbnails .imgDetails {
+	position: absolute;
+	left: 0;
 	background-color: #fff;
 	border-color: rgba(0,0,0,0.2);
 	bottom: 0;
@@ -8646,7 +8621,70 @@ body.modal-open {
 	border: 1px solid rgba(0,0,0,0.1);
 	border-width: 1px 1px 0 0;
 	border-radius: 0 3px 0 0;
+	z-index: 1;
 }
-#mediamanager-form .imgPreview a:hover {
+.thumbnails .imgPreview a:hover,
+.thumbnails .imgDetails:hover {
 	background-color: #eee;
+}
+.thumbnails .imgDetails {
+	padding: 0 5px;
+	line-height: 20px;
+	color: #555;
+}
+.thumbnails .imgFolder span {
+	line-height: 90px;
+	font-size: 38px;
+	margin: 0;
+	width: auto;
+}
+.thumbnails .imgFolder + .imgDetails {
+	color: inherit;
+}
+#folderframe.thumbnail {
+	border: 0;
+	box-shadow: none;
+	padding: 0;
+}
+#mediamanager-form > .muted {
+	padding: 0px;
+}
+#mediamanager-form .checkbox {
+	margin-bottom: 15px;
+}
+#mediamanager-form .thumbnails .thumbnail {
+	height: 120px;
+	width: 120px;
+	margin: 0 18px 18px 0;
+}
+#mediamanager-form .thumbnails .imgThumb label {
+	line-height: 120px;
+}
+#mediamanager-form .height-50 {
+	background-color: #fafafa;
+	height: 77px;
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	display: inline-block;
+}
+#mediamanager-form .height-50 a,
+#mediamanager-form .height-50 .icon-folder-2 {
+	display: inline-block;
+	line-height: 75px;
+	margin-top: -1px;
+}
+#mediamanager-form .height-50 a:after {
+	bottom: 0;
+	box-shadow: 0 0 0 1px rgba(0,0,0,0.08) inset;
+	content: "";
+	display: block;
+	left: 0;
+	overflow: hidden;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+#mediamanager-form .height-50 .icon-folder-2 {
+	font-size: 40px;
 }

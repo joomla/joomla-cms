@@ -27,7 +27,7 @@ $dispatcher = JEventDispatcher::getInstance();
 		</div>
 		<?php endif; ?>
 
-		<div class="thumbImg">
+		<div class="imgThumb imgInput">
 			<?php if ($this->canDelete):?>
 			<?php echo JHtml::_('grid.id', $i, $img->name, false, 'rm', 'cb-image'); ?>
 			<?php endif; ?>
