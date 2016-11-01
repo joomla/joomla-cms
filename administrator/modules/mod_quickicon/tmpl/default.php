@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 $html = JHtml::_('icons.buttons', $buttons);
 ?>
 <?php if (!empty($html)) : ?>
+<div class="card card-block">
 	<div class="row quick-icons">
 		<?php echo $html;?>
 	</div>
+</div>
 <?php endif;?>

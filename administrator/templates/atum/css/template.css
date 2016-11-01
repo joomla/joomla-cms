@@ -7608,7 +7608,7 @@ legend {
 
 .quick-icons a {
   display: block;
-  padding: 40px 0;
+  padding: 30px 0;
   margin-bottom: 15px;
   background: linear-gradient(to right, #27283a 0%, #163f46 50%, #27283a 100%);
   text-align: center;
@@ -7902,8 +7902,15 @@ legend {
 div.awesomplete {
   display: block; }
 
-.card-light {
+.card.card-light {
   background: #f8f8f8; }
+
+.card.card-dark {
+  background: linear-gradient(to right, #27283a 0%, #163f46 50%, #27283a 100%);
+  color: #fff; }
+
+.card .list-group-item {
+  padding: .75rem 0; }
 
 .list-unstyled .list-unstyled {
   padding-left: 20px; }
@@ -7984,7 +7991,7 @@ small, .small {
 .container-main {
   position: relative;
   padding-top: 65px;
-  background: #eaebec; }
+  background: #fff; }
 
 .content {
   background: #fff; }
@@ -8049,6 +8056,12 @@ small, .small {
 .note-input h6 {
   font-weight: bold;
   line-height: 1.4rem; }
+
+.com_cpanel .container-main {
+  background: #eaebec; }
+
+.com_cpanel .content {
+  background: none; }
 
 .com_cpanel .card .list-group {
   position: relative;

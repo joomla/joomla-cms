@@ -57,11 +57,67 @@ function modChrome_well($module, &$params, &$attribs)
 		$headerClass   = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
 
 		echo '<div class="' . $moduleClass . '">';
-		echo '<' . $moduleTag . ' class="card">';
+		echo '<' . $moduleTag . ' class="card card-block">';
 
 			if ($module->showtitle)
 			{
-				echo '<h5 class="card-header nav-header' . $headerClass . '">' . $module->title . '</h5>';
+				echo '<h5 class="card-title nav-header' . $headerClass . '">' . $module->title . '</h5>';
+			}
+
+			echo $module->content;
+
+		echo '</' . $moduleTag . '>';
+		echo '</div>';
+	}
+}
+
+function modChrome_card($module, &$params, &$attribs)
+{
+	if ($module->content)
+	{
+		$moduleTag     = $params->get('module_tag', 'div');
+		$bootstrapSize = (int) $params->get('bootstrap_size', 6);
+		$moduleClass   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
+		$headerTag     = htmlspecialchars($params->get('header_tag', 'h2'));
+
+		// Temporarily store header class in variable
+		$headerClass   = $params->get('header_class');
+		$headerClass   = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
+
+		echo '<div class="' . $moduleClass . '">';
+		echo '<' . $moduleTag . ' class="card card-block">';
+
+			if ($module->showtitle)
+			{
+				echo '<h5 class="card-title nav-header' . $headerClass . '">' . $module->title . '</h5>';
+			}
+
+			echo $module->content;
+
+		echo '</' . $moduleTag . '>';
+		echo '</div>';
+	}
+}
+
+function modChrome_cardDark($module, &$params, &$attribs)
+{
+	if ($module->content)
+	{
+		$moduleTag     = $params->get('module_tag', 'div');
+		$bootstrapSize = (int) $params->get('bootstrap_size', 6);
+		$moduleClass   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
+		$headerTag     = htmlspecialchars($params->get('header_tag', 'h2'));
+
+		// Temporarily store header class in variable
+		$headerClass   = $params->get('header_class');
+		$headerClass   = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
+
+		echo '<div class="' . $moduleClass . '">';
+		echo '<' . $moduleTag . ' class="card card-block card-dark">';
+
+			if ($module->showtitle)
+			{
+				echo '<h5 class="card-title nav-header' . $headerClass . '">' . $module->title . '</h5>';
 			}
 
 			echo $module->content;

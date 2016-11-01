@@ -1,7 +1,17 @@
 // Bootstrap
 
-.card-light {
-  background: #f8f8f8;
+.card {
+  &.card-light {
+    background: #f8f8f8;
+  }
+  &.card-dark {
+    background: linear-gradient(to right, $atum-gradient-outer 0%, $atum-gradient-inner 50%, $atum-gradient-outer 100%);
+	color: $white;
+  }
+
+  .list-group-item {
+    padding: .75rem 0;
+  }
 }
 
 .list-unstyled .list-unstyled {

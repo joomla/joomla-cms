@@ -65,10 +65,10 @@ small, .small {
 .container-main {
   position: relative;
   padding-top: 65px;
-  background: #eaebec;
+  background: $white;
 }
 .content {
-  background: #fff;
+  background: $white;
 }
 
 
@@ -172,6 +172,12 @@ small, .small {
 
 // Dashboard card
 .com_cpanel {
+  .container-main {
+    background: #eaebec;
+  }
+  .content {
+    background: none;
+  }
   .card {
     .list-group {
       position: relative;
