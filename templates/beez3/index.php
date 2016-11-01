@@ -86,12 +86,7 @@ $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js');
 
 // Check for a custom js file
-$userJs = JPATH_SITE . '/templates/' . $this->template . '/js/user.js';
-
-if (file_exists($userJs) && filesize($userJs) > 0)
-{
-	$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/user.js');
-}
+JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
 
 require __DIR__ . '/jsstrings.php';
 ?>
