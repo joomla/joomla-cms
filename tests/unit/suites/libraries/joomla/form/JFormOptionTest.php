@@ -84,7 +84,8 @@ class JFormOptionTest extends TestCase
 		// Standard usage.
 
 		$xml = $form->getXML();
-		$xmlopt = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]/option'));
+		$fields = $xml->xpath('fields/fields[@name="params"]/field[@name="colours"]/option');
+		$xmlopt = array_pop($fields);
 
 		$this->assertThat(
 			$xmlopt instanceof SimpleXMLElement,
