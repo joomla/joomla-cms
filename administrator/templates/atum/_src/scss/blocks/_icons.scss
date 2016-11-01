@@ -4,5 +4,11 @@
   content: "\e008";
 }
 .icon-white {
-  color: #fff;
+  color: $white;
+}
+.icon-publish {
+  color: $brand-success;
+}
+.icon-unpublish {
+  color: $brand-danger;
 }

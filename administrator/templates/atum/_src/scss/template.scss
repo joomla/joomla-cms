@@ -20,6 +20,7 @@
 @import "blocks/_icons";
 @import "blocks/_login";
 @import "blocks/_quickicons";
+@import "blocks/_searchtools";
 @import "blocks/_sidebar";
 @import "blocks/_status";
 @import "blocks/_table";
@@ -57,7 +58,7 @@ small, .small {
   font-weight: bold;
   line-height: 18px;
   color: #999;
-  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  text-shadow: none;
   text-transform: uppercase;
 }
 
@@ -69,66 +70,6 @@ small, .small {
 }
 .content {
   background: $white;
-}
-
-
-// search tools
-.js-stools {
-  width: 100%;
-
-  .btn-wrapper {
-    display: inline-block;
-    margin-right: 5px;
-  }
-  .js-stools-container-filters {
-    display: none;
-    margin: 10px 0;
-  }
-
-  .js-stools-container-bar {
-    float: left;
-
-    .btn-toolbar {
-      float: left;
-      margin-bottom: 5px;
-
-      .btn-group:first-child {
-        margin-left: 0;
-      }
-	}
-
-    .input-append {
-      margin-bottom: 0;
-    }
-  }
-
-  .js-stools-container-list {
-    float: right;
-    text-align: teft;
-
-    .js-stools-field-list:last-child {
-      margin-right: 0;
-    }
-  }
-
-  .js-stools-container-filters-visible {
-    display: inline-block;
-  }
-
-  .js-stools-field-list,
-  .js-stools-field-filter {
-    display: inline-block;
-    margin-right: 5px;
-    margin-bottom: 5px;
-
-    .form-control {
-      display: inline-block;
-	}
-  }
-}
-.js-stools-column-order [class*=" icon-"],
-.js-stools-column-order [class^="icon-"] {
-  text-align: center;
 }
 
 

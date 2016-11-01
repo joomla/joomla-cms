@@ -7,7 +7,15 @@
   }
   &.card-dark {
     background: linear-gradient(to right, $atum-gradient-outer 0%, $atum-gradient-inner 50%, $atum-gradient-outer 100%);
-	color: $white;
+
+    > *,
+    a {
+      color: $white;
+    }
+
+    .list-group-item {
+      background: none;
+    }
   }
 
   .list-group-item {
