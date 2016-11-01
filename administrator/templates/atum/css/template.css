@@ -7956,7 +7956,8 @@ div.awesomplete {
 .card.card-dark {
   background: linear-gradient(to right, #27283a 0%, #163f46 50%, #27283a 100%); }
   .card.card-dark > *,
-  .card.card-dark a {
+  .card.card-dark a:not(.dropdown-item),
+  .card.card-dark .module-dropdown > a {
     color: #fff; }
   .card.card-dark .list-group-item {
     background: none; }

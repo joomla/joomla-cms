@@ -8,9 +8,10 @@
   background-color: lightgreen;
 
   &.table {
-    display:table;
+    display: table;
+
     td {
-      display:table-cell;
+      display: table-cell;
     }
   }
 }

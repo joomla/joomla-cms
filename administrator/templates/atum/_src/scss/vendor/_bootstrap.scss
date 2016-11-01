@@ -9,7 +9,8 @@
     background: linear-gradient(to right, $atum-gradient-outer 0%, $atum-gradient-inner 50%, $atum-gradient-outer 100%);
 
     > *,
-    a {
+    a:not(.dropdown-item),
+	.module-dropdown > a {
       color: $white;
     }
 
