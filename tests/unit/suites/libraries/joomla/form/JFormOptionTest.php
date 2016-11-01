@@ -93,7 +93,8 @@ class JFormOptionTest extends TestCase
 			'Line:' . __LINE__ . ' The object should be an instance of SimpleXMLElement.'
 		);
 
-		$option = array_pop(JFormOption::getOptions($xmlopt, 'TestField'));
+		$options = JFormOption::getOptions($xmlopt, 'TestField');
+		$option = array_pop($options);
 
 		$this->assertThat(
 			$option->text,
