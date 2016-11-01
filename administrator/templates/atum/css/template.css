@@ -7771,10 +7771,7 @@ legend {
   .main-nav.second {
     margin-bottom: 0; }
   .main-nav > li > .no-dropdown {
-    color: #bbb; }
-    .main-nav > li > .no-dropdown:hover {
-      background: none;
-      color: #bbb; }
+    color: #fff; }
   .main-nav li {
     line-height: 40px; }
     .main-nav li a {
@@ -7823,6 +7820,11 @@ legend {
     border-right: .3em solid transparent;
     border-bottom: 0;
     border-left: .3em solid transparent; }
+
+.layout-edit .sidebar-wrapper .no-dropdown:hover {
+  color: #fff;
+  background: none;
+  cursor: not-allowed; }
 
 .status {
   padding: 2px 10px 4px;

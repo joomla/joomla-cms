@@ -187,6 +187,15 @@ if ($user->authorise('core.manage', 'com_menus'))
 }
 
 /**
+ * Media Submenu
+ */
+if ($user->authorise('core.manage', 'com_media'))
+{
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MEDIA_MANAGER'), 'index.php?option=com_media', 'class:file-picture-o fa-fw'), true);
+	$menu->getParent();
+}
+
+/**
  * Content Submenu
  */
 if ($user->authorise('core.manage', 'com_content'))
@@ -211,11 +220,6 @@ if ($user->authorise('core.manage', 'com_content'))
 	}
 
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured'));
-
-	if ($user->authorise('core.manage', 'com_media'))
-	{
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MEDIA_MANAGER'), 'index.php?option=com_media'));
-	}
 
 	$menu->getParent();
 }

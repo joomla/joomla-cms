@@ -207,14 +207,8 @@
     margin-bottom: 0;
   }
   
-  > li {
-    >.no-dropdown {
-      color: #bbb;
-      &:hover {
-        background: none;
-        color: #bbb;
-      }
-    }
+  > li >.no-dropdown {
+   color: $white;
   }
 
   li {
@@ -222,7 +216,7 @@
 
     a {
 	  display: block;
-      color: #fff;
+      color: $white;
       text-decoration: none;
       border-top: 1px solid rgba(0,0,0,.3);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
@@ -288,4 +282,11 @@
       border-left: .3em solid transparent;
     }
   }
+}
+
+// Edit view
+.layout-edit .sidebar-wrapper .no-dropdown:hover {
+  color: $white;
+  background: none;
+  cursor: not-allowed;
 }
