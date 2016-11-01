@@ -11,6 +11,7 @@
 	<description>MOD_MENU_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
+		<folder>preset</folder>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
 		<filename>menu.php</filename>
@@ -29,7 +30,9 @@
 					clientid="1"
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
 					description="MOD_MENU_FIELD_MENUTYPE_DESC"
-				/>
+				>
+					<option value="*">MOD_MENU_FIELD_MENUTYPE_OPTION_PREDEFINED</option>
+				</field>
 				<field
 					name="layout"
 					type="modulelayout"

@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Tree based class to render the admin menu
  *
  * @since  1.5
  */
-class JAdminCssMenu extends JObject
+class JAdminCssMenu
 {
 	/**
 	 * CSS string to add to document head
@@ -42,8 +44,8 @@ class JAdminCssMenu extends JObject
 	 */
 	public function __construct()
 	{
-		$this->_root = new JMenuNode('ROOT');
-		$this->_current = & $this->_root;
+		$this->_root    = new JMenuNode('ROOT');
+		$this->_current = &$this->_root;
 	}
 
 	/**
@@ -77,10 +79,17 @@ class JAdminCssMenu extends JObject
 	/**
 	 * Method to get the parent
 	 *
+	 * @param   bool  $clear  Whether to clear the existing menu items or just reset the pointer to root element
+	 *
 	 * @return  void
 	 */
-	public function reset()
+	public function reset($clear = false)
 	{
+		if ($clear)
+		{
+			$this->_root = new JMenuNode('ROOT');
+		}
+
 		$this->_current = &$this->_root;
 	}
 
@@ -305,7 +314,7 @@ class JAdminCssMenu extends JObject
 				$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
 
 				$this->_css  .= "\n.menu-$class {\n" .
-						"\tbackground: url($identifier) no-repeat;\n" .
+						"	background: url($identifier) no-repeat;\n" .
 						"}\n";
 
 				$classes[$identifier] = "menu-$class";
@@ -313,6 +322,31 @@ class JAdminCssMenu extends JObject
 		}
 
 		return $classes[$identifier];
+	}
+
+	/**
+	 * Populate the menu items in the menu object for disabled state
+	 *
+	 * @param   Registry  $params   Menu configuration parameters
+	 * @param   bool      $enabled  Whether the menu should be enabled or disabled
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function load($params, $enabled)
+	{
+		$menutype = $params->get('menutype', '*');
+		$user     = JFactory::getUser();
+
+		$this->reset(true);
+
+		if ($menutype == '*')
+		{
+			require_once __DIR__ . '/preset/' . ($enabled ? 'enabled' : 'disabled') . '.php';
+		}
+		else
+		{
+			// Menu items for dynamic db driven setup to load here
+		}
 	}
 }
 
@@ -322,7 +356,7 @@ class JAdminCssMenu extends JObject
  * @see    JAdminCssMenu
  * @since  1.5
  */
-class JMenuNode extends JObject
+class JMenuNode
 {
 	/**
 	 * Node Title
@@ -445,15 +479,15 @@ class JMenuNode extends JObject
 
 		if (!is_null($this->_parent))
 		{
-			unset($this->_parent->children[$hash]);
+			unset($this->_parent->_children[$hash]);
 		}
 
 		if (!is_null($parent))
 		{
-			$parent->_children[$hash] = & $this;
+			$parent->_children[$hash] = &$this;
 		}
 
-		$this->_parent = & $parent;
+		$this->_parent = &$parent;
 	}
 
 	/**
