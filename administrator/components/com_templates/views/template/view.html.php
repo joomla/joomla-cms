@@ -188,8 +188,13 @@ class TemplatesViewTemplate extends JViewLegacy
 			// Add an Apply and save button
 			if ($this->type == 'file')
 			{
-				JToolbarHelper::apply('template.apply');
-				JToolbarHelper::save('template.save');
+				JToolbarHelper::saveGroup(
+					[
+						['apply', 'template.apply'],
+						['save', 'template.save']
+					],
+					'btn-success'
+				);
 			}
 			// Add a Crop and Resize button
 			elseif ($this->type == 'image')
