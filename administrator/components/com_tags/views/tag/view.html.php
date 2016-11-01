@@ -87,9 +87,15 @@ class TagsViewTag extends JViewLegacy
 		// For new records, check the create permission.
 		if ($isNew)
 		{
-			JToolbarHelper::apply('tag.apply');
-			JToolbarHelper::save('tag.save');
-			JToolbarHelper::save2new('tag.save2new');
+			JToolbarHelper::saveGroup(
+				[
+					['apply', 'tag.apply'],
+					['save', 'tag.save'],
+					['save2new', 'tag.save2new']
+				],
+				'btn-success'
+			);
+
 			JToolbarHelper::cancel('tag.cancel');
 		}
 
@@ -99,23 +105,30 @@ class TagsViewTag extends JViewLegacy
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
 
+			$toolbarButtons = [];
+
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				JToolbarHelper::apply('tag.apply');
-				JToolbarHelper::save('tag.save');
+				$toolbarButtons[] = ['apply', 'tag.apply'];
+				$toolbarButtons[] = ['save', 'tag.save'];
 	
 				if ($canDo->get('core.create'))
 				{
-					JToolbarHelper::save2new('tag.save2new');
+					$toolbarButtons[] = ['save2new', 'tag.save2new'];
 				}
 			}
 
 			// If an existing item, can save to a copy.
 			if ($canDo->get('core.create'))
 			{
-				JToolbarHelper::save2copy('tag.save2copy');
+				$toolbarButtons[] = ['save2copy', 'tag.save2copy'];
 			}
+
+			JToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
 
 			if ($this->state->params->get('save_history', 0) && $itemEditable)
 			{
