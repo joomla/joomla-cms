@@ -47,6 +47,10 @@ function modChrome_well($module, &$params, &$attribs)
 {
 	if ($module->content)
 	{
+		// Permission checks
+		$user          = JFactory::getUser();
+		$canEdit	   = $user->authorise('core.edit', 'com_modules.module.' . $module->id);
+
 		$moduleTag     = $params->get('module_tag', 'div');
 		$bootstrapSize = (int) $params->get('bootstrap_size', 6);
 		$moduleClass   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
@@ -58,6 +62,16 @@ function modChrome_well($module, &$params, &$attribs)
 
 		echo '<div class="' . $moduleClass . '">';
 		echo '<' . $moduleTag . ' class="card card-block">';
+
+			if ($canEdit)
+			{
+				echo '<div class="btn-group module-dropdown">';
+				echo '<a href="#" data-toggle="dropdown"><i class="fa fa-cog"></i></a>';
+				echo '<div class="dropdown-menu dropdown-menu-right">';
+				echo '<a class="dropdown-item" href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) . '">' . JText::_('JACTION_EDIT') . '</a>';
+				echo '</div>';
+				echo '</div>';
+			}
 
 			if ($module->showtitle)
 			{
@@ -75,6 +89,10 @@ function modChrome_card($module, &$params, &$attribs)
 {
 	if ($module->content)
 	{
+		// Permission checks
+		$user          = JFactory::getUser();
+		$canEdit	   = $user->authorise('core.edit', 'com_modules.module.' . $module->id);
+
 		$moduleTag     = $params->get('module_tag', 'div');
 		$bootstrapSize = (int) $params->get('bootstrap_size', 6);
 		$moduleClass   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
@@ -86,6 +104,16 @@ function modChrome_card($module, &$params, &$attribs)
 
 		echo '<div class="' . $moduleClass . '">';
 		echo '<' . $moduleTag . ' class="card card-block">';
+
+			if ($canEdit)
+			{
+				echo '<div class="btn-group module-dropdown">';
+				echo '<a href="#" data-toggle="dropdown"><i class="fa fa-cog"></i></a>';
+				echo '<div class="dropdown-menu dropdown-menu-right">';
+				echo '<a class="dropdown-item" href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) . '">' . JText::_('JACTION_EDIT') . '</a>';
+				echo '</div>';
+				echo '</div>';
+			}
 
 			if ($module->showtitle)
 			{
@@ -103,6 +131,10 @@ function modChrome_cardDark($module, &$params, &$attribs)
 {
 	if ($module->content)
 	{
+		// Permission checks
+		$user          = JFactory::getUser();
+		$canEdit	   = $user->authorise('core.edit', 'com_modules.module.' . $module->id);
+
 		$moduleTag     = $params->get('module_tag', 'div');
 		$bootstrapSize = (int) $params->get('bootstrap_size', 6);
 		$moduleClass   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
@@ -114,6 +146,16 @@ function modChrome_cardDark($module, &$params, &$attribs)
 
 		echo '<div class="' . $moduleClass . '">';
 		echo '<' . $moduleTag . ' class="card card-block card-dark">';
+
+			if ($canEdit)
+			{
+				echo '<div class="btn-group module-dropdown">';
+				echo '<a href="#" data-toggle="dropdown"><i class="fa fa-cog"></i></a>';
+				echo '<div class="dropdown-menu dropdown-menu-right">';
+				echo '<a class="dropdown-item" href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) . '">' . JText::_('JACTION_EDIT') . '</a>';
+				echo '</div>';
+				echo '</div>';
+			}
 
 			if ($module->showtitle)
 			{

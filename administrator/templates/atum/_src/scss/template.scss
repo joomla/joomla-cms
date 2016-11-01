@@ -179,17 +179,23 @@ small, .small {
     background: none;
   }
   .card {
-    .list-group {
-      position: relative;
-      top: -1px;
-    }
 	.list-group-item:last-child {
       border-bottom: 0;
     }
   }
 
   .list-group-condensed > li {
-    padding: .45rem 1.25rem;
+    padding: .45rem 0;
+  }
+  
+  .module-dropdown {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+
+    > a {
+      color: $atum-template-color;
+    }
   }
 }
 

@@ -8063,15 +8063,18 @@ small, .small {
 .com_cpanel .content {
   background: none; }
 
-.com_cpanel .card .list-group {
-  position: relative;
-  top: -1px; }
-
 .com_cpanel .card .list-group-item:last-child {
   border-bottom: 0; }
 
 .com_cpanel .list-group-condensed > li {
-  padding: .45rem 1.25rem; }
+  padding: .45rem 0; }
+
+.com_cpanel .module-dropdown {
+  position: absolute;
+  top: 8px;
+  right: 10px; }
+  .com_cpanel .module-dropdown > a {
+    color: #27283a; }
 
 .js-pstats-data-details {
   margin-top: 10px; }
