@@ -90,16 +90,23 @@ class UsersViewUser extends JViewLegacy
 			'user ' . ($isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'))
 		);
 
+		$toolbarButtons = [];
+
 		if ($canDo->get('core.edit') || $canDo->get('core.create'))
 		{
-			JToolbarHelper::apply('user.apply');
-			JToolbarHelper::save('user.save');
+			$toolbarButtons[] = ['apply', 'user.apply'];
+			$toolbarButtons[] = ['save', 'user.save'];
 		}
 
 		if ($canDo->get('core.create') && $canDo->get('core.manage'))
 		{
-			JToolbarHelper::save2new('user.save2new');
+			$toolbarButtons[] = ['save2new', 'user.save2new'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if (empty($this->item->id))
 		{
