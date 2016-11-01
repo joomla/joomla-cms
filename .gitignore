@@ -16,9 +16,7 @@
 /.htaccess
 /web.config
 /.php_cs.cache
-/dev/node_modules/**
-/dev/assets/node_modules/**
-/dev/assets/tmp/**
+/build/assets
 
 # Test Related Files #
 /phpunit.xml

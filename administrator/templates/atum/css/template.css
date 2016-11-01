@@ -8128,6 +8128,48 @@ small, .small {
 .content {
   background: #fff; }
 
+<<<<<<< 83fccd22f5994f36dbb06a4392909a3fa73caebd
+=======
+.js-stools {
+  width: 100%; }
+  .js-stools .btn-wrapper {
+    display: inline-block;
+    margin-right: 5px; }
+  .js-stools .js-stools-container-filters {
+    display: none;
+    margin: 10px 0; }
+  .js-stools .js-stools-container-bar {
+    float: left; }
+    .js-stools .js-stools-container-bar .btn-toolbar {
+      float: left;
+      margin-bottom: 5px; }
+      .js-stools .js-stools-container-bar .btn-toolbar .btn-group {
+        display: inline-table; }
+      .js-stools .js-stools-container-bar .btn-toolbar .btn-group:first-child {
+        margin-left: 0; }
+    .js-stools .js-stools-container-bar .input-append {
+      margin-bottom: 0; }
+  .js-stools .js-stools-container-list {
+    float: right;
+    text-align: left; }
+    .js-stools .js-stools-container-list .js-stools-field-list:last-child {
+      margin-right: 0; }
+  .js-stools .js-stools-container-filters-visible {
+    display: inline-block; }
+  .js-stools .js-stools-field-list,
+  .js-stools .js-stools-field-filter {
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 5px; }
+    .js-stools .js-stools-field-list .form-control,
+    .js-stools .js-stools-field-filter .form-control {
+      display: inline-block; }
+
+.js-stools-column-order [class*=" icon-"],
+.js-stools-column-order [class^="icon-"] {
+  text-align: center; }
+
+>>>>>>> grunt
 .admin.com_modules .js-stools-container-bar .btn-toolbar {
   float: left; }
 
