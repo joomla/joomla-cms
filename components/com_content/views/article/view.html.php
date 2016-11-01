@@ -53,7 +53,9 @@ class ContentViewArticle extends JViewLegacy
 		}
 
 		// Create a shortcut for $item.
-		$item            = $this->item;
+		$item = $this->item;
+
+		// @deprecated 4.0
 		$item->tagLayout = new JLayoutFile('joomla.content.tags');
 
 		// Add router helpers.
@@ -152,8 +154,11 @@ class ContentViewArticle extends JViewLegacy
 			$item->text = $item->introtext;
 		}
 
-		$item->tags = new JHelperTags;
-		$item->tags->getItemTags('com_content.article', $this->item->id);
+		if ($item->params->get('show_tags', 1))
+		{
+			$item->tags = new JHelperTags;
+			$item->tags->getItemTags('com_content.article', $item->id);
+		}
 
 		if ($item->params->get('show_associations'))
 		{

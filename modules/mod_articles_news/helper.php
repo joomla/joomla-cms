@@ -70,6 +70,9 @@ abstract class ModArticlesNewsHelper
 			$model->setState('list.ordering', $ordering);
 		}
 
+		// Do not load tags
+		$model->setState('load_tags', false);
+
 		// Retrieve Content
 		$items = $model->getItems();
 
