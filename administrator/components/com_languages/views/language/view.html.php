@@ -67,17 +67,24 @@ class LanguagesViewLanguage extends JViewLegacy
 			JText::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager'
 		);
 
+		$toolbarButtons = [];
+
 		if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit')))
 		{
-			JToolbarHelper::apply('language.apply');
-			JToolbarHelper::save('language.save');
+			$toolbarButtons[] = ['apply', 'language.apply'];
+			$toolbarButtons[] = ['save', 'language.save'];
 		}
 
 		// If an existing item, can save to a copy only if we have create rights.
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::save2new('language.save2new');
+			$toolbarButtons[] = ['save2new', 'language.save2new'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if ($isNew)
 		{
