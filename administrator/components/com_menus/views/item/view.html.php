@@ -114,35 +114,42 @@ class MenusViewItem extends JViewLegacy
 
 		JToolbarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 
+		$toolbarButtons = [];
+
 		// If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
 		if ($isNew && $canDo->get('core.create'))
 		{
 			if ($canDo->get('core.edit'))
 			{
-				JToolbarHelper::apply('item.apply');
+				$toolbarButtons[] = ['apply', 'item.apply'];
 			}
 
-			JToolbarHelper::save('item.save');
+			$toolbarButtons[] = ['save', 'item.save'];
 		}
 
 		// If not checked out, can save the item.
 		if (!$isNew && !$checkedOut && $canDo->get('core.edit'))
 		{
-			JToolbarHelper::apply('item.apply');
-			JToolbarHelper::save('item.save');
+			$toolbarButtons[] = ['apply', 'item.apply'];
+			$toolbarButtons[] = ['save', 'item.save'];
 		}
 
 		// If the user can create new items, allow them to see Save & New
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::save2new('item.save2new');
+			$toolbarButtons[] = ['save2new', 'item.save2new'];
 		}
 
 		// If an existing item, can save to a copy only if we have create rights.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2copy('item.save2copy');
+			$toolbarButtons[] = ['save2copy', 'item.save2copy'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if ($isNew)
 		{
