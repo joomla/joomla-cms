@@ -83,7 +83,7 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getSitelangs()
 	{
-		JLog::add(__METHOD__ . ' is deprecated, use JLanguageMultilang::getSiteLangs() instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . ' is deprecated, use JLanguageHelper::getInstalledLanguages(0) instead.', JLog::WARNING, 'deprecated');
 
 		return JLanguageHelper::getInstalledLanguages(0);
 	}
