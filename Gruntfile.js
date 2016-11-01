@@ -270,16 +270,7 @@ module.exports = function(grunt) {
 		},
 
 		// Compile Sass source files to CSS
-		scss: {
-			dev: {
-				options: {
-					precision: '5',
-					sourceMap: true
-				},
-				files: {
-					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss'
-				}
-			},
+		sass: {
 			dist: {
 				options: {
 					precision: '5',
@@ -323,6 +314,18 @@ module.exports = function(grunt) {
 						ext: '.min.js'
 					}
 				]
+			},
+			templates: {
+				files: [
+					{
+						src: [
+							'<%= folder.adminTemplate %>/*.js',
+						],
+						dest: '',
+						expand: true,
+						ext: '.min.js'
+					}
+				]
 			}
 		},
 
@@ -336,6 +339,16 @@ module.exports = function(grunt) {
 					cwd: 'media/vendor/codemirror',
 					src: ['*.css', '!*.min.css', '!theme/*.css'],
 					dest: 'media/vendor/codemirror',
+				}]
+			},
+			templates: {
+				files: [{
+					expand: true,
+					matchBase: true,
+					ext: '.min.css',
+					cwd: 'administrator/templates/atum/css',
+					src: ['*.css', '!*.min.css', '!theme/*.css'],
+					dest: 'administrator/templates/atum/css',
 				}]
 			}
 		}
@@ -365,7 +378,7 @@ module.exports = function(grunt) {
 			'unzip:jcropUnzip',
 			'concat:someFiles',
 			'copy:fromSource',
-			'scss:dist',
+			'sass:dist',
 			'uglify:allJs',
 			'cssmin:allCss',
 			'clean:temp'
@@ -387,6 +400,14 @@ module.exports = function(grunt) {
 	grunt.registerTask('styles', 'Minifies the stylesheet files.', function() {
 		grunt.task.run([
 			'cssmin:allCss'
+		]);
+	});
+
+	grunt.registerTask('compile', 'Compiles the stylesheet files.', function() {
+		grunt.task.run([
+			'sass:dist',
+			'uglify:templates',
+			'cssmin:templates'
 		]);
 	});
 
