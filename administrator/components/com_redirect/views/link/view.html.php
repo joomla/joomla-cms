@@ -65,11 +65,13 @@ class RedirectViewLink extends JViewLegacy
 
 		JToolbarHelper::title($isNew ? JText::_('COM_REDIRECT_MANAGER_LINK_NEW') : JText::_('COM_REDIRECT_MANAGER_LINK_EDIT'), 'refresh redirect');
 
+		$toolbarButtons = [];
+
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::apply('link.apply');
-			JToolbarHelper::save('link.save');
+			$toolbarButtons[] = ['apply', 'link.apply'];
+			$toolbarButtons[] = ['save', 'link.save'];
 		}
 
 		/**
@@ -79,8 +81,13 @@ class RedirectViewLink extends JViewLegacy
 		 */
 		if ($canDo->get('core.edit') && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2new('link.save2new');
+			$toolbarButtons[] = ['save2new', 'link.save2new'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if (empty($this->item->id))
 		{
