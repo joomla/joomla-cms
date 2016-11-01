@@ -66,9 +66,7 @@ abstract class JHtmlFilter
 			// Initialize the filter parameters.
 			if ($filter)
 			{
-				$registry = new Registry;
-				$registry->loadString($filter->params);
-				$filter->params = $registry;
+				$filter->params = new Registry($filter->params);
 			}
 		}
 
@@ -255,9 +253,7 @@ abstract class JHtmlFilter
 				// Initialize the filter parameters.
 				if ($filter)
 				{
-					$registry = new Registry;
-					$registry->loadString($filter->params);
-					$filter->params = $registry;
+					$filter->params = new Registry($filter->params);
 				}
 			}
 
