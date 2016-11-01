@@ -7877,8 +7877,11 @@ legend {
     .subhead .btn-toolbar .btn-group-sm > .btn {
       padding: .25rem .75rem;
       line-height: 1.5; }
-    .subhead .btn-toolbar .btn-success {
+    .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) {
       width: 140px; }
+    .subhead .btn-toolbar .btn-success.dropdown-toggle {
+      background: #419641;
+      border-color: #419641; }
   .subhead.subhead-fixed {
     position: fixed;
     top: 50px;
@@ -7941,6 +7944,79 @@ div.awesomplete {
 
 .nav.nav-tabs {
   margin-bottom: 20px; }
+
+.jviewport-height10 {
+  height: 10vh; }
+
+.jviewport-height20 {
+  height: 20vh; }
+
+.jviewport-height30 {
+  height: 30vh; }
+
+.jviewport-height40 {
+  height: 40vh; }
+
+.jviewport-height50 {
+  height: 50vh; }
+
+.jviewport-height60 {
+  height: 60vh; }
+
+.jviewport-height70 {
+  height: 70vh; }
+
+.jviewport-height80 {
+  height: 80vh; }
+
+.jviewport-height90 {
+  height: 90vh; }
+
+.jviewport-height100 {
+  height: 100vh; }
+
+[class*=jviewport-height] iframe {
+  height: 100%; }
+
+.modal-dialog.jviewport-width10 {
+  width: 10vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width20 {
+  width: 20vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width30 {
+  width: 30vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width40 {
+  width: 40vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width50 {
+  width: 50vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width60 {
+  width: 60vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width70 {
+  width: 70vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width80 {
+  width: 80vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width90 {
+  width: 90vw;
+  max-width: none; }
+
+.modal-dialog.jviewport-width100 {
+  width: 100vw;
+  max-width: none; }
 
 .gu-mirror {
   position: fixed !important;
@@ -8098,3 +8174,5 @@ iframe {
 
 .name:hover {
   background-color: transparent; }
+
+/*# sourceMappingURL=template.css.map */
