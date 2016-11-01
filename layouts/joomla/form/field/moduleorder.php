@@ -55,10 +55,9 @@ $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
 
-// Including fallback code for HTML5 non supported browsers.
+// Include JavaScript files
 JHtml::_('script', 'system/core.js', false, true);
 JHtml::_('jquery.framework');
-JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0));
 JHtml::_('script', 'system/moduleorder.js', false, true);
 ?>
 <div id="parent_<?php echo $id; ?>" <?php echo $attr; ?> data-url="<?php echo 'index.php?option=com_modules&task=module.orderPosition&'
