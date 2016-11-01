@@ -43,7 +43,7 @@ class JLanguageHelper
 			$list[] = array(
 				'text'     => isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'],
 				'value'    => $languageCode,
-				'selected' => $languageCode == $actualLanguage ? 'selected="selected"' : null,
+				'selected' => $languageCode === $actualLanguage ? 'selected="selected"' : null,
 			);
 		}
 
