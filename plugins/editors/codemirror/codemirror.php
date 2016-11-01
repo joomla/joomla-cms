@@ -105,6 +105,7 @@ class PlgEditorCodemirror extends JPlugin
 	 */
 	public function onSave($id)
 	{
+		return sprintf('document.getElementById(%1$s).value = Joomla.editors.instances[%1$s].getValue();', json_encode((string) $id));
 	}
 
 	/**
@@ -145,6 +146,21 @@ class PlgEditorCodemirror extends JPlugin
 	 */
 	public function onGetInsertMethod()
 	{
+		static $done = false;
+
+		// Do this only once.
+		if ($done)
+		{
+			return true;
+		}
+
+		$done = true;
+
+		JFactory::getDocument()->addScriptDeclaration("
+		;function jInsertEditorText(text, editor) { Joomla.editors.instances[editor].replaceSelection(text); }
+		");
+
+		return true;
 	}
 
 	/**
@@ -290,6 +306,24 @@ class PlgEditorCodemirror extends JPlugin
 	protected function displayButtons($name, $buttons, $asset, $author)
 	{
 		$return = '';
+
+		$args = array(
+			'name'  => $name,
+			'event' => 'onGetInsertMethod'
+		);
+
+		$results = (array) $this->update($args);
+
+		if ($results)
+		{
+			foreach ($results as $result)
+			{
+				if (is_string($result) && trim($result))
+				{
+					$return .= $result;
+				}
+			}
+		}
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{

@@ -27,8 +27,6 @@ class PlgEditorNone extends JPlugin
 	public function onInit()
 	{
 		JHtml::_('script', 'media/editors/none/none.min.js', array('version' => 'auto'));
-
-		return null;
 	}
 
 	/**

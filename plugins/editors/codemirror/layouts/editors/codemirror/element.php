@@ -10,6 +10,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
+$options = $displayData->options;
 $params  = $displayData->params;
 $name    = $displayData->name;
 $id      = $displayData->id;
@@ -17,11 +18,17 @@ $cols    = $displayData->cols;
 $rows    = $displayData->rows;
 $content = $displayData->content;
 $buttons = $displayData->buttons;
+
+JFactory::getDocument()->addScriptDeclaration('
+	jQuery(function () {
+		var id = ' . json_encode($id) . ', options = ' . json_encode($options) . ';
+		/** Register Editor */
+		Joomla.editors.instances[id] = CodeMirror.fromTextArea(document.getElementById(id), options);
+	});
+');
 ?>
-<div class="js-editor-cm">
 <p class="label"><?php echo JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $params->get('fullScreen', 'F10')); ?></p>
 
 <?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
 
 <?php echo $displayData->buttons; ?>
-</div>
