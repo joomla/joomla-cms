@@ -43,12 +43,14 @@ vendors:
     'codemirror':
                   'version': '5.20.2'
                   'dependencies': ''
+    'cropperjs':
+                  'version': '0.8.1'
+                  'dependencies': ''
+
 
 ### These are always fetced with curl ###
 
-    'jcrop':
-                  'version': '2.0.4'
-                  'dependencies': ''
+
     'autocomplete':
                   'version': '1.2.26'
                   'dependencies': ''

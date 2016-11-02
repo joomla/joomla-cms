@@ -28,8 +28,8 @@ if (!JFactory::getUser()->authorise('core.admin'))
 
 if ($this->type == 'image')
 {
-	JHtml::_('script', 'vendor/jcrop/jcrop.min.js', false, true);
-	JHtml::_('stylesheet', 'vendor/jcrop/jcrop.min.css', array(), true);
+	JHtml::_('script', 'vendor/cropperjs/cropper.min.js', false, true);
+	JHtml::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array(), true);
 }
 
 JFactory::getDocument()->addScriptDeclaration("
@@ -80,33 +80,37 @@ jQuery(document).ready(function($){
 if ($this->type == 'image')
 {
 	JFactory::getDocument()->addScriptDeclaration("
-		jQuery(document).ready(function($) {
-			var jcrop_api;
-
+		document.addEventListener('DOMContentLoaded', function() {
 			// Configuration for image cropping
-			$('#image-crop').Jcrop({
-				onChange:   showCoords,
-				onSelect:   showCoords,
-				onRelease:  clearCoords,
-				trueSize:   [" . $this->image['width'] . "," . $this->image['height'] . "]
-			},function(){
-				jcrop_api = this;
+			var image = document.getElementById('image-crop');
+				var cropper = new Cropper(image, {
+				viewMode: 0,
+				scalable: true,
+				zoomable: true,
+				minCanvasWidth: " . $this->image['width'] . ",
+				minCanvasHeight: " . $this->image['height'] . ",
 			});
 
-			// Function for calculating the crop coordinates
-			function showCoords(c)
-			{
-				$('#x').val(c.x);
-				$('#y').val(c.y);
-				$('#w').val(c.w);
-				$('#h').val(c.h);
-			};
+			image.addEventListener('crop', function (e) {
+				document.getElementById('x').value = e.detail.x;
+				document.getElementById('y').value = e.detail.y;
+				document.getElementById('w').value = e.detail.width;
+				document.getElementById('h').value = e.detail.height;
+				console.log(e.detail.x);
+				console.log(e.detail.y);
+				console.log(e.detail.width);
+				console.log(e.detail.height);
+			});
 
 			// Function for clearing the coordinates
 			function clearCoords()
 			{
-				$('#adminForm input').val('');
-			};
+				var inputs = querySelectorAll('#adminForm input');
+				
+				for(i=0, l=inputs.length; l>i; i++) {
+					inputs[i].value = '';
+				};
+			}
 		});");
 }
 
