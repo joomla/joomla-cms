@@ -302,6 +302,8 @@ class PlgSystemFields extends JPlugin
 			// Tags are not working on custom field groups because there is no entry
 			// in the content_types table
 			$form->removeField('tags');
+			$form->removeField('rules');
+			$form->removeGroup('associations');
 			return true;
 		}
 
