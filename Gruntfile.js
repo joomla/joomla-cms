@@ -5,7 +5,6 @@ module.exports = function(grunt) {
 		preText     = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
 		postText    = '  },\n  "license": "GPL-2.0+"\n}',
 		name,
-		disabledNPM = ['autocomplete'],
 		vendorsTxt = '',
 		vendorsArr = '',
 		polyFillsUrls =[];
@@ -105,25 +104,6 @@ module.exports = function(grunt) {
 					'npm install'
 				].join('&&')
 			}
-		},
-
-		// Get the latest codemirror
-		curl: {
-			'autoComplete': {
-				src: 'https://github.com/devbridge/jQuery-Autocomplete/archive/v' + settings.vendors.autocomplete.version + '.zip',
-				dest: 'build/assets_tmp/tmp/autoc.zip'
-			},
-		},
-		unzip: {
-			'autoUnzip': {
-				router: function (filepath) {
-					var re = new RegExp('jQuery-Autocomplete-' + settings.vendors.autocomplete.version + '/', 'g');
-					var newFilename = filepath.replace(re, '');
-					return newFilename;
-				},
-				src: 'build/assets_tmp/tmp/autoc.zip',
-				dest: 'build/assets_tmp/tmp/autocomplete/'
-			},
 		},
 
 		// Fetch the polyfills
@@ -356,8 +336,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-scss-lint');
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-shell');
-	grunt.loadNpmTasks('grunt-zip');
-	grunt.loadNpmTasks('grunt-curl');
 	grunt.loadNpmTasks('grunt-fetch-pages');
 	grunt.loadNpmTasks('grunt-postcss');
 
@@ -369,6 +347,7 @@ module.exports = function(grunt) {
 			'unzip:autoUnzip',
 			'concat:someFiles',
 			'copy:fromSource',
+			'scsslint',
 			'sass:dist',
 			'uglify:allJs',
 			'cssmin:allCss',
