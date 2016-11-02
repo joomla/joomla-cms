@@ -40,11 +40,12 @@ vendors:
     'dragula':
                   'version': '3.7.2'
                   'dependencies': ''
+    'codemirror':
+                  'version': '5.20.2'
+                  'dependencies': ''
 
 ### These are always fetced with curl ###
-    'codemirror':
-                  'version': '5.19.0'
-                  'dependencies': ''
+
     'jcrop':
                   'version': '2.0.4'
                   'dependencies': ''
