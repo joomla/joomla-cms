@@ -7914,7 +7914,7 @@ legend {
 
 .subhead {
   min-height: 43px;
-  padding: 9px 0;
+  padding: 11px 0 10px;
   margin-bottom: 10px;
   color: #0c192e;
   background: #f5f5f5;
@@ -7924,13 +7924,56 @@ legend {
     .subhead .btn-toolbar .btn-group-sm > .btn,
     .subhead .btn-toolbar .btn-sm,
     .subhead .btn-toolbar .btn-group-sm > .btn {
-      padding: .25rem .75rem;
-      line-height: 1.5; }
+      padding: 0 .75rem;
+      line-height: 24px; }
+    .subhead .btn-toolbar .btn-sm, .subhead .btn-toolbar .btn-group-sm > .btn {
+      background-color: #fff;
+      border-color: #ccc;
+      line-height: 24px;
+      padding: 0 10px;
+      color: #373a3c; }
+      .subhead .btn-toolbar .btn-sm [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn [class^="icon-"], .subhead .btn-toolbar .btn-sm [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn [class*=" icon-"] {
+        display: inline-block;
+        color: inherit;
+        background-color: #eceeef;
+        border-radius: 3px 0 0 3px;
+        border-right: 1px solid #ccc;
+        height: auto;
+        line-height: 24px;
+        margin: 0 6px 0 -10px;
+        width: 28px;
+        z-index: -1; }
+      .subhead .btn-toolbar .btn-sm.btn-primary [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-primary.btn [class^="icon-"], .subhead .btn-toolbar .btn-sm.btn-primary [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-primary.btn [class*=" icon-"], .subhead .btn-toolbar .btn-sm.btn-outline-primary [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-outline-primary.btn [class^="icon-"], .subhead .btn-toolbar .btn-sm.btn-outline-primary [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-outline-primary.btn [class*=" icon-"] {
+        color: #0275d8; }
+      .subhead .btn-toolbar .btn-sm.btn-success [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-success.btn [class^="icon-"], .subhead .btn-toolbar .btn-sm.btn-success [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-success.btn [class*=" icon-"], .subhead .btn-toolbar .btn-sm.btn-outline-success [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-outline-success.btn [class^="icon-"], .subhead .btn-toolbar .btn-sm.btn-outline-success [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-outline-success.btn [class*=" icon-"] {
+        color: #5cb85c; }
+      .subhead .btn-toolbar .btn-sm.btn-info [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-info.btn [class^="icon-"], .subhead .btn-toolbar .btn-sm.btn-info [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-info.btn [class*=" icon-"], .subhead .btn-toolbar .btn-sm.btn-outline-info [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-outline-info.btn [class^="icon-"], .subhead .btn-toolbar .btn-sm.btn-outline-info [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-outline-info.btn [class*=" icon-"] {
+        color: #5bc0de; }
+      .subhead .btn-toolbar .btn-sm.btn-danger [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-danger.btn [class^="icon-"], .subhead .btn-toolbar .btn-sm.btn-danger [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-danger.btn [class*=" icon-"], .subhead .btn-toolbar .btn-sm.btn-outline-danger [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-outline-danger.btn [class^="icon-"], .subhead .btn-toolbar .btn-sm.btn-outline-danger [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-outline-danger.btn [class*=" icon-"] {
+        color: #d9534f; }
+      .subhead .btn-toolbar .btn-sm.btn-warning [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-warning.btn [class^="icon-"], .subhead .btn-toolbar .btn-sm.btn-warning [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-warning.btn [class*=" icon-"], .subhead .btn-toolbar .btn-sm.btn-outline-warning [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-outline-warning.btn [class^="icon-"], .subhead .btn-toolbar .btn-sm.btn-outline-warning [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn-outline-warning.btn [class*=" icon-"] {
+        color: #f0ad4e; }
+      .subhead .btn-toolbar .btn-sm:hover, .subhead .btn-toolbar .btn-group-sm > .btn:hover {
+        background-color: #eceeef;
+        border-color: #ccc; }
     .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) {
-      width: 140px; }
+      width: 140px;
+      background-color: #5cb85c;
+      color: #fff;
+      border-color: rgba(0, 0, 0, 0.2); }
+      .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class^="icon-"], .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class*=" icon-"] {
+        background-color: transparent;
+        border-left: 0 none;
+        border-right: 0 none;
+        margin-left: 0;
+        margin-right: 0;
+        width: 16px;
+        color: #fff; }
     .subhead .btn-toolbar .btn-success.dropdown-toggle {
       background: #419641;
       border-color: #419641; }
+      .subhead .btn-toolbar .btn-success.dropdown-toggle:after {
+        color: #fff; }
   .subhead.subhead-fixed {
     position: fixed;
     top: 50px;
@@ -8191,5 +8234,3 @@ iframe {
 
 .name:hover {
   background-color: transparent; }
-
-/*# sourceMappingURL=template.css.map */

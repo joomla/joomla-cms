@@ -2,30 +2,89 @@
 
 .subhead {
   min-height: 43px;
-  padding: 9px 0;
+  padding: 11px 0 10px;
   margin-bottom: 10px;
   color: #0c192e;
   background: #f5f5f5;
   border-bottom: 1px solid #e3e3e3;
-
   .btn-toolbar {
     margin-bottom: 0;
-
     .btn-group-sm > .btn,
-	.btn-sm {
-      padding: .25rem .75rem;
-      line-height: 1.5;
+    .btn-sm {
+      padding: 0 .75rem;
+      line-height: 24px;
     }
-
+    .btn-sm {
+        background-color: #fff;
+        border-color: $btn-secondary-border;
+        line-height: 24px;
+        padding: 0 10px;
+        color: $body-color;
+        [class^="icon-"], [class*=" icon-"] {
+          display: inline-block;
+          color: inherit;
+          background-color: $gray-lighter;
+          border-radius: 3px 0 0 3px;
+          border-right: 1px solid $btn-secondary-border;
+          height: auto;
+          line-height: 24px;
+          margin: 0 6px 0 -10px;
+          width: 28px;
+          z-index: -1;
+        }
+        &.btn-primary, &.btn-outline-primary {
+          [class^="icon-"], [class*=" icon-"] {
+            color: $brand-primary;
+          }
+        }
+        &.btn-success, &.btn-outline-success {
+          [class^="icon-"], [class*=" icon-"] {
+            color: $brand-success;
+          }
+        }
+        &.btn-info, &.btn-outline-info {
+          [class^="icon-"], [class*=" icon-"] {
+            color: $brand-info;
+          }
+        }
+        &.btn-danger, &.btn-outline-danger {
+          [class^="icon-"], [class*=" icon-"] {
+            color: $brand-danger;
+          }
+        }
+        &.btn-warning, &.btn-outline-warning {
+          [class^="icon-"], [class*=" icon-"] {
+            color: $brand-warning;
+          }
+        }
+        &:hover {
+          background-color: $gray-lighter;
+          border-color: $btn-secondary-border;
+        }
+    }
     .btn-success:not(.dropdown-toggle) {
       width: 140px;
+      background-color: $brand-success;
+      color: #fff;
+      border-color: rgba(0, 0, 0, 0.2);
+      [class^="icon-"], [class*=" icon-"] {
+        background-color: transparent;
+        border-left: 0 none;
+        border-right: 0 none;
+        margin-left: 0;
+        margin-right: 0;
+        width: 16px;
+        color: #fff;
+      }
     }
-	.btn-success.dropdown-toggle {
+    .btn-success.dropdown-toggle {
       background: #419641;
       border-color: #419641;
+      &:after {
+        color: #fff;
+      }
     }
   }
-
   &.subhead-fixed {
     position: fixed;
     top: 50px;
