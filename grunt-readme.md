@@ -18,7 +18,7 @@ possible commands:
 - `grunt copy:fromSource`..............copy everything to media/vendor/*
 - `grunt uglify:allJs`.................minifies various javascripts
 - `grunt cssmin:allCss`................minifies various stylesheets
-- `grunt text-scss`....................Validate/Lint the template SCSS
+- `grunt text-scss`....................validate/lint the template SCSS
 - `grunt compile`......................minifies all template JS, lints SCSS then compiles it
 
 Make sure that you have updated the settings.yaml file in order to update the libraries!!!
@@ -42,5 +42,5 @@ Will update the following external sourced static assets that Joomla is using.
 
 The following are always fetched with curl (no module available)
 
-- Jcrop............. version .... 2.0.4
-- Autocomplete...... version .... 1.2.26
+- Jcrop
+- Autocomplete

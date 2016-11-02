@@ -268,7 +268,7 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// CSS build configuration
+		// Validate the SCSS
 		scsslint: {
 			allFiles: [
 				'<%= folder.adminTemplate %>/scss',
@@ -326,6 +326,19 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Initiate task after CSS is generated
+		postcss: {
+			options: {
+				map: false,
+				processors: [
+					require('autoprefixer')({browsers: 'last 2 versions'})
+				],
+			},
+			dist: {
+				src: '<%= folder.adminTemplate %>/css/template.css'
+			}
+		},
+
 		// Let's minify some css files
 		cssmin: {
 			allCss: {
@@ -343,9 +356,9 @@ module.exports = function(grunt) {
 					expand: true,
 					matchBase: true,
 					ext: '.min.css',
-					cwd: 'administrator/templates/atum/css',
+					cwd: '<%= folder.adminTemplate %>/css',
 					src: ['*.css', '!*.min.css', '!theme/*.css'],
-					dest: 'administrator/templates/atum/css',
+					dest: '<%= folder.adminTemplate %>/css',
 				}]
 			}
 		}
@@ -363,6 +376,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-zip');
 	grunt.loadNpmTasks('grunt-curl');
 	grunt.loadNpmTasks('grunt-fetch-pages');
+	grunt.loadNpmTasks('grunt-postcss');
 
 	grunt.registerTask('default',
 		[
@@ -378,6 +392,7 @@ module.exports = function(grunt) {
 			'sass:dist',
 			'uglify:allJs',
 			'cssmin:allCss',
+			'postcss',
 			'cssmin:templates',
 			'clean:temp'
 		]
@@ -405,9 +420,10 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('compile', 'Compiles the stylesheet files.', function() {
 		grunt.task.run([
+			'uglify:templates',
 			'scsslint',
 			'sass:dist',
-			'uglify:templates',
+			'postcss',
 			'cssmin:templates'
 		]);
 	});
