@@ -260,7 +260,7 @@ module.exports = function(grunt) {
 			dist: {
 				options: {
 					precision: '5',
-					sourceMap: false
+					sourceMap: true // SHOULD BE FALSE FOR DIST
 				},
 				files: {
 					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss'
@@ -365,6 +365,7 @@ module.exports = function(grunt) {
 			'sass:dist',
 			'uglify:allJs',
 			'cssmin:allCss',
+			'cssmin:templates',
 			'clean:temp'
 		]
 	);
