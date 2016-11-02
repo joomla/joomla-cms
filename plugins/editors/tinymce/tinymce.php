@@ -742,7 +742,6 @@ class PlgEditorTinymce extends JPlugin
 
 		// Drag and drop Images
 		$allowImgPaste = false;
-		$dragDropPlg   = '';
 		$dragdrop      = $this->params->get('drag_drop', 1);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
@@ -774,8 +773,6 @@ class PlgEditorTinymce extends JPlugin
 				$tempPath = rtrim($tempPath, '/');
 				$tempPath = ltrim($tempPath, '/');
 			}
-
-			$dragDropPlg = 'jdragdrop';
 
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 			$doc->addScriptDeclaration(
@@ -830,6 +827,10 @@ class PlgEditorTinymce extends JPlugin
 			'document_base_url'  => JUri::root(true) . '/',
 			'paste_data_images'  => $allowImgPaste,
 
+			// Drag and drop specific
+			'dndEnabled' => $dragdrop,
+			'dndPath'    => JUri::root() . 'media/editors/tinymce/js/dragdrop/plugin.min.js',
+
 			// @TODO make it better, do not generate JavaScript in PHP !!!
 			'setupCallbacString' => $tinyBtns,
 		);
@@ -867,7 +868,7 @@ class PlgEditorTinymce extends JPlugin
 			case 0: /* Simple mode*/
 				$scriptOptions['menubar']  = false;
 				$scriptOptions['toolbar1'] = 'bold italics underline strikethrough | undo redo | bullist numlist | code | ' . $toolbar5;
-				$scriptOptions['plugins']  = $dragDropPlg . ' code';
+				$scriptOptions['plugins']  = ' paste';
 
 				break;
 
@@ -879,7 +880,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
-				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ' . $dragDropPlg;
+				$scriptOptions['plugins']  = 'paste table link code hr charmap autolink lists importcss jdragdrop';
 				$scriptOptions['toolbar1'] = $toolbar1 . ' | ' . $toolbar5;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['importcss_append']  = true;
@@ -893,7 +894,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
-				$scriptOptions['plugins']  = $plugins . ' ' . $dragDropPlg;
+				$scriptOptions['plugins']  = $plugins . ' jdragdrop';
 				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['rel_list'] = array(

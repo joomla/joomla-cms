@@ -7654,7 +7654,7 @@ legend {
       margin-bottom: 0; }
   .js-stools .js-stools-container-list {
     float: right;
-    text-align: teft; }
+    text-align: left; }
     .js-stools .js-stools-container-list .js-stools-field-list:last-child {
       margin-right: 0; }
   .js-stools .js-stools-container-filters-visible {
@@ -8191,3 +8191,5 @@ iframe {
 
 .name:hover {
   background-color: transparent; }
+
+/*# sourceMappingURL=template.css.map */
