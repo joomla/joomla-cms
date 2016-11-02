@@ -16,6 +16,9 @@ $color = $this->params->get('templatecolor');
 // Output as HTML5
 $this->setHtml5(true);
 
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
+
 $this->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
 $this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css', 'text/css', 'screen');
 $this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/position.css', 'text/css', 'screen');
@@ -54,7 +57,6 @@ if ($this->direction == 'rtl')
 <head>
 	<jdoc:include type="head" />
 	<!--[if lte IE 6]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ieonly.css" rel="stylesheet" /><![endif]-->
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="contentpane">
 	<div id="all">

@@ -26,7 +26,7 @@ extract($displayData);
 // Depends on jQuery UI
 JHtml::_('jquery.ui', array('core', 'sortable'));
 
-JHtml::_('script', 'jui/sortablelist.js', false, true);
+JHtml::_('script', 'jui/sortablelist.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', 'jui/sortablelist.css', false, true, false);
 
 // Attach sortable to document
