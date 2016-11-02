@@ -42,7 +42,7 @@
 	See the tutorial: https://docs.joomla.org/Installing_Joomla_locally
 
 9- Updates are free!
-	* Always use the latest version: https://www.joomla.org/download.html
+	* Always use the latest version: https://downloads.joomla.org
 
 10- Where can you get support and help?
 	* The Joomla! Documentation: https://docs.joomla.org/Main_Page
