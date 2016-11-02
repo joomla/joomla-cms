@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 		preText     = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
 		postText    = '  },\n  "license": "GPL-2.0+"\n}',
 		name,
-		disabledNPM = ['jcrop', 'autocomplete', 'codemirror'],
+		disabledNPM = ['jcrop', 'autocomplete'],
 		vendorsTxt = '',
 		vendorsArr = '',
 		polyFillsUrls =[];
@@ -109,10 +109,6 @@ module.exports = function(grunt) {
 
 		// Get the latest codemirror
 		curl: {
-			'cmGet': {
-				src: 'https://github.com/codemirror/CodeMirror/archive/' + settings.vendors.codemirror.version + '.zip',
-				dest: 'build/assets_tmp/tmp/cmzip.zip'
-			},
 			'jCrop': {
 				src: 'https://github.com/tapmodo/Jcrop/archive/v' + settings.vendors.jcrop.version + '.zip',
 				dest: 'build/assets_tmp/tmp/jcrop.zip'
@@ -123,15 +119,6 @@ module.exports = function(grunt) {
 			},
 		},
 		unzip: {
-			'cmUnzip': {
-				router: function (filepath) {
-					var re = new RegExp('CodeMirror-' + settings.vendors.codemirror.version + '/', 'g');
-					var newFilename = filepath.replace(re, '');
-					return newFilename;
-				},
-				src: 'build/assets_tmp/tmp/cmzip.zip',
-				dest: 'build/assets_tmp/tmp/codemirror/'
-			},
 			'autoUnzip': {
 				router: function (filepath) {
 					var re = new RegExp('jQuery-Autocomplete-' + settings.vendors.autocomplete.version + '/', 'g');
@@ -172,15 +159,15 @@ module.exports = function(grunt) {
 				files: [
 					{
 						src: settings.CmAddons.js.map(function (v) {
-							return 'build/assets_tmp/tmp/codemirror/' + v;
+							return 'build/assets_tmp/node_modules/codemirror/' + v;
 						}),
-						dest:'build/assets_tmp/tmp/codemirror/lib/addons.js'
+						dest:'build/assets_tmp/node_modules/codemirror/lib/addons.js'
 					},
 					{
 						src: settings.CmAddons.css.map(function (v) {
-							return 'build/assets_tmp/tmp/codemirror/' + v;
+							return 'build/assets_tmp/node_modules/codemirror/' + v;
 						}),
-						dest: 'build/assets_tmp/tmp/codemirror/lib/addons.css'
+						dest: 'build/assets_tmp/node_modules/codemirror/lib/addons.css'
 					}
 				]
 			}
@@ -229,15 +216,15 @@ module.exports = function(grunt) {
 					// tinyMCE js files
 					{ expand: true, cwd: 'build/assets_tmp/node_modules/tinymce/', src: ['tinymce.js','tinymce.min.js','license.txt','changelog.txt'], dest: 'media/vendor/tinymce/', filter: 'isFile'},
 					// Code mirror addon files
-					{ expand: true, cwd: 'build/assets_tmp/tmp/codemirror/addon/', src: ['**'], dest: 'media/vendor/codemirror/addon/', filter: 'isFile'},
+					{ expand: true, cwd: 'build/assets_tmp/node_modules/codemirror/addon/', src: ['**'], dest: 'media/vendor/codemirror/addon/', filter: 'isFile'},
 					// Code mirror keymap files
-					{ expand: true, cwd: 'build/assets_tmp/tmp/codemirror/keymap/', src: ['**'], dest: 'media/vendor/codemirror/keymap/', filter: 'isFile'},
+					{ expand: true, cwd: 'build/assets_tmp/node_modules/codemirror/keymap/', src: ['**'], dest: 'media/vendor/codemirror/keymap/', filter: 'isFile'},
 					// Code mirror lib files
-					{ expand: true, cwd: 'build/assets_tmp/tmp/codemirror/lib', src: ['**'], dest: 'media/vendor/codemirror/lib/', filter: 'isFile'},
+					{ expand: true, cwd: 'build/assets_tmp/node_modules/codemirror/lib', src: ['**'], dest: 'media/vendor/codemirror/lib/', filter: 'isFile'},
 					// Code mirror mode files
-					{ expand: true, cwd: 'build/assets_tmp/tmp/codemirror/mode', src: ['**'], dest: 'media/vendor/codemirror/mode/', filter: 'isFile'},
+					{ expand: true, cwd: 'build/assets_tmp/node_modules/codemirror/mode', src: ['**'], dest: 'media/vendor/codemirror/mode/', filter: 'isFile'},
 					// Code mirror theme files
-					{ expand: true, cwd: 'build/assets_tmp/tmp/codemirror/theme', src: ['**'], dest: 'media/vendor/codemirror/theme/', filter: 'isFile'},
+					{ expand: true, cwd: 'build/assets_tmp/node_modules/codemirror/theme', src: ['**'], dest: 'media/vendor/codemirror/theme/', filter: 'isFile'},
 					// Media Element js, swf, xap files
 					{ expand: true, cwd: 'build/assets_tmp/node_modules/mediaelement/build', src: ['*.js', '*.swf', '*.xap', '!jquery.js'], dest: 'media/vendor/mediaelement/js/', filter: 'isFile'},
 					// Media Element css, png, gif, svg files
@@ -369,10 +356,8 @@ module.exports = function(grunt) {
 		[
 			'clean:assets',
 			'shell:update',
-			'curl:cmGet',
 			'curl:jCrop',
 			'curl:autoComplete',
-			'unzip:cmUnzip',
 			'unzip:autoUnzip',
 			'unzip:jcropUnzip',
 			'concat:someFiles',
