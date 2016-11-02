@@ -96,10 +96,6 @@ if ($this->type == 'image')
 				document.getElementById('y').value = e.detail.y;
 				document.getElementById('w').value = e.detail.width;
 				document.getElementById('h').value = e.detail.height;
-				console.log(e.detail.x);
-				console.log(e.detail.y);
-				console.log(e.detail.width);
-				console.log(e.detail.height);
 			});
 
 			// Function for clearing the coordinates
