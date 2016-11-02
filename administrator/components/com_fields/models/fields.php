@@ -19,6 +19,17 @@ use Joomla\Utilities\ArrayHelper;
 class FieldsModelFields extends JModelList
 {
 	/**
+	 * Allowed batch commands
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected $batch_commands = array(
+			'assetgroup_id' => 'batchAccess',
+			'language_id' => 'batchLanguage',
+	);
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
