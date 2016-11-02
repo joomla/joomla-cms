@@ -1000,7 +1000,8 @@ abstract class JHtmlBehavior
 			}
 
 			// If include according to browser.
-			$scriptOptions = !is_null($conditionalBrowser) ? array('relative' => true, 'conditional' => $conditionalBrowser) : array('relative' => true);
+			$scriptOptions = array('version' => 'auto', 'relative' => true);
+			$scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
 
 			JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', $scriptOptions);
 
