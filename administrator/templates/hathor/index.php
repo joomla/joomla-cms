@@ -23,6 +23,9 @@ JHtml::_('jquery.framework');
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
+// Load the polyfills for IE
+JHtml::_('script', 'jui/html5.js', array('relative' => true, 'conditional' => 'lt IE 9'));
+
 // Load system style CSS
 $this->addStyleSheetVersion($this->baseurl . '/templates/system/css/system.css');
 
@@ -71,7 +74,7 @@ if (file_exists($customCss) && filesize($customCss) > 0)
 }
 
 // Load template javascript
-$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+JHtml::_('script', 'template.js', array('relative' => true, 'version' => 'auto'));
 
 // Logo file
 if ($this->params->get('logoFile'))
@@ -103,7 +106,6 @@ $this->addScriptDeclaration("
 	<jdoc:include type="head" />
 	<!--[if IE 8]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie8.css" rel="stylesheet" /><![endif]-->
 	<!--[if IE 7]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie7.css" rel="stylesheet" /><![endif]-->
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body id="minwidth-body">
 <div id="containerwrap" data-basepath="<?php echo JURI::root(true); ?>">
