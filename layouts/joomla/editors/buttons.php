@@ -10,12 +10,14 @@
 defined('JPATH_BASE') or die;
 
 $buttons = $displayData;
-
 ?>
 <div id="editor-xtd-buttons" class="btn-toolbar float-xs-left">
 	<?php if ($buttons) : ?>
 		<?php foreach ($buttons as $button) : ?>
 			<?php echo JLayoutHelper::render('joomla.editors.buttons.button', $button); ?>
+		<?php endforeach; ?>
+		<?php foreach ($buttons as $button) : ?>
+			<?php echo JLayoutHelper::render('joomla.editors.buttons.modal', $button); ?>
 		<?php endforeach; ?>
 	<?php endif; ?>
 </div>

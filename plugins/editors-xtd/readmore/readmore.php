@@ -27,44 +27,40 @@ class PlgButtonReadmore extends JPlugin
 	/**
 	 * Readmore button
 	 *
-	 * @param   string  $name  The name of the button to add
+	 * @param   string   $name    The name of the button to add
 	 *
-	 * @return array A two element array of (imageName, textToInsert)
+	 * @return  JObject  $button  A two element array of (imageName, textToInsert)
 	 */
 	public function onDisplay($name)
 	{
 		$doc = JFactory::getDocument();
 
 		// Button is not active in specific content components
-
 		$getContent = $this->_subject->getContent($name);
-		$present = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
-		$js = "
-			function insertReadmore(editor)
+		$present    = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
+
+		$doc->addScriptDeclaration(
+			"
+		function insertReadmore(editor)
+		{
+			var content = $getContent
+			if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i))
 			{
-				var content = $getContent
-				if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i))
-				{
-					alert('$present');
-					return false;
-				} else {
-					jInsertEditorText('<hr id=\"system-readmore\" />', editor);
-				}
+				alert('$present');
+				return false;
+			} else {
+				jInsertEditorText('<hr id=\"system-readmore\" />', editor);
 			}
-			";
+		}
+			"
+		);
 
-		$doc->addScriptDeclaration($js);
-
-		$button          = new JObject;
-		$button->modal   = false;
-		$button->class   = 'btn btn-secondary';
-		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
-		$button->text    = JText::_('PLG_READMORE_BUTTON_READMORE');
-		$button->name    = 'arrow-down';
-
-		// @TODO: The button writer needs to take into account the javascript directive
-		// $button->link', 'javascript:void(0)');
-		$button->link    = '#';
+		$button           = new JObject;
+		$button->modal    = false;
+		$button->text     = JText::_('PLG_READMORE_BUTTON_READMORE');
+		$button->name     = 'arrow-down';
+		$button->link     = '#';
+		$button->onclick  = 'insertReadmore(\'' . $name . '\');return false;';
 
 		return $button;
 	}
