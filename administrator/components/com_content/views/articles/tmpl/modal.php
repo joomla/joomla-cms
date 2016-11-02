@@ -43,7 +43,6 @@ if (!empty($editor))
 	JFactory::getDocument()->addScriptOptions('xtd-articles', array('editor' => $editor));
 	$onclick = "jSelectArticle";
 }
-
 ?>
 <div class="container-popup">
 
@@ -123,7 +122,14 @@ if (!empty($editor))
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
 						</td>
 						<td>
-							<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($onclick); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape(addslashes($item->title)); ?>" data-cat-id="<?php echo $this->escape($item->catid); ?>" data-uri="<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)); ?>" data-language="<?php echo $this->escape($lang); ?>">
+							<?php $attribs = 'data-function="' . $this->escape($onclick) . '"'
+								. ' data-id="' . $item->id . '"'
+								. ' data-title="' . $this->escape(addslashes($item->title)) . '"'
+								. ' data-cat-id="' . $this->escape($item->catid) . '"'
+								. ' data-uri="' . $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)) . '"'
+								. ' data-language="' . $this->escape($lang) . '"';
+							?>
+							<a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
 								<?php echo $this->escape($item->title); ?>
 							</a>
 							<div class="small">

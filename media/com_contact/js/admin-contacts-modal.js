@@ -23,8 +23,7 @@
 
 		editor = Joomla.getOptions('xtd-contacts').editor;
 
-		if (lang !== '')
-		{
+		if (lang !== '') {
 			hreflang = ' hreflang = "' + lang + '"';
 		}
 
