@@ -69,75 +69,7 @@ small, .small {
   background: $white;
 }
 .content {
-<<<<<<< 83fccd22f5994f36dbb06a4392909a3fa73caebd:administrator/templates/atum/_src/scss/template.scss
   background: $white;
-=======
-  background: #fff;
-}
-
-
-// search tools
-.js-stools {
-  width: 100%;
-
-  .btn-wrapper {
-    display: inline-block;
-    margin-right: 5px;
-  }
-  .js-stools-container-filters {
-    display: none;
-    margin: 10px 0;
-  }
-
-  .js-stools-container-bar {
-    float: left;
-
-    .btn-toolbar {
-      float: left;
-      margin-bottom: 5px;
-
-      .btn-group {
-        display: inline-table;
-      }
-
-      .btn-group:first-child {
-        margin-left: 0;
-      }
-	}
-
-    .input-append {
-      margin-bottom: 0;
-    }
-  }
-
-  .js-stools-container-list {
-    float: right;
-    text-align: left;
-
-    .js-stools-field-list:last-child {
-      margin-right: 0;
-    }
-  }
-
-  .js-stools-container-filters-visible {
-    display: inline-block;
-  }
-
-  .js-stools-field-list,
-  .js-stools-field-filter {
-    display: inline-block;
-    margin-right: 5px;
-    margin-bottom: 5px;
-
-    .form-control {
-      display: inline-block;
-	}
-  }
-}
-.js-stools-column-order [class*=" icon-"],
-.js-stools-column-order [class^="icon-"] {
-  text-align: center;
->>>>>>> grunt:administrator/templates/atum/scss/template.scss
 }
 
 
