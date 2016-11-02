@@ -18,18 +18,17 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app            = JFactory::getApplication();
-$user           = JFactory::getUser();
-$userId         = $user->get('id');
-$extension      = $this->escape($this->state->get('filter.extension'));
-$listOrder      = $this->escape($this->state->get('list.ordering'));
-$listDirn       = $this->escape($this->state->get('list.direction'));
-$saveOrder      = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$parts          = explode('.', $extension, 2);
-$component      = $parts[0];
-$section        = null;
-$columns        = 7;
-$isCustomFields = false;
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$extension = $this->escape($this->state->get('filter.extension'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$parts     = explode('.', $extension, 2);
+$component = $parts[0];
+$section   = null;
+$columns   = 7;
 
 if (count($parts) > 1)
 {
@@ -45,9 +44,12 @@ if (count($parts) > 1)
 	// If the section ends with .fields, then the category belongs to com_fields
 	if (substr($section, -strlen('.fields')) === '.fields')
 	{
-		$component = 'com_fields';
-		$section = 'fields&context=' . str_replace('.fields', '', implode('.', $parts));
-		$isCustomFields = true;
+		$component   = 'com_fields';
+		$section     = 'fields&context=' . str_replace('.fields', '', implode('.', $parts));
+
+		// Custom fields have no associations
+		$this->assoc = false;
+		$columns     = 6;
 	}
 }
 
@@ -113,7 +115,7 @@ if ($saveOrder)
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<?php if ($this->assoc && ! $isCustomFields) :
+						<?php if ($this->assoc) :
 							$columns++; ?>
 							<th width="5%" class="nowrap hidden-phone hidden-tablet">
 								<?php echo JHtml::_('searchtools.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
@@ -255,7 +257,7 @@ if ($saveOrder)
 							<td class="small hidden-phone">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
-							<?php if ($this->assoc && ! $isCustomFields) : ?>
+							<?php if ($this->assoc) : ?>
 								<td class="hidden-phone hidden-tablet">
 									<?php if ($item->association): ?>
 										<?php echo JHtml::_('CategoriesAdministrator.association', $item->id, $extension); ?>
