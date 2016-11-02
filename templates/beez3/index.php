@@ -85,17 +85,20 @@ $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js');
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js');
 
+// Load the polyfills for IE
+JHtml::_('script', 'jui/html5.js', array('relative' => true, 'conditional' => 'lt IE 9'));
+
+$this->setMetaData('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes')
+	->setMetaData('HandheldFriendly', 'true')
+	->setMetaData('apple-mobile-web-app-capable', 'YES');
+
 require __DIR__ . '/jsstrings.php';
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes"/>
-		<meta name="HandheldFriendly" content="true" />
-		<meta name="apple-mobile-web-app-capable" content="YES" />
 		<jdoc:include type="head" />
 		<!--[if IE 7]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" /><![endif]-->
-		<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 	</head>
 	<body id="shadow">
 		<div id="all">

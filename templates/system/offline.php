@@ -29,14 +29,17 @@ $this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/ge
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
+// Load the polyfills for IE
+JHtml::_('script', 'jui/html5.js', array('relative' => true, 'conditional' => 'lt IE 9'));
+
+$this->setMetaData('viewport', 'width=device-width, initial-scale=1.0');
+
 $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body>
 	<jdoc:include type="message" />

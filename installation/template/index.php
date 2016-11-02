@@ -22,6 +22,9 @@ JHtml::_('behavior.core');
 JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 JHtml::_('script', 'installation/template/js/installation.js');
 
+// Load the polyfills for IE
+JHtml::_('script', 'jui/html5.js', array('relative' => true, 'conditional' => 'lt IE 9'));
+
 // Add Stylesheets
 JHtml::_('bootstrap.loadCss', true, $this->direction);
 JHtml::_('stylesheet', 'installation/template/css/template.css');
@@ -50,7 +53,6 @@ $this->addScriptOptions('system.installation', array('url' => JRoute::_('index.p
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
 		<jdoc:include type="head" />
-		<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 	</head>
 	<body data-basepath="<?php echo JUri::root(true); ?>">
 		<!-- Header -->

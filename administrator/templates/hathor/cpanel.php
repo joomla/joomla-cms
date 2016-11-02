@@ -17,6 +17,9 @@ $lang  = JFactory::getLanguage();
 // Output as HTML5
 $this->setHtml5(true);
 
+// Load the polyfills for IE
+JHtml::_('script', 'jui/html5.js', array('relative' => true, 'conditional' => 'lt IE 9'));
+
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
@@ -68,7 +71,7 @@ if ($this->params->get('boldText'))
 }
 
 // Load template javascript
-$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+JHtml::_('script', 'template.js', array('relative' => true, 'version' => 'auto'));
 
 // Logo file
 if ($this->params->get('logoFile'))
@@ -87,7 +90,6 @@ else
 	<jdoc:include type="head" />
 	<!--[if IE 8]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie8.css" rel="stylesheet" /><![endif]-->
 	<!--[if IE 7]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7.css" rel="stylesheet" /><![endif]-->
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body id="minwidth" class="cpanel-page">
 <div id="containerwrap">

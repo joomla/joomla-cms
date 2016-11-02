@@ -22,7 +22,10 @@ $fullWidth = 1;
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+JHtml::_('script', 'template.js', array('relative' => true, 'version' => 'auto'));
+
+// Load the polyfills for IE
+JHtml::_('script', 'jui/html5.js', array('relative' => true, 'conditional' => 'lt IE 9'));
 
 // Add Stylesheets
 $this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
@@ -87,13 +90,13 @@ else
 {
 	$logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
 }
+
+$this->setMetaData('viewport', 'width=device-width, initial-scale=1.0');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="site">
 	<div class="outer">
