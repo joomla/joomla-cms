@@ -20,7 +20,11 @@ $this->setHtml5(true);
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+// Add template js
+JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
+
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 // Add Stylesheets
 $this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
@@ -54,7 +58,6 @@ if ($this->params->get('linkColor'))
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="head" />
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="contentpane component">
 	<jdoc:include type="message" />
