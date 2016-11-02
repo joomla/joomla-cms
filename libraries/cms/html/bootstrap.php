@@ -225,7 +225,7 @@ abstract class JHtmlBootstrap
 			$debug = JDEBUG;
 		}
 
-		JHtml::_('script', 'jui/bootstrap.min.js', false, true, false, false, $debug);
+		JHtml::_('script', 'jui/bootstrap.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		static::$loaded[__METHOD__] = true;
 
 		return;
@@ -505,7 +505,7 @@ abstract class JHtmlBootstrap
 	{
 		if ($extended)
 		{
-			JHtml::_('script', 'jui/bootstrap-tooltip-extended.min.js', false, true);
+			JHtml::_('script', 'jui/bootstrap-tooltip-extended.min.js', array('version' => 'auto', 'relative' => true));
 			JHtml::_('stylesheet', 'jui/bootstrap-tooltip-extended.css', false, true);
 		}
 	}

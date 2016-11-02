@@ -22,7 +22,8 @@ if (!$value)
 }
 
 $value   = (array) $value;
-$texts   = array();$options = JFormFieldList::getOptionsFromField($field);
+$texts   = array();
+$options = JFormFieldList::getOptionsFromField($field);
 
 foreach ($options as $index => $optionsValue)
 {
