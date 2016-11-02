@@ -167,6 +167,7 @@ class FieldsModelFields extends JModelList
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user  = JFactory::getUser();
+		$app   = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
@@ -255,11 +256,14 @@ class FieldsModelFields extends JModelList
 		// Filter by published state
 		$published = $this->getState('filter.published');
 
+		$includeGroupState = !$app->isClient('administrator') ||
+			$app->input->get('option') != 'com_fields' ||
+			$app->input->get('view') != 'fields';
 		if (is_numeric($published))
 		{
 			$query->where('a.state = ' . (int) $published);
 
-			if (JFactory::getApplication()->isSite())
+			if ($includeGroupState)
 			{
 				$query->where('(c.id IS NULL OR c.published = ' . (int) $published . ')', 'AND');
 			}
@@ -268,9 +272,9 @@ class FieldsModelFields extends JModelList
 		{
 			$query->where('a.state IN (0, 1)');
 
-			if (JFactory::getApplication()->isSite())
+			if ($includeGroupState)
 			{
-				$query->where('(c.id IS NULL OR c.published IN (0, 1)', 'AND');
+				$query->where('(c.id IS NULL OR c.published IN (0, 1))', 'AND');
 			}
 		}
 
