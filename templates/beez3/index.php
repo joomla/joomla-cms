@@ -82,10 +82,10 @@ if (file_exists($userCss) && filesize($userCss) > 0)
 JHtml::_('bootstrap.framework');
 
 // Add template scripts
-JHtml::_('script', 'javascript/md_stylechanger.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'javascript/hide.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'javascript/respond.src.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'javascript/template.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'templates/' . $this->template . '/javascript/md_stylechanger.js', array('version' => 'auto'));
+JHtml::_('script', 'templates/' . $this->template . '/javascript/hide.js', array('version' => 'auto'));
+JHtml::_('script', 'templates/' . $this->template . '/javascript/respond.src.js', array('version' => 'auto'));
+JHtml::_('script', 'templates/' . $this->template . '/javascript/template.js', array('version' => 'auto'));
 
 require __DIR__ . '/jsstrings.php';
 
