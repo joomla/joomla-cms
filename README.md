@@ -57,7 +57,7 @@ When ready, it can be moved to an online hosting account of your choice.
 
 Updates are free!
 ---------------------
-* Always use the [latest version](https://www.joomla.org/download.html).
+* Always use the [latest version](https://downloads.joomla.org).
 
 Where can you get support and help?
 ---------------------
