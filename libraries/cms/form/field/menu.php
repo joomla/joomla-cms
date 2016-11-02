@@ -40,6 +40,7 @@ class JFormFieldMenu extends JFormFieldList
 	{
 		$clientId   = (string) $this->element['clientid'];
 		$accessType = (string) $this->element['accesstype'];
+		$showAll    = (string) $this->element['showAll'] == 'true';
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -84,7 +85,23 @@ class JFormFieldMenu extends JFormFieldList
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $menus);
+		$opts = parent::getOptions();
+
+		// Protected menutypes can be shown if requested
+		if ($clientId == 1 && $showAll)
+		{
+			$opts[] = (object) array(
+				'value' => 'main',
+				'text'  => JText::_('COM_MENUS_MENU_TYPE_PROTECTED_MAIN_LABEL'),
+			);
+
+			$opts[] = (object) array(
+				'value' => 'menu',
+				'text'  => JText::_('COM_MENUS_MENU_TYPE_PROTECTED_MENU_LABEL'),
+			);
+		}
+
+		$options = array_merge($opts, $menus);
 
 		return $options;
 	}

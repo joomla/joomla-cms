@@ -16,6 +16,8 @@
 		description="JOPTION_FILTER_CATEGORY_DESC"
 		onchange="this.form.submit();"
 		accesstype="manage"
+		clientid=""
+		showAll="true"
 		>
 		<option value="">COM_MENUS_SELECT_MENU</option>
 	</field>

@@ -136,6 +136,16 @@ class MenusModelItems extends JModelList
 			$this->setState('menutypetitle', '');
 			$this->setState('menutypeid', '');
 		}
+		// Special menu types, if selected explicitly, will be allowed as a filter
+		elseif ($menuType == 'main' || $menuType == 'menu')
+		{
+			// Adjust client_id to match the menutype. This is safe as client_id was not changed in this request.
+			$app->input->set('client_id', 1);
+
+			$app->setUserState($this->context . '.menutype', $menuType);
+			$this->setState('menutypetitle', ucfirst($menuType));
+			$this->setState('menutypeid', -1);
+		}
 		// Get the menutype object with appropriate checks.
 		elseif ($cMenu = $this->getMenu($menuType, true))
 		{

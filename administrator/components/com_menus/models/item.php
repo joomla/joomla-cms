@@ -1620,6 +1620,12 @@ class MenusModelItem extends JModelAdmin
 						unset($pks[$i]);
 						JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
 					}
+					elseif ($table->menutype == 'main' || $table->menutype == 'menu')
+					{
+						// Prune items that you can't change.
+						unset($pks[$i]);
+						JError::raiseWarning(403, JText::_('COM_MENUS_ERROR_MENUTYPE_HOME'));
+					}
 					else
 					{
 						$table->home = $value;

@@ -144,43 +144,43 @@ if ($user->authorise('core.manage', 'com_menus'))
 	$this->addSeparator();
 
 	// Menu Types
-	$thisTypes = ModMenuHelper::getMenus();
-	$thisTypes = ArrayHelper::sortObjects($thisTypes, 'title', 1, false);
+	$menuTypes = ModMenuHelper::getMenus();
+	$menuTypes = ArrayHelper::sortObjects($menuTypes, 'title', 1, false);
 
-	foreach ($thisTypes as $thisType)
+	foreach ($menuTypes as $menuType)
 	{
-		if (!$user->authorise('core.manage', 'com_menus.menu.' . (int) $thisType->id))
+		if (!$user->authorise('core.manage', 'com_menus.menu.' . (int) $menuType->id))
 		{
 			continue;
 		}
 
-		$alt = '*' . $thisType->sef . '*';
+		$alt = '*' . $menuType->sef . '*';
 
-		if ($thisType->home == 0)
+		if ($menuType->home == 0)
 		{
 			$titleicon = '';
 		}
-		elseif ($thisType->home == 1 && $thisType->language == '*')
+		elseif ($menuType->home == 1 && $menuType->language == '*')
 		{
 			$titleicon = ' <span class="icon-home"></span>';
 		}
-		elseif ($thisType->home > 1)
+		elseif ($menuType->home > 1)
 		{
 			$titleicon = ' <span>'
-				. JHtml::_('image', 'mod_languages/icon-16-language.png', $thisType->home, array('title' => JText::_('MOD_MENU_HOME_MULTIPLE')), true)
+				. JHtml::_('image', 'mod_languages/icon-16-language.png', $menuType->home, array('title' => JText::_('MOD_MENU_HOME_MULTIPLE')), true)
 				. '</span>';
 		}
 		else
 		{
-			$image = JHtml::_('image', 'mod_languages/' . $thisType->image . '.gif', null, null, true, true);
+			$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', null, null, true, true);
 
 			if (!$image)
 			{
-				$image = JHtml::_('image', 'mod_languages/icon-16-language.png', $alt, array('title' => $thisType->title_native), true);
+				$image = JHtml::_('image', 'mod_languages/icon-16-language.png', $alt, array('title' => $menuType->title_native), true);
 			}
 			else
 			{
-				$image = JHtml::_('image', 'mod_languages/' . $thisType->image . '.gif', $alt, array('title' => $thisType->title_native), true);
+				$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true);
 			}
 
 			$titleicon = ' <span>' . $image . '</span>';
@@ -188,16 +188,16 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 		$this->addChild(
 			new JMenuNode(
-				$thisType->title, 'index.php?option=com_menus&view=items&menutype=' . $thisType->menutype, 'class:menu', null, null, $titleicon
+				$menuType->title, 'index.php?option=com_menus&view=items&menutype=' . $menuType->menutype, 'class:menu', null, null, $titleicon
 			),
-			$user->authorise('core.create', 'com_menus.menu.' . (int) $thisType->id)
+			$user->authorise('core.create', 'com_menus.menu.' . (int) $menuType->id)
 		);
 
-		if ($user->authorise('core.create', 'com_menus.menu.' . (int) $thisType->id))
+		if ($user->authorise('core.create', 'com_menus.menu.' . (int) $menuType->id))
 		{
 			$this->addChild(
 				new JMenuNode(
-					JText::_('MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM'), 'index.php?option=com_menus&view=item&layout=edit&menutype=' . $thisType->menutype,
+					JText::_('MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM'), 'index.php?option=com_menus&view=item&layout=edit&menutype=' . $menuType->menutype,
 					'class:newarticle')
 			);
 

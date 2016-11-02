@@ -47,7 +47,6 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$user = JFactory::getUser();
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
@@ -202,6 +201,7 @@ class MenusViewItems extends JViewLegacy
 			}
 
 			$item->item_type = $value;
+			$item->protected = $item->menutype == 'main' || $item->menutype == 'menu';
 		}
 
 		// Levels filter.
@@ -279,7 +279,9 @@ class MenusViewItems extends JViewLegacy
 			JToolbarHelper::addNew('item.add');
 		}
 
-		if ($canDo->get('core.edit'))
+		$m = $this->state->get('filter.menutype');
+
+		if ($canDo->get('core.edit') && ($m != 'main' && $m != 'menu'))
 		{
 			JToolbarHelper::editList('item.edit');
 		}

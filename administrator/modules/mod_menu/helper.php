@@ -60,13 +60,14 @@ abstract class ModMenuHelper
 	/**
 	 * Get a list of the authorised, non-special components to display in the components menu.
 	 *
-	 * @param   boolean  $authCheck	  An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
+	 * @param   boolean  $authCheck    An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
+	 * @param   boolean  $enabledOnly  Whether to load only enabled/published menu items.
 	 *
 	 * @return  array  A nest array of component objects and submenus
 	 *
 	 * @since   1.6
 	 */
-	public static function getComponents($authCheck = true)
+	public static function getComponents($authCheck = true, $enabledOnly = false)
 	{
 		$lang   = JFactory::getLanguage();
 		$user   = JFactory::getUser();
@@ -74,15 +75,22 @@ abstract class ModMenuHelper
 		$query  = $db->getQuery(true);
 		$result = array();
 
+
 		// Prepare the query.
-		$query->select('m.id, m.title, m.alias, m.link, m.parent_id, m.img, e.element')
-			->from('#__menu AS m');
+		$query->select('m.id, m.title, m.alias, m.link, m.parent_id, m.img, e.element, m.menutype')
+			->from('#__menu AS m')
+			->where('(m.menutype = \'menu\' OR m.menutype = \'main\')')
+			->where('m.client_id = 1')
+			->where('m.id > 1');
+
+		if ($enabledOnly)
+		{
+			$query->where('m.published = 1');
+		}
 
 		// Filter on the enabled states.
-		$query->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
-			->where('m.client_id = 1')
-			->where('e.enabled = 1')
-			->where('m.id > 1');
+		$query->join('INNER', '#__extensions AS e ON m.component_id = e.extension_id')
+			->where('e.enabled = 1');
 
 		// Order by lft.
 		$query->order('m.lft');
@@ -130,24 +138,19 @@ abstract class ModMenuHelper
 						// Load the core file then
 						// Load extension-local file.
 						$lang->load($component->element . '.sys', JPATH_BASE, null, false, true)
-					||	$lang->load($component->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->element, null, false, true);
+						|| $lang->load($component->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->element, null, false, true);
 					}
 
 					$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
 				}
 			}
-			else
+			// Sub-menu level.
+			// Add the submenu link if it is defined.
+			elseif (isset($result[$component->parent_id]) && isset($result[$component->parent_id]->submenu) && !empty($component->link))
 			{
-				// Sub-menu level.
-				if (isset($result[$component->parent_id]))
-				{
-					// Add the submenu link if it is defined.
-					if (isset($result[$component->parent_id]->submenu) && !empty($component->link))
-					{
-						$component->text                          = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
-						$result[$component->parent_id]->submenu[] = &$component;
-					}
-				}
+				$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
+
+				$result[$component->parent_id]->submenu[] = &$component;
 			}
 		}
 

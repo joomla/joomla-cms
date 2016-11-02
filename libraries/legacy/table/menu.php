@@ -232,8 +232,8 @@ class JTableMenu extends JTableNested
 				return false;
 			}
 
-			// Verify that the home page for this language is unique
-			if ($table->load(array('home' => '1', 'language' => $this->language)))
+			// Verify that the home page for this language is unique per client id
+			if ($table->load(array('home' => '1', 'language' => $this->language, 'client_id' => (int) $this->client_id)))
 			{
 				if ($table->checked_out && $table->checked_out != $this->checked_out)
 				{

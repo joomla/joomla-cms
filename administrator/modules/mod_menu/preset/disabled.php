@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+/* @var  $this    JAdminCSSMenu */
+/* @var  $params  Joomla\Registry\Registry */
+
 /**
  * Site SubMenu
  */
@@ -41,17 +44,15 @@ if ($user->authorise('core.manage', 'com_content'))
 /**
  * Components Submenu
  */
-
 // Get the authorised components and sub-menus.
 $components = ModMenuHelper::getComponents(true);
 $ju = false;
 $pi = false;
+$cm = false;
 
 // Check if there are any components, otherwise, don't display the components menu item
 if ($components)
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), null, 'disabled'));
-
 	foreach ($components as &$component)
 	{
 		if ($component->title == 'com_postinstall')
@@ -62,6 +63,15 @@ if ($components)
 		{
 			$ju = true;
 		}
+		else
+		{
+			$cm = true;
+		}
+	}
+
+	if ($cm)
+	{
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), null, 'disabled'));
 	}
 }
 
