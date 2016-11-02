@@ -106,28 +106,35 @@ class FinderViewFilter extends JViewLegacy
 			// For new records, check the create permission.
 			if ($canDo->get('core.create'))
 			{
-				JToolbarHelper::apply('filter.apply');
-				JToolbarHelper::save('filter.save');
-				JToolbarHelper::save2new('filter.save2new');
+				JToolbarHelper::saveGroup(
+					[
+						['apply', 'filter.apply'],
+						['save', 'filter.save'],
+						['save2new', 'filter.save2new']
+					],
+					'btn-success'
+				);
 			}
 
 			JToolbarHelper::cancel('filter.cancel');
 		}
 		else
 		{
+			$toolbarButtons = [];
+
 			// Can't save the record if it's checked out.
 			if (!$checkedOut)
 			{
 				// Since it's an existing record, check the edit permission.
 				if ($canDo->get('core.edit'))
 				{
-					JToolbarHelper::apply('filter.apply');
-					JToolbarHelper::save('filter.save');
+					$toolbarButtons[] = ['apply', 'filter.apply'];
+					$toolbarButtons[] = ['save', 'filter.save'];
 
 					// We can save this record, but check the create permission to see if we can return to make a new one.
 					if ($canDo->get('core.create'))
 					{
-						JToolbarHelper::save2new('filter.save2new');
+						$toolbarButtons[] = ['save2new', 'filter.save2new'];
 					}
 				}
 			}
@@ -135,8 +142,13 @@ class FinderViewFilter extends JViewLegacy
 			// If an existing item, can save as a copy
 			if ($canDo->get('core.create'))
 			{
-				JToolbarHelper::save2copy('filter.save2copy');
+				$toolbarButtons[] = ['save2copy', 'filter.save2copy'];
 			}
+
+			JToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
 
 			JToolbarHelper::cancel('filter.cancel', 'JTOOLBAR_CLOSE');
 		}

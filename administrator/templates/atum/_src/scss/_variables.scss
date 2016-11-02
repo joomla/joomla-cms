@@ -1,8 +1,10 @@
 // Global
-$atum-login-bg-color:         #433849;
-$atum-template-color:         #433849;
-$atum-template-color-lighter: lighten($atum-template-color, 5%);
-$atum-template-color-darker:  darken($atum-template-color, 5%);
+$enable-flex:                      true;
+$atum-template-color:              #27283a;
+$atum-gradient-inner:              #163f46;
+$atum-gradient-outer:              $atum-template-color;
+$white:                            #fff;
+$grey:                             #aaa;
 
 // Menu Toggle
 $atum-button-width:                40px;
@@ -13,16 +15,17 @@ $atum-button-bar-space:            6px;
 $atum-button-transistion-duration: .3s;
 
 // Fonts
-$font-family-base: "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-size-root:   14px;
-$font-size-h1:     1.857rem;
-$font-size-h2:     1.571rem;
-$font-size-h3:     1.286rem;
-$font-size-h4:     1rem;
-$font-size-h5:     .9286rem;
-$font-size-h6:     .8571rem;
-$fa-font-path:     "../../../../media/vendor/font-awesome/fonts";
+$atum-inverted-text-color:         $atum-template-color;
+$font-family-base:                 "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-size-root:                   14px;
+$font-size-h1:                     1.857rem;
+$font-size-h2:                     1.571rem;
+$font-size-h3:                     1.286rem;
+$font-size-h4:                     1rem;
+$font-size-h5:                     .9286rem;
+$font-size-h6:                     .8571rem;
+$fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
 
 // BS4-alpha.5 | custom-select SVG override
 // This was broken in alpha.5 so be sure to remove this when it's fixed again
-$custom-select-indicator: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+$custom-select-indicator:         url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");

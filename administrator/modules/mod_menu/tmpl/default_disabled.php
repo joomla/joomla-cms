@@ -33,6 +33,14 @@ if ($user->authorise('core.manage', 'com_menus'))
 }
 
 /**
+ * Media Submenu
+ */
+if ($user->authorise('core.manage', 'com_media'))
+{
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MEDIA_MANAGER'), null, 'class:file-picture-o fa-fw'));
+}
+
+/**
  * Content Submenu
  */
 if ($user->authorise('core.manage', 'com_content'))

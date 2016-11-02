@@ -13,10 +13,35 @@ use Joomla\Registry\Registry;
 
 $user = JFactory::getUser();
 ?>
+
+<?php if ($user->authorise('core.manage', 'com_postinstall') && $this->postinstall_message_count) : ?>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-info">
+				<h4>
+					<?php echo JText::_('COM_CPANEL_MESSAGES_TITLE'); ?>
+				</h4>
+				<p>
+					<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
+				</p>
+				<p>
+					<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
+				</p>
+				<p>
+					<a href="index.php?option=com_postinstall&amp;eid=700" class="btn btn-primary">
+						<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
+					</a>
+				</p>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
+
 <div class="row">
+
 	<?php $iconmodules = JModuleHelper::getModules('icon');
 	if ($iconmodules) : ?>
-		<div class="col-md-3">
+		<div class="col-md-12">
 			<div class="cpanel-links">
 				<?php
 				// Display the submenu position modules
@@ -28,50 +53,24 @@ $user = JFactory::getUser();
 			</div>
 		</div>
 	<?php endif; ?>
-	<div class="col-md-<?php echo ($iconmodules) ? 9 : 12; ?>">
-		<?php if ($user->authorise('core.manage', 'com_postinstall') && $this->postinstall_message_count) : ?>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="alert alert-info">
-						<h4>
-							<?php echo JText::_('COM_CPANEL_MESSAGES_TITLE'); ?>
-						</h4>
-						<p>
-							<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
-						</p>
-						<p>
-							<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
-						</p>
-						<p>
-							<a href="index.php?option=com_postinstall&amp;eid=700" class="btn btn-primary">
-								<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
-							</a>
-						</p>
-					</div>
-				</div>
-			</div>
-		<?php endif; ?>
-		<div class="row">
-			<?php
-			$cols = 0;
 
-			foreach ($this->modules as $module)
-			{
-				// Get module parameters
-				$params = new Registry;
-				$params->loadString($module->params);
-				$bootstrapSize = $params->get('bootstrap_size', 6);
+	<?php
+	$cols = 0;
+	foreach ($this->modules as $module)
+	{
+		// Get module parameters
+		$params = new Registry;
+		$params->loadString($module->params);
+		$bootstrapSize = $params->get('bootstrap_size', 6);
 
-				$cols += $bootstrapSize;
-				if ($cols > 12)
-				{
-					echo '</div><div class="row">';
-					$cols = $bootstrapSize;
-				}
+		$cols += $bootstrapSize;
+		if ($cols > 12)
+		{
+			echo '</div><div class="row">';
+			$cols = $bootstrapSize;
+		}
 
-				echo JModuleHelper::renderModule($module, array('style' => 'well'));
-			}
-			?>
-		</div>
-	</div>
+		echo JModuleHelper::renderModule($module, array('style' => 'well'));
+	}
+	?>
 </div>

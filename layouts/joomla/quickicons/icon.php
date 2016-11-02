@@ -13,13 +13,11 @@ $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"')
 $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['target'] . '"');
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
 $title   = empty($displayData['title']) ? '' : (' title="' . $this->escape($displayData['title']) . '"');
-$text    = empty($displayData['text']) ? '' : ('<span>' . $displayData['text'] . '</span>')
+$text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>')
 
 ?>
-<div class="row-fluid"<?php echo $id; ?>>
-	<div class="span12">
-		<a href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-			<span class="icon-<?php echo $displayData['image']; ?>"></span> <?php echo $text; ?>
-		</a>
-	</div>
+<div class="col-md-3"<?php echo $id; ?>>
+	<a href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
+		<span class="icon-<?php echo $displayData['image']; ?>"></span> <?php echo $text; ?>
+	</a>
 </div>

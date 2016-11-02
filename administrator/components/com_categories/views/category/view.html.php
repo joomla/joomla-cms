@@ -182,9 +182,15 @@ class CategoriesViewCategory extends JViewLegacy
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0))
 		{
-			JToolbarHelper::apply('category.apply');
-			JToolbarHelper::save('category.save');
-			JToolbarHelper::save2new('category.save2new');
+			JToolbarHelper::saveGroup(
+				[
+					['apply', 'category.apply'],
+					['save', 'category.save'],
+					['save2new', 'category.save2new']
+				],
+				'btn-success'
+			);
+
 			JToolbarHelper::cancel('category.cancel');
 		}
 
@@ -194,23 +200,30 @@ class CategoriesViewCategory extends JViewLegacy
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
 
+			$toolbarButtons = [];
+
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				JToolbarHelper::apply('category.apply');
-				JToolbarHelper::save('category.save');
+				$toolbarButtons[] = ['apply', 'category.apply'];
+				$toolbarButtons[] = ['save', 'category.save'];
 
 				if ($canDo->get('core.create'))
 				{
-					JToolbarHelper::save2new('category.save2new');
+					$toolbarButtons[] = ['save2new', 'category.save2new'];
 				}
 			}
 
 			// If an existing item, can save to a copy.
 			if ($canDo->get('core.create'))
 			{
-				JToolbarHelper::save2copy('category.save2copy');
+				$toolbarButtons[] = ['save2copy', 'category.save2copy'];
 			}
+
+			JToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
 
 			if ($componentParams->get('save_history', 0) && $itemEditable)
 			{

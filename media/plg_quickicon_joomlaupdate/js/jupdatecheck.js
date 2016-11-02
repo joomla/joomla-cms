@@ -20,14 +20,16 @@
 					perform: true,
 					onSuccess: function(response, xhr)
 					{
-						var link = document.getElementById('plg_quickicon_joomlaupdate').querySelector('span.j-links-link');
+						var link     = document.getElementById('plg_quickicon_joomlaupdate'),
+							linkSpan = link.querySelector('span.j-links-link');
 
 						var updateInfoList = JSON.parse(response);
 
 						if (updateInfoList instanceof Array) {
 							if (updateInfoList.length === 0) {
 								/** No updates **/
-								link.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
+								link.classList.add('success');
+								linkSpan.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
 							} else {
 								var updateInfo = updateInfoList.shift();
 
@@ -46,21 +48,26 @@
 									/** Scroll to page top **/
 									window.scrollTo(0, 0);
 
-									link.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace("%s", updateInfoList.length);
+									link.classList.add('danger');
+									linkSpan.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace("%s", updateInfoList.length);
 								} else {
-									link.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
+									linkSpan.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
 								}
 							}
 						} else {
 							/** An error occurred **/
-							link.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_ERROR');
+							link.classList.add('danger');
+							linkSpan.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_ERROR');
 						}
 
 					},
 					onError: function(xhr)
 					{
 						/** An error occurred **/
-						document.getElementById('plg_quickicon_joomlaupdate').querySelector('span.j-links-link').innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_ERROR');
+						var link = document.getElementById('plg_quickicon_joomlaupdate');
+
+						link.classList.add('danger');
+						link.querySelector('span.j-links-link').innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_ERROR');
 					}
 				}
 			);

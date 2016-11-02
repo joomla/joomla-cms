@@ -63,13 +63,12 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		// Load settings for the FTP layer.
 		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
 
-		$this->form = &$form;
-		$this->data = &$data;
-		$this->ftp = &$ftp;
+		$this->form        = &$form;
+		$this->data        = &$data;
+		$this->ftp         = &$ftp;
 		$this->usersParams = &$usersParams;
 		$this->mediaParams = &$mediaParams;
-
-		$this->components = ConfigHelperConfig::getComponentsWithConfig();
+		$this->components  = ConfigHelperConfig::getComponentsWithConfig();
 		ConfigHelperConfig::loadLanguageForComponents($this->components);
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
@@ -89,8 +88,13 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
-		JToolbarHelper::apply('config.save.application.apply');
-		JToolbarHelper::save('config.save.application.save');
+		JToolbarHelper::saveGroup(
+			[
+				['apply', 'config.save.application.apply'],
+				['save', 'config.save.application.save']
+			],
+			'btn-success'
+		);
 		JToolbarHelper::divider();
 		JToolbarHelper::cancel('config.cancel.application');
 		JToolbarHelper::divider();

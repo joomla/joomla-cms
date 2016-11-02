@@ -65,7 +65,8 @@ foreach ($this->submenumodules as $submenumodule)
 	}
 }
 
-$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
+$logoLg = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
+$logoSm = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon-only.png';
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -77,43 +78,44 @@ $logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
 
-
-	<?php // Header ?>
-	<header id="header" class="header">
-
-		<div class="menu-collapse float-xs-left">
-			<span class="menu-text"><?php echo JText::_('TPL_ATUM_MENU'); ?></span>
-			<a id="menu-collapse" class="menu-toggle" href="#">
-				<span></span>
-			</a>
-		</div>
-
-		<div class="container-title">
-
-			<div class="page-title hidden-xs-down float-xs-left">
-				<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
-					<span class="icon-out-2 small"></span>
-				</a>
-			</div>
-
-			<jdoc:include type="modules" name="title" />
-		</div>
-	</header>
-
-
 	<?php // Wrapper ?>
 	<div id="wrapper" class="wrapper">
 
 		<?php // Sidebar ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper">
-
-			<jdoc:include type="modules" name="menu" style="none" />
-
-			<div id="main-brand" class="main-brand">
-				<img src="<?php echo $logo; ?>" class="logo" alt="<?php echo $sitename;?>" />
+			<div id="main-brand-sm" class="main-brand hidden-xs-up">
+				<img src="<?php echo $logoSm; ?>" class="logo" alt="<?php echo $sitename;?>" />
 			</div>
-
+			<div id="main-brand" class="main-brand">
+				<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename;?>" />
+			</div>
+			<jdoc:include type="modules" name="menu" style="none" />
 		</div>
+
+		<?php // Header ?>
+		<header id="header" class="header">
+			<div class="container-fluid">
+				<div class="row flex-items-xs-middle">
+					<div class="col-xs">
+						<div class="menu-collapse">
+							<a id="menu-collapse" class="menu-toggle" href="#">
+								<span></span>
+							</a>
+						</div>
+					</div>
+
+					<div class="col-xs text-xs-center">
+						<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
+							<span class="icon-out-2 small"></span>
+						</a>
+					</div>
+
+					<div class="col-xs text-xs-right">
+						<jdoc:include type="modules" name="title" />
+					</div>
+				</div>
+			</div>
+		</header>
 
 		<?php // container-fluid ?>
 		<div class="container-fluid container-main">
@@ -158,7 +160,8 @@ $logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
 					<?php if ($this->countModules('bottom')) : ?>
 						<jdoc:include type="modules" name="bottom" style="xhtml" />
 					<?php endif; ?>
-					<?php // End Content ?>
+				</div>
+				<?php // End Content ?>
 			</section>
 
 			<?php if (!$this->countModules('status')) : ?>

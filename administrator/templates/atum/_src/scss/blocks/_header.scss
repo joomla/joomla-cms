@@ -3,21 +3,20 @@
 .header {
   position: fixed;
   z-index: 999;
-  width: 100%;
+  width: calc(100% - 250px);
   height: 50px;
-  padding-right: 25px;
-  background: $atum-template-color;
+  background: $white;
+  box-shadow: 0 4px 2px -2px $grey;
 
   .page-title {
-    float: right;
     margin: 0;
     font-size: 1.25rem;
     font-weight: normal;
     line-height: 2.4rem;
-    color: #fff;
+    color: $atum-inverted-text-color;
 
     .icon-list {
-      color: #fff;
+      color: $atum-inverted-text-color;
     }
 
     [class^="icon-"] {
@@ -30,11 +29,11 @@
     float: none;
     padding: 0;
     line-height: 1;
-    color: #fff;
+    color: $atum-inverted-text-color;
 
     &:hover,
     &:focus {
-      color: #fff;
+      color: $atum-inverted-text-color;
     }
 
     @include media-breakpoint-only(sm) {
@@ -42,16 +41,8 @@
       margin-left: 10px;
     }
   }
+}
 
-  .container-title {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 55px;
-
-    @include media-breakpoint-up(md) {
-      padding-top: 5px;
-      padding-bottom: 5px;
-      padding-left: 265px;
-    }
-  }
+.wrapper.closed header {
+  width: calc(100% - 55px);
 }

@@ -47,21 +47,36 @@ function modChrome_well($module, &$params, &$attribs)
 {
 	if ($module->content)
 	{
-		$moduleTag     = $params->get('module_tag', 'div');
-		$bootstrapSize = (int) $params->get('bootstrap_size', 6);
-		$moduleClass   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
-		$headerTag     = htmlspecialchars($params->get('header_tag', 'h2'));
+		// Permission checks
+		$user           = JFactory::getUser();
+		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $module->id);
+
+		$moduleTag      = $params->get('module_tag', 'div');
+		$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
+		$moduleClass    = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
+		$headerTag      = htmlspecialchars($params->get('header_tag', 'h2'));
+		$moduleClassSfx = $params->get('moduleclass_sfx', '');
 
 		// Temporarily store header class in variable
-		$headerClass   = $params->get('header_class');
-		$headerClass   = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
+		$headerClass    = $params->get('header_class');
+		$headerClass    = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
 
 		echo '<div class="' . $moduleClass . '">';
-		echo '<' . $moduleTag . ' class="card">';
+		echo '<' . $moduleTag . ' class="card card-block' . $moduleClassSfx . '">';
+
+			if ($canEdit)
+			{
+				echo '<div class="btn-group module-dropdown">';
+				echo '<a href="#" data-toggle="dropdown"><i class="fa fa-cog"></i></a>';
+				echo '<div class="dropdown-menu dropdown-menu-right">';
+				echo '<a class="dropdown-item" href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) . '">' . JText::_('JACTION_EDIT') . '</a>';
+				echo '</div>';
+				echo '</div>';
+			}
 
 			if ($module->showtitle)
 			{
-				echo '<h5 class="card-header nav-header' . $headerClass . '">' . $module->title . '</h5>';
+				echo '<h5 class="card-title nav-header' . $headerClass . '">' . $module->title . '</h5>';
 			}
 
 			echo $module->content;

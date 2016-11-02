@@ -152,15 +152,15 @@ class ContactViewContact extends JViewLegacy
 				$toolbarButtons[] = ['save2copy', 'contact.save2copy'];
 			}
 
-			if ($this->state->params->get('save_history', 0) && $itemEditable)
-			{
-				JToolbarHelper::versions('com_contact.contact', $this->item->id);
-			}
-
 			JToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
+
+			if ($this->state->params->get('save_history', 0) && $itemEditable)
+			{
+				JToolbarHelper::versions('com_contact.contact', $this->item->id);
+			}
 
 			JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
