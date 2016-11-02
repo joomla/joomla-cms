@@ -19,15 +19,15 @@
   }
 
   .btn-group::after {
-    content: '';
-    border-left: 1px solid #999;
     margin: 0 10px;
+    content: "";
+    border-left: 1px solid #999;
   }
   .btn-group.logout::after,
   .btn-group.details::after {
-    content: '';
-    border-left: 0;
     margin: 0;
+    content: "";
+    border-left: 0;
   }
 
   p {
