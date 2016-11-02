@@ -1,1 +1,0 @@
-UPDATE "#__extensions" SET "params" = '{"template_positions_display":"0","upload_limit":"10","image_formats":"gif,bmp,jpg,jpeg,png","source_formats":"txt,less,ini,xml,js,php,css,scss,sass","font_formats":"woff,ttf,otf","compressed_formats":"zip"}' WHERE "extension_id" = 20;
