@@ -256,7 +256,6 @@
 				if (document.body.clientWidth > 480)
 				{
 					$('.subhead-collapse').height($('.subhead').outerHeight());
-					subhead.css('width', 'auto');
 					
 					subhead.scrollspy({
 						offset: subhead.height() + $('.navbar').height()
@@ -277,7 +276,6 @@
 				{
 					isFixed = true;
 					subhead.addClass('subhead-fixed')
-					subhead.css('width', $('.container-main').width());
 				}
 				else if (scrollTop <= navTop && isFixed)
 				{
