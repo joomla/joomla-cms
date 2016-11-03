@@ -8,31 +8,31 @@
 // FontAwesome
 @import "../../../../media/vendor/font-awesome/scss/font-awesome";
 
-/* B/C for icomoon */
+// B/C for icomoon
 @import "../../../../media/system/scss/icomoon";
 
 // Alert
 @import "../../../../media/system/scss/jalert";
 
 // Blocks
-@import "blocks/_form";
-@import "blocks/_header";
-@import "blocks/_icons";
-@import "blocks/_login";
-@import "blocks/_quickicons";
-@import "blocks/_searchtools";
-@import "blocks/_sidebar";
-@import "blocks/_status";
-@import "blocks/_table";
-@import "blocks/_toolbar";
-@import "blocks/_utilities";
+@import "blocks/form";
+@import "blocks/header";
+@import "blocks/icons";
+@import "blocks/login";
+@import "blocks/quickicons";
+@import "blocks/searchtools";
+@import "blocks/sidebar";
+@import "blocks/status";
+@import "blocks/table";
+@import "blocks/toolbar";
+@import "blocks/utilities";
 
 // Vendor overrides
-@import "vendor/_awesomplete";
-@import "vendor/_bootstrap";
-@import "vendor/_dragula";
-@import "vendor/_minicolors";
-@import "vendor/_tinymce";
+@import "vendor/awesomplete";
+@import "vendor/bootstrap";
+@import "vendor/dragula";
+@import "vendor/minicolors";
+@import "vendor/tinymce";
 
 
 html, body {
@@ -120,7 +120,7 @@ small, .small {
     background: none;
   }
   .card {
-	.list-group-item:last-child {
+    .list-group-item:last-child {
       border-bottom: 0;
     }
   }
@@ -128,7 +128,7 @@ small, .small {
   .list-group-condensed > li {
     padding: .45rem 0;
   }
-  
+
   .module-dropdown {
     position: absolute;
     top: 8px;

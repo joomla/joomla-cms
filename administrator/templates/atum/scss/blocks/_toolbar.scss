@@ -1,6 +1,7 @@
 // Toolbar
 
 .subhead {
+  $line-height: 2em;
   min-height: 43px;
   padding: 11px 0 10px;
   margin-bottom: 10px;
@@ -15,72 +16,75 @@
       line-height: 24px;
     }
     .btn-sm {
-        background-color: #fff;
+      padding: 0 10px;
+      line-height: $line-height;
+      color: $body-color;
+      background-color: #fff;
+      border-color: $btn-secondary-border;
+      [class^="icon-"], [class*=" icon-"] {
+        z-index: -1;
+        display: inline-block;
+        width: 28px;
+        height: auto;
+        margin: 0 6px 0 -10px;
+        line-height: $line-height;
+        color: inherit;
+        background-color: $gray-lighter;
+        border-right: 1px solid $btn-secondary-border;
+        border-radius: 3px 0 0 3px;
+      }
+      &:hover {
+        background-color: $gray-lighter;
         border-color: $btn-secondary-border;
-        line-height: 24px;
-        padding: 0 10px;
-        color: $body-color;
-        [class^="icon-"], [class*=" icon-"] {
-          display: inline-block;
-          color: inherit;
-          background-color: $gray-lighter;
-          border-radius: 3px 0 0 3px;
-          border-right: 1px solid $btn-secondary-border;
-          height: auto;
-          line-height: 24px;
-          margin: 0 6px 0 -10px;
-          width: 28px;
-          z-index: -1;
-        }
-        &.btn-primary, &.btn-outline-primary {
-          [class^="icon-"], [class*=" icon-"] {
-            color: $brand-primary;
-          }
-        }
-        &.btn-success, &.btn-outline-success {
-          [class^="icon-"], [class*=" icon-"] {
-            color: $brand-success;
-          }
-        }
-        &.btn-info, &.btn-outline-info {
-          [class^="icon-"], [class*=" icon-"] {
-            color: $brand-info;
-          }
-        }
-        &.btn-danger, &.btn-outline-danger {
-          [class^="icon-"], [class*=" icon-"] {
-            color: $brand-danger;
-          }
-        }
-        &.btn-warning, &.btn-outline-warning {
-          [class^="icon-"], [class*=" icon-"] {
-            color: $brand-warning;
-          }
-        }
-        &:hover {
-          background-color: $gray-lighter;
-          border-color: $btn-secondary-border;
-        }
+      }
+    }
+    .btn-primary, .btn-outline-primary {
+      [class^="icon-"], [class*=" icon-"] {
+        color: $brand-primary;
+      }
+    }
+    .btn-success, .btn-outline-success {
+      [class^="icon-"], [class*=" icon-"] {
+        color: $brand-success;
+      }
+    }
+    .btn-info, .btn-outline-info {
+      [class^="icon-"], [class*=" icon-"] {
+        color: $brand-info;
+      }
+    }
+    .btn-danger, .btn-outline-danger {
+      [class^="icon-"], [class*=" icon-"] {
+        color: $brand-danger;
+      }
+    }
+    .btn-warning, .btn-outline-warning {
+      [class^="icon-"], [class*=" icon-"] {
+        color: $brand-warning;
+      }
     }
     .btn-success:not(.dropdown-toggle) {
       width: 140px;
-      background-color: $brand-success;
       color: #fff;
-      border-color: rgba(0, 0, 0, 0.2);
+      background-color: $brand-success;
+      border-color: rgba(0, 0, 0, .2);
       [class^="icon-"], [class*=" icon-"] {
-        background-color: transparent;
-        border-left: 0 none;
-        border-right: 0 none;
-        margin-left: 0;
-        margin-right: 0;
         width: 16px;
+        margin-right: 0;
+        margin-left: 0;
         color: #fff;
+        background-color: transparent;
+        border-right: 0 none;
+        border-left: 0 none;
+      }
+      &:hover {
+        background-color: darken($brand-success, 10%);
       }
     }
     .btn-success.dropdown-toggle {
       background: #419641;
       border-color: #419641;
-      &:after {
+      &::after {
         color: #fff;
       }
     }

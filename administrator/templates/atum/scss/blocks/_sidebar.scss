@@ -27,10 +27,9 @@
   width: 250px;
   height: 100%;
   margin-left: 0;
-  background: $atum-gradient-outer;
   background: linear-gradient(to bottom, $atum-gradient-outer 0%, $atum-gradient-inner 50%, $atum-gradient-outer 100%);
-  transform: translateX(-250px);
   transition: all .5s ease;
+  transform: translateX(-250px);
 
   @include media-breakpoint-up(md) {
     left: 250px;
@@ -50,7 +49,7 @@
     text-indent: 0;
     border: 0;
     box-shadow: none;
-	  
+
     a {
       padding: 0 20px;
       border: 0;
@@ -61,8 +60,8 @@
       }
     }
 
-	img {
-       max-width: 190px;
+    img {
+      max-width: 190px;
 	}
   }
 }
@@ -129,7 +128,7 @@
         display: block;
         width: 100%;
         height: $atum-bar-thickness;
-        content: '';
+        content: "";
         background-color: $atum-template-color;
       }
 
@@ -206,16 +205,16 @@
   &.second {
     margin-bottom: 0;
   }
-  
+
   > li >.no-dropdown {
-   color: $white;
+    color: $white;
   }
 
   li {
     line-height: 40px;
 
     a {
-	  display: block;
+      display: block;
       color: $white;
       text-decoration: none;
       border-top: 1px solid rgba(0,0,0,.3);
@@ -268,7 +267,7 @@
       margin-top: 18px;
       margin-right: 10px;
       vertical-align: middle;
-      content: '';
+      content: "";
       border-top: 0;
       border-right: .3em solid transparent;
       border-bottom: .3em solid;
@@ -287,6 +286,6 @@
 // Edit view
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
   color: $white;
-  background: none;
   cursor: not-allowed;
+  background: none;
 }

@@ -2,10 +2,10 @@
 
 .gu-mirror {
   position: fixed !important;
-  margin: 0 !important;
   z-index: 9999 !important;
+  margin: 0 !important;
+  background-color: #90ee90;
   opacity: .8;
-  background-color: lightgreen;
 
   &.table {
     display: table;

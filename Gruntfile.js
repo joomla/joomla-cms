@@ -268,6 +268,17 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Validate the SCSS
+		scsslint: {
+			allFiles: [
+				'<%= folder.adminTemplate %>/scss',
+			],
+			options: {
+				config: 'scss-lint.yml',
+				reporterOutput: '<%= folder.adminTemplate %>/scss/scss-lint-report.xml'
+			}
+		},
+
 		// Minimize some javascript files
 		uglify: {
 			allJs: {
@@ -315,6 +326,19 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Initiate task after CSS is generated
+		postcss: {
+			options: {
+				map: false,
+				processors: [
+					require('autoprefixer')({browsers: 'last 2 versions'})
+				],
+			},
+			dist: {
+				src: '<%= folder.adminTemplate %>/css/template.css'
+			}
+		},
+
 		// Let's minify some css files
 		cssmin: {
 			allCss: {
@@ -332,9 +356,9 @@ module.exports = function(grunt) {
 					expand: true,
 					matchBase: true,
 					ext: '.min.css',
-					cwd: 'administrator/templates/atum/css',
+					cwd: '<%= folder.adminTemplate %>/css',
 					src: ['*.css', '!*.min.css', '!theme/*.css'],
-					dest: 'administrator/templates/atum/css',
+					dest: '<%= folder.adminTemplate %>/css',
 				}]
 			}
 		}
@@ -346,11 +370,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-scss-lint');
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-zip');
 	grunt.loadNpmTasks('grunt-curl');
 	grunt.loadNpmTasks('grunt-fetch-pages');
+	grunt.loadNpmTasks('grunt-postcss');
 
 	grunt.registerTask('default',
 		[
@@ -365,10 +391,13 @@ module.exports = function(grunt) {
 			'sass:dist',
 			'uglify:allJs',
 			'cssmin:allCss',
+			'postcss',
 			'cssmin:templates',
 			'clean:temp'
 		]
 	);
+	
+	grunt.registerTask('test-scss', ['scsslint']);
 
 	grunt.registerTask('polyfills', 'Download the polyfills from FT.', function() {
 		grunt.task.run([
@@ -390,8 +419,10 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('compile', 'Compiles the stylesheet files.', function() {
 		grunt.task.run([
-			'sass:dist',
 			'uglify:templates',
+			'scsslint',
+			'sass:dist',
+			'postcss',
 			'cssmin:templates'
 		]);
 	});

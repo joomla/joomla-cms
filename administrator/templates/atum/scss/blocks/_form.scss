@@ -1,19 +1,19 @@
 // Form
 
 .control-group::after {
-  content: '';
   display: table;
   clear: both;
+  content: "";
 }
 form:not(.form-no-margin) {
   .control-group {
     margin-bottom: 18px;
-	
-	.control-label {
+
+    .control-label {
+      float: left;
       width: auto;
       padding-top: 5px;
       padding-right: 5px;
-      float: left;
       text-align: left;
     }
     .controls {
@@ -33,9 +33,6 @@ form .form-no-margin {
 }
 .spacer hr {
   width: 380px;
-}
-label.btn {
-  margin-bottom: 0;
 }
 .card .custom-select {
   width: 100%;

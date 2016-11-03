@@ -16,13 +16,14 @@
 /.htaccess
 /web.config
 /.php_cs.cache
-/build/assets_tmp
 
 # Test Related Files #
 /phpunit.xml
 
-# Node modules #
+# Grunt #
 node_modules/
+/build/assets_tmp
+administrator/templates/atum/scss/scss-lint-report.xml
 
 # CSS map files #
 .map
