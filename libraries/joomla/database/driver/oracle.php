@@ -125,7 +125,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 		$options['user']    = (isset($options['user'])) ? $options['user']   : '';
 		$options['password']    = (isset($options['password'])) ? $options['password']   : '';
 		$options['select']    = (isset($options['select'])) ? (bool) $options['select']   : true;
-		$options['port']    = (isset($options['port'])) ? (bool) (int) $options['port']   : 1521;
+		$options['port']    = (isset($options['port'])) ? (int) $options['port']   : 1521;
 		$options['charset']    = (isset($options['charset'])) ? $options['charset']   : 'AL32UTF8';
 		$options['dateformat'] = (isset($options['dateformat'])) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
