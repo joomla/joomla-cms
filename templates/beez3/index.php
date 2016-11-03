@@ -45,7 +45,7 @@ if (in_array($option, $bootstrap))
 }
 
 // Add stylesheets
-JHtml::_('stylesheet', 'system.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', $this->baseurl . '/templates/system/css/system.css', array('version' => 'auto'));
 JHtml::_('stylesheet', 'position.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', 'layout.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', 'print.css', array('version' => 'auto', 'relative' => true), array('media' => 'print'));
