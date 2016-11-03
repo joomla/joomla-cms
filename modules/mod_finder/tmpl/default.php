@@ -73,7 +73,7 @@ if ($params->get('show_button'))
 	}
 }
 
-JHtml::_('stylesheet', 'com_finder/finder.css', false, true, false);
+JHtml::_('stylesheet', 'com_finder/finder.css', array('version' => 'auto', 'relative' => true));
 
 $script = "
 jQuery(document).ready(function() {

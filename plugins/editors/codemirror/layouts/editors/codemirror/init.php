@@ -18,8 +18,8 @@ $extCSS   = JDEBUG ? '.css' : '.min.css';
 
 JHtml::_('script', $basePath . 'lib/codemirror' . $extJS, array('version' => 'auto'));
 JHtml::_('script', $basePath . 'lib/addons' . $extJS, array('version' => 'auto'));
-JHtml::_('stylesheet', $basePath . 'lib/codemirror' . $extCSS);
-JHtml::_('stylesheet', $basePath . 'lib/addons' . $extCSS);
+JHtml::_('stylesheet', $basePath . 'lib/codemirror' . $extCSS, array('version' => 'auto'));
+JHtml::_('stylesheet', $basePath . 'lib/addons' . $extCSS, array('version' => 'auto'));
 
 $fskeys          = $params->get('fullScreenMod', array());
 $fskeys[]        = $params->get('fullScreen', 'F10');
