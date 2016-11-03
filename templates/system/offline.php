@@ -20,14 +20,14 @@ $this->setHtml5(true);
 JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 // Styles
-$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/offline.css');
+JHtml::_('stylesheet', 'offline.css', array('version' => 'auto', 'relative' => true));
 
 if ($this->direction == 'rtl')
 {
-	$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/offline_rtl.css');
+	JHtml::_('stylesheet', 'offline_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
-$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css');
+JHtml::_('stylesheet', 'general.css', array('version' => 'auto', 'relative' => true));
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
