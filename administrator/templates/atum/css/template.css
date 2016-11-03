@@ -8075,6 +8075,10 @@ legend {
   border-bottom: 1px solid #e3e3e3; }
   .subhead .btn-toolbar {
     margin-bottom: 0; }
+    .subhead .btn-toolbar .btn-group {
+      float: none; }
+      .subhead .btn-toolbar .btn-group + .btn {
+        margin-left: .5rem; }
     .subhead .btn-toolbar .btn-group-sm > .btn,
     .subhead .btn-toolbar .btn-sm,
     .subhead .btn-toolbar .btn-group-sm > .btn {
