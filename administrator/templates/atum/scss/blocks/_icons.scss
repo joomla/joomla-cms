@@ -3,6 +3,9 @@
 .icon-back::before {
   content: "\e008";
 }
+.icon-crop::before {
+  content: "\f125";
+}
 .icon-white {
   color: $white;
 }

@@ -199,8 +199,8 @@ class TemplatesViewTemplate extends JViewLegacy
 			// Add a Crop and Resize button
 			elseif ($this->type == 'image')
 			{
-				JToolbarHelper::custom('template.cropImage', 'move', 'move', 'COM_TEMPLATES_BUTTON_CROP', false);
-				JToolbarHelper::modal('resizeModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RESIZE');
+				JToolbarHelper::custom('template.cropImage', 'crop', 'move', 'COM_TEMPLATES_BUTTON_CROP', false);
+				JToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
 			}
 			// Add an extract button
 			elseif ($this->type == 'archive')
