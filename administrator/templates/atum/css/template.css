@@ -7708,9 +7708,6 @@ legend {
     margin-right: 0;
     margin-left: 10px; } }
 
-.wrapper.closed header {
-  width: calc(100% - 55px); }
-
 .icon-back::before {
   content: "\e008"; }
 
