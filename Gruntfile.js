@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 		preText     = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
 		postText    = '  },\n  "license": "GPL-2.0+"\n}',
 		name,
-		disabledNPM = ['jcrop', 'autocomplete'],
+		disabledNPM = ['autocomplete'],
 		vendorsTxt = '',
 		vendorsArr = '',
 		polyFillsUrls =[];
@@ -109,10 +109,6 @@ module.exports = function(grunt) {
 
 		// Get the latest codemirror
 		curl: {
-			'jCrop': {
-				src: 'https://github.com/tapmodo/Jcrop/archive/v' + settings.vendors.jcrop.version + '.zip',
-				dest: 'build/assets_tmp/tmp/jcrop.zip'
-			},
 			'autoComplete': {
 				src: 'https://github.com/devbridge/jQuery-Autocomplete/archive/v' + settings.vendors.autocomplete.version + '.zip',
 				dest: 'build/assets_tmp/tmp/autoc.zip'
@@ -128,15 +124,6 @@ module.exports = function(grunt) {
 				src: 'build/assets_tmp/tmp/autoc.zip',
 				dest: 'build/assets_tmp/tmp/autocomplete/'
 			},
-			'jcropUnzip': {
-				router: function (filepath) {
-					var re = new RegExp(settings.vendors.jcrop.version + '/', 'g');
-					var newFilename = filepath.replace(re, '');
-					return newFilename;
-				},
-				src: 'build/assets_tmp/tmp/jcrop.zip',
-				dest: 'build/assets_tmp/tmp/jcrop/'
-			}
 		},
 
 		// Fetch the polyfills
@@ -191,16 +178,12 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: 'build/assets_tmp/node_modules/tether/dist/js/', src: ['**'], dest: 'media/vendor/tether/js/', filter: 'isFile'},
 					// Punycode js files
 					{ expand: true, cwd: 'build/assets_tmp/node_modules/punycode/', src: ['punycode.js', 'LICENSE-MIT.txt'], dest: 'media/vendor/punycode/js/', filter: 'isFile'},
-					// jcrop css files
-					{ expand: true, cwd: 'build/assets_tmp/tmp/jcrop/jcrop-css', src: ['**'], dest: 'media/vendor/jcrop/css/', filter: 'isFile'},
-					// jcrop js files
-					{ expand: true, cwd: 'build/assets_tmp/tmp/jcrop/jcrop-js', src: ['jcrop.min.js', 'jcrop.js'], dest: 'media/vendor/jcrop/js/', filter: 'isFile'},
+					// Cropperjs css files
+					{ expand: true, cwd: 'build/assets_tmp/node_modules/cropperjs/dist', src: ['*.css'], dest: 'media/vendor/cropperjs/css/', filter: 'isFile'},
+					// Cropperjs js files
+					{ expand: true, cwd: 'build/assets_tmp/node_modules/cropperjs/dist', src: ['*.js'], dest: 'media/vendor/cropperjs/js/', filter: 'isFile'},
 					// autocomplete js files
 					{ expand: true, cwd: 'build/assets_tmp/tmp/autocomplete/dist', src: ['jquery.autocomplete.min.js', 'jquery.autocomplete.js', 'license.txt'], dest: 'media/vendor/autocomplete/js/', filter: 'isFile'},
-					// chosen css, png files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/chosenjs', src: ['chosen.css', 'chosen.min.js', 'chosen-sprite.png', 'chosen-sprite@2x.png'], dest: 'media/vendor/chosenjs/css/', filter: 'isFile'},
-					// chosen js files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/chosenjs', src: ['chosen.jquery.min.js', 'chosen.jquery.js'], dest: 'media/vendor/chosenjs/js/', filter: 'isFile'},
 					//Font Awesome css files
 					{ expand: true, cwd: 'build/assets_tmp/node_modules/font-awesome/css/', src: ['**'], dest: 'media/vendor/font-awesome/css/', filter: 'isFile'},
 					//Font Awesome scss files
@@ -382,10 +365,8 @@ module.exports = function(grunt) {
 		[
 			'clean:assets',
 			'shell:update',
-			'curl:jCrop',
 			'curl:autoComplete',
 			'unzip:autoUnzip',
-			'unzip:jcropUnzip',
 			'concat:someFiles',
 			'copy:fromSource',
 			'sass:dist',
