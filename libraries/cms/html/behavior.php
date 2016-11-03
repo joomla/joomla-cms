@@ -359,7 +359,7 @@ abstract class JHtmlBehavior
 
 			// Load the JavaScript and css
 			JHtml::_('script', 'system/modal.js', array('framework' => true, 'version' => 'auto', 'relative' => true));
-			JHtml::_('stylesheet', 'system/modal.css', array(), true);
+			JHtml::_('stylesheet', 'system/modal.css', array('version' => 'auto', 'relative' => true));
 		}
 
 		$sig = md5(serialize(array($selector, $params)));
@@ -505,7 +505,7 @@ abstract class JHtmlBehavior
 		static::framework();
 
 		JHtml::_('script', 'system/mootree.js', array('framework' => true, 'version' => 'auto', 'relative' => true));
-		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
+		JHtml::_('stylesheet', 'system/mootree.css', array('version' => 'auto', 'relative' => true));
 
 		if (isset(static::$loaded[__METHOD__][$id]))
 		{
@@ -571,9 +571,10 @@ abstract class JHtmlBehavior
 		}
 
 		$document = JFactory::getDocument();
-		$tag = JFactory::getLanguage()->getTag();
+		$tag      = JFactory::getLanguage()->getTag();
+		$attribs  = array('title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), 'media' => 'all');
 
-		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), ' media' => 'all'), true);
+		JHtml::_('stylesheet', 'system/calendar-jos.css', array('version' => 'auto', 'relative' => true), $attribs);
 		JHtml::_('script', $tag . '/calendar.js', array('version' => 'auto', 'relative' => true));
 		JHtml::_('script', $tag . '/calendar-setup.js', array('version' => 'auto', 'relative' => true));
 
@@ -608,7 +609,7 @@ abstract class JHtmlBehavior
 		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'jui/jquery.minicolors.min.js', array('version' => 'auto', 'relative' => true));
-		JHtml::_('stylesheet', 'jui/jquery.minicolors.css', false, true);
+		JHtml::_('stylesheet', 'jui/jquery.minicolors.css', array('version' => 'auto', 'relative' => true));
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
 					jQuery('.minicolors').each(function() {
@@ -654,7 +655,7 @@ abstract class JHtmlBehavior
 		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'jui/jquery.simplecolors.min.js', array('version' => 'auto', 'relative' => true));
-		JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', false, true);
+		JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', array('version' => 'auto', 'relative' => true));
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
 					jQuery('select.simplecolors').simplecolors();

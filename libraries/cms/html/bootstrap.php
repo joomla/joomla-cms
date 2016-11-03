@@ -506,7 +506,7 @@ abstract class JHtmlBootstrap
 		if ($extended)
 		{
 			JHtml::_('script', 'jui/bootstrap-tooltip-extended.min.js', array('version' => 'auto', 'relative' => true));
-			JHtml::_('stylesheet', 'jui/bootstrap-tooltip-extended.css', false, true);
+			JHtml::_('stylesheet', 'jui/bootstrap-tooltip-extended.css', array('version' => 'auto', 'relative' => true));
 		}
 	}
 
@@ -887,15 +887,15 @@ abstract class JHtmlBootstrap
 		// Load Bootstrap main CSS
 		if ($includeMainCss)
 		{
-			JHtml::_('stylesheet', 'jui/bootstrap.min.css', $attribs, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-responsive.min.css', $attribs, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-extended.css', $attribs, true);
+			JHtml::_('stylesheet', 'jui/bootstrap.min.css', array('version' => 'auto', 'relative' => true), $attribs);
+			JHtml::_('stylesheet', 'jui/bootstrap-responsive.min.css', array('version' => 'auto', 'relative' => true), $attribs);
+			JHtml::_('stylesheet', 'jui/bootstrap-extended.css', array('version' => 'auto', 'relative' => true), $attribs);
 		}
 
 		// Load Bootstrap RTL CSS
 		if ($direction === 'rtl')
 		{
-			JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', $attribs, true);
+			JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
 		}
 	}
 }
