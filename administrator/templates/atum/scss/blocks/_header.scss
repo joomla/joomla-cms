@@ -1,12 +1,11 @@
 // Header
 
 .header {
-  position: fixed;
-  z-index: 999;
-  width: calc(100% - 250px);
+  position: relative;
+  z-index: 1;
   height: 50px;
   background: $white;
-  box-shadow: 0 4px 2px -2px $grey;
+  box-shadow: 0 0 2px $grey;
 
   .page-title {
     margin: 0;
@@ -41,8 +40,4 @@
       margin-left: 10px;
     }
   }
-}
-
-.wrapper.closed header {
-  width: calc(100% - 55px);
 }
