@@ -27,7 +27,7 @@ JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
-JHtml::_('stylesheet', $this->baseurl . '/templates/system/css/system.css', array('version' => 'auto'));
+JHtml::_('stylesheet', 'templates/system/css/system.css', array('version' => 'auto'));
 
 // Load template CSS
 JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => true));
