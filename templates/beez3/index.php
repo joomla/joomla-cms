@@ -87,6 +87,9 @@ JHtml::_('script', 'templates/' . $this->template . '/javascript/hide.js', array
 JHtml::_('script', 'templates/' . $this->template . '/javascript/respond.src.js', array('version' => 'auto'));
 JHtml::_('script', 'templates/' . $this->template . '/javascript/template.js', array('version' => 'auto'));
 
+// Check for a custom js file
+JHtml::_('script', 'templates/' . $this->template . '/javascript/user.js', array('version' => 'auto'));
+
 require __DIR__ . '/jsstrings.php';
 
 // Add html5 shiv
