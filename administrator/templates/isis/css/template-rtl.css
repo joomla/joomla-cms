@@ -8086,6 +8086,7 @@ th .tooltip-inner {
 	max-height: 100%;
 }
 #helpsite-refresh {
+	padding: 4px 12px;
 	vertical-align: top;
 }
 .alert-no-items {
