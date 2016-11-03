@@ -22,7 +22,8 @@ if (!$value)
 }
 
 $value   = (array) $value;
-$texts   = array();$options = JFormAbstractlist::getOptionsFromField($field);
+$texts   = array();
+$options = JFormAbstractlist::getOptionsFromField($field);
 
 foreach ($options as $index => $optionsValue)
 {

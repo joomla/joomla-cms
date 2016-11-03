@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::script('com_joomlaupdate/default.js', false, true, false);
+JHtml::_('script', 'com_joomlaupdate/default.js', array('version' => 'auto', 'relative' => true));
 
 JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($) {

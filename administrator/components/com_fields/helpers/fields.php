@@ -83,7 +83,7 @@ class FieldsHelper
 		{
 			$item = (object) $item;
 		}
-		if (isset($item->language) && $item->language !='*')
+		if (JLanguageMultilang::isEnabled() && isset($item->language) && $item->language !='*')
 		{
 			self::$fieldsCache->setState('filter.language', array('*', $item->language));
 		}

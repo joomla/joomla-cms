@@ -19,6 +19,9 @@ $this->setHtml5(true);
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
+
 // Add Stylesheets
 $this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
@@ -30,7 +33,6 @@ JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<jdoc:include type="head" />
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="contentpane modal">
 	<jdoc:include type="message" />
