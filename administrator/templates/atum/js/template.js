@@ -250,7 +250,7 @@
 
 			if (subhead.length)
 			{
-				navTop = subhead.length && $('.subhead').offset().top - 50;
+				navTop = subhead.length && $('.subhead').offset().top - 0;
 
 				// Only apply the scrollspy when the toolbar is not collapsed
 				if (document.body.clientWidth > 480)

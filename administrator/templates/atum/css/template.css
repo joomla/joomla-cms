@@ -7679,12 +7679,11 @@ legend {
   width: 100%; }
 
 .header {
-  position: fixed;
-  z-index: 999;
-  width: calc(100% - 250px);
+  position: relative;
+  z-index: 1;
   height: 50px;
   background: #fff;
-  box-shadow: 0 4px 2px -2px #aaa; }
+  box-shadow: 0 0 2px #aaa; }
   .header .page-title {
     margin: 0;
     font-size: 1.25rem;
@@ -8067,9 +8066,10 @@ legend {
     margin-bottom: 0; }
 
 .subhead {
+  width: auto !important;
   min-height: 43px;
   padding: 11px 0 10px;
-  margin-bottom: 10px;
+  margin: -15px -15px 0;
   color: #0c192e;
   background: #f5f5f5;
   border-bottom: 1px solid #e3e3e3; }
@@ -8132,9 +8132,10 @@ legend {
         color: #fff; }
   .subhead.subhead-fixed {
     position: fixed;
-    top: 50px;
+    top: 0;
     z-index: 100;
-    width: 100%; }
+    width: calc(100% - 250px) !important;
+    margin-top: 0; }
 
 .subhead-collapse {
   margin-bottom: 11px; }
@@ -8321,7 +8322,7 @@ small, .small {
 
 .container-main {
   position: relative;
-  padding-top: 65px;
+  padding-top: 15px;
   background: #fff; }
 
 .content {
