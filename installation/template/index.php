@@ -29,7 +29,7 @@ JHtml::_('script', 'jui/html5.js', array('relative' => true, 'conditional' => 'l
 
 // Add Stylesheets
 JHtml::_('bootstrap.loadCss', true, $this->direction);
-JHtml::_('stylesheet', 'installation/template/css/template.css');
+JHtml::_('stylesheet', 'installation/template/css/template.css', array('version' => 'auto'));
 
 // Load JavaScript message titles
 JText::script('ERROR');
