@@ -8063,10 +8063,13 @@ legend {
     margin-bottom: 0; }
 
 .subhead {
-  width: auto !important;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: auto;
   min-height: 43px;
   padding: 11px 0 10px;
-  margin: -15px -15px 0;
   color: #0c192e;
   background: #f5f5f5;
   border-bottom: 1px solid #e3e3e3; }
@@ -8132,12 +8135,11 @@ legend {
   .subhead.subhead-fixed {
     position: fixed;
     top: 0;
-    z-index: 100;
-    width: calc(100% - 250px) !important;
-    margin-top: 0; }
+    left: 250px;
+    z-index: 100; }
 
-.subhead-collapse {
-  margin-bottom: 11px; }
+.closed .subhead-fixed {
+  left: 55px; }
 
 .btn-toolbar {
   margin-bottom: 20px;
