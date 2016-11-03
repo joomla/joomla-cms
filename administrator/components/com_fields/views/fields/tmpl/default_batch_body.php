@@ -27,9 +27,11 @@ $context   = $this->escape($this->state->get('filter.context'));
 	</div>
 </div>
 <div class="row-fluid">
+<?php if ($published >= 0) : ?>
 	<div class="control-group span6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.item', $context . '.fields');?>
 		</div>
 	</div>
+<?php endif; ?>
 </div>
