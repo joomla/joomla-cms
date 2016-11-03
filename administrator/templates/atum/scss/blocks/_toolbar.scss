@@ -12,8 +12,18 @@
   color: #0c192e;
   background: #f5f5f5;
   border-bottom: 1px solid #e3e3e3;
+
   .btn-toolbar {
     margin-bottom: 0;
+
+    .btn-group {
+      float: none;
+
+      + .btn {
+        margin-left: .5rem;
+      }
+    }
+
     .btn-group-sm > .btn,
     .btn-sm {
       padding: 0 .75rem;
@@ -69,14 +79,14 @@
     }
     .btn-success:not(.dropdown-toggle) {
       width: 140px;
-      color: #fff;
+      color: $white;
       background-color: $brand-success;
       border-color: rgba(0, 0, 0, .2);
       [class^="icon-"], [class*=" icon-"] {
         width: 16px;
         margin-right: 0;
         margin-left: 0;
-        color: #fff;
+        color: $white;
         background-color: transparent;
         border-right: 0 none;
         border-left: 0 none;
@@ -89,7 +99,7 @@
       background: #419641;
       border-color: #419641;
       &::after {
-        color: #fff;
+        color: $white;
       }
     }
     button:first-of-type {
