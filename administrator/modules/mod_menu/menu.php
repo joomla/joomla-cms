@@ -125,8 +125,6 @@ class JAdminCssMenu extends JObject
 			}
 
 			echo "</ul>\n";
-
-			echo '<ul id="nav-empty" class="dropdown-menu nav-empty hidden-phone"></ul>';
 		}
 
 		if ($this->_css)
