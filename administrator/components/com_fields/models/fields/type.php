@@ -20,7 +20,7 @@ class JFormFieldType extends JFormAbstractlist
 {
 	public $type = 'Type';
 
-	public static $BLACKLIST = array('moduleposition', 'captcha');
+	public static $BLACKLIST = array('moduleposition');
 
 	/**
 	 * Method to attach a JForm object to the field.
