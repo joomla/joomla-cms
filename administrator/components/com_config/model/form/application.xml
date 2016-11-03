@@ -6,14 +6,16 @@
 		<field
 			name="caching"
 			type="list"
-			default="2"
 			label="COM_CONFIG_FIELD_CACHE_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_DESC"
-			filter="integer">
+			default="2"
+			filter="integer"
+			>
 			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
 		</field>
+
 		<field
 			name="cache_handler"
 			type="cachehandler"
@@ -21,18 +23,17 @@
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
 			filter="word"
-			showon="caching:1,2">
-		</field>
+		/>
 
 		<field
 			name="cache_platformprefix"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			filter="integer"
-			showon="caching:1,2">
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -40,15 +41,15 @@
 		<field
 			name="cachetime"
 			type="number"
-			min="1"
-			default="15"
 			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
+			min="1"
+			default="15"
 			required="true"
 			filter="integer"
 			validate="number"
-			showon="caching:1,2"
-			size="6" />
+			size="6"
+		/>
 
 		<field
 			name="memcache_persist"
