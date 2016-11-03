@@ -52,7 +52,7 @@ class PlgEditorTinymce extends JPlugin
 		JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 		JHtml::_('behavior.core');
 		JHtml::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
-		JHtml::_('script', 'system/tinymce-init.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'editors/tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
