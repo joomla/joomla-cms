@@ -86,11 +86,10 @@
 
 		<field
 			name="default_value"
-			type="textarea"
+			type="text"
 			filter="raw"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
 			description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
-			size="40"
 		/>
 	
 		<field
@@ -180,6 +179,15 @@
 		/>
 
 		<field
+			name="label"
+			type="text"
+			label="COM_FIELDS_FIELD_LABEL_LABEL"
+			description="COM_FIELDS_FIELD_LABEL_DESC"
+			size="40"
+			required="true"
+		/>
+
+		<field
 			name="description"
 			type="textarea"
 			label="JGLOBAL_DESCRIPTION"
@@ -217,16 +225,6 @@
 	</fieldset>
 	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="basic">
-			<field
-				name="label"
-				type="text"
-				label="COM_FIELDS_FIELD_LABEL_LABEL"
-				description="COM_FIELDS_FIELD_LABEL_DESC"
-				class="input-xxlarge"
-				size="40"
-				required="true"
-			/>
-
 			<field
 				name="hint"
 				type="text"
