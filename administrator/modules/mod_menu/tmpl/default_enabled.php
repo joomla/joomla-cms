@@ -171,16 +171,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 			$user->authorise('core.create', 'com_menus.menu.' . (int) $menuType->id)
 		);
 
-		if ($user->authorise('core.create', 'com_menus.menu.' . (int) $menuType->id))
-		{
-			$menu->addChild(
-				new JMenuNode(
-					JText::_('MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM'), 'index.php?option=com_menus&view=item&layout=edit&menutype=' . $menuType->menutype,
-					null)
-			);
-
-			$menu->getParent();
-		}
+		$menu->getParent();
 	}
 
 	$menu->getParent();
