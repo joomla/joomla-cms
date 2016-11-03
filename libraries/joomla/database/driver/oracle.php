@@ -486,7 +486,7 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 		$result = array();
 		$type = 'TABLE';
 		$query = $this->getQuery(true)
-			->select('dbms_metadata.get_ddl(:type, UPPER(:tableName), UPPER(:schema))')
+			->select('dbms_metadata.get_ddl(:type, :tableName, :schema)')
 			->from('dual')
 			->bind(':type', $type);
 
@@ -538,9 +538,9 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		$query->select('*');
 		$query->from('ALL_TAB_COLUMNS');
-		$query->where('table_name = UPPER(:tableName)');
+		$query->where('table_name = :tableName');
 
-		$prefixedTable = str_replace('#__', $this->tablePrefix, $table);
+		$prefixedTable = strtoupper(str_replace('#__', $this->tablePrefix, $table));
 		$query->bind(':tableName', $prefixedTable);
 		$this->setQuery($query);
 		$fields = $this->loadObjectList();
@@ -593,9 +593,10 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		$query = $this->getQuery(true);
 
+		$table = strtoupper($table);
 		$query->select('*')
 			->from('ALL_CONSTRAINTS NATURAL JOIN ALL_CONS_COLUMNS')
-			->where('table_name = UPPER(:tableName)')
+			->where('table_name = :tableName')
 			->bind(':tableName', $table);
 
 		$this->setQuery($query);
@@ -634,7 +635,8 @@ class JDatabaseDriverOracle extends JDatabaseDriver
 
 		if ($databaseName)
 		{
-			$query->where('owner = UPPER(:database)')
+			$databaseName = strtoupper($databaseName);
+			$query->where('owner = :database')
 				->bind(':database', $databaseName);
 		}
 
