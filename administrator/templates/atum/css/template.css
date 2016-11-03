@@ -8130,6 +8130,8 @@ legend {
       border-color: #419641; }
       .subhead .btn-toolbar .btn-success.dropdown-toggle::after {
         color: #fff; }
+    .subhead .btn-toolbar button:first-of-type {
+      margin-left: 0; }
   .subhead.subhead-fixed {
     position: fixed;
     top: 0;

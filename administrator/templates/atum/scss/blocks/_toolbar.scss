@@ -89,6 +89,9 @@
         color: #fff;
       }
     }
+    button:first-of-type {
+      margin-left: 0;
+    }
   }
   &.subhead-fixed {
     position: fixed;
