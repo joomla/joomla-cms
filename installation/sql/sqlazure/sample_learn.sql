@@ -311,7 +311,7 @@ SELECT 167, 54, 289, 290, 4, 'com_content.category.76', 'Recipes', '{"core.creat
 UNION ALL
 SELECT 168, 34, 106, 107, 3, 'com_content.article.67', 'What''s New in 1.5?', '{}'
 UNION ALL
-SELECT 169, 24, 335, 336, 2, 'com_users.category.77', 'Uncategorised', ''
+SELECT 169, 24, 335, 336, 2, 'com_users.category.77', 'Uncategorised', '{}'
 UNION ALL
 SELECT 170, 50, 217, 218, 6, 'com_content.article.68', 'Captcha', '{}'
 UNION ALL
