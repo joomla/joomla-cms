@@ -76,13 +76,25 @@
 				minYearTmp      : btn.getAttribute("data-min-year"),
 				maxYearTmp      : btn.getAttribute("data-max-year"),
 				weekendTmp      : btn.getAttribute("data-weekend"),
-				time24          : (parseInt(btn.getAttribute("data-time-24")) === 24) ? true : false,
+				time24          : true,
 				showsOthers     : (parseInt(btn.getAttribute("data-show-others")) === 1) ? true : false,
-				showsTime       : (parseInt(btn.getAttribute("data-show-time")) === 1) ? true : false,
+				showsTime       : true,
 				weekNumbers     : (parseInt(btn.getAttribute("data-week-numbers")) === 1) ? true : false,
-				showsTodayBtn   : (parseInt(btn.getAttribute("data-today-btn")) === 1) ? true : false,
+				showsTodayBtn   : true,
 				compressedHeader: (parseInt(btn.getAttribute("data-only-months-nav")) === 1) ? true : false,
 			};
+
+		if (btn.getAttribute("data-time-24")) {
+			instanceParams.time24 = parseInt(btn.getAttribute("data-time-24")) === 24 ? true : false;
+		}
+
+		if (btn.getAttribute("data-show-time")) {
+			instanceParams.showsTime = parseInt(btn.getAttribute("data-show-time")) === 1 ? true : false;
+		}
+
+		if (btn.getAttribute("data-today-btn")) {
+			instanceParams.showsTime = parseInt(btn.getAttribute("data-today-btn")) === 1 ? true : false;
+		}
 
 		// Merge the parameters
 		for (var param in instanceParams) {
