@@ -25,6 +25,13 @@ class SearchViewSearches extends JViewLegacy
 	protected $state;
 
 	/**
+	 * The HTML markup for the sidebar
+	 *
+	 * @var  string
+	 */
+	protected $sidebar;
+
+	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -40,6 +47,8 @@ class SearchViewSearches extends JViewLegacy
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->enabled       = $this->state->params->get('enabled');
 		$this->canDo         = JHelperContent::getActions('com_search');
+
+		SearchHelper::addSubmenu('searches');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -59,6 +68,8 @@ class SearchViewSearches extends JViewLegacy
 		}
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
+
 		parent::display($tpl);
 	}
 

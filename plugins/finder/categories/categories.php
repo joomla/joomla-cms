@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Finder.Categories
+ * @subpackage  Search.Categories
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
+JLoader::register('SearchIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_search/helpers/indexer/adapter.php');
 
 /**
  * Smart Search adapter for Joomla Categories.
  *
  * @since  2.5
  */
-class PlgFinderCategories extends FinderIndexerAdapter
+class PlgFinderCategories extends SearchIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -93,7 +93,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		{
 			$id = $table->id;
 		}
-		elseif ($context == 'com_finder.index')
+		elseif ($context == 'com_search.index')
 		{
 			$id = $table->link_id;
 		}
@@ -231,9 +231,9 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to index an item. The item must be a FinderIndexerResult object.
+	 * Method to index an item. The item must be a SearchIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   SearchIndexerResult  $item    The item to index as an SearchIndexerResult object.
 	 * @param   string               $format  The item format.  Not used.
 	 *
 	 * @return  void
@@ -241,7 +241,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item, $format = 'html')
+	protected function index(SearchIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled.
 		if (JComponentHelper::isEnabled($this->extension) == false)
@@ -278,17 +278,17 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->metaauthor = $item->metadata->get('author');
 
 		// Handle the link to the metadata.
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
+		$item->addInstruction(SearchIndexer::META_CONTEXT, 'link');
+		$item->addInstruction(SearchIndexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(SearchIndexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(SearchIndexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(SearchIndexer::META_CONTEXT, 'author');
 
 		// Deactivated Methods
-		// $item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
+		// $item->addInstruction(SearchIndexer::META_CONTEXT, 'created_by_alias');
 
 		// Trigger the onContentPrepare event.
-		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
+		$item->summary = SearchIndexerHelper::prepareContent($item->summary, $item->params);
 
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $item->extension, $this->layout);
@@ -304,7 +304,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			$item->route = ContentHelperRoute::getCategoryRoute($item->id, $item->language);
 		}
 
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
+		$item->path = SearchIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -325,7 +325,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
-		FinderIndexerHelper::getContentExtras($item);
+		SearchIndexerHelper::getContentExtras($item);
 
 		// Index the item.
 		$this->indexer->index($item);

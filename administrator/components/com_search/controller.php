@@ -36,9 +36,6 @@ class SearchController extends JControllerLegacy
 	{
 		JLoader::register('SearchHelper', JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php');
 
-		// Load the submenu.
-		SearchHelper::addSubmenu($this->input->get('view', 'searches'));
-
 		return parent::display();
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Finder.Contacts
+ * @subpackage  Search.Contacts
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
+JLoader::register('SearchIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_search/helpers/indexer/adapter.php');
 
 /**
- * Finder adapter for Joomla Contacts.
+ * Search adapter for Joomla Contacts.
  *
  * @since  2.5
  */
-class PlgFinderContacts extends FinderIndexerAdapter
+class PlgFinderContacts extends SearchIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -117,7 +117,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		{
 			$id = $table->id;
 		}
-		elseif ($context == 'com_finder.index')
+		elseif ($context == 'com_search.index')
 		{
 			$id = $table->link_id;
 		}
@@ -238,9 +238,9 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to index an item. The item must be a FinderIndexerResult object.
+	 * Method to index an item. The item must be a SearchIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   SearchIndexerResult  $item    The item to index as an SearchIndexerResult object.
 	 * @param   string               $format  The item format
 	 *
 	 * @return  void
@@ -248,7 +248,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item, $format = 'html')
+	protected function index(SearchIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled
 		if (JComponentHelper::isEnabled($this->extension) == false)
@@ -266,7 +266,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 		$item->route = ContactHelperRoute::getContactRoute($item->slug, $item->catslug, $item->language);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
+		$item->path = SearchIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -284,71 +284,71 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		// Handle the contact position.
 		if ($item->params->get('show_position', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'position');
+			$item->addInstruction(SearchIndexer::META_CONTEXT, 'position');
 		}
 
 		// Handle the contact street address.
 		if ($item->params->get('show_street_address', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'address');
+			$item->addInstruction(SearchIndexer::META_CONTEXT, 'address');
 		}
 
 		// Handle the contact city.
 		if ($item->params->get('show_suburb', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'city');
+			$item->addInstruction(SearchIndexer::META_CONTEXT, 'city');
 		}
 
 		// Handle the contact region.
 		if ($item->params->get('show_state', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'region');
+			$item->addInstruction(SearchIndexer::META_CONTEXT, 'region');
 		}
 
 		// Handle the contact country.
 		if ($item->params->get('show_country', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'country');
+			$item->addInstruction(SearchIndexer::META_CONTEXT, 'country');
 		}
 
 		// Handle the contact zip code.
 		if ($item->params->get('show_postcode', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'zip');
+			$item->addInstruction(SearchIndexer::META_CONTEXT, 'zip');
 		}
 
 		// Handle the contact telephone number.
 		if ($item->params->get('show_telephone', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'telephone');
+			$item->addInstruction(SearchIndexer::META_CONTEXT, 'telephone');
 		}
 
 		// Handle the contact fax number.
 		if ($item->params->get('show_fax', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'fax');
+			$item->addInstruction(SearchIndexer::META_CONTEXT, 'fax');
 		}
 
 		// Handle the contact email address.
 		if ($item->params->get('show_email', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'email');
+			$item->addInstruction(SearchIndexer::META_CONTEXT, 'email');
 		}
 
 		// Handle the contact mobile number.
 		if ($item->params->get('show_mobile', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'mobile');
+			$item->addInstruction(SearchIndexer::META_CONTEXT, 'mobile');
 		}
 
 		// Handle the contact webpage.
 		if ($item->params->get('show_webpage', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'webpage');
+			$item->addInstruction(SearchIndexer::META_CONTEXT, 'webpage');
 		}
 
 		// Handle the contact user name.
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'user');
+		$item->addInstruction(SearchIndexer::META_CONTEXT, 'user');
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Contact');
@@ -372,7 +372,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		}
 
 		// Get content extras.
-		FinderIndexerHelper::getContentExtras($item);
+		SearchIndexerHelper::getContentExtras($item);
 
 		// Index the item.
 		$this->indexer->index($item);
@@ -391,7 +391,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 
 		// This is a hack to get around the lack of a route helper.
-		FinderIndexerHelper::getContentPath('index.php?option=com_contact');
+		SearchIndexerHelper::getContentPath('index.php?option=com_contact');
 
 		return true;
 	}

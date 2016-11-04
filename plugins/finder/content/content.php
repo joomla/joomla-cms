@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Finder.Content
+ * @subpackage  Search.Content
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
+JLoader::register('SearchIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_search/helpers/indexer/adapter.php');
 
 /**
  * Smart Search adapter for com_content.
  *
  * @since  2.5
  */
-class PlgFinderContent extends FinderIndexerAdapter
+class PlgFinderContent extends SearchIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -107,7 +107,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		{
 			$id = $table->id;
 		}
-		elseif ($context == 'com_finder.index')
+		elseif ($context == 'com_search.index')
 		{
 			$id = $table->link_id;
 		}
@@ -231,9 +231,9 @@ class PlgFinderContent extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to index an item. The item must be a FinderIndexerResult object.
+	 * Method to index an item. The item must be a SearchIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   SearchIndexerResult  $item    The item to index as an SearchIndexerResult object.
 	 * @param   string               $format  The item format.  Not used.
 	 *
 	 * @return  void
@@ -241,7 +241,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item, $format = 'html')
+	protected function index(SearchIndexerResult $item, $format = 'html')
 	{
 		$item->setLanguage();
 
@@ -262,13 +262,13 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->metadata = $registry;
 
 		// Trigger the onContentPrepare event.
-		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
-		$item->body = FinderIndexerHelper::prepareContent($item->body, $item->params);
+		$item->summary = SearchIndexerHelper::prepareContent($item->summary, $item->params);
+		$item->body = SearchIndexerHelper::prepareContent($item->body, $item->params);
 
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 		$item->route = ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
+		$item->path = SearchIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -283,11 +283,11 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->metaauthor = $item->metadata->get('author');
 
 		// Add the metadata processing instructions.
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
+		$item->addInstruction(SearchIndexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(SearchIndexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(SearchIndexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(SearchIndexer::META_CONTEXT, 'author');
+		$item->addInstruction(SearchIndexer::META_CONTEXT, 'created_by_alias');
 
 		// Translate the state. Articles should only be published if the category is published.
 		$item->state = $this->translateState($item->state, $item->cat_state);
@@ -308,7 +308,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
-		FinderIndexerHelper::getContentExtras($item);
+		SearchIndexerHelper::getContentExtras($item);
 
 		// Index the item.
 		$this->indexer->index($item);
