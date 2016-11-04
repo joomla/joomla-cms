@@ -37,7 +37,6 @@
 			activeDirection         : 'ASC',
 
 			// Extra
-			chosenSupport           : false,
 			clearListOptions        : false
 		};
 
@@ -80,7 +79,6 @@
 		this.activeLimit     = null;
 
 		// Extra options
-		this.chosenSupport    = this.options.chosenSupport;
 		this.clearListOptions = this.options.clearListOptions;
 
 		this.init();
@@ -100,23 +98,21 @@
 			// Get values
 			this.searchString = this.searchField.value;
 
-			if (this.filtersHidden) {
-				this.hideFilters();
-			} else {
+			if (this.filterContainer.classList.contains('js-stools-container-filters-visible')) {
 				this.showFilters();
-			}
-
-			if (this.listHidden) {
-				this.hideList();
-			} else {
 				this.showList();
+			} else {
+				this.hideFilters();
+				this.hideList();
 			}
 
-			self.filterButton.addEventListener('click', function(e) {
-				self.toggleFilters();
-				e.stopPropagation();
-				e.preventDefault();
-			});
+			if (self.filterButton) {
+				self.filterButton.addEventListener('click', function(e) {
+					self.toggleFilters();
+					e.stopPropagation();
+					e.preventDefault();
+				});
+			}
 
 			if (self.listButton) {
 				self.listButton.addEventListener('click', function(e) {
@@ -127,16 +123,18 @@
 			}
 
 			// Do we need to add to mark filter as enabled?
-			self.getFilterFields().forEach(function(i, element) {
+			self.getFilterFields().forEach(function(i) {
 				self.checkFilter(i);
 				i.addEventListener('change', function () {
 					self.checkFilter(i);
 				});
 			});
 
-			self.clearButton.addEventListener('click', function(e) {
-				self.clear();
-			});
+			if (self.clearButton) {
+				self.clearButton.addEventListener('click', function () {
+					self.clear();
+				});
+			}
 
 			// Check/create ordering field
 			this.createOrderField();
@@ -182,21 +180,21 @@
 		clear: function () {
 			var self = this;
 
-			self.getFilterFields().forEach(function(i, element) {
+			self.getFilterFields().forEach(function(i) {
 				i.value = '';
 				self.checkFilter(i);
 
-				if (self.chosenSupport) {
+				if (window.jQuery && jQuery.chosen) {
 					jQuery(i).trigger('liszt:updated');
 				}
 			});
 
 			if (self.clearListOptions) {
-				self.getListFields().forEach(function(i, element) {
+				self.getListFields().forEach(function(i) {
 					i.value = '';
 					self.checkFilter(i);
 
-					if (self.chosenSupport) {
+					if (window.jQuery && jQuery.chosen) {
 						jQuery(i).trigger('liszt:updated');
 					}
 				});
@@ -204,7 +202,7 @@
 				// Special case to limit box to the default config limit
 				document.querySelector('#list_limit').value = self.options.defaultLimit;
 
-				if (self.chosenSupport) {
+				if (window.jQuery && jQuery.chosen) {
 					jQuery('#list_limit').trigger('liszt:updated');
 				}
 			}
@@ -336,7 +334,7 @@
 					}
 				}
 
-				if (self.chosenSupport) {
+				if (window.jQuery && jQuery.chosen) {
 					jQuery(this.orderField).trigger('liszt:updated');
 				}
 			}
@@ -380,7 +378,7 @@
 
 				field.value = newValue;
 				// Trigger the chosen update
-				if (self.chosenSupport) {
+				if (window.jQuery && jQuery.chosen) {
 					field.trigger('liszt:updated');
 				}
 			}
