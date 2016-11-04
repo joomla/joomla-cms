@@ -69,7 +69,7 @@
 				dateType        : JoomlaCalLocale.dateType ? JoomlaCalLocale.dateType : 'gregorian',
 				direction       : (document.dir != undefined) ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir"),
 				firstDayOfWeek  : btn.getAttribute("data-firstday") ? parseInt(btn.getAttribute("data-firstday")) : 0,
-				dateFormat      : btn.getAttribute("data-dayformat") ? btn.getAttribute("data-dayformat") : "%Y-%m-%d %H:%M:%S",
+				dateFormat      : "%Y-%m-%d %H:%M:%S",
 				weekend         : JoomlaCalLocale.weekend ? JoomlaCalLocale.weekend : [0,6],
 				minYear         : JoomlaCalLocale.minYear ? JoomlaCalLocale.minYear : 1900,
 				maxYear         : JoomlaCalLocale.maxYear ? JoomlaCalLocale.maxYear : 2100,
@@ -84,6 +84,11 @@
 				compressedHeader: (parseInt(btn.getAttribute("data-only-months-nav")) === 1) ? true : false,
 			};
 
+		// Keep B/C
+		if (btn.getAttribute("data-dayformat")) {
+			instanceParams.dateFormat = btn.getAttribute("data-dayformat") ? btn.getAttribute("data-dayformat") : "%Y-%m-%d %H:%M:%S";
+		}
+
 		if (btn.getAttribute("data-time-24")) {
 			instanceParams.time24 = parseInt(btn.getAttribute("data-time-24")) === 24 ? true : false;
 		}
@@ -93,7 +98,7 @@
 		}
 
 		if (btn.getAttribute("data-today-btn")) {
-			instanceParams.showsTime = parseInt(btn.getAttribute("data-today-btn")) === 1 ? true : false;
+			instanceParams.showsTodayBtn = parseInt(btn.getAttribute("data-today-btn")) === 1 ? true : false;
 		}
 
 		// Merge the parameters
