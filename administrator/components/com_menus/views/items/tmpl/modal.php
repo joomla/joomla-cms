@@ -13,10 +13,10 @@ $app = JFactory::getApplication();
 
 if ($app->isSite())
 {
-	JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
 
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo JRoute::_('index.php?option=com_menus&view=items&layout=modal&tmpl=component'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+	<form action="<?php echo JRoute::_('index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 

@@ -591,54 +591,53 @@ abstract class JHtml
 	/**
 	 * Write a `<link>` element to load a CSS file
 	 *
-	 * @param   string   $file            Path to file
-	 * @param   array    $attribs         Attributes to be added to the `<link>` element
-	 * @param   boolean  $relative        Flag if the path to the file is relative to the /media folder (and searches in template).
-	 * @param   boolean  $returnPath      Flag if the file path should be returned or if the file should be included in the global JDocument instance
-	 * @param   boolean  $detect_browser  Flag if the browser should be detected to include specific browser files.
-	 *                                    This will try to include file, `file_*browser*`, `file_*browser*_*major*`, `file_*browser*_*major*_*minor*`
-	 *                                    <table>
-	 *                                       <tr><th>Navigator</th>                  <th>browser</th>	<th>major.minor</th></tr>
-	 *
-	 *                                       <tr><td>Safari 3.0.x</td>               <td>konqueror</td>	<td>522.x</td></tr>
-	 *                                       <tr><td>Safari 3.1.x and 3.2.x</td>     <td>konqueror</td>	<td>525.x</td></tr>
-	 *                                       <tr><td>Safari 4.0 to 4.0.2</td>        <td>konqueror</td>	<td>530.x</td></tr>
-	 *                                       <tr><td>Safari 4.0.3 to 4.0.4</td>      <td>konqueror</td>	<td>531.x</td></tr>
-	 *                                       <tr><td>iOS 4.0 Safari</td>             <td>konqueror</td>	<td>532.x</td></tr>
-	 *                                       <tr><td>Safari 5.0</td>                 <td>konqueror</td>	<td>533.x</td></tr>
-	 *
-	 *                                       <tr><td>Google Chrome 1.0</td>          <td>konqueror</td>	<td>528.x</td></tr>
-	 *                                       <tr><td>Google Chrome 2.0</td>          <td>konqueror</td>	<td>530.x</td></tr>
-	 *                                       <tr><td>Google Chrome 3.0 and 4.x</td>  <td>konqueror</td>	<td>532.x</td></tr>
-	 *                                       <tr><td>Google Chrome 5.0</td>          <td>konqueror</td>	<td>533.x</td></tr>
-	 *
-	 *                                       <tr><td>Internet Explorer 5.5</td>      <td>msie</td>		<td>5.5</td></tr>
-	 *                                       <tr><td>Internet Explorer 6.x</td>      <td>msie</td>		<td>6.x</td></tr>
-	 *                                       <tr><td>Internet Explorer 7.x</td>      <td>msie</td>		<td>7.x</td></tr>
-	 *                                       <tr><td>Internet Explorer 8.x</td>      <td>msie</td>		<td>8.x</td></tr>
-	 *
-	 *                                       <tr><td>Firefox</td>                    <td>mozilla</td>	<td>5.0</td></tr>
-	 *                                    </table>
-	 * @param   boolean  $detect_debug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+	 * @param   string  $file     Path to file
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  array|string|null  nothing if $returnPath is false, null, path or array of path if specific CSS browser files were detected
 	 *
 	 * @see     JBrowser
 	 * @since   1.5
+	 * @deprecated 4.0  The (file, attribs, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
+	 *                  use (file, options, attributes) instead.
 	 */
-	public static function stylesheet($file, $attribs = array(), $relative = false, $returnPath = false, $detect_browser = true, $detect_debug = true)
+	public static function stylesheet($file, $options = array(), $attribs = array())
 	{
-		$includes = static::includeRelativeFiles('css', $file, $relative, $detect_browser, $detect_debug);
+		// B/C before __DEPLOY_VERSION__
+		if (!is_array($attribs))
+		{
+			JLog::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
+
+			$argList = func_get_args();
+			$options = array();
+
+			// Old parameters.
+			$attribs                  = isset($argList[1]) ? $argList[1] : array();
+			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
+			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
+			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
+			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
+		}
+		else
+		{
+			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
+			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
+			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
+			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
+		}
+
+		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
 		// If only path is required
-		if ($returnPath)
+		if ($options['pathOnly'])
 		{
-			if (count($includes) == 0)
+			if (count($includes) === 0)
 			{
 				return;
 			}
 
-			if (count($includes) == 1)
+			if (count($includes) === 1)
 			{
 				return $includes[0];
 			}
@@ -651,7 +650,13 @@ abstract class JHtml
 
 		foreach ($includes as $include)
 		{
-			$document->addStyleSheet($include, 'text/css', null, $attribs);
+			// If there is already a version hash in the script reference (by using deprecated MD5SUM).
+			if ($pos = strpos($include, '?') !== false)
+			{
+				$options['version'] = substr($include, $pos + 1);
+			}
+
+			$document->addStyleSheet($include, $options, $attribs);
 		}
 	}
 
