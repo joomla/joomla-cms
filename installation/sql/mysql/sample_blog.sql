@@ -50,7 +50,7 @@ INSERT IGNORE INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`
 (38, 35, 25, 26, 3, 'com_content.article.3', 'Welcome to your blog', '{}'),
 (39, 35, 27, 28, 3, 'com_content.article.4', 'About your home page', '{}'),
 (40, 35, 29, 30, 3, 'com_content.article.5', 'Your Modules', '{}'),
-(41, 1, 75, 76, 1, 'com_users.category.10', 'Uncategorised', ''),
+(41, 1, 75, 76, 1, 'com_users.category.10', 'Uncategorised', '{}'),
 (42, 1, 77, 78, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
 (43, 35, 31, 32, 3, 'com_content.article.6', 'Your Template', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
 (44, 1, 79, 80, 1, 'com_tags', 'com_tags', '{"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
