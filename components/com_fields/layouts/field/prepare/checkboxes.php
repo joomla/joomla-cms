@@ -25,11 +25,11 @@ $value   = (array) $value;
 $texts   = array();
 $options = JFormAbstractlist::getOptionsFromField($field);
 
-foreach ($options as $index => $optionsValue)
+foreach ($options as $optionValue => $optionText)
 {
-	if (in_array($index, $value))
+	if (in_array($optionValue, $value))
 	{
-		$texts[] = $optionsValue;
+		$texts[] = $optionText;
 	}
 }
 
