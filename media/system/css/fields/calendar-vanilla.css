@@ -87,8 +87,22 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	width: 14.28%;
 }
 
+.calendar-container table tbody td.day-name.day-name-week {
+	width: 12.5%;
+}
+
+.calendar-container table thead td.day-name.wn {
+	text-align: center;
+	background-color: #f4f4f4;
+}
+
 .calendar-container table tbody td.day {
 	border: none;
+}
+
+.calendar-container table tbody td.day.wn {
+	text-align: center;
+	background-color: #f4f4f4;
 }
 
 .calendar-container table tbody td.selected { /* Cell showing today date */

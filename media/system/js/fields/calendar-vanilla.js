@@ -579,7 +579,7 @@
 		row.className = "daynames";
 		if (this.params.weekNumbers) {
 			cell = createElement("td", row);
-			cell.className = "name wn";
+			cell.className = "day-name wn";
 			cell.innerHTML = JoomlaCalLocale.wk;
 		}
 		for (var i = 7; i > 0; --i) {
@@ -593,17 +593,17 @@
 			weekend = JoomlaCalLocale.weekend;
 
 		for (var i = 0; i < 7; ++i) {
-			cell.className = "day-name";
-			cell.style.textAlign = 'center';
 			var realday = (i + fdow) % 7;
+			cell.classList.add("day-name");
+			this.params.weekNumbers ? cell.classList.add('day-name-week') : '';
+
 			if (i) {
 				cell.calendar = self;
 				cell.fdow = realday;
 			}
-			if (weekend.indexOf(realday) != -1) { cell.classList.add("weekend"); }
+			if (weekend.indexOf(weekend) != -1) { cell.classList.add("weekend"); }
 
 			cell.innerHTML = JoomlaCalLocale.shortDays[(i + fdow) % 7];
-			cell.style.width = this.params.weekNumbers ? '12.5%' : '14.28%';
 			cell = cell.nextSibling;
 		}
 
