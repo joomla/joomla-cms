@@ -34,12 +34,12 @@ JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/mediamanager.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'media/mediaelement-and-player.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'media/mediaelementplayer.css', array(), true);
-JHtml::_('stylesheet', 'system/mootree.css', array(), true);
+JHtml::_('stylesheet', 'media/mediaelementplayer.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'system/mootree.css', array('version' => 'auto', 'relative' => true));
 
 if ($lang->isRtl())
 {
-	JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
+	JHtml::_('stylesheet', 'system/mootree_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 ?>
 <div class="row-fluid">
