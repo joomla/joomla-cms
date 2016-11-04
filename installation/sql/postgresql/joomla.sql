@@ -452,7 +452,7 @@ CREATE TABLE "#__extensions" (
   "element" varchar(100) NOT NULL,
   "folder" varchar(100) NOT NULL,
   "client_id" smallint NOT NULL,
-  "enabled" smallint DEFAULT 1 NOT NULL,
+  "enabled" smallint DEFAULT 0 NOT NULL,
   "access" bigint DEFAULT 1 NOT NULL,
   "protected" smallint DEFAULT 0 NOT NULL,
   "manifest_cache" text NOT NULL,
