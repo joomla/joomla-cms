@@ -1938,6 +1938,12 @@ table th[class*="span"],
 .table-hover tbody tr.info:hover > td {
 	background-color: #c4e3f3;
 }
+.table-noheader {
+	border-collapse: collapse;
+}
+.table-noheader thead {
+	display: none;
+}
 .dropup,
 .dropdown {
 	position: relative;
