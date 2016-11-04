@@ -73,7 +73,7 @@
 		}
 
 		/** Modals **/
-		if (modal) {
+		if (modal.length) {
 			$.each($('.joomla-modal'), function() {
 				var $self = $(this);
 				$self.on('show.bs.modal', function() {
