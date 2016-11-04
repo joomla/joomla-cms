@@ -18,7 +18,7 @@ $this->setHtml5(true);
 JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 // Styles
-$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css');
+JHtml::_('stylesheet', 'general.css', array('version' => 'auto', 'relative' => true));
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

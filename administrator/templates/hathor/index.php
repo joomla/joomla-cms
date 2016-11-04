@@ -30,10 +30,10 @@ JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
-$this->addStyleSheetVersion($this->baseurl . '/templates/system/css/system.css');
+JHtml::_('stylesheet', 'templates/system/css/system.css', array('version' => 'auto'));
 
 // Load template CSS
-$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => true));
 
 // Load additional CSS styles for colors
 if (!$this->params->get('colourChoice'))
@@ -45,36 +45,30 @@ else
 	$colour = htmlspecialchars($this->params->get('colourChoice'));
 }
 
-$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
+JHtml::_('stylesheet', 'colour_' . $colour . '.css', array('version' => 'auto', 'relative' => true));
 
 // Load additional CSS styles for rtl sites
-if ($this->direction == 'rtl')
+if ($this->direction === 'rtl')
 {
-	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
-	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
+	JHtml::_('stylesheet', 'template_rtl.css', array('version' => 'auto', 'relative' => true));
+	JHtml::_('stylesheet', 'colour_' . $colour . '_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
 // Load additional CSS styles for bold Text
 if ($this->params->get('boldText'))
 {
-	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/boldtext.css');
+	JHtml::_('stylesheet', 'boldtext.css', array('version' => 'auto', 'relative' => true));
 }
 
 // Load specific language related CSS
-$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (file_exists($languageCss) && filesize($languageCss) > 0)
-{
-	$this->addStyleSheetVersion($languageCss);
-}
+JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto', 'relative' => true));
 
 // Load custom.css
-$customCss = 'templates/' . $this->template . '/css/custom.css';
+JHtml::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
 
-if (file_exists($customCss) && filesize($customCss) > 0)
-{
-	$this->addStyleSheetVersion($customCss);
-}
+// IE specific
+JHtml::_('stylesheet', 'ie8.css', array('version' => 'auto', 'relative' => true, 'conditional' => 'IE 8'));
+JHtml::_('stylesheet', 'ie7.css', array('version' => 'auto', 'relative' => true, 'conditional' => 'IE 7'));
 
 // Logo file
 if ($this->params->get('logoFile'))
@@ -104,8 +98,6 @@ $this->addScriptDeclaration("
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
-	<!--[if IE 8]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie8.css" rel="stylesheet" /><![endif]-->
-	<!--[if IE 7]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie7.css" rel="stylesheet" /><![endif]-->
 </head>
 <body id="minwidth-body">
 <div id="containerwrap" data-basepath="<?php echo JURI::root(true); ?>">
