@@ -12,8 +12,5 @@
 define(['jquery', 'bootstrap', 'text!testsRoot/bootstrap/fixtures/fixture.html'], function ($, fixture) {
 	$('body').append(fixture);
 
-	// new JCaption('#single img.test');
-	// new JCaption('#multiple img.test');
-	// new JCaption('#empty img.test');
-	// new JCaption('#options img.test');
+	// @TODO Add the tests
 });
