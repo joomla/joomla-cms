@@ -68,7 +68,7 @@ class UsersHelper
 			);
 		}
 
-		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getComponent('com_users')->params->get('custom_fields_enable', '1'))
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
 		{
 			JHtmlSidebar::addEntry(
 				JText::_('JGLOBAL_FIELDS'),

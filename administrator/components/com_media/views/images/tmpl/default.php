@@ -24,12 +24,12 @@ JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
 
 // Include jQuery
 JHtml::_('jquery.framework');
-JHtml::_('script', 'media/popup-imagemanager.min.js', false, true, false, false, true);
-JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
+JHtml::_('script', 'media/popup-imagemanager.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'media/popup-imagemanager.css', array('version' => 'auto', 'relative' => true));
 
 if ($lang->isRtl())
 {
-	JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array(), true);
+	JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
 JFactory::getDocument()->addScriptDeclaration(
