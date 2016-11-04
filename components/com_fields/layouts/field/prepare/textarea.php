@@ -16,7 +16,7 @@ if (!key_exists('field', $displayData))
 $field = $displayData['field'];
 $value = $field->value;
 
-if ((is_array($value) && !$value) || (!is_array($value) && !strlen($value)))
+if (!$value)
 {
 	return;
 }
