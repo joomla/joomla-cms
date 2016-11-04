@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_finder
+ * @subpackage  com_search
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -12,11 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * Map table class for the Finder package.
+ * Map table class for the Search package.
  *
  * @since  2.5
  */
-class FinderTableMap extends JTable
+class SearchTableMap extends JTable
 {
 	/**
 	 * Constructor

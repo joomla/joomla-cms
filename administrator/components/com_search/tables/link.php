@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_finder
+ * @subpackage  com_search
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Link table class for the Finder package.
+ * Link table class for the Search package.
  *
  * @since  2.5
  */
-class FinderTableLink extends JTable
+class SearchTableLink extends JTable
 {
 	/**
 	 * Constructor
