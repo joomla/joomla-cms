@@ -8457,6 +8457,9 @@ body.modal-open {
 .subhead {
 	text-shadow: none;
 }
+.popover-content {
+	min-height: 33px;
+}
 .pull-right {
 	float: left;
 }
