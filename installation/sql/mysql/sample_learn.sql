@@ -169,7 +169,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (166, 47, 183, 188, 6, 'com_content.category.75', 'Navigation Modules', '{}'),
 (167, 54, 289, 290, 4, 'com_content.category.76', 'Recipes', '{"core.create":{"12":1,"10":1},"core.edit.own":{"12":1,"10":1}}'),
 (168, 34, 106, 107, 3, 'com_content.article.67', 'What''s New in 1.5?', '{}'),
-(169, 24, 335, 336, 2, 'com_users.category.77', 'Uncategorised', ''),
+(169, 24, 335, 336, 2, 'com_users.category.77', 'Uncategorised', '{}'),
 (170, 50, 217, 218, 6, 'com_content.article.68', 'Captcha', '{}'),
 (171, 50, 219, 220, 6, 'com_content.article.69', 'Quick Icons', '{}'),
 (172, 96, 178, 179, 7, 'com_content.article.70', 'Smart Search', '{}'),
