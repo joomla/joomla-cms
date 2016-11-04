@@ -1,0 +1,1 @@
+ALTER TABLE `#__extensions` MODIFY `enabled` DEFAULT '0';
