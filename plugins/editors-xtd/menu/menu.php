@@ -43,7 +43,7 @@ class PlgButtonMenu extends JPlugin
 		$user  = JFactory::getUser();
 
 		if ($user->authorise('core.create', 'com_menus')
-				|| $user->authorise('core.edit', 'com_menus'))
+			|| $user->authorise('core.edit', 'com_menus'))
 		{
 			$js = "
 			function jSelectMenuItem(id, title, tree, object, uri, language)

@@ -44,8 +44,8 @@ class PlgButtonContact extends JPlugin
 		$user  = JFactory::getUser();
 
 		if ($user->authorise('core.create', 'com_contact')
-				|| $user->authorise('core.edit', 'com_contact')
-				|| $user->authorise('core.edit.own', 'com_contact'))
+			|| $user->authorise('core.edit', 'com_contact')
+			|| $user->authorise('core.edit.own', 'com_contact'))
 		{
 			$js = "
 			function jSelectContact(id, title, catid, object, link, lang)
