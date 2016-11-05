@@ -17,7 +17,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormAbstractlist extends JFormField
 {
-
 	/**
 	 * Method to get the field input markup for a generic list.
 	 * Use the multiple attribute to enable multiselect.
