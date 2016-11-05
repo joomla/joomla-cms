@@ -24,7 +24,7 @@ class SearchControllerSearches extends JControllerLegacy
 	public function reset()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$model = $this->getModel('Searches');
 
@@ -44,7 +44,7 @@ class SearchControllerSearches extends JControllerLegacy
 	public function toggleResults()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		if ($this->getModel('Searches')->getState('show_results', 1, 'int') === 0)
 		{

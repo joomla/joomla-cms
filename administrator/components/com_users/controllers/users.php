@@ -66,7 +66,7 @@ class UsersControllerUsers extends JControllerAdmin
 	public function changeBlock()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('block' => 1, 'unblock' => 0);
@@ -113,7 +113,7 @@ class UsersControllerUsers extends JControllerAdmin
 	public function activate()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->get('cid', array(), 'array');
 

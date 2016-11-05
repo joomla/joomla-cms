@@ -46,7 +46,7 @@ class FieldsControllerField extends JControllerForm
 	 */
 	public function storeform()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app = JFactory::getApplication();
 		$data = $this->input->get($this->input->get('formcontrol', 'jform'), array(), 'array');
@@ -150,7 +150,7 @@ class FieldsControllerField extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		$model = $this->getModel('Field');

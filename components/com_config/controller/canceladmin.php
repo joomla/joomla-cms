@@ -53,7 +53,7 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
+			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN_NOTICE'));
 			$this->app->redirect('index.php');
 		}
 

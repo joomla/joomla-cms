@@ -31,7 +31,7 @@ class InstallerControllerLanguages extends JControllerLegacy
 		$model->purge();
 
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get the caching duration
 		$component = JComponentHelper::getComponent('com_installer');
@@ -61,7 +61,7 @@ class InstallerControllerLanguages extends JControllerLegacy
 	public function purge()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Purge updates
 		$model = $this->getModel('update');

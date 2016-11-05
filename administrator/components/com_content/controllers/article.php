@@ -123,7 +123,7 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		/** @var ContentModelArticle $model */

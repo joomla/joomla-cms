@@ -108,7 +108,7 @@ class JControllerAdmin extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to remove from the request.
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
@@ -183,7 +183,7 @@ class JControllerAdmin extends JControllerLegacy
 	public function publish()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to publish from the request.
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
@@ -261,7 +261,7 @@ class JControllerAdmin extends JControllerLegacy
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : 1;
@@ -297,7 +297,7 @@ class JControllerAdmin extends JControllerLegacy
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
@@ -341,7 +341,7 @@ class JControllerAdmin extends JControllerLegacy
 	public function checkin()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 

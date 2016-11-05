@@ -43,7 +43,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 */
 	public function rebuild()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$extension = $this->input->get('extension');
 		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
@@ -76,7 +76,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 */
 	public function saveorder()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		JLog::add('CategoriesControllerCategories::saveorder() is deprecated. Function will be removed in 4.0', JLog::WARNING, 'deprecated');
 
@@ -107,7 +107,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
