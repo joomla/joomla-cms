@@ -319,6 +319,8 @@ SELECT 85, 0;
 TRUNCATE TABLE [#__template_styles];
 
 SET IDENTITY_INSERT [#__template_styles] ON;
+
+INSERT [#__template_styles] ([id], [template], [client_id], [home], [title], [params])
 SELECT 4, 'beez3', 0, 0, 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.png","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'
 UNION ALL
 SELECT 5, 'hathor', 1, 0, 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'
@@ -327,6 +329,5 @@ SELECT 7, 'protostar', 0, '1', 'My Default Style (Protostar)', '{"templateColor"
 UNION ALL
 SELECT 8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"#000000","logoFile":"","admin_menus":1,"displayHeader":1,"statusFixed":1,"stickyToolbar":1}'
 UNION ALL
-INSERT INTO [#__template_styles] ([id], [template], [client_id], [home], [title], [params])
 
 SET IDENTITY_INSERT [#__template_styles] OFF;
