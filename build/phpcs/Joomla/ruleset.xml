@@ -23,23 +23,15 @@
 	<exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore_finalisation.php</exclude-pattern>
 	<exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
 	<exclude-pattern type="relative">configuration.php</exclude-pattern>
+	<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	<exclude-pattern type="relative">plugins/captcha/recaptcha/recaptchalib.php</exclude-pattern>
 
 	<!-- Include all sniffs in an external standard directory -->
-	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
-		<!-- These exceptions are temporary for now -->
-		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-		<exclude-pattern type="relative">components/*</exclude-pattern>
-		<exclude-pattern type="relative">modules/*</exclude-pattern>
-		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
-		<exclude-pattern type="relative">libraries/joomla/*</exclude-pattern>
-	</rule>
 	<rule ref="Generic.Files.EndFileNewline">
 		<!-- These exceptions are temporary for now, possibly permanent -->
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
 
 	<!-- Use Unix newlines -->
@@ -59,14 +51,12 @@
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Generic.Formatting.DisallowMultipleStatements">
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
 	<rule ref="Generic.Functions.FunctionCallArgumentSpacing" />
 
@@ -95,7 +85,7 @@
 		<!-- These exceptions are temporary for now -->
 		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
 		<exclude-pattern type="relative">components/*</exclude-pattern>
-		<exclude-pattern type="relative">modules/*</exclude-pattern>
+		<exclude-pattern type="relative">modules/mod_articles_category/helper.php</exclude-pattern>
 		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
 	</rule>
 	<rule ref="PEAR.NamingConventions.ValidClassName">
@@ -165,7 +155,6 @@
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Joomla.ControlStructures.InlineControlStructure">
@@ -173,7 +162,6 @@
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Joomla.ControlStructures.MultiLineCondition">
@@ -181,7 +169,6 @@
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Joomla.WhiteSpace.ConcatenationSpacing">

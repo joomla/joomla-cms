@@ -13,6 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.combobox');
+JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0));
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
@@ -129,7 +130,7 @@ $script .= "
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (updStatus == -2) {
-							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTrashed") . "</span>');
+							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTRASHED") . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (document.formvalidator.isValid(document.getElementById('module-form'))) {
@@ -149,10 +150,12 @@ $script .= "
 
 JFactory::getDocument()->addScriptDeclaration($script);
 
+$input = JFactory::getApplication()->input;
+
 // In case of modal
-$isModal = JFactory::getApplication()->input->get('layout') == 'modal' ? true : false;
+$isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
-$tmpl    = $isModal ? '&tmpl=component' : '';
+$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
@@ -226,7 +229,7 @@ $tmpl    = $isModal ? '&tmpl=component' : '';
 			</div>
 			<div class="span3">
 				<fieldset class="form-vertical">
-					<?php echo $this->form->getControlGroup('showtitle'); ?>
+					<?php echo $this->form->renderField('showtitle'); ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('position'); ?>

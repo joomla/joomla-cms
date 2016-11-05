@@ -11,19 +11,17 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  1.6
  */
-class JFormFieldCategoryEdit extends JFormFieldList
+class JFormFieldCategoryEdit extends JFormAbstractlist
 {
 	/**
 	 * To allow creation of new categories.
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.6
 	 */
 	protected $allowAdd;
@@ -161,7 +159,15 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// Filter language
 		if (!empty($this->element['language']))
 		{
-			$subQuery->where('language = ' . $db->quote($this->element['language']));
+			if (strpos($this->element['language'], ',') !== false)
+			{
+				$language = implode(',', $db->quote(explode(',', $this->element['language'])));
+			}
+			else
+			{
+				$language = $db->quote($this->element['language']);
+			}
+			$subQuery->where($db->quoteName('language') . ' IN (' . $language . ')');
 		}
 
 		// Filter on the published state
@@ -251,8 +257,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		{
 			foreach ($options as $i => $option)
 			{
-				/* To take save or create in a category you need to have create rights for that category
-				 * unless the item is already in that category.
+				/*
+				 * To take save or create in a category you need to have create rights for that category unless the item is already in that category.
 				 * Unset the option if the user isn't authorised for it. In this field assets are always categories.
 				 */
 				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true && $option->level != 0)
@@ -264,7 +270,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// If you have an existing category id things are more complex.
 		else
 		{
-			/* If you are only allowed to edit in this category but not edit.state, you should not get any
+			/*
+			 * If you are only allowed to edit in this category but not edit.state, you should not get any
 			 * option to change the category parent for a category or the category for a content item,
 			 * but you should be able to save in that category.
 			 */
@@ -285,8 +292,10 @@ class JFormFieldCategoryEdit extends JFormFieldList
 					unset($options[$i]);
 				}
 
-				// However, if you can edit.state you can also move this to another category for which you have
-				// create permission and you should also still be able to save in the current category.
+				/*
+				 * However, if you can edit.state you can also move this to another category for which you have
+				 * create permission and you should also still be able to save in the current category.
+				 */
 				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 					&& ($option->value != $oldCat && !isset($oldParent)))
 				{
@@ -362,7 +371,10 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
+		if ((string) $this->readonly == '1'
+			|| (string) $this->readonly == 'true'
+			|| (string) $this->disabled == '1'
+			|| (string) $this->disabled == 'true')
 		{
 			$attr .= ' disabled="disabled"';
 		}

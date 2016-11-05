@@ -8,6 +8,7 @@ $baseDir = dirname(dirname($vendorDir));
 return array(
     'Symfony\\Polyfill\\Util\\' => array($vendorDir . '/symfony/polyfill-util'),
     'Symfony\\Polyfill\\Php56\\' => array($vendorDir . '/symfony/polyfill-php56'),
+    'Symfony\\Polyfill\\Php55\\' => array($vendorDir . '/symfony/polyfill-php55'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Joomla\\Utilities\\Tests\\' => array($vendorDir . '/joomla/utilities/Tests'),
     'Joomla\\Utilities\\' => array($vendorDir . '/joomla/utilities/src'),
@@ -22,6 +23,8 @@ return array(
     'Joomla\\Filter\\' => array($vendorDir . '/joomla/filter/src'),
     'Joomla\\Event\\Tests\\' => array($vendorDir . '/joomla/event/Tests'),
     'Joomla\\Event\\' => array($vendorDir . '/joomla/event/src'),
+    'Joomla\\Data\\Tests\\' => array($vendorDir . '/joomla/data/Tests'),
+    'Joomla\\Data\\' => array($vendorDir . '/joomla/data/src'),
     'Joomla\\DI\\Tests\\' => array($vendorDir . '/joomla/di/Tests'),
     'Joomla\\DI\\' => array($vendorDir . '/joomla/di/src'),
     'Joomla\\Application\\' => array($vendorDir . '/joomla/application/src'),

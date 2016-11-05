@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides a list of available database connections, optionally limiting to
@@ -19,7 +17,7 @@ JFormHelper::loadFieldClass('list');
  * @see    JDatabaseDriver
  * @since  11.3
  */
-class JFormFieldDatabaseConnection extends JFormFieldList
+class JFormFieldDatabaseConnection extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

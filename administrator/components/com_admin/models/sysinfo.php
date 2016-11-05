@@ -209,6 +209,7 @@ class AdminModelSysInfo extends JModelLegacy
 			{
 				$sectionValues = 'xxxxxx';
 			}
+
 			return strlen($sectionValues) ? 'xxxxxx' : '';
 		}
 

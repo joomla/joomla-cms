@@ -83,16 +83,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 		$item->parent_slug = $item->category_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
-		// Check if cache directory is writeable
-		$cacheDir = JPATH_CACHE . '/';
-
-		if (!is_writable($cacheDir))
-		{
-			JError::raiseNotice('0', JText::_('COM_NEWSFEEDS_CACHE_DIRECTORY_UNWRITABLE'));
-
-			return;
-		}
-
 		// Merge newsfeed params. If this is single-newsfeed view, menu params override newsfeed params
 		// Otherwise, newsfeed params override menu item params
 		$params = $state->get('params');
@@ -163,8 +153,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Get the newsfeed
 		$newsfeed = $item;
 
-		$temp = new Registry;
-		$temp->loadString($item->params);
+		$temp = new Registry($item->params);
 		$params->merge($temp);
 
 		try
@@ -195,15 +184,15 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('params', $params);
-		$this->assignRef('newsfeed', $newsfeed);
-		$this->assignRef('state', $state);
-		$this->assignRef('item', $item);
-		$this->assignRef('user', $user);
+		$this->params = $params;
+		$this->newsfeed = $newsfeed;
+		$this->state = $state;
+		$this->item = $item;
+		$this->user = $user;
 
 		if (!empty($msg))
 		{
-			$this->assignRef('msg', $msg);
+			$this->msg = $msg;
 		}
 
 		$this->print = $print;

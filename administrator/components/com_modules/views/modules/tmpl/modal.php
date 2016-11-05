@@ -28,34 +28,17 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 JFactory::getDocument()->addScriptDeclaration('
 moduleIns = function(type, name) {
-	var extraVal ,fieldExtra = jQuery("#extra_class");
-	extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
-	window.parent.jInsertEditorText("{loadmodule " + type + "," + name + extraVal + "}", "' . $editor . '");
+	window.parent.jInsertEditorText("{loadmodule " + type + "," + name + "}", "' . $editor . '");
 	window.parent.jModalClose();
 };
 modulePosIns = function(position) {
-	var extraVal ,fieldExtra = jQuery("#extra_class");
-	extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
-	window.parent.jInsertEditorText("{loadposition " + position +  extraVal  + "}", "' . $editor . '");
+	window.parent.jInsertEditorText("{loadposition " + position + "}", "' . $editor . '");
 	window.parent.jModalClose();
 };');
 ?>
 <div class="container-popup">
 
 	<form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
-
-		<div class="well">
-			<div class="control-group">
-				<div class="control-label">
-					<label for="extra_class" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_MODULES_EXTRA_STYLE_DESC'); ?>" aria-invalid="false">
-						<?php echo JText::_('COM_MODULES_EXTRA_STYLE_TITLE'); ?>
-					</label>
-				</div>
-				<div class="controls">
-					<input type="text" id="extra_class" value="" class="span12" size="45" maxlength="255" aria-invalid="false" />
-				</div>
-			</div>
-		</div>
 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
@@ -136,13 +119,7 @@ modulePosIns = function(position) {
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="small hidden-phone">
-						<?php if ($item->language == '') : ?>
-							<?php echo JText::_('JDEFAULT'); ?>
-						<?php elseif ($item->language == '*') : ?>
-							<?php echo JText::alt('JALL', 'language'); ?>
-						<?php else : ?>
-							<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-						<?php endif;?>
+						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
 					<td class="hidden-phone">
 						<?php echo (int) $item->id; ?>

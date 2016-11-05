@@ -66,9 +66,7 @@ abstract class JHtmlFilter
 			// Initialize the filter parameters.
 			if ($filter)
 			{
-				$registry = new Registry;
-				$registry->loadString($filter->params);
-				$filter->params = $registry;
+				$filter->params = new Registry($filter->params);
 			}
 		}
 
@@ -111,13 +109,13 @@ abstract class JHtmlFilter
 		$html .= JHtml::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . $branch_keys[0])
 		);
 
-		// Load plug-in language files.
+		// Load plugin language files.
 		FinderHelperLanguage::loadPluginLanguage();
 
 		// Iterate through the branches and build the branch groups.
 		foreach ($branches as $bk => $bv)
 		{
-			// If the multi-lang plug-in is enabled then drop the language branch.
+			// If the multi-lang plugin is enabled then drop the language branch.
 			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
 			{
 				continue;
@@ -204,7 +202,7 @@ abstract class JHtmlFilter
 	}
 
 	/**
-	 * Method to generate filters using select box drop down controls.
+	 * Method to generate filters using select box dropdown controls.
 	 *
 	 * @param   FinderIndexerQuery  $idxQuery  A FinderIndexerQuery object.
 	 * @param   array               $options   An array of options.
@@ -255,9 +253,7 @@ abstract class JHtmlFilter
 				// Initialize the filter parameters.
 				if ($filter)
 				{
-					$registry = new Registry;
-					$registry->loadString($filter->params);
-					$filter->params = $registry;
+					$filter->params = new Registry($filter->params);
 				}
 			}
 
@@ -301,7 +297,7 @@ abstract class JHtmlFilter
 			// Iterate through the branches and build the branch groups.
 			foreach ($branches as $bk => $bv)
 			{
-				// If the multi-lang plug-in is enabled then drop the language branch.
+				// If the multi-lang plugin is enabled then drop the language branch.
 				if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
 				{
 					continue;
@@ -374,7 +370,7 @@ abstract class JHtmlFilter
 		// Iterate through all branches and build code.
 		foreach ($branches as $bk => $bv)
 		{
-			// If the multi-lang plug-in is enabled then drop the language branch.
+			// If the multi-lang plugin is enabled then drop the language branch.
 			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
 			{
 				continue;
@@ -441,7 +437,7 @@ abstract class JHtmlFilter
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				JHtml::stylesheet('com_finder/dates.css', false, true, false);
+				JHtml::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
 			}
 
 			// Open the widget.

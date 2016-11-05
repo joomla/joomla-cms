@@ -10,14 +10,9 @@
 defined('_JEXEC') or die;
 JHtml::_('behavior.tabstate');
 
-$app  = JFactory::getApplication();
-$user = JFactory::getUser();
-
-if (!$user->authorise('core.manage', 'com_templates'))
+if (!JFactory::getUser()->authorise('core.manage', 'com_templates'))
 {
-	$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-	return false;
+	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
 JLoader::register('TemplatesHelper', __DIR__ . '/helpers/templates.php');

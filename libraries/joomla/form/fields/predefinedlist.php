@@ -9,14 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field to load a list of predefined values
  *
  * @since  3.2
  */
-abstract class JFormFieldPredefinedList extends JFormFieldList
+abstract class JFormFieldPredefinedList extends JFormAbstractlist
 {
 	/**
 	 * The form field type.
@@ -80,7 +78,7 @@ abstract class JFormFieldPredefinedList extends JFormFieldList
 
 					$options[] = (object) array(
 						'value' => $value,
-						'text'  => $text
+						'text'  => $text,
 					);
 				}
 			}

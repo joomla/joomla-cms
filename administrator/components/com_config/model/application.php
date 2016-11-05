@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Model for the global configuration
@@ -56,20 +57,20 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		// Get the config data.
 		$config = new JConfig;
-		$data   = JArrayHelper::fromObject($config);
+		$data   = ArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
 		// Get the text filter data
 		$params          = JComponentHelper::getParams('com_config');
-		$data['filters'] = JArrayHelper::fromObject($params->get('filters'));
+		$data['filters'] = ArrayHelper::fromObject($params->get('filters'));
 
 		// If no filter data found, get from com_content (update of 1.6/1.7 site)
 		if (empty($data['filters']))
 		{
 			$contentParams = JComponentHelper::getParams('com_content');
-			$data['filters'] = JArrayHelper::fromObject($contentParams->get('filters'));
+			$data['filters'] = ArrayHelper::fromObject($contentParams->get('filters'));
 		}
 
 		// Check for data in the session.
@@ -127,11 +128,20 @@ class ConfigModelApplication extends ConfigModelForm
 				$host    = JUri::getInstance()->getHost();
 				$options = new \Joomla\Registry\Registry;
 				$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
-				$options->set('transport.curl', array(CURLOPT_SSL_VERIFYPEER => false));
+
+				// Do not check for valid server certificate here, leave this to the user, moreover disable using a proxy if any is configured.
+				$options->set('transport.curl',
+					array(
+						CURLOPT_SSL_VERIFYPEER => false,
+						CURLOPT_SSL_VERIFYHOST => false,
+						CURLOPT_PROXY => null,
+						CURLOPT_PROXYUSERPWD => null,
+					)
+				);
 				$response = JHttpFactory::getHttp($options)->get('https://' . $host . JUri::root(true) . '/', array('Host' => $host), 10);
 
 				// If available in HTTPS check also the status code.
-				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310), true))
+				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))
 				{
 					throw new RuntimeException('HTTPS version of the site returned an invalid HTTP status code.');
 				}
@@ -192,8 +202,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Save the text filters
 		if (isset($data['filters']))
 		{
-			$registry = new Registry;
-			$registry->loadArray(array('filters' => $data['filters']));
+			$registry = new Registry(array('filters' => $data['filters']));
 
 			$extension = JTable::getInstance('extension');
 
@@ -223,7 +232,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 		// Get the previous configuration.
 		$prev = new JConfig;
-		$prev = JArrayHelper::fromObject($prev);
+		$prev = ArrayHelper::fromObject($prev);
 
 		// Merge the new data in. We do this to preserve values that were not in the form.
 		$data = array_merge($prev, $data);
@@ -243,6 +252,26 @@ class ConfigModelApplication extends ConfigModelForm
 		{
 			$table = JTable::getInstance('session');
 			$table->purge(-1);
+		}
+
+		// Set the shared session configuration
+		if (isset($data['shared_session']))
+		{
+			$currentShared = isset($prev['shared_session']) ? $prev['shared_session'] : '0';
+
+			// Has the user enabled shared sessions?
+			if ($data['shared_session'] == 1 && $currentShared == 0)
+			{
+				// Generate a random shared session name
+				$data['session_name'] = JUserHelper::genRandomPassword(16);
+			}
+
+			// Has the user disabled shared sessions?
+			if ($data['shared_session'] == 0 && $currentShared == 1)
+			{
+				// Remove the session name value
+				unset($data['session_name']);
+			}
 		}
 
 		if (empty($data['cache_handler']))
@@ -267,8 +296,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Create the new configuration object.
-		$config = new Registry('config');
-		$config->loadArray($data);
+		$config = new Registry($data);
 
 		// Overwrite the old FTP credentials with the new ones.
 		$temp = JFactory::getConfig();
@@ -301,12 +329,11 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		// Get the previous configuration.
 		$prev = new JConfig;
-		$prev = JArrayHelper::fromObject($prev);
+		$prev = ArrayHelper::fromObject($prev);
 
 		// Create the new configuration object, and unset the root_user property
-		$config = new Registry('config');
 		unset($prev['root_user']);
-		$config->loadArray($prev);
+		$config = new Registry($prev);
 
 		// Write the configuration file.
 		return $this->writeConfigFile($config);
@@ -403,6 +430,11 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
+		$permission['component'] = empty($permission['component']) ? 'root.1' : $permission['component'];
+
+		// Current view is global config?
+		$isGlobalConfig = $permission['component'] === 'root.1';
+
 		// Check if changed group has Super User permissions.
 		$isSuperUserGroupBefore = JAccess::checkGroup($permission['rule'], 'core.admin');
 
@@ -493,6 +525,15 @@ class ConfigModelApplication extends ConfigModelForm
 				$parentAssetId = $parentAsset->getRootId();
 			}
 
+			/**
+			 * @to do: incorrect ACL stored
+			 * When changing a permission of an item that doesn't have a row in the asset table the row a new row is created.
+			 * This works fine for item <-> component <-> global config scenario and component <-> global config scenario.
+			 * But doesn't work properly for item <-> section(s) <-> component <-> global config scenario,
+			 * because a wrong parent asset id (the component) is stored.
+			 * Happens when there is no row in the asset table (ex: deleted or not created on update).
+			 */
+
 			$asset->setLocation($parentAssetId, 'last-child');
 
 			if (!$asset->check() || !$asset->store())
@@ -530,7 +571,6 @@ class ConfigModelApplication extends ConfigModelForm
 				{
 					unset($temp[$permission['action']][$permission['rule']]);
 				}
-
 			}
 			else
 			{
@@ -541,7 +581,7 @@ class ConfigModelApplication extends ConfigModelForm
 			// Store the new permissions.
 			try
 			{
-				$query = $this->db->getQuery(true)
+				$query->clear()
 					->update($this->db->quoteName('#__assets'))
 					->set($this->db->quoteName('rules') . ' = ' . $this->db->quote(json_encode($temp)))
 					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
@@ -568,30 +608,54 @@ class ConfigModelApplication extends ConfigModelForm
 		try
 		{
 			// Get the asset id by the name of the component.
-			$query = $this->db->getQuery(true)
-					->select($this->db->quoteName('id'))
-					->from($this->db->quoteName('#__assets'))
-					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+			$query->clear()
+				->select($this->db->quoteName('id'))
+				->from($this->db->quoteName('#__assets'))
+				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
 
 			$this->db->setQuery($query);
 
 			$assetId = (int) $this->db->loadResult();
 
-			// Get the group parent id of the current group.
-			$query = $this->db->getQuery(true)
+			// Fetch the parent asset id.
+			$parentAssetId = null;
+
+			/**
+			 * @to do: incorrect info
+			 * When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
+			 * But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
+			 * Also, currently it uses the component permission, but should use the calculated permissions for achild of the component/section.
+			 */
+
+			// If not in global config we need the parent_id asset to calculate permissions.
+			if (!$isGlobalConfig)
+			{
+				// In this case we need to get the component rules too.
+				$query->clear()
 					->select($this->db->quoteName('parent_id'))
-					->from($this->db->quoteName('#__usergroups'))
-					->where($this->db->quoteName('id') . ' = ' . (int) $permission['rule']);
+					->from($this->db->quoteName('#__assets'))
+					->where($this->db->quoteName('id') . ' = ' . $assetId);
+
+				$this->db->setQuery($query);
+
+				$parentAssetId = (int) $this->db->loadResult();
+			}
+
+			// Get the group parent id of the current group.
+			$query->clear()
+				->select($this->db->quoteName('parent_id'))
+				->from($this->db->quoteName('#__usergroups'))
+				->where($this->db->quoteName('id') . ' = ' . (int) $permission['rule']);
 
 			$this->db->setQuery($query);
 
 			$parentGroupId = (int) $this->db->loadResult();
 
 			// Count the number of child groups of the current group.
-			$query = $this->db->getQuery(true)
-					->select('COUNT(' . $this->db->quoteName('id') . ')')
-					->from($this->db->quoteName('#__usergroups'))
-					->where($this->db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
+			$query->clear()
+				->select('COUNT(' . $this->db->quoteName('id') . ')')
+				->from($this->db->quoteName('#__usergroups'))
+				->where($this->db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
 
 			$this->db->setQuery($query);
 
@@ -611,12 +675,21 @@ class ConfigModelApplication extends ConfigModelForm
 		$isSuperUserGroupAfter = JAccess::checkGroup($permission['rule'], 'core.admin');
 
 		// Get the rule for just this asset (non-recursive) and get the actual setting for the action for this group.
-		$assetRule = JAccess::getAssetRules($assetId)->allow($permission['action'], $permission['rule']);
+		$assetRule = JAccess::getAssetRules($assetId, false, false)->allow($permission['action'], $permission['rule']);
 
 		// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-		$inheritedGroupRule       = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
-		$inheritedGroupGlobalRule = JAccess::checkGroup($permission['rule'], $permission['action']);
-		$inheritedParentGroupRule = JAccess::checkGroup($parentGroupId, $permission['action'], $assetId);
+		$inheritedGroupRule = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
+
+		if (!empty($parentAssetId))
+		{
+			$inheritedGroupParentAssetRule = JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId);
+		}
+		else
+		{
+			$inheritedGroupParentAssetRule = null;
+		}
+
+		$inheritedParentGroupRule = !empty($parentGroupId) ? JAccess::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
 
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
@@ -644,6 +717,12 @@ class ConfigModelApplication extends ConfigModelForm
 
 			// Second part: Overwrite the calculated permissions labels if there is an explicity permission in the current group.
 
+			/**
+			 * @to do: incorect info
+			 * If a component as a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
+			 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
+			 */
+
 			// If there is an explicity permission "Not Allowed". Calculated permission is "Not Allowed".
 			if ($assetRule === false)
 			{
@@ -659,23 +738,19 @@ class ConfigModelApplication extends ConfigModelForm
 
 			// Third part: Overwrite the calculated permissions labels for special cases.
 
-			// User in in global config Root (Public)?
-			$isGlobalConfig = (empty($permission['component']) || $permission['component'] === 'root.1') ? true : false;
-
 			// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 			if (empty($parentGroupId) && $isGlobalConfig === true && $assetRule === null)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
-			// Component/item root level with explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
-			elseif (empty($parentGroupId) && $isGlobalConfig === false && $inheritedParentGroupRule === null && $inheritedGroupGlobalRule === false)
-			{
-				$result['class'] = 'label label-important';
-				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
-			}
-			// Some parent group has an explicit "Denied". Calculated permission is "Not Allowed (Locked)".
-			elseif ($inheritedParentGroupRule === false)
+
+			/**
+			 * Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
+			 * Or some parent group has an explicit "Denied".
+			 * Calculated permission is "Not Allowed (Locked)".
+			 */
+			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
@@ -700,7 +775,7 @@ class ConfigModelApplication extends ConfigModelForm
 	/**
 	 * Method to send a test mail which is called via an AJAX request
 	 *
-	 * @return bool
+	 * @return boolean
 	 *
 	 * @since   3.5
 	 * @throws Exception
@@ -739,7 +814,7 @@ class ConfigModelApplication extends ConfigModelForm
 			}
 			else
 			{
-				$app->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'success');
+				$app->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'message');
 			}
 
 			return true;

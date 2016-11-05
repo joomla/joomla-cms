@@ -56,17 +56,15 @@ abstract class FinderIndexerStemmer
 		$class = 'FinderIndexerStemmer' . ucfirst($adapter);
 
 		// Check if a stemmer exists for the adapter.
-		if (file_exists($path))
-		{
-			// Instantiate the stemmer.
-			include_once $path;
-			$instances[$adapter] = new $class;
-		}
-		else
+		if (!file_exists($path))
 		{
 			// Throw invalid adapter exception.
 			throw new Exception(JText::sprintf('COM_FINDER_INDEXER_INVALID_STEMMER', $adapter));
 		}
+
+		// Instantiate the stemmer.
+		JLoader::register($class, $path);
+		$instances[$adapter] = new $class;
 
 		return $instances[$adapter];
 	}

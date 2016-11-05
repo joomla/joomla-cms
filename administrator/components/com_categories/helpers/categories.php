@@ -47,10 +47,10 @@ class CategoriesHelper
 
 		if (file_exists($file))
 		{
-			require_once $file;
-
 			$prefix = ucfirst(str_replace('com_', '', $component));
 			$cName = $prefix . 'Helper';
+
+			JLoader::register($cName, $file);
 
 			if (class_exists($cName))
 			{
@@ -148,7 +148,7 @@ class CategoriesHelper
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/models');
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
 
-		$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel');
+		$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel', array('ignore_request' => true));
 		$categoryModel->save($data);
 
 		$catid = $categoryModel->getState('category.id');

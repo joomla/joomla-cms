@@ -14,7 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0 ));
 
 $app = JFactory::getApplication();
 $input = $app->input;
@@ -29,6 +29,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			' . $this->form->getField("misc")->save() . '
 			Joomla.submitform(task, document.getElementById("contact-form"));
 
+			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
 			if (task !== "contact.apply")
 			{
 				window.parent.jQuery("#contactEdit' . $this->item->id . 'Modal").modal("hide");
@@ -42,8 +43,8 @@ $this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
 
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;
-$layout = $isModal ? 'modal' : 'edit';
-$tmpl = $isModal ? '&tmpl=component' : '';
+$layout  = $isModal ? 'modal' : 'edit';
+$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
@@ -93,6 +94,8 @@ $tmpl = $isModal ? '&tmpl=component' : '';
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
@@ -103,8 +106,6 @@ $tmpl = $isModal ? '&tmpl=component' : '';
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php if ( ! $isModal && $assoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
@@ -117,5 +118,6 @@ $tmpl = $isModal ? '&tmpl=component' : '';
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

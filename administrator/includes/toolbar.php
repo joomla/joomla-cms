@@ -174,7 +174,7 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a media_manager button.
 	 *
-	 * @param   string  $directory  The sub-directory to upload the media to.
+	 * @param   string  $directory  The subdirectory to upload the media to.
 	 * @param   string  $alt        An override for the alt text.
 	 *
 	 * @return  void

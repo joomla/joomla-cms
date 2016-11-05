@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.6
  */
-class JFormFieldUser extends JFormField
+class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -73,30 +73,31 @@ class JFormFieldUser extends JFormField
 		// Get the basic field data
 		$data = parent::getLayoutData();
 
-		// Load the current username if available.
-		$table = JTable::getInstance('user');
+		// Initialize value
+		$name = '';
 
 		if (is_numeric($this->value))
 		{
-			$table->load($this->value);
+			$name = JUser::getInstance($this->value)->name;
 		}
 		// Handle the special case for "current".
 		elseif (strtoupper($this->value) == 'CURRENT')
 		{
 			// 'CURRENT' is not a reasonable value to be placed in the html
-			$this->value = JFactory::getUser()->id;
+			$current = JFactory::getUser();
+			$this->value = $current->id;
 			$data['value'] = $this->value;
-			$table->load($this->value);
+			$name = $current->name;
 		}
 		else
 		{
-			$table->name = JText::_('JLIB_FORM_SELECT_USER');
+			$name = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
 		$extraData = array(
-				'userName'  => $table->name,
+				'userName'  => $name,
 				'groups'    => $this->getGroups(),
-				'excluded'  => $this->getExcluded()
+				'excluded'  => $this->getExcluded(),
 		);
 
 		return array_merge($data, $extraData);
@@ -116,7 +117,7 @@ class JFormFieldUser extends JFormField
 			return explode(',', $this->element['groups']);
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -129,5 +130,30 @@ class JFormFieldUser extends JFormField
 	protected function getExcluded()
 	{
 		return explode(',', $this->element['exclude']);
+	}
+
+	/**
+	 * Transforms the field into an XML element and appends it as child on the given parent. This
+	 * is the default implementation of a field. Form fields which do support to be transformed into
+	 * an XML Element mut implemet the JFormDomfieldinterface.
+	 *
+	 * @param   stdClass    $field   The field.
+	 * @param   DOMElement  $parent  The field node parent.
+	 * @param   JForm       $form    The form.
+	 *
+	 * @return  DOMElement
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @see     JFormDomfieldinterface::appendXMLFieldTag
+	 */
+	public function appendXMLFieldTag($field, DOMElement $parent, JForm $form)
+	{
+		if (JFactory::getApplication()->isSite())
+		{
+			// The user field is not working on the front end
+			return;
+		}
+
+		return parent::appendXMLFieldTag($field, $parent, $form);
 	}
 }

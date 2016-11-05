@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the whosonline functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModWhosonlineHelper', __DIR__ . '/helper.php');
 
 $showmode = $params->get('showmode', 0);
 
