@@ -372,7 +372,7 @@ abstract class JHtml
 					 */
 					if (preg_match('#\.min$#', $strip))
 					{
-						$files[] = preg_replace('#\.min$#', '', $strip) . $ext;
+						$files[] = preg_replace('#\.min$#', '.', $strip) . $ext;
 					}
 					else
 					{
@@ -517,7 +517,7 @@ abstract class JHtml
 					 */
 					if (preg_match('#\.min$#', $strip))
 					{
-						$files[] = preg_replace('#\.min$#', '', $strip) . $ext;
+						$files[] = preg_replace('#\.min$#', '.', $strip) . $ext;
 					}
 					else
 					{
