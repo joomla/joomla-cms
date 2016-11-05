@@ -15,7 +15,7 @@ SELECT 1, 0, 1, 431, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1
 UNION ALL
 SELECT 2, 1, 2, 3, 1, 'com_admin', 'com_admin', '{}'
 UNION ALL
-SELECT 3, 1, 4, 11, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 3, 1, 4, 11, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
 SELECT 4, 1, 12, 13, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'
 UNION ALL
@@ -23,15 +23,15 @@ SELECT 5, 1, 14, 15, 1, 'com_checkin', 'com_checkin', '{"core.admin":{"7":1},"co
 UNION ALL
 SELECT 6, 1, 16, 17, 1, 'com_config', 'com_config', '{}'
 UNION ALL
-SELECT 7, 1, 18, 87, 1, 'com_contact', 'com_contact', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 7, 1, 18, 87, 1, 'com_contact', 'com_contact', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 8, 1, 88, 299, 1, 'com_content', 'com_content', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'
+SELECT 8, 1, 88, 299, 1, 'com_content', 'com_content', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.edit":{"4":1},"core.edit.state":{"5":1}}'
 UNION ALL
 SELECT 9, 1, 300, 301, 1, 'com_cpanel', 'com_cpanel', '{}'
 UNION ALL
-SELECT 10, 1, 302, 303, 1, 'com_installer', 'com_installer', '{"core.admin":[],"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'
+SELECT 10, 1, 302, 303, 1, 'com_installer', 'com_installer', '{"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'
 UNION ALL
-SELECT 11, 1, 304, 305, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 11, 1, 304, 305, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1}}'
 UNION ALL
 SELECT 12, 1, 306, 307, 1, 'com_login', 'com_login', '{}'
 UNION ALL
@@ -39,31 +39,31 @@ SELECT 13, 1, 308, 309, 1, 'com_mailto', 'com_mailto', '{}'
 UNION ALL
 SELECT 14, 1, 310, 311, 1, 'com_massmail', 'com_massmail', '{}'
 UNION ALL
-SELECT 15, 1, 312, 313, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1},"core.edit":[],"core.edit.state":[]}'
+SELECT 15, 1, 312, 313, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'
 UNION ALL
-SELECT 16, 1, 314, 315, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 16, 1, 314, 315, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'
 UNION ALL
 SELECT 17, 1, 37, 38, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'
 UNION ALL
-SELECT 18, 1, 318, 319, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 18, 1, 318, 319, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 19, 1, 320, 327, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 19, 1, 320, 327, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 20, 1, 328, 329, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 20, 1, 328, 329, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 21, 1, 330, 331, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1},"core.manage":[]}'
+SELECT 21, 1, 330, 331, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'
 UNION ALL
 SELECT 22, 1, 332, 333, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 23, 1, 334, 335, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 23, 1, 334, 335, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 24, 1, 336, 339, 1, 'com_users', 'com_users', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 24, 1, 336, 339, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'
 UNION ALL
 SELECT 26, 1, 358, 359, 1, 'com_wrapper', 'com_wrapper', '{}'
 UNION ALL
 SELECT 33, 1, 420, 421, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 34, 8, 105, 108, 2, 'com_content.category.9', 'Uncategorised', '{"core.create":{"10":0,"12":0},"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 34, 8, 105, 108, 2, 'com_content.category.9', 'Uncategorised', '{"core.create":{"10":0,"12":0}}'
 UNION ALL
 SELECT 35, 3, 7, 8, 2, 'com_banners.category.10', 'Uncategorised', '{}'
 UNION ALL
@@ -79,7 +79,7 @@ SELECT 41, 7, 25, 86, 2, 'com_contact.category.16', 'Sample Data-Contact', '{}'
 UNION ALL
 SELECT 42, 19, 325, 326, 2, 'com_newsfeeds.category.17', 'Sample Data-Newsfeeds', '{}'
 UNION ALL
-SELECT 44, 39, 110, 247, 3, 'com_content.category.19', 'Joomla!', '{"core.create":{"10":0,"12":0},"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 44, 39, 110, 247, 3, 'com_content.category.19', 'Joomla!', '{"core.create":{"10":0,"12":0}}'
 UNION ALL
 SELECT 45, 44, 111, 224, 4, 'com_content.category.20', 'Extensions', '{}'
 UNION ALL
@@ -93,7 +93,7 @@ SELECT 49, 45, 202, 203, 5, 'com_content.category.24', 'Languages', '{}'
 UNION ALL
 SELECT 50, 45, 204, 223, 5, 'com_content.category.25', 'Plugins', '{}'
 UNION ALL
-SELECT 51, 39, 248, 279, 3, 'com_content.category.26', 'Park Site', '{"core.create":{"10":0,"12":0},"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 51, 39, 248, 279, 3, 'com_content.category.26', 'Park Site', '{"core.create":{"10":0,"12":0}}'
 UNION ALL
 SELECT 52, 51, 249, 254, 4, 'com_content.category.27', 'Park Blog', '{}'
 UNION ALL
@@ -101,7 +101,7 @@ SELECT 53, 51, 255, 276, 4, 'com_content.category.28', 'Photo Gallery', '{}'
 UNION ALL
 SELECT 54, 39, 280, 293, 3, 'com_content.category.29', 'Fruit Shop Site', '{}'
 UNION ALL
-SELECT 55, 54, 281, 286, 4, 'com_content.category.30', 'Growers', '{"core.create":{"12":0},"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":{"10":1}}'
+SELECT 55, 54, 281, 286, 4, 'com_content.category.30', 'Growers', '{"core.create":{"12":0},"core.edit.own":{"10":1}}'
 UNION ALL
 SELECT 59, 41, 26, 27, 3, 'com_contact.category.34', 'Park Site', '{}'
 UNION ALL
@@ -189,7 +189,7 @@ SELECT 100, 48, 197, 198, 6, 'com_content.category.71', 'Milky Way', '{}'
 UNION ALL
 SELECT 101, 50, 205, 206, 6, 'com_content.article.5', 'Authentication', '{}'
 UNION ALL
-SELECT 102, 51, 277, 278, 4, 'com_content.article.6', 'Australian Parks ', '{"core.delete":[],"core.edit":{"2":1},"core.edit.state":[]}'
+SELECT 102, 51, 277, 278, 4, 'com_content.article.6', 'Australian Parks ', '{"core.edit":{"2":1}}'
 UNION ALL
 SELECT 103, 95, 154, 155, 7, 'com_content.article.7', 'Banner Module', '{}'
 UNION ALL
@@ -311,11 +311,11 @@ SELECT 165, 94, 150, 151, 7, 'com_content.article.66', 'Latest Users Module', '{
 UNION ALL
 SELECT 166, 47, 183, 188, 6, 'com_content.category.75', 'Navigation Modules', '{}'
 UNION ALL
-SELECT 167, 54, 291, 292, 4, 'com_content.category.76', 'Recipes', '{"core.create":{"12":1,"10":1},"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":{"12":1,"10":1}}'
+SELECT 167, 54, 291, 292, 4, 'com_content.category.76', 'Recipes', '{"core.create":{"12":1,"10":1},"core.edit.own":{"12":1,"10":1}}'
 UNION ALL
 SELECT 168, 34, 106, 107, 3, 'com_content.article.67', 'What''s New in 1.5?', '{}'
 UNION ALL
-SELECT 169, 24, 337, 338, 2, 'com_users.category.77', 'Uncategorised', ''
+SELECT 169, 24, 337, 338, 2, 'com_users.category.77', 'Uncategorised', '{}'
 UNION ALL
 SELECT 170, 50, 219, 220, 6, 'com_content.article.68', 'Captcha', '{}'
 UNION ALL
