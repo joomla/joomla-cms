@@ -327,7 +327,6 @@ SELECT 5, 'hathor', 1, 0, 'Hathor - Default', '{"showSiteName":"0","colourChoice
 UNION ALL
 SELECT 7, 'protostar', 0, '1', 'My Default Style (Protostar)', '{"templateColor":"#696969","templateBackgroundColor":"#E3E3E3","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'
 UNION ALL
-SELECT 8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"#000000","logoFile":"","admin_menus":1,"displayHeader":1,"statusFixed":1,"stickyToolbar":1}'
-UNION ALL
+SELECT 8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"#000000","logoFile":"","admin_menus":1,"displayHeader":1,"statusFixed":1,"stickyToolbar":1}';
 
 SET IDENTITY_INSERT [#__template_styles] OFF;
