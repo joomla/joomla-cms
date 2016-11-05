@@ -38,6 +38,11 @@ class PlgButtonMenu extends JPlugin
 		 * Use the built-in element view to select the menu item.
 		 * Currently uses blank class.
 		 */
+		$user  = JFactory::getUser();
+
+		if ($user->authorise('core.create', 'com_menus')
+			|| $user->authorise('core.edit', 'com_menus'))
+		{
 		$link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;'
 			. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
@@ -50,5 +55,6 @@ class PlgButtonMenu extends JPlugin
 		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
 
 		return $button;
+		}
 	}
 }

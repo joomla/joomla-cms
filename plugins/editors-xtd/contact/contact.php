@@ -35,18 +35,25 @@ class PlgButtonContact extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		// The url for the contacts list
-		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;'
-			. JSession::getFormToken() . '=1&amp;editor=' . $name;
+		$user  = JFactory::getUser();
 
-		$button = new JObject;
-		$button->modal   = true;
-		$button->class   = 'btn';
-		$button->link    = $link;
-		$button->text    = JText::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
-		$button->name    = 'address';
-		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+		if ($user->authorise('core.create', 'com_contact')
+			|| $user->authorise('core.edit', 'com_contact')
+			|| $user->authorise('core.edit.own', 'com_contact'))
+		{
+			// The url for the contacts list
+			$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;'
+				. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
-		return $button;
+			$button          = new JObject;
+			$button->modal   = true;
+			$button->class   = 'btn';
+			$button->link    = $link;
+			$button->text    = JText::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
+			$button->name    = 'address';
+			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+
+			return $button;
+		}
 	}
 }
