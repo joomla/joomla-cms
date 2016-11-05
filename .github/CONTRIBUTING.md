@@ -22,4 +22,4 @@ There are other branches available which serve specific purposes.
 | staging | Current codebase. |
 | master | Each commit made to staging gets tested if it passes unit tests and codestyle rules. It is then merged into master. This is done automatically. |
 | 2.5.x | Branch for the Joomla 2.5.x series. Support for this version has ended, no patches are accepted here. |
-| 3.6.x | Branch for the next minor Joomla version. New backward compatible features go into this branch. Commits to staging will be applied to this branch as well. |
+| 3.7.x | Branch for the next minor Joomla version. New backward compatible features go into this branch. Commits to staging will be applied to this branch as well. |
