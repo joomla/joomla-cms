@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JFormFieldCalendar extends JFormField
+class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -140,7 +140,25 @@ class JFormFieldCalendar extends JFormField
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Initialize some field attributes.
-		$format = $this->format;
+		$translateFormat = (string) $this->element['translateformat'];
+
+		if ($translateFormat && $translateFormat != 'false')
+		{
+			$showTime = (string) $this->element['showtime'];
+
+			if ($showTime && $showTime != 'false')
+			{
+				$format = JText::_('DATE_FORMAT_CALENDAR_DATETIME');
+			}
+			else
+			{
+				$format = JText::_('DATE_FORMAT_CALENDAR_DATE');
+			}
+		}
+		else
+		{
+			$format = $this->format;
+		}
 
 		// Build the attributes array.
 		$attributes = array();
@@ -206,7 +224,7 @@ class JFormFieldCalendar extends JFormField
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
+		JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
 
 		return JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes);
 	}

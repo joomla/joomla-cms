@@ -17,8 +17,8 @@ JHtml::_('bootstrap.tooltip');
 $input = JFactory::getApplication()->input;
 if ($this->type == 'image')
 {
-	JHtml::_('script', 'system/jquery.Jcrop.min.js', false, true);
-	JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
+	JHtml::_('script', 'system/jquery.Jcrop.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array('version' => 'auto', 'relative' => true));
 }
 JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($){
@@ -217,7 +217,10 @@ if($this->type == 'font')
 						<fieldset>
 							<input type="hidden" class="address" name="address" />
 							<input type="file" name="files" required />
-							<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" />
+							<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" /><br>
+							<?php $cMax    = $this->state->get('params')->get('upload_limit'); ?>
+							<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize($cMax . 'MB')); ?>
+							<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 						</fieldset>
 					</form>
 					<br />

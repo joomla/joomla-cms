@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Session table
  *
- * @since       11.1
- * @deprecated  13.3 (Platform) & 4.0 (CMS) -  Use SQL queries to interact with the session table.
+ * @since       1.5
+ * @deprecated  3.2  Use SQL queries to interact with the session table.
  */
 class JTableSession extends JTable
 {
@@ -22,8 +22,8 @@ class JTableSession extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3  Use SQL queries to interact with the session table.
+	 * @since   1.5
+	 * @deprecated  3.2  Use SQL queries to interact with the session table.
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -42,8 +42,8 @@ class JTableSession extends JTable
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3  Use SQL queries to interact with the session table.
+	 * @since   1.5
+	 * @deprecated  3.2  Use SQL queries to interact with the session table.
 	 */
 	public function insert($sessionId, $clientId)
 	{
@@ -72,8 +72,8 @@ class JTableSession extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3  Use SQL queries to interact with the session table.
+	 * @since   1.5
+	 * @deprecated  3.2  Use SQL queries to interact with the session table.
 	 */
 	public function update($updateNulls = false)
 	{
@@ -100,8 +100,8 @@ class JTableSession extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3  Use SQL queries to interact with the session table.
+	 * @since   1.5
+	 * @deprecated  3.2  Use SQL queries to interact with the session table.
 	 */
 	public function destroy($userId, $clientIds = array())
 	{
@@ -130,8 +130,8 @@ class JTableSession extends JTable
 	 *
 	 * @return  mixed  Resource on success, null on fail
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3  Use SQL queries to interact with the session table.
+	 * @since   1.5
+	 * @deprecated  3.2  Use SQL queries to interact with the session table.
 	 */
 	public function purge($maxLifetime = 1440)
 	{
@@ -151,8 +151,8 @@ class JTableSession extends JTable
 	 *
 	 * @return  boolean  True if a session for this user exists
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3  Use SQL queries to interact with the session table.
+	 * @since   1.5
+	 * @deprecated  3.2  Use SQL queries to interact with the session table.
 	 */
 	public function exists($userid)
 	{
@@ -181,8 +181,8 @@ class JTableSession extends JTable
 	 *
 	 * @return  mixed  True if successful otherwise an error message
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3  Use SQL queries to interact with the session table.
+	 * @since   1.5
+	 * @deprecated  3.2  Use SQL queries to interact with the session table.
 	 */
 	public function delete($oid = null)
 	{

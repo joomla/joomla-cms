@@ -465,15 +465,16 @@ final class InstallationApplicationWeb extends JApplicationCms
 		if ($document === null)
 		{
 			$lang = JFactory::getLanguage();
-
 			$type = $this->input->get('format', 'html', 'word');
+			$date = new JDate('now');
 
 			$attributes = array(
-				'charset' => 'utf-8',
-				'lineend' => 'unix',
-				'tab' => '  ',
-				'language' => $lang->getTag(),
-				'direction' => $lang->isRtl() ? 'rtl' : 'ltr',
+				'charset'      => 'utf-8',
+				'lineend'      => 'unix',
+				'tab'          => "\t",
+				'language'     => $lang->getTag(),
+				'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
+				'mediaversion' => md5($date->format('YmdHi')),
 			);
 
 			$document = JDocument::getInstance($type, $attributes);
@@ -534,7 +535,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		if (!$session->get('registry') instanceof Registry)
 		{
 			// Registry has been corrupted somehow.
-			$session->set('registry', new Registry('session'));
+			$session->set('registry', new Registry);
 		}
 
 		// Set the session object.

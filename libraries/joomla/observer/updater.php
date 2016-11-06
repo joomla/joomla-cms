@@ -46,7 +46,7 @@ class JObserverUpdater implements JObserverUpdaterInterface
 
 	/**
 	 * Adds an observer to the JObservableInterface instance updated by this
-	 * This method can be called fron JObservableInterface::attachObserver
+	 * This method can be called from JObservableInterface::attachObserver
 	 *
 	 * @param   JObserverInterface  $observer  The observer object
 	 *
@@ -57,6 +57,24 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	public function attachObserver(JObserverInterface $observer)
 	{
 		$this->observers[get_class($observer)] = $observer;
+	}
+
+	/**
+	 * Removes an observer from the JObservableInterface instance updated by this
+	 * This method can be called from JObservableInterface::attachObserver
+	 *
+	 * @param   String  $observer  The observer class name
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
+	 */
+	public function detachObserver($observer)
+	{
+		if (isset($this->observers[$observer]))
+		{
+			unset($this->observers[$observer]);
+		}
 	}
 
 	/**
