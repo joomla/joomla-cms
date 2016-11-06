@@ -375,7 +375,7 @@ class JUser extends JObject
 			{
 				$this->isRoot = true;
 			}
-			else
+			elseif ($this->id > 0)
 			{
 				// Get all groups against which the user is mapped.
 				$identities = $this->getAuthorisedGroups();
@@ -798,8 +798,7 @@ class JUser extends JObject
 
 			if ($my->id == $table->id)
 			{
-				$registry = new Registry;
-				$registry->loadString($table->params);
+				$registry = new Registry($table->params);
 				$my->setParameters($registry);
 			}
 

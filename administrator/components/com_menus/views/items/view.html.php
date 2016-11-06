@@ -55,7 +55,11 @@ class MenusViewItems extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		MenusHelper::addSubmenu('items');
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			MenusHelper::addSubmenu('items');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -326,6 +330,12 @@ class MenusViewItems extends JViewLegacy
 		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('items.trash');
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::preferences('com_menus');
 		}
 
 		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');

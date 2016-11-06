@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile version="3.6" client="site">
 	<name>English (en-GB)</name>
-	<version>3.6.3</version>
-	<creationDate>August 2016</creationDate>
+	<version>3.6.4</version>
+	<creationDate>October 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,11 +11,13 @@
 	<description><![CDATA[en-GB site language]]></description>
 	<metadata>
 		<name>English (en-GB)</name>
+		<nativeName>English (United Kingdom)</nativeName>
 		<tag>en-GB</tag>
 		<rtl>0</rtl>
 		<locale>en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
 		<firstDay>0</firstDay>
 		<weekEnd>0,6</weekEnd>
+		<calendar>gregorian</calendar>
 	</metadata>
 	<params />
 </metafile>

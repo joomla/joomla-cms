@@ -119,6 +119,9 @@ if ($this->item->id > 0)
 
 			<?php foreach ($this->form->getFieldsets('params') as $name => $fieldSet) : ?>
 				<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "params-" . $name, JText::_($fieldSet->label)); ?>
+					<?php if (isset($fieldSet->description) && trim($fieldSet->description)): ?>
+						<?php echo '<p class="alert alert-info">' . $this->escape(JText::_($fieldSet->description)) . '</p>'; ?>
+					<?php endif; ?>
 					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>

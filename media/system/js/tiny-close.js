@@ -11,28 +11,25 @@
  * @since       3.5.1
  * @version     1.0
  */
-document.onreadystatechange = function () {
-	if (document.readyState == "interactive" && typeof tinyMCE != 'undefined' && tinyMCE)
+document.addEventListener('DOMContentLoaded', function () {
+	if (typeof window.jModalClose_no_tinyMCE === 'undefined')
 	{
-		if (typeof window.jModalClose_no_tinyMCE === 'undefined')
-		{	
-			window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;
-			
-			jModalClose = function () {
-				if (window.jModalClose_no_tinyMCE) window.jModalClose_no_tinyMCE.apply(this, arguments);
-				tinyMCE.activeEditor.windowManager.close();
-			};
-		}
+		window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;
 
-		if (typeof window.SqueezeBoxClose_no_tinyMCE === 'undefined')
-		{
-			if (typeof(SqueezeBox) == 'undefined')  SqueezeBox = {};
-			window.SqueezeBoxClose_no_tinyMCE = typeof(SqueezeBox.close) == 'function'  ?  SqueezeBox.close  :  false;
-
-			SqueezeBox.close = function () {
-				if (window.SqueezeBoxClose_no_tinyMCE)  window.SqueezeBoxClose_no_tinyMCE.apply(this, arguments);
-				tinyMCE.activeEditor.windowManager.close();
-			};
-		}
+		jModalClose = function () {
+			if (window.jModalClose_no_tinyMCE) window.jModalClose_no_tinyMCE.apply(this, arguments);
+			tinyMCE.activeEditor.windowManager.close();
+		};
 	}
-};
+
+	if (typeof window.SqueezeBoxClose_no_tinyMCE === 'undefined')
+	{
+		if (typeof(SqueezeBox) == 'undefined')  SqueezeBox = {};
+		window.SqueezeBoxClose_no_tinyMCE = typeof(SqueezeBox.close) == 'function'  ?  SqueezeBox.close  :  false;
+
+		SqueezeBox.close = function () {
+			if (window.SqueezeBoxClose_no_tinyMCE)  window.SqueezeBoxClose_no_tinyMCE.apply(this, arguments);
+			tinyMCE.activeEditor.windowManager.close();
+		};
+	}
+});

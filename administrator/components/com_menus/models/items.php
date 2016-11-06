@@ -246,7 +246,7 @@ class MenusModelItems extends JModelList
 		$query->from($db->quoteName('#__menu') . ' AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
+		$query->select('l.title AS language_title, l.image AS language_image, l.sef AS language_sef')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users.
@@ -350,7 +350,10 @@ class MenusModelItems extends JModelList
 				}
 			}
 
-			$query->where('a.menutype IN(' . implode(',', $types) . ')');
+			if (!empty($types))
+			{
+				$query->where('a.menutype IN(' . implode(',', $types) . ')');
+			}
 		}
 		// Default behavior => load all items from a specific menu
 		elseif (strlen($menuType))
@@ -372,8 +375,12 @@ class MenusModelItems extends JModelList
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+
+			if (!empty($groups))
+			{
+				$query->where('a.access IN (' . implode(',', $groups) . ')');
+			}
 		}
 
 		// Filter on the level.

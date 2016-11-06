@@ -50,7 +50,7 @@ class JHtmlBehaviorTest extends TestCase
 		// We generate a random template name so that we don't collide or hit anything
 		JFactory::$application->expects($this->any())
 			->method('getTemplate')
-			->willReturn('mytemplate' . rand(1, 10000));
+			->willReturn('mytemplate' . mt_rand(1, 10000));
 
 		$this->backupServer = $_SERVER;
 
@@ -489,7 +489,11 @@ class JHtmlBehaviorTest extends TestCase
 		JHtmlBehavior::keepalive();
 
 		$this->assertEquals(
-			array('JHtmlBehavior::keepalive' => true),
+			array(
+				'JHtmlBehavior::keepalive' => true,
+				'JHtmlBehavior::core'      => true,
+				'JHtmlBehavior::polyfill'  => array(md5(serialize(array('event', 'lt IE 9'))) => true),
+			),
 			JHtmlBehaviorInspector::getLoaded(),
 			'The keepalive behavior is not loaded with all dependencies'
 		);
