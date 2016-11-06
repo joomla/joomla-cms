@@ -346,7 +346,6 @@ class JoomlaInstallerScript
 			array('plugin', 'packageinstaller','installer',0),
 			array('plugin', 'folderinstaller','installer', 0),
 			array('plugin', 'urlinstaller','installer', 0),
-			array('plugin', 'createmenuitem', 'content', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
