@@ -223,12 +223,6 @@ class JLanguageHelper
 				$clientPath = (int) $language->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 				$metafile   = JLanguage::getLanguagePath($clientPath, $language->element) . '/' . $language->element . '.xml';
 
-				// Check if file exists.
-				if (!file_exists($metafile))
-				{
-					continue;
-				}
-
 				// Process the language metadata.
 				if ($processMetaData)
 				{
