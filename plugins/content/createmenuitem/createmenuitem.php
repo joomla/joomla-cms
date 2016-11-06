@@ -79,7 +79,7 @@ class PlgContentCreateMenuitem extends JPlugin
 			$data->parent_id    = $menuItems[0]->parent_id;
 			$data->menuordering = $menuItems[0]->id;
 
-			JHtml::_('script', 'plg_content_createmenuitem/parentitem.js', false, true);
+			JHtml::_('script', 'plg_content_createmenuitem/parentitem.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		return true;
