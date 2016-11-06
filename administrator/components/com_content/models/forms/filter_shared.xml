@@ -10,7 +10,6 @@
 		/>
 	</fields>
 	<fields name="list">
-
 		<field
 			name="limit"
 			type="limitbox"

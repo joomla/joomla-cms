@@ -31,7 +31,7 @@ class ContentTableDraft extends JTable
 	/**
 	 * Perform some sanity checks.
 	 *
-	 * @return  bool  True if all is OK | False otherwise.
+	 * @return  boolean  Always returns true.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

@@ -21,7 +21,7 @@ class ContentModelShared extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 * @see     JController
 	 */
 	public function __construct($config = array())

@@ -68,14 +68,13 @@ $columns   = 10;
 					</tr>
 				</tfoot>
 				<tbody>
-				<?php foreach ($this->items as $i => $item) :
-					$item->max_ordering = 0;
-					$ordering   = ($listOrder == 'a.ordering');
-					$canEdit    = $user->authorise('core.edit',       'com_content.article.' . $item->id);
-					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-					$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
-					$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
-					?>
+				<?php foreach ($this->items as $i => $item) : ?>
+					<?php $item->max_ordering = 0; ?>
+					<?php $ordering   = ($listOrder == 'a.ordering'); ?>
+					<?php $canEdit    = $user->authorise('core.edit',       'com_content.article.' . $item->id); ?>
+					<?php $canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0; ?>
+					<?php $canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId; ?>
+					<?php $canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin; ?>
 					<tr>
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->shareId); ?>

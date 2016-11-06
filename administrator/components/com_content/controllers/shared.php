@@ -17,6 +17,8 @@ defined('_JEXEC') or die;
 class ContentControllerShared extends JControllerAdmin
 {
 	/**
+	 * The prefix to use with controller messages.
+	 *
 	 * @var     string  The prefix to use with controller messages.
 	 * @since   __DEPLOY_VERSION__
 	 */

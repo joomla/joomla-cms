@@ -12,18 +12,18 @@ defined('_JEXEC') or die;
 /**
  * The article controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class ContentControllerArticle extends JControllerForm
 {
 	/**
 	 * Method to generate and store share token.
 	 *
-	 * @return  boolean   True if token successfully stored, false otherwise and internal error is set.
+	 * @return  string  Returns a JSON string.
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  InvalidArgumentException
 	 */
 	public function shareDraft()
 	{

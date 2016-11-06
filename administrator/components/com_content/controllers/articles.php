@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\Utilities\ArrayHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Articles list controller class.
@@ -126,7 +126,7 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Method to generate and store share token.
 	 *
-	 * @return  boolean   True if token successfully stored, false otherwise and internal error is set.
+	 * @return  void.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
