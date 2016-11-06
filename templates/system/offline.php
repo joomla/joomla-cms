@@ -16,15 +16,18 @@ $app = JFactory::getApplication();
 // Output as HTML5
 $this->setHtml5(true);
 
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
+
 // Styles
-$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/offline.css');
+JHtml::_('stylesheet', 'offline.css', array('version' => 'auto', 'relative' => true));
 
 if ($this->direction == 'rtl')
 {
-	$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/offline_rtl.css');
+	JHtml::_('stylesheet', 'offline_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
-$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css');
+JHtml::_('stylesheet', 'general.css', array('version' => 'auto', 'relative' => true));
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -36,7 +39,6 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body>
 	<jdoc:include type="message" />

@@ -62,7 +62,7 @@ if ($saveOrder)
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" class="nowrap center">
-							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
@@ -86,7 +86,7 @@ if ($saveOrder)
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="10">
+						<td colspan="9">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -117,7 +117,15 @@ if ($saveOrder)
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">
-								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'fields.', $canChange); ?>
+								<div class="btn-group">
+									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'fields.', $canChange, 'cb'); ?>
+									<?php // Create dropdown items and render the dropdown list. ?>
+									<?php if ($canChange) : ?>
+										<?php JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'fields'); ?>
+										<?php JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'fields'); ?>
+										<?php echo JHtml::_('actionsdropdown.render', $this->escape($item->title)); ?>
+									<?php endif; ?>
+								</div>
 							</td>
 							<td>
 								<div class="pull-left break-word">

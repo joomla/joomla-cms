@@ -49,7 +49,7 @@ class JFormFieldHelpsite extends JFormAbstractlist
 	 */
 	protected function getInput()
 	{
-		JHtml::script('system/helpsite.js', false, true);
+		JHtml::_('script', 'system/helpsite.js', array('version' => 'auto', 'relative' => true));
 
 		$showDefault = $this->getAttribute('showDefault') === 'false' ? 'false' : 'true';
 
