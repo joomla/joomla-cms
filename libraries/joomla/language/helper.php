@@ -245,9 +245,17 @@ class JLanguageHelper
 				// Process the language metadata.
 				if ($processMetaData)
 				{
-					$lang->metadata = JLanguage::parseXMLLanguageFile($metafile);
+					try
+					{
+						$lang->metadata = JLanguage::parseXMLLanguageFile($metafile);
+					}
+					// Not able to process xml language file. Fail silently.
+					catch (Exception $e)
+					{
+						continue;
+					}
 
-					// No metadata found, not a valid language.
+					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->metadata))
 					{
 						continue;
@@ -257,9 +265,17 @@ class JLanguageHelper
 				// Process the language manifest.
 				if ($processManifest)
 				{
-					$lang->manifest = JInstaller::parseXMLInstallFile($metafile);
+					try
+					{
+						$lang->manifest = JInstaller::parseXMLInstallFile($metafile);
+					}
+					// Not able to process xml language file. Fail silently.
+					catch (Exception $e)
+					{
+						continue;
+					}
 
-					// No metadata found, not a valid language.
+					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->manifest))
 					{
 						continue;
