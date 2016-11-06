@@ -92,7 +92,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 if ($this->item->id > 0)
 {
-	JHtml::_('script', 'system/share.js', false, true);
+	JHtml::_('script', 'system/share.js', array('version' => 'auto', 'relative' => true));
 	JFactory::getDocument()->addScriptDeclaration('
 	    var sharebuttonUrl = "'
 		. JRoute::_(
