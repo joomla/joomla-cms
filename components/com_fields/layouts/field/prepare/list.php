@@ -29,7 +29,7 @@ foreach ($options as $optionValue => $optionText)
 {
 	if (in_array($optionValue, $value))
 	{
-		$texts[] = $optionText;
+		$texts[] = JText::_($optionText);
 	}
 }
 
