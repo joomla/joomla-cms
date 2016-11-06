@@ -142,7 +142,8 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
 
 			// Check if script uses media version.
-			if (strpos($src, '?') === false && isset($attribs['options']) && isset($attribs['options']['version']) && $attribs['options']['version'])
+			if (isset($attribs['options']['version']) && $attribs['options']['version'] && strpos($src, '?') === false
+				&& ($mediaVersion || $attribs['options']['version'] !== 'auto'))
 			{
 				$src .= '?' . ($attribs['options']['version'] === 'auto' ? $mediaVersion : $attribs['options']['version']);
 			}
