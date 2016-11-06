@@ -120,10 +120,11 @@ class ContenthistoryHelper
 					if (isset($expandedObjectArray[$name]))
 					{
 						$optionFieldArray = $field->xpath('option[@value="' . $expandedObjectArray[$name] . '"]');
-                        			if (is_array($optionFieldArray) && count($optionFieldArray)) {
-                            				$valueText = trim((string)$optionFieldArray[0]);
+                        			if (is_array($optionFieldArray) && count($optionFieldArray))
+						{
+                            				$valueText = trim((string) $optionFieldArray[0]);
                         			} else {
-                           				$valueText = NULL;
+                           				$valueText = null;
                         			}
 						$values[(string) $field->attributes()->name] = JText::_($valueText);
 					}
