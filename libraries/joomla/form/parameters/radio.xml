@@ -11,7 +11,7 @@
 			>
 				<fieldset hidden="true" name="list_templates_modal" repeat="true">
 					<field
-						name="key"
+						name="name"
 						label="JLIB_FORM_FIELD_PARAM_RADIO_MULTIPLE_VALUES_KEY_LABEL"
 						size="30"
 						type="text"
