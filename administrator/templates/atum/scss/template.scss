@@ -160,16 +160,20 @@ small, .small {
     top: 0;
     right: 0;
     z-index: 2;
-    i {
-      padding: 14px 14px 13px;
+    > a {
+      display: inline-block;
+      width: 2.95em;
+      height: 2.95em;
+      line-height: 2.95em;
       color: $gray;
+      text-align: center;
       border-left: 1px solid rgba(0,0,0,.125);
       box-shadow: 1px 0 #fff inset;
-    }
-    i:hover, [aria-expanded*="true"] i {
-      background-color: darken($atum-card-title-bg, 2%);
-      border-left: 0;
-      box-shadow: 1px 0 rgba(0,0,0,.1) inset;
+      &:hover, &[aria-expanded*="true"] {
+        background-color: darken($atum-card-title-bg, 2%);
+        border-left-color: transparent;
+        box-shadow: 1px 0 rgba(0,0,0,.1) inset;
+      }
     }
   }
 }

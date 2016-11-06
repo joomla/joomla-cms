@@ -3,7 +3,7 @@ $enable-flex:                      true;
 $atum-template-color:              #27283a;
 $atum-gradient-inner:              #163f46;
 $atum-gradient-outer:              $atum-template-color;
-$atum-card-title-bg:							 #f5f5f5;
+$atum-card-title-bg:               #f5f5f5;
 $white:                            #fff;
 $grey:                             #aaa;
 
@@ -28,7 +28,7 @@ $font-size-h6:                     .8571rem;
 $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
 
 // Cards
-$card-border-color:        				 rgba(0,0,0,.175) !default;
+$card-border-color:                rgba(0,0,0,.17) !default;
 
 // BS4-alpha.5 | custom-select SVG override
 // This was broken in alpha.5 so be sure to remove this when it's fixed again
