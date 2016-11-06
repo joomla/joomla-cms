@@ -70,10 +70,10 @@ class JToolbarButtonPopup extends JToolbarButton
 
 		// Build the options array for the modal
 		$params = array();
-		$params['title']  = $options['title'];
-		$params['url']    = $options['doTask'];
-		$params['height'] = $height;
-		$params['width']  = $width;
+		$params['title']      = $options['title'];
+		$params['url']        = $options['doTask'];
+		$params['bodyHeight'] = $height;
+		$params['modalWidth'] = $width;
 
 		if (isset($footer))
 		{
