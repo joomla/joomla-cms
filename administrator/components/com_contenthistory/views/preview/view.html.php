@@ -34,13 +34,14 @@ class ContenthistoryViewPreview extends JViewLegacy
 		$this->state = $this->get('State');
 		$this->item = $this->get('Item');
 		
-		if (FALSE === $this->item) {
+		if (false === $this->item) 
+		{
             		$language = JFactory::getLanguage();
-            		$language->load('com_content', JPATH_SITE, NULL, TRUE);
+            		$language->load('com_content', JPATH_SITE, null, true);
 			
             		JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 
-            		return FALSE;
+            		return false;
         	}
 
 		// Check for errors.
