@@ -76,6 +76,20 @@ class MenusModelItems extends JModelList
 		$app = JFactory::getApplication('administrator');
 		$user = JFactory::getUser();
 
+		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+
+		// Adjust the context to support modal layouts.
+		if ($layout = $app->input->get('layout'))
+		{
+			$this->context .= '.' . $layout;
+		}
+
+		// Adjust the context to support forced languages.
+		if ($forcedLanguage)
+		{
+			$this->context .= '.' . $forcedLanguage;
+		}
+
 		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
 		$this->setState('filter.parent_id', $parentId);
 
@@ -149,6 +163,12 @@ class MenusModelItems extends JModelList
 
 		// List state information.
 		parent::populateState($ordering, $direction);
+
+		// Force a language.
+		if (!empty($forcedLanguage))
+		{
+			$this->setState('filter.language', $forcedLanguage);
+		}
 	}
 
 	/**
@@ -226,7 +246,7 @@ class MenusModelItems extends JModelList
 		$query->from($db->quoteName('#__menu') . ' AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
+		$query->select('l.title AS language_title, l.image AS language_image, l.sef AS language_sef')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users.
@@ -330,7 +350,10 @@ class MenusModelItems extends JModelList
 				}
 			}
 
-			$query->where('a.menutype IN(' . implode(',', $types) . ')');
+			if (!empty($types))
+			{
+				$query->where('a.menutype IN(' . implode(',', $types) . ')');
+			}
 		}
 		// Default behavior => load all items from a specific menu
 		elseif (strlen($menuType))
@@ -352,8 +375,12 @@ class MenusModelItems extends JModelList
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+
+			if (!empty($groups))
+			{
+				$query->where('a.access IN (' . implode(',', $groups) . ')');
+			}
 		}
 
 		// Filter on the level.
