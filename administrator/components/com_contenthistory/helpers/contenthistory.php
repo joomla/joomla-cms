@@ -123,7 +123,9 @@ class ContenthistoryHelper
                         			if (is_array($optionFieldArray) && count($optionFieldArray))
 						{
                             				$valueText = trim((string) $optionFieldArray[0]);
-                        			} else {
+                        			} 
+						else 
+						{
                            				$valueText = null;
                         			}
 						$values[(string) $field->attributes()->name] = JText::_($valueText);
