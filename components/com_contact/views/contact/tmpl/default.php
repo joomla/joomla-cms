@@ -163,6 +163,10 @@ jimport('joomla.html.html.bootstrap');
 		<?php endif; ?>
 	<?php endif; ?>
 
+	<?php if ($tparams->get('show_user_custom_fields') && $this->contactUser) : ?>
+		<?php echo $this->loadTemplate('user_custom_fields'); ?>
+	<?php endif; ?>
+
 	<?php if ($this->contact->misc && $tparams->get('show_misc')) : ?>
 		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_OTHER_INFORMATION'), 'display-misc'); ?>
