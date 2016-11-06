@@ -370,7 +370,7 @@ abstract class JHtml
 					 * Detect if we received a file in the format name.min.ext
 					 * If so, strip the .min part out, otherwise append -uncompressed
 					 */
-					if (preg_match('#\.min$#', $strip))
+					if (strlen($strip) > 4 && preg_match('#\.min$#', $strip))
 					{
 						$files[] = preg_replace('#\.min$#', '.', $strip) . $ext;
 					}
@@ -515,7 +515,7 @@ abstract class JHtml
 					 * Detect if we received a file in the format name.min.ext
 					 * If so, strip the .min part out, otherwise append -uncompressed
 					 */
-					if (preg_match('#\.min$#', $strip))
+					if (strlen($strip) > 4 && preg_match('#\.min$#', $strip))
 					{
 						$files[] = preg_replace('#\.min$#', '.', $strip) . $ext;
 					}
