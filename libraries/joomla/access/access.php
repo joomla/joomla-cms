@@ -533,19 +533,19 @@ class JAccess
 		{
 			if ($assetName !== $extensionName)
 			{
-				JLog::add('No asset found for ' . $assetName . ', falling back to ' . $extensionName, JLog::WARNING, 'jerror');
+				JLog::add('No asset found for ' . $assetName . ', falling back to ' . $extensionName, JLog::WARNING, 'assets');
 
 				return self::getAssetRules($extensionName, $recursive, $recursiveParentAsset);
 			}
 
 			if (isset(self::$rootAsset['name']) && $assetName !== self::$rootAsset['name'])
 			{
-				JLog::add('No asset found for ' . $assetName . ', falling back to ' . self::$rootAsset['name'], JLog::WARNING, 'jerror');
+				JLog::add('No asset found for ' . $assetName . ', falling back to ' . self::$rootAsset['name'], JLog::WARNING, 'assets');
 
 				return self::getAssetRules(self::$rootAsset['name'], $recursive, $recursiveParentAsset);
 			}
 
-			JLog::add('No asset found for ' . $assetName . ', falling back to empty asset', JLog::WARNING, 'jerror');
+			JLog::add('No asset found for ' . $assetName . ', falling back to empty asset', JLog::WARNING, 'assets');
 
 			return new JAccessRules;
 		}
