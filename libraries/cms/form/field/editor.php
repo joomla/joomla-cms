@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('textarea');
  * @see    JEditor
  * @since  1.6
  */
-class JFormFieldEditor extends JFormFieldTextarea
+class JFormFieldEditor extends JFormFieldTextarea implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -184,7 +184,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -298,8 +298,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 			// Create the JEditor instance based on the given editor.
 			if (is_null($editor))
 			{
-				$conf = JFactory::getConfig();
-				$editor = $conf->get('editor');
+				$editor = JFactory::getConfig()->get('editor');
 			}
 
 			$this->editor = JEditor::getInstance($editor);
@@ -318,5 +317,25 @@ class JFormFieldEditor extends JFormFieldTextarea
 	public function save()
 	{
 		return $this->getEditor()->save($this->id);
+	}
+
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', 0) ? 'true' : 'false');
+		$fieldNode->setAttribute('filter', 'JComponentHelper::filterText');
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

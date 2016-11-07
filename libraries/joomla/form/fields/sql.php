@@ -9,14 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Supports an custom SQL select list
  *
  * @since  11.1
  */
-class JFormFieldSQL extends JFormFieldList
+class JFormFieldSQL extends JFormAbstractlist implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -110,7 +108,7 @@ class JFormFieldSQL extends JFormFieldList
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -304,5 +302,30 @@ class JFormFieldSQL extends JFormFieldList
 		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
+	}
+
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('value_field', 'text');
+		$fieldNode->setAttribute('key_field', 'value');
+
+		if (! $fieldNode->getAttribute('query'))
+		{
+			$fieldNode->setAttribute('query', 'select id as value, name as text from #__users');
+		}
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

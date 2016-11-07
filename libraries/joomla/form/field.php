@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\Normalise;
+use Joomla\String\StringHelper;
+
 /**
  * Abstract Form Field class for the Joomla Platform.
  *
@@ -59,7 +62,7 @@ abstract class JFormField
 	protected $autofocus = false;
 
 	/**
-	 * The SimpleXMLElement object of the <field /> XML element that describes the form field.
+	 * The SimpleXMLElement object of the `<field>` XML element that describes the form field.
 	 *
 	 * @var    SimpleXMLElement
 	 * @since  11.1
@@ -343,15 +346,15 @@ abstract class JFormField
 		// Detect the field type if not set
 		if (!isset($this->type))
 		{
-			$parts = JStringNormalise::fromCamelCase(get_called_class(), true);
+			$parts = Normalise::fromCamelCase(get_called_class(), true);
 
 			if ($parts[0] == 'J')
 			{
-				$this->type = JString::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[count($parts) - 1], '_');
 			}
 			else
 			{
-				$this->type = JString::ucfirst($parts[0], '_') . JString::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[0], '_') . StringHelper::ucfirst($parts[count($parts) - 1], '_');
 			}
 		}
 	}
@@ -417,7 +420,7 @@ abstract class JFormField
 				return $this->getTitle();
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -539,7 +542,7 @@ abstract class JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -568,11 +571,9 @@ abstract class JFormField
 		$this->group = $group;
 
 		$attributes = array(
-			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange',
-			'onclick', 'validate', 'pattern', 'default', 'required',
-			'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
-			'translateHint', 'translateLabel','translate_label', 'translateDescription',
-			'translate_description' ,'size');
+			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'default',
+			'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
+			'translate_label', 'translateDescription', 'translate_description', 'size');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -742,7 +743,7 @@ abstract class JFormField
 			'text'        => $data['label'],
 			'for'         => $this->id,
 			'classes'     => explode(' ', $data['labelclass']),
-			'position'    => $position
+			'position'    => $position,
 		);
 
 		return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
@@ -896,6 +897,23 @@ abstract class JFormField
 	}
 
 	/**
+	 * Render a layout of this field
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 * @param   array   $data      Optional data for the layout
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public function render($layoutId, $data = array())
+	{
+		$data = array_merge($this->getLayoutData(), $data);
+
+		return $this->getRenderer($layoutId)->render($data);
+	}
+
+	/**
 	 * Method to get a control group with label and input.
 	 *
 	 * @param   array  $options  Options to be passed into the rendering of the field
@@ -933,7 +951,7 @@ abstract class JFormField
 				$showonarr[] = array(
 					'field'  => str_replace('[]', '', $this->getName($showon[0])),
 					'values' => explode(',', $showon[1]),
-					'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
+					'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : '',
 				);
 			}
 
@@ -944,7 +962,7 @@ abstract class JFormField
 		$data = array(
 			'input'   => $this->getInput(),
 			'label'   => $this->getLabel(),
-			'options' => $options
+			'options' => $options,
 		);
 
 		return $this->getRenderer($this->renderLayout)->render($data);
@@ -993,8 +1011,20 @@ abstract class JFormField
 			'size'         => $this->size,
 			'spellcheck'   => $this->spellcheck,
 			'validate'     => $this->validate,
-			'value'        => $this->value
+			'value'        => $this->value,
 		);
+	}
+
+	/**
+	 * Allow to override renderer include paths in child fields
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	protected function getLayoutPaths()
+	{
+		return array();
 	}
 
 	/**
@@ -1012,6 +1042,13 @@ abstract class JFormField
 
 		$renderer->setDebug($this->isDebugEnabled());
 
+		$layoutPaths = $this->getLayoutPaths();
+
+		if ($layoutPaths)
+		{
+			$renderer->setIncludePaths($layoutPaths);
+		}
+
 		return $renderer;
 	}
 
@@ -1024,6 +1061,106 @@ abstract class JFormField
 	 */
 	protected function isDebugEnabled()
 	{
-		return ($this->getAttribute('debug', 'false') === 'true');
+		return $this->getAttribute('debug', 'false') === 'true';
+	}
+
+	/**
+	 * Transforms the field into an XML element and appends it as child on the given parent. This
+	 * is the default implementation of a field. Form fields which do support to be transformed into
+	 * an XML Element mut implemet the JFormDomfieldinterface.
+	 *
+	 * @param   stdClass    $field   The field.
+	 * @param   DOMElement  $parent  The field node parent.
+	 * @param   JForm       $form    The form.
+	 *
+	 * @return  DOMElement
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @see     JFormDomfieldinterface::appendXMLFieldTag
+	 */
+	public function appendXMLFieldTag($field, DOMElement $parent, JForm $form)
+	{
+		$app = JFactory::getApplication();
+
+		if ($field->params->get('show_on') == 1 && $app->isAdmin())
+		{
+			return;
+		}
+		elseif ($field->params->get('show_on') == 2 && $app->isSite())
+		{
+			return;
+		}
+
+		$node = $parent->appendChild(new DOMElement('field'));
+
+		$node->setAttribute('name', $field->alias);
+		$node->setAttribute('type', $field->type);
+		$node->setAttribute('default', $field->default_value);
+		$node->setAttribute('label', $field->label);
+		$node->setAttribute('description', $field->description);
+		$node->setAttribute('class', $field->params->get('class'));
+		$node->setAttribute('hint', $field->params->get('hint'));
+		$node->setAttribute('required', $field->required ? 'true' : 'false');
+		$node->setAttribute('readonly', $field->params->get('readonly', 0) ? 'true' : 'false');
+
+		// Set the disabled state based on the parameter and the permission
+		if ($field->params->get('disabled', 0))
+		{
+			$node->setAttribute('disabled', 'true');
+		}
+
+		foreach ($field->fieldparams->toArray() as $key => $param)
+		{
+			if (is_array($param))
+			{
+				$param = implode(',', $param);
+			}
+
+			$node->setAttribute($key, $param);
+		}
+
+		$this->postProcessDomNode($field, $node, $form);
+
+		return $node;
+	}
+
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	{
+	}
+
+	/**
+	 * Returns the attributes of the field as an XML string which can be loaded
+	 * into JForm.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getFormParameters()
+	{
+		jimport('joomla.filesystem.file');
+
+		$reflectionClass = new ReflectionClass($this);
+		$fileName        = dirname($reflectionClass->getFileName()) . '/../parameters/';
+		$fileName       .= str_replace('.php', '.xml', basename($reflectionClass->getFileName()));
+
+		if (JFile::exists($fileName))
+		{
+			return JFile::read($fileName);
+		}
+
+		return '';
 	}
 }

@@ -20,15 +20,14 @@ JText::script('TPL_BEEZ3_REVERT_STYLES_TO_DEFAULT');
 JText::script('TPL_BEEZ3_DECREASE_SIZE');
 JText::script('TPL_BEEZ3_OPENMENU');
 JText::script('TPL_BEEZ3_CLOSEMENU');
-?>
 
-<script type="text/javascript">
-	var big        = '<?php echo (int) $this->params->get('wrapperLarge'); ?>%';
-	var small      = '<?php echo (int) $this->params->get('wrapperSmall'); ?>%';
-	var bildauf    = '<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/plus.png';
-	var bildzu     = '<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/minus.png';
-	var rightopen  = '<?php echo JText::_('TPL_BEEZ3_TEXTRIGHTOPEN', true); ?>';
-	var rightclose = '<?php echo JText::_('TPL_BEEZ3_TEXTRIGHTCLOSE', true); ?>';
-	var altopen    = '<?php echo JText::_('TPL_BEEZ3_ALTOPEN', true); ?>';
-	var altclose   = '<?php echo JText::_('TPL_BEEZ3_ALTCLOSE', true); ?>';
-</script>
+$this->addScriptDeclaration("
+	var big        = '" . (int) $this->params->get('wrapperLarge') . "%';
+	var small      = '" . (int) $this->params->get('wrapperSmall') . "%';
+	var bildauf    = '" . $this->baseurl . "/templates/" . $this->template . "/images/plus.png';
+	var bildzu     = '" . $this->baseurl . "/templates/" . $this->template . "/images/minus.png';
+	var rightopen  = '" . JText::_('TPL_BEEZ3_TEXTRIGHTOPEN', true) . "';
+	var rightclose = '" . JText::_('TPL_BEEZ3_TEXTRIGHTCLOSE', true) . "';
+	var altopen    = '" . JText::_('TPL_BEEZ3_ALTOPEN', true) . "';
+	var altclose   = '" . JText::_('TPL_BEEZ3_ALTCLOSE', true) . "';
+");

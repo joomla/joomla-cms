@@ -38,36 +38,142 @@ class ContactHelper extends JHelperContent
 			'index.php?option=com_categories&extension=com_contact',
 			$vName == 'categories'
 		);
+
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_contact')->get('custom_fields_enable', '1'))
+		{
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELDS'),
+				'index.php?option=com_fields&context=com_contact.contact',
+				$vName == 'fields.contact'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELD_GROUPS'),
+				'index.php?option=com_categories&extension=com_contact.contact.fields',
+				$vName == 'categories.contact'
+			);
+		}
 	}
 
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   JDatabaseQuery  &$query  The query object of com_categories
+	 * @param   stdClass[]  &$items  The contact category objects
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  stdClass[]
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
-	public static function countItems(&$query)
+	public static function countItems(&$items)
 	{
-		// Join articles to categories and count published items
-		$query->select('COUNT(DISTINCT cp.id) AS count_published');
-		$query->join('LEFT', '#__contact_details AS cp ON cp.catid = a.id AND cp.published = 1');
+		$db = JFactory::getDbo();
 
-		// Count unpublished items
-		$query->select('COUNT(DISTINCT cu.id) AS count_unpublished');
-		$query->join('LEFT', '#__contact_details AS cu ON cu.catid = a.id AND cu.published = 0');
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('published AS state, count(*) AS count')
+				->from($db->qn('#__contact_details'))
+				->where('catid = ' . (int) $item->id)
+				->group('published');
+			$db->setQuery($query);
+			$contacts = $db->loadObjectList();
 
-		// Count archived items
-		$query->select('COUNT(DISTINCT ca.id) AS count_archived');
-		$query->join('LEFT', '#__contact_details AS ca ON ca.catid = a.id AND ca.published = 2');
+			foreach ($contacts as $contact)
+			{
+				if ($contact->state == 1)
+				{
+					$item->count_published = $contact->count;
+				}
 
-		// Count trashed items
-		$query->select('COUNT(DISTINCT ct.id) AS count_trashed');
-		$query->join('LEFT', '#__contact_details AS ct ON ct.catid = a.id AND ct.published = -2');
+				if ($contact->state == 0)
+				{
+					$item->count_unpublished = $contact->count;
+				}
 
-		return $query;
+				if ($contact->state == 2)
+				{
+					$item->count_archived = $contact->count;
+				}
+
+				if ($contact->state == -2)
+				{
+					$item->count_trashed = $contact->count;
+				}
+			}
+		}
+
+		return $items;
 	}
 
+	/**
+	 * Adds Count Items for Tag Manager.
+	 *
+	 * @param   stdClass[]  &$items     The banner tag objects
+	 * @param   string      $extension  The name of the active view.
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6
+	 */
+	public static function countTagItems(&$items, $extension)
+	{
+		$db = JFactory::getDbo();
+		$parts     = explode('.', $extension);
+		$component = $parts[0];
+		$section   = null;
+		if (count($parts) > 1)
+		{
+			$section = $parts[1];
+		}
+		$join = $db->qn('#__contact_details') . ' AS c ON ct.content_item_id=c.id';
+		if ($section === 'category')
+		{
+			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
+		}
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('published as state, count(*) AS count')
+				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->where('ct.tag_id = ' . (int) $item->id)
+				->where('ct.type_alias =' . $db->q($extension))
+				->join('LEFT', $join)
+				->group('published');
+
+			$db->setQuery($query);
+			$contacts = $db->loadObjectList();
+
+			foreach ($contacts as $contact)
+			{
+				if ($contact->state == 1)
+				{
+					$item->count_published = $contact->count;
+				}
+
+				if ($contact->state == 0)
+				{
+					$item->count_unpublished = $contact->count;
+				}
+
+				if ($contact->state == 2)
+				{
+					$item->count_archived = $contact->count;
+				}
+
+				if ($contact->state == -2)
+				{
+					$item->count_trashed = $contact->count;
+				}
+			}
+		}
+
+		return $items;
+	}
 }

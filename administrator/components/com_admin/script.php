@@ -19,7 +19,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile  $installer  The class calling this method
+	 * @param   JInstallerAdapterFile  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
@@ -31,12 +31,15 @@ class JoomlaInstallerScript
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
 
+		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
 		$this->updateAssets();
 		$this->clearStatsCache();
+		$this->convertTablesToUtf8mb4(true);
+		$this->cleanJoomlaCache();
 
 		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
 		// LOGOUT ALL THE USERS
@@ -234,21 +237,22 @@ class JoomlaInstallerScript
 			array('component', 'com_config', '', 1),
 			array('component', 'com_redirect', '', 1),
 			array('component', 'com_users', '', 1),
+			array('component', 'com_finder', '', 1),
 			array('component', 'com_tags', '', 1),
 			array('component', 'com_contenthistory', '', 1),
 			array('component', 'com_postinstall', '', 1),
+			array('component', 'com_joomlaupdate', '', 1),
+			array('component', 'com_fields', '', 1),
 
 			// Libraries
-			array('library', 'phpmailer', '', 0),
-			array('library', 'simplepie', '', 0),
 			array('library', 'phputf8', '', 0),
 			array('library', 'joomla', '', 0),
 			array('library', 'idna_convert', '', 0),
 			array('library', 'fof', '', 0),
 			array('library', 'phpass', '', 0),
 
-			// Modules site
-			// Site
+			// Modules
+			// - Site
 			array('module', 'mod_articles_archive', '', 0),
 			array('module', 'mod_articles_latest', '', 0),
 			array('module', 'mod_articles_popular', '', 0),
@@ -274,7 +278,7 @@ class JoomlaInstallerScript
 			array('module', 'mod_tags_popular', '', 0),
 			array('module', 'mod_tags_similar', '', 0),
 
-			// Administrator
+			// - Administrator
 			array('module', 'mod_custom', '', 1),
 			array('module', 'mod_feed', '', 1),
 			array('module', 'mod_latest', '', 1),
@@ -290,7 +294,7 @@ class JoomlaInstallerScript
 			array('module', 'mod_toolbar', '', 1),
 			array('module', 'mod_multilangstatus', '', 1),
 
-			// Plug-ins
+			// Plugins
 			array('plugin', 'gmail', 'authentication', 0),
 			array('plugin', 'joomla', 'authentication', 0),
 			array('plugin', 'ldap', 'authentication', 0),
@@ -340,6 +344,14 @@ class JoomlaInstallerScript
 			array('plugin', 'updatenotification', 'system', 0),
 			array('plugin', 'module', 'editors-xtd', 0),
 			array('plugin', 'stats', 'system', 0),
+			array('plugin', 'packageinstaller', 'installer', 0),
+			array('plugin', 'folderinstaller', 'installer', 0),
+			array('plugin', 'urlinstaller', 'installer', 0),
+			array('plugin', 'phpversioncheck', 'quickicon', 0),
+			array('plugin', 'menu', 'editors-xtd', 0),
+			array('plugin', 'contact', 'editors-xtd', 0),
+			array('plugin', 'fields', 'system', 0),
+			array('plugin', 'gallery', 'fields', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -355,7 +367,7 @@ class JoomlaInstallerScript
 			array('file', 'joomla', '', 0),
 
 			// Packages
-			// None in core at this time
+			array('package', 'pkg_en-GB', '', 0),
 		);
 
 		// Attempt to refresh manifest caches
@@ -406,18 +418,29 @@ class JoomlaInstallerScript
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
+			// Joomla 1.6 - 1.7 - 2.5
 			'/libraries/cms/cmsloader.php',
+			'/libraries/joomla/database/databaseexception.php',
+			'/libraries/joomla/database/databasequery.php',
+			'/libraries/joomla/environment/response.php',
 			'/libraries/joomla/form/fields/templatestyle.php',
 			'/libraries/joomla/form/fields/user.php',
 			'/libraries/joomla/form/fields/menu.php',
 			'/libraries/joomla/form/fields/helpsite.php',
+			'/libraries/joomla/github/gists.php',
+			'/libraries/joomla/github/issues.php',
+			'/libraries/joomla/github/pulls.php',
+			'/libraries/joomla/log/logentry.php',
 			'/administrator/components/com_admin/sql/updates/mysql/1.7.0.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.2-2012-03-05.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.3-2012-03-13.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/index.html',
+			'/administrator/components/com_content/models/fields/filters.php',
 			'/administrator/components/com_users/controllers/config.php',
+			'/administrator/components/com_users/helpers/levels.php',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.ini',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.sys.ini',
+			'/administrator/modules/mod_quickicon/tmpl/default_button.php',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/editor_plugin_src.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/editor_plugin_src.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/editor_plugin_src.js',
@@ -1155,6 +1178,12 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format/xml.php',
 			// Joomla 3.3.1
 			'/administrator/templates/isis/html/message.php',
+			// Joomla 3.3.6
+			'/media/editors/tinymce/plugins/compat3x/editable_selects.js',
+			'/media/editors/tinymce/plugins/compat3x/form_utils.js',
+			'/media/editors/tinymce/plugins/compat3x/mctabs.js',
+			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js',
+			'/media/editors/tinymce/plugins/compat3x/validate.js',
 			// Joomla! 3.4
 			'/administrator/components/com_tags/helpers/html/index.html',
 			'/administrator/components/com_tags/models/fields/index.html',
@@ -1261,9 +1290,25 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/js/php.js',
 			'/media/editors/codemirror/js/xml-fold.js',
 			'/media/editors/codemirror/js/xml.js',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon.svg',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon.ttf',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon.woff',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon-small.eot',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon-small.svg',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon-small.ttf',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon-small.woff',
+			'/media/editors/tinymce/skins/lightgray/fonts/readme.md',
+			'/media/editors/tinymce/skins/lightgray/fonts/tinymce.dev.svg',
+			'/media/editors/tinymce/skins/lightgray/fonts/tinymce-small.dev.svg',
+			'/media/editors/tinymce/skins/lightgray/img/wline.gif',
+			'/plugins/editors/codemirror/styles.css',
+			'/plugins/editors/codemirror/styles.min.css',
 			// Joomla! 3.4.1
 			'/libraries/joomla/environment/request.php',
 			'/media/editors/tinymce/templates/template_list.js',
+			'/media/editors/codemirror/lib/addons-uncompressed.js',
+			'/media/editors/codemirror/lib/codemirror-uncompressed.css',
+			'/media/editors/codemirror/lib/codemirror-uncompressed.js',
 			'/administrator/help/en-GB/Components_Banners_Banners.html',
 			'/administrator/help/en-GB/Components_Banners_Banners_Edit.html',
 			'/administrator/help/en-GB/Components_Banners_Categories.html',
@@ -1365,6 +1410,29 @@ class JoomlaInstallerScript
 			'/administrator/components/com_config/models/forms/index.html',
 			// Joomla 3.4.2
 			'/libraries/composer_autoload.php',
+			'/administrator/templates/hathor/html/com_categories/categories/default_batch.php',
+			'/administrator/templates/hathor/html/com_tags/tags/default_batch.php',
+			'/media/editors/codemirror/mode/clike/scala.html',
+			'/media/editors/codemirror/mode/css/less.html',
+			'/media/editors/codemirror/mode/css/less_test.js',
+			'/media/editors/codemirror/mode/css/scss.html',
+			'/media/editors/codemirror/mode/css/scss_test.js',
+			'/media/editors/codemirror/mode/css/test.js',
+			'/media/editors/codemirror/mode/gfm/test.js',
+			'/media/editors/codemirror/mode/haml/test.js',
+			'/media/editors/codemirror/mode/javascript/json-ld.html',
+			'/media/editors/codemirror/mode/javascript/test.js',
+			'/media/editors/codemirror/mode/javascript/typescript.html',
+			'/media/editors/codemirror/mode/markdown/test.js',
+			'/media/editors/codemirror/mode/php/test.js',
+			'/media/editors/codemirror/mode/ruby/test.js',
+			'/media/editors/codemirror/mode/shell/test.js',
+			'/media/editors/codemirror/mode/slim/test.js',
+			'/media/editors/codemirror/mode/stex/test.js',
+			'/media/editors/codemirror/mode/textile/test.js',
+			'/media/editors/codemirror/mode/verilog/test.js',
+			'/media/editors/codemirror/mode/xml/test.js',
+			'/media/editors/codemirror/mode/xquery/test.js',
 			// Joomla 3.4.3
 			'/libraries/classloader.php',
 			'/libraries/ClassLoader.php',
@@ -1375,6 +1443,17 @@ class JoomlaInstallerScript
 			'/media/com_joomlaupdate/encryption.js',
 			'/media/com_joomlaupdate/json2.js',
 			'/media/com_joomlaupdate/update.js',
+			'/media/com_finder/css/finder-rtl.css',
+			'/media/com_finder/css/selectfilter.css',
+			'/media/com_finder/css/sliderfilter.css',
+			'/media/com_finder/js/sliderfilter.js',
+			'/media/editors/codemirror/mode/kotlin/kotlin.js',
+			'/media/editors/codemirror/mode/kotlin/kotlin.min.js',
+			'/media/editors/tinymce/plugins/compat3x/editable_selects.js',
+			'/media/editors/tinymce/plugins/compat3x/form_utils.js',
+			'/media/editors/tinymce/plugins/compat3x/mctabs.js',
+			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js',
+			'/media/editors/tinymce/plugins/compat3x/validate.js',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Dumper.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Escaper.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Inline.php',
@@ -1386,7 +1465,6 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ExceptionInterface.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ParseException.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/RuntimeException.php',
-			'/administrator/components/com_tags/helpers/tags.php',
 			'/libraries/vendor/phpmailer/phpmailer/extras/class.html2text.php',
 			'/libraries/joomla/document/error/error.php',
 			'/libraries/joomla/document/feed/feed.php',
@@ -1396,6 +1474,78 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/opensearch/opensearch.php',
 			'/libraries/joomla/document/raw/raw.php',
 			'/libraries/joomla/document/xml/xml.php',
+			'/plugins/editors/tinymce/fields/skins.php',
+			'/plugins/user/profile/fields/dob.php',
+			'/plugins/user/profile/fields/tos.php',
+			'/administrator/components/com_installer/views/languages/tmpl/default_filter.php',
+			'/administrator/components/com_joomlaupdate/helpers/download.php',
+			'/administrator/components/com_config/controller/application/refreshhelp.php',
+			'/administrator/components/com_media/models/forms/index.html',
+			// Joomla 3.6.0
+			'/libraries/simplepie/README.txt',
+			'/libraries/simplepie/simplepie.php',
+			'/libraries/simplepie/LICENSE.txt',
+			'/libraries/simplepie/idn/LICENCE',
+			'/libraries/simplepie/idn/ReadMe.txt',
+			'/libraries/simplepie/idn/idna_convert.class.php',
+			'/libraries/simplepie/idn/npdata.ser',
+			'/administrator/manifests/libraries/simplepie.xml',
+			'/administrator/templates/isis/js/jquery.js',
+			'/administrator/templates/isis/js/bootstrap.min.js',
+			'/media/system/js/permissions.min.js',
+			'/libraries/platform.php',
+			'/plugins/user/profile/fields/tos.php',
+			'/libraries/joomla/application/web/client.php',
+			// Joomla! 3.6.1
+			'/libraries/joomla/database/iterator/azure.php',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon.eot',
+			// Joomla! 3.6.3
+			'/media/editors/codemirror/mode/jade/jade.js',
+			'/media/editors/codemirror/mode/jade/jade.min.js',
+			// Joomla __DEPLOY_VERSION__
+			'/libraries/joomla/user/authentication.php',
+			'/libraries/platform.php',
+			'/libraries/joomla/data/data.php',
+			'/libraries/joomla/data/dumpable.php',
+			'/libraries/joomla/data/set.php',
+			'/administrator/components/com_banners/views/banners/tmpl/default_batch.php',
+			'/administrator/components/com_categories/views/category/tmpl/edit_extrafields.php',
+			'/administrator/components/com_categories/views/category/tmpl/edit_options.php',
+			'/administrator/components/com_categories/views/categories/tmpl/default_batch.php',
+			'/administrator/components/com_content/views/articles/tmpl/default_batch.php',
+			'/administrator/components/com_menus/views/items/tmpl/default_batch.php',
+			'/administrator/components/com_modules/views/modules/tmpl/default_batch.php',
+			'/administrator/components/com_newsfeeds/views/newsfeeds/tmpl/default_batch.php',
+			'/administrator/components/com_redirect/views/links/tmpl/default_batch.php',
+			'/administrator/components/com_tags/views/tags/tmpl/default_batch.php',
+			'/administrator/components/com_users/views/users/tmpl/default_batch.php',
+			'/components/com_contact/metadata.xml',
+			'/components/com_contact/views/category/metadata.xml',
+			'/components/com_contact/views/contact/metadata.xml',
+			'/components/com_contact/views/featured/metadata.xml',
+			'/components/com_content/metadata.xml',
+			'/components/com_content/views/archive/metadata.xml',
+			'/components/com_content/views/article/metadata.xml',
+			'/components/com_content/views/categories/metadata.xml',
+			'/components/com_content/views/category/metadata.xml',
+			'/components/com_content/views/featured/metadata.xml',
+			'/components/com_content/views/form/metadata.xml',
+			'/components/com_finder/views/search/metadata.xml',
+			'/components/com_mailto/views/mailto/metadata.xml',
+			'/components/com_mailto/views/sent/metadata.xml',
+			'/components/com_newsfeeds/metadata.xml',
+			'/components/com_newsfeeds/views/category/metadata.xml',
+			'/components/com_newsfeeds/views/newsfeed/metadata.xml',
+			'/components/com_search/views/search/metadata.xml',
+			'/components/com_tags/metadata.xml',
+			'/components/com_tags/views/tag/metadata.xml',
+			'/components/com_users/metadata.xml',
+			'/components/com_users/views/login/metadata.xml',
+			'/components/com_users/views/profile/metadata.xml',
+			'/components/com_users/views/registration/metadata.xml',
+			'/components/com_users/views/remind/metadata.xml',
+			'/components/com_users/views/reset/metadata.xml',
+			'/components/com_wrapper/metadata.xml',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1450,6 +1600,9 @@ class JoomlaInstallerScript
 			'/plugins/user/joomla/postinstall',
 			'/libraries/joomla/registry/format',
 			'/libraries/joomla/registry',
+			// Joomla! 3.3
+			'/plugins/user/profile/fields',
+			'/media/editors/tinymce/plugins/compat3x',
 			// Joomla! 3.4
 			'/administrator/components/com_tags/helpers/html',
 			'/administrator/components/com_tags/models/fields',
@@ -1474,22 +1627,36 @@ class JoomlaInstallerScript
 			'/libraries/phpmailer',
 			'/media/editors/codemirror/css',
 			'/media/editors/codemirror/js',
+			'/media/com_banners',
 			// Joomla! 3.4.1
 			'/administrator/components/com_config/views',
 			'/administrator/components/com_config/models/fields',
 			'/administrator/components/com_config/models/forms',
+			// Joomla! 3.4.2
+			'/media/editors/codemirror/mode/smartymixed',
 			// Joomla! 3.5
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml',
 			'/libraries/vendor/symfony/yaml/Symfony/Component',
 			'/libraries/vendor/symfony/yaml/Symfony',
-			'/administrator/components/com_tags/helpers',
 			'/libraries/joomla/document/error',
 			'/libraries/joomla/document/image',
 			'/libraries/joomla/document/json',
 			'/libraries/joomla/document/opensearch',
 			'/libraries/joomla/document/raw',
 			'/libraries/joomla/document/xml',
+			'/administrator/components/com_media/models/forms',
+			'/media/editors/codemirror/mode/kotlin',
+			'/media/editors/tinymce/plugins/compat3x',
+			'/plugins/editors/tinymce/fields',
+			'/plugins/user/profile/fields',
+			// Joomla 3.6
+			'/libraries/simplepie/idn',
+			'/libraries/simplepie',
+			// Joomla! 3.6.3
+			'/media/editors/codemirror/mode/jade',
+			// Joomla __DEPLOY_VERSION__
+			'/libraries/joomla/data',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1516,10 +1683,10 @@ class JoomlaInstallerScript
 		 * Needed for updates post-3.4
 		 * If com_weblinks doesn't exist then assume we can delete the weblinks package manifest (included in the update packages)
 		 */
-		if (!JFile::exists(JPATH_ADMINISTRATOR . '/components/com_weblinks/weblinks.php')
-			&& JFile::exists(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml'))
+		if (!JFile::exists(JPATH_ROOT . '/administrator/components/com_weblinks/weblinks.php')
+			&& JFile::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml'))
 		{
-			JFile::delete(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml');
+			JFile::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml');
 		}
 	}
 
@@ -1536,9 +1703,9 @@ class JoomlaInstallerScript
 	{
 		jimport('joomla.filesystem.file');
 
-		if (JFile::exists(JPATH_CACHE . '/fof/cache.php'))
+		if (JFile::exists(JPATH_ROOT . '/cache/fof/cache.php'))
 		{
-			JFile::delete(JPATH_CACHE . '/fof/cache.php');
+			JFile::delete(JPATH_ROOT . '/cache/fof/cache.php');
 		}
 	}
 
@@ -1558,7 +1725,8 @@ class JoomlaInstallerScript
 			'com_tags',
 			'com_contenthistory',
 			'com_ajax',
-			'com_postinstall'
+			'com_postinstall',
+			'com_fields',
 		);
 
 		foreach ($newComponents as $component)
@@ -1602,7 +1770,17 @@ class JoomlaInstallerScript
 		 * The session may have not been started yet (e.g. CLI-based Joomla! update scripts). Let's make sure we do
 		 * have a valid session.
 		 */
-		JFactory::getSession()->restart();
+		$session = JFactory::getSession();
+
+		/**
+		 * Restarting the Session require a new login for the current user so lets check if we have an active session
+		 * and only restart it if not.
+		 * For B/C reasons we need to use getState as isActive is not available in 2.5
+		 */
+		if ($session->getState() !== 'active')
+		{
+			$session->restart();
+		}
 
 		// If $_SESSION['__default'] is no longer set we do not have a migrated session, therefore we can quit.
 		if (!isset($_SESSION['__default']))
@@ -1620,13 +1798,13 @@ class JoomlaInstallerScript
 				case 'pdomysql':
 				case 'mysql':
 				case 'mysqli':
-					$db->truncateTable($db->qn('#__sessions'));
+					$db->truncateTable('#__session');
 					break;
 
 				// Non-MySQL databases, use a simple DELETE FROM query
 				default:
 					$query = $db->getQuery(true)
-						->delete($db->qn('#__sessions'));
+						->delete($db->qn('#__session'));
 					$db->setQuery($query)->execute();
 					break;
 			}
@@ -1639,5 +1817,147 @@ class JoomlaInstallerScript
 		}
 
 		return true;
+	}
+
+	/**
+	 * Converts the site's database tables to support UTF-8 Multibyte.
+	 *
+	 * @param   boolean  $doDbFixMsg  Flag if message to be shown to check db fix
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function convertTablesToUtf8mb4($doDbFixMsg = false)
+	{
+		$db = JFactory::getDbo();
+
+		// This is only required for MySQL databases
+		$serverType = $db->getServerType();
+
+		if ($serverType != 'mysql')
+		{
+			return;
+		}
+
+		// Set required conversion status
+		if ($db->hasUTF8mb4Support())
+		{
+			$converted = 2;
+		}
+		else
+		{
+			$converted = 1;
+		}
+
+		// Check conversion status in database
+		$db->setQuery('SELECT ' . $db->quoteName('converted')
+			. ' FROM ' . $db->quoteName('#__utf8_conversion')
+			);
+
+		try
+		{
+			$convertedDB = $db->loadResult();
+		}
+		catch (Exception $e)
+		{
+			// Render the error message from the Exception object
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			if ($doDbFixMsg)
+			{
+				// Show an error message telling to check database problems
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			}
+
+			return;
+		}
+
+		// Nothing to do, saved conversion status from DB is equal to required
+		if ($convertedDB == $converted)
+		{
+			return;
+		}
+
+		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
+		$fileName1 = JPATH_ROOT . "/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
+
+		if (is_file($fileName1))
+		{
+			$fileContents1 = @file_get_contents($fileName1);
+			$queries1 = $db->splitSql($fileContents1);
+
+			if (!empty($queries1))
+			{
+				foreach ($queries1 as $query1)
+				{
+					try
+					{
+						$db->setQuery($query1)->execute();
+					}
+					catch (Exception $e)
+					{
+						// If the query fails we will go on. It just means the index to be dropped does not exist.
+					}
+				}
+			}
+		}
+
+		// Step 2: Perform the index modifications and conversions
+		$fileName2 = JPATH_ROOT . "/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
+
+		if (is_file($fileName2))
+		{
+			$fileContents2 = @file_get_contents($fileName2);
+			$queries2 = $db->splitSql($fileContents2);
+
+			if (!empty($queries2))
+			{
+				foreach ($queries2 as $query2)
+				{
+					try
+					{
+						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
+					}
+					catch (Exception $e)
+					{
+						$converted = 0;
+
+						// Still render the error message from the Exception object
+						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					}
+				}
+			}
+		}
+
+		if ($doDbFixMsg && $converted == 0)
+		{
+			// Show an error message telling to check database problems
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+		}
+
+		// Set flag in database if the update is done.
+		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+	}
+
+	/**
+	 * This method clean the Joomla Cache using the method `clean` from the com_cache model
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5.1
+	 */
+	private function cleanJoomlaCache()
+	{
+		JModelLegacy::addIncludePath(JPATH_ROOT . '/administrator/components/com_cache/models');
+		$model = JModelLegacy::getInstance('cache', 'CacheModel');
+
+		// Clean frontend cache
+		$model->clean();
+
+		// Clean admin cache
+		$model->setState('client_id', 1);
+		$model->clean();
 	}
 }

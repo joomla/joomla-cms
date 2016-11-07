@@ -83,7 +83,7 @@ class JDocumentRenderer
 	protected function _relToAbs($text)
 	{
 		$base = JUri::base();
-		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
+		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data|\/\/)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
 
 		return $text;
 	}

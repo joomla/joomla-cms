@@ -261,10 +261,20 @@ class WebClient
 			$this->browser = self::IE;
 			$patternBrowser = 'MSIE';
 		}
+		elseif (stripos($userAgent, 'Trident') !== false)
+		{
+			$this->browser = self::IE;
+			$patternBrowser = ' rv';
+		}
 		elseif ((stripos($userAgent, 'Firefox') !== false) && (stripos($userAgent, 'like Firefox') === false))
 		{
 			$this->browser = self::FIREFOX;
 			$patternBrowser = 'Firefox';
+		}
+		elseif (stripos($userAgent, 'OPR') !== false)
+		{
+			$this->browser = self::OPERA;
+			$patternBrowser = 'OPR';
 		}
 		elseif (stripos($userAgent, 'Chrome') !== false)
 		{
@@ -286,7 +296,7 @@ class WebClient
 		if ($this->browser)
 		{
 			// Build the REGEX pattern to match the browser version string within the user agent string.
-			$pattern = '#(?<browser>Version|' . $patternBrowser . ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+			$pattern = '#(?<browser>Version|' . $patternBrowser . ')[/ :]+(?<version>[0-9.|a-zA-Z.]*)#';
 
 			// Attempt to find version strings in the user agent string.
 			$matches = array();

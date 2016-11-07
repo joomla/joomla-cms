@@ -9,17 +9,14 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
 
 /**
  * Helper for mod_articles_news
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_news
- *
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModArticlesNewsHelper
 {
@@ -34,13 +31,12 @@ abstract class ModArticlesNewsHelper
 	 */
 	public static function getList(&$params)
 	{
-		$app = JFactory::getApplication();
-
 		// Get an instance of the generic articles model
 		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
-		$appParams = JFactory::getApplication()->getParams();
+		$app       = JFactory::getApplication();
+		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
 		// Set the filters based on the module params
@@ -81,6 +77,8 @@ abstract class ModArticlesNewsHelper
 		{
 			$item->readmore = strlen(trim($item->fulltext));
 			$item->slug     = $item->id . ':' . $item->alias;
+
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
 			$item->catslug  = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
@@ -92,7 +90,7 @@ abstract class ModArticlesNewsHelper
 			else
 			{
 				$item->link = new JUri(JRoute::_('index.php?option=com_users&view=login', false));
-				$item->link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language), false)));
+				$item->link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 
@@ -103,11 +101,14 @@ abstract class ModArticlesNewsHelper
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 
-			$results                 = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
+			$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
 			$item->afterDisplayTitle = trim(implode("\n", $results));
 
 			$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
 			$item->beforeDisplayContent = trim(implode("\n", $results));
+
+			$results                 = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
+			$item->afterDisplayContent = trim(implode("\n", $results));
 		}
 
 		return $items;

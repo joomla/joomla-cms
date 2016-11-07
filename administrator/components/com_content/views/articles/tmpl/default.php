@@ -18,10 +18,8 @@ JHtml::_('formbehavior.chosen', 'select');
 $app       = JFactory::getApplication();
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
+$listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$archived  = $this->state->get('filter.published') == 2 ? true : false;
-$trashed   = $this->state->get('filter.published') == -2 ? true : false;
 $saveOrder = $listOrder == 'a.ordering';
 $columns   = 10;
 
@@ -70,16 +68,16 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-					<?php if ($assoc) : ?>
-						<?php $columns++; ?>
-						<th width="5%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-						</th>
-					<?php endif;?>
+						<?php if ($assoc) : ?>
+							<?php $columns++; ?>
+							<th width="5%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif;?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
@@ -88,6 +86,16 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
+						<?php if ($this->vote) : ?>
+							<?php $columns++; ?>
+							<th width="1%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+							</th>
+							<?php $columns++; ?>
+							<th width="1%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif;?>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -136,16 +144,13 @@ $assoc = JLanguageAssociations::isEnabled();
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
-								<?php
-								// Create dropdown items
-								$action = $archived ? 'unarchive' : 'archive';
-								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles');
-
-								$action = $trashed ? 'untrash' : 'trash';
-								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles');
-
-								// Render dropdown list
-								echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+								<?php // Create dropdown items and render the dropdown list.
+								if ($canChange)
+								{
+									JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'articles');
+									JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'articles');
+									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+								}
 								?>
 							</div>
 						</td>
@@ -187,25 +192,35 @@ $assoc = JLanguageAssociations::isEnabled();
 							<?php if ($item->created_by_alias) : ?>
 								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
 								<?php echo $this->escape($item->author_name); ?></a>
-								<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
+								<div class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 							<?php else : ?>
 								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
 								<?php echo $this->escape($item->author_name); ?></a>
 							<?php endif; ?>
 						</td>
 						<td class="small hidden-phone">
-							<?php if ($item->language == '*'):?>
-								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else:?>
-								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif;?>
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td class="nowrap small hidden-phone">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
-						<td class="hidden-phone">
-							<?php echo (int) $item->hits; ?>
+						<td class="hidden-phone center">
+							<span class="badge badge-info">
+								<?php echo (int) $item->hits; ?>
+							</span>
 						</td>
+						<?php if ($this->vote) : ?>
+							<td class="hidden-phone center">
+								<span class="badge badge-success" >
+								<?php echo (int) $item->rating_count; ?>
+								</span>
+							</td>
+							<td class="hidden-phone center">
+								<span class="badge badge-warning" >
+								<?php echo (int) $item->rating; ?>
+								</span>
+							</td>
+						<?php endif; ?>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>

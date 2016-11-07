@@ -19,8 +19,11 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<field name="languagecodeplugin" type="hidden" 
-				default="true" />
+			<field
+				name="languagecodeplugin"
+				type="hidden"
+				default="true"
+			/>
 		</fields>
 	</config>
 </extension>

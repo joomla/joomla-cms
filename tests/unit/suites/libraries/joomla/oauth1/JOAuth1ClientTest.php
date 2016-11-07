@@ -65,6 +65,14 @@ class JOAuth1ClientTest extends TestCase
 	protected $errorString = '{"errorCode":401, "message": "Generic error"}';
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -73,7 +81,7 @@ class JOAuth1ClientTest extends TestCase
 	protected function setUp()
 	{
 		$this->saveFactoryState();
-
+		$this->backupServer = $_SERVER;
 		JFactory::$session = $this->getMockSession();
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
@@ -103,7 +111,14 @@ class JOAuth1ClientTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
 		$this->restoreFactoryState();
+		unset($this->options);
+		unset($this->client);
+		unset($this->input);
+		unset($this->application);
+		unset($this->object);
 	}
 
 	/**

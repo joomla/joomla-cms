@@ -27,7 +27,18 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-
+			<field
+				name="menu_show"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_SHOW_DESC"
+				default="1"
+				filter="integer"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
 		</fieldset>
 
 		<fieldset name="page-options"
@@ -44,8 +55,8 @@
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 				description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
 				default=""
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="1" class="yes">JYES</option>
 				<option value="0" class="no">JNO</option>
 			</field>
@@ -75,7 +86,7 @@
 			type="list"
 			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
-		>
+			>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
 			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>

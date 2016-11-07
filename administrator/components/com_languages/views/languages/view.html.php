@@ -88,7 +88,7 @@ class LanguagesViewLanguages extends JViewLegacy
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))

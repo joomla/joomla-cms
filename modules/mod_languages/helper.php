@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
 
 /**
  * Helper for mod_languages
@@ -74,7 +73,7 @@ abstract class ModLanguagesHelper
 		}
 
 		$levels    = $user->getAuthorisedViewLevels();
-		$sitelangs = MultilangstatusHelper::getSitelangs();
+		$sitelangs = JLanguageMultilang::getSiteLangs();
 		$multilang = JLanguageMultilang::isEnabled();
 
 		// Filter allowed languages

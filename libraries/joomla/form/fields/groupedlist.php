@@ -168,7 +168,7 @@ class JFormFieldGroupedList extends JFormField
 				'select.groupedlist', $groups, null,
 				array(
 					'list.attr' => $attr, 'id' => $this->id, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false,
-					'option.text.toHtml' => false
+					'option.text.toHtml' => false,
 				)
 			);
 
@@ -198,7 +198,7 @@ class JFormFieldGroupedList extends JFormField
 				'select.groupedlist', $groups, $this->name,
 				array(
 					'list.attr' => $attr, 'id' => $this->id, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false,
-					'option.text.toHtml' => false
+					'option.text.toHtml' => false,
 				)
 			);
 		}

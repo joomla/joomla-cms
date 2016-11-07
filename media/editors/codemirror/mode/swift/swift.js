@@ -19,28 +19,25 @@
     return set
   }
 
-  var keywords = wordSet(["var","let","class","deinit","enum","extension","func","import","init","protocol",
-                          "static","struct","subscript","typealias","as","dynamicType","is","new","super",
-                          "self","Self","Type","__COLUMN__","__FILE__","__FUNCTION__","__LINE__","break","case",
-                          "continue","default","do","else","fallthrough","if","in","for","return","switch",
-                          "where","while","associativity","didSet","get","infix","inout","left","mutating",
-                          "none","nonmutating","operator","override","postfix","precedence","prefix","right",
-                          "set","unowned","weak","willSet"])
-  var definingKeywords = wordSet(["var","let","class","enum","extension","func","import","protocol","struct",
-                                  "typealias","dynamicType","for"])
-  var atoms = wordSet(["Infinity","NaN","undefined","null","true","false","on","off","yes","no","nil","null",
-                       "this","super"])
-  var types = wordSet(["String","bool","int","string","double","Double","Int","Float","float","public",
-                       "private","extension"])
-  var operators = "+-/*%=|&<>#"
+  var keywords = wordSet(["_","var","let","class","enum","extension","import","protocol","struct","func","typealias","associatedtype",
+                          "open","public","internal","fileprivate","private","deinit","init","new","override","self","subscript","super",
+                          "convenience","dynamic","final","indirect","lazy","required","static","unowned","unowned(safe)","unowned(unsafe)","weak","as","is",
+                          "break","case","continue","default","else","fallthrough","for","guard","if","in","repeat","switch","where","while",
+                          "defer","return","inout","mutating","nonmutating","catch","do","rethrows","throw","throws","try","didSet","get","set","willSet",
+                          "assignment","associativity","infix","left","none","operator","postfix","precedence","precedencegroup","prefix","right",
+                          "Any","AnyObject","Type","dynamicType","Self","Protocol","__COLUMN__","__FILE__","__FUNCTION__","__LINE__"])
+  var definingKeywords = wordSet(["var","let","class","enum","extension","import","protocol","struct","func","typealias","associatedtype"])
+  var atoms = wordSet(["true","false","nil","self","super","_"])
+  var types = wordSet(["Array","Bool","Dictionary","Double","Float","Int","Never","Optional","String","Void"])
+  var operators = "+-/*%=|&<>"
   var punc = ";,.(){}[]"
-  var delimiters = /^(?:[()\[\]{},:`=;]|\.\.?\.?)/
   var number = /^-?(?:(?:[\d_]+\.[_\d]*|\.[_\d]+|0o[0-7_\.]+|0b[01_\.]+)(?:e-?[\d_]+)?|0x[\d_a-f\.]+(?:p-?[\d_]+)?)/i
   var identifier = /^[_A-Za-z$][_A-Za-z$0-9]*/
-  var property = /^[@\.][_A-Za-z$][_A-Za-z$0-9]*/
+  var property = /^[@\#\.][_A-Za-z$][_A-Za-z$0-9]*/
   var regexp = /^\/(?!\s)(?:\/\/)?(?:\\.|[^\/])+\//
 
   function tokenBase(stream, state, prev) {
+    if (stream.sol()) state.indented = stream.indentation()
     if (stream.eatSpace()) return null
 
     var ch = stream.peek()
@@ -60,7 +57,8 @@
       return "operator"
     }
     if (punc.indexOf(ch) > -1) {
-      stream.match(delimiters)
+      stream.next()
+      stream.match("..")
       return "punctuation"
     }
     if (ch == '"' || ch == "'") {
@@ -136,14 +134,35 @@
     return "comment"
   }
 
-  CodeMirror.defineMode("swift", function() {
+  function Context(prev, align, indented) {
+    this.prev = prev
+    this.align = align
+    this.indented = indented
+  }
+
+  function pushContext(state, stream) {
+    var align = stream.match(/^\s*($|\/[\/\*])/, false) ? null : stream.column() + 1
+    state.context = new Context(state.context, align, state.indented)
+  }
+
+  function popContext(state) {
+    if (state.context) {
+      state.indented = state.context.indented
+      state.context = state.context.prev
+    }
+  }
+
+  CodeMirror.defineMode("swift", function(config) {
     return {
       startState: function() {
         return {
           prev: null,
+          context: null,
+          indented: 0,
           tokenize: []
         }
       },
+
       token: function(stream, state) {
         var prev = state.prev
         state.prev = null
@@ -151,8 +170,25 @@
         var style = tokenize(stream, state, prev)
         if (!style || style == "comment") state.prev = prev
         else if (!state.prev) state.prev = style
+
+        if (style == "punctuation") {
+          var bracket = /[\(\[\{]|([\]\)\}])/.exec(stream.current())
+          if (bracket) (bracket[1] ? popContext : pushContext)(state, stream)
+        }
+
         return style
       },
+
+      indent: function(state, textAfter) {
+        var cx = state.context
+        if (!cx) return 0
+        var closing = /^[\]\}\)]/.test(textAfter)
+        if (cx.align != null) return cx.align - (closing ? 1 : 0)
+        return cx.indented + (closing ? 0 : config.indentUnit)
+      },
+
+      electricInput: /^\s*[\)\}\]]$/,
+
       lineComment: "//",
       blockCommentStart: "/*",
       blockCommentEnd: "*/"
@@ -160,4 +196,4 @@
   })
 
   CodeMirror.defineMIME("text/x-swift","swift")
-})
+});

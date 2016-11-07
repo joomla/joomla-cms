@@ -44,9 +44,9 @@ var JTabs = new Class({
 
 		if (this.options.useStorage) {
 			if (Browser.Features.localstorage) {
-				this.options.display = localStorage[this.storageName];
+				this.options.display = this.options.display || localStorage[this.storageName];
 			} else {
-				this.options.display = Cookie.read(this.storageName);
+				this.options.display = this.options.display || Cookie.read(this.storageName);
 			}
 		}
 		if (this.options.display === null || this.options.display === undefined) {

@@ -92,7 +92,7 @@ class JResponseJson
 		}
 
 		// Check if we are dealing with an error
-		if ($response instanceof Exception)
+		if ($response instanceof Exception || $response instanceof Throwable)
 		{
 			// Prepare the error response
 			$this->success = false;

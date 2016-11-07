@@ -13,8 +13,15 @@ use Joomla\Registry\Registry;
 
 // Load tooltips behavior
 JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
+
+// Load JS message titles
+JText::script('ERROR');
+JText::script('WARNING');
+JText::script('NOTICE');
+JText::script('MESSAGE');
 
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
@@ -40,8 +47,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				foreach ($this->submenumodules as $submenumodule)
 				{
 					$output = JModuleHelper::renderModule($submenumodule);
-					$params = new Registry;
-					$params->loadString($submenumodule->params);
+					$params = new Registry($submenumodule->params);
 					echo $output;
 				}
 				?>

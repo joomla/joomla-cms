@@ -188,32 +188,112 @@ class BannersHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   JDatabaseQuery  $query  The query object of com_categories
+	 * @param   stdClass[]  &$items  The banner category objects
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  stdClass[]
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
-	public static function countItems($query)
+	public static function countItems(&$items)
 	{
-		// Join articles to categories and
-		// Count published items
-		$query->select('COUNT(DISTINCT cp.id) AS count_published');
-		$query->join('LEFT', '#__banners AS cp ON cp.catid = a.id AND cp.state = 1');
+		$db = JFactory::getDbo();
 
-		// Count unpublished items
-		$query->select('COUNT(DISTINCT cu.id) AS count_unpublished');
-		$query->join('LEFT', '#__banners AS cu ON cu.catid = a.id AND cu.state = 0');
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('state, count(*) AS count')
+				->from($db->qn('#__banners'))
+				->where('catid = ' . (int) $item->id)
+				->group('state');
+			$db->setQuery($query);
+			$banners = $db->loadObjectList();
 
-		// Count archived items
-		$query->select('COUNT(DISTINCT ca.id) AS count_archived');
-		$query->join('LEFT', '#__banners AS ca ON ca.catid = a.id AND ca.state = 2');
+			foreach ($banners as $banner)
+			{
+				if ($banner->state == 1)
+				{
+					$item->count_published = $banner->count;
+				}
 
-		// Count trashed items
-		$query->select('COUNT(DISTINCT ct.id) AS count_trashed');
-		$query->join('LEFT', '#__banners AS ct ON ct.catid = a.id AND ct.state = -2');
+				if ($banner->state == 0)
+				{
+					$item->count_unpublished = $banner->count;
+				}
 
-		return $query;
+				if ($banner->state == 2)
+				{
+					$item->count_archived = $banner->count;
+				}
+
+				if ($banner->state == -2)
+				{
+					$item->count_trashed = $banner->count;
+				}
+			}
+		}
+
+		return $items;
 	}
 
+	/**
+	 * Adds Count Items for Tag Manager.
+	 *
+	 * @param   stdClass[]  &$items     The banner tag objects
+	 * @param   string      $extension  The name of the active view.
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6
+	 */
+	public static function countTagItems(&$items, $extension)
+	{
+		$db = JFactory::getDbo();
+
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('published as state, count(*) AS count')
+				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->where('ct.tag_id = ' . (int) $item->id)
+				->where('ct.type_alias =' . $db->q($extension))
+				->join('LEFT', $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id')
+				->group('state');
+
+			$db->setQuery($query);
+			$banners = $db->loadObjectList();
+
+			foreach ($banners as $banner)
+			{
+				if ($banner->state == 1)
+				{
+					$item->count_published = $banner->count;
+				}
+
+				if ($banner->state == 0)
+				{
+					$item->count_unpublished = $banner->count;
+				}
+
+				if ($banner->state == 2)
+				{
+					$item->count_archived = $banner->count;
+				}
+
+				if ($banner->state == -2)
+				{
+					$item->count_trashed = $banner->count;
+				}
+			}
+		}
+
+		return $items;
+	}
 }

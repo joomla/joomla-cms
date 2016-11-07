@@ -20,7 +20,9 @@ use Symfony\Component\Yaml\Exception\ParseException;
  */
 class Parser
 {
-    const FOLDED_SCALAR_PATTERN = '(?P<separator>\||>)(?P<modifiers>\+|\-|\d+|\+\d+|\-\d+|\d+\+|\d+\-)?(?P<comments> +#.*)?';
+    const BLOCK_SCALAR_HEADER_PATTERN = '(?P<separator>\||>)(?P<modifiers>\+|\-|\d+|\+\d+|\-\d+|\d+\+|\d+\-)?(?P<comments> +#.*)?';
+    // BC - wrongly named
+    const FOLDED_SCALAR_PATTERN = self::BLOCK_SCALAR_HEADER_PATTERN;
 
     private $offset = 0;
     private $lines = array();
@@ -60,7 +62,7 @@ class Parser
         $value = $this->cleanup($value);
         $this->lines = explode("\n", $value);
 
-        if (function_exists('mb_internal_encoding') && ((int) ini_get('mbstring.func_overload')) & 2) {
+        if (2 /* MB_OVERLOAD_STRING */ & (int) ini_get('mbstring.func_overload')) {
             $mbEncoding = mb_internal_encoding();
             mb_internal_encoding('UTF-8');
         }
@@ -112,7 +114,7 @@ class Parser
 
                         $data[] = $parser->parse($block, $exceptionOnInvalidType, $objectSupport, $objectForMap);
                     } else {
-                        $data[] = $this->parseValue($values['value'], $exceptionOnInvalidType, $objectSupport, $objectForMap);
+                        $data[] = $this->parseValue($values['value'], $exceptionOnInvalidType, $objectSupport, $objectForMap, $context);
                     }
                 }
                 if ($isRef) {
@@ -228,7 +230,7 @@ class Parser
                         }
                     }
                 } else {
-                    $value = $this->parseValue($values['value'], $exceptionOnInvalidType, $objectSupport, $objectForMap);
+                    $value = $this->parseValue($values['value'], $exceptionOnInvalidType, $objectSupport, $objectForMap, $context);
                     // Spec: Keys MUST be unique; first one wins.
                     // But overwriting is allowed when a merge node is used in current block.
                     if ($allowOverwrite || !isset($data[$key])) {
@@ -301,6 +303,16 @@ class Parser
             mb_internal_encoding($mbEncoding);
         }
 
+        if ($objectForMap && !is_object($data) && 'mapping' === $context) {
+            $object = new \stdClass();
+
+            foreach ($data as $key => $value) {
+                $object->$key = $value;
+            }
+
+            $data = $object;
+        }
+
         return empty($data) ? null : $data;
     }
 
@@ -337,6 +349,11 @@ class Parser
     private function getNextEmbedBlock($indentation = null, $inSequence = false)
     {
         $oldLineIndentation = $this->getCurrentLineIndentation();
+        $blockScalarIndentations = array();
+
+        if ($this->isBlockScalarHeader()) {
+            $blockScalarIndentations[] = $this->getCurrentLineIndentation();
+        }
 
         if (!$this->moveToNextLine()) {
             return;
@@ -345,7 +362,7 @@ class Parser
         if (null === $indentation) {
             $newIndent = $this->getCurrentLineIndentation();
 
-            $unindentedEmbedBlock = $this->isStringUnIndentedCollectionItem($this->currentLine);
+            $unindentedEmbedBlock = $this->isStringUnIndentedCollectionItem();
 
             if (!$this->isCurrentLineEmpty() && 0 === $newIndent && !$unindentedEmbedBlock) {
                 throw new ParseException('Indentation problem.', $this->getRealCurrentLineNb() + 1, $this->currentLine);
@@ -371,20 +388,33 @@ class Parser
             return;
         }
 
-        $isItUnindentedCollection = $this->isStringUnIndentedCollectionItem($this->currentLine);
+        $isItUnindentedCollection = $this->isStringUnIndentedCollectionItem();
 
-        // Comments must not be removed inside a string block (ie. after a line ending with "|")
-        $removeCommentsPattern = '~'.self::FOLDED_SCALAR_PATTERN.'$~';
-        $removeComments = !preg_match($removeCommentsPattern, $this->currentLine);
+        if (empty($blockScalarIndentations) && $this->isBlockScalarHeader()) {
+            $blockScalarIndentations[] = $this->getCurrentLineIndentation();
+        }
+
+        $previousLineIndentation = $this->getCurrentLineIndentation();
 
         while ($this->moveToNextLine()) {
             $indent = $this->getCurrentLineIndentation();
 
-            if ($indent === $newIndent) {
-                $removeComments = !preg_match($removeCommentsPattern, $this->currentLine);
+            // terminate all block scalars that are more indented than the current line
+            if (!empty($blockScalarIndentations) && $indent < $previousLineIndentation && trim($this->currentLine) !== '') {
+                foreach ($blockScalarIndentations as $key => $blockScalarIndentation) {
+                    if ($blockScalarIndentation >= $this->getCurrentLineIndentation()) {
+                        unset($blockScalarIndentations[$key]);
+                    }
+                }
             }
 
-            if ($isItUnindentedCollection && !$this->isStringUnIndentedCollectionItem($this->currentLine) && $newIndent === $indent) {
+            if (empty($blockScalarIndentations) && !$this->isCurrentLineComment() && $this->isBlockScalarHeader()) {
+                $blockScalarIndentations[] = $this->getCurrentLineIndentation();
+            }
+
+            $previousLineIndentation = $indent;
+
+            if ($isItUnindentedCollection && !$this->isStringUnIndentedCollectionItem() && $newIndent === $indent) {
                 $this->moveToPreviousLine();
                 break;
             }
@@ -394,7 +424,8 @@ class Parser
                 continue;
             }
 
-            if ($removeComments && $this->isCurrentLineComment()) {
+            // we ignore "comment" lines only when we are not inside a scalar block
+            if (empty($blockScalarIndentations) && $this->isCurrentLineComment()) {
                 continue;
             }
 
@@ -443,12 +474,13 @@ class Parser
      * @param bool   $exceptionOnInvalidType True if an exception must be thrown on invalid types false otherwise
      * @param bool   $objectSupport          True if object support is enabled, false otherwise
      * @param bool   $objectForMap           true if maps should return a stdClass instead of array()
+     * @param string $context                The parser context (either sequence or mapping)
      *
      * @return mixed A PHP value
      *
      * @throws ParseException When reference does not exist
      */
-    private function parseValue($value, $exceptionOnInvalidType, $objectSupport, $objectForMap)
+    private function parseValue($value, $exceptionOnInvalidType, $objectSupport, $objectForMap, $context)
     {
         if (0 === strpos($value, '*')) {
             if (false !== $pos = strpos($value, '#')) {
@@ -464,14 +496,23 @@ class Parser
             return $this->refs[$value];
         }
 
-        if (preg_match('/^'.self::FOLDED_SCALAR_PATTERN.'$/', $value, $matches)) {
+        if (preg_match('/^'.self::BLOCK_SCALAR_HEADER_PATTERN.'$/', $value, $matches)) {
             $modifiers = isset($matches['modifiers']) ? $matches['modifiers'] : '';
 
-            return $this->parseFoldedScalar($matches['separator'], preg_replace('#\d+#', '', $modifiers), (int) abs($modifiers));
+            return $this->parseBlockScalar($matches['separator'], preg_replace('#\d+#', '', $modifiers), (int) abs($modifiers));
         }
 
         try {
-            return Inline::parse($value, $exceptionOnInvalidType, $objectSupport, $objectForMap, $this->refs);
+            $parsedValue = Inline::parse($value, $exceptionOnInvalidType, $objectSupport, $objectForMap, $this->refs);
+
+            if ('mapping' === $context && '"' !== $value[0] && "'" !== $value[0] && '[' !== $value[0] && '{' !== $value[0] && '!' !== $value[0] && false !== strpos($parsedValue, ': ')) {
+                @trigger_error(sprintf('Using a colon in the unquoted mapping value "%s" in line %d is deprecated since Symfony 2.8 and will throw a ParseException in 3.0.', $value, $this->getRealCurrentLineNb() + 1), E_USER_DEPRECATED);
+
+                // to be thrown in 3.0
+                // throw new ParseException('A colon cannot be used in an unquoted mapping value.');
+            }
+
+            return $parsedValue;
         } catch (ParseException $e) {
             $e->setParsedLine($this->getRealCurrentLineNb() + 1);
             $e->setSnippet($this->currentLine);
@@ -481,15 +522,15 @@ class Parser
     }
 
     /**
-     * Parses a folded scalar.
+     * Parses a block scalar.
      *
-     * @param string $separator   The separator that was used to begin this folded scalar (| or >)
-     * @param string $indicator   The indicator that was used to begin this folded scalar (+ or -)
-     * @param int    $indentation The indentation that was used to begin this folded scalar
+     * @param string $style       The style indicator that was used to begin this block scalar (| or >)
+     * @param string $chomping    The chomping indicator that was used to begin this block scalar (+ or -)
+     * @param int    $indentation The indentation indicator that was used to begin this block scalar
      *
      * @return string The text value
      */
-    private function parseFoldedScalar($separator, $indicator = '', $indentation = 0)
+    private function parseBlockScalar($style, $chomping = '', $indentation = 0)
     {
         $notEOF = $this->moveToNextLine();
         if (!$notEOF) {
@@ -497,13 +538,13 @@ class Parser
         }
 
         $isCurrentLineBlank = $this->isCurrentLineBlank();
-        $text = '';
+        $blockLines = array();
 
         // leading blank lines are consumed before determining indentation
         while ($notEOF && $isCurrentLineBlank) {
             // newline only if not EOF
             if ($notEOF = $this->moveToNextLine()) {
-                $text .= "\n";
+                $blockLines[] = '';
                 $isCurrentLineBlank = $this->isCurrentLineBlank();
             }
         }
@@ -524,37 +565,65 @@ class Parser
                     preg_match($pattern, $this->currentLine, $matches)
                 )
             ) {
-                if ($isCurrentLineBlank) {
-                    $text .= substr($this->currentLine, $indentation);
+                if ($isCurrentLineBlank && strlen($this->currentLine) > $indentation) {
+                    $blockLines[] = substr($this->currentLine, $indentation);
+                } elseif ($isCurrentLineBlank) {
+                    $blockLines[] = '';
                 } else {
-                    $text .= $matches[1];
+                    $blockLines[] = $matches[1];
                 }
 
                 // newline only if not EOF
                 if ($notEOF = $this->moveToNextLine()) {
-                    $text .= "\n";
                     $isCurrentLineBlank = $this->isCurrentLineBlank();
                 }
             }
         } elseif ($notEOF) {
-            $text .= "\n";
+            $blockLines[] = '';
         }
 
         if ($notEOF) {
+            $blockLines[] = '';
             $this->moveToPreviousLine();
         }
 
-        // replace all non-trailing single newlines with spaces in folded blocks
-        if ('>' === $separator) {
-            preg_match('/(\n*)$/', $text, $matches);
-            $text = preg_replace('/(?<!\n)\n(?!\n)/', ' ', rtrim($text, "\n"));
-            $text .= $matches[1];
+        // folded style
+        if ('>' === $style) {
+            $text = '';
+            $previousLineIndented = false;
+            $previousLineBlank = false;
+
+            for ($i = 0; $i < count($blockLines); ++$i) {
+                if ('' === $blockLines[$i]) {
+                    $text .= "\n";
+                    $previousLineIndented = false;
+                    $previousLineBlank = true;
+                } elseif (' ' === $blockLines[$i][0]) {
+                    $text .= "\n".$blockLines[$i];
+                    $previousLineIndented = true;
+                    $previousLineBlank = false;
+                } elseif ($previousLineIndented) {
+                    $text .= "\n".$blockLines[$i];
+                    $previousLineIndented = false;
+                    $previousLineBlank = false;
+                } elseif ($previousLineBlank || 0 === $i) {
+                    $text .= $blockLines[$i];
+                    $previousLineIndented = false;
+                    $previousLineBlank = false;
+                } else {
+                    $text .= ' '.$blockLines[$i];
+                    $previousLineIndented = false;
+                    $previousLineBlank = false;
+                }
+            }
+        } else {
+            $text = implode("\n", $blockLines);
         }
 
-        // deal with trailing newlines as indicated
-        if ('' === $indicator) {
+        // deal with trailing newlines
+        if ('' === $chomping) {
             $text = preg_replace('/\n+$/', "\n", $text);
-        } elseif ('-' === $indicator) {
+        } elseif ('-' === $chomping) {
             $text = preg_replace('/\n+$/', '', $text);
         }
 
@@ -619,7 +688,7 @@ class Parser
         //checking explicitly the first char of the trim is faster than loops or strpos
         $ltrimmedLine = ltrim($this->currentLine, ' ');
 
-        return $ltrimmedLine[0] === '#';
+        return '' !== $ltrimmedLine && $ltrimmedLine[0] === '#';
     }
 
     /**
@@ -682,7 +751,7 @@ class Parser
         if (
             $this->getCurrentLineIndentation() == $currentIndentation
             &&
-            $this->isStringUnIndentedCollectionItem($this->currentLine)
+            $this->isStringUnIndentedCollectionItem()
         ) {
             $ret = true;
         }
@@ -699,6 +768,16 @@ class Parser
      */
     private function isStringUnIndentedCollectionItem()
     {
-        return (0 === strpos($this->currentLine, '- '));
+        return 0 === strpos($this->currentLine, '- ');
+    }
+
+    /**
+     * Tests whether or not the current line is the header of a block scalar.
+     *
+     * @return bool
+     */
+    private function isBlockScalarHeader()
+    {
+        return (bool) preg_match('~'.self::BLOCK_SCALAR_HEADER_PATTERN.'$~', $this->currentLine);
     }
 }

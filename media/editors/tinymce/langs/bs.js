@@ -84,6 +84,7 @@ tinymce.addI18n('bs',{
 "Horizontal line": "Horizontalna linija",
 "Horizontal space": "Horizontalan razmak",
 "Insert\/edit image": "Ubaci\/izmijeni sliku",
+"Insert\/Edit code sample": "Ubaci\/izmijeni uzorak koda",
 "General": "Op\u0107enito",
 "Advanced": "Napredno",
 "Source": "Izvor",

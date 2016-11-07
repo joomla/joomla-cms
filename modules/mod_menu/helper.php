@@ -42,23 +42,38 @@ class ModMenuHelper
 
 		if (!($items = $cache->get($key)))
 		{
-			$path    = $base->tree;
-			$start   = (int) $params->get('startLevel');
-			$end     = (int) $params->get('endLevel');
-			$showAll = $params->get('showAllChildren');
-			$items   = $menu->getItems('menutype', $params->get('menutype'));
-
-			$lastitem = 0;
+			$path           = $base->tree;
+			$start          = (int) $params->get('startLevel');
+			$end            = (int) $params->get('endLevel');
+			$showAll        = $params->get('showAllChildren');
+			$items          = $menu->getItems('menutype', $params->get('menutype'));
+			$hidden_parents = array();
+			$lastitem       = 0;
 
 			if ($items)
 			{
 				foreach ($items as $i => $item)
 				{
+					$item->parent = false;
+
+					if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id)
+					{
+						$items[$lastitem]->parent = true;
+					}
+
 					if (($start && $start > $item->level)
 						|| ($end && $item->level > $end)
 						|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
 						|| ($start > 1 && !in_array($item->tree[$start - 2], $path)))
 					{
+						unset($items[$i]);
+						continue;
+					}
+
+					// Exclude item with menu item option set to exclude from menu modules
+					if (($item->params->get('menu_show', 1) == 0) || in_array($item->parent_id, $hidden_parents))
+					{
+						$hidden_parents[] = $item->id;
 						unset($items[$i]);
 						continue;
 					}
@@ -73,8 +88,6 @@ class ModMenuHelper
 						$items[$lastitem]->shallower  = ($item->level < $items[$lastitem]->level);
 						$items[$lastitem]->level_diff = ($items[$lastitem]->level - $item->level);
 					}
-
-					$item->parent = (boolean) $menu->getItems('parent_id', (int) $item->id, true);
 
 					$lastitem     = $i;
 					$item->active = false;
@@ -119,6 +132,7 @@ class ModMenuHelper
 					$item->title        = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_css   = htmlspecialchars($item->params->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_title = htmlspecialchars($item->params->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
+					$item->anchor_rel = htmlspecialchars($item->params->get('menu-anchor_rel', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->menu_image   = $item->params->get('menu_image', '') ?
 						htmlspecialchars($item->params->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false) : '';
 				}
@@ -179,18 +193,28 @@ class ModMenuHelper
 	public static function getActive(&$params)
 	{
 		$menu = JFactory::getApplication()->getMenu();
+
+		return $menu->getActive() ? $menu->getActive() : self::getDefault();
+	}
+
+	/**
+	 * Get default menu item (home page) for current language.
+	 *
+	 * @return  object
+	 */
+	public static function getDefault()
+	{
+		$menu = JFactory::getApplication()->getMenu();
 		$lang = JFactory::getLanguage();
 
 		// Look for the home menu
 		if (JLanguageMultilang::isEnabled())
 		{
-			$home = $menu->getDefault($lang->getTag());
+			return $menu->getDefault($lang->getTag());
 		}
 		else
 		{
-			$home  = $menu->getDefault();
+			return $menu->getDefault();
 		}
-
-		return $menu->getActive() ? $menu->getActive() : $home;
 	}
 }

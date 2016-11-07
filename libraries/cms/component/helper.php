@@ -58,9 +58,7 @@ class JComponentHelper
 
 		if (is_string($result->params))
 		{
-			$temp = new Registry;
-			$temp->loadString(static::$components[$option]->params);
-			static::$components[$option]->params = $temp;
+			static::$components[$option]->params = new Registry(static::$components[$option]->params);
 		}
 
 		return $result;
@@ -97,10 +95,10 @@ class JComponentHelper
 
 		return (int) $db->setQuery(
 			$db->getQuery(true)
-				->select('COUNT(extension_id)')
-				->from('#__extensions')
-				->where('element = ' . $db->quote($option))
-				->where('type = ' . $db->quote('component'))
+				->select('COUNT(' . $db->quoteName('extension_id') . ')')
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('element') . ' = ' . $db->quote($option))
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
 		)->loadResult();
 	}
 
@@ -133,6 +131,9 @@ class JComponentHelper
 	 */
 	public static function filterText($text)
 	{
+		// Punyencoding utf8 email addresses
+		$text = JFilterInput::getInstance()->emailToPunycode($text);
+
 		// Filter settings
 		$config     = static::getParams('com_config');
 		$user       = JFactory::getUser();
@@ -179,7 +180,7 @@ class JComponentHelper
 			}
 			else
 			{
-				// Black or white list.
+				// Blacklist or whitelist.
 				// Preprocess the tags and attributes.
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
@@ -206,7 +207,7 @@ class JComponentHelper
 					}
 				}
 
-				// Collect the black or white list tags and attributes.
+				// Collect the blacklist or whitelist tags and attributes.
 				// Each list is cummulative.
 				if ($filterType == 'BL')
 				{
@@ -233,7 +234,7 @@ class JComponentHelper
 			}
 		}
 
-		// Remove duplicates before processing (because the black list uses both sets of arrays).
+		// Remove duplicates before processing (because the blacklist uses both sets of arrays).
 		$blackListTags        = array_unique($blackListTags);
 		$blackListAttributes  = array_unique($blackListAttributes);
 		$customListTags       = array_unique($customListTags);
@@ -264,27 +265,27 @@ class JComponentHelper
 					$filter->attrBlacklist = $customListAttributes;
 				}
 			}
-			// Black lists take second precedence.
+			// Blacklists take second precedence.
 			elseif ($blackList)
 			{
-				// Remove the white-listed tags and attributes from the black-list.
+				// Remove the whitelisted tags and attributes from the black-list.
 				$blackListTags       = array_diff($blackListTags, $whiteListTags);
 				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
 
 				$filter = JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
 
-				// Remove white listed tags from filter's default blacklist
+				// Remove whitelisted tags from filter's default blacklist
 				if ($whiteListTags)
 				{
 					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
 				}
-				// Remove white listed attributes from filter's default blacklist
+				// Remove whitelisted attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
 					$filter->attrBlacklist = array_diff($filter->attrBlacklist, $whiteListAttributes);
 				}
 			}
-			// White lists take third precedence.
+			// Whitelists take third precedence.
 			elseif ($whiteList)
 			{
 				// Turn off XSS auto clean
@@ -433,8 +434,8 @@ class JComponentHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('extension_id AS id, element AS "option", params, enabled')
-			->from('#__extensions')
+			->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 		$db->setQuery($query);
 
@@ -459,21 +460,67 @@ class JComponentHelper
 		}
 		catch (RuntimeException $e)
 		{
-			// Fatal error.
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $e->getMessage()), JLog::WARNING, 'jerror');
+			/*
+			 * Fatal error
+			 *
+			 * It is possible for this error to be reached before the global JLanguage instance has been loaded so we check for its presence
+			 * before logging the error to ensure a human friendly message is always given
+			 */
+
+			if (JFactory::$language)
+			{
+				$msg = JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $e->getMessage());
+			}
+			else
+			{
+				$msg = sprintf('Error loading component: %1$s, %2$s', $option, $e->getMessage());
+			}
+
+			JLog::add($msg, JLog::WARNING, 'jerror');
 
 			return false;
 		}
 
 		if (empty(static::$components[$option]))
 		{
-			// Fatal error.
-			$error = JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND');
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
+			/*
+			 * Fatal error
+			 *
+			 * It is possible for this error to be reached before the global JLanguage instance has been loaded so we check for its presence
+			 * before logging the error to ensure a human friendly message is always given
+			 */
+
+			if (JFactory::$language)
+			{
+				$msg = JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+			}
+			else
+			{
+				$msg = sprintf('Error loading component: %1$s, %2$s', $option, 'Component not found.');
+			}
+
+			JLog::add($msg, JLog::WARNING, 'jerror');
 
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get installed components
+	 *
+	 * @return  array  The components property
+	 *
+	 * @since   3.6.3
+	 */
+	public static function getComponents()
+	{
+		if (empty(static::$components))
+		{
+			static::load('*');
+		}
+
+		return static::$components;
 	}
 }

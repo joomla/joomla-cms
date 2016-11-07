@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 </h3>
 
 <div class="row-fluid">
-	<div class="span6">
+	<div class="span12">
 		<p class="tab-description"><?php echo JText::sprintf('COM_FINDER_STATISTICS_STATS_DESCRIPTION', number_format($this->data->term_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')), number_format($this->data->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')), number_format($this->data->taxonomy_node_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')), number_format($this->data->taxonomy_branch_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'))); ?></p>
 		<table class="table table-striped table-condensed">
 			<thead>

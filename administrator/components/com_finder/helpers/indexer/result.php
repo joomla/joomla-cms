@@ -207,12 +207,11 @@ class FinderIndexerResult
 	 */
 	public function __set($name, $value)
 	{
-		$this->elements[$name] = $value;
+		$this->setElement($name, $value);
 	}
 
 	/**
-	 * The magic get method is used to retrieve additional element values
-	 * from the elements array.
+	 * The magic get method is used to retrieve additional element values from the elements array.
 	 *
 	 * @param   string  $name  The name of the element.
 	 *
@@ -222,20 +221,11 @@ class FinderIndexerResult
 	 */
 	public function __get($name)
 	{
-		// Get the element value if set.
-		if (array_key_exists($name, $this->elements))
-		{
-			return $this->elements[$name];
-		}
-		else
-		{
-			return null;
-		}
+		return $this->getElement($name);
 	}
 
 	/**
-	 * The magic isset method is used to check the state of additional element
-	 * values in the elements array.
+	 * The magic isset method is used to check the state of additional element values in the elements array.
 	 *
 	 * @param   string  $name  The name of the element.
 	 *
@@ -249,8 +239,7 @@ class FinderIndexerResult
 	}
 
 	/**
-	 * The magic unset method is used to unset additional element values in the
-	 * elements array.
+	 * The magic unset method is used to unset additional element values in the elements array.
 	 *
 	 * @param   string  $name  The name of the element.
 	 *
@@ -279,10 +268,8 @@ class FinderIndexerResult
 		{
 			return $this->elements[$name];
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	/**

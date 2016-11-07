@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once __DIR__ . '/../default/view.php';
+JLoader::register('InstallerViewDefault', dirname(__DIR__) . '/default/view.php');
 
 /**
  * Extension Manager Manage View
@@ -82,7 +82,7 @@ class InstallerViewManage extends InstallerViewDefault
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
+			JToolbarHelper::deleteList('COM_INSTALLER_CONFIRM_UNINSTALL', 'manage.remove', 'JTOOLBAR_UNINSTALL');
 			JToolbarHelper::divider();
 		}
 

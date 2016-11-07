@@ -41,7 +41,6 @@ defined('JPATH_PLATFORM') or die;
  * JObserverMapper::addObserverClassToClass('ObserverClassname', 'ObservableClassname', array('paramName' => 'paramValue'));
  * where the last array will be provided to the observer instanciator function createObserver.
  *
- * @link   https://docs.joomla.org/JObserverInterface
  * @since  3.1.2
  */
 interface JObserverInterface

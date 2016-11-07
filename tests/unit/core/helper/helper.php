@@ -164,6 +164,49 @@ class TestHelper
 	}
 
 	/**
+	 * Adds a logger to include Joomla deprecations in the unit test results
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function registerDeprecationLogger()
+	{
+		JLog::addLogger(
+			array(
+				'logger'   => 'callback',
+				'callback' => function (JLogEntry $entry)
+				{
+					@trigger_error($entry->message, E_USER_DEPRECATED);
+				},
+			),
+			JLog::ALL,
+			array('deprecated')
+		);
+	}
+
+	/**
+	 * Adds optional logging support for the unit test run
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public static function registerLogger()
+	{
+		if (defined('JOOMLA_TEST_LOGGING') && JOOMLA_TEST_LOGGING === 'yes')
+		{
+			JLog::addLogger(
+				array(
+					'logger'         => 'formattedtext',
+					'text_file'      => 'unit_test.php',
+					'text_file_path' => dirname(dirname(__DIR__)) . '/tmp'
+				)
+			);
+		}
+	}
+
+	/**
 	 * Detects if the CLI output supports color codes
 	 *
 	 * This method is based on \Symfony\Bridge\PhpUnit\DeprecationErrorHandler::register()

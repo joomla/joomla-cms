@@ -28,12 +28,6 @@ if (!defined('IS_UNIX'))
 	define('IS_UNIX', (IS_WIN === false) ? true : false);
 }
 
-// Import the platform version library if necessary.
-if (!class_exists('JPlatform'))
-{
-	require_once JPATH_PLATFORM . '/platform.php';
-}
-
 // Import the library loader if necessary.
 if (!class_exists('JLoader'))
 {
@@ -48,9 +42,6 @@ if (!class_exists('JLoader'))
 
 // Setup the autoloaders.
 JLoader::setup();
-
-// Import the base Joomla Platform libraries.
-JLoader::import('joomla.factory');
 
 // Check if the JsonSerializable interface exists already
 if (!interface_exists('JsonSerializable'))

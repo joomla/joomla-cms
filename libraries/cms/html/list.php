@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Utility class for creating different select lists
  *
@@ -67,7 +69,7 @@ abstract class JHtmlList
 			$name,
 			array(
 				'list.attr' => 'class="inputbox" size="1" ' . $javascript,
-				'list.select' => $active
+				'list.select' => $active,
 			)
 		);
 
@@ -105,9 +107,9 @@ abstract class JHtmlList
 		{
 			$items[$i]->text = JText::_($items[$i]->text);
 
-			if (JString::strlen($items[$i]->text) > $chop)
+			if (StringHelper::strlen($items[$i]->text) > $chop)
 			{
-				$text = JString::substr($items[$i]->text, 0, $chop) . "...";
+				$text = StringHelper::substr($items[$i]->text, 0, $chop) . "...";
 			}
 			else
 			{
@@ -205,7 +207,7 @@ abstract class JHtmlList
 			$name,
 			array(
 				'list.attr' => 'class="inputbox" size="1" ' . $javascript,
-				'list.select' => $active
+				'list.select' => $active,
 			)
 		);
 

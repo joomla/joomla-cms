@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="package" version="3.0" method="upgrade">
+<extension type="package" version="3.6" method="upgrade">
 	<name>pkg_weblinks</name>
 	<packagename>weblinks</packagename>
 	<creationDate>December 2012</creationDate>

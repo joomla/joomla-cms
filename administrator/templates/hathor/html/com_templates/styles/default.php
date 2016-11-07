@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
-JHtml::_('script', 'system/multiselect.js', false, true);
+JHtml::_('script', 'system/multiselect.js', array('version' => 'auto', 'relative' => true));
 
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -39,16 +39,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</div>
 
 		<div class="filter-select">
+			<label class="selectlabel" for="client_id"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></label>
+			<select name="client_id" id="client_id">
+				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('client_id'));?>
+			</select>
+
 			<label class="selectlabel" for="filter_template"><?php echo JText::_('COM_TEMPLATES_FILTER_TEMPLATE'); ?></label>
 			<select name="filter_template" id="filter_template">
 				<option value="0"><?php echo JText::_('COM_TEMPLATES_FILTER_TEMPLATE'); ?></option>
-				<?php echo JHtml::_('select.options', TemplatesHelper::getTemplateOptions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.template'));?>
-			</select>
-
-			<label class="selectlabel" for="filter_client_id"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></label>
-			<select name="filter_client_id" id="filter_client_id">
-				<option value="*"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></option>
-				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
+				<?php echo JHtml::_('select.options', TemplatesHelper::getTemplateOptions($this->state->get('client_id')), 'value', 'text', $this->state->get('filter.template'));?>
 			</select>
 
 			<button type="submit" id="filter-go">
@@ -122,10 +121,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
 					<?php elseif ($canChange):?>
 						<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1');?>">
-							<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
+							<?php if ($item->image) : ?>
+								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
+							<?php else : ?>
+								<span class="label" title="<?php echo JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
+							<?php endif; ?>
 						</a>
 					<?php else:?>
-						<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
+						<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+						<?php if ($item->image) : ?>
+							<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+						<?php else : ?>
+							<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+						<?php endif; ?>
 					<?php endif;?>
 				</td>
 				<td class="center">

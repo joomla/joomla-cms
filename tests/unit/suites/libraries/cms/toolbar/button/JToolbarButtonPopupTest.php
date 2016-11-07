@@ -49,6 +49,21 @@ class JToolbarButtonPopupTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->toolbar);
+		unset($this->object);
+		parent::tearDown();
+	}
+
+	/**
 	 * Tests the fetchId method
 	 *
 	 * @return  void

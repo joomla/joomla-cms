@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/article.php';
+JLoader::register('ContentModelArticle', __DIR__ . '/article.php');
 
 /**
  * Feature model.
@@ -45,8 +45,6 @@ class ContentModelFeature extends ContentModelArticle
 	 */
 	protected function getReorderConditions($table)
 	{
-		$condition = array();
-
-		return $condition;
+		return array();
 	}
 }

@@ -167,9 +167,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function getModel($name = 'Template', $prefix = 'TemplatesModel', $config = array())
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -218,7 +216,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		// Access check.
 		if (!$this->allowSave())
 		{
-			$app->enqueueMessage(JText::_('JERROR_SAVE_NOT_PERMITTED'), 'error');
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			return false;
 		}

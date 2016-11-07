@@ -56,8 +56,17 @@ class ModulesViewSelect extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
+		$state = $this->get('State');
+
 		// Add page title
-		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'cube module');
+		if ($state->get('client_id') == 1)
+		{
+			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
+		}
 
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');

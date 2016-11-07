@@ -48,7 +48,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 			</label>
 			<select name="filter_published" id="filter_published">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true);?>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 
 			<label class="selectlabel" for="filter_category_id">
@@ -198,11 +198,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 					</td>
 				<?php endif;?>
 				<td class="center">
-					<?php if ($item->language == '*'):?>
-						<?php echo JText::alt('JALL', 'language'); ?>
-					<?php else:?>
-						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-					<?php endif;?>
+					<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>

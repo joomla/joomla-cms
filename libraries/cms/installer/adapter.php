@@ -214,7 +214,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -261,7 +261,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			$this->parent->pushStep(
 				array(
 					'type' => 'folder',
-					'path' => $this->parent->getPath('extension_root')
+					'path' => $this->parent->getPath('extension_root'),
 				)
 			);
 		}
@@ -780,7 +780,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
-	 * Method to parse the queries specified in the <sql> tags
+	 * Method to parse the queries specified in the `<sql>` tags
 	 *
 	 * @return  void
 	 *
@@ -912,13 +912,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		{
 			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
-			if (is_file($manifestScriptFile))
-			{
-				// Load the file
-				include_once $manifestScriptFile;
-			}
-
 			$classname = $this->getScriptClassName();
+
+			JLoader::register($classname, $manifestScriptFile);
 
 			if (class_exists($classname))
 			{
@@ -979,6 +975,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					{
 						if ($method != 'postflight')
 						{
+							// Clean and close the output buffer
+							ob_end_clean();
+
 							// The script failed, rollback changes
 							throw new RuntimeException(
 								JText::sprintf(
@@ -998,6 +997,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					{
 						if ($method != 'uninstall')
 						{
+							// Clean and close the output buffer
+							ob_end_clean();
+
 							// The script failed, rollback changes
 							throw new RuntimeException(
 								JText::sprintf(

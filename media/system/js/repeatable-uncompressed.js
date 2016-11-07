@@ -369,22 +369,22 @@
         self.fixUniqueAttributes = function($row, count){
         	//all elements that have a "id" attribute
         	var haveIds = $row.find('*[id]');
-        	self.incresseAttrName(haveIds, 'id', count);
+        	self.increaseAttrName(haveIds, 'id', count);
         	// all labels that have a "for" attribute
         	var haveFor = $row.find('label[for]');
-        	self.incresseAttrName(haveFor, 'for', count);
+        	self.increaseAttrName(haveFor, 'for', count);
         	// all inputs that have a "name" attribute
         	var haveName = $row.find('*[name]');
-        	self.incresseAttrName(haveName, 'name', count);
+        	self.increaseAttrName(haveName, 'name', count);
         };
 
-        // increse attribute name like: attribute_value + '-' + count
-        self.incresseAttrName = function (elements, attr, count){
+        // increase attribute name like: attribute_value + '-' + count
+        self.increaseAttrName = function (elements, attr, count){
         	for(var i = 0, l = elements.length; i < l; i++){
         		var $el =  $(elements[i]);
         		var oldValue = $el.attr(attr);
         		// set new
-        		$el.attr(attr, oldValue + '-' + count);
+        		$el.attr(attr, count + '-' + oldValue);
         	}
         };
 
@@ -441,15 +441,8 @@
         	// colorpicker
         	if($.fn.minicolors){
         		$row.find('.minicolors input').each(function(){
-        			$(this).removeData('minicolors-initialized')
-        			.removeData('minicolors-settings')
-        			.removeProp('size')
-        			.removeProp('maxlength')
-        			.removeClass('minicolors-input')
-        			// move out from <span>
-        			.parents('span.minicolors').parent().append(this);
+        			$(this).minicolors('destroy', $(this));
         		});
-        		$row.find('span.minicolors').remove();
         	}
         };
 
@@ -478,9 +471,10 @@
         			$select = $el.prev(),
         			oldHref = $select.attr('href');
         		// update the clear button
-        		$el.attr('onclick', "jInsertFieldValue('', '" + inputId + "');return false;")
+        		$el.attr('onclick', "jInsertFieldValue('', '" + inputId + "');return false;");
         		// update select button
         		$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
+				jMediaRefreshPreview(inputId);
         	});
 
         	// another modals

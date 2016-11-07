@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.6
  */
-class JFormFieldMedia extends JFormField
+class JFormFieldMedia extends JFormField implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -100,9 +100,11 @@ class JFormFieldMedia extends JFormField
 	/**
 	 * Layout to render
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  3.5
 	 */
 	protected $layout = 'joomla.form.field.media';
+
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
@@ -168,7 +170,7 @@ class JFormFieldMedia extends JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -264,5 +266,44 @@ class JFormFieldMedia extends JFormField
 		);
 
 		return array_merge($data, $extraData);
+	}
+
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('hide_default', 'true');
+
+		if ($field->fieldparams->get('home'))
+		{
+			$userName = JFactory::getUser()->username;
+			$root     = $field->fieldparams->get('directory');
+
+			if (!$root)
+			{
+				$root = 'images';
+			}
+
+			$directory = JPATH_ROOT . '/images/' . $root . '/' . $userName;
+
+			if (!JFolder::exists($directory))
+			{
+				JFolder::create($directory);
+			}
+
+			$fieldNode->setAttribute('directory', str_replace(JPATH_ROOT . '/images', '', $directory));
+		}
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

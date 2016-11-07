@@ -1,76 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields name="filter">
-        <field
-                name="search"
-                type="text"
-                hint="JSEARCH_FILTER"
-                class="js-stools-search-string"
-                />
-        <field
-                name="client_id"
-                type="bannerclient"
-                extension="com_content"
-                onchange="this.form.submit();"
-                >
-            <option value="">COM_BANNERS_SELECT_CLIENT</option>
-        </field>
-        <field
-                name="category_id"
-                type="category"
-                extension="com_banners"
-                onchange="this.form.submit();"
-                >
-            <option value="">JOPTION_SELECT_CATEGORY</option>
-        </field>
-        <field
-                name="type"
-                type="list"
-                default="0"
-                onchange="this.form.submit();"
-                >
-            <option value="">COM_BANNERS_SELECT_TYPE</option>
-            <option value="1">COM_BANNERS_TYPE1</option>
-            <option value="2">COM_BANNERS_TYPE2</option>
-        </field>
+	<fields name="filter" addfieldpath="/administrator/components/com_banners/models/fields">
+		<field
+			name="search"
+			type="text"
+			label="COM_BANNERS_TRACKS_FILTER_SEARCH_LABEL"
+			description="COM_BANNERS_TRACKS_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
 
+		<field
+			name="category_id"
+			type="category"
+			label="JOPTION_FILTER_CATEGORY"
+			description="JOPTION_FILTER_CATEGORY_DESC"
+			extension="com_banners"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_CATEGORY</option>
+		</field>
+
+		<field
+			name="client_id"
+			type="bannerclient"
+			label="COM_BANNERS_FILTER_CLIENT"
+			description="COM_BANNERS_FILTER_CLIENT_DESC"
+			extension="com_content"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_BANNERS_SELECT_CLIENT</option>
+		</field>
+
+		<field
+			name="type"
+			type="list"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_BANNERS_SELECT_TYPE</option>
+			<option value="1">COM_BANNERS_TYPE1</option>
+			<option value="2">COM_BANNERS_TYPE2</option>
+		</field>
+
+		<field
+			name="level"
+			type="integer"
+			label="JOPTION_FILTER_LEVEL"
+			description="JOPTION_FILTER_LEVEL_DESC"
+			first="1"
+			last="10"
+			step="1"
+			languages="*"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+		</field>
+
+		<field
+			name="begin"
+			type="calendar"
+			label="COM_BANNERS_BEGIN_LABEL"
+			description="COM_BANNERS_BEGIN_DESC"
+			hint="COM_BANNERS_BEGIN_HINT"
+			format="%Y-%m-%d"
+			size="10"
+			filter="user_utc"
+			onchange="this.form.submit();"
+		/>
+
+		<field
+			name="end"
+			type="calendar"
+			label="COM_BANNERS_END_LABEL"
+			description="COM_BANNERS_END_DESC"
+			hint="COM_BANNERS_END_HINT"
+			format="%Y-%m-%d"
+			size="10"
+			filter="user_utc"
+			onchange="this.form.submit();"
+		/>
     </fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			description="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="b.name ASC"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="b.name ASC">COM_BANNERS_HEADING_NAME_ASC</option>
+			<option value="b.name DESC">COM_BANNERS_HEADING_NAME_DESC</option>
+			<option value="cl.name ASC">COM_BANNERS_HEADING_CLIENT_ASC</option>
+			<option value="cl.name DESC">COM_BANNERS_HEADING_CLIENT_DESC</option>
+			<option value="a.track_type ASC">COM_BANNERS_HEADING_TYPE_ASC</option>
+			<option value="a.track_type DESC">COM_BANNERS_HEADING_TYPE_DESC</option>
+			<option value="a.count ASC">COM_BANNERS_HEADING_COUNT_ASC</option>
+			<option value="a.count DESC">COM_BANNERS_HEADING_COUNT_DESC</option>
+			<option value="a.track_date ASC">JDATE_ASC</option>
+			<option value="a.track_date DESC">JDATE_DESC</option>
+		</field>
 
-    <fields name="list">
-        <field
-                name="sortTable"
-                type="list"
-                label="JGLOBAL_SORT_BY"
-                description="JFIELD_ORDERING_DESC"
-                onchange="Joomla.orderTable();"
-                default="a.id DESC"
-                >
-            <option value="">JGLOBAL_SORT_BY</option>
-            <option value="b.name">COM_BANNERS_HEADING_NAME</option>
-            <option value="cl.name">COM_BANNERS_HEADING_CLIENT</option>
-            <option value="track_type">COM_BANNERS_HEADING_TYPE</option>
-            <option value="count">COM_BANNERS_HEADING_COUNT</option>
-            <option value="track_date">JDATE</option>
-        </field>
-
-        <field
-                name="directionTable"
-                type="list"
-                label="JGLOBAL_ORDER_DIRECTION_LABEL"
-                description="JGLOBAL_ORDER_DIRECTION_DESC"
-                onchange="Joomla.orderTable();"
-                >
-            <option value="">JFIELD_ORDERING_DESC</option>
-            <option value="asc">JGLOBAL_ORDER_ASCENDING</option>
-            <option value="desc">JGLOBAL_ORDER_DESCENDING</option>
-        </field>
-
-        <field
-                name="limit"
-                type="limitbox"
-                class="input-mini"
-                default="25"
-                onchange="this.form.submit();"
-                />
-    </fields>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIMIT"
+			description="JGLOBAL_LIMIT"
+			class="input-mini"
+			default="5"
+			onchange="this.form.submit();"
+		/>
+	</fields>
 </form>

@@ -155,9 +155,9 @@ class BannersModelBanner extends JModelLegacy
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select(
-						'a.clickurl as clickurl,' .
-							'a.cid as cid,' .
-							'a.track_clicks as track_clicks'
+						'a.clickurl as clickurl,'
+							. 'a.cid as cid,'
+							. 'a.track_clicks as track_clicks'
 					)
 					->from('#__banners as a')
 					->where('a.id = ' . (int) $id)

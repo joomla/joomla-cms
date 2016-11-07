@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Controller class to e-mail the configuration info for the Joomla Installer.
+ * Controller class to email the configuration info for the Joomla Installer.
  *
  * @since  3.1
  */
@@ -28,7 +28,6 @@ class InstallationControllerInstallEmail extends JControllerBase
 		// Overrides application config and set the configuration.php file so the send function will work
 		JFactory::$config = null;
 		JFactory::getConfig(JPATH_SITE . '/configuration.php');
-		JFactory::$session = null;
 	}
 
 	/**
@@ -133,18 +132,21 @@ class InstallationControllerInstallEmail extends JControllerBase
 
 		try
 		{
-			$mail->Send();
+			if (!$mail->Send())
+			{
+				$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'error');
+			}
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'notice');
+			$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'error');
 		}
 
 		$app->sendJsonResponse($r);
 	}
 
 	/**
-	 * Prepares a title line for the e-mail
+	 * Prepares a title line for the email
 	 *
 	 * @param   string  $title  The title pre-formatting
 	 *

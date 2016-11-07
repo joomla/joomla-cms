@@ -36,12 +36,6 @@ if (!defined('IS_MAC'))
 	define('IS_MAC', (IS_UNIX === true && ($os === 'DAR' || $os === 'MAC')) ? true : false);
 }
 
-// Import the platform version library if necessary.
-if (!class_exists('JPlatform'))
-{
-	require_once JPATH_PLATFORM . '/platform.php';
-}
-
 // Import the library loader if necessary.
 if (!class_exists('JLoader'))
 {
@@ -58,9 +52,6 @@ if (!class_exists('JLoader'))
 JLoader::setup();
 
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-
-// Import the Joomla Factory.
-JLoader::import('joomla.factory');
 
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
