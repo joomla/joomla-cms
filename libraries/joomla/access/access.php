@@ -549,15 +549,20 @@ class JAccess
 			{
 				if (JDEBUG)
 				{
-					JFactory::getApplication()->enqueueMessage('No asset found for ' . $assetName . ', falling back to ' . $extensionName, 'notice');
+					JFactory::getApplication()->enqueueMessage('No asset found for ' . $assetName . ', falling back to ' . $extensionName, 'warning');
 				}
 
 				return self::getAssetRules($extensionName, $recursive, $recursiveParentAsset);
 			}
 
-			if (JDEBUG)
+			if ($assetName !== 'root.1')
 			{
-				JFactory::getApplication()->enqueueMessage('No asset found for ' . $assetName, 'notice');
+				if (JDEBUG)
+				{
+					JFactory::getApplication()->enqueueMessage('No asset found for ' . $assetName . ', falling back to root asset', 'warning');
+				}
+
+				return self::getAssetRules('root.1', $recursive, $recursiveParentAsset);
 			}
 
 			return new JAccessRules;
