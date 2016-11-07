@@ -275,10 +275,10 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 			 * option to change the category parent for a category or the category for a content item,
 			 * but you should be able to save in that category.
 			 */
-			$assetKey = $extension . '.category.' . $oldCat;
-
 			foreach ($options as $i => $option)
 			{
+				$assetKey = $extension . '.category.' . $oldCat;
+
 				if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.edit.state', $assetKey))
 				{
 					unset($options[$i]);
@@ -293,6 +293,8 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 				 * However, if you can edit.state you can also move this to another category for which you have
 				 * create permission and you should also still be able to save in the current category.
 				 */
+				$assetKey = $extension . '.category.' . $option->value;
+
 				if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.create', $assetKey))
 				{
 					unset($options[$i]);
