@@ -251,7 +251,18 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = $updateInfo['object']->downloadurl->_data;
-		$basename   = basename($packageURL);
+		$headers    = get_headers($packageURL, 1);
+
+		// Follow the Location headers until the actual download URL is known
+		while (isset($headers['Location']))
+		{
+			$packageURL = $headers['Location'];
+			$headers    = get_headers($packageURL, 1);
+		}
+
+		// Remove URL and query string
+		$urlBasename = basename($packageURL);
+		$basename    = substr($urlBasename, 0, strpos($urlBasename, '?'));
 
 		// Find the path to the temp directory and the local package.
 		$config  = JFactory::getConfig();
