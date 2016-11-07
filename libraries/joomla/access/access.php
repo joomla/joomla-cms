@@ -211,10 +211,7 @@ class JAccess
 		// Preload the rules for all of the components.
 		if ($isDefault)
 		{
-			if (!self::$componentsPreloaded )
-			{
-				self::preloadComponents();
-			}
+			self::preloadComponents();
 
 			return true;
 		}
@@ -345,6 +342,11 @@ class JAccess
 	 */
 	protected static function preloadComponents()
 	{
+		if (self::$componentsPreloaded)
+		{
+			return;
+		}
+
 		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::preload (all components)');
 
 		// Add root to asset names list.
