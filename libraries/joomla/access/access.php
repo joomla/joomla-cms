@@ -301,16 +301,14 @@ class JAccess
 		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::preloadPermissions (' . $extensionName . ')');
 
 		// Get the database connection object.
-		$db = JFactory::getDbo();
-
-		$parents = implode(',', $db->q(array($extensionName)));
-
+		$db         = JFactory::getDbo();
+		$extraQuery = $db->qn('name') . ' IN (' . implode(',', $db->q(array($extensionName))) . ') OR ' . $db->qn('parent_id') . ' = 0';
+		
 		// Get a fresh query object:
 		$query = $db->getQuery(true)
 			->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
 			->from($db->qn('#__assets'))
-			->where($db->qn('name') . ' LIKE ' . $db->q($extensionName . '.%')
-				. ' OR ' . $db->qn('name') . ' IN (' . $parents . ') OR ' . $db->qn('parent_id') . ' = 0');
+			->where($db->qn('name') . ' LIKE ' . $db->q($extensionName . '.%') . ' OR ' . $extraQuery);
 
 		// Get the Name Permission Map List
 		$assets = $db->setQuery($query)->loadObjectList();
@@ -456,7 +454,7 @@ class JAccess
 		if (empty($asset))
 		{
 			// Auto preloads assets for the asset type.
-			if ($preload)
+			if ($preload && isset(self::$rootAsset['name']))
 			{
 				$asset = self::$rootAsset['name'];
 			}
@@ -627,7 +625,16 @@ class JAccess
 			// Get the parent asset is not found and in recursive mode
 			if (empty($result))
 			{
-				$result = array(self::$assetPermissionsById[$extensionName][$extensionName]); 
+				$db = JFactory::getDbo();
+				$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+				$rootId = $assets->getRootId();
+				$query->clear()
+					->select('rules')
+					->from('#__assets')
+					->where('id = ' . $db->quote($rootId));
+				$db->setQuery($query);
+				$result = $db->loadResult();
+				$result = array($result);
 			}
 
 			// Collects permissions for each $asset
