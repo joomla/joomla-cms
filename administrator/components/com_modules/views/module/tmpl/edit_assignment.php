@@ -123,7 +123,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
 										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span>
 										<?php if ($link->params->get('menu_show') === 0) : ?>
-											<?php echo ' <span class="label">' . JText::_('COM_MODULES_LABEL_HIDDEN') . '</span>'; ?>
+											<?php echo '<span class="label">' . JText::_('COM_MODULES_LABEL_HIDDEN') . '</span>'; ?>
 										<?php endif; ?>
 										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*') : ?>
 											<?php if ($link->language_image) : ?>
