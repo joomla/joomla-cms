@@ -504,7 +504,7 @@ class JAccess
 	 * only the rules explicitly set for the asset or the summation of all inherited rules from
 	 * parent assets and explicit rules.
 	 *
-	 * @param   mixed    $assetKey              Integer asset id or the name of the asset as a string (faster with integer).
+	 * @param   mixed    $assetKey              Integer asset id or the name of the asset as a string.
 	 * @param   boolean  $recursive             True to return the rules object with inherited rules.
 	 * @param   boolean  $recursiveParentAsset  True to calculate the rule also based on inherited component/extension rules.
 	 *
