@@ -29,6 +29,52 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	protected $limit;
 
 	/**
+	 * Magic function to convert the query to a string.
+	 *
+	 * @return  string  The completed query.
+	 *
+	 * @since   11.1
+	 */
+	public function __toString()
+	{
+		switch ($this->type)
+		{
+			case 'select':
+				if ($this->selectRowNumber)
+				{
+					$orderBy = $this->selectRowNumber['orderBy'];
+
+					if ($this->selectRowNumber['partitionBy'] !== null && $this->selectRowNumber['partitionColumnAlias'] !== null)
+					{
+						$orderBy = $this->selectRowNumber['partitionBy'] . ',' . $orderBy;
+					}
+
+					$tmpOffset    = $this->offset;
+					$tmpLimit     = $this->limit;
+					$this->offset = 0;
+					$this->limit  = 0;
+					$tmpOrder     = $this->order;
+					$this->order  = new JDatabaseQueryElement('ORDER BY', $orderBy);
+					$query        = parent::__toString();
+					$this->order  = $tmpOrder;
+					$this->offset = $tmpOffset;
+					$this->limit  = $tmpLimit;
+
+					if ($this->offset || $this->limit || $this->order)
+					{
+						// Add support for second order by, offset and limit
+						$query = PHP_EOL . "SELECT * FROM ( " . (string) $query . " ) w" . (string) $this->order;
+						$query = $this->processLimit($query, $this->limit, $this->offset);
+					}
+
+					return $query;
+				}
+		}
+
+		return parent::__toString();
+	}
+
+	/**
 	 * Method to modify a query already in string format with the needed
 	 * additions to make the query limited to a particular number of
 	 * results, or start at a particular offset.
@@ -161,5 +207,38 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	public function findInSet($value, $set)
 	{
 		return " find_in_set(" . $value . ", " . $set . ")";
+	}
+
+	/**
+	 * Return the number of the current row, support for partition, starting from 1
+	 *
+	 * @param   string  $orderBy               An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias      An alias for new ordering column.
+	 * @param   string  $partitionBy           An expression of grouping for window function.
+	 * @param   string  $partitionColumnAlias  An alias for calculated grouping column.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  RuntimeException
+	 */
+	public function selectRowNumber($orderBy, $orderColumnAlias, $partitionBy = null, $partitionColumnAlias = null)
+	{
+		$this->validateRowNumber($orderBy, $orderColumnAlias, $partitionBy, $partitionColumnAlias);
+
+		if ($partitionBy !== null && $partitionColumnAlias !== null)
+		{
+			$column = "(SELECT @rownum := IF(@group = CONCAT_WS(',', $partitionBy)"
+				. " OR ((@group := CONCAT_WS(',', $partitionBy)) AND 0), @rownum + 1, 1)"
+				. " FROM (SELECT @rownum := 0, @group := '') AS r) AS $orderColumnAlias";
+		}
+		else
+		{
+			$column = "(SELECT @rownum := @rownum + 1 FROM (SELECT @rownum := 0) AS r) AS $orderColumnAlias";
+		}
+
+		$this->select($column);
+
+		return $this;
 	}
 }
