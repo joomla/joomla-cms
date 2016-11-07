@@ -143,7 +143,7 @@ small, .small {
     border-radius: $border-radius $border-radius 0 0;
     box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, .15);
   }
-  .list-group-condensed, .list-group-flush {
+  .list-group-flush {
     margin-top: - $card-spacer-y;
     margin-right: - $card-spacer-x;
     margin-bottom: - $card-spacer-x;

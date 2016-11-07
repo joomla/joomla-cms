@@ -8388,14 +8388,14 @@ small, .small {
   border-radius: 0.25rem 0.25rem 0 0;
   box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, 0.15); }
 
-.com_cpanel .list-group-condensed, .com_cpanel .list-group-flush {
+.com_cpanel .list-group-flush {
   margin-top: -0.75rem;
   margin-right: -1.25rem;
   margin-bottom: -1.25rem;
   margin-left: -1.25rem; }
-  .com_cpanel .list-group-condensed > li, .com_cpanel .list-group-flush > li {
+  .com_cpanel .list-group-flush > li {
     padding: 0.7rem 1.25rem; }
-  .com_cpanel .list-group-condensed:first-of-type, .com_cpanel .list-group-flush:first-of-type {
+  .com_cpanel .list-group-flush:first-of-type {
     border-top: 0; }
 
 .com_cpanel .module-dropdown {
