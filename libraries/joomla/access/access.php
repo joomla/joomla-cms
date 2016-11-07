@@ -568,7 +568,7 @@ class JAccess
 			return new JAccessRules;
 		}
 
-		// Almost all calls should have recursive set to true so we'll get to take advantage of preloading.
+		// Almost all calls should have recursive set to true so we take advantage of preloading.
 		if ($recursive && $recursiveParentAsset && isset(self::$assetPermissionsById[$extensionName]) && isset(self::$assetPermissionsById[$extensionName][$assetId]))
 		{
 			$ancestors = array_reverse(self::getAssetAncestors($extensionName, $assetId));
@@ -583,10 +583,14 @@ class JAccess
 
 			$rules = self::storeRecursiveAssetRules($collected);
 		}
+		// Even in non recursive we can take advantage of preloading.
+		elseif (!$recursive && !$recursiveParentAsset && isset(self::$assetPermissionsById[$extensionName]) && isset(self::$assetPermissionsById[$extensionName][$assetId]))
+		{
+			$rules = self::storeRecursiveAssetRules(array(self::$assetPermissionsById[$extensionName][$assetId]->rules));
+		}
 		// Old method, Much slower. Only used in some cases and non recursive rules.
 		else
 		{
-		echo $assetKey.PHP_EOL;die();
 			$method = ' <strong>Slower</strong>, no preloading, method used.';
 
 			// There's no need to process it with the recursive method for the Root Asset ID.
