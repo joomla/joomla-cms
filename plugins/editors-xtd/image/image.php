@@ -37,13 +37,17 @@ class PlgButtonImage extends JPlugin
 	 */
 	public function onDisplay($name, $asset, $author)
 	{
+		$app       = JFactory::getApplication();
 		$user      = JFactory::getUser();
-		$extension = JFactory::getApplication()->input->get('option');
+		$extension = $app->input->get('option');
 
-		if ($asset == '')
+		// For categories we check the extension (ex: component.section)
+		if ($extension === 'com_categories')
 		{
-			$asset = $extension;
+			$extension = $app->input->get('extension', 'com_content');
 		}
+
+		$asset = $asset !== '' ? $asset : $extension;
 
 		if ($user->authorise('core.edit', $asset)
 			|| $user->authorise('core.create', $asset)
@@ -64,9 +68,7 @@ class PlgButtonImage extends JPlugin
 
 			return $button;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 }
