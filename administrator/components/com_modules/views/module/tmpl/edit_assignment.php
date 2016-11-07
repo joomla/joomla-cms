@@ -120,7 +120,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 										<?php if ($link->published == 0) : ?>
 											<?php echo ' <span class="label">' . JText::_('JUNPUBLISHED') . '</span>'; ?>
 										<?php endif; ?>
-										<?php if (in_array($link->type, array("separator", "heading", "alias"))) : ?>
+										<?php if (in_array($link->type, array("separator", "heading", "alias", "url"))) : ?>
 											<?php echo ' <span class="label">' . JText::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>';?>
 										<?php endif; ?>
 									</label>
