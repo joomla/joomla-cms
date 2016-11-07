@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 /**
  * Layout variables
@@ -110,9 +110,14 @@ $url    = ($readonly ? ''
 	echo JHtml::_('bootstrap.renderModal',
 		'imageModal_'. $id,
 		array(
-			'title' => JText::_('JLIB_FORM_CHANGE_IMAGE'),
+			'url'         => $url,
+			'title'       => JText::_('JLIB_FORM_CHANGE_IMAGE'),
 			'closeButton' => true,
-			'footer' => '<button class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
+			'height' => '100%',
+			'width'  => '100%',
+			'modalWidth'  => '80',
+			'bodyHeight'  => '60',
+			'footer'      => '<button class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
 		)
 	);
 
