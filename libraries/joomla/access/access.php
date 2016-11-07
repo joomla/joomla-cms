@@ -633,7 +633,7 @@ class JAccess
 					->from($db->qn('#__assets'))
 					->where($db->qn('id') . ' = ' . $db->q($rootId));
 
-				$result = array($db->setQuery($query)->loadResult());
+				$result = $db->setQuery($query)->loadObjectList();
 			}
 
 			// Collects permissions for each $asset
