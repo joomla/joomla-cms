@@ -522,10 +522,28 @@ class JAccess
 
 		$method        = '';
 		$assetName     = self::getAssetName($assetKey);
-		$assetId       = self::getAssetId($assetKey);
 		$extensionName = self::getExtensionNameFromAsset($assetName);
 
-		if (!$assetId)
+		// If asset is not the root or a component (already preloaded), make sure the all the component assets are preloaded.
+		if (!isset(self::$assetPermissionsById[$assetName]) && !isset(self::$preloadedAssetTypes[$extensionName]))
+		{
+			self::preload($assetName);
+		}
+
+		// If we are checking root asset we can use the preloading so we force the recursive since it's the root asset.
+		if ($assetName === self::$rootAsset['name'])
+		{
+			$recursive            = true;
+			$recursiveParentAsset = true;
+		}
+
+		// Get the asset id.
+		$assetId = self::getAssetId($assetKey);
+
+		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
+
+		// If asset does not exist in recursive mode fallback to extension asset or an empty rule.
+		if ($recursive && $recursiveParentAsset && !$assetId)
 		{
 			if ($assetName !== $extensionName)
 			{
@@ -543,21 +561,6 @@ class JAccess
 			}
 
 			return new JAccessRules;
-		}
-
-		// If asset is not the root or a component (already preloaded), make sure the all the component assets are preloaded.
-		if (!isset(self::$assetPermissionsById[$assetName]) && !isset(self::$preloadedAssetTypes[$extensionName]))
-		{
-			self::preload($assetName);
-		}
-
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
-
-		// If we are checking root asset we can use the preloading so we force the recursive since it's the root asset.
-		if ($assetName === self::$rootAsset['name'])
-		{
-			$recursive            = true;
-			$recursiveParentAsset = true;
 		}
 
 		// Almost all calls should have recursive set to true so we'll get to take advantage of preloading.
