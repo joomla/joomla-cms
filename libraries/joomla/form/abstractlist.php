@@ -228,9 +228,9 @@ abstract class JFormAbstractlist extends JFormField
 
 		if (isset($options->name))
 		{
-			foreach ($options->name as $index => $key)
+			foreach ($options->value as $index => $key)
 			{
-				$data[$key] = $options->value[$index];
+				$data[$key] = $options->name[$index];
 			}
 		}
 

@@ -567,7 +567,6 @@ class FieldsModelField extends JModelAdmin
 		if (!key_exists($key, $this->valueCache))
 		{
 			$this->valueCache[$key] = null;
-			$db = $this->_db;
 
 			$query = $this->getDbo()->getQuery(true);
 
