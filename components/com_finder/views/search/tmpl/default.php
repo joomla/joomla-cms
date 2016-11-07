@@ -10,9 +10,14 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
-JHtml::_('formbehavior.chosen');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::stylesheet('com_finder/finder.css', false, true, false);
+
+JHtml::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array(), true);
+
+JText::script('MOD_FINDER_SEARCH_VALUE', true);
+
+JHtml::_('script', 'com_finder/finder.js', false, true);
 ?>
 
 <div class="finder<?php echo $this->pageclass_sfx; ?>">
