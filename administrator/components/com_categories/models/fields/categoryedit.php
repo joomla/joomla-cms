@@ -282,11 +282,13 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 				if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.edit.state', $assetKey))
 				{
 					unset($options[$i]);
+					continue;
 				}
 
 				if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey))
 				{
 					unset($options[$i]);
+					continue;
 				}
 
 				/*
@@ -298,11 +300,13 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 				if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.create', $assetKey))
 				{
 					unset($options[$i]);
+					continue;
 				}
 
 				if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey))
 				{
 					unset($options[$i]);
+					continue;
 				}
 			}
 		}
