@@ -263,7 +263,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$basename = basename($packageURL);
 		if (strpos($basename, '?') !== false)
 		{
-			$basename = substr($basename , 0, strpos($basename, '?'));
+			$basename = substr($basename, 0, strpos($basename, '?'));
 		}
 
 		// Find the path to the temp directory and the local package.
