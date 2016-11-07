@@ -252,12 +252,16 @@ class JLanguageHelper
 					// Not able to process xml language file. Fail silently.
 					catch (Exception $e)
 					{
+						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), JLog::WARNING, 'jerror');
+
 						continue;
 					}
 
 					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->metadata))
 					{
+						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), JLog::WARNING, 'jerror');
+
 						continue;
 					}
 				}
@@ -272,12 +276,16 @@ class JLanguageHelper
 					// Not able to process xml language file. Fail silently.
 					catch (Exception $e)
 					{
+						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), JLog::WARNING, 'jerror');
+
 						continue;
 					}
 
 					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->manifest))
 					{
+						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), JLog::WARNING, 'jerror');
+
 						continue;
 					}
 				}
