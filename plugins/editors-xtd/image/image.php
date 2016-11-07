@@ -44,7 +44,8 @@ class PlgButtonImage extends JPlugin
 		// For categories we check the extension (ex: component.section)
 		if ($extension === 'com_categories')
 		{
-			$extension = $app->input->get('extension', 'com_content');
+			$parts     = explode('.', $app->input->get('extension', 'com_content'));
+			$extension = $parts[0];
 		}
 
 		$asset = $asset !== '' ? $asset : $extension;
