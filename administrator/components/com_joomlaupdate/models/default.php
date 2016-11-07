@@ -259,10 +259,12 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$packageURL = $headers['Location'];
 			$headers    = get_headers($packageURL, 1);
 		}
-
-		// Remove URL and query string
-		$urlBasename = basename($packageURL);
-		$basename    = substr($urlBasename, 0, strpos($urlBasename, '?'));
+		// Remove protocol, path and query string from URL
+		$basename = basename($packageURL);
+		if (strpos($basename, '?'))
+		{
+			$basename = substr($basename , 0, strpos($basename, '?'));
+		}
 
 		// Find the path to the temp directory and the local package.
 		$config  = JFactory::getConfig();
