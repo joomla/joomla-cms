@@ -3171,7 +3171,7 @@ tbody.collapse.in {
   margin-bottom: 0.75rem;
   background-color: #fff;
   border-radius: 0.25rem;
-  border: 1px solid rgba(0, 0, 0, 0.125); }
+  border: 1px solid rgba(0, 0, 0, 0.17); }
 
 .card-block {
   padding: 1.25rem; }
@@ -3208,7 +3208,7 @@ tbody.collapse.in {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
   background-color: #f5f5f5;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125); }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.17); }
   .card-header::after {
     content: "";
     display: table;
@@ -3219,7 +3219,7 @@ tbody.collapse.in {
 .card-footer {
   padding: 0.75rem 1.25rem;
   background-color: #f5f5f5;
-  border-top: 1px solid rgba(0, 0, 0, 0.125); }
+  border-top: 1px solid rgba(0, 0, 0, 0.17); }
   .card-footer::after {
     content: "";
     display: table;
@@ -8366,18 +8366,56 @@ small, .small {
 .com_cpanel .content {
   background: none; }
 
-.com_cpanel .card .list-group-item:last-child {
-  border-bottom: 0; }
+.com_cpanel .card {
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
+  .com_cpanel .card .list-group-item:first-child {
+    border-top: 0; }
+  .com_cpanel .card .list-group-item:last-child {
+    border-bottom: 0; }
 
-.com_cpanel .list-group-condensed > li {
-  padding: .45rem 0; }
+.com_cpanel .card-title {
+  position: relative;
+  z-index: 1;
+  padding: 1.1em 1.25rem 0.75rem;
+  margin-top: -1.25rem;
+  margin-right: -1.25rem;
+  margin-left: -1.25rem;
+  font-size: .85em;
+  color: #27283a;
+  letter-spacing: .4px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem 0.25rem 0 0;
+  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, 0.15); }
+
+.com_cpanel .list-group-flush {
+  margin-top: -0.75rem;
+  margin-right: -1.25rem;
+  margin-bottom: -1.25rem;
+  margin-left: -1.25rem; }
+  .com_cpanel .list-group-flush > li {
+    padding: 0.7rem 1.25rem; }
+  .com_cpanel .list-group-flush:first-of-type {
+    border-top: 0; }
 
 .com_cpanel .module-dropdown {
   position: absolute;
-  top: 8px;
-  right: 10px; }
+  top: 0;
+  right: 0;
+  z-index: 2; }
   .com_cpanel .module-dropdown > a {
-    color: #27283a; }
+    display: inline-block;
+    width: 2.95em;
+    height: 2.95em;
+    line-height: 2.95em;
+    color: #55595c;
+    text-align: center;
+    border-left: 1px solid rgba(0, 0, 0, 0.125);
+    box-shadow: 1px 0 #fff inset; }
+    .com_cpanel .module-dropdown > a:hover, .com_cpanel .module-dropdown > a[aria-expanded*="true"] {
+      background-color: #f0f0f0;
+      border-left-color: transparent;
+      box-shadow: 1px 0 rgba(0, 0, 0, 0.1) inset; }
 
 .js-pstats-data-details {
   margin-top: 10px; }
