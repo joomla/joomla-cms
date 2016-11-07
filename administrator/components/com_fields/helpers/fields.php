@@ -191,7 +191,7 @@ class FieldsHelper
 	 */
 	public static function render($context, $layoutFile, $displayData)
 	{
-		$value = null;
+		$value = '';
 
 		/*
 		 * Because the layout refreshes the paths before the render function is
@@ -206,13 +206,13 @@ class FieldsHelper
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
 
-		if (!$value)
+		if ($value == '')
 		{
 			// Trying to render the layout on Fields itself
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
 		}
 
-		if (!$value)
+		if ($value == '')
 		{
 			// Trying to render the layout of the plugins
 			foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)

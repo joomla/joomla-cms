@@ -18,7 +18,7 @@ $label = $field->label;
 $value = $field->value;
 $class = $field->params->get('render_class');
 
-if (!$value)
+if ($value == '')
 {
 	return;
 }
