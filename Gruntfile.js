@@ -35,13 +35,9 @@ module.exports = function(grunt) {
 	];
 
 	// Loop to get some text for the packgage.json
-	/**
 	for (name in settings.vendors) {
-		if (disabledNPM.indexOf(name) < 0 ) {
-			vendorsTxt += '"' + name + '": "' + settings.vendors[name].version + '",';
-		}
+		vendorsTxt += '"' + name + '": "' + settings.vendors[name].version + '",';
 	}
-	**/
 
 	// Loop to get some text for the assets.php
 	for (name in settings.vendors) {
