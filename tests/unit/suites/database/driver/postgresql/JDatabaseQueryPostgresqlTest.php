@@ -182,6 +182,63 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	}
 
 	/**
+	 * Test for the JDatabaseQueryPostgresql::__string method for a 'selectRowNumber' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function test__toStringSelectRowNumber()
+	{
+		$this->_instance
+			->select('id')
+			->selectRowNumber('ordering', 'new_ordering')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT w.*, nextval('ROW_NUMBER') - 1 AS new_ordering FROM (" .
+			PHP_EOL . "SELECT id" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . 'ORDER BY ordering' .
+			PHP_EOL . ") w,(SELECT setval('ROW_NUMBER', 1)) AS r",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'))
+			->select('id')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT w.*, nextval('ROW_NUMBER') - 1 AS \"ordering\" FROM (" .
+			PHP_EOL . "SELECT id" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . 'ORDER BY ordering DESC' .
+			PHP_EOL . ") w,(SELECT setval('ROW_NUMBER', 1)) AS r",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'));
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT nextval('ROW_NUMBER') - 1 AS \"ordering\" FROM (" .
+			PHP_EOL . "SELECT 1" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . 'ORDER BY ordering DESC' .
+			PHP_EOL . ") w,(SELECT setval('ROW_NUMBER', 1)) AS r",
+			(string) $this->_instance
+		);
+	}
+
+	/**
 	 * Test for the JDatabaseQuery::__string method for a 'update' case.
 	 *
 	 * @return  void
