@@ -309,7 +309,8 @@ class JAccess
 		$query = $db->getQuery(true)
 			->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
 			->from($db->qn('#__assets'))
-			->where($db->qn('name') . ' LIKE ' . $db->q($extensionName . '.%') . ' OR ' . $db->qn('name') . ' IN (' . $parents . ') OR ' . $db->qn('parent_id') . ' = 0');
+			->where($db->qn('name') . ' LIKE ' . $db->q($extensionName . '.%')
+				. ' OR ' . $db->qn('name') . ' IN (' . $parents . ') OR ' . $db->qn('parent_id') . ' = 0');
 
 		// Get the Name Permission Map List
 		$assets = $db->setQuery($query)->loadObjectList();
