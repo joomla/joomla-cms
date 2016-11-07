@@ -27,9 +27,6 @@ $font-size-h5:                     .9286rem;
 $font-size-h6:                     .8571rem;
 $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
 
-// Cards
-$card-border-color:                rgba(0,0,0,.17) !default;
-
 // BS4-alpha.5 | custom-select SVG override
 // This was broken in alpha.5 so be sure to remove this when it's fixed again
 $custom-select-indicator:         url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");

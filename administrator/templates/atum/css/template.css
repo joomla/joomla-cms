@@ -3171,7 +3171,7 @@ tbody.collapse.in {
   margin-bottom: 0.75rem;
   background-color: #fff;
   border-radius: 0.25rem;
-  border: 1px solid rgba(0, 0, 0, 0.17); }
+  border: 1px solid rgba(0, 0, 0, 0.125); }
 
 .card-block {
   padding: 1.25rem; }
@@ -3208,7 +3208,7 @@ tbody.collapse.in {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
   background-color: #f5f5f5;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.17); }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125); }
   .card-header::after {
     content: "";
     display: table;
@@ -3219,7 +3219,7 @@ tbody.collapse.in {
 .card-footer {
   padding: 0.75rem 1.25rem;
   background-color: #f5f5f5;
-  border-top: 1px solid rgba(0, 0, 0, 0.17); }
+  border-top: 1px solid rgba(0, 0, 0, 0.125); }
   .card-footer::after {
     content: "";
     display: table;
@@ -7770,24 +7770,72 @@ legend {
       padding: 8px 10px;
       font-size: 14px; } }
 
-.quick-icons a {
-  display: block;
-  padding: 30px 0;
-  margin-bottom: 15px;
-  color: #fff;
-  text-align: center;
-  text-transform: uppercase;
-  background: linear-gradient(to right, #27283a 0%, #163f46 50%, #27283a 100%); }
-  .quick-icons a:hover, .quick-icons a:focus {
-    text-decoration: none;
-    transition: transform .3s ease;
-    transform: scale(1.05); }
-
-.quick-icons .danger a {
-  background: #d9534f; }
-
-.quick-icons .success a {
-  background: #5cb85c; }
+.quick-icons {
+  margin-bottom: -15px; }
+  .quick-icons *, .quick-icons *::before, .quick-icons *::after {
+    transition: all .25s ease; }
+  .quick-icons a {
+    position: relative;
+    display: block;
+    padding: 2px 0;
+    margin-bottom: 15px;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: #27283a;
+    border-radius: 0.25rem; }
+    .quick-icons a:hover, .quick-icons a:focus {
+      text-decoration: none; }
+      .quick-icons a:hover::before, .quick-icons a:focus::before {
+        color: #444565; }
+    .quick-icons a > * {
+      vertical-align: middle; }
+    .quick-icons a span {
+      position: relative;
+      display: inline;
+      font-size: .85em;
+      font-weight: bold;
+      letter-spacing: .4px;
+      line-height: 2em; }
+      .quick-icons a span[class*=" icon-"], .quick-icons a span[class^="icon-"] {
+        margin-right: .1em;
+        font-size: 2.5em;
+        font-weight: normal; }
+    .quick-icons a::before {
+      position: absolute;
+      top: -100px;
+      right: -40px;
+      font-family: FontAwesome;
+      font-size: 10em;
+      color: #313349;
+      content: "\f1aa";
+      transform: rotate(20deg); }
+    .quick-icons a::after {
+      position: absolute;
+      right: 100%;
+      bottom: 0;
+      left: 0;
+      height: 8px;
+      content: "";
+      background: #3d3e54;
+      transition-duration: .7s; }
+  .quick-icons .danger a {
+    background: #d9534f; }
+    .quick-icons .danger a::after {
+      right: 0;
+      background: #d9534f; }
+    .quick-icons .danger a::before {
+      color: #df706c; }
+  .quick-icons .success a {
+    background: #5cb85c; }
+    .quick-icons .success a::after {
+      right: 0;
+      background: #5cb85c; }
+    .quick-icons .success a::before {
+      color: #75c375; }
+  .quick-icons [id*="plg_quickicon"] a, .quick-icons [id*="plg_quickicon"] a::before {
+    transition-delay: .4s; }
 
 .js-stools {
   width: 100%; }
