@@ -261,7 +261,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 		// Remove protocol, path and query string from URL
 		$basename = basename($packageURL);
-		if (strpos($basename, '?'))
+		if (strpos($basename, '?') !== false)
 		{
 			$basename = substr($basename , 0, strpos($basename, '?'));
 		}
