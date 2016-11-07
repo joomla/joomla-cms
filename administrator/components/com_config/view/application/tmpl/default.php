@@ -13,6 +13,7 @@ use Joomla\Registry\Registry;
 
 // Load tooltips behavior
 JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -46,8 +47,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				foreach ($this->submenumodules as $submenumodule)
 				{
 					$output = JModuleHelper::renderModule($submenumodule);
-					$params = new Registry;
-					$params->loadString($submenumodule->params);
+					$params = new Registry($submenumodule->params);
 					echo $output;
 				}
 				?>

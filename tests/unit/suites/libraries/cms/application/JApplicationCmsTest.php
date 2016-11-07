@@ -367,6 +367,19 @@ class JApplicationCmsTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests the JApplicationCms::isClient method.
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function testIsClient()
+	{
+		$this->assertFalse($this->class->isClient('administrator'));
+		$this->assertFalse($this->class->isClient('site'));
+	}
+
+	/**
 	 * Tests the JApplicationCms::redirect method.
 	 *
 	 * @return  void

@@ -54,7 +54,7 @@ JHtml::_('behavior.modal');
 
 // Include jQuery
 JHtml::_('jquery.framework');
-JHtml::_('script', 'media/mediafield-mootools.min.js', true, true, false, false, true);
+JHtml::_('script', 'media/mediafield-mootools.min.js', array('version' => 'auto', 'relative' => true, 'framework' => true));
 
 // Tooltip for INPUT showing whole image path
 $options = array(
@@ -170,8 +170,7 @@ echo '	<input type="text" name="' . $name . '" id="' . $id . '" value="'
 ?>
 <a class="modal btn" title="<?php echo JText::_('JLIB_FORM_BUTTON_SELECT'); ?>" href="
 <?php echo ($readonly ? ''
-		: ($link ? $link
-		: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
+		: ($link ?: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
 	. $authorField) . '&amp;fieldid=' . $id . '&amp;folder=' . $folder) . '"'
 	. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}"'; ?>>
  <?php echo JText::_('JLIB_FORM_BUTTON_SELECT'); ?></a><a class="btn hasTooltip" title="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>" href="#" onclick="jInsertFieldValue('', '<?php echo $id; ?>'); return false;">
