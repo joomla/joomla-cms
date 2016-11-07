@@ -538,7 +538,7 @@ class JAccess
 				return self::getAssetRules($extensionName, $recursive, $recursiveParentAsset);
 			}
 
-			if ($assetName !== self::$rootAsset['name'])
+			if (isset(self::$rootAsset['name']) && $assetName !== self::$rootAsset['name'])
 			{
 				JLog::add('No asset found for ' . $assetName . ', falling back to ' . self::$rootAsset['name'], JLog::WARNING, 'jerror');
 
@@ -629,12 +629,11 @@ class JAccess
 				$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
 				$rootId = $assets->getRootId();
 				$query->clear()
-					->select('rules')
-					->from('#__assets')
-					->where('id = ' . $db->quote($rootId));
-				$db->setQuery($query);
-				$result = $db->loadResult();
-				$result = array($result);
+					->select($db->qn(array('id', 'name', 'parent_id', 'rules')))
+					->from($db->qn('#__assets'))
+					->where($db->qn('id') . ' = ' . $db->q($rootId));
+
+				$result = array($db->setQuery($query)->loadResult());
 			}
 
 			// Collects permissions for each $asset
