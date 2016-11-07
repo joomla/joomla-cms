@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 extract($displayData);
 
@@ -47,7 +47,7 @@ extract($displayData);
  */
 
 // Set the link for the user selection page
-$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;required='
+$url = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;required='
 	. ($required ? 1 : 0) . '&amp;field={field-user-id}&amp;ismoo=0'
 	. (isset($groups) ? ('&amp;groups=' . base64_encode(json_encode($groups))) : '')
 	. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
@@ -62,7 +62,7 @@ JHtml::script('system/fields/fielduser.min.js', false, true, false, false, true)
 ?>
 <?php // Create a dummy text field with the user name. ?>
 <div class="field-user-wrapper"
-	data-url="<?php echo $link; ?>"
+	data-url="<?php echo $url; ?>"
 	data-modal=".modal"
 	data-modal-width="100%"
 	data-modal-height="400px"
@@ -86,9 +86,14 @@ JHtml::script('system/fields/fielduser.min.js', false, true, false, false, true)
 						'bootstrap.renderModal',
 						'userModal_' . $id,
 						array(
-							'title'  => JText::_('JLIB_FORM_CHANGE_USER'),
+							'url'         => $url,
+							'title'       => JText::_('JLIB_FORM_CHANGE_USER'),
 							'closeButton' => true,
-							'footer' => '<a type="button" class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
+							'height' => '100%',
+							'width'  => '100%',
+							'modalWidth'  => '80',
+							'bodyHeight'  => '60',
+							'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
 						)
 					); ?>
 				</span>
