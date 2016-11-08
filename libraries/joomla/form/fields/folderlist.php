@@ -216,7 +216,7 @@ class JFormFieldFolderList extends JFormAbstractlist
 				}
 
 				// Remove the root part and the leading /
-				$folder = trim(str_replace($path, '', $folder), '/');
+				$folder = trim(str_replace(rtrim($path, '/\\'), '', $folder), '/\\');
 
 				$options[] = JHtml::_('select.option', $folder, $folder);
 			}
