@@ -196,6 +196,7 @@ if ($menuType == '')
 								<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
 							<?php endif; ?>
 							</span>
+							<?php echo JHtml::_('MenusHtml.Menus.visibility', $item->params); ?>
 							<div title="<?php echo $this->escape($item->path); ?>">
 								<?php echo $prefix; ?>
 								<span class="small"  title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
@@ -211,10 +212,18 @@ if ($menuType == '')
 									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange); ?>
 								<?php elseif ($canChange) : ?>
 									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
-										<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+										<?php if ($item->language_image) : ?>
+											<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+										<?php else : ?>
+											<span class="label" title="<?php echo JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
+										<?php endif; ?>
 									</a>
 								<?php else : ?>
-									<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+									<?php if ($item->language_image) : ?>
+										<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+									<?php else : ?>
+										<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+									<?php endif; ?>
 								<?php endif; ?>
 							<?php endif; ?>
 						</td>
@@ -229,13 +238,7 @@ if ($menuType == '')
 							</td>
 						<?php endif; ?>
 						<td class="small hidden-phone">
-							<?php if ($item->language == ''):?>
-								<?php echo JText::_('JDEFAULT'); ?>
-							<?php elseif ($item->language == '*') : ?>
-								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else : ?>
-								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif; ?>
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td class="hidden-phone">
 							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">

@@ -26,6 +26,21 @@ class JLayoutBaseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->layoutBase);
+
+		parent::tearDown();
+	}
+
+	/**
 	 * @testdox  JLayoutbase->setOptions() returns a JLayoutbase instance with empty parameter.
 	 *
 	 * @since   3.3.7

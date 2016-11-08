@@ -126,7 +126,10 @@ class JApplicationCmsTest extends TestCaseDatabase
 		JApplicationCmsInspector::$connectionAlive = true;
 
 		$_SERVER = $this->backupServer;
-
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($config);
+		unset($this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -361,6 +364,19 @@ class JApplicationCmsTest extends TestCaseDatabase
 	public function testIsSite()
 	{
 		$this->assertFalse($this->class->isSite());
+	}
+
+	/**
+	 * Tests the JApplicationCms::isClient method.
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function testIsClient()
+	{
+		$this->assertFalse($this->class->isClient('administrator'));
+		$this->assertFalse($this->class->isClient('site'));
 	}
 
 	/**

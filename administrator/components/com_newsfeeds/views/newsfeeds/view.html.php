@@ -119,7 +119,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			JToolbarHelper::addNew('newsfeed.add');
 		}
 
-		if ($canDo->get('core.edit'))
+		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
 		{
 			JToolbarHelper::editList('newsfeed.edit');
 		}

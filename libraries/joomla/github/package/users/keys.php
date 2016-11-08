@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/repos/users/keys
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageUsersKeys extends JGithubPackage
 {
@@ -96,7 +97,7 @@ class JGithubPackageUsersKeys extends JGithubPackage
 
 		$data = array(
 			'title' => $title,
-			'key'   => $key
+			'key'   => $key,
 		);
 
 		return $this->processResponse(
@@ -123,7 +124,7 @@ class JGithubPackageUsersKeys extends JGithubPackage
 
 		$data = array(
 			'title' => $title,
-			'key'   => $key
+			'key'   => $key,
 		);
 
 		return $this->processResponse(

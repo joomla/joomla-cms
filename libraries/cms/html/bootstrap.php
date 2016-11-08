@@ -222,11 +222,10 @@ abstract class JHtmlBootstrap
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$config = JFactory::getConfig();
-			$debug = (boolean) $config->get('debug');
+			$debug = JDEBUG;
 		}
 
-		JHtml::_('script', 'jui/bootstrap.min.js', false, true, false, false, $debug);
+		JHtml::_('script', 'jui/bootstrap.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		static::$loaded[__METHOD__] = true;
 
 		return;
@@ -309,7 +308,7 @@ abstract class JHtmlBootstrap
 		$layoutData = array(
 			'selector' => $selector,
 			'params'   => $params,
-			'body'     => $body
+			'body'     => $body,
 		);
 
 		return JLayoutHelper::render('joomla.modal.main', $layoutData);
@@ -506,8 +505,8 @@ abstract class JHtmlBootstrap
 	{
 		if ($extended)
 		{
-			JHtml::_('script', 'jui/bootstrap-tooltip-extended.min.js', false, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-tooltip-extended.css', false, true);
+			JHtml::_('script', 'jui/bootstrap-tooltip-extended.min.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('stylesheet', 'jui/bootstrap-tooltip-extended.css', array('version' => 'auto', 'relative' => true));
 		}
 	}
 
@@ -672,13 +671,14 @@ abstract class JHtmlBootstrap
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
 		$in = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? ' in' : '';
+		$collapsed = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? '' : ' collapsed';
 		$parent = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class = (!empty($class)) ? ' ' . $class : '';
 
 		$html = '<div class="accordion-group' . $class . '">'
 			. '<div class="accordion-heading">'
-			. '<strong><a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="accordion-toggle">'
+			. '<strong><a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="accordion-toggle' . $collapsed . '">'
 			. $text
 			. '</a></strong>'
 			. '</div>'
@@ -769,7 +769,7 @@ abstract class JHtmlBootstrap
 
 		// Inject tab into UL
 		JFactory::getDocument()
-			->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector,'id' => $id, 'active' => $active, 'title' => $title)));
+			->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector, 'id' => $id, 'active' => $active, 'title' => $title)));
 
 		return $tabLayout->render(array('id' => $id, 'active' => $active));
 	}
@@ -887,15 +887,15 @@ abstract class JHtmlBootstrap
 		// Load Bootstrap main CSS
 		if ($includeMainCss)
 		{
-			JHtml::_('stylesheet', 'jui/bootstrap.min.css', $attribs, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-responsive.min.css', $attribs, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-extended.css', $attribs, true);
+			JHtml::_('stylesheet', 'jui/bootstrap.min.css', array('version' => 'auto', 'relative' => true), $attribs);
+			JHtml::_('stylesheet', 'jui/bootstrap-responsive.min.css', array('version' => 'auto', 'relative' => true), $attribs);
+			JHtml::_('stylesheet', 'jui/bootstrap-extended.css', array('version' => 'auto', 'relative' => true), $attribs);
 		}
 
 		// Load Bootstrap RTL CSS
 		if ($direction === 'rtl')
 		{
-			JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', $attribs, true);
+			JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
 		}
 	}
 }

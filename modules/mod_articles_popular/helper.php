@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
 
@@ -33,10 +33,10 @@ abstract class ModArticlesPopularHelper
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$model     = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
-		$app       = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
@@ -77,7 +77,9 @@ abstract class ModArticlesPopularHelper
 
 		foreach ($items as &$item)
 		{
-			$item->slug    = $item->id . ':' . $item->alias;
+			$item->slug = $item->id . ':' . $item->alias;
+
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))

@@ -61,7 +61,7 @@ class JLogEntry
 		JLog::WARNING,
 		JLog::NOTICE,
 		JLog::INFO,
-		JLog::DEBUG
+		JLog::DEBUG,
 	);
 
 	/**

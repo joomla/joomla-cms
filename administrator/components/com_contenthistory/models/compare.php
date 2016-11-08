@@ -74,7 +74,28 @@ class ContenthistoryModelCompare extends JModelItem
 					$object = new stdClass;
 					$object->data = ContenthistoryHelper::prepareData($table);
 					$object->version_note = $table->version_note;
-					$object->save_date = $table->save_date;
+
+					// Let's use custom calendars when present
+					$object->save_date = JHtml::_('date', $table->save_date, 'Y-m-d H:i:s');
+
+					$dateProperties = array (
+						'modified_time',
+						'created_time',
+						'modified',
+						'created',
+						'checked_out_time',
+						'publish_up',
+						'publish_down',
+					);
+
+					foreach ($dateProperties as $dateProperty)
+					{
+						if (array_key_exists($dateProperty, $object->data) && $object->data->$dateProperty->value != '0000-00-00 00:00:00')
+						{
+							$object->data->$dateProperty->value = JHtml::_('date', $object->data->$dateProperty->value, 'Y-m-d H:i:s');
+						}
+					}
+
 					$result[] = $object;
 				}
 

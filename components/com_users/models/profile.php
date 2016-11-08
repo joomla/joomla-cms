@@ -43,15 +43,9 @@ class UsersModelProfile extends JModelForm
 
 		parent::__construct($config);
 
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
 		// Load the helper and model used for two factor authentication
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
+		JLoader::register('UsersModelUser', JPATH_ADMINISTRATOR . '/components/com_users/models/user.php');
+		JLoader::register('UsersHelper', JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php');
 	}
 
 	/**
@@ -197,6 +191,10 @@ class UsersModelProfile extends JModelForm
 		{
 			return false;
 		}
+
+		// For com_fields the context is com_users.user
+		JLoader::import('components.com_fields.helpers.fields', JPATH_ADMINISTRATOR);
+		FieldsHelper::prepareForm('com_users.user', $form, $data);
 
 		// Check for username compliance and parameter set
 		$isUsernameCompliant = true;

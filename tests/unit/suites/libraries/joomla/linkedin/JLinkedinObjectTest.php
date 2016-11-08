@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/linkedin/object.php';
 require_once __DIR__ . '/stubs/JLinkedinObjectMock.php';
 
 /**
@@ -76,6 +75,9 @@ class JLinkedinObjectTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		unset($this->client);
+		unset($this->options);
+		unset($this->object);
 	}
 
 	/**

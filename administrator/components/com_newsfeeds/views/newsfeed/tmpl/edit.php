@@ -27,6 +27,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		if (task == "newsfeed.cancel" || document.formvalidator.isValid(document.getElementById("newsfeed-form"))) {
 			Joomla.submitform(task, document.getElementById("newsfeed-form"));
 
+			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
 			if (task !== "newsfeed.apply")
 			{
 				window.parent.jQuery("#newsfeedEdit' . $this->item->id . 'Modal").modal("hide");
@@ -55,8 +56,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="form-vertical">
-					<?php echo $this->form->getControlGroup('link'); ?>
-					<?php echo $this->form->getControlGroup('description'); ?>
+					<?php echo $this->form->renderField('link'); ?>
+					<?php echo $this->form->renderField('description'); ?>
 				</div>
 			</div>
 			<div class="span3">
@@ -68,9 +69,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS')); ?>
 		<div class="row-fluid">
 			<div class="span6">
-					<?php echo $this->form->getControlGroup('images'); ?>
+					<?php echo $this->form->renderField('images'); ?>
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>
-						<?php echo $field->getControlGroup(); ?>
+						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
 				</div>
 			</div>
@@ -104,5 +105,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

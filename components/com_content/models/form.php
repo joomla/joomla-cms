@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // Base this model on the backend version.
-require_once JPATH_ADMINISTRATOR . '/components/com_content/models/article.php';
+JLoader::register('ContentModelArticle', JPATH_ADMINISTRATOR . '/components/com_content/models/article.php');
 
 /**
  * Content Component Article Model
@@ -87,8 +87,7 @@ class ContentModelForm extends ContentModelArticle
 		$value = ArrayHelper::toObject($properties, 'JObject');
 
 		// Convert attrib field to Registry.
-		$value->params = new Registry;
-		$value->params->loadString($value->attribs);
+		$value->params = new Registry($value->attribs);
 
 		// Compute selected asset permissions.
 		$user   = JFactory::getUser();
@@ -141,8 +140,7 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		// Convert the metadata field to an array.
-		$registry = new Registry;
-		$registry->loadString($value->metadata);
+		$registry = new Registry($value->metadata);
 		$value->metadata = $registry->toArray();
 
 		if ($itemId)

@@ -99,14 +99,17 @@ $filesArray = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPackage = array(
+	'.drone.yml',
 	'.github',
 	'.gitignore',
+	'.php_cs',
 	'.travis.yml',
 	'README.md',
 	'build',
 	'build.xml',
 	'composer.json',
 	'composer.lock',
+	'karma.conf.js',
 	'phpunit.xml.dist',
 	'tests',
 	'travisci-phpunit.xml',

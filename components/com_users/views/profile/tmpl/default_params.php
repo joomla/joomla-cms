@@ -9,13 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('JHtmlUsers', JPATH_COMPONENT . '/helpers/html/users.php');
-JHtml::register('users.spacer', array('JHtmlUsers', 'spacer'));
-JHtml::register('users.helpsite', array('JHtmlUsers', 'helpsite'));
-JHtml::register('users.templatestyle', array('JHtmlUsers', 'templatestyle'));
-JHtml::register('users.admin_language', array('JHtmlUsers', 'admin_language'));
-JHtml::register('users.language', array('JHtmlUsers', 'language'));
-JHtml::register('users.editor', array('JHtmlUsers', 'editor'));
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 ?>
 <?php $fields = $this->form->getFieldset('params'); ?>
