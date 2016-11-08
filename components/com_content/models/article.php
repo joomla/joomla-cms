@@ -148,12 +148,13 @@ class ContentModelArticle extends JModelItem
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived  = $this->getState('filter.archived');
-				$token     = JFactory::getApplication()->input->get('token', false);
+				$token     = JFactory::getApplication()->input->get('token', false, 'raw');
 				$draftId   = false;
 
 				// Check if the article is viewed using a valid token
 				if ($token)
 				{
+					/** @var ContentTableDraft $draftTable */
 					$draftTable = $this->getTable('Draft', 'ContentTable');
 					$draftId = $draftTable->loadDraftId($token, $pk);
 				}

@@ -81,12 +81,21 @@ class ContentTableDraft extends JTable
 	public function loadDraftId($token, $articleId)
 	{
 		$tokenQuery = $this->getDbo()->getQuery(true)
-			->select($this->getDbo()->quoteName('id'))
+			->select($this->getDbo()->quoteName(array('id', 'sharetoken')))
 			->from($this->getDbo()->quoteName('#__content_draft'))
 			->where($this->getDbo()->quoteName('sharetoken') . ' = ' . $this->getDbo()->quote($token))
 			->where($this->getDbo()->quoteName('articleId') . ' = ' . (int) $articleId);
 		$this->getDbo()->setQuery($tokenQuery);
 
-		return $this->getDbo()->loadResult();
+		$data = $this->getDbo()->loadObject();
+		$id   = false;
+
+		// Make sure the token is an exact match
+		if (is_object($data) && $token === $data->sharetoken)
+		{
+			$id = $data->id;
+		}
+
+		return $id;
 	}
 }

@@ -823,7 +823,7 @@ class ContentModelArticle extends JModelAdmin
 		if ($token === null)
 		{
 			// Generate the token
-			$token = JUserHelper::genRandomPassword(16);
+			$token = JUserHelper::genRandomPassword(32);
 
 			// Store the new token
 			$data = array('articleId' => $articleId, 'sharetoken' => $token);
