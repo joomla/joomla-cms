@@ -86,7 +86,7 @@
 			// Set the height of the menu to prevent overlapping
 			var setMenuHeight = function() {
 				var height = document.getElementById('header').offsetHeight + document.getElementById('main-brand').offsetHeight;
-				document.getElementById('menu').height( window.height - height );
+				document.getElementById('menu').height = window.height - height ;
 			};
 
 			setMenuHeight();
