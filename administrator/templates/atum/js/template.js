@@ -11,7 +11,7 @@
 
 	document.addEventListener('DOMContentLoaded', function() {
 		var wrapper = document.getElementById('wrapper');
-		var $ = jQuery;
+
 		/**
 		 * Bootstrap tooltips
 		 */
@@ -31,8 +31,18 @@
 				this.classList.remove('collapse-level-1').add('collapse-level-2');
 			});
 
-			$(menu).find('.nav > .parent > a').removeClass('data-parent');
-			// 	.classList.remove('data-parent');
+			var navs = menu.querySelectorAll('.nav');
+
+			for (var i = 0; i < navs.length; i++) {
+				var parents = navs[i];
+				for (var j = 0; j < parents.length; j++) {
+					var aTags = parents[j];
+					for (var k = 0; k < aTags.length; k++) {
+						aTags[k].classList.remove('data-parent');
+
+					}
+				}
+			}
 
 			var animateWrapper = function() {
 				var logo       = document.getElementById('main-brand');
@@ -75,53 +85,16 @@
 
 			// Set the height of the menu to prevent overlapping
 			var setMenuHeight = function() {
-				var height = $('#header').height() + $('#main-brand').outerHeight();
-				$('#menu').height( $(window).height() - height );
+				var height = document.getElementById('header').offsetHeight + document.getElementById('main-brand').offsetHeight;
+				document.getElementById('menu').height( window.height - height );
 			};
 
 			setMenuHeight();
 
 			// Remove 'closed' class on resize
-			$(window).on('resize', function() {
-				if (wrapper.classList.contains('closed')) {
-					animateWrapper();
-				}
+			window.addEventListener('resize', function() {
 				setMenuHeight();
 			});
-
-			/**
-			 * Localstorage to remember which menu item was clicked on
-			 */
-			menu.querySelector('a').addEventListener('click', function(event){
-				var href = event.target.getAttribute('href');
-
-				if (typeof(Storage) !== 'undefined')
-				{
-					// Set the last selection in localStorage
-					localStorage.setItem('href', href);
-				}
-
-			});
-
-			// Auto expand
-			if (typeof(Storage) !== 'undefined')
-			{
-				var wLocationpath   = window.location.pathname;
-				var wLocationSearch = window.location.search;
-
-				if ((wLocationpath !== '/administrator/' || wLocationpath !== '/administrator/index.php') && wLocationSearch == '')
-				{
-					localStorage.setItem('href', false);
-				}
-
-				var localItem       = $(menu).find('a[href="' + localStorage.getItem('href') + '"]');
-				var localitemParent = $(localItem.parents('.parent')).find('a')[0];
-
-				if (typeof(localitemParent) !== 'undefined')
-				{
-					localitemParent.click();
-				}
-			}
 		} else {
 			document.getElementById('sidebar-wrapper').style.display = 'none';
 			document.getElementById('sidebar-wrapper').style.width = '0';
@@ -280,6 +253,10 @@
 			if (subhead) {
 				navTop = document.querySelector('.subhead').offsetHeight;
 
+				if (document.getElementById('sidebar-wrapper').style.display === 'none') {
+					subhead.style.left = 0;
+				}
+
 				// Only apply the scrollspy when the toolbar is not collapsed
 				if (document.body.clientWidth > 480) {
 					document.querySelector('.subhead-collapse').style.height = document.querySelector('.subhead').style.height;
@@ -297,8 +274,10 @@
 				if (scrollTop >= navTop && !isFixed) {
 					isFixed = true;
 					subhead.classList.add('subhead-fixed');
-					//subhead.style.top = '0';
-					//subhead.style.width = document.querySelector('.container-main').offsetWidth +'px';
+
+					if (document.getElementById('sidebar-wrapper').style.display === 'none') {
+						subhead.style.left = 0;
+					}
 				} else if (scrollTop <= navTop && isFixed) {
 					isFixed = false;
 					subhead.classList.remove('subhead-fixed');
