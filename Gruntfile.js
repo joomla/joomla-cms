@@ -81,7 +81,6 @@ module.exports = function(grunt) {
 					'media/vendor/tinymce/themes/*',
 					'media/vendor/punycode/*',
 					'media/vendor/codemirror/*',
-					'media/vendor/autocomplete/*',
 					'media/vendor/mediaelement/*',
 					'media/vendor/chosenjs/*',
 					'media/vendor/awesomplete/*',
@@ -160,8 +159,6 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: 'build/assets_tmp/node_modules/cropperjs/dist', src: ['*.css'], dest: 'media/vendor/cropperjs/css/', filter: 'isFile'},
 					// Cropperjs js files
 					{ expand: true, cwd: 'build/assets_tmp/node_modules/cropperjs/dist', src: ['*.js'], dest: 'media/vendor/cropperjs/js/', filter: 'isFile'},
-					// autocomplete js files
-					{ expand: true, cwd: 'build/assets_tmp/tmp/autocomplete/dist', src: ['jquery.autocomplete.min.js', 'jquery.autocomplete.js', 'license.txt'], dest: 'media/vendor/autocomplete/js/', filter: 'isFile'},
 					//Font Awesome css files
 					{ expand: true, cwd: 'build/assets_tmp/node_modules/font-awesome/css/', src: ['**'], dest: 'media/vendor/font-awesome/css/', filter: 'isFile'},
 					//Font Awesome scss files
@@ -341,8 +338,6 @@ module.exports = function(grunt) {
 		[
 			'clean:assets',
 			'shell:update',
-			'curl:autoComplete',
-			'unzip:autoUnzip',
 			'concat:someFiles',
 			'copy:fromSource',
 			'sass:dist',

@@ -48,13 +48,6 @@ vendors:
                   'dependencies': ''
 
 
-### These are always fetced with curl ###
-
-
-    'autocomplete':
-                  'version': '1.2.26'
-                  'dependencies': ''
-
 ### The javascript polyfills
 polyfills:
         - 'Element.prototype.classList'
