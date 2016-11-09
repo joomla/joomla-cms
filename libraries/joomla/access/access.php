@@ -636,7 +636,7 @@ class JAccess
 			return self::$assetRulesIdentities[$hash];
 		}
 
-		// Non preloading code. Not processing with preloading, use old slower method, slower. Only used in rare cases (if any) or without preloading chosen.
+		// Non preloading code. Use old slower method, slower. Only used in rare cases (if any) or without preloading chosen.
 		JLog::add('Asset ' . $assetKey . ' permissions fetch without preloading (slower method).', JLog::INFO, 'assets');
 
 		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::getAssetRules (assetKey:' . $assetKey . ')');
