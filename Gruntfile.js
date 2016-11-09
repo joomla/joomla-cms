@@ -331,6 +331,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-scss-lint');
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-fetch-pages');
@@ -376,10 +377,11 @@ module.exports = function(grunt) {
 	grunt.registerTask('compile', 'Compiles the stylesheet files.', function() {
 		grunt.task.run([
 			'uglify:templates',
+			'scsslint',
 			'sass:dist',
 			'postcss',
 			'cssmin:templates'
 		]);
-	});
+	 });
 
 };

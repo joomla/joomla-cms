@@ -123,9 +123,13 @@ small, .small {
     box-shadow: 0 0 3px rgba(0,0,0,.075);
     .list-group-item:first-child {
       border-top: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
     }
     .list-group-item:last-child {
       border-bottom: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
     }
   }
   .card-title {
@@ -143,13 +147,22 @@ small, .small {
     border-radius: $border-radius $border-radius 0 0;
     box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, .15);
   }
-  .list-group-flush {
+  .list-group {
     margin-top: - $card-spacer-y;
     margin-right: - $card-spacer-x;
     margin-bottom: - $card-spacer-x;
     margin-left: - $card-spacer-x;
     > li {
       padding: .7rem $card-spacer-x;
+      overflow: hidden;
+      &.published {
+        padding-left: .9rem;
+        border-left: 5px solid $brand-success;
+      }
+      &.unpublished {
+        padding-left: .9rem;
+        border-left: 5px solid $brand-danger;
+      }
     }
     &:first-of-type {
       border-top: 0;
