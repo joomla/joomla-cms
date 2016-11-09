@@ -8378,6 +8378,7 @@ small, .small {
 
 .container-main {
   position: relative;
+  min-height: 420px;
   padding-top: 15px;
   background: #fff; }
 
