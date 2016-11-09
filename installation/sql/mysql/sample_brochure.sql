@@ -44,7 +44,7 @@ INSERT IGNORE INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'),
 (30, 19, 62, 63, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
-(32, 24, 74, 75, 1, 'com_users.category.7', 'Uncategorised', '{}'),
+(32, 24, 74, 75, 2, 'com_users.category.7', 'Uncategorised', '{}'),
 (33, 1, 79, 80, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (35, 27, 19, 20, 3, 'com_content.article.2', 'About Us', '{}'),
 (36, 8, 24, 27, 2, 'com_content.category.8', 'News', '{}'),
