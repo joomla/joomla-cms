@@ -7796,8 +7796,8 @@ legend {
       display: inline;
       font-size: .85em;
       font-weight: bold;
-      letter-spacing: .4px;
-      line-height: 2em; }
+      line-height: 2em;
+      letter-spacing: .4px; }
       .quick-icons a span[class*=" icon-"], .quick-icons a span[class^="icon-"] {
         margin-right: .1em;
         font-size: 2.5em;
