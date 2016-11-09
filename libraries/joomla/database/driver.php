@@ -896,7 +896,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 
 		// Don't do preg replacement if string does not exist
-		if (strpos($query, 'utf8mb4') === false)
+		if (stripos($query, 'utf8mb4') === false)
 		{
 			return $query;
 		}
