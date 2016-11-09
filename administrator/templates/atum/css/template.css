@@ -8417,9 +8417,13 @@ small, .small {
 .com_cpanel .card {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
   .com_cpanel .card .list-group-item:first-child {
-    border-top: 0; }
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; }
   .com_cpanel .card .list-group-item:last-child {
-    border-bottom: 0; }
+    border-bottom: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; }
 
 .com_cpanel .card-title {
   position: relative;
@@ -8436,14 +8440,21 @@ small, .small {
   border-radius: 0.25rem 0.25rem 0 0;
   box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, 0.15); }
 
-.com_cpanel .list-group-flush {
+.com_cpanel .list-group {
   margin-top: -0.75rem;
   margin-right: -1.25rem;
   margin-bottom: -1.25rem;
   margin-left: -1.25rem; }
-  .com_cpanel .list-group-flush > li {
-    padding: 0.7rem 1.25rem; }
-  .com_cpanel .list-group-flush:first-of-type {
+  .com_cpanel .list-group > li {
+    padding: 0.7rem 1.25rem;
+    overflow: hidden; }
+    .com_cpanel .list-group > li.published {
+      padding-left: 0.9em;
+      border-left: 5px solid #5cb85c; }
+    .com_cpanel .list-group > li.unpublished {
+      padding-left: 0.9em;
+      border-left: 5px solid #d9534f; }
+  .com_cpanel .list-group:first-of-type {
     border-top: 0; }
 
 .com_cpanel .module-dropdown {
