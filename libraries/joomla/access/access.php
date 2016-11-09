@@ -335,7 +335,7 @@ class JAccess
 		// Get the extension name from the $assetType provided
 		$extensionName = self::getExtensionNameFromAsset($assetType);
 
-		// If asset is a component, make sure the all the component assets are preloaded.
+		// If asset is a component, make sure that all the component assets are preloaded.
 		if ((isset(self::$preloadedAssetTypes[$extensionName]) || isset(self::$preloadedAssetTypes[$assetType])) && !$reload)
 		{
 			return;
@@ -353,12 +353,12 @@ class JAccess
 			->from($db->qn('#__assets'))
 			->where($db->qn('name') . ' LIKE ' . $db->q($extensionName . '.%') . ' OR ' . $extraQuery);
 
-		// Get the Name Permission Map List
+		// Get the permission map for all assets in the asset extension.
 		$assets = $db->setQuery($query)->loadObjectList();
 
 		self::$assetPermissionsParentIdMapping[$extensionName] = array();
 
-		// B/C Populate the method property. This property is deprecated since __DEPLOY_VERSION__ and will be removed in 4.0.
+		// B/C Populate the old class properties. They are deprecated since __DEPLOY_VERSION__ and will be removed in 4.0.
 		self::$assetPermissionsById[$assetType]   = array();
 		self::$assetPermissionsByName[$assetType] = array();
 
@@ -367,12 +367,12 @@ class JAccess
 			self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $asset;
 			self::$preloadedAssets[$asset->id]                                 = $asset->name;
 
-			// B/C Populate the method property. This property is deprecated since __DEPLOY_VERSION__ and will be removed in 4.0.
+			// B/C Populate the old class properties. They are deprecated since __DEPLOY_VERSION__ and will be removed in 4.0.
 			self::$assetPermissionsById[$assetType][$asset->id]     = $asset;
 			self::$assetPermissionsByName[$assetType][$asset->name] = $asset;
 		}
 
-		// MArk asset type and it's extension name as preloaded.
+		// Mark asset type and it's extension name as preloaded.
 		self::$preloadedAssetTypes[$assetType]     = true;
 		self::$preloadedAssetTypes[$extensionName] = true;
 
