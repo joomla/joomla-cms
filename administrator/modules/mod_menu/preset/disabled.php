@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 /* @var  $this    JAdminCSSMenu */
 /* @var  $params  Joomla\Registry\Registry */
+$user = JFactory::getUser();
 
 /**
  * Site SubMenu

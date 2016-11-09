@@ -189,14 +189,14 @@ class JAdminCssMenu
 		echo "<li" . $class . ">";
 
 		// Print a link if it exists
-		$linkClass = array();
-		$dataToggle = '';
+		$linkClass     = array();
+		$dataToggle    = '';
 		$dropdownCaret = '';
 
 		if ($this->_current->hasChildren())
 		{
 			$linkClass[] = 'dropdown-toggle';
-			$dataToggle = ' data-toggle="dropdown"';
+			$dataToggle  = ' data-toggle="dropdown"';
 
 			if (!$this->_current->getParent()->hasParent())
 			{
@@ -223,7 +223,7 @@ class JAdminCssMenu
 
 		if ($this->_current->link != null && $this->_current->target != null)
 		{
-			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\" >"
+			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\">"
 				. $this->_current->title . $dropdownCaret . "</a>";
 		}
 		elseif ($this->_current->link != null && $this->_current->target == null)
@@ -335,7 +335,6 @@ class JAdminCssMenu
 	public function load($params, $enabled)
 	{
 		$menutype = $params->get('menutype', '*');
-		$user     = JFactory::getUser();
 
 		$this->reset(true);
 
@@ -345,7 +344,77 @@ class JAdminCssMenu
 		}
 		else
 		{
+			$items = ModMenuHelper::getMenuItems($menutype);
+
 			// Menu items for dynamic db driven setup to load here
+			$this->loadItems($items, $enabled);
+		}
+	}
+
+	/**
+	 * Load the menu items from an array
+	 *
+	 * @param   array  $items    Menu items loaded from database
+	 * @param   bool   $enabled  Whether the menu should be enabled or disabled
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadItems($items, $enabled = true)
+	{
+		foreach ($items as $item)
+		{
+			if ($item->type == 'separator')
+			{
+				$this->addSeparator();
+
+				continue;
+			}
+
+			$container  = $item->params->get('components_container');
+			$components = $container ? ModMenuHelper::getComponents(true, true) : array();
+
+			if ($item->type == 'heading' && !count($components) && !count($item->submenu))
+			{
+				// Exclude if it is a heading type menu item, and has no children.
+			}
+			elseif (!$enabled)
+			{
+				$this->addChild(new JMenuNode($item->text, $item->link, 'disabled'));
+			}
+			else
+			{
+				$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
+
+				$this->loadItems($item->submenu);
+
+				// Add a separator between dynamic menu items and components menu items
+				if (count($item->submenu) && count($components))
+				{
+					$this->addSeparator();
+				}
+
+				// Adding component submenu the old way, this assumes 2-level menu only
+				foreach ($components as &$component)
+				{
+					if (empty($component->submenu))
+					{
+						$this->addChild(new JMenuNode($component->text, $component->link, $component->img));
+					}
+					else
+					{
+						$this->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
+
+						foreach ($component->submenu as $sub)
+						{
+							$this->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
+						}
+
+						$this->getParent();
+					}
+				}
+
+				$this->getParent();
+			}
 		}
 	}
 }
