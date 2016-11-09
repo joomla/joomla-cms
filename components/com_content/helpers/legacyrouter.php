@@ -74,8 +74,10 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 		}
 
 		// Check again
-		if ($menuItemGiven && isset($menuItem) && $menuItem->component != 'com_content')
+		if (!empty($menuItem) && $menuItem->component != 'com_content')
 		{
+			// Clear active menu item, because later code uses it without checking: $menuItemGiven
+			$menuItem = null;
 			$menuItemGiven = false;
 			unset($query['Itemid']);
 		}
