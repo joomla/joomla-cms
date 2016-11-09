@@ -53,7 +53,8 @@ class JFormFieldGallery extends JFormFieldList
 		{
 			foreach ($folders as $folder)
 			{
-				$relativePath = str_replace($path . '/', '', $folder);
+				// Relative path, in order to use str_replace you need same directory separators, so "clean" the paths
+				$relativePath = str_replace(JPath::clean($path . '/'), '', JPath::clean($folder));
 
 				$options[] = JHtml::_('select.option', $relativePath, $relativePath);
 			}
