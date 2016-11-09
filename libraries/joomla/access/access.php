@@ -320,7 +320,8 @@ class JAccess
 	 * Stores 2 arrays: one where the list has the Asset ID as the key
 	 * and a second one where the Asset Name is the key.
 	 *
-	 * @param   string   $assetType  The type or name of the asset (e.g. 'com_content.article', 'com_menus.menu.2').
+	 * @param   string   $assetType  The asset type, or the asset name, or the extension of the asset
+	 *                               (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
 	 * @param   boolean  $reload     Reload the preloaded assets.
 	 *
 	 * @return  bool  True
