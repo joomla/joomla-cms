@@ -278,7 +278,8 @@ class JAccess
 	 * Method to retrieve the list of Asset IDs and their Parent Asset IDs
 	 * and store them for later usage in getAssetRules().
 	 *
-	 * @param   string  $assetType  The type or name of the asset (e.g. 'com_content.article', 'com_menus.menu.2').
+	 * @param   string  $assetType  The asset type, or the asset name, or the extension of the asset
+	 *                              (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
 	 *
 	 * @return  array  List of asset ids (includes parent asset id information).
 	 *
