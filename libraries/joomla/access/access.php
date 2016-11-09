@@ -185,7 +185,7 @@ class JAccess
 	 * Method to preload the JAccessRules object for the given asset type.
 	 *
 	 * @param   integer|string|array  $assetTypes  The type or name of the asset (e.g. 'com_content.article', 'com_menus.menu.2').
-	 *                                             Also accepts the asset id. An array of asset type or	a special
+	 *                                             Also accepts the asset id. An array of asset type or a special
 	 *                                             'components' string to load all component assets.
 	 * @param   boolean               $reload      Set to true to reload from database.
 	 *
