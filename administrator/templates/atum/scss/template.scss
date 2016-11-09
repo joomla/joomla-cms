@@ -156,11 +156,11 @@ small, .small {
       padding: .7rem $card-spacer-x;
       overflow: hidden;
       &.published {
-        padding-left: 0.9em;
+        padding-left: .9rem;
         border-left: 5px solid $brand-success;
       }
       &.unpublished {
-        padding-left: 0.9em;
+        padding-left: .9rem;
         border-left: 5px solid $brand-danger;
       }
     }
