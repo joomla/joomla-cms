@@ -15,7 +15,7 @@ JHtml::_('bootstrap.tooltip');
 <ul class="list-group list-group-flush">
 	<?php if (count($list)) : ?>
 		<?php foreach ($list as $i => $item) : ?>
-			<li class="list-group-item <?php echo $dataAttr = $item->state == 1 ? 'published' : 'unpublished'; ?>">
+			<li class="list-group-item <?php echo $item->state == 1 ? 'published' : 'unpublished'; ?>">
 				<?php if ($item->checked_out) : ?>
 					<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 				<?php endif; ?>
