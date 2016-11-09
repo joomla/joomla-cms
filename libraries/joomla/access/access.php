@@ -338,7 +338,7 @@ class JAccess
 		// If asset is a component, make sure that all the component assets are preloaded.
 		if ((isset(self::$preloadedAssetTypes[$extensionName]) || isset(self::$preloadedAssetTypes[$assetType])) && !$reload)
 		{
-			return;
+			return true;
 		}
 
 		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::preloadPermissions (' . $extensionName . ')');
@@ -397,7 +397,7 @@ class JAccess
 		// If the components already been preloaded do nothing.
 		if (isset(self::$preloadedAssetTypes['components']))
 		{
-			return;
+			return array();
 		}
 
 		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::preloadComponents (all components)');
