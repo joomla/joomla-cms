@@ -231,7 +231,8 @@ class JAccess
 	 * Method to recursively retrieve the list of parent Asset IDs
 	 * for a particular Asset.
 	 *
-	 * @param   string   $assetType  The type or name of the asset (e.g. 'com_content.article', 'com_menus.menu.2').
+	 * @param   string   $assetType  The asset type, or the asset name, or the extension of the asset
+	 *                               (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
 	 * @param   integer  $assetId    The numeric asset id.
 	 *
 	 * @return  array  List of ancestor ids (includes original $assetId).
