@@ -652,7 +652,7 @@ class JAccess
 
 		// Build the database query to get the rules for the asset.
 		$query = $db->getQuery(true)
-			->select($db->qn($recursive ? 'b.rules' : 'a.rules', 'rules'))
+			->select($db->qn(($recursive ? 'b.rules' : 'a.rules'), 'rules'))
 			->select($db->qn(($recursive ? array('b.id', 'b.name', 'b.parent_id') : array('a.id', 'a.name', 'a.parent_id'))))
 			->from($db->qn('#__assets', 'a'));
 
@@ -689,7 +689,7 @@ class JAccess
 				->from($db->qn('#__assets'))
 				->where($db->qn('id') . ' = ' . $db->q($assets->getRootId()));
 
-			$result = array($db->setQuery($query)->loadObjectList());
+			$result = $db->setQuery($query)->loadObjectList();
 		}
 
 		$collected = array();
