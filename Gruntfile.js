@@ -1,13 +1,13 @@
 module.exports = function(grunt) {
 
-	var settings  = grunt.file.readYAML('grunt_settings.yaml'),
-		path        = require('path'),
-		preText     = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
-		postText    = '  },\n  "license": "GPL-2.0+"\n}',
+	var settings      = grunt.file.readYAML('grunt_settings.yaml'),
+		path          = require('path'),
+		preText       = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
+		postText      = '  },\n  "license": "GPL-2.0+"\n}',
 		name,
-		vendorsTxt = '',
-		vendorsArr = '',
-		polyFillsUrls =[];
+		vendorsTxt    = '',
+		vendorsArr    = '',
+		polyFillsUrls = [];
 
 	// Set some directories for codemirror
 	settings.CmAddons = {};
@@ -58,11 +58,11 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		folder : {
-			system     : 'media/system/js',
-			fields     : 'media/system/js/fields',
-			legacy     : 'media/system/js/legacy',
-			puny       : 'media/vendor/punycode/js',
-			codemirror : 'media/vendor/codemirror',
+			system        : 'media/system/js',
+			fields        : 'media/system/js/fields',
+			legacy        : 'media/system/js/legacy',
+			puny          : 'media/vendor/punycode/js',
+			codemirror    : 'media/vendor/codemirror',
 			adminTemplate : 'administrator/templates/atum'
 		},
 

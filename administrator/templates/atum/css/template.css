@@ -8106,6 +8106,57 @@ legend {
     font-size: .9rem;
     color: #555; }
 
+.js-switcher {
+  position: relative;
+  box-sizing: content-box;
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-color: #fff;
+  background-clip: content-box;
+  border: 1px solid #dfdfdf;
+  border-radius: 20px;
+  box-shadow: 0 0 0 0 #dfdfdf inset;
+  transition: border .4s ease 0s, box-shadow .4s ease 0s; }
+  .js-switcher.active {
+    background-color: #64bd63;
+    border-color: #64bd63;
+    box-shadow: 0 0 0 16px #64bd63 inset;
+    transition: border .4s ease 0s, box-shadow .4s ease 0s, background-color 1.2s ease 0s; }
+  .js-switcher input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 50px;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    zoom: 1;
+    filter: alpha(opacity=0);
+    opacity: 0; }
+  .js-switcher .switch {
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 100%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    transition: left .2s ease 0s; }
+  .js-switcher input:checked ~ .switch {
+    left: -1px; }
+  .js-switcher input ~ :checked ~ .switch {
+    left: 20px; }
+  .js-switcher input:checked {
+    z-index: 0; }
+
 .table th,
 .table td {
   padding: 8px; }
