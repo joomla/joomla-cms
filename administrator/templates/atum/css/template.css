@@ -8306,6 +8306,7 @@ legend {
     line-height: 2.2rem;
     color: #fff;
     text-align: center;
+    cursor: pointer;
     background-color: #0275d8; }
   .treeselect .treeselect-sub {
     padding-left: 2.2rem;
