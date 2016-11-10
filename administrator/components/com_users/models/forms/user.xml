@@ -104,6 +104,7 @@
 		<field
 				name="block"
 				type="switcher"
+				class="switcher-danger"
 				default="0"
 				label="COM_USERS_USER_FIELD_BLOCK_LABEL"
 				description="COM_USERS_USER_FIELD_BLOCK_DESC">

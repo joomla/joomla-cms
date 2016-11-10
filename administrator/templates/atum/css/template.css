@@ -8129,6 +8129,14 @@ legend {
     border-color: #64bd63;
     box-shadow: 0 0 0 16px #64bd63 inset;
     transition: border .4s ease 0s, box-shadow .4s ease 0s, background-color 1.2s ease 0s; }
+  .js-switcher.switcher-danger.active {
+    background-color: #bc6564;
+    border-color: #bc6564;
+    box-shadow: 0 0 0 16px #bc6564 inset; }
+  .js-switcher.switcher-primary.active {
+    background-color: #648fba;
+    border-color: #648fba;
+    box-shadow: 0 0 0 16px #648fba inset; }
   .js-switcher input {
     position: absolute;
     top: 0;
