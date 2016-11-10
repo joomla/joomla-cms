@@ -52,7 +52,6 @@ class MenusControllerMenu extends JControllerForm
 		$task     = $this->getTask();
 		$recordId = $this->input->getInt('id');
 
-		// Todo: Remove this once B/C is ensured
 		// Prevent using 'menu' or 'main' as menutype as this is reserved for backend menus
 		if (strtolower($data['menutype']) == 'menu' || strtolower($data['menutype']) == 'main')
 		{

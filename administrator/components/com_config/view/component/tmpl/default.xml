@@ -5,9 +5,8 @@
 			<![CDATA[COM_CONFIG_COMPONENT_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
-
 	<fields name="request">
-		<fieldset>
+		<fieldset name="request">
 			<field
 				name="component"
 				type="components"

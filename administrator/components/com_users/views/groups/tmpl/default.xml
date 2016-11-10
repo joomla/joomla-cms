@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_USERS_GROUPS_VIEW_DEFAULT_TITLE" option="COM_USERS_GROUPS_VIEW_DEFAULT_OPTION">
-		
+	<layout title="COM_USERS_GROUPS_VIEW_DEFAULT_TITLE">
 		<message>
 			<![CDATA[COM_USERS_GROUPS_VIEW_DEFAULT_DESC]]>
 		</message>

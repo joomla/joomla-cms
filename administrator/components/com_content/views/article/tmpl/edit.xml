@@ -5,4 +5,13 @@
 			<![CDATA[COM_CONTENT_ARTICLE_VIEW_EDIT_DESC]]>
 		</message>
 	</layout>
+	<fieldset name="request">
+		<fields name="request">
+			<field
+				name="id"
+				type="hidden"
+				default="0"
+			/>
+		</fields>
+	</fieldset>
 </metadata>
