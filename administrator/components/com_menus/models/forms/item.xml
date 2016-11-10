@@ -151,14 +151,13 @@
 
 		<field
 			name="home"
-			type="radio"
+			type="switcher"
 			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HOME_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			filter="integer">
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -203,26 +202,24 @@
 
 		<field
 			name="toggle_modules_assigned"
-			type="radio"
+			type="switcher"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			filter="integer">
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="toggle_modules_published"
-			type="radio"
+			type="switcher"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			filter="integer">
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 	</fieldset>
 

@@ -54,11 +54,10 @@ JHtml::_('script', 'system/fields/switcher.js', false, true);
 ?>
 <fieldset id="<?php echo $id; ?>"
 	<?php echo $disabled ? 'disabled' : ''; ?>
-	<?php echo $required ? 'required aria-required="true"' : ''; ?>
-	<?php echo $class ? 'class="' . $class . '"' : ''; ?>>
+	<?php echo $required ? 'required aria-required="true"' : ''; ?>>
 
 	<?php if (!empty($options)) : ?>
-		<span class="js-switcher">
+		<span <?php echo $class ? 'class="js-switcher ' . $class . '"' : 'class="js-switcher"'; ?>>
 			<?php foreach ($options as $i => $option) : ?>
 				<?php
 					// Initialize some option attributes.
@@ -86,6 +85,11 @@ JHtml::_('script', 'system/fields/switcher.js', false, true);
 				<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 			<?php endforeach; ?>
 			<span class="switch"></span>
+		</span>
+		<span class="switcher-labels">
+			<?php foreach ($options as $i => $option) : ?>
+			<span class="switcher-label-<?php echo $option->value; ?>"><?php echo $option->text; ?></span>
+			<?php endforeach; ?>
 		</span>
 	<?php endif; ?>
 </fieldset>
