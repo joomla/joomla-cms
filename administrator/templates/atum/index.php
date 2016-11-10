@@ -66,7 +66,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
 
 	<?php // Wrapper ?>
-	<div id="wrapper" class="wrapper closed">
+	<div id="wrapper" class="wrapper">
 
 		<?php // Sidebar ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
