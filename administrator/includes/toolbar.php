@@ -469,7 +469,7 @@ abstract class JToolbarHelper
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add an apply button
-		$bar->appendButton('Standard', 'apply', $alt, $task, false);
+		$bar->appendButton('Apply', 'apply', $alt, $task, false);
 	}
 
 	/**
