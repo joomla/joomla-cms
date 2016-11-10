@@ -1,5 +1,4 @@
 .treeselect {
-  $line-height: 2.2em;
   display: block;
   padding-left: 0;
   list-style: none;
@@ -7,8 +6,7 @@
     display: inline-block;
     margin-bottom: 0;
     margin-left: .5rem;
-    font-size: .85em;
-    line-height: $line-height;
+    font-size: .85rem;
     color: $gray-dark;
     letter-spacing: .4px;
   }
@@ -32,22 +30,23 @@
   }
   .treeselect-toggle {
     display: inline-block;
-    width: $line-height;
-    height: $line-height;
-    line-height: $line-height;
+    width: $treeselect-line-height;
+    height: $treeselect-line-height;
+    line-height: $treeselect-line-height;
     color: #fff;
     text-align: center;
     background-color: $brand-primary;
   }
   .treeselect-sub {
-    padding-left: $line-height;
+    padding-left: $treeselect-line-height;
     background-color: $gray-lightest;
     > li {
       border-top: 1px solid $gray-lighter;
     }
     .treeselect-toggle {
-      width: 1.9em;
+      width: 1.9rem;
       color: $gray;
+      cursor: pointer;
       background-color: transparent;
     }
   }
@@ -56,27 +55,27 @@
   }
   .treeselect-item {
     display: inline-block;
-    padding-left: $line-height;
+    padding-left: $treeselect-line-height;
     input {
       position: relative;
       top: 1px;
-      margin-right: .45em;
-      margin-left: .65em;
+      margin-right: .45rem;
+      margin-left: .65rem;
     }
     label {
       margin-bottom: 0;
-      line-height: $line-height;
+      line-height: 2.1rem;
     }
   }
   .treeselect-toggle + .treeselect-item {
     padding-left: 0;
   }
   .dropdown-toggle {
-    padding: 0 .5em .3em;
-    margin-left: .5em;
+    padding: 0 .5rem .3rem;
+    margin-left: .5rem;
     &::after {
       margin-left: 0;
-      font-size: 1.5em;
+      font-size: 1rem;
       color: $gray;
     }
   }
