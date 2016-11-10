@@ -8439,19 +8439,72 @@ small, .small {
 .admin.com_modules .js-stools-container-bar .btn-toolbar {
   float: left; }
 
-.admin.com_modules .treeselect .list-unstyled {
-  padding-left: 40px; }
-
-.admin.com_modules .treeselect .treeselect-toggle {
-  padding: 2px;
-  cursor: pointer; }
-
-.admin.com_modules .treeselect .tree-label,
-.admin.com_modules .treeselect .nav-header {
-  margin-left: 15px; }
-
-.admin.com_modules .treeselect .treeselect-menu {
-  margin-left: 5px; }
+.treeselect {
+  display: block;
+  padding-left: 0;
+  list-style: none; }
+  .treeselect .nav-header {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-left: .5em;
+    font-size: .85em;
+    line-height: 2.2em;
+    color: #373a3c;
+    letter-spacing: .4px; }
+  .treeselect li {
+    display: block;
+    list-style: none; }
+  .treeselect > li {
+    margin-bottom: 5px;
+    background-color: #eceeef;
+    border-radius: 0.25rem; }
+    .treeselect > li > .treeselect-toggle {
+      border-radius: 0.25rem 0 0; }
+    .treeselect > li > .treeselect-toggle.fa-chevron-right {
+      border-radius: 0.25rem 0 0 0.25rem; }
+  .treeselect .icon- {
+    display: none; }
+  .treeselect .treeselect-toggle {
+    display: inline-block;
+    width: 2.2em;
+    height: 2.2em;
+    line-height: 2.2em;
+    color: #fff;
+    text-align: center;
+    background-color: #0275d8; }
+  .treeselect .treeselect-sub {
+    padding-left: 2.2em;
+    background-color: #f7f7f9; }
+    .treeselect .treeselect-sub > li {
+      border-top: 1px solid #eceeef; }
+    .treeselect .treeselect-sub .treeselect-toggle {
+      width: 1.9em;
+      color: #55595c;
+      background-color: transparent; }
+  .treeselect .treeselect-menu {
+    display: inline-block; }
+  .treeselect .treeselect-item {
+    display: inline-block;
+    padding-left: 2.2em; }
+    .treeselect .treeselect-item input {
+      position: relative;
+      top: 1px;
+      margin-right: .45em;
+      margin-left: .65em; }
+    .treeselect .treeselect-item label {
+      margin-bottom: 0;
+      line-height: 2.2em; }
+  .treeselect .treeselect-toggle + .treeselect-item {
+    padding-left: 0; }
+  .treeselect .dropdown-toggle {
+    padding: 0 .5em .3em;
+    margin-left: .5em; }
+    .treeselect .dropdown-toggle::after {
+      margin-left: 0;
+      font-size: 1.5em;
+      color: #55595c; }
+  .treeselect .treeselect-header + .treeselect-sub > li > .treeselect-item {
+    padding-left: 0; }
 
 .info-labels {
   margin-bottom: 10px; }
