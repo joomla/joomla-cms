@@ -8157,6 +8157,22 @@ legend {
   .js-switcher input:checked {
     z-index: 0; }
 
+.switcher-labels {
+  position: relative;
+  margin-left: 10px; }
+  .switcher-labels span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #aaa;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .2s ease-in-out; }
+    .switcher-labels span.active {
+      visibility: visible;
+      opacity: 1;
+      transition: all .2s ease-in-out; }
+
 .table th,
 .table td {
   padding: 8px; }

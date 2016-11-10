@@ -52,3 +52,24 @@
   input~:checked~.switch {left: 20px;}
   input:checked {z-index: 0;}
 }
+
+.switcher-labels {
+  position: relative;
+  margin-left: 10px;
+
+  span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: $grey;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .2s ease-in-out;
+
+    &.active {
+      visibility: visible;
+      opacity: 1;
+      transition: all .2s ease-in-out;
+    }
+  }
+}

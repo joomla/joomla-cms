@@ -87,5 +87,10 @@ JHtml::_('script', 'system/fields/switcher.js', false, true);
 			<?php endforeach; ?>
 			<span class="switch"></span>
 		</span>
+		<span class="switcher-labels">
+			<?php foreach ($options as $i => $option) : ?>
+			<span class="switcher-label-<?php echo $option->value; ?>"><?php echo $option->text; ?></span>
+			<?php endforeach; ?>
+		</span>
 	<?php endif; ?>
 </fieldset>

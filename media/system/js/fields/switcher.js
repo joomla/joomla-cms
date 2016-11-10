@@ -17,24 +17,40 @@
 		for (var i = 0; i < switcher.length; i++) {
 
 			// Add the initial active class
-			var nodes = switcher[i].querySelectorAll('input');
+			var nodes  = switcher[i].querySelectorAll('input'),
+				parent = nodes[1].parentNode;
+
 			if (nodes[1].checked) {
 				nodes[1].parentNode.classList.add('active');
+				parent.nextElementSibling.querySelector('.switcher-label-' + nodes[1].value).classList.add('active');
+			}
+			else
+			{
+				parent.nextElementSibling.querySelector('.switcher-label-' + nodes[0].value).classList.add('active');
 			}
 
 			// Add the active class on click
 			switcher[i].addEventListener('click', function(event) {
-				var el = event.target;
+				var el     = event.target,
+					parent = el.parentNode,
+					spans  = parent.nextElementSibling.querySelectorAll('span');
+
+				for (var i = 0; i < spans.length; i++) {
+					spans[i].classList.remove('active');
+				}
 
 				if (!el.classList.contains('active')) {
-					el.parentNode.classList.add('active');
+					parent.classList.add('active');
 				}
 				else {
-					el.parentNode.classList.remove('active');
+					parent.classList.remove('active');
 				}
+
+				parent.nextElementSibling.querySelector('.switcher-label-' + el.value).classList.add('active');
 
 			});
 
 		}
 	});
+
 })();
