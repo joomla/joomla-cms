@@ -212,14 +212,13 @@
 
 		<field
 			name="sticky"
-			type="radio"
+			type="switcher"
 			label="COM_BANNERS_FIELD_STICKY_LABEL"
 			description="COM_BANNERS_FIELD_STICKY_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 	</fieldset>
 
@@ -312,14 +311,13 @@
 
 		<field
 			name="own_prefix"
-			type="radio"
+			type="switcher"
 			label="COM_BANNERS_FIELD_BANNEROWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_BANNEROWNPREFIX_DESC"
-			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field

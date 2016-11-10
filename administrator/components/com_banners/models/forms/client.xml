@@ -121,14 +121,13 @@
 
 		<field
 			name="own_prefix"
-			type="radio"
+			type="switcher"
 			label="COM_BANNERS_FIELD_CLIENTOWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_CLIENTOWNPREFIX_DESC"
-			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field

@@ -26,6 +26,7 @@
 @import "blocks/switcher";
 @import "blocks/table";
 @import "blocks/toolbar";
+@import "blocks/treeselect";
 @import "blocks/utilities";
 
 // Vendor overrides
@@ -80,91 +81,25 @@ small, .small {
   .js-stools-container-bar .btn-toolbar {
     float: left;
   }
-}
-.treeselect {
-  $line-height: 2.2em;
-  display: block;
-  padding-left: 0;
-  list-style: none;
-  .nav-header {
-    display: inline-block;
-    margin-bottom: 0;
-    margin-left: .5em;
-    font-size: .85em;
-    line-height: $line-height;
-    color: $gray-dark;
-    letter-spacing: .4px;
-  }
-  li {
-    display: block;
-    list-style: none;
-  }
-  > li {
-    margin-bottom: 5px;
-    background-color: $gray-lighter;
-    border-radius: $border-radius;
-    > .treeselect-toggle {
-      border-radius: $border-radius 0 0;
+
+  .treeselect {
+    .list-unstyled {
+      padding-left: 40px;
     }
-    > .treeselect-toggle.fa-chevron-right {
-      border-radius: $border-radius 0 0 $border-radius;
-    }
-  }
-  .icon- {
-    display: none;
-  }
-  .treeselect-toggle {
-    display: inline-block;
-    width: $line-height;
-    height: $line-height;
-    line-height: $line-height;
-    color: #fff;
-    text-align: center;
-    background-color: $brand-primary;
-  }
-  .treeselect-sub {
-    padding-left: $line-height;
-    background-color: $gray-lightest;
-    > li {
-      border-top: 1px solid $gray-lighter;
-    }
+
     .treeselect-toggle {
-      width: 1.9em;
-      color: $gray;
-      background-color: transparent;
+      padding: 2px;
+      cursor: pointer;
     }
-  }
-  .treeselect-menu {
-    display: inline-block;
-  }
-  .treeselect-item {
-    display: inline-block;
-    padding-left: $line-height;
-    input {
-      position: relative;
-      top: 1px;
-      margin-right: .45em;
-      margin-left: .65em;
+
+    .tree-label,
+    .nav-header {
+      margin-left: 15px;
     }
-    label {
-      margin-bottom: 0;
-      line-height: $line-height;
+
+    .treeselect-menu {
+      margin-left: 5px;
     }
-  }
-  .treeselect-toggle + .treeselect-item {
-    padding-left: 0;
-  }
-  .dropdown-toggle {
-    padding: 0 .5em .3em;
-    margin-left: .5em;
-    &::after {
-      margin-left: 0;
-      font-size: 1.5em;
-      color: $gray;
-    }
-  }
-  .treeselect-header + .treeselect-sub > li > .treeselect-item {
-    padding-left: 0;
   }
 }
 

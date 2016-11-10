@@ -36,8 +36,7 @@
 
 				<field
 					name="shownew"
-					type="radio"
-					class="btn-group btn-group-yesno"
+					type="switcher"
 					default="1"
 					label="MOD_MENU_FIELD_SHOWNEW"
 					description="MOD_MENU_FIELD_SHOWNEW_DESC">
@@ -47,8 +46,7 @@
 
 				<field
 					name="showhelp"
-					type="radio"
-					class="btn-group btn-group-yesno"
+					type="switcher"
 					default="1"
 					label="MOD_MENU_FIELD_SHOWHELP"
 					description="MOD_MENU_FIELD_SHOWHELP_DESC">

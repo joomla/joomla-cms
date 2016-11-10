@@ -107,7 +107,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<li>
 								<div class="treeselect-item">
 									<input type="checkbox" class="novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; ?> />
-									<label for="<?php echo $id . $link->value; ?>" class="">
+									<label for="<?php echo $id . $link->value; ?>">
 										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span>
 										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*')
 										{
