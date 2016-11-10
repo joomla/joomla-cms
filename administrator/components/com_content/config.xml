@@ -962,7 +962,6 @@
 		<field
 			name="sef_advanced"
 			type="switcher"
-			class="btn-group btn-group-yesno"
 			default="0"
 			label="JGLOBAL_SEF_ADVANCED_LABEL"
 			description="JGLOBAL_SEF_ADVANCED_DESC"
