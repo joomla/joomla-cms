@@ -19,7 +19,6 @@ There are other branches available which serve specific purposes.
 
 | Branch | Purpose |
 | ------ | ------- |
-| staging | Current codebase. |
+| staging | Current codebase. Branch for the next minor Joomla version. New backward compatible features go into this branch. |
 | master | Each commit made to staging gets tested if it passes unit tests and codestyle rules. It is then merged into master. This is done automatically. |
-| 3.6.x | Branch for the next minor Joomla version. New backward compatible features go into this branch. Commits to staging will be applied to this branch as well. |
 | 4.0-dev | Branch for the next major Joomla version. New backward incompatible features go into this branch. Commits to staging will be applied to this branch as well. |
