@@ -1546,6 +1546,7 @@ class JoomlaInstallerScript
 			'/components/com_users/views/remind/metadata.xml',
 			'/components/com_users/views/reset/metadata.xml',
 			'/components/com_wrapper/metadata.xml',
+			'layouts/libraries/cms/html/bootstrap/addtabscript.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
