@@ -474,4 +474,43 @@ class MenusModelItems extends JModelList
 
 		return $cMenu;
 	}
+
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   12.2
+	 */
+	public function getItems()
+	{
+		$store = $this->getStoreId();
+
+		if (!isset($this->cache[$store]))
+		{
+			$items = parent::getItems();
+			$lang  = JFactory::getLanguage();
+
+			if (!$items)
+			{
+				return false;
+			}
+
+			foreach ($items as $item)
+			{
+				if ($extension = $item->componentname)
+				{
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
+					|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
+				}
+
+				// Translate component name
+				$item->title = JText::_($item->title);
+			}
+
+			$this->cache[$store] = $items;
+		}
+
+		return $this->cache[$store];
+	}
 }
