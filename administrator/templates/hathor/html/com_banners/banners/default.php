@@ -17,6 +17,7 @@ $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+$canOrder  = $user->authorise('core.edit.state', 'com_banners');
 $saveOrder = $listOrder == 'ordering';
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
@@ -99,7 +100,7 @@ $saveOrder = $listOrder == 'ordering';
 				</th>
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
-					<?php if ($saveOrder) : ?>
+					<?php if ($canOrder && $saveOrder) : ?>
 						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'banners.saveorder'); ?>
 					<?php endif;?>
 				</th>
