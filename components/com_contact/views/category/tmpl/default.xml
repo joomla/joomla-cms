@@ -530,6 +530,7 @@
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
 				size="30"
+				useglobal="true"
 			/>
 
 			<field name="linkb_name"
@@ -537,6 +538,7 @@
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
 				size="30"
+				useglobal="true"
 			/>
 
 			<field name="linkc_name"
@@ -544,6 +546,7 @@
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
 				size="30"
+				useglobal="true"
 			/>
 
 			<field name="linkd_name"
@@ -551,6 +554,7 @@
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
 				size="30"
+				useglobal="true"
 			/>
 
 			<field name="linke_name"
@@ -558,6 +562,7 @@
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
 				size="30"
+				useglobal="true"
 			/>
 </fieldset>
 		<!-- Form options. -->
@@ -625,6 +630,7 @@
 				description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC"
 				label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
 				size="30"
+				useglobal="true"
 			/>
 		</fieldset>
 
