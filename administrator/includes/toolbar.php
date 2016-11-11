@@ -649,9 +649,9 @@ abstract class JToolbarHelper
 		$options['class'] = $class;
 
 		$validOptions = array(
-			'apply' => 'JTOOLBAR_APPLY',
-			'save' => 'JTOOLBAR_SAVE',
-			'save2new' => 'JTOOLBAR_SAVE_AND_NEW',
+			'apply'     => 'JTOOLBAR_APPLY',
+			'save'      => 'JTOOLBAR_SAVE',
+			'save2new'  => 'JTOOLBAR_SAVE_AND_NEW',
 			'save2copy' => 'JTOOLBAR_SAVE_AS_COPY'
 		);
 

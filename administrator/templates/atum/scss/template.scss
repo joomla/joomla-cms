@@ -71,6 +71,7 @@ small, .small {
   background: $white;
 }
 .content {
+  margin-top: 50px;
   background: $white;
 }
 
@@ -119,6 +120,7 @@ small, .small {
     background: #eaebec;
   }
   .content {
+    margin-top: 0;
     background: none;
   }
   .card {

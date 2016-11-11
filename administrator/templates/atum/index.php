@@ -111,7 +111,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 				<?php // Subheader ?>
 				<a class="btn btn-subhead hidden-md-up" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ATUM_TOOLBAR'); ?>
 					<span class="icon-wrench"></span></a>
-				<div class="subhead-collapse"  style="margin: -18px -15px 0 -15px;" data-scroll="<?php echo $hidden; ?>">
+				<div class="subhead-collapse" data-scroll="<?php echo $hidden; ?>">
 					<div id="subhead" class="subhead">
 						<div class="container-fluid">
 							<div id="container-collapse" class="container-collapse"></div>
