@@ -74,14 +74,13 @@
 
 				<field
 					name="greeting"
-					type="radio"
+					type="switcher"
 					label="MOD_LOGIN_FIELD_GREETING_LABEL"
 					description="MOD_LOGIN_FIELD_GREETING_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -98,14 +97,13 @@
 
 				<field
 					name="usesecure"
-					type="radio"
+					type="switcher"
 					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
 					description="MOD_LOGIN_FIELD_USESECURE_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
