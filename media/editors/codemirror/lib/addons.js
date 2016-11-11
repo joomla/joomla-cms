@@ -1136,8 +1136,8 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
   function Iter(cm, line, ch, range) {
     this.line = line; this.ch = ch;
     this.cm = cm; this.text = cm.getLine(line);
-    this.min = range ? range.from : cm.firstLine();
-    this.max = range ? range.to - 1 : cm.lastLine();
+    this.min = range ? Math.max(range.from, cm.firstLine()) : cm.firstLine();
+    this.max = range ? Math.min(range.to - 1, cm.lastLine()) : cm.lastLine();
   }
 
   function tagAt(iter, ch) {
@@ -3068,8 +3068,12 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 
           if (lastInsertModeKeyTimer) { window.clearTimeout(lastInsertModeKeyTimer); }
           if (keysAreChars) {
-            var here = cm.getCursor();
-            cm.replaceRange('', offsetCursor(here, 0, -(keys.length - 1)), here, '+input');
+            var selections = cm.listSelections();
+            for (var i = 0; i < selections.length; i++) {
+              var here = selections[i].head;
+              cm.replaceRange('', offsetCursor(here, 0, -(keys.length - 1)), here, '+input');
+            }
+            vimGlobalState.macroModeState.lastInsertModeChanges.changes.pop();
           }
           clearInputState(cm);
           return match.command;
@@ -3106,7 +3110,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           // TODO: Look into using CodeMirror's multi-key handling.
           // Return no-op since we are caching the key. Counts as handled, but
           // don't want act on it just yet.
-          return function() {};
+          return function() { return true; };
         } else {
           return function() {
             return cm.operation(function() {
@@ -7162,6 +7166,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           if (changeObj.origin == '+input' || changeObj.origin == 'paste'
               || changeObj.origin === undefined /* only in testing */) {
             var text = changeObj.text.join('\n');
+            if (lastChange.maybeReset) {
+              lastChange.changes = [];
+              lastChange.maybeReset = false;
+            }
             lastChange.changes.push(text);
           }
           // Change objects may be chained with next.
@@ -7184,7 +7192,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           lastChange.expectCursorActivityForChange = false;
         } else {
           // Cursor moved outside the context of an edit. Reset the change.
-          lastChange.changes = [];
+          lastChange.maybeReset = true;
         }
       } else if (!cm.curOp.isVimOp) {
         handleExternalSelection(cm, vim);
@@ -7248,6 +7256,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       var keyName = CodeMirror.keyName(e);
       if (!keyName) { return; }
       function onKeyFound() {
+        if (lastChange.maybeReset) {
+          lastChange.changes = [];
+          lastChange.maybeReset = false;
+        }
         lastChange.changes.push(new InsertModeKey(keyName));
         return true;
       }

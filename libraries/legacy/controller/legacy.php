@@ -274,18 +274,19 @@ class JControllerLegacy extends JObject
 		// Include the class if not present.
 		if (!class_exists($class))
 		{
-			// If the controller file path exists, include it.
-			if (file_exists($path))
+			JLoader::register($class, $path);
+
+			if (!class_exists($class))
 			{
-				require_once $path;
-			}
-			elseif (isset($backuppath) && file_exists($backuppath))
-			{
-				require_once $backuppath;
-			}
-			else
-			{
-				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
+				if (isset($backuppath) && file_exists($backuppath))
+				{
+					JLoader::register($class, $backuppath);
+				}
+
+				if (!class_exists($class))
+				{
+					throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
+				}
 			}
 		}
 
@@ -585,7 +586,7 @@ class JControllerLegacy extends JObject
 				return null;
 			}
 
-			require_once $path;
+			JLoader::register($viewClass, $path);
 
 			if (!class_exists($viewClass))
 			{
