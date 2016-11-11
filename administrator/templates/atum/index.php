@@ -125,7 +125,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 				</div>
 			<?php endif; ?>
 
-			<section id="content" class="content" style="margin-top: 70px;">
+			<section id="content" class="content">
 				<?php // Begin Content ?>
 				<jdoc:include type="modules" name="top" style="xhtml" />
 				<div class="row">
