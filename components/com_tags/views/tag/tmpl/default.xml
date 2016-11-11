@@ -177,6 +177,7 @@
 				filter="integer"
 				label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 				description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
+				useglobal="true"
 			/>
 
 			<field
