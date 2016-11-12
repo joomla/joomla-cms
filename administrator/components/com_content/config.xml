@@ -805,7 +805,7 @@
 			type="text"
 			size="15"
 			label="JGLOBAL_DATE_FORMAT_LABEL"
-			description="JGLOBAL_DATE_FORMAT_DESC" 
+			description="JGLOBAL_DATE_FORMAT_DESC"
 			showon="list_show_date:created,modified,published"
 		/>
 
@@ -891,13 +891,13 @@
 				value="rhits">JGLOBAL_LEAST_HITS</option>
 			<option
 				value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
-			<option 
+			<option
 				value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
-			<option 
+			<option
 				value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
-			<option 
+			<option
 				value="rank" requires="vote"> JGLOBAL_RATINGS_DESC</option>
-			<option 
+			<option
 				value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
 		</field>
 
@@ -1021,8 +1021,8 @@
 			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
 			default="1"
 			>
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 	</fieldset>

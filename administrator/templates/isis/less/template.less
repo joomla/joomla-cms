@@ -74,7 +74,7 @@
 @import "../../../../media/jui/less/responsive-767px-max.joomla.less";
 // Icon Font
 @import "icomoon.less";
-// Chosen.css Flat Override 
+// Chosen.css Flat Override
 @import "chzn-override.less";
 /* Body */
 html {
@@ -493,7 +493,7 @@ body .navbar-fixed-top {
 	iframe .btn-group .btn {
 		margin-left: -1px !important;
 	}
-} 
+}
 html[dir=rtl] #toolbar #toolbar-options,
 html[dir=rtl] #toolbar #toolbar-help {
 	float: left;
@@ -1229,6 +1229,7 @@ th .tooltip-inner {
 }
 /* Help site refresh button*/
 #helpsite-refresh {
+	padding: 4px 12px;
 	vertical-align: top;
 }
 .alert-no-items {
@@ -1537,4 +1538,8 @@ body.modal-open {
 .progress .bar,
 .subhead {
   text-shadow: none;
+}
+/* Popover minimum height - overwrite bootstrap default */
+.popover-content {
+    min-height: 33px;
 }

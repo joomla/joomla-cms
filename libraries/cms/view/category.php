@@ -117,10 +117,10 @@ class JViewCategory extends JViewLegacy
 		$paramsModel->set('check_access_rights', 0);
 		$model->setState('params', $paramsModel);
 
-		$state      = $this->get('State');
-		$category   = $this->get('Category');
-		$children   = $this->get('Children');
-		$parent     = $this->get('Parent');
+		$state       = $this->get('State');
+		$category    = $this->get('Category');
+		$children    = $this->get('Children');
+		$parent      = $this->get('Parent');
 
 		if ($category == false)
 		{
@@ -137,9 +137,18 @@ class JViewCategory extends JViewLegacy
 
 		if (!in_array($category->access, $groups))
 		{
+			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+		}
+
+		// Check whether category access level allows access.
+		$groups = $user->getAuthorisedViewLevels();
+
+		if (!in_array($category->access, $groups))
+		{
 			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
+<<<<<<< HEAD:libraries/cms/view/category.php
 		$items      = $this->get('Items');
 		$pagination = $this->get('Pagination');
 
@@ -149,6 +158,8 @@ class JViewCategory extends JViewLegacy
 			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
+=======
+>>>>>>> 88bffd1810b1f0092427fd39fbf4f658ec86d7f1:libraries/legacy/view/category.php
 		// Setup the category parameters.
 		$cparams          = $category->getParams();
 		$category->params = clone $params;

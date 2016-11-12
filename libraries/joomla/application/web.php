@@ -420,4 +420,122 @@ abstract class JApplicationWeb extends AbstractWebApplication implements Dispatc
 
 		return $this;
 	}
+
+	/**
+	 * After the session has been started we need to populate it with some default values.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function afterSessionStart()
+	{
+		$session = JFactory::getSession();
+
+		if ($session->isNew())
+		{
+			$session->set('registry', new Registry);
+			$session->set('user', new JUser);
+		}
+	}
+
+	/**
+	 * Method to load the system URI strings for the application.
+	 *
+	 * @param   string  $requestUri  An optional request URI to use instead of detecting one from the
+	 *                               server environment variables.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function loadSystemUris($requestUri = null)
+	{
+		// Set the request URI.
+		// @codeCoverageIgnoreStart
+		if (!empty($requestUri))
+		{
+			$this->set('uri.request', $requestUri);
+		}
+		else
+		{
+			$this->set('uri.request', $this->detectRequestUri());
+		}
+		// @codeCoverageIgnoreEnd
+
+		// Check to see if an explicit base URI has been set.
+		$siteUri = trim($this->get('site_uri'));
+
+		if ($siteUri != '')
+		{
+			$uri = JUri::getInstance($siteUri);
+			$path = $uri->toString(array('path'));
+		}
+		// No explicit base URI was set so we need to detect it.
+		else
+		{
+			// Start with the requested URI.
+			$uri = JUri::getInstance($this->get('uri.request'));
+
+			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
+			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
+			{
+				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
+				$path = dirname($_SERVER['PHP_SELF']);
+			}
+			// Pretty much everything else should be handled with SCRIPT_NAME.
+			else
+			{
+				$path = dirname($_SERVER['SCRIPT_NAME']);
+			}
+		}
+
+		$host = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+
+		// Check if the path includes "index.php".
+		if (strpos($path, 'index.php') !== false)
+		{
+			// Remove the index.php portion of the path.
+			$path = substr_replace($path, '', strpos($path, 'index.php'), 9);
+		}
+
+		$path = rtrim($path, '/\\');
+
+		// Set the base URI both as just a path and as the full URI.
+		$this->set('uri.base.full', $host . $path . '/');
+		$this->set('uri.base.host', $host);
+		$this->set('uri.base.path', $path . '/');
+
+		// Set the extended (non-base) part of the request URI as the route.
+		if (stripos($this->get('uri.request'), $this->get('uri.base.full')) === 0)
+		{
+			$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, strlen($this->get('uri.base.full'))));
+		}
+
+		// Get an explicitly set media URI is present.
+		$mediaURI = trim($this->get('media_uri'));
+
+		if ($mediaURI)
+		{
+			if (strpos($mediaURI, '://') !== false)
+			{
+				$this->set('uri.media.full', $mediaURI);
+				$this->set('uri.media.path', $mediaURI);
+			}
+			else
+			{
+				// Normalise slashes.
+				$mediaURI = trim($mediaURI, '/\\');
+				$mediaURI = !empty($mediaURI) ? '/' . $mediaURI . '/' : '/';
+				$this->set('uri.media.full', $this->get('uri.base.host') . $mediaURI);
+				$this->set('uri.media.path', $mediaURI);
+			}
+		}
+		// No explicit media URI was set, build it dynamically from the base uri.
+		else
+		{
+			$this->set('uri.media.full', $this->get('uri.base.full') . 'media/');
+			$this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
+		}
+	}
 }

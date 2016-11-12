@@ -250,6 +250,16 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 				$values[] = (int) $this->getClientId();
 			}
 
+			$query->insert($db->quoteName('#__session'))
+				->columns($columns)
+				->values(implode(', ', $values));
+
+			if (!$this->get('shared_session', '0'))
+			{
+				$columns[] = $db->quoteName('client_id');
+				$values[] = (int) $this->getClientId();
+			}
+
 			// If the insert failed, exit the application.
 			try
 			{
@@ -762,6 +772,20 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 	}
 
 	/**
+	 * Check the client interface by name.
+	 *
+	 * @param   string  $identifier  String identifier for the application interface
+	 *
+	 * @return  boolean  True if this application is of the given type client interface.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isClient($identifier)
+	{
+		return $this->getName() == $identifier;
+	}
+
+	/**
 	 * Load the library language files for the application
 	 *
 	 * @return  void
@@ -1094,7 +1118,7 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 	 * Sets the value of a user state variable.
 	 *
 	 * @param   string  $key    The path of the state.
-	 * @param   string  $value  The value of the variable.
+	 * @param   mixed   $value  The value of the variable.
 	 *
 	 * @return  mixed  The previous state, if one existed.
 	 *

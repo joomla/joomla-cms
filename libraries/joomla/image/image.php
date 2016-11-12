@@ -26,6 +26,13 @@ class JImage extends Image
 	protected $generateBestQuality = true;
 
 	/**
+	 * @var    boolean  True for best quality. False for speed
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $generateBestQuality = true;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
