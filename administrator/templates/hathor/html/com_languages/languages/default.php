@@ -19,6 +19,7 @@ $userId    = $user->get('id');
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+$canOrder  = $user->authorise('core.edit.state', 'com_languages');
 $saveOrder = $listOrder == 'a.ordering';
 ?>
 
@@ -80,7 +81,7 @@ $saveOrder = $listOrder == 'a.ordering';
 				</th>
 				<th width="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
-					<?php if ($saveOrder) :?>
+					<?php if ($canOrder && $saveOrder) : ?>
 						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'languages.saveorder'); ?>
 					<?php endif; ?>
 				</th>
