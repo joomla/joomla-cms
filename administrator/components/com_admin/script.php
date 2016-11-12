@@ -242,6 +242,7 @@ class JoomlaInstallerScript
 			array('component', 'com_contenthistory', '', 1),
 			array('component', 'com_postinstall', '', 1),
 			array('component', 'com_joomlaupdate', '', 1),
+			array('component', 'com_fields', '', 1),
 
 			// Libraries
 			array('library', 'joomla', '', 0),
@@ -340,9 +341,14 @@ class JoomlaInstallerScript
 			array('plugin', 'updatenotification', 'system', 0),
 			array('plugin', 'module', 'editors-xtd', 0),
 			array('plugin', 'stats', 'system', 0),
-			array('plugin', 'packageinstaller','installer',0),
-			array('plugin', 'folderinstaller','installer', 0),
-			array('plugin', 'urlinstaller','installer', 0),
+			array('plugin', 'packageinstaller', 'installer', 0),
+			array('plugin', 'folderinstaller', 'installer', 0),
+			array('plugin', 'urlinstaller', 'installer', 0),
+			array('plugin', 'phpversioncheck', 'quickicon', 0),
+			array('plugin', 'menu', 'editors-xtd', 0),
+			array('plugin', 'contact', 'editors-xtd', 0),
+			array('plugin', 'fields', 'system', 0),
+			array('plugin', 'gallery', 'fields', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -1442,7 +1448,7 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/plugins/compat3x/editable_selects.js',
 			'/media/editors/tinymce/plugins/compat3x/form_utils.js',
 			'/media/editors/tinymce/plugins/compat3x/mctabs.js',
-			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js', 
+			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js',
 			'/media/editors/tinymce/plugins/compat3x/validate.js',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Dumper.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Escaper.php',
@@ -1492,6 +1498,23 @@ class JoomlaInstallerScript
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade/jade.js',
 			'/media/editors/codemirror/mode/jade/jade.min.js',
+			// Joomla __DEPLOY_VERSION__
+			'/libraries/joomla/user/authentication.php',
+			'/libraries/platform.php',
+			'/libraries/joomla/data/data.php',
+			'/libraries/joomla/data/dumpable.php',
+			'/libraries/joomla/data/set.php',
+			'/administrator/components/com_banners/views/banners/tmpl/default_batch.php',
+			'/administrator/components/com_categories/views/category/tmpl/edit_extrafields.php',
+			'/administrator/components/com_categories/views/category/tmpl/edit_options.php',
+			'/administrator/components/com_categories/views/categories/tmpl/default_batch.php',
+			'/administrator/components/com_content/views/articles/tmpl/default_batch.php',
+			'/administrator/components/com_menus/views/items/tmpl/default_batch.php',
+			'/administrator/components/com_modules/views/modules/tmpl/default_batch.php',
+			'/administrator/components/com_newsfeeds/views/newsfeeds/tmpl/default_batch.php',
+			'/administrator/components/com_redirect/views/links/tmpl/default_batch.php',
+			'/administrator/components/com_tags/views/tags/tmpl/default_batch.php',
+			'/administrator/components/com_users/views/users/tmpl/default_batch.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1601,6 +1624,8 @@ class JoomlaInstallerScript
 			'/libraries/simplepie',
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade',
+			// Joomla __DEPLOY_VERSION__
+			'/libraries/joomla/data',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1669,7 +1694,8 @@ class JoomlaInstallerScript
 			'com_tags',
 			'com_contenthistory',
 			'com_ajax',
-			'com_postinstall'
+			'com_postinstall',
+			'com_fields',
 		);
 
 		foreach ($newComponents as $component)

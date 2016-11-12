@@ -41,12 +41,8 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
         // force the cloak JS inline so that we can unit test it easier than messing with script head in document
         JFactory::getApplication()->input->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
 
-        /**
-         * Create a mock dispatcher instance
-         *
-         * @var $dispatcher Mock_JEventDispatcher_f5646d4b e.g
-         */
-        $dispatcher = TestCaseDatabase::getMockDispatcher();
+        // Create a mock dispatcher instance
+        $dispatcher = $this->getMockDispatcher();
 
         $plugin = array(
             'name'   => 'emailcloak',
@@ -270,7 +266,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 
         } else {
 
-            // ok we never cloaked a email but lets ensure we did not screw up the article text anyway!
+            // ok we never cloaked an email but lets ensure we did not screw up the article text anyway!
             $this->assertEquals($expectedHTML, $row->text);
 
         }

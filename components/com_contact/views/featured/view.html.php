@@ -67,9 +67,7 @@ class ContactViewFeatured extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseWarning(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Prepare the data.
@@ -78,9 +76,7 @@ class ContactViewFeatured extends JViewLegacy
 		{
 			$item       = &$items[$i];
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp       = new Registry;
-
-			$temp->loadString($item->params);
+			$temp       = new Registry($item->params);
 			$item->params = clone $params;
 			$item->params->merge($temp);
 

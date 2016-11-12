@@ -111,6 +111,12 @@ class JViewCategory extends JViewLegacy
 		$params = $app->getParams();
 
 		// Get some data from the models
+		$model       = $this->getModel();
+		$paramsModel = $model->getState('params');
+
+		$paramsModel->set('check_access_rights', 0);
+		$model->setState('params', $paramsModel);
+
 		$state      = $this->get('State');
 		$category   = $this->get('Category');
 		$children   = $this->get('Children');
@@ -126,23 +132,21 @@ class JViewCategory extends JViewLegacy
 			throw new InvalidArgumentException(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
-		$items      = $this->get('Items');
-		$pagination = $this->get('Pagination');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
-		}
-
 		// Check whether category access level allows access.
 		$groups = $user->getAuthorisedViewLevels();
 
 		if (!in_array($category->access, $groups))
 		{
 			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
+		$items      = $this->get('Items');
+		$pagination = $this->get('Pagination');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Setup the category parameters.

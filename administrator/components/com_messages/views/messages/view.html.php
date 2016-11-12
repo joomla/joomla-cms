@@ -42,8 +42,7 @@ class MessagesViewMessages extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -77,7 +76,7 @@ class MessagesViewMessages extends JViewLegacy
 		}
 
 		JToolbarHelper::divider();
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 		$bar->appendButton(
 			'Popup',
 			'cog',

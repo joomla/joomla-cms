@@ -206,9 +206,7 @@ class BannersModelBanners extends JModelList
 
 			foreach ($this->cache['items'] as &$item)
 			{
-				$parameters   = new Registry;
-				$parameters->loadString($item->params);
-				$item->params = $parameters;
+				$item->params = new Registry($item->params);
 			}
 		}
 

@@ -676,6 +676,9 @@ class JMail extends PHPMailer
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
 		$replyTo = null, $replyToName = null)
 	{
+		// Create config object
+		$config = JFactory::getConfig();
+
 		$this->setSubject($subject);
 		$this->setBody($body);
 
@@ -725,6 +728,10 @@ class JMail extends PHPMailer
 			{
 				return false;
 			}
+		}
+		elseif ($config->get('replyto'))
+		{
+			$this->addReplyTo($config->get('replyto'), $config->get('replytoname'));
 		}
 
 		// Add sender to replyTo only if no replyTo received

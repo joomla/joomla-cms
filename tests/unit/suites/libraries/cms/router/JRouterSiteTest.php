@@ -18,7 +18,7 @@ jimport('cms.router.router');
  * @group       Router
  * @since       3.0
  */
-class JRouterSiteTest extends TestCase
+class JRouterSiteTest extends TestCaseDatabase
 {
 	/**
 	 * Backup of the $_SERVER variable
@@ -27,6 +27,22 @@ class JRouterSiteTest extends TestCase
 	 * @since  3.4
 	 */
 	private $server;
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 *
+	 * @since   3.2
+	 */
+	protected function getDataSet()
+	{
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
+
+		return $dataSet;
+	}
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -197,7 +213,7 @@ class JRouterSiteTest extends TestCase
 	 * @param   string  $url          An associative array with variables
 	 * @param   array   $server       An associative array with $_SERVER vars
 	 * @param   string  $expectedUris Expected URI string
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider  casesParseInit
@@ -613,7 +629,7 @@ class JRouterSiteTest extends TestCase
 
 		/**
 		 * Check if a proper router is automatically loaded
-		 * by loading the router of com_content
+		 * by loading the router of com_search
 		 */
 		$this->assertInstanceOf('ContentRouter', $this->object->getComponentRouter('com_content'));
 

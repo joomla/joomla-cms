@@ -9,14 +9,12 @@
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  1.6
  */
-class JFormFieldCategoryParent extends JFormFieldList
+class JFormFieldCategoryParent extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

@@ -341,14 +341,10 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			{
 				$manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
 
-				if (is_file($manifestScriptFile))
-				{
-					// Load the file
-					include_once $manifestScriptFile;
-				}
-
 				// Set the class name
 				$classname = $row->element . 'InstallerScript';
+
+				JLoader::register($classname, $manifestScriptFile);
 
 				if (class_exists($classname))
 				{

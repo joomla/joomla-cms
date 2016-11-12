@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Token class for the Search indexer package.
  *
@@ -107,7 +109,7 @@ class SearchIndexerToken
 			$this->numeric = false;
 			$this->common = false;
 			$this->phrase = true;
-			$this->length = JString::strlen($this->term);
+			$this->length = StringHelper::strlen($this->term);
 
 			/*
 			 * Calculate the weight of the token.
@@ -126,7 +128,7 @@ class SearchIndexerToken
 			$this->numeric = (is_numeric($this->term) || (bool) preg_match('#^[0-9,.\-\+]+$#', $this->term));
 			$this->common = $this->numeric ? false : SearchIndexerHelper::isCommon($this->term, $lang);
 			$this->phrase = false;
-			$this->length = JString::strlen($this->term);
+			$this->length = StringHelper::strlen($this->term);
 
 			/*
 			 * Calculate the weight of the token.

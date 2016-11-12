@@ -57,7 +57,7 @@ abstract class SearchIndexerParser
 		}
 
 		// Instantiate the parser.
-		include_once $path;
+		JLoader::register($class, $path);
 		$instances[$format] = new $class;
 
 		return $instances[$format];

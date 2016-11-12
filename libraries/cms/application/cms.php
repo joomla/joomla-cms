@@ -22,7 +22,7 @@ use Joomla\Session\SessionEvent;
  *
  * @since  3.2
  */
-class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
+abstract class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 {
 	use ContainerAwareTrait;
 
@@ -147,7 +147,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new Registry('session'));
+			$session->set('registry', new Registry);
 			$session->set('user', new JUser);
 		}
 
@@ -224,7 +224,6 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 			// Default column/value set
 			$columns = array(
 				$db->quoteName('session_id'),
-				$db->quoteName('client_id'),
 				$db->quoteName('guest'),
 				$db->quoteName('userid'),
 				$db->quoteName('username')
@@ -232,7 +231,6 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 
 			$values = array(
 				$db->quote($session->getId()),
-				(int) $this->getClientId(),
 				(int) $user->guest,
 				(int) $user->id,
 				$db->quote($user->username)
@@ -244,6 +242,12 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 				$columns[] = $db->quoteName('time');
 				$time = $session->isNew() ? time() : $session->get('session.timer.start');
 				$values[]  = (int) $time;
+			}
+
+			if (!$this->get('shared_session', '0'))
+			{
+				$columns[] = $db->quoteName('client_id');
+				$values[] = (int) $this->getClientId();
 			}
 
 			// If the insert failed, exit the application.
@@ -723,10 +727,11 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	 * @return  boolean  True if this application is administrator.
 	 *
 	 * @since   3.2
+	 * @deprecated  Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
-		return $this->getClientId() === 1;
+		return $this->isClient('administrator');
 	}
 
 	/**
@@ -735,10 +740,25 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	 * @return  boolean  True if this application is site.
 	 *
 	 * @since   3.2
+	 * @deprecated  Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
-		return $this->getClientId() === 0;
+		return $this->isClient('site');
+	}
+
+	/**
+	 * Check the client interface by name.
+	 *
+	 * @param   string  $identifier  String identifier for the application interface
+	 *
+	 * @return  boolean  True if this application is of the given type client interface.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isClient($identifier)
+	{
+		return $this->getName() == $identifier;
 	}
 
 	/**
@@ -775,8 +795,6 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	public function login($credentials, $options = array())
 	{
 		// Get the global JAuthentication object.
-		jimport('joomla.user.authentication');
-
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 

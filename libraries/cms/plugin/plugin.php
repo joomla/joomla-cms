@@ -91,8 +91,7 @@ abstract class JPlugin implements DispatcherAwareInterface
 			}
 			else
 			{
-				$this->params = new Registry;
-				$this->params->loadString($config['params']);
+				$this->params = new Registry($config['params']);
 			}
 		}
 

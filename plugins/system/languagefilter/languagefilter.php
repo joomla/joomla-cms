@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Cms\Event\BeforeExecuteEvent;
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
@@ -362,6 +363,13 @@ class PlgSystemLanguageFilter extends JPlugin
 				if ($found)
 				{
 					array_shift($parts);
+
+					// Empty parts array when "index.php" is the only part left.
+					if (count($parts) == 1 && $parts[0] === 'index.php')
+					{
+						$parts = array();
+					}
+
 					$uri->setPath(implode('/', $parts));
 				}
 			}
@@ -531,8 +539,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		if ($this->params->get('automatic_change', '1') == '1' && key_exists('params', $user))
 		{
-			$registry = new Registry;
-			$registry->loadString($user['params']);
+			$registry = new Registry($user['params']);
 			$this->user_lang_code = $registry->get('language');
 
 			if (empty($this->user_lang_code))
@@ -560,8 +567,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		if ($this->params->get('automatic_change', '1') == '1' && key_exists('params', $user) && $success)
 		{
-			$registry = new Registry;
-			$registry->loadString($user['params']);
+			$registry = new Registry($user['params']);
 			$lang_code = $registry->get('language');
 
 			if (empty($lang_code))
@@ -746,7 +752,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			// Load component associations.
 			$option = $this->app->input->get('option');
-			$cName = JString::ucfirst(JString::str_ireplace('com_', '', $option)) . 'HelperAssociation';
+			$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
 			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
 			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))

@@ -74,7 +74,7 @@ class UsersViewNotes extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Get the component HTML helpers
@@ -83,8 +83,7 @@ class UsersViewNotes extends JViewLegacy
 		// Turn parameters into registry objects
 		foreach ($this->items as $item)
 		{
-			$item->cparams = new Registry;
-			$item->cparams->loadString($item->category_params);
+			$item->cparams = new Registry($item->category_params);
 		}
 
 		$this->addToolbar();

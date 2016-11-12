@@ -54,12 +54,10 @@ class TagsViewTag extends JViewLegacy
 		$parent     = $this->get('Parent');
 		$pagination = $this->get('Pagination');
 
-		/*
-		 * // Change to catch
-		 * if (count($errors = $this->get('Errors'))) {
-		 * JError::raiseError(500, implode("\n", $errors));
-		 * return false;
-		 */
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+		}
 
 		// Check whether access level allows access.
 		// @TODO: Should already be computed in $item->params->get('access-view')
@@ -76,8 +74,7 @@ class TagsViewTag extends JViewLegacy
 			// Prepare the data.
 			if (!empty($itemElement))
 			{
-				$temp = new Registry;
-				$temp->loadString($itemElement->params);
+				$temp = new Registry($itemElement->params);
 				$itemElement->params = clone $params;
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);

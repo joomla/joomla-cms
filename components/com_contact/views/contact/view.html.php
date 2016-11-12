@@ -84,9 +84,7 @@ class ContactViewContact extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseWarning(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Check if access is not public
@@ -253,16 +251,29 @@ class ContactViewContact extends JViewLegacy
 			$item->misc = $item->text;
 		}
 
+		$contactUser = null;
+		if ($params->get('show_user_custom_fields') && $item->user_id && $contactUser = JFactory::getUser($item->user_id))
+		{
+			$contactUser->text = '';
+			JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
+
+			if (!isset($contactUser->fields))
+			{
+				$contactUser->fields = array();
+			}
+		}
+
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->contact  = &$item;
-		$this->params   = &$params;
-		$this->return   = &$return;
-		$this->state    = &$state;
-		$this->item     = &$item;
-		$this->user     = &$user;
-		$this->contacts = &$contacts;
+		$this->contact     = &$item;
+		$this->params      = &$params;
+		$this->return      = &$return;
+		$this->state       = &$state;
+		$this->item        = &$item;
+		$this->user        = &$user;
+		$this->contacts    = &$contacts;
+		$this->contactUser = $contactUser;
 
 		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_contact.contact', $this->item->id);

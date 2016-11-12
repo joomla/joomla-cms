@@ -465,8 +465,7 @@ class JEditor implements DispatcherAwareInterface
 			return false;
 		}
 
-		$params = new Registry;
-		$params->loadString($plugin->params);
+		$params = new Registry($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;
 
