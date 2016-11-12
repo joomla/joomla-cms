@@ -772,20 +772,6 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 	}
 
 	/**
-	 * Check the client interface by name.
-	 *
-	 * @param   string  $identifier  String identifier for the application interface
-	 *
-	 * @return  boolean  True if this application is of the given type client interface.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function isClient($identifier)
-	{
-		return $this->getName() == $identifier;
-	}
-
-	/**
 	 * Load the library language files for the application
 	 *
 	 * @return  void
