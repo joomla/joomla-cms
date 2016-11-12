@@ -8082,7 +8082,7 @@ legend {
   color: #626262;
   background: #ebebeb;
   border-top: 1px solid #d4d4d4;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 -15px 15px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 15px -15px 15px rgba(255, 255, 255, 0.6);
   transition: all .5s ease; }
   .status .btn-group {
     margin-top: 5px; }
