@@ -8070,8 +8070,8 @@ th .tooltip-inner {
 }
 #permissions-sliders span[id^="icon_"] {
 	margin-left: 120px;
-    width: 16px;
-    display: inline-block;
+	width: 16px;
+	display: inline-block;
 	margin-right: 0;
 }
 #permissions-sliders .table td {
