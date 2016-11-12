@@ -20,6 +20,7 @@ $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
+$canOrder  = $user->authorise('core.edit.state', 'com_menus');
 $saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
 $menutypeid	= (int) $this->state->get('menutypeid');
 $assoc     = JLanguageAssociations::isEnabled();
@@ -103,7 +104,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 				</th>
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder); ?>
-					<?php if ($saveOrder) :?>
+					<?php if ($canOrder && $saveOrder) : ?>
 						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'items.saveorder'); ?>
 					<?php endif; ?>
 				</th>
