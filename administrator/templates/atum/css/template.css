@@ -8526,6 +8526,7 @@ small, .small {
   background: #fff; }
 
 .content {
+  margin-top: 50px;
   background: #fff; }
 
 .admin.com_modules .js-stools-container-bar .btn-toolbar {
@@ -8542,6 +8543,7 @@ small, .small {
   background: #eaebec; }
 
 .com_cpanel .content {
+  margin-top: 0;
   background: none; }
 
 .com_cpanel .card {

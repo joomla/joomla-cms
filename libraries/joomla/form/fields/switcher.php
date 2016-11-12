@@ -13,10 +13,10 @@ JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
- * Provides radio button inputs
+ * Provides switcher inputs
  *
  * @link   http://www.w3.org/TR/html-markup/command.radio.html#command.radio
- * @since  11.1
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldSwitcher extends JFormFieldList
 {
@@ -37,7 +37,7 @@ class JFormFieldSwitcher extends JFormFieldList
 	protected $layout = 'joomla.form.field.switcher';
 
 	/**
-	 * Method to get the radio button field input markup.
+	 * Method to get the switcher field input markup.
 	 *
 	 * @return  string  The field input markup.
 	 *
