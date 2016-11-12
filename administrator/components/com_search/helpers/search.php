@@ -29,7 +29,26 @@ class SearchHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		// Not required.
+		JHtmlSidebar::addEntry(
+			JText::_('COM_SEARCH_SUBMENU_SEARCHES'),
+			'index.php?option=com_search&view=searches',
+			$vName == 'searches'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_SEARCH_SUBMENU_INDEX'),
+			'index.php?option=com_search&view=index',
+			$vName == 'index'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_SEARCH_SUBMENU_MAPS'),
+			'index.php?option=com_search&view=maps',
+			$vName == 'maps'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_SEARCH_SUBMENU_FILTERS'),
+			'index.php?option=com_search&view=filters',
+			$vName == 'filters'
+		);
 	}
 
 	/**
@@ -284,5 +303,34 @@ class SearchHelper
 				return StringHelper::substr($text, 0, $length);
 			}
 		}
+	}
+
+	/**
+	 * Gets the finder system plugin extension id.
+	 *
+	 * @return  int  The finder system plugin extension id.
+	 *
+	 * @since   3.6.0
+	 */
+	public static function getFinderPluginId()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('content'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('finder'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $result;
 	}
 }

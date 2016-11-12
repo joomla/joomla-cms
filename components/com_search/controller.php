@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('SearchHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_search/helpers/lang.php');
+
 /**
  * Search Component Controller
  *
@@ -26,12 +28,30 @@ class SearchController extends JControllerLegacy
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
-		// Force it to be the search view
-		$this->input->set('view', 'search');
+		$input = JFactory::getApplication()->input;
+		$cachable = true;
 
-		return parent::display($cachable, $urlparams);
+		// Load plugin language files.
+		SearchHelperLanguage::loadPluginLanguage();
+
+		// Set the default view name and format from the Request.
+		$viewName = $input->get('view', 'search', 'word');
+		$input->set('view', $viewName);
+
+		// Don't cache view for search queries
+		if ($input->get('q', null, 'string') || $input->get('f', null, 'int') || $input->get('t', null, 'array'))
+		{
+			$cachable = false;
+		}
+
+		$safeurlparams = array(
+			'f'    => 'INT',
+			'lang' => 'CMD'
+		);
+
+		return parent::display($cachable, $safeurlparams);
 	}
 
 	/**
