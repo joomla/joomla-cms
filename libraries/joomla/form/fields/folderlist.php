@@ -198,6 +198,9 @@ class JFormFieldFolderList extends JFormAbstractlist
 			$options[] = JHtml::_('select.option', '', JText::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
 		}
 
+		// Clean the $path contents
+		$path = JPath::clean($path);
+
 		// Get a list of folders in the search path with the given filter.
 		$folders = JFolder::folders($path, $this->filter, $this->recursive, true);
 
