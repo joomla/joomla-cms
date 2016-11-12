@@ -16,6 +16,8 @@ defined('_JEXEC') or die;
  */
 abstract class SearchIndexerParser
 {
+	protected $tokenizer;
+
 	/**
 	 * Method to get a parser, creating it if necessary.
 	 *
@@ -61,6 +63,11 @@ abstract class SearchIndexerParser
 		return $instances[$format];
 	}
 
+	public function setTokenizer($tokenizer)
+	{
+		$this->tokenizer = $tokenizer;
+	}
+
 	/**
 	 * Method to parse input and extract the plain text. Because this method is
 	 * called from both inside and outside the indexer, it needs to be able to
@@ -75,54 +82,21 @@ abstract class SearchIndexerParser
 	 */
 	public function parse($input)
 	{
-		$return = null;
-
-		// Parse the input in batches if bigger than 2KB.
-		if (strlen($input) > 2048)
+		$stopwords = $this->tokenizer->getStopWords();
+		$words = $this->tokenizer->tokenize($input);
+		$words = array_diff($words, $stopwords);
+		$newindex = array_count_values($words);
+		$result = array();
+		foreach ($newindex as $word => $count)
 		{
-			$start = 0;
-			$end = strlen($input);
-			$chunk = 2048;
-
-			while ($start < $end)
+			$stemmed = $this->tokenizer->stem($word);
+			if (!isset($result[$stemmed]))
 			{
-				// Setup the string.
-				$string = substr($input, $start, $chunk);
-
-				// Find the last space character if we aren't at the end.
-				$ls = (($start + $chunk) < $end ? strrpos($string, ' ') : false);
-
-				// Truncate to the last space character.
-				if ($ls !== false)
-				{
-					$string = substr($string, 0, $ls);
-				}
-
-				// Adjust the start position for the next iteration.
-				$start += ($ls !== false ? ($ls + 1 - $chunk) + $chunk : $chunk);
-
-				// Parse the chunk.
-				$return .= $this->process($string);
+				$result[$stemmed] = 0;
 			}
-		}
-		// The input is less than 2KB so we can parse it efficiently.
-		else
-		{
-			// Parse the chunk.
-			$return .= $this->process($input);
+			$result[$stemmed] += $count;
 		}
 
-		return $return;
+		return $result;
 	}
-
-	/**
-	 * Method to process input and extract the plain text.
-	 *
-	 * @param   string  $input  The input to process.
-	 *
-	 * @return  string  The plain text input.
-	 *
-	 * @since   2.5
-	 */
-	abstract protected function process($input);
 }

@@ -15,6 +15,8 @@ defined('_JEXEC') or die;
  */
 class SearchLanguage
 {
+	protected $stopwords = array();
+
 	protected static $instances = array();
 
 	/**
@@ -48,6 +50,29 @@ class SearchLanguage
 		}
 
 		return false;
+	}
+
+	public function getStopWords($lowercase = true)
+	{
+		if ($lowercase)
+		{
+			return array_map('strtolower', $this->stopwords);
+		}
+
+		return $this->stopwords;
+	}
+
+	public function addStopWord($word)
+	{
+		$this->stopwords[] = $word;
+	}
+
+	public function removeStopWord($word)
+	{
+		if (in_array($word, $this->stopwords))
+		{
+			unset($this->stopwords[array_search($word, $this->stopwords)]);
+		}
 	}
 
 	public function tokenize($string)

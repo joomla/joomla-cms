@@ -69,21 +69,6 @@ class SearchIndexerParserHtml extends SearchIndexerParser
 	}
 
 	/**
-	 * Method to process HTML input and extract the plain text.
-	 *
-	 * @param   string  $input  The input to process.
-	 *
-	 * @return  string  The plain text input.
-	 *
-	 * @since   2.5
-	 */
-	protected function process($input)
-	{
-		// Replace any amount of white space with a single space.
-		return preg_replace('#\s+#u', ' ', $input);
-	}
-
-	/**
 	 * Method to remove blocks of text between a start and an end tag.
 	 * Each block removed is effectively replaced by a single space.
 	 *
