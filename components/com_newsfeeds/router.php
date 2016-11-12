@@ -41,19 +41,8 @@ class NewsfeedsRouter extends JComponentRouterView
 		parent::__construct($app, $menu);
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
-
-		$params = JComponentHelper::getParams('com_content');
-
-		if ($params->get('sef_advanced', 0))
-		{
-			$this->attachRule(new JComponentRouterRulesStandard($this));
-			$this->attachRule(new JComponentRouterRulesNomenu($this));
-		}
-		else
-		{
-			JLoader::register('NewsfeedsRouterRulesLegacy', __DIR__ . '/helpers/legacyrouter.php');
-			$this->attachRule(new NewsfeedsRouterRulesLegacy($this));
-		}
+		$this->attachRule(new JComponentRouterRulesStandard($this));
+		$this->attachRule(new JComponentRouterRulesNomenu($this));
 	}
 
 	/**
@@ -209,41 +198,4 @@ class NewsfeedsRouter extends JComponentRouterView
 
 		return (int) $segment;
 	}
-}
-
-/**
- * newsfeedsBuildRoute
- *
- * These functions are proxys for the new router interface
- * for old SEF extensions.
- *
- * @param   array  &$query  The segments of the URL to parse.
- *
- * @return array
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function newsfeedsBuildRoute(&$query)
-{
-	$app = JFactory::getApplication();
-	$router = new NewsfeedsRouter($app, $app->getMenu());
-
-	return $router->build($query);
-}
-
-/**
- * newsfeedsParseRoute
- *
- * @param   array  $segments  The segments of the URL to parse.
- *
- * @return array
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function newsfeedsParseRoute($segments)
-{
-	$app = JFactory::getApplication();
-	$router = new NewsfeedsRouter($app, $app->getMenu());
-
-	return $router->parse($segments);
 }

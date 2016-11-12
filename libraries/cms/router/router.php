@@ -139,6 +139,13 @@ class JRouter
 		// Do the postprocess stage of the URL parse process
 		$this->processParseRules($uri, self::PROCESS_AFTER);
 
+		// Check if all parts of the URL have been parsed.
+		// Otherwise we have an invalid URL
+		if (strlen($uri->getPath()) > 0)
+		{
+			throw new Exception('URL invalid', 404);
+		}
+
 		if ($setVars)
 		{
 			$this->setVars($uri->getQuery(true));
