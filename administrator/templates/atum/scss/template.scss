@@ -195,6 +195,42 @@ small, .small {
   }
 }
 
+// Alerts
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  } to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.notify-alerts {
+  position: fixed;
+  right: 15px;
+  bottom: 35px;
+  z-index: 1031;
+  .alert {
+    width: 100%;
+    min-width: 280px;
+    max-width: 360px;
+    margin-bottom: .5rem;
+    opacity: 0;
+    animation: fadeIn ease-in 1;
+    animation-duration: .35s;
+    animation-delay: 0s;
+    animation-fill-mode: forwards;
+    &:first-of-type {
+      animation-delay: .3s;
+    }
+  }
+  .alert-heading {
+    display: none;
+  }
+  .close {
+    opacity: 1;
+  }
+}
 
 // Stats
 .js-pstats-data-details {

@@ -7,6 +7,12 @@ $atum-card-title-bg:               #f5f5f5;
 $white:                            #fff;
 $grey:                             #aaa;
 
+$brand-primary:             #0275d8 !default;
+$brand-success:             #5cb85c !default;
+$brand-info:                #5bc0de !default;
+$brand-warning:             #f0ad4e !default;
+$brand-danger:              #d9534f !default;
+
 // Menu Toggle
 $atum-button-width:                40px;
 $atum-button-height:               50px;
@@ -29,6 +35,23 @@ $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts"
 
 // Cards
 $card-border-color:                rgba(0,0,0,.17);
+
+// Alerts
+$state-success-text:             #fff !default;
+$state-success-bg:               $brand-success !default;
+$state-success-border:           darken($brand-success, 5%) !default;
+
+$state-info-text:                #fff !default;
+$state-info-bg:                  $brand-info !default;
+$state-info-border:              darken($brand-info, 7%) !default;
+
+$state-warning-text:             #fff !default;
+$state-warning-bg:               $brand-warning !default;
+$state-warning-border:           darken($brand-warning, 5%) !default;
+
+$state-danger-text:              #fff !default;
+$state-danger-bg:                $brand-danger !default;
+$state-danger-border:            darken($brand-danger, 5%) !default;
 
 // Switchers
 $switcher-color-success:           rgb(100, 189, 99);

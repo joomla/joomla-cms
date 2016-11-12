@@ -139,7 +139,6 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 						<?php else : ?>
 						<div class="col-md-12">
 							<?php endif; ?>
-							<jdoc:include type="message" />
 							<jdoc:include type="component" />
 						</div>
 					</div>
@@ -177,6 +176,10 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 
 		<jdoc:include type="modules" name="debug" style="none" />
 
+	</div>
+
+	<div class="notify-alerts">
+		<jdoc:include type="message" />
 	</div>
 
 </body>
