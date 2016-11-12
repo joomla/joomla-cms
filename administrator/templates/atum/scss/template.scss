@@ -224,10 +224,8 @@ small, .small {
       animation-delay: .3s;
     }
   }
-  .alert-heading {
-    display: none;
-  }
   .close {
+    line-height: 1rem;
     opacity: 1;
   }
 }
