@@ -210,10 +210,11 @@ small, .small {
   right: 15px;
   bottom: 35px;
   z-index: 1031;
+  transition: all .5s ease;
   .alert {
     width: 100%;
     min-width: 280px;
-    max-width: 360px;
+    max-width: 400px;
     margin-bottom: .5rem;
     opacity: 0;
     animation: fadeIn ease-in 1;
@@ -224,16 +225,29 @@ small, .small {
       animation-delay: .3s;
     }
   }
+  &.fullWidth {
+    left: 265px;
+    .alert {
+      width: auto;
+      min-width: none;
+      max-width: none;
+      margin-left: 0;
+    }
+  }
   .close {
     line-height: 1rem;
     opacity: 1;
+  }
+}
+.closed {
+  + .notify-alerts.fullWidth {
+    left: 70px;
   }
 }
 
 // Stats
 .js-pstats-data-details {
   margin-top: 10px;
-
   dd {
     margin-bottom: .2rem;
   }
