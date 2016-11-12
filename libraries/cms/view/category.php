@@ -148,7 +148,6 @@ class JViewCategory extends JViewLegacy
 			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-<<<<<<< HEAD:libraries/cms/view/category.php
 		$items      = $this->get('Items');
 		$pagination = $this->get('Pagination');
 
@@ -158,8 +157,6 @@ class JViewCategory extends JViewLegacy
 			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-=======
->>>>>>> 88bffd1810b1f0092427fd39fbf4f658ec86d7f1:libraries/legacy/view/category.php
 		// Setup the category parameters.
 		$cparams          = $category->getParams();
 		$category->params = clone $params;
