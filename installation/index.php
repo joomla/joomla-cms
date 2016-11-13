@@ -25,8 +25,5 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
  */
 define('_JEXEC', 1);
 
-// Bootstrap the application
-require_once dirname(__FILE__) . '/application/bootstrap.php';
-
-// Instantiate and execute the application
-JFactory::getApplication('web', array(), 'InstallationApplication')->execute();
+// Run the application - All executable code should be triggered through this file
+require_once dirname(__FILE__) . '/app.php';
