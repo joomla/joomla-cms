@@ -37,25 +37,34 @@ var Installation = function(_container, _base) {
         Joomla.loadingLayer("show");
         busy = true;
         Joomla.removeMessages();
-        var data = 'format: json&' + $form.serialize();
+        var data = $form.serialize();
 
         $.ajax({
-            type : "POST",
-            url : baseUrl,
-            data : data,
-            dataType : 'json'
-        }).done(function(r) {
+            type: "POST",
+            url: baseUrl,
+            data: data,
+            dataType: 'json'
+        }).done(function (r) {
             Joomla.replaceTokens(r.token);
+
             if (r.messages) {
                 Joomla.renderMessages(r.messages);
             }
-            var lang = $('html').attr('lang');
-            if (r.lang !== null && lang.toLowerCase() === r.lang.toLowerCase()) {
-                Install.goToPage(r.data.view, true);
+
+            if (r.error) {
+                Joomla.renderMessages({'error': [r.message]});
+                Joomla.loadingLayer("hide");
+                busy = false;
             } else {
-                window.location = baseUrl + '?view=' + r.data.view;
+                var lang = $('html').attr('lang');
+
+                if (r.lang !== null && lang.toLowerCase() === r.lang.toLowerCase()) {
+                    Install.goToPage(r.data.view, true);
+                } else {
+                    window.location = baseUrl + '?view=' + r.data.view;
+                }
             }
-        }).fail(function(xhr) {
+        }).fail(function (xhr) {
             Joomla.loadingLayer("hide");
             busy = false;
             try {
@@ -85,25 +94,34 @@ var Installation = function(_container, _base) {
         Joomla.loadingLayer("show");
         busy = true;
         Joomla.removeMessages();
-        var data = 'format: json&' + $form.serialize();
+        var data = $form.serialize();
 
         $.ajax({
-            type : "POST",
-            url : baseUrl,
-            data : data,
-            dataType : 'json'
-        }).done(function(r) {
+            type: "POST",
+            url: baseUrl,
+            data: data,
+            dataType: 'json'
+        }).done(function (r) {
             Joomla.replaceTokens(r.token);
+
             if (r.messages) {
                 Joomla.renderMessages(r.messages);
             }
-            var lang = $('html').attr('lang');
-            if (lang.toLowerCase() === r.lang.toLowerCase()) {
-                Install.goToPage(r.data.view, true);
+
+            if (r.error) {
+                Joomla.renderMessages({'error': [r.message]});
+                Joomla.loadingLayer("hide");
+                busy = false;
             } else {
-                window.location = baseUrl + '?view=' + r.data.view;
+                var lang = $('html').attr('lang');
+
+                if (lang.toLowerCase() === r.lang.toLowerCase()) {
+                    Install.goToPage(r.data.view, true);
+                } else {
+                    window.location = baseUrl + '?view=' + r.data.view;
+                }
             }
-        }).fail(function(xhr) {
+        }).fail(function (xhr) {
             Joomla.loadingLayer("hide");
             busy = false;
             try {

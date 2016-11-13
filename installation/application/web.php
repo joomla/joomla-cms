@@ -161,56 +161,33 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	public function dispatch()
 	{
-		try
+		// Load the document to the API.
+		$this->loadDocument();
+
+		// Set up the params
+		$document = $this->getDocument();
+
+		// Register the document object with JFactory.
+		JFactory::$document = $document;
+
+		// Define component path.
+		define('JPATH_COMPONENT', JPATH_BASE);
+		define('JPATH_COMPONENT_SITE', JPATH_SITE);
+		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
+
+		// Execute the task.
+		$this->fetchController($this->input->getCmd('task'))->execute();
+
+		// If debug language is set, append its output to the contents.
+		if ($this->config->get('debug_lang'))
 		{
-			// Load the document to the API.
-			$this->loadDocument();
-
-			// Set up the params
-			$document = $this->getDocument();
-
-			// Register the document object with JFactory.
-			JFactory::$document = $document;
-
-			if ($document->getType() == 'html')
-			{
-				// Set metadata
-				$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
-			}
-
-			// Define component path.
-			define('JPATH_COMPONENT', JPATH_BASE);
-			define('JPATH_COMPONENT_SITE', JPATH_SITE);
-			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
-
-			// Execute the task.
-			try
-			{
-				$controller = $this->fetchController($this->input->getCmd('task'));
-				$contents   = $controller->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				echo $e->getMessage();
-				$this->close($e->getCode());
-			}
-
-			// If debug language is set, append its output to the contents.
-			if ($this->config->get('debug_lang'))
-			{
-				$contents .= $this->debugLanguage();
-			}
+			$contents = $document->getBuffer('component');
+			$contents .= $this->debugLanguage();
 
 			$document->setBuffer($contents, 'component');
-			$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
 		}
 
-		// Mop up any uncaught exceptions.
-		catch (Exception $e)
-		{
-			echo $e->getMessage();
-			$this->close($e->getCode());
-		}
+		$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
 	}
 
 	/**
