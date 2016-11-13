@@ -629,7 +629,7 @@ class JRouterSiteTest extends TestCaseDatabase
 
 		/**
 		 * Check if a proper router is automatically loaded
-		 * by loading the router of com_search
+		 * by loading the router of com_content
 		 */
 		$this->assertInstanceOf('ContentRouter', $this->object->getComponentRouter('com_content'));
 

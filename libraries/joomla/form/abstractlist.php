@@ -17,7 +17,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormAbstractlist extends JFormField
 {
-
 	/**
 	 * Method to get the field input markup for a generic list.
 	 * Use the multiple attribute to enable multiselect.
@@ -119,7 +118,7 @@ abstract class JFormAbstractlist extends JFormField
 			}
 
 			$value = (string) $option['value'];
-			$text  = trim((string) $option) ? trim((string) $option) : $value;
+			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
@@ -146,6 +145,60 @@ abstract class JFormAbstractlist extends JFormField
 
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
+		}
+
+		if ($this->element['useglobal'])
+		{
+			$tmp        = new stdClass;
+			$tmp->value = '';
+			$tmp->text  = JText::_('JGLOBAL_USE_GLOBAL');
+			$component  = JFactory::getApplication()->input->getCmd('option');
+
+			// Get correct component for menu items
+			if ($component == 'com_menus')
+			{
+				$link      = $this->form->getData()->get('link');
+				$uri       = new JUri($link);
+				$component = $uri->getVar('option', 'com_menus');
+			}
+
+			$params = JComponentHelper::getParams($component);
+			$value  = $params->get($this->fieldname);
+
+			// Try with global configuration
+			if (is_null($value))
+			{
+				$value = JFactory::getConfig()->get($this->fieldname);
+			}
+
+			// Try with menu configuration
+			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
+			{
+				$value = JComponentHelper::getParams('com_menus')->get($this->fieldname);
+			}
+
+			if (!is_null($value))
+			{
+				$value = (string) $value;
+
+				foreach ($options as $option)
+				{
+					if ($option->value === $value)
+					{
+						$value = $option->text;
+
+						break;
+					}
+				}
+
+				$tmp->text = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
+			}
+			else
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('JGLOBAL_USE_GLOBAL_VALUE_NOT_FOUND'), 'notice');
+			}
+
+			array_unshift($options, $tmp);
 		}
 
 		reset($options);
@@ -175,9 +228,9 @@ abstract class JFormAbstractlist extends JFormField
 
 		if (isset($options->name))
 		{
-			foreach ($options->name as $index => $key)
+			foreach ($options->value as $index => $key)
 			{
-				$data[$key] = $options->value[$index];
+				$data[$key] = $options->name[$index];
 			}
 		}
 

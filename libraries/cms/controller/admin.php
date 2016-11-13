@@ -212,6 +212,7 @@ class JControllerAdmin extends JControllerLegacy
 			{
 				$model->publish($cid, $value);
 				$errors = $model->getErrors();
+				$ntext = null;
 
 				if ($value == 1)
 				{
@@ -238,7 +239,10 @@ class JControllerAdmin extends JControllerLegacy
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
-				$this->setMessage(JText::plural($ntext, count($cid)));
+				if ($ntext !== null)
+				{
+					$this->setMessage(JText::plural($ntext, count($cid)));
+				}
 			}
 			catch (Exception $e)
 			{

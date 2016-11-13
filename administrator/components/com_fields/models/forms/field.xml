@@ -53,7 +53,7 @@
 			size="40"
 			required="true"
 		/>
-		
+
 		<field
 			name="alias"
 			type="text"
@@ -62,7 +62,7 @@
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="45"
 		/>
-	
+
 		<field
 			name="type"
 			type="type"
@@ -86,13 +86,12 @@
 
 		<field
 			name="default_value"
-			type="textarea"
+			type="text"
 			filter="raw"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
 			description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
-			size="40"
 		/>
-	
+
 		<field
 			name="state"
 			type="list"
@@ -114,7 +113,7 @@
 			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
 			type="spacer"
 		/>
-	
+
 		<field
 			name="checked_out"
 			type="hidden"
@@ -126,7 +125,7 @@
 			type="hidden"
 			filter="unset"
 		/>
-	
+
 		<field
 			name="created_user_id"
 			type="user"
@@ -144,7 +143,7 @@
 		/>
 
 		<field
-			name="modified_user_id"
+			name="modified_by"
 			type="user"
 			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
 			class="readonly"
@@ -160,16 +159,6 @@
 			filter="unset"
 			readonly="true"
 		/>
-	
-		<field
-			name="hits"
-			type="text"
-			default="0"
-			label="JGLOBAL_HITS"
-			description="COM_FIELDS_FIELD_HITS_DESC"
-			class="readonly"
-			readonly="true"
-		/>
 
 		<field
 			name="language"
@@ -181,21 +170,21 @@
 		</field>
 
 		<field
-			name="version_note"
-			type="text"
-			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
-			class="span12"
-			size="45"
-		/>
-
-		<field
 			name="note"
 			type="text"
 			label="COM_FIELDS_FIELD_NOTE_LABEL"
 			description="COM_FIELDS_FIELD_NOTE_DESC"
 			class="span12"
 			size="40"
+		/>
+
+		<field
+			name="label"
+			type="text"
+			label="COM_FIELDS_FIELD_LABEL_LABEL"
+			description="COM_FIELDS_FIELD_LABEL_DESC"
+			size="40"
+			required="true"
 		/>
 
 		<field
@@ -236,16 +225,6 @@
 	</fieldset>
 	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="basic">
-			<field
-				name="label"
-				type="text"
-				label="COM_FIELDS_FIELD_LABEL_LABEL"
-				description="COM_FIELDS_FIELD_LABEL_DESC"
-				class="input-xxlarge"
-				size="40"
-				required="true"
-			/>
-
 			<field
 				name="hint"
 				type="text"

@@ -50,6 +50,13 @@ class JHelperContent
 			$assetName .=  '.' . $section . '.' . (int) $id;
 		}
 
+		$assetName = $component;
+
+		if ($section && $id)
+		{
+			$assetName .=  '.' . $section . '.' . (int) $id;
+		}
+
 		$result = new JObject;
 
 		$user = JFactory::getUser();

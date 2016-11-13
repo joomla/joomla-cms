@@ -132,7 +132,12 @@ class JAdapter extends JObject
 
 		$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
 
-		// Assemble the class name for the requested adapter
+		if (!file_exists($fullpath))
+		{
+			return false;
+		}
+
+		// Try to load the adapter object
 		$class = $this->_classprefix . ucfirst($name);
 
 		JLoader::register($class, $fullpath);
