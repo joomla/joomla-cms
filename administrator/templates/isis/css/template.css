@@ -8463,6 +8463,12 @@ body.modal-open {
 .subhead {
 	text-shadow: none;
 }
+#imageForm {
+	margin: -25px 0 0;
+}
+#imageForm .well {
+	margin-bottom: 5px;
+}
 .thumbnails {
 	margin-left: 0;
 }
