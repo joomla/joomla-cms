@@ -329,8 +329,7 @@ class JAuthentication extends JObject
 		JPluginHelper::importPlugin('user');
 
 		JPluginHelper::importPlugin('authentication');
-		$dispatcher = JEventDispatcher::getInstance();
-		$results = $dispatcher->trigger('onUserAuthorisation', array($response, $options));
+		$results = JFactory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
 
 		return $results;
 	}
