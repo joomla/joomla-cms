@@ -214,3 +214,51 @@ fieldset {
 textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
 }
+
+#jform_activateMultilanguage .btn-danger:hover,
+#jform_activateMultilanguage .btn-danger:focus,
+#jform_activateMultilanguage .btn-danger:active,
+#jform_activateMultilanguage .btn-danger.active,
+#jform_activateMultilanguage .btn-danger.disabled,
+#jform_activateMultilanguage .btn-danger[disabled],
+#jform_activateMultilanguage .btn-success:hover,
+#jform_activateMultilanguage .btn-success:focus,
+#jform_activateMultilanguage .btn-success:active,
+#jform_activateMultilanguage .btn-success.active,
+#jform_activateMultilanguage .btn-success.disabled,
+#jform_activateMultilanguage .btn-success[disabled] {
+	background-color: #72afef;
+	color: #fff;
+}
+
+#jform_installLocalisedContent .btn-danger:hover,
+#jform_installLocalisedContent .btn-danger:focus,
+#jform_installLocalisedContent .btn-danger:active,
+#jform_installLocalisedContent .btn-danger.active,
+#jform_installLocalisedContent .btn-danger.disabled,
+#jform_installLocalisedContent .btn-danger[disabled],
+#jform_installLocalisedContent .btn-success:hover,
+#jform_installLocalisedContent .btn-success:focus,
+#jform_installLocalisedContent .btn-success:active,
+#jform_installLocalisedContent .btn-success.active,
+#jform_installLocalisedContent .btn-success.disabled,
+#jform_installLocalisedContent .btn-success[disabled] {
+	background-color: #72afef;
+	color: #fff;
+}
+
+#jform_activatePluginLanguageCode .btn-danger:hover,
+#jform_activatePluginLanguageCode .btn-danger:focus,
+#jform_activatePluginLanguageCode .btn-danger:active,
+#jform_activatePluginLanguageCode .btn-danger.active,
+#jform_activatePluginLanguageCode .btn-danger.disabled,
+#jform_activatePluginLanguageCode .btn-danger[disabled],
+#jform_activatePluginLanguageCode .btn-success:hover,
+#jform_activatePluginLanguageCode .btn-success:focus,
+#jform_activatePluginLanguageCode .btn-success:active,
+#jform_activatePluginLanguageCode .btn-success.active,
+#jform_activatePluginLanguageCode .btn-success.disabled,
+#jform_activatePluginLanguageCode .btn-success[disabled] {
+	background-color: #72afef;
+	color: #fff;
+}
