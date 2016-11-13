@@ -19,15 +19,9 @@ use Joomla\Image\Image;
 class JImage extends Image
 {
 	/**
-	 * @var    boolean  True for best quality. False for speed
+	 * True for best quality. False for speed
 	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $generateBestQuality = true;
-
-	/**
-	 * @var    boolean  True for best quality. False for speed
-	 *
+	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $generateBestQuality = true;
