@@ -22,6 +22,7 @@
 @import "blocks/quickicons";
 @import "blocks/searchtools";
 @import "blocks/sidebar";
+@import "blocks/alerts";
 @import "blocks/status";
 @import "blocks/switcher";
 @import "blocks/table";
@@ -192,56 +193,6 @@ small, .small {
         box-shadow: 1px 0 rgba(0,0,0,.1) inset;
       }
     }
-  }
-}
-
-// Alerts
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  } to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.notify-alerts {
-  position: fixed;
-  right: 15px;
-  bottom: 35px;
-  z-index: 1031;
-  transition: all .5s ease;
-  .alert {
-    width: 100%;
-    min-width: 280px;
-    max-width: 400px;
-    margin-bottom: .5rem;
-    opacity: 0;
-    animation: fadeIn ease-in 1;
-    animation-duration: .35s;
-    animation-delay: 0s;
-    animation-fill-mode: forwards;
-    &:first-of-type {
-      animation-delay: .3s;
-    }
-  }
-  &.fullWidth {
-    left: 265px;
-    .alert {
-      width: auto;
-      min-width: none;
-      max-width: none;
-      margin-left: 0;
-    }
-  }
-  .close {
-    line-height: 1rem;
-    opacity: 1;
-  }
-}
-.closed {
-  + .notify-alerts.fullWidth {
-    left: 70px;
   }
 }
 

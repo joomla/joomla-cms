@@ -8076,6 +8076,46 @@ legend {
   cursor: not-allowed;
   background: none; }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
+
+.notify-alerts {
+  position: fixed;
+  right: 15px;
+  bottom: 35px;
+  z-index: 1031;
+  transition: all .5s ease; }
+  .notify-alerts .alert {
+    width: 100%;
+    min-width: 280px;
+    max-width: 400px;
+    margin-bottom: .5rem;
+    opacity: 0;
+    animation: fadeIn ease-in 1;
+    animation-duration: .35s;
+    animation-delay: 0s;
+    animation-fill-mode: forwards; }
+    .notify-alerts .alert:first-of-type {
+      animation-delay: .3s; }
+  .notify-alerts.fullWidth {
+    left: 265px; }
+    .notify-alerts.fullWidth .alert {
+      width: auto;
+      min-width: none;
+      max-width: none;
+      margin-left: 0; }
+  .notify-alerts .close {
+    line-height: 1rem;
+    opacity: 1; }
+
+.closed + .notify-alerts.fullWidth {
+  left: 70px; }
+
 .status {
   padding: 2px 10px 4px;
   margin-left: 250px;
@@ -8553,46 +8593,6 @@ small, .small {
       background-color: #f0f0f0;
       border-left-color: transparent;
       box-shadow: 1px 0 rgba(0, 0, 0, 0.1) inset; }
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px); }
-  to {
-    opacity: 1;
-    transform: translateY(0); } }
-
-.notify-alerts {
-  position: fixed;
-  right: 15px;
-  bottom: 35px;
-  z-index: 1031;
-  transition: all .5s ease; }
-  .notify-alerts .alert {
-    width: 100%;
-    min-width: 280px;
-    max-width: 400px;
-    margin-bottom: .5rem;
-    opacity: 0;
-    animation: fadeIn ease-in 1;
-    animation-duration: .35s;
-    animation-delay: 0s;
-    animation-fill-mode: forwards; }
-    .notify-alerts .alert:first-of-type {
-      animation-delay: .3s; }
-  .notify-alerts.fullWidth {
-    left: 265px; }
-    .notify-alerts.fullWidth .alert {
-      width: auto;
-      min-width: none;
-      max-width: none;
-      margin-left: 0; }
-  .notify-alerts .close {
-    line-height: 1rem;
-    opacity: 1; }
-
-.closed + .notify-alerts.fullWidth {
-  left: 70px; }
 
 .js-pstats-data-details {
   margin-top: 10px; }
