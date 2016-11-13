@@ -16,6 +16,19 @@ require_once __DIR__ . '/application/defines.php';
 // Launch the application
 require_once __DIR__ . '/application/framework.php';
 
+// Check if the default log directory can be written to, add a logger for errors to use it
+if (is_writable(JPATH_ADMINISTRATOR . '/logs'))
+{
+	JLog::addLogger(
+		[
+			'format'    => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
+			'text_file' => 'error.php'
+		],
+		JLog::ALL,
+		['error']
+	);
+}
+
 // Register the Installation application
 JLoader::registerPrefix('Installation', JPATH_INSTALLATION);
 
