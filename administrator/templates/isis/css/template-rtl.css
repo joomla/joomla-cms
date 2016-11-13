@@ -8463,9 +8463,6 @@ body.modal-open {
 .subhead {
 	text-shadow: none;
 }
-iframe#imageframe {
-	height: 240px;
-}
 .thumbnails {
 	margin-left: 0;
 }
