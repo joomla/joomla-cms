@@ -11,8 +11,8 @@
 			>
 				<fieldset hidden="true" name="list_templates_modal" repeat="true">
 					<field
-						name="key"
-						label="JLIB_FORM_FIELD_PARAM_CHECKBOX_MULTIPLE_VALUES_KEY_LABEL"
+						name="name"
+						label="JLIB_FORM_FIELD_PARAM_CHECKBOX_MULTIPLE_VALUES_NAME_LABEL"
 						size="30"
 						type="text"
 					/>

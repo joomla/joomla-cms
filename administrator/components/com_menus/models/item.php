@@ -123,16 +123,10 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
+		$menuTypeId = !empty($record->menutype) ? $this->getMenuTypeId($record->menutype) : 0;
+		$assetKey   = $menuTypeId ? 'com_menus.menu.' . (int) $menuTypeId : 'com_menus';
 
-		$menuTypeId = 0;
-
-		if (!empty($record->menutype))
-		{
-			$menuTypeId = $this->getMenuTypeId($record->menutype);
-		}
-
-		return $user->authorise('core.edit.state', 'com_menus.menu.' . (int) $menuTypeId);
+		return JFactory::getUser()->authorise('core.edit.state', $assetKey);
 	}
 
 	/**
