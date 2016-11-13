@@ -507,7 +507,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		$query->clear()
 			->update($db->quoteName('#__menu'))
 			->set($db->quoteName('template_style_id') . ' = 0')
-			->where($db->quoteName('template_style_id') . ' in (' . $subquery->__toString() . ')');
+			->where($db->quoteName('template_style_id') . ' in (' . (string) $subquery . ')');
 
 		$db->setQuery($query);
 		$db->execute();
