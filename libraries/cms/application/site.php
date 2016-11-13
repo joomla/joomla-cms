@@ -468,7 +468,7 @@ final class JApplicationSite extends JApplicationCms
 			foreach ($templates as &$template)
 			{
 				// Create home element
-				if ($template->home == 1 && !isset($template_home) || $this->_language_filter && $template->home == $tag)
+				if ($template->home == 1 && !isset($template_home) || $this->getLanguageFilter() && $template->home == $tag)
 				{
 					$template_home = clone $template;
 				}
