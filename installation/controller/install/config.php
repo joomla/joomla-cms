@@ -32,23 +32,14 @@ class InstallationControllerInstallConfig extends JControllerBase
 		// Check for request forgeries.
 		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
-		// Get the setup model.
-		$model = new InstallationModelSetup;
-
 		// Get the options from the session
-		$options = $model->getOptions();
-
-		// Get the database model.
-		$configuration = new InstallationModelConfiguration;
-
-		// Attempt to setup the configuration.
-		$return = $configuration->setup($options);
+		$options = (new InstallationModelSetup)->getOptions();
 
 		$r = new stdClass;
 		$r->view = 'complete';
 
-		// Check if the database was initialised
-		if (!$return)
+		// Attempt to setup the configuration.
+		if (!(new InstallationModelConfiguration)->setup($options))
 		{
 			$r->view = 'database';
 		}
