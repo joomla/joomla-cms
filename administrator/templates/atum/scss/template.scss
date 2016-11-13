@@ -75,6 +75,36 @@ small, .small {
   background: $white;
 }
 
+// com_content
+.com_content.view-articles {
+  .container-main {
+    background: #eaebec;
+  }
+  .content {
+    border: 1px solid rgba(0, 0, 0, .17);
+    border-radius: $border-radius;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .075);
+  }
+  .js-stools {
+    padding: 8px 10px 0;
+    background-color: $atum-card-title-bg;
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+    border-radius: $border-radius $border-radius 0 0;
+    box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, .15);
+    .js-stools-container-bar .btn-toolbar {
+      margin-bottom: 8px;
+    }
+    .js-stools-container-filters {
+      margin: 0 0 2px;
+    }
+  }
+  .table thead th {
+    border-bottom-width: 1px;
+  }
+  .pagination {
+    margin: 1rem;
+  }
+}
 
 // com_modules
 .admin.com_modules {
