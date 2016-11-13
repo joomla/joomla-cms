@@ -22,6 +22,7 @@
 	<exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore_finalisation.php</exclude-pattern>
 	<exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
 	<exclude-pattern type="relative">configuration.php</exclude-pattern>
+	<exclude-pattern type="relative">installation/template/error.php</exclude-pattern>
 	<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	<exclude-pattern type="relative">plugins/captcha/recaptcha/recaptchalib.php</exclude-pattern>
 
