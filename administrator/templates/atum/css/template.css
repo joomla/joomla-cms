@@ -8430,6 +8430,13 @@ legend {
 .editor .toggle-editor {
   margin-top: 1rem; }
 
+.editor .mce-tinymce {
+  border: 1px solid rgba(0, 0, 0, 0.17);
+  border-radius: 0.25rem; }
+
+.editor .mce-btn, .editor .mce-panel {
+  background: #f8f8f8; }
+
 html, body {
   font-size: 14px; }
 
