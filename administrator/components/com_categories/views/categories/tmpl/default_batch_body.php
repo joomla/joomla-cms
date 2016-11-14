@@ -14,6 +14,8 @@ $options = array(
 );
 $published = $this->state->get('filter.published');
 $extension = $this->escape($this->state->get('filter.extension'));
+
+JHtml::_('formbehavior.chosen', '.chzn-custom-value');
 ?>
 
 <div class="row">
@@ -36,7 +38,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 					<?php echo JText::_('JLIB_HTML_BATCH_MENU_LABEL'); ?>
 				</label>
 				<div id="batch-choose-action" class="combo controls">
-					<select class="custom-select" name="batch[category_id]" id="batch-category-id">
+					<select class="chzn-custom-value" name="batch[category_id]" id="batch-category-id">
 						<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY') ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
 					</select>
