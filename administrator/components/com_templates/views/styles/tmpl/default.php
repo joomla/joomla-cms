@@ -23,7 +23,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $colSpan = $clientId === 1 ? 5 : 6;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container" class="j-main-container">
+	<div id="j-main-container" class="js-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clear"> </div>
 		<?php if (empty($this->items)) : ?>

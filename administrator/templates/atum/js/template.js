@@ -288,9 +288,9 @@
 		/**
 		 * Add body class if table exists
 		 */
-		if (document.getElementById('j-main-container'))
+		if (document.getElementsByClassName('js-main-container'))
 		{
-		 document.getElementsByTagName('body')[0].classList.add('j-main');
+		    document.body.classList.add('list-view-main');
 		}
 
 	});

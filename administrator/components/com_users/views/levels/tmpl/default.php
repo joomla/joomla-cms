@@ -31,7 +31,7 @@ if ($saveOrder)
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=levels');?>" method="post" id="adminForm" name="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
-	<div id="j-main-container" class="j-main-container">
+	<div id="j-main-container" class="js-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>

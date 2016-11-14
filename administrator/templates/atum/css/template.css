@@ -8477,7 +8477,7 @@ small, .small {
   padding-top: 15px;
   background: #fff; }
 
-.j-main .container-main {
+.list-view-main .container-main {
   background-color: #eaebec; }
 
 .content {
@@ -8485,7 +8485,7 @@ small, .small {
   background: #fff;
   border-radius: 0.25rem; }
 
-.j-main-container {
+.js-main-container {
   border: 1px solid rgba(0, 0, 0, 0.17);
   border-radius: 0.25rem;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
