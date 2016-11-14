@@ -133,7 +133,7 @@ class FieldsHelper
 					$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
 				}
 
-				if (! $field->value)
+				if ($field->value === '' || $field->value === null)
 				{
 					$field->value = $field->default_value;
 				}
