@@ -3,7 +3,7 @@
 // Card
 .card {
   &.card-light {
-    background: #f8f8f8;
+    background: $card-bg-color-light;
   }
   &.card-dark {
     background: linear-gradient(to right, $atum-gradient-outer 0%, $atum-gradient-inner 50%, $atum-gradient-outer 100%);
