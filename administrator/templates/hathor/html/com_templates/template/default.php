@@ -17,8 +17,8 @@ JHtml::_('bootstrap.tooltip');
 $input = JFactory::getApplication()->input;
 if ($this->type == 'image')
 {
-	JHtml::_('script', 'system/jquery.Jcrop.min.js', false, true);
-	JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
+	JHtml::_('script', 'system/jquery.Jcrop.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array('version' => 'auto', 'relative' => true));
 }
 JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($){

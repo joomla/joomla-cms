@@ -39,7 +39,7 @@ class ContactHelper extends JHelperContent
 			$vName == 'categories'
 		);
 
-		if (JComponentHelper::getComponent('com_contact')->params->get('custom_fields_enable', '1'))
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_contact')->get('custom_fields_enable', '1'))
 		{
 			JHtmlSidebar::addEntry(
 				JText::_('JGLOBAL_FIELDS'),
@@ -146,7 +146,7 @@ class ContactHelper extends JHelperContent
 				->where('ct.type_alias =' . $db->q($extension))
 				->join('LEFT', $join)
 				->group('published');
-				
+
 			$db->setQuery($query);
 			$contacts = $db->loadObjectList();
 

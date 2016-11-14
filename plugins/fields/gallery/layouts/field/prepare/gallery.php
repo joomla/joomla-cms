@@ -30,8 +30,8 @@ JHtml::_('jquery.framework');
 $doc = JFactory::getDocument();
 
 // Adding the javascript gallery library
-$doc->addScript('media/plg_fields_gallery/js/fotorama.min.js');
-$doc->addStyleSheet('media/plg_fields_gallery/css/fotorama.min.css');
+JHtml::_('script', 'plg_fields_gallery/fotorama.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'plg_fields_gallery/fotorama.min.css', array('version' => 'auto', 'relative' => true));
 
 $value = (array) $value;
 
