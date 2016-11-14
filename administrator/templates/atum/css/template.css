@@ -8578,3 +8578,6 @@ iframe {
 
 .name:hover {
   background-color: transparent; }
+
+.chzn-container-single {
+  width: auto !important; }
