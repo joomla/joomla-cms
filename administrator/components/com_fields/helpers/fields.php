@@ -472,6 +472,14 @@ class FieldsHelper
 			{
 				$value = $model->getFieldValue($field->id, $field->context, $data->id);
 
+				// Creating the XML form data
+				$type = JFormHelper::loadFieldType($field->type);
+
+				if ($type)
+				{
+					$value = $type->prepareValue($field, $value, $form);
+				}
+
 				if ($value === null)
 				{
 					continue;
