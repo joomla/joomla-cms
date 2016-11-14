@@ -288,7 +288,7 @@
 		/**
 		 * Add body class if table exists
 		 */
-		if (document.getElementsByClassName('js-main-container'))
+		if (document.getElementsByClassName('js-main-container') && document.getElementsByClassName('js-main-container').length > 0)
 		{
 		    document.body.classList.add('list-view-main');
 		}
