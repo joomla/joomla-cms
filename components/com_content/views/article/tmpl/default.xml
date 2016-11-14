@@ -126,8 +126,7 @@
 
 		<field
 			name="show_associations"
-			type="radio"
-			class="btn-group"
+			type="list"
 			label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
 			description="JGLOBAL_SHOW_ASSOCIATIONS_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
