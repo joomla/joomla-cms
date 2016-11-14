@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_cache&view=purge'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div class="j-main-container">
 	<p><?php echo JText::_('COM_CACHE_PURGE_INSTRUCTIONS'); ?></p>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

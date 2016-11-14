@@ -18,7 +18,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div class="j-main-container">
 		<?php
 		// Search tools bar
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));

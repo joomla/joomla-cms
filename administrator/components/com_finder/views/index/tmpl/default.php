@@ -51,7 +51,7 @@ JFactory::getDocument()->addScriptDeclaration('
 ');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<table class="table table-striped">
 			<thead>

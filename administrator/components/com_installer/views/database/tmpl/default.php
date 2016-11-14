@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 <div id="installer-database" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=database');?>" method="post" name="adminForm" id="adminForm">
 
-		<div id="j-main-container">
+		<div class="j-main-container">
 		<?php if ($this->errorCount === 0) : ?>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?>
 		<?php else : ?>

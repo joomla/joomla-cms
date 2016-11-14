@@ -57,7 +57,7 @@ if ($saveOrder)
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_tags&view=tags');?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div class="j-main-container">
 		<?php
 		// Search tools bar
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));

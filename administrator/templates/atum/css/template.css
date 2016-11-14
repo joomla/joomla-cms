@@ -8462,23 +8462,51 @@ small, .small {
 
 .container-main {
   position: relative;
-  min-height: 420px;
+  min-height: calc(100vh - 50px);
   padding-top: 15px;
-  background: #eaebec; }
+  background: #fff; }
+
+.com_content .container-main,
+.com_plugins .container-main,
+.com_languages .container-main,
+.com_banners .container-main,
+.com_contact .container-main,
+.com_checkin .container-main,
+.com_users .container-main,
+.com_menus .container-main,
+.com_menus .container-main,
+.com_redirect .container-main,
+.com_search .container-main,
+.com_finder .container-main,
+.com_tags .container-main,
+.com_templates .container-main {
+  background-color: #eaebec; }
+
+.com_content.layout-edit .container-main,
+.com_plugins.layout-edit .container-main,
+.com_languages.layout-edit .container-main,
+.com_banners.layout-edit .container-main,
+.com_contact.layout-edit .container-main,
+.com_checkin.layout-edit .container-main,
+.com_users.layout-edit .container-main,
+.com_menus.layout-edit .container-main,
+.com_menus.layout-edit .container-main,
+.com_redirect.layout-edit .container-main,
+.com_search.layout-edit .container-main,
+.com_finder.layout-edit .container-main,
+.com_tags.layout-edit .container-main,
+.com_templates.layout-edit .container-main {
+  background-color: #fff; }
 
 .content {
   margin-top: 50px;
   background: #fff;
+  border-radius: 0.25rem; }
+
+.j-main-container {
   border: 1px solid rgba(0, 0, 0, 0.17);
   border-radius: 0.25rem;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
-
-.layout-edit .container-main, .com_config .container-main, .com_cache .container-main, .com_media .container-main, .com_cpanel .container-main, .com_admin .container-main {
-  background: #fff; }
-
-.layout-edit .content, .com_config .content, .com_cache .content, .com_media .content, .com_cpanel .content, .com_admin .content {
-  border: 0;
-  box-shadow: none; }
 
 .admin.com_modules .js-stools-container-bar .btn-toolbar {
   float: left; }

@@ -30,7 +30,7 @@ jQuery(document).ready(function($) {
 ?>
 <div id="installer-languages" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
-		<div id="j-main-container">
+		<div class="j-main-container">
 			<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 			<div class="clearfix"></div>
 			<?php if (empty($this->items)) : ?>

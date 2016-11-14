@@ -765,11 +765,11 @@ HTML;
 				$html .= '<div id="j-sidebar-container" class="span2">' . "\n";
 				$html .= "\t$sidebar\n";
 				$html .= "</div>\n";
-				$html .= '<div id="j-main-container" class="span10">' . "\n";
+				$html .= '<div class="j-main-container" class="span10">' . "\n";
 			}
 			else
 			{
-				$html .= '<div id="j-main-container">' . "\n";
+				$html .= '<div class="j-main-container">' . "\n";
 			}
 
 			// Render header search fields, if the header is enabled

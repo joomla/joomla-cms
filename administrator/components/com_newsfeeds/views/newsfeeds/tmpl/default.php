@@ -30,7 +30,7 @@ if ($saveOrder)
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"></div>
 		<?php if (empty($this->items)) : ?>

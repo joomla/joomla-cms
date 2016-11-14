@@ -26,7 +26,7 @@ if ($saveOrder)
 $colSpan = $clientId === 1 ? 9 : 10;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div class="j-main-container">
 		<?php
 		// Search tools bar and filters
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
