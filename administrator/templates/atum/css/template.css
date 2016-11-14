@@ -7905,9 +7905,29 @@ legend {
   width: 250px;
   height: 100%;
   margin-left: 0;
-  background: linear-gradient(to bottom, #27283a 0%, #163f46 50%, #27283a 100%);
+  background-color: #27283a;
+  background-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
   transition: all .5s ease;
   transform: translateX(-250px); }
+  .sidebar-wrapper::after {
+    position: absolute;
+    bottom: -135px;
+    left: -35px;
+    z-index: -2;
+    font-family: FontAwesome;
+    font-size: 24rem;
+    color: #27283a;
+    content: "\f1aa";
+    transform: rotate(-17deg); }
+  .sidebar-wrapper::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    content: "";
+    box-shadow: inset -3px 0 3px rgba(0, 0, 0, 0.3); }
   @media (min-width: 768px) {
     .sidebar-wrapper {
       left: 250px;
@@ -8037,8 +8057,7 @@ legend {
       display: block;
       color: #fff;
       text-decoration: none;
-      border-top: 1px solid rgba(0, 0, 0, 0.3);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05); }
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px rgba(0, 0, 0, 0.3); }
       .main-nav li a:hover {
         color: #d9d9d9;
         text-decoration: none;
@@ -8046,9 +8065,15 @@ legend {
       .main-nav li a:active, .main-nav li a:focus {
         text-decoration: none;
         outline: 0; }
+    .main-nav li:first-of-type > a {
+      border-top: 1px solid rgba(0, 0, 0, 0.3); }
+    .main-nav li:last-of-type > a {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
     .main-nav li ul li {
       text-indent: 20px; }
   .main-nav .fa {
+    position: relative;
+    top: -2px;
     margin: 0 15px;
     font-size: 20px;
     text-align: center;
