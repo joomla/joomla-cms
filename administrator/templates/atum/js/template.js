@@ -284,5 +284,14 @@
 				}
 			}
 		}
+
+		/**
+		 * Add body class if table exists
+		 */
+		if (document.getElementById('j-main-container'))
+		{
+		 document.getElementsByTagName('body')[0].classList.add('j-main');
+		}
+
 	});
 })();
