@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\String\StringHelper;
 
 $com_path = JPATH_SITE . '/components/com_content/';
-require_once $com_path . 'helpers/route.php';
 
-JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
+JLoader::register('ContentHelperRoute', $com_path . 'helpers/route.php');
+JModelLegacy::addIncludePath($com_path . 'models', 'ContentModel');
 
 /**
  * Helper for mod_articles_category
@@ -251,6 +251,8 @@ abstract class ModArticlesCategoryHelper
 		foreach ($items as &$item)
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
+
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
