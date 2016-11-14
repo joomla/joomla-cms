@@ -63,46 +63,28 @@ small, .small {
   text-transform: uppercase;
 }
 
-
 .container-main {
   position: relative;
   min-height: 420px;
   padding-top: 15px;
-  background: $white;
+  background: #eaebec;
 }
 .content {
   margin-top: 50px;
   background: $white;
+  border: 1px solid rgba(0, 0, 0, .17);
+  border-radius: $border-radius;
+  box-shadow: 0 0 3px rgba(0, 0, 0, .075);
 }
 
-// com_content
-.com_content.view-articles {
+// NonTable view areas
+.layout-edit, .com_config, .com_cache, .com_media, .com_cpanel, .com_admin {
   .container-main {
-    background: #eaebec;
+    background: $white;
   }
   .content {
-    border: 1px solid rgba(0, 0, 0, .17);
-    border-radius: $border-radius;
-    box-shadow: 0 0 3px rgba(0, 0, 0, .075);
-  }
-  .js-stools {
-    padding: 8px 10px 0;
-    background-color: $atum-card-title-bg;
-    border-bottom: 1px solid rgba(0, 0, 0, .125);
-    border-radius: $border-radius $border-radius 0 0;
-    box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, .15);
-    .js-stools-container-bar .btn-toolbar {
-      margin-bottom: 8px;
-    }
-    .js-stools-container-filters {
-      margin: 0 0 2px;
-    }
-  }
-  .table thead th {
-    border-bottom-width: 1px;
-  }
-  .pagination {
-    margin: 1rem;
+    border: 0;
+    box-shadow: none;
   }
 }
 
@@ -255,4 +237,9 @@ iframe {
 }
 .name:hover {
   background-color: transparent;
+}
+
+// Pagination
+.pagination {
+  margin: 1rem;
 }

@@ -1,6 +1,9 @@
 // Table
 
 .table {
+  thead th {
+    border-bottom-width: 1px;
+  }
   th,
   td {
     padding: 8px;
