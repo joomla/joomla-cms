@@ -49,7 +49,7 @@ if ($saveOrder)
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div id="j-main-container" class="js-main-container">
 		<?php
 		// Search tools bar
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));

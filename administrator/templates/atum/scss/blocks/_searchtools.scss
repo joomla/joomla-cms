@@ -2,14 +2,18 @@
 
 .js-stools {
   width: 100%;
-
+  padding: 8px 10px 0;
+  background-color: $atum-card-title-bg;
+  border-bottom: 1px solid rgba(0, 0, 0, .125);
+  border-radius: $border-radius $border-radius 0 0;
+  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, .15);
   .btn-wrapper {
     display: inline-block;
     margin-right: 5px;
   }
   .js-stools-container-filters {
     display: none;
-    margin: 10px 0;
+    margin: 0 0 2px;
   }
 
   .js-stools-container-bar {
@@ -17,7 +21,7 @@
 
     .btn-toolbar {
       float: left;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
 
       .btn-group:first-child {
         margin-left: 0;
