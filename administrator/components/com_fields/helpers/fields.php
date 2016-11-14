@@ -502,7 +502,9 @@ class FieldsHelper
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items  The field category objects
+	 * @param   stdClass[]  &$items     The field category objects
+	 * @param   string      $section    The section
+	 * @param   string      $component  The component
 	 *
 	 * @return  stdClass[]
 	 *
