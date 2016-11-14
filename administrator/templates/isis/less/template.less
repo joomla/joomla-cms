@@ -1539,6 +1539,72 @@ body.modal-open {
 .subhead {
   text-shadow: none;
 }
+
+/* Repeatable SubForm */
+.subform-repeatable {
+	padding-right: 10px;
+	> .btn-toolbar {
+		margin: 0;
+		.group-add {
+			line-height: 26px;
+			width: 56px;
+			font-size: 13px;
+			margin-left: 0;
+		}
+	}
+}
+.subform-repeatable-group {
+	margin-top: 20px;
+	border-top: 1px solid #DDDDDD;
+	> .btn-toolbar {
+		margin: 0;
+		.btn-group {
+			margin-right: 0px;
+			margin-top: -1px;
+		}
+		.btn {
+			font-size: 13px;
+			line-height: 26px;
+			background-color: #F3F3F3;
+			&:first-child {
+				border-top-left-radius: 0;
+			}
+			&:last-child {
+				border-top-right-radius: 0;
+			}
+			&.btn-success {
+				color: #378137;
+			}
+			&.btn-danger {
+				color: #942a25;
+			}
+			&.btn-primary {
+				color: #24748c;
+			}
+			[class^="icon-"], [class*=" icon-"] {
+				margin: 0;
+			}
+			&:hover {
+				background-color: #E6E6E6;
+			}
+		}
+	}
+	&:nth-child(odd) {
+	}
+	&:nth-child(even) {
+	}
+	&:last-of-type {
+	}
+	.control-group:last-of-type {
+		margin-bottom: 10px;
+	}
+}
+@media (max-width: 979px) {
+	.subform-repeatable-group > .btn-toolbar .btn-group {
+		margin-bottom: 10px;
+	}
+}
+
 /* Popover minimum height - overwrite bootstrap default */
 .popover-content {
     min-height: 33px;
