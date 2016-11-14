@@ -1896,6 +1896,12 @@ table th[class*="span"],
 .table-hover tbody tr.info:hover > td {
 	background-color: #c4e3f3;
 }
+.table-noheader {
+	border-collapse: collapse;
+}
+.table-noheader thead {
+	display: none;
+}
 .dropup,
 .dropdown {
 	position: relative;
@@ -8086,6 +8092,7 @@ th .tooltip-inner {
 	max-height: 100%;
 }
 #helpsite-refresh {
+	padding: 4px 12px;
 	vertical-align: top;
 }
 .alert-no-items {
@@ -8543,6 +8550,9 @@ body.modal-open {
 	.subform-repeatable-group > .btn-toolbar .btn-group {
 		margin-bottom: 10px;
 	}
+}
+.popover-content {
+	min-height: 33px;
 }
 .pull-right {
 	float: left;
