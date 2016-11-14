@@ -40,13 +40,6 @@ if (count($parts) > 1)
 	{
 		$section = $inflector->toPlural($section);
 	}
-
-	// If the section ends with .fields, then the category belongs to com_fields
-	if (substr($section, -strlen('.fields')) === '.fields')
-	{
-		$component = 'com_fields';
-		$section = 'fields&context=' . str_replace('.fields', '', implode('.', $parts));
-	}
 }
 
 if ($saveOrder)
@@ -166,6 +159,9 @@ if ($saveOrder)
 						{
 							$parentsStr = "";
 						}
+
+						$itemCountComponent = isset($item->count_component) ? $item->count_component : $component;
+						$itemCountSection   = isset($item->count_section) ? $item->count_section : $section;
 						?>
 						<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id ?>" parents="<?php echo $parentsStr ?>" level="<?php echo $item->level ?>">
 							<td class="order nowrap center hidden-phone">
@@ -227,25 +223,25 @@ if ($saveOrder)
 							</td>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 								<td class="center btns hidden-phone hidden-tablet">
-									<a class="badge <?php if ($item->count_published > 0) echo "badge-success"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=' . (int) $item->level);?>">
+									<a class="badge <?php if ($item->count_published > 0) echo "badge-success"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $itemCountComponent . ($itemCountSection ? '&view=' . $itemCountSection : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_published; ?></a>
 								</td>
 							<?php endif;?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 								<td class="center btns hidden-phone hidden-tablet">
-									<a class="badge <?php if ($item->count_unpublished > 0) echo "badge-important"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level);?>">
+									<a class="badge <?php if ($item->count_unpublished > 0) echo "badge-important"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $itemCountComponent . ($itemCountSection ? '&view=' . $itemCountSection : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_unpublished; ?></a>
 								</td>
 							<?php endif;?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 								<td class="center btns hidden-phone hidden-tablet">
-									<a class="badge <?php if ($item->count_archived > 0) echo "badge-info"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=' . (int) $item->level);?>">
+									<a class="badge <?php if ($item->count_archived > 0) echo "badge-info"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $itemCountComponent . ($itemCountSection ? '&view=' . $itemCountSection : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_archived; ?></a>
 								</td>
 							<?php endif;?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 								<td class="center btns hidden-phone hidden-tablet">
-									<a class="badge <?php if ($item->count_trashed > 0) echo "badge-inverse"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=' . (int) $item->level);?>">
+									<a class="badge <?php if ($item->count_trashed > 0) echo "badge-inverse"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $itemCountComponent . ($itemCountSection ? '&view=' . $itemCountSection : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_trashed; ?></a>
 								</td>
 							<?php endif;?>

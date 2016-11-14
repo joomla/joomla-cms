@@ -80,14 +80,21 @@ class ContentHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items  The banner category objects
+	 * @param   stdClass[]  &$items   The category objects
+	 * @param   string      $section  The section
 	 *
 	 * @return  stdClass[]
 	 *
 	 * @since   3.5
 	 */
-	public static function countItems(&$items)
+	public static function countItems(&$items, $section)
 	{
+		// If the section ends with .fields, then the category belongs to com_fields
+		if (substr($section, -strlen('.fields')) === '.fields')
+		{
+			return FieldsHelper::countItems($items, $section, 'com_content');
+		}
+
 		$db = JFactory::getDbo();
 
 		foreach ($items as $item)

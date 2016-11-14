@@ -508,7 +508,7 @@ class FieldsHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function countItems(&$items)
+	public static function countItems(&$items, $section, $component)
 	{
 		$db = JFactory::getDbo();
 
@@ -518,6 +518,8 @@ class FieldsHelper
 			$item->count_archived    = 0;
 			$item->count_unpublished = 0;
 			$item->count_published   = 0;
+			$item->count_component   = 'com_fields';
+			$item->count_section     = 'fields&context=' . $component . '.' . str_replace('.fields', '', $section);
 
 			$query = $db->getQuery(true);
 			$query->select('state, count(*) AS count')
@@ -528,26 +530,26 @@ class FieldsHelper
 
 			$fields = $db->loadObjectList();
 
-			foreach ($fields as $article)
+			foreach ($fields as $field)
 			{
-				if ($article->state == 1)
+				if ($field->state == 1)
 				{
-					$item->count_published = $article->count;
+					$item->count_published = $field->count;
 				}
 
-				if ($article->state == 0)
+				if ($field->state == 0)
 				{
-					$item->count_unpublished = $article->count;
+					$item->count_unpublished = $field->count;
 				}
 
-				if ($article->state == 2)
+				if ($field->state == 2)
 				{
-					$item->count_archived = $article->count;
+					$item->count_archived = $field->count;
 				}
 
-				if ($article->state == -2)
+				if ($field->state == -2)
 				{
-					$item->count_trashed = $article->count;
+					$item->count_trashed = $field->count;
 				}
 			}
 		}
