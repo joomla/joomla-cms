@@ -227,7 +227,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 #jform_activateMultilanguage .btn-success.active,
 #jform_activateMultilanguage .btn-success.disabled,
 #jform_activateMultilanguage .btn-success[disabled] {
-	background-color: #72afef;
+	background-color: #5a97d7;
 	color: #fff;
 }
 
@@ -243,7 +243,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 #jform_installLocalisedContent .btn-success.active,
 #jform_installLocalisedContent .btn-success.disabled,
 #jform_installLocalisedContent .btn-success[disabled] {
-	background-color: #72afef;
+	background-color: #5a97d7;
 	color: #fff;
 }
 
@@ -259,6 +259,6 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 #jform_activatePluginLanguageCode .btn-success.active,
 #jform_activatePluginLanguageCode .btn-success.disabled,
 #jform_activatePluginLanguageCode .btn-success[disabled] {
-	background-color: #72afef;
+	background-color: #5a97d7;
 	color: #fff;
 }
