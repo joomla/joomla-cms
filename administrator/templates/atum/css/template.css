@@ -8436,6 +8436,14 @@ legend {
   .chzn-container.chzn-container-single .chzn-single div b {
     background: none; }
 
+.chzn-container-single {
+  width: auto !important; }
+
+.card .chzn-container.chzn-container-single {
+  width: 100% !important; }
+  .card .chzn-container.chzn-container-single .chzn-single {
+    width: 100% !important; }
+
 .gu-mirror {
   position: fixed !important;
   z-index: 9999 !important;
@@ -8614,6 +8622,3 @@ iframe {
 
 .name:hover {
   background-color: transparent; }
-
-.chzn-container-single {
-  width: auto !important; }

@@ -1,4 +1,4 @@
-// TinyMCE
+// Chosen
 
 .chzn-container.chzn-container-single {
   .chzn-single {
@@ -39,5 +39,18 @@
     div b {
       background: none;
     }
+  }
+}
+
+// TEMPORARY
+.chzn-container-single {
+  width: auto !important;
+}
+// END TEMPORARY
+
+.card .chzn-container.chzn-container-single {
+  width: 100% !important;
+  .chzn-single {
+    width: 100% !important;
   }
 }
