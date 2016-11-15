@@ -263,6 +263,12 @@
 		document.addEventListener("keypress", this._calKeyEvent, true);
 		document.addEventListener("mousedown", this._documentClick, true);
 
+		/** Move the calendar to top position if it doesn't fit below. */
+		var containerTmp = this.element.querySelector('.js-calendar');
+		if ((window.innerHeight + window.scrollY) < (this.element.getBoundingClientRect().top + containerTmp.getBoundingClientRect().height + containerTmp.getBoundingClientRect().bottom)) {
+			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
+		}
+
 		this.processCalendar();
 	};
 
@@ -536,8 +542,6 @@
 		div.style.boxShadow = "0px 0px 70px 0px rgba(0,0,0,0.67)";
 		div.style.minWidth = parent.width;
 		div.style.padding = '0';
-		div.style.left = "auto";
-		div.style.top = "auto";
 		div.style.display = "none";
 		div.style.zIndex = 1060;
 		div.style.borderRadius = "20px";
