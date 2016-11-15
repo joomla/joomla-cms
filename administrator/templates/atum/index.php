@@ -186,9 +186,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 
 	</div>
 
-	<div class="notify-alerts">
-		<jdoc:include type="message" />
-	</div>
+	<div class="notify-alerts"></div>
 
 </body>
 </html>
