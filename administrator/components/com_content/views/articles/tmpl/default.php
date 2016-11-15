@@ -109,7 +109,7 @@ $assoc = JLanguageAssociations::isEnabled();
 					$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
 					$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 					?>
-					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="0">
+					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
 						<td class="order nowrap text-xs-center hidden-sm-down">
 							<?php
 							$iconClass = '';
