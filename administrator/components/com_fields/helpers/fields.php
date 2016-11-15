@@ -482,7 +482,7 @@ class FieldsHelper
 
 			if (!is_array($value) && $value !== '')
 			{
-				// getField doesn't cache the fields, so we try to do it only when necessary
+				// Function getField doesn't cache the fields, so we try to do it only when necessary
 				$formField = $form->getField($field->alias, 'params');
 
 				if ($formField && $formField->forceMultiple)
