@@ -22,7 +22,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div id="j-main-container" class="js-main-container">
 	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"> </div>
 	<?php if (empty($this->items)) : ?>

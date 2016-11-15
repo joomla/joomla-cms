@@ -28,7 +28,7 @@ if ($saveOrder)
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div id="j-main-container" class="j-main-container">
 		<?php
 		// Search tools bar
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));

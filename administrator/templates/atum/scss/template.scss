@@ -32,6 +32,7 @@
 // Vendor overrides
 @import "vendor/awesomplete";
 @import "vendor/bootstrap";
+@import "vendor/chosen";
 @import "vendor/dragula";
 @import "vendor/minicolors";
 @import "vendor/tinymce";
@@ -64,18 +65,29 @@ small, .small {
   text-transform: uppercase;
 }
 
-
 .container-main {
   position: relative;
-  min-height: 420px;
+  min-height: calc(100vh - 50px);
   padding-top: 15px;
   background: $white;
 }
+.list-view-main {
+  .container-main {
+    background-color: #eaebec;
+  }
+}
+
 .content {
   margin-top: 50px;
   background: $white;
+  border-radius: $border-radius;
 }
 
+.js-main-container {
+  border: 1px solid rgba(0, 0, 0, .17);
+  border-radius: $border-radius;
+  box-shadow: 0 0 3px rgba(0, 0, 0, .075);
+}
 
 // com_modules
 .admin.com_modules {
@@ -217,11 +229,20 @@ iframe {
   margin-left: 0;
 }
 
-
 // Calendar hover
 .day:hover {
   background-color: #00a8c6;
 }
 .name:hover {
   background-color: transparent;
+}
+
+// Pagination
+.pagination {
+  margin: 1rem;
+}
+
+// Chosen (TEMPORARY)
+.chzn-container-single {
+  width: auto !important;
 }

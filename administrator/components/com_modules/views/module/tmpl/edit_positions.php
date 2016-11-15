@@ -17,6 +17,7 @@ $state          = 1;
 $selectedPosition = $this->item->position;
 $positions = JHtml::_('modules.positions', $clientId, $state, $selectedPosition);
 
+JHtml::_('formbehavior.chosen', '.chzn-custom-value');
 
 // Add custom position to options
 $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');

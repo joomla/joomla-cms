@@ -27,14 +27,13 @@
 			<fieldset name="options" label="COM_MODULES_BASIC_FIELDSET_LABEL">
 				<field
 					name="prepare_content"
-					type="radio"
+					type="switcher"
 					label="MOD_CUSTOM_FIELD_PREPARE_CONTENT_LABEL"
 					description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
