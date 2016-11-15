@@ -72,7 +72,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		// Generate charset when using HTML5 (should happen first)
 		if ($document->isHtml5())
 		{
-			$buffer .= $tab . '<meta charset="' . $document->getCharset() . '" />' . $lnEnd;
+			$buffer .= '<meta charset="' . $document->getCharset() . '" />' . $lnEnd;
 		}
 
 		// Generate base tag (need to happen early)
