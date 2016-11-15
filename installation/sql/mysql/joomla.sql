@@ -462,7 +462,7 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   `element` varchar(100) NOT NULL,
   `folder` varchar(100) NOT NULL,
   `client_id` tinyint(3) NOT NULL,
-  `enabled` tinyint(3) NOT NULL DEFAULT 1,
+  `enabled` tinyint(3) NOT NULL DEFAULT 0,
   `access` int(10) unsigned NOT NULL DEFAULT 1,
   `protected` tinyint(3) NOT NULL DEFAULT 0,
   `manifest_cache` text NOT NULL,

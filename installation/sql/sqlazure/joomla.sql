@@ -702,7 +702,7 @@ CREATE TABLE [#__extensions](
 	[element] [nvarchar](100) NOT NULL,
 	[folder] [nvarchar](100) NOT NULL,
 	[client_id] [smallint] NOT NULL,
-	[enabled] [smallint] NOT NULL DEFAULT 1,
+	[enabled] [smallint] NOT NULL DEFAULT 0,
 	[access] [int] NOT NULL DEFAULT 1,
 	[protected] [smallint] NOT NULL DEFAULT 0,
 	[manifest_cache] [nvarchar](max) NOT NULL,
