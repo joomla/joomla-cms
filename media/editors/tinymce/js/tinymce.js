@@ -69,13 +69,13 @@
 			/** Register the editor's instance to Joomla Object */
 			Joomla.editors.instances[element.id] = {
 				// Required by Joomla's API for the XTD-Buttons
-				'getValue': function () { return tinyMCE.editors[this.id].getContent(); },
-				'setValue': function (text) { return tinyMCE.editors[this.id].setContent(text); },
-				'replaceSelection': function (text) { return tinyMCE.editors[this.id].execCommand('mceInsertContent', false, text); },
+				'getValue': function () { return this.instance.getContent(); },
+				'setValue': function (text) { return this.instance.setContent(text); },
+				'replaceSelection': function (text) { return this.instance.execCommand('mceInsertContent', false, text); },
 				// Some extra instance dependent
 				'id': element.id,
 				'instance': ed,
-				'onSave': function() { if (tinyMCE.editors[this.id].isHidden()) { tinyMCE.editors[this.id].show()}; return '';},
+				'onSave': function() { if (this.instance.isHidden()) { this.instance.show()}; return '';},
 			};
 
 			/** On save **/
