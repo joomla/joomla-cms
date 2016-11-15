@@ -466,28 +466,33 @@ class FieldsHelper
 		}
 
 		// Looping trough the fields again to set the value
-		if (isset($data->id) && $data->id)
+		if (!isset($data->id) || !$data->id)
 		{
-			foreach ($fields as $field)
-			{
-				$value = $model->getFieldValue($field->id, $field->context, $data->id);
+			return true;
+		}
 
-				// Creating the XML form data
+		foreach ($fields as $field)
+		{
+			$value = $model->getFieldValue($field->id, $field->context, $data->id);
+
+			if ($value === null)
+			{
+				continue;
+			}
+
+			if (!is_array($value) && $value !== '')
+			{
+				// getField doesn't cache the fields, so we try to do it only when necessary
 				$formField = $form->getField($field->alias, 'params');
 
-				if ($formField && !is_array($value) && $value !== '' && $value !== null && $formField->forceMultiple)
+				if ($formField && $formField->forceMultiple)
 				{
 					$value = (array) $value;
 				}
-
-				if ($value === null)
-				{
-					continue;
-				}
-
-				// Setting the value on the field
-				$form->setValue($field->alias, 'params', $value);
 			}
+
+			// Setting the value on the field
+			$form->setValue($field->alias, 'params', $value);
 		}
 
 		return true;
