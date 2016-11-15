@@ -1896,6 +1896,12 @@ table th[class*="span"],
 .table-hover tbody tr.info:hover > td {
 	background-color: #c4e3f3;
 }
+.table-noheader {
+	border-collapse: collapse;
+}
+.table-noheader thead {
+	display: none;
+}
 .dropup,
 .dropdown {
 	position: relative;
@@ -8456,6 +8462,94 @@ body.modal-open {
 .progress .bar,
 .subhead {
 	text-shadow: none;
+}
+.subform-repeatable {
+	padding-right: 10px;
+}
+.subform-repeatable > .btn-toolbar {
+	margin: 0;
+}
+.subform-repeatable > .btn-toolbar .group-add {
+	line-height: 26px;
+	width: 56px;
+	font-size: 13px;
+	margin-left: 28px;
+}
+.subform-repeatable-group {
+	margin-top: 20px;
+	margin-left: 28px;
+	border: 1px solid #ccc;
+	padding: 8px 25px 15px;
+	position: relative;
+	border-radius: 3px;
+}
+.subform-repeatable-group > .btn-toolbar {
+	margin: 0;
+}
+.subform-repeatable-group > .btn-toolbar .btn-group {
+	margin-right: 0px;
+	margin-top: -1px;
+	position: static;
+}
+.subform-repeatable-group > .btn-toolbar .btn {
+	font-size: 13px;
+	line-height: 26px;
+	background-color: #F3F3F3;
+	position: absolute;
+}
+.subform-repeatable-group > .btn-toolbar .btn span {
+	vertical-align: middle;
+	line-height: 11px;
+}
+.subform-repeatable-group > .btn-toolbar .btn.btn-success {
+	color: #378137;
+	bottom: 0;
+	right: 0;
+	border-radius: 3px 0 0 0;
+	border-width: 1px 0 0 1px;
+	padding-top: 1px;
+}
+.subform-repeatable-group > .btn-toolbar .btn.btn-success .icon-plus:before {
+	content: "]";
+}
+.subform-repeatable-group > .btn-toolbar .btn.btn-danger {
+	color: #942a25;
+	top: 0;
+	right: 0;
+	border-radius: 0 0 0 3px;
+	border-width: 0 0 1px 1px;
+}
+.subform-repeatable-group > .btn-toolbar .btn.btn-danger .icon-minus:before {
+	content: "I";
+}
+.subform-repeatable-group > .btn-toolbar .btn.btn-primary {
+	color: #24748c;
+	color: #333;
+	right: 100%;
+	top: 50%;
+	margin-top: -27px;
+	margin-right: 1px;
+	border-radius: 3px 0 0 3px;
+	border-width: 1px 0 1px 1px;
+	line-height: 52px;
+}
+.subform-repeatable-group > .btn-toolbar .btn.btn-primary .icon-move:before {
+	content: "Z";
+}
+.subform-repeatable-group > .btn-toolbar .btn [class^="icon-"],
+.subform-repeatable-group > .btn-toolbar .btn [class*=" icon-"] {
+	margin: 0;
+}
+.subform-repeatable-group > .btn-toolbar .btn:hover {
+	background-color: #E6E6E6;
+}
+.subform-repeatable-group .control-group:last-of-type {
+	margin-bottom: 10px;
+}
+@media (max-width: 979px) {
+	.subform-repeatable-group > .btn-toolbar .btn-group {
+		margin-bottom: 10px;
+	}
 }
 .popover-content {
 	min-height: 33px;
