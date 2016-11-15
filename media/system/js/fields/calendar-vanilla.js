@@ -265,7 +265,8 @@
 
 		/** Move the calendar to top position if it doesn't fit below. */
 		var containerTmp = this.element.querySelector('.js-calendar');
-		if ((window.innerHeight + window.scrollY) < (this.element.getBoundingClientRect().top + containerTmp.getBoundingClientRect().height + containerTmp.getBoundingClientRect().bottom)) {
+
+		if ((window.innerHeight + window.scrollY) < containerTmp.getBoundingClientRect().bottom + 20) {
 			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
 		}
 
@@ -543,6 +544,8 @@
 		div.style.minWidth = parent.width;
 		div.style.padding = '0';
 		div.style.display = "none";
+		div.style.left = "auto";
+		div.style.top = "auto";
 		div.style.zIndex = 1060;
 		div.style.borderRadius = "20px";
 
