@@ -65,7 +65,7 @@ class SearchIndexerParserHtml extends SearchIndexerParser
 		// Strip HTML tags.
 		$input = strip_tags($input);
 
-		return parent::parse($input);
+		return $input;
 	}
 
 	/**

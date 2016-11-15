@@ -63,11 +63,6 @@ abstract class SearchIndexerParser
 		return $instances[$format];
 	}
 
-	public function setTokenizer($tokenizer)
-	{
-		$this->tokenizer = $tokenizer;
-	}
-
 	/**
 	 * Method to parse input and extract the plain text. Because this method is
 	 * called from both inside and outside the indexer, it needs to be able to
@@ -80,23 +75,5 @@ abstract class SearchIndexerParser
 	 *
 	 * @since   2.5
 	 */
-	public function parse($input)
-	{
-		$stopwords = $this->tokenizer->getStopWords();
-		$words = $this->tokenizer->tokenize($input);
-		$words = array_diff($words, $stopwords);
-		$newindex = array_count_values($words);
-		$result = array();
-		foreach ($newindex as $word => $count)
-		{
-			$stemmed = $this->tokenizer->stem($word);
-			if (!isset($result[$stemmed]))
-			{
-				$result[$stemmed] = 0;
-			}
-			$result[$stemmed] += $count;
-		}
-
-		return $result;
-	}
+	abstract public function parse($input);
 }

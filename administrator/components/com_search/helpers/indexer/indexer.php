@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 JLoader::register('SearchIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('SearchIndexerParser', __DIR__ . '/parser.php');
-JLoader::register('SearchIndexerStemmer', __DIR__ . '/stemmer.php');
+JLoader::register('SearchIndexerLanguage', __DIR__ . '/language.php');
 JLoader::register('SearchIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 JLoader::register('SearchIndexerToken', __DIR__ . '/token.php');
 
@@ -113,7 +115,7 @@ abstract class SearchIndexer
 		if (file_exists($path))
 		{
 			// Instantiate the parser.
-			include_once $path;
+			JLoader::register($class, $path);
 
 			return new $class;
 		}
@@ -175,9 +177,9 @@ abstract class SearchIndexer
 		}
 
 		// Setup the stemmer.
-		if ($data->options->get('stem', 1) && $data->options->get('stemmer', 'porter_en'))
+		if ($data->options->get('stem', 1))
 		{
-			SearchIndexerHelper::$stemmer = SearchIndexerStemmer::getInstance($data->options->get('stemmer', 'porter_en'));
+			//SearchIndexerHelper::$stemmer = SearchIndexerStemmer::getInstance($data->options->get('stemmer', 'porter_en'));
 		}
 
 		// Set the state.
@@ -308,6 +310,9 @@ abstract class SearchIndexer
 
 		if (!empty($input))
 		{
+			$tokenizer = new SearchIndexerLanguage($lang);
+			$parser = SearchIndexerParser::getInstance($format);
+
 			// If the input is a resource, batch the process out.
 			if (is_resource($input))
 			{
@@ -315,7 +320,7 @@ abstract class SearchIndexer
 				while (!feof($input))
 				{
 					// Read into the buffer.
-					$buffer .= fread($input, 2048);
+					$buffer .= fread($input, 16384);
 
 					/*
 					 * If we haven't reached the end of the file, seek to the last
@@ -334,7 +339,7 @@ abstract class SearchIndexer
 							$string = substr($buffer, 0, $ls);
 
 							// Adjust the buffer based on the last space for the next iteration and trim.
-							$buffer = JString::trim(substr($buffer, $ls));
+							$buffer = StringHelper::trim(substr($buffer, $ls));
 						}
 						// No space character was found.
 						else
@@ -349,7 +354,7 @@ abstract class SearchIndexer
 					}
 
 					// Parse the input.
-					$string = SearchIndexerHelper::parse($string, $format);
+					$string = $parser->parse($string);
 
 					// Check the input.
 					if (empty($string))
@@ -373,62 +378,10 @@ abstract class SearchIndexer
 					unset($tokens);
 				}
 			}
-			// If the input is greater than 2K in size, it is more efficient to
-			// batch out the operation into smaller chunks of work.
-			elseif (strlen($input) > 2048)
-			{
-				$start = 0;
-				$end = strlen($input);
-				$chunk = 2048;
-
-				/*
-				 * As it turns out, the complex regular expressions we use for
-				 * sanitizing input are not very efficient when given large
-				 * strings. It is much faster to process lots of short strings.
-				 */
-				while ($start < $end)
-				{
-					// Setup the string.
-					$string = substr($input, $start, $chunk);
-
-					// Find the last space character if we aren't at the end.
-					$ls = (($start + $chunk) < $end ? strrpos($string, ' ') : false);
-
-					// Truncate to the last space character.
-					if ($ls !== false)
-					{
-						$string = substr($string, 0, $ls);
-					}
-
-					// Adjust the start position for the next iteration.
-					$start += ($ls !== false ? ($ls + 1 - $chunk) + $chunk : $chunk);
-
-					// Parse the input.
-					$string = SearchIndexerHelper::parse($string, $format);
-
-					// Check the input.
-					if (empty($string))
-					{
-						continue;
-					}
-
-					// Tokenize the input.
-					$tokens = SearchIndexerHelper::tokenize($string, $lang);
-
-					// Add the tokens to the database.
-					$count += $this->addTokensToDb($tokens, $context);
-
-					// Check if we're approaching the memory limit of the token table.
-					if ($count > static::$state->options->get('memory_table_limit', 30000))
-					{
-						$this->toggleTables(false);
-					}
-				}
-			}
 			else
 			{
 				// Parse the input.
-				$input = SearchIndexerHelper::parse($input, $format);
+				$input = $parser->parse($input);
 
 				// Check the input.
 				if (empty($input))

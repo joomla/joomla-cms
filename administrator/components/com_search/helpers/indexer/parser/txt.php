@@ -27,7 +27,7 @@ class SearchIndexerParserTxt extends SearchIndexerParser
 	 *
 	 * @since   2.5
 	 */
-	protected function process($input)
+	public function parse($input)
 	{
 		return $input;
 	}

@@ -99,7 +99,9 @@ class SearchIndexerDriverMysql extends SearchIndexer
 		$item->end_date = (int) $item->end_date != 0 ? $item->end_date : $nd;
 
 		// Prepare the item description.
-		$item->description = SearchIndexerHelper::parse($item->summary);
+		$tokenizer = new SearchIndexerLanguage($item->language);
+		$parser = SearchIndexerParser::getInstance($format);
+		$item->description = $parser->parse($item->summary, false);
 
 		/*
 		 * Now, we need to enter the item into the links table. If the item
@@ -116,7 +118,7 @@ class SearchIndexerDriverMysql extends SearchIndexer
 				$db->quoteName('publish_end_date'), $db->quoteName('start_date'), $db->quoteName('end_date'), $db->quoteName('list_price'),
 				$db->quoteName('sale_price')
 			);
-
+			
 			// Insert the link.
 			$query->clear()
 				->insert($db->quoteName('#__finder_links'))
@@ -125,7 +127,7 @@ class SearchIndexerDriverMysql extends SearchIndexer
 				$db->quote($item->url) . ', '
 				. $db->quote($item->route) . ', '
 				. $db->quote($item->title) . ', '
-				. $db->quote($item->description) . ', '
+				. $db->quote(substr($item->description, 0, 255)) . ', '
 				. $query->currentTimestamp() . ', '
 				. '1, '
 				. (int) $item->state . ', '
@@ -153,7 +155,7 @@ class SearchIndexerDriverMysql extends SearchIndexer
 				->update($db->quoteName('#__finder_links'))
 				->set($db->quoteName('route') . ' = ' . $db->quote($item->route))
 				->set($db->quoteName('title') . ' = ' . $db->quote($item->title))
-				->set($db->quoteName('description') . ' = ' . $db->quote($item->description))
+				->set($db->quoteName('description') . ' = ' . $db->quote(substr($item->description, 0, 255)))
 				->set($db->quoteName('indexdate') . ' = ' . $query->currentTimestamp())
 				->set($db->quoteName('state') . ' = ' . (int) $item->state)
 				->set($db->quoteName('access') . ' = ' . (int) $item->access)
@@ -294,7 +296,7 @@ class SearchIndexerDriverMysql extends SearchIndexer
 				', ' . $db->quoteName('context_weight') .
 				', ' . $db->quoteName('language') . ')' .
 				' SELECT' .
-				' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, ' .
+				' IFNULL(t.term_id, 0), t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, ' .
 				' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language' .
 				' FROM (' .
 				'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
@@ -304,7 +306,7 @@ class SearchIndexerDriverMysql extends SearchIndexer
 				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
 				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
 				' WHERE t2.context = %d' .
-				' GROUP BY t1.term' .
+				' GROUP BY t1.term, t1.stem, t.term_id, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
 				' ORDER BY t1.term DESC';
 
 		// Iterate through the contexts and aggregate the tokens per context.
@@ -337,7 +339,7 @@ class SearchIndexerDriverMysql extends SearchIndexer
 			' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
 			' WHERE ta.term_id = 0' .
-			' GROUP BY ta.term'
+			' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
 		);
 		$db->execute();
 
@@ -402,7 +404,7 @@ class SearchIndexerDriverMysql extends SearchIndexer
 			' SELECT ' . (int) $linkId . ', ' . $db->quoteName('term_id') . ',' .
 			' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
-			' GROUP BY ' . $db->quoteName('term') .
+			' GROUP BY ' . $db->quoteName('term') . ', ' . $db->quoteName('term_id') . 
 			' ORDER BY ' . $db->quoteName('term') . ' DESC'
 		);
 		$db->execute();

@@ -27,7 +27,7 @@ class SearchIndexerParserRtf extends SearchIndexerParser
 	 *
 	 * @since   2.5
 	 */
-	protected function process($input)
+	public function parse($input)
 	{
 		// Remove embedded pictures.
 		$input = preg_replace('#{\\\pict[^}]*}#mis', '', $input);
