@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				editor = event.target.getAttribute('data-editor');
 
 			/** Use the API, if editor supports it **/
-			if (window.Joomla && Joomla.editors.instances.hasOwnProperty(editor)) {
+			if (window.Joomla && window.Joomla.editors && Joomla.editors.instances && Joomla.editors.instances.hasOwnProperty(editor)) {
 				Joomla.editors.instances[editor].replaceSelection("{loadmodule " + type + "," + name + "}")
 			} else {
 				window.parent.jInsertEditorText("{loadmodule " + type + "," + name + "}", editor);
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				editor = event.target.getAttribute('data-editor');
 
 			/** Use the API, if editor supports it **/
-			if (window.Joomla && Joomla.editors.instances.hasOwnProperty(editor)) {
+			if (window.Joomla && window.Joomla.editors && Joomla.editors.instances && Joomla.editors.instances.hasOwnProperty(editor)) {
 				Joomla.editors.instances[editor].replaceSelection("{loadposition " + position + "}")
 			} else {
 				window.parent.jInsertEditorText("{loadposition " + position + "}", editor);

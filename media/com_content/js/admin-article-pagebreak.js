@@ -25,7 +25,7 @@
 		tag = '<hr class="system-pagebreak" ' + title + ' ' + alt + '/>';
 
 		/** Use the API, if editor supports it **/
-		if (window.Joomla && Joomla.editors.instances.hasOwnProperty(editor)) {
+		if (window.Joomla && window.Joomla.editors && Joomla.editors.instances && Joomla.editors.instances.hasOwnProperty(editor)) {
 			Joomla.editors.instances[editor].replaceSelection(tag)
 		} else {
 			window.parent.jInsertEditorText(tag, editor);

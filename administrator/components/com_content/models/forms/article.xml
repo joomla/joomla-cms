@@ -28,24 +28,6 @@
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
 			filter="JComponentHelper::filterText" buttons="true" />
 
-<field
-		name="test2"
-		label ="Test Field"
-		type="editor"
-		width="300"
-		filter="safehtml"
-		editor="none"
-		buttons="true"/>
-<field
-		name="test3"
-		label ="Test Field"
-		type="editor"
-		width="300"
-		filter="safehtml"
-		editor="codemirror"
-		buttons="true"/>
-
-
 		<field name="state" type="list" label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
 			filter="intval" size="1" default="1"
