@@ -203,10 +203,10 @@
 			</field>
 
 			<field name="display_num" type="list"
-				default="20"
 				description="COM_TAGS_FIELD_NUMBER_ITEMS_LIST_DESC"
 				label="COM_TAGS_FIELD_NUMBER_ITEMS_LIST_LABEL"
 			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="5">J5</option>
 				<option value="10">J10</option>
 				<option value="15">J15</option>
