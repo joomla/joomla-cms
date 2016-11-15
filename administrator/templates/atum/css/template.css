@@ -7927,7 +7927,7 @@ legend {
     left: 0;
     z-index: -1;
     content: "";
-    box-shadow: inset -3px 0 3px rgba(0, 0, 0, 0.3); }
+    box-shadow: inset -3px 0 3px rgba(0, 0, 0, 0.35); }
   @media (min-width: 768px) {
     .sidebar-wrapper {
       left: 250px;
@@ -8047,30 +8047,52 @@ legend {
   margin: 0;
   overflow-y: auto;
   list-style: none; }
+  .main-nav *, .main-nav *::before {
+    transition: all .3s ease; }
   .main-nav.second {
     margin-bottom: 0; }
+  .main-nav > li:first-of-type > a {
+    border-top: 1px solid rgba(0, 0, 0, 0.3); }
+  .main-nav > li:last-of-type > a {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
   .main-nav > li > .no-dropdown {
     color: #fff; }
   .main-nav li {
     line-height: 40px; }
     .main-nav li a {
+      position: relative;
       display: block;
       color: #fff;
       text-decoration: none;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px rgba(0, 0, 0, 0.3); }
+      .main-nav li a::before {
+        position: absolute;
+        top: 1px;
+        bottom: 1px;
+        left: 0;
+        width: 0;
+        content: "";
+        background-color: #5b8dca; }
       .main-nav li a:hover {
         color: #d9d9d9;
         text-decoration: none;
-        background: rgba(255, 255, 255, 0.2); }
+        background-color: rgba(0, 0, 0, 0.2);
+        box-shadow: inset 0 -1px rgba(0, 0, 0, 0.3); }
       .main-nav li a:active, .main-nav li a:focus {
         text-decoration: none;
         outline: 0; }
-    .main-nav li:first-of-type > a {
-      border-top: 1px solid rgba(0, 0, 0, 0.3); }
-    .main-nav li:last-of-type > a {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
     .main-nav li ul li {
       text-indent: 20px; }
+    .main-nav li a:hover::before {
+      width: 5px; }
+  .main-nav li li a {
+    border-bottom: 1px solid #212231;
+    box-shadow: none; }
+    .main-nav li li a:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+      box-shadow: inset 0 1px rgba(0, 0, 0, 0.3), inset 0 -1px rgba(0, 0, 0, 0.3); }
+  .main-nav li li:last-of-type > a {
+    border-bottom: 0; }
   .main-nav .fa {
     position: relative;
     top: -2px;
