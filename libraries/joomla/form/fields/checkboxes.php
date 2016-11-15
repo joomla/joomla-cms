@@ -163,25 +163,4 @@ class JFormFieldCheckboxes extends JFormAbstractlist implements JFormDomfieldint
 
 		return array_merge($data, $extraData);
 	}
-
-	/**
-	 * Prepares the value before passed to the form. Subclasses can override to transform
-	 * the value in a format they understand.
-	 *
-	 * @param   stdClass  $field  The field.
-	 * @param   mixed     $value  The field node.
-	 * @param   JForm     $form   The form.
-	 *
-	 * @return  mixed
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function prepareValue ($field, $value, JForm $form)
-	{
-		if ($value !== '' && !is_array($value))
-		{
-			$value = (array) $value;
-		}
-		return parent::prepareValue($field, $value, $form);
-	}
 }

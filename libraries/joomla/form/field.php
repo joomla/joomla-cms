@@ -1141,23 +1141,6 @@ abstract class JFormField
 	}
 
 	/**
-	 * Prepares the value before passed to the form. Subclasses can override to transform
-	 * the value in a format they understand.
-	 *
-	 * @param   stdClass  $field  The field.
-	 * @param   mixed     $value  The field node.
-	 * @param   JForm     $form   The form.
-	 *
-	 * @return  mixed
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function prepareValue ($field, $value, JForm $form)
-	{
-		return $value;
-	}
-
-	/**
 	 * Returns the attributes of the field as an XML string which can be loaded
 	 * into JForm.
 	 *
