@@ -94,6 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
 						rows[i].querySelector('[name="order[]"]').setAttribute('name', 'order_TEMP_rename__');
 					}
 				}
+				console.log('before')
+				console.log(rows)
 			}
 		});
 
@@ -105,6 +107,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		/** The logic for the drop event **/
 		draggableTable.on('drop', function() {
+			if (isNested) {
+				var rows = container.querySelectorAll('tr');
+
+				for (var i = 0, l = rows.length; l > i; i++) {
+					if (rows[i].style.display === 'none') {
+						rows[i].style.display = '';
+						rows[i].querySelector('[name="input_TEMP_rename__"]').setAttribute('name', 'cid[]');
+						rows[i].querySelector('[name="order_TEMP_rename__"]').setAttribute('name', 'order[]');
+					}
+				}
+				console.log('after')
+				console.log(rows)
+			}
+
 			if (url) {
 				/** Detach task field if exists **/
 				var task = document.querySelector('[name="task"]');
