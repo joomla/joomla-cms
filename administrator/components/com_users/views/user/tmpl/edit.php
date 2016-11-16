@@ -58,7 +58,7 @@ $settings = array();
 					<div class="control-group">
 						<div class="control-label">
 							<?php if ($field->fieldname === 'note_password') : ?>
-								<?php echo sprintf($field->label, $settings[4], $settings[1], $settings[2], $settings[3], $settings[0]) ?>
+								<?php echo sprintf($field->label, $settings[2], $settings[3], $settings[4], $settings[1], $settings[0]) ?>
 							<?php else : ?>
 								<?php echo $field->label; ?>
 							<?php endif; ?>

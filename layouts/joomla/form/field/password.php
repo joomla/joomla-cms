@@ -57,11 +57,8 @@ if ($meter)
 	}
 }
 
-JText::script('JFIELD_PASSWORD_INDICATE_NORMAL', true);
-JText::script('JFIELD_PASSWORD_INDICATE_MEDIUM', true);
-JText::script('JFIELD_PASSWORD_INDICATE_STRONG', true);
-JText::script('JFIELD_PASSWORD_INDICATE_VSTRONG', true);
-JText::script('JFIELD_PASSWORD_INDICATE_WEAK', true);
+JText::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+JText::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
 
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . $hint . '"' : '',

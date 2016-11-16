@@ -86,23 +86,23 @@ document.addEventListener('DOMContentLoaded', function(){
 
 		if (score > 79){
 			meter.setAttribute('class', 'progress progress-warning');
-			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_VSTRONG');
+			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_COMPLETE');
 		}
 		if (score > 64 && score < 80){
 			meter.setAttribute('class', 'progress progress-warning');
-			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_STRONG');
+			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 		}
 		if (score > 50 && score < 65){
 			meter.setAttribute('class', 'progress progress-warning');
-			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_NORMAL');
+			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 		}
 		if (score > 40 && score < 51){
 			meter.setAttribute('class', 'progress progress-warning');
-			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_MEDIUM');
+			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 		}
 		if (score < 41){
 			meter.setAttribute('class', 'progress progress-danger');
-			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_WEAK');
+			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 		}
 		if (score === 100){
 			meter.setAttribute('class', 'progress progress-success');
