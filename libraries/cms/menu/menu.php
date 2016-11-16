@@ -127,10 +127,11 @@ class JMenu
 				{
 					$path = $info->path . '/includes/menu.php';
 
-					if (file_exists($path))
+					JLoader::register($classname, $path);
+
+					if (class_exists($classname))
 					{
 						JLog::add('Non-autoloadable JMenu subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-						include_once $path;
 					}
 				}
 			}

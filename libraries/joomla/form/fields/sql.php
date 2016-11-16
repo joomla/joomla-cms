@@ -9,14 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Supports an custom SQL select list
  *
  * @since  11.1
  */
-class JFormFieldSQL extends JFormFieldList
+class JFormFieldSQL extends JFormAbstractlist implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -304,5 +302,30 @@ class JFormFieldSQL extends JFormFieldList
 		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
+	}
+
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('value_field', 'text');
+		$fieldNode->setAttribute('key_field', 'value');
+
+		if (! $fieldNode->getAttribute('query'))
+		{
+			$fieldNode->setAttribute('query', 'select id as value, name as text from #__users');
+		}
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

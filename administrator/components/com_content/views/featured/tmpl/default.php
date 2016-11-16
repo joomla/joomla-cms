@@ -21,6 +21,7 @@ $listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->s
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $canOrder  = $user->authorise('core.edit.state', 'com_content.article');
 $saveOrder = $listOrder == 'fp.ordering';
+$columns   = 10;
 
 if ($saveOrder)
 {
@@ -78,9 +79,11 @@ if ($saveOrder)
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($this->vote) : ?>
+							<?php $columns++; ?>
 							<th width="1%" class="nowrap hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 							</th>
+							<?php $columns++; ?>
 							<th width="1%" class="nowrap hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 							</th>
@@ -92,7 +95,7 @@ if ($saveOrder)
 					</thead>
 					<tfoot>
 					<tr>
-						<td colspan="10">
+						<td colspan="<?php echo $columns; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
