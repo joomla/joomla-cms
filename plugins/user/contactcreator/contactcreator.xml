@@ -38,7 +38,7 @@
 				<field
 					name="autopublish"
 					type="radio"
-			class="switcher"
+					class="switcher"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL"
 					description="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_DESC"
 					default="0"

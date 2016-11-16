@@ -13,7 +13,7 @@
 				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC" />
 
 			<field name="menu-anchor_rel" type="list"
-			       class="custom-select"
+				class="custom-select"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_REL_LABEL"
 				description="COM_MENUS_ITEM_FIELD_ANCHOR_REL_DESC"
 				default=""
@@ -38,7 +38,7 @@
 				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" />
 
 			<field name="menu_text" type="radio"
-			class="switcher"
+				class="switcher"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
 				default="1" filter="integer"
@@ -49,7 +49,7 @@
 			<field
 				name="menu_show"
 				type="radio"
-			class="switcher"
+				class="switcher"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_SHOW_DESC"
 				default="1"

@@ -46,7 +46,7 @@
 					<field
 					name="show_front"
 					type="radio"
-			class="switcher"
+					class="switcher"
 					label="MOD_POPULAR_FIELD_FEATURED_LABEL"
 					description="MOD_POPULAR_FIELD_FEATURED_DESC"
 					default="1"

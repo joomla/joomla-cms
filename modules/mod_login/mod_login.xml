@@ -75,7 +75,7 @@
 				<field
 					name="greeting"
 					type="radio"
-			class="switcher"
+					class="switcher"
 					label="MOD_LOGIN_FIELD_GREETING_LABEL"
 					description="MOD_LOGIN_FIELD_GREETING_DESC"
 					default="1"
@@ -99,7 +99,7 @@
 				<field
 					name="usesecure"
 					type="radio"
-			class="switcher"
+					class="switcher"
 					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
 					description="MOD_LOGIN_FIELD_USESECURE_DESC"
 					default="0"
