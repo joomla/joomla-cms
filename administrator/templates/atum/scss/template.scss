@@ -24,13 +24,17 @@
 @import "blocks/sidebar";
 @import "blocks/status";
 @import "blocks/switcher";
-@import "blocks/table";
 @import "blocks/toolbar";
 @import "blocks/utilities";
 
 // Vendor overrides
 @import "vendor/awesomplete";
-@import "vendor/bootstrap";
+@import "vendor/bootstrap/buttons";
+@import "vendor/bootstrap/card";
+@import "vendor/bootstrap/lists";
+@import "vendor/bootstrap/modal";
+@import "vendor/bootstrap/nav";
+@import "vendor/bootstrap/table";
 @import "vendor/chosen";
 @import "vendor/dragula";
 @import "vendor/minicolors";
