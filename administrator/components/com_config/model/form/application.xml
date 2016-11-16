@@ -658,7 +658,7 @@
 		<field
 			name="sef"
 			type="radio"
-			class="btn-group"
+			class="switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			description="COM_CONFIG_FIELD_SEF_URL_DESC"
