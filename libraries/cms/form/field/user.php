@@ -95,7 +95,7 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 		}
 
 		// User lookup went wrong, we assign the value instead.
-		if ($name === null)
+		if ($name === null && $this->value)
 		{
 			$name = $this->value;
 		}
