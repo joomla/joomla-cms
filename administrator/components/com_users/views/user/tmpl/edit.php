@@ -57,17 +57,9 @@ $settings = array();
 				<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
-							<?php if ($field->fieldname === 'note_password') : ?>
-								<?php echo sprintf($field->label, $settings[2], $settings[3], $settings[4], $settings[1], $settings[0]) ?>
-							<?php else : ?>
 								<?php echo $field->label; ?>
-							<?php endif; ?>
 						</div>
 						<div class="controls">
-							<?php if ($field->fieldname == 'password') : ?>
-								<?php //
-								$settings = array($field->minLength, $field->minIntegers, $field->minSymbols, $field->minUppercase, $field->minLowercase); ?>
-							<?php endif; ?>
 							<?php echo $field->input; ?>
 						</div>
 					</div>

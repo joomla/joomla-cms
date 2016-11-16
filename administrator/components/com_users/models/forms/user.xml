@@ -34,11 +34,6 @@
 			size="30"
 		/>
 
-		<field name="note_password" type="note"
-			class="alert alert-warning"
-			label="JFIELD_PASSWORD_NOTE_LBL" description="JFIELD_PASSWORD_NOTE_DESC"
-		/>
-
 		<field name="password2" type="password"
 			autocomplete="off"
 			class="validate-passwordExtra"
