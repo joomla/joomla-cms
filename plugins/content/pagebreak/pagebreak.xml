@@ -22,7 +22,8 @@
 			<fieldset name="basic">
 				<field
 					name="title"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL"
 					description="PLG_CONTENT_PAGEBREAK_SITE_TITLE_DESC"
 					default="1"
@@ -33,7 +34,8 @@
 
 				<field
 					name="article_index"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_LABEL"
 					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_DESC"
 					default="1"
@@ -53,7 +55,8 @@
 
 				<field
 					name="multipage_toc"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL"
 					description="PLG_CONTENT_PAGEBREAK_TOC_DESC"
 					default="1"
@@ -64,7 +67,8 @@
 
 				<field
 					name="showall"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"
 					description="PLG_CONTENT_PAGEBREAK_SHOW_ALL_DESC"
 					default="1"

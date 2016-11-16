@@ -3,7 +3,8 @@
 	<fieldset name="component">
 		<field
 			name="enabled"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
 			description="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_DESC">
@@ -12,7 +13,8 @@
 		</field>
 
 		<field name="search_phrases"
-				type="switcher"
+				type="radio"
+			class="switcher"
 				default="1"
 				description="COM_SEARCH_FIELD_SEARCH_PHRASES_DESC"
 				label="COM_SEARCH_FIELD_SEARCH_PHRASES_LABEL"
@@ -22,7 +24,8 @@
 		</field>
 
 		<field name="search_areas"
-				type="switcher"
+				type="radio"
+			class="switcher"
 				default="1"
 				description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
 				label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
@@ -33,7 +36,8 @@
 
 		<field
 			name="show_date"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
 			description="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_DESC">

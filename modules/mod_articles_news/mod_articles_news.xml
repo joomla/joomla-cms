@@ -37,7 +37,8 @@
 
 				<field
 					name="image"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC"
 					default="0"
@@ -48,7 +49,8 @@
 
 				<field
 					name="item_title"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_TITLE_DESC"
 					default="0"
@@ -87,7 +89,8 @@
 
 				<field
 					name="showLastSeparator"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_DESC"
 					default="1"
@@ -98,7 +101,8 @@
 
 				<field
 					name="show_introtext"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_DESC"
 					default="1"
@@ -109,7 +113,8 @@
 
 				<field
 					name="readmore"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC"
 					default="0"

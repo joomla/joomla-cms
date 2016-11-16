@@ -73,7 +73,8 @@
 
 				<field
 					name="display_count"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_TAGS_POPULAR_FIELD_DISPLAY_COUNT_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_DISPLAY_COUNT_DESC"
 					default="0"
@@ -85,7 +86,8 @@
 
 				<field
 					name="no_results_text"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_DESC"
 					default="0"

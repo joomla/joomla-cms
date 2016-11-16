@@ -33,7 +33,8 @@
 
 				<field
 					name="add"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_WRAPPER_FIELD_ADD_LABEL"
 					description="MOD_WRAPPER_FIELD_ADD_DESC"
 					default="1"
@@ -74,7 +75,8 @@
 
 				<field
 					name="height_auto"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_WRAPPER_FIELD_AUTOHEIGHT_LABEL"
 					description="MOD_WRAPPER_FIELD_AUTOHEIGHT_DESC"
 					default="1"
@@ -85,7 +87,8 @@
 
 				<field
 					name="frameborder"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_WRAPPER_FIELD_FRAME_LABEL"
 					description="MOD_WRAPPER_FIELD_FRAME_DESC"
 					default="1"

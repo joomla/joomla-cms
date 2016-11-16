@@ -27,7 +27,8 @@
 
 		<field
 			name="cache_platformprefix"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
@@ -52,7 +53,8 @@
 
 		<field
 			name="memcache_persist"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
@@ -64,7 +66,8 @@
 
 		<field
 			name="memcache_compress"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
@@ -96,7 +99,8 @@
 
 		<field
 			name="memcached_persist"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
@@ -108,7 +112,8 @@
 
 		<field
 			name="memcached_compress"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
@@ -140,7 +145,8 @@
 
 		<field
 			name="redis_persist"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
@@ -250,7 +256,8 @@
 		label="CONFIG_DEBUG_SETTINGS_LABEL">
 		<field
 			name="debug"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_SYSTEM_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_SYSTEM_DESC"
@@ -261,7 +268,8 @@
 
 		<field
 			name="debug_lang"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_LANG_DESC"
@@ -276,7 +284,8 @@
 		label="CONFIG_FTP_SETTINGS_LABEL">
 		<field
 			name="ftp_enable"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_FTP_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_FTP_ENABLE_DESC"
@@ -338,7 +347,8 @@
 		label="CONFIG_PROXY_SETTINGS_LABEL">
 		<field
 			name="proxy_enable"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_PROXY_ENABLE_DESC"
@@ -406,7 +416,8 @@
 
 		<field
 			name="mailonline"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MAILONLINE_DESC"
 			default="1"
@@ -418,7 +429,8 @@
 
 		<field
 			name="massmailoff"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
 			default="0"
@@ -537,7 +549,8 @@
 
 		<field
 			name="smtpauth"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_DESC"
 			default="0"
@@ -616,7 +629,8 @@
 
 		<field
 			name="MetaAuthor"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
 			description="COM_CONFIG_FIELD_METAAUTHOR_DESC"
@@ -626,7 +640,8 @@
 		</field>
 		<field
 			name="MetaVersion"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
 			description="COM_CONFIG_FIELD_METAVERSION_DESC"
@@ -642,7 +657,8 @@
 		label="CONFIG_SEO_SETTINGS_LABEL">
 		<field
 			name="sef"
-			type="switcher"
+			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			description="COM_CONFIG_FIELD_SEF_URL_DESC"
@@ -653,7 +669,8 @@
 
 		<field
 			name="sef_rewrite"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
 			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
@@ -665,7 +682,8 @@
 
 		<field
 			name="sef_suffix"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
 			description="COM_CONFIG_FIELD_SEF_SUFFIX_DESC"
@@ -677,7 +695,8 @@
 
 		<field
 			name="unicodeslugs"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
 			description="COM_CONFIG_FIELD_UNICODESLUGS_DESC"
@@ -715,7 +734,8 @@
 
 		<field
 			name="gzip"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_GZIP_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_GZIP_COMPRESSION_DESC"
@@ -770,7 +790,8 @@
 
 		<field
 			name="shared_session"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
 			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
@@ -843,7 +864,8 @@
 
 		<field
 			name="offline"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_OFFLINE_DESC"

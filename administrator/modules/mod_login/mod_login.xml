@@ -24,7 +24,8 @@
 			<fieldset name="basic">
 				<field
 					name="usesecure"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					default="0"
 					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
 					description="MOD_LOGIN_FIELD_USESECURE_DESC">

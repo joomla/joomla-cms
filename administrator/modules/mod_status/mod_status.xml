@@ -23,7 +23,8 @@
 			<fieldset name="basic">
 			<field
 					name="show_viewsite"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_VIEWSITE_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_VIEWSITE_DESC">
@@ -32,7 +33,8 @@
 				</field>
 			<field
 					name="show_viewadmin"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					default="0"
 					label="MOD_STATUS_FIELD_SHOW_VIEWADMIN_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_VIEWADMIN_DESC">
@@ -41,7 +43,8 @@
 				</field>
 				<field
 					name="show_loggedin_users"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_DESC">
@@ -50,7 +53,8 @@
 				</field>
 				<field
 					name="show_loggedin_users_admin"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_DESC">
@@ -59,7 +63,8 @@
 				</field>
 				<field
 					name="show_messages"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_MESSAGES_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_MESSAGES_DESC">

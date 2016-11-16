@@ -58,7 +58,8 @@
 
 				<field
 					name="mobile"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_TINY_FIELD_MOBILE_LABEL"
 					description="PLG_TINY_FIELD_MOBILE_DESC"
 					default="0"
@@ -69,7 +70,8 @@
 
 				<field
 					name="drag_drop"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
 					description="PLG_TINY_FIELD_DRAG_DROP_DESC"
 					default="1"
@@ -101,7 +103,8 @@
 
 				<field
 					name="lang_mode"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_TINY_FIELD_LANGSELECT_LABEL"
 					description="PLG_TINY_FIELD_LANGSELECT_DESC"
 					default="1"
@@ -141,7 +144,8 @@
 
 				<field
 					name="content_css"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_TINY_FIELD_CSS_LABEL"
 					description="PLG_TINY_FIELD_CSS_DESC"
 					default="1"
@@ -182,7 +186,8 @@
 
 				<field
 					name="use_config_textfilters"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_TINY_CONFIG_TEXTFILTER_ACL_LABEL"
 					description="PLG_TINY_CONFIG_TEXTFILTER_ACL_DESC"
 					default="0"
@@ -242,7 +247,8 @@
 
 				<field
 					name="resizing"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_TINY_FIELD_RESIZING_LABEL"
 					description="PLG_TINY_FIELD_RESIZING_DESC"
 					default="1"
@@ -253,7 +259,8 @@
 
 				<field
 					name="resize_horizontal"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
 					description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
 					default="1"
@@ -265,7 +272,8 @@
 
 				<field
 					name="element_path"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_TINY_FIELD_PATH_LABEL"
 					description="PLG_TINY_FIELD_PATH_DESC"
 					default="1"

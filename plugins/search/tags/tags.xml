@@ -30,7 +30,8 @@
 
 				<field
 					name="show_tagged_items"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="PLG_SEARCH_TAGS_FIELD_SHOW_TAGGED_ITEMS_LABEL"
 					description="PLG_SEARCH_TAGS_FIELD_SHOW_TAGGED_ITEMS_DESC"
 					default="0"

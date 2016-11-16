@@ -24,7 +24,8 @@
 			<fieldset name="basic">
 				<field
 					name="showDate"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_RELATED_FIELD_SHOWDATE_LABEL"
 					description="MOD_RELATED_FIELD_SHOWDATE_DESC"
 					default="0"

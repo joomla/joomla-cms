@@ -55,7 +55,8 @@
 		<!-- Advanced options. -->
 		<fieldset name="advanced">
 
-			<field name="height_auto" type="switcher"
+			<field name="height_auto" type="radio"
+			class="switcher"
 				default="0"
 				description="COM_WRAPPER_FIELD_HEIGHTAUTO_DESC"
 				label="COM_WRAPPER_FIELD_HEIGHTAUTO_LABEL"
@@ -65,7 +66,8 @@
 			</field>
 
 			<field name="add_scheme"
-				type="switcher"
+				type="radio"
+			class="switcher"
 				default="1"
 				description="COM_WRAPPER_FIELD_ADD_DESC"
 				label="COM_WRAPPER_FIELD_ADD_LABEL"
@@ -75,7 +77,8 @@
 			</field>
 
 			<field name="frameborder"
-				type="switcher"
+				type="radio"
+			class="switcher"
 				default="1"
 				description="COM_WRAPPER_FIELD_FRAME_DESC"
 				label="COM_WRAPPER_FIELD_FRAME_LABEL"

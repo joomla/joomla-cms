@@ -30,7 +30,8 @@
 
 				<field
 					name="search_content"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="JFIELD_PLG_SEARCH_ALL_LABEL"
 					description="JFIELD_PLG_SEARCH_ALL_DESC"
 					default="0"
@@ -41,7 +42,8 @@
 
 				<field
 					name="search_archived"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL"
 					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
 					default="0"

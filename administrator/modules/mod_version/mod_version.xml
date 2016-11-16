@@ -36,7 +36,8 @@
 				</field>
 				<field
 					name="product"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					default="1"
 					label="MOD_VERSION_PRODUCT_LABEL"
 					description="MOD_VERSION_PRODUCT_DESC">

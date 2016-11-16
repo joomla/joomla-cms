@@ -45,7 +45,8 @@
 
 				<field
 					name="button"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_SEARCH_FIELD_BUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_BUTTON_DESC"
 					default="0"
@@ -69,7 +70,8 @@
 
 				<field
 					name="imagebutton"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC"
 					default="0"
@@ -89,7 +91,8 @@
 
 				<field
 					name="opensearch"
-					type="switcher"
+					type="radio"
+			class="switcher"
 					label="MOD_SEARCH_FIELD_OPENSEARCH_LABEL"
 					description="MOD_SEARCH_FIELD_OPENSEARCH_DESC"
 					default="1"
