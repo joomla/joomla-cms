@@ -183,23 +183,16 @@ class JLanguageHelper
 
 		if ($installedLanguages === null)
 		{
-			$cache = JFactory::getCache('com_languages', '');
+			$db = JFactory::getDbo();
 
-			if (!$installedLanguages = $cache->get('installedlanguages'))
-			{
-				$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName(array('element', 'name', 'client_id', 'extension_id')))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('language'))
+				->where($db->quoteName('state') . ' = 0')
+				->where($db->quoteName('enabled') . ' = 1');
 
-				$query = $db->getQuery(true)
-					->select($db->quoteName(array('element', 'name', 'client_id', 'extension_id')))
-					->from($db->quoteName('#__extensions'))
-					->where($db->quoteName('type') . ' = ' . $db->quote('language'))
-					->where($db->quoteName('state') . ' = 0')
-					->where($db->quoteName('enabled') . ' = 1');
-
-				$installedLanguages = $db->setQuery($query)->loadObjectList();
-
-				$cache->store($installedLanguages, 'installedlanguages');
-			}
+			$installedLanguages = $db->setQuery($query)->loadObjectList();
 		}
 
 		$clients   = $clientId === null ? array(0, 1) : array((int) $clientId);
@@ -306,20 +299,13 @@ class JLanguageHelper
 
 		if ($contentLanguages === null)
 		{
-			$cache = JFactory::getCache('com_languages', '');
+			$db = JFactory::getDbo();
 
-			if (!$contentLanguages = $cache->get('contentlanguages'))
-			{
-				$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->quoteName('#__languages'));
 
-				$query = $db->getQuery(true)
-					->select('*')
-					->from($db->quoteName('#__languages'));
-
-				$contentLanguages = $db->setQuery($query)->loadObjectList();
-
-				$cache->store($contentLanguages, 'contentlanguages');
-			}
+			$contentLanguages = $db->setQuery($query)->loadObjectList();
 		}
 
 		$languages = $contentLanguages;
