@@ -80,7 +80,6 @@
 				label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
 				description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESC"
 				default=""
-				filter="integer"
 				size="5"
 				useglobal="true"
 			/>
