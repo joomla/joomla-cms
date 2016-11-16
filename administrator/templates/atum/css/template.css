@@ -7743,7 +7743,7 @@ legend {
         margin-top: 0 !important;
         margin-left: -160px; } }
   .view-login .login-logo {
-    margin: 3rem 0;
+    margin: 0 0 3rem;
     text-align: center; }
     @media (max-width: 767px) {
       .view-login .login-logo {
