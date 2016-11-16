@@ -181,6 +181,7 @@
 				description="JGLOBAL_DATE_FORMAT_DESC"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
 				size="15"
+				useglobal="true"
 			/>
 
 			<field name="list_show_hits" type="list"
@@ -204,7 +205,6 @@
 			<field name="list_show_votes"
 				type="list"
 				class="btn-group btn-group-yesno"
-				default="0"
 				label="JGLOBAL_LIST_VOTES_LABEL"
 				description="JGLOBAL_LIST_VOTES_DESC"
 				useglobal="true"
@@ -216,7 +216,6 @@
 			<field name="list_show_ratings"
 				type="list"
 				class="btn-group btn-group-yesno"
-				default="0"
 				label="JGLOBAL_LIST_RATINGS_LABEL"
 				description="JGLOBAL_LIST_RATINGS_DESC"
 				useglobal="true"
