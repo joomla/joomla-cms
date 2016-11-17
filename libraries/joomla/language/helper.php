@@ -306,13 +306,20 @@ class JLanguageHelper
 
 		if ($contentLanguages === null)
 		{
-			$db = JFactory::getDbo();
+			$cache = JFactory::getCache('com_languages', '');
+			
+			if (!$contentLanguages = $cache->get('contentlanguages'))
+			{
+				$db = JFactory::getDbo();
 
-			$query = $db->getQuery(true)
-				->select('*')
-				->from($db->quoteName('#__languages'));
+				$query = $db->getQuery(true)
+					->select('*')
+					->from($db->quoteName('#__languages'));
 
-			$contentLanguages = $db->setQuery($query)->loadObjectList();
+				$contentLanguages = $db->setQuery($query)->loadObjectList();
+
+				$cache->store($contentLanguages, 'contentlanguages');
+			}
 		}
 
 		$languages = $contentLanguages;
