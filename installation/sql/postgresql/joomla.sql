@@ -1893,7 +1893,6 @@ CREATE TABLE "#__user_keys" (
   "user_id" varchar(255) NOT NULL,
   "token" varchar(255) NOT NULL,
   "series" varchar(255) NOT NULL,
-  "invalid" smallint NOT NULL,
   "time" varchar(200) NOT NULL,
   "uastring" varchar(255) NOT NULL,
   PRIMARY KEY ("id"),

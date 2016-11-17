@@ -1959,7 +1959,6 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
   `user_id` varchar(150) NOT NULL,
   `token` varchar(255) NOT NULL,
   `series` varchar(191) NOT NULL,
-  `invalid` tinyint(4) NOT NULL,
   `time` varchar(200) NOT NULL,
   `uastring` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
