@@ -40,12 +40,13 @@
 
 		<field
 			name="admin_password"
-			type="password"
+			type="installation.password"
 			id="admin_password"
-			class="form-control"
+			class="form-control validate-password-strength"
 			label="INSTL_ADMIN_PASSWORD_LABEL"
 			required="true"
-			filter="raw"
+			strengthmeter="true"
+			forcePassword="true"
 			autocomplete="off"
 		/>
 

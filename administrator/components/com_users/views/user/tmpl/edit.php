@@ -43,6 +43,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
+$settings = array();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data">
@@ -56,12 +57,9 @@ $fieldsets = $this->form->getFieldsets();
 				<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
-							<?php echo $field->label; ?>
+								<?php echo $field->label; ?>
 						</div>
 						<div class="controls">
-							<?php if ($field->fieldname == 'password') : ?>
-								<?php // Disables autocomplete ?> <input type="password" style="display:none">
-							<?php endif; ?>
 							<?php echo $field->input; ?>
 						</div>
 					</div>
