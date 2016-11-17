@@ -2,13 +2,12 @@
  * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-"use strict";
-
 document.addEventListener('DOMContentLoaded', function() {
+	"use strict";
 
 	/** The container where the draggable will be enabled **/
-	var url, formSelector, direction, isNested, container = document.querySelector('.js-draggable');
+	var url, formSelector, direction, isNested, container = document.querySelector('.js-draggable'),
+		orderRows = container.querySelectorAll('[name="order[]"]');
 
 	if (container) {
 		/** The script expects a form with a class js-form
@@ -37,24 +36,20 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	if (container) {
+		/** Add data order attribute for initial ordering */
+		for (var i= 0, l = orderRows.length; l > i; i++) {
+			orderRows[i].setAttribute('data-order', i+1);
+		}
+
 		/** IOS 10 BUG **/
 		document.addEventListener("touchstart", function() {},false);
 
-		var draggableTable = dragula(
-			[container],
-			{
-				/** Y axis is considered when determining where an element would be dropped **/
-				direction: 'vertical',
-				/** elements are moved by default, not copied **/
-				copy: false,
-				/** elements in copy-source containers can be reordered **/
-				copySortSource: true,
-				/** spilling will put the element back where it was dragged from, if this is true **/
-				revertOnSpill: true,
-				/** spilling will `.remove` the element, if this is true **/
-				removeOnSpill: false
-			}
-		);
+		/** Method to reorder an array
+		 *  Not used right now
+		 */
+		Array.prototype.move = function (from, to) {
+			this.splice(to, 0, this.splice(from, 1)[0]);
+		};
 
 		var getOrderData = function (container, direction) {
 			var i, l, result = [],
@@ -73,93 +68,77 @@ document.addEventListener('DOMContentLoaded', function() {
 			for (i= 0, l = orderRows.length; l > i; i++) {
 				orderRows[i].value = i;
 				result.push("order[]=" + encodeURIComponent(i));
-			}
-
-			/** Get the id array **/
-			for(i = 0, l = inputRows.length; l>i; i++) {
 				result.push("cid[]=" + encodeURIComponent(inputRows[i].value));
 			}
 
 			return result;
 		};
 
-		/** Disable any elements that do not belong in the same group **/
-		draggableTable.on('drag', function(el, source) {
-			if (isNested) {
-				var rows = source.getElementsByTagName('tr');
-				for (var i = 0, l = rows.length; l>i; i++) {
-					if (parseInt(el.getAttribute('data-dragable-group')) !== parseInt(rows[i].getAttribute('data-dragable-group'))) {
-						rows[i].style.display = 'none';
-						rows[i].querySelector('[name="cid[]"]').setAttribute('name', 'input_TEMP_rename__');
-						rows[i].querySelector('[name="order[]"]').setAttribute('name', 'order_TEMP_rename__');
-					}
-				}
-				console.log('before')
-				console.log(rows)
-			}
-		});
+		dragula(
+			[container],
+			{
+				/** Y axis is considered when determining where an element would be dropped **/
+				direction: 'vertical',
+				/** elements are moved by default, not copied **/
+				copy: false,
+				/** elements in copy-source containers can be reordered **/
+				//copySortSource: true,
+				/** spilling will put the element back where it was dragged from, if this is true **/
+				revertOnSpill: true,
+				/** spilling will `.remove` the element, if this is true **/
+				//removeOnSpill: false,
 
-		/** Alter the class of the shadow element **/
-		draggableTable.on('cloned', function(clone, original) {
-			var el = document.querySelector('.gu-mirror');
-			el.classList.add('table');
-		});
-
-		/** The logic for the drop event **/
-		draggableTable.on('drop', function() {
-			if (isNested) {
-				var rows = container.querySelectorAll('tr');
-
-				for (var i = 0, l = rows.length; l > i; i++) {
-					if (rows[i].style.display === 'none') {
-						rows[i].style.display = '';
-						rows[i].querySelector('[name="input_TEMP_rename__"]').setAttribute('name', 'cid[]');
-						rows[i].querySelector('[name="order_TEMP_rename__"]').setAttribute('name', 'order[]');
-					}
-				}
-				console.log('after')
-				console.log(rows)
-			}
-
-			if (url) {
-				/** Detach task field if exists **/
-				var task = document.querySelector('[name="task"]');
-
-				/** Detach task field if exists **/
-				if (task) {
-					task.setAttribute('name', 'some__Temporary__Name__');
-				}
-
-				/** Prepare the options **/
-				var ajaxOptions = {
-					url:    url,
-					method: 'POST',
-					data:    getOrderData(container, direction).join("&"),
-					perform: true
-				};
-
-				Joomla.request(ajaxOptions);
-
-				/** Re-Append original task field **/
-				if (task) {
-					task.setAttribute('name', 'task');
-				}
-			}
-		});
-
-		/** Restore any elements that have been altered **/
-		draggableTable.on('dragend', function(el) {
-			if (isNested) {
-				var rows = container.querySelectorAll('tr');
-
-				for (var i = 0, l = rows.length; l > i; i++) {
-					if (rows[i].style.display === 'none') {
-						rows[i].style.display = '';
-						rows[i].querySelector('[name="input_TEMP_rename__"]').setAttribute('name', 'cid[]');
-						rows[i].querySelector('[name="order_TEMP_rename__"]').setAttribute('name', 'order[]');
+				accepts: function (el, target, source, sibling) {
+					if (isNested) {
+						return sibling != null && sibling.getAttribute('data-dragable-group') && sibling.getAttribute('data-dragable-group') == el.getAttribute('data-dragable-group');
+					} else {
+						return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
 					}
 				}
 			}
-		});
+		).on('drag',
+			function(el, source) {}
+		).on('cloned',
+			function(clone, original) {
+				var el = document.querySelector('.gu-mirror');
+				el.classList.add('table');
+			}
+		).on('drop',
+			function() {
+
+				if (url) {
+					/** Detach task field if exists **/
+					var task = document.querySelector('[name="task"]');
+
+					/** Detach task field if exists **/
+					if (task) {
+						task.setAttribute('name', 'some__Temporary__Name__');
+					}
+
+					/** Prepare the options **/
+					var ajaxOptions = {
+						url:    url,
+						method: 'POST',
+						data:    getOrderData(container, direction).join("&"),
+						perform: true
+					};
+
+					Joomla.request(ajaxOptions);
+
+					/** Re-Append original task field **/
+					if (task) {
+						task.setAttribute('name', 'task');
+					}
+				}
+			}
+		).on('dragend',
+			function(el) {
+				var orderRows = container.querySelectorAll('[name="order[]"]');
+				/** Reset data order attribute for initial ordering */
+				for (var i= 0, l = orderRows.length; l > i; i++) {
+					orderRows[i].setAttribute('data-order', i+1);
+				}
+			}
+		);
 	}
 });
