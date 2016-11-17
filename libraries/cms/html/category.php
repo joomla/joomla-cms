@@ -139,6 +139,7 @@ abstract class JHtmlCategory
 		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
+			$user = JFactory::getUser();
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('a.id, a.title, a.level, a.parent_id')
@@ -147,6 +148,10 @@ abstract class JHtmlCategory
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
+			
+			// Filter on user level.
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
 
 			// Filter on the published state
 			if (isset($config['filter.published']))
