@@ -7781,7 +7781,7 @@ legend {
   .quick-icons a {
     position: relative;
     display: block;
-    padding: 2px 0;
+    padding: 25px 0;
     margin-bottom: 15px;
     overflow: hidden;
     color: #fff;
@@ -7798,13 +7798,13 @@ legend {
     .quick-icons a span {
       position: relative;
       display: inline;
-      font-size: .85em;
+      font-size: .85rem;
       font-weight: bold;
-      line-height: 2em;
+      line-height: 2rem;
       letter-spacing: .4px; }
       .quick-icons a span[class*=" icon-"], .quick-icons a span[class^="icon-"] {
-        margin-right: .1em;
-        font-size: 2.5em;
+        margin-right: .1rem;
+        font-size: 2.5rem;
         font-weight: normal; }
     .quick-icons a::before {
       position: absolute;
