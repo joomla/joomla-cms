@@ -75,7 +75,7 @@ $sitename = $app->get('sitename');
 		</div>
 		<div id="content">
 			<noscript>
-				<div style="color: #fff; background: darkred; border-radius: 5px; padding: 10px">
+				<div class="alert alert-danger" role="alert">
 					<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 				</div>
 			</noscript>
