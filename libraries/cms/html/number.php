@@ -106,7 +106,7 @@ abstract class JHtmlNumber
 		}
 
 		return number_format(
-			round($oBytes / pow($base, $i), (int) $precision),(int) $precision, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')
+			round($oBytes / pow($base, $i), (int) $precision), (int) $precision, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')
 		) . ' ' . $suffix;
 	}
 }
