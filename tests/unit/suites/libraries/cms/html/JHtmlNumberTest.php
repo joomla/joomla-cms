@@ -98,7 +98,7 @@ class JHtmlNumberTest extends TestCase
 				'MB',
 			),
 			array(
-				'1,099,511,627,776 kB',
+				'1,099,511,627,776.00 kB',
 				1024 * 1024 * 1024 * 1024 * 1024,
 				'kB',
 			),
@@ -108,7 +108,7 @@ class JHtmlNumberTest extends TestCase
 				'b',
 			),
 			array(
-				'1,125,899,906,842,624.00',
+				'1.1258999068426E+15',
 				1024 * 1024 * 1024 * 1024 * 1024,
 				'',
 			),
