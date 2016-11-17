@@ -51,9 +51,9 @@ extract($displayData);
  */
 
 JHtml::_('behavior.core');
-JHtml::_('stylesheet', 'media/editors/tinymce/skins/lightgray/skin.min.css', array(), false);
+JHtml::_('stylesheet', 'media/editors/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
 JHtml::_('jquery.ui', array('core', 'sortable'));
-JHtml::_('script', 'editors/tinymce/tinymce-builder.js', false, true);
+JHtml::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
 
 $doc = JFactory::getDocument();
 $doc->addScriptOptions('plg_editors_tinymce_builder', array(
