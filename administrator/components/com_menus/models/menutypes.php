@@ -161,6 +161,11 @@ class MenusModelMenutypes extends JModelLegacy
 			$options = $this->getTypeOptionsFromMvc($component);
 		}
 
+		if (empty($options))
+		{
+			$options = $this->getTypeOptionsFromManifest($component);
+		}
+
 		return $options;
 	}
 
@@ -362,6 +367,104 @@ class MenusModelMenutypes extends JModelLegacy
 					$options = array_merge($options, (array) $this->getTypeOptionsFromLayouts($component, $view));
 				}
 			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Get menu types from Component manifest
+	 *
+	 * @param   string  $component  Component option like in URLs
+	 *
+	 * @return  array|bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getTypeOptionsFromManifest($component)
+	{
+		// Load the component manifest
+		$fileName = JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml';
+
+		if (!is_file($fileName))
+		{
+			return false;
+		}
+
+		if (!($manifest = simplexml_load_file($fileName)))
+		{
+			return false;
+		}
+
+		// Check for a valid XML root tag.
+		if ($manifest->getName() != 'extension')
+		{
+			return false;
+		}
+
+		$options = array();
+
+		// Start with the component root menu.
+		$rootMenu = $manifest->administration->menu;
+
+		// If the menu item doesn't exist or is hidden do nothing.
+		if (!$rootMenu || in_array((string) $rootMenu['hidden'], array('true', 'hidden')))
+		{
+			return $options;
+		}
+
+		// Create the root menu option.
+		$ro = new stdClass;
+		$ro->title       = (string) trim($rootMenu);
+		$ro->description = '';
+		$ro->request     = array('option' => $component);
+
+		// Process submenu options.
+		$submenu = $manifest->administration->submenu;
+
+		if (!$submenu)
+		{
+			return $options;
+		}
+
+		foreach ($submenu->menu as $child)
+		{
+			$attributes = $child->attributes();
+
+			$o = new stdClass;
+			$o->title       = (string) trim($child);
+			$o->description = '';
+
+			if ((string) $attributes->link)
+			{
+				parse_str((string) $attributes->link, $request);
+			}
+			else
+			{
+				$request = array();
+
+				$request['option']     = $component;
+				$request['act']        = (string) $attributes->act;
+				$request['task']       = (string) $attributes->task;
+				$request['controller'] = (string) $attributes->controller;
+				$request['view']       = (string) $attributes->view;
+				$request['layout']     = (string) $attributes->layout;
+				$request['sub']        = (string) $attributes->sub;
+			}
+
+			$o->request = array_filter($request, 'strlen');
+			$options[]  = new JObject($o);
+
+			// Do not repeat the default view link.
+			if (count($o->request) == 1)
+			{
+				$ro = null;
+			}
+		}
+
+		if ($ro)
+		{
+			$options[] = new JObject($ro);
 		}
 
 		return $options;
