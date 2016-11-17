@@ -351,9 +351,7 @@ final class JApplicationSite extends JApplicationCms
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
 
-				$temp = new Registry;
-				$temp->loadString($menu->params);
-				$params[$hash]->merge($temp);
+				$params[$hash]->merge($menu->params);
 				$title = $menu->title;
 			}
 			else
@@ -484,15 +482,20 @@ final class JApplicationSite extends JApplicationCms
 
 			foreach ($templates as &$template)
 			{
-				$registry = new Registry;
-				$registry->loadString($template->params);
-				$template->params = $registry;
-
 				// Create home element
-				if ($template->home == 1 && !isset($templates[0]) || $this->_language_filter && $template->home == $tag)
+				if ($template->home == 1 && !isset($template_home) || $this->_language_filter && $template->home == $tag)
 				{
-					$templates[0] = clone $template;
+					$template_home = clone $template;
 				}
+
+				$template->params = new Registry($template->params);
+			}
+
+			// Add home element, after loop to avoid double execution
+			if (isset($template_home))
+			{
+				$template_home->params = new Registry($template_home->params);
+				$templates[0] = $template_home;
 			}
 
 			$cache->store($templates, 'templates0' . $tag);
@@ -520,11 +523,6 @@ final class JApplicationSite extends JApplicationCms
 					if ($tmpl->template == $template_override)
 					{
 						$template = $tmpl;
-
-						$registry = new Registry;
-						$registry->loadString($template->params);
-						$template->params = $registry;
-
 						break;
 					}
 				}

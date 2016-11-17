@@ -106,7 +106,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				// @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
 				// we also check if frontend language exists and is enabled
 				if (($language->access && !in_array($language->access, $levels))
-					|| (!array_key_exists($language->lang_code, JLanguageMultilang::getSiteLangs())))
+					|| (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0))))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);
@@ -338,6 +338,13 @@ class PlgSystemLanguageFilter extends JPlugin
 				if ($found)
 				{
 					array_shift($parts);
+
+					// Empty parts array when "index.php" is the only part left.
+					if (count($parts) == 1 && $parts[0] === 'index.php')
+					{
+						$parts = array();
+					}
+
 					$uri->setPath(implode('/', $parts));
 				}
 			}
@@ -507,8 +514,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		if ($this->params->get('automatic_change', '1') == '1' && key_exists('params', $user))
 		{
-			$registry = new Registry;
-			$registry->loadString($user['params']);
+			$registry = new Registry($user['params']);
 			$this->user_lang_code = $registry->get('language');
 
 			if (empty($this->user_lang_code))
@@ -536,8 +542,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		if ($this->params->get('automatic_change', '1') == '1' && key_exists('params', $user) && $success)
 		{
-			$registry = new Registry;
-			$registry->loadString($user['params']);
+			$registry = new Registry($user['params']);
 			$lang_code = $registry->get('language');
 
 			if (empty($lang_code))
@@ -736,7 +741,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				switch (true)
 				{
 					// Language without frontend UI || Language without specific home menu || Language without authorized access level
-					case (!array_key_exists($i, JLanguageMultilang::getSiteLangs())):
+					case (!array_key_exists($i, JLanguageHelper::getInstalledLanguages(0))):
 					case (!isset($homes[$i])):
 					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
 						unset($languages[$i]);

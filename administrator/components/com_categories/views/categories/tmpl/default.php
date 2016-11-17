@@ -25,7 +25,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$parts     = explode('.', $extension);
+$parts     = explode('.', $extension, 2);
 $component = $parts[0];
 $section   = null;
 $columns   = 7;
@@ -39,6 +39,13 @@ if (count($parts) > 1)
 	if (!$inflector->isPlural($section))
 	{
 		$section = $inflector->toPlural($section);
+	}
+
+	// If the section ends with .fields, then the category belongs to com_fields
+	if (substr($section, -strlen('.fields')) === '.fields')
+	{
+		$component = 'com_fields';
+		$section = 'fields&context=' . str_replace('.fields', '', implode('.', $parts));
 	}
 }
 
@@ -254,11 +261,7 @@ if ($saveOrder)
 								</td>
 							<?php endif; ?>
 							<td class="small nowrap hidden-phone">
-								<?php if ($item->language == '*') : ?>
-									<?php echo JText::alt('JALL', 'language'); ?>
-								<?php else: ?>
-									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-								<?php endif; ?>
+								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
 							<td class="hidden-phone">
 								<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">

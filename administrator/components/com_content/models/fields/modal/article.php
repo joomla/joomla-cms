@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
  *
  * @since  1.6
  */
-class JFormFieldModal_Article extends JFormField
+class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -49,7 +49,7 @@ class JFormFieldModal_Article extends JFormField
 
 		// Add the modal field script to the document head.
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/modal-fields.js', false, true);
+		JHtml::_('script', 'system/modal-fields.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($allowSelect)

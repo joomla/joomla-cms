@@ -919,7 +919,7 @@ class JTableNested extends JTable
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', get_class($this), $pks, $state, $userId));
+				$e = new UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', get_class($this), $pks[0], $state, $userId));
 				$this->setError($e);
 
 				return false;
@@ -954,7 +954,7 @@ class JTableNested extends JTable
 				if ($this->_db->loadResult())
 				{
 					// TODO Convert to a conflict exception when available.
-					$e = new RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', get_class($this), $pks, $state, $userId));
+					$e = new RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', get_class($this), $pks[0], $state, $userId));
 
 					$this->setError($e);
 
@@ -972,7 +972,7 @@ class JTableNested extends JTable
 					->where('n.lft < ' . (int) $node->lft)
 					->where('n.rgt > ' . (int) $node->rgt)
 					->where('n.parent_id > 0')
-					->where('n.published < ' . (int) $compareState);
+					->where($this->_db->qn('n.' . $this->getColumnAlias('published')) . ' < ' . (int) $compareState);
 
 				// Just fetch one row (one is one too many).
 				$this->_db->setQuery($query, 0, 1);
@@ -982,7 +982,7 @@ class JTableNested extends JTable
 				if (!empty($rows))
 				{
 					$e = new UnexpectedValueException(
-						sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', get_class($this), $pks, $state, $userId)
+						sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', get_class($this), $pks[0], $state, $userId)
 					);
 					$this->setError($e);
 
@@ -993,7 +993,7 @@ class JTableNested extends JTable
 			// Update and cascade the publishing state.
 			$query->clear()
 				->update($this->_db->quoteName($this->_tbl))
-				->set('published = ' . (int) $state)
+				->set($this->_db->qn($this->getColumnAlias('published')) . ' = ' . (int) $state)
 				->where('(lft > ' . (int) $node->lft . ' AND rgt < ' . (int) $node->rgt . ') OR ' . $k . ' = ' . (int) $pk);
 			$this->_db->setQuery($query)->execute();
 

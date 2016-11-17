@@ -10,16 +10,26 @@ defined('_JEXEC') or die;
 
 /** @var JDocumentHtml $this */
 
-// Add Stylesheets
-JHtml::_('bootstrap.loadCss', true, $this->direction);
-JHtml::_('stylesheet', 'installation/template/css/template.css');
+// Output as HTML5
+$this->setHtml5(true);
 
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
-JHtml::_('script', 'installation/template/js/installation.js');
+JHtml::_('behavior.core');
+JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
+
+// Add installation js
+JHtml::_('script', 'installation/template/js/installation.js', array('version' => 'auto'));
+
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
+
+// Add Stylesheets
+JHtml::_('bootstrap.loadCss', true, $this->direction);
+JHtml::_('stylesheet', 'installation/template/css/template.css', array('version' => 'auto'));
 
 // Load JavaScript message titles
 JText::script('ERROR');
@@ -37,36 +47,24 @@ JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 // Load the JavaScript translated messages
 JText::script('INSTL_PROCESS_BUSY');
 JText::script('INSTL_FTP_SETTINGS_CORRECT');
+
+// Add script options
+$this->addScriptOptions('system.installation', array('url' => JRoute::_('index.php')));
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
 		<jdoc:include type="head" />
-		<!--[if lt IE 9]>
-			<script src="../media/jui/js/html5.js"></script>
-		<![endif]-->
-		<script type="text/javascript">
-			jQuery(function()
-			{
-				// Delay instantiation after document.formvalidation and other dependencies loaded
-				window.setTimeout(function(){
-					window.Install = new Installation('container-installation', '<?php echo JUri::current(); ?>');
-				}, 500);
-			});
-		</script>
+		<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 	</head>
 	<body data-basepath="<?php echo JUri::root(true); ?>">
 		<!-- Header -->
 		<div class="header">
-			<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla" />
+			<img src="<?php echo $this->baseurl; ?>/template/images/joomla.png" alt="Joomla" />
 			<hr />
 			<h5>
 				<?php // Fix wrong display of Joomla!® in RTL language ?>
-				<?php if (JFactory::getLanguage()->isRtl()) : ?>
-					<?php $joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>'; ?>
-				<?php else : ?>
-					<?php $joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>'; ?>
-				<?php endif; ?>
+				<?php $joomla  = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>' . (JFactory::getLanguage()->isRtl() ? '&#x200E;' : '') . '</sup>'; ?>
 				<?php $license = '<a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>'; ?>
 				<?php echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license); ?>
 			</h5>
@@ -86,113 +84,5 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			</div>
 			<hr />
 		</div>
-		<script>
-			function initElements()
-			{
-				(function($){
-					$('.hasTooltip').tooltip()
-
-					// Chosen select boxes
-					$("select").chosen({
-						disable_search_threshold : 10,
-						allow_single_deselect : true
-					});
-
-					// Turn radios into btn-group
-					$('.radio.btn-group label').addClass('btn');
-
-					$('fieldset.btn-group').each(function() {
-						var $self = $(this);
-						// Handle disabled, prevent clicks on the container, and add disabled style to each button
-						if ($self.prop('disabled'))
-						{
-							$self.css('pointer-events', 'none').off('click');
-							$self.find('.btn').addClass('disabled');
-						}
-					});
-
-					$(".btn-group label:not(.active)").click(function()
-					{
-						var label = $(this);
-						var input = $('#' + label.attr('for'));
-
-						if (!input.prop('checked'))
-						{
-							label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
-
-							if (label.closest('.btn-group').hasClass('btn-group-reverse'))
-							{
-								if (input.val() == '')
-								{
-									label.addClass('active btn-primary');
-								}
-								else if (input.val() == 0)
-								{
-									label.addClass('active btn-danger');
-								}
-								else
-								{
-									label.addClass('active btn-success');
-								}
-							}
-							else
-							{
-								if (input.val() == '')
-								{
-									label.addClass('active btn-primary');
-								}
-								else if (input.val() == 0)
-								{
-									label.addClass('active btn-success');
-								}
-								else
-								{
-									label.addClass('active btn-danger');
-								}
-							}
-							input.prop('checked', true);
-						}
-					});
-					$(".btn-group input[checked='checked']").each(function()
-					{
-						var $self  = $(this);
-						var attrId = $self.attr('id');
-
-						if ($self.hasClass('btn-group-reverse'))
-						{
-							if ($self.val() == '')
-							{
-								$('label[for=' + attrId + ']').addClass('active btn-primary');
-							}
-							else if ($self.val() == 0)
-							{
-								$('label[for=' + attrId + ']').addClass('active btn-danger');
-							}
-							else
-							{
-								$('label[for=' + attrId + ']').addClass('active btn-success');
-							}
-						}
-						else
-						{
-							if ($self.val() == '')
-							{
-								$('label[for=' + attrId + ']').addClass('active btn-primary');
-							}
-							else if ($self.val() == 0)
-							{
-								$('label[for=' + attrId + ']').addClass('active btn-success');
-							}
-							else
-							{
-								$('label[for=' + attrId + ']').addClass('active btn-danger');
-							}
-						}
-					});
-				})(jQuery);
-			}
-			initElements();
-		</script>
-
 	</body>
 </html>

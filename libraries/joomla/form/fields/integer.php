@@ -9,15 +9,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides a select list of integers with specified first, last and step values.
  *
  * @since  11.1
  */
-class JFormFieldInteger extends JFormFieldList
+class JFormFieldInteger extends JFormAbstractlist implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
