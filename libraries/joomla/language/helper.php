@@ -307,7 +307,7 @@ class JLanguageHelper
 		if ($contentLanguages === null)
 		{
 			$cache = JFactory::getCache('com_languages', '');
-			
+
 			if (!$contentLanguages = $cache->get('contentlanguages'))
 			{
 				$db = JFactory::getDbo();
