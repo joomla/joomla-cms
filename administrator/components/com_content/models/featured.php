@@ -74,6 +74,7 @@ class ContentModelFeatured extends ContentModelArticles
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
+		$user = JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -121,6 +122,13 @@ class ContentModelFeatured extends ContentModelArticles
 		if ($access = $this->getState('filter.access'))
 		{
 			$query->where('a.access = ' . (int) $access);
+		}
+
+		// Filter by access level on categories.
+		if (!$user->authorise('core.admin'))
+		{
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('c.access IN (' . $groups . ')');
 		}
 
 		// Filter by published state
