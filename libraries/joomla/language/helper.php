@@ -226,7 +226,15 @@ class JLanguageHelper
 				// Process the language metadata.
 				if ($processMetaData)
 				{
-					$lang->metadata = JLanguage::parseXMLLanguageFile($metafile);
+					try
+					{
+						$lang->metadata = JLanguage::parseXMLLanguageFile($metafile);
+					}
+					catch (Exception $e)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('JERROR_LOADLANGUAGE_FAILED', $lang->name, $lang->element), 'warning');
+						$lang->metadata = null;
+					}
 
 					// No metadata found, not a valid language.
 					if (!is_array($lang->metadata))
