@@ -150,7 +150,7 @@
 		if (somemem) {
 			somemem.addEventListener('click', function(event) {
 				var label = event.target,
-					input = document.getElementById(label.getAttribute('for'));
+				    input = document.getElementById(label.getAttribute('for'));
 
 				if (input.getAttribute('checked') !== 'checked') {
 					var aa = closest(label, '.btn-group').querySelector('label');
@@ -208,7 +208,7 @@
 		for (var i = 0, l = btsGrouped.length; l>i; i++) {
 
 			var self   = btsGrouped[i],
-				attrId = self.id;
+			    attrId = self.id;
 
 			if (self.parentNode.parentNode.classList.contains('btn-group-reversed')) {
 				if (self.value == '') {
