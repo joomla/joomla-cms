@@ -64,7 +64,11 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
-
+<noscript>
+	<div style="color: #fff; background: darkred; padding: 10px">
+		<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+	</div>
+</noscript>
 	<?php // Wrapper ?>
 	<div id="wrapper" class="wrapper closed">
 
