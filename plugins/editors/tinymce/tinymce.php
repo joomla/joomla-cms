@@ -830,7 +830,7 @@ class PlgEditorTinymce extends JPlugin
 			'paste_data_images'  => $allowImgPaste,
 
 			// @TODO make it better, do not generate JavaScript in PHP !!!
-			'setupCallbacString' => $tinyBtns,
+			'setupCallbackString' => $tinyBtns,
 		);
 
 		if ($this->params->get('newlines'))
