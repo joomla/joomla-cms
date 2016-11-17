@@ -105,7 +105,7 @@ abstract class JHtmlNumber
 			$suffix = $stdSuffixes[$i];
 		}
 
-		return number_format(round($oBytes / pow($base, $i), (int) $precision), (int) $precision, JText::_('THOUSANDS_SEPARATOR'),
-			JText::_('DECIMALS_SEPARATOR'))  . ' ' . $suffix;
+		return number_format(round($oBytes / pow($base, $i), (int) $precision), (int) $precision, JText::_('DECIMALS_SEPARATOR'),
+			JText::_('THOUSANDS_SEPARATOR'))  . ' ' . $suffix;
 	}
 }
