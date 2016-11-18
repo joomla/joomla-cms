@@ -20,7 +20,8 @@
 		
 		<field
 			name="save_history"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			default="0"
@@ -41,7 +42,8 @@
 
 		<field
 			name="show_feed_image"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
 			id="show_feed_image"
@@ -53,7 +55,8 @@
 
 		<field
 			name="show_feed_description"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
 			id="show_feed_description"
@@ -65,7 +68,8 @@
 
 		<field
 			name="show_item_description"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 			id="show_item_description"
@@ -123,7 +127,8 @@
 
 		<field
 			name="show_tags"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC"
 			id="show_tags"
@@ -153,7 +158,8 @@
 
 		<field
 			name="show_category_title"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
 			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 			default="1"
@@ -164,7 +170,8 @@
 
 		<field
 			name="show_description"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 			id="show_description"
@@ -176,7 +183,8 @@
 
 		<field
 			name="show_description_image"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 			default="1"
@@ -204,7 +212,8 @@
 
 		<field
 			name="show_empty_categories"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 			description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 			default="0"
@@ -216,7 +225,8 @@
 
 		<field
 			name="show_subcat_desc"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			default="1"
@@ -228,7 +238,8 @@
 
 		<field
 			name="show_cat_items"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
 			id="show_cat_items"
@@ -240,7 +251,8 @@
 
 		<field
 			name="show_cat_tags"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_TAGS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_TAGS_DESC"
 			default="1"
@@ -258,7 +270,8 @@
 
 		<field
 			name="show_base_description"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 			description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			default="1"
@@ -286,7 +299,8 @@
 
 		<field
 			name="show_empty_categories_cat"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 			description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 			default="0"
@@ -298,7 +312,8 @@
 
 		<field
 			name="show_subcat_desc_cat"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			default="1"
@@ -310,7 +325,8 @@
 
 		<field
 			name="show_cat_items_cat"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
 			default="1"
@@ -328,7 +344,8 @@
 
 		<field
 			name="filter_field"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			default="1"
@@ -339,7 +356,8 @@
 
 		<field
 			name="show_pagination_limit"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			description="JGLOBAL_DISPLAY_SELECT_DESC"
 			default="1"
@@ -350,7 +368,8 @@
 
 		<field
 			name="show_headings"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
 			description="JGLOBAL_SHOW_HEADINGS_DESC"
 			id="show_headings"
@@ -362,7 +381,8 @@
 
 		<field
 			name="show_articles"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
 			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC"
 			id="show_articles"
@@ -374,7 +394,8 @@
 
 		<field
 			name="show_link"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC"
 			id="show_link"
@@ -399,7 +420,8 @@
 
 		<field
 			name="show_pagination_results"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			description="JGLOBAL_PAGINATION_RESULTS_DESC"
 			default="1"
@@ -417,7 +439,8 @@
 
 		<field
 			name="sef_advanced"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="JGLOBAL_SEF_ADVANCED_LABEL"
 			description="JGLOBAL_SEF_ADVANCED_DESC"
@@ -428,7 +451,8 @@
 
 		<field
 			name="sef_ids"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="JGLOBAL_SEF_NOIDS_LABEL"
 			description="JGLOBAL_SEF_NOIDS_DESC"

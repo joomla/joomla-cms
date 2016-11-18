@@ -39,7 +39,8 @@
 
 				<field
 					name="use_ldapV3"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_LDAP_FIELD_V3_LABEL"
 					description="PLG_LDAP_FIELD_V3_DESC"
 					default="0"
@@ -50,7 +51,8 @@
 
 				<field
 					name="negotiate_tls"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
 					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
 					default="0"
@@ -61,7 +63,8 @@
 
 				<field
 					name="no_referrals"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					default="0"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
 					description="PLG_LDAP_FIELD_REFERRALS_DESC"

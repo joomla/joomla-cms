@@ -33,7 +33,8 @@
 
 		<field
 			name="save_history"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			default="0"
@@ -54,7 +55,8 @@
 
 		<field
 			name="show_contact_list"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
 			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
 			default="0"
@@ -77,7 +79,8 @@
 
 		<field
 			name="show_tags"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
 			description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
 			id="show_tags"
@@ -89,7 +92,8 @@
 
 		<field
 			name="show_info"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
 			description="COM_CONTACT_FIELD_SHOW_INFO_DESC"
 			default="1"
@@ -100,7 +104,8 @@
 
 		<field
 			name="show_name"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 			default="1"
@@ -111,7 +116,8 @@
 
 		<field
 			name="show_position"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
 			default="1"
@@ -122,7 +128,8 @@
 
 		<field
 			name="show_email"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
 			default="0"
@@ -133,7 +140,8 @@
 
 		<field
 			name="show_street_address"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
 			default="1"
@@ -144,7 +152,8 @@
 
 		<field
 			name="show_suburb"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
 			default="1"
@@ -155,7 +164,8 @@
 
 		<field
 			name="show_state"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
 			default="1"
@@ -166,7 +176,8 @@
 
 		<field
 			name="show_postcode"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
 			default="1"
@@ -177,7 +188,8 @@
 
 		<field
 			name="show_country"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
 			default="1"
@@ -188,7 +200,8 @@
 
 		<field
 			name="show_telephone"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
 			default="1"
@@ -199,7 +212,8 @@
 
 		<field
 			name="show_mobile"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
 			default="1"
@@ -210,7 +224,8 @@
 
 		<field
 			name="show_fax"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
 			default="1"
@@ -221,7 +236,8 @@
 
 		<field
 			name="show_webpage"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
 			default="1"
@@ -232,7 +248,8 @@
 
 		<field
 			name="show_image"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
 			default="1"
@@ -243,7 +260,8 @@
 
 		<field
 			name="show_misc"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
 			default="1"
@@ -262,7 +280,8 @@
 
 		<field
 			name="allow_vcard"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_VCARD_DESC"
 			default="0"
@@ -273,7 +292,8 @@
 
 		<field
 			name="show_articles"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
 			description="COM_CONTACT_FIELD_ARTICLES_SHOW_DESC"
 			default="1"
@@ -310,7 +330,8 @@
 
 		<field
 			name="show_profile"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
 			description="COM_CONTACT_FIELD_PROFILE_SHOW_DESC"
 			default="1"
@@ -321,7 +342,8 @@
 
 		<field
 			name="show_links"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
 			description="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
 			default="1"
@@ -470,7 +492,8 @@
 
 		<field
 			name="show_category_title"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
 			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 			default="1"
@@ -481,7 +504,8 @@
 
 		<field
 			name="show_description"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 			default="1"
@@ -492,7 +516,8 @@
 
 		<field
 			name="show_description_image"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 			default="0"
@@ -520,7 +545,8 @@
 
 		<field
 			name="show_subcat_desc"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			default="1"
@@ -532,7 +558,8 @@
 
 		<field
 			name="show_empty_categories"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 			description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
 			default="0"
@@ -544,7 +571,8 @@
 
 		<field
 			name="show_cat_items"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
 			description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
 			default="1"
@@ -555,7 +583,8 @@
 
 		<field
 			name="show_cat_tags"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_SHOW_CAT_TAGS_LABEL"
 			description="COM_CONTACT_FIELD_SHOW_CAT_TAGS_DESC"
 			default="1"
@@ -573,7 +602,8 @@
 
 		<field
 			name="show_base_description"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 			description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			default="1"
@@ -601,7 +631,8 @@
 
 		<field
 			name="show_subcat_desc_cat"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			default="1"
@@ -613,7 +644,8 @@
 
 		<field
 			name="show_empty_categories_cat"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 			description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
 			default="0"
@@ -625,7 +657,8 @@
 
 		<field
 			name="show_cat_items_cat"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
 			description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
 			default="1"
@@ -643,7 +676,8 @@
 
 		<field
 			name="filter_field"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			default="0"
@@ -654,7 +688,8 @@
 
 		<field
 			name="show_pagination_limit"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			description="JGLOBAL_DISPLAY_SELECT_DESC"
 			default="0"
@@ -665,7 +700,8 @@
 
 		<field
 			name="show_headings"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
 			description="JGLOBAL_SHOW_HEADINGS_DESC"
 			default="1"
@@ -676,7 +712,8 @@
 
 		<field
 			name="show_image_heading"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_DESC"
 			default="0"
@@ -687,7 +724,8 @@
 
 		<field
 			name="show_position_headings"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_POSITION_DESC"
 			default="1"
@@ -699,7 +737,8 @@
 
 		<field
 			name="show_email_headings"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_CONFIG_EMAIL_DESC"
 			default="0"
@@ -711,7 +750,8 @@
 
 		<field
 			name="show_telephone_headings"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_PHONE_DESC"
 			default="1"
@@ -723,7 +763,8 @@
 
 		<field
 			name="show_mobile_headings"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_MOBILE_DESC"
 			default="0"
@@ -735,7 +776,8 @@
 
 		<field
 			name="show_fax_headings"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_FAX_DESC"
 			default="0"
@@ -747,7 +789,8 @@
 
 		<field
 			name="show_suburb_headings"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SUBURB_DESC"
 			default="0"
@@ -759,7 +802,8 @@
 
 		<field
 			name="show_state_headings"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_CONFIG_STATE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
 			default="0"
@@ -771,7 +815,8 @@
 
 		<field
 			name="show_country_headings"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_COUNTRY_DESC"
 			default="0"
@@ -796,7 +841,8 @@
 
 		<field
 			name="show_pagination_results"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			description="JGLOBAL_PAGINATION_RESULTS_DESC"
 			default="1"
@@ -841,7 +887,8 @@
 
 		<field
 			name="show_email_form"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
 			description="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_DESC"
 			default="1"
@@ -852,7 +899,8 @@
 
 		<field
 			name="show_email_copy"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 			description="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_DESC"
 			default="1"
@@ -894,7 +942,8 @@
 
 		<field
 			name="validate_session"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_DESC"
 			default="1"
@@ -906,7 +955,8 @@
 
 		<field
 			name="custom_reply"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
 			default="0"
@@ -934,7 +984,8 @@
 
 		<field
 			name="show_feed_link"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 			description="JGLOBAL_SHOW_FEED_LINK_DESC"
 			default="1"
@@ -945,7 +996,8 @@
 
 		<field
 			name="sef_advanced"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="JGLOBAL_SEF_ADVANCED_LABEL"
 			description="JGLOBAL_SEF_ADVANCED_DESC"
@@ -956,7 +1008,8 @@
 
 		<field
 			name="sef_ids"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="JGLOBAL_SEF_NOIDS_LABEL"
 			description="JGLOBAL_SEF_NOIDS_DESC"

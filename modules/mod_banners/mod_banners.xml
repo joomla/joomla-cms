@@ -70,7 +70,8 @@
 
 				<field
 					name="tag_search"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="MOD_BANNERS_FIELD_TAG_LABEL"
 					description="MOD_BANNERS_FIELD_TAG_DESC"
 					default="0"
