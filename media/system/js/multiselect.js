@@ -6,47 +6,45 @@
 /**
  * JavaScript behavior to allow shift select in administrator grids
  */
+Joomla = window.Joomla || {};
 
-(function() {
+var boxes;
+
+Joomla.JMultiSelect = function(table) {
 	"use strict";
 
-	Joomla = window.Joomla || {};
-	var boxes;
+	var last,
 
-	Joomla.JMultiSelect = function(table) {
-		var last,
+		initialize = function(table) {
+			var tableEl = document.querySelector(table);
 
-			initialize = function(table) {
-				var tableEl = document.querySelector(table);
-
-				if (tableEl) {
-					boxes = tableEl.querySelectorAll('input[type=checkbox]');
-					var i = 0, countB = boxes.length;
-					for (i; boxes<countB; i++) {
-						boxes[i].addEventListener('click', function (e) {
-							doselect(e)
-						});
-					}
+			if (tableEl) {
+				boxes = tableEl.querySelectorAll('input[type=checkbox]');
+				var i = 0, countB = boxes.length;
+				for (i; boxes<countB; i++) {
+					boxes[i].addEventListener('click', function (e) {
+						doselect(e)
+					});
 				}
-			},
+			}
+		},
 
-			doselect = function(e) {
-				var current = e.target, isChecked, lastIndex, currentIndex, swap;
-				if (e.shiftKey && last.length) {
-					isChecked = current.hasAttribute(':checked');
-					lastIndex = boxes.index(last);
-					currentIndex = boxes.index(current);
-					if (currentIndex < lastIndex) {
-						// handle selection from bottom up
-						swap = lastIndex;
-						lastIndex = currentIndex;
-						currentIndex = swap;
-					}
-					boxes.slice(lastIndex, currentIndex + 1).setAttribute('checked', isChecked);
+		doselect = function(e) {
+			var current = e.target, isChecked, lastIndex, currentIndex, swap;
+			if (e.shiftKey && last.length) {
+				isChecked = current.hasAttribute(':checked');
+				lastIndex = boxes.index(last);
+				currentIndex = boxes.index(current);
+				if (currentIndex < lastIndex) {
+					// handle selection from bottom up
+					swap = lastIndex;
+					lastIndex = currentIndex;
+					currentIndex = swap;
 				}
+				boxes.slice(lastIndex, currentIndex + 1).setAttribute('checked', isChecked);
+			}
 
-				last = current;
-			};
-		initialize(table);
-	}
-})();
+			last = current;
+	};
+	initialize(table);
+};
