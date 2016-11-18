@@ -212,7 +212,8 @@
 
 		<field
 			name="featured"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JFEATURED"
 			description="COM_CONTACT_FIELD_FEATURED_DESC"
 			default="0"

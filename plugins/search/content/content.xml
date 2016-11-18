@@ -30,7 +30,8 @@
 
 				<field
 					name="search_content"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL"
 					description="PLG_SEARCH_CONTENT_FIELD_CONTENT_DESC"
 					default="0"
@@ -41,7 +42,8 @@
 
 				<field
 					name="search_archived"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL"
 					description="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_DESC"
 					default="0"

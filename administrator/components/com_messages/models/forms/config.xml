@@ -3,7 +3,8 @@
 	<fieldset>
 		<field
 			name="lock"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_MESSAGES_FIELD_LOCK_LABEL"
 			description="COM_MESSAGES_FIELD_LOCK_DESC"
 			default="0"
@@ -14,7 +15,8 @@
 
 		<field
 			name="mail_on_new"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_MESSAGES_FIELD_MAIL_ON_NEW_LABEL"
 			description="COM_MESSAGES_FIELD_MAIL_ON_NEW_DESC"
 			default="1"

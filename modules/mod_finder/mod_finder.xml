@@ -32,7 +32,8 @@
 
 				<field
 					name="show_autosuggest"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
 					description="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION"
 					default="1"
@@ -64,7 +65,8 @@
 
 				<field
 					name="show_label"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_DESCRIPTION"
 					default="1"
@@ -95,7 +97,8 @@
 
 				<field
 					name="show_button"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_DESCRIPTION"
 					default="0"
@@ -119,7 +122,8 @@
 
 				<field
 					name="opensearch"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="MOD_FINDER_FIELD_OPENSEARCH_LABEL"
 					description="MOD_FINDER_FIELD_OPENSEARCH_DESCRIPTION"
 					default="1"

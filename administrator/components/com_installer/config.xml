@@ -7,7 +7,8 @@
 		>
 		<field
 			name="show_jed_info"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_INSTALLER_SHOW_JED_INFORMATION_LABEL"
 			description="COM_INSTALLER_SHOW_JED_INFORMATION_DESC"
 			default="1">

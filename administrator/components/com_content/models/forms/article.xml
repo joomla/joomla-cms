@@ -144,7 +144,8 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="featured" type="switcher"
+		<field name="featured" type="radio"
+			class="switcher"
 			label="JFEATURED"
 			description="COM_CONTENT_FIELD_FEATURED_DESC"
 			default="0"

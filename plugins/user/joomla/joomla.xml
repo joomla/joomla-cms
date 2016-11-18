@@ -21,7 +21,8 @@
 			<fieldset name="basic">
 				<field
 					name="autoregister"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
 					description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC"
 					default="1"
@@ -32,7 +33,8 @@
 
 				<field
 					name="mail_to_user"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
 					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC"
 					default="1"
@@ -43,7 +45,8 @@
 
 				<field
 					name="forceLogout"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_USER_JOOMLA_FIELD_FORCELOGOUT_LABEL"
 					description="PLG_USER_JOOMLA_FIELD_FORCELOGOUT_DESC"
 					default="1"

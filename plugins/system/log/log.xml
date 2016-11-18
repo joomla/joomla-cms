@@ -21,7 +21,8 @@
 			<fieldset name="basic">
 				<field
 					name="log_username"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_LABEL"
 					description="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_DESC"
 					default="0"

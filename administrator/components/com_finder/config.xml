@@ -6,7 +6,8 @@
 		description="COM_FINDER_FIELDSET_SEARCH_OPTIONS_DESCRIPTION" >
 		<field
 			name="enabled"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
 			description="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_DESCRIPTION">
@@ -15,7 +16,8 @@
 		</field>
 		<field
 			name="show_description"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_DESCRIPTION_DESCRIPTION">
@@ -33,7 +35,8 @@
 			showon="show_description:1"
 		/>
 		<field name="allow_empty_query"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
 			description="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_DESCRIPTION">
@@ -42,7 +45,8 @@
 		</field>
 		<field
 			name="show_url"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_URL_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_URL_DESCRIPTION">
@@ -51,7 +55,8 @@
 		</field>
 		<field
 			name="show_autosuggest"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_DESCRIPTION">
@@ -59,7 +64,8 @@
 			<option value="1">JSHOW</option>
 		</field>
 		<field name="show_suggested_query"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			validate="options"
 			label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
@@ -68,7 +74,8 @@
 			<option value="1">JSHOW</option>
 		</field>
 		<field name="show_explained_query"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			validate="options"
 			label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
@@ -78,7 +85,8 @@
 		</field>
 		<field
 			name="show_advanced"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_ADVANCED_DESCRIPTION">
@@ -86,7 +94,8 @@
 			<option value="1">JSHOW</option>
 		</field>
 		<field name="show_advanced_tips"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_DESCRIPTION"
@@ -97,7 +106,8 @@
 		</field>
 		<field
 			name="expand_advanced"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
 			description="COM_FINDER_CONFIG_EXPAND_ADVANCED_DESCRIPTION"
@@ -108,7 +118,8 @@
 		</field>
 		<field
 			name="show_date_filters"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_DESCRIPTION"
@@ -140,7 +151,8 @@
 		</field>
 		<field
 			name="highlight_terms"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_LABEL"
 			description="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_DESCRIPTION">
@@ -229,7 +241,8 @@
 			description="COM_FINDER_CONFIG_MISC_MULTIPLIER_DESCRIPTION" />
 		<field
 			name="stem"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_FINDER_CONFIG_STEMMER_ENABLE_LABEL"
 			description="COM_FINDER_CONFIG_STEMMER_ENABLE_DESCRIPTION" >
@@ -251,7 +264,8 @@
 		</field>
 		<field
 			name="enable_logging"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_FINDER_CONFIG_ENABLE_LOGGING_LABEL"
 			description="COM_FINDER_CONFIG_ENABLE_LOGGING_DESCRIPTION">
