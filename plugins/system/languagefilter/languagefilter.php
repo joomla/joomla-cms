@@ -650,9 +650,10 @@ class PlgSystemLanguageFilter extends JPlugin
 					}
 					elseif (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
 					{
-						// The login form does not contain a menu item redirection.
-						// The active menu item has associations.
-						// We redirect to the user preferred site language associated page.
+						/* The login form does not contain a menu item redirection.
+						   The active menu item has associations.
+						   We redirect to the user preferred site language associated page.
+						*/
 						$associationItemid = $associations[$lang_code];
 						$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
 						$foundAssociation = true;
