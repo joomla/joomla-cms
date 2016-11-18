@@ -52,6 +52,9 @@ $sitename = $app->get('sitename');
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
 	<style>
+		.login-initial {
+			display: none;
+		}
 		<?php // Check if debug is on ?>
 		<?php if ($app->get('debug_lang', 1) || $app->get('debug', 1)) : ?>
 		.view-login .container {
@@ -98,8 +101,8 @@ $sitename = $app->get('sitename');
 	<jdoc:include type="modules" name="debug" style="none" />
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
-		var formTmp = document.querySelector('#form-login');
-		if (formTmp) formTmp.style.display = '';
+		var formTmp = document.querySelector('.login-initial');
+		if (formTmp) formTmp.style.display = 'block';
 	});
 </script>
 </body>

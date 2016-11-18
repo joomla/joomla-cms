@@ -36,7 +36,7 @@ if ($spacing > 0)
 	');
 }
 ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login">
+<form class="login-initial" action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login">
 	<fieldset>
 
 		<div class="form-group">
@@ -47,7 +47,7 @@ if ($spacing > 0)
 				class="form-control"
 				placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>"
 				size="15"
-				autofocus="true" />
+				autofocus="true">
 		</div>
 
 		<div class="form-group">
@@ -57,7 +57,7 @@ if ($spacing > 0)
 				type="password"
 				class="form-control"
 				placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"
-				size="15" />
+				size="15">
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>
@@ -69,7 +69,7 @@ if ($spacing > 0)
 					type="text"
 					class="form-control"
 					placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>"
-					size="15" />
+					size="15">
 			</div>
 		<?php endif; ?>
 
