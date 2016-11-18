@@ -206,12 +206,13 @@ class JFormHelper
 		foreach ($paths as $path)
 		{
 			$file = JPath::find($path, $type);
+
 			if (!$file)
 			{
 				continue;
 			}
 
-			require_once $file;
+			JLoader::register($class, $file);
 
 			if (class_exists($class))
 			{

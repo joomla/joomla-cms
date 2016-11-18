@@ -71,8 +71,7 @@ abstract class JPlugin extends JEvent
 			}
 			else
 			{
-				$this->params = new Registry;
-				$this->params->loadString($config['params']);
+				$this->params = new Registry($config['params']);
 			}
 		}
 

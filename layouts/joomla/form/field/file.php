@@ -44,6 +44,8 @@ extract($displayData);
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
  */
+
+$maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize());
 ?>
 <input type="file"
 	name="<?php echo $name; ?>"
@@ -55,4 +57,5 @@ extract($displayData);
 	<?php echo $disabled ? ' disabled' : ''; ?>
 	<?php echo $autofocus ? ' autofocus' : ''; ?>
 	<?php echo !empty($onchange) ? ' onchange="' . $onchange . '"' : ''; ?>
-	<?php echo $required ? ' required aria-required="true"' : ''; ?> />
+	<?php echo $required ? ' required aria-required="true"' : ''; ?> /><br>
+	<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>

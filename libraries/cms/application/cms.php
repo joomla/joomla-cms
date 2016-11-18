@@ -209,7 +209,7 @@ class JApplicationCms extends JApplicationWeb
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new Registry('session'));
+			$session->set('registry', new Registry);
 			$session->set('user', new JUser);
 		}
 	}
@@ -696,6 +696,9 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	protected function initialiseApp($options = array())
 	{
+		// Set the configuration in the API.
+		$this->config = JFactory::getConfig();
+
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))
 		{
@@ -1208,7 +1211,7 @@ class JApplicationCms extends JApplicationWeb
 	 * Sets the value of a user state variable.
 	 *
 	 * @param   string  $key    The path of the state.
-	 * @param   string  $value  The value of the variable.
+	 * @param   mixed   $value  The value of the variable.
 	 *
 	 * @return  mixed  The previous state, if one existed.
 	 *

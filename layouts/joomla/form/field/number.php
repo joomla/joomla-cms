@@ -72,7 +72,6 @@ else
 	$value = '';
 	$value = (isset($min)) ? $min : $value;
 }
-
 ?>
 <input
 	type="number"

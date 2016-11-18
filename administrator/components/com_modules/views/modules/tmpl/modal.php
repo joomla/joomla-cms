@@ -17,7 +17,6 @@ if (JFactory::getApplication()->isSite())
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 
-
 // Special case for the search field tooltip.
 $searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
 JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
@@ -119,13 +118,7 @@ modulePosIns = function(position) {
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="small hidden-sm-down">
-						<?php if ($item->language == '') : ?>
-							<?php echo JText::_('JDEFAULT'); ?>
-						<?php elseif ($item->language == '*') : ?>
-							<?php echo JText::alt('JALL', 'language'); ?>
-						<?php else : ?>
-							<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-						<?php endif;?>
+						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
 					<td class="hidden-sm-down">
 						<?php echo (int) $item->id; ?>

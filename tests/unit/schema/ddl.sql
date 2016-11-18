@@ -180,7 +180,7 @@ CREATE TABLE `jos_extensions` (
   `element` TEXT NOT NULL DEFAULT '',
   `folder` TEXT NOT NULL DEFAULT '',
   `client_id` INTEGER NOT NULL,
-  `enabled` INTEGER NOT NULL DEFAULT '1',
+  `enabled` INTEGER NOT NULL DEFAULT '0',
   `access` INTEGER NOT NULL DEFAULT '1',
   `protected` INTEGER NOT NULL DEFAULT '0',
   `manifest_cache` TEXT NOT NULL DEFAULT '',

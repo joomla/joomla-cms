@@ -62,7 +62,7 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 		<?php foreach ($options as $i => $option) : ?>
 			<?php
 				// Initialize some option attributes.
-				$checked     = ((string) $option->value == $value) ? 'checked="checked"' : '';
+				$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
 				$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
 				$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
 

@@ -24,18 +24,16 @@ JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
 
 // Include jQuery
 JHtml::_('jquery.framework');
-JHtml::_('script', 'media/popup-imagemanager.min.js', false, true, false, false, true);
-JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
+JHtml::_('script', 'media/popup-imagemanager.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'media/popup-imagemanager.css', array('version' => 'auto', 'relative' => true));
 
 if ($lang->isRtl())
 {
-	JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array(), true);
+	JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
 JFactory::getDocument()->addScriptDeclaration(
-	"
-		var image_base_path = '" . $params->get('image_path', 'images') . "/';
-	"
+	"var image_base_path = '" . $params->get('image_path', 'images') . "/';"
 );
 
 /**
@@ -175,7 +173,11 @@ else // XTD Image plugin
 						</div>
 						<div class="controls">
 							<input required type="file" id="upload-file" name="Filedata[]" multiple /><button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
-							<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
+							<p class="help-block">
+								<?php $cMax    = (int) $this->config->get('upload_maxsize'); ?>
+								<?php $maxSize = JUtility::getMaxUploadSize($cMax . 'MB'); ?>
+								<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', JHtml::_('number.bytes', $maxSize)); ?>
+							</p>
 						</div>
 					</div>
 				</fieldset>

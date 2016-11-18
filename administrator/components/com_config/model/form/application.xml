@@ -3,18 +3,7 @@
 	<fieldset
 		name="cache"
 		label="COM_CONFIG_CACHE_SETTINGS_LABEL">
-		<field
-			name="caching"
-			type="list"
-			class="custom-select"
-			default="2"
-			label="COM_CONFIG_FIELD_CACHE_LABEL"
-			description="COM_CONFIG_FIELD_CACHE_DESC"
-			filter="integer">
-			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
-			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
-			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
-		</field>
+
 		<field
 			name="cache_handler"
 			type="cachehandler"
@@ -22,54 +11,32 @@
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
 			filter="word"
-			showon="caching:1,2">
-		</field>
-
-		<field
-			name="cache_platformprefix"
-			type="switcher"
-			default="0"
-			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
-			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
-			filter="integer"
-			showon="caching:1,2">
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="cachetime"
-			type="number"
-			min="1"
-			default="15"
-			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
-			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
-			required="true"
-			filter="integer"
-			validate="number"
-			showon="caching:1,2"
-			size="6" />
+		/>
 
 		<field
 			name="memcache_persist"
-			type="switcher"
-			default="1"
+			type="radio"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
-			showon="caching:1,2[AND]cache_handler:memcache"
-			filter="integer">
+			class="switcher"
+			default="1"
+			showon="cache_handler:memcache"
+			filter="integer"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="memcache_compress"
-			type="switcher"
-			default="0"
+			type="radio"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
-			showon="caching:1,2[AND]cache_handler:memcache"
-			filter="integer">
+			class="switcher"
+			default="0"
+			showon="cache_handler:memcache"
+			filter="integer"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -77,43 +44,49 @@
 		<field
 			name="memcache_server_host"
 			type="text"
-			default="localhost"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
-			showon="caching:1,2[AND]cache_handler:memcache"
+			default="localhost"
+			showon="cache_handler:memcache"
 			filter="string"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="memcache_server_port"
 			type="text"
-			default="11211"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
-			showon="caching:1,2[AND]cache_handler:memcache"
+			default="11211"
+			showon="cache_handler:memcache"
 			filter="integer"
-			size="5" />
+			size="5"
+		/>
 
 		<field
 			name="memcached_persist"
-			type="switcher"
-			default="1"
+			type="radio"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
-			showon="caching:1,2[AND]cache_handler:memcached"
-			filter="integer">
+			class="switcher"
+			default="1"
+			showon="cache_handler:memcached"
+			filter="integer"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="memcached_compress"
-			type="switcher"
-			default="0"
+			type="radio"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
-			showon="caching:1,2[AND]cache_handler:memcached"
-			filter="integer">
+			class="switcher"
+			default="0"
+			showon="cache_handler:memcached"
+			filter="integer"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -121,31 +94,35 @@
 		<field
 			name="memcached_server_host"
 			type="text"
-			default="localhost"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
-			showon="caching:1,2[AND]cache_handler:memcached"
+			default="localhost"
+			showon="cache_handler:memcached"
 			filter="string"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="memcached_server_port"
 			type="text"
-			default="11211"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
-			showon="caching:1,2[AND]cache_handler:memcached"
+			default="11211"
+			showon="cache_handler:memcached"
 			filter="integer"
-			size="5" />
+			size="5"
+		/>
 
 		<field
 			name="redis_persist"
-			type="switcher"
-			default="1"
+			type="radio"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
+			class="switcher"
+			default="1"
 			filter="integer"
-			showon="caching:1,2[AND]cache_handler:redis">
+			showon="cache_handler:redis"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -153,22 +130,24 @@
 		<field
 			name="redis_server_host"
 			type="text"
-			default="localhost"
 			label="COM_CONFIG_FIELD_REDIS_HOST_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_HOST_DESC"
+			default="localhost"
 			filter="string"
-			showon="caching:1,2[AND]cache_handler:redis"
-			size="25" />
+			showon="cache_handler:redis"
+			size="25"
+		/>
 
 		<field
 			name="redis_server_port"
 			type="text"
-			default="6379"
 			label="COM_CONFIG_FIELD_REDIS_PORT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PORT_DESC"
+			default="6379"
 			filter="integer"
-			showon="caching:1,2[AND]cache_handler:redis"
-			size="5" />
+			showon="cache_handler:redis"
+			size="5"
+		/>
 
 		<field
 			name="redis_server_auth"
@@ -176,19 +155,61 @@
 			label="COM_CONFIG_FIELD_REDIS_AUTH_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_AUTH_DESC"
 			filter="raw"
-			showon="caching:1,2[AND]cache_handler:redis"
+			showon="cache_handler:redis"
 			autocomplete="off"
-			size="30" />
+			size="30"
+		/>
 
 		<field
 			name="redis_server_db"
 			type="text"
-			default="0"
 			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_DB_DESC"
+			default="0"
 			filter="integer"
-			showon="caching:1,2[AND]cache_handler:redis"
-			size="4" />
+			showon="cache_handler:redis"
+			size="4"
+		/>
+
+		<field
+			name="cachetime"
+			type="number"
+			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
+			min="1"
+			default="15"
+			required="true"
+			filter="integer"
+			validate="number"
+			size="6"
+		/>
+
+		<field
+			name="cache_platformprefix"
+			type="radio"
+			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
+			class="switcher"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="caching"
+			type="list"
+			label="COM_CONFIG_FIELD_CACHE_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_DESC"
+			default="2"
+			filter="integer"
+			>
+			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
+			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
+			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset
@@ -202,7 +223,6 @@
 		<field
 			name="dbtype"
 			type="databaseconnection"
-			class="custom-select"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
 			supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
@@ -250,18 +270,20 @@
 		label="CONFIG_DEBUG_SETTINGS_LABEL">
 		<field
 			name="debug"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_SYSTEM_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_SYSTEM_DESC"
 			filter="integer">
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="debug_lang"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_LANG_DESC"
@@ -276,7 +298,8 @@
 		label="CONFIG_FTP_SETTINGS_LABEL">
 		<field
 			name="ftp_enable"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_FTP_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_FTP_ENABLE_DESC"
@@ -338,7 +361,8 @@
 		label="CONFIG_PROXY_SETTINGS_LABEL">
 		<field
 			name="proxy_enable"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_PROXY_ENABLE_DESC"
@@ -392,7 +416,6 @@
 		<field
 			name="offset"
 			type="timezone"
-			class="custom-select"
 			default="UTC"
 			label="COM_CONFIG_FIELD_SERVER_TIMEZONE_LABEL"
 			description="COM_CONFIG_FIELD_SERVER_TIMEZONE_DESC">
@@ -406,9 +429,10 @@
 
 		<field
 			name="mailonline"
-			type="switcher"
+			type="radio"
 			label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MAILONLINE_DESC"
+			class="switcher"
 			default="1"
 			filter="integer"
 			>
@@ -418,9 +442,10 @@
 
 		<field
 			name="massmailoff"
-			type="switcher"
+			type="radio"
 			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
+			class="switcher"
 			default="0"
 			filter="integer"
 			showon="mailonline:1"
@@ -474,7 +499,6 @@
 		<field
 			name="mailer"
 			type="list"
-			class="custom-select"
 			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MAILER_DESC"
 			default="mail"
@@ -523,7 +547,6 @@
 		<field
 			name="smtpsecure"
 			type="list"
-			class="custom-select"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_DESC"
 			default="none"
@@ -537,15 +560,16 @@
 
 		<field
 			name="smtpauth"
-			type="switcher"
+			type="radio"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_DESC"
+			class="switcher"
 			default="0"
 			showon="mailonline:1[AND]mailer:smtp"
 			filter="integer"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -595,7 +619,6 @@
 
 		<field name="robots"
 			type="list"
-			class="custom-select"
 			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
 			default="">
@@ -616,7 +639,8 @@
 
 		<field
 			name="MetaAuthor"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
 			description="COM_CONFIG_FIELD_METAAUTHOR_DESC"
@@ -626,7 +650,8 @@
 		</field>
 		<field
 			name="MetaVersion"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
 			description="COM_CONFIG_FIELD_METAVERSION_DESC"
@@ -642,7 +667,8 @@
 		label="CONFIG_SEO_SETTINGS_LABEL">
 		<field
 			name="sef"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			description="COM_CONFIG_FIELD_SEF_URL_DESC"
@@ -653,7 +679,8 @@
 
 		<field
 			name="sef_rewrite"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
 			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
@@ -665,7 +692,8 @@
 
 		<field
 			name="sef_suffix"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
 			description="COM_CONFIG_FIELD_SEF_SUFFIX_DESC"
@@ -677,7 +705,8 @@
 
 		<field
 			name="unicodeslugs"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
 			description="COM_CONFIG_FIELD_UNICODESLUGS_DESC"
@@ -690,7 +719,6 @@
 		<field
 			name="sitename_pagetitles"
 			type="list"
-			class="custom-select"
 			default="0"
 			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
 			description="COM_CONFIG_FIELD_SITENAME_PAGETITLES_DESC"
@@ -715,7 +743,8 @@
 
 		<field
 			name="gzip"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_GZIP_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_GZIP_COMPRESSION_DESC"
@@ -727,7 +756,6 @@
 		<field
 			name="error_reporting"
 			type="list"
-			class="custom-select"
 			default="default"
 			label="COM_CONFIG_FIELD_ERROR_REPORTING_LABEL"
 			description="COM_CONFIG_FIELD_ERROR_REPORTING_DESC"
@@ -742,7 +770,6 @@
 		<field
 			name="force_ssl"
 			type="list"
-			class="custom-select"
 			default="-1"
 			label="COM_CONFIG_FIELD_FORCE_SSL_LABEL"
 			description="COM_CONFIG_FIELD_FORCE_SSL_DESC"
@@ -756,76 +783,86 @@
 	<fieldset
 		name="session"
 		label="CONFIG_SESSION_SETTINGS_LABEL">
-		<field
-			name="lifetime"
-			type="number"
-			min="1"
-			default="15"
-			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
-			description="COM_CONFIG_FIELD_SESSION_TIME_DESC"
-			required="true"
-			filter="integer"
-			validate="number"
-			size="6" />
-
-		<field
-			name="shared_session"
-			type="switcher"
-			default="0"
-			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
-			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
-			filter="integer">
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
 
 		<field
 			name="session_handler"
 			type="sessionhandler"
-			default="none"
 			label="COM_CONFIG_FIELD_SESSION_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_HANDLER_DESC"
-			filter="word" />
+			default="none"
+			filter="word"
+		/>
 
 		<field
 			name="session_memcache_server_host"
 			type="text"
-			default="localhost"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
+			default="localhost"
 			filter="string"
 			showon="session_handler:memcache"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="session_memcache_server_port"
 			type="text"
-			default="11211"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
+			default="11211"
 			filter="integer"
 			showon="session_handler:memcache"
-			size="5" />
+			size="5"
+		/>
 
 		<field
 			name="session_memcached_server_host"
 			type="text"
-			default="localhost"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
+			default="localhost"
 			filter="string"
 			showon="session_handler:memcached"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="session_memcached_server_port"
 			type="text"
-			default="11211"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
+			default="11211"
 			filter="integer"
 			showon="session_handler:memcached"
-			size="5" />
+			size="5"
+		/>
+
+		<field
+			name="lifetime"
+			type="number"
+			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
+			description="COM_CONFIG_FIELD_SESSION_TIME_DESC"
+			min="1"
+			default="15"
+			required="true"
+			filter="integer"
+			validate="number"
+			size="6"
+		/>
+
+		<field
+			name="shared_session"
+			type="radio"
+			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
+			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
+			class="switcher"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset
@@ -843,7 +880,8 @@
 
 		<field
 			name="offline"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_OFFLINE_DESC"
@@ -855,7 +893,6 @@
 		<field
 			name="display_offline_message"
 			type="list"
-			class="custom-select"
 			default="1"
 			label="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_DESC"
@@ -886,7 +923,6 @@
 		<field
 			name="frontediting"
 			type="list"
-			class="custom-select"
 			default="1"
 			label="COM_CONFIG_FRONTEDITING_LABEL"
 			description="COM_CONFIG_FRONTEDITING_DESC"
@@ -899,7 +935,6 @@
 		<field
 			name="editor"
 			type="plugins"
-			class="custom-select"
 			folder="editors"
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
@@ -909,7 +944,6 @@
 		<field
 			name="captcha"
 			type="plugins"
-			class="custom-select"
 			folder="captcha"
 			default="0"
 			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
@@ -921,7 +955,6 @@
 		<field
 			name="access"
 			type="accesslevel"
-			class="custom-select"
 			default="1"
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_DESC"
@@ -930,7 +963,6 @@
 		<field
 			name="list_limit"
 			type="list"
-			class="custom-select"
 			default="20"
 			label="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_DESC"
@@ -950,7 +982,6 @@
 		<field
 			name="feed_limit"
 			type="list"
-			class="custom-select"
 			default="10"
 			label="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_DESC"
@@ -968,7 +999,6 @@
 		<field
 			name="feed_email"
 			type="list"
-			class="custom-select"
 			default="none"
 			label="COM_CONFIG_FIELD_FEED_EMAIL_LABEL"
 			description="COM_CONFIG_FIELD_FEED_EMAIL_DESC"
@@ -996,7 +1026,6 @@
 		<field
 			name="helpurl"
 			type="helpsite"
-			class="custom-select"
 			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
 			description="COM_CONFIG_FIELD_HELP_SERVER_DESC"
 			showDefault="false" />
@@ -1073,6 +1102,10 @@
 				name="core.edit.own"
 				title="JACTION_EDITOWN"
 				description="COM_CONFIG_ACTION_EDITOWN_DESC" />
+			<action
+				name="core.edit.value"
+				title="JACTION_EDITVALUE"
+				description="COM_CONFIG_ACTION_EDITVALUE_DESC" />
 		</field>
 
 	</fieldset>

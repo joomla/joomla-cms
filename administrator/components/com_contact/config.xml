@@ -94,8 +94,8 @@
 			description="COM_CONTACT_FIELD_SHOW_INFO_DESC"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -317,6 +317,17 @@
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="show_user_custom_fields"
+			type="category"
+			multiple="true"
+			extension="com_users.user.fields"
+			label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
+			description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
+			>
+			<option value="-1">JALL</option>
 		</field>
 
 		<field
@@ -964,6 +975,18 @@
 			filter="integer">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="custom_fields_enable"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 	</fieldset>
