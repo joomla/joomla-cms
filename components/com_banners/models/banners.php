@@ -206,9 +206,7 @@ class BannersModelBanners extends JModelList
 
 			foreach ($this->cache['items'] as &$item)
 			{
-				$parameters   = new Registry;
-				$parameters->loadString($item->params);
-				$item->params = $parameters;
+				$item->params = new Registry($item->params);
 			}
 		}
 
@@ -229,6 +227,11 @@ class BannersModelBanners extends JModelList
 		$db        = $this->getDbo();
 		$query     = $db->getQuery(true);
 
+		if (!count($items))
+		{
+			return;
+		}
+		
 		foreach ($items as $item)
 		{
 			$bid[] = (int) $item->id;

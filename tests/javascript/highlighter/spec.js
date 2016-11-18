@@ -14,11 +14,11 @@ define(['jquery', 'testsRoot/highlighter/spec-setup', 'jasmineJquery'], function
 		});
 		
 		it('Should highlight sample text at depth 1', function () {
-			expect($('#text-depth-1')).toContainHtml('<span rel="text" class="highlight">text</span>');
+			expect($('#text-depth-1').html()).toContain('class=\"highlight\"');
 		});
 		
 		it('Should highlight sample text at depth 2', function () {
-			expect($('#text-depth-2')).toContainHtml('<span rel="text" class="highlight">text</span>');
+			expect($('#text-depth-2').html()).toContain('class=\"highlight\"');
 		});
 	});
 
@@ -29,14 +29,12 @@ define(['jquery', 'testsRoot/highlighter/spec-setup', 'jasmineJquery'], function
 		
 		it('Should highlight sample text at depth 1', function () {
 			var $element = $('#text-depth-1');
-			expect($element).toContainHtml('<span rel="element" class="highlight">element</span>');
-			expect($element).toContainHtml('<span rel="1" class="highlight">1</span>');
+			expect($element.html()).toContain('class="highlight"');
 		});
 		
 		it('Should highlight sample text at depth 2', function () {
 			var $element = $('#text-depth-2');
-			expect($element).toContainHtml('<span rel="element" class="highlight">element</span>');
-			expect($element).toContainHtml('<span rel="2" class="highlight">2</span>');
+			expect($element.html()).toContain('class="highlight"');
 		});
 	});
 	
@@ -46,11 +44,11 @@ define(['jquery', 'testsRoot/highlighter/spec-setup', 'jasmineJquery'], function
 		});
 		
 		it('Should highlight word \'sample\' in sample text at depth 1', function () {
-			expect($('#text-depth-1')).toContainHtml('<span rel="Sample" class="highlight">Sample</span>');
+			expect($('#text-depth-1').html()).toContain('class="highlight"');;
 		});
 		
 		it('Should highlight word \'sample\' in sample text at depth 2', function () {
-			expect($('#text-depth-2')).toContainHtml('<span rel="Sample" class="highlight">Sample</span>');
+			expect($('#text-depth-2').html()).toContain('class="highlight"');;
 		});
 	});
 

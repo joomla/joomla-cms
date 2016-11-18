@@ -126,7 +126,7 @@
 			</field>
 			<field name="show_suggested_query"
 				type="list"
-				default="1"
+				default=""
 				validate="options"
 				label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
 				description="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_DESC">
@@ -136,7 +136,7 @@
 			</field>
 			<field name="show_explained_query"
 				type="list"
-				default="1"
+				default=""
 				validate="options"
 				label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
 				description="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_DESC">

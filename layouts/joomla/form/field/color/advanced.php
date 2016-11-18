@@ -68,9 +68,9 @@ $autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
 $direction    = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
 
 JHtml::_('jquery.framework');
-JHtml::_('script', 'vendor/minicolors/jquery.minicolors.min.js', false, true);
-JHtml::_('stylesheet', 'vendor/minicolors/jquery.minicolors.css', false, true);
-JHtml::_('script', 'system/fields/color-field-adv-init.min.js', false, true, false, false, true);
+JHtml::_('script', 'vendor/minicolors/jquery.minicolors.min.js', array('version' => 'auto', 'relative' => true);
+JHtml::_('stylesheet', 'vendor/minicolors/jquery.minicolors.css', array('version' => 'auto', 'relative' => true);
+JHtml::_('script', 'system/fields/color-field-adv-init.min.js', array('version' => 'auto', 'relative' => true);
 ?>
 <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
 echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $hint; ?><?php echo $class; ?><?php echo

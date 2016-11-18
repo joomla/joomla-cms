@@ -59,7 +59,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('script', 'system/core.min.js', false, true, false, false, JDEBUG);
+		JHtml::_('script', 'system/core.min.js', array('version' => 'auto', 'relative' => true));
 		static::$loaded[__METHOD__] = true;
 
 		return;
@@ -85,7 +85,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/caption.min.js', false, true);
+		JHtml::_('script', 'system/caption.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -155,9 +155,22 @@ abstract class JHtmlBehavior
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
 
-		JHtml::_('script', 'vendor/punycode/punycode.js', false, true);
-		JHtml::_('script', 'system/fields/validate.min.js', false, true);
+		JHtml::_('script', 'vendor/punycode/punycode.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'system/fields/validate.min.js', array('version' => 'auto', 'relative' => true));
+
 		static::$loaded[__METHOD__] = true;
+	}
+
+	/**
+	 * Add unobtrusive JavaScript support for submenu switcher support
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 */
+	public static function switcher()
+	{
+		// files removed!
 	}
 
 	/**
@@ -179,8 +192,8 @@ abstract class JHtmlBehavior
 		// Include core
 		static::core();
 
-		JHtml::_('stylesheet', 'vendor/awesomplete/awesomplete.css', false, true);
-		JHtml::_('script', 'vendor/awesomplete/awesomplete.js', false, true);
+		JHtml::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'vendor/awesomplete/awesomplete.js', array('version' => 'auto', 'relative' => true));
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -263,7 +276,7 @@ abstract class JHtmlBehavior
 		// Include core
 		static::core();
 
-		JHtml::_('script', 'system/multiselect.min.js', false, true);
+		JHtml::_('script', 'system/multiselect.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -308,11 +321,12 @@ abstract class JHtmlBehavior
 		}
 
 		$document = JFactory::getDocument();
-		$tag = JFactory::getLanguage()->getTag();
+		$tag      = JFactory::getLanguage()->getTag();
+		$attribs  = array('title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), 'media' => 'all');
 
-		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), ' media' => 'all'), true);
-		JHtml::_('script', $tag . '/fields/calendar.js', false, true);
-		JHtml::_('script', $tag . '/fields/calendar-setup.js', false, true);
+		JHtml::_('stylesheet', 'system/calendar-jos.css', array('version' => 'auto', 'relative' => true), $attribs);
+		JHtml::_('script', $tag . '/fields/calendar.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', $tag . '/fields/calendar-setup.js', array('version' => 'auto', 'relative' => true));
 
 		$translation = static::calendartranslation();
 
@@ -344,8 +358,8 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'jui/jquery.minicolors.min.js', false, true);
-		JHtml::_('stylesheet', 'jui/jquery.minicolors.css', false, true);
+		JHtml::_('script', 'vendor/minicolors/jquery.minicolors.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('stylesheet', 'vendor/minicolors/jquery.minicolors.css', array('version' => 'auto', 'relative' => true));
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
 					jQuery('.minicolors').each(function() {
@@ -390,8 +404,8 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'jui/jquery.simplecolors.min.js', false, true);
-		JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', false, true);
+		JHtml::_('script', 'system/js/fields/jquery.simplecolors.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('stylesheet', 'system/js/fields/jquery.simplecolors.css', array('version' => 'auto', 'relative' => true));
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
 					jQuery('select.simplecolors').simplecolors();
@@ -445,7 +459,7 @@ abstract class JHtmlBehavior
 		JFactory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
 
 		// Add script.
-		JHtml::script('system/keepalive.js', false, true);
+		JHtml::_('script', 'system/keepalive.js', array('version' => 'auto', 'relative' => true));
 
 		static::$loaded[__METHOD__] = true;
 
@@ -492,7 +506,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/highlighter.min.js', false, true);
+		JHtml::_('script', 'system/highlighter.min.js', array('version' => 'auto', 'relative' => true));
 
 		foreach ($terms as $i => $term)
 		{
@@ -698,9 +712,9 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
-		// Include jQuery
+
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/tabs-state.min.js', false, true);
+		JHtml::_('script', 'system/tabs-state.min.js', array('version' => 'auto', 'relative' => true));
 		self::$loaded[__METHOD__] = true;
 	}
 
@@ -708,7 +722,7 @@ abstract class JHtmlBehavior
 	 * Add javascript polyfills.
 	 *
 	 * @param   string|array  $polyfillTypes       The polyfill type(s). Examples: event, array('event', 'classlist').
-	 * @param   array         $conditionalBrowser  A IE conditional expression. Example: lt IE 9 (lower than IE 9).
+	 * @param   string        $conditionalBrowser  An IE conditional expression. Example: lt IE 9 (lower than IE 9).
 	 *
 	 * @return  void
 	 *
@@ -737,9 +751,10 @@ abstract class JHtmlBehavior
 			}
 
 			// If include according to browser.
-			$scriptOptions = !is_null($conditionalBrowser) ? array('relative' => true, 'conditional' => $conditionalBrowser) : array('relative' => true);
+			$scriptOptions = array('version' => 'auto', 'relative' => true);
+			$scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
 
-			JHtml::_('script', 'media/vendor/polyfills/polyfill.' . $polyfillType . '.js', $scriptOptions);
+			JHtml::_('script', 'vendor/polyfills/polyfill.' . $polyfillType . '.js', $scriptOptions);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;

@@ -17,7 +17,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
-
 $app       = JFactory::getApplication();
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
@@ -233,17 +232,13 @@ if ($saveOrder)
 							<?php echo $this->escape($item->access_title); ?>
 						</td>
 						<td class="small nowrap hidden-sm-down">
-						<?php if ($item->language == '*') : ?>
-							<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else: ?>
-								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif;?>
-							</td>
-							<td class="hidden-sm-down">
-								<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
-									<?php echo (int) $item->id; ?></span>
-							</td>
-						</tr>
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+						</td>
+						<td class="hidden-sm-down">
+							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
+								<?php echo (int) $item->id; ?></span>
+						</td>
+					</tr>
 				<?php endforeach; ?>
 				</tbody>
 			</table>

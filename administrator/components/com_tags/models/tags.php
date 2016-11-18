@@ -346,7 +346,7 @@ class TagsModelTags extends JModelList
 
 	/**
 	 * Method to load the countItems method from the extensions
-	 * 
+	 *
 	 * @param   stdClass[]  &$items     The category items
 	 * @param   string      $extension  The category extension
 	 *
@@ -373,10 +373,10 @@ class TagsModelTags extends JModelList
 
 		if (file_exists($file))
 		{
-			require_once $file;
-
 			$prefix = ucfirst(str_replace('com_', '', $component));
 			$cName = $prefix . 'Helper';
+
+			JLoader::register($cName, $file);
 
 			if (class_exists($cName) && is_callable(array($cName, 'countTagItems')))
 			{

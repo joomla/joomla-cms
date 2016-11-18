@@ -29,7 +29,7 @@ class InstallationModelFtp extends JModelBase
 	 */
 	public function detectFtpRoot($options)
 	{
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.
@@ -148,7 +148,7 @@ class InstallationModelFtp extends JModelBase
 	 */
 	public function verifyFtpSettings($options)
 	{
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.

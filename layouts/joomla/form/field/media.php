@@ -121,7 +121,7 @@ $url    = ($readonly ? ''
 		)
 	);
 
-	JHtml::_('script', 'system/fields/mediafield.min.js', false, true, false, false, true);
+	JHtml::_('script', 'system/fields/mediafield.min.js', array('version' => 'auto', 'relative' => true));
 	?>
 	<div class="input-group">
 		<?php if ($showPreview && $showAsTooltip) : ?>

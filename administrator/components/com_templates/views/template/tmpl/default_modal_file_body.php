@@ -40,7 +40,10 @@ $input = JFactory::getApplication()->input;
 					<input type="hidden" class="address" name="address" />
 					<input type="file" name="files" required />
 					<?php echo JHtml::_('form.token'); ?>
-					<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" />
+					<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" /><br>
+					<?php $cMax    = $this->state->get('params')->get('upload_limit'); ?>
+					<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize($cMax . 'MB')); ?>
+					<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 				</fieldset>
 			</form>
 			<?php if ($this->type != 'home'): ?>
