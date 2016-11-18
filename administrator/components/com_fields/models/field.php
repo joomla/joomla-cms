@@ -409,7 +409,11 @@ class FieldsModelField extends JModelAdmin
 			$this->loadTypeForms($form, $data['type'], $component);
 		}
 
-		if (!JFactory::getUser()->authorise('core.edit.state', $context . '.field.' . $jinput->get('id')))
+		$fieldId    = $jinput->get('id');
+		$parts      = explode('.', $context);
+		$assetKey   = $fieldId ? $context . '.field.' . $fieldId : $parts[0];
+
+		if (!JFactory::getUser()->authorise('core.edit.state', $assetKey))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');

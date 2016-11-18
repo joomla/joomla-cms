@@ -152,8 +152,7 @@ class FieldsViewFields extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', $this->context) && $user->authorise('core.edit', $this->context)
-			&& $user->authorise('core.edit.state', $this->context))
+		if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 
