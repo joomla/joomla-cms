@@ -622,17 +622,20 @@ class PlgSystemLanguageFilter extends JPlugin
 						$associations = MenusHelper::getAssociations($active->id);
 					}
 
-					// The login menu item contains a redirection.
-					// This will override the automatic change to the user preferred language
+					// Retrieves the Itemid from a login form.
+					$uri    = new JUri($this->app->getUserState('users.login.form.return'));
+					$itemid = $uri->getVar('Itemid');
+
 					if ($active->params['login_redirect_url'])
 					{
+						// The login menu item form contains an internal URL redirection.
+						// This will override the automatic change to the user preferred site language.
 						$this->app->setUserState('users.login.form.return', JRoute::_($this->app->getUserState('users.login.form.return'), false));
 					}
-					elseif ($this->app->getUserState('users.login.form.return'))
+					elseif ($itemid)
 					{
-						// The login module contains a menu item redirection. Try to get association from that menu item.
-						$itemid = preg_replace('/\D+/', '', $this->app->getUserState('users.login.form.return'));
-
+						// The login form contains a menu item redirection. Try to get associations from that menu item.
+						// If any association set to the user preferred site language, redirect to that page.
 						if ($assoc)
 						{
 							$associations = MenusHelper::getAssociations($itemid);
@@ -647,13 +650,16 @@ class PlgSystemLanguageFilter extends JPlugin
 					}
 					elseif (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
 					{
+						// The login form does not contain a menu item redirection.
+						// The active menu item has associations.
+						// We redirect to the user preferred site language associated page.
 						$associationItemid = $associations[$lang_code];
 						$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
 						$foundAssociation = true;
 					}
 					elseif ($active->home)
 					{
-						// We are on a Home page, we redirect to the user site language home page
+						// We are on a Home page, we redirect to the user preferred site language Home page.
 						$item = $menu->getDefault($lang_code);
 
 						if ($item && $item->language != $active->language && $item->language != '*')
