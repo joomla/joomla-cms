@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Editor Readmore buton
+ * Editor Readmore button
  *
  * @since  1.5
  */
@@ -30,37 +30,35 @@ class PlgButtonReadmore extends JPlugin
 	 * @param   string   $name    The name of the button to add
 	 *
 	 * @return  JObject  $button  A two element array of (imageName, textToInsert)
+	 *
+	 * @since   1.5
 	 */
 	public function onDisplay($name)
 	{
-		$doc = JFactory::getDocument();
-
-		// Button is not active in specific content components
 		$getContent = $this->_subject->getContent($name);
 		$present    = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
-
-		$doc->addScriptDeclaration(
-			"
-		function insertReadmore(editor)
-		{
-			var content = $getContent
-			if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i))
+		$js = "
+			function insertReadmore(editor)
 			{
-				alert('$present');
-				return false;
-			} else {
-				jInsertEditorText('<hr id=\"system-readmore\" />', editor);
+				var content = $getContent
+				if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i))
+				{
+					alert('$present');
+					return false;
+				} else {
+					jInsertEditorText('<hr id=\"system-readmore\" />', editor);
+				}
 			}
-		}
-			"
-		);
+			";
+		JFactory::getDocument()->addScriptDeclaration($js);
 
-		$button           = new JObject;
-		$button->modal    = false;
-		$button->text     = JText::_('PLG_READMORE_BUTTON_READMORE');
-		$button->name     = 'arrow-down';
-		$button->link     = '#';
-		$button->onclick  = 'insertReadmore(\'' . $name . '\');return false;';
+		$button = new JObject;
+		$button->modal   = false;
+		$button->class   = 'btn btn-secondary';
+		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
+		$button->text    = JText::_('PLG_READMORE_BUTTON_READMORE');
+		$button->name    = 'arrow-down';
+		$button->link    = '#';
 
 		return $button;
 	}

@@ -115,7 +115,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 			<field name="allow_empty_query"
-				type="switcher"
+				type="radio"
+				class="switcher"
 				default="0"
 				validate="options"
 				label="COM_FINDER_ALLOW_EMPTY_QUERY_LABEL"
@@ -125,7 +126,7 @@
 			</field>
 			<field name="show_suggested_query"
 				type="list"
-				default="1"
+				default=""
 				validate="options"
 				label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
 				description="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_DESC">
@@ -135,7 +136,7 @@
 			</field>
 			<field name="show_explained_query"
 				type="list"
-				default="1"
+				default=""
 				validate="options"
 				label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
 				description="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_DESC">
@@ -166,7 +167,8 @@
 			</field>
 			<field type="spacer" />
 			<field name="show_feed"
-				type="switcher"
+				type="radio"
+				class="switcher"
 				default="0"
 				validate="options"
 				label="COM_FINDER_CONFIG_SHOW_FEED_LABEL"
@@ -175,7 +177,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 			<field name="show_feed_text"
-				type="switcher"
+				type="radio"
+				class="switcher"
 				default="0"
 				validate="options"
 				label="COM_FINDER_CONFIG_SHOW_FEED_TEXT_LABEL"

@@ -102,7 +102,7 @@
         color: $white;
       }
     }
-    button:first-of-type {
+    button:first-of-type:not(.float-sm-right) {
       margin-left: 0;
     }
   }

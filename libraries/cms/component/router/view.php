@@ -83,7 +83,7 @@ abstract class JComponentRouterView extends JComponentRouterBase
 		$key    = false;
 
 		// Get the right view object
-		if (isset($query['view']) && $views[$query['view']])
+		if (isset($query['view']) && isset($views[$query['view']]))
 		{
 			$viewobj = $views[$query['view']];
 		}

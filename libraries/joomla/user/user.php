@@ -798,8 +798,7 @@ class JUser extends JObject
 
 			if ($my->id == $table->id)
 			{
-				$registry = new Registry;
-				$registry->loadString($table->params);
+				$registry = new Registry($table->params);
 				$my->setParameters($registry);
 			}
 

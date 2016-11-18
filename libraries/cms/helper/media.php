@@ -63,7 +63,7 @@ class JHelperMedia
 
 		if (empty($file['name']))
 		{
-			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'error');
 
 			return false;
 		}
@@ -72,7 +72,7 @@ class JHelperMedia
 
 		if (str_replace(' ', '', $file['name']) != $file['name'] || $file['name'] !== JFile::makeSafe($file['name']))
 		{
-			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
 
 			return false;
 		}
@@ -82,7 +82,7 @@ class JHelperMedia
 		if (count($filetypes) < 2)
 		{
 			// There seems to be no extension
-			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -99,7 +99,7 @@ class JHelperMedia
 
 		if (!empty($check))
 		{
-			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -110,7 +110,7 @@ class JHelperMedia
 
 		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
 		{
-			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -119,7 +119,7 @@ class JHelperMedia
 
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
-			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
 
 			return false;
 		}
@@ -136,14 +136,14 @@ class JHelperMedia
 				{
 					if (($imginfo = getimagesize($file['tmp_name'])) === false)
 					{
-						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'notice');
+						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
 
 						return false;
 					}
 				}
 				else
 				{
-					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'notice');
+					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
 
 					return false;
 				}
@@ -162,7 +162,7 @@ class JHelperMedia
 
 					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
 					{
-						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'notice');
+						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
 
 						return false;
 					}
@@ -176,14 +176,14 @@ class JHelperMedia
 
 					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
 					{
-						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'notice');
+						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
 
 						return false;
 					}
 				}
 				elseif (!JFactory::getUser()->authorise('core.manage', $component))
 				{
-					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'notice');
+					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
 
 					return false;
 				}
@@ -208,7 +208,7 @@ class JHelperMedia
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
 			if (stristr($xss_check, '<' . $tag . ' ') || stristr($xss_check, '<' . $tag . '>'))
 			{
-				$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'notice');
+				$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
 
 				return false;
 			}

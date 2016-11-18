@@ -43,6 +43,7 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
  */
+
 // Initialize some field attributes.
 $attributes = array(
 	$class ? 'class="form-control ' . $class . '"' : 'class="form-control"',

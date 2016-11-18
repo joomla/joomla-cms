@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_codemirror</name>
-	<version>5.18.0</version>
+	<version>5.20.2</version>
 	<creationDate>28 March 2011</creationDate>
 	<author>Marijn Haverbeke</author>
 	<authorEmail>marijnh@gmail.com</authorEmail>
@@ -27,7 +27,8 @@
 			<fieldset name="basic">
 				<field
 					name="lineNumbers"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
 					default="0"
@@ -39,7 +40,8 @@
 
 				<field
 					name="codeFolding"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
 					description="PLG_CODEMIRROR_FIELD_CODEFOLDING_DESC"
 					default="0"
@@ -51,7 +53,8 @@
 
 				<field
 					name="markerGutter"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
 					default="1"
@@ -76,7 +79,8 @@
 
 				<field
 					name="activeLine"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
 					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_DESC"
 					default="0"
@@ -88,7 +92,8 @@
 
 				<field
 					name="selectionMatches"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_LABEL"
 					description="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_DESC"
 					default="0"
@@ -100,7 +105,8 @@
 
 				<field
 					name="matchTags"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MATCHTAGS_DESC"
 					default="1"
@@ -112,7 +118,8 @@
 
 				<field
 					name="matchBrackets"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_DESC"
 					default="1"
@@ -124,7 +131,8 @@
 
 				<field
 					name="autoCloseTags"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_DESC"
 					default="1"
@@ -136,7 +144,8 @@
 
 				<field
 					name="autoCloseBrackets"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
 					description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
 					default="1"
@@ -148,7 +157,8 @@
 
 				<field
 					name="autoFocus"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOFOCUS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_AUTOFOCUS_DESC"
 					default="1"
@@ -160,7 +170,8 @@
 
 				<field
 					name="vimKeyBinding"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_LABEL"
 					description="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_DESC"
 					default="0"

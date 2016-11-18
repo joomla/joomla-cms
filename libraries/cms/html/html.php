@@ -116,7 +116,7 @@ abstract class JHtml
 				throw new InvalidArgumentException(sprintf('%s %s not found.', $prefix, $file), 500);
 			}
 
-			require_once $path;
+			JLoader::register($className, $path);
 
 			if (!class_exists($className))
 			{
@@ -277,6 +277,31 @@ abstract class JHtml
 	}
 
 	/**
+	 * Include version with MD5SUM file in path.
+	 *
+	 * @param   string  $path  Folder name to search into (images, css, js, ...).
+	 *
+	 * @return  string  Query string to add.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated   4.0  Usage of MD5SUM files is deprecated, use version instead.
+	 */
+	protected static function getMd5Version($path)
+	{
+		$md5 = dirname($path) . '/MD5SUM';
+
+		if (file_exists($md5))
+		{
+			JLog::add('Usage of MD5SUM files is deprecated, use version instead.', JLog::WARNING, 'deprecated');
+
+			return '?' . file_get_contents($md5);
+		}
+
+		return '';
+	}
+
+	/**
 	 * Compute the files to be included
 	 *
 	 * @param   string   $folder          Folder name to search in (i.e. images, css, js).
@@ -345,11 +370,9 @@ abstract class JHtml
 					 * Detect if we received a file in the format name.min.ext
 					 * If so, strip the .min part out, otherwise append -uncompressed
 					 */
-					if (strrpos($strip, '.min', '-4'))
+					if (strlen($strip) > 4 && preg_match('#\.min$#', $strip))
 					{
-						$position = strrpos($strip, '.min', '-4');
-						$filename = str_replace('.min', '.', $strip, $position);
-						$files[]  = $filename . $ext;
+						$files[] = preg_replace('#\.min$#', '.', $strip) . $ext;
 					}
 					else
 					{
@@ -371,9 +394,7 @@ abstract class JHtml
 
 					if (file_exists($path))
 					{
-						$md5 = dirname($path) . '/MD5SUM';
-						$includes[] = JUri::base(true) . "/templates/$template/$folder/$file" .
-							(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+						$includes[] = JUri::base(true) . "/templates/$template/$folder/$file" . static::getMd5Version($path);
 
 						break;
 					}
@@ -396,9 +417,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$md5 = dirname($path) . '/MD5SUM';
-									$includes[] = JUri::root(true) . "/media/$extension/$element/$folder/$file" .
-										(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+									$includes[] = JUri::root(true) . "/media/$extension/$element/$folder/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -408,9 +427,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$md5 = dirname($path) . '/MD5SUM';
-									$includes[] = JUri::root(true) . "/media/$extension/$folder/$element/$file" .
-										(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+									$includes[] = JUri::root(true) . "/media/$extension/$folder/$element/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -420,9 +437,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$md5 = dirname($path) . '/MD5SUM';
-									$includes[] = JUri::root(true) . "/templates/$template/$folder/system/$element/$file" .
-										(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+									$includes[] = JUri::root(true) . "/templates/$template/$folder/system/$element/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -432,9 +447,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$md5 = dirname($path) . '/MD5SUM';
-									$includes[] = JUri::root(true) . "/media/system/$folder/$element/$file" .
-										(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+									$includes[] = JUri::root(true) . "/media/system/$folder/$element/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -446,9 +459,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$md5 = dirname($path) . '/MD5SUM';
-									$includes[] = JUri::root(true) . "/media/$extension/$folder/$file" .
-										(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+									$includes[] = JUri::root(true) . "/media/$extension/$folder/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -458,9 +469,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$md5 = dirname($path) . '/MD5SUM';
-									$includes[] = JUri::root(true) . "/templates/$template/$folder/system/$file" .
-										(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+									$includes[] = JUri::root(true) . "/templates/$template/$folder/system/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -470,9 +479,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$md5 = dirname($path) . '/MD5SUM';
-									$includes[] = JUri::root(true) . "/media/system/$folder/$file" .
-										(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+									$includes[] = JUri::root(true) . "/media/system/$folder/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -485,9 +492,7 @@ abstract class JHtml
 
 							if (file_exists($path))
 							{
-								$md5 = dirname($path) . '/MD5SUM';
-								$includes[] = JUri::root(true) . "/media/system/$folder/$file" .
-										(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+								$includes[] = JUri::root(true) . "/media/system/$folder/$file" . static::getMd5Version($path);
 
 								break;
 							}
@@ -510,11 +515,9 @@ abstract class JHtml
 					 * Detect if we received a file in the format name.min.ext
 					 * If so, strip the .min part out, otherwise append -uncompressed
 					 */
-					if (strrpos($strip, '.min', '-4'))
+					if (strlen($strip) > 4 && preg_match('#\.min$#', $strip))
 					{
-						$position = strrpos($strip, '.min', '-4');
-						$filename = str_replace('.min', '.', $strip, $position);
-						$files[]  = $filename . $ext;
+						$files[] = preg_replace('#\.min$#', '.', $strip) . $ext;
 					}
 					else
 					{
@@ -535,9 +538,7 @@ abstract class JHtml
 
 					if (file_exists($path))
 					{
-						$md5 = dirname($path) . '/MD5SUM';
-						$includes[] = JUri::root(true) . "/$file" .
-							(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+						$includes[] = JUri::root(true) . "/$file" . static::getMd5Version($path);
 
 						break;
 					}
@@ -586,54 +587,53 @@ abstract class JHtml
 	/**
 	 * Write a `<link>` element to load a CSS file
 	 *
-	 * @param   string   $file            Path to file
-	 * @param   array    $attribs         Attributes to be added to the `<link>` element
-	 * @param   boolean  $relative        Flag if the path to the file is relative to the /media folder (and searches in template).
-	 * @param   boolean  $returnPath      Flag if the file path should be returned or if the file should be included in the global JDocument instance
-	 * @param   boolean  $detect_browser  Flag if the browser should be detected to include specific browser files.
-	 *                                    This will try to include file, `file_*browser*`, `file_*browser*_*major*`, `file_*browser*_*major*_*minor*`
-	 *                                    <table>
-	 *                                       <tr><th>Navigator</th>                  <th>browser</th>	<th>major.minor</th></tr>
-	 *
-	 *                                       <tr><td>Safari 3.0.x</td>               <td>konqueror</td>	<td>522.x</td></tr>
-	 *                                       <tr><td>Safari 3.1.x and 3.2.x</td>     <td>konqueror</td>	<td>525.x</td></tr>
-	 *                                       <tr><td>Safari 4.0 to 4.0.2</td>        <td>konqueror</td>	<td>530.x</td></tr>
-	 *                                       <tr><td>Safari 4.0.3 to 4.0.4</td>      <td>konqueror</td>	<td>531.x</td></tr>
-	 *                                       <tr><td>iOS 4.0 Safari</td>             <td>konqueror</td>	<td>532.x</td></tr>
-	 *                                       <tr><td>Safari 5.0</td>                 <td>konqueror</td>	<td>533.x</td></tr>
-	 *
-	 *                                       <tr><td>Google Chrome 1.0</td>          <td>konqueror</td>	<td>528.x</td></tr>
-	 *                                       <tr><td>Google Chrome 2.0</td>          <td>konqueror</td>	<td>530.x</td></tr>
-	 *                                       <tr><td>Google Chrome 3.0 and 4.x</td>  <td>konqueror</td>	<td>532.x</td></tr>
-	 *                                       <tr><td>Google Chrome 5.0</td>          <td>konqueror</td>	<td>533.x</td></tr>
-	 *
-	 *                                       <tr><td>Internet Explorer 5.5</td>      <td>msie</td>		<td>5.5</td></tr>
-	 *                                       <tr><td>Internet Explorer 6.x</td>      <td>msie</td>		<td>6.x</td></tr>
-	 *                                       <tr><td>Internet Explorer 7.x</td>      <td>msie</td>		<td>7.x</td></tr>
-	 *                                       <tr><td>Internet Explorer 8.x</td>      <td>msie</td>		<td>8.x</td></tr>
-	 *
-	 *                                       <tr><td>Firefox</td>                    <td>mozilla</td>	<td>5.0</td></tr>
-	 *                                    </table>
-	 * @param   boolean  $detect_debug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+	 * @param   string  $file     Path to file
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  array|string|null  nothing if $returnPath is false, null, path or array of path if specific CSS browser files were detected
 	 *
 	 * @see     JBrowser
 	 * @since   1.5
+	 * @deprecated 4.0  The (file, attribs, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
+	 *                  use (file, options, attributes) instead.
 	 */
-	public static function stylesheet($file, $attribs = array(), $relative = false, $returnPath = false, $detect_browser = true, $detect_debug = true)
+	public static function stylesheet($file, $options = array(), $attribs = array())
 	{
-		$includes = static::includeRelativeFiles('css', $file, $relative, $detect_browser, $detect_debug);
+		// B/C before __DEPLOY_VERSION__
+		if (!is_array($attribs))
+		{
+			JLog::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
+
+			$argList = func_get_args();
+			$options = array();
+
+			// Old parameters.
+			$attribs                  = isset($argList[1]) ? $argList[1] : array();
+			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
+			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
+			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
+			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
+		}
+		else
+		{
+			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
+			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
+			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
+			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
+		}
+
+		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
 		// If only path is required
-		if ($returnPath)
+		if ($options['pathOnly'])
 		{
-			if (count($includes) == 0)
+			if (count($includes) === 0)
 			{
 				return;
 			}
 
-			if (count($includes) == 1)
+			if (count($includes) === 1)
 			{
 				return $includes[0];
 			}
@@ -646,48 +646,78 @@ abstract class JHtml
 
 		foreach ($includes as $include)
 		{
-			$document->addStyleSheet($include, 'text/css', null, $attribs);
+			// If there is already a version hash in the script reference (by using deprecated MD5SUM).
+			if ($pos = strpos($include, '?') !== false)
+			{
+				$options['version'] = substr($include, $pos + 1);
+			}
+
+			$document->addStyleSheet($include, $options, $attribs);
 		}
 	}
 
 	/**
 	 * Write a `<script>` element to load a JavaScript file
 	 *
-	 * @param   string   $file            Path to file
-	 * @param   boolean  $framework       Flag to determine if the MooTools framework should be loaded.
-	 * @param   boolean  $relative        Flag if the path to the file is relative to the /media folder (and searches in template).
-	 * @param   boolean  $returnPath      Flag if the file path should be returned or if the file should be included in the global JDocument instance
-	 * @param   boolean  $detect_browser  Flag if the browser should be detected to include specific browser files.
-	 * @param   boolean  $detect_debug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+	 * @param   string  $file     Path to file.
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
-	 * @return  array|string|null  nothing if $returnPath is false, null, path or array of path if specific JavaScript browser files were detected
+	 * @return  array|string|null  Nothing if $returnPath is false, null, path or array of path if specific JavaScript browser files were detected
 	 *
 	 * @see     JHtml::stylesheet()
 	 * @since   1.5
+	 * @deprecated 4.0  The (file, framework, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
+	 *                  use (file, options, attributes) instead.
 	 */
-	public static function script($file, $framework = false, $relative = false, $returnPath = false, $detect_browser = true, $detect_debug = true)
+	public static function script($file, $options = array(), $attribs = array())
 	{
+		// B/C before __DEPLOY_VERSION__
+		if (!is_array($options) && !is_array($attribs))
+		{
+			JLog::add('The script method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
+
+			$argList = func_get_args();
+			$options = array();
+			$attribs = array();
+
+			// Old parameters.
+			$options['framework']     = isset($argList[1]) ? $argList[1] : false;
+			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
+			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
+			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
+			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
+		}
+		else
+		{
+			$options['framework']     = isset($options['framework']) ? $options['framework'] : false;
+			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
+			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
+			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
+			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
+		}
+
 		// Include MooTools framework
-		if ($framework)
+		if ($options['framework'])
 		{
 			static::_('behavior.framework');
 		}
 
-		$includes = static::includeRelativeFiles('js', $file, $relative, $detect_browser, $detect_debug);
+		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
 		// If only path is required
-		if ($returnPath)
+		if ($options['pathOnly'])
 		{
-			if (count($includes) == 0)
+			if (count($includes) === 0)
 			{
 				return;
 			}
 
-			if (count($includes) == 1)
+			if (count($includes) === 1)
 			{
 				return $includes[0];
 			}
-
+			
 			return $includes;
 		}
 
@@ -696,7 +726,13 @@ abstract class JHtml
 
 		foreach ($includes as $include)
 		{
-			$document->addScript($include);
+			// If there is already a version hash in the script reference (by using deprecated MD5SUM).
+			if ($pos = strpos($include, '?') !== false)
+			{
+				$options['version'] = substr($include, $pos + 1);
+			}
+
+			$document->addScript($include, $options, $attribs);
 		}
 	}
 

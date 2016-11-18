@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Menu table
  *
- * @since  11.1
+ * @since  1.5
  */
 class JTableMenu extends JTableNested
 {
@@ -23,7 +23,7 @@ class JTableMenu extends JTableNested
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -42,7 +42,7 @@ class JTableMenu extends JTableNested
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     JTable::bind()
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -72,8 +72,7 @@ class JTableMenu extends JTableNested
 
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
@@ -86,7 +85,7 @@ class JTableMenu extends JTableNested
 	 * @return  boolean  True on success
 	 *
 	 * @see     JTable::check()
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function check()
 	{
@@ -123,25 +122,7 @@ class JTableMenu extends JTableNested
 		// Cast the home property to an int for checking.
 		$this->home = (int) $this->home;
 
-		// Verify that a first level menu item alias is not 'component'.
-		if ($this->parent_id == 1 && $this->alias == 'component')
-		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
-
-			return false;
-		}
-
-		// Verify that a first level menu item alias is not the name of a folder.
-		jimport('joomla.filesystem.folder');
-
-		if ($this->parent_id == 1 && in_array($this->alias, JFolder::folders(JPATH_ROOT)))
-		{
-			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
-
-			return false;
-		}
-
-		// Verify that the home item a component.
+		// Verify that the home item is a component.
 		if ($this->home && $this->type != 'component')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
@@ -160,7 +141,7 @@ class JTableMenu extends JTableNested
 	 * @return  mixed  False on failure, positive integer on success.
 	 *
 	 * @see     JTable::store()
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
 	{
@@ -172,6 +153,24 @@ class JTableMenu extends JTableNested
 		$originalAlias = trim($this->alias);
 		$this->alias   = !$originalAlias ? $this->title : $originalAlias;
 		$this->alias   = JApplicationHelper::stringURLSafe(trim($this->alias), $this->language);
+
+		// Verify that a first level menu item alias is not 'component'.
+		if ($this->parent_id == 1 && $this->alias == 'component')
+		{
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
+
+			return false;
+		}
+
+		// Verify that a first level menu item alias is not the name of a folder.
+		jimport('joomla.filesystem.folder');
+
+		if ($this->parent_id == 1 && in_array($this->alias, JFolder::folders(JPATH_ROOT)))
+		{
+			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
+
+			return false;
+		}
 
 		// If alias still empty (for instance, new menu item with chinese characters with no unicode alias setting).
 		if (empty($this->alias))
@@ -204,7 +203,7 @@ class JTableMenu extends JTableNested
 				}
 			}
 
-			// The alias already exists. Enqueue a error message.
+			// The alias already exists. Enqueue an error message.
 			if ($error)
 			{
 				$menuTypeTable = JTable::getInstance('MenuType', 'JTable', array('dbo' => $this->getDbo()));

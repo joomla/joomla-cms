@@ -24,7 +24,8 @@
 			<fieldset name="basic">
 				<field
 					name="display_text"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="MOD_SYNDICATE_FIELD_DISPLAYTEXT_LABEL"
 					description="MOD_SYNDICATE_FIELD_DISPLAYTEXT_DESC"
 					default="1"

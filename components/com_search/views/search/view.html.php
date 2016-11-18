@@ -49,8 +49,7 @@ class SearchViewSearch extends JViewLegacy
 		// Because the application sets a default page title, we need to get it right from the menu item itself
 		if (is_object($menu))
 		{
-			$menu_params = new Registry;
-			$menu_params->loadString($menu->params);
+			$menu_params = new Registry($menu->params);
 
 			if (!$menu_params->get('page_title'))
 			{

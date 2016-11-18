@@ -24,7 +24,8 @@
 			<fieldset name="basic">
 				<field
 					name="showHere"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHERE_LABEL"
 					description="MOD_BREADCRUMBS_FIELD_SHOWHERE_DESC"
 					default="1"

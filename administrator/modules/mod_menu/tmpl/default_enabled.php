@@ -98,6 +98,19 @@ if ($user->authorise('core.manage', 'com_users'))
 		$menu->getParent();
 	}
 
+	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
+	{
+		$menu->addChild(
+				new JMenuNode(
+						JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_users.user', 'class:fields')
+				);
+
+		$menu->addChild(
+				new JMenuNode(
+						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_categories&extension=com_users.user.fields', 'class:category')
+				);
+	}
+
 	if (JFactory::getApplication()->get('massmailoff') != 1)
 	{
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MASS_MAIL_USERS'), 'index.php?option=com_users&view=mail'));
@@ -148,20 +161,13 @@ if ($user->authorise('core.manage', 'com_menus'))
 				. JHtml::_('image', 'mod_languages/icon-16-language.png', $menuType->home, array('title' => JText::_('MOD_MENU_HOME_MULTIPLE')), true)
 				. '</span>';
 		}
+		elseif ($menuType->image && JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', null, null, true, true))
+		{
+			$titleicon = ' <span>' . JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true) . '</span>';
+		}
 		else
 		{
-			$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', null, null, true, true);
-
-			if (!$image)
-			{
-				$image = JHtml::_('image', 'mod_languages/icon-16-language.png', $alt, array('title' => $menuType->title_native), true);
-			}
-			else
-			{
-				$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true);
-			}
-
-			$titleicon = ' <span>' . $image . '</span>';
+			$titleicon = ' <span class="label" title="' . $menuType->title_native . '">' . $menuType->sef . '</span>';
 		}
 
 		$menu->addChild(
@@ -208,6 +214,12 @@ if ($user->authorise('core.manage', 'com_content'))
 	if ($createContent)
 	{
 		$menu->getParent();
+	}
+
+	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
+	{
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_content.article'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_categories&extension=com_content.article.fields'));
 	}
 
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured'));
@@ -316,9 +328,7 @@ if ($showhelp == 1)
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), '#', 'class:info-circle fa-fw'), true);
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_JOOMLA'), 'index.php?option=com_admin&view=help'));
-	//$menu->addSeparator();
-
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM'), 'http://forum.joomla.org', null, false, '_blank'));
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM'), 'https://forum.joomla.org', null, false, '_blank'));
 
 	if ($forum_url = $params->get('forum_url'))
 	{
@@ -329,7 +339,7 @@ if ($showhelp == 1)
 
 	if ($lang->hasKey('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE') && JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE') != '')
 	{
-		$forum_url = 'http://forum.joomla.org/viewforum.php?f=' . (int) JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
+		$forum_url = 'https://forum.joomla.org/viewforum.php?f=' . (int) JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
 		$lang->setDebug($debug);
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM'), $forum_url, null, false, '_blank'));
 	}

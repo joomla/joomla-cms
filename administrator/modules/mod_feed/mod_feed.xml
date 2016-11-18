@@ -33,7 +33,8 @@
 					description="MOD_FEED_FIELD_RSSURL_DESC" />
 				<field
 					name="rssrtl"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					default="0"
 					label="MOD_FEED_FIELD_RTL_LABEL"
 					description="MOD_FEED_FIELD_RTL_DESC">
@@ -42,7 +43,8 @@
 				</field>
 				<field
 					name="rsstitle"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					default="1"
 					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
 					description="MOD_FEED_FIELD_RSSTITLE_DESC">
@@ -51,7 +53,8 @@
 				</field>
 				<field
 					name="rssdesc"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					default="1"
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
 					description="MOD_FEED_FIELD_DESCRIPTION_DESC">
@@ -60,7 +63,8 @@
 				</field>
 				<field
 					name="rssimage"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					default="1"
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
 					description="MOD_FEED_FIELD_IMAGE_DESC">
@@ -75,7 +79,8 @@
 					description="MOD_FEED_FIELD_ITEMS_DESC" />
 				<field
 					name="rssitemdesc"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					default="1"
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
 					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC">

@@ -5,7 +5,8 @@
 		label="COM_USERS_CONFIG_USER_OPTIONS" >
 		<field
 			name="allowUserRegistration"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_DESC">
@@ -32,7 +33,8 @@
 
 		<field
 			name="sendpassword"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
 			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC">
@@ -57,7 +59,8 @@
 
 		<field
 			name="mail_to_admin"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC">
@@ -81,7 +84,8 @@
 
 		<field
 			name="frontend_userparams"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC">
@@ -90,7 +94,8 @@
 		</field>
 		<field
 			name="site_language"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC"
@@ -101,7 +106,8 @@
 		</field>
 		<field
 			name="change_login_name"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC">
@@ -179,6 +185,16 @@
 			step="1"
 			default="0">
 			</field>
+		<field
+			name="minimum_lowercase"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE"
+			description="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE_DESC"
+			first="0"
+			last="98"
+			step="1"
+			default="0">
+		</field>
 	</fieldset>
 
 	<fieldset
@@ -187,7 +203,8 @@
 
 			<field
 			name="save_history"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
@@ -237,13 +254,26 @@
 
 		<field
 			name="sef_advanced"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			default="0"
 			label="JGLOBAL_SEF_ADVANCED_LABEL"
 			description="JGLOBAL_SEF_ADVANCED_DESC"
 			filter="integer">
 			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
 			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
+		</field>
+
+		<field
+			name="custom_fields_enable"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
+			default="1"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 	</fieldset>

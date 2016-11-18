@@ -24,7 +24,8 @@
 
 		<field
 			name="track_impressions"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
 			default="0"
@@ -35,7 +36,8 @@
 
 		<field
 			name="track_clicks"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
 			description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
 			default="0"
@@ -59,7 +61,8 @@
 
 		<field
 			name="save_history"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			default="0"

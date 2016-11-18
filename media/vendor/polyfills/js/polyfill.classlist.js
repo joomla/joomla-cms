@@ -1,4 +1,9 @@
+<<<<<<< HEAD:media/vendor/polyfills/js/polyfill.classlist.js
 /* Polyfill service v3.13.0
+=======
+/**
+ * Polyfill service v3.13.0
+>>>>>>> joomla/master:media/system/js/polyfill.classlist-uncompressed.js
  * For detailed credits and licence information see http://github.com/financial-times/polyfill-service.
  * 
  * UA detected: ie/8.0.0

@@ -262,7 +262,7 @@ html {
   -webkit-tap-highlight-color: transparent; }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.5;
   color: #373a3c;
@@ -4112,7 +4112,7 @@ button.close {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -4194,7 +4194,7 @@ button.close {
   display: block;
   max-width: 276px;
   padding: 1px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -7781,7 +7781,7 @@ legend {
   .quick-icons a {
     position: relative;
     display: block;
-    padding: 2px 0;
+    padding: 25px 0;
     margin-bottom: 15px;
     overflow: hidden;
     color: #fff;
@@ -7798,13 +7798,13 @@ legend {
     .quick-icons a span {
       position: relative;
       display: inline;
-      font-size: .85em;
+      font-size: .85rem;
       font-weight: bold;
-      line-height: 2em;
+      line-height: 2rem;
       letter-spacing: .4px; }
       .quick-icons a span[class*=" icon-"], .quick-icons a span[class^="icon-"] {
-        margin-right: .1em;
-        font-size: 2.5em;
+        margin-right: .1rem;
+        font-size: 2.5rem;
         font-weight: normal; }
     .quick-icons a::before {
       position: absolute;
@@ -8308,7 +8308,7 @@ legend {
       border-color: #419641; }
       .subhead .btn-toolbar .btn-success.dropdown-toggle::after {
         color: #fff; }
-    .subhead .btn-toolbar button:first-of-type {
+    .subhead .btn-toolbar button:first-of-type:not(.float-sm-right) {
       margin-left: 0; }
   .subhead.subhead-fixed {
     position: fixed;

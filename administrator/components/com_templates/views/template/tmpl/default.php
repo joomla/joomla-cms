@@ -28,8 +28,8 @@ if (!JFactory::getUser()->authorise('core.admin'))
 
 if ($this->type == 'image')
 {
-	JHtml::_('script', 'vendor/cropperjs/cropper.min.js', false, true);
-	JHtml::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array(), true);
+	JHtml::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
 }
 
 JFactory::getDocument()->addScriptDeclaration("
