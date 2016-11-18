@@ -8,12 +8,10 @@
  */
 Joomla = window.Joomla || {};
 
-var boxes;
-
 Joomla.JMultiSelect = function(table) {
 	"use strict";
 
-	var last,
+	var last, boxes,
 
 		initialize = function(table) {
 			var tableEl = document.querySelector(table);
