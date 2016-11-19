@@ -812,7 +812,7 @@ class MenusModelItem extends JModelAdmin
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		// Currently anything setting affecting target page for a backend menu is not supported, hence load no modules.
+		// Currently any setting that affects target page for a backend menu is not supported, hence load no modules.
 		if ($this->getState('item.client_id') == 1)
 		{
 			return false;

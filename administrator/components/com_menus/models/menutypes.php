@@ -161,7 +161,7 @@ class MenusModelMenutypes extends JModelLegacy
 			$options = $this->getTypeOptionsFromMvc($component);
 		}
 
-		if (empty($options))
+		if ($client->id == 1 && empty($options))
 		{
 			$options = $this->getTypeOptionsFromManifest($component);
 		}
@@ -455,7 +455,7 @@ class MenusModelMenutypes extends JModelLegacy
 			$o->request = array_filter($request, 'strlen');
 			$options[]  = new JObject($o);
 
-			// Do not repeat the default view link.
+			// Do not repeat the default view link (index.php?option=com_abc).
 			if (count($o->request) == 1)
 			{
 				$ro = null;
