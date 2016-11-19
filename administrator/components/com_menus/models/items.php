@@ -491,21 +491,19 @@ class MenusModelItems extends JModelList
 			$items = parent::getItems();
 			$lang  = JFactory::getLanguage();
 
-			if (!$items)
+			if ($items)
 			{
-				return false;
-			}
-
-			foreach ($items as $item)
-			{
-				if ($extension = $item->componentname)
+				foreach ($items as $item)
 				{
-					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-					|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
-				}
+					if ($extension = $item->componentname)
+					{
+						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
+						|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
+					}
 
-				// Translate component name
-				$item->title = JText::_($item->title);
+					// Translate component name
+					$item->title = JText::_($item->title);
+				}
 			}
 
 			$this->cache[$store] = $items;
