@@ -102,17 +102,15 @@
 			var currentUrl = window.location.href.toLowerCase();
 
 			for (var i = 0; i < allLinks.length; i++) {
-				var obj = allLinks[i];
-
-				if (currentUrl.indexOf(obj.href) == 0) {
-					obj.classList.add('active');
-					if (!obj.parentNode.classList.contains('parent')) {
-						var parentLink = closest(obj, '.panel-collapse');
+				if (currentUrl === allLinks[i].href) {
+					allLinks[i].classList.add('active');
+					if (!allLinks[i].parentNode.classList.contains('parent')) {
+						var parentLink = closest(allLinks[i], '.panel-collapse');
 						parentLink.parentNode.querySelector('a.collapse-arrow').classList.add('active');
 					}
 				}
-
 			}
+
 		} else {
 			document.getElementById('sidebar-wrapper').style.display = 'none';
 			document.getElementById('sidebar-wrapper').style.width = '0';

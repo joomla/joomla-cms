@@ -268,7 +268,8 @@
         left: 0;
         width: 5px;
         content: "";
-        background-color: lighten($atum-template-color, 10%);
+        background-color: $brand-success;
+        opacity: .8;
       }
 
       &:hover {
