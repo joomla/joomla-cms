@@ -109,7 +109,11 @@ small, .small {
       font-weight: bold;
       &.nav-header {
         padding-top: .5rem;
+        color: $gray-dark;
         font-size: .85rem;
+      }
+      a {
+        color: darken($brand-primary, 15%);
       }
     }
   }

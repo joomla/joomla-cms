@@ -8421,6 +8421,7 @@ legend {
   .nav.nav-tabs .nav-link {
     position: relative;
     padding: .75em 1em;
+    color: #27283a;
     border: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -8583,7 +8584,10 @@ small, .small {
   font-weight: bold; }
   .com_config .sidebar-nav li.nav-header {
     padding-top: .5rem;
+    color: #373a3c;
     font-size: .85rem; }
+  .com_config .sidebar-nav li a {
+    color: #014c8c; }
 
 .com_config .content {
   background-color: transparent; }
