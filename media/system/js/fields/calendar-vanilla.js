@@ -138,6 +138,14 @@
 			return;
 
 		this._create();
+
+		/** This is needed for IE8 */
+		if (jQuery && jQuery.chosen) {
+			var selItems = this.element.querySelectorAll('select');
+			for (var i = 0; i < selItems.length; i++) {
+				jQuery(selItems[i]).chosen('destroy');
+				}
+		}
 		this._bindEvents();
 	};
 
@@ -541,7 +549,7 @@
 		div.className = 'js-calendar';
 		div.style.position = "absolute";
 		div.style.boxShadow = "0px 0px 70px 0px rgba(0,0,0,0.67)";
-		div.style.minWidth = parent.width;
+		div.style.minWidth = this.inputField.width;
 		div.style.padding = '0';
 		div.style.display = "none";
 		div.style.left = "auto";
