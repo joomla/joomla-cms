@@ -1449,7 +1449,7 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/plugins/compat3x/editable_selects.js',
 			'/media/editors/tinymce/plugins/compat3x/form_utils.js',
 			'/media/editors/tinymce/plugins/compat3x/mctabs.js',
-			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js', 
+			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js',
 			'/media/editors/tinymce/plugins/compat3x/validate.js',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Dumper.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Escaper.php',
@@ -1516,6 +1516,9 @@ class JoomlaInstallerScript
 			'/administrator/components/com_redirect/views/links/tmpl/default_batch.php',
 			'/administrator/components/com_tags/views/tags/tmpl/default_batch.php',
 			'/administrator/components/com_users/views/users/tmpl/default_batch.php',
+			'/administrator/modules/mod_menu/tmpl/default_enabled.php',
+			'/administrator/modules/mod_menu/tmpl/default_disabled.php',
+			'/administrator/templates/hathor/html/mod_menu/default_enabled.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1627,6 +1630,7 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/mode/jade',
 			// Joomla __DEPLOY_VERSION__
 			'/libraries/joomla/data',
+			'/administrator/templates/hathor/html/mod_menu',
 		);
 
 		jimport('joomla.filesystem.file');
