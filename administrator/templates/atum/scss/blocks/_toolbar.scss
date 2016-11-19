@@ -33,7 +33,7 @@
       padding: 0 10px;
       line-height: $line-height;
       color: $body-color;
-      background-color: #fff;
+      background-color: $white;
       border-color: $btn-secondary-border;
       [class^="icon-"], [class*=" icon-"] {
         z-index: -1;
