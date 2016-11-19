@@ -261,11 +261,21 @@
         background-color: #5b8dca;
       }
 
+      &.active::before {
+        position: absolute;
+        top: 1px;
+        bottom: 1px;
+        left: 0;
+        width: 5px;
+        content: "";
+        background-color: lighten($atum-template-color, 10%);
+      }
+
       &:hover {
         color: #d9d9d9;
         text-decoration: none;
         background-color: rgba(0,0,0,.2);
-        box-shadow: inset 0 -1px rgba(0,0,0,.3);
+        box-shadow: inset 0 -1px rgba(0,0,0,.2);
       }
 
       &:active,
