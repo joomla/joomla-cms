@@ -151,7 +151,8 @@
 
 		<field
 			name="home"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HOME_DESC"
 			default="0"
@@ -202,7 +203,8 @@
 
 		<field
 			name="toggle_modules_assigned"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_DESC"
 			default="1"
@@ -213,7 +215,8 @@
 
 		<field
 			name="toggle_modules_published"
-			type="switcher"
+			type="radio"
+			class="switcher"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_DESC"
 			default="1"

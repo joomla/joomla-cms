@@ -46,13 +46,13 @@
 				<field
 					name="button"
 					type="radio"
+					class="switcher"
 					label="MOD_SEARCH_FIELD_BUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_BUTTON_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 				<field
 					name="button_pos"
@@ -71,14 +71,14 @@
 				<field
 					name="imagebutton"
 					type="radio"
+					class="switcher"
 					label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					showon="button:1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -92,13 +92,13 @@
 				<field
 					name="opensearch"
 					type="radio"
+					class="switcher"
 					label="MOD_SEARCH_FIELD_OPENSEARCH_LABEL"
 					description="MOD_SEARCH_FIELD_OPENSEARCH_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field

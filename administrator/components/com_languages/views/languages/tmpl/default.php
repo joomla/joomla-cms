@@ -27,7 +27,7 @@ if ($saveOrder)
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div id="j-main-container" class="js-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"></div>
 		<?php if (empty($this->items)) : ?>
@@ -59,7 +59,7 @@ if ($saveOrder)
 						<th width="1%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_CODE', 'a.sef', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-sm-down">
+						<th width="8" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.image', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="nowrap hidden-sm-down">
@@ -132,7 +132,11 @@ if ($saveOrder)
 							<?php echo $this->escape($item->sef); ?>
 						</td>
 						<td class="hidden-sm-down">
-							<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, array('title' => $item->image), true); ?>&nbsp;<?php echo $this->escape($item->image); ?>
+							<?php if ($item->image) : ?>
+								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, null, true); ?>&nbsp;<?php echo $this->escape($item->image); ?>
+							<?php else : ?>
+								<?php echo JText::_('JNONE'); ?>
+							<?php endif; ?>
 						</td>
 						<td class="hidden-sm-down">
 							<?php echo $this->escape($item->access_level); ?>

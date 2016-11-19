@@ -11,13 +11,13 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JHtml::stylesheet('com_finder/finder.css', false, true, false);
 
-JHtml::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array(), true);
+JHtml::_('stylesheet', 'com_finder/finder.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array('version' => 'auto', 'relative' => true));
 
 JText::script('MOD_FINDER_SEARCH_VALUE', true);
 
-JHtml::_('script', 'com_finder/finder.js', false, true);
+JHtml::_('script', 'com_finder/finder.js', array('version' => 'auto', 'relative' => true));
 ?>
 
 <div class="finder<?php echo $this->pageclass_sfx; ?>">

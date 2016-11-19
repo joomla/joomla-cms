@@ -31,73 +31,73 @@
 				<field
 					name="session"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_SESSION_LABEL"
 					description="PLG_DEBUG_FIELD_SESSION_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="profile"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
 					description="PLG_DEBUG_FIELD_PROFILING_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="queries"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
 					description="PLG_DEBUG_FIELD_QUERIES_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="query_types"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
 					description="PLG_DEBUG_FIELD_QUERY_TYPES_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="memory"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
 					description="PLG_DEBUG_FIELD_MEMORY_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="logs"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_LOGS_LABEL"
 					description="PLG_DEBUG_FIELD_LOGS_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -131,10 +131,10 @@
 				<field
 					name="log_category_mode"
 					type="radio"
+					class="switcher switcher-danger"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					>
 					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
 					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
@@ -149,45 +149,45 @@
 				<field
 					name="language_errorfiles"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
 					description="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="language_files"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
 					description="PLG_DEBUG_FIELD_LANGUAGE_FILES_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="language_strings"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
 					description="PLG_DEBUG_FIELD_LANGUAGE_STRING_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="strip-first"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
 					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
 					<option value="1">JYES</option>
@@ -220,37 +220,37 @@
 				<field
 					name="log-deprecated"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="log-everything"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_EVERYTHING_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="log-executed-sql"
 					type="radio"
+					class="switcher"
 					label="PLG_DEBUG_FIELD_EXECUTEDSQL_LABEL"
 					description="PLG_DEBUG_FIELD_EXECUTEDSQL_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>

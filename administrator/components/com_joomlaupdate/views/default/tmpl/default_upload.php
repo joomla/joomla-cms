@@ -62,7 +62,7 @@ JFactory::getDocument()->addStyleDeclaration($css);
 <div class="alert alert-info">
 	<p>
 		<span class="icon icon-info"></span>
-		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://www.joomla.org/download.html') ?>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest') ?>
 	</p>
 </div>
 
@@ -97,6 +97,8 @@ JFactory::getDocument()->addStyleDeclaration($css);
 				</td>
 				<td>
 					<input class="form-control" id="install_package" name="install_package" type="file" size="57" />
+					<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
+					<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 				</td>
 			</tr>
 			<tr>

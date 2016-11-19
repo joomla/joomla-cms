@@ -31,13 +31,13 @@
 				<field
 					name="show_tagged_items"
 					type="radio"
+					class="switcher"
 					label="PLG_SEARCH_TAGS_FIELD_SHOW_TAGGED_ITEMS_LABEL"
 					description="PLG_SEARCH_TAGS_FIELD_SHOW_TAGGED_ITEMS_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 			</fieldset>
 		</fields>

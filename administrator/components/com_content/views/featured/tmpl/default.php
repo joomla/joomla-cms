@@ -20,6 +20,7 @@ $listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->s
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $canOrder  = $user->authorise('core.edit.state', 'com_content.article');
 $saveOrder = $listOrder == 'fp.ordering';
+$columns   = 10;
 
 if ($saveOrder)
 {
@@ -29,7 +30,7 @@ if ($saveOrder)
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=featured'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div id="j-main-container" class="js-main-container">
 		<?php
 		// Search tools bar
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
@@ -41,53 +42,55 @@ if ($saveOrder)
 		<?php else : ?>
 			<table class="table table-striped" id="articleList">
 				<thead>
-				<tr>
-					<th width="1%" class="nowrap text-xs-center hidden-sm-down">
-						<?php echo JHtml::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-					</th>
-					<th width="1%" class="text-xs-center">
-						<?php echo JHtml::_('grid.checkall'); ?>
-					</th>
-					<th width="1%" style="min-width:85px" class="nowrap text-xs-center">
-						<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
-					</th>
-					<th>
-						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="nowrap hidden-sm-down">
-						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="nowrap hidden-sm-down">
-						<?php echo JHtml::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="nowrap hidden-sm-down">
-						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="nowrap hidden-sm-down">
-						<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
-					</th>
-					<th width="1%" class="nowrap hidden-sm-down">
-						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-					</th>
-					<?php if ($this->vote) : ?>
-						<th width="1%" class="nowrap hidden-sm-down">
-							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+					<tr>
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
+							<?php echo JHtml::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+						</th>
+						<th width="1%" class="text-xs-center">
+							<?php echo JHtml::_('grid.checkall'); ?>
+						</th>
+						<th width="1%" style="min-width:85px" class="nowrap text-xs-center">
+							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+						</th>
+						<th>
+							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+						</th>
+						<th width="10%" class="nowrap hidden-sm-down">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+						</th>
+						<th width="10%" class="nowrap hidden-sm-down">
+							<?php echo JHtml::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
+						</th>
+						<th width="10%" class="nowrap hidden-sm-down">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+						</th>
+						<th width="10%" class="nowrap hidden-sm-down">
+							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-sm-down">
-							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
-					<?php endif;?>
-					<th width="1%" class="nowrap hidden-sm-down">
-						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
-					</th>
-				</tr>
+						<?php if ($this->vote) : ?>
+							<?php $columns++; ?>
+							<th width="1%" class="nowrap hidden-sm-down">
+								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+							</th>
+							<?php $columns++; ?>
+							<th width="1%" class="nowrap hidden-sm-down">
+								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif;?>
+						<th width="1%" class="nowrap hidden-sm-down">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+						</th>
+					</tr>
 				</thead>
 				<tfoot>
-				<tr>
-					<td colspan="10">
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
+					<tr>
+						<td colspan="<?php echo $columns; ?>">
+							<?php echo $this->pagination->getListFooter(); ?>
+						</td>
+					</tr>
 				</tfoot>
 				<tbody>
 				<?php $count = count($this->items); ?>
@@ -118,7 +121,7 @@ if ($saveOrder)
 							<span class="icon-menu"></span>
 						</span>
 							<?php if ($canChange && $saveOrder) : ?>
-								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
+								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 							<?php endif; ?>
 						</td>
 						<td class="text-xs-center">
@@ -166,11 +169,7 @@ if ($saveOrder)
 							<?php endif; ?>
 						</td>
 						<td class="small hidden-sm-down">
-							<?php if ($item->language == '*') : ?>
-								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else:?>
-								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif;?>
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td class="nowrap small hidden-sm-down">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
@@ -182,12 +181,12 @@ if ($saveOrder)
 						</td>
 						<?php if ($this->vote) : ?>
 							<td class="hidden-sm-down">
-								<span class="tag tag-success">
+								<span class="tag tag-success" >
 								<?php echo (int) $item->rating_count; ?>
 								</span>
 							</td>
 							<td class="hidden-sm-down">
-								<span class="tag tag-warning">
+								<span class="tag tag-warning" >
 								<?php echo (int) $item->rating; ?>
 								</span>
 							</td>

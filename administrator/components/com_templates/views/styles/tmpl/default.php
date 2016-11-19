@@ -23,7 +23,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $colSpan = $clientId === 1 ? 5 : 6;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div id="j-main-container" class="js-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clear"> </div>
 		<?php if (empty($this->items)) : ?>
@@ -94,10 +94,18 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
 							<?php elseif ($canChange):?>
 								<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1');?>">
-									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
+									<?php if ($item->image) : ?>
+										<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+									<?php else : ?>
+										<span class="label" title="<?php echo JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
+									<?php endif; ?>
 								</a>
 							<?php else:?>
-								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
+								<?php if ($item->image) : ?>
+									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+								<?php else : ?>
+									<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+								<?php endif; ?>
 							<?php endif;?>
 						</td>
 						<?php if ($clientId === 0) : ?>

@@ -5,7 +5,7 @@
   z-index: 1;
   height: 50px;
   background: $white;
-  box-shadow: 0 0 2px $grey;
+  border-bottom: 1px solid rgba(0, 0, 0, .17);
 
   .page-title {
     margin: 0;

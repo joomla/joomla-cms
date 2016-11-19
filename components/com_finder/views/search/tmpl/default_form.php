@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 */
 if ($this->params->get('show_autosuggest', 1))
 {
-	JHtml::_('script', 'vendor/awesomplete/awesomplete.min.js', false, true);
+	JHtml::_('script', 'vendor/awesomplete/awesomplete.min.js', array('version' => 'auto', 'relative' => true));
 	JFactory::getDocument()->addScriptOptions('finder-search', array('url' => JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 ?>
@@ -47,12 +47,12 @@ if ($this->params->get('show_autosuggest', 1))
 
 	<?php if ($this->params->get('show_advanced', 1)) : ?>
 		<div class="js-finder-advanced collapse<?php if ($this->params->get('expand_advanced', 0)) echo ' in'?>">
-			<hr />
+			<hr>
 			<?php if ($this->params->get('show_advanced_tips', 1)) : ?>
 				<div class="advanced-search-tip">
 					<?php echo JText::_('COM_FINDER_ADVANCED_TIPS'); ?>
 				</div>
-				<hr />
+				<hr>
 			<?php endif; ?>
 			<div id="finder-filter-window">
 				<?php echo JHtml::_('filter.select', $this->query, $this->params); ?>

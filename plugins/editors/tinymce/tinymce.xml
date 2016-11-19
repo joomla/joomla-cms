@@ -59,25 +59,25 @@
 				<field
 					name="mobile"
 					type="radio"
+					class="switcher"
 					label="PLG_TINY_FIELD_MOBILE_LABEL"
 					description="PLG_TINY_FIELD_MOBILE_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
 					name="drag_drop"
 					type="radio"
+					class="switcher"
 					label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
 					description="PLG_TINY_FIELD_DRAG_DROP_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
@@ -104,13 +104,13 @@
 				<field
 					name="lang_mode"
 					type="radio"
+					class="switcher"
 					label="PLG_TINY_FIELD_LANGSELECT_LABEL"
 					description="PLG_TINY_FIELD_LANGSELECT_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
@@ -145,13 +145,13 @@
 				<field
 					name="content_css"
 					type="radio"
+					class="switcher"
 					label="PLG_TINY_FIELD_CSS_LABEL"
 					description="PLG_TINY_FIELD_CSS_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
@@ -187,13 +187,13 @@
 				<field
 					name="use_config_textfilters"
 					type="radio"
+					class="switcher"
 					label="PLG_TINY_CONFIG_TEXTFILTER_ACL_LABEL"
 					description="PLG_TINY_CONFIG_TEXTFILTER_ACL_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
@@ -248,38 +248,38 @@
 				<field
 					name="resizing"
 					type="radio"
+					class="switcher"
 					label="PLG_TINY_FIELD_RESIZING_LABEL"
 					description="PLG_TINY_FIELD_RESIZING_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
 					name="resize_horizontal"
 					type="radio"
+					class="switcher"
 					label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
 					description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					showon="resizing:1"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
 					name="element_path"
 					type="radio"
+					class="switcher"
 					label="PLG_TINY_FIELD_PATH_LABEL"
 					description="PLG_TINY_FIELD_PATH_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field

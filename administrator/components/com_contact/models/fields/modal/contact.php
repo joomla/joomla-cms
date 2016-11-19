@@ -49,7 +49,7 @@ class JFormFieldModal_Contact extends JFormField
 
 		// Add the modal field script to the document head.
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/fields/modal-fields.min.js', false, true);
+		JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($allowSelect)
@@ -194,8 +194,8 @@ class JFormFieldModal_Contact extends JFormField
 					'url'         => $urlSelect,
 					'height'      => '400px',
 					'width'       => '800px',
-					'bodyHeight'  => '70',
-					'modalWidth'  => '80',
+					'bodyHeight'  => 70,
+					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
 				)
 			);
@@ -215,8 +215,8 @@ class JFormFieldModal_Contact extends JFormField
 					'url'         => $urlNew,
 					'height'      => '400px',
 					'width'       => '800px',
-					'bodyHeight'  => '70',
-					'modalWidth'  => '80',
+					'bodyHeight'  => 70,
+					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
@@ -247,8 +247,8 @@ class JFormFieldModal_Contact extends JFormField
 					'url'         => $urlEdit,
 					'height'      => '400px',
 					'width'       => '800px',
-					'bodyHeight'  => '70',
-					'modalWidth'  => '80',
+					'bodyHeight'  => 70,
+					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id
 							. '\', \'edit\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'

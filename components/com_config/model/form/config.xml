@@ -38,15 +38,15 @@
 		<field
 			name="sef"
 			type="radio"
+			class="switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			description="COM_CONFIG_FIELD_SEF_URL_DESC"
-			class="btn-group"
 			filter="integer">
 			<option
-				value="1">JYES</option>
-			<option
 				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
 		</field>
 
 		<field
@@ -82,15 +82,15 @@
 		<field
 			name="offline"
 			type="radio"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_OFFLINE_DESC"
-			class="btn-group"
 			filter="integer">
 			<option
-				value="1">JYES</option>
-			<option
 				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
 		</field>
 
 		<field

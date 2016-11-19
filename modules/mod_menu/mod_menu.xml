@@ -23,7 +23,7 @@
 		<fields name="params">
 			<fieldset name="basic"
 				addfieldpath="/administrator/components/com_menus/models/fields">
-			>
+
 				<field
 					name="menutype"
 					type="menu"
@@ -86,9 +86,9 @@
 				<field
 					name="showAllChildren"
 					type="radio"
+					class="switcher"
 					label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
 					description="MOD_MENU_FIELD_ALLCHILDREN_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
 					<option value="1">JYES</option>

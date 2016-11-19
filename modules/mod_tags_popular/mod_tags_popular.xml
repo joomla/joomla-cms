@@ -74,26 +74,26 @@
 				<field
 					name="display_count"
 					type="radio"
+					class="switcher"
 					label="MOD_TAGS_POPULAR_FIELD_DISPLAY_COUNT_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_DISPLAY_COUNT_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="no_results_text"
 					type="radio"
+					class="switcher"
 					label="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 			<fieldset

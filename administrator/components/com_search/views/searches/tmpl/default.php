@@ -19,7 +19,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_search&view=searches'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div id="j-main-container" class="js-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
@@ -59,8 +59,8 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					</td>
 					<?php if ($this->state->get('show_results')) : ?>
 					<td class="text-xs-center btns">
-						<a class="tag <?php echo $item->returns > 0 ? ' tag-success' : ' tag-default'; ?>" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
-							<?php echo $item->returns; ?></a>
+						<a class="tag <?php echo $item->returns > 0 ? ' tag-success' : ' tag-default'; ?>" target="_blank" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
+							<?php echo $item->returns; ?><span class="icon-out-2"><span class="element-invisible"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span></span></a>
 					</td>
 					<?php else: ?>
 					<td class="text-xs-center">

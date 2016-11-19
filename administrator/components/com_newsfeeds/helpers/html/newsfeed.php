@@ -44,7 +44,7 @@ class JHtmlNewsfeed
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('c.id, c.name as title')
-				->select('l.sef as lang_sef')
+				->select('l.sef as lang_sef, lang_code')
 				->from('#__newsfeeds as c')
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
@@ -67,29 +67,18 @@ class JHtmlNewsfeed
 			{
 				foreach ($items as &$item)
 				{
-					$text = strtoupper($item->lang_sef);
-					$url = JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);
-					$tooltipParts = array(
-						JHtml::_('image', 'mod_languages/' . $item->image . '.gif',
-							$item->language_title,
-							array('title' => $item->language_title),
-							true
-						),
-						$item->title,
-						'(' . $item->category_title . ')'
-					);
-					$item->link = JHtml::_(
-						'tooltip',
-						implode(' ', $tooltipParts),
-						null,
-						null,
-						$text,
-						$url,
-						null,
-						'hasTooltip tag tag-association label-' . $item->lang_sef
-					);
+					$text    = strtoupper($item->lang_sef);
+					$url     = JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);
+					$tooltip = $item->title . '<br>' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$classes = 'hasPopover tag tag-association tag-' . $item->lang_sef;
+
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
+						. '" data-content="' . $tooltip . '" data-placement="top">'
+						. $text . '</a>';
 				}
 			}
+
+			JHtml::_('bootstrap.popover');
 
 			$html = JLayoutHelper::render('joomla.content.associations', $items);
 		}

@@ -23,7 +23,6 @@
 		<fields name="params">
 			<fieldset name="basic"
 				addfieldpath="/administrator/components/com_categories/models/fields">
-			>
 				<field
 					name="parent"
 					type="modal_category"
@@ -41,37 +40,37 @@
 				<field
 					name="show_description"
 					type="radio"
+					class="switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="numitems"
 					type="radio"
+					class="switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="show_children"
 					type="radio"
+					class="switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
