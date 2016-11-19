@@ -1041,11 +1041,18 @@ abstract class JHtml
 		$btn_style = ($readonly || $disabled) ? ' style="display:none;"' : '';
 		$div_class = (!$readonly && !$disabled) ? ' class="input-append"' : '';
 
-		return '<div' . $div_class . '>'
-				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
-				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>'
-			. '</div>';
+		//Format the date
+		$fdate = $inputvalue ? static::_('date', $value, null, null) : '';
+
+		return JLayoutHelper::render('joomla.form.field.calendar',
+				array('div_class' => $div_class,
+				'inputvalue' => $inputvalue,
+				'fdate' => $fdate,
+				'name' => $name,
+				'id' => $id,
+				'attribs' => $attribs,
+				'btn_style' => $btn_style));
+
 	}
 
 	/**
