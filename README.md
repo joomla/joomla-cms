@@ -59,7 +59,7 @@ Feature: content
     And I save an article
     Then I should see the "Article successfully saved." message
 ```
-Generate snippets of .featuer file using command `tests/codeception/vendor/bin/codecept gherkin:snippets acceptance`
+Generate snippets of .feature file using command `tests/codeception/vendor/bin/codecept gherkin:snippets acceptance`
 
 ```snippets
 /**
@@ -122,7 +122,7 @@ _We are using `composer.json` file for `tests/codeception` folder, so that you w
 
 ### Run tests
 
-To run the tests please execute the following commands. We are using [Robo.li](http://robo.li/) to execute [PhpUnit](https://phpunit.de/) based [Codeception](http://codeception.com/for/joomla) test suits.
+To run the tests please execute the following commands. We are using [Robo.li](http://robo.li/) to execute [PhpUnit](https://phpunit.de/) based [Codeception](http://codeception.com/for/joomla) test suits. (As we are using Selenium WebDriver 2.53.1 at the moment, a Firefox version above 47.0.1 might be causing issues.)
 
 #### To execute all the test features you should use.
 
@@ -139,7 +139,7 @@ $ tests/codeception/vendor/bin/robo run:test
 Or you can manually run them using codecept command. Check the following example:
 
 ```bash
-$ ./tests/codeception/vendor/bin/codecept run tests/acceptance/users.feature
+$ ./tests/codeception/vendor/bin/codecept run tests/codeception/acceptance/users.feature
 ```
 
 If you want to see steps then you can use `--steps` option of codeception. Check [full codecept command list here](http://codeception.com/docs/reference/Commands#Run)_
