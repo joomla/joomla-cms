@@ -8460,7 +8460,7 @@ legend {
   max-width: none; }
 
 .nav.nav-tabs {
-  padding: 0 15px;
+  padding: 0;
   margin-bottom: 0;
   background-color: #f5f5f5;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
@@ -8469,6 +8469,9 @@ legend {
   .nav.nav-tabs .nav-item {
     margin-bottom: 0;
     margin-left: 0; }
+    .nav.nav-tabs .nav-item:first-of-type .nav-link.active {
+      border-radius: 0.25rem 0 0 0;
+      box-shadow: -1px 0 1px -1px rgba(0, 0, 0, 0.06), inset -2px 0 1px -1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(0, 0, 0, 0.02); }
     .nav.nav-tabs .nav-item:last-of-type .nav-link {
       box-shadow: -1px 0 0 rgba(0, 0, 0, 0.05), 1px 0 0 rgba(0, 0, 0, 0.05); }
       .nav.nav-tabs .nav-item:last-of-type .nav-link.active {
