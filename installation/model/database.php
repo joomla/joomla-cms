@@ -835,32 +835,39 @@ class InstallationModelDatabase extends JModelBase
 
 		// Update all core tables created_by fields of the tables with the random user id.
 		$updatesArray = array(
-			'#__banners'         => 'created_by',
-			'#__categories'      => 'created_user_id',
-			'#__contact_details' => 'created_by',
-			'#__content'         => 'created_by',
-			'#__newsfeeds'       => 'created_by',
-			'#__tags'            => 'created_user_id',
-			'#__ucm_content'     => 'core_created_user_id',
-			'#__ucm_history'     => 'editor_user_id',
-			'#__user_notes'      => 'created_user_id',
+			'#__banners'         => array('created_by', 'modified_by'),
+			'#__categories'      => array('created_user_id', 'modified_user_id'),
+			'#__contact_details' => array('created_by', 'modified_by'),
+			'#__content'         => array('created_by', 'modified_by'),
+			'#__fields'          => array('created_user_id', 'modified_by'),
+			'#__finder_filters'  => array('created_by', 'modified_by'),
+			'#__newsfeeds'       => array('created_by', 'modified_by'),
+			'#__tags'            => array('created_user_id', 'modified_user_id'),
+			'#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
+			'#__ucm_history'     => array('editor_user_id'),
+			'#__user_notes'      => array('created_user_id', 'modified_user_id'),
 		);
 
-		foreach ($updatesArray as $table => $field)
+		foreach ($updatesArray as $table => $fields)
 		{
-			$query = $db->getQuery(true)
-				->update($db->quoteName($table))
-				->set($db->quoteName($field) . ' = ' . $db->quote($userId));
-
-			$db->setQuery($query);
-
-			try
+			foreach ($fields as $field)
 			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				$query = $db->getQuery(true)
+					->update($db->quoteName($table))
+					->set($db->quoteName($field) . ' = ' . $db->quote($userId))
+					->where($db->quoteName($field) . ' != 0')
+					->where($db->quoteName($field) . ' IS NOT NULL');
+
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
 			}
 		}
 	}
@@ -888,6 +895,7 @@ class InstallationModelDatabase extends JModelBase
 			'#__contact_details'     => array('publish_up', 'publish_down', 'created', 'modified'),
 			'#__content'             => array('publish_up', 'publish_down', 'created', 'modified'),
 			'#__contentitem_tag_map' => array('tag_date'),
+			'#__fields'              => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
 			'#__finder_filters'      => array('created', 'modified'),
 			'#__finder_links'        => array('indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'),
 			'#__messages'            => array('date_time'),
