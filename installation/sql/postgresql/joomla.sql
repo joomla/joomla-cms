@@ -1197,9 +1197,9 @@ CREATE TABLE "#__languages" (
   "ordering" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("lang_id"),
   CONSTRAINT "#__languages_idx_sef" UNIQUE ("sef"),
-  CONSTRAINT "#__languages_idx_image" UNIQUE ("image"),
   CONSTRAINT "#__languages_idx_langcode" UNIQUE ("lang_code")
 );
+CREATE INDEX "#__languages_idx_image" ON "#__languages" ("image");
 CREATE INDEX "#__languages_idx_ordering" ON "#__languages" ("ordering");
 CREATE INDEX "#__languages_idx_access" ON "#__languages" ("access");
 
