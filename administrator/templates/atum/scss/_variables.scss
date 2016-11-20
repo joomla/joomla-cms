@@ -3,8 +3,9 @@ $enable-flex:                      true;
 $atum-template-color:              #27283a;
 $atum-gradient-inner:              #163f46;
 $atum-gradient-outer:              $atum-template-color;
+$atum-container-main-bg:           #eeeeee;
 $atum-card-title-bg:               #f5f5f5;
-$white:                            #fff;
+$white:                            #fafafa;
 $grey:                             #aaa;
 
 $brand-primary:                    #0275d8 !default;
@@ -22,8 +23,8 @@ $atum-button-bar-space:            6px;
 $atum-button-transistion-duration: .3s;
 
 // Fonts
+$font-family-base:                 Arial, sans-serif;
 $atum-inverted-text-color:         $atum-template-color;
-$font-family-base:                 "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-size-root:                   14px;
 $font-size-h1:                     1.857rem;
 $font-size-h2:                     1.571rem;

@@ -317,10 +317,10 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
-	 * Treat AJAX jQuery errors.
+	 * Treat AJAX errors.
 	 * Used by some javascripts such as sendtestmail.js and permissions.js
 	 *
-	 * @param   object  jqXHR        jQuery XHR object. See http://api.jquery.com/jQuery.ajax/#jqXHR
+	 * @param   object  xhr          XHR object.
 	 * @param   string  textStatus   Type of error that occurred.
 	 * @param   string  error        Textual portion of the HTTP status.
 	 *
@@ -328,13 +328,14 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * @since  3.6.0
 	 */
-	Joomla.ajaxErrorsMessages = function( jqXHR, textStatus, error ) {
+	Joomla.ajaxErrorsMessages = function( xhr, textStatus, error ) {
 		var msg = {};
 
-		if (textStatus == 'parsererror')
+		// For jQuery jqXHR
+		if (textStatus === 'parsererror')
 		{
 			// Html entity encode.
-			var encodedJson = jqXHR.responseText.trim();
+			var encodedJson = xhr.responseText.trim();
 
 			var buf = [];
 			for (var i = encodedJson.length-1; i >= 0; i--) {
@@ -345,25 +346,34 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson) ];
 		}
-		else if (textStatus == 'nocontent')
+		else if (textStatus === 'nocontent')
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_NO_CONTENT') ];
 		}
-		else if (textStatus == 'timeout')
+		else if (textStatus === 'timeout')
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_TIMEOUT') ];
 		}
-		else if (textStatus == 'abort')
+		else if (textStatus === 'abort')
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT') ];
 		}
+		// For vannila XHR
+		else if (xhr.responseJSON && xhr.responseJSON.message)
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) + ' <em>' + xhr.responseJSON.message + '</em>' ];
+		}
+		else if (xhr.statusText)
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) + ' <em>' + xhr.statusText + '</em>' ];
+		}
 		else
 		{
-			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', jqXHR.status) ];
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) ];
 		}
 
 		return msg;
-	}
+	};
 
 	/**
 	 * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
@@ -433,6 +443,104 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		form.filter_order.value = order;
 		form.filter_order_Dir.value = dir;
 		Joomla.submitform( task, form );
+	};
+
+	/**
+	 * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
+	 *
+	 * Writes a dynamically generated list
+	 *
+	 * @param string
+	 *          The parameters to insert into the <select> tag
+	 * @param array
+	 *          A javascript array of list options in the form [key,value,text]
+	 * @param string
+	 *          The key to display for the initial state of the list
+	 * @param string
+	 *          The original key that was selected
+	 * @param string
+	 *          The original item value that was selected
+	 * @param string
+	 *          The elem where the list will be written
+	 */
+	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
+		var html = '<select ' + selectParams + '>',
+			hasSelection = key == orig_key,
+			i = 0,
+			selected, x, item;
+
+		for ( x in source ) {
+			if (!source.hasOwnProperty(x)) { continue; }
+
+			item = source[ x ];
+
+			if ( item[ 0 ] != key ) { continue; }
+
+			selected = '';
+
+			if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
+				selected = 'selected="selected"';
+			}
+
+			html += '<option value="' + item[ 1 ] + '" ' + selected + '>' + item[ 2 ] + '</option>';
+
+			i++;
+		}
+		html += '</select>';
+
+		if (element) {
+			element.innerHTML = html;
+		} else {
+			document.writeln( html );
+		}
+	};
+
+	/**
+	 * USED IN: administrator/components/com_content/views/article/view.html.php
+	 * actually, probably not used anywhere.
+	 *
+	 * Changes a dynamically generated list
+	 *
+	 * @param string
+	 *          The name of the list to change
+	 * @param array
+	 *          A javascript array of list options in the form [key,value,text]
+	 * @param string
+	 *          The key to display
+	 * @param string
+	 *          The original key that was selected
+	 * @param string
+	 *          The original item value that was selected
+	 */
+	window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
+		var list = document.adminForm[ listname ],
+			hasSelection = key == orig_key,
+			i, x, item, opt;
+
+		// empty the list
+		while ( list.firstChild ) list.removeChild( list.firstChild );
+
+		i = 0;
+
+		for ( x in source ) {
+			if (!source.hasOwnProperty(x)) { continue; }
+
+			item = source[x];
+
+			if ( item[ 0 ] != key ) { continue; }
+
+			opt = new Option();
+			opt.value = item[ 1 ];
+			opt.text = item[ 2 ];
+
+			if ( ( hasSelection && orig_val == opt.value ) || (!hasSelection && i === 0) ) {
+				opt.selected = true;
+			}
+
+			list.options[ i++ ] = opt;
+		}
+
+		list.length = i;
 	};
 
 	/**
@@ -747,20 +855,5 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 		return xhr;
 	};
-
-	/**
-	 * Listener for control+s. Maps it to apply/save button
-	 */
-	// Initiate the listener for the combo key
-	document.addEventListener( 'DOMContentLoaded', function() {
-		if (Joomla.getOptions( 'keySave' ) ) {
-			document.addEventListener("keydown", function(e) {
-				if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
-					e.preventDefault();
-					Joomla.submitbutton( Joomla.getOptions( 'keySave' ).task );
-				}
-			}, false);
-		}
-	});
 
 }( Joomla, document ));

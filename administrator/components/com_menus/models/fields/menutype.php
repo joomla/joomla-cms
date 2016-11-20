@@ -11,14 +11,12 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  1.6
  */
-class JFormFieldMenutype extends JFormFieldList
+class JFormFieldMenutype extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

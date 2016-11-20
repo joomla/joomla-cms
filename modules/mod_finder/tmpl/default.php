@@ -29,11 +29,11 @@ $label      = '<label for="mod-finder-searchword' . $module->id . '" class="' . 
 switch ($params->get('label_pos', 'left'))
 {
 	case 'top' :
-		$output = $label . '<br />' . $output;
+		$output = $label . '<br>' . $output;
 		break;
 
 	case 'bottom' :
-		$output .= '<br />' . $label;
+		$output .= '<br>' . $label;
 		break;
 
 	case 'right' :
@@ -53,11 +53,11 @@ if ($params->get('show_button'))
 	switch ($params->get('button_pos', 'left'))
 	{
 		case 'top' :
-			$output = $button . '<br />' . $output;
+			$output = $button . '<br>' . $output;
 			break;
 
 		case 'bottom' :
-			$output .= '<br />' . $button;
+			$output .= '<br>' . $button;
 			break;
 
 		case 'right' :
@@ -71,18 +71,18 @@ if ($params->get('show_button'))
 	}
 }
 
-JHtml::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array(), true);
+
+JHtml::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_finder/finder.js', array('version' => 'auto', 'relative' => true));
 
 JText::script('MOD_FINDER_SEARCH_VALUE', true);
-
-JHtml::_('script', 'com_finder/finder.js', false, true);
 
 /*
  * This segment of code sets up the autocompleter.
  */
 if ($params->get('show_autosuggest', 1))
 {
-	JHtml::_('script', 'vendor/awesomplete/awesomplete.min.js', false, true);
+	JHtml::_('script', 'vendor/awesomplete/awesomplete.min.js', array('version' => 'auto', 'relative' => true));
 	JFactory::getDocument()->addScriptOptions('finder-search', array('url' => JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 ?>

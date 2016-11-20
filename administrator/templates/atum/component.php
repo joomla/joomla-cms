@@ -18,26 +18,20 @@ $this->direction = $doc->direction;
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+// Add template js
+JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.min.css');
+JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', array('version' => 'auto', 'relative' => true));
+
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (is_file($file))
-{
-	$doc->addStyleSheet($file);
-}
+JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto', 'relative' => true));
 
 // Load custom.css
-$file = 'templates/' . $this->template . '/css/custom.css';
-
-if (is_file($file))
-{
-	$doc->addStyleSheetVersion($file);
-}
+JHtml::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
 ?>
 
 <!DOCTYPE html>

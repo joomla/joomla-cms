@@ -21,7 +21,8 @@
 			<fieldset name="basic">
 				<field
 					name="collect_urls"
-					type="switcher"
+					type="radio"
+					class="switcher"
 					label="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_LABEL"
 					description="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_DESC"
 					default="1"

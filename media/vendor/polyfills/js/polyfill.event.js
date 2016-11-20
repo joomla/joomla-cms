@@ -1,14 +1,31 @@
+<<<<<<< HEAD:media/vendor/polyfills/js/polyfill.event.js
 /* Polyfill service v3.13.0
  * For detailed credits and licence information see http://github.com/financial-times/polyfill-service.
  * 
  * UA detected: ie/8.0.0
+=======
+/**
+ * Polyfill service v3.13.0
+ * For detailed credits and licence information see http://github.com/financial-times/polyfill-service.
+ * 
+>>>>>>> joomla/master:media/system/js/polyfill.event-uncompressed.js
  * Features requested: Event
  * 
  * - Window, License: CC0 (required by "Event")
  * - Document, License: CC0 (required by "Element", "Event")
  * - Element, License: CC0 (required by "Event")
  * - Object.defineProperty, License: CC0 (required by "Event")
+<<<<<<< HEAD:media/vendor/polyfills/js/polyfill.event.js
  * - Event, License: CC0 */
+=======
+ * - Event, License: CC0
+ *
+ * @build      https://cdn.polyfill.io/v2/polyfill.js?features=Event&flags=always,gated
+ * 
+ * @copyright  Copyright (c) 2016 Financial Times
+ * @license    MIT License, https://github.com/Financial-Times/polyfill-service/blob/master/LICENSE.md
+ */
+>>>>>>> joomla/master:media/system/js/polyfill.event-uncompressed.js
 
 (function(undefined) {
 if (!('Window' in this)) {

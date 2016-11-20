@@ -9,12 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       3.5
+ * @since  3.5
  */
 class JFormRuleNumber extends JFormRule
 {
@@ -26,14 +26,14 @@ class JFormRuleNumber extends JFormRule
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
-	 * @param   JRegistry         $input    An optional JRegistry object with the entire data set to validate against the entire form.
+	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
 	 * @param   JForm             $form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   3.5
 	 */
-	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
 		$float_value = (float) $value;
 

@@ -1,100 +1,182 @@
-// @TODO Refactor script from Mootools to jQuery or vanilla code
-/*
----
-description: Form.PasswordStrength class, and basic dom methods
+"use strict";
 
-license: MIT-style
+/**
+ * PasswordStrength script by Thomas Kjaergaard
+ * License: MIT
+ * Repo: https://github.com/tkjaergaard/Password-Strength
+ */
+var PasswordStrength;
 
-authors:
- - Al Kent
-
-requires:
- - core/1.3.1: '*'
-
-provides:
- - Form.PasswordStrength
- - Element.Events.keyupandchange
- - String.strength
-...
-*/
-
-if (!this.Form) this.Form = {};
-
-Form.PasswordStrength = new Class({
-	
-	Implements: [Options, Events],
-	
-	options: {
-		//onUpdate: $empty,
-		threshold: 66,
-		primer: '',
-		height: 5,
-		opacity: 1,
-		bgcolor: 'transparent'
-	},
-	
-	element: null,
-	fx: null,
-	
-	initialize: function(el, options){
-		this.element = document.id(el);
-		this.setOptions(options);
-		if (this.options.primer) this.options.threshold = this.options.primer.strength();
-		var coord = this.element.getCoordinates();
-		var bar = new Element('div', {
-			styles: {
-				'width': coord.width,
-				'height': this.options.height,
-				'opacity': this.options.opacity,
-				'background-color': this.options.bgcolor
-			}
-		}).inject(this.element, 'after');
-		var meter = new Element('div', {
-			styles: {
-				'width': 0,
-				'height': '100%'
-			}
-		}).inject(bar);
-		this.fx = new Fx.Morph(meter, {
-			duration: 'short',
-			link: 'cancel',
-			unit: '%'
-		});
-		this.element.addEvent('keyupandchange', this.animate.bind(this));
-		if (this.element.get('value')) this.animate();
-	},
-	
-	animate: function(){
-		var value = this.element.get('value');
-		var color, strength = value.strength(), ratio = (strength / this.options.threshold).round(2).limit(0, 1);
-		if (ratio < 0.5) color = ('rgb(255, ' + (255 * ratio * 2).round() + ', 0)').rgbToHex();
-		else color = ('rgb(' + (255 * (1 - ratio) * 2).round() + ', 255, 0)').rgbToHex();
-		this.fx.start({
-			'width': 100 * ratio,
-			'background-color': color
-		});
-		this.fireEvent('update', [this.element, strength, this.options.threshold]);
+PasswordStrength = (function() {
+	function PasswordStrength(settings) {
+		this.lowercase = settings.lowercase || 0;
+		this.uppercase = settings.uppercase || 0;
+		this.numbers = settings.numbers || 0;
+		this.special = settings.special || 0;
+		this.length = settings.length || 4;
 	}
-});
 
-Element.Events.keyupandchange = {
-	base: 'keyup',
-	condition: function(event){
-		var prev = this.retrieve('prev', null);
-		var cur = this.get('value');
-		if (typeOf(prev) != 'null' && prev == cur) return false;
-		this.store('prev', cur);
-		return true;
+	PasswordStrength.prototype.getScore = function(value) {
+		var score = 0, mods = 0;
+			var sets = ['lowercase', 'uppercase', 'numbers', 'special', 'length'];
+			for (var i = 0, l = sets.length; l>i; i++) {
+				if (this.hasOwnProperty(sets[i]) && this[sets[i]] > 0) {
+					mods = mods + 1;
+				}
+			}
+
+		score += this.calc(value, /[a-z]/g, this.lowercase, mods);
+		score += this.calc(value, /[A-Z]/g, this.uppercase, mods);
+		score += this.calc(value, /[0-9]/g, this.numbers, mods);
+		score += this.calc(value, /[\$\!\#\?\=\;\:\*\-\_\€\%\&\(\)\`\´]/g, this.special, mods);
+		if (mods == 1) {
+			score += value.length > this.length ? 100 : 100 / this.length * value.length;
+		} else {
+			score += value.length > this.length ? (100 / mods) : (100 / mods) / this.length * value.length;
+		}
+
+		return score;
+	};
+
+	PasswordStrength.prototype.calc = function(value, pattern, length, mods) {
+		var count;
+		count = value.match(pattern);
+		if (count && count.length > length && length != 0) {
+			return 100 / mods;
+		}
+		if (count && length > 0) {
+			return (100 / mods) / length * count.length;
+		} else {
+			return 0;
+		}
+
+	};
+
+	return PasswordStrength;
+
+})();
+
+/**
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+document.addEventListener('DOMContentLoaded', function(){
+	"use strict";
+
+	/** Method to check the input and set the meter **/
+	var getMeter = function(element) {
+		var $minLength = element.getAttribute('data-min-length'),
+			$minIntegers = element.getAttribute('data-min-integers'),
+			$minSymbols = element.getAttribute('data-min-symbols'),
+			$minUppercase = element.getAttribute('data-min-uppercase'),
+			$minLowercase = element.getAttribute('data-min-lowercase'),
+			meter = element.parentNode.querySelector('progress');
+
+		var strength = new PasswordStrength({
+			lowercase: $minLowercase ? $minLowercase : 0,
+			uppercase: $minUppercase ? $minUppercase : 0,
+			numbers: $minIntegers ? $minIntegers : 0,
+			special: $minSymbols ? $minSymbols : 0,
+			length: $minLength ? $minLength : 4
+		});
+
+		var score = strength.getScore(element.value),
+			i = meter.getAttribute('aria-describedby').replace( /^\D+/g, ''),
+			label = element.parentNode.querySelector('#password-' + i);
+
+		if (score > 79){
+			meter.setAttribute('class', 'progress progress-warning');
+			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_COMPLETE');
+		}
+		if (score > 64 && score < 80){
+			meter.setAttribute('class', 'progress progress-warning');
+			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+		}
+		if (score > 50 && score < 65){
+			meter.setAttribute('class', 'progress progress-warning');
+			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+		}
+		if (score > 40 && score < 51){
+			meter.setAttribute('class', 'progress progress-warning');
+			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+		}
+		if (score < 41){
+			meter.setAttribute('class', 'progress progress-danger');
+			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+		}
+		if (score === 100){
+			meter.setAttribute('class', 'progress progress-success');
+		}
+		meter.value = score;
+
+		if (!element.value.length) {
+			meter.setAttribute('class', 'progress');
+			label.innerHTML = '';
+			element.setAttribute('required', '');
+		}
+	};
+
+	var fields = document.querySelectorAll('.js-password-strength');
+
+	/** Loop  through the fields **/
+	for(var i = 0, l = fields.length; i<l; i++) {
+		var startClass = '',
+			initialVal = '';
+
+		if (!fields[i].value.length) {
+			startClass =' progress-danger';
+			initialVal = 0;
+		}
+
+		/** Create a progress meter and the label **/
+		var meter = document.createElement('progress');
+		meter.setAttribute('class', 'progress' + startClass);
+		meter.value = 0 + initialVal;
+		meter.max = 100;
+		meter.setAttribute('aria-describedby', 'password-' + i);
+
+		var label = document.createElement('div');
+		label.setAttribute('class', 'text-xs-center');
+		label.setAttribute('id', 'password-' + i);
+
+		fields[i].parentNode.append(label);
+		fields[i].parentNode.append(meter);
+
+		/** Add a data attribute for the required **/
+		if (fields[i].value.length > 0) {
+			fields[i].setAttribute('required', true);
+		}
+
+		/** Add a listener for input data change **/
+		fields[i].addEventListener('keyup', function(event) {
+			getMeter(event.target);
+		});
 	}
-};
 
-String.implement({
-	strength: function(){
-		var n = 0;
-		if (this.match(/\d/)) n += 10;
-		if (this.match(/[a-z]+/)) n += 26;
-		if (this.match(/[A-Z]+/)) n += 26;
-		if (this.match(/[^\da-zA-Z]/)) n += 33;
-		return (n == 0) ? 0 : (this.length * n.log() / (2).log()).round();
+	/** Set a handler for the validation script **/
+	if (fields[0]) {
+		document.formvalidator.setHandler('password-strength', function(value) {
+
+			var returnedValue = false,
+				fields = document.querySelectorAll('.js-password-strength'),
+				$minLength = fields[0].getAttribute('data-min-length'),
+				$minIntegers = fields[0].getAttribute('data-min-integers'),
+				$minSymbols = fields[0].getAttribute('data-min-symbols'),
+				$minUppercase = fields[0].getAttribute('data-min-uppercase'),
+				$minLowercase = fields[0].getAttribute('data-min-lowercase');
+
+			var strength = new PasswordStrength({
+				lowercase: $minLowercase ? $minLowercase : 0,
+				uppercase: $minUppercase ? $minUppercase : 0,
+				numbers: $minIntegers ? $minIntegers : 0,
+				special: $minSymbols ? $minSymbols : 0,
+				length: $minLength ? $minLength : 4
+			});
+
+			var score = strength.getScore(value);
+			if (score === 100 ) returnedValue = true;
+
+			return returnedValue;
+		});
 	}
 });

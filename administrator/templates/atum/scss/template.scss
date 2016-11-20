@@ -25,13 +25,17 @@
 @import "blocks/alerts";
 @import "blocks/status";
 @import "blocks/switcher";
-@import "blocks/table";
 @import "blocks/toolbar";
 @import "blocks/utilities";
 
 // Vendor overrides
 @import "vendor/awesomplete";
-@import "vendor/bootstrap";
+@import "vendor/bootstrap/buttons";
+@import "vendor/bootstrap/card";
+@import "vendor/bootstrap/lists";
+@import "vendor/bootstrap/modal";
+@import "vendor/bootstrap/nav";
+@import "vendor/bootstrap/table";
 @import "vendor/chosen";
 @import "vendor/dragula";
 @import "vendor/minicolors";
@@ -69,11 +73,11 @@ small, .small {
   position: relative;
   min-height: calc(100vh - 50px);
   padding-top: 15px;
-  background: $white;
+  background: $atum-container-main-bg
 }
 .list-view-main {
   .container-main {
-    background-color: #eaebec;
+    background-color: $atum-container-main-bg
   }
 }
 
@@ -82,11 +86,46 @@ small, .small {
   background: $white;
   border-radius: $border-radius;
 }
+.layout-edit {
+  .content {
+    background-color: transparent;
+  }
+}
 
 .js-main-container {
   border: 1px solid rgba(0, 0, 0, .17);
   border-radius: $border-radius;
   box-shadow: 0 0 3px rgba(0, 0, 0, .075);
+}
+
+// com_config
+.com_config {
+  .sidebar-nav {
+    ul {
+      padding-left: .5rem;
+    }
+    li {
+      padding-bottom: 3px;
+      font-size: .9rem;
+      font-weight: bold;
+      &.nav-header {
+        padding-top: .5rem;
+        color: $gray-dark;
+        font-size: .85rem;
+      }
+      a {
+        color: darken($brand-primary, 15%);
+      }
+    }
+  }
+  .content {
+    background-color: transparent;
+  }
+  [class^='col-'] {
+    > fieldset {
+      padding-bottom: 2rem;
+    }
+  }
 }
 
 // com_modules
@@ -129,9 +168,6 @@ small, .small {
 
 // Dashboard card
 .com_cpanel {
-  .container-main {
-    background: #eaebec;
-  }
   .content {
     margin-top: 0;
     background: none;

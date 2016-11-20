@@ -33,7 +33,7 @@
       padding: 0 10px;
       line-height: $line-height;
       color: $body-color;
-      background-color: #fff;
+      background-color: $white;
       border-color: $btn-secondary-border;
       [class^="icon-"], [class*=" icon-"] {
         z-index: -1;
@@ -102,7 +102,7 @@
         color: $white;
       }
     }
-    button:first-of-type {
+    button:first-of-type:not(.float-sm-right) {
       margin-left: 0;
     }
   }

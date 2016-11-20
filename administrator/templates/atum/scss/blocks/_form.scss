@@ -1,5 +1,8 @@
 // Form
 
+.form-control {
+  background-color: $white;
+}
 .control-group::after {
   display: table;
   clear: both;
@@ -17,7 +20,7 @@ form:not(.form-no-margin) {
       text-align: left;
     }
     .controls {
-      margin-left: 180px;
+      margin-left: 220px;
     }
   }
 }
@@ -43,7 +46,6 @@ td .form-control {
 }
 legend {
   margin-bottom: 1.1rem;
-  border-bottom: 1px solid #e5e5e5;
 }
 .checkboxes {
   padding-top: 5px;

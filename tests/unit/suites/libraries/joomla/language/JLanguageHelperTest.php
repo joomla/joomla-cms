@@ -23,8 +23,8 @@ class JLanguageHelperTest extends PHPUnit_Framework_TestCase
 	public function testCreateLanguageList()
 	{
 		$option = array(
-			'text' => 'English (United Kingdom)',
-			'value' => 'en-GB',
+			'text'     => 'English (United Kingdom)',
+			'value'    => 'en-GB',
 			'selected' => 'selected="selected"'
 		);
 		$listCompareEqual = array(
