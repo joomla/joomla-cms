@@ -263,7 +263,7 @@ class JApplicationAdministrator extends JApplicationCms
 			$lang = $user->getParam('admin_language');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($lang && JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -275,11 +275,11 @@ class JApplicationAdministrator extends JApplicationCms
 		}
 
 		// One last check to make sure we have something
-		if (!JLanguage::exists($options['language']))
+		if (!JLanguageHelper::exists($options['language']))
 		{
 			$lang = $this->get('language', 'en-GB');
 
-			if (JLanguage::exists($lang))
+			if (JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
