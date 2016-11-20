@@ -138,14 +138,6 @@
 			return;
 
 		this._create();
-
-		/** This is needed for IE8 */
-		if (jQuery && jQuery.chosen) {
-			var selItems = this.element.querySelectorAll('select');
-			for (var i = 0; i < selItems.length; i++) {
-				jQuery(selItems[i]).chosen('destroy');
-				}
-		}
 		this._bindEvents();
 	};
 
@@ -253,6 +245,14 @@
 
 	/** Method to show the calendar. */
 	JoomlaCalendar.prototype.show = function () {
+		/** This is needed for IE8 */
+		if (window.jQuery && jQuery().chosen) {
+			var selItems = this.element.getElementsByTagName('select');
+			for (var i = 0; i < selItems.length; i++) {
+				jQuery(selItems[i]).chosen('destroy');
+			}
+		}
+
 		this.checkInputs();
 		this.inputField.focus();
 		var rows = this.table.getElementsByTagName("tr");
