@@ -108,7 +108,7 @@
 			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 			description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
 			class="btn-group btn-group-yesno"
-			default="0"
+			default="1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -120,7 +120,7 @@
 			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 			description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
 			class="btn-group btn-group-yesno"
-			default="0"
+			default="1"
 			showon="show_parent_category:1"
 			>
 			<option value="1">JYES</option>
@@ -195,7 +195,7 @@
 			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 			description="JGLOBAL_SHOW_CREATE_DATE_DESC"
 			class="btn-group btn-group-yesno"
-			default="0"
+			default="1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -207,7 +207,7 @@
 			label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 			description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
 			class="btn-group btn-group-yesno"
-			default="0"
+			default="1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -424,7 +424,7 @@
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			class="btn-group btn-group-yesno"
-			default="1"
+			default="0"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -458,7 +458,7 @@
 			label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
 			description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
 			class="btn-group btn-group-yesno"
-			default="1"
+			default="0"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -583,7 +583,7 @@
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
 			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 			class="btn-group btn-group-yesno"
-			default="0"
+			default="1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -595,7 +595,7 @@
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 			class="btn-group btn-group-yesno"
-			default="0"
+			default="1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -671,7 +671,7 @@
 			label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
 			description="COM_CONTENT_NUMBER_CATEGORY_ITEMS_DESC"
 			class="btn-group btn-group-yesno"
-			default="0"
+			default="1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -964,7 +964,7 @@
 			type="list"
 			label="JGLOBAL_CATEGORY_ORDER_LABEL"
 			description="JGLOBAL_CATEGORY_ORDER_DESC"
-			default="order"
+			default="none"
 			>
 			<option	value="none">JGLOBAL_NO_ORDER</option>
 			<option	value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
