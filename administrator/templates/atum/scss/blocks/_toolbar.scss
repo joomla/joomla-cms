@@ -15,6 +15,9 @@
 
   .btn-toolbar {
     margin-bottom: 0;
+    > * {
+      margin-left: .5rem;
+    }
     .btn-group {
       margin-right: .35rem;
       .btn {
@@ -29,7 +32,6 @@
     }
     .btn-sm {
       padding: 0 10px;
-      margin-left: .5rem;
       line-height: $line-height;
       color: $body-color;
       background-color: $white;

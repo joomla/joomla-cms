@@ -8259,6 +8259,8 @@ legend {
   border-bottom: 1px solid rgba(0, 0, 0, 0.17); }
   .subhead .btn-toolbar {
     margin-bottom: 0; }
+    .subhead .btn-toolbar > * {
+      margin-left: .5rem; }
     .subhead .btn-toolbar .btn-group {
       margin-right: .35rem; }
       .subhead .btn-toolbar .btn-group .btn {
@@ -8270,7 +8272,6 @@ legend {
       line-height: 24px; }
     .subhead .btn-toolbar .btn-sm, .subhead .btn-toolbar .btn-group-sm > .btn {
       padding: 0 10px;
-      margin-left: .5rem;
       line-height: 2em;
       color: #373a3c;
       background-color: #fcfcfc;
