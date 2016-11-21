@@ -90,7 +90,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'misc', JText::_('JGLOBAL_FIELDSET_MISCELLANEOUS')); ?>
 		<div class="row">
-			<div class="form-vertical">
+			<div class="col-md-12">
 				<?php echo $this->form->renderField('misc'); ?>
 			</div>
 		</div>
