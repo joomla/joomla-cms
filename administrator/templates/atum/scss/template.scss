@@ -15,6 +15,7 @@
 @import "../../../../media/system/scss/jalert";
 
 // Blocks
+@import "blocks/alerts";
 @import "blocks/form";
 @import "blocks/header";
 @import "blocks/icons";
@@ -22,7 +23,6 @@
 @import "blocks/quickicons";
 @import "blocks/searchtools";
 @import "blocks/sidebar";
-@import "blocks/alerts";
 @import "blocks/status";
 @import "blocks/switcher";
 @import "blocks/toolbar";
