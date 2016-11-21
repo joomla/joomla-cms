@@ -67,7 +67,6 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (36, 1, 97, 98, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
 (37, 1, 99, 100, 1, 'com_ajax', 'com_ajax', '{}'),
 (38, 1, 101, 102, 1, 'com_postinstall', 'com_postinstall', '{}'),
-<<<<<<< HEAD
 (39, 18, 42, 43, 2, 'com_modules.module.1', 'Main Menu', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (40, 18, 44, 45, 2, 'com_modules.module.2', 'Login', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (41, 18, 46, 47, 2, 'com_modules.module.3', 'Popular Articles', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
