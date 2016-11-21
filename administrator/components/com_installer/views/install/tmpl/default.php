@@ -84,7 +84,7 @@ JFactory::getDocument()->addStyleDeclaration(
 
 <div id="installer-install" class="clearfix">
 	<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install'); ?>" method="post" name="adminForm" id="adminForm">
-		<div id="j-main-container" class="js-main-container">
+		<div id="j-main-container" class="j-main-container">
 			<?php // Render messages set by extension install scripts here ?>
 			<?php if ($this->showMessage) : ?>
 				<?php echo $this->loadTemplate('message'); ?>
