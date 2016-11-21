@@ -72,18 +72,16 @@ small, .small {
   position: relative;
   min-height: calc(100vh - 50px);
   padding-top: 15px;
-  background: $atum-container-main-bg
+  background: $atum-container-main-bg;
 }
 .list-view-main {
   .container-main {
-    background-color: $atum-container-main-bg
+    background-color: $atum-container-main-bg;
   }
 }
 
 .content {
   margin-top: 50px;
-  padding: 15px;
-  background: $white;
   border-radius: $border-radius;
 }
 .layout-edit {
@@ -93,7 +91,7 @@ small, .small {
 }
 
 .js-main-container {
-  margin: -15px;
+  background-color: $white;
   border: 1px solid rgba(0, 0, 0, .17);
   border-radius: $border-radius;
   box-shadow: 0 0 3px rgba(0, 0, 0, .075);
@@ -111,8 +109,8 @@ small, .small {
       font-weight: bold;
       &.nav-header {
         padding-top: .5rem;
-        color: $gray-dark;
         font-size: .85rem;
+        color: $gray-dark;
       }
       a {
         color: darken($brand-primary, 15%);
@@ -171,7 +169,6 @@ small, .small {
 .com_cpanel {
   .content {
     margin-top: 0;
-    padding: 0;
     background: none;
   }
   .card {

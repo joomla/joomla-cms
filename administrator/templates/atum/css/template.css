@@ -8415,7 +8415,7 @@ legend {
     margin-bottom: 0;
     margin-left: 0; }
     .nav.nav-tabs .nav-item:first-of-type .nav-link.active {
-      border-radius: 0.25rem 0 0 0;
+      border-radius: 0.25rem 0 0;
       box-shadow: -1px 0 1px -1px rgba(0, 0, 0, 0.06), inset -2px 0 1px -1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(0, 0, 0, 0.02); }
     .nav.nav-tabs .nav-item:last-of-type .nav-link {
       box-shadow: -1px 0 0 rgba(0, 0, 0, 0.05), 1px 0 0 rgba(0, 0, 0, 0.05); }
@@ -8560,22 +8560,20 @@ small, .small {
   position: relative;
   min-height: calc(100vh - 50px);
   padding-top: 15px;
-  background: #eeeeee; }
+  background: #eee; }
 
 .list-view-main .container-main {
-  background-color: #eeeeee; }
+  background-color: #eee; }
 
 .content {
   margin-top: 50px;
-  padding: 15px;
-  background: #fafafa;
   border-radius: 0.25rem; }
 
 .layout-edit .content {
   background-color: transparent; }
 
 .js-main-container {
-  margin: -15px;
+  background-color: #fafafa;
   border: 1px solid rgba(0, 0, 0, 0.17);
   border-radius: 0.25rem;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
@@ -8589,8 +8587,8 @@ small, .small {
   font-weight: bold; }
   .com_config .sidebar-nav li.nav-header {
     padding-top: .5rem;
-    color: #373a3c;
-    font-size: .85rem; }
+    font-size: .85rem;
+    color: #373a3c; }
   .com_config .sidebar-nav li a {
     color: #014c8c; }
 
@@ -8626,7 +8624,6 @@ small, .small {
 
 .com_cpanel .content {
   margin-top: 0;
-  padding: 0;
   background: none; }
 
 .com_cpanel .card {
