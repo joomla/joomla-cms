@@ -81,7 +81,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (52, 18, 68, 69, 2, 'com_modules.module.79', 'Multilanguage status', '{}'),
 (53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
-(55, 1, 155, 156, 1, 'com_userlogs', 'com_userlogs', '{"core.viewlogs":[],"core.delete":[],"core.admin":[],"core.manage":[],"core.options":[]}');
+(55, 1, 155, 156, 1, 'com_userlogs', 'com_userlogs', '{}');
 
 SELECT setval('#__assets_id_seq', 55, false);
 

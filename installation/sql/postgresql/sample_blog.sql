@@ -53,7 +53,7 @@ INSERT INTO "#__assets" VALUES
 (45,1,87,88,1,'com_contenthistory','com_contenthistory','{}'),
 (46,1,89,90,1,'com_ajax','com_ajax','{}'),
 (47,1,91,92,1,'com_postinstall','com_postinstall','{}'),
-(55,1,155,156,1,'com_userlogs','com_userlogs','{"core.viewlogs":[],"core.delete":[],"core.admin":[],"core.manage":[],"core.options":[]}');
+(55,1,155,156,1,'com_userlogs','com_userlogs','{}');
 
 SELECT setval('#__assets_id_seq', max(id)) FROM #__assets;
 

@@ -138,7 +138,7 @@ SELECT 53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{}'
 UNION ALL
 SELECT 54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'
 UNION ALL
-SELECT 55, 1, 155, 156, 1, 'com_userlogs', 'com_userlogs', '{"core.viewlogs":[],"core.delete":[],"core.admin":[],"core.manage":[],"core.options":[]}';
+SELECT 55, 1, 155, 156, 1, 'com_userlogs', 'com_userlogs', '{}';
 
 SET IDENTITY_INSERT [#__assets] OFF;
 

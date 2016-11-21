@@ -331,7 +331,7 @@ SELECT 177, 1, 426, 427, 1, 'com_ajax', 'com_ajax', '{}'
 UNION ALL
 SELECT 178, 1, 428, 429, 1, 'com_postinstall', 'com_postinstall', '{}'
 UNION ALL
-SELECT 179, 1, 155, 156, 1, 'com_userlogs', 'com_userlogs', '{"core.viewlogs":[],"core.delete":[],"core.admin":[],"core.manage":[],"core.options":[]}';
+SELECT 179, 1, 155, 156, 1, 'com_userlogs', 'com_userlogs', '{}';
 
 SET IDENTITY_INSERT [#__assets] OFF;
 

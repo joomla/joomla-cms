@@ -81,7 +81,7 @@ SELECT 38, 1, 73, 74, 1, 'com_ajax', 'com_ajax', '{}'
 UNION ALL
 SELECT 39, 1, 75, 76, 1, 'com_postinstall', 'com_postinstall', '{}'
 UNION ALL
-SELECT 40, 1, 155, 156, 1, 'com_userlogs', 'com_userlogs', '{"core.viewlogs":[],"core.delete":[],"core.admin":[],"core.manage":[],"core.options":[]}';
+SELECT 40, 1, 155, 156, 1, 'com_userlogs', 'com_userlogs', '{}';
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
