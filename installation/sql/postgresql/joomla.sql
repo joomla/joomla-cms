@@ -1915,7 +1915,7 @@ CREATE INDEX "#__user_keys_idx_user_id" ON "#__user_keys" ("user_id");
 --
 CREATE TABLE "#__user_logs" (
   "id" serial NOT NULL,
-  "message" text NOT NULL,
+  "message" text NOT NULL DEFAULT '',
   "log_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "extension" varchar(50) NOT NULL DEFAULT '',
   "user_id" integer DEFAULT 0 NOT NULL,

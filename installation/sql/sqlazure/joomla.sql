@@ -2956,12 +2956,16 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__user_logs](
 	[id] [int] IDENTITY(1,1) NOT NULL,
-	[message] [nvarchar](max) NOT NULL,
+	[message] [nvarchar](max) NOT NULL DEFAULT '',
 	[log_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[extension] [nvarchar](255) NOT NULL DEFAULT '',
 	[user_id] [bigint] NOT NULL DEFAULT 0,
 	[ip_address] [nvarchar](30) NOT NULL DEFAULT '0.0.0.0',
-);
+	CONSTRAINT [PK_#__user_logs_id] PRIMARY KEY CLUSTERED
+ (
+ 	[id] ASC
+ )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+ ) ON [PRIMARY];
 
 /****** Object:  Table [#__user_logs_extensions] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2969,7 +2973,11 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__user_logs_extensions](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[extension] [nvarchar](255) NOT NULL DEFAULT '',
-);
+	CONSTRAINT [PK_#__user_logs_extensions_id] PRIMARY KEY CLUSTERED
+ (
+ 	[id] ASC
+ )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+ ) ON [PRIMARY];
 
 SET IDENTITY_INSERT [#__user_logs_extensions]  ON;
 INSERT INTO [#__user_logs_extensions] ([id], [extension])
@@ -3018,7 +3026,11 @@ CREATE TABLE [#__user_logs_tables_data](
 	[type_alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[title_holder] [nvarchar](255) NULL,
 	[table_values] [nvarchar](255) NULL
-);
+	CONSTRAINT [PK_#__user_logs_tables_data_id] PRIMARY KEY CLUSTERED
+ (
+ 	[id] ASC
+ )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+ ) ON [PRIMARY];
 
 SET IDENTITY_INSERT [#__user_logs_tables_data]  ON;
 
