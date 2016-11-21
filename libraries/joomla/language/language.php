@@ -193,7 +193,7 @@ class JLanguage
 		}
 
 		$this->lang = $lang;
-		$this->metadata = $this->getMetadata($this->lang);
+		$this->metadata = JLanguageHelper::getMetadata($this->lang);
 		$this->setDebug($debug);
 
 		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
