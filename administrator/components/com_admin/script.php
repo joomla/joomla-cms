@@ -1728,7 +1728,7 @@ class JoomlaInstallerScript
 			'com_contenthistory',
 			'com_ajax',
 			'com_postinstall',
-			'com_userlogs'
+			'com_userlogs',
 			'com_fields',
 		);
 
