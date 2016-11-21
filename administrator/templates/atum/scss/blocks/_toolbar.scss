@@ -15,12 +15,10 @@
 
   .btn-toolbar {
     margin-bottom: 0;
-
     .btn-group {
-      float: none;
-
-      + .btn {
-        margin-left: .5rem;
+      margin-right: .35rem;
+      .btn {
+        margin-left: 0;
       }
     }
 
@@ -31,6 +29,7 @@
     }
     .btn-sm {
       padding: 0 10px;
+      margin-left: .5rem;
       line-height: $line-height;
       color: $body-color;
       background-color: $white;
@@ -102,7 +101,7 @@
         color: $white;
       }
     }
-    button:first-of-type:not(.float-sm-right) {
+    button:last-of-type:not(.float-sm-right) {
       margin-left: 0;
     }
   }
