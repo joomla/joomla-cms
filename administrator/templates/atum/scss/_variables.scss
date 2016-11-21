@@ -3,7 +3,7 @@ $enable-flex:                      true;
 $atum-template-color:              #27283a;
 $atum-gradient-inner:              #163f46;
 $atum-gradient-outer:              $atum-template-color;
-$atum-container-main-bg:           #eeeeee;
+$atum-container-main-bg:           #eee;
 $atum-card-title-bg:               #f5f5f5;
 $white:                            #fafafa;
 $grey:                             #aaa;
@@ -15,6 +15,11 @@ $atum-bar-thickness:               4px;
 $atum-button-pad:                  5px;
 $atum-button-bar-space:            6px;
 $atum-button-transistion-duration: .3s;
+
+// Sidebar
+$atum-sidebar-bg:                  $atum-template-color;
+$atum-sidebar-hover:               #5b8dca;
+$atum-sidebar-active:              lighten($atum-template-color, 17%);
 
 // Fonts
 $font-family-base:                 Arial, sans-serif;

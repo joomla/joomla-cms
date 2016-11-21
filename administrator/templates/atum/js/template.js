@@ -39,7 +39,6 @@
 					var aTags = parents[j];
 					for (var k = 0; k < aTags.length; k++) {
 						aTags[k].classList.remove('data-parent');
-
 					}
 				}
 			}
@@ -71,15 +70,17 @@
 				animateWrapper();
 			});
 
+			var doAnimate = function () {
+				if (wrapper.classList.contains('closed') && window.outerWidth > 767) {
+					animateWrapper();
+				}
+			};
+
 			var classses = ["#wrapper.closed .sidebar-wrapper [data-toggle='collapse']"];
 			classses.forEach(function(item) {
 				var tmp = document.querySelectorAll(item);
 				for (var i = 0; i < tmp.length; i++) {
-					tmp[i].addEventListener('click', function () {
-						if (wrapper.classList.contains('closed') && window.outerWidth > 767) {
-							animateWrapper();
-						}
-					});
+					tmp[i].addEventListener('click', doAnimate);
 				}
 			});
 
@@ -95,6 +96,21 @@
 			window.addEventListener('resize', function() {
 				setMenuHeight();
 			});
+
+			/** Set active class */
+			var allLinks = wrapper.querySelectorAll("a.no-dropdown, a.collapse-arrow");
+			var currentUrl = window.location.href.toLowerCase();
+
+			for (var i = 0; i < allLinks.length; i++) {
+				if (currentUrl === allLinks[i].href) {
+					allLinks[i].classList.add('active');
+					if (!allLinks[i].parentNode.classList.contains('parent')) {
+						var parentLink = closest(allLinks[i], '.panel-collapse');
+						parentLink.parentNode.querySelector('a.collapse-arrow').classList.add('active');
+					}
+				}
+			}
+
 		} else {
 			document.getElementById('sidebar-wrapper').style.display = 'none';
 			document.getElementById('sidebar-wrapper').style.width = '0';
@@ -131,15 +147,14 @@
 		/**
 		 * Turn radios into btn-group
 		 */
-		var container = document.querySelectorAll('.btn-group');
+		var container = document.querySelectorAll('.btn-group.btn-group-yesno');
 		for (var i = 0; i < container.length; i++) {
 			var labels = container[i].querySelectorAll('label');
 			for (var j = 0; j < labels.length; j++) {
 				labels[j].classList.add('btn');
 				if ((j % 2) == 1) {
 					labels[j].classList.add('btn-outline-danger');
-				}
-				else {
+				} else {
 					labels[j].classList.add('btn-outline-success');
 
 				}
@@ -149,49 +164,41 @@
 		var somemem = document.querySelector('.btn-group label:not(.active)');
 		if (somemem) {
 			somemem.addEventListener('click', function(event) {
-				var label = event.target,
-				    input = document.getElementById(label.getAttribute('for'));
+				var label = event.target;
+				var input = document.getElementById(label.getAttribute('for'));
 
-				if (input.getAttribute('checked') !== 'checked') {
+				if (input.getAttribute('checked') !== "checked") {
 					var aa = closest(label, '.btn-group').querySelector('label');
 					aa.classList.remove('active');
 					aa.classList.remove('btn-success');
 					aa.classList.remove('btn-danger');
 					aa.classList.remove('btn-primary');
 
-					if (closest(label, '.btn-group').classList.contains('btn-group-reversed')){
-						if (!label.classList.contains('btn')) {
-							label.classList.add('btn');
-						}
-
+					if (closest(label, '.btn-group').classList.contains('btn-group-reversed')) {
+						if (!label.classList.contains('btn')) label.classList.add('btn');
 						if (input.value == '') {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-primary');
-						}
-						else if (input.value == 0) {
+						} else if (input.value == 0) {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-success');
-						}
-						else {
+						} else {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-danger');
 						}
-					}
-					else {
+					} else {
 						if (input.value == '') {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-primary');
-						}
-						else if (input.value == 0) {
+						} else if (input.value == 0) {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-danger');
-						}
-						else {
+						} else {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-success');
@@ -205,45 +212,38 @@
 
 		var btsGrouped = document.querySelectorAll('.btn-group input[checked=checked]');
 
-		for (var i = 0, l = btsGrouped.length; l>i; i++) {
-
-			var self   = btsGrouped[i],
-			    attrId = self.id;
-
+		for(var i = 0, l = btsGrouped.length; l>i; i++) {
+			var self  = btsGrouped[i];
+			var attrId = self.id;
 			if (self.parentNode.parentNode.classList.contains('btn-group-reversed')) {
 				if (self.value == '') {
 					var aa =document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-primary');
-				}
-				else if (self.value == 0) {
-					var aa = document.querySelector('label[for=' + attrId + ']');
+				} else if (self.value == 0) {
+					var aa =document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-success');
-				}
-				else {
-					var aa = document.querySelector('label[for=' + attrId + ']');
+				} else {
+					var aa =document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-danger');
 				}
-			}
-			else {
+			} else {
 				if (self.value == '') {
 					var aa = document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn-outline-primary');
-				}
-				else if (self.value == 0) {
-					var aa = document.querySelector('label[for=' + attrId + ']');
+				} else if (self.value == 0) {
+					var aa =document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-danger');
-				}
-				else {
-					var aa = document.querySelector('label[for=' + attrId + ']');
+				} else {
+					var aa =document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-success');
@@ -294,20 +294,11 @@
 					if (document.getElementById('sidebar-wrapper').style.display === 'none') {
 						subhead.style.left = 0;
 					}
-				}
-				else if (scrollTop <= navTop && isFixed) {
+				} else if (scrollTop <= navTop && isFixed) {
 					isFixed = false;
 					subhead.classList.remove('subhead-fixed');
 				}
 			}
-		}
-
-		/**
-		 * Add body class if table exists
-		 */
-		if (document.getElementsByClassName('js-main-container') && document.getElementsByClassName('js-main-container').length > 0)
-		{
-		    document.body.classList.add('list-view-main');
 		}
 
 	});
