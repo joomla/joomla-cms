@@ -2981,37 +2981,37 @@ CREATE TABLE [#__user_logs_extensions](
 
 SET IDENTITY_INSERT [#__user_logs_extensions]  ON;
 INSERT INTO [#__user_logs_extensions] ([id], [extension])
-SELECT 1, 'com_banners',
+SELECT 1, 'com_banners'
 UNION ALL
-SELECT 2, 'com_cache',
+SELECT 2, 'com_cache'
 UNION ALL
-SELECT 3, 'com_categories',
+SELECT 3, 'com_categories'
 UNION ALL
-SELECT 4, 'com_config',
+SELECT 4, 'com_config'
 UNION ALL
-SELECT 5, 'com_contact',
+SELECT 5, 'com_contact'
 UNION ALL
-SELECT 6, 'com_content',
+SELECT 6, 'com_content'
 UNION ALL
-SELECT 7, 'com_installer',
+SELECT 7, 'com_installer'
 UNION ALL
-SELECT 8, 'com_media',
+SELECT 8, 'com_media'
 UNION ALL
-SELECT 9, 'com_menus',
+SELECT 9, 'com_menus'
 UNION ALL
-SELECT 10, 'com_messages',
+SELECT 10, 'com_messages'
 UNION ALL
-SELECT 11, 'com_modules',
+SELECT 11, 'com_modules'
 UNION ALL
-SELECT 12, 'com_newsfeeds',
+SELECT 12, 'com_newsfeeds'
 UNION ALL
-SELECT 13, 'com_plugins',
+SELECT 13, 'com_plugins'
 UNION ALL
-SELECT 14, 'com_redirect',
+SELECT 14, 'com_redirect'
 UNION ALL
-SELECT 15, 'com_tags',
+SELECT 15, 'com_tags'
 UNION ALL
-SELECT 16, 'com_templates',
+SELECT 16, 'com_templates'
 UNION ALL
 SELECT 17, 'com_users';
 
