@@ -86,7 +86,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				'url'         => JRoute::_('index.php?option=com_banners&amp;view=download&amp;tmpl=component'),
 				'height'      => '370px',
 				'width'       => '300px',
-				'modalWidth'  => '40',
+				'modalWidth'  => 40,
 				'footer'      => '<a class="btn btn-secondary" data-dismiss="modal" type="button"'
 						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#closeBtn\').click();">'
 						. JText::_("COM_BANNERS_CANCEL") . '</a>'
