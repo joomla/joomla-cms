@@ -26,29 +26,23 @@ class UserlogsViewUserlogs extends JViewLegacy
 	protected $items;
 
 	/**
-	 * @todo Doku!
+	 * The model state
 	 *
-	 * @var  @todo Doku!
-	 *
-	 * @since __DEPLOY_VERSION__
+	 * @var  object
 	 */
 	protected $state;
 
 	/**
-	 * @todo Doku!
+	 * The pagination object
 	 *
-	 * @var  @todo Doku!
-	 *
-	 * @since __DEPLOY_VERSION__
+	 * @var  JPagination
 	 */
 	protected $pagination;
 
 	/**
-	 * @todo Doku!
+	 * The active search filters
 	 *
-	 * @var  @todo Doku!
-	 *
-	 * @since __DEPLOY_VERSION__
+	 * @var  array
 	 */
 	public $activeFilters;
 
