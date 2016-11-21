@@ -26,9 +26,9 @@
 				<field
 					name="logDeletePeriod"
 					type="number"
-					default="0"
 					label="PLG_SYSTEM_USERLOGS_LOG_DELETE_PERIOD"
 					description="PLG_SYSTEM_USERLOGS_LOG_DELETE_PERIOD_DESC"
+					default="0"
 				/>
 				<field
 					name="ip_logging"
@@ -37,7 +37,7 @@
 					description="PLG_SYSTEM_USERLOGS_IP_LOGGING_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>

@@ -10,7 +10,7 @@
 				class="btn-group btn-group-yesno"
 				default="0"
 				required="true"
-			>
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
