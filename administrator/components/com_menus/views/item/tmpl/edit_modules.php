@@ -35,9 +35,17 @@ JFactory::getDocument()->addScriptDeclaration('
 	});
 ');
 JFactory::getDocument()->addStyleDeclaration('
+ul.horizontal-buttons {
+	margin-top: 12px;
+	margin-bottom: 0;
+	padding-left: 10px;
+}
 ul.horizontal-buttons li {
   display: inline-block;
   padding-right: 10%;
+}
+ul.horizontal-buttons li .control-group {
+	margin-bottom: 0;
 }
 ');
 ?>
