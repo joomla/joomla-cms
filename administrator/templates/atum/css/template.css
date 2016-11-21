@@ -8626,6 +8626,7 @@ small, .small {
 
 .com_cpanel .content {
   margin-top: 0;
+  padding: 0;
   background: none; }
 
 .com_cpanel .card {
