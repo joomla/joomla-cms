@@ -130,7 +130,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	 *
 	 * @return  array  The tags
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function fetchMetaTags($document)
 	{
@@ -196,7 +196,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	 *
 	 * @return  array  The tags
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function fetchLinkTags($document)
 	{
@@ -231,7 +231,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	 *
 	 * @return  array  The tags
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function fetchStyleSheets($document)
 	{
@@ -295,7 +295,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	 *
 	 * @return  array  The tags
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function fetchStyleDeclarations($document)
 	{
@@ -345,7 +345,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	 *
 	 * @return  array  The tags
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function fetchScripts($document)
 	{
@@ -434,7 +434,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	 *
 	 * @return  array  The tags
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function fetchScriptOptions($document)
 	{
@@ -467,7 +467,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	 *
 	 * @return  array  The tags
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function fetchScriptDeclarations($document)
 	{
@@ -518,7 +518,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	 *
 	 * @return  array  The tags
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function fetchScriptLanguageDeclarations($document)
 	{
@@ -572,7 +572,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	 *
 	 * @return  array  The tags
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function fetchCustomTags($document)
 	{
