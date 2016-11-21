@@ -2688,7 +2688,7 @@ tbody.collapse.in {
   padding-right: 0.75rem \9;
   color: #55595c;
   vertical-align: middle;
-  background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+  background: #fcfcfc url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
   background-image: none \9;
   background-size: 8px 10px;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -3811,7 +3811,7 @@ base::-moz-progress-bar,
   display: block;
   padding: 0.75rem 1.25rem;
   margin-bottom: -1px;
-  background-color: #fff;
+  background-color: #fcfcfc;
   border: 1px solid #ddd; }
   .list-group-item:first-child {
     border-top-right-radius: 0.25rem;
@@ -7630,7 +7630,7 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
 
 /* Bootstrap alert mapping */
 .form-control {
-  background-color: #fafafa; }
+  background-color: #fcfcfc; }
 
 .control-group::after {
   display: table;
@@ -7688,7 +7688,7 @@ legend {
   position: relative;
   z-index: 1;
   height: 50px;
-  background: #fafafa;
+  background: #fcfcfc;
   border-bottom: 1px solid rgba(0, 0, 0, 0.17); }
   .header .page-title {
     margin: 0;
@@ -7721,7 +7721,7 @@ legend {
   content: "\f125"; }
 
 .icon-white {
-  color: #fafafa; }
+  color: #fcfcfc; }
 
 .icon-publish {
   color: #5cb85c; }
@@ -7786,7 +7786,7 @@ legend {
     padding: 25px 0;
     margin-bottom: 15px;
     overflow: hidden;
-    color: #fafafa;
+    color: #fcfcfc;
     text-align: center;
     text-transform: uppercase;
     background-color: #27283a;
@@ -8057,13 +8057,13 @@ legend {
   .main-nav > li:last-of-type > a {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
   .main-nav > li > .no-dropdown {
-    color: #fafafa; }
+    color: #fcfcfc; }
   .main-nav li {
     line-height: 40px; }
     .main-nav li a {
       position: relative;
       display: block;
-      color: #fafafa;
+      color: #fcfcfc;
       text-decoration: none;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px rgba(0, 0, 0, 0.3); }
       .main-nav li a::before {
@@ -8137,7 +8137,7 @@ legend {
     border-left: .3em solid transparent; }
 
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
-  color: #fafafa;
+  color: #fcfcfc;
   cursor: not-allowed;
   background: none; }
 
@@ -8183,7 +8183,7 @@ legend {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  background-color: #fff;
+  background-color: #fcfcfc;
   background-clip: content-box;
   border: 1px solid #dfdfdf;
   border-radius: 20px;
@@ -8219,7 +8219,7 @@ legend {
     top: 0;
     width: 30px;
     height: 30px;
-    background: #fff;
+    background: #fcfcfc;
     border-radius: 100%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     transition: left .2s ease 0s; }
@@ -8272,7 +8272,7 @@ legend {
       padding: 0 10px;
       line-height: 2em;
       color: #373a3c;
-      background-color: #fafafa;
+      background-color: #fcfcfc;
       border-color: #ccc; }
       .subhead .btn-toolbar .btn-sm [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn [class^="icon-"], .subhead .btn-toolbar .btn-sm [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn [class*=" icon-"] {
         z-index: -1;
@@ -8300,14 +8300,14 @@ legend {
       color: #f0ad4e; }
     .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) {
       width: 140px;
-      color: #fafafa;
+      color: #fcfcfc;
       background-color: #5cb85c;
       border-color: rgba(0, 0, 0, 0.2); }
       .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class^="icon-"], .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class*=" icon-"] {
         width: 16px;
         margin-right: 0;
         margin-left: 0;
-        color: #fafafa;
+        color: #fcfcfc;
         background-color: transparent;
         border-right: 0 none;
         border-left: 0 none; }
@@ -8317,7 +8317,7 @@ legend {
       background: #419641;
       border-color: #419641; }
       .subhead .btn-toolbar .btn-success.dropdown-toggle::after {
-        color: #fafafa; }
+        color: #fcfcfc; }
     .subhead .btn-toolbar button:first-of-type:not(.float-sm-right) {
       margin-left: 0; }
   .subhead.subhead-fixed {
@@ -8368,20 +8368,26 @@ legend {
 .btn.group-move {
   cursor: move; }
 
-.card.card-light {
-  background: #f8f8f8; }
+.btn-secondary {
+  background-color: #fcfcfc; }
 
-.card.card-dark {
-  background: linear-gradient(to right, #27283a 0%, #163f46 50%, #27283a 100%); }
-  .card.card-dark > *,
-  .card.card-dark a:not(.dropdown-item),
-  .card.card-dark .module-dropdown > a {
-    color: #fafafa; }
-  .card.card-dark .list-group-item {
-    background: none; }
+.card {
+  background-color: #f8f8f8; }
+  .card.card-light {
+    background-color: #f8f8f8; }
+  .card.card-dark {
+    background-color: #27283a; }
+    .card.card-dark > *,
+    .card.card-dark a:not(.dropdown-item),
+    .card.card-dark .module-dropdown > a {
+      color: #fcfcfc; }
+    .card.card-dark .list-group-item {
+      background: none; }
+  .card .list-group-item {
+    padding: .75rem 0; }
 
-.card .list-group-item {
-  padding: .75rem 0; }
+.list-group-item {
+  background-color: #fcfcfc; }
 
 .list-unstyled .list-unstyled {
   padding-left: 20px; }
@@ -8504,7 +8510,7 @@ legend {
 
 .tab-content {
   padding: 15px;
-  background: #fafafa;
+  background: #fcfcfc;
   border-radius: 0 0 0.25rem 0.25rem;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
 
@@ -8528,7 +8534,7 @@ legend {
   line-height: 1.5;
   color: #55595c;
   vertical-align: middle;
-  background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+  background: #fcfcfc url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
   background-image: none \9;
   background-size: 8px 10px;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -8625,7 +8631,7 @@ small, .small {
   border-radius: 0.25rem; }
 
 .j-main-container {
-  background-color: #fafafa;
+  background-color: #fcfcfc;
   border: 1px solid rgba(0, 0, 0, 0.17);
   border-radius: 0.25rem;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
