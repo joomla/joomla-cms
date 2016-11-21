@@ -8371,20 +8371,23 @@ legend {
 .btn-secondary {
   background-color: #fcfcfc; }
 
-.card.card-light {
-  background: #f8f8f8; }
+.card {
+  background-color: #f8f8f8; }
+  .card.card-light {
+    background-color: #f8f8f8; }
+  .card.card-dark {
+    background-color: #27283a; }
+    .card.card-dark > *,
+    .card.card-dark a:not(.dropdown-item),
+    .card.card-dark .module-dropdown > a {
+      color: #fcfcfc; }
+    .card.card-dark .list-group-item {
+      background: none; }
+  .card .list-group-item {
+    padding: .75rem 0; }
 
-.card.card-dark {
-  background: linear-gradient(to right, #27283a 0%, #163f46 50%, #27283a 100%); }
-  .card.card-dark > *,
-  .card.card-dark a:not(.dropdown-item),
-  .card.card-dark .module-dropdown > a {
-    color: #fcfcfc; }
-  .card.card-dark .list-group-item {
-    background: none; }
-
-.card .list-group-item {
-  padding: .75rem 0; }
+.list-group-item {
+  background-color: #fcfcfc; }
 
 .list-unstyled .list-unstyled {
   padding-left: 20px; }

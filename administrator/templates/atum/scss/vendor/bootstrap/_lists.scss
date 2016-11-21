@@ -1,5 +1,9 @@
 // Lists
 
+.list-group-item {
+  background-color: $list-item-bg-color;
+}
+
 .list-unstyled .list-unstyled {
   padding-left: 20px;
 }

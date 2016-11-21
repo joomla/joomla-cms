@@ -4,7 +4,6 @@ $atum-template-color:              #27283a;
 $atum-gradient-inner:              #163f46;
 $atum-gradient-outer:              $atum-template-color;
 $atum-container-main-bg:           #eee;
-$atum-card-title-bg:               #f5f5f5;
 $white:                            #fcfcfc;
 $grey:                             #aaa;
 
@@ -38,13 +37,18 @@ $table-bg:                         transparent !default;
 $table-bg-accent:                  rgba(0,0,0,.03) !default;
 
 // Cards
+$atum-card-title-bg:               #f5f5f5;
 $card-bg-color-light:              #f8f8f8;
+$card-bg-color-dark:               $atum-template-color;
 $card-border-color:                rgba(0,0,0,.17);
 
 // Switchers
 $switcher-color-success:           rgb(100, 189, 99);
 $switcher-color-danger:            rgb(188, 101, 100);
 $switcher-color-primary:           rgb(100, 143, 186);
+
+// List
+$list-item-bg-color:               $white;
 
 // Custom form
 $custom-select-bg:                 $white;
