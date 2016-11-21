@@ -73,26 +73,20 @@ small, .small {
   position: relative;
   min-height: calc(100vh - 50px);
   padding-top: 15px;
-  background: $atum-container-main-bg
+  background: $atum-container-main-bg;
 }
 .list-view-main {
   .container-main {
-    background-color: $atum-container-main-bg
+    background-color: $atum-container-main-bg;
   }
 }
 
 .content {
   margin-top: 50px;
-  background: $white;
   border-radius: $border-radius;
 }
-.layout-edit {
-  .content {
-    background-color: transparent;
-  }
-}
-
 .js-main-container {
+  background-color: $white;
   border: 1px solid rgba(0, 0, 0, .17);
   border-radius: $border-radius;
   box-shadow: 0 0 3px rgba(0, 0, 0, .075);
@@ -110,8 +104,8 @@ small, .small {
       font-weight: bold;
       &.nav-header {
         padding-top: .5rem;
-        color: $gray-dark;
         font-size: .85rem;
+        color: $gray-dark;
       }
       a {
         color: darken($brand-primary, 15%);
