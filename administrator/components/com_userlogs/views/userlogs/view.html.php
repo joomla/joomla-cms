@@ -59,7 +59,7 @@ class UserlogsViewUserlogs extends JViewLegacy
 	{
 		if (!JFactory::getUser()->authorise('core.viewlogs', 'com_userlogs'))
 		{
-			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$this->items         = $this->get('Items');
