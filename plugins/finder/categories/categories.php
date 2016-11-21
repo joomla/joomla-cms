@@ -251,24 +251,12 @@ class PlgFinderCategories extends FinderIndexerAdapter
 
 		$item->setLanguage();
 
-		// Need to import component route helpers dynamically, hence the reason it's handled here.
-		$path = JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
-
-		if (is_file($path))
-		{
-			include_once $path;
-		}
-
 		$extension = ucfirst(substr($item->extension, 4));
 
 		// Initialize the item parameters.
-		$registry = new Registry;
-		$registry->loadString($item->params);
-		$item->params = $registry;
+		$item->params = new Registry($item->params);
 
-		$registry = new Registry;
-		$registry->loadString($item->metadata);
-		$item->metadata = $registry;
+		$item->metadata = new Registry($item->metadata);
 
 		/*
 		 * Add the metadata processing instructions based on the category's
@@ -294,6 +282,9 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->url = $this->getUrl($item->id, $item->extension, $this->layout);
 
 		$class = $extension . 'HelperRoute';
+
+		// Need to import component route helpers dynamically, hence the reason it's handled here.
+		JLoader::register($class, JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php');
 
 		if (class_exists($class) && method_exists($class, 'getCategoryRoute'))
 		{

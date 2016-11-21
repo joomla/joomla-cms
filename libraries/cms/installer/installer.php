@@ -1521,12 +1521,12 @@ class JInstaller extends JAdapter
 	}
 
 	/**
-	 * Method to parse the parameters of an extension, build the INI
-	 * string for its default parameters, and return the INI string.
+	 * Method to parse the parameters of an extension, build the JSON string for its default parameters, and return the JSON string.
 	 *
-	 * @return  string   INI string of parameter values
+	 * @return  string  JSON string of parameter values
 	 *
 	 * @since   3.1
+	 * @note    This method must always return a JSON compliant string
 	 */
 	public function getParams()
 	{
@@ -1535,6 +1535,7 @@ class JInstaller extends JAdapter
 		{
 			return '{}';
 		}
+
 		// Getting the fieldset tags
 		$fieldsets = $this->manifest->config->fields->fieldset;
 
@@ -1547,7 +1548,7 @@ class JInstaller extends JAdapter
 			if (!count($fieldset->children()))
 			{
 				// Either the tag does not exist or has no children therefore we return zero files processed.
-				return;
+				return '{}';
 			}
 
 			// Iterating through the fields and collecting the name/default values:
@@ -2201,8 +2202,8 @@ class JInstaller extends JAdapter
 		// Check if we're a language. If so use metafile.
 		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('Unknown');
-		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('Unknown');
+		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('JLIB_UNKNOWN');
 
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;
@@ -2289,7 +2290,7 @@ class JInstaller extends JAdapter
 			if (!class_exists($class))
 			{
 				// Try to load the adapter object
-				require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName;
+				JLoader::register($class, $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName);
 
 				if (!class_exists($class))
 				{
@@ -2350,7 +2351,7 @@ class JInstaller extends JAdapter
 			}
 
 			// Try once more to find the class
-			require_once $path;
+			JLoader::register($class, $path);
 
 			if (!class_exists($class))
 			{

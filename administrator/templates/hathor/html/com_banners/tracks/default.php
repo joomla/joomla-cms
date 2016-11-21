@@ -58,7 +58,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</select>
 
 				<label class="selectlabel" for="filter_type">
-					<?php echo JText::_('BANNERS_SELECT_TYPE'); ?>
+					<?php echo JText::_('COM_BANNERS_SELECT_TYPE'); ?>
 				</label>
 				<select id="filter_type" name="filter_type">
 					<?php echo JHtml::_('select.options', array(JHtml::_('select.option', '0', JText::_('COM_BANNERS_SELECT_TYPE')), JHtml::_('select.option', 1, JText::_('COM_BANNERS_IMPRESSION')), JHtml::_('select.option', 2, JText::_('COM_BANNERS_CLICK'))), 'value', 'text', $this->state->get('filter.type'));?>

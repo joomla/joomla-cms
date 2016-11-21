@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /** 
  * JHtml module helper class.
  *
@@ -167,7 +169,7 @@ abstract class JHtmlModules
 					}
 				}
 
-				$options = JArrayHelper::sortObjects($options, 'text');
+				$options = ArrayHelper::sortObjects($options, 'text');
 			}
 
 			$templateGroups[$template] = ModulesHelper::createOptionGroup(ucfirst($template), $options);

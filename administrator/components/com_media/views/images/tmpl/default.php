@@ -9,10 +9,13 @@
 
 defined('_JEXEC') or die;
 
-$user   = JFactory::getUser();
-$input  = JFactory::getApplication()->input;
-$params = JComponentHelper::getParams('com_media');
-$lang   = JFactory::getLanguage();
+$user       = JFactory::getUser();
+$input      = JFactory::getApplication()->input;
+$params     = JComponentHelper::getParams('com_media');
+$lang       = JFactory::getLanguage();
+$onClick    = '';
+$fieldInput = $this->state->get('field.id');
+$isMoo      = $input->getInt('ismoo', 1);
 
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -21,12 +24,12 @@ JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
 
 // Include jQuery
 JHtml::_('jquery.framework');
-JHtml::_('script', 'media/popup-imagemanager.min.js', false, true, false, false, true);
-JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
+JHtml::_('script', 'media/popup-imagemanager.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'media/popup-imagemanager.css', array('version' => 'auto', 'relative' => true));
 
 if ($lang->isRtl())
 {
-	JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array(), true);
+	JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
 JFactory::getDocument()->addScriptDeclaration(
@@ -34,6 +37,26 @@ JFactory::getDocument()->addScriptDeclaration(
 		var image_base_path = '" . $params->get('image_path', 'images') . "/';
 	"
 );
+
+/**
+ * Mootools compatibility
+ *
+ * There is an extra option passed in the url for the iframe &ismoo=0 for the bootstrap fields.
+ * By default the value will be 1 or defaults to mootools behaviour
+ *
+ * This should be removed when mootools won't be shipped by Joomla.
+ */
+if (!empty($fieldInput)) // Media Form Field
+{
+	if ($isMoo)
+	{
+		$onClick = "window.parent.jInsertFieldValue(document.getElementById('f_url').value, '" . $fieldInput . "');window.parent.jModalClose();window.parent.jQuery('.modal.in').modal('hide');";
+	}
+}
+else // XTD Image plugin
+{
+	$onClick = "ImageManager.onok();window.parent.jModalClose();";
+}
 ?>
 <div class="container-popup">
 
@@ -55,8 +78,9 @@ JFactory::getDocument()->addScriptDeclaration(
 					</div>
 				</div>
 				<div class="pull-right">
-					<button class="btn btn-success button-save-selected" type="button" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.getElementById('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.jQuery('.modal.in').modal('hide');window.parent.jModalClose();" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
-					<button class="btn button-cancel" type="button" onclick="window.parent.jQuery('.modal.in').modal('hide');window.parent.jModalClose();<?php if (!$this->state->get('field.id')) :
+					<button class="btn btn-success button-save-selected" type="button" <?php if (!empty($onClick)) :
+					// This is for Mootools compatibility ?>onclick="<?php echo $onClick; ?>"<?php endif; ?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
+					<button class="btn button-cancel" type="button" onclick="window.parent.jQuery('.modal.in').modal('hide');<?php if (!empty($onClick)) :
 						// This is for Mootools compatibility ?>parent.jModalClose();<?php endif ?>" data-dismiss="modal"><?php echo JText::_('JCANCEL') ?></button>
 				</div>
 			</div>
@@ -65,7 +89,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
 
 		<div class="well">
-			<div class="row">
+			<div class="row-fluid">
 				<div class="span6 control-group">
 					<div class="control-label">
 						<label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL') ?></label>
@@ -91,7 +115,7 @@ JFactory::getDocument()->addScriptDeclaration(
 				<?php endif;?>
 			</div>
 			<?php if (!$this->state->get('field.id')):?>
-				<div class="row">
+				<div class="row-fluid">
 					<div class="span6 control-group">
 						<div class="control-label">
 							<label for="f_alt"><?php echo JText::_('COM_MEDIA_IMAGE_DESCRIPTION') ?></label>
@@ -109,7 +133,7 @@ JFactory::getDocument()->addScriptDeclaration(
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row-fluid">
 					<div class="span6 control-group">
 						<div class="control-label">
 							<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label>
@@ -151,7 +175,11 @@ JFactory::getDocument()->addScriptDeclaration(
 						</div>
 						<div class="controls">
 							<input required type="file" id="upload-file" name="Filedata[]" multiple /><button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
-							<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
+							<p class="help-block">
+								<?php $cMax    = (int) $this->config->get('upload_maxsize'); ?>
+								<?php $maxSize = JUtility::getMaxUploadSize($cMax . 'MB'); ?>
+								<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', JHtml::_('number.bytes', $maxSize)); ?>
+							</p>
 						</div>
 					</div>
 				</fieldset>

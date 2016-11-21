@@ -29,7 +29,7 @@ class PlgSystemUpdatenotification extends JPlugin
 	 * Load plugin language files automatically
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.6.3
 	 */
 	protected $autoloadLanguage = true;
 
@@ -292,10 +292,9 @@ class PlgSystemUpdatenotification extends JPlugin
 
 		try
 		{
-			$assets = JTable::getInstance('Asset', 'JTable');
-			$rootId = $assets->getRootId();
-			$rules = JAccess::getAssetRules($rootId)->getData();
-			$rawGroups = $rules['core.admin'];
+			$rootId    = JTable::getInstance('Asset', 'JTable')->getRootId();
+			$rules     = JAccess::getAssetRules($rootId)->getData();
+			$rawGroups = $rules['core.admin']->getData();
 			$groups    = array();
 
 			if (empty($rawGroups))

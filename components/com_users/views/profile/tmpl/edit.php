@@ -55,6 +55,9 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 				<?php echo JText::_($fieldset->label); ?>
 			</legend>
 			<?php endif;?>
+			<?php if (isset($fieldset->description) && trim($fieldset->description)): ?>
+				<?php echo '<p>' . $this->escape(JText::_($fieldset->description)) . '</p>'; ?>
+			<?php endif; ?>
 			<?php // Iterate through the fields in the set and display them. ?>
 			<?php foreach ($fields as $field) : ?>
 			<?php // If the field is hidden, just display the input. ?>
