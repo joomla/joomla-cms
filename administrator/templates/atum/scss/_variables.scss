@@ -5,7 +5,7 @@ $atum-gradient-inner:              #163f46;
 $atum-gradient-outer:              $atum-template-color;
 $atum-container-main-bg:           #eee;
 $atum-card-title-bg:               #f5f5f5;
-$white:                            #fafafa;
+$white:                            #fefefe;
 $grey:                             #aaa;
 
 // Menu Toggle
@@ -45,6 +45,9 @@ $card-border-color:                rgba(0,0,0,.17);
 $switcher-color-success:           rgb(100, 189, 99);
 $switcher-color-danger:            rgb(188, 101, 100);
 $switcher-color-primary:           rgb(100, 143, 186);
+
+// Custom form
+$custom-select-bg:                 $white;
 
 // BS4-alpha.5 | custom-select SVG override
 // This was broken in alpha.5 so be sure to remove this when it's fixed again
