@@ -8086,6 +8086,9 @@ legend {
   cursor: not-allowed;
   background: none; }
 
+.j-main-container .alert {
+  margin: 10px; }
+
 .status {
   padding: 2px 10px 4px;
   margin-left: 250px;
