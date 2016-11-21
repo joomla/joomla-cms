@@ -35,7 +35,12 @@ echo JHtml::_('bootstrap.renderModal',
 		'modalWidth'  => 80,
 		'bodyHeight'  => 60,
 		'closeButton' => true,
-		'footer'      => '<button class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
+		'footer'      => '<a class="btn btn-secondary" data-dismiss="modal" type="button"'
+						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#closeBtn\').click();">'
+						. JText::_("COM_BANNERS_CANCEL") . '</a>'
+						. '<button class="btn btn-success" type="button"'
+						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
+						. JText::_("COM_BANNERS_TRACKS_EXPORT") . '</button>',
 	)
 );
 ?>
