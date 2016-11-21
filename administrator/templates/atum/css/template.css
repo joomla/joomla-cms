@@ -8567,6 +8567,7 @@ small, .small {
 
 .content {
   margin-top: 50px;
+  padding: 15px;
   background: #fafafa;
   border-radius: 0.25rem; }
 
@@ -8574,6 +8575,7 @@ small, .small {
   background-color: transparent; }
 
 .js-main-container {
+  margin: -15px;
   border: 1px solid rgba(0, 0, 0, 0.17);
   border-radius: 0.25rem;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }

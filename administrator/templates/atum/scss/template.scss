@@ -82,6 +82,7 @@ small, .small {
 
 .content {
   margin-top: 50px;
+  padding: 15px;
   background: $white;
   border-radius: $border-radius;
 }
@@ -92,6 +93,7 @@ small, .small {
 }
 
 .js-main-container {
+  margin: -15px;
   border: 1px solid rgba(0, 0, 0, .17);
   border-radius: $border-radius;
   box-shadow: 0 0 3px rgba(0, 0, 0, .075);
