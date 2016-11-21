@@ -245,7 +245,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *                              	"message": ["Message one", "Message two"],
 	 *                              	"error": ["Error one", "Error two"]
 	 *                              };
-	 * @param  {element} container    The container where the message will be rendered
+	 * @param  {element} container    The selector of the container where the message will be rendered
 	 * @param  {boolean} keepOld      If we shall discard old messages
 	 * @param  {integer} timeout      The milliseconds before the message self destruct
 	 * @return  void
@@ -253,14 +253,14 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	Joomla.renderMessages = function( messages, container, keepOld, timeout ) {
 		var messageContainer, type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper, alertClass;
 
-		if (typeof keepOld === 'undefined' || keepOld === false) {
-			Joomla.removeMessages();
-		}
-
 		if (typeof container === 'undefined') {
 			messageContainer = document.getElementById( 'system-message-container' );
 		} else {
-			messageContainer = container;
+			messageContainer = document.querySelector( container );
+		}
+
+		if (typeof keepOld === 'undefined' || keepOld && keepOld === false) {
+			Joomla.removeMessages( messageContainer );
 		}
 
 		for ( type in messages ) {
@@ -307,7 +307,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			messageContainer.appendChild( messagesBox );
 
 			if (timeout && parseInt(timeout) > 0) {
-				setTimeout(Joomla.removeMessages(), timeout);
+				setTimeout(Joomla.removeMessages( messageContainer ), timeout);
 			}
 		}
 	};
@@ -316,7 +316,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	/**
 	 * Remove messages
 	 *
-	 * @param  {element} container    The container where the message will be rendered
+	 * @param  {element} container    The element of the container of the message to be removed
 	 *
 	 * @return  void
 	 */
