@@ -36,10 +36,10 @@ echo JHtml::_('bootstrap.renderModal',
 		'bodyHeight'  => 60,
 		'closeButton' => true,
 		'footer'      => '<a class="btn btn-secondary" data-dismiss="modal" type="button"'
-						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#closeBtn\').click();">'
+						. ' onclick="window.parent.jQuery(\'#modal_downloadModal\').modal(\'hide\');">'
 						. JText::_("COM_BANNERS_CANCEL") . '</a>'
 						. '<button class="btn btn-success" type="button"'
-						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
+						. ' onclick="jQuery(\'#modal_downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
 						. JText::_("COM_BANNERS_TRACKS_EXPORT") . '</button>',
 	)
 );
