@@ -135,7 +135,7 @@ SELECT 23, 'menu', 'com_tags', 'com-tags', '', 'com-tags', 'index.php?option=com
 UNION ALL
 SELECT 24, 'main', 'com_postinstall', 'Post-installation messages', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 0, 1, 1, 32, 0, '1900-01-01 00:00:00', 0, 1, 'class:postinstall', 0, '', 223, 224, 0, '*', 1
 UNION ALL
-SELECT 25, 'main', 'com_userlogs', 'com-userlogs', '', 'com-userlogs', 'index.php?option=com_userlogs', 'component', 0, 1, 1, 33, 0, '1900-01-01 00:00:00', 0, 1, 'class:component', 0, '{}', 41, 42, 0, '*', 1
+SELECT 25, 'main', 'com_userlogs', 'com-userlogs', '', 'com-userlogs', 'index.php?option=com_userlogs', 'component', 0, 1, 1, 34, 0, '1900-01-01 00:00:00', 0, 1, 'class:component', 0, '{}', 41, 42, 0, '*', 1
 UNION ALL
 SELECT 201, 'usermenu', 'Your Profile', 'your-profile', '', 'your-profile', 'index.php?option=com_users&view=profile', 'component', 1, 1, 1, 25, 0, '1900-01-01 00:00:00', 0, 2, '', 0, '{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 213, 214, 0, '*', 0
 UNION ALL
