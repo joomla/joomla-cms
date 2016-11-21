@@ -69,6 +69,9 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 			<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 		</div>
 	</noscript>
+	<div class="notify-alerts">
+		<jdoc:include type="message" />
+	</div>
 	<?php // Wrapper ?>
 	<div id="wrapper" class="wrapper closed">
 
@@ -185,8 +188,5 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 		<jdoc:include type="modules" name="debug" style="none" />
 
 	</div>
-
-	<div class="notify-alerts"></div>
-
 </body>
 </html>

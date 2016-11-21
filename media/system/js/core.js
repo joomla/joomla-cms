@@ -240,18 +240,28 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * Render messages send via JSON
 	 * Used by some javascripts such as validate.js
 	 *
-	 * @param   object  messages    JavaScript object containing the messages to render. Example:
+	 * @param   {object}  messages    JavaScript object containing the messages to render. Example:
 	 *                              var messages = {
 	 *                              	"message": ["Message one", "Message two"],
 	 *                              	"error": ["Error one", "Error two"]
 	 *                              };
+	 * @param  {element} container    The container where the message will be rendered
+	 * @param  {boolean} keepOld      If we shall discard old messages
+	 * @param  {integer} timeout      The milliseconds before the message self destruct
 	 * @return  void
 	 */
-	Joomla.renderMessages = function( messages ) {
-		Joomla.removeMessages();
+	Joomla.renderMessages = function( messages, container, keepOld, timeout ) {
+		var messageContainer, type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper, alertClass;
 
-		var messageContainer = document.getElementById( 'system-message-container' ),
-			type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper, alertClass;
+		if (typeof keepOld === 'undefined' || keepOld === false) {
+			Joomla.removeMessages();
+		}
+
+		if (typeof container === 'undefined') {
+			messageContainer = document.getElementById( 'system-message-container' );
+		} else {
+			messageContainer = container;
+		}
 
 		for ( type in messages ) {
 			if ( !messages.hasOwnProperty( type ) ) { continue; }
@@ -295,6 +305,10 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			}
 
 			messageContainer.appendChild( messagesBox );
+
+			if (timeout && parseInt(timeout) > 0) {
+				setTimeout(Joomla.removeMessages(), timeout);
+			}
 		}
 	};
 
@@ -302,10 +316,18 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	/**
 	 * Remove messages
 	 *
+	 * @param  {element} container    The container where the message will be rendered
+	 *
 	 * @return  void
 	 */
-	Joomla.removeMessages = function() {
-		var messageContainer = document.getElementById( 'system-message-container' );
+	Joomla.removeMessages = function( container ) {
+		var messageContainer;
+
+		if (typeof container === 'undefined') {
+			messageContainer = document.getElementById( 'system-message-container' );
+		} else {
+			messageContainer = container;
+		}
 
 		// Empty container with a while for Chrome performance issues
 		while ( messageContainer.firstChild ) messageContainer.removeChild( messageContainer.firstChild );

@@ -11,8 +11,8 @@
 }
 .notify-alerts {
   position: fixed;
-  right: 15px;
-  bottom: 35px;
+  left: 37%;
+  top: 35px;
   z-index: 1031;
   transition: all .5s ease;
   .alert {
@@ -20,6 +20,7 @@
     min-width: 280px;
     max-width: 400px;
     margin-bottom: .5rem;
+    box-shadow: #8d8d8d;
     opacity: 0;
     animation: fadeIn ease-in 1;
     animation-duration: .35s;
