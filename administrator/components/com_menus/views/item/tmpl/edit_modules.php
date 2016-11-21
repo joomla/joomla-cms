@@ -47,22 +47,22 @@ $this->fields = array('toggle_modules_assigned','toggle_modules_published');
 
 echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 
-	<table class="table table-striped">
+	<table class="table">
 		<thead>
 		<tr>
 			<th>
 				<?php echo JText::_('COM_MENUS_HEADING_ASSIGN_MODULE');?>
 			</th>
-			<th>
+			<th width="15%" class="text-xs-center">
 				<?php echo JText::_('COM_MENUS_HEADING_LEVELS');?>
 			</th>
-			<th>
+			<th width="15%" class="text-xs-center">
 				<?php echo JText::_('COM_MENUS_HEADING_POSITION');?>
 			</th>
-			<th>
+			<th width="15%" class="text-xs-center">
 				<?php echo JText::_('COM_MENUS_HEADING_DISPLAY');?>
 			</th>
-			<th>
+			<th width="15%" class="text-xs-center">
 				<?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS');?>
 			</th>
 		</tr>
@@ -84,18 +84,18 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 				<?php  $status = 'unpublished '; ?>
 			<?php  endif; ?>
 			<tr class="<?php echo $no;?><?php echo $status;?>row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>" style="display:table-row">
-				<td id="<?php echo $module->id; ?>">
+				<td id="<?php echo $module->id; ?>" width="40%">
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id=' . $module->id . '&amp;tmpl=component&amp;view=module&amp;layout=modal'; ?>
-					<a href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>" id="title-<?php echo $module->id; ?>">
+					<a href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>" id="title-<?php echo $module->id; ?>">
 						<?php echo $this->escape($module->title); ?></a>
 				</td>
-				<td id="access-<?php echo $module->id; ?>">
+				<td id="access-<?php echo $module->id; ?>" width="15%" class="text-xs-center">
 					<?php echo $this->escape($module->access_title); ?>
 				</td>
-				<td id="position-<?php echo $module->id; ?>">
+				<td id="position-<?php echo $module->id; ?>" width="15%" class="text-xs-center">
 					<?php echo $this->escape($module->position); ?>
 				</td>
-				<td id="menus-<?php echo $module->id; ?>">
+				<td id="menus-<?php echo $module->id; ?>" width="15%" class="text-xs-center">
 					<?php if (is_null($module->menuid)) : ?>
 						<?php if ($module->except):?>
 							<span class="tag tag-success">
@@ -120,7 +120,7 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 						</span>
 					<?php endif; ?>
 				</td>
-				<td id="status-<?php echo $module->id; ?>">
+				<td id="status-<?php echo $module->id; ?>" width="15%" class="text-xs-center">
 						<?php if ($module->published):?>
 							<span class="tag tag-success">
 								<?php echo JText::_('JYES'); ?>
