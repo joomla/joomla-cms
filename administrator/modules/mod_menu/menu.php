@@ -177,6 +177,11 @@ class JAdminCssMenu extends JObject
 
 		$iconClass = $this->getIconClass($this->_current->class);
 
+		if ($this->_current->active === true)
+		{
+			$linkClass[] = 'active';
+		}
+
 		// Implode out $linkClass for rendering
 		$linkClass = ' class="' . implode(' ', $linkClass) . '"';
 
