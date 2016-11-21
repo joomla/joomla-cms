@@ -94,6 +94,7 @@ class BannersViewTracks extends JViewLegacy
 				'selector' => 'downloadModal',
 				'icon'     => 'download',
 				'text'     => JText::_('JTOOLBAR_EXPORT'),
+				'doTask'   => JRoute::_('index.php?option=com_banners&view=download&tmpl=component'),
 			)
 		);
 
