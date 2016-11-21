@@ -47,7 +47,7 @@ class JFormFieldLogsDateRange extends JFormFieldPredefinedList
 	 *
 	 * @param   JForm  $form  The form to attach to the form field object.
 	 *
-	 * @since   11.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($form = null)
 	{
