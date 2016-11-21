@@ -98,6 +98,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 
 .calendar-container table tbody td.day {
 	border: none;
+	cursor : pointer;
 }
 
 .calendar-container table tbody td.day.wn {
@@ -141,3 +142,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	display: none;
 }
 
+a.js-btn.btn.btn-danger.btn-exit, a.js-btn.btn.btn-primary.btn-today, a.js-btn.btn.btn-clear {
+	cursor : pointer;
+	text-decoration: none;
+}
