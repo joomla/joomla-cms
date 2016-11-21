@@ -695,8 +695,6 @@ class JDocumentHtml extends JDocument
 	 */
 	protected function _renderTemplate()
 	{
-		parent::alerts();
-
 		$replace = array();
 		$with = array();
 
