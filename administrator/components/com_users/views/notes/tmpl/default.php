@@ -18,7 +18,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=notes'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container" class="js-main-container">
+	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if (empty($this->items)) : ?>
