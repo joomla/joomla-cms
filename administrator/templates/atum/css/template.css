@@ -7629,6 +7629,19 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   font-weight: normal; }
 
 /* Bootstrap alert mapping */
+html, body {
+  font-size: 14px; }
+
+body {
+  padding: 0;
+  margin: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold; }
+
+small, .small {
+  font-size: 0.8rem; }
+
 .j-main-container .alert {
   margin: 10px; }
 
@@ -7731,6 +7744,12 @@ legend {
 
 .icon-unpublish {
   color: #d9534f; }
+
+iframe {
+  border: 0; }
+
+.modal iframe {
+  width: 100%; }
 
 .view-login {
   background: #27283a; }
@@ -8517,6 +8536,9 @@ legend {
   border-radius: 0 0 0.25rem 0.25rem;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
 
+.pagination {
+  margin: 1rem; }
+
 .table thead th {
   border-bottom-width: 1px; }
 
@@ -8595,50 +8617,6 @@ legend {
 .editor .mce-btn, .editor .mce-panel {
   background: #f8f8f8; }
 
-html, body {
-  font-size: 14px; }
-
-body {
-  padding: 0;
-  margin: 0; }
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: bold; }
-
-.container-main, .system-debug {
-  padding-bottom: 50px; }
-
-small, .small {
-  font-size: .8rem; }
-
-.nav-header {
-  display: block;
-  font-size: 13px;
-  font-weight: bold;
-  line-height: 18px;
-  color: #999;
-  text-shadow: none;
-  text-transform: uppercase; }
-
-.container-main {
-  position: relative;
-  min-height: calc(100vh - 50px);
-  padding-top: 15px;
-  background: #eee; }
-
-.list-view-main .container-main {
-  background-color: #eee; }
-
-.content {
-  margin-top: 50px;
-  border-radius: 0.25rem; }
-
-.j-main-container {
-  background-color: #fcfcfc;
-  border: 1px solid rgba(0, 0, 0, 0.17);
-  border-radius: 0.25rem;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
-
 .com_config .sidebar-nav ul {
   padding-left: .5rem; }
 
@@ -8657,31 +8635,7 @@ small, .small {
   background-color: transparent; }
 
 .com_config [class^='col-'] > fieldset {
-  padding-bottom: 2rem; }
-
-.admin.com_modules .js-stools-container-bar .btn-toolbar {
-  float: left; }
-
-.admin.com_modules .treeselect .list-unstyled {
-  padding-left: 40px; }
-
-.admin.com_modules .treeselect .treeselect-toggle {
-  padding: 2px;
-  cursor: pointer; }
-
-.admin.com_modules .treeselect .tree-label,
-.admin.com_modules .treeselect .nav-header {
-  margin-left: 15px; }
-
-.admin.com_modules .treeselect .treeselect-menu {
-  margin-left: 5px; }
-
-.info-labels {
-  margin-bottom: 10px; }
-
-.note-input h6 {
-  font-weight: bold;
-  line-height: 1.4rem; }
+  margin-bottom: 2rem; }
 
 .com_cpanel .content {
   margin-top: 0;
@@ -8706,12 +8660,14 @@ small, .small {
   margin-right: -1.25rem;
   margin-left: -1.25rem;
   font-size: .85em;
+  line-height: 18px;
   color: #27283a;
+  text-transform: uppercase;
   letter-spacing: .4px;
   background-color: #f5f5f5;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem 0.25rem 0 0;
-  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, 0.15); }
+  box-shadow: 0 1px #fcfcfc inset, 0 2px 3px -3px rgba(0, 0, 0, 0.15); }
 
 .com_cpanel .list-group {
   margin-top: -0.75rem;
@@ -8743,35 +8699,50 @@ small, .small {
     color: #55595c;
     text-align: center;
     border-left: 1px solid rgba(0, 0, 0, 0.125);
-    box-shadow: 1px 0 #fff inset; }
+    box-shadow: 1px 0 #fcfcfc inset; }
     .com_cpanel .module-dropdown > a:hover, .com_cpanel .module-dropdown > a[aria-expanded*="true"] {
       background-color: #f0f0f0;
       border-left-color: transparent;
       box-shadow: 1px 0 rgba(0, 0, 0, 0.1) inset; }
 
-.js-pstats-data-details {
-  margin-top: 10px; }
-  .js-pstats-data-details dd {
-    margin-bottom: .2rem; }
+.admin.com_modules .js-stools-container-bar .btn-toolbar {
+  float: left; }
 
-iframe {
-  border: 0; }
+.admin.com_modules .treeselect .list-unstyled {
+  padding-left: 40px; }
 
-.modal iframe {
-  width: 100%; }
+.admin.com_modules .treeselect .treeselect-toggle {
+  padding: 2px;
+  cursor: pointer; }
 
-.contentpane.component .j-main-container {
-  padding: 0;
-  margin-left: 0; }
+.admin.com_modules .treeselect .tree-label,
+.admin.com_modules .treeselect .nav-header {
+  margin-left: 15px; }
 
-.day:hover {
-  background-color: #00a8c6; }
+.admin.com_modules .treeselect .treeselect-menu {
+  margin-left: 5px; }
 
-.name:hover {
-  background-color: transparent; }
+.container-main, .system-debug {
+  padding-bottom: 50px; }
 
-.pagination {
-  margin: 1rem; }
+.container-main {
+  position: relative;
+  min-height: calc(100vh - 50px);
+  padding-top: 15px;
+  background: #eee; }
+
+.list-view-main .container-main {
+  background-color: #eee; }
+
+.content {
+  margin-top: 50px;
+  border-radius: 0.25rem; }
+
+.j-main-container {
+  background-color: #fcfcfc;
+  border: 1px solid rgba(0, 0, 0, 0.17);
+  border-radius: 0.25rem;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
 
 .chzn-container-single {
   width: auto !important; }

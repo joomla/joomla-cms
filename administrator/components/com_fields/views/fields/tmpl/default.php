@@ -54,7 +54,7 @@ if ($saveOrder)
 			<table class="table table-striped" id="fieldList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th width="1%" class="center">
@@ -72,13 +72,13 @@ if ($saveOrder)
 						<th width="10%" class="text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'category_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-phone text-xs-center">
+						<th width="5%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -98,7 +98,7 @@ if ($saveOrder)
 						<?php $canEditOwn = $user->authorise('core.edit.own', $context . '.field.' . $item->id) && $item->created_user_id == $userId; ?>
 						<?php $canChange  = $user->authorise('core.edit.state', $context . '.field.' . $item->id) && $canCheckin; ?>
 						<tr class="row<?php echo $i % 2; ?>" item-id="<?php echo $item->id ?>">
-							<td class="order nowrap center hidden-phone">
+							<td class="order nowrap center hidden-sm-down">
 								<?php $iconClass = ''; ?>
 								<?php if (!$canChange) : ?>
 									<?php $iconClass = ' inactive'; ?>
@@ -177,17 +177,17 @@ if ($saveOrder)
 							<td>
 								<?php echo $this->escape($item->category_title); ?>
 							</td>
-							<td class="small hidden-phone text-xs-center">
+							<td class="small hidden-sm-down text-xs-center">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
-							<td class="small nowrap hidden-phone text-xs-center">
+							<td class="small nowrap hidden-sm-down text-xs-center">
 								<?php if ($item->language == '*') : ?>
 									<?php echo JText::alt('JALL', 'language'); ?>
 								<?php else : ?>
 									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 								<?php endif; ?>
 							</td>
-							<td class="center hidden-phone text-xs-center">
+							<td class="center hidden-sm-down text-xs-center">
 								<span><?php echo (int) $item->id; ?></span>
 							</td>
 						</tr>

@@ -88,7 +88,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $this->escape($row->name); ?>
 						</label>
 					</td>
-					<td class="hidden-phone hidden-tablet">
+					<td class="hidden-md-down">
 						<?php echo $this->escape($row->nativeName); ?>
 					</td>
 					<td class="text-xs-center">
