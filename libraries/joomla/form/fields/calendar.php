@@ -224,6 +224,27 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
+		// Translate the format if requested
+		$translateFormat = (string) $this->element['translateformat'];
+
+		if ($translateFormat && $translateFormat != 'false')
+		{
+			$showTime = (string) $this->element['showtime'];
+
+			if ($showTime && $showTime != 'false')
+			{
+				$this->format = JText::_('DATE_FORMAT_CALENDAR_DATETIME');
+			}
+			else
+			{
+				$this->format = JText::_('DATE_FORMAT_CALENDAR_DATE');
+			}
+		}
+		else
+		{
+			$this->format = $this->format;
+		}
+
 		// If a known filter is given use it.
 		switch (strtoupper($this->filter))
 		{
