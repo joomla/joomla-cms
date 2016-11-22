@@ -7989,8 +7989,6 @@ legend {
     overflow: hidden;
     cursor: pointer;
     transition: background 0.3s; }
-    .menu-collapse .menu-toggle:focus {
-      outline: none; }
     .menu-collapse .menu-toggle span {
       position: absolute;
       top: 23px;
@@ -8091,8 +8089,7 @@ legend {
         background-color: rgba(0, 0, 0, 0.2);
         box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2); }
       .main-nav li a:active, .main-nav li a:focus {
-        text-decoration: none;
-        outline: 0; }
+        text-decoration: none; }
     .main-nav li ul li {
       text-indent: 20px; }
     .main-nav li a:hover::before {
@@ -8180,13 +8177,14 @@ legend {
   display: inline-block;
   width: 60px;
   height: 26px;
+  margin-top: 2px;
   vertical-align: middle;
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  background-color: #f4f4f4;
+  background-color: #f7f7f7;
   background-clip: content-box;
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 0.25rem;
@@ -8368,8 +8366,7 @@ legend {
 .btn.focus:active,
 .btn.active:focus,
 .btn.active.focus {
-  text-decoration: none;
-  outline: none; }
+  text-decoration: none; }
 
 .btn.group-move {
   cursor: move; }

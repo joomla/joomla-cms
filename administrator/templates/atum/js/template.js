@@ -147,7 +147,7 @@
 		/**
 		 * Turn radios into btn-group
 		 */
-		var container = document.querySelectorAll('.btn-group.btn-group-yesno');
+		var container = document.querySelectorAll('.btn-group');
 		for (var i = 0; i < container.length; i++) {
 			var labels = container[i].querySelectorAll('label');
 			for (var j = 0; j < labels.length; j++) {
@@ -213,21 +213,21 @@
 		var btsGrouped = document.querySelectorAll('.btn-group input[checked=checked]');
 
 		for(var i = 0, l = btsGrouped.length; l>i; i++) {
-			var self  = btsGrouped[i];
-			var attrId = self.id;
+			var self   = btsGrouped[i],
+			    attrId = self.id;
 			if (self.parentNode.parentNode.classList.contains('btn-group-reversed')) {
 				if (self.value == '') {
-					var aa =document.querySelector('label[for=' + attrId + ']');
+					var aa = document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-primary');
 				} else if (self.value == 0) {
-					var aa =document.querySelector('label[for=' + attrId + ']');
+					var aa = document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-success');
 				} else {
-					var aa =document.querySelector('label[for=' + attrId + ']');
+					var aa = document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-danger');
@@ -238,12 +238,12 @@
 					aa.classList.add('active');
 					aa.classList.add('btn-outline-primary');
 				} else if (self.value == 0) {
-					var aa =document.querySelector('label[for=' + attrId + ']');
+					var aa = document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-danger');
 				} else {
-					var aa =document.querySelector('label[for=' + attrId + ']');
+					var aa = document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-success');
