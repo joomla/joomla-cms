@@ -18,9 +18,6 @@ $this->direction = $doc->direction;
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-// Add filter polyfill for IE8
-JHtml::_('behavior.polyfill', array('filter'), 'lte IE 9');
-
 // Add template js
 JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
 

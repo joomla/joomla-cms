@@ -434,7 +434,6 @@ abstract class JHtmlBehavior
 
 		// Include core and polyfill for browsers lower than IE 9.
 		static::core();
-		static::polyfill('event', 'lt IE 9');
 
 		// Add keepalive script options. 
 		JFactory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));

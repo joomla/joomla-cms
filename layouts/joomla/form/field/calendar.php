@@ -94,9 +94,6 @@ if (is_array($attributes))
 
 $cssFileExt = ($direction === 'rtl') ? '-rtl.css' : '.css';
 
-// Load polyfills for older IE
-JHtml::_('behavior.polyfill', array('event', 'classlist', 'map'), 'lte IE 11');
-
 // The static assets for the calendar
 JHtml::_('script', $localesPath, false, true, false, false, true);
 JHtml::_('script', $helperPath, false, true, false, false, true);
