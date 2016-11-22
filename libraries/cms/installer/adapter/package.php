@@ -17,6 +17,14 @@ defined('JPATH_PLATFORM') or die;
 class JInstallerAdapterPackage extends JInstallerAdapter
 {
 	/**
+	 * An array of extension IDs for each installed extension
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $installedIds = array();
+
+	/**
 	 * The results of each installed extensions
 	 *
 	 * @var    array
@@ -138,8 +146,10 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 				);
 			}
 
+			$this->installedIds[] = $tmpInstaller->extension->extension_id;
+
 			$this->results[] = array(
-				'name' => (string) $tmpInstaller->manifest->name,
+				'name'   => (string) $tmpInstaller->manifest->name,
 				'result' => $installResult,
 			);
 		}
@@ -184,6 +194,22 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		if ($uid)
 		{
 			$update->delete($uid);
+		}
+
+		// Set the package ID for each of the installed extensions to track the relationship
+		$db = $this->db;
+		$query = $db->getQuery(true)
+			->update('#__extensions')
+			->set($db->quoteName('package_id') . ' = ' . (int) $this->extension->extension_id)
+			->where($db->quoteName('extension_id') . ' IN (' . explode(', ', $this->installedIds) . ')');
+
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), JLog::WARNING, 'jerror');
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
