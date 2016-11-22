@@ -21,18 +21,17 @@ class ContactHelperFields
 	 * Map the section for custom fields.
 	 *
 	 * @param   string  $section    The section to get the mapping for
-	 * @param   string  $component  The component to get the mapping for
 	 *
-	 * @return  string  The new context
+	 * @return  string  The new section
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getValidContext($section, $component)
+	public static function getRealSection($section)
 	{
 		if (JFactory::getApplication()->isClient('site') && $section == 'contact')
 		{
 			$section = 'mail';
 		}
-		return $component . '.' . $section;
+		return $section;
 	}
 }

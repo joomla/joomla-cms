@@ -51,14 +51,13 @@ class FieldsHelper
 
 			JLoader::register($cName, $path);
 
-			if (class_exists($cName) && is_callable(array($cName, 'getValidContext')))
+			if (class_exists($cName) && is_callable(array($cName, 'getRealSection')))
 			{
-				$contextString = call_user_func_array(array($cName, 'getValidContext'), array($parts[1], $parts[0]));
-				$parts = explode('.', $contextString, 2);
+				$section = call_user_func_array(array($cName, 'getRealSection'), array($parts[1]));
 
-				if (count($parts) < 2)
+				if ($section)
 				{
-					return null;
+					$parts[1] = $section;
 				}
 			}
 		}
