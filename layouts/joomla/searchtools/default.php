@@ -36,17 +36,17 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 <div class="js-stools clearfix">
 	<div class="clearfix">
 		<div class="js-stools-container-bar">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
+			<?php echo $this->sublayout('bar', $data); ?>
 		</div>
 		<div class="js-stools-container-list hidden-phone hidden-tablet">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
+			<?php echo $this->sublayout('list', $data); ?>
 		</div>
 	</div>
 	<!-- Filters div -->
 	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersClass; ?>">
-		<?php echo JLayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
+		<?php echo $this->sublayout('filters', $data); ?>
 	</div>
 </div>
 <?php if ($data['options']['totalResults'] === 0) : ?>
-	<?php echo JLayoutHelper::render('joomla.searchtools.default.noitems', $data); ?>
+	<?php echo $this->sublayout('noitems', $data); ?>
 <?php endif; ?>
