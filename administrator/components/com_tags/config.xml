@@ -299,7 +299,7 @@
 		</field>
 
 		<field
-			name="all_tags_show_tag_descripion"
+			name="all_tags_show_tag_description"
 			type="radio" 
 			label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
 			description="COM_TAGS_SHOW_ITEM_DESCRIPTION_DESC"
@@ -317,7 +317,7 @@
 			description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
 			filter="integer"
 			default="0"
-			showon="all_tags_show_tag_descripion:1"
+			showon="all_tags_show_tag_description:1"
 		/>
 
 		<field
