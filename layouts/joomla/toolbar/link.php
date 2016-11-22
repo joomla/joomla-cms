@@ -9,11 +9,12 @@
 
 defined('JPATH_BASE') or die;
 
-$doTask = $displayData['doTask'];
-$class  = $displayData['class'];
-$text   = $displayData['text'];
+$doTask     = $displayData['doTask'];
+$class      = $displayData['class'];
+$text       = $displayData['text'];
+$floatRight = (strpos($doTask, 'index.php?option=com_config') !== false) ? ' float-sm-right' : '';
 ?>
-<button onclick="location.href='<?php echo $doTask; ?>';" class="btn btn-outline-danger btn-sm float-sm-right">
+<button onclick="location.href='<?php echo $doTask; ?>';" class="btn btn-outline-danger btn-sm<?php echo $floatRight; ?>">
 	<span class="<?php echo $class; ?>"></span>
 	<?php echo $text; ?>
 </button>
