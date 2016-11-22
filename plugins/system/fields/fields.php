@@ -49,7 +49,7 @@ class PlgSystemFields extends JPlugin
 			$context = JFactory::getApplication()->input->getCmd('extension') . '.category';
 		}
 
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -135,7 +135,7 @@ class PlgSystemFields extends JPlugin
 			$context = JFactory::getApplication()->input->getCmd('extension') . '.category';
 		}
 
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -246,7 +246,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterDelete($context, $item)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -306,7 +306,7 @@ class PlgSystemFields extends JPlugin
 		}
 
 		// Extracting the component and section
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -363,7 +363,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -441,7 +441,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	private function display($context, $item, $params, $displayType)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -507,7 +507,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentPrepare($context, $item)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -586,62 +586,5 @@ class PlgSystemFields extends JPlugin
 		}
 
 		return true;
-	}
-
-	/**
-	 * Returns the parts for the context.
-	 *
-	 * @param   string  $context  The context
-	 *
-	 * @return  array
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getParts($context)
-	{
-		// Some context mapping
-		// @todo needs to be done in a general lookup table on some point
-		$mapping = array(
-				'com_users.registration' => 'com_users.user',
-				'com_content.category'   => 'com_content.article',
-		);
-
-		if (key_exists($context, $mapping))
-		{
-			$context = $mapping[$context];
-		}
-
-		$parts = FieldsHelper::extract($context);
-
-		if (!$parts)
-		{
-			return null;
-		}
-
-		if ($parts[1] == 'form')
-		{
-			// The context is not from a known one, we need to do a lookup
-			// @todo use the api here.
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('context')
-				->from('#__fields')
-				->where('context like ' . $db->quote($parts[0] . '.%'))
-				->group(array('context'));
-			$db->setQuery($query);
-			$tmp = $db->loadObjectList();
-
-			if (count($tmp) == 1)
-			{
-				$parts = FieldsHelper::extract($tmp[0]->context);
-
-				if (count($parts) < 2)
-				{
-					return null;
-				}
-			}
-		}
-
-		return $parts;
 	}
 }

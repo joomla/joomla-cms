@@ -40,6 +40,29 @@ class FieldsHelper
 			return null;
 		}
 
+		$component = $parts[0];
+		$eName = str_replace('com_', '', $component);
+
+		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/fields.php');
+
+		if (file_exists($path))
+		{
+			$cName = ucfirst($eName) . 'HelperFields';
+
+			JLoader::register($cName, $path);
+
+			if (class_exists($cName) && is_callable(array($cName, 'getValidContext')))
+			{
+				$contextString = call_user_func_array(array($cName, 'getValidContext'), array($parts[1], $parts[0]));
+				$parts = explode('.', $contextString, 2);
+
+				if (count($parts) < 2)
+				{
+					return null;
+				}
+			}
+		}
+
 		return $parts;
 	}
 
