@@ -7629,6 +7629,9 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   font-weight: normal; }
 
 /* Bootstrap alert mapping */
+.j-main-container .alert {
+  margin: 10px; }
+
 .form-control {
   background-color: #fcfcfc; }
 
