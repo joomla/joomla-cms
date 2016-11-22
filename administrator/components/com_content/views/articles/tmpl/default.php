@@ -57,38 +57,38 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($assoc) : ?>
 							<?php $columns++; ?>
-							<th width="5%" class="nowrap hidden-phone">
+							<th width="5%" class="nowrap hidden-phone text-xs-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif;?>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th width="3%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($this->vote) : ?>
 							<?php $columns++; ?>
-							<th width="1%" class="nowrap hidden-sm-down">
+							<th width="3%" class="nowrap hidden-sm-down text-xs-center">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 							</th>
 							<?php $columns++; ?>
-							<th width="1%" class="nowrap hidden-sm-down">
+							<th width="3%" class="nowrap hidden-sm-down text-xs-center">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif;?>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="3%" class="nowrap hidden-phone text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -162,17 +162,17 @@ $assoc = JLanguageAssociations::isEnabled();
 								</div>
 							</div>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small hidden-sm-down text-xs-center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<?php if ($assoc) : ?>
-						<td class="hidden-sm-down">
+						<td class="hidden-sm-down text-xs-center">
 							<?php if ($item->association) : ?>
 								<?php echo JHtml::_('contentadministrator.association', $item->id); ?>
 							<?php endif; ?>
 						</td>
 						<?php endif;?>
-						<td class="small hidden-sm-down">
+						<td class="small hidden-sm-down text-xs-center">
 							<?php if ($item->created_by_alias) : ?>
 								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
 								<?php echo $this->escape($item->author_name); ?></a>
@@ -182,10 +182,10 @@ $assoc = JLanguageAssociations::isEnabled();
 								<?php echo $this->escape($item->author_name); ?></a>
 							<?php endif; ?>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small hidden-sm-down text-xs-center">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<td class="nowrap small hidden-sm-down">
+						<td class="nowrap small hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
 						<td class="hidden-sm-down text-xs-center">
@@ -205,7 +205,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								</span>
 							</td>
 						<?php endif; ?>
-						<td class="hidden-sm-down">
+						<td class="hidden-sm-down text-xs-center">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

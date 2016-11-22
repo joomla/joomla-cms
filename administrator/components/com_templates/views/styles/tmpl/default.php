@@ -40,18 +40,18 @@ $colSpan = $clientId === 1 ? 5 : 6;
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap text-xs-center">
+						<th width="12%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($clientId === 0) : ?>
-						<th width="20%" class="nowrap hidden-sm-down">
+						<th width="12%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JText::_('COM_TEMPLATES_HEADING_PAGES'); ?>
 						</th>
 						<?php endif; ?>
-						<th width="30%" class="hidden-sm-down">
+						<th width="12%" class="hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th width="5%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -109,7 +109,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 							<?php endif;?>
 						</td>
 						<?php if ($clientId === 0) : ?>
-						<td class="small hidden-sm-down">
+						<td class="small hidden-sm-down text-xs-center">
 							<?php if ($item->home == '1') : ?>
 								<?php echo JText::_('COM_TEMPLATES_STYLES_PAGES_ALL'); ?>
 							<?php elseif ($item->home != '0' && $item->home != '1') : ?>
@@ -121,14 +121,14 @@ $colSpan = $clientId === 1 ? 5 : 6;
 							<?php endif; ?>
 						</td>
 						<?php endif;?>
-						<td class="hidden-sm-down">
+						<td class="hidden-sm-down text-xs-center">
 							<label for="cb<?php echo $i;?>" class="small">
 								<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>  ">
 									<?php echo ucfirst($this->escape($item->template));?>
 								</a>
 							</label>
 						</td>
-						<td class="hidden-sm-down">
+						<td class="hidden-sm-down text-xs-center">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
