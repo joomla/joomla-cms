@@ -30,17 +30,18 @@ $font-size-h3:                     1.286rem;
 $font-size-h4:                     1rem;
 $font-size-h5:                     .9286rem;
 $font-size-h6:                     .8571rem;
+$font-size-small:                  .8rem;
 $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
 
 // Tables
 $table-bg:                         transparent !default;
-$table-bg-accent:                  rgba(0,0,0,.03) !default;
+$table-bg-accent:                  rgba(0, 0, 0, .03) !default;
 
 // Cards
 $atum-card-title-bg:               #f5f5f5;
 $card-bg-color-light:              #f8f8f8;
 $card-bg-color-dark:               $atum-template-color;
-$card-border-color:                rgba(0,0,0,.17);
+$card-border-color:                rgba(0, 0, 0, .17);
 
 // Switchers
 $switcher-color-success:           rgb(100, 189, 99);

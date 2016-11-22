@@ -62,7 +62,7 @@ $assoc = JLanguageAssociations::isEnabled();
 						</th>
 						<?php if ($assoc) : ?>
 							<?php $columns++; ?>
-							<th width="5%" class="nowrap hidden-phone text-xs-center">
+							<th width="5%" class="nowrap hidden-sm-down text-xs-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif;?>
@@ -88,7 +88,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif;?>
-						<th width="3%" class="nowrap hidden-phone text-xs-center">
+						<th width="3%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
