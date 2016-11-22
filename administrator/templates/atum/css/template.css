@@ -8194,18 +8194,19 @@ iframe {
   position: relative;
   box-sizing: content-box;
   display: inline-block;
-  width: 50px;
-  height: 30px;
+  width: 60px;
+  height: 26px;
+  margin-top: 2px;
   vertical-align: middle;
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  background-color: #fcfcfc;
+  background-color: #f7f7f7;
   background-clip: content-box;
-  border: 1px solid #dfdfdf;
-  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 0.25rem;
   box-shadow: 0 0 0 0 #dfdfdf inset;
   transition: border .4s ease 0s, box-shadow .4s ease 0s; }
   .js-switcher.active {
@@ -8227,9 +8228,10 @@ iframe {
     left: 0;
     z-index: 2;
     width: 50px;
-    height: 30px;
+    height: 26px;
     padding: 0;
     margin: 0;
+    cursor: pointer;
     zoom: 1;
     filter: alpha(opacity=0);
     opacity: 0; }
@@ -8237,15 +8239,15 @@ iframe {
     position: absolute;
     top: 0;
     width: 30px;
-    height: 30px;
+    height: 26px;
     background: #fcfcfc;
-    border-radius: 100%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    border-radius: 0.25rem;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1) inset, 0 1px 3px rgba(0, 0, 0, 0.15);
     transition: left .2s ease 0s; }
   .js-switcher input:checked ~ .switch {
-    left: -1px; }
+    left: 0; }
   .js-switcher input ~ :checked ~ .switch {
-    left: 20px; }
+    left: 30px; }
   .js-switcher input:checked {
     z-index: 0; }
 
