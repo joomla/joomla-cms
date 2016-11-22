@@ -374,6 +374,23 @@ class JFormDataHelper
 		</fields>
 		<fields
 			name="params">
+			<field name="subfield" type="subform" label="Subform" multiple="true">
+				<form>
+					<fields
+						name="subfieldparams">
+						<fieldset
+							name="subfieldset">
+							<field name="name"
+								label="Name"
+								size="30" type="text" />
+
+							<field name="title"
+								label="Value" place="subform"
+								size="30" type="text" />
+						</fieldset>
+					</fields>
+				</form>
+			</field>
 			<field
 				name="outlier" fieldset="params-legacy" />
 			<fieldset

@@ -401,7 +401,7 @@ class JForm
 		else
 		{
 			// Get an array of <fieldset /> elements and fieldset attributes.
-			$sets = $this->xml->xpath('//fieldset[@name] | //field[@fieldset]/@fieldset');
+			$sets = $this->xml->xpath('//fieldset[@name and not(ancestor::field/form/*)] | //field[@fieldset and not(ancestor::field/form/*)]/@fieldset');
 		}
 
 		// If no fieldsets are found return empty.
