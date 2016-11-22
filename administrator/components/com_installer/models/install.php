@@ -220,6 +220,10 @@ class InstallerModelInstall extends JModelLegacy
 
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
+		// Clean the frontend and admin cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+
 		return $result;
 	}
 

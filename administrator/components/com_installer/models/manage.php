@@ -145,6 +145,10 @@ class InstallerModelManage extends InstallerModel
 			}
 		}
 
+		// Clean the frontend and admin cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+
 		return $result;
 	}
 
@@ -270,14 +274,9 @@ class InstallerModelManage extends InstallerModel
 		$app->setUserState('com_installer.message', $installer->message);
 		$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
 
-		//Clear admin cache
-		$options = array(
-			'defaultgroup' => '_system',
-			'cachebase'    => JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'cache'
-		);
-
-		$cache = JCache::getInstance('callback', $options);
-		$cache->clean();
+		// Clean the frontend and admin cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
 
 		return $result;
 	}
