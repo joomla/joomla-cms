@@ -55,32 +55,32 @@ if ($saveOrder)
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th width="3%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($this->vote) : ?>
 							<?php $columns++; ?>
-							<th width="1%" class="nowrap hidden-sm-down">
+							<th width="3%" class="nowrap hidden-sm-down text-xs-center">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 							</th>
 							<?php $columns++; ?>
-							<th width="1%" class="nowrap hidden-sm-down">
+							<th width="3%" class="nowrap hidden-sm-down text-xs-center">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif;?>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th width="3%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -157,10 +157,10 @@ if ($saveOrder)
 								</div>
 							</div>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small hidden-sm-down text-xs-center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small hidden-sm-down text-xs-center">
 							<?php if ($item->created_by_alias) : ?>
 								<?php echo $this->escape($item->author_name); ?>
 								<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
@@ -168,10 +168,10 @@ if ($saveOrder)
 								<?php echo $this->escape($item->author_name); ?>
 							<?php endif; ?>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small hidden-sm-down text-xs-center">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<td class="nowrap small hidden-sm-down">
+						<td class="nowrap small hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
 						<td class="text-xs-center hidden-sm-down">
@@ -180,12 +180,12 @@ if ($saveOrder)
 							</span>
 						</td>
 						<?php if ($this->vote) : ?>
-							<td class="hidden-sm-down">
+							<td class="hidden-sm-down text-xs-center">
 								<span class="tag tag-success" >
 								<?php echo (int) $item->rating_count; ?>
 								</span>
 							</td>
-							<td class="hidden-sm-down">
+							<td class="hidden-sm-down text-xs-center">
 								<span class="tag tag-warning" >
 								<?php echo (int) $item->rating; ?>
 								</span>
