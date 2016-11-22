@@ -128,10 +128,6 @@
     cursor: pointer;
     transition: background $atum-button-transistion-duration;
 
-    &:focus {
-      outline: none;
-    }
-
     span {
       position: absolute;
       top: ($atum-button-height / 2) - ($atum-bar-thickness / 2);
@@ -281,7 +277,6 @@
       &:active,
       &:focus {
         text-decoration: none;
-        outline: 0;
       }
     }
 
