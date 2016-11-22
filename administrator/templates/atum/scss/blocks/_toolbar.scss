@@ -15,12 +15,13 @@
 
   .btn-toolbar {
     margin-bottom: 0;
-
+    > * {
+      margin-left: .5rem;
+    }
     .btn-group {
-      float: none;
-
-      + .btn {
-        margin-left: .5rem;
+      margin-right: .35rem;
+      .btn {
+        margin-left: 0;
       }
     }
 
@@ -102,7 +103,7 @@
         color: $white;
       }
     }
-    button:first-of-type:not(.float-sm-right) {
+    button:last-of-type:not(.float-sm-right) {
       margin-left: 0;
     }
   }
