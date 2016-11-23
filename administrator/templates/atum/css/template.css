@@ -7646,7 +7646,12 @@ small, .small {
   margin: 10px; }
 
 .form-control {
+  max-width: 240px;
   background-color: #fcfcfc; }
+  .form-control.input-xxlarge {
+    max-width: 350px; }
+  .form-control.input-xxlarge {
+    max-width: 550px; }
 
 .control-group::after {
   display: table;

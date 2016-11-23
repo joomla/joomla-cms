@@ -1,7 +1,15 @@
 // Form
 
 .form-control {
+  max-width: 240px;
   background-color: $white;
+
+  &.input-xxlarge {
+    max-width: 350px;
+  }
+  &.input-xxlarge {
+    max-width: 550px;
+  }
 }
 .control-group::after {
   display: table;
