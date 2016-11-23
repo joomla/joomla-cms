@@ -10,7 +10,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(-15px);
   } to {
     opacity: 1;
     transform: translateY(0);
@@ -18,10 +18,12 @@
 }
 .notify-alerts {
   position: fixed;
-  top: 35px;
-  left: 37%;
+  top: 15px;
+  left: 50%;
   z-index: 1031;
+  margin-left: 125px;
   transition: all .5s ease;
+  transform: translateX(-50%);
   .alert {
     width: 100%;
     min-width: 280px;
@@ -52,6 +54,9 @@
   }
 }
 .closed {
+  .notify-alerts {
+    margin-left: 27px;
+  }
   + .notify-alerts.fullWidth {
     left: 70px;
   }

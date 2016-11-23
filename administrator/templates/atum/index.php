@@ -69,9 +69,6 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 			<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 		</div>
 	</noscript>
-	<div class="notify-alerts">
-		<jdoc:include type="message" />
-	</div>
 	<?php // Wrapper ?>
 	<div id="wrapper" class="wrapper closed">
 
@@ -183,18 +180,15 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 				<?php // End Status Module ?>
 			<?php endif; ?>
 
+			<div class="notify-alerts">
+				<jdoc:include type="message" />
+			</div>
+
 		</div>
 
 		<jdoc:include type="modules" name="debug" style="none" />
 
 	</div>
-<<<<<<< HEAD
 
-	<div class="notify-alerts">
-		<jdoc:include type="message" />
-	</div>
-
-=======
->>>>>>> b7ead984dc34e6a3c568721a8a1657a7e53af425
 </body>
 </html>

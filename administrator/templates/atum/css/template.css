@@ -7648,17 +7648,19 @@ small, .small {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(15px); }
+    transform: translateY(-15px); }
   to {
     opacity: 1;
     transform: translateY(0); } }
 
 .notify-alerts {
   position: fixed;
-  top: 35px;
-  left: 37%;
+  top: 15px;
+  left: 50%;
   z-index: 1031;
-  transition: all .5s ease; }
+  margin-left: 125px;
+  transition: all .5s ease;
+  transform: translateX(-50%); }
   .notify-alerts .alert {
     width: 100%;
     min-width: 280px;
@@ -7682,6 +7684,9 @@ small, .small {
   .notify-alerts .close {
     line-height: 1rem;
     opacity: 1; }
+
+.closed .notify-alerts {
+  margin-left: 27px; }
 
 .closed + .notify-alerts.fullWidth {
   left: 70px; }
