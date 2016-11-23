@@ -35,7 +35,7 @@ abstract class ModMenuHelper
 			->select('b.language')
 			->where('(b.client_id = 0 OR b.client_id IS NULL)');
 
-		// Explicit Group-By needed by non-Mysql DBs (in MySql it is implied)
+		// Explicit Group-By needed by non-Mysql DBs (in MySql, if skipped, it will be implied)
 		$query->group('a.id, a.menutype, a.description, a.title, b.menutype,b.language');
 
 		$db->setQuery($query);
