@@ -33,14 +33,10 @@ abstract class ModMenuHelper
 			->from('#__menu_types AS a')
 			->join('LEFT', '#__menu AS b ON b.menutype = a.menutype AND b.home != 0')
 			->select('b.language')
-			->join('LEFT', '#__languages AS l ON l.lang_code = language')
-			->select('l.image')
-			->select('l.sef')
-			->select('l.title_native')
 			->where('(b.client_id = 0 OR b.client_id IS NULL)');
 
-		// Sqlsrv change
-		$query->group('a.id, a.menutype, a.description, a.title, b.menutype,b.language,l.image,l.sef,l.title_native');
+		// Explicit Group-By needed by non-Mysql DBs (in MySql it is implied)
+		$query->group('a.id, a.menutype, a.description, a.title, b.menutype,b.language');
 
 		$db->setQuery($query);
 
@@ -52,6 +48,30 @@ abstract class ModMenuHelper
 		{
 			$result = array();
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		}
+
+		$query = $db->getQuery(true)
+			->select('l.image, l.sef, l.title_native, l.lang_code')
+			->from('#__languages AS l');
+
+		$db->setQuery($query);
+		$langs = $db->loadObjectList('lang_code');
+
+		foreach($result as $m)
+		{
+			if (isset($langs[$m->language]))
+			{
+				$lang = $langs[$m->language];
+				$m->image = $lang->image;
+				$m->sef = $lang->sef;
+				$m->title_native = $lang->title_native;
+			}
+			else
+			{
+				$m->image = null;
+				$m->sef = null;
+				$m->title_native = null;
+			}
 		}
 
 		return $result;
