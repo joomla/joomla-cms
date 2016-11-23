@@ -73,8 +73,8 @@ class UserlogsHelper
 		$lang   = JFactory::getLanguage();
 		$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
-		$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load("$extension.sys", $source, null, false, true);
+		$lang->load(strtolower($extension), JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load(strtolower($extension), $source, null, false, true);
 
 		return JText::_($extension);
 	}
