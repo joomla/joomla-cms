@@ -36,7 +36,7 @@ if ($spacing > 0)
 	');
 }
 ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login">
+<form class="login-initial" action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login">
 	<fieldset>
 
 		<div class="form-group">
@@ -84,10 +84,10 @@ if ($spacing > 0)
 				<span class="icon-lock icon-white"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 			</button>
 		</div>
-		
+
 		<div class="forgot">
-			<div><a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=remind"><?php echo JText::_('MOD_LOGIN_REMIND'); ?></a></div>
-			<div><a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=reset"><?php echo JText::_('MOD_LOGIN_RESET'); ?></a></div>
+			<div><a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>"><?php echo JText::_('MOD_LOGIN_REMIND'); ?></a></div>
+			<div><a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>"><?php echo JText::_('MOD_LOGIN_RESET'); ?></a></div>
 		</div>
 
 		<input type="hidden" name="option" value="com_login"/>

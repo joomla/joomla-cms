@@ -25,7 +25,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container" class="js-main-container">
+	<div id="j-main-container" class="j-main-container">
 		<div id="filter-bar" class="btn-toolbar clearfix">
 			<div class="filter-search btn-group float-xs-left">
 				<div class="input-group">

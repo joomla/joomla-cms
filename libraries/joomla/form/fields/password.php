@@ -147,11 +147,22 @@ class JFormFieldPassword extends JFormField
 			$this->meter        = ($meter == 'true' || $meter == 'on' || $meter == '1');
 			$force              = (string) $this->element['forcePassword'];
 			$this->force        = (($force == 'true' || $force == 'on' || $force == '1') && $this->meter === true);
-			$this->minLength    = (int) JComponentHelper::getParams('com_users')->get('minimum_length', 4);
-			$this->minIntegers  = (int) JComponentHelper::getParams('com_users')->get('minimum_integers', 0);
-			$this->minSymbols   = (int) JComponentHelper::getParams('com_users')->get('minimum_symbols', 0);
-			$this->minUppercase = (int) JComponentHelper::getParams('com_users')->get('minimum_uppercase', 0);
-			$this->minLowercase = (int) JComponentHelper::getParams('com_users')->get('minimum_lowercase', 0);
+
+			// Set some initial values
+			$this->minLength    = 4;
+			$this->minIntegers  = 0;
+			$this->minSymbols   = 0;
+			$this->minUppercase = 0;
+			$this->minLowercase = 0;
+
+			if (JFactory::getConfig()->get('db') != '')
+			{
+				$this->minLength    = (int) JComponentHelper::getParams('com_users')->get('minimum_length', 4);
+				$this->minIntegers  = (int) JComponentHelper::getParams('com_users')->get('minimum_integers', 0);
+				$this->minSymbols   = (int) JComponentHelper::getParams('com_users')->get('minimum_symbols', 0);
+				$this->minUppercase = (int) JComponentHelper::getParams('com_users')->get('minimum_uppercase', 0);
+				$this->minLowercase = (int) JComponentHelper::getParams('com_users')->get('minimum_lowercase', 0);
+			}
 		}
 
 		return $return;

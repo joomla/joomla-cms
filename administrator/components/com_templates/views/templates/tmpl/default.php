@@ -22,7 +22,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container" class="js-main-container">
+	<div id="j-main-container" class="j-main-container">
 	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"> </div>
 	<?php if (empty($this->items)) : ?>
@@ -39,13 +39,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="30%">
 						<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="hidden-sm-down">
+					<th width="10%" class="hidden-sm-down text-xs-center">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
-					<th width="15%" class="hidden-sm-down">
+					<th width="10%" class="hidden-sm-down text-xs-center">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
-					<th width="25%" class="hidden-sm-down" >
+					<th width="25%" class="hidden-sm-down text-xs-center" >
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
 				</tr>
@@ -78,13 +78,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 						</div>
 					</td>
-					<td class="small hidden-sm-down">
+					<td class="small hidden-sm-down text-xs-center">
 						<?php echo $this->escape($item->xmldata->get('version')); ?>
 					</td>
-					<td class="small hidden-sm-down">
+					<td class="small hidden-sm-down text-xs-center">
 						<?php echo $this->escape($item->xmldata->get('creationDate')); ?>
 					</td>
-					<td class="hidden-sm-down">
+					<td class="hidden-sm-down text-xs-center">
 						<?php if ($author = $item->xmldata->get('author')) : ?>
 							<div><?php echo $this->escape($author); ?></div>
 						<?php else : ?>

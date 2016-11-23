@@ -6,7 +6,7 @@
 				name="db_type"
 				type="databaseconnection"
 				id="db_type"
-				class="form-control"
+				class="custom-select form-control"
 				label="INSTL_DATABASE_TYPE_LABEL"
 				supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
 				required="true"

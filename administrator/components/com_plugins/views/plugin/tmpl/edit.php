@@ -50,7 +50,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							}
 							?>
 						</h3>
-						<div class="info-labels">
+						<div class="info-labels mb-1">
 							<span class="tag tag-default hasTooltip" title="<?php echo JHtml::tooltipText('COM_PLUGINS_FIELD_FOLDER_LABEL', 'COM_PLUGINS_FIELD_FOLDER_DESC'); ?>">
 								<?php echo $this->form->getValue('folder'); ?>
 							</span> /

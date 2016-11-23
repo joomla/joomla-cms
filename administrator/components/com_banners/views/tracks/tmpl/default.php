@@ -16,7 +16,7 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=tracks'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container" class="js-main-container">
+	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-warning alert-no-items">
@@ -76,25 +76,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				</tbody>
 			</table>
 		<?php endif; ?>
-
-		<?php // Load the export form ?>
-		<?php echo JHtml::_(
-			'bootstrap.renderModal',
-			'downloadModal',
-			array(
-				'title'       => JText::_('COM_BANNERS_TRACKS_DOWNLOAD'),
-				'url'         => JRoute::_('index.php?option=com_banners&amp;view=download&amp;tmpl=component'),
-				'height'      => '370px',
-				'width'       => '300px',
-				'modalWidth'  => '40',
-				'footer'      => '<a class="btn btn-secondary" data-dismiss="modal" type="button"'
-						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#closeBtn\').click();">'
-						. JText::_("COM_BANNERS_CANCEL") . '</a>'
-						. '<button class="btn btn-success" type="button"'
-						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
-						. JText::_("COM_BANNERS_TRACKS_EXPORT") . '</button>',
-			)
-		); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

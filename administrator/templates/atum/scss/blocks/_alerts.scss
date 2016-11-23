@@ -1,5 +1,6 @@
 // Alerts
 
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -46,5 +47,12 @@
 .closed {
   + .notify-alerts.fullWidth {
     left: 70px;
+  }
+}
+
+.j-main-container {
+  .alert {
+    margin: 10px;
+
   }
 }

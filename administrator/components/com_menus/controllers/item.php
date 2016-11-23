@@ -482,6 +482,11 @@ class MenusControllerItem extends JControllerForm
 		{
 			$title = 'component';
 		}
+		else
+		{
+			// Set correct component id to ensure proper 404 messages with system links
+			$data['component_id'] = 0;
+		}
 
 		$app->setUserState('com_menus.edit.item.type', $title);
 

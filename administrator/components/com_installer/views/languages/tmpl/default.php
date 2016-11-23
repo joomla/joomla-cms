@@ -30,7 +30,7 @@ jQuery(document).ready(function($) {
 ?>
 <div id="installer-languages" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
-		<div id="j-main-container" class="js-main-container">
+		<div id="j-main-container" class="j-main-container">
 			<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 			<div class="clearfix"></div>
 			<?php if (empty($this->items)) : ?>
@@ -47,16 +47,16 @@ jQuery(document).ready(function($) {
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap">
+						<th width="10%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="text-xs-center">
+						<th width="15%" class="text-xs-center">
 							<?php echo JText::_('JVERSION'); ?>
 						</th>
-						<th width="40%" class="nowrap hidden-sm-down">
+						<th width="35%" class="nowrap hidden-sm-down">
 							<?php echo JText::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th width="5%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'update_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -86,7 +86,7 @@ jQuery(document).ready(function($) {
 								<?php echo $language->name; ?>
 							</label>
 						</td>
-						<td>
+						<td class="text-xs-center">
 							<?php echo $language->code; ?>
 						</td>
 						<td class="text-xs-center">
@@ -100,7 +100,7 @@ jQuery(document).ready(function($) {
 						<td class="small hidden-sm-down">
 							<a href="<?php echo $language->detailsurl; ?>" target="_blank"><?php echo $language->detailsurl; ?></a>
 						</td>
-						<td class="hidden-sm-down">
+						<td class="hidden-sm-down text-xs-center">
 							<?php echo $language->update_id; ?>
 						</td>
 					</tr>

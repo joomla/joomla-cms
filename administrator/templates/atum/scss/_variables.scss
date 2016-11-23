@@ -3,9 +3,8 @@ $enable-flex:                      true;
 $atum-template-color:              #27283a;
 $atum-gradient-inner:              #163f46;
 $atum-gradient-outer:              $atum-template-color;
-$atum-container-main-bg:           #eeeeee;
-$atum-card-title-bg:               #f5f5f5;
-$white:                            #fafafa;
+$atum-container-main-bg:           #eee;
+$white:                            #fcfcfc;
 $grey:                             #aaa;
 
 $brand-primary:                    #0275d8 !default;
@@ -22,6 +21,11 @@ $atum-button-pad:                  5px;
 $atum-button-bar-space:            6px;
 $atum-button-transistion-duration: .3s;
 
+// Sidebar
+$atum-sidebar-bg:                  $atum-template-color;
+$atum-sidebar-hover:               #5b8dca;
+$atum-sidebar-active:              lighten($atum-template-color, 17%);
+
 // Fonts
 $font-family-base:                 Arial, sans-serif;
 $atum-inverted-text-color:         $atum-template-color;
@@ -32,15 +36,18 @@ $font-size-h3:                     1.286rem;
 $font-size-h4:                     1rem;
 $font-size-h5:                     .9286rem;
 $font-size-h6:                     .8571rem;
+$font-size-small:                  .8rem;
 $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
 
 // Tables
 $table-bg:                         transparent !default;
-$table-bg-accent:                  rgba(0,0,0,.03) !default;
+$table-bg-accent:                  rgba(0, 0, 0, .03) !default;
 
 // Cards
+$atum-card-title-bg:               #f5f5f5;
 $card-bg-color-light:              #f8f8f8;
-$card-border-color:                rgba(0,0,0,.17);
+$card-bg-color-dark:               $atum-template-color;
+$card-border-color:                rgba(0, 0, 0, .17);
 
 // Alerts
 $state-success-text:               #fff !default;
@@ -63,6 +70,12 @@ $state-danger-border:              darken($brand-danger, 5%) !default;
 $switcher-color-success:           rgb(100, 189, 99);
 $switcher-color-danger:            rgb(188, 101, 100);
 $switcher-color-primary:           rgb(100, 143, 186);
+
+// List
+$list-group-bg:                    $white;
+
+// Custom form
+$custom-select-bg:                 $white;
 
 // BS4-alpha.5 | custom-select SVG override
 // This was broken in alpha.5 so be sure to remove this when it's fixed again

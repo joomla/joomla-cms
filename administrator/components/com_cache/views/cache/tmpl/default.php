@@ -16,7 +16,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container" class="js-main-container">
+	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false, 'totalResults' => count($this->data)))); ?>
 		<?php if (count($this->data) > 0) : ?>
 		<table class="table table-striped">
@@ -28,10 +28,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th class="title nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap">
+					<th width="10%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap">
+					<th width="10%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -56,10 +56,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<strong><?php echo $item->group; ?></strong>
 							</label>
 						</td>
-						<td>
+						<td class="text-xs-center">
 							<?php echo $item->count; ?>
 						</td>
-						<td>
+						<td class="text-xs-center">
 							<?php echo JHtml::_('number.bytes', $item->size*1024); ?>
 						</td>
 					</tr>
