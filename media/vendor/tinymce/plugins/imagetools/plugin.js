@@ -1721,6 +1721,9 @@ define("tinymce/imagetoolsplugin/ImagePanel", [
 				if ($img[0]) {
 					$img.replaceWith(img);
 				} else {
+					var bg = document.createElement('div');
+					bg.className = 'mce-imagepanel-bg';
+					self.getEl().appendChild(bg);
 					self.getEl().appendChild(img);
 				}
 
@@ -1770,12 +1773,13 @@ define("tinymce/imagetoolsplugin/ImagePanel", [
 		},
 
 		repaintImage: function() {
-			var x, y, w, h, pw, ph, $img, zoom, rect, elm;
+			var x, y, w, h, pw, ph, $img, $bg, zoom, rect, elm;
 
 			elm = this.getEl();
 			zoom = this.zoom();
 			rect = this.state.get('rect');
 			$img = this.$el.find('img');
+			$bg = this.$el.find('.mce-imagepanel-bg');
 			pw = elm.offsetWidth;
 			ph = elm.offsetHeight;
 			w = $img[0].naturalWidth * zoom;
@@ -1784,6 +1788,13 @@ define("tinymce/imagetoolsplugin/ImagePanel", [
 			y = Math.max(0, ph / 2 - h / 2);
 
 			$img.css({
+				left: x,
+				top: y,
+				width: w,
+				height: h
+			});
+
+			$bg.css({
 				left: x,
 				top: y,
 				width: w,
@@ -2696,6 +2707,14 @@ define("tinymce/imagetoolsplugin/Plugin", [
 			return editor.selection.getNode();
 		}
 
+		function extractFilename(url) {
+			var m = url.match(/\/([^\/\?]+)?\.(?:jpeg|jpg|png|gif)(?:\?|$)/i);
+			if (m) {
+				return editor.dom.encode(m[1]);
+			}
+			return null;
+		}
+
 		function createId() {
 			return 'imagetools' + count++;
 		}
@@ -2745,7 +2764,7 @@ define("tinymce/imagetoolsplugin/Plugin", [
 		function startTimedUpload() {
 			imageUploadTimer = Delay.setEditorTimeout(editor, function() {
 				editor.editorUpload.uploadImagesAuto();
-			}, 30000);
+			}, editor.settings.images_upload_timeout || 30000);
 		}
 
 		function cancelTimedUpload() {
@@ -2754,14 +2773,21 @@ define("tinymce/imagetoolsplugin/Plugin", [
 
 		function updateSelectedImage(blob, uploadImmediately) {
 			return BlobConversions.blobToDataUri(blob).then(function(dataUri) {
-				var id, base64, blobCache, blobInfo, selectedImage;
+				var id, filename, base64, blobCache, blobInfo, selectedImage;
 
 				selectedImage = getSelectedImage();
-				id = createId();
 				blobCache = editor.editorUpload.blobCache;
+				blobInfo = blobCache.getByUri(selectedImage.src);
 				base64 = URI.parseDataUri(dataUri).data;
+				id = createId();
+				if (editor.settings.images_reuse_filename) {
+					filename = blobInfo ? blobInfo.filename() : extractFilename(selectedImage.src);
+				}
 
-				blobInfo = blobCache.create(id, blob, base64);
+				if (blobInfo) {
+					blobCache.removeByUri(blobInfo.blobUri());
+				}
+				blobInfo = blobCache.create(id, blob, base64, filename);
 				blobCache.add(blobInfo);
 
 				editor.undoManager.transact(function() {
@@ -2854,27 +2880,27 @@ define("tinymce/imagetoolsplugin/Plugin", [
 		function addButtons() {
 			editor.addButton('rotateleft', {
 				title: 'Rotate counterclockwise',
-				onclick: rotate(-90)
+				cmd: 'mceImageRotateLeft'
 			});
 
 			editor.addButton('rotateright', {
 				title: 'Rotate clockwise',
-				onclick: rotate(90)
+				cmd: 'mceImageRotateRight'
 			});
 
 			editor.addButton('flipv', {
 				title: 'Flip vertically',
-				onclick: flip('v')
+				cmd: 'mceImageFlipVertical'
 			});
 
 			editor.addButton('fliph', {
 				title: 'Flip horizontally',
-				onclick: flip('h')
+				cmd: 'mceImageFlipHorizontal'
 			});
 
 			editor.addButton('editimage', {
 				title: 'Edit image',
-				onclick: editImageDialog
+				cmd: 'mceEditImage'
 			});
 
 			editor.addButton('imageoptions', {
@@ -2928,11 +2954,19 @@ define("tinymce/imagetoolsplugin/Plugin", [
 			);
 		}
 
+		Tools.each({
+			mceImageRotateLeft: rotate(-90),
+			mceImageRotateRight: rotate(90),
+			mceImageFlipVertical: flip('v'),
+			mceImageFlipHorizontal: flip('h'),
+			mceEditImage: editImageDialog
+		}, function(fn, cmd) {
+			editor.addCommand(cmd, fn);
+		});
+
 		addButtons();
 		addToolbars();
 		addEvents();
-
-		editor.addCommand('mceEditImage', editImageDialog);
 	};
 
 	PluginManager.add('imagetools', plugin);
