@@ -8579,6 +8579,14 @@ iframe {
   .chzn-container.chzn-container-single .chzn-single div b {
     background: none; }
 
+.chzn-container.chzn-container-single .chzn-drop {
+  background: #fcfcfc;
+  border: 1px solid rgba(0, 0, 0, 0.15); }
+
+.chzn-container.chzn-container-single.chzn-container-active .chzn-single {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0; }
+
 .chzn-container-single {
   width: auto !important; }
 
