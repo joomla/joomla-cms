@@ -50,12 +50,13 @@
   }
   .close {
     line-height: 1rem;
+    color: $white;
     opacity: 1;
   }
 }
 .closed {
   .notify-alerts {
-    margin-left: 27px;
+    margin-left: 0;
   }
   + .notify-alerts.fullWidth {
     left: 70px;

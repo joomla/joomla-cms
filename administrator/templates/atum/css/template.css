@@ -7683,10 +7683,11 @@ small, .small {
       margin-left: 0; }
   .notify-alerts .close {
     line-height: 1rem;
+    color: #fcfcfc;
     opacity: 1; }
 
 .closed .notify-alerts {
-  margin-left: 27px; }
+  margin-left: 0; }
 
 .closed + .notify-alerts.fullWidth {
   left: 70px; }
