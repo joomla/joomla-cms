@@ -57,7 +57,7 @@ abstract class ModMenuHelper
 		$db->setQuery($query);
 		$langs = $db->loadObjectList('lang_code');
 
-		foreach($result as $m)
+		foreach ($result as $m)
 		{
 			if (isset($langs[$m->language]))
 			{
