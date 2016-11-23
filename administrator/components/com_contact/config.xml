@@ -1023,7 +1023,7 @@
 		<field
 			name="custom_fields_enable"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
 			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
 			default="1"
