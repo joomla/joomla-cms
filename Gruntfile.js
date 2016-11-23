@@ -319,7 +319,29 @@ module.exports = function(grunt) {
 					dest: '<%= folder.adminTemplate %>/css',
 				}]
 			}
-		}
+		},
+
+		// Update the XML for tinyMCE and CodeMirror
+		xmlpoke: {
+			updateTiny: {
+				options: {
+					xpath: '//version',
+					value: settings.vendors.tinymce.version
+				},
+				files: {
+					'plugins/editors/tinymce/tinymce.xml': 'plugins/editors/tinymce/tinymce.xml'
+				},
+			},
+			updateCodemirror: {
+				options: {
+					xpath: '//version',
+					value: settings.vendors.codemirror.version
+				},
+				files: {
+					'plugins/editors/codemirror/codemirror.xml': 'plugins/editors/codemirror/codemirror.xml'
+				},
+			},
+		},
 	});
 
 	// Load required modules
@@ -327,6 +349,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-xmlpoke');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-scss-lint');
 	grunt.loadNpmTasks('grunt-sass');
@@ -345,6 +368,8 @@ module.exports = function(grunt) {
 			'cssmin:allCss',
 			'postcss',
 			'cssmin:templates',
+			'xmlpoke:updateTiny',
+			'xmlpoke:updateCodemirror',
 			'clean:temp'
 		]
 	);
