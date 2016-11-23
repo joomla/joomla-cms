@@ -16,9 +16,8 @@ use Joomla\Cms\Application\EventAware;
 use Joomla\Cms\Application\IdentityAware;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
-use Joomla\Session\SessionInterface;
+use Joomla\Session\SessionEvent;
 use Joomla\String\StringHelper;
 
 /**
@@ -424,13 +423,15 @@ abstract class JApplicationWeb extends AbstractWebApplication implements Dispatc
 	/**
 	 * After the session has been started we need to populate it with some default values.
 	 *
+	 * @param   SessionEvent  $event  Session event being triggered
+	 *
 	 * @return  void
 	 *
 	 * @since   12.2
 	 */
-	public function afterSessionStart()
+	public function afterSessionStart(SessionEvent $event)
 	{
-		$session = JFactory::getSession();
+		$session = $event->getSession();
 
 		if ($session->isNew())
 		{

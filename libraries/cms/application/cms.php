@@ -250,16 +250,6 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 				$values[] = (int) $this->getClientId();
 			}
 
-			$query->insert($db->quoteName('#__session'))
-				->columns($columns)
-				->values(implode(', ', $values));
-
-			if (!$this->get('shared_session', '0'))
-			{
-				$columns[] = $db->quoteName('client_id');
-				$values[] = (int) $this->getClientId();
-			}
-
 			// If the insert failed, exit the application.
 			try
 			{
