@@ -194,17 +194,17 @@ class JAdminCssMenu extends JObject
 		if ($this->_current->link != null && $this->_current->target != null)
 		{
 			echo "<a" . $linkClass . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\">" . $iconClass
-				. $this->_current->title . "</a>";
+				. '<span class="sidebar-parent">' . $this->_current->title . "</span></a>";
 		}
 		elseif ($this->_current->link != null && $this->_current->target == null)
 		{
 			echo "<a" . $linkClass . $dataToggle . " href=\"" . $this->_current->link . "\">" . $iconClass
-				. $this->_current->title . "</a>";
+				. '<span class="sidebar-parent">' . $this->_current->title . "</span></a>";
 		}
 		elseif ($this->_current->title != null)
 		{
 			echo "<a" . $linkClass . $dataToggle . ">" . $iconClass
-				. $this->_current->title . "</a>";
+				. '<span class="sidebar-parent">' . $this->_current->title . "</span></a>";
 		}
 		else
 		{
