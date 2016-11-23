@@ -1,6 +1,12 @@
 // Alerts
 
 
+.j-main-container {
+  .alert {
+    margin: 10px;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -12,8 +18,8 @@
 }
 .notify-alerts {
   position: fixed;
-  right: 15px;
-  bottom: 35px;
+  top: 35px;
+  left: 37%;
   z-index: 1031;
   transition: all .5s ease;
   .alert {
@@ -21,6 +27,7 @@
     min-width: 280px;
     max-width: 400px;
     margin-bottom: .5rem;
+    box-shadow: #8d8d8d;
     opacity: 0;
     animation: fadeIn ease-in 1;
     animation-duration: .35s;
@@ -47,12 +54,5 @@
 .closed {
   + .notify-alerts.fullWidth {
     left: 70px;
-  }
-}
-
-.j-main-container {
-  .alert {
-    margin: 10px;
-
   }
 }

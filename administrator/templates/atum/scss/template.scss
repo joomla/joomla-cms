@@ -25,7 +25,6 @@
 @import "blocks/quickicons";
 @import "blocks/searchtools";
 @import "blocks/sidebar";
-@import "blocks/alerts";
 @import "blocks/status";
 @import "blocks/switcher";
 @import "blocks/toolbar";
@@ -77,6 +76,7 @@
   border-radius: $border-radius;
   box-shadow: 0 0 3px rgba(0, 0, 0, .075);
 }
+
 
 // Chosen (TEMPORARY)
 .chzn-container-single {
