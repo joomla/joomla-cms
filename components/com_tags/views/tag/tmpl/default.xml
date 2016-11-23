@@ -263,7 +263,7 @@
 		<fieldset name="integration">
 
 			<field
-				name="show_feed_link" 
+				name="show_feed_link"
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				description="JGLOBAL_SHOW_FEED_LINK_DESC"
