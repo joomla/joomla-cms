@@ -101,8 +101,8 @@
 				label="COM_TAGS_SHOW_TAG_LIST_DESCRIPTION_LABEL"
 				description="COM_TAGS_TAG_LIST_DESCRIPTION_DESC"
 				class="inputbox"
-				rows="3" 
-				cols="30" 
+				rows="3"
+				cols="30"
 				filter="safehtml"
 			/>
 
