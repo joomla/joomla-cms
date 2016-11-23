@@ -381,7 +381,7 @@ INSERT INTO "#__contentitem_tag_map" VALUES
 -- Dumping data for table #__menu
 --
 INSERT INTO "#__menu" VALUES
-(1,'','Menu_Item_Root','root','','','','',1,0,0,0,0,'1970-01-01 00:00:00',0,0,'',0,'',0,275,0,'*',0),
+(1,'','Menu_Item_Root','root','','','','',1,0,0,0,0,'1970-01-01 00:00:00',0,0,'',0,'',0,277,0,'*',0),
 (2,'menu','com_banners','Banners','','Banners','index.php?option=com_banners','component',0,1,1,4,0,'1970-01-01 00:00:00',0,0,'class:banners',0,'',5,14,0,'*',1),
 (3,'menu','com_banners','Banners','','Banners/Banners','index.php?option=com_banners','component',0,2,2,4,0,'1970-01-01 00:00:00',0,0,'class:banners',0,'',6,7,0,'*',1),
 (4,'menu','com_banners_categories','Categories','','Banners/Categories','index.php?option=com_categories&extension=com_banners','component',0,2,2,6,0,'1970-01-01 00:00:00',0,0,'class:banners-cat',0,'',8,9,0,'*',1),
@@ -399,7 +399,7 @@ INSERT INTO "#__menu" VALUES
 (17,'menu','com_search','Basic Search','','Basic Search','index.php?option=com_search','component',0,1,1,19,0,'1970-01-01 00:00:00',0,0,'class:search',0,'',35,36,0,'*',1),
 (21,'menu','com_finder','Smart Search','','Smart Search','index.php?option=com_finder','component',0,1,1,27,0,'1970-01-01 00:00:00',0,0,'class:finder',0,'',33,34,0,'*',1),
 (22,'menu','com_joomlaupdate','Joomla! Update','','Joomla! Update','index.php?option=com_joomlaupdate','component',0,1,1,28,0,'1970-01-01 00:00:00',0,0,'class:joomlaupdate',0,'',33,34,0,'*',1),
-(23,'main','com_userlogs','com-userlogs','','com-userlogs','index.php?option=com_userlogs','component',0,1,1,33,0,'0000-00-00 00:00:00',0,1,'class:component',0,'{}',41,42,0,'*',1),
+(23,'main','com_userlogs','com-userlogs','','com-userlogs','index.php?option=com_userlogs','component',0,1,1,33,0,'1970-01-01 00:00:00',0,1,'class:component',0,'{}',275,276,0,'*',1),
 (201,'usermenu','Your Profile','your-profile','','your-profile','index.php?option=com_users&view=profile','component',1,1,1,25,0,'1970-01-01 00:00:00',0,2,'',0,'{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',95,96,0,'*',0),
 (207,'top','Joomla.org','joomlaorg','','joomlaorg','https://www.joomla.org/','url',1,1,1,0,0,'1970-01-01 00:00:00',0,1,'',0,'{"menu-anchor_title":"","menu-anchor_css":"","menu_image":""}',93,94,0,'*',0),
 (229,'frontendviews','Single Contact','single-contact','','single-contact','index.php?option=com_contact&view=contact&id=1','component',1,1,1,8,0,'1970-01-01 00:00:00',0,1,'',0,'{"show_category_crumb":"","presentation_style":"","show_contact_category":"","show_contact_list":"","show_name":"","show_position":"","show_email":"","show_street_address":"","show_suburb":"","show_state":"","show_postcode":"","show_country":"","show_telephone":"","show_mobile":"","show_fax":"","show_webpage":"","show_misc":"","show_image":"","allow_vcard":"","show_articles":"","show_links":"","linka_name":"","linkb_name":"","linkc_name":"","linkd_name":"","linke_name":"","show_email_form":"","show_email_copy":"","banned_email":"","banned_subject":"","banned_text":"","validate_session":"","custom_reply":"","redirect":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":0,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',161,162,0,'*',0),

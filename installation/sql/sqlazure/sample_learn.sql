@@ -331,7 +331,7 @@ SELECT 177, 1, 426, 427, 1, 'com_ajax', 'com_ajax', '{}'
 UNION ALL
 SELECT 178, 1, 428, 429, 1, 'com_postinstall', 'com_postinstall', '{}'
 UNION ALL
-SELECT 179, 1, 155, 156, 1, 'com_userlogs', 'com_userlogs', '{}';
+SELECT 179, 1, 103, 104, 1, 'com_userlogs', 'com_userlogs', '{}';
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
@@ -658,7 +658,7 @@ SELECT 50, 3;
 SET IDENTITY_INSERT [#__menu] ON;
 
 INSERT INTO [#__menu] ([id], [menutype], [title], [alias], [note], [path], [link], [type], [published], [parent_id], [level], [component_id], [checked_out], [checked_out_time], [browserNav], [access], [img], [template_style_id], [params], [lft], [rgt], [home], [language], [client_id])
-SELECT 1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '1900-01-01 00:00:01', 0, 0, '', 0, '', 0, 281, 0, '*', 0
+SELECT 1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '1900-01-01 00:00:01', 0, 0, '', 0, '', 0, 283, 0, '*', 0
 UNION ALL
 SELECT 2, 'menu', 'com_banners', 'Banners', '', 'Banners', 'index.php?option=com_banners', 'component', 0, 1, 1, 4, 0, '1900-01-01 00:00:01', 0, 0, 'class:banners', 0, '', 13, 22, 0, '*', 1
 UNION ALL
@@ -694,7 +694,7 @@ SELECT 21, 'menu', 'com_finder', 'Smart Search', '', 'Smart Search', 'index.php?
 UNION ALL
 SELECT 22, 'menu', 'com_joomlaupdate', 'Joomla! Update', '', 'Joomla! Update', 'index.php?option=com_joomlaupdate', 'component', 0, 1, 1, 28, 0, '1900-01-01 00:00:01', 0, 0, 'class:joomlaupdate', 0, '', 41, 42, 0, '*', 1
 UNION ALL
-SELECT 23, 'main', 'com_userlogs', 'com-userlogs', '', 'com-userlogs', 'index.php?option=com_userlogs', 'component', 0, 1, 1, 34, 0, '1900-01-01 00:00:00', 0, 1, 'class:component', 0, '{}', 41, 42, 0, '*', 1
+SELECT 23, 'main', 'com_userlogs', 'com-userlogs', '', 'com-userlogs', 'index.php?option=com_userlogs', 'component', 0, 1, 1, 34, 0, '1900-01-01 00:00:00', 0, 1, 'class:component', 0, '{}', 281, 282, 0, '*', 1
 UNION ALL
 SELECT 201, 'usermenu', 'Your Profile', 'your-profile', '', 'your-profile', 'index.php?option=com_users&view=profile', 'component', 1, 1, 1, 25, 0, '1900-01-01 00:00:01', 0, 2, '', 0, '{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 231, 232, 0, '*', 0
 UNION ALL
