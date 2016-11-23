@@ -11,7 +11,7 @@
 /*global tinymce:true */
 
 tinymce.PluginManager.add('contextmenu', function(editor) {
-	var menu, contextmenuNeverUseNative = editor.settings.contextmenu_never_use_native;
+	var menu, visibleState, contextmenuNeverUseNative = editor.settings.contextmenu_never_use_native;
 
 	var isNativeOverrideKeyEvent = function (e) {
 		return e.ctrlKey && !contextmenuNeverUseNative;
@@ -19,6 +19,10 @@ tinymce.PluginManager.add('contextmenu', function(editor) {
 
 	var isMacWebKit = function () {
 		return tinymce.Env.mac && tinymce.Env.webkit;
+	};
+
+	var isContextMenuVisible = function () {
+		return visibleState === true;
 	};
 
 	/**
@@ -45,7 +49,7 @@ tinymce.PluginManager.add('contextmenu', function(editor) {
 		}
 
 		e.preventDefault();
-		contextmenu = editor.settings.contextmenu || 'link image inserttable | cell row column deletetable';
+		contextmenu = editor.settings.contextmenu || 'link openlink image inserttable | cell row column deletetable';
 
 		// Render menu
 		if (!menu) {
@@ -78,10 +82,17 @@ tinymce.PluginManager.add('contextmenu', function(editor) {
 				classes: 'contextmenu'
 			}).renderTo();
 
+			menu.on('hide', function (e) {
+				if (e.control === this) {
+					visibleState = false;
+				}
+			});
+
 			editor.on('remove', function() {
 				menu.remove();
 				menu = null;
 			});
+
 		} else {
 			menu.show();
 		}
@@ -96,5 +107,10 @@ tinymce.PluginManager.add('contextmenu', function(editor) {
 		}
 
 		menu.moveTo(pos.x, pos.y);
+		visibleState = true;
 	});
+
+	return {
+		isContextMenuVisible: isContextMenuVisible
+	};
 });
