@@ -44,7 +44,6 @@
 		<field
 			name="image"
 			type="filelist"
-			class="custom-select"
 			label="COM_LANGUAGES_FIELD_IMAGE_LABEL"
 			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
 			stripext="1"
@@ -66,7 +65,6 @@
 		/>
 
 		<field name="published" type="list"
-		       class="custom-select"
 			default="1"
 			description="COM_LANGUAGES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"
@@ -78,7 +76,6 @@
 		</field>
 		
 		<field name="access" type="accesslevel"
-		       class="custom-select"
 		size="1"
 		label="JFIELD_ACCESS_LABEL"
 		description="JFIELD_ACCESS_DESC"

@@ -45,7 +45,6 @@
 		<field
 			name="useractivation"
 			type="list"
-			class="custom-select"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC">

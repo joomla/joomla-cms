@@ -121,7 +121,7 @@
 		label="JSTATUS"
 		description="JFIELD_PUBLISHED_DESC"
 		default="1"
-		class="custom-select custom-select-color-state"
+		class="custom-select-color-state"
 		size="1"
 		>
 		<option value="1">JPUBLISHED</option>
@@ -152,7 +152,6 @@
 	<field
 		name="access"
 		type="accesslevel"
-		class="custom-select"
 		label="JFIELD_ACCESS_LABEL"
 		description="JFIELD_ACCESS_DESC"
 	/>
@@ -212,7 +211,6 @@
 	<field
 		name="language"
 		type="contentlanguage"
-		class="custom-select"
 		label="JFIELD_LANGUAGE_LABEL"
 		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC"
 		>
@@ -247,7 +245,6 @@
 			<field
 				name="category_layout"
 				type="componentlayout"
-				class="custom-select"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				view="category"
@@ -286,7 +283,6 @@
 			<field
 				name="robots"
 				type="list"
-				class="custom-select"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
 				>

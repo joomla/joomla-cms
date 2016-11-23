@@ -12,7 +12,6 @@
 		<field
 			name="state"
 			type="status"
-			class="custom-select"
 			label="JOPTION_SELECT_PUBLISHED"
 			description="JOPTION_SELECT_PUBLISHED_DESC"
 			onchange="this.form.submit();"
@@ -23,7 +22,6 @@
 		<field
 			name="purchase_type"
 			type="list"
-			class="custom-select"
 			label="COM_BANNERS_FILTER_PURCHASETYPE_LABEL"
 			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0"
@@ -41,7 +39,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			class="custom-select"
 			label="JGLOBAL_SORT_BY"
 			description="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
@@ -66,7 +63,6 @@
 			type="limitbox"
 			label="COM_BANNERS_LIST_LIMIT"
 			description="COM_BANNERS_LIST_LIMIT_DESC"
-			class="custom-select input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

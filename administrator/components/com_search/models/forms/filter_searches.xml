@@ -13,7 +13,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			class="custom-select"
 			onchange="this.form.submit();"
 			default="a.hits ASC"
 			>
@@ -26,7 +25,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="custom-select input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

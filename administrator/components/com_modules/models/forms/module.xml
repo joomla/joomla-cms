@@ -43,7 +43,7 @@
 		</field>
 
 		<field name="published" type="list"
-		       class="custom-select custom-select-color-state"
+		       class="custom-select-color-state"
 			default="1"
 			description="COM_MODULES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"
@@ -85,7 +85,6 @@
 		/>
 
 		<field name="access" type="accesslevel"
-		       class="custom-select"
 			description="JFIELD_ACCESS_DESC"
 			label="JFIELD_ACCESS_LABEL"
 			size="1"
@@ -106,7 +105,6 @@
 		/>
 
 		<field name="language" type="contentlanguage"
-		       class="custom-select"
 			description="JFIELD_MODULE_LANGUAGE_DESC"
 			label="JFIELD_LANGUAGE_LABEL"
 		>

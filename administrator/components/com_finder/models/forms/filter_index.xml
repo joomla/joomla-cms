@@ -11,7 +11,6 @@
 		<field
 			name="state"
 			type="status"
-			class="custom-select"
 			label="COM_FINDER_FILTER_PUBLISHED"
 			description="COM_FINDER_FILTER_PUBLISHED_DESC"
 			filter="0,1"
@@ -22,7 +21,6 @@
 		<field
 			name="type"
 			type="ContentTypes"
-			class="custom-select"
 			label="JOPTION_FILTER_CATEGORY"
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
@@ -32,7 +30,6 @@
 		<field
 			name="content_map"
 			type="ContentMap"
-			class="custom-select"
 			label="COM_FINDER_FILTER_CONTENT_MAP_LABEL"
 			description="COM_FINDER_FILTER_CONTENT_MAP_DESC"
 			onchange="this.form.submit();"
@@ -44,7 +41,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			class="custom-select"
 			onchange="this.form.submit();"
 			default="l.title ASC"
 			>
@@ -63,7 +59,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="custom-select input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>
