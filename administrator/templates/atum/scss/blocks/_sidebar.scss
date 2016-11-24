@@ -378,7 +378,7 @@
         position: absolute;
         top: 0;
         left: 100%;
-        width: 190px;
+        width: 210px;
         padding: 0 15px;
         font-weight: bold;
         background-color: $atum-template-color;
@@ -403,27 +403,36 @@
         font-size: .9rem;
         line-height: 30px;
         text-indent: 15px;
-        // opacity: .9;
       }
       a {
         color: #e2e3f5;
         border: 0;
-      }
-      a::after {
-        position: absolute;
-        top: 0;
-        left: 2px;
-        font-family: FontAwesome;
-        font-size: .7rem;
-        color: #e2e3f5;
-        content: "\f054";
-        opacity: .75;
       }
       .sidebar-item-title {
         position: relative;
         left: 0;
         font-weight: normal;
         background-color: transparent;
+      }
+      .sidebar-item-title::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-family: FontAwesome;
+        font-size: .5rem;
+        color: #e2e3f5;
+        content: "\f111";
+        opacity: .5;
+      }
+      .parent::after {
+        position: absolute;
+        top: 3px;
+        right: 10px;
+        font-family: FontAwesome;
+        font-size: .75rem;
+        color: #e2e3f5;
+        content: "\f054";
+        opacity: .5;
       }
     }
   }
