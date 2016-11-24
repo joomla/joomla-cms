@@ -92,7 +92,10 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase));
 
 		// Set up a mock JTableExtension
-		$mockTableExtension = $this->getMock('JTableExtension', array('find', 'load'), array($this->getMockDatabase()));
+		$mockTableExtension = $this->getMockBuilder('JTableExtension')
+							->setMethods(array('find', 'load'))
+							->setConstructorArgs(array($this->getMockDatabase()))
+							->getMock();
 
 		// A set of data for an extension
 		$type = 'plugin';
@@ -137,7 +140,10 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase));
 
 		// Set up a mock JTableExtension
-		$mockTableExtension = $this->getMock('JTableExtension', array('find', 'load'), array($this->getMockDatabase()));
+		$mockTableExtension = $this->getMockBuilder('JTableExtension')
+							->setMethods(array('find', 'load'))
+							->setConstructorArgs(array($this->getMockDatabase()))
+							->getMock();
 
 		// A set of data for an extension
 		$type = 'plugin';
@@ -180,7 +186,10 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase));
 
 		// Set up a mock JTableExtension
-		$mockTableExtension = $this->getMock('JTableExtension', array('find'), array($this->getMockDatabase()));
+		$mockTableExtension = $this->getMockBuilder('JTableExtension')
+							->setMethods(array('find', 'load'))
+							->setConstructorArgs(array($this->getMockDatabase()))
+							->getMock();
 
 		$type = 'plugin';
 		$element = 'plg_finder_content';
