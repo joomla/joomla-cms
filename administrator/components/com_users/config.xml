@@ -45,7 +45,6 @@
 		<field
 			name="useractivation"
 			type="list"
-			class="custom-select"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC">
@@ -267,7 +266,7 @@
 		<field
 			name="custom_fields_enable"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
 			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
 			default="1"

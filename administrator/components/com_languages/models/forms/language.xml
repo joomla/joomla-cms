@@ -44,7 +44,6 @@
 		<field
 			name="image"
 			type="filelist"
-			class="custom-select"
 			label="COM_LANGUAGES_FIELD_IMAGE_LABEL"
 			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
 			stripext="1"
@@ -53,7 +52,6 @@
 			hide_default="1"
 			required="false"
 			filter="\.gif$"
-			size="10"
 			>
 			<option value="">JNONE</option>
 		</field>
@@ -66,10 +64,10 @@
 		/>
 
 		<field name="published" type="list"
-		       class="custom-select"
 			default="1"
 			description="COM_LANGUAGES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"
+			class="custom-select-color-state"
 			size="1"
 		>
 			<option value="1">JPUBLISHED</option>
@@ -78,7 +76,6 @@
 		</field>
 		
 		<field name="access" type="accesslevel"
-		       class="custom-select"
 		size="1"
 		label="JFIELD_ACCESS_LABEL"
 		description="JFIELD_ACCESS_DESC"

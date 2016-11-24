@@ -10,7 +10,6 @@
 		<field
 			name="contact_layout"
 			type="componentlayout"
-			class="custom-select"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
@@ -24,7 +23,6 @@
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
 			description="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_DESC"
 			default="hide"
-			class="custom-select custom-select-color"
 			>
 			<option value="hide">JHIDE</option>
 			<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK</option>
@@ -68,7 +66,6 @@
 		<field
 			name="presentation_style"
 			type="list"
-			class="custom-select"
 			label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
 			description="COM_CONTACT_FIELD_PRESENTATION_DESC"
 			>
@@ -305,7 +302,6 @@
 		<field
 			name="articles_display_num"
 			type="list"
-			class="custom-select"
 			label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
 			description="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_DESC"
 			default="10"
@@ -419,7 +415,6 @@
 		<field
 			name="contact_icons"
 			type="list"
-			class="custom-select"
 			label="COM_CONTACT_FIELD_ICONS_SETTINGS_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_SETTINGS_DESC"
 			default="0"
@@ -493,7 +488,6 @@
 		<field
 			name="category_layout"
 			type="componentlayout"
-			class="custom-select"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
@@ -540,7 +534,6 @@
 		<field
 			name="maxLevel"
 			type="list"
-			class="custom-select"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			default="-1"
@@ -626,7 +619,6 @@
 		<field
 			name="maxLevelcat"
 			type="list"
-			class="custom-select"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			default="-1"
@@ -840,7 +832,6 @@
 		<field
 			name="show_pagination"
 			type="list"
-			class="custom-select"
 			label="JGLOBAL_PAGINATION_LABEL"
 			description="JGLOBAL_PAGINATION_DESC"
 			default="2"
@@ -866,7 +857,6 @@
 		<field
 			name="initial_sort"
 			type="list"
-			class="custom-select"
 			label="COM_CONTACT_FIELD_INITIAL_SORT_LABEL"
 			description="COM_CONTACT_FIELD_INITIAL_SORT_DESC"
 			default="ordering"
@@ -1033,7 +1023,7 @@
 		<field
 			name="custom_fields_enable"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
 			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
 			default="1"

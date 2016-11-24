@@ -56,7 +56,6 @@
 		<field
 			name="state"
 			type="list"
-			class="custom-select"
 			label="JSTATUS"
 			description="COM_USERS_FIELD_STATE_DESC"
 			size="1"

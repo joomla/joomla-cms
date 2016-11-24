@@ -33,7 +33,7 @@ class JFormFieldImpTotal extends JFormField
 	 */
 	protected function getInput()
 	{
-		$class    = ' class="validate-numeric text_area"';
+		$class    = ' class="form-control validate-numeric text_area"';
 		$onchange = ' onchange="document.getElementById(\'' . $this->id . '_unlimited\').checked=document.getElementById(\'' . $this->id
 			. '\').value==\'\';"';
 		$onclick  = ' onclick="if (document.getElementById(\'' . $this->id . '_unlimited\').checked) document.getElementById(\'' . $this->id

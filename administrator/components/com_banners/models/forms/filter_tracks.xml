@@ -12,7 +12,6 @@
 		<field
 			name="category_id"
 			type="category"
-			class="custom-select"
 			label="JOPTION_FILTER_CATEGORY"
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			extension="com_banners"
@@ -24,7 +23,6 @@
 		<field
 			name="client_id"
 			type="bannerclient"
-			class="custom-select"
 			label="COM_BANNERS_FILTER_CLIENT"
 			description="COM_BANNERS_FILTER_CLIENT_DESC"
 			extension="com_content"
@@ -36,7 +34,6 @@
 		<field
 			name="type"
 			type="list"
-			class="custom-select"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_BANNERS_SELECT_TYPE</option>
@@ -47,7 +44,6 @@
 		<field
 			name="level"
 			type="integer"
-			class="custom-select"
 			label="JOPTION_FILTER_LEVEL"
 			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
@@ -87,7 +83,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			class="custom-select"
 			label="JGLOBAL_SORT_BY"
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
@@ -111,7 +106,6 @@
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
 			description="JGLOBAL_LIMIT"
-			class="custom-select input-mini"
 			default="5"
 			onchange="this.form.submit();"
 		/>
