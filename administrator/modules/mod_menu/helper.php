@@ -35,8 +35,8 @@ abstract class ModMenuHelper
 			->select('b.language')
 			->where('(b.client_id = 0 OR b.client_id IS NULL)');
 
-		// Explicit Group-By needed by non-Mysql DBs and in Mysql with ONLY_FULL_GROUP_BY ON
-		$query->group('a.id, a.menutype, a.description, a.title, b.menutype,b.language');
+		// Group by menu type id to count the (language) home page menu items inside it, 0: no home, 1: home page, >1: misconfiguration detected
+		$query->group('a.id');
 
 		$db->setQuery($query);
 
@@ -50,26 +50,21 @@ abstract class ModMenuHelper
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
-		$query = $db->getQuery(true)
-			->select('l.image, l.sef, l.title_native, l.lang_code')
-			->from('#__languages AS l');
-
-		$db->setQuery($query);
-		$langs = $db->loadObjectList('lang_code');
-
+		// Add language data to the menu types
+		$langs = JLanguageHelper::getContentLanguages(false, false, 'lang_code');
 		foreach ($result as $m)
 		{
-			if (isset($langs[$m->language]))
+			$lang = isset($langs[$m->language]) ? $langs[$m->language] : false;
+			if ($lang)
 			{
-				$lang = $langs[$m->language];
 				$m->image = $lang->image;
-				$m->sef = $lang->sef;
+				$m->sef   = $lang->sef;
 				$m->title_native = $lang->title_native;
 			}
 			else
 			{
 				$m->image = null;
-				$m->sef = null;
+				$m->sef   = null;
 				$m->title_native = null;
 			}
 		}
