@@ -44,8 +44,7 @@ class JFeedParserTest extends TestCase
 		// Build the mock so we can verify calls.
 		$parser  = $this->getMockBuilder('JFeedParserMock')
 					->setMethods(array('initialise', 'processElement'))
-					->setConstructorArgs(array(array('foo' => 'bar')))
-					->setMockClassName(array($this->_reader))
+					->setConstructorArgs(array($this->_reader))
 					->getMock();
 
 		// Setup some expectations for the mock object.
