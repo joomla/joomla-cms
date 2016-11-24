@@ -141,7 +141,8 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 */
 	public function testIsEnabledWithAdminApp()
 	{
-		$mockApplication = $this->getMock('JApplicationAdministrator');
+		// Build the mock object.
+		$mockApplication = $test->getMockBuilder('JApplicationAdministrator')->getMock();
 		$mockApplication->expects($this->any())
 			->method('isSite')
 			->willReturn(false);
