@@ -59,6 +59,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 					))
 					->setConstructorArgs(array())
 					->setMockClassName('')
+					->disableOriginalConstructor()
 					->getMock();
 
 		$this->dbo->expects(
