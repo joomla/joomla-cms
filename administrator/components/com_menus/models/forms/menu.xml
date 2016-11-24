@@ -30,7 +30,7 @@
 			type="text"
 			label="JGLOBAL_TITLE"
 			description="COM_MENUS_MENU_TITLE_DESC"
-			size="30"
+			class="input-xxlarge"
 			maxlength="48"
 			required="true" />
 

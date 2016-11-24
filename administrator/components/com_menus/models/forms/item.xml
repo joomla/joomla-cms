@@ -17,7 +17,7 @@
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TITLE_DESC"
-			class="input-xxlarge input-large-text"
+			class="input-xxlarge"
 			size="40"
 			required="true"/>
 

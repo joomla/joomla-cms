@@ -7648,10 +7648,12 @@ small, .small {
 .form-control {
   max-width: 240px;
   background-color: #fcfcfc; }
-  .form-control.input-xxlarge {
+  .form-control.input-xlarge {
     max-width: 350px; }
   .form-control.input-xxlarge {
     max-width: 550px; }
+  .form-control.input-full {
+    max-width: 100%; }
 
 .control-group::after {
   display: table;

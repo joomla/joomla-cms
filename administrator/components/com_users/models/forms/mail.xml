@@ -39,12 +39,12 @@
 			description="COM_USERS_MAIL_FIELD_SUBJECT_DESC"
 			label="COM_USERS_MAIL_FIELD_SUBJECT_LABEL"
 			maxlength="150"
+			class="input-xlarge"
 			size="30"
 		/>
 
 		<field name="message" type="textarea"
-			class="vert"
-			cols="70"
+			class="vert input-full"
 			description="COM_USERS_MAIL_FIELD_MESSAGE_DESC"
 			label="COM_USERS_MAIL_FIELD_MESSAGE_LABEL"
 			rows="20"
