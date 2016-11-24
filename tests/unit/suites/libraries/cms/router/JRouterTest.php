@@ -154,16 +154,7 @@ class JRouterTest extends TestCase
 				array(),
 				array(),
 				true,
-				'http://www.example.test/testsegment',
-				array(),
-				array()
-			),
-			// URL with no query params returns empty result
-			'no-query-no-result' => array(
-				array(),
-				array(),
-				true,
-				'/testsegment',
+				'http://www.example.test',
 				array(),
 				array()
 			),
@@ -172,7 +163,7 @@ class JRouterTest extends TestCase
 				array(),
 				array(),
 				false,
-				'/testsegment?result=1&test=true',
+				'?result=1&test=true',
 				array('result' => '1', 'test' => 'true'),
 				array()
 			),
@@ -181,7 +172,7 @@ class JRouterTest extends TestCase
 				array(),
 				array(),
 				true,
-				'/testsegment?result=1&test=true',
+				'?result=1&test=true',
 				array('result' => '1', 'test' => 'true'),
 				array('result' => '1', 'test' => 'true')
 			),
@@ -199,7 +190,7 @@ class JRouterTest extends TestCase
 				),
 				array(JRouter::PROCESS_DURING, JRouter::PROCESS_DURING),
 				false,
-				'/testsegment?result=1&test=true',
+				'?result=1&test=true',
 				array('result' => '1', 'test' => 'true', 'rule1' => '1', 'rule2' => '1'),
 				array()
 			),
@@ -221,7 +212,7 @@ class JRouterTest extends TestCase
 				),
 				array(JRouter::PROCESS_AFTER, JRouter::PROCESS_DURING, JRouter::PROCESS_BEFORE),
 				false,
-				'/testsegment?result=1&test=true',
+				'?result=1&test=true',
 				array('result' => '1', 'test' => 'true', 'rule3' => '1', 'rule2' => '1', 'rule1' => '1'),
 				array()
 			),
@@ -239,7 +230,7 @@ class JRouterTest extends TestCase
 				),
 				array(JRouter::PROCESS_AFTER, JRouter::PROCESS_DURING),
 				false,
-				'/testsegment?result=1&test=true',
+				'?result=1&test=true',
 				array('result' => '1', 'test' => 'true', 'rule2' => '2'),
 				array()
 			),
