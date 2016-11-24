@@ -57,7 +57,7 @@ class SearchControllerIndexer extends JControllerLegacy
 		SearchIndexer::resetState();
 
 		// Import the finder plugins.
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('search');
 
 		// Add the indexer language to JS
 		JText::script('COM_SEARCH_AN_ERROR_HAS_OCCURRED');
@@ -67,7 +67,7 @@ class SearchControllerIndexer extends JControllerLegacy
 		try
 		{
 			// Trigger the onStartIndex event.
-			JFactory::getApplication()->triggerEvent('onStartIndex');
+			JFactory::getApplication()->triggerEvent('onSearchStartIndex');
 
 			// Get the indexer state.
 			$state = SearchIndexer::getState();
@@ -130,7 +130,7 @@ class SearchControllerIndexer extends JControllerLegacy
 		SearchIndexer::setState($state);
 
 		// Import the finder plugins.
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('search');
 
 		/*
 		 * We are going to swap out the raw document object with an HTML document
@@ -169,11 +169,11 @@ class SearchControllerIndexer extends JControllerLegacy
 		// Start the indexer.
 		try
 		{
-			// Trigger the onBeforeIndex event.
-			JFactory::getApplication()->triggerEvent('onBeforeIndex');
+			// Trigger the onSearchBeforeIndex event.
+			JFactory::getApplication()->triggerEvent('onSearchBeforeIndex');
 
-			// Trigger the onBuildIndex event.
-			JFactory::getApplication()->triggerEvent('onBuildIndex');
+			// Trigger the onSearchBuildIndex event.
+			JFactory::getApplication()->triggerEvent('onSearchBuildIndex');
 
 			// Get the indexer state.
 			$state = SearchIndexer::getState();
@@ -223,7 +223,7 @@ class SearchControllerIndexer extends JControllerLegacy
 		ob_start();
 
 		// Import the finder plugins.
-		JPluginHelper::importPlugin('finder');
+		JPluginHelper::importPlugin('search');
 
 		try
 		{
@@ -262,7 +262,7 @@ class SearchControllerIndexer extends JControllerLegacy
 		$app = JFactory::getApplication();
 		$app->mimeType = 'application/json';
 
-		$params = JComponentHelper::getParams('com_finder');
+		$params = JComponentHelper::getParams('com_search');
 
 		if ($params->get('enable_logging', '0'))
 		{
@@ -310,7 +310,7 @@ class SearchIndexerResponse
 	 */
 	public function __construct($state)
 	{
-		$params = JComponentHelper::getParams('com_finder');
+		$params = JComponentHelper::getParams('com_search');
 
 		if ($params->get('enable_logging', '0'))
 		{

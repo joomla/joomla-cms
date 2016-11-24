@@ -243,13 +243,13 @@ class PlgFinderContent extends SearchIndexerAdapter
 	 */
 	protected function index(SearchIndexerResult $item, $format = 'html')
 	{
-		$item->setLanguage();
-
 		// Check if the extension is enabled.
 		if (JComponentHelper::isEnabled($this->extension) == false)
 		{
 			return;
 		}
+
+		$item->setLanguage();
 
 		// Initialise the item parameters.
 		$registry = new Registry($item->params);
@@ -263,18 +263,8 @@ class PlgFinderContent extends SearchIndexerAdapter
 		$item->body = SearchIndexerHelper::prepareContent($item->body, $item->params);
 
 		// Build the necessary route and path information.
-		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
-		$item->route = ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language);
+		$item->url = ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language);
 		$item->path = SearchIndexerHelper::getContentPath($item->route);
-
-		// Get the menu title if it exists.
-		$title = $this->getItemMenuTitle($item->url);
-
-		// Adjust the title if necessary.
-		if (!empty($title) && $this->params->get('use_menu_title', true))
-		{
-			$item->title = $title;
-		}
 
 		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
