@@ -844,25 +844,46 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testInitialiseWithInjection()
 	{
-		$mockSession = $this->getMock('JSession', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockSession = $this->getMockBuilder('JSession')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockSession
 			->expects($this->any())
 			->method('test')
 			->willReturnSelf();
 
-		$mockDocument = $this->getMock('JDocument', array('test'), array(), '', false);
+		$mockDocument = $this->getMockBuilder('JDocument')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockDocument
 			->expects($this->any())
 			->method('test')
 			->willReturnSelf();
 
-		$mockLanguage = $this->getMock('JLanguage', array('test'), array(), '', false);
+		$mockLanguage = $this->getMockBuilder('JLanguage')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockLanguage
 			->expects($this->any())
 			->method('test')
 			->willReturnSelf();
 
-		$mockDispatcher = $this->getMock('JEventDispatcher', array('test'), array(), '', false);
+		$mockDispatcher = $this->getMockBuilder('JEventDispatcher')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockDispatcher
 			->expects($this->any())
 			->method('test')
