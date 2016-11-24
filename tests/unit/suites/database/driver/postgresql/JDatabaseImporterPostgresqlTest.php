@@ -31,28 +31,26 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	public function setup()
 	{
 		// Set up the database object mock.
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverPostgresql',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'getTableSequences',
-				'getAddSequenceSQL',
-				'getChangeSequenceSQL',
-				'getDropSequenceSQL',
-				'getAddIndexSQL',
-				'getVersion',
-				'quoteName',
-				'loadObjectList',
-				'quote',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		$this->dbo = $this->getMockBuilder('JDatabaseDriverPostgresql')
+					->setMethods(array(
+						'getErrorNum',
+						'getPrefix',
+						'getTableColumns',
+						'getTableKeys',
+						'getTableSequences',
+						'getAddSequenceSQL',
+						'getChangeSequenceSQL',
+						'getDropSequenceSQL',
+						'getAddIndexSQL',
+						'getVersion',
+						'quoteName',
+						'loadObjectList',
+						'quote',
+						'setQuery',
+					))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->getMock();
 
 		$this->dbo->expects(
 			$this->any()
