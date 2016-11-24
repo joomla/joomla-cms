@@ -119,7 +119,6 @@ class JApplicationCliTest extends TestCase
 			->method('test')
 			->willReturn('ok');
 
-		$class = $this->getMock('JApplicationCli', array(), array($mockInput, $mockConfig, $mockDispatcher));
 		$class = $this->getMockBuilder('JApplicationCli')
 					->setMethods(array())
 					->setConstructorArgs(array($mockInput, $mockConfig, $mockDispatcher))
