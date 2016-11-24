@@ -8413,6 +8413,20 @@ iframe {
   .card .list-group-item {
     padding: .75rem 0; }
 
+.custom-select.custom-select-color-state.custom-select-success {
+  color: #fcfcfc;
+  background-color: #5cb85c; }
+  .custom-select.custom-select-color-state.custom-select-success option {
+    color: #55595c;
+    background-color: #fcfcfc; }
+
+.custom-select.custom-select-color-state.custom-select-danger {
+  color: #fcfcfc;
+  background-color: #d9534f; }
+  .custom-select.custom-select-color-state.custom-select-danger option {
+    color: #55595c;
+    background-color: #fcfcfc; }
+
 .list-group-item {
   background-color: #fcfcfc; }
 
