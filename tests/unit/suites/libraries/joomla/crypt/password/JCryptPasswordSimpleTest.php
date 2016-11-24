@@ -73,7 +73,7 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCreateException($password, $type, $salt, $expected, $cost)
 	{
-		$hasher = $this->getMock('JCryptPasswordSimple', array('getSalt'));
+		$hasher = $this->getMockBuilder('JCryptPasswordSimple')->setMethods(array('getSalt'))->getMock();
 		$hasher->setCost($cost);
 
 		$hasher->expects($this->any())
