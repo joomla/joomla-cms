@@ -88,11 +88,10 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->assertArrayNotHasKey(204, $ids, 'Checks node 204 was deleted.');
 
 		// We need to confirm the locking is called, so we create a mock.
-		$class = $this->getMock(
-			'NestedTable',
-			array('_lock'),
-			array(self::$driver)
-		);
+		$class  = $this->getMockBuilder('NestedTable')
+					->setMethods(array('_lock'))
+					->setConstructorArgs(array(self::$driver))
+					->getMock();
 
 		$class->expects($this->any())->method('_lock')->will($this->returnValue(false));
 		$this->assertFalse($class->delete(1), 'Checks a locked table returns false.');
@@ -601,11 +600,10 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->assertEquals(9, $this->class->rgt, 'Check new rgt.');
 
 		// We need to confirm the locking is called, so we create a mock.
-		$class = $this->getMock(
-			'NestedTable',
-			array('_lock'),
-			array(self::$driver)
-		);
+		$class  = $this->getMockBuilder('NestedTable')
+					->setMethods(array('_lock'))
+					->setConstructorArgs(array(self::$driver))
+					->getMock();
 
 		$class->expects($this->any())->method('_lock')->will($this->returnValue(false));
 		$this->assertFalse($class->store(), 'Checks a locked table returns false.');
@@ -725,11 +723,10 @@ class JTableNestedTest extends TestCaseDatabase
 		try
 		{
 			// We need to confirm the locking is called, so we create a mock.
-			$class = $this->getMock(
-				'NestedTable',
-				array('_unlock'),
-				array(self::$driver)
-			);
+			$class  = $this->getMockBuilder('NestedTable')
+					->setMethods(array('_unlock'))
+					->setConstructorArgs(array(self::$driver))
+					->getMock();
 
 			// Then override the _unlock method so we can test that it was called.
 			$this->assignMockCallbacks(
