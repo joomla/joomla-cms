@@ -17,7 +17,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormAbstractlist extends JFormField
 {
-
 	/**
 	 * Method to get the field input markup for a generic list.
 	 * Use the multiple attribute to enable multiselect.
@@ -119,7 +118,7 @@ abstract class JFormAbstractlist extends JFormField
 			}
 
 			$value = (string) $option['value'];
-			$text  = trim((string) $option) ? trim((string) $option) : $value;
+			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
@@ -194,10 +193,6 @@ abstract class JFormAbstractlist extends JFormField
 
 				$tmp->text = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
 			}
-			else
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('JGLOBAL_USE_GLOBAL_VALUE_NOT_FOUND'), 'notice');
-			}
 
 			array_unshift($options, $tmp);
 		}
@@ -229,9 +224,9 @@ abstract class JFormAbstractlist extends JFormField
 
 		if (isset($options->name))
 		{
-			foreach ($options->name as $index => $key)
+			foreach ($options->value as $index => $key)
 			{
-				$data[$key] = $options->value[$index];
+				$data[$key] = $options->name[$index];
 			}
 		}
 
