@@ -83,7 +83,7 @@ class FieldsControllerGroup extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function allowEdit($data = array(), $key = 'parent_id')
 	{
