@@ -67,7 +67,7 @@ class JGithubPackageDataRefsTest extends PHPUnit_Framework_TestCase
 
 		$this->options = new JRegistry;
 		$this->client  = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
-		$this->response = $this->getMock('JHttpResponse');
+		$this->response = $this->getMockBuilder('JHttpResponse')->getMock();
 
 		$this->object = new JGithubPackageDataRefs($this->options, $this->client);
 	}

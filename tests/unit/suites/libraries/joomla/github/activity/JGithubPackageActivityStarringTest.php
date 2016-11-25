@@ -50,7 +50,7 @@ class JGithubPackageActivityStarringTest extends PHPUnit_Framework_TestCase
 
 		$this->options = new JRegistry;
 		$this->client = $this->getMockBuilder('JGithubHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
-		$this->response = $this->getMock('JHttpResponse');
+		$this->response = $this->getMockBuilder('JHttpResponse')->getMock();
 
 		$this->object = new JGithubPackageActivityStarring($this->options, $this->client);
 	}
