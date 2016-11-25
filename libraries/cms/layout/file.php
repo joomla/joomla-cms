@@ -291,6 +291,12 @@ class JLayoutFile extends JLayoutBase
 			$this->includePaths = $this->getDefaultIncludePaths();
 		}
 
+		$includeDefault = array_search('default', array_values($this->includePaths));
+		if ($includeDefault)
+		{
+			array_splice($this->includePaths, $includeDefault, 1, $this->getDefaultIncludePaths());
+		}
+
 		return $this->includePaths;
 	}
 
