@@ -47,12 +47,12 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		static $classNumber = 1;
+
 		// Build the mock object.
 		$this->options  = $this->getMockBuilder('\\Joomla\\Registry\\Registry')
 					->setMethods(array('get', 'set'))
 					->getMock();
 
-		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport' . $classNumber ++, false);
 		$this->transport = $this->getMockBuilder('JHttpTransportStream')
 					->setMethods(array('request'))
 					->setConstructorArgs(array($this->options))
