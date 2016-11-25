@@ -19,7 +19,6 @@
     "grunt-sass": "^1.2.1",
     "grunt-scss-lint": "^0.5.0",
     "grunt-shell": "latest",
-    "grunt-xmlpoke": "^0.8.2"
   },
   "license": "GPL-2.0+"
 }
