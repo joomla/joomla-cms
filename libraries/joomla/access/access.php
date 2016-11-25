@@ -138,7 +138,7 @@ class JAccess
 	 * @param   mixed    $asset    Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
 	 * @param   boolean  $preload  Indicates whether preloading should be used
 	 *
-	 * @return  boolean  True if authorised.
+	 * @return  boolean|null  True if allowed, false for an explicit deny, null for an implicit deny.
 	 *
 	 * @since   11.1
 	 */

@@ -20,7 +20,9 @@
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
 			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC"
-			showon="allowUserRegistration:1">
+			checksuperusergroup="1"
+			showon="allowUserRegistration:1"
+			>
 		</field>
 
 		<field
@@ -28,7 +30,9 @@
 			type="usergrouplist"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_LABEL"
-			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC">
+			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC"
+			checksuperusergroup="1"
+			>
 		</field>
 
 		<field
