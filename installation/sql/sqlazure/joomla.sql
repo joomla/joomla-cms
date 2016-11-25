@@ -697,6 +697,7 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__extensions](
 	[extension_id] [int] IDENTITY(10000,1) NOT NULL,
+	[package_id] [bigint] NOT NULL DEFAULT 0,
 	[name] [nvarchar](100) NOT NULL,
 	[type] [nvarchar](20) NOT NULL,
 	[element] [nvarchar](100) NOT NULL,
