@@ -64,11 +64,13 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
+
 	<noscript>
 		<div class="alert alert-danger" role="alert">
 			<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 		</div>
 	</noscript>
+
 	<?php // Wrapper ?>
 	<div id="wrapper" class="wrapper closed">
 
@@ -97,16 +99,53 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 								<span></span>
 							</a>
 						</div>
-					</div>
-
-					<div class="col-xs text-xs-center">
 						<jdoc:include type="modules" name="title" />
 					</div>
 
-					<div class="col-xs text-xs-right">
-						<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
+					<div class="col-xs text-xs-center">
+						<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
+						<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
 							<span class="icon-out-2 small"></span>
 						</a>
+					</div>
+
+					<div class="col-xs text-xs-right">
+						<nav>
+							<ul class="nav navbar-nav float-xs-right">
+								<li class="nav-item">
+									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-envelope"></i></a>
+								</li>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-bell"></i></a>
+									<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
+										<div class="list-group">
+											<a href="#" class="list-group-item list-group-item-action">
+												<h5 class="list-group-item-heading">Post-installation message 1</h5>
+												<p class="list-group-item-text small">Since Joomla! 3.5 a statistics plugin will submit anonymous data to the Joomla Project&hellip;</p>
+											</a>
+											<a href="#" class="list-group-item list-group-item-action">
+												<h5 class="list-group-item-heading">Post-installation message 2</h5>
+												<p class="list-group-item-text small">Joomla! comes with a built-in two factor authentication system. It secures your site login with&hellip;</p>
+											</a>
+										</div>
+									</div>
+								</li>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-user"></i></a>
+									<div class="dropdown-menu dropdown-menu-right">
+										<div class="dropdown-item">
+											<i class="fa fa-user"></i>
+											<b><?php echo $user->name; ?></b>
+										</div>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="<?php echo JRoute::_('index.php?option=com_admin&amp;task=profile.edit&amp;id=' 
+											. $user->id); ?>"><?php echo JText::_('TPL_ATUM_EDIT_ACCOUNT'); ?></a>
+										<a class="dropdown-item" href="<?php echo JRoute::_('index.php?option=com_login&task=logout&' 
+											. JSession::getFormToken() . '=1') ?>"><?php echo JText::_('TPL_ATUM_LOGOUT'); ?></a>
+									</div>
+								</li>
+							</ul>
+						</nav>
 					</div>
 				</div>
 			</div>
