@@ -594,6 +594,9 @@ class ContentModelArticle extends JModelAdmin
 				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
 			}
 
+			// Check the draft URLs
+			$this->publish($this->getState($this->getName() . '.id'), $data['state']);
+
 			return true;
 		}
 
@@ -842,14 +845,49 @@ class ContentModelArticle extends JModelAdmin
 			if ($redirectTable)
 			{
 				// Get the nice URL
-				$redirectUrl = JUri::root() . 'index.php/' . $alias;
+				$redirectUrl = JUri::root() . 'index.php/';
+
+				// Check if multi-language is enabled
+				if (JLanguageMultilang::isEnabled())
+				{
+					// Find the article language
+					$query = $this->getDbo()->getQuery(true)
+						->select($this->getDbo()->quoteName('language'))
+						->from($this->getDbo()->quoteName('#__content'))
+						->where($this->getDbo()->quoteName('id') . ' = ' . (int) $articleId);
+					$this->getDbo()->setQuery($query);
+
+					$languageCode = $this->getDbo()->loadResult();
+
+					// Get the default language if an article is set to All languages as we need a language code
+					if ($languageCode === '*')
+					{
+						$jLanguage    = new JLanguage;
+						$languageCode = $jLanguage->getDefault();
+					}
+
+					// Get the list of languages
+					$languages = JLanguageHelper::getLanguages();
+
+					foreach ($languages as $language)
+					{
+						if ($language->lang_code === $languageCode)
+						{
+							$redirectUrl .= $language->sef . '/';
+							break;
+						}
+					}
+				}
+
+				// Add the alias
+				$redirectUrl .= $alias;
 
 				// Check for existing name
 				$query = $this->getDbo()->getQuery(true)
 					->select($this->getDbo()->quoteName('id'))
 					->from($this->getDbo()->quoteName('#__redirect_links'))
 					->where($this->getDbo()->quoteName('old_url') . ' = ' . $this->getDbo()->quote($redirectUrl));
-				$this->_db->setQuery($query);
+				$this->getDbo()->setQuery($query);
 
 				$rid = $this->getDbo()->loadResult();
 
@@ -900,6 +938,44 @@ class ContentModelArticle extends JModelAdmin
 			if ($table->load($pk))
 			{
 				$this->createShareDraft($pk, $table->get('alias'));
+			}
+		}
+	}
+
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function publish(&$pks, $value = 1)
+	{
+		// Remove any shared links if item is trashed
+		if (parent::publish($pks, $value) && $value === -2)
+		{
+			// Content draft to remove
+			$query = $this->getDbo()->getQuery(true)
+				->delete($this->getDbo()->quoteName('#__content_draft'));
+
+			// Redirect links to remove
+			$redirectQuery = $this->getDbo()->getQuery(true)
+				->delete($this->getDbo()->quoteName('#__redirect_links'));
+
+			foreach ($pks as $pk)
+			{
+				// Content draft removal
+				$query->clear('where')
+					->where($this->getDbo()->quoteName('articleId') . ' = ' . (int) $pk);
+				$this->getDbo()->setQuery($query)->execute();
+
+				// Redirect link removal
+				$redirectQuery->clear('where')
+					->where($this->getDbo()->quoteName('new_url') . ' LIKE ' . $this->getDbo()->quote('%view=article&id=' . (int) $pk . '&token%'));
+				$this->getDbo()->setQuery($redirectQuery)->execute();
 			}
 		}
 	}
