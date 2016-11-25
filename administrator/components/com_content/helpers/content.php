@@ -204,4 +204,38 @@ class ContentHelper extends JHelperContent
 
 		return $items;
 	}
+
+	/**
+	 * Map the section for custom fields.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 *
+	 * @return  string  The new section
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getRealSection($section)
+	{
+		if (JFactory::getApplication()->isClient('site'))
+		{
+			// On the front end we need to map some sections
+			switch ($section)
+			{
+				// Editing an article
+				case 'form':
+
+				// Category list view
+				case 'category':
+					$section = 'article';
+			}
+		}
+
+		if ($section != 'article')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
+	}
 }

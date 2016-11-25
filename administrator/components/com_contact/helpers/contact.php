@@ -176,4 +176,30 @@ class ContactHelper extends JHelperContent
 
 		return $items;
 	}
+
+	/**
+	 * Map the section for custom fields.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 *
+	 * @return  string  The new section
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getRealSection($section)
+	{
+		if (JFactory::getApplication()->isClient('site') && $section == 'contact')
+		{
+			// The contact form needs to be the mail section
+			$section = 'mail';
+		}
+
+		if ($section != 'mail' && $section != 'contact')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
+	}
 }

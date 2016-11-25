@@ -43,11 +43,11 @@ class FieldsHelper
 		$component = $parts[0];
 		$eName = str_replace('com_', '', $component);
 
-		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/fields.php');
+		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $component . '.php');
 
 		if (file_exists($path))
 		{
-			$cName = ucfirst($eName) . 'HelperFields';
+			$cName = ucfirst($eName) . 'Helper';
 
 			JLoader::register($cName, $path);
 
