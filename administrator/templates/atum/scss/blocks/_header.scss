@@ -47,6 +47,7 @@
   }
 
   .nav-link {
+    position: relative;
     padding: 0 18px;
     line-height: $header-height;
     border-left: 1px solid rgba(0, 0, 0, .125);
@@ -55,6 +56,12 @@
     .fa {
       font-size: 1.4rem;
       color: #55595c;
+    }
+
+    .tag {
+      position: absolute;
+      top: 5px;
+      right: 5px;
     }
 
     &.dropdown-toggle::after {

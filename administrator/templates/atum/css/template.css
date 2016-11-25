@@ -7740,6 +7740,7 @@ legend {
   .header .nav-item + .nav-item {
     margin-left: -1px; }
   .header .nav-link {
+    position: relative;
     padding: 0 18px;
     line-height: 50px;
     border-left: 1px solid rgba(0, 0, 0, 0.125);
@@ -7747,6 +7748,10 @@ legend {
     .header .nav-link .fa {
       font-size: 1.4rem;
       color: #55595c; }
+    .header .nav-link .tag {
+      position: absolute;
+      top: 5px;
+      right: 5px; }
     .header .nav-link.dropdown-toggle::after {
       display: none; }
   .header .nav-item:last-child .nav-link {

@@ -113,10 +113,16 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 						<nav>
 							<ul class="nav navbar-nav float-xs-right">
 								<li class="nav-item">
-									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-envelope"></i></a>
+									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+										<i class="fa fa-envelope"></i>
+										<span class="tag tag-pill tag-success">1</span>
+									</a>
 								</li>
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-bell"></i></a>
+									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+										<i class="fa fa-bell"></i>
+										<span class="tag tag-pill tag-success">6</span>
+									</a>
 									<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
 										<div class="list-group">
 											<a href="#" class="list-group-item list-group-item-action">
@@ -131,7 +137,9 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 									</div>
 								</li>
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-user"></i></a>
+									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+										<i class="fa fa-user"></i>
+									</a>
 									<div class="dropdown-menu dropdown-menu-right">
 										<div class="dropdown-item">
 											<i class="fa fa-user"></i>
