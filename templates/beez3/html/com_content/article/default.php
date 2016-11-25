@@ -13,6 +13,7 @@ $app = JFactory::getApplication();
 $templateparams = $app->getTemplate(true)->params;
 $images = json_decode($this->item->images);
 $urls = json_decode($this->item->urls);
+$user    = JFactory::getUser();
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.caption');
 
@@ -168,8 +169,40 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item
 	echo $this->item->pagination;
 endif;
 ?>
+<?php if ($params->get('access-view')):?>
 	<?php echo $this->item->text; ?>
-
+	<?php // Optional teaser intro text for guests ?>
+	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
+		<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
+	<?php echo JHtml::_('content.prepare', $this->item->introtext); ?>
+	<?php // Optional link to let them register to see the whole article. ?>
+	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
+	<?php $menu = JFactory::getApplication()->getMenu(); ?>
+	<?php $active = $menu->getActive(); ?>
+	<?php $itemId = $active->id; ?>
+	<?php $link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>
+	<?php $link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language))); ?>
+	<p class="readmore">
+		<a href="<?php echo $link; ?>" class="register">
+		<?php $attribs = json_decode($this->item->attribs); ?>
+		<?php
+		if ($attribs->alternative_readmore == null) :
+			echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
+		elseif ($readmore = $attribs->alternative_readmore) :
+			echo $readmore;
+			if ($params->get('show_readmore_title', 0) != 0) :
+				echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+			endif;
+		elseif ($params->get('show_readmore_title', 0) == 0) :
+			echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
+		else :
+			echo JText::_('COM_CONTENT_READ_MORE');
+			echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+		endif; ?>
+		</a>
+	</p>
+	<?php endif; ?>
+<?php endif; ?>
 <?php // TAGS ?>
 <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
