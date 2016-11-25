@@ -18,7 +18,8 @@ if (!JFactory::getUser()->authorise('core.manage', $component))
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-JLoader::import('components.com_fields.helpers.internal', JPATH_ADMINISTRATOR);
+JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+JLoader::register('FieldsHelperInternal', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/internal.php');
 
 $controller = JControllerLegacy::getInstance('Fields');
 $controller->execute($input->get('task'));

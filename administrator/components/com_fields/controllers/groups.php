@@ -9,11 +9,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Fields list controller class.
+ * Groups list controller class.
  *
  * @since  __DEPLOY_VERSION__
  */
-class FieldsControllerFields extends JControllerAdmin
+class FieldsControllerGroups extends JControllerAdmin
 {
 	/**
 	 * Check in of one or more records.
@@ -28,7 +28,7 @@ class FieldsControllerFields extends JControllerAdmin
 
 		$this->setRedirect(
 			JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list .
-				'&context=' . $this->input->getCmd('context', 'com_content.article'), false
+				'&extension=' . $this->input->getCmd('extension'), false
 			)
 		);
 
@@ -48,27 +48,7 @@ class FieldsControllerFields extends JControllerAdmin
 
 		$this->setRedirect(
 			JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list .
-				'&context=' . $this->input->getCmd('context', 'com_content.article'), false
-			)
-		);
-
-		return;
-	}
-
-	/**
-	 * Method to publish a list of items
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function publish()
-	{
-		parent::publish();
-
-		$this->setRedirect(
-			JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list .
-					'&context=' . $this->input->getCmd('context', 'com_content.article'), false
+				'&extension=' . $this->input->getCmd('extension'), false
 			)
 		);
 
@@ -82,11 +62,11 @@ class FieldsControllerFields extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  FieldsModelField|boolean
+	 * @return  JModelLegacy|boolean  Model object on success; otherwise false on failure.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getModel($name = 'Field', $prefix = 'FieldsModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Group', $prefix = 'FieldsModel', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
