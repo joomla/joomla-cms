@@ -205,7 +205,7 @@ class JOAuth1ClientTest extends TestCase
 			TestReflection::setValue($input, 'data', $data);
 
 			// Get mock session
-			$mockSession = $this->getMock('JSession', array( '_start', 'get'));
+			$mockSession = $this->getMockBuilder('JSession')->setMethods(array( '_start', 'get'))->getMock();
 
 			if ($fail)
 			{
