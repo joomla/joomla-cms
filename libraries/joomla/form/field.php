@@ -1018,6 +1018,8 @@ abstract class JFormField
 	/**
 	 * Allow to override renderer include paths in child fields
 	 *
+	 * @param   JLayoutFile  $renderer  Instance of JLayoutFile that can be used to load the default paths.
+	 *
 	 * @return  array
 	 *
 	 * @since   3.5
