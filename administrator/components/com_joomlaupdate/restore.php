@@ -300,7 +300,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	        if(function_exists('mb_convert_encoding')) {
 	            return mb_convert_encoding($utf16, 'UTF-8', 'UTF-16');
 	        }
-
+	        
 	        // Fall back to a custom PHP implementation
 	        $bytes = (ord($utf16{0}) << 8) | ord($utf16{1});
 
@@ -6046,7 +6046,7 @@ class AKUtilsLister extends AKAbstractObject
 
 		$handle = @opendir($folder);
 		// If directory is not accessible, just return FALSE
-		if ($handle === false) {
+		if ($handle === FALSE) {
 			$this->setWarning( 'Unreadable directory '.$folder);
 			return $false;
 		}
@@ -6080,7 +6080,7 @@ class AKUtilsLister extends AKAbstractObject
 
 		$handle = @opendir($folder);
 		// If directory is not accessible, just return FALSE
-		if ($handle === false) {
+		if ($handle === FALSE) {
 			$this->setWarning( 'Unreadable directory '.$folder);
 			return $false;
 		}
@@ -7606,19 +7606,19 @@ function recursive_remove_directory($directory)
 	if(!file_exists($directory) || !is_dir($directory))
 	{
 		// ... we return false and exit the function
-		return false;
+		return FALSE;
 	// ... if the path is not readable
 	}elseif(!is_readable($directory))
 	{
 		// ... we return false and exit the function
-		return false;
+		return FALSE;
 	// ... else if the path is readable
 	}else{
 		// we open the directory
 		$handle = opendir($directory);
 		$postproc = AKFactory::getPostProc();
 		// and scan through the items inside
-		while (false !== ($item = readdir($handle)))
+		while (FALSE !== ($item = readdir($handle)))
 		{
 			// if the filepointer is not the current directory
 			// or the parent directory
@@ -7644,9 +7644,9 @@ function recursive_remove_directory($directory)
 		if(!$postproc->rmdir($directory))
 		{
 			// return false if not possible
-			return false;
+			return FALSE;
 		}
 		// return success
-		return true;
+		return TRUE;
 	}
 }
