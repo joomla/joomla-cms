@@ -833,7 +833,46 @@ class ContentModelArticle extends JModelAdmin
 			$table->save($data);
 		}
 
+		// Check if multi-language is enabled and get the language tag
+		$languageTag = '';
+
+		if (JLanguageMultilang::isEnabled())
+		{
+			// Find the article language
+			$query = $this->getDbo()->getQuery(true)
+				->select($this->getDbo()->quoteName('language'))
+				->from($this->getDbo()->quoteName('#__content'))
+				->where($this->getDbo()->quoteName('id') . ' = ' . (int) $articleId);
+			$this->getDbo()->setQuery($query);
+
+			$languageCode = $this->getDbo()->loadResult();
+
+			// Get the default language if an article is set to All languages as we need a language code
+			if ($languageCode === '*')
+			{
+				$jLanguage    = new JLanguage;
+				$languageCode = $jLanguage->getDefault();
+			}
+
+			// Get the list of languages
+			$languages = JLanguageHelper::getLanguages();
+
+			foreach ($languages as $language)
+			{
+				if ($language->lang_code === $languageCode)
+				{
+					$languageTag = $language->sef;
+					break;
+				}
+			}
+		}
+
 		$url = JUri::root() . 'index.php?option=com_content&view=article&id=' . $articleId . '&token=' . $token;
+
+		if ($languageTag)
+		{
+			$url .= '&lang=' . $languageTag;
+		}
 
 		// Store the URL as a redirect link if possible
 		if (JPluginHelper::isEnabled('system', 'redirect') && JFactory::getConfig()->get('sef'))
@@ -847,36 +886,9 @@ class ContentModelArticle extends JModelAdmin
 				// Get the nice URL
 				$redirectUrl = JUri::root() . 'index.php/';
 
-				// Check if multi-language is enabled
-				if (JLanguageMultilang::isEnabled())
+				if ($languageTag)
 				{
-					// Find the article language
-					$query = $this->getDbo()->getQuery(true)
-						->select($this->getDbo()->quoteName('language'))
-						->from($this->getDbo()->quoteName('#__content'))
-						->where($this->getDbo()->quoteName('id') . ' = ' . (int) $articleId);
-					$this->getDbo()->setQuery($query);
-
-					$languageCode = $this->getDbo()->loadResult();
-
-					// Get the default language if an article is set to All languages as we need a language code
-					if ($languageCode === '*')
-					{
-						$jLanguage    = new JLanguage;
-						$languageCode = $jLanguage->getDefault();
-					}
-
-					// Get the list of languages
-					$languages = JLanguageHelper::getLanguages();
-
-					foreach ($languages as $language)
-					{
-						if ($language->lang_code === $languageCode)
-						{
-							$redirectUrl .= $language->sef . '/';
-							break;
-						}
-					}
+					$redirectUrl .= $languageTag . '/';
 				}
 
 				// Add the alias
