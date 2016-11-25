@@ -348,11 +348,10 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->assertFalse($this->class->moveByReference(202, 'after'), 'Checks moving to a child.');
 
 		// We need to confirm the locking is called, so we create a mock.
-		$class = $this->getMock(
-			'NestedTable',
-			array('_lock'),
-			array(self::$driver)
-		);
+		$class = $this->getMockBuilder('NestedTable')
+					->setMethods(array('_lock'))
+					->setConstructorArgs(array(self::$driver))
+					->getMock();
 
 		$class->expects($this->any())->method('_lock')->will($this->returnValue(false));
 		$this->assertFalse($class->moveByReference(103, 'after', 102), 'Checks a locked table returns false.');
