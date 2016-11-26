@@ -14,7 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
-JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
 $input = $app->input;
@@ -30,8 +31,8 @@ JFactory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function() {
 		jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
 		jQuery("#jform_title").change(function(data, handler) {
-			if(jQuery("#jform_title").data("dp-old-value") == jQuery("#jform_params_label").val()) {
-				jQuery("#jform_params_label").val(jQuery("#jform_title").val());
+			if(jQuery("#jform_title").data("dp-old-value") == jQuery("#jform_label").val()) {
+				jQuery("#jform_label").val(jQuery("#jform_title").val());
 			}
 
 			jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
@@ -49,6 +50,8 @@ JFactory::getDocument()->addScriptDeclaration('
 		<div class="row-fluid">
 			<div class="span9">
 				<?php echo $this->form->renderField('type'); ?>
+				<?php echo $this->form->renderField('label'); ?>
+				<?php echo $this->form->renderField('description'); ?>
 				<?php echo $this->form->renderField('required'); ?>
 				<?php echo $this->form->renderField('default_value'); ?>
 
@@ -58,7 +61,6 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php endforeach; ?>
 				<?php endforeach; ?>
 
-				<?php echo $this->form->renderField('description'); ?>
 			</div>
 			<div class="span3">
 				<?php $this->set('fields',

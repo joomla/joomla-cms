@@ -55,10 +55,10 @@ $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
 
-// Include JavaScript files
-JHtml::_('script', 'system/core.js', false, true);
+// Including fallback code for HTML5 non supported browsers.
+JHtml::_('behavior.core');
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/moduleorder.js', false, true);
+JHtml::_('script', 'system/moduleorder.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div id="parent_<?php echo $id; ?>" <?php echo $attr; ?> data-url="<?php echo 'index.php?option=com_modules&task=module.orderPosition&'
 . $token; ?>" data-element="<?php echo 'parent_' . $id; ?>" data-ordering="<?php echo $ordering; ?>" data-position-element ="<?php

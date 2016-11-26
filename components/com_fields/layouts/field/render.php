@@ -14,7 +14,7 @@ if (!key_exists('field', $displayData))
 }
 
 $field = $displayData['field'];
-$label = $field->label;
+$label = JText::_($field->label);
 $value = $field->value;
 $class = $field->params->get('render_class');
 
@@ -26,6 +26,6 @@ if (!$value)
 ?>
 
 <dd class="field-entry <?php echo $class; ?>" id="field-entry-<?php echo $field->id; ?>">
-	<span class="field-label"><?php echo htmlentities($label); ?>: </span>
+	<span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, "UTF-8"); ?>: </span>
 	<span class="field-value"><?php echo $value; ?></span>
 </dd>

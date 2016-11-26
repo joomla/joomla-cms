@@ -262,7 +262,7 @@ class MenusModelItems extends JModelList
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the menu types.
-		$query->select($db->quoteName('mt.title', 'menutype_title'))
+		$query->select($db->quoteName(array('mt.id', 'mt.title'), array('menutype_id', 'menutype_title')))
 			->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->qn('mt.menutype') . ' = ' . $db->qn('a.menutype'));
 
 		// Join over the associations.
@@ -273,7 +273,7 @@ class MenusModelItems extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.title');
+				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.id, mt.title');
 		}
 
 		// Join over the extensions
@@ -350,7 +350,10 @@ class MenusModelItems extends JModelList
 				}
 			}
 
-			$query->where('a.menutype IN(' . implode(',', $types) . ')');
+			if (!empty($types))
+			{
+				$query->where('a.menutype IN(' . implode(',', $types) . ')');
+			}
 		}
 		// Default behavior => load all items from a specific menu
 		elseif (strlen($menuType))
@@ -372,8 +375,12 @@ class MenusModelItems extends JModelList
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+
+			if (!empty($groups))
+			{
+				$query->where('a.access IN (' . implode(',', $groups) . ')');
+			}
 		}
 
 		// Filter on the level.
