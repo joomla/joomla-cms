@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $id = '';
 
-if (($tagId = $params->get('tag_id', '')))
+if ($tagId = $params->get('tag_id', ''))
 {
 	$id = ' id="' . $tagId . '"';
 }
