@@ -221,7 +221,7 @@ class NewsfeedsRouter extends JComponentRouterView
  *
  * @return array
  *
- * @deprecated  4.0  Use Class based routers instead
+ * @deprecated  3.7  Use Class based routers instead
  */
 function newsfeedsBuildRoute(&$query)
 {
@@ -238,7 +238,7 @@ function newsfeedsBuildRoute(&$query)
  *
  * @return array
  *
- * @deprecated  4.0  Use Class based routers instead
+ * @deprecated  3.7  Use Class based routers instead
  */
 function newsfeedsParseRoute($segments)
 {

@@ -53,7 +53,7 @@ class ContentHelper extends JHelperContent
 	 *
 	 * @return  string  The filtered string
 	 *
-	 * @deprecated  4.0  Use JComponentHelper::filterText() instead.
+	 * @deprecated  3.7  Use JComponentHelper::filterText() instead.
 	 */
 	public static function filterText($text)
 	{

@@ -223,7 +223,7 @@ class ContactRouter extends JComponentRouterView
  *
  * @return  array  The URL arguments to use to assemble the subsequent URL.
  *
- * @deprecated  4.0  Use Class based routers instead
+ * @deprecated  3.7  Use Class based routers instead
  */
 function ContactBuildRoute(&$query)
 {
@@ -243,7 +243,7 @@ function ContactBuildRoute(&$query)
  *
  * @return  array  The URL attributes to be used by the application.
  *
- * @deprecated  4.0  Use Class based routers instead
+ * @deprecated  3.7  Use Class based routers instead
  */
 function ContactParseRoute($segments)
 {

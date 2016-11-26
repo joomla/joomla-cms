@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Deprecated class placeholder. You should use JAccessRules instead.
  *
  * @since       11.1
- * @deprecated  12.3 (Platform) & 4.0 (CMS)
+ * @deprecated  12.3 (Platform) & 3.7 (CMS)
  * @codeCoverageIgnore
  */
 class JRules extends JAccessRules

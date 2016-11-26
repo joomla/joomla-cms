@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die();
  * Twitter API Favorites class for the Joomla Platform.
  *
  * @since       12.3
- * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
+ * @deprecated  3.7  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterFavorites extends JTwitterObject
 {

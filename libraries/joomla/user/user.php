@@ -519,7 +519,7 @@ class JUser extends JObject
 	 * @return  object   The user parameters object.
 	 *
 	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Instead use JUser::getParam()
+	 * @deprecated  12.3 (Platform) & 3.7 (CMS) - Instead use JUser::getParam()
 	 */
 	public function getParameters()
 	{

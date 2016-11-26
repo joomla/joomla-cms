@@ -78,7 +78,7 @@ abstract class JFactory
 	 *
 	 * @var    JAccess
 	 * @since  11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
+	 * @deprecated  13.3 (Platform) & 3.7(CMS)
 	 */
 	public static $acl = null;
 
@@ -298,7 +298,7 @@ abstract class JFactory
 	 *
 	 * @return  JAccess object
 	 *
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JAccess directly.
+	 * @deprecated  13.3 (Platform) & 3.7(CMS) - Use JAccess directly.
 	 */
 	public static function getAcl()
 	{
@@ -364,7 +364,7 @@ abstract class JFactory
 	 *
 	 * @since   11.1
 	 * @throws  BadMethodCallException
-	 * @deprecated  4.0  Use directly JFeedFactory or supply SimplePie instead. Mehod will be proxied to JFeedFactory beginning in 3.2
+	 * @deprecated  3.7  Use directly JFeedFactory or supply SimplePie instead. Mehod will be proxied to JFeedFactory beginning in 3.2
 	 */
 	public static function getFeedParser($url, $cache_time = 0)
 	{
@@ -389,7 +389,7 @@ abstract class JFactory
 	 * @see     JXMLElement
 	 * @since   11.1
 	 * @note    When JXMLElement is not present a SimpleXMLElement will be returned.
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXML directly.
+	 * @deprecated  13.3 (Platform) & 3.7(CMS) - Use SimpleXML directly.
 	 */
 	public static function getXml($data, $isFile = true)
 	{
@@ -443,7 +443,7 @@ abstract class JFactory
 	 *
 	 * @since   11.1
 	 * @throws  BadMethodCallException
-	 * @deprecated 12.3 (Platform) & 4.0 (CMS) - Use JEditor directly
+	 * @deprecated 12.3 (Platform) & 3.7 (CMS) - Use JEditor directly
 	 */
 	public static function getEditor($editor = null)
 	{
@@ -473,7 +473,7 @@ abstract class JFactory
 	 *
 	 * @see     JUri
 	 * @since   11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JUri directly.
+	 * @deprecated  13.3 (Platform) & 3.7(CMS) - Use JUri directly.
 	 */
 	public static function getUri($uri = 'SERVER')
 	{

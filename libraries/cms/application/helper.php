@@ -211,7 +211,7 @@ class JApplicationHelper
 	 * @return  array  XML metadata.
 	 *
 	 * @since       1.5
-	 * @deprecated  4.0 Use JInstaller::parseXMLInstallFile instead.
+	 * @deprecated  3.7 Use JInstaller::parseXMLInstallFile instead.
 	 */
 	public static function parseXMLInstallFile($path)
 	{
@@ -230,7 +230,7 @@ class JApplicationHelper
 	 * @return  array  XML metadata.
 	 *
 	 * @since       1.5
-	 * @deprecated  4.0 Use JInstaller::parseXMLInstallFile instead.
+	 * @deprecated  3.7 Use JInstaller::parseXMLInstallFile instead.
 	 */
 	public static function parseXMLLangMetaFile($path)
 	{

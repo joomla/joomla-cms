@@ -20,7 +20,7 @@ class LanguagesModelInstalled extends JModelList
 {
 	/**
 	 * @var object client object
-	 * @deprecated 4.0
+	 * @deprecated 3.7
 	 */
 	protected $client = null;
 
@@ -51,7 +51,7 @@ class LanguagesModelInstalled extends JModelList
 
 	/**
 	 * @var int total number pf languages installed
-	 * @deprecated 4.0
+	 * @deprecated 3.7
 	 */
 	protected $langlist = null;
 
@@ -319,7 +319,7 @@ class LanguagesModelInstalled extends JModelList
 	 *
 	 * @since   1.6
 	 *
-	 * @deprecated   4.0
+	 * @deprecated   3.7
 	 */
 	protected function getLanguageList()
 	{
@@ -473,7 +473,7 @@ class LanguagesModelInstalled extends JModelList
 	 *
 	 * @since   1.6
 	 *
-	 * @deprecated   4.0
+	 * @deprecated   3.7
 	 */
 	protected function compareLanguages($lang1, $lang2)
 	{

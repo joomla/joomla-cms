@@ -1082,7 +1082,7 @@ abstract class JHtml
 	 * @return  string  JavaScript object notation representation of the array
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0 Use `json_encode()` or `Joomla\Registry\Registry::toString('json')` instead
+	 * @deprecated  3.7 Use `json_encode()` or `Joomla\Registry\Registry::toString('json')` instead
 	 */
 	public static function getJSObject(array $array = array())
 	{

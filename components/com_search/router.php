@@ -87,7 +87,7 @@ class SearchRouter extends JComponentRouterBase
  *
  * @return array
  *
- * @deprecated  4.0  Use Class based routers instead
+ * @deprecated  3.7  Use Class based routers instead
  */
 function searchBuildRoute(&$query)
 {
@@ -106,7 +106,7 @@ function searchBuildRoute(&$query)
  *
  * @return array
  *
- * @deprecated  4.0  Use Class based routers instead
+ * @deprecated  3.7  Use Class based routers instead
  */
 function searchParseRoute($segments)
 {

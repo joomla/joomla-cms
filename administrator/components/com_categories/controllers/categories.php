@@ -72,7 +72,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 *
 	 * @since       1.6
 	 * @see         JControllerAdmin::saveorder()
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public function saveorder()
 	{

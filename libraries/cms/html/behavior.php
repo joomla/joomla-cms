@@ -35,7 +35,7 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.6
-	 * @deprecated 4.0 Update scripts to jquery
+	 * @deprecated 3.7 Update scripts to jquery
 	 */
 	public static function framework($extras = false, $debug = null)
 	{
@@ -345,7 +345,7 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated 4.0  Use the modal equivalent from bootstrap
+	 * @deprecated 3.7  Use the modal equivalent from bootstrap
 	 */
 	public static function modal($selector = 'a.modal', $params = array())
 	{
@@ -594,7 +594,7 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   1.7
 	 *
-	 * @deprecated 4.0 Use directly the field or the layout
+	 * @deprecated 3.7 Use directly the field or the layout
 	 */
 	public static function colorpicker()
 	{
@@ -640,7 +640,7 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   3.1
 	 *
-	 * @deprecated 4.0 Use directly the field or the layout
+	 * @deprecated 3.7 Use directly the field or the layout
 	 */
 	public static function simplecolorpicker()
 	{
@@ -794,7 +794,7 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   1.5
 	 *
-	 * @deprecated  4.0  Add a X-Frame-Options HTTP Header with the SAMEORIGIN value instead.
+	 * @deprecated  3.7  Add a X-Frame-Options HTTP Header with the SAMEORIGIN value instead.
 	 */
 	public static function noframes()
 	{
@@ -841,7 +841,7 @@ abstract class JHtmlBehavior
 	 * @return  string  JavaScript object notation representation of the array
 	 *
 	 * @since       1.5
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JHtml::getJSObject() instead.
+	 * @deprecated  13.3 (Platform) & 3.7(CMS) - Use JHtml::getJSObject() instead.
 	 */
 	protected static function _getJSObject($array = array())
 	{

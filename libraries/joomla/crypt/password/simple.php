@@ -13,21 +13,21 @@ defined('JPATH_PLATFORM') or die;
  * Joomla Platform Password Crypter
  *
  * @since       12.2
- * @deprecated  4.0  Use PHP 5.5's native password hashing API
+ * @deprecated  3.7  Use PHP 5.5's native password hashing API
  */
 class JCryptPasswordSimple implements JCryptPassword
 {
 	/**
 	 * @var    integer  The cost parameter for hashing algorithms.
 	 * @since  12.2
-	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
+	 * @deprecated  3.7  Use PHP 5.5's native password hashing API
 	 */
 	protected $cost = 10;
 
 	/**
 	 * @var    string   The default hash type
 	 * @since  12.3
-	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
+	 * @deprecated  3.7  Use PHP 5.5's native password hashing API
 	 */
 	protected $defaultType = '$2y$';
 
@@ -41,7 +41,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	 *
 	 * @since   12.2
 	 * @throws  InvalidArgumentException
-	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
+	 * @deprecated  3.7  Use PHP 5.5's native password hashing API
 	 */
 	public function create($password, $type = null)
 	{
@@ -92,7 +92,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * @return  void
 	 *
 	 * @since   12.2
-	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
+	 * @deprecated  3.7  Use PHP 5.5's native password hashing API
 	 */
 	public function setCost($cost)
 	{
@@ -107,7 +107,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * @return  string  The string of random characters.
 	 *
 	 * @since   12.2
-	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
+	 * @deprecated  3.7  Use PHP 5.5's native password hashing API
 	 */
 	protected function getSalt($length)
 	{
@@ -127,7 +127,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * @return  boolean  True if the password is valid, false otherwise.
 	 *
 	 * @since   12.2
-	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
+	 * @deprecated  3.7  Use PHP 5.5's native password hashing API
 	 */
 	public function verify($password, $hash)
 	{
@@ -175,7 +175,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
+	 * @deprecated  3.7  Use PHP 5.5's native password hashing API
 	 */
 	public function setDefaultType($type)
 	{
@@ -191,7 +191,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * @return   string  $type  The default type
 	 *
 	 * @since   12.3
-	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
+	 * @deprecated  3.7  Use PHP 5.5's native password hashing API
 	 */
 	public function getDefaultType()
 	{

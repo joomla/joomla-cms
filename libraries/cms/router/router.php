@@ -12,14 +12,14 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Mask for the raw routing mode
  *
- * @deprecated  4.0
+ * @deprecated  3.7
  */
 const JROUTER_MODE_RAW = 0;
 
 /**
  * Mask for the SEF routing mode
  *
- * @deprecated  4.0
+ * @deprecated  3.7
  */
 const JROUTER_MODE_SEF = 1;
 
@@ -59,7 +59,7 @@ class JRouter
 	 *
 	 * @var    integer
 	 * @since  1.5
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	protected $mode = null;
 
@@ -68,7 +68,7 @@ class JRouter
 	 *
 	 * @var    integer
 	 * @since  1.5
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	protected $_mode = null;
 
@@ -85,7 +85,7 @@ class JRouter
 	 *
 	 * @var     array
 	 * @since  1.5
-	 * @deprecated  4.0 Will convert to $vars
+	 * @deprecated  3.7 Will convert to $vars
 	 */
 	protected $_vars = array();
 
@@ -109,7 +109,7 @@ class JRouter
 	 *
 	 * @var    array
 	 * @since  1.5
-	 * @deprecated  4.0 Will convert to $rules
+	 * @deprecated  3.7 Will convert to $rules
 	 */
 	protected $_rules = array(
 		'buildpreprocess' => array(),
@@ -176,7 +176,7 @@ class JRouter
 
 			if (!class_exists($classname))
 			{
-				// @deprecated 4.0 Everything in this block is deprecated but the warning is only logged after the file_exists
+				// @deprecated 3.7 Everything in this block is deprecated but the warning is only logged after the file_exists
 				// Load the router object
 				$info = JApplicationHelper::getClientInfo($client, true);
 
@@ -296,7 +296,7 @@ class JRouter
 	 * @return  integer
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public function getMode()
 	{
@@ -311,7 +311,7 @@ class JRouter
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public function setMode($mode)
 	{
@@ -446,7 +446,7 @@ class JRouter
 	 * @return  boolean
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Attach your logic as rule to the main parse stage
+	 * @deprecated  3.7  Attach your logic as rule to the main parse stage
 	 */
 	protected function _parseRawRoute(&$uri)
 	{
@@ -461,7 +461,7 @@ class JRouter
 	 * @return  array  Array of variables
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Attach your logic as rule to the main parse stage
+	 * @deprecated  3.7  Attach your logic as rule to the main parse stage
 	 */
 	protected function parseRawRoute(&$uri)
 	{
@@ -476,7 +476,7 @@ class JRouter
 	 * @return  string  Internal URI
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Attach your logic as rule to the main parse stage
+	 * @deprecated  3.7  Attach your logic as rule to the main parse stage
 	 */
 	protected function _parseSefRoute(&$uri)
 	{
@@ -491,7 +491,7 @@ class JRouter
 	 * @return  array  Array of variables
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Attach your logic as rule to the main parse stage
+	 * @deprecated  3.7  Attach your logic as rule to the main parse stage
 	 */
 	protected function parseSefRoute(&$uri)
 	{
@@ -506,7 +506,7 @@ class JRouter
 	 * @return  string  Raw Route
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Attach your logic as rule to the main build stage
+	 * @deprecated  3.7  Attach your logic as rule to the main build stage
 	 */
 	protected function _buildRawRoute(&$uri)
 	{
@@ -521,7 +521,7 @@ class JRouter
 	 * @return  string  Raw Route
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Attach your logic as rule to the main build stage
+	 * @deprecated  3.7  Attach your logic as rule to the main build stage
 	 */
 	protected function buildRawRoute(&$uri)
 	{
@@ -535,7 +535,7 @@ class JRouter
 	 * @return  string  The SEF route
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Attach your logic as rule to the main build stage
+	 * @deprecated  3.7  Attach your logic as rule to the main build stage
 	 */
 	protected function _buildSefRoute(&$uri)
 	{
@@ -550,7 +550,7 @@ class JRouter
 	 * @return  string  The SEF route
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Attach your logic as rule to the main build stage
+	 * @deprecated  3.7  Attach your logic as rule to the main build stage
 	 */
 	protected function buildSefRoute(&$uri)
 	{
@@ -564,7 +564,7 @@ class JRouter
 	 * @return  array  The array of processed URI variables
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use processParseRules() instead
+	 * @deprecated  3.7  Use processParseRules() instead
 	 */
 	protected function _processParseRules(&$uri)
 	{
@@ -608,7 +608,7 @@ class JRouter
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use processBuildRules() instead
+	 * @deprecated  3.7  Use processBuildRules() instead
 	 */
 	protected function _processBuildRules(&$uri)
 	{
@@ -648,7 +648,7 @@ class JRouter
 	 * @return  JUri
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use createUri() instead
+	 * @deprecated  3.7  Use createUri() instead
 	 * @codeCoverageIgnore
 	 */
 	protected function _createUri($url)
@@ -713,7 +713,7 @@ class JRouter
 	 * @return  array  Array of encoded route segments
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  This should be performed in the component router instead
+	 * @deprecated  3.7  This should be performed in the component router instead
 	 * @codeCoverageIgnore
 	 */
 	protected function _encodeSegments($segments)
@@ -729,7 +729,7 @@ class JRouter
 	 * @return  array  Array of encoded route segments
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  This should be performed in the component router instead
+	 * @deprecated  3.7  This should be performed in the component router instead
 	 */
 	protected function encodeSegments($segments)
 	{
@@ -751,7 +751,7 @@ class JRouter
 	 * @return  array  Array of decoded route segments
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  This should be performed in the component router instead
+	 * @deprecated  3.7  This should be performed in the component router instead
 	 * @codeCoverageIgnore
 	 */
 	protected function _decodeSegments($segments)
@@ -767,7 +767,7 @@ class JRouter
 	 * @return  array  Array of decoded route segments
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  This should be performed in the component router instead
+	 * @deprecated  3.7  This should be performed in the component router instead
 	 */
 	protected function decodeSegments($segments)
 	{

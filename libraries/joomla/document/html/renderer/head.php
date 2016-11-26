@@ -15,7 +15,7 @@ JLog::add('JDocumentRendererHead is deprecated, use JDocumentRendererHtmlHead in
  * JDocument head renderer
  *
  * @since       11.1
- * @deprecated  4.0  Use JDocumentRendererHtmlHead instead
+ * @deprecated  3.7  Use JDocumentRendererHtmlHead instead
  */
 class JDocumentRendererHead extends JDocumentRendererHtmlHead
 {

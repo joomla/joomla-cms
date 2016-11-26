@@ -59,7 +59,7 @@ abstract class JHtmlPhpSetting
 	 *
 	 * @return  string html code
 	 *
-	 * @deprecated  4.0  Use intval() or casting instead.
+	 * @deprecated  3.7  Use intval() or casting instead.
 	 */
 	public static function integer($val)
 	{

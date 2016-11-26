@@ -24,7 +24,7 @@ abstract class JHtmlJGrid
 	 * @param   integer       $i               The row index
 	 * @param   string        $task            The task to fire
 	 * @param   string|array  $prefix          An optional task prefix or an array of options
-	 * @param   string        $text            An optional text to display [unused - @deprecated 4.0]
+	 * @param   string        $text            An optional text to display [unused - @deprecated 3.7]
 	 * @param   string        $active_title    An optional active tooltip to display if $enable is true
 	 * @param   string        $inactive_title  An optional inactive tooltip to display if $enable is true
 	 * @param   boolean       $tip             An optional setting for tooltip

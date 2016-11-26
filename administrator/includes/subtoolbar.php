@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @since       1.5
- * @deprecated  4.0  Use JHtmlSidebar instead.
+ * @deprecated  3.7  Use JHtmlSidebar instead.
  */
 abstract class JSubMenuHelper
 {
@@ -22,7 +22,7 @@ abstract class JSubMenuHelper
 	 *
 	 * @var    array
 	 * @since  3.0
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	protected static $entries = array();
 
@@ -31,7 +31,7 @@ abstract class JSubMenuHelper
 	 *
 	 * @var    array
 	 * @since  3.0
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	protected static $filters = array();
 
@@ -40,7 +40,7 @@ abstract class JSubMenuHelper
 	 *
 	 * @var    string
 	 * @since  3.0
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	protected static $action = '';
 
@@ -54,7 +54,7 @@ abstract class JSubMenuHelper
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JHtmlSidebar::addEntry() instead.
+	 * @deprecated  3.7  Use JHtmlSidebar::addEntry() instead.
 	 */
 	public static function addEntry($name, $link = '', $active = false)
 	{
@@ -68,7 +68,7 @@ abstract class JSubMenuHelper
 	 * @return  array
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0  Use JHtmlSidebar::getEntries() instead.
+	 * @deprecated  3.7  Use JHtmlSidebar::getEntries() instead.
 	 */
 	public static function getEntries()
 	{
@@ -88,7 +88,7 @@ abstract class JSubMenuHelper
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0  Use JHtmlSidebar::addFilter() instead.
+	 * @deprecated  3.7  Use JHtmlSidebar::addFilter() instead.
 	 */
 	public static function addFilter($label, $name, $options, $noDefault = false)
 	{
@@ -102,7 +102,7 @@ abstract class JSubMenuHelper
 	 * @return  array
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0  Use JHtmlSidebar::getFilters() instead.
+	 * @deprecated  3.7  Use JHtmlSidebar::getFilters() instead.
 	 */
 	public static function getFilters()
 	{
@@ -119,7 +119,7 @@ abstract class JSubMenuHelper
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0  Use JHtmlSidebar::setAction() instead.
+	 * @deprecated  3.7  Use JHtmlSidebar::setAction() instead.
 	 */
 	public static function setAction($action)
 	{
@@ -133,7 +133,7 @@ abstract class JSubMenuHelper
 	 * @return  string  Value for the action attribute of the form
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0  Use JHtmlSidebar::getAction() instead.
+	 * @deprecated  3.7  Use JHtmlSidebar::getAction() instead.
 	 */
 	public static function getAction()
 	{

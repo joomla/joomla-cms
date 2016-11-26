@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Controller for global configuration
  *
  * @since       1.5
- * @deprecated  4.0
+ * @deprecated  3.7
  */
 class ConfigControllerApplication extends JControllerLegacy
 {
@@ -23,7 +23,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public function __construct($config = array())
 	{
@@ -39,7 +39,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	 * @return  bool  True on success, false on failure.
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use ConfigControllerApplicationSave instead.
+	 * @deprecated  3.7  Use ConfigControllerApplicationSave instead.
 	 */
 	public function save()
 	{
@@ -55,7 +55,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	 *
 	 * @return  boolean  True if successful; false otherwise.
 	 *
-	 * @deprecated  4.0  Use ConfigControllerApplicationCancel instead.
+	 * @deprecated  3.7  Use ConfigControllerApplicationCancel instead.
 	 */
 	public function cancel()
 	{
@@ -72,7 +72,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	 * @return  bool  True on success, false on failure.
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use ConfigControllerApplicationRemoveroot instead.
+	 * @deprecated  3.7  Use ConfigControllerApplicationRemoveroot instead.
 	 */
 	public function removeroot()
 	{

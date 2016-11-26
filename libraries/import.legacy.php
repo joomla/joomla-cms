@@ -64,7 +64,7 @@ if (!interface_exists('JsonSerializable'))
 }
 
 // Add deprecated constants
-// @deprecated 4.0
+// @deprecated 3.7
 define('JPATH_ISWIN', IS_WIN);
 define('JPATH_ISMAC', IS_MAC);
 
@@ -72,7 +72,7 @@ define('JPATH_ISMAC', IS_MAC);
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 
 // Register classes where the names have been changed to fit the autoloader rules
-// @deprecated  4.0
+// @deprecated  3.7
 JLoader::register('JSimpleCrypt', JPATH_PLATFORM . '/legacy/simplecrypt/simplecrypt.php');
 JLoader::register('JTree', JPATH_PLATFORM . '/legacy/base/tree.php');
 JLoader::register('JNode', JPATH_PLATFORM . '/legacy/base/node.php');

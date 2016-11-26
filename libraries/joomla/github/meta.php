@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * GitHub API Meta class.
  *
  * @since       13.1
- * @deprecated  4.0  Use the `joomla/github` package via Composer instead
+ * @deprecated  3.7  Use the `joomla/github` package via Composer instead
  */
 class JGithubMeta extends JGithubObject
 {

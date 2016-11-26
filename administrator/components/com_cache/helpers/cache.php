@@ -21,7 +21,7 @@ class CacheHelper
 	 *
 	 * @return  array  An array of JHtmlOption elements.
 	 *
-	 * @deprecated  4.0  No replacement.
+	 * @deprecated  3.7  No replacement.
 	 */
 	public static function getClientOptions()
 	{

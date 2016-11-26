@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * JCrypt cipher for Simple encryption, decryption and key generation.
  *
  * @since       12.1
- * @deprecated  4.0 (CMS)
+ * @deprecated  3.7 (CMS)
  */
 class JCryptCipherSimple implements JCryptCipher
 {

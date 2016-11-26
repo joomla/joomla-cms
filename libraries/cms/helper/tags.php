@@ -278,7 +278,7 @@ class JHelperTags extends JHelper
 	 * @return  mixed   If successful, metadata with new tag titles replaced by tag ids. Otherwise false.
 	 *
 	 * @since   3.1
-	 * @deprecated  4.0  This method is no longer used in the CMS and will not be replaced.
+	 * @deprecated  3.7  This method is no longer used in the CMS and will not be replaced.
 	 */
 	public function createTagsFromMetadata($metadata)
 	{
@@ -719,7 +719,7 @@ class JHelperTags extends JHelper
 	 * @return  string  Name of the table for a type
 	 *
 	 * @since   3.1
-	 * @deprecated  4.0  Use JUcmType::getTypeId() instead
+	 * @deprecated  3.7  Use JUcmType::getTypeId() instead
 	 */
 	public function getTypeId($typeAlias)
 	{

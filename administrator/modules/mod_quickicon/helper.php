@@ -202,7 +202,7 @@ abstract class ModQuickIconHelper
 	 *
 	 * @return  string	The alternate title for the module.
 	 *
-	 * @deprecated  4.0 Unused. Title can be adjusted in module itself if needed.
+	 * @deprecated  3.7 Unused. Title can be adjusted in module itself if needed.
 	 */
 	public static function getTitle($params, $module)
 	{

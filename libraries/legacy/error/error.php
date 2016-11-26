@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @var    integer
  * @since  11.1
- * @deprecated  12.1 (Platform) & 4.0 (CMS)
+ * @deprecated  12.1 (Platform) & 3.7 (CMS)
  */
 const JERROR_ILLEGAL_OPTIONS = 1;
 
@@ -23,7 +23,7 @@ const JERROR_ILLEGAL_OPTIONS = 1;
  *
  * @var    integer
  * @since  11.1
- * @deprecated  12.1 (Platform) & 4.0 (CMS)
+ * @deprecated  12.1 (Platform) & 3.7 (CMS)
  */
 const JERROR_CALLBACK_NOT_CALLABLE = 2;
 
@@ -32,7 +32,7 @@ const JERROR_CALLBACK_NOT_CALLABLE = 2;
  *
  * @var    integer
  * @since  11.1
- * @deprecated  12.1 (Platform) & 4.0 (CMS)
+ * @deprecated  12.1 (Platform) & 3.7 (CMS)
  */
 const JERROR_ILLEGAL_MODE = 3;
 
@@ -47,7 +47,7 @@ const JERROR_ILLEGAL_MODE = 3;
  * - Stephan Schmidt		<scst@php-tools.net>
  *
  * @since       11.1
- * @deprecated  12.1 (Platform) & 4.0 (CMS) - Use PHP Exception
+ * @deprecated  12.1 (Platform) & 3.7 (CMS) - Use PHP Exception
  */
 abstract class JError
 {
@@ -58,7 +58,7 @@ abstract class JError
 	 *                  is present to allow an easy transition into exception handling for code written against the
 	 *                  existing JError API in Joomla.
 	 * @since  11.1
-	 * @deprecated  12.1 (Platform) & 4.0 (CMS)
+	 * @deprecated  12.1 (Platform) & 3.7 (CMS)
 	 */
 	public static $legacy = false;
 
@@ -67,7 +67,7 @@ abstract class JError
 	 *
 	 * @var    array
 	 * @since  11.1
-	 * @deprecated  12.1 (Platform) & 4.0 (CMS)
+	 * @deprecated  12.1 (Platform) & 3.7 (CMS)
 	 */
 	protected static $levels = array(E_NOTICE => 'Notice', E_WARNING => 'Warning', E_ERROR => 'Error');
 
@@ -76,7 +76,7 @@ abstract class JError
 	 *
 	 * @var    array
 	 * @since  11.1
-	 * @deprecated  12.1 (Platform) & 4.0 (CMS)
+	 * @deprecated  12.1 (Platform) & 3.7 (CMS)
 	 */
 	protected static $handlers = array(
 		E_NOTICE => array('mode' => 'ignore'),
@@ -89,7 +89,7 @@ abstract class JError
 	 *
 	 * @var    JException[]
 	 * @since  11.1
-	 * @deprecated  12.1 (Platform) & 4.0 (CMS)
+	 * @deprecated  12.1 (Platform) & 3.7 (CMS)
 	 */
 	protected static $stack = array();
 

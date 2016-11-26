@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @documentation https://developer.github.com/v3/git/tags/
  *
  * @since       11.3
- * @deprecated  4.0  Use the `joomla/github` package via Composer instead
+ * @deprecated  3.7  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageDataTags extends JGithubPackage
 {

@@ -15,7 +15,7 @@ JLog::add('JDocumentRendererModules is deprecated, use JDocumentRendererHtmlModu
  * JDocument Modules renderer
  *
  * @since       11.1
- * @deprecated  4.0  Use JDocumentRendererHtmlModules instead
+ * @deprecated  3.7  Use JDocumentRendererHtmlModules instead
  */
 class JDocumentRendererModules extends JDocumentRendererHtmlModules
 {

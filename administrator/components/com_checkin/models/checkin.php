@@ -27,7 +27,7 @@ class CheckinModelCheckin extends JModelList
 	 * Unused class variable
 	 *
 	 * @var  object
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	protected $tables;
 

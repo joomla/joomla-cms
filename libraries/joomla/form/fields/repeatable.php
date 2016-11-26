@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since       3.2
  *
- * @deprecated  4.0  Use JFormFieldSubform
+ * @deprecated  3.7  Use JFormFieldSubform
  */
 class JFormFieldRepeatable extends JFormField
 {

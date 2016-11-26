@@ -20,7 +20,7 @@ class ContactViewContact extends JViewLegacy
 	 * The item model state
 	 *
 	 * @var         \Joomla\Registry\Registry
-	 * @deprecated  4.0  Variable not used
+	 * @deprecated  3.7  Variable not used
 	 */
 	protected $state;
 

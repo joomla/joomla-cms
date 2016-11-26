@@ -37,7 +37,7 @@ use Joomla\Registry\Registry;
  * @property-read  JGithubMeta        $meta        Deprecated GitHub API object for meta.
  *
  * @since       11.3
- * @deprecated  4.0  Use the `joomla/github` package via Composer instead
+ * @deprecated  3.7  Use the `joomla/github` package via Composer instead
  */
 class JGithub
 {

@@ -23,7 +23,7 @@ class ContactModelFeatured extends JModelList
 	 *
 	 * @var         array
 	 * @since       1.6.0-beta1
-	 * @deprecated  4.0  Variable not used since 1.6.0-beta8
+	 * @deprecated  3.7  Variable not used since 1.6.0-beta8
 	 */
 	protected $_item = null;
 
@@ -32,7 +32,7 @@ class ContactModelFeatured extends JModelList
 	 *
 	 * @var          array
 	 * @since        1.6.0-beta1
-	 * @deprecated   4.0  Variable not used ever
+	 * @deprecated   3.7  Variable not used ever
 	 */
 	protected $_articles = null;
 
@@ -41,7 +41,7 @@ class ContactModelFeatured extends JModelList
 	 *
 	 * @var          array
 	 * @since        1.6.0-beta1
-	 * @deprecated   4.0  Variable not used since 1.6.0-beta8
+	 * @deprecated   3.7  Variable not used since 1.6.0-beta8
 	 */
 	protected $_siblings = null;
 
@@ -50,7 +50,7 @@ class ContactModelFeatured extends JModelList
 	 *
 	 * @var          array
 	 * @since        1.6.0-beta1
-	 * @deprecated   4.0  Variable not used since 1.6.0-beta8
+	 * @deprecated   3.7  Variable not used since 1.6.0-beta8
 	 */
 	protected $_children = null;
 
@@ -59,7 +59,7 @@ class ContactModelFeatured extends JModelList
 	 *
 	 * @var          array
 	 * @since        1.6.0-beta1
-	 * @deprecated   4.0  Variable not used since 1.6.0-beta8
+	 * @deprecated   3.7  Variable not used since 1.6.0-beta8
 	 */
 	protected $_parent = null;
 
@@ -68,7 +68,7 @@ class ContactModelFeatured extends JModelList
 	 *
 	 * @access      protected
 	 * @var         object
-	 * @deprecated   4.0  Variable not used ever
+	 * @deprecated   3.7  Variable not used ever
 	 */
 	protected $_category = null;
 
@@ -77,7 +77,7 @@ class ContactModelFeatured extends JModelList
 	 *
 	 * @access    protected
 	 * @var       array
-	 * @deprecated   4.0  Variable not used ever
+	 * @deprecated   3.7  Variable not used ever
 	 */
 	protected $_categories = null;
 

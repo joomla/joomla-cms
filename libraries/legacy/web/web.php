@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
  * Deprecated class placeholder.  You should use JApplicationWeb instead.
  *
  * @since       11.3
- * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationWeb instead.
+ * @deprecated  12.3 (Platform) & 3.7 (CMS) - Use JApplicationWeb instead.
  * @codeCoverageIgnore
  */
 class JWeb extends JApplicationWeb
@@ -34,7 +34,7 @@ class JWeb extends JApplicationWeb
 	 *                                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   11.3
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) Use JApplicationWeb instead.
+	 * @deprecated  12.3 (Platform) & 3.7 (CMS) Use JApplicationWeb instead.
 	 */
 	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
 	{

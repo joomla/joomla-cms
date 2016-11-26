@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since       1.5
  *
- * @deprecated  4.0 Deprecated without replacement
+ * @deprecated  3.7 Deprecated without replacement
  */
 class JAdministratorHelper
 {

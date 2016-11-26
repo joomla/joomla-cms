@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * GitHub API Forks class for the Joomla Platform.
  *
  * @since       11.3
- * @deprecated  4.0  Use the `joomla/github` package via Composer instead
+ * @deprecated  3.7  Use the `joomla/github` package via Composer instead
  */
 class JGithubForks extends JGithubObject
 {

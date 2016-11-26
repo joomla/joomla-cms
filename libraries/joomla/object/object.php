@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * and an internal error handler.
  *
  * @since       11.1
- * @deprecated  4.0
+ * @deprecated  3.7
  */
 class JObject
 {

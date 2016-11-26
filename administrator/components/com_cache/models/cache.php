@@ -191,7 +191,7 @@ class CacheModelCache extends JModelList
 	 *
 	 * @return array
 	 *
-	 * @deprecated  4.0  No replacement.
+	 * @deprecated  3.7  No replacement.
 	 */
 	public function getClient()
 	{

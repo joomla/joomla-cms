@@ -16,7 +16,7 @@ JLog::add('JDocumentRendererRSS is deprecated, use JDocumentRendererFeedRss inst
  *
  * @see         http://www.rssboard.org/rss-specification
  * @since       11.1
- * @deprecated  4.0  Use JDocumentRendererFeedRss instead
+ * @deprecated  3.7  Use JDocumentRendererFeedRss instead
  */
 class JDocumentRendererRSS extends JDocumentRendererFeedRss
 {

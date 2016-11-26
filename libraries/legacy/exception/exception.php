@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Joomla! Exception object.
  *
  * @since       11.1
- * @deprecated  12.1 (Platform) & 4.0 (CMS)
+ * @deprecated  12.1 (Platform) & 3.7 (CMS)
  */
 class JException extends Exception
 {

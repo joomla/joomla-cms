@@ -194,7 +194,7 @@ abstract class JPluginHelper
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JPluginHelper::import() instead
+	 * @deprecated  3.7  Use JPluginHelper::import() instead
 	 */
 	protected static function _import($plugin, $autocreate = true, JEventDispatcher $dispatcher = null)
 	{
@@ -269,7 +269,7 @@ abstract class JPluginHelper
 	 * @return  array  An array of published plugins
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JPluginHelper::load() instead
+	 * @deprecated  3.7  Use JPluginHelper::load() instead
 	 */
 	protected static function _load()
 	{

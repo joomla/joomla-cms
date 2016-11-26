@@ -29,7 +29,7 @@ class JHtmlMessages
 	 *
 	 * @since   1.6
 	 *
-	 * @deprecated  4.0  Use JHtmlMessages::status() instead
+	 * @deprecated  3.7  Use JHtmlMessages::status() instead
 	 */
 	public static function state($value = 0, $i = 0, $canChange = false)
 	{

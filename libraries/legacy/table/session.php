@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Session table
  *
  * @since       11.1
- * @deprecated  13.3 (Platform) & 4.0 (CMS) -  Use SQL queries to interact with the session table.
+ * @deprecated  13.3 (Platform) & 3.7(CMS) -  Use SQL queries to interact with the session table.
  */
 class JTableSession extends JTable
 {

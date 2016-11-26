@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Tags helper.
  *
  * @since       3.1
- * @deprecated  4.0
+ * @deprecated  3.7
  */
 class TagsHelper extends JHelperContent
 {
@@ -25,7 +25,7 @@ class TagsHelper extends JHelperContent
 	 * @return  void
 	 *
 	 * @since       3.1
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public static function addSubmenu($extension)
 	{

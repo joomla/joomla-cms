@@ -23,7 +23,7 @@ class JMenu
 	 *
 	 * @var    array
 	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $items
+	 * @deprecated  3.7  Will convert to $items
 	 */
 	protected $_items = array();
 
@@ -32,7 +32,7 @@ class JMenu
 	 *
 	 * @var    integer
 	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $default
+	 * @deprecated  3.7  Will convert to $default
 	 */
 	protected $_default = array();
 
@@ -41,7 +41,7 @@ class JMenu
 	 *
 	 * @var    integer
 	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $active
+	 * @deprecated  3.7  Will convert to $active
 	 */
 	protected $_active = 0;
 
@@ -119,7 +119,7 @@ class JMenu
 
 			if (!class_exists($classname))
 			{
-				// @deprecated 4.0 Everything in this block is deprecated but the warning is only logged after the file_exists
+				// @deprecated 3.7 Everything in this block is deprecated but the warning is only logged after the file_exists
 				// Load the menu object
 				$info = JApplicationHelper::getClientInfo($client, true);
 

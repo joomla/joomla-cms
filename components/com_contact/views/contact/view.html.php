@@ -45,7 +45,7 @@ class ContactViewContact extends JViewLegacy
 	 *
 	 * @var         string
 	 * @since       1.6
-	 * @deprecated  4.0  Variable not used
+	 * @deprecated  3.7  Variable not used
 	 */
 	protected $return_page;
 

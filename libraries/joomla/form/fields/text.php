@@ -208,7 +208,7 @@ class JFormFieldText extends JFormField
 	 * @return  array  The field option objects.
 	 *
 	 * @since       3.2
-	 * @deprecated  4.0  Use getOptions instead
+	 * @deprecated  3.7  Use getOptions instead
 	 */
 	protected function getSuggestions()
 	{

@@ -16,7 +16,7 @@ JLog::add('JDatabaseMysqli is deprecated, use JDatabaseDriverMysqli instead.', J
  *
  * @see         https://secure.php.net/manual/en/book.mysqli.php
  * @since       11.1
- * @deprecated  13.1 (Platform) & 4.0 (CMS) - Use JDatabaseDriverMysqli instead.
+ * @deprecated  13.1 (Platform) & 3.7 (CMS) - Use JDatabaseDriverMysqli instead.
  */
 class JDatabaseMysqli extends JDatabaseDriverMysqli
 {

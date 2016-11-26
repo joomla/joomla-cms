@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @documentation https://developer.github.com/v3/issues/comments/
  *
  * @since       12.3
- * @deprecated  4.0  Use the `joomla/github` package via Composer instead
+ * @deprecated  3.7  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageIssuesComments extends JGithubPackage
 {

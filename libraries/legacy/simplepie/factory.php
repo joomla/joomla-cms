@@ -17,7 +17,7 @@ jimport('simplepie.simplepie');
  * The user's navigated path within the application.
  *
  * @since       12.2
- * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JFeed or supply your own methods
+ * @deprecated  12.3 (Platform) & 3.7 (CMS) - Use JFeed or supply your own methods
  */
 class JSimplepieFactory
 {
@@ -30,7 +30,7 @@ class JSimplepieFactory
 	 * @return  mixed  SimplePie parsed object on success, false on failure.
 	 *
 	 * @since   12.2
-	 * @deprecated  4.0   Use JFeedFactory($url) instead.
+	 * @deprecated  3.7   Use JFeedFactory($url) instead.
 	 *
 	 * @note  In 3.2 will be proxied to JFeedFactory()
 	 */

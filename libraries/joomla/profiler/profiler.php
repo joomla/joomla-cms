@@ -141,7 +141,7 @@ class JProfiler
 	 * @return  float The current time
 	 *
 	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's microtime(1)
+	 * @deprecated  12.3 (Platform) & 3.7 (CMS) - Use PHP's microtime(1)
 	 */
 	public static function getmicrotime()
 	{
@@ -157,7 +157,7 @@ class JProfiler
 	 *
 	 * @link    PHP_MANUAL#memory_get_usage
 	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's native memory_get_usage()
+	 * @deprecated  12.3 (Platform) & 3.7 (CMS) - Use PHP's native memory_get_usage()
 	 */
 	public function getMemory()
 	{
