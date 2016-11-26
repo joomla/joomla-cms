@@ -124,7 +124,7 @@ class FieldsViewFields extends JViewLegacy
 		}
 
 		// Load specific component css
-		JHtml::_('stylesheet', $component . '/administrator/fields.css', array(), true);
+		JHtml::_('stylesheet', $component . '/administrator/fields.css', array('version' => 'auto', 'relative' => true));
 
 		// Prepare the toolbar.
 		JToolbarHelper::title($title, 'puzzle fields ' . substr($component, 4) . ($section ? "-$section" : '') . '-fields');
@@ -152,8 +152,7 @@ class FieldsViewFields extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', $this->context) && $user->authorise('core.edit', $this->context)
-			&& $user->authorise('core.edit.state', $this->context))
+		if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 

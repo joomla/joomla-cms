@@ -1938,6 +1938,12 @@ table th[class*="span"],
 .table-hover tbody tr.info:hover > td {
 	background-color: #c4e3f3;
 }
+.table-noheader {
+	border-collapse: collapse;
+}
+.table-noheader thead {
+	display: none;
+}
 .dropup,
 .dropdown {
 	position: relative;
@@ -7666,4 +7672,7 @@ ul.manager .height-50 .icon-folder-2 {
 	width: 35px;
 	line-height: 35px;
 	font-size: 30px;
+}
+.popover-content {
+	min-height: 33px;
 }

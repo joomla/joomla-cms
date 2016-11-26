@@ -44,20 +44,18 @@ if (in_array($option, $bootstrap))
 	JHtml::_('bootstrap.loadCss', true, $this->direction);
 }
 
-$this->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
-$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/position.css', 'text/css', 'screen');
-$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/layout.css', 'text/css', 'screen');
-$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/print.css', 'text/css', 'print');
-$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css', 'text/css', 'screen');
-$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '.css', 'text/css', 'screen');
+// Add stylesheets
+JHtml::_('stylesheet', 'templates/system/css/system.css', array('version' => 'auto'));
+JHtml::_('stylesheet', 'position.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'layout.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'print.css', array('version' => 'auto', 'relative' => true), array('media' => 'print'));
+JHtml::_('stylesheet', 'general.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '.css', array('version' => 'auto', 'relative' => true));
 
 if ($this->direction == 'rtl')
 {
-	$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
-	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css'))
-	{
-		$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css');
-	}
+	JHtml::_('stylesheet', 'template_rtl.css', array('version' => 'auto', 'relative' => true));
+	JHtml::_('stylesheet', htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
 if ($color == 'image')
@@ -71,13 +69,10 @@ if ($color == 'image')
 	}");
 }
 
-// Check for a custom CSS file
-$userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
+JHtml::_('stylesheet', 'ie7only.css', array('version' => 'auto', 'relative' => true, 'conditional' => 'IE 7'));
 
-if (file_exists($userCss) && filesize($userCss) > 0)
-{
-	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/user.css');
-}
+// Check for a custom CSS file
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 JHtml::_('bootstrap.framework');
 
@@ -102,7 +97,6 @@ JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true
 		<meta name="HandheldFriendly" content="true" />
 		<meta name="apple-mobile-web-app-capable" content="YES" />
 		<jdoc:include type="head" />
-		<!--[if IE 7]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" /><![endif]-->
 	</head>
 	<body id="shadow">
 		<div id="all">
