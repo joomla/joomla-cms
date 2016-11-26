@@ -28,15 +28,24 @@ abstract class ModMenuHelper
 	public static function getMenus()
 	{
 		$db     = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.*, SUM(b.home) AS home')
-			->from('#__menu_types AS a')
-			->join('LEFT', '#__menu AS b ON b.menutype = a.menutype AND b.home != 0')
-			->select('b.language')
-			->where('(b.client_id = 0 OR b.client_id IS NULL)');
 
-		// Group by menu type id to count the (language) home page menu items inside it, 0: no home, 1: home page, >1: misconfiguration detected
-		$query->group('a.id');
+		/* We count home page menu items inside the menu type to detect find home page menu item,
+		 * but also to detect more than 1 home page menu items which are a misconfiguration */
+		$subQuery = $db->getQuery(true)
+			->select('SUM(home) AS home, MIN(language) AS language, menutype')
+			->from('#__menu')
+			->where('home != 0')
+			->where('(client_id = 0 OR client_id IS NULL)')
+			->group('menutype');
+
+		// Get all menutype records, no where, no group by, no distinct
+		$query = $db->getQuery(true)
+			->select('a.*')
+			->select('c.home, c.language')
+			->select('l.image, l.sef, l.title_native')
+			->from('#__menu_types AS a')
+			->join('LEFT', '(' . (string) $subQuery . ') AS c ON c.menutype = a.menutype')
+			->join('LEFT', '#__languages AS l ON l.lang_code = language');
 
 		$db->setQuery($query);
 
@@ -48,25 +57,6 @@ abstract class ModMenuHelper
 		{
 			$result = array();
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-		}
-
-		// Add language data to the menu types
-		$langs = JLanguageHelper::getContentLanguages(false, false, 'lang_code');
-		foreach ($result as $m)
-		{
-			$lang = isset($langs[$m->language]) ? $langs[$m->language] : false;
-			if ($lang)
-			{
-				$m->image = $lang->image;
-				$m->sef   = $lang->sef;
-				$m->title_native = $lang->title_native;
-			}
-			else
-			{
-				$m->image = null;
-				$m->sef   = null;
-				$m->title_native = null;
-			}
 		}
 
 		return $result;
