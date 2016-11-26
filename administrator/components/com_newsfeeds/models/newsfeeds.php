@@ -185,7 +185,32 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			$query->select('COUNT(asso2.id)>1 AS association')
 				->join('LEFT', $db->quoteName('#__associations', 'asso') . ' ON asso.id = a.id AND asso.context = ' . $db->quote('com_newsfeeds.item'))
 				->join('LEFT', $db->quoteName('#__associations', 'asso2') . ' ON asso2.key = asso.key')
-				->group('a.id, l.title, l.image, uc.name, ag.title, c.title');
+				->group(
+					$db->quoteName(
+						array(
+							'a.id',
+							'a.name',
+							'a.alias',
+							'a.checked_out',
+							'a.checked_out_time',
+							'a.catid',
+							'a.numarticles',
+							'a.cache_time',
+							'a.created_by',
+							'a.published',
+							'a.access',
+							'a.ordering',
+							'a.language',
+							'a.publish_up',
+							'a.publish_down',
+							'l.title',
+							'l.image',
+							'uc.name',
+							'ag.title',
+							'c.title',
+						)
+					)
+				);
 		}
 
 		// Filter by access level.
