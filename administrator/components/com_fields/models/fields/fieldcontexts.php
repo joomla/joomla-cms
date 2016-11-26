@@ -18,6 +18,19 @@ class JFormFieldFieldcontexts extends JFormAbstractlist
 	public $type = 'Fieldcontexts';
 
 	/**
+	 * Method to get the field input markup for a generic list.
+	 * Use the multiple attribute to enable multiselect.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getInput()
+	{
+		return $this->getOptions() ? parent::getInput() : '';
+	}
+
+	/**
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
@@ -26,56 +39,31 @@ class JFormFieldFieldcontexts extends JFormAbstractlist
 	 */
 	protected function getOptions()
 	{
-		$options        = parent::getOptions();
-		$includeSection = (string) $this->element['includeSection'];
-		$includeSection = ($includeSection != 'false' && $includeSection);
+		$parts = explode('.', $this->value);
+		$eName = str_replace('com_', '', $parts[0]);
+		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $parts[0] . '/helpers/' . $eName . '.php');
+		$contexts = array();
 
-		// Loop through components and load contexts from helper if available.
-		$components = JComponentHelper::getComponents();
-
-		foreach ($components as $component)
+		if (!file_exists($file))
 		{
-			if (!$component->enabled)
-			{
-				continue;
-			}
-
-			$eName = str_replace('com_', '', $component->option);
-			$file  = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component->option . '/helpers/' . $eName . '.php');
-
-			if (!file_exists($file))
-			{
-				continue;
-			}
-
-			$prefix   = ucfirst($eName);
-			$cName    = $prefix . 'Helper';
-			$contexts = false;
-
-			JLoader::register($cName, $file);
-
-			if (class_exists($cName) && is_callable(array($cName, 'getContexts')))
-			{
-				$contexts = call_user_func_array(array($cName, 'getContexts'), array());
-			}
-
-			if (!$contexts || !is_array($contexts))
-			{
-				continue;
-			}
-
-			if ($includeSection)
-			{
-				$options[] = JHtml::_('select.optgroup', JText::_(strtoupper($component->option)));
-				$options   = array_merge($options, $contexts);
-				$options[] = JHtml::_('select.optgroup', JText::_(strtoupper($component->option)));
-			}
-			else
-			{
-				$options[$component->option] = JText::_(strtoupper($component->option));
-			}
+			return array();
 		}
 
-		return $options;
+		$prefix = ucfirst($eName);
+		$cName = $prefix . 'Helper';
+
+		JLoader::register($cName, $file);
+
+		if (class_exists($cName) && is_callable(array($cName, 'getContexts')))
+		{
+			$contexts = call_user_func_array(array($cName, 'getContexts'), array());
+		}
+
+		if (!$contexts || !is_array($contexts) || count($contexts) == 1)
+		{
+			return array();
+		}
+
+		return $contexts;
 	}
 }

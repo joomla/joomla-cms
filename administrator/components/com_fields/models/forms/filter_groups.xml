@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="group">
-		<field
-			name="extension"
-			type="fieldcontexts"
-			includeSection="false"
-			onchange="this.form.submit();"
-		/>
-	</fieldset>
 	<fields name="filter">
 		<field
 			name="search"

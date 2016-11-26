@@ -4,7 +4,6 @@
 		<field
 			name="context"
 			type="fieldcontexts"
-			includeSection="true"
 			onchange="this.form.submit();"
 		/>
 	</fieldset>
