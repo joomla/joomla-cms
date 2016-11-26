@@ -30,7 +30,7 @@ $parts     = explode('.', $extension);
 $component = $parts[0];
 $section   = null;
 $mode      = false;
-$columns   = 0;
+$columns   = 7;
 
 if (count($parts) > 1)
 {
