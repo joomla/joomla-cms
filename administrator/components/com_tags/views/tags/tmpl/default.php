@@ -30,6 +30,7 @@ $parts     = explode('.', $extension);
 $component = $parts[0];
 $section   = null;
 $mode      = false;
+$tfc       = 0;
 
 if (count($parts) > 1)
 {
@@ -94,21 +95,25 @@ if ($saveOrder)
 							<th width="1%" class="nowrap center hidden-phone">
 								<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"></i>
 							</th>
+							<?php $tfc++; ?>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) :?>
 							<th width="1%" class="nowrap center hidden-phone">
 								<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
 							</th>
+							<?php $tfc++; ?>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) :?>
 							<th width="1%" class="nowrap center hidden-phone">
 								<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>"></i>
 							</th>
+							<?php $tfc++; ?>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) :?>
 							<th width="1%" class="nowrap center hidden-phone">
 								<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>"></i>
 							</th>
+							<?php $tfc++; ?>
 						<?php endif;?>
  
 						<th width="10%" class="nowrap hidden-phone">
@@ -124,7 +129,7 @@ if ($saveOrder)
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="7">
+						<td colspan="<?php echo $tfc + 7; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
