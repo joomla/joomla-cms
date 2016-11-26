@@ -82,17 +82,28 @@ abstract class JHtmlFormbehavior
 			$options['no_results_text'] = JText::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 		}
 
-		$displayData = array(
-			'debug'     => $debug,
-			'options'  => $options,
-			'selector' => $selector,
-		);
+		// Include jQuery
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'jui/chosen.jquery.min.js', false, true, false, false, $debug);
+		//JHtml::_('script', 'system/ext-chosen.min.js', false, true, false, false, $debug);
+		JHtml::_('stylesheet', 'jui/chosen.css', false, true);
 
-		JLayoutHelper::render('joomla.html.formbehavior.chosen', $displayData);
+		JFactory::getDocument()->addScriptDeclaration("
+		jQuery(document).ready(function ($) {
+		console.log(" . json_encode($options) . ");
+			$('" . $selector . "').chosen(" . json_encode($options) . ");
+		});
+		");
+//		// Pass the options to javascript
+//		JFactory::getDocument()->addScriptOptions(
+//			'chosen',
+//			array(
+//				'selector' => $selector,
+//				'options'  => json_encode($options),
+//			)
+//		);
 
 		static::$loaded[__METHOD__][$selector] = true;
-
-		return;
 	}
 
 	/**
@@ -117,6 +128,7 @@ abstract class JHtmlFormbehavior
 		$jsonTermKey    = $options->get('jsonTermKey', 'term');
 		$afterTypeDelay = $options->get('afterTypeDelay', '500');
 		$minTermLength  = $options->get('minTermLength', '3');
+		$allowCustom    = $options->get('allowCustom', false);
 
 		// Ajax URL is mandatory
 		if (!empty($url))
@@ -129,23 +141,34 @@ abstract class JHtmlFormbehavior
 			// Requires chosen to work
 			static::chosen($selector, $debug);
 
-			$displayData = array(
-				'url'            => $url,
-				'debug'          => $debug,
-				'options'        => $options,
-				'selector'       => $selector,
-				'type'           => $type,
-				'dataType'       => $dataType,
-				'jsonTermKey'    => $jsonTermKey,
-				'afterTypeDelay' => $afterTypeDelay,
-				'minTermLength'  => $minTermLength,
-			);
+			JText::script('JGLOBAL_KEEP_TYPING');
+			JText::script('JGLOBAL_LOOKING_FOR');
 
-			JLayoutHelper::render('joomla.html.formbehavior.ajaxchosen', $displayData);
+			// Depends on Joomla.getOptions()
+			JHtml::_('behavior.core');
+
+			// Include jQuery
+			JHtml::_('jquery.framework');
+			JHtml::_('script', 'jui/ajax-chosen.min.js', false, true, false, false, $debug);
+
+			// Pass the options to javascript
+			JFactory::getDocument()->addScriptOptions(
+				'ajax-chosen',
+				array(
+					'url'            => $url,
+					'debug'          => $debug,
+					'options'        => $options,
+					'selector'       => $selector,
+					'type'           => $type,
+					'dataType'       => $dataType,
+					'jsonTermKey'    => $jsonTermKey,
+					'afterTypeDelay' => $afterTypeDelay,
+					'minTermLength'  => $minTermLength,
+					'allowCustom'    => $allowCustom,
+				)
+			);
 
 			static::$loaded[__METHOD__][$selector] = true;
 		}
-
-		return;
 	}
 }
