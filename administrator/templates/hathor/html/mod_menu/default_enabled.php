@@ -353,7 +353,7 @@ if ($showhelp == 1)
 		new JMenuNode(JText::_('MOD_MENU_HELP_TRANSLATIONS'), 'https://community.joomla.org/translations.html', 'class:help-trans', false, '_blank')
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_RESOURCES'), 'http://resources.joomla.org', 'class:help-jrd', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_HELP_RESOURCES'), 'https://resources.joomla.org', 'class:help-jrd', false, '_blank')
 	);
 	$menu->addChild(
 		new JMenuNode(JText::_('MOD_MENU_HELP_COMMUNITY'), 'https://community.joomla.org', 'class:help-community', false, '_blank')
