@@ -11,7 +11,6 @@
 	<description>PLG_SYSTEM_USERLOGS_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="userlogs">userlogs.php</filename>
-		<folder>models</folder>
 		<folder>forms</folder>
 		<folder>field</folder>
 		<folder>layouts</folder>
