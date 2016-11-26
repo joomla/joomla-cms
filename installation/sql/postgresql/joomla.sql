@@ -1314,6 +1314,8 @@ CREATE TABLE "#__menu_types" (
   CONSTRAINT "#__menu_types_idx_menutype" UNIQUE ("menutype")
 );
 
+COMMENT ON COLUMN "#__menu_types"."asset_id" IS 'FK to the #__assets table.';
+
 --
 -- Dumping data for table #__menu_types
 --
