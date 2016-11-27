@@ -45,7 +45,7 @@ extract($displayData);
  * @var   mixed    $excluded        The users to exclude from the list of users
  */
 
-JHtml::_('script', 'jui/fielduser.min.js', false, true, false, false, true);
+JHtml::_('script', 'jui/fielduser.min.js', array('version' => 'auto', 'relative' => true));
 
 $uri = new JUri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0&field={field-user-id}&ismoo=0');
 

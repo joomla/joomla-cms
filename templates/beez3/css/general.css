@@ -139,7 +139,7 @@ figcaption {
 	caption-side: bottom;
 }
 /* Calendar */
-#jform_publish_down_img {
+#jform_publish_down_btn {
 	width: 18px;
 	height: 18px;
 	margin-left: 3px;
@@ -147,7 +147,7 @@ figcaption {
 	cursor: pointer;
 	vertical-align: middle;
 }
-#jform_publish_up_img {
+#jform_publish_up_btn {
 	width: 18px;
 	height: 18px;
 	margin-left: 3px;
@@ -491,6 +491,7 @@ span.optional
 }
 .popover-content {
 	padding: 9px 14px;
+	min-height: 33px;
 }
 .popover .arrow,
 .popover .arrow:after {

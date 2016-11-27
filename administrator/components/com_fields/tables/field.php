@@ -63,7 +63,7 @@ class FieldsTableField extends JTable
 		// Bind the rules.
 		if (isset($src['rules']) && is_array($src['rules']))
 		{
-			$rules = new JRules($src['rules']);
+			$rules = new JAccessRules($src['rules']);
 			$this->setRules($rules);
 		}
 
@@ -86,7 +86,7 @@ class FieldsTableField extends JTable
 		// Check for valid name
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_FIELDS_LOCATION_ERR_TABLES_TITLE'));
+			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
 
 			return false;
 		}
@@ -96,11 +96,11 @@ class FieldsTableField extends JTable
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JString::increment($alias, 'dash');
+			$this->alias = Joomla\String\StringHelper::increment($alias, 'dash');
 		}
 
 		$this->alias = str_replace(',', '-', $this->alias);
@@ -221,7 +221,7 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  number|boolean
 	 *
-	 * since    __DEPLOY_VERSION__
+	 * @since    __DEPLOY_VERSION__
 	 */
 	private function getAssetId($name)
 	{

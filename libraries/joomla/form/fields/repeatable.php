@@ -137,9 +137,9 @@ class JFormFieldRepeatable extends JFormField
 		// Depends on jQuery UI
 		JHtml::_('jquery.ui', array('core', 'sortable'));
 
-		JHtml::_('script', 'jui/sortablelist.js', false, true);
-		JHtml::_('stylesheet', 'jui/sortablelist.css', false, true, false);
-		JHtml::_('script', 'system/repeatable.js', true, true);
+		JHtml::_('script', 'jui/sortablelist.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('stylesheet', 'jui/sortablelist.css', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'system/repeatable.js', array('framework' => true, 'version' => 'auto', 'relative' => true));
 
 		$javascript = 'jQuery(document).ready(function($) { $("#' . $this->id . '_table tbody").sortable(); });';
 

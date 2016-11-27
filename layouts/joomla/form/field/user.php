@@ -46,7 +46,7 @@ extract($displayData);
  */
 
 JHtml::_('behavior.modal', 'a.modal_' . $id);
-JHtml::_('script', 'jui/fielduser.min.js', false, true, false, false, true);
+JHtml::_('script', 'jui/fielduser.min.js', array('version' => 'auto', 'relative' => true));
 
 $uri = new JUri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
 
