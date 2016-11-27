@@ -37,7 +37,7 @@ class InstallerModelManage extends InstallerModel
 				'client', 'client_translated',
 				'type', 'type_translated',
 				'folder', 'folder_translated',
-				'core',
+				'locked',
 				'extension_id',
 			);
 		}
@@ -67,7 +67,7 @@ class InstallerModelManage extends InstallerModel
 		$this->setState('filter.status', $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'string'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
-		$this->setState('filter.core', $this->getUserStateFromRequest($this->context . '.filter.core', 'filter_core', '', 'string'));
+		$this->setState('filter.locked', $this->getUserStateFromRequest($this->context . '.filter.locked', 'filter_locked', '', 'string'));
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
@@ -224,10 +224,10 @@ class InstallerModelManage extends InstallerModel
 			$row->load($id);
 			$result = false;
 
-			// Do not allow to uninstall core extensions.
-			if ((int) $row->core === 1)
+			// Do not allow to uninstall locked extensions.
+			if ((int) $row->locked === 1)
 			{
-				$msgs[] = JText::_('COM_INSTALLER_UNINSTALL_ERROR_CORE_EXTENSION');
+				$msgs[] = JText::_('COM_INSTALLER_UNINSTALL_ERROR_LOCKED_EXTENSION');
 
 				continue;
 			}
@@ -303,7 +303,7 @@ class InstallerModelManage extends InstallerModel
 		$type     = $this->getState('filter.type');
 		$clientId = $this->getState('filter.client_id');
 		$folder   = $this->getState('filter.folder');
-		$core     = $this->getState('filter.core');
+		$locked   = $this->getState('filter.locked');
 
 		if ($status != '')
 		{
@@ -337,9 +337,9 @@ class InstallerModelManage extends InstallerModel
 			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
 		}
 
-		if ($core !== '')
+		if ($locked !== '')
 		{
-			$query->where('core = ' . (int) $core);
+			$query->where('locked = ' . (int) $locked);
 		}
 
 		// Process search filter (extension id).
