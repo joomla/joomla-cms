@@ -1,9 +1,9 @@
 -- Add core field to extensions table.
 ALTER TABLE [#__extensions] ADD [core] [smallint] NOT NULL DEFAULT 0;
 
--- Set all core extensions as core 1
+-- Set all core extensions as core 1 and unprotected them.
 UPDATE [#__extensions]
-SET [core] = 1
+SET [core] = 1, [protected] = 0
 WHERE ([type] = 'component' AND [element] IN (
 	'com_mailto',
 	'com_wrapper',
@@ -99,6 +99,48 @@ OR ([type] = 'plugin' AND
 )
 OR ([type] = 'library' AND [element] IN ('phputf8', 'joomla', 'idna_convert', 'fof', 'phpass'))
 OR ([type] = 'template' AND [element] IN ('beez3', 'hathor', 'protostar', 'isis'))
+OR ([type] = 'language' AND [element] IN ('en-GB'))
+OR ([type] = 'file' AND [element] IN ('joomla'))
+OR ([type] = 'package' AND [element] IN ('pkg_en-GB'));
+
+-- Now protect from disabling essential extensions.
+UPDATE [#__extensions]
+SET [protected] = 1
+WHERE ([type] = 'component' AND [element] IN (
+	'com_mailto',
+	'com_admin',
+	'com_cache',
+	'com_categories',
+	'com_checkin',
+	'com_cpanel',
+	'com_installer',
+	'com_languages',
+	'com_login',
+	'com_media',
+	'com_menus',
+	'com_modules',
+	'com_plugins',
+	'com_templates',
+	'com_content',
+	'com_config',
+	'com_users',
+	'com_joomlaupdate',
+	'com_ajax',
+	'com_postinstall'
+))
+OR ([type] = 'module' AND [element] IN ('mod_login', 'mod_menu', 'mod_quickicon', 'mod_toolbar'))
+OR ([type] = 'plugin' AND
+	(
+		([folder] = 'system' AND [element] IN ('logout'))
+		OR ([folder] = 'content' AND [element] IN ('joomla'))
+		OR ([folder] = 'user' AND [element] IN ('joomla'))
+		OR ([folder] = 'editors' AND [element] IN ('codemirror', 'none'))
+		OR ([folder] = 'authentication' AND [element] IN ('joomla'))
+		OR ([folder] = 'installer' AND [element] IN ('packageinstaller', 'folderinstaller', 'urlinstaller'))
+		OR ([folder] = 'extension' AND [element] IN ('joomla'))
+	)
+)
+OR ([type] = 'library' AND [element] IN ('phputf8', 'joomla', 'idna_convert', 'fof', 'phpass'))
 OR ([type] = 'language' AND [element] IN ('en-GB'))
 OR ([type] = 'file' AND [element] IN ('joomla'))
 OR ([type] = 'package' AND [element] IN ('pkg_en-GB'));
