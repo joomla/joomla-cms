@@ -464,8 +464,8 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   `client_id` tinyint(3) NOT NULL,
   `enabled` tinyint(3) NOT NULL DEFAULT 0,
   `access` int(10) unsigned NOT NULL DEFAULT 1,
-  `protected` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension can be enabled/disabled.',
-  `core` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if is a Joomla core extension. Core extensions can not be uninstalled.',
+  `protected` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.',
+  `locked` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if is the extension is locked. Locked extensions cannot be uninstalled.',
   `manifest_cache` text NOT NULL,
   `params` text NOT NULL,
   `custom_data` text NOT NULL,
@@ -484,7 +484,7 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
 -- Dumping data for table `#__extensions`
 --
 
-INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `core`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (1, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (2, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (3, 'com_admin', 'component', 'com_admin', '', 1, 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
