@@ -679,11 +679,11 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			return false;
 		}
 
-		// Is the component we are trying to uninstall a core one?
+		// Is the component we are trying to uninstall a locked one?
 		// Because that is not a good idea...
-		if ($this->extension->protected)
+		if ($this->extension->locked)
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_WARNCORECOMPONENT'), JLog::WARNING, 'jerror');
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_LOCKED'), JLog::WARNING, 'jerror');
 
 			return false;
 		}
