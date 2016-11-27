@@ -68,7 +68,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap center">
-					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_CORE', 'core', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_LOCKED', 'locked', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap id-col">
 					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
@@ -115,7 +115,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 				</td>
 				<td class="center">
-					<?php echo ($item->core ? JText::_('JYES') : JText::_('JNO')); ?>
+					<?php echo ($item->locked ? JText::_('JYES') : JText::_('JNO')); ?>
 				</td>
 				<td>
 					<?php echo $item->extension_id ?>
