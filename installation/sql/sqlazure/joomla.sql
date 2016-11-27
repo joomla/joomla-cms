@@ -835,9 +835,9 @@ SELECT 206, 'mod_feed', 'module', 'mod_feed', '', 0, 1, 1, 0, 1, '', '', '', '',
 UNION ALL
 SELECT 207, 'mod_footer', 'module', 'mod_footer', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 208, 'mod_login', 'module', 'mod_login', '', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 208, 'mod_login', 'module', 'mod_login', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 209, 'mod_menu', 'module', 'mod_menu', '', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 209, 'mod_menu', 'module', 'mod_menu', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 210, 'mod_articles_news', 'module', 'mod_articles_news', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -921,7 +921,7 @@ SELECT 408, 'plg_content_pagenavigation', 'plugin', 'pagenavigation', 'content',
 UNION ALL
 SELECT 409, 'plg_content_vote', 'plugin', 'vote', 'content', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 6, 0
 UNION ALL
-SELECT 410, 'plg_editors_codemirror', 'plugin', 'codemirror', 'editors', 0, 1, 1, 1, 1, '', '{"lineNumbers":"1","lineWrapping":"1","matchTags":"1","matchBrackets":"1","marker-gutter":"1","autoCloseTags":"1","autoCloseBrackets":"1","autoFocus":"1","theme":"default","tabmode":"indent"}', '', '', 0, '1900-01-01 00:00:00', 1, 0
+SELECT 410, 'plg_editors_codemirror', 'plugin', 'codemirror', 'editors', 0, 1, 1, 0, 1, '', '{"lineNumbers":"1","lineWrapping":"1","matchTags":"1","matchBrackets":"1","marker-gutter":"1","autoCloseTags":"1","autoCloseBrackets":"1","autoFocus":"1","theme":"default","tabmode":"indent"}', '', '', 0, '1900-01-01 00:00:00', 1, 0
 UNION ALL
 SELECT 411, 'plg_editors_none', 'plugin', 'none', 'editors', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 2, 0
 UNION ALL
@@ -1009,9 +1009,9 @@ SELECT 454, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, 1, '', 
 UNION ALL
 SELECT 455, 'plg_installer_packageinstaller', 'plugin', 'packageinstaller', 'installer', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 1, 0
 UNION ALL
-SELECT 456, 'plg_installer_folderinstaller', 'plugin', 'folderinstaller', 'installer', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 2, 0
+SELECT 456, 'plg_installer_folderinstaller', 'plugin', 'folderinstaller', 'installer', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 2, 0
 UNION ALL
-SELECT 457, 'plg_installer_urlinstaller', 'plugin', 'urlinstaller', 'installer', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 3, 0
+SELECT 457, 'plg_installer_urlinstaller', 'plugin', 'urlinstaller', 'installer', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 3, 0
 UNION ALL
 SELECT 458, 'plg_quickicon_phpversioncheck', 'plugin', 'phpversioncheck', 'quickicon', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL

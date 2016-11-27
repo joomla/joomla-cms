@@ -131,15 +131,13 @@ WHERE ("type" = 'component' AND "element" IN (
 	'com_ajax',
 	'com_postinstall'
 ))
-OR ("type" = 'module' AND "element" IN ('mod_login', 'mod_menu', 'mod_quickicon', 'mod_toolbar'))
+OR ("type" = 'module' AND "client_id" = 1 AND "element" IN ('mod_login', 'mod_menu', 'mod_quickicon', 'mod_toolbar'))
 OR ("type" = 'plugin' AND
 	(
-		("folder" = 'system' AND "element" IN ('logout'))
-		OR ("folder" = 'content' AND "element" IN ('joomla'))
-		OR ("folder" = 'user' AND "element" IN ('joomla'))
-		OR ("folder" = 'editors' AND "element" IN ('codemirror', 'none'))
+		("folder" = 'user' AND "element" IN ('joomla'))
+		OR ("folder" = 'editors' AND "element" IN ('none'))
 		OR ("folder" = 'authentication' AND "element" IN ('joomla'))
-		OR ("folder" = 'installer' AND "element" IN ('packageinstaller', 'folderinstaller', 'urlinstaller'))
+		OR ("folder" = 'installer' AND "element" IN ('packageinstaller'))
 		OR ("folder" = 'extension' AND "element" IN ('joomla'))
 	)
 )
