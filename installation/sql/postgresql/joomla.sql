@@ -455,6 +455,7 @@ CREATE TABLE "#__extensions" (
   "enabled" smallint DEFAULT 0 NOT NULL,
   "access" bigint DEFAULT 1 NOT NULL,
   "protected" smallint DEFAULT 0 NOT NULL,
+  "core" smallint DEFAULT 0 NOT NULL,
   "manifest_cache" text NOT NULL,
   "params" text NOT NULL,
   "custom_data" text DEFAULT '' NOT NULL,
@@ -468,6 +469,9 @@ CREATE TABLE "#__extensions" (
 CREATE INDEX "#__extensions_element_clientid" ON "#__extensions" ("element", "client_id");
 CREATE INDEX "#__extensions_element_folder_clientid" ON "#__extensions" ("element", "folder", "client_id");
 CREATE INDEX "#__extensions_extension" ON "#__extensions" ("type", "element", "folder", "client_id");
+
+COMMENT ON COLUMN "#__extensions"."protected" IS 'Flag to indicate if the extension can be enabled/disabled.';
+COMMENT ON COLUMN "#__extensions"."core" IS 'Flag to indicate if is a Joomla core extension. Core extensions can not be uninstalled.';
 
 -- Components
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES

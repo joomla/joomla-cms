@@ -705,6 +705,7 @@ CREATE TABLE [#__extensions](
 	[enabled] [smallint] NOT NULL DEFAULT 0,
 	[access] [int] NOT NULL DEFAULT 1,
 	[protected] [smallint] NOT NULL DEFAULT 0,
+	[core] [smallint] NOT NULL DEFAULT 0,
 	[manifest_cache] [nvarchar](max) NOT NULL,
 	[params] [nvarchar](max) NOT NULL,
 	[custom_data] [nvarchar](max) NOT NULL,
