@@ -419,6 +419,7 @@ class InstallerModelUpdatesites extends InstallerModel
 					'e.folder',
 					'e.client_id',
 					'e.state',
+					'e.protected',
 					'e.manifest_cache',
 				)
 			)
