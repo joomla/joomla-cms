@@ -145,15 +145,7 @@ final class JApplicationSite extends JApplicationCms
 				$languages = JLanguageHelper::getContentLanguages(true, true, 'lang_code');
 
 				// Set metadata
-				if (isset($languages[$lang_code]) && $languages[$lang_code]->metakey)
-				{
-					$document->setMetaData('keywords', $languages[$lang_code]->metakey);
-				}
-				else
-				{
-					$document->setMetaData('keywords', $this->get('MetaKeys'));
-				}
-
+				$document->setMetaData('keywords', $this->get('MetaKeys'));
 				$document->setMetaData('rights', $this->get('MetaRights'));
 
 				if ($router->getMode() == JROUTER_MODE_SEF)
@@ -324,23 +316,8 @@ final class JApplicationSite extends JApplicationCms
 			$menus = $this->getMenu();
 			$menu  = $menus->getActive();
 
-			// Get language
-			$lang_code = $this->getLanguage()->getTag();
-			$languages = JLanguageHelper::getContentLanguages(true, true, 'lang_code');
-
+			// Get site name.
 			$title = $this->get('sitename');
-
-			if (isset($languages[$lang_code]) && $languages[$lang_code]->metadesc)
-			{
-				$description = $languages[$lang_code]->metadesc;
-			}
-			else
-			{
-				$description = $this->get('MetaDesc');
-			}
-
-			$rights = $this->get('MetaRights');
-			$robots = $this->get('robots');
 
 			// Retrieve com_menu global settings
 			$temp = clone JComponentHelper::getParams('com_menus');
@@ -364,9 +341,9 @@ final class JApplicationSite extends JApplicationCms
 			}
 
 			$params[$hash]->def('page_title', $title);
-			$params[$hash]->def('page_description', $description);
-			$params[$hash]->def('page_rights', $rights);
-			$params[$hash]->def('robots', $robots);
+			$params[$hash]->def('page_description', $this->get('MetaDesc'));
+			$params[$hash]->def('page_rights', $this->get('MetaRights'));
+			$params[$hash]->def('robots', $this->get('robots'));
 		}
 
 		return $params[$hash];

@@ -696,6 +696,22 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$doc = JFactory::getDocument();
 
+		// Set description.
+		if ($this->app->isSite() && $doc->getType() === 'html' && isset($this->lang_codes[$this->current_lang]))
+		{
+			// Add content language meta desc.
+			if ($this->lang_codes[$this->current_lang]->metadesc)
+			{
+				$doc->setDescription($this->lang_codes[$this->current_lang]->metadesc);
+			}
+
+			// Add content language meta keys.
+			if ($this->lang_codes[$this->current_lang]->metakey)
+			{
+				$doc->setMetaData('keywords', $this->lang_codes[$this->current_lang]->metakey);
+			}
+		}
+
 		if ($this->app->isSite() && $this->params->get('alternate_meta', 1) && $doc->getType() == 'html')
 		{
 			$languages             = $this->lang_codes;
