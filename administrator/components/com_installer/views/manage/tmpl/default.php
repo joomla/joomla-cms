@@ -125,7 +125,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $item->folder_translated; ?>
 						</td>
 						<td class="hidden-phone">
-							<?php echo ($item->core ? JText('JYES') : JText('JNO')); ?>
+							<?php echo ($item->core ? JText::_('JYES') : JText::_('JNO')); ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo $item->extension_id; ?>
