@@ -89,7 +89,9 @@ class MenusViewMenutypes extends JViewLegacy
 	/**
 	 * Method to add system link types to the link types array
 	 *
-	 * @param   array  $types  The list of link types
+	 * @param   array  &$types  The list of link types
+	 *
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

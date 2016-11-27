@@ -209,8 +209,7 @@ abstract class ModMenuHelper
 		// Parse the list of extensions.
 		$result = self::parseItems($menuItems, $authCheck);
 
-		// return ArrayHelper::sortObjects($result, 'text', 1, false, true);
-		return $result;
+		return ArrayHelper::sortObjects($result, 'text', 1, false, true);
 	}
 
 	/**
@@ -240,8 +239,7 @@ abstract class ModMenuHelper
 			 */
 			if (($menuitem->params->get('menu_show', 1) == 0)
 				|| ($menuitem->element && $authCheck && !$user->authorise('core.manage', $menuitem->element))
-				|| ($menuitem->access && !in_array($menuitem->access, $levels))
-			)
+				|| ($menuitem->access && !in_array($menuitem->access, $levels)))
 			{
 				continue;
 			}
@@ -264,7 +262,7 @@ abstract class ModMenuHelper
 				default:
 			}
 
-			if($menuitem->link == '')
+			if ($menuitem->link == '')
 			{
 				continue;
 			}
@@ -309,7 +307,7 @@ abstract class ModMenuHelper
 	/**
 	 * Method to get a link to the aliased menu item
 	 *
-	 * @param   $menuId  The record id of the referencing menu item
+	 * @param   int  $menuId  The record id of the referencing menu item
 	 *
 	 * @return  string
 	 *
@@ -335,7 +333,7 @@ abstract class ModMenuHelper
 	/**
 	 * Method to cleanup the menu items for repeated, leading or trailing separators in a given menu level
 	 *
-	 * @param   array  $items  The list of menu items in the selected level
+	 * @param   array  &$items  The list of menu items in the selected level
 	 *
 	 * @return  void
 	 *

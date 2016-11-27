@@ -76,8 +76,9 @@ class JFormFieldModal_Menu extends JFormField
 		}
 
 		// Setup variables for display.
-		$linkItems  = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;client_id=' . $clientId . '&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
-		$linkItem   = 'index.php?option=com_menus&amp;view=item&amp;layout=modal&amp;client_id=' . $clientId . '&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
+		$linkSuffix = '&amp;layout=modal&amp;client_id=' . $clientId . '&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
+		$linkItems  = 'index.php?option=com_menus&amp;view=items' . $linkSuffix;
+		$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
 		$modalTitle = JText::_('COM_MENUS_CHANGE_MENUITEM');
 
 		if (isset($this->element['language']))

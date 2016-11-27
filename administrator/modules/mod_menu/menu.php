@@ -330,6 +330,8 @@ class JAdminCssMenu
 	 * @param   Registry  $params   Menu configuration parameters
 	 * @param   bool      $enabled  Whether the menu should be enabled or disabled
 	 *
+	 * @return  void
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function load($params, $enabled)
@@ -356,6 +358,8 @@ class JAdminCssMenu
 	 *
 	 * @param   array  $items    Menu items loaded from database
 	 * @param   bool   $enabled  Whether the menu should be enabled or disabled
+	 *
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
