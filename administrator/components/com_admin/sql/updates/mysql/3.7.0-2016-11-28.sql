@@ -1,10 +1,10 @@
--- Add core field to extensions table.
-ALTER TABLE `#__extensions` MODIFY `protected` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension can be enabled/disabled.';
-ALTER TABLE `#__extensions` ADD COLUMN `core` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if is a Joomla core extension. Core extensions can not be uninstalled.';
+-- Add locked field to extensions table.
+ALTER TABLE `#__extensions` MODIFY `protected` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.';
+ALTER TABLE `#__extensions` ADD COLUMN `locked` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if is the extension is locked. Locked extensions cannot be uninstalled.';
 
--- Set all core extensions as core 1 and unprotected them.
+-- Set all core extensions as locked extensions and unprotected them.
 UPDATE `#__extensions`
-SET `core` = 1, `protected` = 0
+SET `locked` = 1, `protected` = 0
 WHERE (`type` = 'component' AND `element` IN (
 	'com_mailto',
 	'com_wrapper',
@@ -104,7 +104,7 @@ OR (`type` = 'language' AND `element` IN ('en-GB'))
 OR (`type` = 'file' AND `element` IN ('joomla'))
 OR (`type` = 'package' AND `element` IN ('pkg_en-GB'));
 
--- Now protect from disabling essential extensions.
+-- Now protect from disabling essential core extensions.
 UPDATE `#__extensions`
 SET `protected` = 1
 WHERE (`type` = 'component' AND `element` IN (
