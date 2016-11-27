@@ -342,6 +342,28 @@ class JLanguageHelper
 			$languages = array_values(array_intersect_key(ArrayHelper::pivot($languages, 'lang_code'), static::getInstalledLanguages(0)));
 		}
 
+		// If there is no installed content language fallback to english.
+		if ($languages === array())
+		{
+			$language               = new stdClass;
+			$language->lang_id      = 1;
+			$language->asset_id     = 0;
+			$language->lang_code    = 'en-GB';
+			$language->title        = 'English (en-GB)';
+			$language->title_native = 'English (United Kingdom)';
+			$language->sef          = 'en';
+			$language->image        = 'en_gb';
+			$language->description  = '';
+			$language->metakey      = '';
+			$language->metadesc     = '';
+			$language->sitename     = '';
+			$language->published    = 1;
+			$language->access       = 1;
+			$language->ordering     = 1;
+
+			$languages = array($language);
+		}
+
 		// Order the list, if needed.
 		if ($orderField !== null && $orderDirection !== null)
 		{
