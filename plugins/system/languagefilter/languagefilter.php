@@ -95,8 +95,8 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			// Setup language data.
 			$this->mode_sef     = $this->app->get('sef', 0);
-			$this->sefs         = JLanguageHelper::getLanguages('sef');
-			$this->lang_codes   = JLanguageHelper::getLanguages('lang_code');
+			$this->sefs         = JLanguageHelper::getContentLanguages(true, true, 'sef');
+			$this->lang_codes   = JLanguageHelper::getContentLanguages(true, true, 'lang_code');
 			$this->default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 
 			$levels = JFactory::getUser()->getAuthorisedViewLevels();
@@ -105,8 +105,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			{
 				// @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
 				// we also check if frontend language exists and is enabled
-				if (($language->access && !in_array($language->access, $levels))
-					|| (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0))))
+				if ($language->access && !in_array($language->access, $levels))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);
@@ -741,7 +740,6 @@ class PlgSystemLanguageFilter extends JPlugin
 				switch (true)
 				{
 					// Language without frontend UI || Language without specific home menu || Language without authorized access level
-					case (!array_key_exists($i, JLanguageHelper::getInstalledLanguages(0))):
 					case (!isset($homes[$i])):
 					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
 						unset($languages[$i]);

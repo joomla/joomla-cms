@@ -32,7 +32,7 @@ abstract class ModLanguagesHelper
 	{
 		$user      = JFactory::getUser();
 		$lang      = JFactory::getLanguage();
-		$languages = JLanguageHelper::getLanguages();
+		$languages = JLanguageHelper::getContentLanguages(true, true, 'lang_code', 'ordering', 'ASC');
 		$app       = JFactory::getApplication();
 		$menu      = $app->getMenu();
 
@@ -73,19 +73,13 @@ abstract class ModLanguagesHelper
 		}
 
 		$levels    = $user->getAuthorisedViewLevels();
-		$sitelangs = JLanguageHelper::getInstalledLanguages(0);
 		$multilang = JLanguageMultilang::isEnabled();
 
 		// Filter allowed languages
 		foreach ($languages as $i => &$language)
 		{
-			// Do not display language without frontend UI
-			if (!array_key_exists($language->lang_code, $sitelangs))
-			{
-				unset($languages[$i]);
-			}
 			// Do not display language without specific home menu
-			elseif (!isset($homes[$language->lang_code]))
+			if (!isset($homes[$language->lang_code]))
 			{
 				unset($languages[$i]);
 			}
