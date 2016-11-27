@@ -699,7 +699,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		if ($this->app->isSite() && $doc->getType() == 'html')
 		{
 			// Set content language description and meta keys.
-			if ($this->app->isSite() && $doc->getType() === 'html' && isset($this->lang_codes[$this->current_lang]))
+			if (isset($this->lang_codes[$this->current_lang]))
 			{
 				// Add content language meta desc.
 				if ($this->lang_codes[$this->current_lang]->metadesc)
