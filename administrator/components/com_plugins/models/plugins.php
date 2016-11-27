@@ -222,10 +222,10 @@ class PluginsModelPlugins extends JModelList
 			$this->getState(
 				'list.select',
 				'a.extension_id , a.name, a.element, a.folder, a.checked_out, a.checked_out_time,' .
-					' a.enabled, a.access, a.ordering'
+					' a.enabled, a.protected, a.access, a.ordering'
 			)
 		)
-			->from($db->quoteName('#__extensions') . ' AS a')
+			->from($db->quoteName('#__extensions', 'a'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 
 		// Join over the users for the checked out user.

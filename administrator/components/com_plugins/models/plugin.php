@@ -97,6 +97,16 @@ class PluginsModelPlugin extends JModelAdmin
 			return false;
 		}
 
+		// Disable enabled form field based on protected state.
+		if ($item && $item->protected)
+		{
+			// Disable fields for display.
+			$form->setFieldAttribute('enabled', 'disabled', 'true');
+
+			// Disable fields while saving.
+			$form->setFieldAttribute('enabled', 'filter', 'unset');
+		}
+
 		// Modify the form based on access controls.
 		if (!$this->canEditState((object) $data))
 		{
@@ -366,5 +376,40 @@ class PluginsModelPlugin extends JModelAdmin
 	{
 		parent::cleanCache('com_plugins', 0);
 		parent::cleanCache('com_plugins', 1);
+	}
+
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function publish(&$pks, $value = 1)
+	{
+		$table = $this->getTable();
+		$pks   = (array) $pks;
+
+		// Default menu item existence checks.
+		foreach ($pks as $i => $pk)
+		{
+			// Check if plugin is protected.
+			if ($table->load($pk) && $table->protected)
+			{
+				JError::raiseWarning(500, JText::_('COM_PLUGINS_ERROR_PROTECTED'));
+				unset($pks[$i]);
+				continue;
+			}
+		}
+
+		if ($pks === array())
+		{
+			return false;
+		}
+
+		return parent::publish($pks, $value);
 	}
 }
