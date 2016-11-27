@@ -32,7 +32,7 @@ class FieldsControllerField extends JControllerForm
 	{
 		parent::__construct($config);
 
-		$this->internalContext = $this->input->getCmd('context', 'com_content.article');
+		$this->internalContext = JFactory::getApplication()->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
 		$parts = FieldsHelper::extract($this->internalContext);
 		$this->component = $parts ? $parts[0] : null;
 	}

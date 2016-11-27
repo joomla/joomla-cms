@@ -36,26 +36,6 @@ class FieldsControllerGroups extends JControllerAdmin
 	}
 
 	/**
-	 * Removes an item
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function delete()
-	{
-		parent::delete();
-
-		$this->setRedirect(
-			JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list .
-				'&extension=' . $this->input->getCmd('extension'), false
-			)
-		);
-
-		return;
-	}
-
-	/**
 	 * Proxy for getModel.
 	 *
 	 * @param   string  $name    The model name. Optional.
