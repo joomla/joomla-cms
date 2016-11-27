@@ -115,6 +115,9 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			);
 		}
 
+		// Add a callback for the `onExtensionAfterInstall` event so we can receive the installed extension ID
+		JEventDispatcher::getInstance()->register('onExtensionAfterInstall', array($this, 'onExtensionAfterInstall'));
+
 		foreach ($this->getManifest()->files->children() as $child)
 		{
 			$file = $source . '/' . (string) $child;
@@ -145,8 +148,6 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 					)
 				);
 			}
-
-			$this->installedIds[] = $tmpInstaller->extension->extension_id;
 
 			$this->results[] = array(
 				'name'   => (string) $tmpInstaller->manifest->name,
@@ -197,19 +198,22 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		// Set the package ID for each of the installed extensions to track the relationship
-		$db = $this->db;
-		$query = $db->getQuery(true)
-			->update('#__extensions')
-			->set($db->quoteName('package_id') . ' = ' . (int) $this->extension->extension_id)
-			->where($db->quoteName('extension_id') . ' IN (' . explode(', ', $this->installedIds) . ')');
+		if (!empty($this->installedIds))
+		{
+			$db = $this->db;
+			$query = $db->getQuery(true)
+				->update('#__extensions')
+				->set($db->quoteName('package_id') . ' = ' . (int) $this->extension->extension_id)
+				->where($db->quoteName('extension_id') . ' IN (' . implode(', ', $this->installedIds) . ')');
 
-		try
-		{
-			$db->setQuery($query)->execute();
-		}
-		catch (JDatabaseExceptionExecuting $e)
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), JLog::WARNING, 'jerror');
+			try
+			{
+				$db->setQuery($query)->execute();
+			}
+			catch (JDatabaseExceptionExecuting $e)
+			{
+				JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), JLog::WARNING, 'jerror');
+			}
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
@@ -308,6 +312,24 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	public function loadLanguage($path)
 	{
 		$this->doLoadLanguage($this->getElement(), $path);
+	}
+
+	/**
+	 * Handler for the `onExtensionAfterInstall` event
+	 *
+	 * @param   JInstaller       $installer  JInstaller instance managing the extension's installation
+	 * @param   integer|boolean  $eid        The extension ID of the installed extension on success, boolean false on install failure
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onExtensionAfterInstall(JInstaller $installer, $eid)
+	{
+		if ($eid !== false)
+		{
+			$this->installedIds[] = $eid;
+		}
 	}
 
 	/**
