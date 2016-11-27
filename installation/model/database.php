@@ -90,7 +90,7 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	public function initialise($options)
 	{
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Load the backend language files so that the DB error messages work.
@@ -111,7 +111,7 @@ class InstallationModelDatabase extends JModelBase
 		// Ensure a database type was selected.
 		if (empty($options->db_type))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_INVALID_TYPE'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
 
 			return false;
 		}
@@ -119,7 +119,7 @@ class InstallationModelDatabase extends JModelBase
 		// Ensure that a hostname and user name were input.
 		if (empty($options->db_host) || empty($options->db_user))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
 
 			return false;
 		}
@@ -127,7 +127,7 @@ class InstallationModelDatabase extends JModelBase
 		// Ensure that a database name was input.
 		if (empty($options->db_name))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_EMPTY_NAME'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
 
 			return false;
 		}
@@ -135,7 +135,7 @@ class InstallationModelDatabase extends JModelBase
 		// Validate database table prefix.
 		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_PREFIX_MSG'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
 
 			return false;
 		}
@@ -143,7 +143,7 @@ class InstallationModelDatabase extends JModelBase
 		// Validate length of database table prefix.
 		if (strlen($options->db_prefix) > 15)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_TOO_LONG'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
 
 			return false;
 		}
@@ -151,7 +151,7 @@ class InstallationModelDatabase extends JModelBase
 		// Validate length of database name.
 		if (strlen($options->db_name) > 64)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_NAME_TOO_LONG'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
 
 			return false;
 		}
@@ -161,7 +161,7 @@ class InstallationModelDatabase extends JModelBase
 		{
 			if (strtolower($options->db_prefix) != $options->db_prefix)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'notice');
+				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
 
 				return false;
 			}
@@ -182,7 +182,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
 
 			return false;
 		}
@@ -214,7 +214,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Check database version.
@@ -259,7 +259,7 @@ class InstallationModelDatabase extends JModelBase
 				catch (RuntimeException $e)
 				{
 					// We did everything we could
-					JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'notice');
+					JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'error');
 
 					return false;
 				}
@@ -272,21 +272,21 @@ class InstallationModelDatabase extends JModelBase
 				catch (RuntimeException $e)
 				{
 					// We did everything we could
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
 
 					return false;
 				}
 			}
 			elseif ($type == 'postgresql' && strpos($e->getMessage(), 'Error connecting to PGSQL database') === 42)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'notice');
+				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'error');
 
 				return false;
 			}
 			// Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
 			else
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
 
 				return false;
 			}
@@ -294,7 +294,7 @@ class InstallationModelDatabase extends JModelBase
 
 		if (!$db->isMinimumVersion())
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version), 'error');
 
 			return false;
 		}
@@ -304,7 +304,7 @@ class InstallationModelDatabase extends JModelBase
 			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
 			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>=')))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version), 'notice');
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version), 'error');
 
 				return false;
 			}
@@ -313,7 +313,7 @@ class InstallationModelDatabase extends JModelBase
 		// @internal Check for spaces in beginning or end of name.
 		if (strlen(trim($options->db_name)) <> strlen($options->db_name))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_NAME_INVALID_SPACES'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_NAME_INVALID_SPACES'), 'error');
 
 			return false;
 		}
@@ -321,7 +321,7 @@ class InstallationModelDatabase extends JModelBase
 		// @internal Check for asc(00) Null in name.
 		if (strpos($options->db_name, chr(00)) !== false)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'), 'error');
 
 			return false;
 		}
@@ -337,7 +337,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 			catch (RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 'notice');
+				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 'error');
 
 				return false;
 			}
@@ -354,7 +354,7 @@ class InstallationModelDatabase extends JModelBase
 				}
 				catch (RuntimeException $e)
 				{
-					JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 'notice');
+					JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 'error');
 
 					return false;
 				}
@@ -378,7 +378,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 			else
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name), 'notice');
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name), 'error');
 
 				return false;
 			}
@@ -428,7 +428,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Set the character set to UTF-8 for pre-existing databases.
@@ -477,7 +477,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Check database type.
@@ -503,7 +503,7 @@ class InstallationModelDatabase extends JModelBase
 		// Check if the schema is a valid file
 		if (!is_file($schema))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_DB', JText::_('INSTL_DATABASE_NO_SCHEMA')), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_DB', JText::_('INSTL_DATABASE_NO_SCHEMA')), 'error');
 
 			return false;
 		}
@@ -533,7 +533,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 			catch (RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -559,7 +559,7 @@ class InstallationModelDatabase extends JModelBase
 
 		if (empty($files))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'), 'error');
 
 			return false;
 		}
@@ -591,7 +591,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -610,7 +610,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			$return = false;
 		}
 
@@ -621,7 +621,7 @@ class InstallationModelDatabase extends JModelBase
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name), 'notice');
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name), 'error');
 
 				return false;
 			}
@@ -686,7 +686,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 			catch (RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				$return = false;
 			}
@@ -716,7 +716,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Build the path to the sample data file.
@@ -738,7 +738,7 @@ class InstallationModelDatabase extends JModelBase
 		{
 			if (!file_exists($data))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data), 'notice');
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data), 'error');
 
 				return false;
 			}
@@ -747,7 +747,7 @@ class InstallationModelDatabase extends JModelBase
 				return false;
 			}
 
-			$this->postInstallSampleData($db);
+			$this->postInstallSampleData($db, $options->sample_file);
 		}
 
 		return true;
@@ -756,16 +756,23 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Sample data tables and data post install process.
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   JDatabaseDriver  $db              Database connector object $db*.
+	 * @param   string           $sampleFileName  The sample dats filename.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postInstallSampleData($db)
+	protected function postInstallSampleData($db, $sampleFileName = '')
 	{
 		// Update the sample data user ids.
 		$this->updateUserIds($db);
+
+		// If not joomla sample data for testing, update the sample data dates.
+		if ($sampleFileName !== 'sample_testing.sql')
+		{
+			$this->updateDates($db);
+		}
 	}
 
 	/**
@@ -805,8 +812,11 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected function postInstallCmsData($db)
 	{
-		// Update the sample data user ids.
+		// Update the cms data user ids.
 		$this->updateUserIds($db);
+
+		// Update the cms data dates.
+		$this->updateDates($db);
 	}
 
 	/**
@@ -823,22 +833,23 @@ class InstallationModelDatabase extends JModelBase
 		// Create the ID for the root user.
 		$userId = self::getUserId();
 
-		// Update all created_by field of the tables with the random user id
-		// categories (created_user_id), contact_details, content, newsfeeds.
-		$updates_array = array(
-			'categories'      => 'created_user_id',
-			'contact_details' => 'created_by',
-			'content'         => 'created_by',
-			'newsfeeds'       => 'created_by',
-			'tags'            => 'created_user_id',
-			'ucm_content'     => 'core_created_user_id',
-			'ucm_history'     => 'editor_user_id',
+		// Update all core tables created_by fields of the tables with the random user id.
+		$updatesArray = array(
+			'#__banners'         => 'created_by',
+			'#__categories'      => 'created_user_id',
+			'#__contact_details' => 'created_by',
+			'#__content'         => 'created_by',
+			'#__newsfeeds'       => 'created_by',
+			'#__tags'            => 'created_user_id',
+			'#__ucm_content'     => 'core_created_user_id',
+			'#__ucm_history'     => 'editor_user_id',
+			'#__user_notes'      => 'created_user_id',
 		);
 
-		foreach ($updates_array as $table => $field)
+		foreach ($updatesArray as $table => $field)
 		{
 			$query = $db->getQuery(true)
-				->update($db->quoteName('#__' . $table))
+				->update($db->quoteName($table))
 				->set($db->quoteName($field) . ' = ' . $db->quote($userId));
 
 			$db->setQuery($query);
@@ -849,7 +860,66 @@ class InstallationModelDatabase extends JModelBase
 			}
 			catch (RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			}
+		}
+	}
+
+	/**
+	 * Method to update the dates of sql data content to the current date.
+	 *
+	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function updateDates($db)
+	{
+		// Get the current date.
+		$currentDate = JFactory::getDate()->toSql();
+		$nullDate    = $db->getNullDate();
+
+		// Update all core tables date fields of the tables with the current date.
+		$updatesArray = array(
+			'#__banners'             => array('publish_up', 'publish_down', 'reset', 'created', 'modified'),
+			'#__banner_tracks'       => array('track_date'),
+			'#__categories'          => array('created_time', 'modified_time'),
+			'#__contact_details'     => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__content'             => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__contentitem_tag_map' => array('tag_date'),
+			'#__finder_filters'      => array('created', 'modified'),
+			'#__finder_links'        => array('indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'),
+			'#__messages'            => array('date_time'),
+			'#__modules'             => array('publish_up', 'publish_down'),
+			'#__newsfeeds'           => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__redirect_links'      => array('created_date', 'modified_date'),
+			'#__tags'                => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
+			'#__ucm_content'         => array('core_created_time', 'core_modified_time', 'core_publish_up', 'core_publish_down'),
+			'#__ucm_history'         => array('save_date'),
+			'#__users'               => array('registerDate', 'lastvisitDate', 'lastResetTime'),
+			'#__user_notes'          => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
+		);
+
+		foreach ($updatesArray as $table => $fields)
+		{
+			foreach ($fields as $field)
+			{
+				$query = $db->getQuery(true)
+					->update($db->quoteName($table))
+					->set($db->quoteName($field) . ' = ' . $db->quote($currentDate))
+					->where($db->quoteName($field) . ' != ' . $db->quote($nullDate));
+
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
 			}
 		}
 	}
@@ -889,7 +959,7 @@ class InstallationModelDatabase extends JModelBase
 					}
 					catch (RuntimeException $e)
 					{
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'notice');
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'error');
 
 						$return = false;
 					}
@@ -901,7 +971,7 @@ class InstallationModelDatabase extends JModelBase
 					}
 					catch (RuntimeException $e)
 					{
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'notice');
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'error');
 
 						$return = false;
 					}
@@ -972,7 +1042,7 @@ class InstallationModelDatabase extends JModelBase
 					}
 					catch (RuntimeException $e)
 					{
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_DELETE', $e->getMessage()), 'notice');
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_DELETE', $e->getMessage()), 'error');
 
 						$return = false;
 					}
@@ -1000,7 +1070,7 @@ class InstallationModelDatabase extends JModelBase
 		// Get the contents of the schema file.
 		if (!($buffer = file_get_contents($schema)))
 		{
-			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'notice');
+			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
 
 			return false;
 		}
@@ -1042,7 +1112,7 @@ class InstallationModelDatabase extends JModelBase
 				}
 				catch (RuntimeException $e)
 				{
-					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 					$return = false;
 				}

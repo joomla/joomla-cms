@@ -13,7 +13,9 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.combobox');
-JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0));
+JHtml::_('behavior.keepalive');
+JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', 'select');
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
 $hasContentFieldName = "content";
@@ -129,7 +131,7 @@ $script .= "
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (updStatus == -2) {
-							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTrashed") . "</span>');
+							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTRASHED") . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (document.formvalidator.isValid(document.getElementById('module-form'))) {
@@ -268,17 +270,17 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_MODULES_FIELDSET_RULES')); ?>
-			<?php echo $this->form->getInput('rules'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php endif; ?>
-
 		<?php
 		$this->fieldsets = array();
 		$this->ignore_fieldsets = array('basic', 'description');
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
+
+		<?php if ($this->canDo->get('core.admin')) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_MODULES_FIELDSET_RULES')); ?>
+			<?php echo $this->form->getInput('rules'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

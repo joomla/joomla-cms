@@ -64,12 +64,12 @@ class CheckinModelCheckin extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'table', $direction = 'asc')
 	{
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
 
 		// List state information.
-		parent::populateState('table', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**

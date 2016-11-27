@@ -43,9 +43,9 @@ class TagsHelper extends JHelperContent
 
 		if (file_exists($file))
 		{
-			require_once $file;
-
 			$cName = 'TagsHelper';
+
+			JLoader::register($cName, $file);
 
 			if (class_exists($cName))
 			{

@@ -274,8 +274,8 @@ class JMailHelperTest extends TestCase
 			array("joe..bob@bob.com", false),
 			array("joe$@bob.com", true),
 			array("joe+bob@bob.com", true),
-			array("o'reilly@there.com", false),
-			array("o’reilly@there.com", true)
+			array("o'reilly@there.com", true),
+			array("o’reilly@there.com", false)
 		);
 	}
 

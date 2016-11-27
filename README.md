@@ -11,12 +11,33 @@ System development nowadays more than ever starts to look for automated test met
  
 Automation Testing means using an automation tool to execute test case suite. The automation software can also enter test data into the System Under Test, compare expected and actual results and generate detailed test reports.
 
+
 Test Automation demands considerable investments of money and resources. Successive development cycles will require execution of same test suite repeatedly. Using a test automation tool it's possible to record this test suite and re-play it as required. Once the test suite is automated, no human intervention is required.
 
 BDD Testing with Gherkin and Codeception
 ---
 
 ### What is Gherkin – BDD Language?
+=======
+What is this?
+---------------------
+* This is a Joomla! 3.x installation/upgrade package.
+* Joomla's [Official website](https://www.joomla.org).
+* Joomla! 3.7 [version history](https://docs.joomla.org/Joomla_3.7_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
+
+What is Joomla?
+---------------------
+* [Joomla!](https://www.joomla.org/about-joomla.html) is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
+* It is a simple and powerful web server application which requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
+* Joomla! is **free and Open Source software** distributed under the GNU General Public License version 2 or later.
+
+Is Joomla! for you?
+---------------------
+* Joomla! is [the right solution for most content web projects](https://docs.joomla.org/Portal:Learn_More).
+* View Joomla's [core features here](https://www.joomla.org/core-features.html).
+* Try it out for yourself in our [online demo](https://demo.joomla.org).
+>>>>>>> upstream/staging
 
 * Gherkin is a **human-readable** language for system behaviour description.
 * Gherkin is a _natural_ language for testing that **Codeception** uses to define test cases.
@@ -26,6 +47,7 @@ BDD Testing with Gherkin and Codeception
 * Gherkin file have a `.feature` extention.
 
 ### Benefits of Gherkin?
+
 
 ### Main Keywords In Gherkin
 
