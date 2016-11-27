@@ -140,10 +140,6 @@ final class JApplicationSite extends JApplicationCms
 		switch ($document->getType())
 		{
 			case 'html':
-				// Get language
-				$lang_code = $this->getLanguage()->getTag();
-				$languages = JLanguageHelper::getContentLanguages(true, true, 'lang_code');
-
 				// Set metadata
 				$document->setMetaData('keywords', $this->get('MetaKeys'));
 				$document->setMetaData('rights', $this->get('MetaRights'));
