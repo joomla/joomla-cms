@@ -747,7 +747,7 @@ SET IDENTITY_INSERT [#__extensions] ON;
 INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [core], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 1, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 2, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 2, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 3, 'com_admin', 'component', 'com_admin', '', 1, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -773,7 +773,7 @@ SELECT 13, 'com_media', 'component', 'com_media', '', 1, 1, 0, 1, 1, '', '{"uplo
 UNION ALL
 SELECT 14, 'com_menus', 'component', 'com_menus', '', 1, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 15, 'com_messages', 'component', 'com_messages', '', 1, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 15, 'com_messages', 'component', 'com_messages', '', 1, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 16, 'com_modules', 'component', 'com_modules', '', 1, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -789,7 +789,7 @@ SELECT 22, 'com_content', 'component', 'com_content', '', 1, 1, 0, 1, 1, '', '{"
 UNION ALL
 SELECT 23, 'com_config', 'component', 'com_config', '', 1, 1, 0, 1, 1, '', '{"filters":{"1":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"6":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"7":{"filter_type":"NONE","filter_tags":"","filter_attributes":""},"2":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"3":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"4":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"5":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"10":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"12":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"8":{"filter_type":"NONE","filter_tags":"","filter_attributes":""}}}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 24, 'com_redirect', 'component', 'com_redirect', '', 1, 1, 0, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 24, 'com_redirect', 'component', 'com_redirect', '', 1, 1, 0, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 25, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, 1, '', '{"allowUserRegistration":"0","new_usertype":"2","guest_usergroup":"9","sendpassword":"1","useractivation":"2","mail_to_admin":"1","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","minimum_length":"4","minimum_integers":"0","minimum_symbols":"0","minimum_uppercase":"0","save_history":"1","history_limit":5,"mailSubjectPrefix":"","mailBodySuffix":""}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -797,7 +797,7 @@ SELECT 27, 'com_finder', 'component', 'com_finder', '', 1, 1, 0, 0, 1, '', '{"sh
 UNION ALL
 SELECT 28, 'com_joomlaupdate', 'component', 'com_joomlaupdate', '', 1, 1, 0, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 29, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, 1, '', '{"tag_layout":"_:default","save_history":"1","history_limit":5,"show_tag_title":"0","tag_list_show_tag_image":"0","tag_list_show_tag_description":"0","tag_list_image":"","show_tag_num_items":"0","tag_list_orderby":"title","tag_list_orderby_direction":"ASC","show_headings":"0","tag_list_show_date":"0","tag_list_show_item_image":"0","tag_list_show_item_description":"0","tag_list_item_maximum_characters":0,"return_any_or_all":"1","include_children":"0","maximum":200,"tag_list_language_filter":"all","tags_layout":"_:default","all_tags_orderby":"title","all_tags_orderby_direction":"ASC","all_tags_show_tag_image":"0","all_tags_show_tag_descripion":"0","all_tags_tag_maximum_characters":20,"all_tags_show_tag_hits":"0","filter_field":"1","show_pagination_limit":"1","show_pagination":"2","show_pagination_results":"1","tag_field_ajax_mode":"1","show_feed_link":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 29, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 0, 1, '', '{"tag_layout":"_:default","save_history":"1","history_limit":5,"show_tag_title":"0","tag_list_show_tag_image":"0","tag_list_show_tag_description":"0","tag_list_image":"","show_tag_num_items":"0","tag_list_orderby":"title","tag_list_orderby_direction":"ASC","show_headings":"0","tag_list_show_date":"0","tag_list_show_item_image":"0","tag_list_show_item_description":"0","tag_list_item_maximum_characters":0,"return_any_or_all":"1","include_children":"0","maximum":200,"tag_list_language_filter":"all","tags_layout":"_:default","all_tags_orderby":"title","all_tags_orderby_direction":"ASC","all_tags_show_tag_image":"0","all_tags_show_tag_descripion":"0","all_tags_tag_maximum_characters":20,"all_tags_show_tag_hits":"0","filter_field":"1","show_pagination_limit":"1","show_pagination":"2","show_pagination_results":"1","tag_field_ajax_mode":"1","show_feed_link":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 30, 'com_contenthistory', 'component', 'com_contenthistory', '', 1, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -827,9 +827,9 @@ SELECT 202, 'mod_articles_popular', 'module', 'mod_articles_popular', '', 0, 1, 
 UNION ALL
 SELECT 203, 'mod_banners', 'module', 'mod_banners', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 204, 'mod_breadcrumbs', 'module', 'mod_breadcrumbs', '', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 204, 'mod_breadcrumbs', 'module', 'mod_breadcrumbs', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 205, 'mod_custom', 'module', 'mod_custom', '', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 205, 'mod_custom', 'module', 'mod_custom', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 206, 'mod_feed', 'module', 'mod_feed', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -849,7 +849,7 @@ SELECT 213, 'mod_search', 'module', 'mod_search', '', 0, 1, 1, 0, 1, '', '', '',
 UNION ALL
 SELECT 214, 'mod_stats', 'module', 'mod_stats', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 215, 'mod_syndicate', 'module', 'mod_syndicate', '', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 215, 'mod_syndicate', 'module', 'mod_syndicate', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 216, 'mod_users_latest', 'module', 'mod_users_latest', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -861,7 +861,7 @@ SELECT 220, 'mod_articles_category', 'module', 'mod_articles_category', '', 0, 1
 UNION ALL
 SELECT 221, 'mod_articles_categories', 'module', 'mod_articles_categories', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 222, 'mod_languages', 'module', 'mod_languages', '', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 222, 'mod_languages', 'module', 'mod_languages', '', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 223, 'mod_finder', 'module', 'mod_finder', '', 0, 1, 0, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -871,7 +871,7 @@ SELECT 317, 'mod_tags_similar', 'module', 'mod_tags_similar', '', 0, 1, 1, 0, 1,
 
 -- Modules: Administrator
 INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [core], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
-SELECT 300, 'mod_custom', 'module', 'mod_custom', '', 1, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 300, 'mod_custom', 'module', 'mod_custom', '', 1, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 301, 'mod_feed', 'module', 'mod_feed', '', 1, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -881,7 +881,7 @@ SELECT 303, 'mod_logged', 'module', 'mod_logged', '', 1, 1, 1, 0, 1, '', '', '',
 UNION ALL
 SELECT 304, 'mod_login', 'module', 'mod_login', '', 1, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 305, 'mod_menu', 'module', 'mod_menu', '', 1, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 305, 'mod_menu', 'module', 'mod_menu', '', 1, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 307, 'mod_popular', 'module', 'mod_popular', '', 1, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -943,39 +943,39 @@ SELECT 419, 'plg_search_content', 'plugin', 'content', 'search', 0, 1, 1, 0, 1, 
 UNION ALL
 SELECT 420, 'plg_search_newsfeeds', 'plugin', 'newsfeeds', 'search', 0, 1, 1, 0, 1, '', '{"search_limit":"50","search_content":"1","search_archived":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 422, 'plg_system_languagefilter', 'plugin', 'languagefilter', 'system', 0, 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 1, 0
+SELECT 422, 'plg_system_languagefilter', 'plugin', 'languagefilter', 'system', 0, 0, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 1, 0
 UNION ALL
 SELECT 423, 'plg_system_p3p', 'plugin', 'p3p', 'system', 0, 0, 1, 0, 1, '', '{"headers":"NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"}', '', '', 0, '1900-01-01 00:00:00', 2, 0
 UNION ALL
-SELECT 424, 'plg_system_cache', 'plugin', 'cache', 'system', 0, 0, 1, 1, 1, '', '{"browsercache":"0","cachetime":"15"}', '', '', 0, '1900-01-01 00:00:00', 9, 0
+SELECT 424, 'plg_system_cache', 'plugin', 'cache', 'system', 0, 0, 1, 0, 1, '', '{"browsercache":"0","cachetime":"15"}', '', '', 0, '1900-01-01 00:00:00', 9, 0
 UNION ALL
 SELECT 425, 'plg_system_debug', 'plugin', 'debug', 'system', 0, 1, 1, 0, 1, '', '{"profile":"1","queries":"1","memory":"1","language_files":"1","language_strings":"1","strip-first":"1","strip-prefix":"","strip-suffix":""}', '', '', 0, '1900-01-01 00:00:00', 4, 0
 UNION ALL
-SELECT 426, 'plg_system_log', 'plugin', 'log', 'system', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 5, 0
+SELECT 426, 'plg_system_log', 'plugin', 'log', 'system', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 5, 0
 UNION ALL
-SELECT 427, 'plg_system_redirect', 'plugin', 'redirect', 'system', 0, 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 6, 0
+SELECT 427, 'plg_system_redirect', 'plugin', 'redirect', 'system', 0, 0, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 6, 0
 UNION ALL
-SELECT 428, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 7, 0
+SELECT 428, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 7, 0
 UNION ALL
 SELECT 429, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 8, 0
 UNION ALL
-SELECT 430, 'plg_system_logout', 'plugin', 'logout', 'system', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 3, 0
+SELECT 430, 'plg_system_logout', 'plugin', 'logout', 'system', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 3, 0
 UNION ALL
 SELECT 431, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, 1, '', '{"autowebpage":"","category":"34","autopublish":"0"}', '', '', 0, '1900-01-01 00:00:00', 1, 0
 UNION ALL
-SELECT 432, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, 1, '', '{"autoregister":"1","mail_to_user":"1","forceLogout":"1"}', '', '', 0, '1900-01-01 00:00:00', 2, 0
+SELECT 432, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 1, 1, '', '{"autoregister":"1","mail_to_user":"1","forceLogout":"1"}', '', '', 0, '1900-01-01 00:00:00', 2, 0
 UNION ALL
 SELECT 433, 'plg_user_profile', 'plugin', 'profile', 'user', 0, 0, 1, 0, 1, '', '{"register-require_address1":"1","register-require_address2":"1","register-require_city":"1","register-require_region":"1","register-require_country":"1","register-require_postal_code":"1","register-require_phone":"1","register-require_website":"1","register-require_favoritebook":"1","register-require_aboutme":"1","register-require_tos":"1","register-require_dob":"1","profile-require_address1":"1","profile-require_address2":"1","profile-require_city":"1","profile-require_region":"1","profile-require_country":"1","profile-require_postal_code":"1","profile-require_phone":"1","profile-require_website":"1","profile-require_favoritebook":"1","profile-require_aboutme":"1","profile-require_tos":"1","profile-require_dob":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 434, 'plg_extension_joomla', 'plugin', 'joomla', 'extension', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 1, 0
 UNION ALL
-SELECT 435, 'plg_content_joomla', 'plugin', 'joomla', 'content', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 435, 'plg_content_joomla', 'plugin', 'joomla', 'content', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 436, 'plg_system_languagecode', 'plugin', 'languagecode', 'system', 0, 0, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 10, 0
 UNION ALL
-SELECT 437, 'plg_quickicon_joomlaupdate', 'plugin', 'joomlaupdate', 'quickicon', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 437, 'plg_quickicon_joomlaupdate', 'plugin', 'joomlaupdate', 'quickicon', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 438, 'plg_quickicon_extensionupdate', 'plugin', 'extensionupdate', 'quickicon', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 438, 'plg_quickicon_extensionupdate', 'plugin', 'extensionupdate', 'quickicon', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 439, 'plg_captcha_recaptcha', 'plugin', 'recaptcha', 'captcha', 0, 0, 1, 0, 1, '', '{"public_key":"","private_key":"","theme":"clean"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -1013,7 +1013,7 @@ SELECT 456, 'plg_installer_folderinstaller', 'plugin', 'folderinstaller', 'insta
 UNION ALL
 SELECT 457, 'plg_installer_urlinstaller', 'plugin', 'urlinstaller', 'installer', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 3, 0
 UNION ALL
-SELECT 458, 'plg_quickicon_phpversioncheck', 'plugin', 'phpversioncheck', 'quickicon', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 458, 'plg_quickicon_phpversioncheck', 'plugin', 'phpversioncheck', 'quickicon', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 459, 'plg_editors-xtd_menu', 'plugin', 'menu', 'editors-xtd', 0, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
