@@ -224,6 +224,14 @@ class InstallerModelManage extends InstallerModel
 			$row->load($id);
 			$result = false;
 
+			// Do not allow to uninstall core extensions.
+			if ((int) $row->core === 1)
+			{
+				$msgs[] = JText::_('COM_INSTALLER_UNINSTALL_ERROR_CORE_EXTENSION');
+
+				continue;
+			}
+
 			$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
 			$rowtype = JText::_($langstring);
 
