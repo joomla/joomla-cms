@@ -37,6 +37,7 @@ class InstallerModelManage extends InstallerModel
 				'client', 'client_translated',
 				'type', 'type_translated',
 				'folder', 'folder_translated',
+				'core',
 				'extension_id',
 			);
 		}
@@ -66,6 +67,7 @@ class InstallerModelManage extends InstallerModel
 		$this->setState('filter.status', $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'string'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
+		$this->setState('filter.core', $this->getUserStateFromRequest($this->context . '.filter.core', 'filter_core', '', 'string'));
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
@@ -293,6 +295,7 @@ class InstallerModelManage extends InstallerModel
 		$type     = $this->getState('filter.type');
 		$clientId = $this->getState('filter.client_id');
 		$folder   = $this->getState('filter.folder');
+		$core     = $this->getState('filter.core');
 
 		if ($status != '')
 		{
@@ -324,6 +327,11 @@ class InstallerModelManage extends InstallerModel
 		if ($folder != '')
 		{
 			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
+		}
+
+		if ($core !== '')
+		{
+			$query->where('core = ' . (int) $core);
 		}
 
 		// Process search filter (extension id).
