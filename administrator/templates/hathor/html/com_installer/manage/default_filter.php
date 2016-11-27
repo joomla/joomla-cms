@@ -51,6 +51,14 @@ defined('_JEXEC') or die;
 				<?php echo JHtml::_('select.options', array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))), 'value', 'text', $this->state->get('filter.folder'), true);?>
 			</select>
 
+			<label class="selectlabel" for="filter_core">
+				<?php echo JText::_('COM_INSTALLER_VALUE_CORE_SELECT'); ?>
+			</label>
+			<select name="filter_core" id="filter_core">
+				<option value=""><?php echo JText::_('COM_INSTALLER_VALUE_CORE_SELECT'); ?></option>
+				<?php echo JHtml::_('select.options', array('1' => JText::_('JYES'), '0' => JText::_('JNO')), 'value', 'text', $this->state->get('filter.core'), true); ?>
+			</select>
+
 			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
 
