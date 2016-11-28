@@ -131,7 +131,7 @@ WHERE ("type" = 'component' AND "element" IN (
 	'com_ajax',
 	'com_postinstall'
 ))
-OR ("type" = 'module' AND "client_id" = 1 AND "element" IN ('mod_login', 'mod_menu', 'mod_quickicon', 'mod_toolbar'))
+OR ("type" = 'module' AND "client_id" = 1 AND "element" IN ('mod_login', 'mod_menu', 'mod_title', 'mod_toolbar'))
 OR ("type" = 'plugin' AND
 	(
 		("folder" = 'user' AND "element" IN ('joomla'))
