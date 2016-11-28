@@ -135,7 +135,6 @@ OR (`type` = 'plugin' AND
 		(`folder` = 'user' AND `element` IN ('joomla'))
 		OR (`folder` = 'editors' AND `element` IN ('none'))
 		OR (`folder` = 'authentication' AND `element` IN ('joomla'))
-		OR (`folder` = 'installer' AND `element` IN ('packageinstaller'))
 		OR (`folder` = 'extension' AND `element` IN ('joomla'))
 	)
 )
