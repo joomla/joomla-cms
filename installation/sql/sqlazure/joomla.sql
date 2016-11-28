@@ -885,13 +885,13 @@ SELECT 305, 'mod_menu', 'module', 'mod_menu', '', 1, 1, 1, 1, 1, '', '', '', '',
 UNION ALL
 SELECT 307, 'mod_popular', 'module', 'mod_popular', '', 1, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 308, 'mod_quickicon', 'module', 'mod_quickicon', '', 1, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 308, 'mod_quickicon', 'module', 'mod_quickicon', '', 1, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 309, 'mod_status', 'module', 'mod_status', '', 1, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 310, 'mod_submenu', 'module', 'mod_submenu', '', 1, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 311, 'mod_title', 'module', 'mod_title', '', 1, 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 311, 'mod_title', 'module', 'mod_title', '', 1, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 312, 'mod_toolbar', 'module', 'mod_toolbar', '', 1, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
