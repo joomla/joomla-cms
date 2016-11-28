@@ -615,12 +615,13 @@ class PlgSystemLanguageFilter extends JPlugin
 
 				$foundAssociation = false;
 
-				/* Looking for associations.
-				   If the login menu item form contains an internal URL redirection,
-				   This will override the automatic change to the user preferred site language.
-				   In that case we use the redirect as defined in the menu item.
-				   Otherwise we redirect, when available, to the user preferred site language.
-				*/
+				/**
+				 * Looking for associations.
+				 * If the login menu item form contains an internal URL redirection,
+				 * This will override the automatic change to the user preferred site language.
+				 * In that case we use the redirect as defined in the menu item.
+				 *  Otherwise we redirect, when available, to the user preferred site language.
+				 */
 				if ($active && !$active->params['login_redirect_url'])
 				{
 					if ($assoc)
@@ -649,10 +650,11 @@ class PlgSystemLanguageFilter extends JPlugin
 					}
 					elseif (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
 					{
-						/* The login form does not contain a menu item redirection.
-						   The active menu item has associations.
-						   We redirect to the user preferred site language associated page.
-						*/
+						/**
+						 * The login form does not contain a menu item redirection.
+						 * The active menu item has associations.
+						 * We redirect to the user preferred site language associated page.
+						 */
 						$associationItemid = $associations[$lang_code];
 						$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
 						$foundAssociation = true;
