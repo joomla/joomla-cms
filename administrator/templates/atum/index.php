@@ -112,7 +112,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 								</li>
 
 								<li class="nav-item">
-									<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>">
+									<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?>">
 										<i class="fa fa-envelope"></i>
 										<?php $countUnread = JFactory::getSession()->get('messages.unread'); ?>
 										<?php if ($countUnread > 0) : ?>
@@ -138,7 +138,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 								?>
 								<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('TPL_ATUM_POST_INSTALLATION_MESSAGES'); ?>">
 										<i class="fa fa-bell"></i>
 										<?php if (count($messages) > 0) : ?>
 											<span class="tag tag-pill tag-success"><?php echo count($messages); ?></span>
