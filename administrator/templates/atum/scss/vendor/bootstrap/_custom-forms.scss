@@ -1,0 +1,25 @@
+// Custom Forms
+
+.custom-select {
+  &.custom-select-color-state {
+
+    &.custom-select-success {
+      color: $white;
+      background-color: $brand-success;
+      option {
+        color: $custom-select-color;
+        background-color: $white;
+      }
+	}
+
+    &.custom-select-danger {
+      color: $white;
+      background-color: $brand-danger;
+      option {
+        color: $custom-select-color;
+        background-color: $white;
+      }
+	}
+
+  }
+}

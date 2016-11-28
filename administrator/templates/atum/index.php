@@ -101,13 +101,13 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 					</div>
 
 					<div class="col-xs text-xs-center">
-						<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
-							<span class="icon-out-2 small"></span>
-						</a>
+						<jdoc:include type="modules" name="title" />
 					</div>
 
 					<div class="col-xs text-xs-right">
-						<jdoc:include type="modules" name="title" />
+						<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
+							<span class="icon-out-2 small"></span>
+						</a>
 					</div>
 				</div>
 			</div>

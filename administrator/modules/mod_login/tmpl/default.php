@@ -44,7 +44,7 @@ if ($spacing > 0)
 				name="username"
 				id="mod-login-username"
 				type="text"
-				class="form-control"
+				class="form-control input-full"
 				placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>"
 				size="15"
 				autofocus="true">
@@ -55,7 +55,7 @@ if ($spacing > 0)
 				name="passwd"
 				id="mod-login-password"
 				type="password"
-				class="form-control"
+				class="form-control input-full"
 				placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"
 				size="15">
 		</div>
@@ -67,7 +67,7 @@ if ($spacing > 0)
 					autocomplete="off"
 					id="mod-login-secretkey"
 					type="text"
-					class="form-control"
+					class="form-control input-full"
 					placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>"
 					size="15">
 			</div>

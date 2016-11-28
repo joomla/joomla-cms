@@ -11,7 +11,6 @@
 		<field
 			name="published"
 			type="status"
-			class="custom-select"
 			filter="1,0,-2,*"
 			onchange="this.form.submit();"
 			>
@@ -20,7 +19,6 @@
 		<field
 			name="access"
 			type="accesslevel"
-			class="custom-select"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -30,7 +28,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			class="custom-select"
 			label="JGLOBAL_SORT_BY"
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
@@ -63,7 +60,6 @@
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
 			description="JGLOBAL_LIMIT"
-			class="custom-select input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

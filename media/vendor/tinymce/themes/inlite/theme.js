@@ -146,21 +146,6 @@ define('tinymce/inlite/ui/Toolbar', [
 	'global!tinymce.ui.Factory',
 	'tinymce/inlite/alien/Type'
 ], function (Tools, Factory, Type) {
-	var setActiveItem = function (item, name) {
-		return function(state, args) {
-			var nodeName, i = args.parents.length;
-
-			while (i--) {
-				nodeName = args.parents[i].nodeName;
-				if (nodeName == 'OL' || nodeName == 'UL') {
-					break;
-				}
-			}
-
-			item.active(state && nodeName == name);
-		};
-	};
-
 	var getSelectorStateResult = function (itemName, item) {
 		var result = function (selector, handler) {
 			return {
@@ -176,14 +161,6 @@ define('tinymce/inlite/ui/Toolbar', [
 		var disabledHandler = function (state) {
 			item.disabled(state);
 		};
-
-		if (itemName == 'bullist') {
-			return result('ul > li', setActiveItem(item, 'UL'));
-		}
-
-		if (itemName == 'numlist') {
-			return result('ol > li', setActiveItem(item, 'OL'));
-		}
 
 		if (item.settings.stateSelector) {
 			return result(item.settings.stateSelector, activeHandler);
@@ -721,19 +698,27 @@ define('tinymce/inlite/ui/Forms', [
 	};
 
 	var createQuickLinkForm = function (editor, hide) {
+		var attachState = {};
+
 		var unlink = function () {
 			editor.focus();
 			Actions.unlink(editor);
 			hide();
 		};
 
-		return createForm('quicklink', {
-			items: [
-				{type: 'button', name: 'unlink', icon: 'unlink', onclick: unlink, tooltip: 'Remove link'},
-				{type: 'textbox', name: 'linkurl', placeholder: 'Paste or type a link'},
-				{type: 'button', icon: 'checkmark', subtype: 'primary', tooltip: 'Ok', onclick: 'submit'}
-			],
-			onshow: function () {
+		var onChangeHandler = function (e) {
+			var meta = e.meta;
+
+			if (meta && meta.attach) {
+				attachState = {
+					href: this.value(),
+					attach: meta.attach
+				};
+			}
+		};
+
+		var onShowHandler = function (e) {
+			if (e.control === this) {
 				var elm, linkurl = '';
 
 				elm = editor.dom.getParent(editor.selection.getStart(), 'a[href]');
@@ -746,10 +731,28 @@ define('tinymce/inlite/ui/Forms', [
 				});
 
 				toggleVisibility(this.find('#unlink'), elm);
-			},
+				this.find('#linkurl')[0].focus();
+			}
+		};
+
+		return createForm('quicklink', {
+			items: [
+				{type: 'button', name: 'unlink', icon: 'unlink', onclick: unlink, tooltip: 'Remove link'},
+				{type: 'filepicker', name: 'linkurl', placeholder: 'Paste or type a link', filetype: 'file', onchange: onChangeHandler},
+				{type: 'button', icon: 'checkmark', subtype: 'primary', tooltip: 'Ok', onclick: 'submit'}
+			],
+			onshow: onShowHandler,
 			onsubmit: function (e) {
 				convertLinkToAbsolute(editor, e.data.linkurl).then(function (url) {
-					Actions.createLink(editor, url);
+					editor.undoManager.transact(function () {
+						if (url === attachState.href) {
+							attachState.attach();
+							attachState = {};
+						}
+
+						Actions.createLink(editor, url);
+					});
+
 					hide();
 				});
 			}

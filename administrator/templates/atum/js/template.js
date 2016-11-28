@@ -301,5 +301,34 @@
 			}
 		}
 
+		// Custom select colour states
+		var colourSelects = document.querySelectorAll('.custom-select-color-state');
+		for (var i = 0; i < colourSelects.length; i++)
+		{
+			// Add class on page load
+			var selectBox = colourSelects[i];
+			if (selectBox.value == 1)
+			{
+				selectBox.classList.add('custom-select-success');
+			}
+			else if (selectBox.value == 0)
+			{
+				selectBox.classList.add('custom-select-danger');
+			}
+
+			// Add class when value is changed
+			selectBox.addEventListener('change', function(){
+				this.classList.remove('custom-select-success', 'custom-select-danger');
+				if (this.value == 1)
+				{
+					this.classList.add('custom-select-success');
+				}
+				else if (this.value == 0 || this.value == parseInt(-2))
+				{
+					this.classList.add('custom-select-danger');
+				}
+			});
+		}
+
 	});
 })();

@@ -38,7 +38,7 @@
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
 			default="1"
-			class="custom-select custom-select-color-state"
+			class="custom-select-color-state"
 			size="1"
 			>
 			<option value="1">JPUBLISHED</option>
@@ -60,7 +60,6 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			class="custom-select"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC"
 			>
@@ -234,7 +233,6 @@
 		<field
 			name="access"
 			type="accesslevel"
-			class="custom-select"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
 			size="1"
@@ -280,7 +278,6 @@
 				<field
 					name="float_first"
 					type="list"
-					class="custom-select"
 					label="COM_NEWSFEEDS_FLOAT_LABEL"
 					description="COM_NEWSFEEDS_FLOAT_DESC"
 					useglobal="true"
@@ -322,7 +319,6 @@
 				<field
 					name="float_second"
 					type="list"
-					class="custom-select"
 					label="COM_NEWSFEEDS_FLOAT_LABEL"
 					description="COM_NEWSFEEDS_FLOAT_DESC"
 					useglobal="true"
@@ -376,7 +372,6 @@
 		<field
 			name="rtl"
 			type="list"
-			class="custom-select"
 			label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
 			description="COM_NEWSFEEDS_FIELD_RTL_DESC"
 			default="0"
@@ -391,7 +386,6 @@
 			<field
 				name="show_feed_image"
 				type="list"
-				class="custom-select"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
 				useglobal="true"
@@ -403,7 +397,6 @@
 			<field
 				name="show_feed_description"
 				type="list"
-				class="custom-select"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
 				useglobal="true"
@@ -415,7 +408,6 @@
 			<field
 				name="show_item_description"
 				type="list"
-				class="custom-select"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 				useglobal="true"
@@ -436,7 +428,6 @@
 			<field
 				name="newsfeed_layout"
 				type="componentlayout"
-				class="custom-select"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				extension="com_newsfeeds"
@@ -447,7 +438,6 @@
 			<field
 				name="feed_display_order"
 				type="list"
-				class="custom-select"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
 				useglobal="true"
@@ -468,7 +458,6 @@
 			<field
 				name="robots"
 				type="list"
-				class="custom-select"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
 				>
