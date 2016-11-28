@@ -85,6 +85,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 				</a>
 			</div>
 			<jdoc:include type="modules" name="menu" style="none" />
+			<div class="sidebar-brand"></div>
 		</div>
 
 		<?php // Header ?>
