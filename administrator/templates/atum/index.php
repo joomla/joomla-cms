@@ -134,6 +134,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 										// Still render the error message from the Exception object
 										JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
 									}
+									$lang->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
 								?>
 								<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 								<li class="nav-item dropdown">
