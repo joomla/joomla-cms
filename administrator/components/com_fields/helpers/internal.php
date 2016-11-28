@@ -55,7 +55,7 @@ class FieldsHelperInternal
 			$lang->load($component, JPATH_ADMINISTRATOR)
 			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
-			call_user_func(array($cName, 'addSubmenu'), 'fields.' . $vName);
+			$cName::addSubmenu('fields.' . $vName);
 		}
 	}
 

@@ -56,7 +56,7 @@ class JFormFieldFieldcontexts extends JFormAbstractlist
 
 		if (class_exists($cName) && is_callable(array($cName, 'getContexts')))
 		{
-			$contexts = call_user_func_array(array($cName, 'getContexts'), array());
+			$contexts = $cName::getContexts();
 		}
 
 		if (!$contexts || !is_array($contexts) || count($contexts) == 1)
