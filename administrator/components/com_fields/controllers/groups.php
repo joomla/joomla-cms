@@ -16,24 +16,13 @@ defined('_JEXEC') or die;
 class FieldsControllerGroups extends JControllerAdmin
 {
 	/**
-	 * Check in of one or more records.
+	 * The prefix to use with controller messages.
 	 *
-	 * @return  boolean  True on success
+	 * @var    string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function checkin()
-	{
-		$return = parent::checkin();
-
-		$this->setRedirect(
-			JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list .
-				'&extension=' . $this->input->getCmd('extension'), false
-			)
-		);
-
-		return $return;
-	}
+	protected $text_prefix = 'COM_FIELDS_GROUP';
 
 	/**
 	 * Proxy for getModel.
