@@ -51,7 +51,9 @@ class FieldsHelperInternal
 
 		if (class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
 		{
-			JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
+			$lang = JFactory::getLanguage();
+			$lang->load($component, JPATH_ADMINISTRATOR)
+			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
 			call_user_func(array($cName, 'addSubmenu'), 'fields.' . $vName);
 		}
