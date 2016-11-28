@@ -106,7 +106,7 @@ OR (`type` = 'package' AND `element` IN ('pkg_en-GB'));
 
 -- Now protect from disabling essential core extensions.
 UPDATE `#__extensions`
-SET `protected` = 1
+SET `protected` = 1, `enabled` = 1
 WHERE (`type` = 'component' AND `element` IN (
 	'com_mailto',
 	'com_admin',
