@@ -8,7 +8,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, .17);
 
   .page-title {
-    float: left;
+    display: inline-block;
     margin: 0 0 0 25px;
     font-size: 1.25rem;
     font-weight: normal;
@@ -28,7 +28,8 @@
     display: inline-block;
     float: none;
     padding: 0;
-    line-height: 1;
+    font-size: $font-size-h4;
+    line-height: $header-height;
     color: $atum-inverted-text-color;
 
     &:hover,
@@ -75,6 +76,8 @@
 
   .dropdown-notifications {
     min-width: 280px;
+    padding: 0;
+    border: 0;
   }
 }
 

@@ -92,50 +92,77 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 		<?php // Header ?>
 		<header id="header" class="header">
 			<div class="container-fluid">
-				<div class="row flex-items-xs-middle">
-					<div class="col-xs">
-						<div class="menu-collapse">
-							<a id="menu-collapse" class="menu-toggle" href="#">
-								<span></span>
-							</a>
-						</div>
-						<jdoc:include type="modules" name="title" />
-					</div>
-
-					<div class="col-xs text-xs-center">
-						<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
-						<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
-							<span class="icon-out-2 small"></span>
+				<div class="text-xs-center">
+					<div class="menu-collapse">
+						<a id="menu-collapse" class="menu-toggle" href="#">
+							<span></span>
 						</a>
 					</div>
 
-					<div class="col-xs text-xs-right">
+					<jdoc:include type="modules" name="title" />
+
+					<div class="float-xs-right">
 						<nav>
 							<ul class="nav navbar-nav float-xs-right">
 								<li class="nav-item">
-									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-										<i class="fa fa-envelope"></i>
-										<span class="tag tag-pill tag-success">1</span>
+									<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
+										<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
+										<span class="icon-out-2 small"></span>
 									</a>
 								</li>
+
+								<li class="nav-item">
+									<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>">
+										<i class="fa fa-envelope"></i>
+										<?php $countUnread = JFactory::getSession()->get('messages.unread'); ?>
+										<?php if ($countUnread > 0) : ?>
+											<span class="tag tag-pill tag-success"><?php echo $countUnread; ?></span>
+										<?php endif; ?>
+									</a>
+								</li>
+
+								<?php
+									try
+									{
+										$messagesModel = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
+										$messages      = $messagesModel->getItemList();
+									}
+									catch (RuntimeException $e)
+									{
+										$messages = array();
+
+										// Still render the error message from the Exception object
+										JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
+									}
+								?>
+								<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 								<li class="nav-item dropdown">
 									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
 										<i class="fa fa-bell"></i>
-										<span class="tag tag-pill tag-success">6</span>
+										<?php if (count($messages) > 0) : ?>
+											<span class="tag tag-pill tag-success"><?php echo count($messages); ?></span>
+										<?php endif; ?>
 									</a>
 									<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
 										<div class="list-group">
-											<a href="#" class="list-group-item list-group-item-action">
-												<h5 class="list-group-item-heading">Post-installation message 1</h5>
-												<p class="list-group-item-text small">Since Joomla! 3.5 a statistics plugin will submit anonymous data to the Joomla Project&hellip;</p>
+											<?php if (empty($messages)) : ?>
+											<p class="list-group-item text-xs-center">
+												<b><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></b>
+											</p>
+											<?php endif; ?>
+											<?php foreach ($messages as $message) : ?>
+											<a href="<?php echo JRoute::_('index.php?option=com_postinstall&amp;eid=700'); ?>" class="list-group-item list-group-item-action">
+												<h5 class="list-group-item-heading"><?php echo JHtml::_('string.truncate', JText::_($message->title_key), 28, false, false); ?></h5>
+												<p class="list-group-item-text small">
+													<?php echo JHtml::_('string.truncate', JText::_($message->description_key), 120, false, false); ?>
+												</p>
 											</a>
-											<a href="#" class="list-group-item list-group-item-action">
-												<h5 class="list-group-item-heading">Post-installation message 2</h5>
-												<p class="list-group-item-text small">Joomla! comes with a built-in two factor authentication system. It secures your site login with&hellip;</p>
-											</a>
+											<?php endforeach; ?>
 										</div>
 									</div>
 								</li>
+								<?php endif; ?>
+
 								<li class="nav-item dropdown">
 									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
 										<i class="fa fa-user"></i>
@@ -152,6 +179,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 											. JSession::getFormToken() . '=1') ?>"><?php echo JText::_('TPL_ATUM_LOGOUT'); ?></a>
 									</div>
 								</li>
+
 							</ul>
 						</nav>
 					</div>

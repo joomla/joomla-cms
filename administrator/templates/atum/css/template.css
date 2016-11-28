@@ -6593,7 +6593,7 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
 .fa-caret-square-o-left:before {
   content: ""; }
 
-.fa-dot-circle-o:before {
+.fa-dot-circle-o:before, .icon-generic:before {
   content: ""; }
 
 .fa-wheelchair:before {
@@ -7714,7 +7714,7 @@ legend {
   background: #fcfcfc;
   border-bottom: 1px solid rgba(0, 0, 0, 0.17); }
   .header .page-title {
-    float: left;
+    display: inline-block;
     margin: 0 0 0 25px;
     font-size: 1.25rem;
     font-weight: normal;
@@ -7728,7 +7728,8 @@ legend {
     display: inline-block;
     float: none;
     padding: 0;
-    line-height: 1;
+    font-size: 1rem;
+    line-height: 50px;
     color: #27283a; }
     .header .navbar-brand:hover, .header .navbar-brand:focus {
       color: #27283a; }
@@ -7757,7 +7758,9 @@ legend {
   .header .nav-item:last-child .nav-link {
     border-right: 1px solid rgba(0, 0, 0, 0.125); }
   .header .dropdown-notifications {
-    min-width: 280px; }
+    min-width: 280px;
+    padding: 0;
+    border: 0; }
 
 .menu-collapse {
   z-index: 1001;
@@ -8452,6 +8455,9 @@ iframe {
     color: #55595c;
     background-color: #fcfcfc; }
 
+.dropdown-menu {
+  background-color: #fcfcfc; }
+
 .list-group-item {
   background-color: #fcfcfc; }
 
@@ -8695,6 +8701,22 @@ iframe {
 
 .com_cpanel .card {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
+  .com_cpanel .card .list-group {
+    margin-top: -0.75rem;
+    margin-right: -1.25rem;
+    margin-bottom: -1.25rem;
+    margin-left: -1.25rem; }
+    .com_cpanel .card .list-group > li {
+      padding: 0.7rem 1.25rem;
+      overflow: hidden; }
+    .com_cpanel .card .list-group > .published {
+      padding-left: .9rem;
+      border-left: 5px solid #5cb85c; }
+    .com_cpanel .card .list-group > .unpublished {
+      padding-left: .9rem;
+      border-left: 5px solid #d9534f; }
+    .com_cpanel .card .list-group:first-of-type {
+      border-top: 0; }
   .com_cpanel .card .list-group-item:first-child {
     border-top: 0;
     border-top-left-radius: 0;
@@ -8720,23 +8742,6 @@ iframe {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem 0.25rem 0 0;
   box-shadow: 0 1px #fcfcfc inset, 0 2px 3px -3px rgba(0, 0, 0, 0.15); }
-
-.com_cpanel .list-group {
-  margin-top: -0.75rem;
-  margin-right: -1.25rem;
-  margin-bottom: -1.25rem;
-  margin-left: -1.25rem; }
-  .com_cpanel .list-group > li {
-    padding: 0.7rem 1.25rem;
-    overflow: hidden; }
-    .com_cpanel .list-group > li.published {
-      padding-left: .9rem;
-      border-left: 5px solid #5cb85c; }
-    .com_cpanel .list-group > li.unpublished {
-      padding-left: .9rem;
-      border-left: 5px solid #d9534f; }
-  .com_cpanel .list-group:first-of-type {
-    border-top: 0; }
 
 .com_cpanel .module-dropdown {
   position: absolute;
