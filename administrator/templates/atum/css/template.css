@@ -8702,7 +8702,7 @@ iframe {
 .com_cpanel .card {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
   .com_cpanel .card .list-group {
-    margin-top: -0.75rem;
+    margin-top: 0;
     margin-right: -1.25rem;
     margin-bottom: -1.25rem;
     margin-left: -1.25rem; }
@@ -8728,10 +8728,10 @@ iframe {
 
 .com_cpanel .card-title {
   position: relative;
-  z-index: 1;
   padding: 1.1em 1.25rem 0.75rem;
   margin-top: -1.25rem;
   margin-right: -1.25rem;
+  margin-bottom: 0;
   margin-left: -1.25rem;
   font-size: .85em;
   line-height: 18px;

@@ -10,7 +10,7 @@
     box-shadow: 0 0 3px rgba(0,0,0,.075);
 
     .list-group {
-      margin-top: - $card-spacer-y;
+      margin-top: 0;
       margin-right: - $card-spacer-x;
       margin-bottom: - $card-spacer-x;
       margin-left: - $card-spacer-x;
@@ -51,10 +51,10 @@
 
   .card-title {
     position: relative;
-    z-index: 1;
     padding: 1.1em $card-spacer-x $card-spacer-y;
     margin-top: - $card-spacer-x;
     margin-right: - $card-spacer-x;
+    margin-bottom: 0;
     margin-left: - $card-spacer-x;
     font-size: .85em;
     line-height: 18px;
