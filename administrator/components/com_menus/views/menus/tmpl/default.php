@@ -149,7 +149,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 										<?php echo JText::_('COM_MENUS_MODULES'); ?>
 										<span class="caret"></span>
 									</a>
-									<div class="dropdown-menu">
+									<div class="dropdown-menu dropdown-menu-right">
 										<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 											<?php if ($canEdit) : ?>
 												<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
