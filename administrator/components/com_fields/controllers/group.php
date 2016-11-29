@@ -56,7 +56,7 @@ class FieldsControllerGroup extends JControllerForm
 		$model = $this->getModel('Group');
 
 		// Preset the redirect
-		$this->setRedirect('index.php?option=com_fields&view=groups&extension=' . $this->extension);
+		$this->setRedirect('index.php?option=com_fields&view=groups');
 
 		return parent::batch($model);
 	}

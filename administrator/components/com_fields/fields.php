@@ -8,10 +8,14 @@
  */
 defined('_JEXEC') or die;
 
-$input = JFactory::getApplication()->input;
+$app       = JFactory::getApplication();
+$component = $app->getUserStateFromRequest('com_fields.groups.extension', 'extension', '', 'CMD');
 
-$parts     = explode('.', $input->get('context'));
-$component = $parts[0];
+if (!$component)
+{
+	$parts     = explode('.', $app->getUserStateFromRequest('com_fields.fields.context', 'context', '', 'CMD'));
+	$component = $parts[0];
+}
 
 if (!JFactory::getUser()->authorise('core.manage', $component))
 {
@@ -22,5 +26,5 @@ JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/
 JLoader::register('FieldsHelperInternal', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/internal.php');
 
 $controller = JControllerLegacy::getInstance('Fields');
-$controller->execute($input->get('task'));
+$controller->execute($app->input->get('task'));
 $controller->redirect();
