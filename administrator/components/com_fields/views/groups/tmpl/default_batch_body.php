@@ -10,8 +10,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('formbehavior.chosen', 'select');
 
-$published = $this->state->get('filter.published');
-$context   = $this->escape($this->state->get('filter.context'));
+$extension   = $this->escape($this->state->get('filter.extension'));
 ?>
 
 <div class="row-fluid">
@@ -23,13 +22,6 @@ $context   = $this->escape($this->state->get('filter.context'));
 	<div class="control-group span6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.access'); ?>
-		</div>
-	</div>
-</div>
-<div class="row-fluid">
-	<div class="control-group span6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.item', $context . '.fields');?>
 		</div>
 	</div>
 </div>

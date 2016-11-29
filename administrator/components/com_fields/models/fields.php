@@ -345,4 +345,29 @@ class FieldsModelFields extends JModelList
 
 		return $form;
 	}
+
+	/**
+	 * Get the groups for the batch method
+	 *
+	 * @return  array  An array of groups
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getGroups()
+	{
+		$user       = JFactory::getUser();
+		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->select('title AS text, id AS value, state');
+		$query->from('#__fields_groups');
+		$query->where('state IN (0,1)');
+		$query->where('extension = ' . $db->quote($this->state->get('filter.component')));
+		$query->where('access IN (' . implode(',', $viewlevels) . ')');
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
 }

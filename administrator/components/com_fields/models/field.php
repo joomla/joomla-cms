@@ -34,6 +34,15 @@ class FieldsModelField extends JModelAdmin
 	protected $text_prefix = 'COM_FIELDS';
 
 	/**
+	 * Batch copy/move command. If set to false,
+	 * the batch copy/move command is not supported
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $batch_copymove = 'group_id';
+
+	/**
 	 * @var array
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -795,5 +804,116 @@ class FieldsModelField extends JModelAdmin
 				parent::cleanCache($context);
 				break;
 		}
+	}
+
+	/**
+	 * Batch copy fields to a new group.
+	 *
+	 * @param   integer  $value     The new value matching a fields group.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  array|boolean  new IDs if successful, false otherwise and internal error is set.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function batchCopy($value, $pks, $contexts)
+	{
+		// Set the variables
+		$user      = JFactory::getUser();
+		$table     = $this->getTable();
+		$newIds    = array();
+		$component = $this->state->get('filter.component');
+		$value     = (int) $value;
+
+		foreach ($pks as $pk)
+		{
+			if ($user->authorise('core.create', $component . '.fieldgroup.' . $value))
+			{
+				$table->reset();
+				$table->load($pk);
+
+				$table->group_id = $value;
+
+				// Reset the ID because we are making a copy
+				$table->id = 0;
+
+				// Unpublish the new field
+				$table->state = 0;
+
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+
+					return false;
+				}
+
+				// Get the new item ID
+				$newId = $table->get('id');
+
+				// Add the new ID to the array
+				$newIds[$pk] = $newId;
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+
+				return false;
+			}
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return $newIds;
+	}
+
+	/**
+	 * Batch move fields to a new group.
+	 *
+	 * @param   integer  $value     The new value matching a fields group.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function batchMove($value, $pks, $contexts)
+	{
+		// Set the variables
+		$user      = JFactory::getUser();
+		$table     = $this->getTable();
+		$context   = explode('.', JFactory::getApplication()->getUserState('com_fields.fields.context'));
+		$value     = (int) $value;
+
+		foreach ($pks as $pk)
+		{
+			if ($user->authorise('core.edit', $context[0] . '.fieldgroup.' . $value))
+			{
+				$table->reset();
+				$table->load($pk);
+
+				$table->group_id = $value;
+
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+				return false;
+			}
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return true;
 	}
 }
