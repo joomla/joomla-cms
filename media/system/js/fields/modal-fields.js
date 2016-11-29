@@ -40,19 +40,19 @@
 
 			if (document.getElementById(fieldPrefix + '_select'))
 			{
-				jQuery('#' + fieldPrefix + '_select').addClass('hidden');
+				jQuery('#' + fieldPrefix + '_select').addClass('element-invisible');
 			}
 			if (document.getElementById(fieldPrefix + '_new'))
 			{
-				jQuery('#' + fieldPrefix + '_new').addClass('hidden');
+				jQuery('#' + fieldPrefix + '_new').addClass('element-invisible');
 			}
 			if (document.getElementById(fieldPrefix + '_edit'))
 			{
-				jQuery('#' + fieldPrefix + '_edit').removeClass('hidden');
+				jQuery('#' + fieldPrefix + '_edit').removeClass('element-invisible');
 			}
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
-				jQuery('#' + fieldPrefix + '_clear').removeClass('hidden');
+				jQuery('#' + fieldPrefix + '_clear').removeClass('element-invisible');
 			}
 		}
 		else
@@ -62,19 +62,19 @@
 
 			if (document.getElementById(fieldPrefix + '_select'))
 			{
-				jQuery('#' + fieldPrefix + '_select').removeClass('hidden');
+				jQuery('#' + fieldPrefix + '_select').removeClass('element-invisible');
 			}
 			if (document.getElementById(fieldPrefix + '_new'))
 			{
-				jQuery('#' + fieldPrefix + '_new').removeClass('hidden');
+				jQuery('#' + fieldPrefix + '_new').removeClass('element-invisible');
 			}
 			if (document.getElementById(fieldPrefix + '_edit'))
 			{
-				jQuery('#' + fieldPrefix + '_edit').addClass('hidden');
+				jQuery('#' + fieldPrefix + '_edit').addClass('element-invisible');
 			}
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
-				jQuery('#' + fieldPrefix + '_clear').addClass('hidden');
+				jQuery('#' + fieldPrefix + '_clear').addClass('element-invisible');
 			}
 		}
 
@@ -146,7 +146,7 @@
 				}
 
 				// Show the iframe again for future modals or in case of error.
-				jQuery('#' + modalId + ' iframe').removeClass('hidden');
+				jQuery('#' + modalId + ' iframe').removeClass('element-invisible');
 			});
 
 			// Submit button on child iframe.
@@ -156,7 +156,7 @@
 				if (task === 'save')
 				{
 					submittedTask = 'apply';
-					jQuery('#' + modalId + ' iframe').addClass('hidden');
+					jQuery('#' + modalId + ' iframe').addClass('element-invisible');
 				}
 
 				document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + submittedTask);
