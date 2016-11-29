@@ -40,19 +40,19 @@
 
 			if (document.getElementById(fieldPrefix + '_select'))
 			{
-				jQuery('#' + fieldPrefix + '_select').addClass('hidden');
+				document.getElementById(fieldPrefix + '_select').classList.add('element-invisible');
 			}
 			if (document.getElementById(fieldPrefix + '_new'))
 			{
-				jQuery('#' + fieldPrefix + '_new').addClass('hidden');
+				document.getElementById(fieldPrefix + '_new').classList.add('element-invisible');
 			}
 			if (document.getElementById(fieldPrefix + '_edit'))
 			{
-				jQuery('#' + fieldPrefix + '_edit').removeClass('hidden');
+				document.getElementById(fieldPrefix + '_edit').classList.remove('element-invisible');
 			}
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
-				jQuery('#' + fieldPrefix + '_clear').removeClass('hidden');
+				document.getElementById(fieldPrefix + '_clear').classList.remove('element-invisible');
 			}
 		}
 		else
@@ -62,19 +62,19 @@
 
 			if (document.getElementById(fieldPrefix + '_select'))
 			{
-				jQuery('#' + fieldPrefix + '_select').removeClass('hidden');
+				document.getElementById(fieldPrefix + '_select').classList.remove('element-invisible');
 			}
 			if (document.getElementById(fieldPrefix + '_new'))
 			{
-				jQuery('#' + fieldPrefix + '_new').removeClass('hidden');
+				document.getElementById(fieldPrefix + '_new').classList.remove('element-invisible');
 			}
 			if (document.getElementById(fieldPrefix + '_edit'))
 			{
-				jQuery('#' + fieldPrefix + '_edit').addClass('hidden');
+				document.getElementById(fieldPrefix + '_edit').classList.add('element-invisible');
 			}
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
-				jQuery('#' + fieldPrefix + '_clear').addClass('hidden');
+				document.getElementById(fieldPrefix + '_clear').classList.add('element-invisible');
 			}
 		}
 
@@ -85,7 +85,7 @@
 		}
 
 		return false;
-	}
+	};
 
 	/**
 	 * Process new/edit modal fields in child.
@@ -109,7 +109,7 @@
 		idFieldId    = idFieldId || 'jform_id';
 		titleFieldId = titleFieldId || 'jform_title';
 
-		var modalId = element.parentNode.parentNode.id, submittedTask = task;
+		var modalId = element.parentNode.parentNode.parentNode.parentNode.id, submittedTask = task;
 
 		// Set frame id.
 		jQuery('#' + modalId + ' iframe').get(0).id = 'Frame_' + modalId;
@@ -146,7 +146,7 @@
 				}
 
 				// Show the iframe again for future modals or in case of error.
-				jQuery('#' + modalId + ' iframe').removeClass('hidden');
+				jQuery('#' + modalId + ' iframe').removeClass('element-invisible');
 			});
 
 			// Submit button on child iframe.
@@ -156,7 +156,7 @@
 				if (task === 'save')
 				{
 					submittedTask = 'apply';
-					jQuery('#' + modalId + ' iframe').addClass('hidden');
+					jQuery('#' + modalId + ' iframe').addClass('element-invisible');
 				}
 
 				document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + submittedTask);
@@ -164,7 +164,7 @@
 		}
 
 		return false;
-	}
+	};
 
 	/**
 	 * Process select modal fields in child.
@@ -187,6 +187,6 @@
 		jQuery('#ModalSelect' + itemType + '_' + fieldPrefix).modal('hide');
 
 		return false;
-	}
+	};
 
 }());
