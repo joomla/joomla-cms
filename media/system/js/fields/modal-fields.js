@@ -109,7 +109,9 @@
 		idFieldId    = idFieldId || 'jform_id';
 		titleFieldId = titleFieldId || 'jform_title';
 
-		var modalId = element.parentNode.parentNode.id, submittedTask = task;
+		var modalId = element.parentNode.parentNode.parentNode.parentNode.id, submittedTask = task;
+
+		console.log(modalId)
 
 		// Set frame id.
 		jQuery('#' + modalId + ' iframe').get(0).id = 'Frame_' + modalId;
