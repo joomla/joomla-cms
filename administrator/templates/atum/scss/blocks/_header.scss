@@ -49,7 +49,8 @@
 
   .nav-link {
     position: relative;
-    padding: 0 18px;
+    width: 55px;
+    padding: 0;
     line-height: $header-height;
     border-left: 1px solid rgba(0, 0, 0, .125);
     box-shadow: 1px 0 $white inset;
@@ -79,6 +80,38 @@
     padding: 0;
     border: 0;
   }
+
+  .dropdown-menu {
+    &::after {
+      left: 1.45rem;
+    }
+  }
+
+  .dropdown-menu-right {
+    &::after {
+      right: 1.45rem;
+      left: auto;
+    }
+  }
+
+  .header-profile {
+    .dropdown-menu {
+      padding-top: 0;
+      &::after {
+        color: $brand-primary;
+      }
+    }
+  }
+  .header-profile-user {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    margin-top: -1px;
+    margin-bottom: .3rem;
+    color: $white;
+    background-color: $brand-primary;
+    border-radius: $border-radius $border-radius 0 0;
+  }
+
 }
 
 // Menu
