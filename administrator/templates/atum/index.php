@@ -70,7 +70,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 		</div>
 	</noscript>
 	<?php // Wrapper ?>
-	<div id="wrapper" class="wrapper closed">
+	<div id="wrapper" class="wrapper">
 
 		<?php // Sidebar ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
