@@ -8438,8 +8438,6 @@ iframe {
       color: #fcfcfc; }
     .card.card-dark .list-group-item {
       background: none; }
-  .card .list-group-item {
-    padding: .75rem 0; }
 
 .custom-select.custom-select-color-state.custom-select-success {
   color: #fcfcfc;
@@ -8454,6 +8452,15 @@ iframe {
   .custom-select.custom-select-color-state.custom-select-danger option {
     color: #55595c;
     background-color: #fcfcfc; }
+
+.accordion .card-header {
+  display: block;
+  font-size: 0.9286rem;
+  font-weight: bold;
+  line-height: 1.1; }
+
+.accordion .list-group-item {
+  color: #0275d8; }
 
 .dropdown-menu {
   background-color: #fcfcfc; }
