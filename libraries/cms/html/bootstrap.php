@@ -600,10 +600,10 @@ abstract class JHtmlBootstrap
 			// Setup options object
 			$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : false;
 			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : ($opt['parent'] === false || isset($params['active']) ? false : true);
-			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
-			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
-			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
-			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+			$onShow        = isset($params['onShow']) ? (string) $params['onShow'] : null;
+			$onShown       = isset($params['onShown']) ? (string) $params['onShown'] : null;
+			$onHide        = isset($params['onHide']) ? (string) $params['onHide'] : null;
+			$onHidden      = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
@@ -672,11 +672,11 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
-		$in = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? ' in' : '';
+		$in        = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? ' in' : '';
 		$collapsed = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? '' : ' collapsed';
-		$parent = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
+		$parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
-		$class = (!empty($class)) ? ' ' . $class : '';
+		$class     = (!empty($class)) ? ' ' . $class : '';
 
 		$html = '<div class="card' . $class . '">'
 			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
