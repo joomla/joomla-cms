@@ -642,7 +642,7 @@ abstract class JHtmlBootstrap
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = $opt;
 
-			return '<div id="' . $selector . '" class="accordion">';
+			return '<div id="' . $selector . '" class="accordion" role="tablist">';
 		}
 	}
 
@@ -678,14 +678,12 @@ abstract class JHtmlBootstrap
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class = (!empty($class)) ? ' ' . $class : '';
 
-		$html = '<div class="accordion-group' . $class . '">'
-			. '<div class="accordion-heading">'
-			. '<strong><a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="accordion-toggle' . $collapsed . '">'
+		$html = '<div class="card' . $class . '">'
+			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
 			. $text
-			. '</a></strong>'
-			. '</div>'
-			. '<div class="accordion-body collapse' . $in . '" id="' . $id . '">'
-			. '<div class="accordion-inner">';
+			. '</a>'
+			. '<div class="collapse' . $in . '" id="' . $id . '" role="tabpanel">'
+			. '<div class="card-block">';
 
 		return $html;
 	}
