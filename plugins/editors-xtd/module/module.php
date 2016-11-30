@@ -29,8 +29,9 @@ class PlgButtonModule extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @since  3.5
-	 * @return array
+	 * @return  JObject  The button options as JObject
+	 *
+	 * @since   3.5
 	 */
 	public function onDisplay($name)
 	{
@@ -40,9 +41,9 @@ class PlgButtonModule extends JPlugin
 		 */
 		$user  = JFactory::getUser();
 
-		if ($user->authorise('core.create', 'com_content')
-			|| $user->authorise('core.edit', 'com_content')
-			|| $user->authorise('core.edit.own', 'com_content'))
+		if ($user->authorise('core.create', 'com_modules')
+			|| $user->authorise('core.edit', 'com_modules')
+			|| $user->authorise('core.edit.own', 'com_modules'))
 		{
 			$link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;editor='
 					. $name . '&amp;' . JSession::getFormToken() . '=1';
