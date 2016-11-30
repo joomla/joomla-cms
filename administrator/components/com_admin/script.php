@@ -120,6 +120,7 @@ class JoomlaInstallerScript
 		}
 
 		$this->uninstallEosPlugin();
+		$this->removeJedUpdateserver();
 	}
 
 	/**
@@ -200,6 +201,17 @@ class JoomlaInstallerScript
 
 		$installer = new JInstaller;
 		$installer->uninstall('plugin', $id);
+	}
+
+	/**
+	 * Remove the never used JED Updateserver
+	 *
+	 * @return  void
+	 */
+	protected function removeJedUpdateserver()
+	{
+		// Delete the item, from #__update_sites_extensions
+		// Delete the item from #__update_sites
 	}
 
 	/**
