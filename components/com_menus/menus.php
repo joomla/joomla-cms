@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  com_contact
+ * @subpackage  com_menus
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,19 +9,19 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('ContactHelperRoute', JPATH_COMPONENT . '/helpers/route.php');
+$app    = JFactory::getApplication();
 $config = array();
 
-$input = JFactory::getApplication()->input;
-
-if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal')
+if ($app->input->get('view') === 'items' && $app->input->get('layout') === 'modal')
 {
 	$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 	$lang   = JFactory::getLanguage();
 	$lang->load('joomla', JPATH_ADMINISTRATOR);
-	$lang->load('com_contact', JPATH_ADMINISTRATOR);
+	$lang->load('com_menus', JPATH_ADMINISTRATOR);
 }
 
-$controller = JControllerLegacy::getInstance('Contact', $config);
-$controller->execute($input->get('task'));
+// Trigger the controller
+$controller = JControllerLegacy::getInstance('Menus', $config);
+$controller->execute($app->input->get('task'));
 $controller->redirect();
+
