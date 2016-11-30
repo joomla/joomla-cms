@@ -330,10 +330,8 @@
   }
 
   .collapse-level-2 {
-    background: rgba(0,0,0,.8);
-
     > li > a {
-      text-indent: 35px;
+      text-indent: 30px;
     }
   }
 
@@ -409,6 +407,10 @@
         left: 100%;
         display: block;
       }
+      &:hover .collapse-level-2 {
+        position: relative;
+        left: 0;
+      }
     }
     .collapse-level-1 {
       padding: 5px 0 10px;
@@ -417,6 +419,7 @@
       background-color: lighten($atum-template-color, 5%);
       border-bottom-right-radius: $border-radius;
       li {
+        position: relative;
         font-size: .9rem;
         line-height: 30px;
         text-indent: 15px;
@@ -435,7 +438,7 @@
         font-weight: normal;
         background-color: transparent;
       }
-      li:hover {
+      a:hover {
         background-color: $atum-template-color;
         box-shadow: none;
       }
@@ -454,13 +457,21 @@
       }
       .parent::after {
         position: absolute;
-        top: 3px;
+        top: 0;
         right: 10px;
         font-family: FontAwesome;
         font-size: .75rem;
         color: #e2e3f5;
-        content: "\f054";
+        content: "\f078";
         opacity: .5;
+      }
+    }
+    .collapse-level-2 {
+      padding-bottom: 5px;
+      background-color: lighten($atum-template-color, 7%);
+      .sidebar-item-title::before {
+        content: "\f10c";
+        opacity: .75;
       }
     }
   }
