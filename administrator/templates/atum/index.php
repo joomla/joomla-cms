@@ -122,6 +122,9 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 								</li>
 
 								<?php
+									/*
+									 * @TODO: Remove FOF call as it's being removed in core
+									 */
 									try
 									{
 										$messagesModel = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
