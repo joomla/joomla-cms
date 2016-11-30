@@ -1785,7 +1785,7 @@ INSERT INTO "#__update_sites" ("update_site_id", "name", "type", "location", "en
 (2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_3.xml', 1, 0),
 (3, 'Joomla! Update Component Update Site', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
 
-SELECT setval('#__update_sites_update_site_id_seq', 5, false);
+SELECT setval('#__update_sites_update_site_id_seq', 4, false);
 
 --
 -- Table: #__update_sites_extensions
