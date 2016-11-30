@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	/** The container where the draggable will be enabled **/
 	var url, formSelector, direction, isNested, container = document.querySelector('.js-draggable'),
-		orderRows = container.querySelectorAll('[name="order[]"]');
+	    orderRows = container.querySelectorAll('[name="order[]"]');
 
 	if (container) {
 		/** The script expects a form with a class js-form
@@ -53,8 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		var getOrderData = function (container, direction) {
 			var i, l, result = [],
-				orderRows = container.querySelectorAll('[name="order[]"]'),
-				inputRows = container.querySelectorAll('[name="cid[]"]');
+			    orderRows = container.querySelectorAll('[name="order[]"]'),
+			    inputRows = container.querySelectorAll('[name="cid[]"]');
 
 			if (direction  === 'desc') {
 				/** Reverse the array **/
@@ -90,7 +90,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				accepts: function (el, target, source, sibling) {
 					if (isNested) {
-						return sibling != null && sibling.getAttribute('data-dragable-group') && sibling.getAttribute('data-dragable-group') == el.getAttribute('data-dragable-group');
+						if (sibling !== null) {
+							return  sibling.getAttribute('data-dragable-group') && sibling.getAttribute('data-dragable-group') == el.getAttribute('data-dragable-group');
+						} else {
+							return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
+						}
 					} else {
 						return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
 					}
