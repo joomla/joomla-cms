@@ -7770,14 +7770,13 @@ legend {
   .header .header-profile .dropdown-menu {
     padding-top: 0; }
     .header .header-profile .dropdown-menu::after {
-      color: #0275d8; }
+      color: #eee; }
   .header .header-profile-user {
     padding-top: .5rem;
     padding-bottom: .5rem;
-    margin-top: -1px;
     margin-bottom: .3rem;
-    color: #fcfcfc;
-    background-color: #0275d8;
+    background-color: #eee;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 0.25rem 0.25rem 0 0; }
 
 .menu-collapse {

@@ -98,17 +98,16 @@
     .dropdown-menu {
       padding-top: 0;
       &::after {
-        color: $brand-primary;
+        color: $atum-container-main-bg;
       }
     }
   }
   .header-profile-user {
     padding-top: .5rem;
     padding-bottom: .5rem;
-    margin-top: -1px;
     margin-bottom: .3rem;
-    color: $white;
-    background-color: $brand-primary;
+    background-color: $atum-container-main-bg;
+    border-bottom: 1px solid rgba(0,0,0,.1);
     border-radius: $border-radius $border-radius 0 0;
   }
 
