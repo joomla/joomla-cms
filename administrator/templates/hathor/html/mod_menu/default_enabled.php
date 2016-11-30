@@ -93,7 +93,7 @@ if ($user->authorise('core.manage', 'com_users'))
 	if ($createUser)
 	{
 		$menu->addChild(
-			new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_users', 'class:newarticle')
+			new JMenuNode(JText::_('MOD_MENU_COM_USERS_NOTE_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_users', 'class:newarticle')
 		);
 		$menu->getParent();
 	}
@@ -283,7 +283,9 @@ if ($im || $mm || $pm || $tm || $lm)
 
 	if ($mm)
 	{
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_MODULE_MANAGER'), 'index.php?option=com_modules', 'class:module'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_MODULE_MANAGER'), 'index.php?option=com_modules', 'class:module'),$mm);
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_NEW_MODULE'), 'index.php?option=com_modules&view=select', 'class:module'));
+                $menu->getParent();
 	}
 
 	if ($pm)
