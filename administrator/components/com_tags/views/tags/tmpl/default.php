@@ -51,8 +51,8 @@ if ($section === 'categories')
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax';
-	JHtml::_('sortablelist.sortable', 'categoryList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
+	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax' . JSession::getFormToken() . '=1';
+	JHtml::_('draggablelist.draggable');
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_tags&view=tags');?>" method="post" name="adminForm" id="adminForm">
@@ -121,7 +121,7 @@ if ($saveOrder)
 						</td>
 					</tr>
 				</tfoot>
-				<tbody>
+				<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 				<?php
 				foreach ($this->items as $i => $item) :
 					$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
@@ -156,7 +156,7 @@ if ($saveOrder)
 						$parentsStr = "";
 					}
 					?>
-						<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
+						<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
 							<td class="order nowrap text-xs-center hidden-sm-down">
 								<?php
 								$iconClass = '';
