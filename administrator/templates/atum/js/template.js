@@ -58,33 +58,27 @@
 			    // Apply 2nd level collapse
 			    first         = menu.querySelectorAll('.collapse-level-1');
 
-			for (var i = 0; i < first.length; i++) {
-				var second = first[i].querySelectorAll('.collapse-level-1');
-				for (var j = 0; j < second.length; j++) {
-					if (second[j]) {
-						second[j].classList.remove('collapse-level-1');
-						second[j].classList.add('collapse-level-2');
-					}
-				}
-			}
-
-			var navs = menu.querySelectorAll('.nav');
-
-			for (var i = 0; i < navs.length; i++) {
-				var parents = navs[i];
-				for (var j = 0; j < parents.length; j++) {
-					var aTags = parents[j];
-					for (var k = 0; k < aTags.length; k++) {
-						aTags[k].classList.remove('data-parent');
-					}
-				}
-			}
-
-			var closeAll = function() {
-				for (var i = 0; i < collapsMenus.length; i++) {
-					collapsMenus[i].parentNode.querySelector('.panel-collapse').classList.remove('in');
-				}
-			};
+			// for (var i = 0; i < first.length; i++) {
+			// 	var second = first[i].querySelectorAll('.collapse-level-1');
+			// 	for (var j = 0; j < second.length; j++) {
+			// 		if (second[j]) {
+			// 			second[j].classList.remove('collapse-level-1');
+			// 			second[j].classList.add('collapse-level-2');
+			// 		}
+			// 	}
+			// }
+			//
+			// var navs = menu.querySelectorAll('.nav');
+			//
+			// for (var i = 0; i < navs.length; i++) {
+			// 	var parents = navs[i];
+			// 	for (var j = 0; j < parents.length; j++) {
+			// 		var aTags = parents[j];
+			// 		for (var k = 0; k < aTags.length; k++) {
+			// 			aTags[k].classList.remove('data-parent');
+			// 		}
+			// 	}
+			// }
 
 			var menuClose = function() {
 				sidebar.querySelector('.collapse').classList.remove('in');
@@ -127,38 +121,6 @@
 				saveState();
 			});
 
-			var doAnim = function(e) {
-				if (e.target.parentNode.querySelector('.panel-collapse')) {
-					e.preventDefault();
-					e.stopPropagation();
-				}
-
-				var currentUlOpen = true;
-
-				if (sidebar.classList.contains('closed')) {
-					currentUlOpen = false;
-				}
-
-				animateWrapper(currentUlOpen);
-
-				if (e.target.parentNode.querySelector('.panel-collapse')) {
-					if (!e.target.parentNode.querySelector('.panel-collapse').classList.contains('in')) {
-						if (!e.target.parentNode.parentNode.parentNode.classList.contains('parent')) {
-							closeAll();
-						}
-
-						e.target.parentNode.querySelector('.panel-collapse').classList.add('in');
-					} else {
-						closeAll();
-						e.target.parentNode.querySelector('.panel-collapse').classList.remove('in');
-					}
-				}
-
-				if (e.target.parentNode.classList.contains('no-dropdown')) {
-					window.location.href = e.target.parentNode.href;
-				}
-			};
-
 			if (wrapperClosed) {
 				wrapperClosed[i].addEventListener('click', animateWrapper(true));
 			}
@@ -167,9 +129,26 @@
 				sidebar[i].addEventListener('click', animateWrapper(true));
 			}
 
-			for (var i = 0; i < collapsMenus.length; i++) {
-				collapsMenus[i].parentNode.addEventListener('click', function(e){ doAnim(e) });
-			}
+			/**
+			 * Sidebar Accordion
+			 */
+			jQuery('.main-nav li.parent > a').on('click', function(){
+				jQuery(this).removeAttr('href');
+				var element = jQuery(this).parent('li');
+				if (element.hasClass('open')) {
+					element.removeClass('open');
+					element.find('li').removeClass('open');
+					element.find('ul').slideUp();
+				}
+				else {
+					element.addClass('open');
+					element.children('ul').slideDown();
+					element.siblings('li').children('ul').slideUp();
+					element.siblings('li').removeClass('open');
+					element.siblings('li').find('li').removeClass('open');
+					element.siblings('li').find('ul').slideUp();
+				}
+			});
 
 			// Set the height of the menu to prevent overlapping
 			var setMenuHeight = function() {
@@ -389,27 +368,5 @@
 				}
 			}
 		}
-
-		/**
-		 * Sidebar Accordion
-		 */
-		jQuery('.main-nav li.parent > a').on('click', function(){
-			jQuery(this).removeAttr('href');
-			var element = jQuery(this).parent('li');
-			if (element.hasClass('open')) {
-				element.removeClass('open');
-				element.find('li').removeClass('open');
-				element.find('ul').slideUp();
-			}
-			else {
-				element.addClass('open');
-				element.children('ul').slideDown();
-				element.siblings('li').children('ul').slideUp();
-				element.siblings('li').removeClass('open');
-				element.siblings('li').find('li').removeClass('open');
-				element.siblings('li').find('ul').slideUp();
-			}
-		});
-
 	});
 })();
