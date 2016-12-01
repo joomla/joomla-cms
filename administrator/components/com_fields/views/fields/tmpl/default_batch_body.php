@@ -9,6 +9,23 @@
 defined('_JEXEC') or die;
 
 JHtml::_('formbehavior.chosen', 'select');
+JFactory::getDocument()->addScriptDeclaration(
+	'
+		jQuery(document).ready(function($){
+			if ($("#batch-group-id").length){var batchSelector = $("#batch-group-id");}
+			if ($("#batch-copy-move").length) {
+				$("#batch-copy-move").hide();
+				batchSelector.on("change", function(){
+					if (batchSelector.val() != 0 || batchSelector.val() != "") {
+						$("#batch-copy-move").show();
+					} else {
+						$("#batch-copy-move").hide();
+					}
+				});
+			}
+		});
+			'
+);
 
 $context   = $this->escape($this->state->get('filter.context'));
 ?>
