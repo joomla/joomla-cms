@@ -164,8 +164,8 @@ class JAdminCssMenu extends JObject
 
 		if ($this->_current->hasChildren())
 		{
-			$linkClass[] = 'collapse-arrow collapsed';
-			$dataToggle = ' data-toggle="collapse" data-parent="#menu"';
+			$linkClass[] = 'collapse-arrow';
+			$dataToggle = '';
 
 			// If the menu item has children, override the href
 			$this->_current->link = '#collapse' . $unique;

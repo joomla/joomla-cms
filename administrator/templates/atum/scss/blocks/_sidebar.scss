@@ -115,9 +115,6 @@
   margin: 0;
   overflow-y: auto;
   list-style: none;
-  *, *::before {
-    transition: all .3s ease;
-  }
   &.second {
     margin-bottom: 0;
   }
@@ -142,6 +139,7 @@
       display: block;
       color: $white;
       text-decoration: none;
+      cursor: pointer;
       box-shadow: inset 0 1px 0 rgba(255,255,255,.05), inset 0 -1px rgba(0,0,0,.3);
 
       &::before {
@@ -175,10 +173,16 @@
       &:focus {
         text-decoration: none;
       }
-    }
 
-    ul li {
-      text-indent: 20px;
+    }
+    a:not([href]):not([tabindex]) {
+      color: $white;
+    }
+    ul {
+      display: none;
+      li {
+        text-indent: 20px;
+      }
     }
 
     a:hover {
@@ -224,8 +228,7 @@
   }
 
   > .parent {
-    > .collapse-arrow::after,
-    li > .collapse-arrow::after {
+    .collapse-arrow::after {
       display: inline-block;
       float: right;
       width: 0;
@@ -234,18 +237,17 @@
       margin-right: 10px;
       vertical-align: middle;
       content: "";
-      border-top: 0;
-      border-right: .3em solid transparent;
-      border-bottom: .3em solid;
-      border-left: .3em solid transparent;
-    }
-    > .collapse-arrow.collapsed::after,
-    li > .collapse-arrow.collapsed::after {
       border-top: .3em solid;
       border-right: .3em solid transparent;
       border-bottom: 0;
       border-left: .3em solid transparent;
     }
+  }
+  .open > .collapse-arrow::after {
+    border-top: 0;
+    border-right: .3em solid transparent;
+    border-bottom: .3em solid;
+    border-left: .3em solid transparent;
   }
 }
 
@@ -289,7 +291,7 @@
         display: block;
         opacity: 1;
       }
-      &:hover .collapse {
+      .collapse, &:hover .collapse {
         position: absolute;
         top: 100%;
         left: 100%;
@@ -298,9 +300,22 @@
       &:hover .collapse-level-2 {
         position: relative;
         left: 0;
+        display: none;
+      }
+      &:hover .parent::after {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        font-family: FontAwesome;
+        font-size: .75rem;
+        color: #e2e3f5;
+        content: "\f078";
+        opacity: .5;
       }
     }
     .collapse-level-1 {
+      display: block !important;
+      height: auto !important;
       padding: 5px 0 10px;
       margin-top: -1px;
       text-indent: 0;
@@ -330,9 +345,6 @@
         background-color: $atum-template-color;
         box-shadow: none;
       }
-      a:hover {
-        box-shadow: none;
-      }
       .sidebar-item-title::before {
         position: absolute;
         top: 0;
@@ -341,16 +353,6 @@
         font-size: .4rem;
         color: #e2e3f5;
         content: "\f111";
-        opacity: .5;
-      }
-      .parent::after {
-        position: absolute;
-        top: 0;
-        right: 10px;
-        font-family: FontAwesome;
-        font-size: .75rem;
-        color: #e2e3f5;
-        content: "\f078";
         opacity: .5;
       }
     }
