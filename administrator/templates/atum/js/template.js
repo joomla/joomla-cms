@@ -42,7 +42,6 @@
 			    logo          = document.getElementById('main-brand'),
 			    logoSm        = document.getElementById('main-brand-sm'),
 			    menuToggle    = document.getElementById('header').querySelector('.menu-toggle'),
-			    collapsMenus  = sidebar.querySelectorAll('a[data-toggle="collapse"]'),
 			    wrapperClosed = document.querySelector('#wrapper.closed'),
 			    // Apply 2nd level collapse
 			    first         = menu.querySelectorAll('.collapse-level-1');
@@ -172,7 +171,6 @@
 
 			if (typeof(Storage) !== 'undefined') {
 				if (localStorage.getItem('adminMenuState') == "true") {
-					closeAll();
 					menuClose();
 				}
 			}
