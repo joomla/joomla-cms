@@ -237,17 +237,17 @@
       margin-right: 10px;
       vertical-align: middle;
       content: "";
-      border-top: .3em solid;
-      border-right: .3em solid transparent;
+      border-top: .3rem solid;
+      border-right: .3rem solid transparent;
       border-bottom: 0;
-      border-left: .3em solid transparent;
+      border-left: .3rem solid transparent;
     }
   }
   .open > .collapse-arrow::after {
     border-top: 0;
-    border-right: .3em solid transparent;
-    border-bottom: .3em solid;
-    border-left: .3em solid transparent;
+    border-right: .3rem solid transparent;
+    border-bottom: .3rem solid;
+    border-left: .3rem solid transparent;
   }
 }
 
@@ -308,7 +308,7 @@
         right: 10px;
         font-family: FontAwesome;
         font-size: .75rem;
-        color: #e2e3f5;
+        color: $white;
         content: "\f078";
         opacity: .5;
       }
@@ -323,12 +323,12 @@
       border-bottom-right-radius: $border-radius;
       li {
         position: relative;
-        font-size: .9rem;
+        font-size: $font-size-h5;
         line-height: 30px;
         text-indent: 15px;
       }
       a {
-        color: #e2e3f5;
+        color: $white;
         border: 0;
       }
       a::before {
