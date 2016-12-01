@@ -116,7 +116,7 @@ class JAdminCssMenu extends JObject
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul id='menu' class='nav navbar-nav nav-stacked main-nav clearfix' tabindex='0'>\n";
+			echo "<div role=\"navigation\" aria-label=\"Main menu\"><ul id='menu' class='nav navbar-nav nav-stacked main-nav clearfix' tabindex='0' role=\"menubar\">\n";
 
 			foreach ($this->_current->getChildren() as $child)
 			{
@@ -124,7 +124,7 @@ class JAdminCssMenu extends JObject
 				$this->renderLevel($depth++);
 			}
 
-			echo "</ul>\n";
+			echo "</ul></div>\n";
 		}
 
 		if ($this->_css)
@@ -156,7 +156,8 @@ class JAdminCssMenu extends JObject
 		$unique = self::$counter;
 
 		// Print the item
-		echo '<li' . $class . ' tabindex="0">';
+		$ariaPopup = $this->_current->hasChildren() ? 'aria-haspopup="true"' : '';
+		echo '<li' . $class . ' role="menuitem" tabindex="0" ' . $ariaPopup . '>';
 
 		// Print a link if it exists
 		$linkClass = array();
@@ -214,7 +215,7 @@ class JAdminCssMenu extends JObject
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			echo '<ul id="collapse' . $unique . '" class="nav panel-collapse collapse-level-1 collapse">' . "\n";
+			echo '<ul id="collapse' . $unique . '" class="nav panel-collapse collapse-level-1 collapse" role="menu" aria-hidden="true">' . "\n";
 
 			foreach ($this->_current->getChildren() as $child)
 			{
