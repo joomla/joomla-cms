@@ -58,27 +58,15 @@
 			    // Apply 2nd level collapse
 			    first         = menu.querySelectorAll('.collapse-level-1');
 
-			// for (var i = 0; i < first.length; i++) {
-			// 	var second = first[i].querySelectorAll('.collapse-level-1');
-			// 	for (var j = 0; j < second.length; j++) {
-			// 		if (second[j]) {
-			// 			second[j].classList.remove('collapse-level-1');
-			// 			second[j].classList.add('collapse-level-2');
-			// 		}
-			// 	}
-			// }
-			//
-			// var navs = menu.querySelectorAll('.nav');
-			//
-			// for (var i = 0; i < navs.length; i++) {
-			// 	var parents = navs[i];
-			// 	for (var j = 0; j < parents.length; j++) {
-			// 		var aTags = parents[j];
-			// 		for (var k = 0; k < aTags.length; k++) {
-			// 			aTags[k].classList.remove('data-parent');
-			// 		}
-			// 	}
-			// }
+			for (var i = 0; i < first.length; i++) {
+				var second = first[i].querySelectorAll('.collapse-level-1');
+				for (var j = 0; j < second.length; j++) {
+					if (second[j]) {
+						second[j].classList.remove('collapse-level-1');
+						second[j].classList.add('collapse-level-2');
+					}
+				}
+			}
 
 			var menuClose = function() {
 				sidebar.querySelector('.collapse').classList.remove('in');
