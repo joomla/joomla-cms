@@ -8219,7 +8219,7 @@ iframe {
       left: 100%;
       width: 220px;
       padding: 0 13px;
-      font-size: .9rem;
+      font-size: 0.9286rem;
       font-weight: bold;
       background-color: #27283a;
       border-radius: 0 0.25rem 0.25rem 0; }
@@ -8279,7 +8279,7 @@ iframe {
       left: 0;
       font-family: FontAwesome;
       font-size: .4rem;
-      color: #e2e3f5;
+      color: #fcfcfc;
       content: "\f111";
       opacity: .5; }
   .closed .main-nav .collapse-level-2 {

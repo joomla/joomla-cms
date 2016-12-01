@@ -279,7 +279,7 @@
         left: 100%;
         width: 220px;
         padding: 0 13px;
-        font-size: .9rem;
+        font-size: $font-size-h5;
         font-weight: bold;
         background-color: $atum-template-color;
         border-radius: 0 $border-radius $border-radius 0;
@@ -351,7 +351,7 @@
         left: 0;
         font-family: FontAwesome;
         font-size: .4rem;
-        color: #e2e3f5;
+        color: $white;
         content: "\f111";
         opacity: .5;
       }
