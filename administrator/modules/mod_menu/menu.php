@@ -156,7 +156,7 @@ class JAdminCssMenu extends JObject
 		$unique = self::$counter;
 
 		// Print the item
-		echo '<li' . $class . '>';
+		echo '<li' . $class . ' tabindex="0">';
 
 		// Print a link if it exists
 		$linkClass = array();
@@ -194,17 +194,17 @@ class JAdminCssMenu extends JObject
 		if ($this->_current->link != null && $this->_current->target != null)
 		{
 			echo "<a" . $linkClass . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\">" . $iconClass
-				. '<span class="sidebar-item-title" tabindex="0">' . $this->_current->title . "</span></a>";
+				. '<span class="sidebar-item-title">' . $this->_current->title . "</span></a>";
 		}
 		elseif ($this->_current->link != null && $this->_current->target == null)
 		{
 			echo "<a" . $linkClass . $dataToggle . " href=\"" . $this->_current->link . "\">" . $iconClass
-				. '<span class="sidebar-item-title" tabindex="0">' . $this->_current->title . "</span></a>";
+				. '<span class="sidebar-item-title" >' . $this->_current->title . "</span></a>";
 		}
 		elseif ($this->_current->title != null)
 		{
 			echo "<a" . $linkClass . $dataToggle . ">" . $iconClass
-				. '<span class="sidebar-item-title" tabindex="0">' . $this->_current->title . "</span></a>";
+				. '<span class="sidebar-item-title" >' . $this->_current->title . "</span></a>";
 		}
 		else
 		{
@@ -214,7 +214,7 @@ class JAdminCssMenu extends JObject
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			echo '<ul id="collapse' . $unique . '" class="nav panel-collapse collapse-level-1 collapse" tabindex="0">' . "\n";
+			echo '<ul id="collapse' . $unique . '" class="nav panel-collapse collapse-level-1 collapse">' . "\n";
 
 			foreach ($this->_current->getChildren() as $child)
 			{
