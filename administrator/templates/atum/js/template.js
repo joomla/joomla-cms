@@ -126,6 +126,13 @@
 				}
 			});
 
+			/** Accessibility */
+			var allLiEl = sidebar.querySelectorAll('ul[role="menubar"] li');
+			for (var i = 0; i < allLiEl.length; i++) {
+				// We care for enter and space
+				allLiEl[i].addEventListener('keyup', function(e) { if (e.keyCode == 32 || e.keyCode == 13 ) e.target.querySelector('a').click(); });
+			}
+
 			// Set the height of the menu to prevent overlapping
 			var setMenuHeight = function() {
 				var height = document.getElementById('header').offsetHeight + document.getElementById('main-brand').offsetHeight;
