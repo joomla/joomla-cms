@@ -75,9 +75,9 @@ Feature: category
   Scenario: Category Language settings
     Given There is an article category link
     When I search and select category with title "Category_2"
-    And I set language as a "English (UK)"
+    And I set language as a "English (en-GB)"
     And I save the category
-    Then I should see the category language as "English (UK)"
+    Then I should see the category language as "English (en-GB)"
 
   Scenario: Check article if exist in frontend
     Given There is joomla home page
