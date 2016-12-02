@@ -242,7 +242,6 @@ class FieldsHelper
 
 		$input = JFactory::getApplication()->input;
 
-
 		if (! $parts)
 		{
 			return true;
