@@ -148,7 +148,7 @@ class ContentControllerArticles extends JControllerAdmin
 		}
 		catch (Exception $e)
 		{
-			$message = JText::_('COM_CONTENT_DRAFT_LINK_ERROR');
+			$message = JText::_('COM_CONTENT_DRAFT_LINKS_ERROR');
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles', false), $message);

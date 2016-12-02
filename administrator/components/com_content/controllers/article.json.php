@@ -57,7 +57,7 @@ class ContentControllerArticle extends JControllerForm
 		catch (Exception $e)
 		{
 			$error = true;
-			$message = JText::_('COM_CONTENT_DRAFT_LINK_ERROR');
+			$message = JText::_('COM_CONTENT_DRAFT_LINKS_ERROR');
 		}
 
 		echo new JResponseJson($return, $message, $error);
