@@ -167,16 +167,15 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 								</li>
 								<?php endif; ?>
 
-								<li class="nav-item dropdown">
+								<li class="nav-item dropdown header-profile">
 									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
 										<i class="fa fa-user"></i>
 									</a>
 									<div class="dropdown-menu dropdown-menu-right">
-										<div class="dropdown-item">
+										<div class="dropdown-item header-profile-user">
 											<i class="fa fa-user"></i>
-											<b><?php echo $user->name; ?></b>
+											<?php echo $user->name; ?>
 										</div>
-										<div class="dropdown-divider"></div>
 										<a class="dropdown-item" href="<?php echo JRoute::_('index.php?option=com_admin&amp;task=profile.edit&amp;id=' 
 											. $user->id); ?>"><?php echo JText::_('TPL_ATUM_EDIT_ACCOUNT'); ?></a>
 										<a class="dropdown-item" href="<?php echo JRoute::_('index.php?option=com_login&task=logout&' 
