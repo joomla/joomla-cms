@@ -867,7 +867,29 @@ class ContentModelArticle extends JModelAdmin
 			}
 		}
 
-		$url = JUri::root() . 'index.php?option=com_content&view=article&id=' . $articleId . '&token=' . $token;
+		// Load JMenu for finding an item ID
+		$menu = JMenu::getInstance('site');
+
+		// Find the item ID for the article
+		$menuItem = $menu->getItems('link', 'index.php?option=com_content&view=article&id=' . $articleId, true);
+
+		// If we don't find a single artile, look for the category
+		if (!$menuItem)
+		{
+			$contentTable = $this->getTable('Content', 'JTable');
+			$contentTable->load($articleId);
+			$menuItem = $this->findCategoryItemid($menu, $contentTable->get('catid'));
+		}
+
+		// Add the item ID if found
+		$itemId = '';
+
+		if ($menuItem)
+		{
+			$itemId = '&Itemid=' . $menuItem->id;
+		}
+
+		$url = JUri::root() . 'index.php?option=com_content&view=article&id=' . $articleId . '&token=' . $token . $itemId;
 
 		if ($languageTag)
 		{
@@ -925,6 +947,40 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		return JHtml::_('link', $url, $url);
+	}
+
+	/**
+	 * Look for a menu item ID based on a content category.
+	 *
+	 * @param   JMenu  $menu        JMenu class for finding items.
+	 * @param   int    $categoryId  The category ID to find an item ID for.
+	 *
+	 * @return  mixed  Int when item ID has been found | false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function findCategoryItemid($menu, $categoryId)
+	{
+		// Don't continue if category ID is 0
+		if ((int) $categoryId === 0)
+		{
+			return false;
+		}
+
+		// Find a menu item linked to this category
+		$menuItem = $menu->getItems('link', 'index.php?option=com_content&view=category&id=' . $categoryId, true);
+
+		// No menu item found, check the parent category ID
+		if (!$menuItem)
+		{
+			// Get the parent ID
+			$categoryTable = $this->getTable('Category', 'JTable');
+			$categoryTable->load($categoryId);
+
+			return $this->findCategoryItemid($menu, $categoryTable->get('parent_id'));
+		}
+
+		return $menuItem;
 	}
 
 	/**
