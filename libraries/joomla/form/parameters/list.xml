@@ -3,13 +3,24 @@
 	<fields name="fieldparams" label="JLIB_FORM_FIELD_PARAM_BASIC_LABEL">
 		<fieldset name="fieldparams">
 			<field
+				name="multiple"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_DESC"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
 				name="options"
-				type="Repeatable"
-				icon="list"
+				type="subform" layout="joomla.form.field.subform.repeatable-table"
+				icon="list" multiple="true"
 				description="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_VALUES_DESC"
 				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_VALUES_LABEL"
 			>
-				<fieldset hidden="true" name="list_templates_modal" repeat="true">
+				<form hidden="true" name="list_templates_modal" repeat="true">
 					<field
 						name="name"
 						label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_VALUES_NAME_LABEL"
@@ -23,18 +34,7 @@
 						size="30"
 						type="text"
 					/>
-				</fieldset>
-			</field>
-			<field
-				name="multiple"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_LABEL"
-				description="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_DESC"
-			>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
+				</form>
 			</field>
 		</fieldset>
 	</fields>

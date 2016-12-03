@@ -215,19 +215,11 @@ abstract class JFormAbstractlist extends JFormField
 	{
 		$options = $field->fieldparams->get('options', array());
 
-		if (!is_array($options))
-		{
-			$options = json_decode($options);
-		}
-
 		$data = array();
 
-		if (isset($options->name))
+		foreach ($options as $option)
 		{
-			foreach ($options->value as $index => $key)
-			{
-				$data[$key] = $options->name[$index];
-			}
+			$data[$option->name] = $options->value;
 		}
 
 		return $data;
