@@ -72,21 +72,22 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 	</noscript>
 
 	<?php // Wrapper ?>
-	<div id="wrapper" class="wrapper closed">
+	<div id="wrapper" class="wrapper">
 
 		<?php // Sidebar ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
-			<div id="main-brand-sm" class="main-brand">
+			<div id="main-brand-sm" class="main-brand  hidden-xs-up">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 					<img src="<?php echo $logoSm; ?>" class="logo" alt="<?php echo $sitename;?>" />
 				</a>
 			</div>
-			<div id="main-brand" class="main-brand hidden-xs-up">
+			<div id="main-brand" class="main-brand">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename;?>" />
 				</a>
 			</div>
 			<jdoc:include type="modules" name="menu" style="none" />
+			<div class="sidebar-brand"></div>
 		</div>
 
 		<?php // Header ?>
