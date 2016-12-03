@@ -72,7 +72,7 @@ class FieldsHelper
 			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
 
 			self::$fieldsCache = JModelLegacy::getInstance('Fields', 'FieldsModel', array(
-				'ignore_request' => true)
+					'ignore_request' => true)
 			);
 
 			self::$fieldsCache->setState('filter.published', 1);
@@ -106,7 +106,7 @@ class FieldsHelper
 			if (self::$fieldCache === null)
 			{
 				self::$fieldCache = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-					'ignore_request' => true)
+						'ignore_request' => true)
 				);
 			}
 
@@ -240,6 +240,8 @@ class FieldsHelper
 		// Extracting the component and section
 		$parts = self::extract($context);
 
+		$input = JFactory::getApplication()->input;
+
 		if (! $parts)
 		{
 			return true;
@@ -303,7 +305,7 @@ class FieldsHelper
 			*/
 			$form->setFieldAttribute('catid', 'onchange', "categoryHasChanged(this);");
 			JFactory::getDocument()->addScriptDeclaration(
-					"function categoryHasChanged(element){
+				"function categoryHasChanged(element){
 				var cat = jQuery(element);
 				if (cat.val() == '" . $assignedCatids . "')return;
 				jQuery('input[name=task]').val('field.storeform');
@@ -333,7 +335,7 @@ class FieldsHelper
 
 		// Organizing the fields according to their category
 		$fieldsPerCategory = array(
-				0 => array()
+			0 => array()
 		);
 
 		foreach ($fields as $field)
@@ -458,7 +460,7 @@ class FieldsHelper
 				'ignore_request' => true)
 		);
 
-		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
+		if ((!isset($data->id) || !$data->id) && $input->getCmd('controller') == 'config.display.modules'
 			&& JFactory::getApplication()->isSite())
 		{
 			// Modules on front end editing don't have data and an id set
@@ -566,10 +568,10 @@ class FieldsHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-		->select($db->quoteName('extension_id'))
-		->from($db->quoteName('#__extensions'))
-		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-		->where($db->quoteName('element') . ' = ' . $db->quote('fields'));
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('fields'));
 		$db->setQuery($query);
 
 		try
