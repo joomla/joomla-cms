@@ -178,7 +178,7 @@ class FieldsModelGroups extends JModelList
 		{
 			$query->where('a.state = ' . (int) $state);
 		}
-		else
+		elseif (!$state)
 		{
 			$query->where('a.state IN (0, 1)');
 		}

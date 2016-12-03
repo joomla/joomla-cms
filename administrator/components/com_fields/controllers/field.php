@@ -22,6 +22,15 @@ class FieldsControllerField extends JControllerForm
 	private $component;
 
 	/**
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
+
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $text_prefix = 'COM_FIELDS_FIELD';
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A named array of configuration variables.

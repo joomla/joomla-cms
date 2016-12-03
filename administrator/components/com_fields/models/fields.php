@@ -228,7 +228,7 @@ class FieldsModelFields extends JModelList
 				$query->where('(a.group_id = 0 OR g.state = ' . (int) $state . ')');
 			}
 		}
-		else
+		elseif (!$state)
 		{
 			$query->where('a.state IN (0, 1)');
 

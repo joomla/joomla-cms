@@ -18,6 +18,15 @@ use Joomla\Registry\Registry;
 class FieldsControllerGroup extends JControllerForm
 {
 	/**
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
+
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $text_prefix = 'COM_FIELDS_GROUP';
+
+	/**
 	 * The extension for which the group applies.
 	 *
 	 * @var    string
