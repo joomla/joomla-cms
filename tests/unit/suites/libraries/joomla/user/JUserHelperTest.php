@@ -357,6 +357,11 @@ class JUserHelperTest extends TestCaseDatabase
 			JUserHelper::verifyPassword('mySuperSecretPassword', '693560686f4d591d8dd5e34006442061'),
 			'Properly verifies a password hashed with Joomla legacy MD5'
 		);
+
+		$this->assertTrue(
+			hash_equals('$2xzaiMREaf7o', JUserHelper::getCryptedPassword('mySuperSecretPassword', '$2xzaiMREaf7o', 'crypt-blowfish')),
+			'Use hash_equals to Properly verify a pre-J3.2.1 Password that was hashed to crypt-blowfish without user specified salt'
+		);
 	}
 
 	/**
