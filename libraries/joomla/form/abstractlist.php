@@ -219,7 +219,7 @@ abstract class JFormAbstractlist extends JFormField
 
 		foreach ($options as $option)
 		{
-			$data[$option->name] = $options->value;
+			$data[$option->value] = $option->name;
 		}
 
 		return $data;
@@ -239,10 +239,13 @@ abstract class JFormAbstractlist extends JFormField
 	 */
 	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
 	{
-		foreach (self::getOptionsFromField($field) as $index => $name)
+		foreach (self::getOptionsFromField($field) as $value => $name)
 		{
-			$element = $fieldNode->appendChild(new DOMElement('option', $name));
-			$element->setAttribute('value', $index);
+			$option = new DOMElement('option', $value);
+			$option->nodeValue = JText::_($name);
+
+			$element = $fieldNode->appendChild($option);
+			$element->setAttribute('value', $value);
 		}
 
 		return parent::postProcessDomNode($field, $fieldNode, $form);
