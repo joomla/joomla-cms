@@ -107,7 +107,8 @@ class JDate extends DateTime
 		date_default_timezone_set('UTC');
 		$date = is_numeric($date) ? date('c', $date) : $date;
 
-		// If now, add the microseconds to date.
+		// If php version below 7.1 and current time, add the microseconds to date.
+		// See http://php.net/manual/en/migration71.incompatible.php#migration71.incompatible.datetime-microseconds
 		if (version_compare(PHP_VERSION, '7.1.0', '<'))
 		{
 			$date = $date === 'now' ? parent::createFromFormat('U.u', number_format(microtime(true), 6, '.', ''), $tz)->format('Y-m-d H:i:s.u') : $date;
