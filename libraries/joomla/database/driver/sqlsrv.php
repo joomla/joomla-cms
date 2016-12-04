@@ -969,7 +969,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	protected function fetchObject($cursor = null, $class = 'stdClass')
+	protected function fetchObject($cursor = null, $class = '\\stdClass')
 	{
 		return sqlsrv_fetch_object($cursor ? $cursor : $this->cursor, $class);
 	}

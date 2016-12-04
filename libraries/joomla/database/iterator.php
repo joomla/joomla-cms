@@ -73,7 +73,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 *
 	 * @throws  InvalidArgumentException
 	 */
-	public function __construct($cursor, $column = null, $class = 'stdClass')
+	public function __construct($cursor, $column = null, $class = '\\stdClass')
 	{
 		if (!class_exists($class))
 		{

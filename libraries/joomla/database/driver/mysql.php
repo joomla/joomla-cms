@@ -459,7 +459,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @since   12.1
 	 */
-	protected function fetchObject($cursor = null, $class = 'stdClass')
+	protected function fetchObject($cursor = null, $class = '\\stdClass')
 	{
 		return mysql_fetch_object($cursor ? $cursor : $this->cursor, $class);
 	}
