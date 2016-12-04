@@ -1,10 +1,10 @@
 // Global
 $enable-flex:                      true;
-$atum-template-color:              #27283a;
-$atum-container-main-bg:           #eee;
-$atum-border-color:                #cecece;
-$atum-box-shadow:                  0 0 3px rgba(0,0,0,.075);
-$atum-block-header-bg:             #f5f5f5;
+$atum-template-color:              #27283a !default;
+$atum-container-main-bg:           #eee !default;
+$atum-border-color:                #cecece !default;
+$atum-box-shadow:                  0 0 3px rgba(0,0,0,.075) !default;
+$atum-block-header-bg:             #f5f5f5 !default;
 $white:                            #fcfcfc;
 $grey:                             #aaa;
 
