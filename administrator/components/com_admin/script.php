@@ -207,32 +207,43 @@ class JoomlaInstallerScript
 	 * Remove the never used JED Updateserver
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function removeJedUpdateserver()
 	{
 		$db = JFactory::getDbo();
 
-		// Get the update site ID of the JED Update server
-		$id = $db->setQuery(
-			$db->getQuery(true)
-				->select('update_site_id')
-				->from($db->quoteName('#__update_sites'))
-				->where('location = ' . $db->quote('https://update.joomla.org/jed/list.xml'))
-		)->loadResult();
+		try
+		{
+			// Get the update site ID of the JED Update server
+			$id = $db->setQuery(
+				$db->getQuery(true)
+					->select('update_site_id')
+					->from($db->quoteName('#__update_sites'))
+					->where($db->quoteName('location') . ' = ' . $db->quote('https://update.joomla.org/jed/list.xml'))
+			)->loadResult();
 
-		// Delete from update sites
-		$result = $db->setQuery(
-			$db->getQuery(true)
-				->delete($db->quoteName('#__update_sites'))
-				->where('update_site_id = ' . $id)
-		)->execute();
+			// Delete from update sites
+			$result = $db->setQuery(
+				$db->getQuery(true)
+					->delete($db->quoteName('#__update_sites'))
+					->where($db->quoteName('update_site_id') . ' = ' . $id)
+			)->execute();
 
-		// Delete from update sites extensions
-		$result = $db->setQuery(
-			$db->getQuery(true)
-				->delete($db->quoteName('#__update_sites_extensions'))
-				->where('update_site_id = ' . $id)
-		)->execute();
+			// Delete from update sites extensions
+			$result = $db->setQuery(
+				$db->getQuery(true)
+					->delete($db->quoteName('#__update_sites_extensions'))
+					->where($db->quoteName('update_site_id') . ' = ' . $id)
+			)->execute();
+		}
+		catch (Exception $e)
+		{
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+
+			return;
+		}
 	}
 
 	/**
