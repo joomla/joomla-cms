@@ -4,10 +4,11 @@ module.exports = function(grunt) {
 		path          = require('path'),
 		preText       = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
 		postText      = '  },\n  "license": "GPL-2.0+"\n}',
-		name,
+		name, tinyXml, codemirrorXml,
 		vendorsTxt    = '',
 		vendorsArr    = '',
-		polyFillsUrls = [];
+		polyFillsUrls = [],
+		xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 	// Set some directories for codemirror
 	settings.CmAddons = {};
@@ -54,6 +55,16 @@ module.exports = function(grunt) {
 	// Build the package.json and assets.php for all 3rd Party assets
 	grunt.file.write('build/assets_tmp/package.json', preText + vendorsTxt.substring(0, vendorsTxt.length - 1) + postText);
 //	grunt.file.write('build/assets_tmp.php', '<?php\ndefined(\'_JEXEC\') or die;\n\nabstract class ExternalAssets{\n\tpublic static function getCoreAssets() {\n\t\t return array(\n\t\t\t' + vendorsArr + '\n\t\t);\n\t}\n}\n');
+
+	// Update the XML files for tinyMCE and Codemirror
+	tinyXml = grunt.file.read('plugins/editors/tinymce/tinymce.xml');
+	codemirrorXml = grunt.file.read('plugins/editors/codemirror/codemirror.xml');
+
+	tinyXml = tinyXml.replace(xmlVersionStr, "$1" + settings.vendors.tinymce.version + "$3");
+	codemirrorXml = codemirrorXml.replace(xmlVersionStr, "$1" + settings.vendors.codemirror.version + "$3");
+
+	grunt.file.write('plugins/editors/tinymce/tinymce.xml', tinyXml);
+	grunt.file.write('plugins/editors/codemirror/codemirror.xml', codemirrorXml);
 
 	// Project configuration.
 	grunt.initConfig({
@@ -319,7 +330,7 @@ module.exports = function(grunt) {
 					dest: '<%= folder.adminTemplate %>/css',
 				}]
 			}
-		}
+		},
 	});
 
 	// Load required modules
@@ -372,7 +383,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('compile', 'Compiles the stylesheet files.', function() {
 		grunt.task.run([
 			'uglify:templates',
-			//'scsslint',
+			'scsslint',
 			'sass:dist',
 			'postcss',
 			'cssmin:templates'

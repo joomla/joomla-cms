@@ -27,9 +27,40 @@
   width: 250px;
   height: 100%;
   margin-left: 0;
-  background: linear-gradient(to bottom, $atum-gradient-outer 0%, $atum-gradient-inner 50%, $atum-gradient-outer 100%);
+  overflow: hidden;
+  background-color: $atum-sidebar-bg;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.2) 100%);
   transition: all .5s ease;
   transform: translateX(-250px);
+  .sidebar-brand {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    overflow: hidden;
+    &::after {
+      position: absolute;
+      bottom: -135px;
+      left: -35px;
+      font-family: FontAwesome;
+      font-size: 24rem;
+      color: $atum-sidebar-bg;
+      content: "\f1aa";
+      transform: rotate(-17deg);
+    }
+  }
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    content: "";
+    box-shadow: inset -3px 0 3px rgba(0, 0, 0, .35);
+  }
 
   @include media-breakpoint-up(md) {
     left: 250px;
@@ -61,7 +92,7 @@
 
     img {
       max-width: 190px;
-	}
+  }
   }
 }
 .wrapper.closed .sidebar-wrapper {
@@ -77,122 +108,6 @@
   }
 }
 
-// Menu
-.menu-collapse {
-  z-index: 1001;
-  width: 40px;
-  height: 50px;
-  text-align: center;
-
-  .menu-text {
-    margin-right: 5px;
-    font-size: 16px;
-    line-height: 50px;
-    color: $atum-template-color;
-
-    @include media-breakpoint-down(sm) {
-      display: none;
-    }
-  }
-
-  .menu-toggle {
-    position: relative;
-    display: inline-block;
-    width: $atum-button-width;
-    height: $atum-button-height;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
-    cursor: pointer;
-    transition: background $atum-button-transistion-duration;
-
-    &:focus {
-      outline: none;
-    }
-
-    span {
-      position: absolute;
-      top: ($atum-button-height / 2) - ($atum-bar-thickness / 2);
-      right: $atum-button-pad;
-      left: $atum-button-pad;
-      display: block;
-      height: $atum-bar-thickness;
-      background: $atum-template-color;
-      transition: transform $atum-button-transistion-duration;
-
-      &::before,
-      &::after {
-        position: absolute;
-        left: 0;
-        display: block;
-        width: 100%;
-        height: $atum-bar-thickness;
-        content: "";
-        background-color: $atum-template-color;
-      }
-
-      &::before {
-        top: -$atum-bar-thickness - $atum-button-bar-space;
-        transition: transform $atum-button-transistion-duration, width $atum-button-transistion-duration, top $atum-button-transistion-duration;
-        transform-origin: top left;
-
-        @include media-breakpoint-down(sm) {
-          transform-origin: top right;
-        }
-      }
-
-      &::after {
-        bottom: -$atum-bar-thickness - $atum-button-bar-space;
-        transition: transform $atum-button-transistion-duration, width $atum-button-transistion-duration, bottom $atum-button-transistion-duration;
-        transform-origin: bottom left;
-
-        @include media-breakpoint-down(sm) {
-          transform-origin: bottom right;
-        }
-      }
-    }
-
-    @include media-breakpoint-down(sm) {
-      float: none;
-      margin: 0 auto;
-    }
-  }
-
-  .menu-toggle .active {
-    span {
-      transform: rotate(180deg);
-
-      &::before,
-      &::after {
-        width: 50%;
-      }
-
-      &::before {
-        top: 0;
-        transform: translateX(-$atum-bar-thickness) translateY($atum-bar-thickness / 2) rotate(-45deg);
-
-        @include media-breakpoint-down(sm) {
-          transform: translateX($atum-button-width / 2 - $atum-button-pad + $atum-bar-thickness) translateY($atum-bar-thickness / 2) rotate(45deg);
-        }
-      }
-
-      &::after {
-        bottom: 0;
-        transform: translateX(-$atum-bar-thickness) translateY(-$atum-bar-thickness / 2) rotate(45deg);
-
-        @include media-breakpoint-down(sm) {
-          bottom: 4px;
-          transform: translateX($atum-button-width / 2 - $atum-button-pad + $atum-bar-thickness) translateY($atum-bar-thickness / 2) rotate(-45deg);
-        }
-      }
-    }
-  }
-
-  @include media-breakpoint-up(md) {
-
-  }
-}
-
 .main-nav {
   width: 250px;
   height: 100%;
@@ -200,44 +115,102 @@
   margin: 0;
   overflow-y: auto;
   list-style: none;
-
   &.second {
     margin-bottom: 0;
   }
 
-  > li >.no-dropdown {
-    color: $white;
+  > li {
+    &:first-of-type > a {
+      border-top: 1px solid rgba(0,0,0,.3);
+    }
+    &:last-of-type > a {
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    >.no-dropdown {
+      color: $white;
+    }
   }
 
   li {
     line-height: 40px;
 
     a {
+      position: relative;
       display: block;
       color: $white;
       text-decoration: none;
-      border-top: 1px solid rgba(0,0,0,.3);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05), inset 0 -1px rgba(0,0,0,.3);
+
+      &::before {
+        position: absolute;
+        top: 1px;
+        bottom: 1px;
+        left: 0;
+        width: 0;
+        content: "";
+        background-color: $atum-sidebar-hover;
+      }
+
+      &.active::before {
+        position: absolute;
+        top: 1px;
+        bottom: 1px;
+        left: 0;
+        width: 5px;
+        content: "";
+        background-color: $atum-sidebar-active;
+      }
 
       &:hover {
-        color: #d9d9d9;
+        color: $white;
         text-decoration: none;
-        background: rgba(255,255,255,.2);
+        background-color: rgba(0,0,0,.2);
+        box-shadow: inset 0 -1px rgba(0,0,0,.2);
       }
 
       &:active,
       &:focus {
         text-decoration: none;
-        outline: 0;
+      }
+
+    }
+    a:not([href]):not([tabindex]) {
+      color: $white;
+    }
+    ul {
+      display: none;
+      li {
+        text-indent: 20px;
       }
     }
 
-    ul li {
-      text-indent: 20px;
+    a:hover {
+      &::before {
+        width: 5px;
+      }
+    }
+  }
+
+  li li {
+    a {
+      border-bottom: 1px solid darken($atum-template-color, 3%);
+      box-shadow: none;
+      &:hover {
+        background-color: rgba(0,0,0,.05);
+        box-shadow: inset 0 1px rgba(0,0,0,.3), inset 0 -1px rgba(0,0,0,.3);
+      }
+    }
+    &:last-of-type {
+      > a {
+        border-bottom: 0;
+      }
     }
   }
 
   .fa {
+    position: relative;
+    top: -2px;
     margin: 0 15px;
     font-size: 20px;
     text-align: center;
@@ -249,16 +222,13 @@
   }
 
   .collapse-level-2 {
-    background: rgba(0,0,0,.8);
-
     > li > a {
-      text-indent: 35px;
+      text-indent: 30px;
     }
   }
 
   > .parent {
-    > .collapse-arrow::after,
-    li > .collapse-arrow::after {
+    .collapse-arrow::after {
       display: inline-block;
       float: right;
       width: 0;
@@ -267,18 +237,17 @@
       margin-right: 10px;
       vertical-align: middle;
       content: "";
-      border-top: 0;
-      border-right: .3em solid transparent;
-      border-bottom: .3em solid;
-      border-left: .3em solid transparent;
-    }
-    > .collapse-arrow.collapsed::after,
-    li > .collapse-arrow.collapsed::after {
-      border-top: .3em solid;
-      border-right: .3em solid transparent;
+      border-top: .3rem solid;
+      border-right: .3rem solid transparent;
       border-bottom: 0;
-      border-left: .3em solid transparent;
+      border-left: .3rem solid transparent;
     }
+  }
+  .open > .collapse-arrow::after {
+    border-top: 0;
+    border-right: .3rem solid transparent;
+    border-bottom: .3rem solid;
+    border-left: .3rem solid transparent;
   }
 }
 
@@ -288,3 +257,114 @@
   cursor: not-allowed;
   background: none;
 }
+
+// Sidebar closed hover
+.closed {
+  .sidebar-wrapper {
+    z-index: 10;
+    overflow: visible;
+  }
+  .sidebar-item-title, .parent .collapse-arrow::after, .parent .parent .collapse-arrow::after {
+    display: none;
+  }
+  .main-nav {
+    width: 55px;
+    overflow: visible;
+    > li {
+      position: relative;
+      transition: all .5s ease;
+      .sidebar-item-title {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 220px;
+        padding: 0 13px;
+        font-size: $font-size-h5;
+        font-weight: bold;
+        background-color: $atum-template-color;
+        border-radius: 0 $border-radius $border-radius 0;
+      }
+      &.parent .sidebar-item-title {
+        border-radius: 0 $border-radius 0 0;
+      }
+      &:hover .sidebar-item-title {
+        display: block;
+        opacity: 1;
+      }
+      .collapse, &:hover .collapse {
+        position: absolute;
+        top: 100%;
+        left: 100%;
+        display: block;
+      }
+      &:hover .collapse-level-2 {
+        position: relative;
+        left: 0;
+        display: none;
+      }
+      &:hover .parent::after {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        font-family: FontAwesome;
+        font-size: .75rem;
+        color: $white;
+        content: "\f078";
+        opacity: .5;
+      }
+    }
+    .collapse-level-1 {
+      display: block !important;
+      height: auto !important;
+      padding: 5px 0 10px;
+      margin-top: -1px;
+      text-indent: 0;
+      background-color: lighten($atum-template-color, 5%);
+      border-bottom-right-radius: $border-radius;
+      li {
+        position: relative;
+        font-size: $font-size-h5;
+        line-height: 30px;
+        text-indent: 15px;
+      }
+      a {
+        color: $white;
+        border: 0;
+      }
+      a::before {
+        display: none;
+      }
+      .sidebar-item-title {
+        position: relative;
+        left: 0;
+        font-size: 1rem;
+        font-weight: normal;
+        background-color: transparent;
+      }
+      a:hover {
+        background-color: $atum-template-color;
+        box-shadow: none;
+      }
+      .sidebar-item-title::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-family: FontAwesome;
+        font-size: .4rem;
+        color: $white;
+        content: "\f111";
+        opacity: .5;
+      }
+    }
+    .collapse-level-2 {
+      padding-bottom: 5px;
+      background-color: lighten($atum-template-color, 7%);
+      .sidebar-item-title::before {
+        content: "\f10c";
+        opacity: .75;
+      }
+    }
+  }
+}
+
+

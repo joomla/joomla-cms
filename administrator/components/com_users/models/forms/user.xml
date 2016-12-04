@@ -146,7 +146,6 @@
 
 			<field name="admin_style" type="templatestyle"
 				client="administrator"
-				   class="custom-select"
 				description="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_DESC"
 				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
 			>
@@ -155,7 +154,6 @@
 
 			<field name="admin_language" type="language"
 				client="administrator"
-				   class="custom-select"
 				description="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_DESC"
 				label="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_LABEL"
 			>
@@ -164,7 +162,6 @@
 
 			<field name="language" type="language"
 				client="site"
-				   class="custom-select"
 				description="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_DESC"
 				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
 			>
@@ -172,7 +169,6 @@
 			</field>
 
 			<field name="editor" type="plugins" folder="editors"
-			       class="custom-select"
 				description="COM_USERS_USER_FIELD_EDITOR_DESC"
 				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
 			>
@@ -180,7 +176,6 @@
 			</field>
 
 			<field name="helpsite" type="helpsite"
-			       class="custom-select"
 				label="COM_USERS_USER_FIELD_HELPSITE_LABEL"
 				description="COM_USERS_USER_FIELD_HELPSITE_DESC"
 			>
@@ -188,7 +183,6 @@
 			</field>
 
 			<field name="timezone" type="timezone"
-			       class="custom-select"
 				label="COM_USERS_USER_FIELD_TIMEZONE_LABEL"
 				description="COM_USERS_USER_FIELD_TIMEZONE_DESC"
 			>

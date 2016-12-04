@@ -52,10 +52,10 @@ $menu->getParent();
  */
 if ($user->authorise('core.manage', 'com_users'))
 {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS_USERS'), '#', 'class:users fa-fw'), true);
 	$createUser = $shownew && $user->authorise('core.create', 'com_users');
 	$createGrp  = $user->authorise('core.admin', 'com_users');
 
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS_USERS'), '#', 'class:users fa-fw'), true);
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS_USER_MANAGER'), 'index.php?option=com_users&view=users'), $createUser);
 
 	if ($createUser)
@@ -100,15 +100,8 @@ if ($user->authorise('core.manage', 'com_users'))
 
 	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
 	{
-		$menu->addChild(
-				new JMenuNode(
-						JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_users.user', 'class:fields')
-				);
-
-		$menu->addChild(
-				new JMenuNode(
-						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_categories&extension=com_users.user.fields', 'class:category')
-				);
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_users.user'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_categories&extension=com_users.user.fields'));
 	}
 
 	if (JFactory::getApplication()->get('massmailoff') != 1)
@@ -124,9 +117,9 @@ if ($user->authorise('core.manage', 'com_users'))
  */
 if ($user->authorise('core.manage', 'com_menus'))
 {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), '#', 'class:list fa-fw'), true);
 	$createMenu = $shownew && $user->authorise('core.create', 'com_menus');
 
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), '#', 'class:list fa-fw'), true);
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER'), 'index.php?option=com_menus&view=menus'), $createMenu);
 
 	if ($createMenu)
@@ -356,10 +349,3 @@ if ($showhelp == 1)
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_SHOP'), 'https://community.joomla.org/the-joomla-shop.html', null, false, '_blank'));
 	$menu->getParent();
 }
-
-/**
- * User Submenu
- */
-$menu->addChild(new JMenuNode($user->username, '#', 'class:user fa-fw'), true);
-$menu->addChild(new JMenuNode(JText::_('TPL_ATUM_LOGOUT'), JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1')));
-$menu->getParent();

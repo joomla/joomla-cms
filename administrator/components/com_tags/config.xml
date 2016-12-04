@@ -8,7 +8,6 @@
 		<field
 			name="tag_layout"
 			type="componentlayout"
-			class="custom-select"
 			label="COM_TAGS_CONFIG_TAGGED_ITEMS_FIELD_LAYOUT_LABEL"
 			description="COM_TAGS_CONFIG_TAGGED_ITEMS_FIELD_LAYOUT_DESC"
 			menuitems="true"
@@ -96,7 +95,6 @@
 		<field
 			name="tag_list_orderby"
 			type="list"
-			class="custom-select"
 			default="title"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
@@ -134,7 +132,6 @@
 		<field 
 			name="tag_list_show_date"
 			type="list"
-			class="custom-select"
 			default="0"
 			description="COM_TAGS_TAG_LIST_SHOW_DATE_LABEL"
 			label="COM_TAGS_TAG_LIST_SHOW_DATE_DESC"
@@ -232,7 +229,6 @@
 		<field 
 			name="tag_list_language_filter"
 			type="contentlanguage"
-			class="custom-select"
 			default="all"
 			label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
 			description="COM_TAGS_FIELD_LANGUAGE_FILTER_DESC">
@@ -251,7 +247,6 @@
 		<field
 			name="tags_layout" 
 			type="componentlayout"
-			class="custom-select"
 			label="COM_TAGS_CONFIG_ALL_TAGS_FIELD_LAYOUT_LABEL"
 			description="COM_TAGS_CONFIG_ALL_TAGS_FIELD_LAYOUT_DESC"
 			menuitems="true"
@@ -262,7 +257,6 @@
 		<field 
 			name="all_tags_orderby"
 			type="list"
-			class="custom-select"
 			default="title"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
@@ -364,7 +358,6 @@
 		<field 
 			name="show_pagination" 
 			type="list"
-			class="custom-select"
 			default="2"
 			description="JGLOBAL_PAGINATION_DESC"
 			label="JGLOBAL_PAGINATION_LABEL"

@@ -52,6 +52,9 @@ $sitename = $app->get('sitename');
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
 	<style>
+		.login-initial {
+			display: none;
+		}
 		<?php // Check if debug is on ?>
 		<?php if ($app->get('debug_lang', 1) || $app->get('debug', 1)) : ?>
 		.view-login .container {
@@ -74,15 +77,17 @@ $sitename = $app->get('sitename');
 			<img class="card-img-top" src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo.png" alt="<?php echo $sitename; ?>" />
 		</div>
 		<div id="content">
+			<noscript>
+				<div class="alert alert-danger" role="alert">
+					<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+				</div>
+			</noscript>
 			<?php // Begin Content ?>
 			<div id="element-box" class="login card card-block">
 				<h2 class="text-xs-center m-t-1 m-b-2"><?php echo JText::_('MOD_LOGIN_LOGIN'); ?></h2>
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
 			</div>
-			<noscript>
-				<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
-			</noscript>
 			<?php // End Content ?>
 		</div>
 	</div>
@@ -94,5 +99,11 @@ $sitename = $app->get('sitename');
 		<a href="<?php echo JUri::root(); ?>" target="_blank" class="float-sm-left"><span class="icon-out-2"></span> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		var formTmp = document.querySelector('.login-initial');
+		if (formTmp) formTmp.style.display = 'block';
+	});
+</script>
 </body>
 </html>

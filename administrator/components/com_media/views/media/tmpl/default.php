@@ -56,7 +56,7 @@ if ($lang->isRtl())
 		</div>
 	</div>
 
-	<div id="j-main-container" class="js-main-container" class="col-md-10">
+	<div id="j-main-container" class="j-main-container" class="col-md-10">
 		<?php echo $this->loadTemplate('navigation'); ?>
 		<?php if (($user->authorise('core.create', 'com_media')) and $this->require_ftp) : ?>
 			<form action="index.php?option=com_media&amp;task=ftpValidate" name="ftpForm" id="ftpForm" method="post">

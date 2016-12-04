@@ -1,15 +1,21 @@
 // Tabs
 
 .nav.nav-tabs {
-  padding: 0 15px;
+  padding: 0;
   margin-bottom: 0;
   background-color: $atum-card-title-bg;
   border-bottom: 1px solid rgba(0,0,0,.125);
   border-radius: $border-radius $border-radius 0 0;
-  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, .15), 0 -1px 0 rgba(0, 0, 0, .03), 0 -4px 0 rgba(0,0,0,.05) inset;
+  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, .15), 0 -1px 0 rgba(0, 0, 0, .03), 0 -4px 0 rgba(0,0,0,.05) inset, 0 0 3px rgba(0,0,0,.075);
   .nav-item {
     margin-bottom: 0;
     margin-left: 0;
+    &:first-of-type .nav-link {
+      &.active {
+        border-radius: $border-radius 0 0;
+        box-shadow: -1px 0 1px -1px rgba(0,0,0,.06), inset -2px 0 1px -1px rgba(0,0,0,.08), inset 0 1px 0 rgba(0,0,0,.02);
+      }
+    }
     &:last-of-type .nav-link {
       box-shadow: -1px 0 0 rgba(0, 0, 0, .05), 1px 0 0 rgba(0, 0, 0, .05);
       &.active {
@@ -20,6 +26,7 @@
   .nav-link {
     position: relative;
     padding: .75em 1em;
+    color: $atum-template-color;
     border: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -48,4 +55,6 @@
 .tab-content {
   padding: 15px;
   background: $white;
+  border-radius: 0 0 $border-radius $border-radius;
+  box-shadow: 0 0 3px rgba(0,0,0,.075);
 }

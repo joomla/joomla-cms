@@ -23,12 +23,7 @@ JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 			<?php echo $this->form->renderField($field->fieldname); ?>
 		<?php endforeach; ?>
 
-		<button class="hidden"
-			id="closeBtn"
-			type="button"
-			onclick="window.parent.jQuery('#modal-download').modal('hide');">
-		</button>
-		<button class="hidden"
+		<button class="element-invisible"
 			id="exportBtn"
 			type="button"
 			onclick="this.form.submit();window.top.setTimeout('window.parent.jQuery(\'#downloadModal\').modal(\'hide\')', 700);">

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset
-		addfieldpath="/administrator/components/com_categories/models/fields">
-
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field
 			name="id"
 			type="hidden"
@@ -56,7 +54,6 @@
 		<field
 			name="state"
 			type="list"
-			class="custom-select"
 			label="JSTATUS"
 			description="COM_USERS_FIELD_STATE_DESC"
 			size="1"

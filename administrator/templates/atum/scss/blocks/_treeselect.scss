@@ -6,9 +6,7 @@
     display: inline-block;
     margin-bottom: 0;
     margin-left: .5rem;
-    font-size: .85rem;
     color: $gray-dark;
-    letter-spacing: .4px;
   }
   li {
     display: block;
@@ -32,6 +30,7 @@
     display: inline-block;
     width: $treeselect-line-height;
     height: $treeselect-line-height;
+    padding: 0;
     line-height: $treeselect-line-height;
     color: #fff;
     text-align: center;

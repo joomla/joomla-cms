@@ -3,15 +3,16 @@
 .header {
   position: relative;
   z-index: 1;
-  height: 50px;
+  height: $header-height;
   background: $white;
   border-bottom: 1px solid rgba(0, 0, 0, .17);
 
   .page-title {
-    margin: 0;
+    display: inline-block;
+    margin: 0 0 0 25px;
     font-size: 1.25rem;
     font-weight: normal;
-    line-height: 2.4rem;
+    line-height: $header-height;
     color: $atum-inverted-text-color;
 
     .icon-list {
@@ -27,7 +28,8 @@
     display: inline-block;
     float: none;
     padding: 0;
-    line-height: 1;
+    font-size: $font-size-h4;
+    line-height: $header-height;
     color: $atum-inverted-text-color;
 
     &:hover,
@@ -39,5 +41,187 @@
       margin-right: 0;
       margin-left: 10px;
     }
+  }
+
+  .nav-item + .nav-item {
+    margin-left: -1px;
+  }
+
+  .nav-link {
+    position: relative;
+    width: 55px;
+    padding: 0;
+    line-height: $header-height;
+    border-left: 1px solid rgba(0, 0, 0, .125);
+    box-shadow: 1px 0 $white inset;
+
+    .fa {
+      font-size: 1.4rem;
+      color: #55595c;
+    }
+
+    .tag {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+
+    &.dropdown-toggle::after {
+      display: none;
+    }
+  }
+
+  .nav-item:last-child .nav-link {
+    border-right: 1px solid rgba(0, 0, 0, .125);
+  }
+
+  .dropdown-notifications {
+    min-width: 280px;
+    padding: 0;
+    border: 0;
+  }
+
+  .dropdown-menu {
+    &::after {
+      left: 1.45rem;
+    }
+  }
+
+  .dropdown-menu-right {
+    &::after {
+      right: 1.45rem;
+      left: auto;
+    }
+  }
+
+  .header-profile {
+    .dropdown-menu {
+      padding-top: 0;
+      &::after {
+        color: $atum-container-main-bg;
+      }
+    }
+  }
+  .header-profile-user {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    margin-bottom: .3rem;
+    background-color: $atum-container-main-bg;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    border-radius: $border-radius $border-radius 0 0;
+  }
+
+}
+
+// Menu
+.menu-collapse {
+  z-index: 1001;
+  float: left;
+  width: 40px;
+  height: $header-height;
+  text-align: center;
+
+  .menu-text {
+    margin-right: 5px;
+    font-size: 16px;
+    line-height: $header-height;
+    color: $atum-template-color;
+
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
+  .menu-toggle {
+    position: relative;
+    display: inline-block;
+    width: $atum-button-width;
+    height: $atum-button-height;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background $atum-button-transistion-duration;
+
+    span {
+      position: absolute;
+      top: ($atum-button-height / 2) - ($atum-bar-thickness / 2);
+      right: $atum-button-pad;
+      left: $atum-button-pad;
+      display: block;
+      height: $atum-bar-thickness;
+      background: $atum-template-color;
+      transition: transform $atum-button-transistion-duration;
+
+      &::before,
+      &::after {
+        position: absolute;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: $atum-bar-thickness;
+        content: "";
+        background-color: $atum-template-color;
+      }
+
+      &::before {
+        top: -$atum-bar-thickness - $atum-button-bar-space;
+        transition: transform $atum-button-transistion-duration, width $atum-button-transistion-duration, top $atum-button-transistion-duration;
+        transform-origin: top left;
+
+        @include media-breakpoint-down(sm) {
+          transform-origin: top right;
+        }
+      }
+
+      &::after {
+        bottom: -$atum-bar-thickness - $atum-button-bar-space;
+        transition: transform $atum-button-transistion-duration, width $atum-button-transistion-duration, bottom $atum-button-transistion-duration;
+        transform-origin: bottom left;
+
+        @include media-breakpoint-down(sm) {
+          transform-origin: bottom right;
+        }
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      float: none;
+      margin: 0 auto;
+    }
+  }
+
+  .menu-toggle .active {
+    span {
+      transform: rotate(180deg);
+
+      &::before,
+      &::after {
+        width: 50%;
+      }
+
+      &::before {
+        top: 0;
+        transform: translateX(-$atum-bar-thickness) translateY($atum-bar-thickness / 2) rotate(-45deg);
+
+        @include media-breakpoint-down(sm) {
+          transform: translateX($atum-button-width / 2 - $atum-button-pad + $atum-bar-thickness) translateY($atum-bar-thickness / 2) rotate(45deg);
+        }
+      }
+
+      &::after {
+        bottom: 0;
+        transform: translateX(-$atum-bar-thickness) translateY(-$atum-bar-thickness / 2) rotate(45deg);
+
+        @include media-breakpoint-down(sm) {
+          bottom: 4px;
+          transform: translateX($atum-button-width / 2 - $atum-button-pad + $atum-bar-thickness) translateY($atum-bar-thickness / 2) rotate(-45deg);
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+
   }
 }

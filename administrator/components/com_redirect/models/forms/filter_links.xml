@@ -31,7 +31,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			class="custom-select"
 			label="JGLOBAL_SORT_BY"
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
@@ -60,7 +59,6 @@
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
 			description="JGLOBAL_LIMIT"
-			class="custom-select input-mini"
 			default="5"
 			onchange="this.form.submit();"
 		/>

@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
-
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
@@ -153,7 +152,7 @@ JFactory::getDocument()->addStyleDeclaration("
 if ($this->type == 'font')
 {
 	JFactory::getDocument()->addStyleDeclaration(
-			"/* Styles for font preview */
+		"/* Styles for font preview */
 		@font-face
 		{
 			font-family: previewFont;
@@ -171,13 +170,13 @@ if ($this->type == 'font')
 <div class="row">
 	<div class="col-md-12">
 		<?php if($this->type == 'file'): ?>
-			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
 		<?php endif; ?>
 		<?php if($this->type == 'image'): ?>
-			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
 		<?php endif; ?>
 		<?php if($this->type == 'font'): ?>
-			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
 		<?php endif; ?>
 	</div>
 </div>
@@ -190,20 +189,17 @@ if ($this->type == 'font')
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
-				<div class="hero-unit" style="text-align: justify;">
-					<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
-					<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
-					<p>
-						<a href="https://docs.joomla.org/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-lg">
-							<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
-						</a>
-					</p>
-				</div>
+				<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
+				<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
+				<p>
+					<a href="https://docs.joomla.org/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-lg">
+						<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
+					</a>
+				</p>
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'file'): ?>
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
-
 				<div class="editor-border">
 					<?php echo $this->form->getInput('source'); ?>
 				</div>
@@ -211,7 +207,6 @@ if ($this->type == 'font')
 				<?php echo JHtml::_('form.token'); ?>
 				<?php echo $this->form->getInput('extension_id'); ?>
 				<?php echo $this->form->getInput('filename'); ?>
-
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'archive'): ?>
@@ -221,17 +216,16 @@ if ($this->type == 'font')
 					<?php foreach ($this->archive as $file): ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
-								<span class="fa-fw fa fa-folder"></span>&nbsp;<?php echo $file; ?>
+								<i class="fa-fw fa fa-folder"></i>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
-								<span class="fa-fw fa fa-file-o"></span>&nbsp;<?php echo $file; ?>
+								<i class="fa-fw fa fa-file-o"></i>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
 				</ul>
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
-
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'image'): ?>
@@ -251,15 +245,15 @@ if ($this->type == 'font')
 			<div class="font-preview">
 				<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 					<fieldset class="adminform">
-						<p class="lead">H1</p><h1>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h1>
-						<p class="lead">H2</p><h2>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h2>
-						<p class="lead">H3</p><h3>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h3>
-						<p class="lead">H4</p><h4>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h4>
-						<p class="lead">H5</p><h5>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h5>
-						<p class="lead">H6</p> <h6>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h6>
-						<p class="lead">Bold</p><b>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </b>
-						<p class="lead">Italics</p><i>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </i>
-						<p class="lead">Unordered List</p>
+						<h1>H1. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h1>
+						<h2>H2. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h2>
+						<h3>H3. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h3>
+						<h4>H4. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h4>
+						<h5>H5. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h5>
+						<h6>H6. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h6>
+						<p><b>Bold. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</b></p>
+						<p><i>Italics. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</i></p>
+						<p>Unordered List</p>
 						<ul>
 							<li>Item</li>
 							<li>Item</li>
@@ -318,7 +312,7 @@ if ($this->type == 'font')
 							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 					?>
 					<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-						<span class="fa fa-files-o"></span>&nbsp;<?php echo $module->name; ?>
+						<i class="fa fa-files-o"></i>&nbsp;<?php echo $module->name; ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
@@ -331,7 +325,7 @@ if ($this->type == 'font')
 			<?php foreach ($this->overridesList['components'] as $key => $value): ?>
 				<li class="component-folder">
 					<a href="#" class="component-folder-url">
-						<span class="icon-folder"></span>&nbsp;<?php echo $key; ?>
+						<i class="fa fa-folder"></i>&nbsp;<?php echo $key; ?>
 					</a>
 					<ul class="list-unstyled">
 						<?php foreach ($value as $view): ?>
@@ -341,7 +335,7 @@ if ($this->type == 'font')
 										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 								?>
 								<a class="component-file-url" href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-									<span class="fa fa-files-o"></span>&nbsp;<?php echo $view->name; ?>
+									<i class="fa fa-files-o"></i>&nbsp;<?php echo $view->name; ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
@@ -361,7 +355,7 @@ if ($this->type == 'font')
 							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 					?>
 					<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-						<span class="fa fa-files-o"></span>&nbsp;<?php echo $layout->name; ?>
+						<i class="fa fa-files-o"></i>&nbsp;<?php echo $layout->name; ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
@@ -377,12 +371,12 @@ if ($this->type == 'font')
 
 <?php // Collapse Modal
 $copyModalData = array(
-	'selector'	=> 'copyModal',
-	'params'	=> array(
-		'title'		=> JText::_('COM_TEMPLATES_TEMPLATE_COPY'),
-		'footer'	=> $this->loadTemplate('modal_copy_footer')
+	'selector' => 'copyModal',
+	'params'   => array(
+		'title'  => JText::_('COM_TEMPLATES_TEMPLATE_COPY'),
+		'footer' => $this->loadTemplate('modal_copy_footer')
 	),
-	'body'		=> $this->loadTemplate('modal_copy_body')
+	'body' => $this->loadTemplate('modal_copy_body')
 );
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
@@ -392,12 +386,12 @@ $copyModalData = array(
 <?php if ($this->type != 'home'): ?>
 	<?php // Rename Modal
 	$renameModalData = array(
-		'selector'	=> 'renameModal',
-		'params'	=> array(
-			'title'		=> JText::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName),
-			'footer'	=> $this->loadTemplate('modal_rename_footer')
+		'selector' => 'renameModal',
+		'params'   => array(
+			'title'  => JText::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName),
+			'footer' => $this->loadTemplate('modal_rename_footer')
 		),
-		'body'		=> $this->loadTemplate('modal_rename_body')
+		'body' => $this->loadTemplate('modal_rename_body')
 	);
 	?>
 	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
@@ -408,47 +402,47 @@ $copyModalData = array(
 <?php if ($this->type != 'home'): ?>
 	<?php // Delete Modal
 	$deleteModalData = array(
-		'selector'	=> 'deleteModal',
-		'params'	=> array(
-			'title'		=> JText::_('COM_TEMPLATES_ARE_YOU_SURE'),
-			'footer'	=> $this->loadTemplate('modal_delete_footer')
+		'selector' => 'deleteModal',
+		'params'   => array(
+			'title'  => JText::_('COM_TEMPLATES_ARE_YOU_SURE'),
+			'footer' => $this->loadTemplate('modal_delete_footer')
 		),
-		'body'		=> $this->loadTemplate('modal_delete_body')
+		'body' => $this->loadTemplate('modal_delete_body')
 	);
 	?>
 	<?php echo JLayoutHelper::render('joomla.modal.main', $deleteModalData); ?>
 <?php endif; ?>
 <?php // File Modal
 $fileModalData = array(
-	'selector'	=> 'fileModal',
-	'params'	=> array(
-		'title'		=> JText::_('COM_TEMPLATES_NEW_FILE_HEADER'),
-		'footer'	=> $this->loadTemplate('modal_file_footer')
+	'selector' => 'fileModal',
+	'params'   => array(
+		'title' => JText::_('COM_TEMPLATES_NEW_FILE_HEADER'),
+		'footer' => $this->loadTemplate('modal_file_footer')
 	),
-	'body'		=> $this->loadTemplate('modal_file_body')
+	'body' => $this->loadTemplate('modal_file_body')
 );
 ?>
 <?php echo JLayoutHelper::render('joomla.modal.main', $fileModalData); ?>
 <?php // Folder Modal
 $folderModalData = array(
-	'selector'	=> 'folderModal',
-	'params'	=> array(
-		'title'		=> JText::_('COM_TEMPLATES_MANAGE_FOLDERS'),
-		'footer'	=> $this->loadTemplate('modal_folder_footer')
+	'selector' => 'folderModal',
+	'params'   => array(
+		'title'  => JText::_('COM_TEMPLATES_MANAGE_FOLDERS'),
+		'footer' => $this->loadTemplate('modal_folder_footer')
 	),
-	'body'		=> $this->loadTemplate('modal_folder_body')
+	'body' => $this->loadTemplate('modal_folder_body')
 );
 ?>
 <?php echo JLayoutHelper::render('joomla.modal.main', $folderModalData); ?>
 <?php if ($this->type != 'home'): ?>
 	<?php // Resize Modal
 	$resizeModalData = array(
-		'selector'	=> 'resizeModal',
-		'params'	=> array(
-			'title'		=> JText::_('COM_TEMPLATES_RESIZE_IMAGE'),
-			'footer'	=> $this->loadTemplate('modal_resize_footer')
+		'selector' => 'resizeModal',
+		'params'   => array(
+			'title'	 => JText::_('COM_TEMPLATES_RESIZE_IMAGE'),
+			'footer' => $this->loadTemplate('modal_resize_footer')
 		),
-		'body'		=> $this->loadTemplate('modal_resize_body')
+		'body' => $this->loadTemplate('modal_resize_body')
 	);
 	?>
 	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">

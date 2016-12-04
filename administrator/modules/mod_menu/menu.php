@@ -116,7 +116,7 @@ class JAdminCssMenu extends JObject
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul id='menu' class='nav navbar-nav nav-stacked main-nav clearfix'>\n";
+			echo "<div role=\"navigation\" aria-label=\"Main menu\"><ul id='menu' class='nav navbar-nav nav-stacked main-nav clearfix' tabindex='0' role=\"menubar\">\n";
 
 			foreach ($this->_current->getChildren() as $child)
 			{
@@ -124,7 +124,7 @@ class JAdminCssMenu extends JObject
 				$this->renderLevel($depth++);
 			}
 
-			echo "</ul>\n";
+			echo "</ul></div>\n";
 		}
 
 		if ($this->_css)
@@ -156,7 +156,8 @@ class JAdminCssMenu extends JObject
 		$unique = self::$counter;
 
 		// Print the item
-		echo '<li' . $class . '>';
+		$ariaPopup = $this->_current->hasChildren() ? 'aria-haspopup="true"' : '';
+		echo '<li' . $class . ' role="menuitem" tabindex="0" ' . $ariaPopup . '>';
 
 		// Print a link if it exists
 		$linkClass = array();
@@ -164,8 +165,8 @@ class JAdminCssMenu extends JObject
 
 		if ($this->_current->hasChildren())
 		{
-			$linkClass[] = 'collapse-arrow collapsed';
-			$dataToggle = ' data-toggle="collapse" data-parent="#menu"';
+			$linkClass[] = 'collapse-arrow';
+			$dataToggle = '';
 
 			// If the menu item has children, override the href
 			$this->_current->link = '#collapse' . $unique;
@@ -194,17 +195,17 @@ class JAdminCssMenu extends JObject
 		if ($this->_current->link != null && $this->_current->target != null)
 		{
 			echo "<a" . $linkClass . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\">" . $iconClass
-				. $this->_current->title . "</a>";
+				. '<span class="sidebar-item-title">' . $this->_current->title . "</span></a>";
 		}
 		elseif ($this->_current->link != null && $this->_current->target == null)
 		{
 			echo "<a" . $linkClass . $dataToggle . " href=\"" . $this->_current->link . "\">" . $iconClass
-				. $this->_current->title . "</a>";
+				. '<span class="sidebar-item-title" >' . $this->_current->title . "</span></a>";
 		}
 		elseif ($this->_current->title != null)
 		{
 			echo "<a" . $linkClass . $dataToggle . ">" . $iconClass
-				. $this->_current->title . "</a>";
+				. '<span class="sidebar-item-title" >' . $this->_current->title . "</span></a>";
 		}
 		else
 		{
@@ -214,7 +215,7 @@ class JAdminCssMenu extends JObject
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			echo '<ul id="collapse' . $unique . '" class="nav panel-collapse collapse-level-1 collapse">' . "\n";
+			echo '<ul id="collapse' . $unique . '" class="nav panel-collapse collapse-level-1 collapse" role="menu" aria-hidden="true">' . "\n";
 
 			foreach ($this->_current->getChildren() as $child)
 			{

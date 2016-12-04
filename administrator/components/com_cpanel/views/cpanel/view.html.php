@@ -47,21 +47,6 @@ class CpanelViewCpanel extends JViewLegacy
 		// Display the cpanel modules
 		$this->modules = JModuleHelper::getModules('cpanel');
 
-		try
-		{
-			$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
-			$messages       = $messages_model->getItemList();
-		}
-		catch (RuntimeException $e)
-		{
-			$messages = array();
-
-			// Still render the error message from the Exception object
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
-		}
-
-		$this->postinstall_message_count = count($messages);
-
 		parent::display($tpl);
 	}
 }

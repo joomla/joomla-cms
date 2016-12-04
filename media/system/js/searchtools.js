@@ -213,7 +213,7 @@
 			var self = this;
 
 			element.classList.add('active');
-			var chosenId = '#' + element.getAttribute('id') + '_chzn';
+			var chosenId = '#' + element.getAttribute('id');
 			var tmpEl = element.querySelector(chosenId);
 			if (tmpEl) {
 				tmpEl.classList.add('active');
@@ -221,7 +221,7 @@
 		},
 		deactiveFilter: function (element) {
 			element.classList.remove('active');
-			var chosenId = '#' + element.getAttribute('id') + '_chzn';
+			var chosenId = '#' + element.getAttribute('id');
 			var tmpEl = element.querySelector(chosenId);
 			if (tmpEl) {
 				tmpEl.classList.remove('active');

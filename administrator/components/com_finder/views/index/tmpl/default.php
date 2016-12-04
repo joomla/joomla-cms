@@ -51,7 +51,7 @@ JFactory::getDocument()->addScriptDeclaration('
 ');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container" class="js-main-container">
+	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<table class="table table-striped">
 			<thead>
@@ -65,16 +65,16 @@ JFactory::getDocument()->addScriptDeclaration('
 					<th class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap hidden-sm-down">
+					<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 't.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap hidden-sm-down">
+					<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap text-xs-center hidden-sm-down">
+					<th width="15%" class="nowrap text-xs-center hidden-sm-down text-xs-center">
 						<?php echo JText::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 					</th>
-					<th width="35%" class="nowrap hidden-sm-down">
+					<th width="30%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -101,16 +101,16 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php echo $this->escape($item->title); ?>
 						</label>
 					</td>
-					<td class="small nowrap hidden-sm-down">
+					<td class="small nowrap hidden-sm-down text-xs-center">
 						<?php
 						$key = FinderHelperLanguage::branchSingular($item->t_title);
 						echo $lang->hasKey($key) ? JText::_($key) : $item->t_title;
 						?>
 					</td>
-					<td class="small nowrap hidden-sm-down">
+					<td class="small nowrap hidden-sm-down text-xs-center">
 						<?php echo JHtml::_('date', $item->indexdate, JText::_('DATE_FORMAT_LC4')); ?>
 					</td>
-					<td class="text-xs-center hidden-sm-down">
+					<td class="text-xs-center hidden-sm-down text-xs-center">
 						<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
 							<span class="icon-calendar pop hasPopover" data-placement="left" title="<?php echo JText::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>"></span>
 						<?php endif; ?>

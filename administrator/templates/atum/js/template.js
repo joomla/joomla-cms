@@ -12,6 +12,22 @@
 	document.addEventListener('DOMContentLoaded', function() {
 		var wrapper = document.getElementById('wrapper');
 
+		/** http://stackoverflow.com/questions/18663941/finding-closest-element-without-jquery */
+		function closest(el, selector) {
+			var parent;
+
+			// traverse parents
+			while (el) {
+				parent = el.parentElement;
+				if (parent && parent['matches'](selector)) {
+					return parent;
+				}
+				el = parent;
+			}
+
+			return null;
+		}
+
 		/**
 		 * Bootstrap tooltips
 		 */
@@ -20,47 +36,57 @@
 		});
 
 		if (document.getElementById('sidebar-wrapper') && !document.getElementById('sidebar-wrapper').getAttribute('data-hidden')) {
-			/**
-			 * Sidebar
-			 */
-			var sidebar = document.getElementById('sidebar-wrapper');
-			var menu    = sidebar.querySelector('#menu');
-			// Apply 2nd level collapse
-			var first = Array.prototype.slice.call(menu.querySelector('.collapse-level-1'));
-			first.forEach(function(){
-				this.classList.remove('collapse-level-1').add('collapse-level-2');
-			});
+			/** Sidebar */
+			var sidebar       = document.getElementById('sidebar-wrapper'),
+			    menu          = sidebar.querySelector('#menu'),
+			    logo          = document.getElementById('main-brand'),
+			    logoSm        = document.getElementById('main-brand-sm'),
+			    menuToggle    = document.getElementById('header').querySelector('.menu-toggle'),
+			    wrapperClosed = document.querySelector('#wrapper.closed'),
+			    // Apply 2nd level collapse
+			    first         = menu.querySelectorAll('.collapse-level-1');
 
-			var navs = menu.querySelectorAll('.nav');
-
-			for (var i = 0; i < navs.length; i++) {
-				var parents = navs[i];
-				for (var j = 0; j < parents.length; j++) {
-					var aTags = parents[j];
-					for (var k = 0; k < aTags.length; k++) {
-						aTags[k].classList.remove('data-parent');
+			for (var i = 0; i < first.length; i++) {
+				var second = first[i].querySelectorAll('.collapse-level-1');
+				for (var j = 0; j < second.length; j++) {
+					if (second[j]) {
+						second[j].classList.remove('collapse-level-1');
+						second[j].classList.add('collapse-level-2');
 					}
 				}
 			}
 
-			var animateWrapper = function() {
-				var logo       = document.getElementById('main-brand');
-				var logoSm     = document.getElementById('main-brand-sm');
-				var menuToggle = document.getElementById('header').querySelector('.menu-toggle');
-				var isClosed   = wrapper.classList.contains('closed');
+			var menuClose = function() {
+				sidebar.querySelector('.collapse').classList.remove('in');
+				sidebar.querySelector('.collapse-arrow').classList.add('collapsed');
+				menuToggle.classList.add('active');
+				wrapper.classList.add('closed');
+				logoSm.classList.remove('hidden-xs-up');
+				logo.classList.add('hidden-xs-up');
+			};
 
-				if (isClosed) {
-					wrapper.classList.remove('closed');
-					menuToggle.classList.remove('active');
-					logoSm.classList.add('hidden-xs-up');
-					logo.classList.remove('hidden-xs-up');
-				} else {
-					sidebar.querySelector('.collapse').classList.remove('in');
-					sidebar.querySelector('.collapse-arrow').classList.add('collapsed');
-					menuToggle.classList.add('active');
-					wrapper.classList.add('closed');
-					logoSm.classList.remove('hidden-xs-up');
-					logo.classList.add('hidden-xs-up');
+			var menuOpen = function() {
+				wrapper.classList.remove('closed');
+				menuToggle.classList.remove('active');
+				logoSm.classList.add('hidden-xs-up');
+				logo.classList.remove('hidden-xs-up');
+			};
+
+			/** Localstorage to remember the menu state (open/close) */
+			var saveState = function () {
+				if (typeof(Storage) !== 'undefined') {
+					// Set the state of the menu in localStorage
+					localStorage.setItem('adminMenuState', wrapper.classList.contains('closed'));
+				}
+			};
+
+			var animateWrapper = function(keepOpen) {
+				if (window.outerWidth > 767) {
+					if (wrapper.classList.contains('closed') || keepOpen && keepOpen === true) {
+						menuOpen();
+					} else {
+						menuClose();
+					}
 				}
 			};
 
@@ -68,21 +94,44 @@
 			document.getElementById('menu-collapse').addEventListener('click', function(e) {
 				e.preventDefault();
 				animateWrapper();
+				saveState();
 			});
 
-			var doAnimate = function () {
-				if (wrapper.classList.contains('closed') && window.outerWidth > 767) {
-					animateWrapper();
-				}
-			};
+			if (wrapperClosed) {
+				wrapperClosed[i].addEventListener('click', animateWrapper(true));
+			}
 
-			var classses = ["#wrapper.closed .sidebar-wrapper [data-toggle='collapse']"];
-			classses.forEach(function(item) {
-				var tmp = document.querySelectorAll(item);
-				for (var i = 0; i < tmp.length; i++) {
-					tmp[i].addEventListener('click', doAnimate);
+			for (var i = 0; i < sidebar.length; i++) {
+				sidebar[i].addEventListener('click', animateWrapper(true));
+			}
+
+			/**
+			 * Sidebar Accordion
+			 */
+			jQuery('.main-nav li.parent > a').on('click', function(){
+				jQuery(this).removeAttr('href');
+				var element = jQuery(this).parent('li');
+				if (element.hasClass('open')) {
+					element.removeClass('open');
+					element.find('li').removeClass('open');
+					element.find('ul').slideUp();
+				}
+				else {
+					element.addClass('open');
+					element.children('ul').slideDown();
+					element.siblings('li').children('ul').slideUp();
+					element.siblings('li').removeClass('open');
+					element.siblings('li').find('li').removeClass('open');
+					element.siblings('li').find('ul').slideUp();
 				}
 			});
+
+			/** Accessibility */
+			var allLiEl = sidebar.querySelectorAll('ul[role="menubar"] li');
+			for (var i = 0; i < allLiEl.length; i++) {
+				// We care for enter and space
+				allLiEl[i].addEventListener('keyup', function(e) { if (e.keyCode == 32 || e.keyCode == 13 ) e.target.querySelector('a').click(); });
+			}
 
 			// Set the height of the menu to prevent overlapping
 			var setMenuHeight = function() {
@@ -102,49 +151,48 @@
 			var currentUrl = window.location.href.toLowerCase();
 
 			for (var i = 0; i < allLinks.length; i++) {
-				var obj = allLinks[i];
-
-				if (currentUrl.indexOf(obj.href) == 0) {
-					obj.classList.add('active');
-					if (!obj.parentNode.classList.contains('parent')) {
-						var parentLink = closest(obj, '.panel-collapse');
-						parentLink.parentNode.querySelector('a.collapse-arrow').classList.add('active');
+				if (currentUrl === allLinks[i].href) {
+					allLinks[i].classList.add('active');
+					if (!allLinks[i].parentNode.classList.contains('parent')) {
+						var parentLink = closest(allLinks[i], '.panel-collapse');
+						/** Auto Expand First Level */
+						if (parentLink){
+							parentLink.parentNode.querySelector('a.collapse-arrow').classList.add('active');
+							if (!wrapper.classList.contains('closed')) {
+									parentLink.classList.add('in');
+							}
+						}
+						/** Auto Expand Second Level */
+						if (allLinks[i].parentNode.parentNode.parentNode.classList.contains('parent')) {
+							var parentLink2 = closest(parentLink, '.panel-collapse');
+							if (parentLink2){
+								parentLink2.parentNode.parentNode.parentNode.querySelector('a.collapse-arrow').classList.add('active');
+								if (!wrapper.classList.contains('closed')) {
+									parentLink2.classList.add('in');
+								}
+							}
+						}
 					}
 				}
-
 			}
+
+			if (typeof(Storage) !== 'undefined') {
+				if (localStorage.getItem('adminMenuState') == "true") {
+					menuClose();
+				}
+			}
+
 		} else {
-			document.getElementById('sidebar-wrapper').style.display = 'none';
-			document.getElementById('sidebar-wrapper').style.width = '0';
-			document.getElementsByClassName('wrapper')[0].style.paddingLeft = '0';
-		}
-
-		/** http://stackoverflow.com/questions/18663941/finding-closest-element-without-jquery */
-		function closest(el, selector) {
-			var matchesFn;
-
-			// find vendor prefix
-			['matches','webkitMatchesSelector','mozMatchesSelector','msMatchesSelector','oMatchesSelector'].some(function(fn) {
-				if (typeof document.body[fn] == 'function') {
-					matchesFn = fn;
-					return true;
-				}
-				return false;
-			});
-
-			var parent;
-
-			// traverse parents
-			while (el) {
-				parent = el.parentElement;
-				if (parent && parent[matchesFn](selector)) {
-					return parent;
-				}
-				el = parent;
+			if (document.getElementById('sidebar-wrapper')) {
+				document.getElementById('sidebar-wrapper').style.display = 'none';
+				document.getElementById('sidebar-wrapper').style.width = '0';
 			}
 
-			return null;
+			if (document.getElementsByClassName('wrapper').length)
+				document.getElementsByClassName('wrapper')[0].style.paddingLeft = '0';
 		}
+
+
 
 		/**
 		 * Turn radios into btn-group
@@ -156,8 +204,7 @@
 				labels[j].classList.add('btn');
 				if ((j % 2) == 1) {
 					labels[j].classList.add('btn-outline-danger');
-				}
-				else {
+				} else {
 					labels[j].classList.add('btn-outline-success');
 
 				}
@@ -167,49 +214,41 @@
 		var somemem = document.querySelector('.btn-group label:not(.active)');
 		if (somemem) {
 			somemem.addEventListener('click', function(event) {
-				var label = event.target,
-				    input = document.getElementById(label.getAttribute('for'));
+				var label = event.target;
+				var input = document.getElementById(label.getAttribute('for'));
 
-				if (input.getAttribute('checked') !== 'checked') {
+				if (input.getAttribute('checked') !== "checked") {
 					var aa = closest(label, '.btn-group').querySelector('label');
 					aa.classList.remove('active');
 					aa.classList.remove('btn-success');
 					aa.classList.remove('btn-danger');
 					aa.classList.remove('btn-primary');
 
-					if (closest(label, '.btn-group').classList.contains('btn-group-reversed')){
-						if (!label.classList.contains('btn')) {
-							label.classList.add('btn');
-						}
-
+					if (closest(label, '.btn-group').classList.contains('btn-group-reversed')) {
+						if (!label.classList.contains('btn')) label.classList.add('btn');
 						if (input.value == '') {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-primary');
-						}
-						else if (input.value == 0) {
+						} else if (input.value == 0) {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-success');
-						}
-						else {
+						} else {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-danger');
 						}
-					}
-					else {
+					} else {
 						if (input.value == '') {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-primary');
-						}
-						else if (input.value == 0) {
+						} else if (input.value == 0) {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-danger');
-						}
-						else {
+						} else {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-success');
@@ -223,44 +262,37 @@
 
 		var btsGrouped = document.querySelectorAll('.btn-group input[checked=checked]');
 
-		for (var i = 0, l = btsGrouped.length; l>i; i++) {
-
+		for(var i = 0, l = btsGrouped.length; l>i; i++) {
 			var self   = btsGrouped[i],
 			    attrId = self.id;
-
 			if (self.parentNode.parentNode.classList.contains('btn-group-reversed')) {
 				if (self.value == '') {
-					var aa =document.querySelector('label[for=' + attrId + ']');
+					var aa = document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-primary');
-				}
-				else if (self.value == 0) {
+				} else if (self.value == 0) {
 					var aa = document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-success');
-				}
-				else {
+				} else {
 					var aa = document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-danger');
 				}
-			}
-			else {
+			} else {
 				if (self.value == '') {
 					var aa = document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn-outline-primary');
-				}
-				else if (self.value == 0) {
+				} else if (self.value == 0) {
 					var aa = document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
 					aa.classList.add('btn-outline-danger');
-				}
-				else {
+				} else {
 					var aa = document.querySelector('label[for=' + attrId + ']');
 					aa.classList.add('active');
 					aa.classList.add('btn');
@@ -312,21 +344,11 @@
 					if (document.getElementById('sidebar-wrapper').style.display === 'none') {
 						subhead.style.left = 0;
 					}
-				}
-				else if (scrollTop <= navTop && isFixed) {
+				} else if (scrollTop <= navTop && isFixed) {
 					isFixed = false;
 					subhead.classList.remove('subhead-fixed');
 				}
 			}
 		}
-
-		/**
-		 * Add body class if table exists
-		 */
-		if (document.getElementsByClassName('js-main-container') && document.getElementsByClassName('js-main-container').length > 0)
-		{
-		    document.body.classList.add('list-view-main');
-		}
-
 	});
 })();

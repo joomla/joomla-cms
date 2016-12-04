@@ -8,16 +8,19 @@
 // FontAwesome
 @import "../../../../media/vendor/font-awesome/scss/font-awesome";
 
-// B/C for icomoon
+// B/C for Icomoon
 @import "../../../../media/system/scss/icomoon";
 
 // Alert
 @import "../../../../media/system/scss/jalert";
 
 // Blocks
+@import "blocks/global"; // Leave this first
+@import "blocks/alerts";
 @import "blocks/form";
 @import "blocks/header";
 @import "blocks/icons";
+@import "blocks/iframe";
 @import "blocks/login";
 @import "blocks/quickicons";
 @import "blocks/searchtools";
@@ -32,201 +35,52 @@
 @import "vendor/awesomplete";
 @import "vendor/bootstrap/buttons";
 @import "vendor/bootstrap/card";
+@import "vendor/bootstrap/custom-forms";
+@import "vendor/bootstrap/collapse";
+@import "vendor/bootstrap/dropdown";
 @import "vendor/bootstrap/lists";
 @import "vendor/bootstrap/modal";
 @import "vendor/bootstrap/nav";
+@import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/table";
 @import "vendor/chosen";
 @import "vendor/dragula";
 @import "vendor/minicolors";
 @import "vendor/tinymce";
 
+// Page specifics
+@import "pages/com_config";
+@import "pages/com_cpanel";
+@import "pages/com_modules";
 
-html, body {
-  font-size: $font-size-root;
-}
-body {
-  padding: 0;
-  margin: 0;
-}
-h1, h2, h3, h4, h5, h6 {
-  font-weight: bold;
-}
 
 .container-main, .system-debug {
   padding-bottom: 50px;
-}
-small, .small {
-  font-size: .8rem;
-}
-.nav-header {
-  display: block;
-  font-size: 13px;
-  font-weight: bold;
-  line-height: 18px;
-  color: #999;
-  text-shadow: none;
-  text-transform: uppercase;
 }
 
 .container-main {
   position: relative;
   min-height: calc(100vh - 50px);
   padding-top: 15px;
-  background: $white;
+  background: $atum-container-main-bg;
 }
 .list-view-main {
   .container-main {
-    background-color: #eaebec;
+    background-color: $atum-container-main-bg;
   }
 }
 
 .content {
   margin-top: 50px;
-  background: $white;
   border-radius: $border-radius;
 }
-
-.js-main-container {
+.j-main-container {
+  background-color: $white;
   border: 1px solid rgba(0, 0, 0, .17);
   border-radius: $border-radius;
   box-shadow: 0 0 3px rgba(0, 0, 0, .075);
 }
 
-// com_modules
-.admin.com_modules {
-  .js-stools-container-bar .btn-toolbar {
-    float: left;
-  }
-}
-
-
-// com_plugins
-.info-labels {
-  margin-bottom: 10px;
-}
-.note-input h6 {
-  font-weight: bold;
-  line-height: 1.4rem;
-}
-
-
-// Dashboard card
-.com_cpanel {
-  .container-main {
-    background: #eaebec;
-  }
-  .content {
-    margin-top: 0;
-    background: none;
-  }
-  .card {
-    box-shadow: 0 0 3px rgba(0,0,0,.075);
-    .list-group-item:first-child {
-      border-top: 0;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-    .list-group-item:last-child {
-      border-bottom: 0;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-  }
-  .card-title {
-    position: relative;
-    z-index: 1;
-    padding: 1.1em $card-spacer-x $card-spacer-y;
-    margin-top: - $card-spacer-x;
-    margin-right: - $card-spacer-x;
-    margin-left: - $card-spacer-x;
-    font-size: .85em;
-    color: $atum-template-color;
-    letter-spacing: .4px;
-    background-color: $atum-card-title-bg;
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    border-radius: $border-radius $border-radius 0 0;
-    box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, .15);
-  }
-  .list-group {
-    margin-top: - $card-spacer-y;
-    margin-right: - $card-spacer-x;
-    margin-bottom: - $card-spacer-x;
-    margin-left: - $card-spacer-x;
-    > li {
-      padding: .7rem $card-spacer-x;
-      overflow: hidden;
-      &.published {
-        padding-left: .9rem;
-        border-left: 5px solid $brand-success;
-      }
-      &.unpublished {
-        padding-left: .9rem;
-        border-left: 5px solid $brand-danger;
-      }
-    }
-    &:first-of-type {
-      border-top: 0;
-    }
-  }
-  .module-dropdown {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    > a {
-      display: inline-block;
-      width: 2.95em;
-      height: 2.95em;
-      line-height: 2.95em;
-      color: $gray;
-      text-align: center;
-      border-left: 1px solid rgba(0,0,0,.125);
-      box-shadow: 1px 0 #fff inset;
-      &:hover, &[aria-expanded*="true"] {
-        background-color: darken($atum-card-title-bg, 2%);
-        border-left-color: transparent;
-        box-shadow: 1px 0 rgba(0,0,0,.1) inset;
-      }
-    }
-  }
-}
-
-
-// Stats
-.js-pstats-data-details {
-  margin-top: 10px;
-
-  dd {
-    margin-bottom: .2rem;
-  }
-}
-
-
-// iframe
-iframe {
-  border: 0;
-}
-.modal iframe {
-  width: 100%;
-}
-.contentpane.component .j-main-container {
-  padding: 0;
-  margin-left: 0;
-}
-
-// Calendar hover
-.day:hover {
-  background-color: #00a8c6;
-}
-.name:hover {
-  background-color: transparent;
-}
-
-// Pagination
-.pagination {
-  margin: 1rem;
-}
 
 // Chosen (TEMPORARY)
 .chzn-container-single {

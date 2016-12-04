@@ -130,7 +130,6 @@
 		</field>
 		<field name="sort_order"
 			type="list"
-			   class="custom-select"
 			default="relevance"
 			validate="options"
 			label="COM_FINDER_CONFIG_SORT_ORDER_LABEL"
@@ -141,7 +140,6 @@
 		</field>
 		<field name="sort_direction"
 			type="list"
-			   class="custom-select"
 			default="desc"
 			validate="options"
 			label="COM_FINDER_CONFIG_SORT_DIRECTION_LABEL"
@@ -180,7 +178,6 @@
 		<field
 			name="batch_size"
 			type="list"
-			class="custom-select"
 			default="50"
 			label="COM_FINDER_CONFIG_BATCH_SIZE_LABEL"
 			description="COM_FINDER_CONFIG_BATCH_SIZE_DESCRIPTION"
@@ -252,7 +249,6 @@
 		<field
 			name="stemmer"
 			type="list"
-			class="custom-select"
 			default="snowball"
 			label="COM_FINDER_CONFIG_STEMMER_LABEL"
 			description="COM_FINDER_CONFIG_STEMMER_DESCRIPTION"
