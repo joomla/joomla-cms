@@ -5,7 +5,7 @@ $atum-container-main-bg:           #eee !default;
 $atum-border-color:                #cecece !default;
 $atum-box-shadow:                  0 0 3px rgba(0,0,0,.075) !default;
 $atum-block-header-bg:             #f5f5f5 !default;
-$white:                            #fcfcfc;
+$white-offset:                      #fcfcfc;
 $grey:                             #aaa;
 
 $brand-primary:                    #0275d8;
@@ -72,10 +72,10 @@ $switcher-color-danger:            rgb(188, 101, 100);
 $switcher-color-primary:           rgb(100, 143, 186);
 
 // List
-$list-group-bg:                    $white;
+$list-group-bg:                    $white-offset;
 
 // Custom form
-$custom-select-bg:                 $white;
+$custom-select-bg:                 $white-offset;
 
 // BS4-alpha.5 | custom-select SVG override
 // This was broken in alpha.5 so be sure to remove this when it's fixed again

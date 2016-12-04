@@ -33,7 +33,7 @@
       padding: 0 10px;
       line-height: $atum-toolbar-line-height;
       color: $body-color;
-      background-color: $white;
+      background-color: $white-offset;
       border-color: $atum-border-color;
       [class^="icon-"], [class*=" icon-"] {
         z-index: -1;
@@ -79,14 +79,14 @@
     }
     .btn-success:not(.dropdown-toggle) {
       width: 140px;
-      color: $white;
+      color: $white-offset;
       background-color: $brand-success;
       border-color: rgba(0, 0, 0, .2);
       [class^="icon-"], [class*=" icon-"] {
         width: 16px;
         margin-right: 0;
         margin-left: 0;
-        color: $white;
+        color: $white-offset;
         background-color: transparent;
         border-right: 0 none;
         border-left: 0 none;
@@ -99,7 +99,7 @@
       background: darken($brand-success, 12%);
       border-color: darken($brand-success, 12%);
       &::after {
-        color: $white;
+        color: $white-offset;
       }
     }
     button:last-of-type:not(.float-sm-right) {

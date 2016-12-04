@@ -4,7 +4,7 @@
   position: relative;
   z-index: 1;
   height: $header-height;
-  background: $white;
+  background: $white-offset;
   border-bottom: 1px solid $atum-border-color;
 
   .page-title {
@@ -53,7 +53,7 @@
     padding: 0;
     line-height: $header-height;
     border-left: 1px solid $atum-border-color;
-    box-shadow: 1px 0 $white inset;
+    box-shadow: 1px 0 $white-offset inset;
 
     .fa {
       font-size: 1.4rem;
