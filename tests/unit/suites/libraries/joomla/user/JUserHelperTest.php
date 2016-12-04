@@ -358,12 +358,14 @@ class JUserHelperTest extends TestCaseDatabase
 			'Properly verifies a password hashed with Joomla legacy MD5'
 		);
 
- 		$password = 'mySuperSecretPassword';
-  		$hash = '$2xzaiMREaf7o';
-
+		$password = 'mySuperSecretPassword';
+		// Generate the old style password hash used before phpass was implemented.
+		$salt		= JUserHelper::genRandomPassword(32);
+		$crypted	= JUserHelper::getCryptedPassword($password, $salt);
+		$hashed	        = $crypted.':'.$salt;
 		$this->assertTrue(
-			JCrypt::timingSafeCompare(crypt($password, $hash), $hash),
-			'Properly verify a pre-J3.2.1 Password that was hashed to crypt-blowfish without user specified salt'
+			JUserHelper::verifyPassword('mySuperSecretPassword', $hashed),
+			'Properly verifies a password which was hashed before phpass was implemented'
 		);
 	}
 
