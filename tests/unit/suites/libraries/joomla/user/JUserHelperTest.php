@@ -367,6 +367,11 @@ class JUserHelperTest extends TestCaseDatabase
 			JUserHelper::verifyPassword('mySuperSecretPassword', $hashed),
 			'Properly verifies a password which was hashed before phpass was implemented'
 		);
+
+		$this->assertTrue(
+			JUserHelper::verifyPassword('mySuperSecretPassword', 'fb7b0a16d7e0e6706c0f962832e1fdd8:vQnUrofbvGRcBR6l502Bt8nioKj8MObh'),
+			'Properly verifies an existing password hash which was hashed before phpass was implimented'
+		);
 	}
 
 	/**
