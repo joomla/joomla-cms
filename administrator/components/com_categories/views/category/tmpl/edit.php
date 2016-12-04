@@ -48,6 +48,14 @@ $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+
+// Custom fields have no associations
+$extension = $input->get('extension', '', 'CMD');
+
+if (substr($extension, -strlen('.fields')) === '.fields')
+{
+	$assoc = false;
+}
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
