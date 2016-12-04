@@ -218,10 +218,11 @@
   }
 
   .collapse-level-1 {
-    background: rgba(0,0,0,.4);
+    background: $atum-level-1-bg;
   }
 
   .collapse-level-2 {
+    background: $atum-level-2-bg;
     > li > a {
       text-indent: 30px;
     }
@@ -279,7 +280,7 @@
         left: 100%;
         width: 220px;
         padding: 0 13px;
-        font-size: $font-size-h5;
+        font-size: $atum-sidebar-item-title;
         font-weight: bold;
         background-color: $atum-template-color;
         border-radius: 0 $border-radius $border-radius 0;
@@ -319,11 +320,10 @@
       padding: 5px 0 10px;
       margin-top: -1px;
       text-indent: 0;
-      background-color: lighten($atum-template-color, 5%);
       border-bottom-right-radius: $border-radius;
       li {
         position: relative;
-        font-size: $font-size-h5;
+        font-size: $atum-sidebar-item-title;
         line-height: 30px;
         text-indent: 15px;
       }
@@ -358,7 +358,6 @@
     }
     .collapse-level-2 {
       padding-bottom: 5px;
-      background-color: lighten($atum-template-color, 7%);
       .sidebar-item-title::before {
         content: "\f10c";
         opacity: .75;

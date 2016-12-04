@@ -5,7 +5,7 @@
   z-index: 1;
   height: $header-height;
   background: $white;
-  border-bottom: 1px solid rgba(0, 0, 0, .17);
+  border-bottom: 1px solid $atum-border-color;
 
   .page-title {
     display: inline-block;
@@ -52,7 +52,7 @@
     width: 55px;
     padding: 0;
     line-height: $header-height;
-    border-left: 1px solid rgba(0, 0, 0, .125);
+    border-left: 1px solid $atum-border-color;
     box-shadow: 1px 0 $white inset;
 
     .fa {
