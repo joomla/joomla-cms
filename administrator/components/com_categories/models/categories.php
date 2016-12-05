@@ -377,12 +377,6 @@ class CategoriesModelCategories extends JModelList
 		if (count($parts) > 1)
 		{
 			$section = $parts[1];
-
-			// If the section ends with .fields, then the category belongs to com_fields
-			if (substr($section, -strlen('.fields')) === '.fields')
-			{
-				$component = 'com_fields';
-			}
 		}
 
 		// Try to find the component helper.
