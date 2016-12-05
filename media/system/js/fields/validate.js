@@ -90,10 +90,16 @@ var JFormValidator = function() {
 			}
 			// Only validate the field if the validate class is set
 			handler = ($el.getAttribute('class') && $el.getAttribute('class').match(/validate-([a-zA-Z0-9\_\-]+)/)) ? $el.getAttribute('class').match(/validate-([a-zA-Z0-9\_\-]+)/)[1] : "";
-			if($el.pattern) {
-				isValid = $el.pattern.test(value);
-				handleResponse(isValid, $el);
-				return isValid;
+
+			if($el.getAttribute('pattern') != null) {
+				if ($el.value.length > 0) {
+					isValid = /$el.getAttribute('pattern')/.test($el.value);
+					handleResponse(isValid, $el);
+					return isValid;
+				} else {
+					handleResponse(false, $el);
+					return false;
+				}
 			} else {
 				if (handler === '') {
 					handleResponse(true, $el);
