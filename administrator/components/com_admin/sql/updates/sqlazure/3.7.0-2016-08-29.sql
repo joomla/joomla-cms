@@ -6,7 +6,7 @@ CREATE TABLE [#__fields](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[asset_id] [int] NOT NULL DEFAULT 0,
 	[context] [nvarchar](255) NOT NULL DEFAULT '',
-	[catid] [int] NOT NULL DEFAULT 0,
+	[group_id] [int] NOT NULL DEFAULT 0,
 	[assigned_cat_ids] [nvarchar](255) NOT NULL DEFAULT '',
 	[title] [nvarchar](255) NOT NULL DEFAULT '',
 	[alias] [nvarchar](255) NOT NULL DEFAULT '',
@@ -55,6 +55,57 @@ CREATE NONCLUSTERED INDEX [idx_context] ON [#__fields](
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_language] ON [#__fields](
+	[language] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+/****** Object:  Table [#__fields_groups] ******/
+
+SET QUOTED_IDENTIFIER ON;
+
+CREATE TABLE [#__fields_groups](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[asset_id] [int] NOT NULL DEFAULT 0,
+	[extension] [nvarchar](255) NOT NULL DEFAULT '',
+	[title] [nvarchar](255) NOT NULL DEFAULT '',
+	[alias] [nvarchar](255) NOT NULL DEFAULT '',
+	[note] [nvarchar](255) NOT NULL DEFAULT '',
+	[description] [nvarchar](max) NOT NULL DEFAULT '',
+	[state] [smallint] NOT NULL DEFAULT 0,
+	[checked_out] [bigint] NOT NULL DEFAULT 0,
+	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[ordering] [int] NOT NULL DEFAULT 0,
+	[language] [nvarchar](7) NOT NULL DEFAULT ''
+	[created] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created_by] [bigint] NOT NULL DEFAULT 0,
+	[modified] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[modified_by] [bigint] NOT NULL DEFAULT 0,
+	[access] [int] NOT NULL DEFAULT 1,
+CONSTRAINT [PK_#__fields_groups_id] PRIMARY KEY CLUSTERED(
+	[id] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON
+ ) ON [PRIMARY]) ON [PRIMARY];
+
+CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__fields_groups](
+	[checked_out] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_state] ON [#__fields_groups](
+	[state] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_created_by] ON [#__fields_groups](
+	[created_by] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_access] ON [#__fields_groups](
+	[access] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_extension] ON [#__fields_groups](
+	[extension] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_language] ON [#__fields_groups](
 	[language] ASC)
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
