@@ -14,7 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
-JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
 JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
@@ -23,44 +22,24 @@ $input = $app->input;
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
-		if (task == "field.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
+		if (task == "group.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
 			Joomla.submitform(task, document.getElementById("item-form"));
 		}
 	};
-	jQuery(document).ready(function() {
-		jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
-		jQuery("#jform_title").change(function(data, handler) {
-			if(jQuery("#jform_title").data("dp-old-value") == jQuery("#jform_label").val()) {
-				jQuery("#jform_label").val(jQuery("#jform_title").val());
-			}
-
-			jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
-		});
-	});
 ');
-
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_fields&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
-				<?php echo $this->form->renderField('type'); ?>
 				<?php echo $this->form->renderField('label'); ?>
+				<?php echo $this->form->renderField('extension'); ?>
 				<?php echo $this->form->renderField('description'); ?>
-				<?php echo $this->form->renderField('required'); ?>
-				<?php echo $this->form->renderField('default_value'); ?>
-
-				<?php foreach ($this->form->getFieldsets('fieldparams') as $name => $fieldSet) : ?>
-					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-						<?php echo $field->renderField(); ?>
-					<?php endforeach; ?>
-				<?php endforeach; ?>
-
 			</div>
 			<div class="span3">
 				<?php $this->set('fields',
@@ -70,8 +49,6 @@ JFactory::getDocument()->addScriptDeclaration('
 								'state',
 								'enabled',
 							),
-							'group_id',
-							'assigned_cat_ids',
 							'access',
 							'language',
 							'note',
