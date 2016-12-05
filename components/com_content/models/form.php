@@ -53,10 +53,21 @@ class ContentModelForm extends ContentModelArticle
 		$this->setState('params', $params);
 
 		$redirect = null;
+		
+		$menuitem = (int) $params->get('redirect_menuitem');
 
-		if ((int) $params->get('redirect_menuitem') > 0)
+		if ($menuitem > 0)
 		{
-			$redirect = base64_encode('index.php?Itemid=' . (int) $params->get('redirect_menuitem'));
+			$lang = '';
+
+			if (JLanguageMultilang::isEnabled())
+			{
+				$item = JFactory::getApplication()->getMenu()->getItem($itemid);
+
+				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+			}
+			
+			$redirect = base64_encode('index.php?Itemid=' . (int) $params->get('redirect_menuitem') . $lang);
 		}
 
 		$return = base64_decode($app->input->get('return', $redirect, 'base64'));
@@ -67,6 +78,18 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		$this->setState('layout', $app->input->getString('layout'));
+	}
+	
+	protected function getMenuitemLang($itemid)
+	{
+		if (JLanguageMultilang::isEnabled())
+		{
+			$item = JFactory::getApplication()->getMenu()->getItem($itemid);
+
+			return !is_null($item) ? $item->language : false;
+		}
+
+		return false;
 	}
 
 	/**
