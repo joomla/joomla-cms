@@ -9,11 +9,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Fields View
+ * Groups View
  *
  * @since  __DEPLOY_VERSION__
  */
-class FieldsViewFields extends JViewLegacy
+class FieldsViewGroups extends JViewLegacy
 {
 	/**
 	 * @var  JForm
@@ -92,7 +92,7 @@ class FieldsViewFields extends JViewLegacy
 
 		$this->addToolbar();
 
-		FieldsHelperInternal::addSubmenu($this->state->get('filter.component'), 'fields');
+		FieldsHelperInternal::addSubmenu($this->state->get('filter.extension'), 'groups');
 		$this->sidebar = JHtmlSidebar::render();
 
 		return parent::display($tpl);
@@ -107,48 +107,47 @@ class FieldsViewFields extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$fieldId   = $this->state->get('filter.field_id');
-		$component = $this->state->get('filter.component');
-		$section   = $this->state->get('filter.section');
-		$canDo     = JHelperContent::getActions($component, 'field', $fieldId);
+		$groupId   = $this->state->get('filter.group_id');
+		$extension = $this->state->get('filter.extension');
+		$canDo     = JHelperContent::getActions($extension, 'fieldgroup', $groupId);
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		// Avoid nonsense situation.
-		if ($component == 'com_fields')
+		if ($extension == 'com_fields')
 		{
 			return;
 		}
 
 		// Load extension language file
-		JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
+		JFactory::getLanguage()->load($extension, JPATH_ADMINISTRATOR);
 
-		$title = JText::sprintf('COM_FIELDS_VIEW_FIELDS_TITLE', JText::_(strtoupper($component)));
+		$title = JText::sprintf('COM_FIELDS_VIEW_GROUPS_TITLE', JText::_(strtoupper($extension)));
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'puzzle fields ' . substr($component, 4) . ($section ? "-$section" : '') . '-fields');
+		JToolbarHelper::title($title, 'puzzle fields ' . substr($extension, 4) . '-groups');
 
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::addNew('field.add');
+			JToolbarHelper::addNew('group.add');
 		}
 
 		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
 		{
-			JToolbarHelper::editList('field.edit');
+			JToolbarHelper::editList('group.edit');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::publish('fields.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolbarHelper::unpublish('fields.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::archiveList('fields.archive');
+			JToolbarHelper::publish('groups.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish('groups.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::archiveList('groups.archive');
 		}
 
 		if (JFactory::getUser()->authorise('core.admin'))
 		{
-			JToolbarHelper::checkin('fields.checkin');
+			JToolbarHelper::checkin('groups.checkin');
 		}
 
 		// Add a batch button
@@ -170,16 +169,16 @@ class FieldsViewFields extends JViewLegacy
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			JToolbarHelper::preferences($component);
+			JToolbarHelper::preferences($extension);
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component))
+		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $extension))
 		{
-			JToolbarHelper::deleteList('', 'fields.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('', 'groups.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::trash('fields.trash');
+			JToolbarHelper::trash('groups.trash');
 		}
 	}
 
@@ -193,13 +192,13 @@ class FieldsViewFields extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.state'    => JText::_('JSTATUS'),
-			'a.title'    => JText::_('JGLOBAL_TITLE'),
-			'a.type'     => JText::_('COM_FIELDS_FIELD_TYPE_LABEL'),
-			'a.access'   => JText::_('JGRID_HEADING_ACCESS'),
-			'language'   => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'       => JText::_('JGRID_HEADING_ID'),
+			'a.ordering'  => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state'     => JText::_('JSTATUS'),
+			'a.title'     => JText::_('JGLOBAL_TITLE'),
+			'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
+			'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.extension' => JText::_('JGRID_HEADING_EXTENSION'),
+			'a.id'        => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

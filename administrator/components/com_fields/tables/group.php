@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 /**
- * Fields Table
+ * Groups Table
  *
  * @since  __DEPLOY_VERSION__
  */
-class FieldsTableField extends JTable
+class FieldsTableGroup extends JTable
 {
 	/**
 	 * Class constructor.
@@ -26,7 +26,7 @@ class FieldsTableField extends JTable
 	 */
 	public function __construct($db = null)
 	{
-		parent::__construct('#__fields', 'id', $db);
+		parent::__construct('#__fields_groups', 'id', $db);
 
 		$this->setColumnAlias('published', 'state');
 	}
@@ -53,13 +53,6 @@ class FieldsTableField extends JTable
 			$src['params'] = (string) $registry;
 		}
 
-		if (isset($src['fieldparams']) && is_array($src['fieldparams']))
-		{
-			$registry = new Registry;
-			$registry->loadArray($src['fieldparams']);
-			$src['fieldparams'] = (string) $registry;
-		}
-
 		// Bind the rules.
 		if (isset($src['rules']) && is_array($src['rules']))
 		{
@@ -83,36 +76,26 @@ class FieldsTableField extends JTable
 	 */
 	public function check()
 	{
-		// Check for valid name
+		// Check for a title.
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
+			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
 
 			return false;
 		}
+
+		$this->alias = trim($this->alias);
 
 		if (empty($this->alias))
 		{
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = Joomla\String\StringHelper::increment($this->alias, 'dash');
-		}
-
-		$this->alias = str_replace(',', '-', $this->alias);
-
-		if (empty($this->type))
-		{
-			$this->type = 'text';
-		}
-
-		if (is_array($this->assigned_cat_ids))
-		{
-			$this->assigned_cat_ids = implode(',', $this->assigned_cat_ids);
+			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		$date = JFactory::getDate();
@@ -120,20 +103,19 @@ class FieldsTableField extends JTable
 
 		if ($this->id)
 		{
-			// Existing item
-			$this->modified_time = $date->toSql();
+			$this->modified = $date->toSql();
 			$this->modified_by = $user->get('id');
 		}
 		else
 		{
-			if (!(int) $this->created_time)
+			if (!(int) $this->created)
 			{
-				$this->created_time = $date->toSql();
+				$this->created = $date->toSql();
 			}
 
-			if (empty($this->created_user_id))
+			if (empty($this->created_by))
 			{
-				$this->created_user_id = $user->get('id');
+				$this->created_by = $user->get('id');
 			}
 		}
 
@@ -151,9 +133,7 @@ class FieldsTableField extends JTable
 	 */
 	protected function _getAssetName()
 	{
-		$contextArray = explode('.', $this->context);
-
-		return $contextArray[0] . '.field.' . (int) $this->id;
+		return $this->extension . '.fieldgroup.' . (int) $this->id;
 	}
 
 	/**
@@ -189,63 +169,18 @@ class FieldsTableField extends JTable
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
-		$contextArray = explode('.', $this->context);
-		$component = $contextArray[0];
-
-		if ($this->group_id)
-		{
-			$assetId = $this->getAssetId($component . '.fieldgroup.' . (int) $this->group_id);
-
-			if ($assetId)
-			{
-				return $assetId;
-			}
-		}
-		else
-		{
-			$assetId = $this->getAssetId($component);
-
-			if ($assetId)
-			{
-				return $assetId;
-			}
-		}
-
-		return parent::_getAssetParentId($table, $id);
-	}
-
-	/**
-	 * Returns an asset id for the given name or false.
-	 *
-	 * @param   string  $name  The asset name
-	 *
-	 * @return  number|boolean
-	 *
-	 * @since    __DEPLOY_VERSION__
-	 */
-	private function getAssetId($name)
-	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($name));
-
-		// Get the asset id from the database.
+			->where($db->quoteName('name') . ' = ' . $db->quote($this->extension));
 		$db->setQuery($query);
 
-		$assetId = null;
-
-		if ($result = $db->loadResult())
+		if ($assetId = (int) $db->loadResult())
 		{
-			$assetId = (int) $result;
-
-			if ($assetId)
-			{
-				return $assetId;
-			}
+			return $assetId;
 		}
 
-		return false;
+		return parent::_getAssetParentId($table, $id);
 	}
 }

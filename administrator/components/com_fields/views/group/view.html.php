@@ -9,32 +9,42 @@
 defined('_JEXEC') or die;
 
 /**
- * Field View
+ * Group View
  *
  * @since  __DEPLOY_VERSION__
  */
-class FieldsViewField extends JViewLegacy
+class FieldsViewGroup extends JViewLegacy
 {
 	/**
 	 * @var  JForm
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $form;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $item;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var  JObject
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $canDo;
+
 
 	/**
 	 * Execute and display a template script.
@@ -52,7 +62,7 @@ class FieldsViewField extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 
-		$this->canDo = JHelperContent::getActions($this->state->get('field.component'), 'field', $this->item->id);
+		$this->canDo = JHelperContent::getActions($this->state->get('filter.extension'), 'fieldgroup', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -78,8 +88,7 @@ class FieldsViewField extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$component = $this->state->get('field.component');
-		$section   = $this->state->get('field.section');
+		$extension = $this->state->get('filter.extension');
 		$userId    = JFactory::getUser()->get('id');
 		$canDo     = $this->canDo;
 
@@ -87,56 +96,56 @@ class FieldsViewField extends JViewLegacy
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Avoid nonsense situation.
-		if ($component == 'com_fields')
+		if ($extension == 'com_fields')
 		{
 			return;
 		}
 
 		// Load extension language file
-		JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
+		JFactory::getLanguage()->load($extension, JPATH_ADMINISTRATOR);
 
-		$title = JText::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', JText::_(strtoupper($component)));
+		$title = JText::sprintf('COM_FIELDS_VIEW_GROUP_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', JText::_(strtoupper($extension)));
 
 		// Prepare the toolbar.
 		JToolbarHelper::title(
 			$title,
-			'puzzle field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-field-' .
+			'puzzle field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($extension, 4) . '-group-' .
 			($isNew ? 'add' : 'edit')
 		);
 
 		// For new records, check the create permission.
 		if ($isNew)
 		{
-			JToolbarHelper::apply('field.apply');
-			JToolbarHelper::save('field.save');
-			JToolbarHelper::save2new('field.save2new');
+			JToolbarHelper::apply('group.apply');
+			JToolbarHelper::save('group.save');
+			JToolbarHelper::save2new('group.save2new');
 		}
 
 		// If not checked out, can save the item.
-		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId)))
+		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId)))
 		{
-			JToolbarHelper::apply('field.apply');
-			JToolbarHelper::save('field.save');
+			JToolbarHelper::apply('group.apply');
+			JToolbarHelper::save('group.save');
 
 			if ($canDo->get('core.create'))
 			{
-				JToolbarHelper::save2new('field.save2new');
+				JToolbarHelper::save2new('group.save2new');
 			}
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2copy('field.save2copy');
+			JToolbarHelper::save2copy('group.save2copy');
 		}
 
 		if (empty($this->item->id))
 		{
-			JToolbarHelper::cancel('field.cancel');
+			JToolbarHelper::cancel('group.cancel');
 		}
 		else
 		{
-			JToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 		}
 	}
 }
