@@ -257,7 +257,6 @@
 			<field name="initial_sort" type="list"
 				description="COM_CONTACT_FIELD_INITIAL_SORT_DESC"
 				label="COM_CONTACT_FIELD_INITIAL_SORT_LABEL"
-				validate="options"
 				useglobal="true"
 			>
 				<option value="name">COM_CONTACT_FIELD_VALUE_NAME</option>
