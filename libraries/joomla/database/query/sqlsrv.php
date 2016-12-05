@@ -57,6 +57,12 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 */
 	public function __toString()
 	{
+		// Call the group function one final time to ensure we can get all coulumns for table joins.
+		if ($this->group)
+		{
+			$this->group($this->group->getElements());
+		}
+
 		$query = '';
 
 		switch ($this->type)
@@ -378,9 +384,23 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		// Get the _formatted_ FROM string and remove everything except `table AS alias`
 		$fromStr = str_replace(array("[", "]"), "", str_replace("#__", $this->db->getPrefix(), str_replace("FROM ", "", (string) $this->from)));
 
-		// Start setting up an array of alias => table
-		list($table, $alias) = preg_split("/\sAS\s/i", $fromStr);
+		// Remove any trailing whitespaces
+		$fromStr = trim($fromStr);
 
+		// Start setting up an array of alias => table
+		$table = $alias = $fromStr;
+		if (strpos($fromStr, ' AS ') !== false)
+		{
+			list($table, $alias) = preg_split("/\sAS\s/i", $fromStr);
+		}
+		elseif (preg_match("/\b\s+/i", $fromStr))
+		{
+			list($table, $alias) = preg_split("/\b\s+/i", $fromStr);
+		}
+		else
+		{
+			$table = $alias = $fromStr;
+		}
 		$tmpCols = $this->db->getTableColumns(trim($table));
 		$cols = array();
 
@@ -391,17 +411,33 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 		// Now we need to get all tables from any joins
 		// Go through all joins and add them to the tables array
-		foreach ($this->join as $join)
+
+		if ($this->join)
 		{
-			$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string) $join)));
-
-			list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
-
-			$tmpCols = $this->db->getTableColumns(trim($table));
-
-			foreach ($tmpCols as $name => $tmpColType)
+			foreach ($this->join as $join)
 			{
-				array_push($cols, $alias . "." . $name);
+
+				$joinStr = trim(preg_replace("/.*\sJOIN\s/i", "", (string) $join));
+
+				if (strpos($joinStr, ' AS ') !== false)
+				{
+					$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/^(.+?\sAS\s[^\s]*).*/i", "$1", $joinStr)));
+
+					list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
+				}
+				else
+				{
+					$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/^(.+?\s[^\s]*).*/i", "$1", $joinStr)));
+
+					list($table, $alias) = preg_split("/\b\s+/i", $joinTbl);
+				}
+
+				$tmpCols = $this->db->getTableColumns(trim($table));
+
+				foreach ($tmpCols as $name => $tmpColType)
+				{
+					array_push($cols, $alias . "." . $name);
+				}
 			}
 		}
 
@@ -411,7 +447,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		$selectCols = preg_replace("/([^,]*\([^\)]*\)[^,]*,?)/", "", $selectStr);
 
 		// Remove any "as alias" statements
-		$selectCols = preg_replace("/(\sas\s[^,]*)/i", "", $selectCols);
+		$selectCols = preg_replace("/((\sas|\b)\s([^,])*)/i", "", $selectCols);
 
 		// Remove any extra commas
 		$selectCols = preg_replace("/,{2,}/", ",", $selectCols);
@@ -420,9 +456,11 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		$selectCols = trim(str_replace(" ", "", preg_replace("/,?$/", "", $selectCols)));
 
 		// Get an array to compare against
-		$selectCols = explode(",", $selectCols);
+
+		$selectCols =  $selectCols ? explode(",", $selectCols) : array();
 
 		// Find all alias.* and fill with proper table column names
+
 		foreach ($selectCols as $key => $aliasColName)
 		{
 			if (preg_match("/.+\*/", $aliasColName, $match))
@@ -435,6 +473,13 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 				// Get the table name
 				$tableColumns = preg_grep("/{$aliasStar}\.+/", $cols);
+				$columns = array_merge($columns, $tableColumns);
+			}
+			elseif (!$this->join && $aliasColName == '*')
+			{
+				// Unset the array key
+				unset($selectCols[$key]);
+				$tableColumns = preg_grep("/{$table}\.+/", $cols);
 				$columns = array_merge($columns, $tableColumns);
 			}
 		}
