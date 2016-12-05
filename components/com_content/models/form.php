@@ -62,7 +62,7 @@ class ContentModelForm extends ContentModelArticle
 
 			if (JLanguageMultilang::isEnabled())
 			{
-				$item = JFactory::getApplication()->getMenu()->getItem($itemid);
+				$item = $app->getMenu()->getItem($itemid);
 
 				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
 			}
