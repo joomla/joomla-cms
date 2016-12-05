@@ -58,6 +58,55 @@ class JFormFieldModal_Menu extends JFormField
 	protected $allowEdit = false;
 
 	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   3.2
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'allowSelect':
+			case 'allowClear':
+			case 'allowNew':
+			case 'allowEdit':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
+	 * Method to set certain otherwise inaccessible properties of the form field object.
+	 *
+	 * @param   string  $name   The property name for which to the the value.
+	 * @param   mixed   $value  The value of the property.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function __set($name, $value)
+	{
+		switch ($name)
+		{
+			case 'allowSelect':
+			case 'allowClear':
+			case 'allowNew':
+			case 'allowEdit':
+				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
+				break;
+
+			default:
+				parent::__set($name, $value);
+		}
+	}
+
+	/**
 	 * Method to attach a JForm object to the field.
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
