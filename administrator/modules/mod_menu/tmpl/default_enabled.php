@@ -349,10 +349,3 @@ if ($showhelp == 1)
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_SHOP'), 'https://community.joomla.org/the-joomla-shop.html', null, false, '_blank'));
 	$menu->getParent();
 }
-
-/**
- * User Submenu
- */
-$menu->addChild(new JMenuNode($user->username, '#', 'class:user fa-fw'), true);
-$menu->addChild(new JMenuNode(JText::_('TPL_ATUM_LOGOUT'), JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1')));
-$menu->getParent();

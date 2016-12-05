@@ -9,7 +9,6 @@
 		<field
 			name="updatesource"
 			type="list"
-			class="custom-select"
 			default="default"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DESC"

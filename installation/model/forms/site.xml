@@ -5,7 +5,6 @@
 			name="language"
 			type="installation.language"
 			id="language"
-			class="custom-select"
 			label="INSTL_LANGUAGE_LABEL"
 			default="en-GB"
 			onchange="Install.setlanguage();"

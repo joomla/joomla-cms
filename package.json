@@ -14,11 +14,11 @@
     "grunt-contrib-copy": "latest",
     "grunt-contrib-cssmin": "latest",
     "grunt-contrib-uglify": "latest",
-    "grunt-postcss": "0.8.0",
-    "grunt-scss-lint": "^0.5.0",
     "grunt-fetch-pages": "^2.0.0",
+    "grunt-postcss": "0.8.0",
+    "grunt-sass": "^1.2.1",
+    "grunt-scss-lint": "^0.5.0",
     "grunt-shell": "latest",
-    "grunt-sass": "^1.2.1"
   },
   "license": "GPL-2.0+"
 }

@@ -34,6 +34,9 @@
 @import "vendor/awesomplete";
 @import "vendor/bootstrap/buttons";
 @import "vendor/bootstrap/card";
+@import "vendor/bootstrap/custom-forms";
+@import "vendor/bootstrap/collapse";
+@import "vendor/bootstrap/dropdown";
 @import "vendor/bootstrap/lists";
 @import "vendor/bootstrap/modal";
 @import "vendor/bootstrap/nav";
@@ -71,7 +74,7 @@
   border-radius: $border-radius;
 }
 .j-main-container {
-  background-color: $white;
+  background-color: $white-offset;
   border: 1px solid rgba(0, 0, 0, .17);
   border-radius: $border-radius;
   box-shadow: 0 0 3px rgba(0, 0, 0, .075);

@@ -2,11 +2,12 @@
 
 .nav.nav-tabs {
   padding: 0;
-  margin-bottom: 0;
-  background-color: $atum-card-title-bg;
-  border-bottom: 1px solid rgba(0,0,0,.125);
+  margin: 0;
+  background-color: $atum-tabs-header-bg;
+  border: 1px solid $atum-border-color;
+  border-bottom: 0;
   border-radius: $border-radius $border-radius 0 0;
-  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, .15), 0 -1px 0 rgba(0, 0, 0, .03), 0 -4px 0 rgba(0,0,0,.05) inset, 0 0 3px rgba(0,0,0,.075);
+  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, .15), 0 -4px 0 rgba(0,0,0,.05) inset, $atum-box-shadow;
   .nav-item {
     margin-bottom: 0;
     margin-left: 0;
@@ -32,7 +33,7 @@
     border-top-right-radius: 0;
     box-shadow: -1px 0 0 rgba(0, 0, 0, .05);
     &.active {
-      background-color: rgba(0,0,0,.03);
+      background-color: $atum-tabs-active-bg;
       background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.05) 100%);
       border-right: 0;
       border-left: 0;
@@ -46,7 +47,7 @@
         left: 0;
         height: 5px;
         content: "";
-        background-color: $brand-primary;
+        background-color: $atum-tabs-active-highlight;
         opacity: .8;
       }
     }
@@ -54,7 +55,9 @@
 }
 .tab-content {
   padding: 15px;
-  background: $white;
+  background: $white-offset;
+  border: 1px solid;
+  border-color: $atum-border-color;
   border-radius: 0 0 $border-radius $border-radius;
-  box-shadow: 0 0 3px rgba(0,0,0,.075);
+  box-shadow: $atum-box-shadow;
 }

@@ -13,7 +13,6 @@
 				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC" />
 
 			<field name="menu-anchor_rel" type="list"
-				class="custom-select"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_REL_LABEL"
 				description="COM_MENUS_ITEM_FIELD_ANCHOR_REL_DESC"
 				default=""
