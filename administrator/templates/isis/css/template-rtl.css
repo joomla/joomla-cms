@@ -8551,6 +8551,12 @@ body.modal-open {
 .popover-content {
 	min-height: 33px;
 }
+.lead,
+.navbar .brand,
+.hero-unit,
+.hero-unit .lead {
+	font-weight: 400;
+}
 .pull-right {
 	float: left;
 }
