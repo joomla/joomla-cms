@@ -1024,14 +1024,11 @@ abstract class JFormField
 	 *
 	 * @since   3.5
 	 */
-	protected function getLayoutPaths(JLayoutFile $renderer = null)
+	protected function getLayoutPaths()
 	{
-		if ($renderer)
-		{
-			return $renderer->getDefaultIncludePaths();
-		}
+		$renderer = new JLayoutFile;
 
-		return array();
+		return $renderer->getDefaultIncludePaths();
 	}
 
 	/**
@@ -1049,7 +1046,7 @@ abstract class JFormField
 
 		$renderer->setDebug($this->isDebugEnabled());
 
-		$layoutPaths = $this->getLayoutPaths($renderer);
+		$layoutPaths = $this->getLayoutPaths();
 
 		if ($layoutPaths)
 		{
