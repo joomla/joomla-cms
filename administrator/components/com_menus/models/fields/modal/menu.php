@@ -24,6 +24,67 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $type = 'Modal_Menu';
+	
+	/**
+	 * Determinate, if the select button is shown
+	 *
+	 * @var     boolean
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $allowSelect = true;
+	
+	/**
+	 * Determinate, if the clear button is shown
+	 *
+	 * @var     boolean
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $allowClear = true;
+	
+	/**
+	 * Determinate, if the create button is shown
+	 *
+	 * @var     boolean
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $allowNew = false;
+	
+	/**
+	 * Determinate, if the edit button is shown
+	 *
+	 * @var     boolean
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $allowEdit = false;
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$return = parent::setup($element, $value, $group);
+
+		if ($return)
+		{
+			$this->allowSelect = ((string) $this->element['select']) !== 'false';
+			$this->allowClear = ((string) $this->element['clear']) !== 'false';
+			$this->allowNew = ((string) $this->element['new']) === 'true';
+			$this->allowEdit = ((string) $this->element['edit']) === 'true';
+		}
+
+		return $return;
+	}
 
 	/**
 	 * Method to get the field input markup.
@@ -34,11 +95,6 @@ class JFormFieldModal_Menu extends JFormField
 	 */
 	protected function getInput()
 	{
-		$allowNew    = ((string) $this->element['new'] == 'true');
-		$allowEdit   = ((string) $this->element['edit'] == 'true');
-		$allowClear  = ((string) $this->element['clear'] != 'false');
-		$allowSelect = ((string) $this->element['select'] != 'false');
-
 		// Load language
 		JFactory::getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
 
@@ -53,7 +109,7 @@ class JFormFieldModal_Menu extends JFormField
 		JHtml::_('script', 'system/modal-fields.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
-		if ($allowSelect)
+		if ($this->allowSelect)
 		{
 			static $scriptSelect = null;
 
@@ -117,7 +173,7 @@ class JFormFieldModal_Menu extends JFormField
 		$html .= '<input class="input-medium" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35" />';
 
 		// Select menu item button
-		if ($allowSelect)
+		if ($this->allowSelect)
 		{
 			$html .= '<a'
 				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
@@ -131,7 +187,7 @@ class JFormFieldModal_Menu extends JFormField
 		}
 
 		// New menu item button
-		if ($allowNew)
+		if ($this->allowNew)
 		{
 			$html .= '<a'
 				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
@@ -145,7 +201,7 @@ class JFormFieldModal_Menu extends JFormField
 		}
 
 		// Edit menu item button
-		if ($allowEdit)
+		if ($this->allowEdit)
 		{
 			$html .= '<a'
 				. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
@@ -159,7 +215,7 @@ class JFormFieldModal_Menu extends JFormField
 		}
 
 		// Clear menu item button
-		if ($allowClear)
+		if ($this->allowClear)
 		{
 			$html .= '<a'
 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
@@ -173,7 +229,7 @@ class JFormFieldModal_Menu extends JFormField
 		$html .= '</span>';
 
 		// Select menu item modal
-		if ($allowSelect)
+		if ($this->allowSelect)
 		{
 			$html .= JHtml::_(
 				'bootstrap.renderModal',
@@ -191,7 +247,7 @@ class JFormFieldModal_Menu extends JFormField
 		}
 
 		// New menu item modal
-		if ($allowNew)
+		if ($this->allowNew)
 		{
 			$html .= JHtml::_(
 				'bootstrap.renderModal',
@@ -220,7 +276,7 @@ class JFormFieldModal_Menu extends JFormField
 		}
 
 		// Edit menu item modal
-		if ($allowEdit)
+		if ($this->allowEdit)
 		{
 			$html .= JHtml::_(
 				'bootstrap.renderModal',
