@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.form.option');
+
 /**
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
@@ -103,19 +105,28 @@ class JFormFieldList extends JFormField
 
 		foreach ($this->element->xpath('option') as $option)
 		{
-			// Filter requirements
-			if ($requires = explode(',', (string) $option['requires']))
-			{
-				// Requires multilanguage
-				if (in_array('multilanguage', $requires) && !JLanguageMultilang::isEnabled())
-				{
-					continue;
-				}
+			$options = array_merge($options, JFormOption::getOptions($option, $this->fieldname));
+		}
 
-				// Requires associations
-				if (in_array('associations', $requires) && !JLanguageAssociations::isEnabled())
+		reset($options);
+
+		// If the field is readonly, disable the options unless they have the field's default value.
+		if ($this->readonly && isset($this->value))
+		{
+			if ($this->multiple && is_array($this->value) && !empty($this->value))
+			{
+				foreach ($options as $option)
 				{
-					continue;
+					$option->disabled = !in_array((string) $option->value, $this->value);
+				}
+			}
+			else
+			{
+				$default = (string) $this->value;
+
+				foreach ($options as $option)
+				{
+					$option->disabled = (string) $option->value != $default;
 				}
 
 				// Requires vote plugin enabled
@@ -139,23 +150,21 @@ class JFormFieldList extends JFormField
 			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
 
 			$tmp = array(
-					'value'    => $value,
-					'text'     => JText::alt($text, $fieldname),
-					'disable'  => $disabled,
-					'class'    => (string) $option['class'],
-					'selected' => ($checked || $selected),
-					'checked'  => ($checked || $selected),
-				);
+				'value'    => $value,
+				'text'     => JText::alt($text, $fieldname),
+				'disable'  => $disabled,
+				'class'    => (string) $option['class'],
+				'selected' => ($checked || $selected),
+				'checked'  => ($checked || $selected),
+			);
 
 			// Set some event handler attributes. But really, should be using unobtrusive js.
 			$tmp['onclick']  = (string) $option['onclick'];
-			$tmp['onchange']  = (string) $option['onchange'];
+			$tmp['onchange'] = (string) $option['onchange'];
 
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
 		}
-
-		reset($options);
 
 		return $options;
 	}

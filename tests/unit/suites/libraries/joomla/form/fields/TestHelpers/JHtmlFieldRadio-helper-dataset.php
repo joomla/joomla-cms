@@ -23,7 +23,11 @@ class JHtmlFieldRadioTest_DataSet
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 			),
-			'<fieldset id="myTestId" class="radio" ></fieldset>',
+			// Matcher
+			array(
+				'id' => 'myTestId',
+				'attributes' => array('class' => 'radio')
+			),
 		),
 
 		'Options' => array(
@@ -35,7 +39,23 @@ class JHtmlFieldRadioTest_DataSet
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 			),
-			'<fieldset id="myTestId" class="radio" ><label class="radio"><input type="radio" name="myTestName" value="1" />Yes</label><label class="radio"><input type="radio" name="myTestName" value="0" />No</label></fieldset>'
+			// Matchers
+			array(
+				'id' => 'myTestId0',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'value' => "1"
+				),
+				'ancestor' => array('id' => 'myTestId')
+			),
+			array(
+				'id' => 'myTestId1',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'value' => "0"
+				),
+				'ancestor' => array('id' => 'myTestId')
+			),
 		),
 
 		'FieldClass' => array(
@@ -45,7 +65,13 @@ class JHtmlFieldRadioTest_DataSet
 				'name' => 'myTestName',
 				'class' => 'foo bar',
 			),
-			'<fieldset id="myTestId" class="radio foo bar" ></fieldset>',
+			// Matcher
+			array(
+				'id' => 'myTestId',
+				'attributes' => array(
+					'class' => 'foo bar radio'
+				)
+			),
 		),
 
 		'OptionClass' => array(
@@ -57,7 +83,25 @@ class JHtmlFieldRadioTest_DataSet
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 			),
-			'<fieldset id="myTestId" class="radio" ><label class="radio foo"><input type="radio" name="myTestName" value="1" />Yes</label><label class="radio bar"><input type="radio" name="myTestName" value="0" />No</label></fieldset>',
+			// Matchers
+			array(
+				'id' => 'myTestId0',
+				'attributes' => array(
+					'class' => 'foo',
+					'name' => 'myTestName',
+					'value' => "1"
+				),
+				'ancestor' => array('id' => 'myTestId')
+			),
+			array(
+				'id' => 'myTestId1',
+				'attributes' => array(
+					'class' => 'bar',
+					'name' => 'myTestName',
+					'value' => "0"
+				),
+				'ancestor' => array('id' => 'myTestId')
+			),
 		),
 
 		'FieldDisabled' => array(
@@ -70,7 +114,29 @@ class JHtmlFieldRadioTest_DataSet
 				'name' => 'myTestName',
 				'disabled' => true,
 			),
-			'<fieldset id="myTestId" class="radio" disabled ><label class="radio"><input type="radio" name="myTestName" value="1" />Yes</label><label class="radio"><input type="radio" name="myTestName" value="0" />No</label></fieldset>',
+			// Matchers
+			array(
+				'id' => 'myTestId0',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'disabled' => true
+				),
+				'ancestor' => array(
+					'id' => 'myTestId',
+					'attributes' => array('disabled' => true)
+				)
+			),
+			array(
+				'id' => 'myTestId1',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'disabled' => true
+				),
+				'ancestor' => array(
+					'id' => 'myTestId',
+					'attributes' => array('disabled' => true)
+				)
+			),
 		),
 
 		'OptionDisabled' => array(
@@ -82,7 +148,29 @@ class JHtmlFieldRadioTest_DataSet
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 			),
-			'<fieldset id="myTestId" class="radio" ><label class="radio"><input type="radio" name="myTestName" value="1" disabled />Yes</label><label class="radio"><input type="radio" name="myTestName" value="0" />No</label></fieldset>',
+			// Matchers
+			array(
+				'id' => 'myTestId0',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'disabled' => true
+				),
+				'ancestor' => array(
+					'id' => 'myTestId',
+					'attributes' => array('disabled' => false)
+				)
+			),
+			array(
+				'id' => 'myTestId1',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'disabled' => false
+				),
+				'ancestor' => array(
+					'id' => 'myTestId',
+					'attributes' => array('disabled' => false)
+				)
+			),
 		),
 
 		'ReadonlyChecked' => array(
@@ -97,7 +185,40 @@ class JHtmlFieldRadioTest_DataSet
 				'readonly' => true,
 				'value' => '0',
 			),
-			'<fieldset id="myTestId" class="radio" ><label class="radio"><input type="radio" name="myTestName" value="1" disabled />Yes</label><label class="radio"><input type="radio" name="myTestName" value="0" checked="checked" />No</label><label class="radio"><input type="radio" name="myTestName" value="-1" disabled />None</label></fieldset>',
+			// Matchers
+			array(
+				'id' => 'myTestId0',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'checked' => false,
+					'value' => 1
+				),
+				'ancestor' => array(
+					'id' => 'myTestId',
+				)
+			),
+			array(
+				'id' => 'myTestId1',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'checked' => true,
+					'value' => 0
+				),
+				'ancestor' => array(
+					'id' => 'myTestId',
+				)
+			),
+			array(
+				'id' => 'myTestId2',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'checked' => false,
+					'value' => -1
+				),
+				'ancestor' => array(
+					'id' => 'myTestId',
+				)
+			),
 		),
 
 		'Autofocus' => array(
@@ -107,7 +228,13 @@ class JHtmlFieldRadioTest_DataSet
 				'name' => 'myTestName',
 				'autofocus' => true,
 			),
-			'<fieldset id="myTestId" class="radio" autofocus ></fieldset>',
+			// Matcher
+			array(
+				'id' => 'myTestId',
+				'attributes' => array(
+					'autofocus' => null
+				)
+			),
 		),
 
 		'OnclickOnchange' => array(
@@ -119,7 +246,29 @@ class JHtmlFieldRadioTest_DataSet
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 			),
-			'<fieldset id="myTestId" class="radio" ><label class="radio"><input type="radio" name="myTestName" value="1" onclick="foo();" />Yes</label><label class="radio"><input type="radio" name="myTestName" value="0" onchange="bar();" />No</label></fieldset>',
+			// Matchers
+			array(
+				'id' => 'myTestId0',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'onclick' => 'foo();',
+					'onchange' => false
+				),
+				'ancestor' => array(
+					'id' => 'myTestId',
+				)
+			),
+			array(
+				'id' => 'myTestId1',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'onclick' => false,
+					'onchange' => 'bar();'
+				),
+				'ancestor' => array(
+					'id' => 'myTestId',
+				)
+			),
 		),
 
 		'Required' => array(
@@ -132,7 +281,37 @@ class JHtmlFieldRadioTest_DataSet
 				'name' => 'myTestName',
 				'required' => true,
 			),
-			'<fieldset id="myTestId" class="radio" required aria-required="true" ><label class="radio"><input type="radio" name="myTestName" value="1" required aria-required="true" />Yes</label><label class="radio"><input type="radio" name="myTestName" value="0" />No</label></fieldset>',
+			// Matchers
+			array(
+				'id' => 'myTestId0',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'aria-required' => 'true',
+					'required' => null
+				),
+				'ancestor' => array(
+					'id' => 'myTestId',
+					'attributes' => array(
+						'aria-required' => 'true',
+						'required' => null
+					),
+				)
+			),
+			array(
+				'id' => 'myTestId1',
+				'attributes' => array(
+					'name' => 'myTestName',
+					'aria-required' => 'true',
+					'required' => null
+				),
+				'ancestor' => array(
+					'id' => 'myTestId',
+					'attributes' => array(
+						'aria-required' => 'true',
+						'required' => null
+					),
+				)
+			),
 		),
 	);
 }
