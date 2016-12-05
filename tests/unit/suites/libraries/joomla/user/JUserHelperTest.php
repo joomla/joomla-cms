@@ -437,10 +437,14 @@ class JUserHelperTest extends TestCaseDatabase
 		$this->assertSame('{crypt}myA38Ex7aHbws', $password, 'Password is hashed to crypt-md5 with salt with encryption prefix');
 		$this->assertSame('my', substr($password, 7, 2), 'Password hash uses expected salt');
 
-		$this->assertTrue(
-			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-blowfish')) === 13,
-			'Password is hashed to crypt-blowfish without salt'
-		);
+		if (!defined('HHVM_VERSION'))
+		{
+			// This portion of the test has a configuration issue on HHVM and is skipped
+			$this->assertTrue(
+				strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-blowfish')) === 13,
+				'Password is hashed to crypt-blowfish without salt'
+			);
+		}
 
 		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt-blowfish');
 
