@@ -7,7 +7,7 @@
   }
 
   .card {
-    box-shadow: 0 0 3px rgba(0,0,0,.075);
+    box-shadow: $atum-box-shadow;
 
     .list-group {
       margin-top: 0;
@@ -64,7 +64,7 @@
     background-color: $atum-card-title-bg;
     border-bottom: 1px solid rgba(0,0,0,.125);
     border-radius: $border-radius $border-radius 0 0;
-    box-shadow: 0 1px $white inset, 0 2px 3px -3px rgba(0, 0, 0, .15);
+    box-shadow: 0 1px $white-offset inset, 0 2px 3px -3px rgba(0, 0, 0, .15);
   }
 
   .module-dropdown {
@@ -80,13 +80,14 @@
       line-height: 2.95em;
       color: $gray;
       text-align: center;
-      border-left: 1px solid rgba(0,0,0,.125);
-      box-shadow: 1px 0 $white inset;
+      background-color: $atum-card-title-icon-bg;
+      border-left: 1px solid $atum-border-color;
+      border-top-right-radius: $border-radius;
+      box-shadow: 1px 0 $white-offset inset;
 
       &:hover, &[aria-expanded*="true"] {
-        background-color: darken($atum-card-title-bg, 2%);
-        border-left-color: transparent;
-        box-shadow: 1px 0 rgba(0,0,0,.1) inset;
+        background-color: $atum-card-title-icon-bg-hover;
+        box-shadow: none;
       }
     }
   }

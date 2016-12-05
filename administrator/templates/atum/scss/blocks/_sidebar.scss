@@ -127,7 +127,7 @@
       border-bottom: 1px solid rgba(255,255,255,.05);
     }
     >.no-dropdown {
-      color: $white;
+      color: $white-offset;
     }
   }
 
@@ -137,7 +137,7 @@
     a {
       position: relative;
       display: block;
-      color: $white;
+      color: $white-offset;
       text-decoration: none;
       cursor: pointer;
       box-shadow: inset 0 1px 0 rgba(255,255,255,.05), inset 0 -1px rgba(0,0,0,.3);
@@ -163,7 +163,7 @@
       }
 
       &:hover {
-        color: $white;
+        color: $white-offset;
         text-decoration: none;
         background-color: rgba(0,0,0,.2);
         box-shadow: inset 0 -1px rgba(0,0,0,.2);
@@ -176,7 +176,7 @@
 
     }
     a:not([href]):not([tabindex]) {
-      color: $white;
+      color: $white-offset;
     }
     ul {
       display: none;
@@ -218,10 +218,11 @@
   }
 
   .collapse-level-1 {
-    background: rgba(0,0,0,.4);
+    background: $atum-level-1-bg;
   }
 
   .collapse-level-2 {
+    background: $atum-level-2-bg;
     > li > a {
       text-indent: 30px;
     }
@@ -253,7 +254,7 @@
 
 // Edit view
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
-  color: $white;
+  color: $white-offset;
   cursor: not-allowed;
   background: none;
 }
@@ -279,7 +280,7 @@
         left: 100%;
         width: 220px;
         padding: 0 13px;
-        font-size: $font-size-h5;
+        font-size: $atum-sidebar-item-title;
         font-weight: bold;
         background-color: $atum-template-color;
         border-radius: 0 $border-radius $border-radius 0;
@@ -308,7 +309,7 @@
         right: 10px;
         font-family: FontAwesome;
         font-size: .75rem;
-        color: $white;
+        color: $white-offset;
         content: "\f078";
         opacity: .5;
       }
@@ -319,16 +320,15 @@
       padding: 5px 0 10px;
       margin-top: -1px;
       text-indent: 0;
-      background-color: lighten($atum-template-color, 5%);
       border-bottom-right-radius: $border-radius;
       li {
         position: relative;
-        font-size: $font-size-h5;
+        font-size: $atum-sidebar-item-title;
         line-height: 30px;
         text-indent: 15px;
       }
       a {
-        color: $white;
+        color: $white-offset;
         border: 0;
       }
       a::before {
@@ -351,14 +351,13 @@
         left: 0;
         font-family: FontAwesome;
         font-size: .4rem;
-        color: $white;
+        color: $white-offset;
         content: "\f111";
         opacity: .5;
       }
     }
     .collapse-level-2 {
       padding-bottom: 5px;
-      background-color: lighten($atum-template-color, 7%);
       .sidebar-item-title::before {
         content: "\f10c";
         opacity: .75;

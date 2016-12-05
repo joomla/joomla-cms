@@ -3,14 +3,15 @@
 .dropdown-menu {
   padding: .2rem 0;
   margin-top: .5rem;
-  background-color: $white;
+  background-color: $white-offset;
+  border-color: $atum-border-color;
   &::after {
     position: absolute;
     top: -1.5rem;
     left: .9rem;
     font-family: FontAwesome;
     font-size: 1.6rem;
-    color: $white;
+    color: $white-offset;
     text-shadow: 0 -1px 0 rgba(0,0,0,.2);
     content: "\f0d8";
   }
