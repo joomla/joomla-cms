@@ -729,6 +729,41 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = $custom_button;
 		}
 
+		$externalPlugins  = array();
+		$joomlaLanguages  = array();
+		$jLangPlugin      = '';
+
+		if ($this->params->get('langs_wcag', 0) && $this->params->get('langstags'))
+		{
+			include_once __DIR__ . '/helpers/tinymce.php';
+
+			JText::script('PLG_TINY_LANGUAGES_LABEL');
+			JHtml::_('script', 'editors/tinymce/plugin-joomlalanguages.js', array('version' => 'auto', 'relative' => true));
+
+			$toolbar4_add[]    = 'joomlalanguages';
+			$jLangPlugin       = 'joomlalanguages';
+			$extended_elements = 'span[lang|dir|class|[xml:lang]],' . $extended_elements;
+
+			$availLangs        = TinymceHelper::getAllLanguages();
+			$selectedLangs     = (array) $this->params->get('langstags', '');
+			$selectedLangs     = array_flip($selectedLangs);
+
+			foreach ($availLangs as $key => $value)
+			{
+				if (empty($value['code']) || !array_key_exists($value['code'], $selectedLangs))
+				{
+					unset($availLangs[$key]);
+				}
+			}
+
+			$joomlaLanguages['languages'] = array_values($availLangs);
+		}
+
+		if ($extended_elements != "")
+		{
+			$elements[] = $extended_elements;
+		}
+
 		// We shall put the XTD button inside tinymce
 		$btns      = $this->tinyButtons($id, $buttons);
 		$btnsNames = $btns['names'];
@@ -829,9 +864,13 @@ class PlgEditorTinymce extends JPlugin
 			'document_base_url'  => JUri::root(true) . '/',
 			'paste_data_images'  => $allowImgPaste,
 
+			'external_plugins'   => $externalPlugins,
+			'joomla_languages'   => $joomlaLanguages,
+
 			// @TODO make it better, do not generate JavaScript in PHP !!!
 			'setupCallbackString' => $tinyBtns,
 		);
+
 
 		if ($this->params->get('newlines'))
 		{
@@ -878,8 +917,8 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
-				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ' . $dragDropPlg;
-				$scriptOptions['toolbar1'] = $toolbar1 . ' | ' . $toolbar5;
+				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ' . $dragDropPlg . ' ' . $jLangPlugin;
+				$scriptOptions['toolbar1'] = $toolbar1 . ' | ' . ' joomlalanguages ' . $toolbar5;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['importcss_append']  = true;
 				$scriptOptions['height'] = $html_height;
@@ -922,7 +961,7 @@ class PlgEditorTinymce extends JPlugin
 
 		$options['tinyMCE']['default'] = $scriptOptions;
 
-		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
+		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}.mce-btn-small .mce-ico { font-family: 'tinymce',Arial !important;;}");
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
 
 		return $editor;
@@ -965,7 +1004,7 @@ class PlgEditorTinymce extends JPlugin
 				// Set some vars
 				$name    = 'button-' . $i . str_replace(" ", "", $button->get('text'));
 				$title   = $button->get('text');
-				$onclick = ($button->get('onclick')) ? $button->get('onclick') : null;
+				$onclick = $button->get('onclick') ? $button->get('onclick') : null;
 				$options = $button->get('options');
 				$icon    = $button->get('name');
 
@@ -983,7 +1022,7 @@ class PlgEditorTinymce extends JPlugin
 
 				// Now we can built the script
 				$tempConstructor = '
-			!(function(){';
+			;(function(){';
 
 				// Get the modal width/height
 				if ($options && is_scalar($options))
