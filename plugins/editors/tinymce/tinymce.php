@@ -874,7 +874,8 @@ class PlgEditorTinymce extends JPlugin
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
 					. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
-
+					
+				$scriptOptions['valid_children'] = '+a[div|p|h1|h2|h3|h4|h5|h6]';
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
@@ -889,6 +890,7 @@ class PlgEditorTinymce extends JPlugin
 				break;
 
 			case 2: /* Extended mode*/
+				$scriptOptions['valid_children'] = '+a[div|p|h1|h2|h3|h4|h5|h6]';
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
