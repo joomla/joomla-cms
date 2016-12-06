@@ -113,7 +113,7 @@ $saveOrder = $listOrder == 'ordering';
 				</th>
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
-					<?php if ($canOrder && $saveOrder) :?>
+					<?php if ($canOrder && $saveOrder) : ?>
 						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'modules.saveorder'); ?>
 					<?php endif; ?>
 				</th>
