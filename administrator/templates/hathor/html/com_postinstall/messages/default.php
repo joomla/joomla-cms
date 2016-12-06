@@ -39,7 +39,7 @@ $params         = array('params' => json_encode($param));
 ?>
 	<h2><?php echo JText::_('COM_POSTINSTALL_LBL_MESSAGES') ?></h2>
 <?php endif; ?>
-	<?php foreach($this->items as $item): ?>
+	<?php foreach ($this->items as $item): ?>
 	<fieldset>
 		<legend><?php echo JText::_($item->title_key) ?></legend>
 		<p class="small">
