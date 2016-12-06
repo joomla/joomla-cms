@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="component">
+	<fieldset name="component"
+			label="COM_SEARCH_CONFIG_SEARCH_OPTIONS_LABEL"
+			description="COM_SEARCH_CONFIG_SEARCH_OPTIONS_FIELDSET_DESC">
+
 		<field
 			name="enabled"
 			type="radio"
