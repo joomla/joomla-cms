@@ -56,7 +56,7 @@ class ModMenuHelper
 				{
 					$item->parent = false;
 
-					if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id)
+					if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id && $item->params->get('menu_show', 1) == 1)
 					{
 						$items[$lastitem]->parent = true;
 					}
