@@ -54,6 +54,13 @@ class ModMenuHelper
 			{
 				foreach ($items as $i => $item)
 				{
+					$item->parent = false;
+
+					if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id && $item->params->get('menu_show', 1) == 1)
+					{
+						$items[$lastitem]->parent = true;
+					}
+
 					if (($start && $start > $item->level)
 						|| ($end && $item->level > $end)
 						|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
@@ -81,8 +88,6 @@ class ModMenuHelper
 						$items[$lastitem]->shallower  = ($item->level < $items[$lastitem]->level);
 						$items[$lastitem]->level_diff = ($items[$lastitem]->level - $item->level);
 					}
-
-					$item->parent = (boolean) $menu->getItems('parent_id', (int) $item->id, true);
 
 					$lastitem     = $i;
 					$item->active = false;
@@ -188,18 +193,28 @@ class ModMenuHelper
 	public static function getActive(&$params)
 	{
 		$menu = JFactory::getApplication()->getMenu();
+
+		return $menu->getActive() ? $menu->getActive() : self::getDefault();
+	}
+
+	/**
+	 * Get default menu item (home page) for current language.
+	 *
+	 * @return  object
+	 */
+	public static function getDefault()
+	{
+		$menu = JFactory::getApplication()->getMenu();
 		$lang = JFactory::getLanguage();
 
 		// Look for the home menu
 		if (JLanguageMultilang::isEnabled())
 		{
-			$home = $menu->getDefault($lang->getTag());
+			return $menu->getDefault($lang->getTag());
 		}
 		else
 		{
-			$home  = $menu->getDefault();
+			return $menu->getDefault();
 		}
-
-		return $menu->getActive() ? $menu->getActive() : $home;
 	}
 }

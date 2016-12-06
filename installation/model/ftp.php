@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * FTP configuration model for the Joomla Core Installer.
  *
@@ -27,12 +29,8 @@ class InstallationModelFtp extends JModelBase
 	 */
 	public function detectFtpRoot($options)
 	{
-		// Get the application.
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
-		// Get the options as a object for easier handling.
-		$options = JArrayHelper::toObject($options);
+		// Get the options as an object for easier handling.
+		$options = ArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.
 		// Use binary transfer mode to be able to compare files.
@@ -41,14 +39,16 @@ class InstallationModelFtp extends JModelBase
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected())
 		{
-			$app->enqueueMessage($options->get('ftp_host') . ':' . $options->get('ftp_port') . ' ' . JText::_('INSTL_FTP_NOCONNECT'), 'error');
+			JFactory::getApplication()->enqueueMessage(
+				$options->get('ftp_host') . ':' . $options->get('ftp_port') . ' ' . JText::_('INSTL_FTP_NOCONNECT'), 'error'
+			);
 
 			return false;
 		}
 
 		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass')))
 		{
-			$app->enqueueMessage(JText::_('INSTL_FTP_NOLOGIN'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOLOGIN'), 'error');
 
 			return false;
 		}
@@ -58,7 +58,7 @@ class InstallationModelFtp extends JModelBase
 
 		if ($cwd === false)
 		{
-			$app->enqueueMessage(JText::_('INSTL_FTP_NOPWD'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOPWD'), 'error');
 
 			return false;
 		}
@@ -70,7 +70,7 @@ class InstallationModelFtp extends JModelBase
 
 		if ($cwdFolders === false || count($cwdFolders) == 0)
 		{
-			$app->enqueueMessage(JText::_('INSTL_FTP_NODIRECTORYLISTING'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NODIRECTORYLISTING'), 'error');
 
 			return false;
 		}
@@ -105,18 +105,20 @@ class InstallationModelFtp extends JModelBase
 		}
 
 		// Check all possible paths for the real Joomla installation by comparing version files.
-		$rootPath = false;
+		$rootPath   = false;
 		$checkValue = file_get_contents(JPATH_LIBRARIES . '/cms/version/version.php');
 
 		foreach ($paths as $tmp)
 		{
 			$filePath = rtrim($tmp, '/') . '/libraries/cms/version/version.php';
-			$buffer = null;
-			@ $ftp->read($filePath, $buffer);
+			$buffer   = null;
+
+			@$ftp->read($filePath, $buffer);
 
 			if ($buffer == $checkValue)
 			{
 				$rootPath = $tmp;
+
 				break;
 			}
 		}
@@ -127,7 +129,7 @@ class InstallationModelFtp extends JModelBase
 		// Return an error if no root path was found.
 		if ($rootPath === false)
 		{
-			$app->enqueueMessage(JText::_('INSTL_FTP_UNABLE_DETECT_ROOT_FOLDER'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_UNABLE_DETECT_ROOT_FOLDER'), 'error');
 
 			return false;
 		}
@@ -146,12 +148,8 @@ class InstallationModelFtp extends JModelBase
 	 */
 	public function verifyFtpSettings($options)
 	{
-		// Get the application.
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
-		// Get the options as a object for easier handling.
-		$options = JArrayHelper::toObject($options);
+		// Get the options as an object for easier handling.
+		$options = ArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.
 		@$ftp = JClientFtp::getInstance($options->get('ftp_host'), $options->get('ftp_port'));
@@ -159,7 +157,7 @@ class InstallationModelFtp extends JModelBase
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected())
 		{
-			$app->enqueueMessage(JText::_('INSTL_FTP_NOCONNECT'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOCONNECT'), 'error');
 
 			return false;
 		}
@@ -167,7 +165,7 @@ class InstallationModelFtp extends JModelBase
 		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass')))
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_NOLOGIN'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOLOGIN'), 'error');
 
 			return false;
 		}
@@ -180,7 +178,7 @@ class InstallationModelFtp extends JModelBase
 		if ($ftp->pwd() === false)
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_NOPWD'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOPWD'), 'error');
 
 			return false;
 		}
@@ -189,7 +187,7 @@ class InstallationModelFtp extends JModelBase
 		if (!$ftp->chdir($root))
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_NOROOT'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOROOT'), 'error');
 
 			return false;
 		}
@@ -198,7 +196,7 @@ class InstallationModelFtp extends JModelBase
 		if (($rootList = $ftp->listNames()) === false)
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_NONLST'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NONLST'), 'error');
 
 			return false;
 		}
@@ -207,7 +205,7 @@ class InstallationModelFtp extends JModelBase
 		if ($ftp->listDetails() === false)
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_NOLIST'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOLIST'), 'error');
 
 			return false;
 		}
@@ -216,7 +214,7 @@ class InstallationModelFtp extends JModelBase
 		if ($ftp->syst() === false)
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_NOSYST'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOSYST'), 'error');
 
 			return false;
 		}
@@ -227,7 +225,7 @@ class InstallationModelFtp extends JModelBase
 		if (count(array_diff($checkList, $rootList)))
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_INVALIDROOT'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_INVALIDROOT'), 'error');
 
 			return false;
 		}
@@ -238,7 +236,7 @@ class InstallationModelFtp extends JModelBase
 		if ($ftp->read($root . '/libraries/cms/version/version.php', $buffer) === false)
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_NORETR'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NORETR'), 'error');
 
 			return false;
 		}
@@ -249,7 +247,7 @@ class InstallationModelFtp extends JModelBase
 		if ($buffer !== $checkValue)
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_INVALIDROOT'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_INVALIDROOT'), 'error');
 
 			return false;
 		}
@@ -258,7 +256,7 @@ class InstallationModelFtp extends JModelBase
 		if ($ftp->create($root . '/ftp_testfile') === false)
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_NOSTOR'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOSTOR'), 'error');
 
 			return false;
 		}
@@ -267,7 +265,7 @@ class InstallationModelFtp extends JModelBase
 		if ($ftp->delete($root . '/ftp_testfile') === false)
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_NODELE'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NODELE'), 'error');
 
 			return false;
 		}
@@ -276,7 +274,7 @@ class InstallationModelFtp extends JModelBase
 		if ($ftp->mkdir($root . '/ftp_testdir') === false)
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_NOMKD'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOMKD'), 'error');
 
 			return false;
 		}
@@ -285,7 +283,7 @@ class InstallationModelFtp extends JModelBase
 		if ($ftp->delete($root . '/ftp_testdir') === false)
 		{
 			$ftp->quit();
-			$app->enqueueMessage(JText::_('INSTL_FTP_NORMD'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NORMD'), 'error');
 
 			return false;
 		}

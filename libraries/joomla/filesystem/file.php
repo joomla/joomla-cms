@@ -27,9 +27,14 @@ class JFile
 	 */
 	public static function getExt($file)
 	{
-		$dot = strrpos($file, '.') + 1;
+		$dot = strrpos($file, '.');
 
-		return substr($file, $dot);
+		if ($dot === false)
+		{
+			return '';
+		}
+
+		return (string) substr($file, $dot + 1);
 	}
 
 	/**
@@ -377,14 +382,14 @@ class JFile
 	 * Write contents to a file
 	 *
 	 * @param   string   $file         The full file path
-	 * @param   string   &$buffer      The buffer to write
+	 * @param   string   $buffer       The buffer to write
 	 * @param   boolean  $use_streams  Use streams
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
-	public static function write($file, &$buffer, $use_streams = false)
+	public static function write($file, $buffer, $use_streams = false)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
@@ -443,14 +448,14 @@ class JFile
 	 * Append contents to a file
 	 *
 	 * @param   string   $file         The full file path
-	 * @param   string   &$buffer      The buffer to write
+	 * @param   string   $buffer       The buffer to write
 	 * @param   boolean  $use_streams  Use streams
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
-	public static function append($file, &$buffer, $use_streams = false)
+	public static function append($file, $buffer, $use_streams = false)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
@@ -484,8 +489,7 @@ class JFile
 			if ($FTPOptions['enabled'] == 1)
 			{
 				// Connect the FTP client
-				jimport('joomla.client.ftp');
-				$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account and use FTP write buffer to file
 				$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');

@@ -32,7 +32,8 @@ class PlgEditorCodemirror extends JPlugin
 	 */
 	protected $modeAlias = array(
 			'html' => 'htmlmixed',
-			'ini'  => 'properties'
+			'ini'  => 'properties',
+			'json' => array('name' => 'javascript', 'json' => true),
 		);
 
 	/**
@@ -195,6 +196,15 @@ class PlgEditorCodemirror extends JPlugin
 		// Add styling to the active line.
 		$options->styleActiveLine = (boolean) $this->params->get('activeLine', true);
 
+		// Add styling to the active line.
+		if ($this->params->get('selectionMatches', false))
+		{
+			$options->highlightSelectionMatches = array(
+					'showToken' => true,
+					'annotateScrollbar' => true,
+				);
+		}
+
 		// Do we use line numbering?
 		if ($options->lineNumbers = (boolean) $this->params->get('lineNumbers', 0))
 		{
@@ -221,7 +231,7 @@ class PlgEditorCodemirror extends JPlugin
 		if ($theme = $this->params->get('theme'))
 		{
 			$options->theme = $theme;
-			JHtml::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css');
+			JHtml::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css', array('version' => 'auto'));
 		}
 
 		// Special options for tagged modes (xml/html).

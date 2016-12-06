@@ -70,7 +70,7 @@ $cparams = JComponentHelper::getParams('com_media');
 
 	<?php if ($this->contact->image && $this->params->get('show_image')) : ?>
 		<div class="thumbnail pull-right">
-			<?php echo JHtml::_('image', $this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')); ?>
+			<?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('align' => 'middle')); ?>
 		</div>
 	<?php endif; ?>
 
@@ -139,6 +139,10 @@ $cparams = JComponentHelper::getParams('com_media');
 
 		<?php echo $this->loadTemplate('profile'); ?>
 
+	<?php endif; ?>
+
+	<?php if ($this->params->get('show_user_custom_fields') && $this->contactUser) : ?>
+		<?php echo $this->loadTemplate('user_custom_fields'); ?>
 	<?php endif; ?>
 
 	<?php if ($this->contact->misc && $this->params->get('show_misc')) : ?>

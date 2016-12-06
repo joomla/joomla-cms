@@ -26,7 +26,7 @@
  *  2. Variable declarations and short basic helpers
  *  3. Instance (External API) implementation
  *  4. Internal state tracking objects (input state, counter) implementation
- *     and instanstiation
+ *     and instantiation
  *  5. Key handler (the main command dispatcher) implementation
  *  6. Motion, operator, and action implementations
  *  7. Helper functions for the key handler, motions, operators, and actions
@@ -72,6 +72,7 @@
     { keys: '<PageUp>', type: 'keyToKey', toKeys: '<C-b>' },
     { keys: '<PageDown>', type: 'keyToKey', toKeys: '<C-f>' },
     { keys: '<CR>', type: 'keyToKey', toKeys: 'j^', context: 'normal' },
+    { keys: '<Ins>', type: 'action', action: 'toggleOverwrite', context: 'insert' },
     // Motions
     { keys: 'H', type: 'motion', motion: 'moveToTopLine', motionArgs: { linewise: true, toJumplist: true }},
     { keys: 'M', type: 'motion', motion: 'moveToMiddleLine', motionArgs: { linewise: true, toJumplist: true }},
@@ -226,6 +227,7 @@
     { name: 'sort', shortName: 'sor' },
     { name: 'substitute', shortName: 's', possiblyAsync: true },
     { name: 'nohlsearch', shortName: 'noh' },
+    { name: 'yank', shortName: 'y' },
     { name: 'delmarks', shortName: 'delm' },
     { name: 'registers', shortName: 'reg', excludeFromCommandHistory: true },
     { name: 'global', shortName: 'g' }
@@ -275,6 +277,7 @@
 
     function cmKey(key, cm) {
       if (!cm) { return undefined; }
+      if (this[key]) { return this[key]; }
       var vimKey = cmKeyToVimKey(key);
       if (!vimKey) {
         return false;
@@ -287,7 +290,7 @@
     }
 
     var modifiers = {'Shift': 'S', 'Ctrl': 'C', 'Alt': 'A', 'Cmd': 'D', 'Mod': 'A'};
-    var specialKeys = {Enter:'CR',Backspace:'BS',Delete:'Del'};
+    var specialKeys = {Enter:'CR',Backspace:'BS',Delete:'Del',Insert:'Ins'};
     function cmKeyToVimKey(key) {
       if (key.charAt(0) == '\'') {
         // Keypress character binding of format "'a'"
@@ -641,7 +644,7 @@
         jumpList: createCircularJumpList(),
         macroModeState: new MacroModeState,
         // Recording latest f, t, F or T motion command.
-        lastChararacterSearch: {increment:0, forward:true, selectedCharacter:''},
+        lastCharacterSearch: {increment:0, forward:true, selectedCharacter:''},
         registerController: new RegisterController({}),
         // search history buffer
         searchHistoryController: new HistoryController({}),
@@ -777,8 +780,12 @@
 
           if (lastInsertModeKeyTimer) { window.clearTimeout(lastInsertModeKeyTimer); }
           if (keysAreChars) {
-            var here = cm.getCursor();
-            cm.replaceRange('', offsetCursor(here, 0, -(keys.length - 1)), here, '+input');
+            var selections = cm.listSelections();
+            for (var i = 0; i < selections.length; i++) {
+              var here = selections[i].head;
+              cm.replaceRange('', offsetCursor(here, 0, -(keys.length - 1)), here, '+input');
+            }
+            vimGlobalState.macroModeState.lastInsertModeChanges.changes.pop();
           }
           clearInputState(cm);
           return match.command;
@@ -815,7 +822,7 @@
           // TODO: Look into using CodeMirror's multi-key handling.
           // Return no-op since we are caching the key. Counts as handled, but
           // don't want act on it just yet.
-          return function() {};
+          return function() { return true; };
         } else {
           return function() {
             return cm.operation(function() {
@@ -1047,7 +1054,7 @@
     };
     function HistoryController() {
         this.historyBuffer = [];
-        this.iterator;
+        this.iterator = 0;
         this.initialPrefix = null;
     }
     HistoryController.prototype = {
@@ -1372,7 +1379,7 @@
         }
       },
       evalInput: function(cm, vim) {
-        // If the motion comand is set, execute both the operator and motion.
+        // If the motion command is set, execute both the operator and motion.
         // Otherwise return.
         var inputState = vim.inputState;
         var motion = inputState.motion;
@@ -1909,7 +1916,7 @@
       },
 
       repeatLastCharacterSearch: function(cm, head, motionArgs) {
-        var lastSearch = vimGlobalState.lastChararacterSearch;
+        var lastSearch = vimGlobalState.lastCharacterSearch;
         var repeat = motionArgs.repeat;
         var forward = motionArgs.forward === lastSearch.forward;
         var increment = (lastSearch.increment ? 1 : 0) * (forward ? -1 : 1);
@@ -2173,6 +2180,17 @@
         var registerName = actionArgs.selectedCharacter;
         macroModeState.enterMacroRecordMode(cm, registerName);
       },
+      toggleOverwrite: function(cm) {
+        if (!cm.state.overwrite) {
+          cm.toggleOverwrite(true);
+          cm.setOption('keyMap', 'vim-replace');
+          CodeMirror.signal(cm, "vim-mode-change", {mode: "replace"});
+        } else {
+          cm.toggleOverwrite(false);
+          cm.setOption('keyMap', 'vim-insert');
+          CodeMirror.signal(cm, "vim-mode-change", {mode: "insert"});
+        }
+      },
       enterInsertMode: function(cm, actionArgs, vim) {
         if (cm.getOption('readOnly')) { return; }
         vim.insertMode = true;
@@ -2218,7 +2236,6 @@
             return;
           }
         }
-        cm.setOption('keyMap', 'vim-insert');
         cm.setOption('disableInput', false);
         if (actionArgs && actionArgs.replace) {
           // Handle Replace-mode as a special case of insert mode.
@@ -2226,6 +2243,7 @@
           cm.setOption('keyMap', 'vim-replace');
           CodeMirror.signal(cm, "vim-mode-change", {mode: "replace"});
         } else {
+          cm.toggleOverwrite(false);
           cm.setOption('keyMap', 'vim-insert');
           CodeMirror.signal(cm, "vim-mode-change", {mode: "insert"});
         }
@@ -3002,7 +3020,7 @@
       // Only clip if the selection ends with trailing newline + whitespace
       if (/\n\s*$/.test(selection)) {
         var lines = selection.split('\n');
-        // We know this is all whitepsace.
+        // We know this is all whitespace.
         lines.pop();
 
         // Cases:
@@ -3088,9 +3106,9 @@
     }
 
     function recordLastCharacterSearch(increment, args) {
-        vimGlobalState.lastChararacterSearch.increment = increment;
-        vimGlobalState.lastChararacterSearch.forward = args.forward;
-        vimGlobalState.lastChararacterSearch.selectedCharacter = args.selectedCharacter;
+        vimGlobalState.lastCharacterSearch.increment = increment;
+        vimGlobalState.lastCharacterSearch.forward = args.forward;
+        vimGlobalState.lastCharacterSearch.selectedCharacter = args.selectedCharacter;
     }
 
     var symbolToMode = {
@@ -3289,8 +3307,6 @@
         line = cm.getLine(lineNum);
         pos = (dir > 0) ? 0 : line.length;
       }
-      // Should never get here.
-      throw new Error('The impossible happened.');
     }
 
     /**
@@ -3452,7 +3468,7 @@
     }
 
     // TODO: perhaps this finagling of start and end positions belonds
-    // in codmirror/replaceRange?
+    // in codemirror/replaceRange?
     function selectCompanionObject(cm, head, symb, inclusive) {
       var cur = head, start, end;
 
@@ -3783,17 +3799,10 @@
       }
     }
     function makePrompt(prefix, desc) {
-      var raw = '';
-      if (prefix) {
-        raw += '<span style="font-family: monospace">' + prefix + '</span>';
-      }
-      raw += '<input type="text"/> ' +
-          '<span style="color: #888">';
-      if (desc) {
-        raw += '<span style="color: #888">';
-        raw += desc;
-        raw += '</span>';
-      }
+      var raw = '<span style="font-family: monospace; white-space: pre">' +
+          (prefix || "") + '<input type="text"></span>';
+      if (desc)
+        raw += ' <span style="color: #888">' + desc + '</span>';
       return raw;
     }
     var searchPromptDesc = '(Javascript regexp)';
@@ -4514,13 +4523,20 @@
         if (CodeMirror.commands.save) {
           // If a save command is defined, call it.
           CodeMirror.commands.save(cm);
-        } else {
-          // Saves to text area if no save command is defined.
+        } else if (cm.save) {
+          // Saves to text area if no save command is defined and cm.save() is available.
           cm.save();
         }
       },
       nohlsearch: function(cm) {
         clearSearchHighlight(cm);
+      },
+      yank: function (cm) {
+        var cur = copyCursor(cm.getCursor());
+        var line = cur.line;
+        var lineText = cm.getLine(line);
+        vimGlobalState.registerController.pushText(
+          '0', 'yank', lineText, true, true);
       },
       delmarks: function(cm, params) {
         if (!params.argString || !trim(params.argString)) {
@@ -4772,13 +4788,6 @@
     CodeMirror.keyMap['vim-insert'] = {
       // TODO: override navigation keys so that Esc will cancel automatic
       // indentation from o, O, i_<CR>
-      'Ctrl-N': 'autocomplete',
-      'Ctrl-P': 'autocomplete',
-      'Enter': function(cm) {
-        var fn = CodeMirror.commands.newlineAndIndentContinueComment ||
-            CodeMirror.commands.newlineAndIndent;
-        fn(cm);
-      },
       fallthrough: ['default'],
       attach: attachVimMap,
       detach: detachVimMap,
@@ -4869,6 +4878,10 @@
           if (changeObj.origin == '+input' || changeObj.origin == 'paste'
               || changeObj.origin === undefined /* only in testing */) {
             var text = changeObj.text.join('\n');
+            if (lastChange.maybeReset) {
+              lastChange.changes = [];
+              lastChange.maybeReset = false;
+            }
             lastChange.changes.push(text);
           }
           // Change objects may be chained with next.
@@ -4891,7 +4904,7 @@
           lastChange.expectCursorActivityForChange = false;
         } else {
           // Cursor moved outside the context of an edit. Reset the change.
-          lastChange.changes = [];
+          lastChange.maybeReset = true;
         }
       } else if (!cm.curOp.isVimOp) {
         handleExternalSelection(cm, vim);
@@ -4955,6 +4968,10 @@
       var keyName = CodeMirror.keyName(e);
       if (!keyName) { return; }
       function onKeyFound() {
+        if (lastChange.maybeReset) {
+          lastChange.changes = [];
+          lastChange.maybeReset = false;
+        }
         lastChange.changes.push(new InsertModeKey(keyName));
         return true;
       }

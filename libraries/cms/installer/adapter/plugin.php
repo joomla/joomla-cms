@@ -155,7 +155,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			array(
 				'element' => $this->element,
 				'type'    => $this->type,
-				'folder'  => $this->group
+				'folder'  => $this->group,
 			)
 		);
 
@@ -515,16 +515,13 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		{
 			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
-			if (is_file($manifestScriptFile))
-			{
-				// Load the file
-				include_once $manifestScriptFile;
-			}
 			// If a dash is present in the folder, remove it
 			$folderClass = str_replace('-', '', $row->folder);
 
 			// Set the class name
 			$classname = 'Plg' . $folderClass . $row->element . 'InstallerScript';
+
+			JLoader::register($classname, $manifestScriptFile);
 
 			if (class_exists($classname))
 			{

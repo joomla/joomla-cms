@@ -85,7 +85,7 @@ class ContactModelContact extends JModelForm
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => true));
+		$form = $this->loadForm('com_contact.mail', 'contact', array('control' => 'jform', 'load_data' => true));
 
 		if (empty($form))
 		{
@@ -166,11 +166,11 @@ class ContactModelContact extends JModelForm
 				$query->select($this->getState('item.select', 'a.*') . ',' . $case_when . ',' . $case_when1)
 					->from('#__contact_details AS a')
 
-				// Join on category table.
+					// Join on category table.
 					->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
 					->join('LEFT', '#__categories AS c on c.id = a.catid')
 
-				// Join over the categories to get parent category titles
+					// Join over the categories to get parent category titles
 					->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
 					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id')
 
@@ -199,19 +199,17 @@ class ContactModelContact extends JModelForm
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->published != $published) && ($data->published != $archived)))
+				if ((is_numeric($published) || is_numeric($archived)) && (($data->published != $published) && ($data->published != $archived)))
 				{
 					JError::raiseError(404, JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'));
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new Registry;
-				$registry->loadString($data->params);
+				$registry = new Registry($data->params);
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new Registry;
-				$registry->loadString($data->metadata);
+				$registry = new Registry($data->metadata);
 				$data->metadata = $registry;
 
 				$data->tags = new JHelperTags;
@@ -273,8 +271,7 @@ class ContactModelContact extends JModelForm
 		$groups    = implode(',', $user->getAuthorisedViewLevels());
 		$published = $this->getState('filter.published');
 
-		$contactParams = new Registry;
-		$contactParams->loadString($contact->params);
+		$contactParams = new Registry($contact->params);
 
 		// If we are showing a contact list, then the contact parameters take priority
 		// So merge the contact parameters with the merged parameters
@@ -359,7 +356,7 @@ class ContactModelContact extends JModelForm
 		}
 
 		// Get the profile information for the linked user
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
 		$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 		$data = $userModel->getItem((int) $contact->user_id);
 
@@ -459,8 +456,7 @@ class ContactModelContact extends JModelForm
 			if ($result)
 			{
 
-				$contactParams = new Registry;
-				$contactParams->loadString($result->params);
+				$contactParams = new Registry($result->params);
 
 				// If we are showing a contact list, then the contact parameters take priority
 				// So merge the contact parameters with the merged parameters
@@ -507,10 +503,7 @@ class ContactModelContact extends JModelForm
 					// Filter per language if plugin published
 					if (JLanguageMultilang::isEnabled())
 					{
-						$query->where(
-							('a.created_by = ' . (int) $result->user_id) . ' AND ' .
-							('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*'))
-						);
+						$query->where('a.language IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 					}
 
 					if (is_numeric($published))
@@ -545,7 +538,7 @@ class ContactModelContact extends JModelForm
 				}
 
 				// Get the profile information for the linked user
-				require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+				JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
 				$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 				$data = $userModel->getItem((int) $result->user_id);
 

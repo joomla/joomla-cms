@@ -6,6 +6,8 @@
 		<field
 			name="search"
 			type="text"
+			label="COM_PLUGINS_FILTER_SEARCH_LABEL"
+			description="COM_PLUGINS_SEARCH_IN_TITLE"
 			hint="JSEARCH_FILTER"
 		/>
 

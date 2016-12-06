@@ -46,7 +46,7 @@
 
   function getAttrValue(text, attr) {
     var match = text.match(getAttrRegexp(attr))
-    return match ? match[2] : ""
+    return match ? /^\s*(.*?)\s*$/.exec(match[2])[1] : ""
   }
 
   function getTagRegexp(tagName, anchored) {
@@ -115,7 +115,7 @@
 
     return {
       startState: function () {
-        var state = htmlMode.startState();
+        var state = CodeMirror.startState(htmlMode);
         return {token: html, inTag: null, localMode: null, localState: null, htmlState: state};
       },
 

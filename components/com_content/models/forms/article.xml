@@ -98,7 +98,8 @@
 			label="JCATEGORY"
 			description="JFIELD_CATEGORY_DESC"
 			class="inputbox"
-			required="true">
+			required="true"
+		>
 		</field>
 
 		<field
@@ -202,6 +203,15 @@
 			description="JFIELD_ACCESS_DESC"
 			class="inputbox"
 			size="1" />
+
+		<field
+			name="captcha"
+			type="captcha"
+			label="COM_CONTENT_CAPTCHA_LABEL"
+			description="COM_CONTENT_CAPTCHA_DESC"
+			validate="captcha"
+			namespace="article" 
+		/>
 	</fieldset>
 		<fields name="images">
 		<fieldset name="image-intro">
@@ -226,11 +236,12 @@
 				name="float_intro"
 				type="list"
 				label="COM_CONTENT_FLOAT_INTRO_LABEL"
-				description="COM_CONTENT_FLOAT_DESC">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="right">COM_CONTENT_RIGHT</option>
-					<option value="left">COM_CONTENT_LEFT</option>
-					<option value="none">COM_CONTENT_NONE</option>
+				description="COM_CONTENT_FLOAT_DESC"
+				useglobal="true"
+				>
+				<option value="right">COM_CONTENT_RIGHT</option>
+				<option value="left">COM_CONTENT_LEFT</option>
+				<option value="none">COM_CONTENT_NONE</option>
 			</field>
 			</fieldset>
 			<fieldset name="image-full">
@@ -255,11 +266,12 @@
 				name="float_fulltext"
 				type="list"
 				label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
-				description="COM_CONTENT_FLOAT_DESC">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="right">COM_CONTENT_RIGHT</option>
-					<option value="left">COM_CONTENT_LEFT</option>
-					<option value="none">COM_CONTENT_NONE</option>
+				description="COM_CONTENT_FLOAT_DESC"
+				useglobal="true"
+				>
+				<option value="right">COM_CONTENT_RIGHT</option>
+				<option value="left">COM_CONTENT_LEFT</option>
+				<option value="none">COM_CONTENT_NONE</option>
 			</field>
 			</fieldset>
 		</fields>

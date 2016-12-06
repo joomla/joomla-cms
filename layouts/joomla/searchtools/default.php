@@ -31,7 +31,7 @@ $formSelector = !empty($data['options']['formSelector']) ? $data['options']['for
 // Load search tools
 JHtml::_('searchtools.form', $formSelector, $data['options']);
 
-$filtersClass = $data['view']->activeFilters ? ' js-stools-container-filters-visible' : '';
+$filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilters ? ' js-stools-container-filters-visible' : '';
 ?>
 <div class="js-stools clearfix">
 	<div class="clearfix">

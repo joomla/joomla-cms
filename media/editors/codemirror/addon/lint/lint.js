@@ -204,7 +204,8 @@
 
     var annotations = [];
     for (var i = 0; i < spans.length; ++i) {
-      annotations.push(spans[i].__annotation);
+      var ann = spans[i].__annotation;
+      if (ann) annotations.push(ann);
     }
     if (annotations.length) popupTooltips(annotations, e);
   }
@@ -225,7 +226,7 @@
       var state = cm.state.lint = new LintState(cm, parseOptions(cm, val), hasLintGutter);
       if (state.options.lintOnChange !== false)
         cm.on("change", onChange);
-      if (state.options.tooltips != false)
+      if (state.options.tooltips != false && state.options.tooltips != "gutter")
         CodeMirror.on(cm.getWrapperElement(), "mouseover", state.onMouseOver);
 
       startLinting(cm);

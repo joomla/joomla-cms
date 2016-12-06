@@ -49,6 +49,7 @@ class ContactModelContacts extends JModelList
 				'publish_down', 'a.publish_down',
 				'ul.name', 'linked_user',
 				'tag',
+				'level', 'c.level',
 			);
 
 			$assoc = JLanguageAssociations::isEnabled();
@@ -94,10 +95,13 @@ class ContactModelContacts extends JModelList
 
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
-		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'string'));
-		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', null, 'int'));
-		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'cmd'));
+		$this->setState('filter.category_id',
+						$this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'string')
+		);
+		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
+		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
 		$this->setState('filter.tag', $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '', 'string'));
+		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', null, 'int'));
 
 		// List state information.
 		parent::populateState($ordering, $direction);
@@ -131,6 +135,7 @@ class ContactModelContacts extends JModelList
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.language');
 		$id .= ':' . $this->getState('filter.tag');
+		$id .= ':' . $this->getState('filter.level');
 
 		return parent::getStoreId($id);
 	}
@@ -244,7 +249,8 @@ class ContactModelContacts extends JModelList
 							'l.image' ,
 							'uc.name' ,
 							'ag.title' ,
-							'c.title'
+							'c.title',
+							'c.level'
 						)
 					)
 				);
@@ -296,13 +302,6 @@ class ContactModelContacts extends JModelList
 			{
 				$query->where('a.id = ' . (int) substr($search, 3));
 			}
-			elseif (stripos($search, 'author:') === 0)
-			{
-				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
-				$query->where(
-					'(' . $db->quoteName('uc.name') . ' LIKE ' . $search . ' OR ' . $db->quoteName('uc.username') . ' LIKE ' . $search . ')'
-				);
-			}
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
@@ -330,6 +329,12 @@ class ContactModelContacts extends JModelList
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_contact.contact')
 				);
+		}
+
+		// Filter on the level.
+		if ($level = $this->getState('filter.level'))
+		{
+			$query->where('c.level <= ' . (int) $level);
 		}
 
 		// Add the list ordering clause.

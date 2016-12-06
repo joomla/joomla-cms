@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * User notes table class
  *
@@ -75,7 +77,6 @@ class UsersTableNote extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    https://docs.joomla.org/JTable/publish
 	 * @since   2.5
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -83,7 +84,7 @@ class UsersTableNote extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state  = (int) $state;
 

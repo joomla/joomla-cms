@@ -257,7 +257,7 @@ final class ArrayHelper
 	{
 		if (!is_array($array) && !($array instanceof \ArrayAccess))
 		{
-			throw new \InvalidArgumentException('The object must be an array or a object that implements ArrayAccess');
+			throw new \InvalidArgumentException('The object must be an array or an object that implements ArrayAccess');
 		}
 
 		$result = null;
@@ -474,7 +474,7 @@ final class ArrayHelper
 	 * Utility function to sort an array of objects on a given field
 	 *
 	 * @param   array  $a              An array of objects
-	 * @param   mixed  $k              The key (string) or a array of key to sort on
+	 * @param   mixed  $k              The key (string) or an array of keys to sort on
 	 * @param   mixed  $direction      Direction (integer) or an array of direction to sort in [1 = Ascending] [-1 = Descending]
 	 * @param   mixed  $caseSensitive  Boolean or array of booleans to let sort occur case sensitive or insensitive
 	 * @param   mixed  $locale         Boolean or array of booleans to let sort occur using the locale language or not

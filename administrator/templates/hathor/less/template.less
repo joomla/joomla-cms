@@ -11,6 +11,9 @@
 @import "modals.less";
 //@import "../../../../media/jui/less/modals.joomla.less";
 
+// Bootstrap Popovers
+@import "../../../../media/jui/less/popovers.less";
+
 // Icon Font
 @import "icomoon.less";
 
@@ -751,7 +754,7 @@ p.tab-description {
 }
 
 #form-login {
-	float: right;
+	float: left;
 	padding: 1.1em;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -1063,6 +1066,21 @@ fieldset.adminform-legacy span.faux-label {
 	min-width: 150px;
 	float: left;
 
+}
+
+
+fieldset.adminform,
+fieldset.panelform {
+	.input-prepend,
+	.input-append {
+		float: left;
+	}
+	.adminformlist .btn.modal,
+	.input-prepend > *,
+	.input-append > * {
+		float: none;
+		vertical-align: middle;
+	}
 }
 
 /* JParameter classes on radio button labels */
@@ -3216,6 +3234,7 @@ div#database-sliders {
 fieldset.uploadform {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	min-height: 200px;
 }
 
 /* Installer Database */
@@ -3331,7 +3350,8 @@ fieldset.uploadform {
 }
 
 .row-striped .row-fluid {
-	width: 97%;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .row-striped .row-fluid [class*="span"] {
@@ -3530,4 +3550,8 @@ div.toggle-editor {
 }
 .muted {
 	color: #999;
+}
+/* Popover minimum height - overwrite bootstrap default */
+.popover-content {
+    min-height: 33px;
 }

@@ -14,9 +14,9 @@ $items = $displayData;
 if (!empty($items)) : ?>
 	<ul class="item-associations">
 		<?php foreach ($items as $id => $item) : ?>
-				<li>
-					<?php echo $item->link; ?>
-				</li>
+			<li>
+				<?php echo $item->link; ?>
+			</li>
 		<?php endforeach; ?>
 	</ul>
-<?php endif;
+<?php endif; ?>

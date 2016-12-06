@@ -18,7 +18,11 @@ $urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
 $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
+
+// Check if associations are implemented. If they are, define the parameter.
+$assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associations'));
 JHtml::_('behavior.caption');
+
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language; ?>" />
@@ -35,7 +39,7 @@ JHtml::_('behavior.caption');
 
 	<?php // Todo Not that elegant would be nice to group the params ?>
 	<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
-	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') ); ?>
+	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
 
 	<?php if (!$useDefList && $this->print) : ?>
 		<div id="pop-print" class="btn hidden-print">
@@ -46,7 +50,7 @@ JHtml::_('behavior.caption');
 	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
 	<div class="page-header">
 		<?php if ($params->get('show_title')) : ?>
-			<h2 itemprop="name">
+			<h2 itemprop="headline">
 				<?php echo $this->escape($this->item->title); ?>
 			</h2>
 		<?php endif; ?>
@@ -134,21 +138,21 @@ JHtml::_('behavior.caption');
 	<?php // Optional teaser intro text for guests ?>
 	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
-	<?php echo JHtml::_('content.prepare', $this->item->introtext); ?>	
+	<?php echo JHtml::_('content.prepare', $this->item->introtext); ?>
 	<?php // Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
 	<?php $menu = JFactory::getApplication()->getMenu(); ?>
 	<?php $active = $menu->getActive(); ?>
 	<?php $itemId = $active->id; ?>
 	<?php $link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>
-	<?php $link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language), false))); ?>
+	<?php $link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language))); ?>
 	<p class="readmore">
 		<a href="<?php echo $link; ?>" class="register">
 		<?php $attribs = json_decode($this->item->attribs); ?>
 		<?php
 		if ($attribs->alternative_readmore == null) :
 			echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-		elseif ($readmore = $this->item->alternative_readmore) :
+		elseif ($readmore = $attribs->alternative_readmore) :
 			echo $readmore;
 			if ($params->get('show_readmore_title', 0) != 0) :
 				echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));

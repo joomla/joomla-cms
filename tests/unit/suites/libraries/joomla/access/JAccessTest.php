@@ -164,7 +164,7 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$access = new JAccess;
 		$ObjArrayJrules = $access->getAssetRules(3, true);
-		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":[],"core.admin":{"8":1,"7":1},' .
+		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1,"7":1},' .
 			'"core.manage":{"7":1,"6":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},' .
 			'"core.edit.own":{"6":1,"3":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Recursive rules from a valid asset. Line: ' . __LINE__);
@@ -181,7 +181,7 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$access = new JAccess;
 		$ObjArrayJrules = $access->getAssetRules(3, false);
-		$string1 = '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}';
+		$string1 = '{"core.admin":{"7":1},"core.manage":{"6":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Non recursive rules from a valid asset. Line: ' . __LINE__);
 	}
 
@@ -196,7 +196,7 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$access = new JAccess;
 		$ObjArrayJrules = $access->getAssetRules(1550, false);
-		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":[],"core.admin":{"8":1},"core.manage":{"7":1},' .
+		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},' .
 			'"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Invalid asset uses rule from root. Line: ' . __LINE__);
 	}
@@ -212,7 +212,7 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$access = new JAccess;
 		$ObjArrayJrules = $access->getAssetRules('testasset', false);
-		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":[],"core.admin":{"8":1},"core.manage":{"7":1},' .
+		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},' .
 			'"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Invalid asset uses rule from root. Line: ' . __LINE__);
 	}
@@ -228,7 +228,7 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$access = new JAccess;
 		$ObjArrayJrules = $access->getAssetRules('testasset', true);
-		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":[],"core.admin":{"8":1},"core.manage":{"7":1},' .
+		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},' .
 			'"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Invalid asset uses rule from root. Line: ' . __LINE__);
 	}
@@ -367,7 +367,7 @@ class JAccessTest extends TestCaseDatabase
 </access>',
 				"/access/section[@name='unexisting']/",
 				array(),
-				'Unable to get actions from an unexiting section.'),
+				'Unable to get actions from an unexisting section.'),
 			array(
 				'<access component="com_banners',
 				"/access/section[@name='component']/",
@@ -503,6 +503,8 @@ class JAccessTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->_cleanupTestFiles();
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

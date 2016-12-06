@@ -18,19 +18,23 @@ jimport('joomla.updater.update');
 class InstallerModelLanguages extends JModelList
 {
 	/**
-	 * @var     integer  Extension ID of the en-GB language pack.
+	 * Extension ID of the en-GB language pack.
+	 *
+	 * @var     integer
 	 * @since   3.4
 	 */
 	private $enGbExtensionId = 0;
 
 	/**
-	 * @var     integer  Upate Site ID of the en-GB language pack.
+	 * Upate Site ID of the en-GB language pack.
+	 *
+	 * @var     integer
 	 * @since   3.4
 	 */
 	private $updateSiteId = 0;
 
 	/**
-	 * Constructor override, defines a white list of column filters.
+	 * Constructor override, defines a whitelist of column filters.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
@@ -52,13 +56,11 @@ class InstallerModelLanguages extends JModelList
 		// Get the extension_id of the en-GB package.
 		$db        = $this->getDbo();
 		$extQuery  = $db->getQuery(true);
-		$extType   = 'language';
-		$extElem   = 'en-GB';
 
 		$extQuery->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote($extType))
-			->where($db->quoteName('element') . ' = ' . $db->quote($extElem))
+			->where($db->quoteName('type') . ' = ' . $db->quote('package'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('pkg_en-GB'))
 			->where($db->quoteName('client_id') . ' = 0');
 
 		$db->setQuery($extQuery);
@@ -121,12 +123,11 @@ class InstallerModelLanguages extends JModelList
 		// This where clause will avoid to list languages already installed.
 		$query->where($db->quoteName('extension_id') . ' = 0');
 
-		// Filter by search in title
-		$search = $this->getState('filter.search');
-		if (!empty($search))
+		// Filter by search in title and language tag.
+		if ($search = $this->getState('filter.search'))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(LOWER(name) LIKE ' . strtolower($search) . ')');
+			$query->where('(LOWER(name) LIKE ' . strtolower($search) . ' OR LOWER(element) LIKE ' . strtolower($search) . ')');
 		}
 
 		// Add the list ordering clause.
@@ -274,7 +275,8 @@ class InstallerModelLanguages extends JModelList
 				// Could not find the url, the information in the update server may be corrupt.
 				$message  = JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_MANIFEST', $language->name);
 				$message .= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
-				$app->enqueueMessage($message);
+				$app->enqueueMessage($message, 'warning');
+
 				continue;
 			}
 
@@ -286,7 +288,8 @@ class InstallerModelLanguages extends JModelList
 				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access
 				$message  = JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_PACKAGE', $language->name);
 				$message .= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
-				$app->enqueueMessage($message);
+				$app->enqueueMessage($message, 'warning');
+
 				continue;
 			}
 
@@ -299,18 +302,18 @@ class InstallerModelLanguages extends JModelList
 				// There was an error installing the package.
 				$message  = JText::sprintf('COM_INSTALLER_INSTALL_ERROR', $language->name);
 				$message .= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
-				$app->enqueueMessage($message);
+				$app->enqueueMessage($message, 'error');
+
 				continue;
 			}
 
 			// Package installed successfully.
-			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', $language->name));
+			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_LANGUAGE_SUCCESS', $language->name));
 
 			// Cleanup the install files in tmp folder.
 			if (!is_file($package['packagefile']))
 			{
-				$config = JFactory::getConfig();
-				$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
+				$package['packagefile'] = JFactory::getConfig()->get('tmp_path') . '/' . $package['packagefile'];
 			}
 
 			JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
@@ -321,7 +324,7 @@ class InstallerModelLanguages extends JModelList
 	}
 
 	/**
-	 * Gets the manifest file of a selected language from a the language list in a update server.
+	 * Gets the manifest file of a selected language from a the language list in an update server.
 	 *
 	 * @param   int  $uid  the id of the language in the #__updates table
 	 *
@@ -346,13 +349,18 @@ class InstallerModelLanguages extends JModelList
 	 *
 	 * @since   2.5.7
 	 */
-	protected function _getPackageUrl( $remote_manifest )
+	protected function _getPackageUrl($remote_manifest)
 	{
 		$update = new JUpdate;
 		$update->loadFromXml($remote_manifest);
-		$package_url = trim($update->get('downloadurl', false)->_data);
+		$downloadUrlElement = $update->get('downloadurl', false);
 
-		return $package_url;
+		if ($downloadUrlElement === false)
+		{
+			return false;
+		}
+
+		return trim($downloadUrlElement->_data);
 	}
 
 	/**

@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/extension.php';
+use Joomla\Utilities\ArrayHelper;
+
+JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
 /**
  * Installer Discover Model
@@ -137,6 +139,7 @@ class InstallerModelDiscover extends InstallerModel
 	public function discover()
 	{
 		// Purge the list of discovered extensions and fetch them again.
+		$this->purge();
 		$results = JInstaller::getInstance()->discover();
 
 		// Get all templates, including discovered ones
@@ -188,7 +191,7 @@ class InstallerModelDiscover extends InstallerModel
 				$eid = array($eid);
 			}
 
-			JArrayHelper::toInteger($eid);
+			$eid = ArrayHelper::toInteger($eid);
 			$failed = false;
 
 			foreach ($eid as $id)
@@ -236,7 +239,11 @@ class InstallerModelDiscover extends InstallerModel
 			->where($db->quoteName('state') . ' = -1');
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 

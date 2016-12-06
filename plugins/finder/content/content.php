@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
+JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
 /**
  * Smart Search adapter for com_content.
@@ -252,14 +252,11 @@ class PlgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Initialise the item parameters.
-		$registry = new Registry;
-		$registry->loadString($item->params);
+		$registry = new Registry($item->params);
 		$item->params = JComponentHelper::getParams('com_content', true);
 		$item->params->merge($registry);
 
-		$registry = new Registry;
-		$registry->loadString($item->metadata);
-		$item->metadata = $registry;
+		$item->metadata = new Registry($item->metadata);
 
 		// Trigger the onContentPrepare event.
 		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
@@ -279,10 +276,10 @@ class PlgFinderContent extends FinderIndexerAdapter
 			$item->title = $title;
 		}
 
-		// Add the meta-author.
+		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
-		// Add the meta-data processing instructions.
+		// Add the metadata processing instructions.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
@@ -324,7 +321,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		include_once JPATH_SITE . '/components/com_content/helpers/route.php';
+		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 		return true;
 	}

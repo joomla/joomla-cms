@@ -89,7 +89,7 @@ class LanguagesModelOverride extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
+		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		$input    = JFactory::getApplication()->input;
 		$pk       = (!empty($pk)) ? $pk : $input->get('id');
@@ -107,6 +107,11 @@ class LanguagesModelOverride extends JModelAdmin
 			$result->override = $strings[$pk];
 		}
 
+		$opposite_filename = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site')) 
+			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
+		$opposite_strings = LanguagesHelper::parseFile($opposite_filename);
+		$result->both = isset($opposite_strings[$pk]) && ($opposite_strings[$pk] == $strings[$pk]);
+
 		return $result;
 	}
 
@@ -122,9 +127,10 @@ class LanguagesModelOverride extends JModelAdmin
 	 */
 	public function save($data, $opposite_client = false)
 	{
-		$app = JFactory::getApplication();
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
+		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 		jimport('joomla.filesystem.file');
+
+		$app = JFactory::getApplication();
 
 		$client   = $app->getUserState('com_languages.overrides.filter.client', 0);
 		$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
@@ -179,8 +185,7 @@ class LanguagesModelOverride extends JModelAdmin
 		}
 
 		// Write override.ini file with the strings.
-		$registry = new Registry;
-		$registry->loadObject($strings);
+		$registry = new Registry($strings);
 		$reg = $registry->toString('INI');
 
 		if (!JFile::write($filename, $reg))

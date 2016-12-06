@@ -178,7 +178,7 @@ class ConfigModelComponent extends ConfigModelForm
 			throw new RuntimeException($table->getError());
 		}
 
-		$result = $dispatcher->trigger('onExtensionBeforeSave', array($context, &$table, false));
+		$result = $dispatcher->trigger('onExtensionBeforeSave', array($context, $table, false));
 
 			// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -187,7 +187,7 @@ class ConfigModelComponent extends ConfigModelForm
 		}
 
 		// Trigger the after save event.
-		$dispatcher->trigger('onExtensionAfterSave', array($context, &$table, false));
+		$dispatcher->trigger('onExtensionAfterSave', array($context, $table, false));
 
 		// Clean the component cache.
 		$this->cleanCache('_system', 0);

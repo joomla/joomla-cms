@@ -46,6 +46,24 @@ class JImageTest extends TestCase
 	}
 
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->testFile);
+		unset($this->testFileGif);
+		unset($this->testFilePng);
+		unset($this->testFileBmp);
+		parent::tearDown();
+	}
+
+	/**
 	 * Data for prepareDimensions method.  Don't put percentages in here.  We test elsewhere that
 	 * percentages get sanitized into appropriate integer values based on scale.  Here we just want
 	 * to test the logic that calculates scale dimensions.
@@ -666,7 +684,7 @@ class JImageTest extends TestCase
 	 */
 	public function testCrop($startHeight, $startWidth, $cropHeight, $cropWidth, $cropTop, $cropLeft, $transparent = false)
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor($startWidth, $startHeight);
 
 		// If the transparent flag is true set black to transparent.
@@ -741,7 +759,7 @@ class JImageTest extends TestCase
 	 */
 	public function testRotate()
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(101, 101);
 
 		// Define red and white.
@@ -846,7 +864,7 @@ class JImageTest extends TestCase
 	 */
 	public function testPrepareDimensions($inputHeight, $inputWidth, $inputScale, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor($imageWidth, $imageHeight);
 
 		// Create a new JImageInspector from the image handle.
@@ -869,7 +887,7 @@ class JImageTest extends TestCase
 	 */
 	public function testPrepareDimensionsWithInvalidScale()
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 
 		// Create a new JImageInspector from the image handle.
@@ -895,7 +913,7 @@ class JImageTest extends TestCase
 	 */
 	public function testSanitizeHeight($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor($imageWidth, $imageHeight);
 
 		// Create a new JImageInspector from the image handle.
@@ -922,7 +940,7 @@ class JImageTest extends TestCase
 	 */
 	public function testSanitizeWidth($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor($imageWidth, $imageHeight);
 
 		// Create a new JImageInspector from the image handle.

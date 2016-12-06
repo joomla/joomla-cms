@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
 <div class="btn-toolbar">
 	<div class="btn-group pull-right">
-		<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNext'); ?></a>
+		<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 	</div>
 </div>
 <form action="index.php" method="post" id="languageForm" class="form-horizontal">
@@ -30,7 +30,6 @@ defined('_JEXEC') or die;
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<h3><?php echo JText::_('INSTL_SITE'); ?></h3>
 	<hr class="hr-condensed" />
-
 	<div class="row-fluid">
 		<div class="span6">
 			<div class="control-group">
@@ -55,6 +54,9 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 		<div class="span6">
+			<div class="center">
+				<h4><?php echo JText::_('INSTL_SUPER_USER_TITLE'); ?></h4>
+			</div>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('admin_email'); ?>
@@ -112,11 +114,10 @@ defined('_JEXEC') or die;
 	<div class="row-fluid">
 		<div class="btn-toolbar">
 			<div class="btn-group pull-right">
-				<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNext'); ?></a>
+				<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 			</div>
 		</div>
 	</div>
-
 	<input type="hidden" name="task" value="site" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

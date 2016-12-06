@@ -40,6 +40,9 @@
       (this.edit.state.diffViews || (this.edit.state.diffViews = [])).push(this);
       this.orig = CodeMirror(pane, copyObj({value: orig, readOnly: !this.mv.options.allowEditingOriginals}, copyObj(options)));
       this.orig.state.diffViews = [this];
+      var classLocation = options.chunkClassLocation || "background";
+      if (Object.prototype.toString.call(classLocation) != "[object Array]") classLocation = [classLocation]
+      this.classes.classLocation = classLocation
 
       this.diff = getDiff(asString(orig), asString(options.value));
       this.chunks = getChunks(this.diff);
@@ -191,16 +194,22 @@
 
   // Updating the marks for editor content
 
+  function removeClass(editor, line, classes) {
+    var locs = classes.classLocation
+    for (var i = 0; i < locs.length; i++) {
+      editor.removeLineClass(line, locs[i], classes.chunk);
+      editor.removeLineClass(line, locs[i], classes.start);
+      editor.removeLineClass(line, locs[i], classes.chunk);
+    }
+  }
+
   function clearMarks(editor, arr, classes) {
     for (var i = 0; i < arr.length; ++i) {
       var mark = arr[i];
-      if (mark instanceof CodeMirror.TextMarker) {
+      if (mark instanceof CodeMirror.TextMarker)
         mark.clear();
-      } else if (mark.parent) {
-        editor.removeLineClass(mark, "background", classes.chunk);
-        editor.removeLineClass(mark, "background", classes.start);
-        editor.removeLineClass(mark, "background", classes.end);
-      }
+      else if (mark.parent)
+        removeClass(editor, mark, classes);
     }
     arr.length = 0;
   }
@@ -226,24 +235,30 @@
     });
   }
 
+  function addClass(editor, lineNr, classes, main, start, end) {
+    var locs = classes.classLocation, line = editor.getLineHandle(lineNr);
+    for (var i = 0; i < locs.length; i++) {
+      if (main) editor.addLineClass(line, locs[i], classes.chunk);
+      if (start) editor.addLineClass(line, locs[i], classes.start);
+      if (end) editor.addLineClass(line, locs[i], classes.end);
+    }
+    return line;
+  }
+
   function markChanges(editor, diff, type, marks, from, to, classes) {
     var pos = Pos(0, 0);
     var top = Pos(from, 0), bot = editor.clipPos(Pos(to - 1));
     var cls = type == DIFF_DELETE ? classes.del : classes.insert;
     function markChunk(start, end) {
       var bfrom = Math.max(from, start), bto = Math.min(to, end);
-      for (var i = bfrom; i < bto; ++i) {
-        var line = editor.addLineClass(i, "background", classes.chunk);
-        if (i == start) editor.addLineClass(line, "background", classes.start);
-        if (i == end - 1) editor.addLineClass(line, "background", classes.end);
-        marks.push(line);
-      }
+      for (var i = bfrom; i < bto; ++i)
+        marks.push(addClass(editor, i, classes, true, i == start, i == end - 1));
       // When the chunk is empty, make sure a horizontal line shows up
       if (start == end && bfrom == end && bto == end) {
         if (bfrom)
-          marks.push(editor.addLineClass(bfrom - 1, "background", classes.end));
+          marks.push(addClass(editor, bfrom - 1, classes, false, false, true));
         else
-          marks.push(editor.addLineClass(bfrom, "background", classes.start));
+          marks.push(addClass(editor, bfrom, classes, false, true, false));
       }
     }
 
@@ -284,7 +299,9 @@
     if (dv.copyButtons) clear(dv.copyButtons);
 
     var vpEdit = dv.edit.getViewport(), vpOrig = dv.orig.getViewport();
-    var sTopEdit = dv.edit.getScrollInfo().top, sTopOrig = dv.orig.getScrollInfo().top;
+    var outerTop = dv.mv.wrap.getBoundingClientRect().top
+    var sTopEdit = outerTop - dv.edit.getScrollerElement().getBoundingClientRect().top + dv.edit.getScrollInfo().top
+    var sTopOrig = outerTop - dv.orig.getScrollerElement().getBoundingClientRect().top + dv.orig.getScrollInfo().top;
     for (var i = 0; i < dv.chunks.length; i++) {
       var ch = dv.chunks[i];
       if (ch.editFrom <= vpEdit.to && ch.editTo >= vpEdit.from &&

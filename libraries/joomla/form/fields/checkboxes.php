@@ -9,17 +9,15 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Platform.
- * Displays options as a list of check boxes.
+ * Displays options as a list of checkboxes.
  * Multiselect may be forced to be true.
  *
  * @see    JFormFieldCheckbox
  * @since  11.1
  */
-class JFormFieldCheckboxes extends JFormFieldList
+class JFormFieldCheckboxes extends JFormAbstractlist implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -160,7 +158,7 @@ class JFormFieldCheckboxes extends JFormFieldList
 		$extraData = array(
 			'checkedOptions' => is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
 			'hasValue'       => $hasValue,
-			'options'        => $this->getOptions()
+			'options'        => $this->getOptions(),
 		);
 
 		return array_merge($data, $extraData);

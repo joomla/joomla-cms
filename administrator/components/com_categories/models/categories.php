@@ -93,8 +93,8 @@ class CategoriesModelCategories extends JModelList
 
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.search', 'filter_search', '', 'string'));
 		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
-		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', null, 'int'));
-		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'cmd'));
+		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
+		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
 		$this->setState('filter.tag', $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '', 'string'));
 		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'string'));
 
@@ -234,11 +234,6 @@ class CategoriesModelCategories extends JModelList
 			{
 				$query->where('a.id = ' . (int) substr($search, 3));
 			}
-			elseif (stripos($search, 'author:') === 0)
-			{
-				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
-				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
-			}
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
@@ -279,27 +274,27 @@ class CategoriesModelCategories extends JModelList
 		}
 
 		// Group by on Categories for JOIN with component tables to count items
-		$query->group('a.id, 
-				a.title, 
-				a.alias, 
-				a.note, 
-				a.published, 
-				a.access, 
-				a.checked_out, 
-				a.checked_out_time, 
-				a.created_user_id, 
-				a.path, 
-				a.parent_id, 
-				a.level, 
-				a.lft, 
-				a.rgt, 
-				a.language, 
+		$query->group('a.id,
+				a.title,
+				a.alias,
+				a.note,
+				a.published,
+				a.access,
+				a.checked_out,
+				a.checked_out_time,
+				a.created_user_id,
+				a.path,
+				a.parent_id,
+				a.level,
+				a.lft,
+				a.rgt,
+				a.language,
 				l.title,
 				l.image,
-				uc.name, 
-				ag.title, 
+				uc.name,
+				ag.title,
 				ua.name'
-			);
+		);
 
 		return $query;
 	}
@@ -365,7 +360,7 @@ class CategoriesModelCategories extends JModelList
 
 	/**
 	 * Method to load the countItems method from the extensions
-	 * 
+	 *
 	 * @param   stdClass[]  &$items     The category items
 	 * @param   string      $extension  The category extension
 	 *
@@ -375,7 +370,7 @@ class CategoriesModelCategories extends JModelList
 	 */
 	public function countItems(&$items, $extension)
 	{
-		$parts = explode('.', $extension);
+		$parts = explode('.', $extension, 2);
 		$component = $parts[0];
 		$section = null;
 
@@ -390,14 +385,14 @@ class CategoriesModelCategories extends JModelList
 
 		if (file_exists($file))
 		{
-			require_once $file;
-
-			$prefix = ucfirst(str_replace('com_', '', $component));
+			$prefix = ucfirst($eName);
 			$cName = $prefix . 'Helper';
+
+			JLoader::register($cName, $file);
 
 			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
 			{
-				call_user_func(array($cName, 'countItems'), $items, $section);
+				$cName::countItems($items, $section);
 			}
 		}
 	}

@@ -54,7 +54,7 @@ class AdminViewHelp extends JViewLegacy
 	 * @var    string
 	 * @since  1.6
 	 */
-	protected $latest_version_check = 'https://www.joomla.org/download.html';
+	protected $latest_version_check = 'https://downloads.joomla.org/latest';
 
 	/**
 	 * URL for the start here link
@@ -69,7 +69,7 @@ class AdminViewHelp extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
 	 */

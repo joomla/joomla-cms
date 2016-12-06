@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
+JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 /**
  * View class for a list of clients.
@@ -44,7 +44,7 @@ class BannersViewClients extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -128,12 +128,12 @@ class BannersViewClients extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'a.status' => JText::_('JSTATUS'),
-			'a.name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'contact' => JText::_('COM_BANNERS_HEADING_CONTACT'),
+			'a.status'    => JText::_('JSTATUS'),
+			'a.name'      => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'contact'     => JText::_('COM_BANNERS_HEADING_CONTACT'),
 			'client_name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'nbanners' => JText::_('COM_BANNERS_HEADING_ACTIVE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'nbanners'    => JText::_('COM_BANNERS_HEADING_ACTIVE'),
+			'a.id'        => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }
