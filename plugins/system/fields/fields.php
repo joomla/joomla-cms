@@ -76,24 +76,13 @@ class PlgSystemFields extends JPlugin
 
 		$params = $params->toArray();
 
-		if (!$params)
-		{
-			return true;
-		}
-
 		// Create the new internal fields field
 		$fields = array();
 
 		foreach ($fieldsObjects as $field)
 		{
-			// Only save the fields with the alias from the data
-			if (!key_exists($field->alias, $params))
-			{
-				continue;
-			}
-
 			// Set the param on the fields variable
-			$fields[$field->alias] = $params[$field->alias];
+			$fields[$field->alias] = key_exists($field->alias, $params) ? $params[$field->alias] : array();
 
 			// Remove it from the params array
 			unset($params[$field->alias]);
