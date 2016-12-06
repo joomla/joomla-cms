@@ -6,12 +6,40 @@
 
 		<field
 			name="cache_handler"
-			type="cachehandler"
+			type="list"
 			default=""
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
 			filter="word"
-		/>
+			showon="caching:1,2">
+			<option type="cachehandlers" />
+		</field>
+
+		<field
+			name="cache_platformprefix"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
+			filter="integer"
+			showon="caching:1,2">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="cachetime"
+			type="number"
+			min="1"
+			default="15"
+			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
+			required="true"
+			filter="integer"
+			validate="number"
+			showon="caching:1,2"
+			size="6" />
 
 		<field
 			name="memcache_persist"
@@ -222,11 +250,12 @@
 		label="CONFIG_DATABASE_SETTINGS_LABEL">
 		<field
 			name="dbtype"
-			type="databaseconnection"
+			type="list"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
-			filter="string" />
+			filter="string">
+			<option type="databaseconnections" supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"/>
+		</field>
 
 		<field
 			name="host"
@@ -786,12 +815,13 @@
 
 		<field
 			name="session_handler"
-			type="sessionhandler"
+			type="list"
+			default="none"
 			label="COM_CONFIG_FIELD_SESSION_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_HANDLER_DESC"
-			default="none"
-			filter="word"
-		/>
+			filter="word">
+			<option type="sessionhandlers"/>
+		</field>
 
 		<field
 			name="session_memcache_server_host"
@@ -934,22 +964,24 @@
 
 		<field
 			name="editor"
-			type="plugins"
-			folder="editors"
+			type="list"
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
-			filter="cmd" />
+			filter="cmd"
+		>
+			<option type="plugins" folder="editors" />
+		</field>
 
 		<field
 			name="captcha"
-			type="plugins"
-			folder="captcha"
+			type="list"
 			default="0"
 			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
 			filter="cmd">
 			<option value="0">JOPTION_DO_NOT_USE</option>
+			<option type="plugins" folder="captcha" />
 		</field>
 
 		<field

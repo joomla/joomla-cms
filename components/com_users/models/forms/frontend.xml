@@ -5,12 +5,12 @@
 		<fieldset name="params" label="COM_USERS_SETTINGS_FIELDSET_LABEL">
 			<field
 				name="editor"
-				type="plugins"
-				folder="editors"
+				type="list"
 				description="COM_USERS_USER_FIELD_EDITOR_DESC"
 				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
+				<option type="plugins" folder="editors" />
 			</field>
 
 			<field
@@ -24,13 +24,13 @@
 
 			<field
 				name="language"
-				type="language"
-				client="site"
+				type="list"
 				description="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_DESC"
 				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
 				filter="cmd"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
+				<option type="languages" client="site"/>
 			</field>
 		</fieldset>
 	</fields>

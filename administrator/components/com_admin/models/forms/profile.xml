@@ -96,27 +96,28 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field name="admin_language" type="language"
-				client="administrator"
+			<field name="admin_language" type="list"
 				description="COM_ADMIN_USER_FIELD_BACKEND_LANGUAGE_DESC"
 				label="COM_ADMIN_USER_FIELD_BACKEND_LANGUAGE_LABEL"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
+				<option type="languages" client="administrator"/>
 			</field>
 
-			<field name="language" type="language"
-				client="site"
+			<field name="language" type="list"
 				description="COM_ADMIN_USER_FIELD_FRONTEND_LANGUAGE_DESC"
 				label="COM_ADMIN_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
+				<option type="languages" client="site"/>
 			</field>
 
-			<field name="editor" type="plugins" folder="editors"
+			<field name="editor" type="list"
 				description="COM_ADMIN_USER_FIELD_EDITOR_DESC"
 				label="COM_ADMIN_USER_FIELD_EDITOR_LABEL"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
+				<option type="plugins" folder="editors" />
 			</field>
 
 			<field name="helpsite" type="helpsite"

@@ -27,6 +27,9 @@
 		</languages>
 	</administration>
 	<params>
-		<param name="view" type="filelist" directory="/components/com_mailto/views" hide_none="1" hide_default="0" filter="." default="0" label="View Style" description="The view style for display" />
+		<param name="view" type="list" default="0" label="View Style" description="The view style for display">
+			<option value="">JDEFAULT</option>
+			<option type="files" directory="/components/com_mailto/views" filter="." />
+		</param>
 	</params>
 </extension>

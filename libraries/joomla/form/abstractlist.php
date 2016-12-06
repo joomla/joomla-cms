@@ -95,56 +95,7 @@ abstract class JFormAbstractlist extends JFormField
 
 		foreach ($this->element->xpath('option') as $option)
 		{
-			// Filter requirements
-			if ($requires = explode(',', (string) $option['requires']))
-			{
-				// Requires multilanguage
-				if (in_array('multilanguage', $requires) && !JLanguageMultilang::isEnabled())
-				{
-					continue;
-				}
-
-				// Requires associations
-				if (in_array('associations', $requires) && !JLanguageAssociations::isEnabled())
-				{
-					continue;
-				}
-
-				// Requires vote plugin enabled
-				if (in_array('vote', $requires) && !JPluginHelper::isEnabled('content', 'vote'))
-				{
-					continue;
-				}
-			}
-
-			$value = (string) $option['value'];
-			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
-
-			$disabled = (string) $option['disabled'];
-			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
-			$disabled = $disabled || ($this->readonly && $value != $this->value);
-
-			$checked = (string) $option['checked'];
-			$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
-
-			$selected = (string) $option['selected'];
-			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
-
-			$tmp = array(
-				'value'    => $value,
-				'text'     => JText::alt($text, $fieldname),
-				'disable'  => $disabled,
-				'class'    => (string) $option['class'],
-				'selected' => ($checked || $selected),
-				'checked'  => ($checked || $selected),
-			);
-
-			// Set some event handler attributes. But really, should be using unobtrusive js.
-			$tmp['onclick']  = (string) $option['onclick'];
-			$tmp['onchange'] = (string) $option['onchange'];
-
-			// Add the option object to the result set.
-			$options[] = (object) $tmp;
+			$options = array_merge($options, JFormOption::getOptions($option, $this->fieldname));
 		}
 
 		if ($this->element['useglobal'])

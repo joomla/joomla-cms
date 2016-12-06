@@ -43,18 +43,17 @@
 
 		<field
 			name="image"
-			type="filelist"
+			type="list"
 			label="COM_LANGUAGES_FIELD_IMAGE_LABEL"
 			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
-			stripext="1"
-			directory="media/mod_languages/images/"
-			hide_none="1"
-			hide_default="1"
 			required="false"
-			filter="\.gif$"
-			size="10"
-			>
-			<option value="">JNONE</option>
+		>
+			<option
+				type="files"
+				stripext="1"
+				directory="media/mod_languages/images/"
+				filter="\.gif$"
+			/>
 		</field>
 
 		<field name="description" type="textarea"
@@ -74,7 +73,7 @@
 			<option value="0">JUNPUBLISHED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
-		
+
 		<field name="access" type="accesslevel"
 		size="1"
 		label="JFIELD_ACCESS_LABEL"

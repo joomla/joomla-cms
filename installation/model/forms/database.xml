@@ -4,15 +4,16 @@
 		<fieldset name="basic">
 			<field
 				name="db_type"
-				type="databaseconnection"
+				type="list"
 				id="db_type"
 				class="inputbox"
 				label="INSTL_DATABASE_TYPE_LABEL"
-				supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
 				required="true"
 				default="mysqli"
-				filter="string"
-			/>
+				filter="string">
+				<option type="databaseconnections" supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"/>
+			</field>
+
 			<field
 				name="db_host"
 				type="text"

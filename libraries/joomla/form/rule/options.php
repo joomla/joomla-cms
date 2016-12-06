@@ -35,26 +35,33 @@ class JFormRuleOptions extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
-		// Make an array of all available option values.
+		// Get all options.
 		$options = array();
 
-		foreach ($element->option as $opt)
+		foreach ($element->option as $option)
 		{
-			$options[] = $opt->attributes()->value;
+			$options = array_merge($options, JFormOption::getOptions($option, $element->fieldname));
 		}
+
+		// Get all options' values as an array.
+		$mapFn = function ($a) {
+			return $a->value;
+		};
+
+		$values = array_map($mapFn, $options);
 
 		// There may be multiple values in the form of an array (if the element is checkboxes, for example).
 		if (is_array($value))
 		{
-			// If all values are in the $options array, $diff will be empty and the options valid.
-			$diff = array_diff($value, $options);
+			// If all values are in the $values array, $diff will be empty and the options valid.
+			$diff = array_diff($value, $values);
 
 			return empty($diff);
 		}
 		else
 		{
 			// In this case value must be a string
-			return in_array((string) $value, $options);
+			return in_array((string) $value, $values);
 		}
 	}
 }

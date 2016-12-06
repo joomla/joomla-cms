@@ -147,16 +147,27 @@
 
 				<field
 					name="created_by"
-					type="sql"
+					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_DESC"
 					multiple="true"
 					size="5"
-					query="select id, name, username from #__users where id IN (select distinct(created_by) from #__content) order by name ASC"
-					key_field="id"
-					value_field="name"
-					>
+				>
 					<option value="">JOPTION_SELECT_AUTHORS</option>
+					<option type="sql"
+						value_field="id"
+						text_field="name"
+						query="select id, name, username from #__users where id IN (select distinct(created_by) from #__content) order by name ASC"
+					>
+						<query driver="mysql,mysqli">
+							<![CDATA[
+							SELECT `id`, `name`, `username`
+							FROM `#__users`
+							WHERE `id` IN(SELECT DISTINCT `created_by` FROM `#__content`)
+							ORDER BY `name` ASC
+							]]>
+						</query>
+					</option>
 				</field>
 
 				<field
@@ -179,16 +190,27 @@
 
 				<field
 					name="created_by_alias"
-					type="sql"
+					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_DESC"
 					multiple="true"
 					size="5"
-					query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
-					key_field="created_by_alias"
-					value_field="created_by_alias"
 					>
 					<option value="">JOPTION_SELECT_AUTHOR_ALIASES</option>
+					<option type="sql"
+						value_field="created_by_alias"
+						text_field="created_by_alias"
+						query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
+					>
+						<query driver="mysql,mysqli">
+							<![CDATA[
+							SELECT DISTINCT `created_by_alias`
+							FROM `#__content`
+							WHERE `created_by_alias` != ''
+							ORDER BY `created_by_alias` ASC
+							]]>
+						</query>
+					</option>
 				</field>
 
 				<field
