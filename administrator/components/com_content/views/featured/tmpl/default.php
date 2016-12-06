@@ -19,7 +19,7 @@ $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$canOrder  = $user->authorise('core.edit.state', 'com_content.article');
+$canOrder  = $user->authorise('core.edit.state', 'com_content');
 $saveOrder = $listOrder == 'fp.ordering';
 $columns   = 10;
 
