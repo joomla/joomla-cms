@@ -132,6 +132,18 @@
 				/>
 
 				<field
+					name="show_featured"
+					type="list"
+					label="MOD_ARTICLES_NEWS_FIELD_FEATURED_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_FEATURED_DESC"
+					default=""
+					>
+					<option value="">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">MOD_ARTICLES_NEWS_VALUE_ONLY_SHOW_FEATURED</option>
+				</field>
+
+				<field
 					name="ordering"
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"

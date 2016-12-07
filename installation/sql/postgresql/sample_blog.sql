@@ -38,7 +38,7 @@ INSERT INTO "#__assets" VALUES
 (28,3,4,5,2,'com_banners.category.3','Uncategorised','{}'),
 (29,7,14,15,2,'com_contact.category.4','Uncategorised','{}'),
 (30,19,56,57,2,'com_newsfeeds.category.5','Uncategorised','{}'),
-(32,24,68,69,1,'com_users.category.7','Uncategorised','{}'),
+(32,24,68,69,2,'com_users.category.7','Uncategorised','{}'),
 (33,1,79,80,1,'com_finder','com_finder','{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (35,8,24,33,2,'com_content.category.9','Blog','{}'),
 (36,27,19,20,3,'com_content.article.1','About','{}'),
