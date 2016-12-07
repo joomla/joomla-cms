@@ -447,6 +447,7 @@ CREATE TABLE "#__core_log_searches" (
 --
 CREATE TABLE "#__extensions" (
   "extension_id" serial NOT NULL,
+  "package_id" bigint DEFAULT 0 NOT NULL,
   "name" varchar(100) NOT NULL,
   "type" varchar(20) NOT NULL,
   "element" varchar(100) NOT NULL,
@@ -468,6 +469,8 @@ CREATE TABLE "#__extensions" (
 CREATE INDEX "#__extensions_element_clientid" ON "#__extensions" ("element", "client_id");
 CREATE INDEX "#__extensions_element_folder_clientid" ON "#__extensions" ("element", "folder", "client_id");
 CREATE INDEX "#__extensions_extension" ON "#__extensions" ("type", "element", "folder", "client_id");
+
+COMMENT ON COLUMN "#__extensions"."package_id" IS 'Parent package ID for extensions installed as a package.';
 
 -- Components
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -629,9 +632,9 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (507, 'isis', 'template', 'isis', '', 1, 1, 1, 0, '', '{"templateColor":"","logoFile":""}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Languages
-INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
-(600, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(601, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
+(600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Files Extensions
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -667,7 +670,7 @@ CREATE TABLE "#__fields" (
   "ordering" bigint DEFAULT 0 NOT NULL,
   "params" text DEFAULT '' NOT NULL,
   "fieldparams" text DEFAULT '' NOT NULL,
-  "attributes" text DEFAULT '' NOT NULL, 
+  "attributes" text DEFAULT '' NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created_user_id" bigint DEFAULT 0 NOT NULL,
@@ -724,7 +727,7 @@ CREATE TABLE "#__fields_values" (
 "field_id" bigint DEFAULT 0 NOT NULL,
 "item_id" varchar(255) DEFAULT '' NOT NULL,
 "context" varchar(255) DEFAULT '' NOT NULL,
-"value" text DEFAULT '' NOT NULL 
+"value" text DEFAULT '' NOT NULL
 );
 CREATE INDEX "#__fields_values_idx_field_id" ON "#__fields_values" ("field_id");
 CREATE INDEX "#__fields_values_idx_context" ON "#__fields_values" ("context");
