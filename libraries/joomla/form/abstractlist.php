@@ -118,7 +118,7 @@ abstract class JFormAbstractlist extends JFormField
 			}
 
 			$value = (string) $option['value'];
-			$text  = trim((string) $option) ? trim((string) $option) : $value;
+			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
@@ -192,10 +192,6 @@ abstract class JFormAbstractlist extends JFormField
 				}
 
 				$tmp->text = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
-			}
-			else
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('JGLOBAL_USE_GLOBAL_VALUE_NOT_FOUND'), 'notice');
 			}
 
 			array_unshift($options, $tmp);

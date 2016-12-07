@@ -58,7 +58,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'),
 (30, 19, 74, 75, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
-(32, 24, 86, 87, 1, 'com_users.category.7', 'Uncategorised', '{}'),
+(32, 24, 86, 87, 2, 'com_users.category.7', 'Uncategorised', '{}'),
 (33, 1, 91, 92, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (34, 1, 93, 94, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
 (35, 1, 95, 96, 1, 'com_tags', 'com_tags', '{}'),
@@ -452,7 +452,7 @@ CREATE TABLE "#__extensions" (
   "element" varchar(100) NOT NULL,
   "folder" varchar(100) NOT NULL,
   "client_id" smallint NOT NULL,
-  "enabled" smallint DEFAULT 1 NOT NULL,
+  "enabled" smallint DEFAULT 0 NOT NULL,
   "access" bigint DEFAULT 1 NOT NULL,
   "protected" smallint DEFAULT 0 NOT NULL,
   "manifest_cache" text NOT NULL,
@@ -474,7 +474,7 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (1, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (2, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (3, 'com_admin', 'component', 'com_admin', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(4, 'com_banners', 'component', 'com_banners', '', 1, 1, 1, 0, '', '{"purchase_type":"3","track_impressions":"0","track_clicks":"0","metakey_prefix":"","save_history":"1","history_limit":5}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(4, 'com_banners', 'component', 'com_banners', '', 1, 1, 1, 0, '', '{"purchase_type":"3","track_impressions":"0","track_clicks":"0","metakey_prefix":"","save_history":"1","history_limit":10}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (5, 'com_cache', 'component', 'com_cache', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (6, 'com_categories', 'component', 'com_categories', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (7, 'com_checkin', 'component', 'com_checkin', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -489,7 +489,7 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (16, 'com_modules', 'component', 'com_modules', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (17, 'com_newsfeeds', 'component', 'com_newsfeeds', '', 1, 1, 1, 0, '', '{"newsfeed_layout":"_:default","save_history":"1","history_limit":5,"show_feed_image":"1","show_feed_description":"1","show_item_description":"1","feed_character_count":"0","feed_display_order":"des","float_first":"right","float_second":"right","show_tags":"1","category_layout":"_:default","show_category_title":"1","show_description":"1","show_description_image":"1","maxLevel":"-1","show_empty_categories":"0","show_subcat_desc":"1","show_cat_items":"1","show_cat_tags":"1","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_items_cat":"1","filter_field":"1","show_pagination_limit":"1","show_headings":"1","show_articles":"0","show_link":"1","show_pagination":"1","show_pagination_results":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (18, 'com_plugins', 'component', 'com_plugins', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(19, 'com_search', 'component', 'com_search', '', 1, 1, 1, 0, '', '{"enabled":"0","show_date":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(19, 'com_search', 'component', 'com_search', '', 1, 1, 1, 0, '', '{"enabled":"0","search_phrases":"1","search_areas":"1","show_date":"1","opensearch_name":"","opensearch_description":""}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (20, 'com_templates', 'component', 'com_templates', '', 1, 1, 1, 1, '', '{"template_positions_display":"0","upload_limit":"10","image_formats":"gif,bmp,jpg,jpeg,png","source_formats":"txt,less,ini,xml,js,php,css,scss,sass","font_formats":"woff,ttf,otf","compressed_formats":"zip"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (22, 'com_content', 'component', 'com_content', '', 1, 1, 0, 1, '', '{"article_layout":"_:default","show_title":"1","link_titles":"1","show_intro":"1","show_category":"1","link_category":"1","show_parent_category":"0","link_parent_category":"0","show_author":"1","link_author":"0","show_create_date":"0","show_modify_date":"0","show_publish_date":"1","show_item_navigation":"1","show_vote":"0","show_readmore":"1","show_readmore_title":"1","readmore_limit":"100","show_icons":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1","show_noauth":"0","show_publishing_options":"1","show_article_options":"1","save_history":"1","history_limit":10,"show_urls_images_frontend":"0","show_urls_images_backend":"1","targeta":0,"targetb":0,"targetc":0,"float_intro":"left","float_fulltext":"left","category_layout":"_:blog","show_category_title":"0","show_description":"0","show_description_image":"0","maxLevel":"1","show_empty_categories":"0","show_no_articles":"1","show_subcat_desc":"1","show_cat_num_articles":"0","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_num_articles_cat":"1","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","multi_column_order":"0","show_subcategory_content":"0","show_pagination_limit":"1","filter_field":"hide","show_headings":"1","list_show_date":"0","date_format":"","list_show_hits":"1","list_show_author":"1","orderby_pri":"order","orderby_sec":"rdate","order_date":"published","show_pagination":"2","show_pagination_results":"1","show_feed_link":"1","feed_summary":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (23, 'com_config', 'component', 'com_config', '', 1, 1, 0, 1, '', '{"filters":{"1":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"6":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"7":{"filter_type":"NONE","filter_tags":"","filter_attributes":""},"2":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"3":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"4":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"5":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"10":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"12":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"8":{"filter_type":"NONE","filter_tags":"","filter_attributes":""}}}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -650,7 +650,7 @@ CREATE TABLE "#__fields" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "context" varchar(255) DEFAULT '' NOT NULL,
-  "catid" bigint DEFAULT 0 NOT NULL,
+  "group_id" bigint DEFAULT 0 NOT NULL,
   "assigned_cat_ids" varchar(255) DEFAULT '' NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
   "alias" varchar(255) DEFAULT '' NOT NULL,
@@ -685,6 +685,37 @@ CREATE INDEX "#__fields_idx_created_user_id" ON "#__fields" ("created_user_id");
 CREATE INDEX "#__fields_idx_access" ON "#__fields" ("access");
 CREATE INDEX "#__fields_idx_context" ON "#__fields" ("context");
 CREATE INDEX "#__fields_idx_language" ON "#__fields" ("language");
+
+--
+-- Table: #__fields_groups
+--
+
+CREATE TABLE "#__fields_groups" (
+  "id" serial NOT NULL,
+  "asset_id" bigint DEFAULT 0 NOT NULL,
+  "extension" varchar(255) DEFAULT '' NOT NULL,
+  "title" varchar(255) DEFAULT '' NOT NULL,
+  "alias" varchar(255) DEFAULT '' NOT NULL,
+  "note" varchar(255) DEFAULT '' NOT NULL,
+  "description" text NOT NULL,
+  "state" smallint DEFAULT '0' NOT NULL,
+  "checked_out" integer DEFAULT '0' NOT NULL,
+  "checked_out_time" timestamp without time zone '1970-01-01 00:00:00' NOT NULL,
+  "ordering" integer DEFAULT '0' NOT NULL,
+  "language" varchar(7) DEFAULT '' NOT NULL,
+  "created" timestamp without time zone '1970-01-01 00:00:00' NOT NULL,
+  "created_by" bigint DEFAULT '0' NOT NULL,
+  "modified" timestamp without time zone '1970-01-01 00:00:00' NOT NULL,
+  "modified_by" bigint DEFAULT '0' NOT NULL,
+  "access" bigint DEFAULT '1' NOT NULL,
+  PRIMARY KEY ("id")
+);
+CREATE INDEX "#__fields_groups_idx_checked_out" ON "#__fields_groups" ("checked_out");
+CREATE INDEX "#__fields_groups_idx_state" ON "#__fields_groups" ("state");
+CREATE INDEX "#__fields_groups_idx_created_by" ON "#__fields_groups" ("created_by");
+CREATE INDEX "#__fields_groups_idx_access" ON "#__fields_groups" ("access");
+CREATE INDEX "#__fields_groups_idx_extension" ON "#__fields_groups" ("extension");
+CREATE INDEX "#__fields_groups_idx_language" ON "#__fields_groups" ("language");
 
 --
 -- Table: #__fields_values
@@ -1197,9 +1228,9 @@ CREATE TABLE "#__languages" (
   "ordering" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("lang_id"),
   CONSTRAINT "#__languages_idx_sef" UNIQUE ("sef"),
-  CONSTRAINT "#__languages_idx_image" UNIQUE ("image"),
   CONSTRAINT "#__languages_idx_langcode" UNIQUE ("lang_code")
 );
+CREATE INDEX "#__languages_idx_image" ON "#__languages" ("image");
 CREATE INDEX "#__languages_idx_ordering" ON "#__languages" ("ordering");
 CREATE INDEX "#__languages_idx_access" ON "#__languages" ("access");
 

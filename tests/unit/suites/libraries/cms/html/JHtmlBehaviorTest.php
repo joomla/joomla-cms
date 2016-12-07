@@ -442,24 +442,6 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
-	 * Tests the calendar method.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testCalendar()
-	{
-		JHtmlBehavior::calendar();
-
-		$this->assertEquals(
-			array('JHtmlBehavior::calendar' => true),
-			JHtmlBehaviorInspector::getLoaded(),
-			'The calendar behavior is not loaded with all dependencies'
-		);
-	}
-
-	/**
 	 * Tests the colorpicker method.
 	 *
 	 * @return  void
