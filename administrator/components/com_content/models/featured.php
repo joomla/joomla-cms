@@ -221,7 +221,7 @@ class ContentModelFeatured extends ContentModelArticles
 			$orderDirn = $this->state->get('list.direction', 'ASC');
 		}
 
-		$query->order($db->escape($this->getState('list.ordering', 'a.title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}
