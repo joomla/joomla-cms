@@ -161,7 +161,7 @@ abstract class ModMenuHelper
 	 * Load the menu items from database for the given menutype
 	 *
 	 * @param   string   $menutype   The selected menu type
-	 * @param   boolean  $authCheck	 An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
+	 * @param   boolean  $authCheck  An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
 	 *
 	 * @return  array
 	 *
