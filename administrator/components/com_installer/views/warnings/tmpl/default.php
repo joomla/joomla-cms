@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 		<?php if (count($this->messages)) : ?>
 			<?php echo JHtml::_('bootstrap.startAccordion', 'warnings', array('active' => 'warning0')); ?>
 				<?php $i = 0; ?>
-				<?php foreach($this->messages as $message) : ?>
+				<?php foreach ($this->messages as $message) : ?>
 					<?php echo JHtml::_('bootstrap.addSlide', 'warnings', $message['message'], 'warning' . ($i++)); ?>
 						<?php echo $message['description']; ?>
 					<?php echo JHtml::_('bootstrap.endSlide'); ?>

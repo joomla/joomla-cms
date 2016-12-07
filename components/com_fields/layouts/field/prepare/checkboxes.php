@@ -16,7 +16,7 @@ if (!key_exists('field', $displayData))
 $field      = $displayData['field'];
 $fieldValue = $field->value;
 
-if (!$fieldValue)
+if ($fieldValue == '')
 {
 	return;
 }
@@ -27,7 +27,7 @@ $options    = JFormAbstractlist::getOptionsFromField($field);
 
 foreach ($options as $value => $name)
 {
-	if (in_array($value, $fieldValue))
+	if (in_array((string) $value, $fieldValue))
 	{
 		$texts[] = JText::_($name);
 	}
