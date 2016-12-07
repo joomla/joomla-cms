@@ -71,15 +71,24 @@ JHtml::_('script', 'jui/fielduser.min.js', array('version' => 'auto', 'relative'
 	data-button-select=".button-select"
 	>
 	<div class="input-append">
-		<input
+		<?php if ($readonly) : ?>
+			<input
 			type="text" id="<?php echo $id; ?>"
 			value="<?php echo  htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'); ?>"
-			placeholder="<?php echo JText::_('JLIB_FORM_SELECT_USER'); ?>"
+			placeholder=""
 			readonly
 			class="field-user-input-name <?php echo $class ? (string) $class : ''?>"
 			<?php echo $size ? ' size="' . (int) $size . '"' : ''; ?>
 			<?php echo $required ? 'required' : ''; ?>/>
-		<?php if (!$readonly) : ?>
+		<?php else : ?>
+			<input
+				type="text" id="<?php echo $id; ?>"
+				value="<?php echo  htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'); ?>"
+				placeholder="<?php echo JText::_('JLIB_FORM_SELECT_USER'); ?>"
+				readonly
+				class="field-user-input-name <?php echo $class ? (string) $class : ''?>"
+				<?php echo $size ? ' size="' . (int) $size . '"' : ''; ?>
+				<?php echo $required ? 'required' : ''; ?>/>
 			<a class="btn btn-primary button-select" title="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"><span class="icon-user"></span></a>
 			<?php echo JHtml::_(
 				'bootstrap.renderModal',
