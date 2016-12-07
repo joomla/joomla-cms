@@ -131,7 +131,7 @@ class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterfa
 		if ($allowSelect)
 		{
 			$html .= '<a'
-				. ' class="btn btn-primary hasTooltip' . ($value ? ' hidden' : '') . '"'
+				. ' class="btn btn-primary hasTooltip' . ($value ? ' element-invisible' : '') . '"'
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
@@ -145,7 +145,7 @@ class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterfa
 		if ($allowNew)
 		{
 			$html .= '<a'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? ' hidden' : '') . '"'
+				. ' class="btn btn-secondary hasTooltip' . ($value ? ' element-invisible' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
@@ -159,7 +159,7 @@ class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterfa
 		if ($allowEdit)
 		{
 			$html .= '<a'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? '' : ' hidden') . '"'
+				. ' class="btn btn-secondary hasTooltip' . ($value ? '' : ' element-invisible') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
@@ -173,7 +173,7 @@ class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterfa
 		if ($allowClear)
 		{
 			$html .= '<a'
-				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+				. ' class="btn btn-secondary' . ($value ? '' : ' element-invisible') . '"'
 				. ' id="' . $this->id . '_clear"'
 				. ' href="#"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'

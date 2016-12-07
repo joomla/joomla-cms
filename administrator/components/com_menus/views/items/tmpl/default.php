@@ -27,8 +27,8 @@ $menuType   = (string) $app->getUserState('com_menus.items.menutype', '', 'strin
 
 if ($saveOrder && $menuType)
 {
-	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
+	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
+	JHtml::_('draggablelist.draggable');
 }
 
 $assoc = JLanguageAssociations::isEnabled();
@@ -68,24 +68,24 @@ if ($menuType == '')
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="text-xs-center nowrap hidden-sm-down">
+						<th width="10%" class="text-xs-center nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($assoc) : ?>
-							<th width="5%" class="nowrap hidden-sm-down">
+							<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif;?>
-						<th width="15%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th width="5%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -98,7 +98,7 @@ if ($menuType == '')
 					</tr>
 				</tfoot>
 
-				<tbody>
+				<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 				<?php
 				
 				foreach ($this->items as $i => $item) :
@@ -136,7 +136,7 @@ if ($menuType == '')
 						$parentsStr = "";
 					}
 					?>
-					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
+					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
 						<?php if ($menuType) : ?>
 							<td class="order nowrap text-xs-center hidden-sm-down">
 								<?php
@@ -195,7 +195,7 @@ if ($menuType == '')
 									<?php echo $this->escape($item->item_type); ?></span>
 							</div>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small hidden-sm-down text-xs-center">
 							<?php echo $this->escape($item->menutype_title); ?>
 						</td>
 						<td class="text-xs-center hidden-sm-down">
@@ -219,20 +219,20 @@ if ($menuType == '')
 								<?php endif; ?>
 							<?php endif; ?>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small hidden-sm-down text-xs-center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<?php if ($assoc) : ?>
-							<td class="small hidden-sm-down">
+							<td class="small hidden-sm-down text-xs-center">
 								<?php if ($item->association) : ?>
 									<?php echo JHtml::_('MenusHtml.Menus.association', $item->id); ?>
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
-						<td class="small hidden-sm-down">
+						<td class="small hidden-sm-down text-xs-center">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<td class="hidden-sm-down">
+						<td class="hidden-sm-down text-xs-center">
 							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 								<?php echo (int) $item->id; ?>
 							</span>

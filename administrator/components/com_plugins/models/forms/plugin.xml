@@ -21,7 +21,7 @@
 		<field
 			name="enabled"
 			type="list"
-			class="custom-select custom-select-color-state"
+			class="custom-select-color-state"
 			label="JSTATUS"
 			description="COM_PLUGINS_FIELD_ENABLED_DESC"
 			size="1"
@@ -33,7 +33,6 @@
         <field
 			name="access"
 			type="accesslevel"
-			class="custom-select"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
 			size="1" />

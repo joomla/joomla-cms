@@ -23,8 +23,8 @@ $assoc     = JLanguageAssociations::isEnabled();
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_contact&task=contacts.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'contactList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	$saveOrderingUrl = 'index.php?option=com_contact&task=contacts.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
+	JHtml::_('draggablelist.draggable');
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
@@ -51,21 +51,21 @@ if ($saveOrder)
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap">
+						<th width="10%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($assoc) : ?>
-						<th width="5%" class="nowrap">
+						<th width="10%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
 						<?php endif;?>
-						<th width="15%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th width="5%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -77,7 +77,7 @@ if ($saveOrder)
 						</td>
 					</tr>
 				</tfoot>
-				<tbody>
+				<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 				<?php
 				$n = count($this->items);
 				foreach ($this->items as $i => $item) :
@@ -89,7 +89,7 @@ if ($saveOrder)
 
 					$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id=' . $item->catid);
 					?>
-					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
+					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
 						<td class="order nowrap text-xs-center hidden-sm-down">
 							<?php
 							$iconClass = '';
@@ -137,26 +137,26 @@ if ($saveOrder)
 								</div>
 							</div>
 						</td>
-						<td class="small">
+						<td class="small text-xs-center">
 							<?php if (!empty($item->linked_user)) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $item->linked_user; ?></a>
 								<div class="small"><?php echo $item->email; ?></div>
 							<?php endif; ?>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small hidden-sm-down text-xs-center">
 							<?php echo $item->access_level; ?>
 						</td>
 						<?php if ($assoc) : ?>
-						<td class="hidden-sm-down">
+						<td class="hidden-sm-down text-xs-center">
 							<?php if ($item->association) : ?>
 								<?php echo JHtml::_('contact.association', $item->id); ?>
 							<?php endif; ?>
 						</td>
 						<?php endif;?>
-						<td class="small hidden-sm-down">
+						<td class="small hidden-sm-down text-xs-center">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<td class="hidden-sm-down">
+						<td class="hidden-sm-down text-xs-center">
 							<?php echo $item->id; ?>
 						</td>
 					</tr>

@@ -73,11 +73,11 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 							<span class="icon-trash"></span>
 							<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 						</th>
-						<th width="20%" class="nowrap text-xs-center">
+						<th width="10%" class="nowrap text-xs-center">
 							<span class="icon-cube"></span>
 							<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th width="5%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -149,7 +149,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 										<?php echo JText::_('COM_MENUS_MODULES'); ?>
 										<span class="caret"></span>
 									</a>
-									<div class="dropdown-menu">
+									<div class="dropdown-menu dropdown-menu-right">
 										<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 											<?php if ($canEdit) : ?>
 												<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
@@ -219,7 +219,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 									); ?>
 							<?php endif; ?>
 						</td>
-						<td class="hidden-sm-down">
+						<td class="hidden-sm-down text-xs-center">
 							<?php echo $item->id; ?>
 						</td>
 					</tr>

@@ -40,6 +40,16 @@
       background: none;
     }
   }
+
+  .chzn-drop {
+    background: $white-offset;
+    border: $custom-select-border-width solid $custom-select-border-color;
+  }
+
+  &.chzn-container-active .chzn-single {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
 
 // TEMPORARY
