@@ -22,7 +22,6 @@ $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $ordering   = ($listOrder == 'a.lft');
-$canOrder   = $user->authorise('core.edit.state',	'com_menus');
 $saveOrder  = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $menuType   = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
 
