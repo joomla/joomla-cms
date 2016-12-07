@@ -17,7 +17,7 @@ JHtml::_('behavior.multiselect');
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$canOrder  = $user->authorise('core.edit.state', 'com_content.article');
+$canOrder  = $user->authorise('core.edit.state', 'com_content');
 $saveOrder = $listOrder == 'fp.ordering';
 $n         = count($this->items);
 ?>
@@ -94,7 +94,7 @@ $n         = count($this->items);
 				</th>
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'fp.ordering', $listDirn, $listOrder); ?>
-					<?php if ($canOrder && $saveOrder) :?>
+					<?php if ($canOrder && $saveOrder) : ?>
 						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'featured.saveorder'); ?>
 					<?php endif; ?>
 				</th>
@@ -105,7 +105,7 @@ $n         = count($this->items);
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_CREATED_BY', 'a.created_by', $listDirn, $listOrder); ?>
 				</th>
 				<th class="title date-col">
-					<?php echo JHtml::_('grid.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_DATE_CREATED', 'a.created', $listDirn, $listOrder); ?>
 				</th>
 				<th class="hits-col">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
@@ -188,11 +188,7 @@ $n         = count($this->items);
 					<?php echo (int) $item->hits; ?>
 				</td>
 				<td class="center">
-					<?php if ($item->language == '*') : ?>
-						<?php echo JText::alt('JALL', 'language'); ?>
-					<?php else : ?>
-						<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-					<?php endif;?>
+					<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>

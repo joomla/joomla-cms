@@ -212,7 +212,9 @@ class JDocumentError extends JDocument
 			return;		
 		}
 
-		if (!$this->_error->getTrace() || !is_array($backtrace))
+		$backtrace = $this->_error->getTrace();
+
+		if (!$backtrace || !is_array($backtrace))
 		{
 			return '';
 		}
