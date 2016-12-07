@@ -16,20 +16,20 @@ if (!key_exists('field', $displayData))
 $field = $displayData['field'];
 $value = $field->value;
 
-if (!$value)
+if ($value == '')
 {
 	return;
 }
 
 $value   = (array) $value;
 $texts   = array();
-$options = JFormFieldList::getOptionsFromField($field);
+$options = JFormAbstractlist::getOptionsFromField($field);
 
-foreach ($options as $index => $optionsValue)
+foreach ($options as $optionValue => $optionText)
 {
-	if (in_array($index, $value))
+	if (in_array((string) $optionValue, $value))
 	{
-		$texts[] = $optionsValue;
+		$texts[] = JText::_($optionText);
 	}
 }
 

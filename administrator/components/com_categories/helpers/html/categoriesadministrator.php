@@ -72,7 +72,7 @@ abstract class JHtmlCategoriesAdministrator
 					$classes = 'hasPopover label label-association label-' . $item->lang_sef;
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
-						. '" data-content="' . $item->title . '" data-placement="top">'
+						. '" data-content="' . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '" data-placement="top">'
 						. $text . '</a>';
 				}
 			}

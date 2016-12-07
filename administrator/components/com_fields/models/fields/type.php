@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
-JLoader::import('joomla.filesystem.folder');
+JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
 /**
  * Fields Type
@@ -20,7 +20,7 @@ class JFormFieldType extends JFormAbstractlist
 {
 	public $type = 'Type';
 
-	public static $BLACKLIST = array('moduleposition');
+	public static $BLACKLIST = array('moduleposition', 'aliastag');
 
 	/**
 	 * Method to attach a JForm object to the field.
@@ -155,37 +155,5 @@ class JFormFieldType extends JFormAbstractlist
 			}");
 
 		return $options;
-	}
-
-	/**
-	 * Parses the file with the given path. If it is a class starting with the
-	 * name JFormField and implementing JFormDomfieldinterface, then the class name is returned.
-	 *
-	 * @param   string  $path  The path.
-	 *
-	 * @return  string|boolean
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getClassNameFromFile($path)
-	{
-		$tokens    = token_get_all(JFile::read($path));
-		$className = null;
-
-		for ($i = 2; $i < count($tokens); $i ++)
-		{
-			if ($tokens[$i - 2][0] == T_CLASS && $tokens[$i - 1][0] == T_WHITESPACE && $tokens[$i][0] == T_STRING
-				&& strpos($tokens[$i][1], 'JFormField') !== false)
-			{
-				$className = $tokens[$i][1];
-			}
-
-			if ($tokens[$i - 2][0] == T_IMPLEMENTS && $tokens[$i - 1][0] == T_WHITESPACE && $tokens[$i][1] == 'JFormDomfieldinterface')
-			{
-				return $className;
-			}
-		}
-
-		return false;
 	}
 }
