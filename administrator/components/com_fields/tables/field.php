@@ -91,20 +91,6 @@ class FieldsTableField extends JTable
 			return false;
 		}
 
-		if (empty($this->alias))
-		{
-			$this->alias = $this->title;
-		}
-
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
-
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = Joomla\String\StringHelper::increment($this->alias, 'dash');
-		}
-
-		$this->alias = str_replace(',', '-', $this->alias);
-
 		if (empty($this->type))
 		{
 			$this->type = 'text';
