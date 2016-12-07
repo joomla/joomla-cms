@@ -91,7 +91,7 @@ class JMenuSite extends JMenu
 					// Set the query
 					$db->setQuery($query);
 
-					return $db->loadObjectList('id');
+					return $db->loadObjectList('id', 'JMenuItem');
 				},
 				array(),
 				md5(get_class($this)),
