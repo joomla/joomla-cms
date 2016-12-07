@@ -51,12 +51,6 @@ class JFormRuleLogoutUniqueField extends JFormRule
 			throw new InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
 		}
 
-		// Test the input values for logout.
-		if ($logoutRedirectUrl != '' && $logoutRedirectMenuitem != '')
-		{
-			return false;
-		}
-
 		return true;
 	}
 }
