@@ -324,12 +324,6 @@ class ContentModelArticles extends JModelList
 		$orderCol = $this->state->get('list.ordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'desc');
 
-		if (JPluginHelper::isEnabled('content', 'vote'))
-		{
-			$orderCol  = $this->state->get('list.fullordering', 'a.id');
-			$orderDirn = '';
-		}
-
 		$query->order($db->escape($orderCol) . ' ' . $orderDirn);
 
 		return $query;
