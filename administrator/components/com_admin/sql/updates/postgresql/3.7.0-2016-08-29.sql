@@ -49,7 +49,6 @@ CREATE TABLE "#__fields_groups" (
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "extension" varchar(255) DEFAULT '' NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
-  "alias" varchar(255) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
   "description" text DEFAULT '' NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
