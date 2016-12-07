@@ -59,26 +59,24 @@ class UsersHelper
 				'index.php?option=com_users&view=notes',
 				$vName == 'notes'
 			);
-
-			$extension = JFactory::getApplication()->input->getString('extension');
 			JHtmlSidebar::addEntry(
 				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
 				'index.php?option=com_categories&extension=com_users',
-				$vName == 'categories' || $extension == 'com_users'
+				$vName == 'categories'
 			);
 		}
 
-		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getComponent('com_users')->params->get('custom_fields_enable', '1'))
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
 		{
 			JHtmlSidebar::addEntry(
 				JText::_('JGLOBAL_FIELDS'),
 				'index.php?option=com_fields&context=com_users.user',
-				$vName == 'fields.user'
+				$vName == 'fields.fields'
 			);
 			JHtmlSidebar::addEntry(
 				JText::_('JGLOBAL_FIELD_GROUPS'),
-				'index.php?option=com_categories&extension=com_users.user.fields',
-				$vName == 'categories.user'
+				'index.php?option=com_fields&view=groups&extension=com_users',
+				$vName == 'fields.groups'
 			);
 		}
 	}
@@ -300,5 +298,23 @@ class UsersHelper
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getContexts()
+	{
+		JFactory::getLanguage()->load('com_users', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_users.user' => JText::_('COM_USERS'),
+		);
+
+		return $contexts;
 	}
 }
