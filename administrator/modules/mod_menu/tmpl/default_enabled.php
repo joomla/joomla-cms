@@ -112,7 +112,7 @@ if ($user->authorise('core.manage', 'com_users'))
 		$menu->getParent();
 	}
 
-	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getComponent('com_users')->params->get('custom_fields_enable', '1'))
+	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
 	{
 		$menu->addChild(
 				new JMenuNode(
@@ -121,7 +121,7 @@ if ($user->authorise('core.manage', 'com_users'))
 
 		$menu->addChild(
 				new JMenuNode(
-						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_categories&extension=com_users.user.fields', 'class:category')
+						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&extension=com_users', 'class:category')
 				);
 	}
 
@@ -245,7 +245,7 @@ if ($user->authorise('core.manage', 'com_content'))
 		$menu->getParent();
 	}
 
-	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getComponent('com_content')->params->get('custom_fields_enable', '1'))
+	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
 	{
 		$menu->addChild(
 			new JMenuNode(
@@ -254,7 +254,7 @@ if ($user->authorise('core.manage', 'com_content'))
 
 		$menu->addChild(
 			new JMenuNode(
-				JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_categories&extension=com_content.article.fields', 'class:category')
+				JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&extension=com_content', 'class:category')
 		);
 	}
 

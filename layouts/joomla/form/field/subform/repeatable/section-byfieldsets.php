@@ -31,12 +31,12 @@ extract($displayData);
 	</div>
 	<?php endif; ?>
 	<div class="row-fluid">
-<?php foreach($form->getFieldsets() as $fieldset): ?>
+<?php foreach ($form->getFieldsets() as $fieldset): ?>
 <fieldset class="<?php if (!empty($fieldset->class)){ echo $fieldset->class; } ?>">
 	<?php if (!empty($fieldset->label)):?>
 	<legend><?php echo JText::_($fieldset->label); ?></legend>
 	<?php endif; ?>
-<?php foreach($form->getFieldset($fieldset->name) as $field): ?>
+<?php foreach ($form->getFieldset($fieldset->name) as $field): ?>
 	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </fieldset>
