@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 // JLayout for standard handling of the edit modules:
 
-$moduleHtml   =& $displayData['moduleHtml'];
+$moduleHtml   = &$displayData['moduleHtml'];
 $mod          = $displayData['module'];
 $position     = $displayData['position'];
 $menusEditing = $displayData['menusediting'];
