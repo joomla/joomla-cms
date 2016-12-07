@@ -173,24 +173,46 @@ class JTableMenu extends JTableNested
 		}
 		else
 		{
+			$query = $db->getQuery(true)
+				->select('COUNT(*)')
+				->from($db->quoteName('#__menu'))
+				->where($db->quoteName('parent_id') . ' = ' . $db->quote('1'))
+				->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
+				->where($db->quoteName('alias') . ' = ' . $db->quote($this->alias));
+
+			$db->setQuery($query);
+			$aliasCount = $db->loadResult();
+
 			$itemSearch = array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id);
 			$error      = false;
 
 			// Check if the alias already exists. For multilingual site.
 			if (JLanguageMultilang::isEnabled())
 			{
-				// If not exists a menu item at the same level with the same alias (in the All or the same language).
+				// If there is a menu item at the same level with the same alias (in the All or the same language).
 				if (($table->load(array_replace($itemSearch, array('language' => '*'))) && ($table->id != $this->id || $this->id == 0))
-					|| ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0))
-					|| ($this->language == '*' && $table->load($itemSearch) && ($table->id != $this->id || $this->id == 0)))
+					|| ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0)))
 				{
 					$error = true;
+				}
+
+				// Check when setting the language to All in a new menu item
+				if ($this->language == '*' && $table->load($itemSearch) && $this->id == 0)
+				{
+					$error = true;
+				}
+				// Check when changing the language to All in an existing menu item
+				elseif ($this->language == '*' && $table->load($itemSearch) && $aliasCount > 1 && $this->id != 0)
+				{
+					$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ALL', $this->alias, $table->title));
+
+					return false;
 				}
 			}
 			// Check if the alias already exists. For monolingual site.
 			else
 			{
-				// If not exists a menu item at the same level with the same alias (in any language).
+				// If there is a menu item at the same level with the same alias (in any language).
 				if ($table->load($itemSearch) && ($table->id != $this->id || $this->id == 0))
 				{
 					$error = true;
