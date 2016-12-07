@@ -38,7 +38,7 @@ $table_head = '';
 
 if (!empty($groupByFieldset))
 {
-	foreach($tmpl->getFieldsets() as $fieldset) {
+	foreach ($tmpl->getFieldsets() as $fieldset) {
 		$table_head .= '<th>' . JText::_($fieldset->label);
 
 		if (!empty($fieldset->description))
@@ -53,7 +53,7 @@ if (!empty($groupByFieldset))
 }
 else
 {
-	foreach($tmpl->getGroup('') as $field) {
+	foreach ($tmpl->getGroup('') as $field) {
 		$table_head .= '<th>' . strip_tags($field->label);
 		$table_head .= '<br /><small style="font-weight:normal">' . JText::_($field->description) . '</small>';
 		$table_head .= '</th>';
@@ -88,7 +88,7 @@ else
 			</thead>
 			<tbody>
 			<?php
-			foreach($forms as $k => $form):
+			foreach ($forms as $k => $form):
 				echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
 			endforeach;
 			?>
