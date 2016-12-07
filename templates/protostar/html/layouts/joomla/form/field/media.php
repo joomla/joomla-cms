@@ -116,7 +116,7 @@ $url    = ($readonly ? ''
 		)
 	);
 
-	JHtml::_('script', 'media/mediafield.min.js', false, true, false, false, true);
+	JHtml::_('script', 'media/mediafield.min.js', array('version' => 'auto', 'relative' => true));
 	?>
 	<?php if ($showPreview && $showAsTooltip) : ?>
 	<div class="input-prepend input-append">

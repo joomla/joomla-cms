@@ -242,6 +242,7 @@ class JoomlaInstallerScript
 			array('component', 'com_contenthistory', '', 1),
 			array('component', 'com_postinstall', '', 1),
 			array('component', 'com_joomlaupdate', '', 1),
+			array('component', 'com_fields', '', 1),
 
 			// Libraries
 			array('library', 'phputf8', '', 0),
@@ -349,6 +350,8 @@ class JoomlaInstallerScript
 			array('plugin', 'phpversioncheck', 'quickicon', 0),
 			array('plugin', 'menu', 'editors-xtd', 0),
 			array('plugin', 'contact', 'editors-xtd', 0),
+			array('plugin', 'fields', 'system', 0),
+			array('plugin', 'gallery', 'fields', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -1516,6 +1519,33 @@ class JoomlaInstallerScript
 			'/administrator/components/com_redirect/views/links/tmpl/default_batch.php',
 			'/administrator/components/com_tags/views/tags/tmpl/default_batch.php',
 			'/administrator/components/com_users/views/users/tmpl/default_batch.php',
+			'/components/com_contact/metadata.xml',
+			'/components/com_contact/views/category/metadata.xml',
+			'/components/com_contact/views/contact/metadata.xml',
+			'/components/com_contact/views/featured/metadata.xml',
+			'/components/com_content/metadata.xml',
+			'/components/com_content/views/archive/metadata.xml',
+			'/components/com_content/views/article/metadata.xml',
+			'/components/com_content/views/categories/metadata.xml',
+			'/components/com_content/views/category/metadata.xml',
+			'/components/com_content/views/featured/metadata.xml',
+			'/components/com_content/views/form/metadata.xml',
+			'/components/com_finder/views/search/metadata.xml',
+			'/components/com_mailto/views/mailto/metadata.xml',
+			'/components/com_mailto/views/sent/metadata.xml',
+			'/components/com_newsfeeds/metadata.xml',
+			'/components/com_newsfeeds/views/category/metadata.xml',
+			'/components/com_newsfeeds/views/newsfeed/metadata.xml',
+			'/components/com_search/views/search/metadata.xml',
+			'/components/com_tags/metadata.xml',
+			'/components/com_tags/views/tag/metadata.xml',
+			'/components/com_users/metadata.xml',
+			'/components/com_users/views/login/metadata.xml',
+			'/components/com_users/views/profile/metadata.xml',
+			'/components/com_users/views/registration/metadata.xml',
+			'/components/com_users/views/remind/metadata.xml',
+			'/components/com_users/views/reset/metadata.xml',
+			'/components/com_wrapper/metadata.xml',
 			'/administrator/modules/mod_menu/tmpl/default_enabled.php',
 			'/administrator/modules/mod_menu/tmpl/default_disabled.php',
 			'/administrator/templates/hathor/html/mod_menu/default_enabled.php',
@@ -1628,7 +1658,7 @@ class JoomlaInstallerScript
 			'/libraries/simplepie',
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade',
-			// Joomla __DEPLOY_VERSION__
+			// Joomla! __DEPLOY_VERSION__
 			'/libraries/joomla/data',
 			'/administrator/templates/hathor/html/mod_menu',
 		);
@@ -1699,7 +1729,8 @@ class JoomlaInstallerScript
 			'com_tags',
 			'com_contenthistory',
 			'com_ajax',
-			'com_postinstall'
+			'com_postinstall',
+			'com_fields',
 		);
 
 		foreach ($newComponents as $component)

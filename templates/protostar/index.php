@@ -28,7 +28,7 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
-if($task == "edit" || $layout == "form" )
+if ($task == "edit" || $layout == "form" )
 {
 	$fullWidth = 1;
 }
@@ -40,15 +40,19 @@ else
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+// Add template js
+JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
+
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 // Add Stylesheets
-$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => true));
 
 // Use of Google Font
 if ($this->params->get('googleFont'))
 {
-	$this->addStyleSheet('//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	JHtml::_('stylesheet', '//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
 	$this->addStyleDeclaration("
 	h1, h2, h3, h4, h5, h6, .site-title {
 		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
@@ -79,12 +83,10 @@ if ($this->params->get('templateColor'))
 }
 
 // Check for a custom CSS file
-$userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
-if (file_exists($userCss) && filesize($userCss) > 0)
-{
-	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/user.css');
-}
+// Check for a custom js file
+JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -126,7 +128,6 @@ else
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="site <?php echo $option
 	. ' view-' . $view

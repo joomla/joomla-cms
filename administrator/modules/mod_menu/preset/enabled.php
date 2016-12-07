@@ -113,6 +113,19 @@ if ($user->authorise('core.manage', 'com_users'))
 		$this->getParent();
 	}
 
+	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
+	{
+		$this->addChild(
+				new JMenuNode(
+						JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_users.user', 'class:fields')
+				);
+
+		$this->addChild(
+				new JMenuNode(
+						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&extension=com_users', 'class:category')
+				);
+	}
+
 	if (JFactory::getApplication()->get('massmailoff') != 1)
 	{
 		$this->addSeparator();
@@ -239,6 +252,19 @@ if ($user->authorise('core.manage', 'com_content'))
 			)
 		);
 		$this->getParent();
+	}
+
+	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
+	{
+		$this->addChild(
+			new JMenuNode(
+				JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_content.article', 'class:fields')
+		);
+
+		$this->addChild(
+			new JMenuNode(
+				JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&extension=com_content', 'class:category')
+		);
 	}
 
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured', 'class:featured'));
@@ -373,7 +399,7 @@ if ($showhelp == 1)
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_JOOMLA'), 'index.php?option=com_admin&view=help', 'class:help'));
 	$this->addSeparator();
 
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM'), 'http://forum.joomla.org', 'class:help-forum', false, '_blank'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM'), 'https://forum.joomla.org', 'class:help-forum', false, '_blank'));
 
 	if ($forum_url = $params->get('forum_url'))
 	{
@@ -384,7 +410,7 @@ if ($showhelp == 1)
 
 	if ($lang->hasKey('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE') && JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE') != '')
 	{
-		$forum_url = 'http://forum.joomla.org/viewforum.php?f=' . (int) JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
+		$forum_url = 'https://forum.joomla.org/viewforum.php?f=' . (int) JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
 		$lang->setDebug($debug);
 		$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM'), $forum_url, 'class:help-forum', false, '_blank'));
 	}

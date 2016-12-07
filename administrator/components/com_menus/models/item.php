@@ -126,16 +126,10 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
+		$menuTypeId = !empty($record->menutype) ? $this->getMenuTypeId($record->menutype) : 0;
+		$assetKey   = $menuTypeId ? 'com_menus.menu.' . (int) $menuTypeId : 'com_menus';
 
-		$menuTypeId = 0;
-
-		if (!empty($record->menutype))
-		{
-			$menuTypeId = $this->getMenuTypeId($record->menutype);
-		}
-
-		return $user->authorise('core.edit.state', 'com_menus.menu.' . (int) $menuTypeId);
+		return JFactory::getUser()->authorise('core.edit.state', $assetKey);
 	}
 
 	/**
@@ -1208,25 +1202,23 @@ class MenusModelItem extends JModelAdmin
 		// Association menu items, we currently do not support this for admin menu… may be later
 		if ($clientId == 0 && JLanguageAssociations::isEnabled())
 		{
-			$languages = JLanguageHelper::getLanguages('lang_code');
+			$languages = JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
-			$addform = new SimpleXMLElement('<form />');
-			$fields = $addform->addChild('fields');
-			$fields->addAttribute('name', 'associations');
-			$fieldset = $fields->addChild('fieldset');
-			$fieldset->addAttribute('name', 'item_associations');
-			$fieldset->addAttribute('description', 'COM_MENUS_ITEM_ASSOCIATIONS_FIELDSET_DESC');
-			$add = false;
-
-			foreach ($languages as $tag => $language)
+			if (count($languages) > 1)
 			{
-				if ($tag != $data['language'])
+				$addform = new SimpleXMLElement('<form />');
+				$fields = $addform->addChild('fields');
+				$fields->addAttribute('name', 'associations');
+				$fieldset = $fields->addChild('fieldset');
+				$fieldset->addAttribute('name', 'item_associations');
+				$fieldset->addAttribute('description', 'COM_MENUS_ITEM_ASSOCIATIONS_FIELDSET_DESC');
+
+				foreach ($languages as $language)
 				{
-					$add = true;
 					$field = $fieldset->addChild('field');
-					$field->addAttribute('name', $tag);
+					$field->addAttribute('name', $language->lang_code);
 					$field->addAttribute('type', 'modal_menu');
-					$field->addAttribute('language', $tag);
+					$field->addAttribute('language', $language->lang_code);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
 					$field->addAttribute('select', 'true');
@@ -1236,10 +1228,7 @@ class MenusModelItem extends JModelAdmin
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
 					$option->addAttribute('value', '');
 				}
-			}
 
-			if ($add)
-			{
 				$form->load($addform, false);
 			}
 		}

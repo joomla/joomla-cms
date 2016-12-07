@@ -88,7 +88,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 				}
 
 				// Do not display language without frontend UI
-				if (!array_key_exists($language->lang_code, JLanguageMultilang::getSiteLangs()))
+				if (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0)))
 				{
 					continue;
 				}

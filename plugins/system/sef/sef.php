@@ -123,7 +123,7 @@ class PlgSystemSef extends JPlugin
 		{
 			if (strpos($buffer, $attribute) !== false)
 			{
-				$regex  = '#\s+' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+				$regex  = '#\s' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
 				$buffer = preg_replace($regex, ' ' . $attribute . '"' . $base . '$1"', $buffer);
 				$this->checkBuffer($buffer);
 			}
