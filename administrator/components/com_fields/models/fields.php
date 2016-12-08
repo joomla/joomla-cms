@@ -220,6 +220,7 @@ class FieldsModelFields extends JModelList
 		// Filter by state
 		$state = $this->getState('filter.state');
 
+		// Include group state only when not on on back end list
 		$includeGroupState = !$app->isClient('administrator') ||
 			$app->input->get('option') != 'com_fields' ||
 			$app->input->get('view') != 'fields';
