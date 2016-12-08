@@ -228,27 +228,17 @@
     }
   }
 
-  > .parent {
-    .collapse-arrow::after {
-      display: inline-block;
-      float: right;
-      width: 0;
-      height: 0;
-      margin-top: 18px;
-      margin-right: 10px;
-      vertical-align: middle;
-      content: "";
-      border-top: .3rem solid;
-      border-right: .3rem solid transparent;
-      border-bottom: 0;
-      border-left: .3rem solid transparent;
-    }
+  > .parent .collapse-arrow::after {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    font-family: FontAwesome;
+    font-size: .75rem;
+    color: $white-offset;
+    content: "\f0d7";
   }
   .open > .collapse-arrow::after {
-    border-top: 0;
-    border-right: .3rem solid transparent;
-    border-bottom: .3rem solid;
-    border-left: .3rem solid transparent;
+    content: "\f0d8";
   }
 }
 
@@ -265,7 +255,10 @@
     z-index: 10;
     overflow: visible;
   }
-  .sidebar-item-title, .parent .collapse-arrow::after, .parent .parent .collapse-arrow::after {
+  .sidebar-item-title {
+    display: none;
+  }
+  .parent .collapse-arrow::after {
     display: none;
   }
   .main-nav {
@@ -292,6 +285,12 @@
         display: block;
         opacity: 1;
       }
+      &:hover .collapse-arrow::after {
+        display: block;
+      }
+      &.parent > .collapse-arrow::after {
+        display: none;
+      }
       .collapse, &:hover .collapse {
         position: absolute;
         top: 100%;
@@ -302,16 +301,6 @@
         position: relative;
         left: 0;
         display: none;
-      }
-      &:hover .parent::after {
-        position: absolute;
-        top: 0;
-        right: 10px;
-        font-family: FontAwesome;
-        font-size: .75rem;
-        color: $white-offset;
-        content: "\f078";
-        opacity: .5;
       }
     }
     .collapse-level-1 {
@@ -325,7 +314,7 @@
         position: relative;
         font-size: $atum-sidebar-item-title;
         line-height: 30px;
-        text-indent: 15px;
+        text-indent: 0;
       }
       a {
         color: $white-offset;
@@ -345,25 +334,12 @@
         background-color: $atum-template-color;
         box-shadow: none;
       }
-      .sidebar-item-title::before {
-        position: absolute;
-        top: 0;
-        left: 0;
-        font-family: FontAwesome;
-        font-size: .4rem;
-        color: $white-offset;
-        content: "\f111";
-        opacity: .5;
-      }
     }
     .collapse-level-2 {
       padding-bottom: 5px;
-      .sidebar-item-title::before {
-        content: "\f10c";
-        opacity: .75;
+      .sidebar-item-title {
+        text-indent: 10px;
       }
     }
   }
 }
-
-
