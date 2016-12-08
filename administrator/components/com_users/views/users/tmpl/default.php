@@ -15,6 +15,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
+$tfa        = JPluginHelper::isEnabled('twofactorauth');
 $loggeduser = JFactory::getUser();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
@@ -25,11 +26,8 @@ $loggeduser = JFactory::getUser();
 		<div id="j-main-container" class="span10">
 	<?php else : ?>
 		<div id="j-main-container">
-	<?php endif;?>
-		<?php
-		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
-		?>
+	<?php endif; ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
@@ -53,6 +51,11 @@ $loggeduser = JFactory::getUser();
 						<th width="5%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 						</th>
+						<?php if ($tfa) : ?>
+							<th width="5%" class="nowrap center hidden-phone">
+								<?php echo JText::_('COM_USERS_HEADING_TFA'); ?>
+							</th>
+						<?php endif; ?>
 						<th width="10%" class="nowrap">
 							<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 						</th>
@@ -72,7 +75,8 @@ $loggeduser = JFactory::getUser();
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="10">
+						<?php $tfa ? $colspan = 11 : $colspan = 10; ?>
+						<td colspan="<?php echo $colspan; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -137,6 +141,15 @@ $loggeduser = JFactory::getUser();
 							echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
 							?>
 						</td>
+						<?php if ($tfa) : ?>
+							<td class="center hidden-phone">
+								<?php if (!empty($item->otpKey)) : ?>
+									<span class="icon-publish"></span>
+								<?php else : ?>
+									<span class="icon-unpublish"></span>
+								<?php endif; ?>
+							</td>
+						<?php endif; ?>
 						<td>
 							<?php if (substr_count($item->group_names, "\n") > 1) : ?>
 								<span class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
