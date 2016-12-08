@@ -100,7 +100,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 				</div>
 			</div>
 			<div id="com_users_twofactor_forms_container">
-				<?php foreach($this->twofactorform as $form) : ?>
+				<?php foreach ($this->twofactorform as $form) : ?>
 				<?php $style = $form['method'] == $this->otpConfig->method ? 'display: block' : 'display: none'; ?>
 				<div id="com_users_twofactor_<?php echo $form['method']; ?>" style="<?php echo $style; ?>">
 					<?php echo $form['form']; ?>
