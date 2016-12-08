@@ -7709,7 +7709,7 @@ legend {
 
 .header {
   position: relative;
-  z-index: 1;
+  z-index: 5;
   height: 50px;
   background: #fcfcfc;
   border-bottom: 1px solid #cecece; }
