@@ -116,7 +116,10 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		// Add a callback for the `onExtensionAfterInstall` event so we can receive the installed extension ID
-		JEventDispatcher::getInstance()->register('onExtensionAfterInstall', array($this, 'onExtensionAfterInstall'));
+		if (!(array($this, 'onExtensionAfterInstall') instanceof JEventDispatcher))
+		{
+			JEventDispatcher::getInstance()->register('onExtensionAfterInstall', array($this, 'onExtensionAfterInstall'));
+		}
 
 		foreach ($this->getManifest()->files->children() as $child)
 		{
