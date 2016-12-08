@@ -131,15 +131,6 @@ WHERE ("type" = 'component' AND "element" IN (
 	'com_ajax',
 	'com_postinstall'
 ))
-OR ("type" = 'module' AND "client_id" = 1 AND "element" IN ('mod_login', 'mod_menu', 'mod_title', 'mod_toolbar'))
-OR ("type" = 'plugin' AND
-	(
-		("folder" = 'user' AND "element" IN ('joomla'))
-		OR ("folder" = 'editors' AND "element" IN ('none'))
-		OR ("folder" = 'authentication' AND "element" IN ('joomla'))
-		OR ("folder" = 'extension' AND "element" IN ('joomla'))
-	)
-)
 OR ("type" = 'library' AND "element" IN ('phputf8', 'joomla', 'idna_convert', 'fof', 'phpass'))
 OR ("type" = 'language' AND "element" IN ('en-GB'))
 OR ("type" = 'file' AND "element" IN ('joomla'))
