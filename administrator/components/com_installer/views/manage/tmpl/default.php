@@ -69,6 +69,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 						</th>
+						<th width="1%" class="nowrap center hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCKED', 'locked', $listDirn, $listOrder); ?>
+						</th>
 						<th class="hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_PACKAGE_ID', 'package_id', $listDirn, $listOrder); ?>
 						</th>
@@ -79,7 +82,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="11">
+						<td colspan="12">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -123,6 +126,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</td>
 						<td class="hidden-phone">
 							<?php echo $item->folder_translated; ?>
+						</td>
+						<td class="hidden-phone">
+							<?php echo ($item->locked ? JText::_('JYES') : JText::_('JNO')); ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo $item->package_id ?: '&#160;'; ?>
