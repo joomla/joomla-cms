@@ -36,7 +36,7 @@ class MenusTableMenu extends JTableMenu
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__modules_menu'))
-				->where($db->quoteName('moduleid') . ' = ' . $pk);
+				->where($db->quoteName('menuid') . ' = ' . $pk);
 			$db->setQuery($query);
 			$db->execute();
 		}
