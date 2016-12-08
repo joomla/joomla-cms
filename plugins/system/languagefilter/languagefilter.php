@@ -106,7 +106,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				// @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
 				// we also check if frontend language exists and is enabled
 				if (($language->access && !in_array($language->access, $levels))
-					|| (!array_key_exists($language->lang_code, JLanguageMultilang::getSiteLangs())))
+					|| (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0))))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);
@@ -338,6 +338,13 @@ class PlgSystemLanguageFilter extends JPlugin
 				if ($found)
 				{
 					array_shift($parts);
+
+					// Empty parts array when "index.php" is the only part left.
+					if (count($parts) == 1 && $parts[0] === 'index.php')
+					{
+						$parts = array();
+					}
+
 					$uri->setPath(implode('/', $parts));
 				}
 			}
@@ -608,24 +615,27 @@ class PlgSystemLanguageFilter extends JPlugin
 
 				$foundAssociation = false;
 
-				if ($active)
+				/**
+				 * Looking for associations.
+				 * If the login menu item form contains an internal URL redirection,
+				 * This will override the automatic change to the user preferred site language.
+				 * In that case we use the redirect as defined in the menu item.
+				 *  Otherwise we redirect, when available, to the user preferred site language.
+				 */
+				if ($active && !$active->params['login_redirect_url'])
 				{
 					if ($assoc)
 					{
 						$associations = MenusHelper::getAssociations($active->id);
 					}
 
-					// The login menu item contains a redirection.
-					// This will override the automatic change to the user preferred language
-					if ($active->params['login_redirect_url'])
-					{
-						$this->app->setUserState('users.login.form.return', JRoute::_($this->app->getUserState('users.login.form.return'), false));
-					}
-					elseif ($this->app->getUserState('users.login.form.return'))
-					{
-						// The login module contains a menu item redirection. Try to get association from that menu item.
-						$itemid = preg_replace('/\D+/', '', $this->app->getUserState('users.login.form.return'));
+					// Retrieves the Itemid from a login form.
+					$uri = new JUri($this->app->getUserState('users.login.form.return'));
 
+					if ($uri->getVar('Itemid'))
+					{
+						// The login form contains a menu item redirection. Try to get associations from that menu item.
+						// If any association set to the user preferred site language, redirect to that page.
 						if ($assoc)
 						{
 							$associations = MenusHelper::getAssociations($itemid);
@@ -640,13 +650,18 @@ class PlgSystemLanguageFilter extends JPlugin
 					}
 					elseif (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
 					{
+						/**
+						 * The login form does not contain a menu item redirection.
+						 * The active menu item has associations.
+						 * We redirect to the user preferred site language associated page.
+						 */
 						$associationItemid = $associations[$lang_code];
 						$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
 						$foundAssociation = true;
 					}
 					elseif ($active->home)
 					{
-						// We are on a Home page, we redirect to the user site language home page
+						// We are on a Home page, we redirect to the user preferred site language Home page.
 						$item = $menu->getDefault($lang_code);
 
 						if ($item && $item->language != $active->language && $item->language != '*')
@@ -734,7 +749,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				switch (true)
 				{
 					// Language without frontend UI || Language without specific home menu || Language without authorized access level
-					case (!array_key_exists($i, JLanguageMultilang::getSiteLangs())):
+					case (!array_key_exists($i, JLanguageHelper::getInstalledLanguages(0))):
 					case (!isset($homes[$i])):
 					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
 						unset($languages[$i]);

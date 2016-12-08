@@ -38,6 +38,20 @@ class ContactHelper extends JHelperContent
 			'index.php?option=com_categories&extension=com_contact',
 			$vName == 'categories'
 		);
+
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_contact')->get('custom_fields_enable', '1'))
+		{
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELDS'),
+				'index.php?option=com_fields&context=com_contact.contact',
+				$vName == 'fields.fields'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELD_GROUPS'),
+				'index.php?option=com_fields&view=groups&extension=com_contact',
+				$vName == 'fields.groups'
+			);
+		}
 	}
 
 	/**
@@ -132,7 +146,7 @@ class ContactHelper extends JHelperContent
 				->where('ct.type_alias =' . $db->q($extension))
 				->join('LEFT', $join)
 				->group('published');
-				
+
 			$db->setQuery($query);
 			$contacts = $db->loadObjectList();
 
@@ -161,5 +175,24 @@ class ContactHelper extends JHelperContent
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getContexts()
+	{
+		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_contact.contact' => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
+			'com_contact.mail' => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+		);
+
+		return $contexts;
 	}
 }

@@ -25,7 +25,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$parts     = explode('.', $extension);
+$parts     = explode('.', $extension, 2);
 $component = $parts[0];
 $section   = null;
 $columns   = 7;

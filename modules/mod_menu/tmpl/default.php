@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $id = '';
 
-if (($tagId = $params->get('tag_id', '')))
+if ($tagId = $params->get('tag_id', ''))
 {
 	$id = ' id="' . $tagId . '"';
 }
@@ -28,8 +28,7 @@ if (($tagId = $params->get('tag_id', '')))
 		$class .= ' default';
 	}
 
-
-	if (($item->id == $active_id) || ($item->type == 'alias' && $item->params->get('aliasoptions') == $active_id))
+	if ($item->id == $active_id || ($item->type == 'alias' && $item->params->get('aliasoptions') == $active_id))
 	{
 		$class .= ' current';
 	}

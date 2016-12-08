@@ -12,7 +12,7 @@
 	<files>
 		<filename plugin="profile">profile.php</filename>
 		<folder>profiles</folder>
-		<folder>fields</folder>
+		<folder>field</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_user_profile.ini</language>

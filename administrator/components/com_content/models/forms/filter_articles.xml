@@ -110,6 +110,10 @@
 			<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.created ASC">JDATE_ASC</option>
 			<option value="a.created DESC">JDATE_DESC</option>
+			<option value="a.publish_up ASC">COM_CONTENT_PUBLISH_UP_ASC</option>
+			<option value="a.publish_up DESC">COM_CONTENT_PUBLISH_UP_DESC</option>
+			<option value="a.publish_down ASC">COM_CONTENT_PUBLISH_DOWN_ASC</option>
+			<option value="a.publish_down DESC">COM_CONTENT_PUBLISH_DOWN_DESC</option>
 			<option value="a.hits ASC">JGLOBAL_HITS_ASC</option>
 			<option value="a.hits DESC">JGLOBAL_HITS_DESC</option>
 			<option value="rating_count ASC" requires="vote">JGLOBAL_VOTES_ASC</option>
