@@ -16,7 +16,7 @@ if (!key_exists('field', $displayData))
 $field = $displayData['field'];
 $value = $field->value;
 
-if ($value == '')
+if ($value === '' || $value === null)
 {
 	return;
 }
