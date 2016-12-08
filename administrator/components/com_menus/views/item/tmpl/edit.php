@@ -47,7 +47,10 @@ jQuery(document).ready(function ($){
 		});
 	});
 	
-	// Menu type Login Form specific
+// Menu type Login Form specific
+	if ($('#jform_params_login_redirect_menuitem_name').val().length) {
+		$('#jform_params_loginredirectchoice1').click();
+	}
 	$('#item-form').on('submit', function() {
 		if ($('#jform_params_login_redirect_url').closest('.control-group').css('display') == 'none') {
 			$('#jform_params_login_redirect_url').val('');
