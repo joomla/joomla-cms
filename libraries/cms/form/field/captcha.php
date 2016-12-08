@@ -145,37 +145,4 @@ class JFormFieldCaptcha extends JFormField
 
 		return $captcha->display($this->name, $this->id, $this->class);
 	}
-
-	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
-	 *
-	 * @param   stdClass    $field      The field.
-	 * @param   DOMElement  $fieldNode  The field node.
-	 * @param   JForm       $form       The form.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
-	{
-		$input = JFactory::getApplication()->input;
-
-		if (JFactory::getApplication()->isAdmin())
-		{
-			$fieldNode->setAttribute('plugin', JFactory::getConfig()->get('captcha'));
-		}
-		elseif ($input->get('option') == 'com_users' && $input->get('view') == 'profile' && $input->get('layout') != 'edit' &&
-				$input->get('task') != 'save')
-		{
-			// The user profile page does show the values by creating the form
-			// and getting the values from it so we need to disable the field
-			$fieldNode->setAttribute('plugin', null);
-		}
-
-		$fieldNode->setAttribute('validate', 'captcha');
-
-		return parent::postProcessDomNode($field, $fieldNode, $form);
-	}
 }

@@ -259,8 +259,10 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$packageURL = $headers['Location'];
 			$headers    = get_headers($packageURL, 1);
 		}
+
 		// Remove protocol, path and query string from URL
 		$basename = basename($packageURL);
+
 		if (strpos($basename, '?') !== false)
 		{
 			$basename = substr($basename, 0, strpos($basename, '?'));

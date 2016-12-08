@@ -94,6 +94,12 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 			$name = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
+		// User lookup went wrong, we assign the value instead.
+		if ($name === null && $this->value)
+		{
+			$name = $this->value;
+		}
+
 		$extraData = array(
 				'userName'  => $name,
 				'groups'    => $this->getGroups(),
