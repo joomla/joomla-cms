@@ -22,6 +22,15 @@ class FieldsControllerField extends JControllerForm
 	private $component;
 
 	/**
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
+
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $text_prefix = 'COM_FIELDS_FIELD';
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A named array of configuration variables.
@@ -32,7 +41,7 @@ class FieldsControllerField extends JControllerForm
 	{
 		parent::__construct($config);
 
-		$this->internalContext = $this->input->getCmd('context', 'com_content.article');
+		$this->internalContext = JFactory::getApplication()->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
 		$parts = FieldsHelper::extract($this->internalContext);
 		$this->component = $parts ? $parts[0] : null;
 	}
@@ -91,11 +100,10 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @since   1.6
 	 */
-	protected function allowEdit($data = array(), $key = 'parent_id')
+	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user     = JFactory::getUser();
-		$userId   = $user->get('id');
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $this->component))
@@ -103,37 +111,25 @@ class FieldsControllerField extends JControllerForm
 			return true;
 		}
 
-		// Check specific edit permission.
-		if ($user->authorise('core.edit', $this->internalContext . '.field.' . $recordId))
+		// Check edit on the record asset (explicit or inherited)
+		if ($user->authorise('core.edit', $this->component . '.field.' . $recordId))
 		{
 			return true;
 		}
 
-		// Fallback on edit.own.
-		// First test if the permission is available.
-		if ($user->authorise('core.edit.own', $this->internalContext . '.field.' . $recordId) || $user->authorise('core.edit.own', $this->component))
+		// Check edit own on the record asset (explicit or inherited)
+		if ($user->authorise('core.edit.own', $this->component . '.field.' . $recordId))
 		{
-			// Now test the owner is the user.
-			$ownerId = (int) isset($data['created_user_id']) ? $data['created_user_id'] : 0;
+			// Existing record already has an owner, get it
+			$record = $this->getModel()->getItem($recordId);
 
-			if (empty($ownerId) && $recordId)
+			if (empty($record))
 			{
-				// Need to do a lookup from the model.
-				$record = $this->getModel()->getItem($recordId);
-
-				if (empty($record))
-				{
-					return false;
-				}
-
-				$ownerId = $record->created_user_id;
+				return false;
 			}
 
-			// If the owner matches 'me' then do the test.
-			if ($ownerId == $userId)
-			{
-				return true;
-			}
+			// Grant if current user is owner of the record
+			return $user->id == $record->created_by;
 		}
 
 		return false;
