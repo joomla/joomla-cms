@@ -73,7 +73,7 @@ CREATE TABLE [#__fields_groups](
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
 	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[ordering] [int] NOT NULL DEFAULT 0,
-	[language] [nvarchar](7) NOT NULL DEFAULT ''
+	[language] [nvarchar](7) NOT NULL DEFAULT '',
 	[created] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[created_by] [bigint] NOT NULL DEFAULT 0,
 	[modified] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
