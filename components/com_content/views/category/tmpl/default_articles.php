@@ -135,7 +135,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<?php foreach ($this->items as $i => $article) : ?>
 			<?php if ($this->items[$i]->state == 0) : ?>
 				<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-			<?php else: ?>
+			<?php else : ?>
 				<tr class="cat-list-row<?php echo $i % 2; ?>" >
 			<?php endif; ?>
 			<td headers="categorylist_header_title" class="list-title">
@@ -155,7 +155,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>
-				<?php else: ?>
+				<?php else : ?>
 					<?php
 					echo $this->escape($article->title) . ' : ';
 					$menu   = JFactory::getApplication()->getMenu();
@@ -212,7 +212,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 						<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author); ?>
 						<?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
-						<?php else: ?>
+						<?php else : ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 						<?php endif; ?>
 					<?php endif; ?>

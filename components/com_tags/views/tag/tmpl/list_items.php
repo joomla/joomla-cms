@@ -85,7 +85,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php foreach ($this->items as $i => $item) : ?>
 					<?php if ($this->items[$i]->core_state == 0) : ?>
 					 <tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-					<?php else: ?>
+					<?php else : ?>
 					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 						<td <?php if ($this->params->get('show_headings')) echo "headers=\"categorylist_header_title\""; ?> class="list-title">
