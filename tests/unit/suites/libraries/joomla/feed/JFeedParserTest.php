@@ -183,7 +183,7 @@ class JFeedParserTest extends TestCase
 	public function testFetchNamespace()
 	{
 		// Set a mock namespace into the namespaces for the parser object.
-		$mock = $this->getMockBuilder('JFeedParserNamespace')->getMock();;
+		$mock = $this->getMockBuilder('JFeedParserNamespace')->getMock();
 		$namespaces = array('mock' => $mock);
 		TestReflection::setValue($this->_instance, 'namespaces', $namespaces);
 
