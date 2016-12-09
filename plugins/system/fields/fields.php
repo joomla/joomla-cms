@@ -59,43 +59,24 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$params = new Registry;
-
-		// Load the item params from the request
+		// Load the fields data from the request
 		$data = JFactory::getApplication()->input->post->get('jform', array(), 'array');
 
-		if (key_exists('params', $data))
+		if (!key_exists('com_fields', $data))
 		{
-			$params->loadArray($data['params']);
+			return true;
 		}
-
-		// Load the params from the item itself
-		if (isset($item->params))
-		{
-			$params->loadString($item->params);
-		}
-
-		$params = $params->toArray();
 
 		// Create the new internal fields field
-		$fields = array();
+		$item->_fields = array();
 
 		foreach ($fieldsObjects as $field)
 		{
-			// Set the param on the fields variable
-			$fields[$field->id] = key_exists($field->id, $params) ? $params[$field->id] : array();
-
-			// Remove it from the params array
-			unset($params[$field->id]);
+			// Set the field data on the fields variable
+			$item->_fields[$field->id] = key_exists($field->id, $data['com_fields']) ? $data['com_fields'][$field->id] : array();
 		}
 
-		$item->_fields = $fields;
-
-		// Update the cleaned up params
-		if (isset($item->params))
-		{
-			$item->params = json_encode($params);
-		}
+		unset ($data['com_fields']);
 
 		return true;
 	}
