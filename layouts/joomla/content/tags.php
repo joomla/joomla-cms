@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 
 JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
 
-$authorisedViews = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
+$authorisedViews = JFactory::getUser()->getAuthorisedViewLevels();
 
 ?>
 <?php if (!empty($displayData)) : ?>
