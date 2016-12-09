@@ -68,7 +68,7 @@
 		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
 			description="COM_CONTENT_FIELD_CREATED_DESC"
 			translateformat="true"
-			   weeknumbers="true"
+			weeknumbers="true"
 			showtime="true"
 			size="22"
 			filter="user_utc" />
@@ -103,7 +103,9 @@
 			type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL"
 			description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
+			translateformat="true"
+			showtime="true"
+			size="22"
 			filter="user_utc" />
 
 		<field name="publish_down" type="calendar"
