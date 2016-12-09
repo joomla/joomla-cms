@@ -18,7 +18,7 @@ $lang = JFactory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 ?>
-<div class="profile-edit<?php echo $this->pageclass_sfx?>">
+<div class="profile-edit<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
@@ -54,7 +54,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 			<legend>
 				<?php echo JText::_($fieldset->label); ?>
 			</legend>
-			<?php endif;?>
+			<?php endif; ?>
 			<?php if (isset($fieldset->description) && trim($fieldset->description)): ?>
 				<?php echo '<p>' . $this->escape(JText::_($fieldset->description)) . '</p>'; ?>
 			<?php endif; ?>
@@ -78,11 +78,11 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 							<?php echo $field->input; ?>
 						</div>
 					</div>
-				<?php endif;?>
-			<?php endforeach;?>
+				<?php endif; ?>
+			<?php endforeach; ?>
 		</fieldset>
-		<?php endif;?>
-	<?php endforeach;?>
+		<?php endif; ?>
+	<?php endforeach; ?>
 
 	<?php if (count($this->twofactormethods) > 1) : ?>
 		<fieldset>

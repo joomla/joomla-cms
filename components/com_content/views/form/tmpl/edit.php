@@ -122,7 +122,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php echo $this->form->renderField('publish_down'); ?>
 				<?php endif; ?>
 				<?php echo $this->form->renderField('access'); ?>
-				<?php if (is_null($this->item->id)):?>
+				<?php if (is_null($this->item->id)): ?>
 					<div class="control-group">
 						<div class="control-label">
 						</div>
