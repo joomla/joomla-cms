@@ -35,15 +35,6 @@
 		/>
 
 		<field
-			name="alias"
-			type="text"
-			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER"
-			size="45"
-		/>
-
-		<field
 			name="state"
 			type="list"
 			label="JSTATUS"

@@ -28,6 +28,19 @@ class MenusTableMenu extends JTableMenu
 	 */
 	public function delete($pk = null, $children = false)
 	{
-		return parent::delete($pk, $children);
+		$return = parent::delete($pk, $children);
+
+		if ($return)
+		{
+			// Delete key from the #__modules_menu table
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__modules_menu'))
+				->where($db->quoteName('menuid') . ' = ' . $pk);
+			$db->setQuery($query);
+			$db->execute();
+		}
+
+		return $return;
 	}
 }
