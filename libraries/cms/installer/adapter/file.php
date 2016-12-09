@@ -297,9 +297,9 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			return false;
 		}
 
-		if ($row->protected)
+		if ($row->locked)
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_WARNCOREFILE'), JLog::WARNING, 'jerror');
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_LOCKED'), JLog::WARNING, 'jerror');
 
 			return false;
 		}

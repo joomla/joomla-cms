@@ -603,12 +603,12 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			return false;
 		}
 
-		// Check that the language is not protected, Normally en-GB.
-		$protected = $extension->get('protected');
+		// Check that the language is not locked, Normally en-GB.
+		$protected = $extension->get('locked');
 
 		if ($protected == 1)
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PROTECTED'), JLog::WARNING, 'jerror');
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_LOCKED'), JLog::WARNING, 'jerror');
 
 			return false;
 		}
