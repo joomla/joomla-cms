@@ -173,16 +173,6 @@ class JTableMenu extends JTableNested
 		}
 		else
 		{
-			$query = $db->getQuery(true)
-				->select('COUNT(*)')
-				->from($db->quoteName('#__menu'))
-				->where($db->quoteName('parent_id') . ' = ' . $db->quote('1'))
-				->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
-				->where($db->quoteName('alias') . ' = ' . $db->quote($this->alias));
-
-			$db->setQuery($query);
-			$aliasCount = $db->loadResult();
-
 			$itemSearch = array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id);
 			$error      = false;
 
@@ -191,22 +181,29 @@ class JTableMenu extends JTableNested
 			{
 				// If there is a menu item at the same level with the same alias (in the All or the same language).
 				if (($table->load(array_replace($itemSearch, array('language' => '*'))) && ($table->id != $this->id || $this->id == 0))
-					|| ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0)))
+					|| ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0))
+					|| ($this->language === '*' && $this->id == 0 && $table->load($itemSearch)))
 				{
 					$error = true;
 				}
-
-				// Check when setting the language to All in a new menu item
-				if ($this->language == '*' && $table->load($itemSearch) && $this->id == 0)
+				// When editing an item with All language check if there are more menu items with the same alias in any language.
+				elseif ($this->language === '*' && $this->id != 0)
 				{
-					$error = true;
-				}
-				// Check when changing the language to All in an existing menu item
-				elseif ($this->language == '*' && $table->load($itemSearch) && $aliasCount > 1 && $this->id != 0)
-				{
-					$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ALL', $this->alias, $table->title));
+					$query = $db->getQuery(true)
+						->select('id')
+						->from($db->quoteName('#__menu'))
+						->where($db->quoteName('parent_id') . ' = 1')
+						->where($db->quoteName('client_id') . ' = 0')
+						->where($db->quoteName('id') . ' != ' . (int) $this->id)
+						->where($db->quoteName('alias') . ' = ' . $db->quote($this->alias));
 
-					return false;
+					$otherMenuItemId = (int) $db->setQuery($query)->loadResult();
+
+					if ($otherMenuItemId)
+					{
+						$table->load(array('id' => $otherMenuItemId));
+						$error = true;
+					}
 				}
 			}
 			// Check if the alias already exists. For monolingual site.
