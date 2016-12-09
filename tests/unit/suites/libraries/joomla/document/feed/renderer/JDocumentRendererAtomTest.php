@@ -48,7 +48,7 @@ class JDocumentRendererAtomTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockBuilder('JApplication')
-								->setMethods(array('get', 'getCfg', 'getRouter',))
+								->setMethods(array('get', 'getCfg', 'getRouter'))
 								->getMock();
 
 		JFactory::$application
