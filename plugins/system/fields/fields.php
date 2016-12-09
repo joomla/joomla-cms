@@ -83,10 +83,10 @@ class PlgSystemFields extends JPlugin
 		foreach ($fieldsObjects as $field)
 		{
 			// Set the param on the fields variable
-			$fields[$field->alias] = key_exists($field->alias, $params) ? $params[$field->alias] : array();
+			$fields[$field->id] = key_exists($field->id, $params) ? $params[$field->id] : array();
 
 			// Remove it from the params array
-			unset($params[$field->alias]);
+			unset($params[$field->id]);
 		}
 
 		$item->_fields = $fields;
@@ -148,8 +148,8 @@ class PlgSystemFields extends JPlugin
 
 		foreach ($fieldsObjects as $field)
 		{
-			// Only save the fields with the alias from the data
-			if (!key_exists($field->alias, $fields))
+			// Only save the fields with the id from the data
+			if (!key_exists($field->id, $fields))
 			{
 				continue;
 			}
@@ -167,7 +167,7 @@ class PlgSystemFields extends JPlugin
 			}
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $fields[$field->alias]);
+			$model->setFieldValue($field->id, $context, $id, $fields[$field->id]);
 		}
 
 		return true;
@@ -527,10 +527,10 @@ class PlgSystemFields extends JPlugin
 					foreach ($fields as $field)
 					{
 						// Adding the instructions how to handle the text
-						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->alias);
+						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->id);
 
 						// Adding the field value as a field
-						$item->{$field->alias} = $field->value;
+						$item->{$field->id} = $field->value;
 					}
 				}
 			}

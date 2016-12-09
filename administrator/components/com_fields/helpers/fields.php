@@ -151,11 +151,7 @@ class FieldsHelper
 				 */
 				$field = clone $original;
 
-				if ($valuesToOverride && key_exists($field->alias, $valuesToOverride))
-				{
-					$field->value = $valuesToOverride[$field->alias];
-				}
-				elseif ($valuesToOverride && key_exists($field->id, $valuesToOverride))
+				if ($valuesToOverride && key_exists($field->id, $valuesToOverride))
 				{
 					$field->value = $valuesToOverride[$field->id];
 				}
@@ -504,7 +500,7 @@ class FieldsHelper
 			if (!is_array($value) && $value !== '')
 			{
 				// Function getField doesn't cache the fields, so we try to do it only when necessary
-				$formField = $form->getField($field->alias, 'params');
+				$formField = $form->getField($field->id, 'params');
 
 				if ($formField && $formField->forceMultiple)
 				{
@@ -513,7 +509,7 @@ class FieldsHelper
 			}
 
 			// Setting the value on the field
-			$form->setValue($field->alias, 'params', $value);
+			$form->setValue($field->id, 'params', $value);
 		}
 
 		return true;
