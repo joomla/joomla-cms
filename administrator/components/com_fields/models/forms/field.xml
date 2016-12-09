@@ -84,7 +84,7 @@
 
 		<field
 			name="default_value"
-			type="text"
+			type="textarea"
 			filter="raw"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
 			description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
