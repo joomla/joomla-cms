@@ -45,11 +45,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php else: ?>
 					<li class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
-				<?php  if ($this->params->get('show_articles')) : ?>
+				<?php if ($this->params->get('show_articles')) : ?>
 					<span class="list-hits badge badge-info pull-right">
 						<?php echo JText::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', $item->numarticles); ?>
 					</span>
-				<?php  endif; ?>
+				<?php endif; ?>
 				<span class="list pull-left">
 					<div class="list-title">
 						<a href="<?php echo JRoute::_(NewsFeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catid)); ?>">
@@ -60,13 +60,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
 				<br />
-				<?php  if ($this->params->get('show_link')) : ?>
+				<?php if ($this->params->get('show_link')) : ?>
 					<?php $link = JStringPunycode::urlToUTF8($item->link); ?>
 					<span class="list pull-left">
 							<a href="<?php echo $item->link; ?>"><?php echo $link; ?></a>
 					</span>
 					<br />
-				<?php  endif; ?>
+				<?php endif; ?>
 				</li>
 			<?php endforeach; ?>
 		</ul>
@@ -83,6 +83,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo $this->pagination->getPagesLinks(); ?>
 				</div>
 			<?php endif; ?>
-		<?php  endif; ?>
+		<?php endif; ?>
 	</form>
 <?php endif; ?>
