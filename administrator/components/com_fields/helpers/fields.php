@@ -134,7 +134,7 @@ class FieldsHelper
 					$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
 				}
 
-				if (! $field->value)
+				if ($field->value === '' || $field->value === null)
 				{
 					$field->value = $field->default_value;
 				}
@@ -192,7 +192,7 @@ class FieldsHelper
 	 */
 	public static function render($context, $layoutFile, $displayData)
 	{
-		$value = null;
+		$value = '';
 
 		/*
 		 * Because the layout refreshes the paths before the render function is
@@ -207,13 +207,13 @@ class FieldsHelper
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
 
-		if (!$value)
+		if ($value == '')
 		{
 			// Trying to render the layout on Fields itself
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
 		}
 
-		if (!$value)
+		if ($value == '')
 		{
 			// Trying to render the layout of the plugins
 			foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
@@ -465,20 +465,33 @@ class FieldsHelper
 		}
 
 		// Looping trough the fields again to set the value
-		if (isset($data->id) && $data->id)
+		if (!isset($data->id) || !$data->id)
 		{
-			foreach ($fields as $field)
+			return true;
+		}
+
+		foreach ($fields as $field)
+		{
+			$value = $model->getFieldValue($field->id, $field->context, $data->id);
+
+			if ($value === null)
 			{
-				$value = $model->getFieldValue($field->id, $field->context, $data->id);
-
-				if ($value === null)
-				{
-					continue;
-				}
-
-				// Setting the value on the field
-				$form->setValue($field->alias, 'params', $value);
+				continue;
 			}
+
+			if (!is_array($value) && $value !== '')
+			{
+				// Function getField doesn't cache the fields, so we try to do it only when necessary
+				$formField = $form->getField($field->alias, 'params');
+
+				if ($formField && $formField->forceMultiple)
+				{
+					$value = (array) $value;
+				}
+			}
+
+			// Setting the value on the field
+			$form->setValue($field->alias, 'params', $value);
 		}
 
 		return true;
