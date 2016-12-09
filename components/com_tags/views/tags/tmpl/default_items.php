@@ -129,7 +129,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php endif; ?>
 
 		<?php endforeach; ?>
-	<?php endif;?>
+	<?php endif; ?>
 
 	<?php // Add pagination links ?>
 	<?php if (!empty($this->items)) : ?>

@@ -25,7 +25,7 @@ JFactory::getDocument()->addScriptDeclaration("
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar">
-		<?php if ($this->params->get('filter_field')) :?>
+		<?php if ($this->params->get('filter_field')) : ?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
 					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
