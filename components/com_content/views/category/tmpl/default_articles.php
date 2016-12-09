@@ -255,7 +255,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 <?php // Code to add a link to submit an article. ?>
 <?php if ($this->category->getParams()->get('access-create')) : ?>
 	<?php echo JHtml::_('icon.create', $this->category, $this->category->params); ?>
-<?php  endif; ?>
+<?php endif; ?>
 
 <?php // Add pagination links ?>
 <?php if (!empty($this->items)) : ?>
