@@ -30,14 +30,14 @@ $userFieldGroups    = array();
 	<?php $userFieldGroups[$field->group_title][] = $field;?>
 <?php endforeach; ?>
 
-<?php foreach ($userFieldGroups as $categoryTitle => $fields) :?>
-	<?php $id = JApplicationHelper::stringURLSafe($categoryTitle); ?>
+<?php foreach ($userFieldGroups as $groupTitle => $fields) :?>
+	<?php $id = JApplicationHelper::stringURLSafe($groupTitle); ?>
 	<?php if ($presentation_style == 'sliders') : ?>
-		<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', $categoryTitle ? $categoryTitle : JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
+		<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', $groupTitle ? $groupTitle : JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
 	<?php elseif ($presentation_style == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-profile', $categoryTitle ? $categoryTitle : JText::_('COM_CONTACT_USER_FIELDS')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-profile', $groupTitle ? $groupTitle : JText::_('COM_CONTACT_USER_FIELDS')); ?>
 	<?php elseif ($presentation_style == 'plain') : ?>
-		<?php echo '<h3>' . ($categoryTitle ? $categoryTitle : JText::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
+		<?php echo '<h3>' . ($groupTitle ? $groupTitle : JText::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
 	<?php endif; ?>
 
 	<div class="contact-profile" id="user-custom-fields-<?php echo $id; ?>">
