@@ -233,7 +233,7 @@ class PlgSystemRedirect extends JPlugin
 		// We have an unpublished redirect object, increment the hit counter
 		else
 		{
-			++$redirect->hits;
+			$redirect->hits++;
 
 			try
 			{
