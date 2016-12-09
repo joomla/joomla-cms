@@ -62,7 +62,20 @@ class PlgUserJoomla extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (RuntimeException $e)
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			return false;
+		}
+
+		$query = $this->db->getQuery(true)
+			->delete($this->db->quoteName('#__messages'))
+			->where($this->db->quoteName('user_id_from') . ' = ' . (int) $user['id']);
+
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
