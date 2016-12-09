@@ -17,6 +17,14 @@ defined('JPATH_PLATFORM') or die;
 class JInstallerAdapterPackage extends JInstallerAdapter
 {
 	/**
+	 * Flag if the internal event callback has been registered
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private static $eventRegistered = false;
+
+	/**
 	 * An array of extension IDs for each installed extension
 	 *
 	 * @var    array
@@ -116,7 +124,11 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		// Add a callback for the `onExtensionAfterInstall` event so we can receive the installed extension ID
-		JEventDispatcher::getInstance()->register('onExtensionAfterInstall', array($this, 'onExtensionAfterInstall'));
+		if (!self::$eventRegistered)
+		{
+			self::$eventRegistered = true;
+			JEventDispatcher::getInstance()->register('onExtensionAfterInstall', array($this, 'onExtensionAfterInstall'));
+		}
 
 		foreach ($this->getManifest()->files->children() as $child)
 		{
