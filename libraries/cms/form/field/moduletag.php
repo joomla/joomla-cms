@@ -9,14 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla! CMS.
  *
  * @since  3.0
  */
-class JFormFieldModuletag extends JFormFieldList
+class JFormFieldModuletag extends JFormAbstractlist
 {
 	/**
 	 * The form field type.
@@ -36,7 +34,7 @@ class JFormFieldModuletag extends JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-		$tags = array('div', 'section', 'aside', 'nav', 'address', 'article');
+		$tags    = array('address', 'article', 'aside', 'details', 'div', 'footer', 'header', 'main', 'nav', 'section', 'summary');
 
 		// Create one new option object for each tag
 		foreach ($tags as $tag)

@@ -231,7 +231,7 @@ class PlgEditorCodemirror extends JPlugin
 		if ($theme = $this->params->get('theme'))
 		{
 			$options->theme = $theme;
-			JHtml::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css');
+			JHtml::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css', array('version' => 'auto'));
 		}
 
 		// Special options for tagged modes (xml/html).

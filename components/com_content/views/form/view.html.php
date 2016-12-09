@@ -25,6 +25,14 @@ class ContentViewForm extends JViewLegacy
 	protected $state;
 
 	/**
+	 * Should we show a captcha form for the submission of the article?
+	 *
+	 * @var   bool
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $captchaEnabled = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -108,6 +116,17 @@ class ContentViewForm extends JViewLegacy
 		{
 			$lang = JFactory::getLanguage()->getTag();
 			$this->form->setFieldAttribute('language', 'default', $lang);
+		}
+
+		$captchaSet = $params->get('captcha', JFactory::getApplication()->get('captcha', '0'));
+
+		foreach (JPluginHelper::getPlugin('captcha') as $plugin)
+		{
+			if ($captchaSet === $plugin->name)
+			{
+				$this->captchaEnabled = true;
+				break;
+			}
 		}
 
 		$this->_prepareDocument();
