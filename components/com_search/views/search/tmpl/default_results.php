@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 			<a href="<?php echo JRoute::_($result->href); ?>"<?php if ($result->browsernav == 1) : ?> target="_blank"<?php endif; ?>>
 				<?php echo $this->escape($result->title); ?>
 			</a>
-		<?php else: ?>
+		<?php else : ?>
 			<?php echo $this->escape($result->title); ?>
 		<?php endif; ?>
 	</dt>

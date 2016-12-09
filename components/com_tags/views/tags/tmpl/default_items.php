@@ -98,7 +98,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
 				<?php $images  = json_decode($item->images); ?>
 				<span class="tag-body">
-			<?php if (!empty($images->image_intro)): ?>
+			<?php if (!empty($images->image_intro)) : ?>
 				<?php $imgfloat = (empty($images->float_intro)) ? $this->params->get('float_intro') : $images->float_intro; ?>
 				<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image">
 					<img

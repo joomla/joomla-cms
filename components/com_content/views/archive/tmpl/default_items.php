@@ -23,7 +23,7 @@ $params = $this->params;
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
 							<?php echo $this->escape($item->title); ?>
 						</a>
-					<?php else: ?>
+					<?php else : ?>
 						<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
 				</h2>
@@ -33,7 +33,7 @@ $params = $this->params;
 					<?php $author = '<span itemprop="name">' . $author . '</span>'; ?>
 						<?php if (!empty($item->contact_link) && $params->get('link_author') == true) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author, array('itemprop' => 'url'))); ?>
-						<?php else: ?>
+						<?php else : ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 						<?php endif; ?>
 					</div>

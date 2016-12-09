@@ -42,7 +42,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<?php foreach ($this->items as $i => $item) : ?>
 				<?php if ($this->items[$i]->published == 0) : ?>
 					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-				<?php else: ?>
+				<?php else : ?>
 					<li class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
 				<?php if ($this->params->get('show_articles')) : ?>

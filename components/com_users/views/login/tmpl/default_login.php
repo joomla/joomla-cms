@@ -53,7 +53,7 @@ JHtml::_('behavior.formvalidator');
 				<?php endif; ?>
 			<?php endforeach; ?>
 
-			<?php if ($this->tfa): ?>
+			<?php if ($this->tfa) : ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getField('secretkey')->label; ?>
