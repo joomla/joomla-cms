@@ -389,7 +389,7 @@ abstract class JUserHelper
 	}
 
 	/**
-	 * Formats a password using the old encryption methods.
+	 * Formats a password using the current encryption.
 	 *
 	 * @param   string   $plaintext     The plaintext password to encrypt.
 	 * @param   string   $salt          The salt to use to encrypt the password. []
@@ -509,7 +509,7 @@ abstract class JUserHelper
 	}
 
 	/**
-	 * Returns a salt for the appropriate kind of password encryption using the old encryption methods.
+	 * Returns a salt for the appropriate kind of password encryption.
 	 * Optionally takes a seed and a plaintext password, to extract the seed
 	 * of an existing password, or for encryption types that use the plaintext
 	 * in the generation of the salt.
@@ -569,11 +569,11 @@ abstract class JUserHelper
 			case 'crypt-blowfish':
 				if ($seed)
 				{
-					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 30);
+					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 16);
 				}
 				else
 				{
-					return '$2y$10$' . substr(md5(JCrypt::genRandomBytes()), 0, 22) . '$';
+					return '$2$' . substr(md5(JCrypt::genRandomBytes()), 0, 12) . '$';
 				}
 				break;
 

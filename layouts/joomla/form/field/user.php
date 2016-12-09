@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 extract($displayData);
 
 /**
@@ -39,68 +37,46 @@ extract($displayData);
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
+ * @var   array    $checkedOptions  Options that will be set as checked.
+ * @var   boolean  $hasValue        Has this field a value assigned?
+ * @var   array    $options         Options available for this field.
  *
  * @var   string   $userName        The user name
  * @var   mixed    $groups          The filtering groups (null means no filtering)
- * @var   mixed    $excluded        The users to exclude from the list of users
+ * @var   mixed    $exclude         The users to exclude from the list of users
  */
 
-JHtml::_('behavior.modal', 'a.modal_' . $id);
-JHtml::_('script', 'jui/fielduser.min.js', array('version' => 'auto', 'relative' => true));
-
-$uri = new JUri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
-
-$uri->setVar('field', $this->escape($id));
-
-if ($required)
-{
-	$uri->setVar('required', 1);
-}
-
-if (!empty($groups))
-{
-	$uri->setVar('groups', base64_encode(json_encode($groups)));
-}
-
-if (!empty($excluded))
-{
-	$uri->setVar('excluded', base64_encode(json_encode($excluded)));
-}
+$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;required='
+	. ($required ? 1 : 0) . '&amp;field=' . htmlspecialchars($id, ENT_COMPAT, 'UTF-8')
+	. (isset($groups) ? ('&amp;groups=' . base64_encode(json_encode($groups))) : '')
+	. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
 
 // Invalidate the input value if no user selected
-if ($this->escape($userName) === JText::_('JLIB_FORM_SELECT_USER'))
+if (JText::_('JLIB_FORM_SELECT_USER') === htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'))
 {
 	$userName = '';
 }
 
-$inputAttributes = array(
-	'type' => 'text', 'id' => $id, 'value' => $this->escape($userName)
-);
+// Load the modal behavior script.
+JHtml::_('behavior.modal', 'a.modal_' . $id);
 
-if ($size)
-{
-	$inputAttributes['size'] = (int) $size;
-}
-
-if ($required)
-{
-	$inputAttributes['required'] = 'required';
-}
-
-if (!$readonly)
-{
-	$inputAttributes['placeholder'] = JText::_('JLIB_FORM_SELECT_USER');
-}
-
-$anchorAttributes = array(
-	'class' => 'btn btn-primary modal_' . $id, 'title' => JText::_('JLIB_FORM_CHANGE_USER'), 'rel' => '{handler: \'iframe\', size: {x: 800, y: 500}}'
-);
-
+JHtml::_('script', 'jui/fielduser.min.js', array('version' => 'auto', 'relative' => true));
 ?>
+<?php // Create a dummy text field with the user name. ?>
 <div class="input-append">
-	<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly />
+	<input
+		type="text" id="<?php echo $id; ?>"
+		value="<?php echo  htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'); ?>"
+		placeholder="<?php echo JText::_('JLIB_FORM_SELECT_USER'); ?>"
+		readonly
+		<?php echo $size ? ' size="' . (int) $size . '"' : ''; ?>
+		<?php echo $required ? 'required' : ''; ?>/>
 	<?php if (!$readonly) : ?>
-		<?php echo JHtml::_('link', (string) $uri, '<span class="icon-user"></span>', $anchorAttributes); ?>
+		<a class="btn btn-primary modal_<?php echo $id; ?>" title="<?php echo JText::_('JLIB_FORM_CHANGE_USER'); ?>" href="<?php echo $link; ?>" rel="{handler: 'iframe', size: {x: 800, y: 500}}">
+			<span class="icon-user"></span>
+		</a>
 	<?php endif; ?>
 </div>
-<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>" data-onchange="<?php echo $this->escape($onchange); ?>" />
+
+<?php // Create the real field, hidden, that stored the user id. ?>
+<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>" data-onchange="<?php echo $this->escape($onchange); ?>"/>

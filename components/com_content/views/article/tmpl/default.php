@@ -97,7 +97,14 @@ JHtml::_('behavior.caption');
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
 	<?php if ($params->get('access-view')):?>
-	<?php echo JLayoutHelper::render('joomla.content.full_image', $this->item); ?>
+	<?php if (isset($images->image_fulltext) && !empty($images->image_fulltext)) : ?>
+	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
+	<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
+	<?php if ($images->image_fulltext_caption):
+		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_fulltext_caption) . '"';
+	endif; ?>
+	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>" itemprop="image"/> </div>
+	<?php endif; ?>
 	<?php
 	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):
 		echo $this->item->pagination;

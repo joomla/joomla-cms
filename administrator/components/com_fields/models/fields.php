@@ -31,22 +31,34 @@ class FieldsModelFields extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id', 'a.id',
-				'title', 'a.title',
-				'type', 'a.type',
-				'alias', 'a.alias',
-				'state', 'a.state',
-				'access', 'a.access',
-				'access_level',
-				'language', 'a.language',
-				'ordering', 'a.ordering',
-				'checked_out', 'a.checked_out',
-				'checked_out_time', 'a.checked_out_time',
-				'created_time', 'a.created_time',
-				'created_user_id', 'a.created_user_id',
-				'category_title',
-				'category_id', 'a.category_id',
-				'group_id', 'a.group_id',
+					'id',
+					'a.id',
+					'title',
+					'a.title',
+					'type',
+					'a.type',
+					'alias',
+					'a.alias',
+					'state',
+					'a.state',
+					'access',
+					'a.access',
+					'access_level',
+					'language',
+					'a.language',
+					'ordering',
+					'a.ordering',
+					'checked_out',
+					'a.checked_out',
+					'checked_out_time',
+					'a.checked_out_time',
+					'created_time',
+					'a.created_time',
+					'created_user_id',
+					'a.created_user_id',
+					'category_title',
+					'category_id',
+					'a.category_id',
 			);
 		}
 
@@ -71,16 +83,49 @@ class FieldsModelFields extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
+		$app     = JFactory::getApplication();
+		$context = $this->context;
+
+		$context = $app->getUserStateFromRequest('com_fields.fields.filter.context', 'context', 'com_content.article', 'cmd');
+
+		$this->setState('filter.context', $context);
+		$parts = explode('.', $context);
+
+		// Extract the component name
+		$this->setState('filter.component', $parts[0]);
+
+		// Extract the optional section name
+		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+
+		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level');
+		$this->setState('filter.level', $level);
+
+		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access');
+		$this->setState('filter.access', $access);
+
+		$published = $this->getUserStateFromRequest($context . '.filter.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
+		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+		$this->setState('filter.category_id', $categoryId);
+
+		$language = $this->getUserStateFromRequest($context . '.filter.language', 'filter_language', '');
+		$this->setState('filter.language', $language);
+
 		// List state information.
 		parent::populateState('a.ordering', 'asc');
 
-		$context = $this->getUserStateFromRequest($this->context . '.context', 'context', 'com_content.article', 'CMD');
-		$this->setState('filter.context', $context);
+		// Force a language
+		$forcedLanguage = $app->input->get('forcedLanguage');
 
-		// Split context into component and optional section
-		$parts = explode('.', $context);
-		$this->setState('filter.component', $parts[0]);
-		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+		if (! empty($forcedLanguage))
+		{
+			$this->setState('filter.language', $forcedLanguage);
+			$this->setState('filter.forcedLanguage', $forcedLanguage);
+		}
 	}
 
 	/**
@@ -102,8 +147,8 @@ class FieldsModelFields extends JModelList
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.context');
 		$id .= ':' . serialize($this->getState('filter.assigned_cat_ids'));
-		$id .= ':' . $this->getState('filter.state');
-		$id .= ':' . $this->getState('filter.group_id');
+		$id .= ':' . $this->getState('filter.published');
+		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . print_r($this->getState('filter.language'), true);
 
 		return parent::getStoreId($id);
@@ -124,15 +169,7 @@ class FieldsModelFields extends JModelList
 		$user  = JFactory::getUser();
 
 		// Select the required fields from the table.
-		$query->select(
-			$this->getState(
-				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.note' .
-				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
-				', a.fieldparams, a.params, a.assigned_cat_ids, a.type, a.default_value, a.context, a.group_id' .
-				', a.label, a.description, a.required'
-			)
-		);
+		$query->select($this->getState('list.select', 'a.*'));
 		$query->from('#__fields AS a');
 
 		// Join over the language
@@ -148,9 +185,8 @@ class FieldsModelFields extends JModelList
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
-		// Join over the field groups.
-		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state');
-		$query->join('LEFT', '#__fields_groups AS g ON g.id = a.group_id');
+		// Join over the categories.
+		$query->select('c.title as category_title, c.access, c.published')->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Filter by context
 		if ($context = $this->getState('filter.context'))
@@ -213,36 +249,50 @@ class FieldsModelFields extends JModelList
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ') AND (a.group_id = 0 OR g.access IN (' . $groups . '))');
+			$query->where('a.access IN (' . $groups . ') AND (c.id IS NULL OR c.access IN (' . $groups . '))');
 		}
 
-		// Filter by state
-		$state = $this->getState('filter.state');
+		// Filter by published state
+		$published = $this->getState('filter.published');
 
-		if (is_numeric($state))
+		if (is_numeric($published))
 		{
-			$query->where('a.state = ' . (int) $state);
+			$query->where('a.state = ' . (int) $published);
 
-			if (JFactory::getApplication()->isClient('site'))
+			if (JFactory::getApplication()->isSite())
 			{
-				$query->where('(a.group_id = 0 OR g.state = ' . (int) $state . ')');
+				$query->where('(c.id IS NULL OR c.published = ' . (int) $published . ')', 'AND');
 			}
 		}
-		elseif (!$state)
+		elseif ($published === '')
 		{
 			$query->where('a.state IN (0, 1)');
 
-			if (JFactory::getApplication()->isClient('site'))
+			if (JFactory::getApplication()->isSite())
 			{
-				$query->where('(a.group_id = 0 OR g.state IN (0, 1)');
+				$query->where('(c.id IS NULL OR c.published IN (0, 1)', 'AND');
 			}
 		}
 
-		$groupId = $this->getState('filter.group_id');
+		// Filter by a single or group of categories.
+		$baselevel = 1;
+		$categoryId = $this->getState('filter.category_id');
 
-		if (is_numeric($groupId))
+		if (is_numeric($categoryId))
 		{
-			$query->where('a.group_id = ' . (int) $groupId);
+			$cat_tbl = JTable::getInstance('Category', 'JTable');
+			$cat_tbl->load($categoryId);
+			$rgt = $cat_tbl->rgt;
+			$lft = $cat_tbl->lft;
+			$baselevel = (int) $cat_tbl->level;
+			$query->where('c.lft >= ' . (int) $lft)
+				->where('c.rgt <= ' . (int) $rgt);
+		}
+		elseif (is_array($categoryId))
+		{
+			$categoryId = ArrayHelper::toInteger($categoryId);
+			$categoryId = implode(',', $categoryId);
+			$query->where('a.catid IN (' . $categoryId . ')');
 		}
 
 		// Filter by search in title
@@ -339,35 +389,26 @@ class FieldsModelFields extends JModelList
 
 		if ($form)
 		{
-			$form->setValue('context', null, $this->getState('filter.context'));
-			$form->setFieldAttribute('group_id', 'extension', $this->getState('filter.component'), 'filter');
+			$path = JPATH_ADMINISTRATOR . '/components/' . $this->getState('filter.component') . '/models/forms/filter_fields.xml';
+
+			if (file_exists($path))
+			{
+				// Load all children that's why we need to define the xpath
+				if (!$form->loadFile($path, true, '/form/*'))
+				{
+					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				}
+			}
+
+			$context = JFactory::getApplication()->input->getCmd('context');
+
+			// If the context has multiple sections, this is the input field
+			// to display them
+			$form->setValue('section', 'custom', $context);
+
+			$form->setFieldAttribute('category_id', 'extension', $context . '.fields', 'filter');
 		}
 
 		return $form;
-	}
-
-	/**
-	 * Get the groups for the batch method
-	 *
-	 * @return  array  An array of groups
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getGroups()
-	{
-		$user       = JFactory::getUser();
-		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
-
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->select('title AS text, id AS value, state');
-		$query->from('#__fields_groups');
-		$query->where('state IN (0,1)');
-		$query->where('extension = ' . $db->quote($this->state->get('filter.component')));
-		$query->where('access IN (' . implode(',', $viewlevels) . ')');
-
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
 	}
 }

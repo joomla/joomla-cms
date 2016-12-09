@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="group">
-		<field
-			name="context"
-			type="fieldcontexts"
-			onchange="this.form.submit();"
-		/>
-	</fieldset>
 	<fields name="filter">
 		<field
 			name="search"
@@ -17,18 +10,22 @@
 		/>
 
 		<field
-			name="state"
+			name="published"
 			type="status"
+			label="JOPTION_FILTER_PUBLISHED"
+			description="JOPTION_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 		>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
 		<field
-			name="group_id"
-			type="fieldgroups"
-			state="0,1,2"
+			name="category_id"
+			type="category"
+			label="JOPTION_FILTER_CATEGORY"
+			description="JOPTION_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
+			published="0,1,2"
 			>
 			<option value="">COM_FIELDS_VIEW_FIELDS_SELECT_GROUP</option>
 		</field>
@@ -36,6 +33,8 @@
 		<field
 			name="access"
 			type="accesslevel"
+			label="JOPTION_FILTER_ACCESS"
+			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
 		>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -44,6 +43,8 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			label="JOPTION_FILTER_LANGUAGE"
+			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
 		>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>

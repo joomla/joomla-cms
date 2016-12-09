@@ -26,7 +26,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @since  12.3
  */
-class JFeed implements ArrayAccess, Countable
+class JFeed implements ArrayAccess
 {
 	/**
 	 * @var    array  The entry properties.
@@ -166,19 +166,6 @@ class JFeed implements ArrayAccess, Countable
 		$this->entries[] = $entry;
 
 		return $this;
-	}
-
-	/**
-	 * Returns a count of the number of entries in the feed.
-	 * 
-	 * This method is here to implement the Countable interface.
-	 * You can call it by doing count($feed) rather than $feed->count();
-	 * 
-	 * @return  integer number of entries in the feed.
-	 */
-	public function count()
-	{
-		return count($this->entries);
 	}
 
 	/**

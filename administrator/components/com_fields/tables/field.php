@@ -100,7 +100,7 @@ class FieldsTableField extends JTable
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = Joomla\String\StringHelper::increment($this->alias, 'dash');
+			$this->alias = Joomla\String\StringHelper::increment($alias, 'dash');
 		}
 
 		$this->alias = str_replace(',', '-', $this->alias);
@@ -122,11 +122,11 @@ class FieldsTableField extends JTable
 		{
 			// Existing item
 			$this->modified_time = $date->toSql();
-			$this->modified_by = $user->get('id');
+			$this->modified_by   = $user->get('id');
 		}
 		else
 		{
-			if (!(int) $this->created_time)
+			if (! (int) $this->created_time)
 			{
 				$this->created_time = $date->toSql();
 			}
@@ -151,9 +151,9 @@ class FieldsTableField extends JTable
 	 */
 	protected function _getAssetName()
 	{
-		$contextArray = explode('.', $this->context);
+		$k = $this->_tbl_key;
 
-		return $contextArray[0] . '.field.' . (int) $this->id;
+		return $this->context . '.field.' . (int) $this->$k;
 	}
 
 	/**
@@ -189,23 +189,23 @@ class FieldsTableField extends JTable
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
-		$contextArray = explode('.', $this->context);
-		$component = $contextArray[0];
+		$parts     = FieldsHelper::extract($this->context);
+		$component = $parts ? $parts[0] : null;
 
-		if ($this->group_id)
+		if ($parts && $this->catid)
 		{
-			$assetId = $this->getAssetId($component . '.fieldgroup.' . (int) $this->group_id);
+			$assetId = $this->getAssetId($parts[0] . '.' . $parts[1] . '.fields.category.' . $this->catid);
 
-			if ($assetId)
+			if ($assetId !== false)
 			{
 				return $assetId;
 			}
 		}
-		else
+		elseif ($component)
 		{
 			$assetId = $this->getAssetId($component);
 
-			if ($assetId)
+			if ($assetId !== false)
 			{
 				return $assetId;
 			}
@@ -225,18 +225,18 @@ class FieldsTableField extends JTable
 	 */
 	private function getAssetId($name)
 	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($name));
+		// Build the query to get the asset id for the name.
+		$query = $this->_db->getQuery(true)
+			->select($this->_db->quoteName('id'))
+			->from($this->_db->quoteName('#__assets'))
+			->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
 
 		// Get the asset id from the database.
-		$db->setQuery($query);
+		$this->_db->setQuery($query);
 
 		$assetId = null;
 
-		if ($result = $db->loadResult())
+		if ($result = $this->_db->loadResult())
 		{
 			$assetId = (int) $result;
 

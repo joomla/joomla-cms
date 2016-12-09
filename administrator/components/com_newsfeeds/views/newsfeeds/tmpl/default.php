@@ -19,6 +19,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+$canOrder  = $user->authorise('core.edit.state', 'com_newsfeeds.category');
 $saveOrder = $listOrder == 'a.ordering';
 $assoc     = JLanguageAssociations::isEnabled();
 

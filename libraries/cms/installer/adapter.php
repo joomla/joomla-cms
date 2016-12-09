@@ -564,7 +564,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	/**
 	 * Generic install method for extensions
 	 *
-	 * @return  boolean|integer  The extension ID on success, boolean false on failure
+	 * @return  boolean  True on success
 	 *
 	 * @since   3.4
 	 */
@@ -1028,7 +1028,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	/**
 	 * Generic update method for extensions
 	 *
-	 * @return  boolean|integer  The extension ID on success, boolean false on failure
+	 * @return  boolean  True on success
 	 *
 	 * @since   3.4
 	 */

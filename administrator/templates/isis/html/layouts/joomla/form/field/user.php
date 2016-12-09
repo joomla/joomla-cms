@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 extract($displayData);
 
 /**
@@ -39,84 +37,63 @@ extract($displayData);
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
+ * @var   array    $checkedOptions  Options that will be set as checked.
+ * @var   boolean  $hasValue        Has this field a value assigned?
+ * @var   array    $options         Options available for this field.
  *
  * @var   string   $userName        The user name
  * @var   mixed    $groups          The filtering groups (null means no filtering)
- * @var   mixed    $excluded        The users to exclude from the list of users
+ * @var   mixed    $exclude         The users to exclude from the list of users
  */
 
-JHtml::_('script', 'jui/fielduser.min.js', array('version' => 'auto', 'relative' => true));
-
-$uri = new JUri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0&field={field-user-id}&ismoo=0');
-
-if ($required)
-{
-	$uri->setVar('required', 1);
-}
-
-if (!empty($groups))
-{
-	$uri->setVar('groups', base64_encode(json_encode($groups)));
-}
-
-if (!empty($excluded))
-{
-	$uri->setVar('excluded', base64_encode(json_encode($excluded)));
-}
+// Set the link for the user selection page
+$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;required='
+	. ($required ? 1 : 0) . '&amp;field={field-user-id}&amp;ismoo=0'
+	. (isset($groups) ? ('&amp;groups=' . base64_encode(json_encode($groups))) : '')
+	. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
 
 // Invalidate the input value if no user selected
-if ($this->escape($userName) === JText::_('JLIB_FORM_SELECT_USER'))
+if (JText::_('JLIB_FORM_SELECT_USER') == htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'))
 {
-	$userName = '';
+	$userName = "";
 }
 
-$inputAttributes = array(
-	'type' => 'text', 'id' => $id, 'class' => 'field-user-input-name', 'value' => $this->escape($userName)
-);
-
-if ($class)
-{
-	$inputAttributes['class'] .= ' ' . $class;
-}
-
-if ($size)
-{
-	$inputAttributes['size'] = (int) $size;
-}
-
-if ($required)
-{
-	$inputAttributes['required'] = 'required';
-}
-
-if (!$readonly)
-{
-	$inputAttributes['placeholder'] = JText::_('JLIB_FORM_SELECT_USER');
-}
-
+JHtml::_('script', 'jui/fielduser.min.js', array('version' => 'auto', 'relative' => true));
 ?>
+<?php // Create a dummy text field with the user name. ?>
 <div class="field-user-wrapper"
-     data-url="<?php echo (string) $uri; ?>"
-     data-modal=".modal"
-     data-modal-width="100%"
-     data-modal-height="400px"
-     data-input=".field-user-input"
-     data-input-name=".field-user-input-name"
-     data-button-select=".button-select">
+	data-url="<?php echo $link; ?>"
+	data-modal=".modal"
+	data-modal-width="100%"
+	data-modal-height="400px"
+	data-input=".field-user-input"
+	data-input-name=".field-user-input-name"
+	data-button-select=".button-select"
+	>
 	<div class="input-append">
-		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly />
+		<input
+			type="text" id="<?php echo $id; ?>"
+			value="<?php echo  htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'); ?>"
+			placeholder="<?php echo JText::_('JLIB_FORM_SELECT_USER'); ?>"
+			readonly
+			class="field-user-input-name <?php echo $class ? (string) $class : ''?>"
+			<?php echo $size ? ' size="' . (int) $size . '"' : ''; ?>
+			<?php echo $required ? 'required' : ''; ?>/>
 		<?php if (!$readonly) : ?>
 			<a class="btn btn-primary button-select" title="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"><span class="icon-user"></span></a>
 			<?php echo JHtml::_(
 				'bootstrap.renderModal',
 				'userModal_' . $id,
 				array(
-					'title' => JText::_('JLIB_FORM_CHANGE_USER'),
+					'title'  => JText::_('JLIB_FORM_CHANGE_USER'),
 					'closeButton' => true,
 					'footer' => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
 				)
 			); ?>
 		<?php endif; ?>
 	</div>
-	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>" class="field-user-input<?php ($class) ? ' ' . $class : ''; ?>" data-onchange="<?php echo $this->escape($onchange); ?>" />
+	<?php // Create the real field, hidden, that stored the user id. ?>
+	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>"
+		class="field-user-input <?php echo $class ? (string) $class : ''?>"
+		data-onchange="<?php echo $this->escape($onchange); ?>"/>
 </div>

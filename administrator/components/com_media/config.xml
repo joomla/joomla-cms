@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset 
-		name="component"
-		label="COM_MEDIA_FIELDSET_OPTIONS_LABEL">
+	<fieldset name="component">
 		<field
 			name="upload_extensions"
 			type="text"

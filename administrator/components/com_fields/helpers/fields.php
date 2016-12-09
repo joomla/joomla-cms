@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 JLoader::register('FieldsHelperInternal', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/internal.php');
-JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
 /**
  * FieldsHelper
@@ -76,7 +75,7 @@ class FieldsHelper
 				'ignore_request' => true)
 			);
 
-			self::$fieldsCache->setState('filter.state', 1);
+			self::$fieldsCache->setState('filter.published', 1);
 			self::$fieldsCache->setState('list.limit', 0);
 		}
 
@@ -134,7 +133,7 @@ class FieldsHelper
 					$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
 				}
 
-				if ($field->value === '' || $field->value === null)
+				if (! $field->value)
 				{
 					$field->value = $field->default_value;
 				}
@@ -192,7 +191,7 @@ class FieldsHelper
 	 */
 	public static function render($context, $layoutFile, $displayData)
 	{
-		$value = '';
+		$value = null;
 
 		/*
 		 * Because the layout refreshes the paths before the render function is
@@ -207,13 +206,13 @@ class FieldsHelper
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
 
-		if ($value == '')
+		if (!$value)
 		{
 			// Trying to render the layout on Fields itself
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
 		}
 
-		if ($value == '')
+		if (!$value)
 		{
 			// Trying to render the layout of the plugins
 			foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
@@ -332,56 +331,58 @@ class FieldsHelper
 		$fieldsNode = $xml->appendChild(new DOMElement('form'))->appendChild(new DOMElement('fields'));
 		$fieldsNode->setAttribute('name', 'params');
 
-		// Organizing the fields according to their group
-		$fieldsPerGroup = array(
+		// Organizing the fields according to their category
+		$fieldsPerCategory = array(
 				0 => array()
 		);
 
 		foreach ($fields as $field)
 		{
-			if (!array_key_exists($field->group_id, $fieldsPerGroup))
+			if (! key_exists($field->catid, $fieldsPerCategory))
 			{
-				$fieldsPerGroup[$field->group_id] = array();
+				$fieldsPerCategory[$field->catid] = array();
 			}
 
-			$fieldsPerGroup[$field->group_id][] = $field;
+			$fieldsPerCategory[$field->catid][] = $field;
 		}
 
 		// On the front, sometimes the admin fields path is not included
 		JFormHelper::addFieldPath(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/fields');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
-		// Looping trough the groups
-		foreach ($fieldsPerGroup as $group_id => $groupFields)
+		// Looping trough the categories
+		foreach ($fieldsPerCategory as $catid => $catFields)
 		{
-			if (!$groupFields)
+			if (! $catFields)
 			{
 				continue;
 			}
 
 			// Defining the field set
-			/** @var DOMElement $fieldset */
 			$fieldset = $fieldsNode->appendChild(new DOMElement('fieldset'));
-			$fieldset->setAttribute('name', 'fields-' . $group_id);
+			$fieldset->setAttribute('name', 'fields-' . $catid);
 			$fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
 			$fieldset->setAttribute('addrulepath', '/administrator/components/' . $component . '/models/rules');
 
-			$label       = '';
+			$label = '';
 			$description = '';
 
-			if ($group_id)
+			if ($catid > 0)
 			{
-				$group = JTable::getInstance('Group', 'FieldsTable');
-				$group->load($group_id);
+				/*
+				 * JCategories can't handle com_content with a section, going
+				 * directly to the table
+				 */
+				$category = JTable::getInstance('Category');
+				$category->load($catid);
 
-				if ($group->id)
+				if ($category->id)
 				{
-					$label       = $group->title;
-					$description = $group->description;
+					$label = $category->title;
+					$description = $category->description;
 				}
 			}
 
-			if (!$label || !$description)
+			if (! $label || !$description)
 			{
 				$lang = JFactory::getLanguage();
 
@@ -412,7 +413,7 @@ class FieldsHelper
 			$fieldset->setAttribute('description', strip_tags($description));
 
 			// Looping trough the fields for that context
-			foreach ($groupFields as $field)
+			foreach ($catFields as $field)
 			{
 				// Creating the XML form data
 				$type = JFormHelper::loadFieldType($field->type);
@@ -458,40 +459,27 @@ class FieldsHelper
 		);
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
-			&& JFactory::getApplication()->isClient('site'))
+			&& JFactory::getApplication()->isSite())
 		{
 			// Modules on front end editing don't have data and an id set
-			$data->id = JFactory::getApplication()->input->getInt('id');
+			$data->id = $input->getInt('id');
 		}
 
 		// Looping trough the fields again to set the value
-		if (!isset($data->id) || !$data->id)
+		if (isset($data->id) && $data->id)
 		{
-			return true;
-		}
-
-		foreach ($fields as $field)
-		{
-			$value = $model->getFieldValue($field->id, $field->context, $data->id);
-
-			if ($value === null)
+			foreach ($fields as $field)
 			{
-				continue;
-			}
+				$value = $model->getFieldValue($field->id, $field->context, $data->id);
 
-			if (!is_array($value) && $value !== '')
-			{
-				// Function getField doesn't cache the fields, so we try to do it only when necessary
-				$formField = $form->getField($field->alias, 'params');
-
-				if ($formField && $formField->forceMultiple)
+				if ($value === null)
 				{
-					$value = (array) $value;
+					continue;
 				}
-			}
 
-			// Setting the value on the field
-			$form->setValue($field->alias, 'params', $value);
+				// Setting the value on the field
+				$form->setValue($field->alias, 'params', $value);
+			}
 		}
 
 		return true;
@@ -508,9 +496,7 @@ class FieldsHelper
 	 */
 	public static function canEditFieldValue($field)
 	{
-		$parts = self::extract($field->context);
-
-		return JFactory::getUser()->authorise('core.edit.value', $parts[0] . '.field.' . (int) $field->id);
+		return JFactory::getUser()->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
 	}
 
 	/**
@@ -534,25 +520,35 @@ class FieldsHelper
 			$item->count_published   = 0;
 
 			$query = $db->getQuery(true);
-			$query->select('state, count(1) AS count')
+			$query->select('state, count(*) AS count')
 				->from($db->quoteName('#__fields'))
-				->where('group_id = ' . (int) $item->id)
+				->where('catid = ' . (int) $item->id)
 				->group('state');
 			$db->setQuery($query);
 
 			$fields = $db->loadObjectList();
 
-			$states = array(
-				'-2' => 'count_trashed',
-				'0'  => 'count_unpublished',
-				'1'  => 'count_published',
-				'2'  => 'count_archived',
-			);
-
-			foreach ($fields as $field)
+			foreach ($fields as $article)
 			{
-				$property = $states[$field->state];
-				$item->$property = $field->count;
+				if ($article->state == 1)
+				{
+					$item->count_published = $article->count;
+				}
+
+				if ($article->state == 0)
+				{
+					$item->count_unpublished = $article->count;
+				}
+
+				if ($article->state == 2)
+				{
+					$item->count_archived = $article->count;
+				}
+
+				if ($article->state == -2)
+				{
+					$item->count_trashed = $article->count;
+				}
 			}
 		}
 
@@ -583,7 +579,6 @@ class FieldsHelper
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
-			$result = 0;
 		}
 
 		return $result;

@@ -75,7 +75,9 @@ class JComponentHelper
 	 */
 	public static function isEnabled($option)
 	{
-		return (bool) static::getComponent($option, true)->enabled;
+		$result = static::getComponent($option, true);
+
+		return $result->enabled;
 	}
 
 	/**

@@ -27,24 +27,21 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 	/**
 	 * Filtering groups
 	 *
-	 * @var   array
-	 * @since 3.5
+	 * @var  array
 	 */
 	protected $groups = null;
 
 	/**
 	 * Users to exclude from the list of users
 	 *
-	 * @var   array
-	 * @since 3.5
+	 * @var  array
 	 */
 	protected $excluded = null;
 
 	/**
 	 * Layout to render
 	 *
-	 * @var   string
-	 * @since 3.5
+	 * @var  string
 	 */
 	protected $layout = 'joomla.form.field.user';
 
@@ -70,8 +67,6 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 	 * Get the data that is going to be passed to the layout
 	 *
 	 * @return  array
-	 *
-	 * @since   3.5
 	 */
 	public function getLayoutData()
 	{
@@ -79,7 +74,7 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 		$data = parent::getLayoutData();
 
 		// Initialize value
-		$name = JText::_('JLIB_FORM_SELECT_USER');
+		$name = '';
 
 		if (is_numeric($this->value))
 		{
@@ -90,24 +85,19 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 		{
 			// 'CURRENT' is not a reasonable value to be placed in the html
 			$current = JFactory::getUser();
-
 			$this->value = $current->id;
-
 			$data['value'] = $this->value;
-
 			$name = $current->name;
 		}
-
-		// User lookup went wrong, we assign the value instead.
-		if ($name === null && $this->value)
+		else
 		{
-			$name = $this->value;
+			$name = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
 		$extraData = array(
-			'userName'  => $name,
-			'groups'    => $this->getGroups(),
-			'excluded'  => $this->getExcluded(),
+				'userName'  => $name,
+				'groups'    => $this->getGroups(),
+				'excluded'  => $this->getExcluded(),
 		);
 
 		return array_merge($data, $extraData);
@@ -116,7 +106,7 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 	/**
 	 * Method to get the filtering groups (null means no filtering)
 	 *
-	 * @return  mixed  Array of filtering groups or null.
+	 * @return  mixed  array of filtering groups or null.
 	 *
 	 * @since   1.6
 	 */
@@ -139,18 +129,13 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 	 */
 	protected function getExcluded()
 	{
-		if (isset($this->element['exclude']))
-		{
-			return explode(',', $this->element['exclude']);
-		}
-
-		return;
+		return explode(',', $this->element['exclude']);
 	}
 
 	/**
 	 * Transforms the field into an XML element and appends it as child on the given parent. This
 	 * is the default implementation of a field. Form fields which do support to be transformed into
-	 * an XML Element mut implement the JFormDomfieldinterface.
+	 * an XML Element mut implemet the JFormDomfieldinterface.
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.

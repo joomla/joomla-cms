@@ -357,21 +357,6 @@ class JUserHelperTest extends TestCaseDatabase
 			JUserHelper::verifyPassword('mySuperSecretPassword', '693560686f4d591d8dd5e34006442061'),
 			'Properly verifies a password hashed with Joomla legacy MD5'
 		);
-
-		$password = 'mySuperSecretPassword';
-		// Generate the old style password hash used before phpass was implemented.
-		$salt		= JUserHelper::genRandomPassword(32);
-		$crypted	= JUserHelper::getCryptedPassword($password, $salt);
-		$hashed	        = $crypted.':'.$salt;
-		$this->assertTrue(
-			JUserHelper::verifyPassword('mySuperSecretPassword', $hashed),
-			'Properly verifies a password which was hashed before phpass was implemented'
-		);
-
-		$this->assertTrue(
-			JUserHelper::verifyPassword('mySuperSecretPassword', 'fb7b0a16d7e0e6706c0f962832e1fdd8:vQnUrofbvGRcBR6l502Bt8nioKj8MObh'),
-			'Properly verifies an existing password hash which was hashed before phpass was implimented'
-		);
 	}
 
 	/**
@@ -453,7 +438,7 @@ class JUserHelperTest extends TestCaseDatabase
 		$this->assertSame('my', substr($password, 7, 2), 'Password hash uses expected salt');
 
 		$this->assertTrue(
-			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-blowfish')) === 60,
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-blowfish')) === 13,
 			'Password is hashed to crypt-blowfish without salt'
 		);
 

@@ -991,6 +991,29 @@ class FinderModelSearch extends JModelList
 	}
 
 	/**
+	 * Method to get a subquery for filtering link ids mapped to specific
+	 * terms ids.
+	 *
+	 * @param   array  $terms  An array of search term ids.
+	 *
+	 * @return  JDatabaseQuery  A database object.
+	 *
+	 * @since   2.5
+	 */
+	protected function getTermsQuery($terms)
+	{
+		// Create the SQL query to get the matching link ids.
+		// TODO: Impact of removing SQL_NO_CACHE?
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('SQL_NO_CACHE link_id')
+			->from('#__finder_links_terms')
+			->where('term_id IN (' . implode(',', $terms) . ')');
+
+		return $query;
+	}
+
+	/**
 	 * Method to get a store id based on model the configuration state.
 	 *
 	 * This is necessary because the model is used by the component and

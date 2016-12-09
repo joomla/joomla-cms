@@ -21,7 +21,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			if ($("#batch-category-id").length){var batchSelector = $("#batch-category-id");}
 			if ($("#batch-menu-id").length){var batchSelector = $("#batch-menu-id");}
 			if ($("#batch-position-id").length){var batchSelector = $("#batch-position-id");}
-			if ($("#batch-copy-move").length && batchSelector) {
+			if ($("#batch-copy-move").length) {
 				$("#batch-copy-move").hide();
 				batchSelector.on("change", function(){
 					if (batchSelector.val() != 0 || batchSelector.val() != "") {

@@ -1150,7 +1150,7 @@ abstract class JFormField
 	 */
 	public function getFormParameters()
 	{
-		JLoader::import('joomla.filesystem.file');
+		jimport('joomla.filesystem.file');
 
 		$reflectionClass = new ReflectionClass($this);
 		$fileName        = dirname($reflectionClass->getFileName()) . '/../parameters/';

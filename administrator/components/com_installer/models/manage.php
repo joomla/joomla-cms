@@ -37,7 +37,6 @@ class InstallerModelManage extends InstallerModel
 				'client', 'client_translated',
 				'type', 'type_translated',
 				'folder', 'folder_translated',
-				'package_id',
 				'extension_id',
 			);
 		}

@@ -49,7 +49,6 @@ class JAccess
 	 *
 	 * @var    array
 	 * @since  11.1
-	 * @deprecated  __DEPLOY_VERSION__  No replacement. Will be removed in 4.0.
 	 */
 	protected static $assetPermissionsById = array();
 
@@ -59,17 +58,8 @@ class JAccess
 	 *
 	 * @var    array
 	 * @since  11.1
-	 * @deprecated  __DEPLOY_VERSION__  No replacement. Will be removed in 4.0.
 	 */
 	protected static $assetPermissionsByName = array();
-
-	/**
-	 * Array of the permission parent ID mappings
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected static $assetPermissionsParentIdMapping = array();
 
 	/**
 	 * Array of asset types that have been preloaded
@@ -112,20 +102,12 @@ class JAccess
 	protected static $groupsByUser = array();
 
 	/**
-	 * Array of preloaded asset names and ids (key is the asset id).
+	 * Flag to indicate if components assets have been preloaded.
 	 *
-	 * @var    array
+	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $preloadedAssets = array();
-
-	/**
-	 * The root asset id.
-	 *
-	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $rootAssetId = null;
+	protected static $componentsPreloaded = false;
 
 	/**
 	 * Method for clearing static caches.
@@ -136,40 +118,61 @@ class JAccess
 	 */
 	public static function clearStatics()
 	{
-		self::$viewLevels                      = array();
-		self::$assetRules                      = array();
-		self::$assetRulesIdentities            = array();
-		self::$assetPermissionsParentIdMapping = array();
-		self::$preloadedAssetTypes             = array();
-		self::$identities                      = array();
-		self::$userGroups                      = array();
-		self::$userGroupPaths                  = array();
-		self::$groupsByUser                    = array();
-		self::$preloadedAssets                 = array();
-		self::$rootAssetId                     = null;
-
-		// The following properties are deprecated since __DEPLOY_VERSION__ and will be removed in 4.0.
+		self::$componentsPreloaded    = false;
+		self::$viewLevels             = array();
 		self::$assetPermissionsById   = array();
 		self::$assetPermissionsByName = array();
+		self::$preloadedAssetTypes    = array();
+		self::$identities             = array();
+		self::$assetRules             = array();
+		self::$userGroups             = array();
+		self::$userGroupPaths         = array();
+		self::$groupsByUser           = array();
 	}
 
 	/**
 	 * Method to check if a user is authorised to perform an action, optionally on an asset.
 	 *
-	 * @param   integer         $userId    Id of the user for which to check authorisation.
-	 * @param   string          $action    The name of the action to authorise.
-	 * @param   integer|string  $assetKey  The asset key (asset id or asset name). null fallback to root asset.
-	 * @param   boolean         $preload   Indicates whether preloading should be used.
+	 * @param   integer  $userId   Id of the user for which to check authorisation.
+	 * @param   string   $action   The name of the action to authorise.
+	 * @param   mixed    $asset    Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
+	 * @param   boolean  $preload  Indicates whether preloading should be used
 	 *
 	 * @return  boolean  True if authorised.
 	 *
 	 * @since   11.1
 	 */
-	public static function check($userId, $action, $assetKey = null, $preload = true)
+	public static function check($userId, $action, $asset = null, $preload = true)
 	{
 		// Sanitise inputs.
 		$userId = (int) $userId;
 		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
+		$asset  = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
+
+		// Default to the root asset node.
+		if (empty($asset))
+		{
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$asset  = $assets->getRootId();
+		}
+
+		// Auto preloads assets for the asset type:
+		if (!is_numeric($asset) && $preload)
+		{
+			$assetType = self::getAssetType($asset);
+
+			if (!isset(self::$preloadedAssetTypes[$assetType]))
+			{
+				self::preload($assetType);
+			}
+		}
+
+		// Get the rules for the asset recursively to root if not already retrieved.
+		if (empty(self::$assetRules[$asset]))
+		{
+			self::$assetRules[$asset] = self::getAssetRules($asset, true);
+		}
 
 		if (!isset(self::$identities[$userId]))
 		{
@@ -178,42 +181,46 @@ class JAccess
 			array_unshift(self::$identities[$userId], $userId * -1);
 		}
 
-		return self::getAssetRules($assetKey, true, true, $preload)->allow($action, self::$identities[$userId]);
+		return self::$assetRules[$asset]->allow($action, self::$identities[$userId]);
 	}
 
 	/**
 	 * Method to preload the JAccessRules object for the given asset type.
 	 *
-	 * @param   integer|string|array  $assetTypes  The type or name of the asset (e.g. 'com_content.article', 'com_menus.menu.2').
-	 *                                             Also accepts the asset id. An array of asset type or a special
-	 *                                             'components' string to load all component assets.
-	 * @param   boolean               $reload      Set to true to reload from database.
+	 * @param   string|array  $assetTypes  e.g. 'com_content.article'
+	 * @param   boolean       $reload      Set to true to reload from database.
 	 *
-	 * @return  boolean  True on success.
+	 * @return   boolean True on success.
 	 *
-	 * @since   1.6
-	 * @note    This method will return void in 4.0.
+	 * @since    1.6
 	 */
 	public static function preload($assetTypes = 'components', $reload = false)
 	{
-		// If sent an asset id, we first get the asset type for that asset id.
-		if (is_numeric($assetTypes))
-		{
-			$assetTypes = self::getAssetType($assetTypes);
-		}
-
 		// Check for default case:
 		$isDefault = is_string($assetTypes) && in_array($assetTypes, array('components', 'component'));
 
-		// Preload the rules for all of the components.
+		// Preload the rules for all of the components:
+		if ($isDefault && !self::$componentsPreloaded)
+		{
+			// Mark in the profiler.
+			!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::preload (all components)');
+
+			self::preloadComponents();
+			self::$componentsPreloaded = true;
+
+			// Mark in the profiler.
+			!JDEBUG ?: JProfiler::getInstance('Application')->mark('After JAccess::preload (all components)');
+		}
+
+		// Quick short circuit for default case
 		if ($isDefault)
 		{
-			self::preloadComponents();
-
 			return true;
 		}
 
-		// If we get to this point, this is a regular asset type and we'll proceed with the preloading process.
+		// If we get to this point, this is a regular asset type
+		// and we'll proceed with the preloading process.
+
 		if (!is_array($assetTypes))
 		{
 			$assetTypes = (array) $assetTypes;
@@ -221,7 +228,15 @@ class JAccess
 
 		foreach ($assetTypes as $assetType)
 		{
-			self::preloadPermissions($assetType, $reload);
+			if (!isset(self::$preloadedAssetTypes[$assetType]) || $reload)
+			{
+				!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::preload (' . $assetType . ')');
+
+				self::preloadPermissions($assetType);
+				self::$preloadedAssetTypes[$assetType] = true;
+
+				!JDEBUG ?: JProfiler::getInstance('Application')->mark('After JAccess::preload (' . $assetType . ')');
+			}
 		}
 
 		return true;
@@ -231,19 +246,15 @@ class JAccess
 	 * Method to recursively retrieve the list of parent Asset IDs
 	 * for a particular Asset.
 	 *
-	 * @param   string   $assetType  The asset type, or the asset name, or the extension of the asset
-	 *                               (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
-	 * @param   integer  $assetId    The numeric asset id.
+	 * @param   string      $extensionName  e.g. 'com_content.article'
+	 * @param   string|int  $assetId        numeric Asset ID
 	 *
-	 * @return  array  List of ancestor ids (includes original $assetId).
+	 * @return   array  List of Ancestor IDs (includes original $assetId)
 	 *
-	 * @since   1.6
+	 * @since    1.6
 	 */
-	protected static function getAssetAncestors($assetType, $assetId)
+	protected static function getAssetAncestors($extensionName, $assetId)
 	{
-		// Get the extension name from the $assetType provided
-		$extensionName = self::getExtensionNameFromAsset($assetType);
-
 		// Holds the list of ancestors for the Asset ID:
 		$ancestors = array();
 
@@ -255,9 +266,9 @@ class JAccess
 
 		while ($id !== 0)
 		{
-			if (isset(self::$assetPermissionsParentIdMapping[$extensionName][$id]))
+			if (isset(self::$assetPermissionsById[$extensionName][$id]))
 			{
-				$id = (int) self::$assetPermissionsParentIdMapping[$extensionName][$id]->parent_id;
+				$id = (int) self::$assetPermissionsById[$extensionName][$id]->parent_id;
 
 				if ($id !== 0)
 				{
@@ -276,107 +287,44 @@ class JAccess
 	}
 
 	/**
-	 * Method to retrieve the list of Asset IDs and their Parent Asset IDs
-	 * and store them for later usage in getAssetRules().
-	 *
-	 * @param   string  $assetType  The asset type, or the asset name, or the extension of the asset
-	 *                              (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
-	 *
-	 * @return  array  List of asset ids (includes parent asset id information).
-	 *
-	 * @since   1.6
-	 * @deprecated  __DEPLOY_VERSION__  No replacement. Will be removed in 4.0.
-	 */
-	protected static function &preloadPermissionsParentIdMapping($assetType)
-	{
-		// Get the extension name from the $assetType provided
-		$extensionName = self::getExtensionNameFromAsset($assetType);
-
-		if (!isset(self::$assetPermissionsParentIdMapping[$extensionName]))
-		{
-			// Get the database connection object.
-			$db = JFactory::getDbo();
-
-			// Get a fresh query object:
-			$query    = $db->getQuery(true);
-
-			// Build the database query:
-			$query->select('a.id, a.parent_id');
-			$query->from('#__assets AS a');
-			$query->where('(a.name LIKE ' . $db->quote($extensionName . '.%') . ' OR a.name = ' . $db->quote($extensionName) . ' OR a.id = 1)');
-
-			// Get the Name Permission Map List
-			$db->setQuery($query);
-			$parentIdMapping = $db->loadObjectList('id');
-
-			self::$assetPermissionsParentIdMapping[$extensionName] = &$parentIdMapping;
-		}
-
-		return self::$assetPermissionsParentIdMapping[$extensionName];
-	}
-
-	/**
 	 * Method to retrieve the Asset Rule strings for this particular
 	 * Asset Type and stores them for later usage in getAssetRules().
 	 * Stores 2 arrays: one where the list has the Asset ID as the key
 	 * and a second one where the Asset Name is the key.
 	 *
-	 * @param   string   $assetType  The asset type, or the asset name, or the extension of the asset
-	 *                               (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
-	 * @param   boolean  $reload     Reload the preloaded assets.
+	 * @param   string  $assetType  e.g. 'com_content.article'
 	 *
-	 * @return  bool  True
+	 * @return   bool  True
 	 *
-	 * @since   1.6
-	 * @note    This function will return void in 4.0.
+	 * @since    1.6
 	 */
-	protected static function preloadPermissions($assetType, $reload = false)
+	protected static function preloadPermissions($assetType)
 	{
 		// Get the extension name from the $assetType provided
 		$extensionName = self::getExtensionNameFromAsset($assetType);
 
-		// If asset is a component, make sure that all the component assets are preloaded.
-		if ((isset(self::$preloadedAssetTypes[$extensionName]) || isset(self::$preloadedAssetTypes[$assetType])) && !$reload)
-		{
-			return true;
-		}
-
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::preloadPermissions (' . $extensionName . ')');
-
 		// Get the database connection object.
-		$db         = JFactory::getDbo();
-		$extraQuery = $db->qn('name') . ' = ' . $db->q($extensionName) . ' OR ' . $db->qn('parent_id') . ' = 0';
+		$db = JFactory::getDbo();
 
-		// Get a fresh query object.
+		$parents = implode(',', $db->q(array($extensionName, 'root.1')));
+
+		// Get a fresh query object:
 		$query = $db->getQuery(true)
 			->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
 			->from($db->qn('#__assets'))
-			->where($db->qn('name') . ' LIKE ' . $db->q($extensionName . '.%') . ' OR ' . $extraQuery);
+			->where($db->qn('name') . ' LIKE ' . $db->q($extensionName . '.%') . ' OR ' . $db->qn('name') . ' IN (' . $parents . ')');
 
-		// Get the permission map for all assets in the asset extension.
+		// Get the Name Permission Map List
 		$assets = $db->setQuery($query)->loadObjectList();
 
-		self::$assetPermissionsParentIdMapping[$extensionName] = array();
-
-		// B/C Populate the old class properties. They are deprecated since __DEPLOY_VERSION__ and will be removed in 4.0.
-		self::$assetPermissionsById[$assetType]   = array();
-		self::$assetPermissionsByName[$assetType] = array();
+		self::$assetPermissionsById[$extensionName]   = array();
+		self::$assetPermissionsByName[$extensionName] = array();
 
 		foreach ($assets as $asset)
 		{
-			self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $asset;
-			self::$preloadedAssets[$asset->id]                                 = $asset->name;
-
-			// B/C Populate the old class properties. They are deprecated since __DEPLOY_VERSION__ and will be removed in 4.0.
-			self::$assetPermissionsById[$assetType][$asset->id]     = $asset;
-			self::$assetPermissionsByName[$assetType][$asset->name] = $asset;
+			self::$assetPermissionsById[$extensionName][$asset->id]     = $asset;
+			self::$assetPermissionsByName[$extensionName][$asset->name] = $asset;
 		}
-
-		// Mark asset type and it's extension name as preloaded.
-		self::$preloadedAssetTypes[$assetType]     = true;
-		self::$preloadedAssetTypes[$extensionName] = true;
-
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('After JAccess::preloadPermissions (' . $extensionName . ')');
 
 		return true;
 	}
@@ -388,20 +336,12 @@ class JAccess
 	 * e.g. it will get 'com_content', but not 'com_content.article.1' or
 	 * any more specific asset type rules.
 	 *
-	 * @return   array  Array of component names that were preloaded.
+	 * @return   array Array of component names that were preloaded.
 	 *
 	 * @since    1.6
 	 */
 	protected static function preloadComponents()
 	{
-		// If the components already been preloaded do nothing.
-		if (isset(self::$preloadedAssetTypes['components']))
-		{
-			return array();
-		}
-
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::preloadComponents (all components)');
-
 		// Add root to asset names list.
 		$components = array();
 
@@ -421,66 +361,80 @@ class JAccess
 		$query = $db->getQuery(true)
 			->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
 			->from($db->qn('#__assets'))
-			->where($db->qn('name') . ' IN (' . implode(',', $db->quote($components)) . ') OR ' . $db->qn('parent_id') . ' = 0');
+			->where($db->qn('name') . ' IN (' . implode(',', $db->quote($components)) . ', ' . $db->quote('root.1') . ')');
 
 		// Get the Name Permission Map List
-		$assets = $db->setQuery($query)->loadObjectList();
+		$assets = $db->setQuery($query)->loadObjectList('name');
 
-		$rootAsset = null;
+		// Add the root asset as parent of all components.
+		$assetsTree = array();
+		$rootName   = 'root.1';
 
-		// First add the root asset and save it to preload memory and mark it as preloaded.
-		foreach ($assets as &$asset)
+		foreach ($assets as $extensionName => $asset)
 		{
-			if ((int) $asset->parent_id === 0)
-			{
-				$rootAsset                                                       = $asset;
-				self::$rootAssetId                                               = $asset->id;
-				self::$preloadedAssetTypes[$asset->name]                         = true;
-				self::$preloadedAssets[$asset->id]                               = $asset->name;
-				self::$assetPermissionsParentIdMapping[$asset->name][$asset->id] = $asset;
+			$assetsTree[$extensionName][] = $assets[$rootName];
 
-				unset($asset);
-				break;
+			if ($extensionName !== $rootName)
+			{
+				$assetsTree[$extensionName][] = $assets[$extensionName];
 			}
 		}
 
-		// Now create save the components asset tree to preload memory.
-		foreach ($assets as $asset)
+		// Save the permissions for the components asset.
+		foreach ($assetsTree as $extensionName => $assets)
 		{
-			if (!isset(self::$assetPermissionsParentIdMapping[$asset->name]))
+			if (!isset(self::$preloadedAssetTypes[$extensionName]))
 			{
-				self::$assetPermissionsParentIdMapping[$asset->name] = array($rootAsset->id => $rootAsset, $asset->id => $asset);
-				self::$preloadedAssets[$asset->id]                   = $asset->name;
+				self::$assetPermissionsById[$extensionName]   = array();
+				self::$assetPermissionsByName[$extensionName] = array();
+
+				foreach ($assets as $asset)
+				{
+					self::$assetPermissionsById[$extensionName][$asset->id]     = $asset;
+					self::$assetPermissionsByName[$extensionName][$asset->name] = $asset;
+				}
+
+				self::$preloadedAssetTypes[$extensionName] = true;
 			}
 		}
-
-		// Mark all components asset type as preloaded.
-		self::$preloadedAssetTypes['components'] = true;
-
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('After JAccess::preloadComponents (all components)');
-
-		return $components;
 	}
 
 	/**
 	 * Method to check if a group is authorised to perform an action, optionally on an asset.
 	 *
-	 * @param   integer         $groupId   The path to the group for which to check authorisation.
-	 * @param   string          $action    The name of the action to authorise.
-	 * @param   integer|string  $assetKey  The asset key (asset id or asset name). null fallback to root asset.
-	 * @param   boolean         $preload   Indicates whether preloading should be used.
+	 * @param   integer  $groupId  The path to the group for which to check authorisation.
+	 * @param   string   $action   The name of the action to authorise.
+	 * @param   mixed    $asset    Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
 	 *
 	 * @return  boolean  True if authorised.
 	 *
 	 * @since   11.1
 	 */
-	public static function checkGroup($groupId, $action, $assetKey = null, $preload = true)
+	public static function checkGroup($groupId, $action, $asset = null)
 	{
-		// Sanitize input.
+		// Sanitize inputs.
 		$groupId = (int) $groupId;
-		$action  = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
+		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
+		$asset = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
 
-		return self::getAssetRules($assetKey, true, true, $preload)->allow($action, self::getGroupPath($groupId));
+		// Get group path for group
+		$groupPath = self::getGroupPath($groupId);
+
+		// Default to the root asset node.
+		if (empty($asset))
+		{
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$asset = $assets->getRootId();
+		}
+
+		// Get the rules for the asset recursively to root if not already retrieved.
+		if (empty(self::$assetRules[$asset]))
+		{
+			self::$assetRules[$asset] = self::getAssetRules($asset, true);
+		}
+
+		return self::$assetRules[$asset]->allow($action, $groupPath);
 	}
 
 	/**
@@ -511,105 +465,50 @@ class JAccess
 	 * only the rules explicitly set for the asset or the summation of all inherited rules from
 	 * parent assets and explicit rules.
 	 *
-	 * @param   integer|string  $assetKey              The asset key (asset id or asset name). null fallback to root asset.
-	 * @param   boolean         $recursive             True to return the rules object with inherited rules.
-	 * @param   boolean         $recursiveParentAsset  True to calculate the rule also based on inherited component/extension rules.
-	 * @param   boolean         $preload               Indicates whether preloading should be used.
+	 * @param   mixed    $asset                 Integer asset id or the name of the asset as a string.
+	 * @param   boolean  $recursive             True to return the rules object with inherited rules.
+	 * @param   boolean  $recursiveParentAsset  True to calculate the rule also based on inherited component/extension rules.
 	 *
-	 * @return  JAccessRules  JAccessRules object for the asset.
+	 * @return  JAccessRules   JAccessRules object for the asset.
 	 *
 	 * @since   11.1
-	 * @note    The non preloading code will be removed in 4.0. All asset rules should use asset preloading.
 	 */
-	public static function getAssetRules($assetKey, $recursive = false, $recursiveParentAsset = true, $preload = true)
+	public static function getAssetRules($asset, $recursive = false, $recursiveParentAsset = true)
 	{
-		// Auto preloads the components assets and root asset (if chosen).
-		if ($preload)
+		$method = '';
+
+		// Get instance of the Profiler:
+		$extensionName = self::getExtensionNameFromAsset($asset);
+		$assetType     = self::getAssetType($asset);
+
+		// Make sure the components assets are preloaded.
+		if (!self::$componentsPreloaded)
 		{
 			self::preload('components');
 		}
 
-		// When asset key is null fallback to root asset.
-		$assetKey = self::cleanAssetKey($assetKey);
+		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::getAssetRules (' . $asset . ')');
 
-		// Auto preloads assets for the asset type (if chosen).
-		if ($preload)
+		// Almost all calls should have recursive set to true so we'll get to take advantage of preloading.
+		if ($recursive && $recursiveParentAsset && (isset(self::$preloadedAssetTypes[$assetType]) || isset(self::$preloadedAssetTypes[$extensionName])))
 		{
-			self::preload(self::getAssetType($assetKey));
-		}
-
-		// Get the asset id and name.
-		$assetId = self::getAssetId($assetKey);
-
-		// If asset rules already cached em memory return it (only in full recursive mode).
-		if ($recursive && $recursiveParentAsset && $assetId && isset(self::$assetRules[$assetId]))
-		{
-			return self::$assetRules[$assetId];
-		}
-
-		// Get the asset name and the extension name.
-		$assetName     = self::getAssetName($assetKey);
-		$extensionName = self::getExtensionNameFromAsset($assetName);
-
-		// If asset id does not exist fallback to extension asset, then root asset.
-		if (!$assetId)
-		{
-			if ($extensionName && $assetName !== $extensionName)
+			// The asset type (ex: com_modules.module) as been preloaded, but the asset does not exist  (ex: com_modules.module.37).
+			// In this case we fallback to extension name asset.
+			if (!isset(self::$assetPermissionsByName[$extensionName][$asset]))
 			{
-				JLog::add('No asset found for ' . $assetName . ', falling back to ' . $extensionName, JLog::WARNING, 'assets');
-
-				return self::getAssetRules($extensionName, $recursive, $recursiveParentAsset, $preload);
+				self::$assetPermissionsByName[$extensionName][$asset] = self::$assetPermissionsByName[$extensionName][$extensionName];
 			}
 
-			if (self::$rootAssetId !== null && $assetName !== self::$preloadedAssets[self::$rootAssetId])
-			{
-				JLog::add('No asset found for ' . $assetName . ', falling back to ' . self::$preloadedAssets[self::$rootAssetId], JLog::WARNING, 'assets');
+			$assetId = self::$assetPermissionsByName[$extensionName][$asset]->id;
 
-				return self::getAssetRules(self::$preloadedAssets[self::$rootAssetId], $recursive, $recursiveParentAsset, $preload);
-			}
-		}
+			$ancestors = array_reverse(self::getAssetAncestors($extensionName, $assetId));
 
-		// Almost all calls can take advantage of preloading.
-		if ($assetId && isset(self::$preloadedAssets[$assetId]))
-		{
-			!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
-
-			// Collects permissions for each asset
+			// Collects permissions for each $asset
 			$collected = array();
 
-			// If not in any recursive mode. We only want the asset rules.
-			if (!$recursive && !$recursiveParentAsset)
+			foreach ($ancestors as $id)
 			{
-				$collected = array(self::$assetPermissionsParentIdMapping[$extensionName][$assetId]->rules);
-			}
-			// If there is any type of recursive mode.
-			else
-			{
-				$ancestors = array_reverse(self::getAssetAncestors($extensionName, $assetId));
-
-				foreach ($ancestors as $id)
-				{
-					// If full recursive mode, but not recursive parent mode, do not add the extension asset rules.
-					if ($recursive && !$recursiveParentAsset && self::$assetPermissionsParentIdMapping[$extensionName][$id]->name === $extensionName)
-					{
-						continue;
-					}
-
-					// If not full recursive mode, but recursive parent mode, do not add other recursion rules.
-					if (!$recursive && $recursiveParentAsset && self::$assetPermissionsParentIdMapping[$extensionName][$id]->name !== $extensionName
-						&& self::$assetPermissionsParentIdMapping[$extensionName][$id]->id !== $assetId)
-					{
-						continue;
-					}
-
-					// If empty asset to not add to rules.
-					if (self::$assetPermissionsParentIdMapping[$extensionName][$id]->rules === '{}')
-					{
-						continue;
-					}
-
-					$collected[] = self::$assetPermissionsParentIdMapping[$extensionName][$id]->rules;
-				}
+				$collected[] = self::$assetPermissionsById[$extensionName][$id]->rules;
 			}
 
 			/**
@@ -628,236 +527,124 @@ class JAccess
 				self::$assetRulesIdentities[$hash] = $rules;
 			}
 
-			// Save asset rules to memory cache(only in full recursive mode).
-			if ($recursive && $recursiveParentAsset)
+			$rules = self::$assetRulesIdentities[$hash];
+		}
+		else
+		{
+			$method = ' <strong>Slower</strong>, no preloading, method used.';
+
+			if ($asset === "1")
 			{
-				self::$assetRules[$assetId] = self::$assetRulesIdentities[$hash];
+				// There's no need to process it with the
+				// recursive method for the Root Asset ID.
+				$recursive = false;
 			}
 
-			!JDEBUG ?: JProfiler::getInstance('Application')->mark('After JAccess::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
+			// Get the database connection object.
+			$db = JFactory::getDbo();
 
-			return self::$assetRulesIdentities[$hash];
+			// Build the database query to get the rules for the asset.
+			$query = $db->getQuery(true)
+				->select($recursive ? 'DISTINCT(b.rules)' : 'a.rules')
+				->from('#__assets AS a');
+
+			$extensionString = '';
+
+			if ($recursiveParentAsset && ($extensionName !== $asset || is_numeric($asset)))
+			{
+				$extensionString = ' OR a.name = ' . $db->quote($extensionName);
+			}
+
+			$recursiveString = '';
+
+			if ($recursive)
+			{
+				$recursiveString = ' OR a.parent_id=0';
+			}
+
+			// If the asset identifier is numeric assume it is a primary key, else lookup by name.
+			if (is_numeric($asset))
+			{
+				$query->where('(a.id = ' . (int) $asset . $extensionString . $recursiveString . ')');
+			}
+			else
+			{
+				$query->where('(a.name = ' . $db->quote($asset) . $extensionString . $recursiveString . ')');
+			}
+
+			// If we want the rules cascading up to the global asset node we need a self-join.
+			if ($recursive)
+			{
+				$query->join('LEFT', '#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt')
+					->order('b.lft');
+			}
+
+			// Execute the query and load the rules from the result.
+			$db->setQuery($query);
+			$result = $db->loadColumn();
+
+			// Get the root even if the asset is not found and in recursive mode
+			if (empty($result))
+			{
+				$db = JFactory::getDbo();
+				$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+				$rootId = $assets->getRootId();
+				$query->clear()
+					->select('rules')
+					->from('#__assets')
+					->where('id = ' . $db->quote($rootId));
+				$db->setQuery($query);
+				$result = $db->loadResult();
+				$result = array($result);
+			}
+
+			// Instantiate and return the JAccessRules object for the asset rules.
+			$rules = new JAccessRules;
+			$rules->mergeCollection($result);
 		}
 
-		// Non preloading code. Use old slower method, slower. Only used in rare cases (if any) or without preloading chosen.
-		JLog::add('Asset ' . $assetKey . ' permissions fetch without preloading (slower method).', JLog::INFO, 'assets');
-
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::getAssetRules (assetKey:' . $assetKey . ')');
-
-		// There's no need to process it with the recursive method for the Root Asset ID.
-		if ((int) $assetKey === 1)
-		{
-			$recursive = false;
-		}
-
-		// Get the database connection object.
-		$db = JFactory::getDbo();
-
-		// Build the database query to get the rules for the asset.
-		$query = $db->getQuery(true)
-			->select($db->qn(($recursive ? 'b.rules' : 'a.rules'), 'rules'))
-			->select($db->qn(($recursive ? array('b.id', 'b.name', 'b.parent_id') : array('a.id', 'a.name', 'a.parent_id'))))
-			->from($db->qn('#__assets', 'a'));
-
-		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
-		$assetString     = is_numeric($assetKey) ? $db->qn('a.id') . ' = ' . $assetKey : $db->qn('a.name') . ' = ' . $db->q($assetKey);
-		$extensionString = '';
-
-		if ($recursiveParentAsset && ($extensionName !== $assetKey || is_numeric($assetKey)))
-		{
-			$extensionString = ' OR ' . $db->qn('a.name') . ' = ' . $db->q($extensionName);
-		}
-
-		$recursiveString = $recursive ? ' OR ' . $db->qn('a.parent_id') . ' = 0' : '';
-
-		$query->where('(' . $assetString . $extensionString . $recursiveString . ')');
-
-		// If we want the rules cascading up to the global asset node we need a self-join.
-		if ($recursive)
-		{
-			$query->join('LEFT', $db->qn('#__assets', 'b') . ' ON b.lft <= a.lft AND b.rgt >= a.rgt')
-				->order($db->qn('b.lft'));
-		}
-
-		// Execute the query and load the rules from the result.
-		$result = $db->setQuery($query)->loadObjectList();
-
-		// Get the root even if the asset is not found and in recursive mode
-		if (empty($result))
-		{
-			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
-
-			$query->clear()
-				->select($db->qn(array('id', 'name', 'parent_id', 'rules')))
-				->from($db->qn('#__assets'))
-				->where($db->qn('id') . ' = ' . $db->q($assets->getRootId()));
-
-			$result = $db->setQuery($query)->loadObjectList();
-		}
-
-		$collected = array();
-
-		foreach ($result as $asset)
-		{
-			$collected[] = $asset->rules;
-		}
-
-		// Instantiate and return the JAccessRules object for the asset rules.
-		$rules = new JAccessRules;
-		$rules->mergeCollection($collected);
-
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::getAssetRules <strong>Slower</strong> (assetKey:' . $assetKey . ')');
+		!JDEBUG ?: JProfiler::getInstance('Application')->mark('After JAccess::getAssetRules (' . $asset . ')' . $method);
 
 		return $rules;
 	}
 
 	/**
-	 * Method to clean the asset key to make sure we always have something.
-	 *
-	 * @param   integer|string  $assetKey  The asset key (asset id or asset name). null fallback to root asset.
-	 *
-	 * @return  integer|string  Asset id or asset name.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected static function cleanAssetKey($assetKey = null)
-	{
-		// If it's a valid asset key, clean it and return it.
-		if ($assetKey)
-		{
-			return strtolower(preg_replace('#[\s\-]+#', '.', trim($assetKey)));
-		}
-
-		// Return root asset id if already preloaded.
-		if (self::$rootAssetId !== null)
-		{
-			return self::$rootAssetId;
-		}
-
-		// No preload. Return root asset id from JTableAssets.
-		$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => JFactory::getDbo()));
-
-		return $assets->getRootId();
-	}
-
-	/**
-	 * Method to get the asset id from the asset key.
-	 *
-	 * @param   integer|string  $assetKey  The asset key (asset id or asset name).
-	 *
-	 * @return  integer  The asset id.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected static function getAssetId($assetKey)
-	{
-		static $loaded = array();
-
-		// If the asset is already an id return it.
-		if (is_numeric($assetKey))
-		{
-			return (int) $assetKey;
-		}
-
-		if (!isset($loaded[$assetKey]))
-		{
-			// It's the root asset.
-			if (self::$rootAssetId !== null && $assetKey === self::$preloadedAssets[self::$rootAssetId])
-			{
-				$loaded[$assetKey] = self::$rootAssetId;
-			}
-			else
-			{
-				$preloadedAssetsByName = array_flip(self::$preloadedAssets);
-
-				// If we already have the asset name stored in preloading, example, a component, no need to fetch it from table.
-				if (isset($preloadedAssetsByName[$assetKey]))
-				{
-					$loaded[$assetKey] = $preloadedAssetsByName[$assetKey];
-				}
-				// Else we have to do an extra db query to fetch it from the table fetch it from table.
-				else
-				{
-					$table = JTable::getInstance('Asset');
-					$table->load(array('name' => $assetKey));
-					$loaded[$assetKey] = $table->id;
-				}
-			}
-		}
-
-		return (int) $loaded[$assetKey];
-	}
-
-	/**
-	 * Method to get the asset name from the asset key.
-	 *
-	 * @param   integer|string  $assetKey  The asset key (asset id or asset name).
-	 *
-	 * @return  string  The asset name (ex: com_content.article.8).
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected static function getAssetName($assetKey)
-	{
-		static $loaded = array();
-
-		// If the asset is already a string return it.
-		if (!is_numeric($assetKey))
-		{
-			return $assetKey;
-		}
-
-		if (!isset($loaded[$assetKey]))
-		{
-			// It's the root asset.
-			if (self::$rootAssetId !== null && $assetKey === self::$rootAssetId)
-			{
-				$loaded[$assetKey] = self::$preloadedAssets[self::$rootAssetId];
-			}
-			// If we already have the asset name stored in preloading, example, a component, no need to fetch it from table.
-			elseif (isset(self::$preloadedAssets[$assetKey]))
-			{
-				$loaded[$assetKey] = self::$preloadedAssets[$assetKey];
-			}
-			// Else we have to do an extra db query to fetch it from the table fetch it from table.
-			else
-			{
-				$table = JTable::getInstance('Asset');
-				$table->load($assetKey);
-				$loaded[$assetKey] = $table->name;
-			}
-		}
-
-		return $loaded[$assetKey];
-	}
-
-	/**
 	 * Method to get the extension name from the asset name.
 	 *
-	 * @param   integer|string  $assetKey  The asset key (asset id or asset name).
+	 * @param   string  $asset  Asset Name
 	 *
-	 * @return  string  The extension name (ex: com_content).
+	 * @return  string  Extension Name.
 	 *
 	 * @since    1.6
 	 */
-	public static function getExtensionNameFromAsset($assetKey)
+	public static function getExtensionNameFromAsset($asset)
 	{
 		static $loaded = array();
 
-		if (!isset($loaded[$assetKey]))
+		if (!isset($loaded[$asset]))
 		{
-			$assetName = self::getAssetName($assetKey);
-			$firstDot  = strpos($assetName, '.');
+			if (is_numeric($asset))
+			{
+				$table = JTable::getInstance('Asset');
+				$table->load($asset);
+				$assetName = $table->name;
+			}
+			else
+			{
+				$assetName = $asset;
+			}
+
+			$firstDot = strpos($assetName, '.');
 
 			if ($assetName !== 'root.1' && $firstDot !== false)
 			{
 				$assetName = substr($assetName, 0, $firstDot);
 			}
 
-			$loaded[$assetKey] = $assetName;
+			$loaded[$asset] = $assetName;
 		}
 
-		return $loaded[$assetKey];
+		return $loaded[$asset];
 	}
 
 	/**
@@ -870,24 +657,26 @@ class JAccess
 	 * 'com_content.article.1' returns 'com_content.article'
 	 * 'com_content.category.1' returns 'com_content.category'
 	 *
-	 * @param   integer|string  $assetKey  The asset key (asset id or asset name).
+	 * @param   string  $asset  Asset Name
 	 *
-	 * @return  string  The asset type (ex: com_content.article).
+	 * @return  string  Asset Type.
 	 *
 	 * @since    1.6
 	 */
-	public static function getAssetType($assetKey)
+	public static function getAssetType($asset)
 	{
-		// If the asset is already a string return it.
-		$assetName = self::getAssetName($assetKey);
-		$lastDot   = strrpos($assetName, '.');
+		$lastDot = strrpos($asset, '.');
 
-		if ($assetName !== 'root.1' && $lastDot !== false)
+		if ($asset !== 'root.1' && $lastDot !== false)
 		{
-			return substr($assetName, 0, $lastDot);
+			$assetType = substr($asset, 0, $lastDot);
+		}
+		else
+		{
+			$assetType = 'components';
 		}
 
-		return 'components';
+		return $assetType;
 	}
 
 	/**
