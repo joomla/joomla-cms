@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-links', JText::_('COM_CONTACT_LINKS')); ?>
 <?php endif; ?>
 <?php if ($this->params->get('presentation_style') === 'plain') : ?>
-	<?php echo '<h3>' . JText::_('COM_CONTACT_LINKS') . '</h3>';  ?>
+	<?php echo '<h3>' . JText::_('COM_CONTACT_LINKS') . '</h3>'; ?>
 <?php endif; ?>
 
 <div class="contact-links">
