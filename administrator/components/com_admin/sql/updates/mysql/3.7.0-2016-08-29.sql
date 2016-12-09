@@ -43,7 +43,6 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   `asset_id` int(10) NOT NULL DEFAULT 0,
   `extension` varchar(255) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(255) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   `state` tinyint(1) NOT NULL DEFAULT '0',
