@@ -145,7 +145,7 @@ if ($saveOrder)
 										<?php echo $this->escape($item->name); ?>
 								<?php endif; ?>
 								<span class="small">
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)) ;?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 								</span>
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
