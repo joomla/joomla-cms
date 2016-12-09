@@ -242,6 +242,12 @@ class TemplatesViewTemplate extends JViewLegacy
 			{
 				JToolbarHelper::custom('template.less', 'play', 'play', 'COM_TEMPLATES_BUTTON_LESS', false);
 			}
+
+			// Add a Compile Button
+			if ($ext == 'scss')
+			{
+				JToolbarHelper::custom('template.scss', 'play', 'play', 'COM_TEMPLATES_BUTTON_SCSS', false);
+			}
 		}
 
 		if ($this->type == 'home')
