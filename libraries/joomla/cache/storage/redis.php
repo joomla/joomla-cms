@@ -106,7 +106,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isClient('administrator'))
+			if ($app->isAdmin())
 			{
 				JError::raiseWarning(500, 'Redis connection failed');
 			}
@@ -116,7 +116,7 @@ class JCacheStorageRedis extends JCacheStorage
 
 		if ($auth == false)
 		{
-			if ($app->isClient('administrator'))
+			if ($app->isAdmin())
 			{
 				JError::raiseWarning(500, 'Redis authentication failed');
 			}
@@ -130,7 +130,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isClient('administrator'))
+			if ($app->isAdmin())
 			{
 				JError::raiseWarning(500, 'Redis failed to select database');
 			}
@@ -146,7 +146,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isClient('administrator'))
+			if ($app->isAdmin())
 			{
 				JError::raiseWarning(500, 'Redis ping failed');
 			}

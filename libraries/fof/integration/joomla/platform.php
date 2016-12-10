@@ -148,7 +148,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 			}
 			else
 			{
-				$isAdmin = !JFactory::$application ? false : JFactory::getApplication()->isClient('administrator');
+				$isAdmin = !JFactory::$application ? false : JFactory::getApplication()->isAdmin();
 			}
 		}
 
@@ -817,7 +817,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
                     $response->email = $user->email;
                     $response->fullname = $user->name;
 
-                    if (JFactory::getApplication()->isClient('administrator'))
+                    if (JFactory::getApplication()->isAdmin())
                     {
                         $response->language = $user->getParam('admin_language');
                     }
