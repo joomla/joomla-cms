@@ -91,7 +91,7 @@ class ArticleManagerPage extends AdminPage
 		$I = $this;
 
 		$I->fillField(self::$title, $title);
-
+                $I->scrollTo(['css'=> 'div.toggle-editor']);
 		$I->click(self::$toggleEditor);
 		$I->fillField(self::$content, $content);
 	}

@@ -42,6 +42,8 @@ class UserManagerPage extends AdminPage
 	 */
 	public static $nameField = ['id' => 'jform_name'];
 
+	public static $accountDetailsTab = ['xpath' => "//a[@href='#details']"];
+
 	/**
 	 * Locator for user's username input field
 	 *
@@ -162,6 +164,8 @@ class UserManagerPage extends AdminPage
 	{
 		$I = $this;
 
+		$I->click(self::$accountDetailsTab);
+		$I->waitForElementVisible(self::$nameField, 30);
 		$I->fillField(self::$nameField, $name);
 		$I->fillField(self::$usernameField, $username);
 		$I->fillField(self::$passwordField, $password);

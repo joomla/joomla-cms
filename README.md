@@ -154,14 +154,26 @@ $ tests/codeception/vendor/bin/robo run:tests
 
 #### You can individual run `feature` using following command.
 
+**_Linux & Mac_**
 ```bash
 $ tests/codeception/vendor/bin/robo run:test
 ```
 
+**_Windows_**
+```cmd
+$ tests\codeception\vendor\bin\robo run:test
+```
+
 Or you can manually run them using codecept command. Check the following example:
 
+**_Linux & Mac_**
 ```bash
 $ ./tests/codeception/vendor/bin/codecept run tests/codeception/acceptance/users.feature
+```
+
+**_Windows_**
+```cmd
+$ tests\codeception\vendor\bin\codecept run tests/codeception/acceptance/users.feature
 ```
 
 If you want to see steps then you can use `--steps` option of codeception. Check [full codecept command list here](http://codeception.com/docs/reference/Commands#Run)_

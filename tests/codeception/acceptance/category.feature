@@ -4,7 +4,7 @@ Feature: category
   I need to create modify trash publish and Unpublish category
 
   Background:
-    When I Login into Joomla administrator with username "admin" and password "admin"
+    When I Login into Joomla administrator
     And I see the administrator dashboard
 
   Scenario: Verify available tabs in Category
