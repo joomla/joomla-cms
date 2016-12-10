@@ -162,6 +162,7 @@ class UserManagerPage extends AdminPage
 	{
 		$I = $this;
 
+		$I->click('Account Details');
 		$I->fillField(self::$nameField, $name);
 		$I->wait(2);
 		$I->fillField(self::$usernameField, $username);
