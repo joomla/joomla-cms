@@ -8,7 +8,7 @@
 
 namespace Joomla\Registry\Format;
 
-use Joomla\Registry\AbstractRegistryFormat;
+use Joomla\Registry\FormatInterface;
 use Symfony\Component\Yaml\Parser as SymfonyYamlParser;
 use Symfony\Component\Yaml\Dumper as SymfonyYamlDumper;
 
@@ -17,7 +17,7 @@ use Symfony\Component\Yaml\Dumper as SymfonyYamlDumper;
  *
  * @since  1.0
  */
-class Yaml extends AbstractRegistryFormat
+class Yaml implements FormatInterface
 {
 	/**
 	 * The YAML parser class.
