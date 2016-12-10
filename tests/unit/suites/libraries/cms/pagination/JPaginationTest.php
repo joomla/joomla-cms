@@ -510,7 +510,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($admin ? 'administrator' : 'site')->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 
