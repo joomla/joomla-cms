@@ -119,7 +119,7 @@ class JReCaptcha
 			return $recaptchaResponse;
 		}
 
-		$getResponse = $this->_submitHttpGet(
+		$getResponse = $this->_submitHTTPGet(
 			self::$_siteVerifyUrl,
 			array(
 				'secret'   => $this->_secret,

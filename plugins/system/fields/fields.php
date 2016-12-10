@@ -472,8 +472,6 @@ class PlgSystemFields extends JPlugin
 		{
 			$item->fields[$field->id] = $field;
 		}
-
-		return;
 	}
 
 	/**
