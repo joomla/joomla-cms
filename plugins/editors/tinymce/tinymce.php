@@ -167,7 +167,6 @@ class PlgEditorTinymce extends JPlugin
 		$app      = JFactory::getApplication();
 		$user     = JFactory::getUser();
 		$language = JFactory::getLanguage();
-		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
 		$access   = array_flip($user->getAuthorisedViewLevels());
 
@@ -212,7 +211,6 @@ class PlgEditorTinymce extends JPlugin
 			$skin = basename($skindirs[(int) $this->params->get($side, 0)]);
 		}
 
-		$entity_encoding = $this->params->get('entity_encoding', 'raw');
 		$langMode        = $this->params->get('lang_mode', 0);
 		$langPrefix      = $this->params->get('lang_code', 'en');
 
