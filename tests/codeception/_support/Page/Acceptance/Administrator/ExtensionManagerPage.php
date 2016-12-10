@@ -102,6 +102,8 @@ class ExtensionManagerPage extends AdminPage
 		$I->waitForElement(['id' => 'manageList'], '30');
 		$I->click(['xpath' => "//input[@id='cb0']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
+		$I->acceptPopup();
+		$I->wait(3);
 		$I->seeSystemMessage(self::$managePageTitle, 'was successful');
 		$I->searchForItem($extensionName);
 		$I->waitForText(
