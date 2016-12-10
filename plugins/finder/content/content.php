@@ -252,14 +252,11 @@ class PlgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Initialise the item parameters.
-		$registry = new Registry;
-		$registry->loadString($item->params);
+		$registry = new Registry($item->params);
 		$item->params = JComponentHelper::getParams('com_content', true);
 		$item->params->merge($registry);
 
-		$registry = new Registry;
-		$registry->loadString($item->metadata);
-		$item->metadata = $registry;
+		$item->metadata = new Registry($item->metadata);
 
 		// Trigger the onContentPrepare event.
 		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);

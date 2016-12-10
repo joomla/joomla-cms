@@ -56,7 +56,7 @@ class MediawikiCli extends JApplicationCli
 		$namespace   = 'Help' . $helpVersion . ':';
 
 		// Set up options for JMediawiki
-		$options = new JRegistry;
+		$options = new Joomla\Registry\Registry;
 		$options->set('api.url', 'https://docs.joomla.org');
 
 		$mediawiki = new JMediawiki($options);

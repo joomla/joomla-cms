@@ -263,7 +263,7 @@ class PlgUserProfile extends JPlugin
 		// Change fields description when displayed in frontend or backend profile editing
 		$app = JFactory::getApplication();
 
-		if ($name === 'com_users.user' || $name === 'com_admin.profile' || $app->isSite())
+		if ($app->isSite() || $name == 'com_users.user' || $name == 'com_admin.profile')
 		{
 			$form->setFieldAttribute('address1', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
 			$form->setFieldAttribute('address2', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
@@ -282,8 +282,8 @@ class PlgUserProfile extends JPlugin
 		$tosarticle = $this->params->get('register_tos_article');
 		$tosenabled = $this->params->get('register-require_tos', 0);
 
-		// We need to be in the registration form, field needs to be enabled and we need an article ID
-		if ($name !== 'com_users.registration' || !$tosenabled || !$tosarticle)
+		// We need to be in the registration form and field needs to be enabled
+		if ($name !== 'com_users.registration' || !$tosenabled)
 		{
 			// We only want the TOS in the registration form
 			$form->removeField('tos', 'profile');

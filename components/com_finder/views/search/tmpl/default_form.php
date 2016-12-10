@@ -38,7 +38,7 @@ jQuery(function() {";
 	*/
 	if ($this->params->get('show_autosuggest', 1))
 	{
-		JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js', false, false, false, false, true);
+		JHtml::_('script', 'jui/jquery.autocomplete.min.js', array('version' => 'auto', 'relative' => true));
 
 		$script .= "
 	var suggest = jQuery('#q').autocomplete({
@@ -75,7 +75,7 @@ jQuery(function() {";
 			<?php echo JText::_('COM_FINDER_SEARCH_TERMS'); ?>
 		</label>
 		<input type="text" name="q" id="q" size="30" value="<?php echo $this->escape($this->query->input); ?>" class="inputbox" />
-		<?php if ($this->escape($this->query->input) != '' || $this->params->get('allow_empty_search')):?>
+		<?php if ($this->escape($this->query->input) != '' || $this->params->get('allow_empty_query')):?>
 			<button name="Search" type="submit" class="btn btn-primary"><span class="icon-search icon-white"></span> <?php echo JText::_('JSEARCH_FILTER_SUBMIT');?></button>
 		<?php else: ?>
 			<button name="Search" type="submit" class="btn btn-primary disabled"><span class="icon-search icon-white"></span> <?php echo JText::_('JSEARCH_FILTER_SUBMIT');?></button>

@@ -52,8 +52,7 @@ class NewsfeedsViewCategory extends JViewCategory
 		foreach ($this->items as $item)
 		{
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp       = new Registry;
-			$temp->loadString($item->params);
+			$temp       = new Registry($item->params);
 			$item->params = clone $this->params;
 			$item->params->merge($temp);
 		}
@@ -70,9 +69,8 @@ class NewsfeedsViewCategory extends JViewCategory
 	{
 		parent::prepareDocument();
 
-		$id = (int) @$menu->query['id'];
-
 		$menu = $this->menu;
+		$id = (int) @$menu->query['id'];
 
 		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $this->category->id))
 		{
