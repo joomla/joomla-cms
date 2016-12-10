@@ -1642,7 +1642,7 @@ class JoomlaInstallerScript
 			'/libraries/simplepie',
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade',
-			// Joomla __DEPLOY_VERSION__
+			// Joomla! __DEPLOY_VERSION__
 			'/libraries/joomla/data',
 		);
 

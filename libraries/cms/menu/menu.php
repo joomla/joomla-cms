@@ -21,7 +21,7 @@ class JMenu
 	/**
 	 * Array to hold the menu items
 	 *
-	 * @var    array
+	 * @var    JMenuItem[]
 	 * @since  1.5
 	 * @deprecated  4.0  Will convert to $items
 	 */
@@ -78,21 +78,6 @@ class JMenu
 			if ($item->home)
 			{
 				$this->_default[trim($item->language)] = $item->id;
-			}
-
-			// Decode the item params
-			try
-			{
-				$item->params = new Registry($item->params);
-			}
-			catch (RuntimeException $e)
-			{
-				/**
-				 * Joomla shipped with a broken sample json string for 4 years which caused fatals with new
-				 * error checks. So for now we catch the exception here - but one day we should remove it and require
-				 * valid JSON.
-				 */
-				$item->params = new Registry;
 			}
 		}
 

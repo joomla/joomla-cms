@@ -264,9 +264,6 @@ body .navbar-fixed-top {
 			-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 		}
 	}
-	.nav > li > a:focus {
-	    outline: none;
-	}
 	.nav > li > .dropdown-menu:after {
 		display: none;
 	}
@@ -1444,7 +1441,7 @@ textarea, input, .uneditable-input {
 }
 textarea:focus, input:focus, .uneditable-input:focus {
 	box-shadow: none;
-	border: 1px solid @inputBorderHighlight !important;
+	border: 1px solid @inputBorderHighlight;
 }
 
 /* Customize Textarea Resizing */
@@ -1539,7 +1536,108 @@ body.modal-open {
 .subhead {
   text-shadow: none;
 }
+
+/* Repeatable SubForm */
+.subform-repeatable {
+	padding-right: 10px;
+	> .btn-toolbar {
+		margin: 0;
+		.group-add {
+			line-height: 26px;
+			width: 56px;
+			font-size: 13px;
+			margin-left: 28px;
+		}
+	}
+}
+.subform-repeatable-group {
+	margin-top: 20px;
+	margin-left: 28px;
+	border: 1px solid @inputBorder;
+	padding: 8px 25px 15px;
+	position: relative;
+	border-radius: @inputBorderRadius;
+	> .btn-toolbar {
+		margin: 0;
+		.btn-group {
+			margin-right: 0px;
+			margin-top: -1px;
+			position: static;
+		}
+		.btn {
+			font-size: 13px;
+			line-height: 26px;
+			background-color: #F3F3F3;
+			position: absolute;
+			span {
+				vertical-align: middle;
+				line-height: 11px;
+			}
+			&.btn-success {
+				color: #378137;
+				bottom: 0;
+				right: 0;
+				border-radius: @inputBorderRadius 0 0 0;
+				border-width: 1px 0 0 1px;
+				padding-top: 1px;
+				.icon-plus:before {
+					content: "]";
+				}
+			}
+			&.btn-danger {
+				color: #942a25;
+				top: 0;
+				right: 0;
+				border-radius: 0 0 0 @inputBorderRadius;
+				border-width: 0 0 1px 1px;
+				.icon-minus:before {
+					content: "I";
+
+				}
+			}
+			&.btn-primary {
+				color: #24748c;
+				color: #333;
+				right: 100%;
+				top: 50%;
+				margin-top: -27px;
+				margin-right: 1px;
+				border-radius: @inputBorderRadius 0 0 @inputBorderRadius;
+				border-width: 1px 0 1px 1px;
+				line-height: 52px;
+				.icon-move:before {
+					content: "Z";
+				}
+			}
+			[class^="icon-"], [class*=" icon-"] {
+				margin: 0;
+			}
+			&:hover {
+				background-color: #E6E6E6;
+			}
+		}
+	}
+	&:nth-child(odd) {
+	}
+	&:nth-child(even) {
+	}
+	&:last-of-type {
+	}
+	.control-group:last-of-type {
+		margin-bottom: 10px;
+	}
+}
+@media (max-width: 979px) {
+	.subform-repeatable-group > .btn-toolbar .btn-group {
+		margin-bottom: 10px;
+	}
+}
 /* Popover minimum height - overwrite bootstrap default */
 .popover-content {
     min-height: 33px;
+}
+
+/* Overrid font-weight 200 */
+.lead, .navbar .brand, .hero-unit, .hero-unit .lead {
+	font-weight: 400;
 }

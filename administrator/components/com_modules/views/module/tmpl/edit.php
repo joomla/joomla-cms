@@ -14,7 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.combobox');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0));
+JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', 'select');
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
 $hasContentFieldName = "content";
@@ -193,12 +194,12 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							$short_description = JText::_($this->item->xml->description);
 							$this->fieldset = 'description';
 							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
-							if(!$long_description) {
+							if (!$long_description) {
 								$truncated = JHtmlString::truncate($short_description, 550, true, false);
-								if(strlen($truncated) > 500) {
+								if (strlen($truncated) > 500) {
 									$long_description = $short_description;
 									$short_description = JHtmlString::truncate($truncated, 250);
-									if($short_description == $long_description) {
+									if ($short_description == $long_description) {
 										$long_description = '';
 									}
 								}

@@ -32,12 +32,13 @@ jQuery(document).ready(function($) {
 ?>
 
 <div id="joomlaupdate-wrapper">
-	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm" class="form-horizontal">
 
-		<?php if ($this->showUploadAndUpdate) : ?>
-			<?php echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => 'online-update')); ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE')); ?>
-		<?php endif; ?>
+	<?php if ($this->showUploadAndUpdate) : ?>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => 'online-update')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE')); ?>
+	<?php endif; ?>
+
+	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm" class="form-horizontal">
 
 		<?php if ($this->selfUpdate) : ?>
 			<?php // If we have a self update notice to install it first! ?>

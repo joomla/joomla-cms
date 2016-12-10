@@ -27,7 +27,7 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
-if($task == "edit" || $layout == "form" )
+if ($task == "edit" || $layout == "form" )
 {
 	$fullWidth = 1;
 }

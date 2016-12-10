@@ -21,6 +21,8 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 * This method is called before a test is executed.
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function setUp()
 	{
@@ -36,6 +38,8 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 * This method is called after a test is executed.
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function tearDown()
 	{
@@ -43,7 +47,6 @@ class JHtmlMenuTest extends TestCaseDatabase
 
 		parent::tearDown();
 	}
-
 
 	/**
 	 * Gets the data set to be loaded into the database during setup

@@ -226,11 +226,12 @@ class ContentModelArticles extends JModelList
 			$query->where('a.access = ' . (int) $access);
 		}
 
-		// Implement View Level Access
+		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
+			$query->where('c.access IN (' . $groups . ')');
 		}
 
 		// Filter by published state
@@ -321,16 +322,16 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'a.id');
-		$orderDirn = $this->state->get('list.direction', 'desc');
+		$orderCol  = $this->state->get('list.fullordering', 'a.id');
+		$orderDirn = '';
 
-		if (JPluginHelper::isEnabled('content', 'vote'))
+		if (empty($orderCol))
 		{
-			$orderCol  = $this->state->get('list.fullordering', 'a.id');
-			$orderDirn = '';
+			$orderCol  = $this->state->get('list.ordering', 'a.id');
+			$orderDirn = $this->state->get('list.direction', 'DESC');
 		}
 
-		$query->order($db->escape($orderCol) . ' ' . $orderDirn);
+		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}

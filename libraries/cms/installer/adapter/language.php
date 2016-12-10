@@ -81,7 +81,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 	 * the ability to install multiple distinct packs in one install. The
 	 * preferred method is to use a package to install multiple language packs.
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean|integer  The extension ID on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
@@ -139,9 +139,9 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 	 * @param   integer  $clientId  The client id.
 	 * @param   object   &$element  The XML element.
 	 *
-	 * @return  boolean
+	 * @return  boolean|integer  The extension ID on success, boolean false on failure
 	 *
-	 * @since  3.1
+	 * @since   3.1
 	 */
 	protected function _install($cname, $basePath, $clientId, &$element)
 	{
@@ -388,6 +388,9 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			$update->delete($uid);
 		}
 
+		// Clean installed languages cache.
+		JFactory::getCache()->clean('com_languages');
+
 		return $row->get('extension_id');
 	}
 
@@ -565,6 +568,9 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		$row->set('element', $this->tag);
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
 
+		// Clean installed languages cache.
+		JFactory::getCache()->clean('com_languages');
+
 		if (!$row->store())
 		{
 			// Install failed, roll back changes
@@ -692,6 +698,9 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			}
 		}
 
+		// Clean installed languages cache.
+		JFactory::getCache()->clean('com_languages');
+
 		if (!empty($count))
 		{
 			JLog::add(JText::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), JLog::NOTICE, 'jerror');
@@ -789,6 +798,9 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 			return false;
 		}
+
+		// Clean installed languages cache.
+		JFactory::getCache()->clean('com_languages');
 
 		return $this->parent->extension->get('extension_id');
 	}

@@ -249,6 +249,12 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			return;
 		}
 
+		// Check if the extension that owns the category is also enabled.
+		if (JComponentHelper::isEnabled($item->extension) == false)
+		{
+			return;
+		}
+
 		$item->setLanguage();
 
 		$extension = ucfirst(substr($item->extension, 4));

@@ -73,6 +73,33 @@ abstract class JApplicationWeb extends AbstractWebApplication implements Dispatc
 	);
 
 	/**
+         * A map of HTTP Response headers which may only send a single value, all others
+         * are considered to allow multiple
+         *
+         * @var    object
+         * @since  3.5.2
+         * @see    https://tools.ietf.org/html/rfc7230
+         */
+	private $singleValueResponseHeaders = array(
+		'status', // This is not a valid header name, but the representation used by Joomla to identify the HTTP Response Code
+		'Content-Length',
+		'Host',
+		'Content-Type',
+		'Content-Location',
+		'Date',
+		'Location',
+		'Retry-After',
+		'Server',
+		'Mime-Version',
+		'Last-Modified',
+		'ETag',
+		'Accept-Ranges',
+		'Content-Range',
+		'Age',
+		'Expires'
+	);
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   JInput     $input   An optional argument to provide dependency injection for the application's
