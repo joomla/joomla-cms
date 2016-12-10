@@ -251,14 +251,6 @@ class InstallerModelManage extends InstallerModel
 				continue;
 			}
 
-			if ($row->type == 'language')
-			{
-				// One should always uninstall a language package, not a single language
-				$msgs[] = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
-
-				continue;
-			}
-
 			// There was an error in uninstalling the package
 			$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
 		}

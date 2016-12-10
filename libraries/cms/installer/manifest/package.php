@@ -41,6 +41,14 @@ class JInstallerManifestPackage extends JInstallerManifest
 	public $scriptfile = '';
 
 	/**
+	 * Flag if the package allows individual child extensions to be uninstalled
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $allowChildUninstall = true;
+
+	/**
 	 * Apply manifest data from a SimpleXMLElement to the object.
 	 *
 	 * @param   SimpleXMLElement  $xml  Data to load
@@ -51,17 +59,18 @@ class JInstallerManifestPackage extends JInstallerManifest
 	 */
 	protected function loadManifestFromData(SimpleXMLElement $xml)
 	{
-		$this->name        = (string) $xml->name;
-		$this->packagename = (string) $xml->packagename;
-		$this->update      = (string) $xml->update;
-		$this->authorurl   = (string) $xml->authorUrl;
-		$this->author      = (string) $xml->author;
-		$this->authoremail = (string) $xml->authorEmail;
-		$this->description = (string) $xml->description;
-		$this->packager    = (string) $xml->packager;
-		$this->packagerurl = (string) $xml->packagerurl;
-		$this->scriptfile  = (string) $xml->scriptfile;
-		$this->version     = (string) $xml->version;
+		$this->name                = (string) $xml->name;
+		$this->packagename         = (string) $xml->packagename;
+		$this->update              = (string) $xml->update;
+		$this->authorurl           = (string) $xml->authorUrl;
+		$this->author              = (string) $xml->author;
+		$this->authoremail         = (string) $xml->authorEmail;
+		$this->description         = (string) $xml->description;
+		$this->packager            = (string) $xml->packager;
+		$this->packagerurl         = (string) $xml->packagerurl;
+		$this->scriptfile          = (string) $xml->scriptfile;
+		$this->version             = (string) $xml->version;
+		$this->allowChildUninstall = isset($xml->allowChildUninstall) ? (boolean) $xml->allowChildUninstall : true;
 
 		if (isset($xml->files->file) && count($xml->files->file))
 		{
