@@ -73,7 +73,7 @@ class JLayoutFile extends JLayoutBase
 		$this->setOptions($options);
 
 		// Main properties
-		$this->setLayout($layoutId);
+		$this->setLayoutId($layoutId);
 		$this->basePath = $basePath;
 
 		// Init Enviroment
