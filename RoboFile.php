@@ -267,7 +267,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runSelenium()
 	{
-		if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
+		if (!$this->isWindows())
 		{
 			$this->_exec($this->testsPath . "vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &");
 		}
@@ -276,9 +276,9 @@ class RoboFile extends \Robo\Tasks
 			$this->_exec("START java.exe -jar .\\tests\\codeception\\vendor\\joomla-projects\\selenium-server-standalone\\bin\\selenium-server-standalone.jar");
 		}
 
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+		if ($this->isWindows())
 		{
-			sleep(10);
+			sleep(3);
 		}
 		else
 		{
@@ -311,9 +311,17 @@ class RoboFile extends \Robo\Tasks
 		$this->runSelenium();
 
 		// Make sure to run the build command to generate AcceptanceTester
-		$this->_exec('php ' . $this->testsPath . 'vendor/bin/codecept build');
+		if($this->isWindows())
+		{
+			$this->_exec('php ' . $this->getWindowsPath($this->testsPath . 'vendor/bin/codecept') . ' build');
+			$pathToCodeception = $this->getWindowsPath($this->testsPath . 'vendor/bin/codecept');
+		}
+		else
+		{
+			$this->_exec('php ' . $this->testsPath . 'vendor/bin/codecept build');
 
-		$pathToCodeception = $this->testsPath . 'vendor/bin/codecept';
+			$pathToCodeception = $this->testsPath . 'vendor/bin/codecept';
+		}
 
 		$this->taskCodecept($pathToCodeception)
 			->arg('--steps')
@@ -407,7 +415,9 @@ class RoboFile extends \Robo\Tasks
 		$this->runSelenium();
 
 		// Make sure to run the build command to generate AcceptanceTester
-		$this->_exec('php tests/codeception/vendor/bin/codecept build');
+
+		$path = 'tests/codeception/vendor/bin/codecept';
+		$this->_exec('php ' . $this->isWindows() ? $this->getWindowsPath($path) : $path .' build');
 
 		if (!$pathToTestFile)
 		{
@@ -492,11 +502,35 @@ class RoboFile extends \Robo\Tasks
 			$pathToTestFile = $pathToTestFile . ':' . $method;
 		}
 
-		$this->taskCodecept($this->testsPath . 'vendor/bin/codecept')
+		$testPathCodecept = $this->testsPath . 'vendor/bin/codecept';
+
+		$this->taskCodecept($this->isWindows() ? $this->getWindowsPath($testPathCodecept): $testPathCodecept)
 			->test($pathToTestFile)
 			->arg('--steps')
 			->arg('--debug')
 			->run()
 			->stopOnFail();
+	}
+
+	/**
+	 * Check if local OS is Windows
+	 *
+	 * @return bool
+	 */
+	private function isWindows()
+	{
+		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+	}
+
+	/**
+	 * Return the correct path for Windows
+	 *
+	 * param    string  $path  - The linux path
+	 *
+	 * @return string
+	 */
+	private function getWindowsPath($path)
+	{
+		return str_replace('/', DIRECTORY_SEPARATOR, $path);
 	}
 }
