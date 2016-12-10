@@ -137,6 +137,11 @@ class FieldsTableField extends JTable
 			}
 		}
 
+		if (empty($this->group_id))
+		{
+			$this->group_id = 0;
+		}	
+
 		return true;
 	}
 
@@ -177,7 +182,7 @@ class FieldsTableField extends JTable
 	 * Method to get the parent asset under which to register this one.
 	 * By default, all assets are registered to the ROOT node with ID,
 	 * which will default to 1 if none exists.
-	 * The extended class can define a table and id to lookup.  If the
+ 	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
 	 * @param   JTable   $table  A JTable object for the asset parent.
