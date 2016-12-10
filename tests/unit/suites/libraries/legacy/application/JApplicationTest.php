@@ -86,6 +86,7 @@ class JApplicationTest extends TestCase
 
 		JFactory::$config = $temp;
 	}
+
 	/**
 	 * Testing JApplicationHelper::getHash
 	 *
