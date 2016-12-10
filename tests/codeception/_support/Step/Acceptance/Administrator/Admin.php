@@ -13,6 +13,7 @@ use Codeception\Scenario;
 use Page\Acceptance\Administrator\AdminPage;
 use Page\Acceptance\Administrator\ArticleManagerPage;
 use Page\Acceptance\Administrator\CategoryManagerPage;
+use Page\Acceptance\Administrator\ExtensionManagerPage;
 use Page\Acceptance\Administrator\MenuManagerPage;
 use Page\Acceptance\Administrator\UserAclPage;
 use Page\Acceptance\Administrator\UserGroupPage;
@@ -109,6 +110,7 @@ class Admin extends \AcceptanceTester
 		$this->userGroupPage       = new UserGroupPage($scenario);
 		$this->userAclPage         = new UserAclPage($scenario);
 		$this->menuManagerPage     = new MenuManagerPage($scenario);
+		$this->extensionManagerPage = new ExtensionManagerPage($scenario);
 	}
 
 	/**
