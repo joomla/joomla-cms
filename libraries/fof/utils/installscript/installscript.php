@@ -1308,7 +1308,7 @@ abstract class FOFUtilsInstallscript
 
 			if (JFile::exists($target . '/version.txt'))
 			{
-				$rawData = file_get_contents($target . '/version.txt');
+				$rawData = JFile::read($target . '/version.txt');
 				$rawData = ($rawData === false) ? "0.0.0\n2011-01-01\n" : $rawData;
 				$info = explode("\n", $rawData);
 				$fofVersion['installed'] = array(
@@ -1432,7 +1432,7 @@ abstract class FOFUtilsInstallscript
 
 			if (JFile::exists($target . '/version.txt'))
 			{
-				$rawData = file_get_contents($target . '/version.txt');
+				$rawData = JFile::read($target . '/version.txt');
 				$rawData = ($rawData === false) ? "0.0.0\n2011-01-01\n" : $rawData;
 				$info = explode("\n", $rawData);
 				$strapperVersion['installed'] = array(
@@ -1448,7 +1448,7 @@ abstract class FOFUtilsInstallscript
 				);
 			}
 
-			$rawData = file_get_contents($source . '/version.txt');
+			$rawData = JFile::read($source . '/version.txt');
 			$rawData = ($rawData === false) ? "0.0.0\n2011-01-01\n" : $rawData;
 			$info = explode("\n", $rawData);
 			$strapperVersion['package'] = array(
@@ -1478,7 +1478,7 @@ abstract class FOFUtilsInstallscript
 
 			if (JFile::exists($target . '/version.txt'))
 			{
-				$rawData = file_get_contents($target . '/version.txt');
+				$rawData = JFile::read($target . '/version.txt');
 				$rawData = ($rawData === false) ? "0.0.0\n2011-01-01\n" : $rawData;
 				$info = explode("\n", $rawData);
 				$strapperVersion['installed'] = array(
@@ -1494,7 +1494,7 @@ abstract class FOFUtilsInstallscript
 				);
 			}
 
-			$rawData = file_get_contents($source . '/version.txt');
+			$rawData = JFile::read($source . '/version.txt');
 			$rawData = ($rawData === false) ? "0.0.0\n2011-01-01\n" : $rawData;
 			$info = explode("\n", $rawData);
 
