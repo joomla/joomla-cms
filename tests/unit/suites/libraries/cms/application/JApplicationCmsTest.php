@@ -256,6 +256,23 @@ class JApplicationCmsTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests the JApplicationCms::get method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function testGet()
+	{
+		$config = new Registry(array('foo' => 'bar'));
+
+		TestReflection::setValue($this->class, 'config', $config);
+
+		$this->assertEquals('bar', $this->class->get('foo', 'car'));
+		$this->assertEquals('car', $this->class->get('goo', 'car'));
+	}
+
+	/**
 	 * Tests the JApplicationCms::getCfg method.
 	 *
 	 * @return  void
