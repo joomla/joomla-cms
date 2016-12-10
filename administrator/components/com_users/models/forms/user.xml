@@ -52,7 +52,8 @@
 			label="COM_USERS_USER_FIELD_REGISTERDATE_LABEL"
 			description="COM_USERS_USER_FIELD_REGISTERDATE_DESC"
 			readonly="true"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			size="22"
 			filter="user_utc"
 		/>
@@ -64,7 +65,8 @@
 			label="COM_USERS_USER_FIELD_LASTVISIT_LABEL"
 			description="COM_USERS_USER_FIELD_LASTVISIT_DESC"
 			readonly="true"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			size="22"
 			filter="user_utc"
 		/>
@@ -76,7 +78,8 @@
 			label="COM_USERS_USER_FIELD_LASTRESET_LABEL"
 			description="COM_USERS_USER_FIELD_LASTRESET_DESC"
 			readonly="true"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			size="22"
 			filter="user_utc"
 		/>

@@ -247,7 +247,8 @@
 					type="calendar"
 					label="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_DESC"
-					format="%Y-%m-%d %H:%M:%S"
+					translateformat="true"
+					showtime="true"
 					size="22"
 					filter="user_utc"
 				/>
@@ -257,7 +258,8 @@
 					type="calendar"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_DESC"
-					format="%Y-%m-%d %H:%M:%S"
+					translateformat="true"
+					showtime="true"
 					size="22"
 					filter="user_utc"
 				/>
