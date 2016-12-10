@@ -77,8 +77,8 @@ class ArticleManagerPage extends AdminPage
 	/**
 	 * Method to create new article
 	 *
-	 * @param   string  $title    The article title
-	 * @param   string  $content  The article content
+	 * @param   string $title   The article title
+	 * @param   string $content The article content
 	 *
 	 * @When    I create new content with field title as :title and content as a :content
 	 *
@@ -91,7 +91,7 @@ class ArticleManagerPage extends AdminPage
 		$I = $this;
 
 		$I->fillField(self::$title, $title);
-                $I->scrollTo(['css'=> 'div.toggle-editor']);
+		$I->scrollTo(['css' => 'div.toggle-editor']);
 		$I->click(self::$toggleEditor);
 		$I->fillField(self::$content, $content);
 	}
