@@ -260,7 +260,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testGet()
 	{
