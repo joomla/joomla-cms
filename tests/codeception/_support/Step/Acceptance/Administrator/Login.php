@@ -28,17 +28,23 @@ class Login extends Admin
 	 * @param   string  $username  The username
 	 * @param   string  $password  The password
 	 *
-	 * @When I Login into Joomla administrator with username :arg1 and password :arg1
+	 * @When I Login into Joomla administrator
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
-	public function loginIntoJoomlaAdministrator($username, $password)
+	public function loginIntoJoomlaAdministrator()
 	{
 		$I = $this;
 
 		$I->amOnPage(ControlPanelPage::$url);
+		$conf = $this->getSuiteConfiguration();
+		$modules = $conf['modules'];
+		$config = $modules['config'];
+		$joomlaBrowser = $config['JoomlaBrowser'];
+		$username = $joomlaBrowser['username'];
+		$password = $joomlaBrowser['password'];
 		$I->fillField(LoginPage::$usernameField, $username);
 		$I->fillField(LoginPage::$passwordField, $password);
 		$I->click(LoginPage::$loginButton);
