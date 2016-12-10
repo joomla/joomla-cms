@@ -411,6 +411,8 @@ class User extends Admin
 	{
 		$I = $this;
 
+		$I->click(UserManagerPage::$accountDetailsTab);
+		$I->waitForElementVisible(UserManagerPage::$nameField, 30);
 		$I->fillField(UserManagerPage::$nameField, $name);
 		$I->fillField(UserManagerPage::$passwordField, $password);
 		$I->fillField(UserManagerPage::$password2Field, $password);
