@@ -163,6 +163,7 @@ class UserManagerPage extends AdminPage
 		$I = $this;
 
 		$I->fillField(self::$nameField, $name);
+		$I->wait(2);
 		$I->fillField(self::$usernameField, $username);
 		$I->fillField(self::$passwordField, $password);
 		$I->fillField(self::$password2Field, $password);
