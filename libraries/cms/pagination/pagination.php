@@ -575,7 +575,7 @@ class JPagination
 		$selected = $this->viewall ? 0 : $this->limit;
 
 		// Build the select list.
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isAdmin())
 		{
 			$html = JHtml::_(
 				'select.genericlist',
@@ -715,7 +715,7 @@ class JPagination
 			$class = 'hasTooltip ';
 		}
 
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isAdmin())
 		{
 			return '<a' . $title . ' href="#" onclick="document.adminForm.' . $this->prefix
 			. 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;">' . $item->text . '</a>';
@@ -738,7 +738,7 @@ class JPagination
 	 */
 	protected function _item_inactive(JPaginationObject $item)
 	{
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isAdmin())
 		{
 			return '<span>' . $item->text . '</span>';
 		}
