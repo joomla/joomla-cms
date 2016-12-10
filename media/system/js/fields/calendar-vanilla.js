@@ -1020,11 +1020,16 @@
 		}
 	};
 
-	/** Init the Calendars on the page */
-	JoomlaCalendar.init = function (className) {
+	/**
+	 * Init the Calendars on the page
+	 *
+	 * @param {String}      className  The field class name (required)
+	 * @param {HTMLElement} container  The field container (optional)
+	 */
+	JoomlaCalendar.init = function (className, container) {
 		var elements, i, instance;
 
-		elements = document.querySelectorAll(className);
+		elements = (container || document).querySelectorAll(className);
 
 		// Fall back for translation strings
 		window.JoomlaCalLocale = window.JoomlaCalLocale ? JoomlaCalLocale : {};
@@ -1065,6 +1070,10 @@
 	/** Instantiate all the calendar fields when the document is ready */
 	document.addEventListener("DOMContentLoaded", function() {
 		JoomlaCalendar.init(".field-calendar");
+
+		window.jQuery && jQuery(document).on("subform-row-add", function (event, row) {
+            JoomlaCalendar.init(".field-calendar", row);
+        });
 	});
 
 })(window, document);
