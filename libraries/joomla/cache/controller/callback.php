@@ -175,7 +175,8 @@ class JCacheControllerCallback extends JCacheController
 		{
 			$data['output'] = JCache::setWorkarounds($output, $coptions);
 		}
-		else {
+		else
+		{
 			$data['output'] = $output;
 		}
 
