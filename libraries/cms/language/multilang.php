@@ -27,7 +27,7 @@ class JLanguageMultilang
 	 */
 	public static function isEnabled()
 	{
-		JLog::add(__METHOD__ . '() is deprecated. Use JPluginHelper::isEnabled('system', 'languagefilter') instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . '() is deprecated. Use JPluginHelper::isEnabled(\'system\', \'languagefilter\') instead.', JLog::WARNING, 'deprecated');
 
 		// Flag to avoid doing multiple database queries.
 		static $tested = false;
