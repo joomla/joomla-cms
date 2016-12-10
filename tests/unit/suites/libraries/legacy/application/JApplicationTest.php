@@ -79,7 +79,7 @@ class JApplicationTest extends TestCase
 		JFactory::$config = new JObject(array('secret' => 'foo'));
 
 		$this->assertThat(
-			JApplication::getHash('This is a test'),
+			JApplicationHelper::getHash('This is a test'),
 			$this->equalTo(md5('foo' . 'This is a test')),
 			'Tests that the secret string is added to the hash.'
 		);

@@ -151,7 +151,7 @@ class JApplication extends JApplicationBase
 		// Create the session if a session name is passed.
 		if ($config['session'] !== false)
 		{
-			$this->_createSession(self::getHash($config['session_name']));
+			$this->_createSession(JApplicationHelper::getHash($config['session_name']));
 		}
 
 		$this->requestTime = gmdate('Y-m-d H:i');
