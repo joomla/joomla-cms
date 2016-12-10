@@ -257,7 +257,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testIsAdmin()
 	{
-		$this->assertFalse($this->class->isAdmin());
+		$this->assertFalse($this->class->isClient('administrator'));
 	}
 
 	/**
@@ -269,7 +269,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testIsSite()
 	{
-		$this->assertTrue($this->class->isSite());
+		$this->assertTrue($this->class->isClient('site'));
 	}
 
 	/**

@@ -375,7 +375,7 @@ class ContentModelArticles extends JModelList
 	{
 		$items = parent::getItems();
 
-		if (JFactory::getApplication()->isSite())
+		if (JFactory::getApplication()->isClient('site'))
 		{
 			$groups = JFactory::getUser()->getAuthorisedViewLevels();
 

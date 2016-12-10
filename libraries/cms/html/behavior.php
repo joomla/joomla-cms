@@ -680,7 +680,7 @@ abstract class JHtmlBehavior
 		}
 
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
-		$uri = 'index.php' . (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest ? '?option=com_ajax&format=json' : '');
+		$uri = 'index.php' . (JFactory::getApplication()->isClient('site') || !JFactory::getUser()->guest ? '?option=com_ajax&format=json' : '');
 
 		// Include core and polyfill for browsers lower than IE 9.
 		static::core();

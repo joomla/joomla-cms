@@ -30,7 +30,7 @@ class MediaViewMedia extends JViewLegacy
 		$app    = JFactory::getApplication();
 		$config = JComponentHelper::getParams('com_media');
 
-		if (!$app->isAdmin())
+		if (!$app->isClient('administrator'))
 		{
 			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 		}

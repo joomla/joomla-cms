@@ -29,7 +29,7 @@ class MediaViewMediaList extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 
-		if (!$app->isAdmin())
+		if (!$app->isClient('administrator'))
 		{
 			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 		}

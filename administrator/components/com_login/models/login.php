@@ -147,7 +147,7 @@ class LoginModelLogin extends JModelLegacy
 				->where('e.enabled = 1');
 
 			// Filter by language.
-			if ($app->isSite() && $app->getLanguageFilter())
+			if ($app->isClient('site') && $app->getLanguageFilter())
 			{
 				$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
 			}

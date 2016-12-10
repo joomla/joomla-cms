@@ -55,7 +55,7 @@ class PlgSystemCache extends JPlugin
 		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator'))
 		{
 			return;
 		}
@@ -99,7 +99,7 @@ class PlgSystemCache extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator'))
 		{
 			return;
 		}

@@ -91,7 +91,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		$this->app = JFactory::getApplication();
 
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
 			// Setup language data.
 			$this->mode_sef     = $this->app->get('sef', 0);
@@ -126,7 +126,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$this->app->item_associations = $this->params->get('item_associations', 0);
 
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
 			$router = $this->app->getRouter();
 
@@ -552,14 +552,14 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if ($lang_code == $this->user_lang_code || !isset($this->lang_codes[$lang_code]))
 			{
-				if ($this->app->isSite())
+				if ($this->app->isClient('site'))
 				{
 					$this->app->setUserState('com_users.edit.profile.redirect', null);
 				}
 			}
 			else
 			{
-				if ($this->app->isSite())
+				if ($this->app->isClient('site'))
 				{
 					$this->app->setUserState('com_users.edit.profile.redirect', 'index.php?Itemid='
 						. $this->app->getMenu()->getDefault($lang_code)->id . '&lang=' . $this->lang_codes[$lang_code]->sef
@@ -586,7 +586,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$menu = $this->app->getMenu();
 
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
 			if ($this->params->get('automatic_change', 1))
 			{
@@ -705,7 +705,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$doc = JFactory::getDocument();
 
-		if ($this->app->isSite() && $this->params->get('alternate_meta', 1) && $doc->getType() == 'html')
+		if ($this->app->isClient('site') && $this->params->get('alternate_meta', 1) && $doc->getType() == 'html')
 		{
 			$languages             = $this->lang_codes;
 			$homes                 = JLanguageMultilang::getSiteHomePages();

@@ -163,7 +163,7 @@ class PlgSearchCategories extends JPlugin
 			->group('a.id, a.title, a.description, a.alias, a.created_time')
 			->order($order);
 
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 		{
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}

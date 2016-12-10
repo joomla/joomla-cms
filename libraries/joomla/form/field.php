@@ -1082,11 +1082,11 @@ abstract class JFormField
 	{
 		$app = JFactory::getApplication();
 
-		if ($field->params->get('show_on') == 1 && $app->isAdmin())
+		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
 		{
 			return;
 		}
-		elseif ($field->params->get('show_on') == 2 && $app->isSite())
+		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
 		{
 			return;
 		}

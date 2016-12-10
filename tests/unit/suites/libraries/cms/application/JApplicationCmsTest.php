@@ -351,7 +351,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testIsAdmin()
 	{
-		$this->assertFalse($this->class->isAdmin());
+		$this->assertFalse($this->class->isClient('administrator'));
 	}
 
 	/**
@@ -363,7 +363,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testIsSite()
 	{
-		$this->assertFalse($this->class->isSite());
+		$this->assertFalse($this->class->isClient('site'));
 	}
 
 	/**
