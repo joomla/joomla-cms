@@ -131,7 +131,7 @@ class JReCaptcha
 		$answers = json_decode($getResponse, true);
 		$recaptchaResponse = new JReCaptchaResponse();
 
-		if (trim($answers['success']) === true)
+		if (trim($answers['success']))
 		{
 			$recaptchaResponse->success = true;
 		}
