@@ -58,7 +58,7 @@ class ContentModelArticle extends JModelItem
 			$this->setState('filter.archived', 2);
 		}
 
-		$this->setState('filter.language', JLanguageMultilang::isEnabled());
+		$this->setState('filter.language', JPluginHelper::isEnabled('system', 'languagefilter'));
 	}
 
 	/**

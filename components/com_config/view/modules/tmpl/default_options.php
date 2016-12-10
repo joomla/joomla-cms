@@ -37,7 +37,7 @@ endif;
 			<div class="controls">
 				<?php
 				// If multi-language site, make menu-type selection read-only
-				if (JLanguageMultilang::isEnabled() && $this->item['module'] == 'mod_menu' && $field->getAttribute('name') == 'menutype')
+				if (JPluginHelper::isEnabled('system', 'languagefilter') && $this->item['module'] == 'mod_menu' && $field->getAttribute('name') == 'menutype')
 				{
 					$field->__set('readonly', true);
 				}

@@ -1050,7 +1050,7 @@ class FinderModelSearch extends JModelList
 		$user = JFactory::getUser();
 		$filter = JFilterInput::getInstance();
 
-		$this->setState('filter.language', JLanguageMultilang::isEnabled());
+		$this->setState('filter.language', JPluginHelper::isEnabled('system', 'languagefilter'));
 
 		// Setup the stemmer.
 		if ($params->get('stem', 1) && $params->get('stemmer', 'porter_en'))

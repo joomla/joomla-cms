@@ -121,7 +121,7 @@ class FinderModelSuggestions extends JModelList
 		$this->setState('input', $input->request->get('q', '', 'string'));
 
 		// Set the query language
-		if (JLanguageMultilang::isEnabled())
+		if (JPluginHelper::isEnabled('system', 'languagefilter'))
 		{
 			$lang = JFactory::getLanguage()->getTag();
 		}

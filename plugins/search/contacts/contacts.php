@@ -158,7 +158,7 @@ class PlgSearchContacts extends JPlugin
 			->order($order);
 
 		// Filter by language.
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		if ($app->isSite() && JPluginHelper::isEnabled('system', 'languagefilter'))
 		{
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')

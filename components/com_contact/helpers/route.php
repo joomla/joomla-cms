@@ -40,7 +40,7 @@ abstract class ContactHelperRoute
 			$link .= '&catid=' . $catid;
 		}
 
-		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
+		if ($language && $language !== '*' && JPluginHelper::isEnabled('system', 'languagefilter'))
 		{
 			$link .= '&lang=' . $language;
 		}
@@ -78,7 +78,7 @@ abstract class ContactHelperRoute
 			// Create the link
 			$link = 'index.php?option=com_contact&view=category&id=' . $id;
 
-			if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
+			if ($language && $language !== '*' && JPluginHelper::isEnabled('system', 'languagefilter'))
 			{
 				$link .= '&lang=' . $language;
 			}

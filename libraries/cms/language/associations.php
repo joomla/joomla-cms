@@ -137,7 +137,7 @@ class JLanguageAssociations
 		// Status of language filter parameter.
 		static $enabled = false;
 
-		if (JLanguageMultilang::isEnabled())
+		if (JPluginHelper::isEnabled('system', 'languagefilter'))
 		{
 			// If already tested, don't test again.
 			if (!$tested)

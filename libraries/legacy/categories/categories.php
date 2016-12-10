@@ -107,7 +107,7 @@ class JCategories
 		$options['access'] = (isset($options['access'])) ? $options['access'] : 'true';
 		$options['published'] = (isset($options['published'])) ? $options['published'] : 1;
 		$options['countItems'] = (isset($options['countItems'])) ? $options['countItems'] : 0;
-		$options['currentlang'] = JLanguageMultilang::isEnabled() ? JFactory::getLanguage()->getTag() : 0;
+		$options['currentlang'] = JPluginHelper::isEnabled('system', 'languagefilter') ? JFactory::getLanguage()->getTag() : 0;
 		$this->_options = $options;
 
 		return true;
@@ -257,7 +257,7 @@ class JCategories
 			// Get the selected category
 			$query->where('s.id=' . (int) $id);
 
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			if ($app->isSite() && JPluginHelper::isEnabled('system', 'languagefilter'))
 			{
 				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->quote(JFactory::getLanguage()->getTag())
 					. ',' . $db->quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
@@ -269,7 +269,7 @@ class JCategories
 		}
 		else
 		{
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			if ($app->isSite() && JPluginHelper::isEnabled('system', 'languagefilter'))
 			{
 				$query->where('c.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}

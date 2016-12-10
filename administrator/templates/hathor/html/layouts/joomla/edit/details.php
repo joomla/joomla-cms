@@ -68,7 +68,7 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 						<?php echo $displayData->get('form')->getInput('featured'); ?>
 					</div>
 				</div>
-				<?php if (JLanguageMultilang::isEnabled()) : ?>
+				<?php if (JPluginHelper::isEnabled('system', 'languagefilter')) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $displayData->get('form')->getLabel('language'); ?>

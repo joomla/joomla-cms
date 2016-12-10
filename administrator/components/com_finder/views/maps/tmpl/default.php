@@ -115,7 +115,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<label for="cb<?php echo $i; ?>" style="display:inline-block;">
 						<?php echo $this->escape($title); ?>
 					</label>
-					<?php if ($this->escape(trim($title, '**')) == 'Language' && JLanguageMultilang::isEnabled()) : ?>
+					<?php if ($this->escape(trim($title, '**')) == 'Language' && JPluginHelper::isEnabled('system', 'languagefilter')) : ?>
 						<strong><?php echo JText::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
 					<?php endif; ?>
 					</td>

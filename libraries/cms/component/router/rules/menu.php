@@ -119,7 +119,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 		$active = $this->router->menu->getActive();
 
 		if ($active && $active->component == 'com_' . $this->router->getName()
-			&& ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
+			&& ($language == '*' || in_array($active->language, array('*', $language)) || !JPluginHelper::isEnabled('system', 'languagefilter')))
 		{
 			$query['Itemid'] = $active->id;
 			return;

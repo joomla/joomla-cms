@@ -235,7 +235,7 @@ class NewsfeedsModelCategory extends JModelList
 			$this->setState('filter.publish_date', true);
 		}
 
-		$this->setState('filter.language', JLanguageMultilang::isEnabled());
+		$this->setState('filter.language', JPluginHelper::isEnabled('system', 'languagefilter'));
 
 		// Load the parameters.
 		$this->setState('params', $params);

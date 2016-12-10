@@ -44,7 +44,7 @@ class UsersControllerUser extends UsersController
 		// Check for a simple menu item id
 		if (is_numeric($data['return']))
 		{
-			if (JLanguageMultilang::isEnabled())
+			if (JPluginHelper::isEnabled('system', 'languagefilter'))
 			{
 
 				$db = JFactory::getDbo();
@@ -164,7 +164,7 @@ class UsersControllerUser extends UsersController
 		// Check for a simple menu item id
 		if (is_numeric($return))
 		{
-			if (JLanguageMultilang::isEnabled())
+			if (JPluginHelper::isEnabled('system', 'languagefilter'))
 			{
 
 				$db = JFactory::getDbo();
@@ -228,7 +228,7 @@ class UsersControllerUser extends UsersController
 		$itemid = $app->getMenu()->getActive()->params->get('logout');
 
 		// Get the language of the page when multilang is on
-		if (JLanguageMultilang::isEnabled())
+		if (JPluginHelper::isEnabled('system', 'languagefilter'))
 		{
 			if ($itemid)
 			{
