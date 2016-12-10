@@ -1082,7 +1082,7 @@ abstract class JFormField
 	{
 		$app = JFactory::getApplication();
 
-		if ($field->params->get('show_on') == 1 && $app->isAdmin())
+		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
 		{
 			return;
 		}
