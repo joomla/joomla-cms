@@ -4,7 +4,7 @@ Feature: extensions
   I need to install update uninstall extension in the extension manager
 
   Background:
-    When I Login into Joomla administrator with username "puneet" and password "1234"
+    When I Login into Joomla administrator
     And I see the administrator dashboard
 
   Scenario: Test extension installation
