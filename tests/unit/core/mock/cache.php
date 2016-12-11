@@ -42,17 +42,13 @@ class TestMockCache
 			'store',
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JCache',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JCache')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$test->assignMockCallbacks(
 			$mockObject,

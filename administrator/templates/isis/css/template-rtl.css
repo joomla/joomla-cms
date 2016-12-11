@@ -8383,7 +8383,7 @@ textarea:focus,
 input:focus,
 .uneditable-input:focus {
 	box-shadow: none;
-	border: 1px solid #3071A9 !important;
+	border: 1px solid #3071A9;
 }
 textarea {
 	resize: both;
