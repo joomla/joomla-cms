@@ -29,7 +29,7 @@ JHtml::_('behavior.formvalidator');
 			<?php echo $this->params->get('login_description'); ?>
 		<?php endif; ?>
 
-		<?php if (($this->params->get('login_image') != '')) :?>
+		<?php if (($this->params->get('login_image') != '')) : ?>
 			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="login-image" alt="<?php echo JText::_('COM_USERS_LOGIN_IMAGE_ALT')?>"/>
 		<?php endif; ?>
 
@@ -53,7 +53,7 @@ JHtml::_('behavior.formvalidator');
 				<?php endif; ?>
 			<?php endforeach; ?>
 
-			<?php if ($this->tfa): ?>
+			<?php if ($this->tfa) : ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getField('secretkey')->label; ?>
