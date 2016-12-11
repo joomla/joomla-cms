@@ -758,7 +758,7 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 	 */
 	public function isClient($identifier)
 	{
-		return $this->getName() == $identifier;
+		return $this->getName() === $identifier;
 	}
 
 	/**
