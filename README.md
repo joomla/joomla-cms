@@ -180,6 +180,12 @@ If you want to see steps then you can use `--steps` option of codeception. Check
 
 **Note**:You can modify the timeout time by setting the value of **TIMEOUT** constant lower for fast machines and higher for slow computers. The constant located in the file `tests/codeception/acceptance/_bootstrap.php`
 
+Changing the browser the tests are running with?
+---
+In your acceptance.suite.yml just change the browser name. Possible values are firefox, chrome, internet explorer and MicrosoftEdge. 
+
+Note: If you are running Windows Insiders builds, then you need to set MicrosoftEdgeInsiders to true. 
+
 Do you have suggestions?
 ---
 Please create an issue here https://github.com/joomla-projects/gsoc16_browser-automated-tests/issues we will be happy to discuss and improve project.
