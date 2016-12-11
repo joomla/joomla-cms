@@ -231,7 +231,7 @@ class InstallerModelManage extends InstallerModel
 				$rowtype = $row->type;
 			}
 
-			if ($row->type && $row->type != 'language')
+			if ($row->type)
 			{
 				$result = $installer->uninstall($row->type, $id);
 
