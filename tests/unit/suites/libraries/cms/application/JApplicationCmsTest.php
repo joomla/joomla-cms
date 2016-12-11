@@ -188,7 +188,13 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config = new Registry;
 		$config->set('session', false);
 
-		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockClient = $this->getMockBuilder('JApplicationWebClient')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$inspector = new JApplicationCmsInspector($mockInput, $config, $mockClient);
 
