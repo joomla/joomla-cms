@@ -740,7 +740,7 @@
 					}, false);
 				} else {
 					cell.innerHTML = "&#160;";
-					cell.colSpan = self.params.weekNumbers ? 4 : 3;
+					cell.colSpan = self.params.weekNumbers ? 3 : 2;
 				}
 
 				H.addEventListener("change", function (event) {
