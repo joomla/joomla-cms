@@ -224,6 +224,27 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
+		// Translate the format if requested
+		$translateFormat = (string) $this->element['translateformat'];
+
+		if ($translateFormat && $translateFormat != 'false')
+		{
+			$showTime = (string) $this->element['showtime'];
+
+			if ($showTime && $showTime != 'false')
+			{
+				$this->format = JText::_('DATE_FORMAT_CALENDAR_DATETIME');
+			}
+			else
+			{
+				$this->format = JText::_('DATE_FORMAT_CALENDAR_DATE');
+			}
+		}
+		else
+		{
+			$this->format = $this->format;
+		}
+
 		// If a known filter is given use it.
 		switch (strtoupper($this->filter))
 		{
@@ -251,6 +272,19 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 					$this->value = $date->format('Y-m-d H:i:s', true, false);
 				}
 				break;
+		}
+
+		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
+		if ($this->value && $this->value != JFactory::getDbo()->getNullDate() && strtotime($this->value) !== false)
+		{
+			$tz = date_default_timezone_get();
+			date_default_timezone_set('UTC');
+			$this->value = strftime($this->format, strtotime($this->value));
+			date_default_timezone_set($tz);
+		}
+		else
+		{
+			$this->value = '';
 		}
 
 		$extraData = array(

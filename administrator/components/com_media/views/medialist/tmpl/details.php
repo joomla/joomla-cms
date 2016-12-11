@@ -97,6 +97,11 @@ $doc->addScriptDeclaration(
 		<table class="table table-striped table-condensed">
 		<thead>
 			<tr>
+				<?php if ($this->canDelete) : ?>
+					<th width="1%">
+						<?php echo JHtml::_('grid.checkall'); ?>
+					</th>
+				<?php endif;?>
 				<th width="1%"><?php echo JText::_('JGLOBAL_PREVIEW'); ?></th>
 				<th><?php echo JText::_('COM_MEDIA_NAME'); ?></th>
 				<th width="15%"><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
@@ -105,7 +110,6 @@ $doc->addScriptDeclaration(
 				<?php if ($this->canDelete) : ?>
 					<th width="8%">
 						<?php echo JText::_('JACTION_DELETE'); ?>
-						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 				<?php endif;?>
 			</tr>

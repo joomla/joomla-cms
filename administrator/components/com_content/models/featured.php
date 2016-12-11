@@ -74,6 +74,7 @@ class ContentModelFeatured extends ContentModelArticles
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
+		$user = JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -121,6 +122,13 @@ class ContentModelFeatured extends ContentModelArticles
 		if ($access = $this->getState('filter.access'))
 		{
 			$query->where('a.access = ' . (int) $access);
+		}
+
+		// Filter by access level on categories.
+		if (!$user->authorise('core.admin'))
+		{
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('c.access IN (' . $groups . ')');
 		}
 
 		// Filter by published state
@@ -212,7 +220,16 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$orderCol  = $this->state->get('list.fullordering', 'a.title');
+		$orderDirn = '';
+
+		if (empty($orderCol))
+		{
+			$orderCol  = $this->state->get('list.ordering', 'a.title');
+			$orderDirn = $this->state->get('list.direction', 'ASC');
+		}
+
+		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}

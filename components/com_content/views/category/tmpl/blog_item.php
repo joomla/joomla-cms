@@ -56,7 +56,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 
 <?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
-<?php  endif; ?>
+<?php endif; ?>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :
 	if ($params->get('access-view')) :
