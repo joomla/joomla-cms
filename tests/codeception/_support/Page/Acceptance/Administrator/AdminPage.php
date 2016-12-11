@@ -370,4 +370,32 @@ class AdminPage extends \AcceptanceTester
 		$I->waitForPageTitle($pageTitle);
 		$I->see($item, static::$seeName);
 	}
+        
+        /**
+         * Assure the search tools are displayed
+         * 
+         * @since   __DEPLOY_VERSION__
+         *  
+         * @return  void
+         */
+        public function displaySearchTools()
+        {
+            $I = $this;
+            
+            try {
+                $I->seeElement(['class' => 'js-stools-btn-filter']);
+            } catch (Exception $e) {
+                $I->comment("Search tools button does not exist on this page, skipping");
+                return;
+            }
+}
+            try {
+                $I->dontSeeElement(['class' => 'js-stools-container-filters']);
+            } catch (Exception $e) {
+                $I->comment("Search tools already visible on the page, skipping");
+                return;
+            }
+                
+            $I->click('Search Tools');
+        }
 }
