@@ -1894,9 +1894,8 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
 
 INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `enabled`, `last_check_timestamp`) VALUES
 (1, 'Joomla! Core', 'collection', 'https://update.joomla.org/core/list.xml', 1, 0),
-(2, 'Joomla! Extension Directory', 'collection', 'https://update.joomla.org/jed/list.xml', 1, 0),
-(3, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_3.xml', 1, 0),
-(4, 'Joomla! Update Component Update Site', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
+(2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_3.xml', 1, 0),
+(3, 'Joomla! Update Component Update Site', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1916,9 +1915,8 @@ CREATE TABLE IF NOT EXISTS `#__update_sites_extensions` (
 
 INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`) VALUES
 (1, 700),
-(2, 700),
-(3, 802),
-(4, 28);
+(2, 802),
+(3, 28);
 
 -- --------------------------------------------------------
 
