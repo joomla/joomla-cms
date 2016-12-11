@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "85bdcfde080b441f4798535502122905",
-    "content-hash": "ca62021b1ecfaaabab317b38b75e53d1",
+    "hash": "ad012221f227b6e29d3e52596dcaf00a",
+    "content-hash": "c4d5e874a2881464cb97e5d8dd003110",
     "packages": [],
     "packages-dev": [
         {
@@ -271,61 +271,6 @@
             "time": "2016-11-02 18:11:27"
         },
         {
-            "name": "consolidation/robo",
-            "version": "0.7.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/consolidation/Robo.git",
-                "reference": "9982edecb19f59420031dd9855b0d31e861b8b68"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/Robo/zipball/9982edecb19f59420031dd9855b0d31e861b8b68",
-                "reference": "9982edecb19f59420031dd9855b0d31e861b8b68",
-                "shasum": ""
-            },
-            "require": {
-                "henrikbjorn/lurker": "~1.0",
-                "php": ">=5.4.0",
-                "symfony/console": "~2.5|~3.0",
-                "symfony/filesystem": "~2.5|~3.0",
-                "symfony/finder": "~2.5|~3.0",
-                "symfony/process": "~2.5|~3.0"
-            },
-            "require-dev": {
-                "codeception/aspect-mock": "0.5.4",
-                "codeception/base": "~2.1.5",
-                "codeception/verify": "0.2.*",
-                "natxet/cssmin": "~3.0",
-                "patchwork/jsqueeze": "~1.0",
-                "pear/archive_tar": "~1.0"
-            },
-            "suggest": {
-                "pear/archive_tar": "Allows tar archives to be created and extracted in taskPack and taskExtract, respectively."
-            },
-            "bin": [
-                "robo"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Robo\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Davert",
-                    "email": "davert.php@resend.cc"
-                }
-            ],
-            "description": "Modern task runner",
-            "time": "2016-04-13 20:14:17"
-        },
-        {
             "name": "doctrine/instantiator",
             "version": "1.0.5",
             "source": {
@@ -381,33 +326,29 @@
         },
         {
             "name": "edgedesign/phpqa",
-            "version": "v1.7.3",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EdgedesignCZ/phpqa.git",
-                "reference": "d77b14cbb3906775468a0c9161c4d7674a23b437"
+                "reference": "d58752a5504833ba872fbbcb0d71899d7dc3f761"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EdgedesignCZ/phpqa/zipball/d77b14cbb3906775468a0c9161c4d7674a23b437",
-                "reference": "d77b14cbb3906775468a0c9161c4d7674a23b437",
+                "url": "https://api.github.com/repos/EdgedesignCZ/phpqa/zipball/d58752a5504833ba872fbbcb0d71899d7dc3f761",
+                "reference": "d58752a5504833ba872fbbcb0d71899d7dc3f761",
                 "shasum": ""
             },
             "require": {
-                "consolidation/robo": "<1",
-                "ext-xsl": "*",
+                "codegyre/robo": "*",
                 "pdepend/pdepend": "*",
-                "php": ">=5.4",
                 "phploc/phploc": "*",
                 "phpmd/phpmd": "*",
                 "phpmetrics/phpmetrics": "*",
                 "sebastian/phpcpd": "*",
                 "squizlabs/php_codesniffer": "*",
-                "symfony/dependency-injection": ">=2.8",
-                "symfony/filesystem": ">=2.8",
-                "symfony/finder": ">=2.8",
-                "symfony/process": ">=2.8",
-                "symfony/yaml": ">=2.8"
+                "symfony/dependency-injection": "~2.8",
+                "symfony/filesystem": "~2.8",
+                "symfony/process": "~2.8"
             },
             "require-dev": {
                 "hamcrest/hamcrest-php": "*",
@@ -442,7 +383,7 @@
                 "qa",
                 "static analysis"
             ],
-            "time": "2016-11-23 17:28:39"
+            "time": "2016-04-01 12:50:33"
         },
         {
             "name": "facebook/webdriver",
@@ -1826,28 +1767,25 @@
         },
         {
             "name": "joomla/string",
-            "version": "1.4.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/string.git",
-                "reference": "66363d317e6c020f30a70265c129281c77c43ca0"
+                "reference": "05197132a075ee22a3f0f7da31a19a6d5b4717db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/string/zipball/66363d317e6c020f30a70265c129281c77c43ca0",
-                "reference": "66363d317e6c020f30a70265c129281c77c43ca0",
+                "url": "https://api.github.com/repos/joomla-framework/string/zipball/05197132a075ee22a3f0f7da31a19a6d5b4717db",
+                "reference": "05197132a075ee22a3f0f7da31a19a6d5b4717db",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.10|~7.0"
+                "php": ">=5.3.10|>=7.0"
             },
             "require-dev": {
                 "joomla/test": "~1.0",
                 "phpunit/phpunit": "~4.8|~5.0",
                 "squizlabs/php_codesniffer": "1.*"
-            },
-            "suggest": {
-                "ext-mbstring": "For improved processing"
             },
             "type": "joomla-package",
             "extra": {
@@ -1857,7 +1795,8 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Joomla\\String\\": "src/"
+                    "Joomla\\String\\": "src/",
+                    "Joomla\\String\\Tests\\": "Tests/"
                 },
                 "files": [
                     "src/phputf8/utf8.php",
@@ -1888,7 +1827,7 @@
                 "joomla",
                 "string"
             ],
-            "time": "2016-12-10 18:13:42"
+            "time": "2016-01-30 20:04:23"
         },
         {
             "name": "joomla/uri",
@@ -1929,24 +1868,24 @@
         },
         {
             "name": "joomla/utilities",
-            "version": "1.4.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/utilities.git",
-                "reference": "8913ca02aad7b929e0d52d78fd5a6961070bdbc6"
+                "reference": "ecf18231ff86ab06cf555a7c3ed4dd447ae39e9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/8913ca02aad7b929e0d52d78fd5a6961070bdbc6",
-                "reference": "8913ca02aad7b929e0d52d78fd5a6961070bdbc6",
+                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/ecf18231ff86ab06cf555a7c3ed4dd447ae39e9b",
+                "reference": "ecf18231ff86ab06cf555a7c3ed4dd447ae39e9b",
                 "shasum": ""
             },
             "require": {
                 "joomla/string": "~1.3",
-                "php": "^5.3.10|~7.0"
+                "php": ">=5.3.10"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.8|~5.0",
+                "phpunit/phpunit": "4.*",
                 "squizlabs/php_codesniffer": "1.*"
             },
             "type": "joomla-package",
@@ -1957,7 +1896,8 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Joomla\\Utilities\\": "src/"
+                    "Joomla\\Utilities\\": "src/",
+                    "Joomla\\Utilities\\Tests\\": "Tests/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1971,7 +1911,7 @@
                 "joomla",
                 "utilities"
             ],
-            "time": "2016-12-10 17:09:33"
+            "time": "2015-09-05 16:41:24"
         },
         {
             "name": "pdepend/pdepend",
@@ -3737,28 +3677,28 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v3.2.0",
+            "version": "v2.8.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "f5419adad083c90e0dfd8588ef83683d7dbcc20d"
+                "reference": "9d2c5033ca70ceade8d7584f997a9d3943f0fe5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/f5419adad083c90e0dfd8588ef83683d7dbcc20d",
-                "reference": "f5419adad083c90e0dfd8588ef83683d7dbcc20d",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/9d2c5033ca70ceade8d7584f997a9d3943f0fe5f",
+                "reference": "9d2c5033ca70ceade8d7584f997a9d3943f0fe5f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9"
+                "php": ">=5.3.9"
             },
             "conflict": {
-                "symfony/yaml": "<3.2"
+                "symfony/expression-language": "<2.6"
             },
             "require-dev": {
-                "symfony/config": "~2.8|~3.0",
-                "symfony/expression-language": "~2.8|~3.0",
-                "symfony/yaml": "~3.2"
+                "symfony/config": "~2.2|~3.0.0",
+                "symfony/expression-language": "~2.6|~3.0.0",
+                "symfony/yaml": "~2.3.42|~2.7.14|~2.8.7|~3.0.7"
             },
             "suggest": {
                 "symfony/config": "",
@@ -3769,7 +3709,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "2.8-dev"
                 }
             },
             "autoload": {
@@ -3796,7 +3736,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-25 12:32:42"
+            "time": "2016-11-18 21:10:01"
         },
         {
             "name": "symfony/dom-crawler",
