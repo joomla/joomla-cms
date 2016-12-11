@@ -162,9 +162,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			return true;
 		}
 
-		$manifest = new JInstallerManifestPackage($xml);
+		$manifest = new JInstallerManifestPackage($manifestFile);
 
-		return $manifest->allowChildUninstall;
+		return $manifest->blockChildUninstall === false;
 	}
 
 	/**

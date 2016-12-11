@@ -41,12 +41,12 @@ class JInstallerManifestPackage extends JInstallerManifest
 	public $scriptfile = '';
 
 	/**
-	 * Flag if the package allows individual child extensions to be uninstalled
+	 * Flag if the package blocks individual child extensions from being uninstalled
 	 *
 	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public $allowChildUninstall = true;
+	public $blockChildUninstall = false;
 
 	/**
 	 * Apply manifest data from a SimpleXMLElement to the object.
@@ -59,18 +59,27 @@ class JInstallerManifestPackage extends JInstallerManifest
 	 */
 	protected function loadManifestFromData(SimpleXMLElement $xml)
 	{
-		$this->name                = (string) $xml->name;
-		$this->packagename         = (string) $xml->packagename;
-		$this->update              = (string) $xml->update;
-		$this->authorurl           = (string) $xml->authorUrl;
-		$this->author              = (string) $xml->author;
-		$this->authoremail         = (string) $xml->authorEmail;
-		$this->description         = (string) $xml->description;
-		$this->packager            = (string) $xml->packager;
-		$this->packagerurl         = (string) $xml->packagerurl;
-		$this->scriptfile          = (string) $xml->scriptfile;
-		$this->version             = (string) $xml->version;
-		$this->allowChildUninstall = isset($xml->allowChildUninstall) ? (boolean) $xml->allowChildUninstall : true;
+		$this->name        = (string) $xml->name;
+		$this->packagename = (string) $xml->packagename;
+		$this->update      = (string) $xml->update;
+		$this->authorurl   = (string) $xml->authorUrl;
+		$this->author      = (string) $xml->author;
+		$this->authoremail = (string) $xml->authorEmail;
+		$this->description = (string) $xml->description;
+		$this->packager    = (string) $xml->packager;
+		$this->packagerurl = (string) $xml->packagerurl;
+		$this->scriptfile  = (string) $xml->scriptfile;
+		$this->version     = (string) $xml->version;
+
+		if (isset($xml->blockChildUninstall))
+		{
+			$value = (string) $xml->blockChildUninstall;
+
+			if ($value === '1' || $value === 'true')
+			{
+				$this->blockChildUninstall = true;
+			}
+		}
 
 		if (isset($xml->files->file) && count($xml->files->file))
 		{
