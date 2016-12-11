@@ -425,15 +425,15 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			return false;
 		}
 
-		// Does this extension have a parent package? If so, check if the package disallows individual extensions being uninstalled
-		if ($row->package_id)
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
 		{
-			if (!$this->canUninstallPackageChild($row->package_id))
-			{
-				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), JLog::WARNING, 'jerror');
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), JLog::WARNING, 'jerror');
 
-				return false;
-			}
+			return false;
 		}
 
 		$name = $row->element;

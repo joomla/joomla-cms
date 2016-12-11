@@ -103,6 +103,14 @@ class JInstaller extends JAdapter
 	protected $redirect_url = null;
 
 	/**
+	 * Flag if the uninstall process was triggered by uninstalling a package
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $packageUninstall = false;
+
+	/**
 	 * JInstaller instance container.
 	 *
 	 * @var    JInstaller
@@ -223,6 +231,32 @@ class JInstaller extends JAdapter
 	public function setRedirectUrl($newurl)
 	{
 		$this->redirect_url = $newurl;
+	}
+
+	/**
+	 * Get whether this installer is uninstalling extensions which are part of a package
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isPackageUninstall()
+	{
+		return $this->packageUninstall;
+	}
+
+	/**
+	 * Set whether this installer is uninstalling extensions which are part of a package
+	 *
+	 * @param   boolean  $uninstall  True if a package triggered the uninstall, false otherwise
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setPackageUninstall($uninstall)
+	{
+		$this->packageUninstall = $uninstall;
 	}
 
 	/**
