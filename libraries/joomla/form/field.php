@@ -1158,7 +1158,7 @@ abstract class JFormField
 
 		if (JFile::exists($fileName))
 		{
-			return JFile::read($fileName);
+			return file_get_contents($fileName);
 		}
 
 		return '';

@@ -218,7 +218,10 @@ class JInstallerTest extends TestCaseDatabase
 	 */
 	public function testAbortDefault()
 	{
-		$adapterMock = $this->getMock('test', array('_rollback_testtype'));
+		// Build the mock object.
+		$adapterMock  = $this->getMockBuilder('test')
+					->setMethods(array('_rollback_testtype'))
+					->getMock();
 
 		$adapterMock->expects($this->once())
 			->method('_rollback_testtype')

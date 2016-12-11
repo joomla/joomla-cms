@@ -20,17 +20,17 @@ $userFieldGroups    = array();
 	<?php return; ?>
 <?php endif; ?>
 
-<?php foreach ($this->contactUser->fields as $field) :?>
+<?php foreach ($this->contactUser->fields as $field) : ?>
 	<?php if (!in_array('-1', $displayGroups) && !in_array($field->catid, $displayGroups)) : ?>
 		<?php continue; ?>
 	<?php endif; ?>
 	<?php if (!key_exists($field->category_title, $userFieldGroups)) : ?>
-		<?php $userFieldGroups[$field->category_title] = array();?>
+		<?php $userFieldGroups[$field->category_title] = array(); ?>
 	<?php endif; ?>
-	<?php $userFieldGroups[$field->category_title][] = $field;?>
+	<?php $userFieldGroups[$field->category_title][] = $field; ?>
 <?php endforeach; ?>
 
-<?php foreach ($userFieldGroups as $categoryTitle => $fields) :?>
+<?php foreach ($userFieldGroups as $categoryTitle => $fields) : ?>
 	<?php $id = JApplicationHelper::stringURLSafe($categoryTitle); ?>
 	<?php if ($presentation_style == 'sliders') : ?>
 		<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', $categoryTitle ? $categoryTitle : JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
@@ -42,7 +42,7 @@ $userFieldGroups    = array();
 
 	<div class="contact-profile" id="user-custom-fields-<?php echo $id; ?>">
 		<dl class="dl-horizontal">
-		<?php foreach ($fields as $field) :?>
+		<?php foreach ($fields as $field) : ?>
 			<?php if (!$field->value) : ?>
 				<?php continue; ?>
 			<?php endif; ?>
