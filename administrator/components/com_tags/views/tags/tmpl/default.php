@@ -168,7 +168,7 @@ if ($saveOrder)
 						$parentsStr = "";
 					}
 					?>
-						<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
+						<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $item->level; ?>">
 							<td class="order nowrap center hidden-phone">
 								<?php
 								$iconClass = '';

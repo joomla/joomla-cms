@@ -51,7 +51,7 @@ $input = JFactory::getApplication()->input;
 					<fieldset class="form-inline">
 						<input type="hidden" class="address" name="address" />
 						<label for="new_name" class="modalTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>">
-							<?php echo JText::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL') ?>
+							<?php echo JText::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL'); ?>
 						</label>
 						<input type="text" id="new_name" name="new_name" required />
 						<?php echo JHtml::_('form.token'); ?>

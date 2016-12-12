@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 <h3>
-	<?php echo JText::_('COM_FINDER_STATISTICS_TITLE') ?>
+	<?php echo JText::_('COM_FINDER_STATISTICS_TITLE'); ?>
 </h3>
 
 <div class="row-fluid">

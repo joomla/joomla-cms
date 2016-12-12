@@ -53,7 +53,7 @@ ksort($this->files, SORT_STRING);
 		<?php endif; ?>
 		<?php if (is_object($value)) : ?>
 			<li>
-				<a class="file nowrap" href='<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id) ?>'>
+				<a class="file nowrap" href='<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id); ?>'>
 					<span class='icon-file'>&nbsp;<?php echo $value->name; ?></span>
 				</a>
 			</li>
