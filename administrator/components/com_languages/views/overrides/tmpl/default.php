@@ -19,7 +19,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 $opposite_client   = $this->state->get('filter.client') == '1' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
-$opposite_filename = constant('JPATH_' . strtoupper(1 - $this->state->get('filter.client')? 'administrator' : 'site')) 
+$opposite_filename = constant('JPATH_' . strtoupper(1 - $this->state->get('filter.client')? 'administrator' : 'site'))
 	. '/language/overrides/' . $this->state->get('filter.language', 'en-GB') . '.override.ini';
 $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 ?>
@@ -94,13 +94,13 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 							<?php endif; ?>
 						</td>
 						<td class="hidden-phone">
-							<span id="string[<?php	echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
+							<span id="string[<?php echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
 						</td>
 						<td class="hidden-phone">
 							<?php echo $language; ?>
 						</td>
 						<td class="hidden-phone">
-							<?php echo $client; ?><?php 
+							<?php echo $client; ?><?php
 							if (isset($opposite_strings[$key]) && ($opposite_strings[$key] == $text))
 							{
 								echo '/' . $opposite_client;

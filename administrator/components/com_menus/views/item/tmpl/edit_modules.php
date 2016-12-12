@@ -69,20 +69,20 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 		</thead>
 		<tbody>
 		<?php foreach ($this->modules as $i => &$module) : ?>
-			<?php  if (is_null($module->menuid)) : ?>
-				<?php  if (!$module->except || $module->menuid < 0) : ?>
-					<?php  $no = "no "; ?>
-				<?php  else : ?>
-					<?php  $no = ""; ?>
-				<?php  endif; ?>
-			<?php  else : ?>
-				<?php  $no = ""; ?>
-			<?php  endif; ?>
-			<?php  if ($module->published) : ?>
-				<?php  $status = ""; ?>
-			<?php  else : ?>
-				<?php  $status = "unpublished "; ?>
-			<?php  endif; ?>
+			<?php if (is_null($module->menuid)) : ?>
+				<?php if (!$module->except || $module->menuid < 0) : ?>
+					<?php $no = "no "; ?>
+				<?php else : ?>
+					<?php $no = ""; ?>
+				<?php endif; ?>
+			<?php else : ?>
+				<?php $no = ""; ?>
+			<?php endif; ?>
+			<?php if ($module->published) : ?>
+				<?php $status = ""; ?>
+			<?php else : ?>
+				<?php $status = "unpublished "; ?>
+			<?php endif; ?>
 			<tr class="<?php echo $no;?><?php echo $status;?>row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>" style="display:table-row">
 				<td id="<?php echo $module->id; ?>">
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id=' . $module->id . '&amp;tmpl=component&amp;view=module&amp;layout=modal'; ?>
