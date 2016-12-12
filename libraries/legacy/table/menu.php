@@ -149,7 +149,7 @@ class JTableMenu extends JTableNested
 		$this->alias   = JApplicationHelper::stringURLSafe(trim($this->alias), $this->language);
 
 		// Verify that a first level menu item alias is not 'component'.
-		if ($this->parent_id == 1 && $this->alias == 'component')
+		if ($this->parent_id == 1 && $this->client_id == 0 && $this->alias == 'component')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
 

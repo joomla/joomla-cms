@@ -78,9 +78,11 @@ if ($menuType == '')
 						<th class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
+						<?php if ($this->state->get('filter.client_id') == 0): ?>
 						<th width="5%" class="center nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
+						<?php endif; ?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
@@ -107,7 +109,7 @@ if ($menuType == '')
 
 				<tbody>
 				<?php
-				
+
 				foreach ($this->items as $i => $item) :
 					$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
 					$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $item->menutype_id);
@@ -205,6 +207,7 @@ if ($menuType == '')
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
 						</td>
+						<?php if ($this->state->get('filter.client_id') == 0): ?>
 						<td class="center hidden-phone">
 							<?php if ($item->type == 'component') : ?>
 								<?php if ($item->language == '*' || $item->home == '0') : ?>
@@ -226,6 +229,7 @@ if ($menuType == '')
 								<?php endif; ?>
 							<?php endif; ?>
 						</td>
+						<?php endif; ?>
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
