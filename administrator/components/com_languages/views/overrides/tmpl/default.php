@@ -89,7 +89,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 						<td>
 							<?php if ($canEdit) : ?>
 								<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>"><?php echo $this->escape($key); ?></a>
-							<?php else: ?>
+							<?php else : ?>
 								<?php echo $this->escape($key); ?>
 							<?php endif; ?>
 						</td>
