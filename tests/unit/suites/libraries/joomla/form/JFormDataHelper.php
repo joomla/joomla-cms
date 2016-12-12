@@ -102,6 +102,17 @@ class JFormDataHelper
 
 	public static $findFieldDocument = '<form>
 	<fields>
+		<field name="subfield1" type="subform" label="Subform" multiple="true">
+			<form>
+				<field name="name"
+					label="Name"
+					size="30" type="text" />
+
+				<field name="title"
+					label="Value" place="subform"
+					size="30" type="text" />
+			</form>
+		</field>
 		<field
 			name="title" type="text" place="root" />
 		<fieldset>
@@ -117,6 +128,17 @@ class JFormDataHelper
 				<field
 					name="show_title"
 					default="1" />
+				<field name="subfield2" type="subform" label="Subform2" multiple="true">
+					<form>
+						<field name="name"
+							label="Name"
+							size="30" type="text" />
+
+						<field name="title"
+							label="Value" place="subform2"
+							size="30" type="text" />
+					</form>
+				</field>
 			</fieldset>
 			<fieldset
 				label="Advanced">
@@ -124,6 +146,24 @@ class JFormDataHelper
 					name="caching" />
 			</fieldset>
 		</fields>
+	</fields>
+</form>';
+
+	public static $findSubformFieldDocument = '<form>
+	<fields>
+		<field name="subfield" type="subform" label="Subform" multiple="true">
+			<form>
+				<field name="name"
+					label="Name"
+					size="30" type="text" />
+
+				<field name="title"
+					label="Value" place="subform"
+					size="30" type="text" />
+			</form>
+		</field>
+		<field
+			name="title" type="text" place="root" />
 	</fields>
 </form>';
 
@@ -141,6 +181,20 @@ class JFormDataHelper
 			name="params">
 			<field
 				name="outlier" />
+			<field name="subfield" type="subform" label="Subform" multiple="true">
+				<form>
+					<fieldset
+						name="params-basic">
+						<field name="name"
+							label="Name"
+							size="30" type="text" />
+
+						<field name="title"
+							label="Value" place="subform"
+							size="30" type="text" />
+					</fieldset>
+				</form>
+			</field>
 			<fieldset
 				name="params-basic">
 				<field
@@ -195,6 +249,20 @@ class JFormDataHelper
 				<field
 					name="show_author" />
 			</fieldset>
+			<field name="subfield" type="subform" label="Subform" multiple="true">
+				<form>
+					<fields
+						name="params">
+						<field name="name"
+							label="Name"
+							size="30" type="text" />
+
+						<field name="title"
+							label="Value" place="subform"
+							size="30" type="text" />
+					</fields>
+				</form>
+			</field>
 		</fields>
 
 		<field
@@ -306,6 +374,23 @@ class JFormDataHelper
 		</fields>
 		<fields
 			name="params">
+			<field name="subfield" type="subform" label="Subform" multiple="true">
+				<form>
+					<fields
+						name="subfieldparams">
+						<fieldset
+							name="subfieldset">
+							<field name="name"
+								label="Name"
+								size="30" type="text" />
+
+							<field name="title"
+								label="Value" place="subform"
+								size="30" type="text" />
+						</fieldset>
+					</fields>
+				</form>
+			</field>
 			<field
 				name="outlier" fieldset="params-legacy" />
 			<fieldset

@@ -87,13 +87,7 @@ else
 	<?php if (!empty($feed))
 	{ ?>
 		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
-		<?php for ($i = 0; $i < $params->get('rssitems', 5); $i++)
-		{
-			if (!$feed->offsetExists($i))
-			{
-				break;
-			}
-			?>
+		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 5)); $i < $max; $i++) { ?>
 			<?php
 				$uri   = (!empty($feed[$i]->uri) || $feed[$i]->uri !== null) ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
 				$uri = strpos($uri, 'http') !== 0 ? $params->get('rsslink') : $uri;

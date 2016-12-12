@@ -118,7 +118,7 @@ class PlgAuthenticationJoomla extends JPlugin
 			if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
 			{
 				// Warn the user if they are using a secret code but they have not
-				// enabed two factor auth in their account.
+				// enabled two factor auth in their account.
 				if (!empty($credentials['secretkey']))
 				{
 					try

@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Template style model.
@@ -237,7 +239,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 		while ($table->load(array('title' => $title)))
 		{
-			$title = JString::increment($title);
+			$title = StringHelper::increment($title);
 		}
 
 		return $title;
@@ -264,8 +266,8 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 		else
 		{
-			$clientId  = JArrayHelper::getValue($data, 'client_id');
-			$template  = JArrayHelper::getValue($data, 'template');
+			$clientId  = ArrayHelper::getValue($data, 'client_id');
+			$template  = ArrayHelper::getValue($data, 'template');
 		}
 
 		// Add the default fields directory
@@ -349,11 +351,10 @@ class TemplatesModelStyle extends JModelAdmin
 
 			// Convert to the JObject before adding other data.
 			$properties        = $table->getProperties(1);
-			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
-			$registry = new Registry;
-			$registry->loadString($table->params);
+			$registry = new Registry($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the template XML.
@@ -540,7 +541,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 			if (!empty($data['assigned']) && is_array($data['assigned']))
 			{
-				JArrayHelper::toInteger($data['assigned']);
+				$data['assigned'] = ArrayHelper::toInteger($data['assigned']);
 
 				// Update the mapping for menu items that this style IS assigned to.
 				$query = $db->getQuery(true)

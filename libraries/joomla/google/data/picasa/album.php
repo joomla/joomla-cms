@@ -396,7 +396,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 				throw new RuntimeException("Inappropriate file type.");
 			}
 
-			if (!($data = JFile::read($file)))
+			if (!($data = file_get_contents($file)))
 			{
 				throw new RuntimeException("Cannot access file: `$file`");
 			}
