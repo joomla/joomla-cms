@@ -49,7 +49,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tfoot>
 				<tbody>
 					<?php $i = 0; ?>
-					<?php foreach ($this->items as $table => $count): ?>
+					<?php foreach ($this->items as $table => $count) : ?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="center"><?php echo JHtml::_('grid.id', $i, $table); ?></td>
 							<td>

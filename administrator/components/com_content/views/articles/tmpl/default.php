@@ -172,9 +172,9 @@ $assoc = JLanguageAssociations::isEnabled();
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 								<?php endif; ?>
-								<?php if ($item->language == '*'): ?>
+								<?php if ($item->language == '*') : ?>
 									<?php $language = JText::alt('JALL', 'language'); ?>
-								<?php else: ?>
+								<?php else : ?>
 									<?php $language = $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 								<?php endif; ?>
 								<?php if ($canEdit || $canEditOwn) : ?>

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 <ul class="nav nav-list">
-	<?php if ($this->userIsSuperAdmin): ?>
+	<?php if ($this->userIsSuperAdmin) : ?>
 		<li class="nav-header"><?php echo JText::_('COM_CONFIG_SYSTEM'); ?></li>
 		<li><a href="index.php?option=com_config"><?php echo JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'); ?></a></li>
 		<li class="divider"></li>

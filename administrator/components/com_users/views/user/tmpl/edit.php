@@ -79,7 +79,7 @@ $fieldsets = $this->form->getFieldsets();
 			echo JLayoutHelper::render('joomla.edit.params', $this);
 			?>
 
-		<?php if (!empty($this->tfaform) && $this->item->id): ?>
+		<?php if (!empty($this->tfaform) && $this->item->id) : ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'twofactorauth', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
 		<div class="control-group">
 			<div class="control-label">
@@ -93,7 +93,7 @@ $fieldsets = $this->form->getFieldsets();
 			</div>
 		</div>
 		<div id="com_users_twofactor_forms_container">
-			<?php foreach ($this->tfaform as $form): ?>
+			<?php foreach ($this->tfaform as $form) : ?>
 			<?php $style = $form['method'] == $this->otpConfig->method ? 'display: block' : 'display: none'; ?>
 			<div id="com_users_twofactor_<?php echo $form['method'] ?>" style="<?php echo $style; ?>">
 				<?php echo $form['form'] ?>
@@ -108,12 +108,12 @@ $fieldsets = $this->form->getFieldsets();
 			<div class="alert alert-info">
 				<?php echo JText::_('COM_USERS_USER_OTEPS_DESC') ?>
 			</div>
-			<?php if (empty($this->otpConfig->otep)): ?>
+			<?php if (empty($this->otpConfig->otep)) : ?>
 			<div class="alert alert-warning">
 				<?php echo JText::_('COM_USERS_USER_OTEPS_WAIT_DESC') ?>
 			</div>
-			<?php else: ?>
-			<?php foreach ($this->otpConfig->otep as $otep): ?>
+			<?php else : ?>
+			<?php foreach ($this->otpConfig->otep as $otep) : ?>
 			<span class="span3">
 				<?php echo substr($otep, 0, 4) ?>-<?php echo substr($otep, 4, 4) ?>-<?php echo substr($otep, 8, 4) ?>-<?php echo substr($otep, 12, 4) ?>
 			</span>

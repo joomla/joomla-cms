@@ -28,7 +28,7 @@ jQuery(document).ready(function($){
 <?php foreach ($this->videos as $i => $video) : ?>
 	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$video, &$params)); ?>
 	<tr>
-		<?php if ($this->canDelete): ?>
+		<?php if ($this->canDelete) : ?>
 			<td>
 				<?php echo JHtml::_('grid.id', $i, $video->name, false, 'rm', 'cb-video'); ?>
 			</td>

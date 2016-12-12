@@ -21,7 +21,7 @@ $dispatcher = JEventDispatcher::getInstance();
 <?php foreach ($this->images as $i => $image) : ?>
 	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$image, &$params)); ?>
 	<tr>
-		<?php if ($this->canDelete): ?>
+		<?php if ($this->canDelete) : ?>
 			<td>
 				<?php echo JHtml::_('grid.id', $i, $image->name, false, 'rm', 'cb-image'); ?>
 			</td>

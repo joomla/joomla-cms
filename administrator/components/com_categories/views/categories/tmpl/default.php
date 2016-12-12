@@ -248,7 +248,7 @@ if ($saveOrder)
 							</td>
 							<?php if ($this->assoc) : ?>
 								<td class="hidden-phone hidden-tablet">
-									<?php if ($item->association): ?>
+									<?php if ($item->association) : ?>
 										<?php echo JHtml::_('CategoriesAdministrator.association', $item->id, $extension); ?>
 									<?php endif; ?>
 								</td>

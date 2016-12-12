@@ -23,7 +23,7 @@ JHtml::_('bootstrap.tooltip');
 					<li><?php echo JHtml::_('link', JHelp::createUrl('JHELP_GLOSSARY'), JText::_('COM_ADMIN_GLOSSARY'), array('target' => 'helpFrame')) ?></li>
 					<hr class="hr-condensed" />
 					<li class="nav-header"><?php echo JText::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?></li>
-					<?php foreach ($this->toc as $k => $v): ?>
+					<?php foreach ($this->toc as $k => $v) : ?>
 						<li>
 							<?php $url = JHelp::createUrl('JHELP_' . strtoupper($k)); ?>
 							<?php echo JHtml::_('link', $url, $v, array('target' => 'helpFrame')); ?>

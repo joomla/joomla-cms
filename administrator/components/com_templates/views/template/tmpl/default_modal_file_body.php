@@ -46,7 +46,7 @@ $input = JFactory::getApplication()->input;
 					<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 				</fieldset>
 			</form>
-			<?php if ($this->type != 'home'): ?>
+			<?php if ($this->type != 'home') : ?>
 				<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="well" enctype="multipart/form-data">
 					<fieldset class="form-inline">
 						<input type="hidden" class="address" name="address" />

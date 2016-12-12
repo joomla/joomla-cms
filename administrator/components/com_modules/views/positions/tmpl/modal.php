@@ -79,10 +79,10 @@ $type      = $this->state->get('filter.type');
 					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function; ?>('<?php echo $value; ?>');"><?php echo $this->escape($value); ?></a>
 				</td>
 				<td>
-					<?php if (!empty($templates)): ?>
+					<?php if (!empty($templates)) : ?>
 					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function; ?>('<?php echo $value; ?>');">
 						<ul>
-						<?php foreach ($templates as $template => $label): ?>
+						<?php foreach ($templates as $template => $label) : ?>
 							<li><?php echo $lang->hasKey($label) ? JText::sprintf('COM_MODULES_MODULE_TEMPLATE_POSITION', JText::_($template), JText::_($label)) : JText::_($template); ?></li>
 						<?php endforeach; ?>
 						</ul>

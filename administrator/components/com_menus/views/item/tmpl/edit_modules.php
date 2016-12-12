@@ -97,7 +97,7 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 				</td>
 				<td id="menus-<?php echo $module->id; ?>">
 					<?php if (is_null($module->menuid)) : ?>
-						<?php if ($module->except): ?>
+						<?php if ($module->except) : ?>
 							<span class="label label-success">
 								<?php echo JText::_('JYES'); ?>
 							</span>
@@ -121,7 +121,7 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 					<?php endif; ?>
 				</td>
 				<td id="status-<?php echo $module->id; ?>">
-						<?php if ($module->published): ?>
+						<?php if ($module->published) : ?>
 							<span class="label label-success">
 								<?php echo JText::_('JYES'); ?>
 							</span>

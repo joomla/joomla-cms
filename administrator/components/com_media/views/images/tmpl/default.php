@@ -98,7 +98,7 @@ else // XTD Image plugin
 						<input type="text" id="f_url" value="" />
 					</div>
 				</div>
-				<?php if (!$this->state->get('field.id')): ?>
+				<?php if (!$this->state->get('field.id')) : ?>
 					<div class="span6 control-group">
 						<div class="control-label">
 							<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
@@ -114,7 +114,7 @@ else // XTD Image plugin
 					</div>
 				<?php endif; ?>
 			</div>
-			<?php if (!$this->state->get('field.id')): ?>
+			<?php if (!$this->state->get('field.id')) : ?>
 				<div class="row-fluid">
 					<div class="span6 control-group">
 						<div class="control-label">

@@ -151,7 +151,7 @@ jQuery(document).ready(function($) {
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
 							<td class="small hidden-phone">
-								<?php if ($item->language == ''): ?>
+								<?php if ($item->language == '') : ?>
 									<?php echo JText::_('JDEFAULT'); ?>
 								<?php elseif ($item->language == '*') : ?>
 									<?php echo JText::alt('JALL', 'language'); ?>

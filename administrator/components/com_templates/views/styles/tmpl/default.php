@@ -86,7 +86,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								<span class="icon-eye-open hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>" ></span></a>
 							<?php elseif ($item->client_id == '1') : ?>
 								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>" ></span>
-							<?php else: ?>
+							<?php else : ?>
 								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>" ></span>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
@@ -97,9 +97,9 @@ $colSpan = $clientId === 1 ? 5 : 6;
 							<?php endif; ?>
 						</td>
 						<td class="center">
-							<?php if ($item->home == '0' || $item->home == '1'): ?>
+							<?php if ($item->home == '0' || $item->home == '1') : ?>
 								<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1'); ?>
-							<?php elseif ($canChange): ?>
+							<?php elseif ($canChange) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
 									<?php if ($item->image) : ?>
 										<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
@@ -107,7 +107,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 										<span class="label" title="<?php echo JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
 									<?php endif; ?>
 								</a>
-							<?php else: ?>
+							<?php else : ?>
 								<?php if ($item->image) : ?>
 									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 								<?php else : ?>
