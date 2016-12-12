@@ -275,7 +275,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		$http  = JHttpFactory::getHttp();
 		$token = JSession::getFormToken();
-		$nonce = md5($token . uniqid(mt_rand()));
+		$nonce = md5($token . uniqid(rand()));
 
 		while (!$gotResponse && !empty($server_queue))
 		{
