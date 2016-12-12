@@ -13,7 +13,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Tabs elements.
  *
- * @since  1.6
+ * @since       1.6
+ * @deprecated  __DEPLOY_VERSION__ These helpers are dependent on the deprecated MooTools support
  */
 abstract class JHtmlTabs
 {
@@ -26,6 +27,7 @@ abstract class JHtmlTabs
 	 * @return  string
 	 *
 	 * @since   1.6
+	 * @deprecated  __DEPLOY_VERSION__ These helpers are dependent on the deprecated MooTools support
 	 */
 	public static function start($group = 'tabs', $params = array())
 	{
@@ -40,6 +42,7 @@ abstract class JHtmlTabs
 	 * @return  string  HTML to close the pane
 	 *
 	 * @since   1.6
+	 * @deprecated  __DEPLOY_VERSION__ These helpers are dependent on the deprecated MooTools support
 	 */
 	public static function end()
 	{
@@ -55,6 +58,7 @@ abstract class JHtmlTabs
 	 * @return  string  HTML to start a new panel
 	 *
 	 * @since   1.6
+	 * @deprecated  __DEPLOY_VERSION__ These helpers are dependent on the deprecated MooTools support
 	 */
 	public static function panel($text, $id)
 	{
@@ -70,6 +74,7 @@ abstract class JHtmlTabs
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @deprecated  __DEPLOY_VERSION__ These helpers are dependent on the deprecated MooTools support
 	 */
 	protected static function loadBehavior($group, $params = array())
 	{
@@ -99,7 +104,7 @@ abstract class JHtmlTabs
 
 			$document = JFactory::getDocument();
 			$document->addScriptDeclaration($js);
-			JHtml::_('script', 'system/tabs.js', false, true);
+			JHtml::_('script', 'system/tabs.js', array('version' => 'auto', 'relative' => true));
 
 			$loaded[(string) $group] = true;
 		}

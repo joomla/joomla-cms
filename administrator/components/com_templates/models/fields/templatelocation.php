@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
-
 JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
 
 /**
@@ -18,7 +16,7 @@ JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_temp
  *
  * @since  3.5
  */
-class JFormFieldTemplateLocation extends JFormFieldList
+class JFormFieldTemplateLocation extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

@@ -46,7 +46,7 @@ abstract class JHtmlContact
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('c.id, c.name as title')
-				->select('l.sef as lang_sef')
+				->select('l.sef as lang_sef, lang_code')
 				->from('#__contact_details as c')
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
@@ -71,30 +71,17 @@ abstract class JHtmlContact
 				{
 					$text = strtoupper($item->lang_sef);
 					$url = JRoute::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
-					$tooltipParts = array(
-						JHtml::_(
-							'image',
-							'mod_languages/' . $item->image . '.gif',
-							$item->language_title,
-							array('title' => $item->language_title),
-							true
-						),
-						$item->title,
-						'(' . $item->category_title . ')'
-					);
 
-					$item->link = JHtml::_(
-						'tooltip',
-						implode(' ', $tooltipParts),
-						null,
-						null,
-						$text,
-						$url,
-						null,
-						'hasTooltip label label-association label-' . $item->lang_sef
-					);
+					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br />' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$classes = 'hasPopover label label-association label-' . $item->lang_sef;
+
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
+						. '" data-content="' . $tooltip . '" data-placement="top">'
+						. $text . '</a>';
 				}
 			}
+
+			JHtml::_('bootstrap.popover');
 
 			$html = JLayoutHelper::render('joomla.content.associations', $items);
 		}

@@ -271,8 +271,7 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		// Write override.ini file with the left strings.
-		$registry = new Registry;
-		$registry->loadObject($strings);
+		$registry = new Registry($strings);
 		$reg = $registry->toString('INI');
 
 		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';

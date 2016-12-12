@@ -96,6 +96,16 @@ class JFormFieldCheckbox extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
+		// Handle the default attribute
+		$default = (string) $element['default'];
+
+		if ($default)
+		{
+			$test = $this->form->getValue((string) $element['name'], $group);
+
+			$value = ($test == $default) ? $default : null;
+		}
+
 		$return = parent::setup($element, $value, $group);
 
 		if ($return)
@@ -133,7 +143,7 @@ class JFormFieldCheckbox extends JFormField
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
+		JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
 
 		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
