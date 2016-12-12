@@ -209,7 +209,7 @@ abstract class ModMenuHelper
 		// Parse the list of extensions.
 		$result = self::parseItems($menuItems, $authCheck);
 
-		return ArrayHelper::sortObjects($result, 'text', 1, false, true);
+		return $result;
 	}
 
 	/**
