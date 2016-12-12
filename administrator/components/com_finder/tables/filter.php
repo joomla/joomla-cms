@@ -48,8 +48,7 @@ class FinderTableFilter extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 

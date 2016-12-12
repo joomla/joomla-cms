@@ -20,7 +20,7 @@
 				default="alpha"
 				description="JGLOBAL_ARTICLE_ORDER_DESC"
 				label="JGLOBAL_ARTICLE_ORDER_LABEL"
-		>
+			>
 				<option value="date">JGLOBAL_OLDEST_FIRST</option>
 				<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
@@ -30,6 +30,10 @@
 				<option value="hits">JGLOBAL_MOST_HITS</option>
 				<option value="rhits">JGLOBAL_LEAST_HITS</option>
 				<option value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
+				<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+				<option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+				<option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
+				<option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
 			</field>
 
 			<field name="order_date" type="list"
@@ -64,8 +68,8 @@
 				default=""
 				description="JGLOBAL_FILTER_FIELD_DESC"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -84,8 +88,8 @@
 			<field name="show_intro" type="list"
 				description="JGLOBAL_SHOW_INTRO_DESC"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -95,8 +99,9 @@
 				type="list"
 				default=""
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
-				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC"
+				useglobal="true"
+				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
@@ -108,8 +113,8 @@
 				type="list"
 				label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
 				description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -117,8 +122,8 @@
 			<field name="show_category" type="list"
 				description="JGLOBAL_SHOW_CATEGORY_DESC"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -126,8 +131,8 @@
 			<field name="link_category" type="list"
 				description="JGLOBAL_LINK_CATEGORY_DESC"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>
@@ -136,8 +141,9 @@
 				name="show_parent_category"
 				type="list"
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
-				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -146,8 +152,9 @@
 				name="link_parent_category"
 				type="list"
 				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
-				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
 			</field>
@@ -155,8 +162,8 @@
 			<field name="link_titles" type="list"
 				description="JGLOBAL_LINKED_TITLES_DESC"
 				label="JGLOBAL_LINKED_TITLES_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -164,19 +171,19 @@
 			<field name="show_author" type="list"
 				description="JGLOBAL_SHOW_AUTHOR_DESC"
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
 			<field
-			name="link_author"
-			type="list"
-			label="JGLOBAL_LINK_AUTHOR_LABEL"
-			description="JGLOBAL_LINK_AUTHOR_DESC"
-			>
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				name="link_author"
+				type="list"
+				label="JGLOBAL_LINK_AUTHOR_LABEL"
+				description="JGLOBAL_LINK_AUTHOR_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
 			</field>
@@ -184,8 +191,8 @@
 			<field name="show_create_date" type="list"
 				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -193,8 +200,8 @@
 			<field name="show_modify_date" type="list"
 				description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -202,8 +209,8 @@
 			<field name="show_publish_date" type="list"
 				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -212,8 +219,8 @@
 			<field name="show_item_navigation" type="list"
 				description="JGLOBAL_SHOW_NAVIGATION_DESC"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -221,8 +228,8 @@
 			<field name="show_hits" type="list"
 				description="JGLOBAL_SHOW_HITS_DESC"
 				label="JGLOBAL_SHOW_HITS_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>

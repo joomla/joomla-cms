@@ -58,16 +58,114 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
 	 */
 	Joomla.JText = {
-		strings: {},
+		strings:   {},
+
+		/**
+		 * Translates a string into the current language.
+		 *
+		 * @param {String} key   The string to translate
+		 * @param {String} def   Default string
+		 *
+		 * @returns {String}
+		 */
 		'_': function( key, def ) {
-			return typeof this.strings[ key.toUpperCase() ] !== 'undefined' ? this.strings[ key.toUpperCase() ] : def;
+
+			// Check for new strings in the optionsStorage, and load them
+			var newStrings = Joomla.getOptions('joomla.jtext');
+			if ( newStrings ) {
+				this.load(newStrings);
+
+				// Clean up the optionsStorage from useless data
+				Joomla.loadOptions({'joomla.jtext': null});
+			}
+
+			def = def === undefined ? '' : def;
+			key = key.toUpperCase();
+
+			return this.strings[ key ] !== undefined ? this.strings[ key ] : def;
 		},
+
+		/**
+		 * Load new strings in to Joomla.JText
+		 *
+		 * @param {Object} object  Object with new strings
+		 * @returns {Joomla.JText}
+		 */
 		load: function( object ) {
 			for ( var key in object ) {
 				if (!object.hasOwnProperty(key)) continue;
 				this.strings[ key.toUpperCase() ] = object[ key ];
 			}
+
 			return this;
+		}
+	};
+
+	/**
+	 * Joomla options storage
+	 *
+	 * @type {{}}
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	Joomla.optionsStorage = Joomla.optionsStorage || null;
+
+	/**
+	 * Get script(s) options
+	 *
+	 * @param {String} key  Name in Storage
+	 * @param mixed    def  Default value if nothing found
+	 *
+	 * @return mixed
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	Joomla.getOptions = function( key, def ) {
+		// Load options if they not exists
+		if (!Joomla.optionsStorage) {
+			Joomla.loadOptions();
+		}
+
+		return Joomla.optionsStorage[key] !== undefined ? Joomla.optionsStorage[key] : def;
+	};
+
+	/**
+	 * Load new options from given options object or from Element
+	 *
+	 * @param {Object|undefined} options   The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	Joomla.loadOptions = function( options ) {
+		// Load form the script container
+		if (!options) {
+			var elements = document.querySelectorAll('.joomla-script-options.new'),
+				str, element, option;
+
+			for (var i = 0, l = elements.length; i < l; i++) {
+				element = elements[i];
+				str     = element.text || element.textContent;
+				option  = JSON.parse(str);
+
+				option ? Joomla.loadOptions(option) : null;
+
+				element.className = element.className.replace(' new', ' loaded');
+			}
+
+			return;
+		}
+
+		// Initial loading
+		if (!Joomla.optionsStorage) {
+			Joomla.optionsStorage = options;
+		}
+		// Merge with existing
+		else {
+			for (var p in options) {
+				if (options.hasOwnProperty(p)) {
+					Joomla.optionsStorage[p] = options[p];
+				}
+			}
 		}
 	};
 
@@ -218,10 +316,10 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
-	 * Treat AJAX jQuery errors.
+	 * Treat AJAX errors.
 	 * Used by some javascripts such as sendtestmail.js and permissions.js
 	 *
-	 * @param   object  jqXHR        jQuery XHR object. See http://api.jquery.com/jQuery.ajax/#jqXHR
+	 * @param   object  xhr          XHR object.
 	 * @param   string  textStatus   Type of error that occurred.
 	 * @param   string  error        Textual portion of the HTTP status.
 	 *
@@ -229,13 +327,14 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * @since  3.6.0
 	 */
-	Joomla.ajaxErrorsMessages = function( jqXHR, textStatus, error ) {
+	Joomla.ajaxErrorsMessages = function( xhr, textStatus, error ) {
 		var msg = {};
 
-		if (textStatus == 'parsererror')
+		// For jQuery jqXHR
+		if (textStatus === 'parsererror')
 		{
 			// Html entity encode.
-			var encodedJson = jqXHR.responseText.trim();
+			var encodedJson = xhr.responseText.trim();
 
 			var buf = [];
 			for (var i = encodedJson.length-1; i >= 0; i--) {
@@ -246,25 +345,34 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson) ];
 		}
-		else if (textStatus == 'nocontent')
+		else if (textStatus === 'nocontent')
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_NO_CONTENT') ];
 		}
-		else if (textStatus == 'timeout')
+		else if (textStatus === 'timeout')
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_TIMEOUT') ];
 		}
-		else if (textStatus == 'abort')
+		else if (textStatus === 'abort')
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT') ];
 		}
+		// For vannila XHR
+		else if (xhr.responseJSON && xhr.responseJSON.message)
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) + ' <em>' + xhr.responseJSON.message + '</em>' ];
+		}
+		else if (xhr.statusText)
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) + ' <em>' + xhr.statusText + '</em>' ];
+		}
 		else
 		{
-			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', jqXHR.status) ];
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) ];
 		}
 
 		return msg;
-	}
+	};
 
 	/**
 	 * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
@@ -631,6 +739,120 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		}
 
 		return document.getElementById('loading-logo');
+	};
+
+	/**
+	 * Method to Extend Objects
+	 *
+	 * @param  {Object}  destination
+	 * @param  {Object}  source
+	 *
+	 * @return Object
+	 */
+	Joomla.extend = function (destination, source) {
+		for (var p in source) {
+			if (source.hasOwnProperty(p)) {
+				destination[p] = source[p];
+			}
+		}
+
+		return destination;
+	};
+
+	/**
+	 * Method to perform AJAX request
+	 *
+	 * @param {Object} options   Request options:
+	 * {
+	 *    url:       'index.php',  // Request URL
+	 *    method:    'GET',        // Request method GET (default), POST
+	 *    data:      null,         // Data to be sent, see https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/send
+	 *    perform:   true,         // Perform the request immediately, or return XMLHttpRequest instance and perform it later
+	 *    headers:   null,         // Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
+	 *
+	 *    onBefore:  function(xhr){}            // Callback on before the request
+	 *    onSuccess: function(response, xhr){}, // Callback on the request success
+	 *    onError:   function(xhr){},           // Callback on the request error
+	 * }
+	 *
+	 * @return XMLHttpRequest|Boolean
+	 *
+	 * @example
+	 *
+	 * 	Joomla.request({
+	 *		url: 'index.php?option=com_example&view=example',
+	 *		onSuccess: function(response, xhr){
+	 *			console.log(response);
+	 *		}
+	 * 	})
+	 *
+	 * @see    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
+	 */
+	Joomla.request = function (options) {
+
+		// Prepare the options
+		options = Joomla.extend({
+			url:    '',
+			method: 'GET',
+			data:    null,
+			perform: true
+		}, options);
+
+		// Use POST for send the data
+		options.method = options.data ? 'POST' : options.method;
+
+		// Set up XMLHttpRequest instance
+		try{
+			var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('MSXML2.XMLHTTP.3.0');
+			xhr.open(options.method, options.url, true);
+
+			// Set the headers
+			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+			xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
+
+			if (options.method === 'POST' && (!options.headers || !options.headers['Content-Type'])) {
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			}
+
+			// Custom headers
+			if (options.headers){
+				for (var p in options.headers){
+					if (options.headers.hasOwnProperty(p)) {
+						xhr.setRequestHeader(p, options.headers[p]);
+					}
+				}
+			}
+
+			xhr.onreadystatechange = function () {
+				// Request not finished
+				if (xhr.readyState !== 4) return;
+
+				// Request finished and response is ready
+				if (xhr.status === 200) {
+					if(options.onSuccess) {
+						options.onSuccess.call(window, xhr.responseText, xhr);
+					}
+				} else if(options.onError) {
+					options.onError.call(window, xhr);
+				}
+			};
+
+			// Do request
+			if (options.perform) {
+				if (options.onBefore && options.onBefore.call(window, xhr) === false) {
+					// Request interrupted
+					return xhr;
+				}
+
+				xhr.send(options.data);
+			}
+
+		} catch (error) {
+			window.console ? console.log(error) : null;
+			return false;
+		}
+
+		return xhr;
 	};
 
 }( Joomla, document ));
