@@ -405,6 +405,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 				{
 					$cols[] = $alias . "." . $name;
 				}
+			}
 		}
 
 		$selectStr = str_replace("SELECT ", "", (string) $this->select);
