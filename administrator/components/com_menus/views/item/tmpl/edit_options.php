@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
 					<?php endforeach;
 			echo JHtml::_('bootstrap.endSlide');
 		endif;
-	endforeach;?>
+	endforeach; ?>
 <?php
 
 echo JHtml::_('bootstrap.endAccordion');

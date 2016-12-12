@@ -183,7 +183,7 @@ if ($this->type == 'font')
 </div>
 <div class="row-fluid">
 	<div class="span3 tree-holder">
-		<?php echo $this->loadTemplate('tree');?>
+		<?php echo $this->loadTemplate('tree'); ?>
 	</div>
 	<div class="span9">
 		<?php if ($this->type == 'home'): ?>
@@ -308,7 +308,7 @@ if ($this->type == 'font')
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row-fluid">
 	<div class="span4">
-		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES');?></legend>
+		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['modules'] as $module): ?>
@@ -325,7 +325,7 @@ if ($this->type == 'font')
 		</ul>
 	</div>
 	<div class="span4">
-		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS');?></legend>
+		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['components'] as $key => $value): ?>
@@ -351,7 +351,7 @@ if ($this->type == 'font')
 		</ul>
 	</div>
 	<div class="span4">
-		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS');?></legend>
+		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['layouts'] as $layout): ?>
@@ -371,7 +371,7 @@ if ($this->type == 'font')
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
-<?php echo $this->loadTemplate('description');?>
+<?php echo $this->loadTemplate('description'); ?>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

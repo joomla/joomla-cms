@@ -30,7 +30,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clear"> </div>
 		<?php if (empty($this->items)) : ?>
@@ -91,29 +91,29 @@ $colSpan = $clientId === 1 ? 5 : 6;
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>">
-								<?php echo $this->escape($item->title);?></a>
+								<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
-								<?php echo $this->escape($item->title);?>
+								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 						</td>
 						<td class="center">
-							<?php if ($item->home == '0' || $item->home == '1'):?>
-								<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
-							<?php elseif ($canChange):?>
-								<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1');?>">
+							<?php if ($item->home == '0' || $item->home == '1'): ?>
+								<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1'); ?>
+							<?php elseif ($canChange): ?>
+								<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
 									<?php if ($item->image) : ?>
 										<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 									<?php else : ?>
 										<span class="label" title="<?php echo JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
 									<?php endif; ?>
 								</a>
-							<?php else:?>
+							<?php else: ?>
 								<?php if ($item->image) : ?>
 									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 								<?php else : ?>
 									<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
 								<?php endif; ?>
-							<?php endif;?>
+							<?php endif; ?>
 						</td>
 						<?php if ($clientId === 0) : ?>
 						<td class="small hidden-phone">
@@ -127,11 +127,11 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								<?php echo JText::_('COM_TEMPLATES_STYLES_PAGES_NONE'); ?>
 							<?php endif; ?>
 						</td>
-						<?php endif;?>
+						<?php endif; ?>
 						<td class="hidden-phone hidden-tablet">
-							<label for="cb<?php echo $i;?>" class="small">
+							<label for="cb<?php echo $i; ?>" class="small">
 								<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>  ">
-									<?php echo ucfirst($this->escape($item->template));?>
+									<?php echo ucfirst($this->escape($item->template)); ?>
 								</a>
 							</label>
 						</td>
@@ -142,7 +142,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

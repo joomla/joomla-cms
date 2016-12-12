@@ -60,7 +60,7 @@ else // XTD Image plugin
 ?>
 <div class="container-popup">
 
-	<form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author'); ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
+	<form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
 
 		<div id="messages" style="display: none;">
 			<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true) ?>
@@ -86,7 +86,7 @@ else // XTD Image plugin
 			</div>
 		</div>
 
-		<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
+		<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>"></iframe>
 
 		<div class="well">
 			<div class="row-fluid">
@@ -98,7 +98,7 @@ else // XTD Image plugin
 						<input type="text" id="f_url" value="" />
 					</div>
 				</div>
-				<?php if (!$this->state->get('field.id')):?>
+				<?php if (!$this->state->get('field.id')): ?>
 					<div class="span6 control-group">
 						<div class="control-label">
 							<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
@@ -112,9 +112,9 @@ else // XTD Image plugin
 							</select>
 						</div>
 					</div>
-				<?php endif;?>
+				<?php endif; ?>
 			</div>
-			<?php if (!$this->state->get('field.id')):?>
+			<?php if (!$this->state->get('field.id')): ?>
 				<div class="row-fluid">
 					<div class="span6 control-group">
 						<div class="control-label">
@@ -156,7 +156,7 @@ else // XTD Image plugin
 						</div>
 					</div>
 				</div>
-			<?php endif;?>
+			<?php endif; ?>
 
 			<input type="hidden" id="dirPath" name="dirPath" />
 			<input type="hidden" id="f_file" name="f_file" />
@@ -166,7 +166,7 @@ else // XTD Image plugin
 	</form>
 
 	<?php if ($user->authorise('core.create', 'com_media')) : ?>
-		<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
+		<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
 			<div id="uploadform" class="well">
 				<fieldset id="upload-noflash" class="actions">
 					<div class="control-group">

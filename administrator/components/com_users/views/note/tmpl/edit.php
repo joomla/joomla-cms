@@ -24,7 +24,7 @@ jQuery(document).ready(function() {
 	}
 });');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id);?>" method="post" name="adminForm" id="note-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="note-form" class="form-validate form-horizontal">
 		<fieldset class="adminform">
 			<div class="control-group">
 				<div class="control-label">

@@ -101,7 +101,7 @@ $doc->addScriptDeclaration(
 					<th width="1%">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-				<?php endif;?>
+				<?php endif; ?>
 				<th width="1%"><?php echo JText::_('JGLOBAL_PREVIEW'); ?></th>
 				<th><?php echo JText::_('COM_MEDIA_NAME'); ?></th>
 				<th width="15%"><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
@@ -111,7 +111,7 @@ $doc->addScriptDeclaration(
 					<th width="8%">
 						<?php echo JText::_('JACTION_DELETE'); ?>
 					</th>
-				<?php endif;?>
+				<?php endif; ?>
 			</tr>
 		</thead>
 		<tbody>
