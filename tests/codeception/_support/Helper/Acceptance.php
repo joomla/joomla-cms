@@ -6,8 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
 namespace Helper;
+use Codeception\Configuration;
+use Codeception\Module;
 
 /**
  * Helper class for Acceptance.
@@ -18,7 +19,24 @@ namespace Helper;
  *
  * @since    __DEPLOY_VERSION__
  */
-class Acceptance extends \Codeception\Module
+class Acceptance extends Module
 {
+	protected static $acceptanceSuiteConfiguration = [];
 
+	/**
+	 * Function to get Configuration from the acceptance.suite.yml to be used by a test
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getSuiteConfiguration()
+	{
+		if (empty(self::$acceptanceSuiteConfiguration))
+		{
+			self::$acceptanceSuiteConfiguration = Configuration::suiteSettings('acceptance', Configuration::config());
+		}
+
+		return self::$acceptanceSuiteConfiguration;
+	}
 }
