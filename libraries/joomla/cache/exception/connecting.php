@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Exception class defining an error connecting to the cache storage engine
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.6.3
  */
 class JCacheExceptionConnecting extends RuntimeException
 {

@@ -39,7 +39,7 @@ $n = count($this->items);
 		</div>
 	<?php endif; ?>
 	<?php // If there are multiple tags and a description or image has been supplied use that. ?>
-	<?php if ($this->params->get('tag_list_show_tag_description', 1) || $this->params->get('show_description_image', 1)): ?>
+	<?php if ($this->params->get('tag_list_show_tag_description', 1) || $this->params->get('show_description_image', 1)) : ?>
 		<?php if ($this->params->get('show_description_image', 1) == 1 && $this->params->get('tag_list_image')) : ?>
 			<img src="<?php echo $this->params->get('tag_list_image'); ?>">
 		<?php endif; ?>

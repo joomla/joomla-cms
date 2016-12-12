@@ -51,6 +51,8 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Filter\\' => 14,
             'Joomla\\Event\\Tests\\' => 19,
             'Joomla\\Event\\' => 13,
+            'Joomla\\Data\\Tests\\' => 18,
+            'Joomla\\Data\\' => 12,
             'Joomla\\DI\\Tests\\' => 16,
             'Joomla\\DI\\' => 10,
             'Joomla\\Application\\' => 19,
@@ -125,6 +127,14 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Event\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/event/src',
+        ),
+        'Joomla\\Data\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/data/Tests',
+        ),
+        'Joomla\\Data\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/data/src',
         ),
         'Joomla\\DI\\Tests\\' => 
         array (

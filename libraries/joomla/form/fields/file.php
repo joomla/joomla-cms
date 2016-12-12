@@ -132,7 +132,7 @@ class JFormFieldFile extends JFormField
 	 *
 	 * @return  array
 	 *
-	 * @since 3.6
+	 * @since   3.6
 	 */
 	protected function getLayoutData()
 	{
