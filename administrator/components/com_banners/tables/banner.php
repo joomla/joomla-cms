@@ -175,22 +175,22 @@ class BannersTableBanner extends JTable
 	{
 		if (empty($this->id))
 		{
-			$purchase_type = $this->purchase_type;
+			$purchaseType = $this->purchase_type;
 
-			if ($purchase_type < 0 && $this->cid)
+			if ($purchaseType < 0 && $this->cid)
 			{
 				/** @var BannersTableClient $client */
 				$client = JTable::getInstance('Client', 'BannersTable');
 				$client->load($this->cid);
-				$purchase_type = $client->purchase_type;
+				$purchaseType = $client->purchase_type;
 			}
 
-			if ($purchase_type < 0)
+			if ($purchaseType < 0)
 			{
-				$purchase_type = JComponentHelper::getParams('com_banners')->get('purchase_type');
+				$purchaseType = JComponentHelper::getParams('com_banners')->get('purchase_type');
 			}
 
-			switch ($purchase_type)
+			switch ($purchaseType)
 			{
 				case 1:
 					$this->reset = $this->_db->getNullDate();

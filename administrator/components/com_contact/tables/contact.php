@@ -182,34 +182,34 @@ class ContactTableContact extends JTable
 		if (!empty($this->metakey))
 		{
 			// Array of characters to remove.
-			$bad_characters = array("\n", "\r", "\"", "<", ">");
+			$badCharacters = array("\n", "\r", "\"", "<", ">");
 
 			// Remove bad characters.
-			$after_clean = StringHelper::str_ireplace($bad_characters, "", $this->metakey);
+			$afterClean = StringHelper::str_ireplace($badCharacters, "", $this->metakey);
 
 			// Create array using commas as delimiter.
-			$keys = explode(',', $after_clean);
-			$clean_keys = array();
+			$keys = explode(',', $afterClean);
+			$cleanKeys = array();
 
 			foreach ($keys as $key)
 			{
 				// Ignore blank keywords.
 				if (trim($key))
 				{
-					$clean_keys[] = trim($key);
+					$cleanKeys[] = trim($key);
 				}
 			}
 
 			// Put array back together delimited by ", "
-			$this->metakey = implode(", ", $clean_keys);
+			$this->metakey = implode(", ", $cleanKeys);
 		}
 
 		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
 		{
 			// Only process if not empty
-			$bad_characters = array("\"", "<", ">");
-			$this->metadesc = StringHelper::str_ireplace($bad_characters, "", $this->metadesc);
+			$badCharacters = array("\"", "<", ">");
+			$this->metadesc = StringHelper::str_ireplace($badCharacters, "", $this->metadesc);
 		}
 
 		return true;

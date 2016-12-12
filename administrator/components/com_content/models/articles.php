@@ -252,11 +252,11 @@ class ContentModelArticles extends JModelList
 
 		if (is_numeric($categoryId))
 		{
-			$cat_tbl = JTable::getInstance('Category', 'JTable');
-			$cat_tbl->load($categoryId);
-			$rgt = $cat_tbl->rgt;
-			$lft = $cat_tbl->lft;
-			$baselevel = (int) $cat_tbl->level;
+			$categoryTable= JTable::getInstance('Category', 'JTable');
+			$categoryTable->load($categoryId);
+			$rgt = $categoryTable->rgt;
+			$lft = $categoryTable->lft;
+			$baselevel = (int) $categoryTable->level;
 			$query->where('c.lft >= ' . (int) $lft)
 				->where('c.rgt <= ' . (int) $rgt);
 		}
