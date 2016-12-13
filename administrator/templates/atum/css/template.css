@@ -8491,6 +8491,10 @@ iframe {
   overflow: hidden;
   border: 0 none; }
 
+.hidden {
+  display: none;
+  visibility: hidden; }
+
 .awesomplete {
   display: block; }
 
