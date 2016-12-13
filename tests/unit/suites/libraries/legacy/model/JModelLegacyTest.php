@@ -65,6 +65,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	{
 		// Reset JTable::$_includePaths
 		TestReflection::setValue('JTable', '_includePaths', array());
+		parent::tearDownAfterClass();
 	}
 
 	/**
@@ -620,7 +621,7 @@ class JModelLegacyTest extends TestCaseDatabase
 		$method = new ReflectionMethod('TestModelLead', '_getListCount');
 		$method->setAccessible(true);
 
-		$queryMock = $this->getMock('JDatabaseQuery', array('select', 'clear'));
+		$queryMock = $this->getMockBuilder('JDatabaseQuery')->setMethods(array('select', 'clear'))->getMock();
 		$queryMock->method('clear')->will($this->returnSelf());
 
 		TestReflection::setValue($queryMock, 'type', 'select');

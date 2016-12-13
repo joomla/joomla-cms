@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 // JLayout for standard handling of the edit modules:
 
-$moduleHtml   =& $displayData['moduleHtml'];
+$moduleHtml   = &$displayData['moduleHtml'];
 $mod          = $displayData['module'];
 $position     = $displayData['position'];
 $menusEditing = $displayData['menusediting'];
@@ -28,7 +28,7 @@ if (preg_match('/<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]* jmoddiv"/', $modu
 // Add css class jmoddiv and data attributes for module-editing URL and for the tooltip:
 $editUrl = JUri::base() . 'administrator/index.php?option=com_modules&task=module.edit&id=' . (int) $mod->id;
 
-if ($parameters->get('redirect_edit', 'site') == 'site')
+if ($parameters->get('redirect_edit', 'site') === 'site')
 {
 	$editUrl = JUri::base() . 'index.php?option=com_config&controller=config.display.modules&id=' . (int) $mod->id . $redirectUri;
 	$target  = '_self';
@@ -48,7 +48,7 @@ $moduleHtml = preg_replace(
 		)
 	. '"'
 	// And if menu editing is enabled and allowed and it's a menu module, add data attributes for menu editing:
-	.	($menusEditing && $mod->module == 'mod_menu' ?
+	.	($menusEditing && $mod->module === 'mod_menu' ?
 			'" data-jmenuedittip="' . JHtml::tooltipText('JLIB_HTML_EDIT_MENU_ITEM', 'JLIB_HTML_EDIT_MENU_ITEM_ID') . '"'
 			:
 			''
@@ -64,6 +64,6 @@ if ($count)
 	JHtml::_('bootstrap.tooltip');
 	JHtml::_('bootstrap.popover');
 
-	JHtml::_('stylesheet', 'system/frontediting.css', array(), true);
-	JHtml::_('script', 'system/frontediting.js', false, true);
+	JHtml::_('stylesheet', 'system/frontediting.css', array('version' => 'auto', 'relative' => true));
+	JHtml::_('script', 'system/frontediting.js', array('version' => 'auto', 'relative' => true));
 }

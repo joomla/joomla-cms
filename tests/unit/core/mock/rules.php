@@ -30,17 +30,13 @@ class TestMockRules
 			'allow',
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JAccessRules',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JAccessRules')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$test->assignMockCallbacks(
 			$mockObject,

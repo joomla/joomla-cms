@@ -33,15 +33,15 @@ $lang  = JFactory::getLanguage();
 						<?php echo $child->getNumItems(true); ?>
 					</span>
 				<?php endif; ?>
-				<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id));?>">
+				<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
 				<?php echo $this->escape($child->title); ?></a>
 
 				<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-					<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
-				<?php endif;?>
+					<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
+				<?php endif; ?>
 			</h3>
 			<?php else : ?>
-			<h3 class="page-header item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id));?>">
+			<h3 class="page-header item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
 				<?php echo $this->escape($child->title); ?></a>
 				<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
 					<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTENT_NUM_ITEMS_TIP'); ?>">
@@ -50,11 +50,11 @@ $lang  = JFactory::getLanguage();
 				<?php endif; ?>
 
 				<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-					<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
-				<?php endif;?>
-			<?php endif;?>
+					<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
+				<?php endif; ?>
+			<?php endif; ?>
 			</h3>
-			<?php if ($this->params->get('show_subcat_desc') == 1) :?>
+			<?php if ($this->params->get('show_subcat_desc') == 1) : ?>
 				<?php if ($child->description) : ?>
 					<div class="category-desc">
 						<?php echo JHtml::_('content.prepare', $child->description, '', 'com_content.category'); ?>
@@ -62,8 +62,8 @@ $lang  = JFactory::getLanguage();
 				<?php endif; ?>
 			<?php endif; ?>
 
-			<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) :?>
-			<div class="collapse fade" id="category-<?php echo $child->id;?>">
+			<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
+			<div class="collapse fade" id="category-<?php echo $child->id; ?>">
 				<?php
 				$this->children[$child->id] = $child->getChildren();
 				$this->category = $child;

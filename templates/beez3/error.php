@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentError $this */
+
 $showRightColumn = 0;
 $showleft        = 0;
 $showbottom      = 0;
@@ -31,7 +33,7 @@ $navposition = $params->get('navposition');
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/layout.css" rel="stylesheet" media="screen" />
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/print.css" rel="stylesheet" media="print" />
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" rel="stylesheet" />
-	<?php $files = JHtml::_('stylesheet', 'templates/' . $this->template . '/css/general.css', null, false, true); ?>
+	<?php $files = JHtml::_('stylesheet', 'general.css', array('relative' => true, 'returnPath' => true)); ?>
 	<?php if ($files) : ?>
 		<?php if (!is_array($files)) : ?>
 			<?php $files = array($files); ?>
