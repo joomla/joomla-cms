@@ -23,7 +23,7 @@ $baseurl = JUri::base();
 		<?php if ($item->type == 1) : ?>
 			<?php // Text based banners ?>
 			<?php echo str_replace(array('{CLICKURL}', '{NAME}'), array($link, $item->name), $item->custombannercode); ?>
-		<?php else: ?>
+		<?php else : ?>
 			<?php $imageurl = $item->params->get('imageurl'); ?>
 			<?php $width = $item->params->get('width'); ?>
 			<?php $height = $item->params->get('height'); ?>
@@ -47,7 +47,7 @@ $baseurl = JUri::base();
 								<?php if (!empty($height)) echo 'height ="' . $height . '"'; ?>
 							/>
 						</a>
-					<?php elseif ($target == 2): ?>
+					<?php elseif ($target == 2) : ?>
 						<?php // Open in a popup window ?>
 						<a
 							href="<?php echo $link; ?>" onclick="window.open(this.href, '',

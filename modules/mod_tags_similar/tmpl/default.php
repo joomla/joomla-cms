@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 				<?php if (!empty($item->core_title)) :
 					echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8');
 				endif; ?>
-			<?php else: ?>
+			<?php else : ?>
 				<?php $item->route = new JHelperRoute; ?>
 				<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 					<?php if (!empty($item->core_title)) :
