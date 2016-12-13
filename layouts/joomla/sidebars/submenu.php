@@ -60,7 +60,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php endif; ?>
 			<?php if ($displayData->displayFilters) : ?>
 			<div class="filter-select hidden-phone">
-				<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
+				<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></h4>
 				<?php foreach ($displayData->filters as $filter) : ?>
 					<label for="<?php echo $filter['name']; ?>" class="element-invisible"><?php echo $filter['label']; ?></label>
 					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="span12 small" onchange="this.form.submit()">

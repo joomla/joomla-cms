@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<?php if ($grouped) : ?>
 		<?php foreach ($list as $group_name => $group) : ?>
 		<li>
-			<div class="mod-articles-category-group"><?php echo $group_name;?></div>
+			<div class="mod-articles-category-group"><?php echo $group_name; ?></div>
 			<ul>
 				<?php foreach ($group as $item) : ?>
 					<li>
@@ -36,7 +36,7 @@ defined('_JEXEC') or die;
 							<span class="mod-articles-category-writtenby">
 								<?php echo $item->displayAuthorName; ?>
 							</span>
-						<?php endif;?>
+						<?php endif; ?>
 
 						<?php if ($item->displayCategoryTitle) : ?>
 							<span class="mod-articles-category-category">
@@ -100,7 +100,7 @@ defined('_JEXEC') or die;
 					<span class="mod-articles-category-writtenby">
 						<?php echo $item->displayAuthorName; ?>
 					</span>
-				<?php endif;?>
+				<?php endif; ?>
 
 				<?php if ($item->displayCategoryTitle) : ?>
 					<span class="mod-articles-category-category">

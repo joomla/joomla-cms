@@ -29,7 +29,7 @@ if (substr($className, -1) === 's')
 $tagsData = $displayData->get('category')->tags->itemTags;
 ?>
 <div>
-	<div class="<?php echo $className .'-category' . $displayData->pageclass_sfx;?>">
+	<div class="<?php echo $className .'-category' . $displayData->pageclass_sfx; ?>">
 		<?php if ($params->get('show_page_heading')) : ?>
 			<h1>
 				<?php echo $displayData->escape($params->get('page_heading')); ?>

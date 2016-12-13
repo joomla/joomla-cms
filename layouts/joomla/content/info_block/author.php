@@ -15,7 +15,7 @@ defined('JPATH_BASE') or die;
 	<?php $author = '<span itemprop="name">' . $author . '</span>'; ?>
 	<?php if (!empty($displayData['item']->contact_link ) && $displayData['params']->get('link_author') == true) : ?>
 		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $displayData['item']->contact_link, $author, array('itemprop' => 'url'))); ?>
-	<?php else :?>
+	<?php else : ?>
 		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 	<?php endif; ?>
 </dd>
