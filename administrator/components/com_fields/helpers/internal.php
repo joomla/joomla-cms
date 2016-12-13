@@ -21,8 +21,8 @@ class FieldsHelperInternal
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  $component  The component the fields are used for
-	 * @param   string  $vName      The view currently active
+	 * @param   string  $context  The context the fields are used for
+	 * @param   string  $vName    The view currently active
 	 *
 	 * @return  void
 	 *
