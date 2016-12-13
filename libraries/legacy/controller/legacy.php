@@ -881,8 +881,8 @@ class JControllerLegacy extends JObject
 		// Add the id to the list if non-zero.
 		if (!empty($id))
 		{
-			array_push($values, (int) $id);
-			$values = array_unique($values);
+			$values[] = (int) $id;
+			$values   = array_unique($values);
 			$app->setUserState($context . '.id', $values);
 
 			if (defined('JDEBUG') && JDEBUG)
