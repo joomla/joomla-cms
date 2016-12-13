@@ -24,6 +24,10 @@ div.calendar-container table th, .calendar-container table td {
 }
 
 div.calendar-container table td {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+div.calendar-container table body td {
 	line-height: 2em;
 }
 
@@ -34,7 +38,6 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	font-size: 1.1em;
 	background: #fff;
 	color: #000;
-	padding: 2px;
 }
 
 .calendar-container table thead td.headrow { /* Row <TR> containing navigation buttons */
@@ -44,7 +47,6 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 
 .calendar-container table thead td.name { /* Cells <TD> containing the day names */
 	border-bottom: 1px solid #fff;
-	padding: 2px;
 	text-align: center;
 	color: #000;
 }
@@ -53,19 +55,23 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	color: #999;
 }
 
-.calendar-container table thead .daynames { /* Row <TR> containing the day names */
+.calendar-container table td.daynames { /* Row <TR> containing the day names */
+	width: 14.28571429%;
+	text-align: center;
 	background: #fff;
 }
-
+.calendar-container table td.daynames.wk { /* Row <TR> containing the day names */
+	width: 12.5%;
+	text-align: center;
+	background: #fff;
+}
 /* The body part -- contains all the days in month. */
 
 .calendar-container table tbody td.day { /* Cells <TD> containing month days dates */
 	text-align: right;
-	padding: 2px 4px 2px 2px;
 }
 
 .calendar-container table tbody td.wn {
-	padding: 2px 3px 2px 2px;
 	background: #fff;
 }
 
@@ -83,12 +89,27 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	color: #ffffff;
 }
 
-.calendar-container table tbody td.day-name {
-	width: 14.28%;
+td.day-name {
+	width: 14.28571429%;
+}
+
+td.day-name.day-name-week {
+	width: 12.5%;
+}
+
+.calendar-container table thead td.day-name.wn {
+	text-align: center;
+	background-color: #f4f4f4;
 }
 
 .calendar-container table tbody td.day {
 	border: none;
+	cursor : pointer;
+}
+
+.calendar-container table tbody td.day.wn {
+	text-align: center;
+	background-color: #f4f4f4;
 }
 
 .calendar-container table tbody td.selected { /* Cell showing today date */
@@ -97,16 +118,9 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	color: #fff;
 }
 
-.calendar-container table tbody td.today:before {
+.calendar-container table tbody td.today {
 	font-weight: bold;
-	content: " ";
-	position: relative;
-	top: .25em;
-	right: -1em;
-	width: 0;
-	height: 0;
-	border-top: 0.8em solid lime;
-	border-left: .8em solid transparent;
+	border: 0.1em solid lime;
 }
 
 .calendar-container table tbody td.day:hover {
@@ -127,3 +141,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	display: none;
 }
 
+a.js-btn.btn.btn-danger.btn-exit, a.js-btn.btn.btn-primary.btn-today, a.js-btn.btn.btn-clear {
+	cursor : pointer;
+	text-decoration: none;
+}
