@@ -48,11 +48,11 @@ class PlgContentLoadmodule extends JPlugin
 		}
 
 		// Expression to search for (positions)
-		$regex = '/{loadposition\s(.*?)}/i';
+		$regex = '/<p>\s{loadposition\s(.*?)}\s<\/p>|{loadposition\s(.*?)}/i';
 		$style = $this->params->def('style', 'none');
 
 		// Expression to search for(modules)
-		$regexmod = '/{loadmodule\s(.*?)}/i';
+		$regexmod = '/<p>\s{loadmodule\s(.*?)}\s<\/p>|{loadmodule\s(.*?)}/i';
 		$stylemod = $this->params->def('style', 'none');
 
 		// Find all instances of plugin and put in $matches for loadposition
