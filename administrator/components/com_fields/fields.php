@@ -8,23 +8,22 @@
  */
 defined('_JEXEC') or die;
 
+JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
 $app       = JFactory::getApplication();
-$context   = $app->getUserStateFromRequest('com_fields.groups.context', 'context', '', 'CMD');
-$component = '';
+$context   = $app->getUserStateFromRequest(
+	'com_fields.groups.context',
+	'context',
+	$app->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD'),
+	'CMD'
+);
 
-if (!$context)
-{
-	$parts     = explode('.', $app->getUserStateFromRequest('com_fields.fields.context', 'context', '', 'CMD'), 2);
-	$component = $parts[0];
-}
+$parts = FieldsHelper::extract($context);
 
-if (!JFactory::getUser()->authorise('core.manage', $component))
+if (!$parts || !JFactory::getUser()->authorise('core.manage', $parts[0]))
 {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
-
-JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
-JLoader::register('FieldsHelperInternal', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/internal.php');
 
 $controller = JControllerLegacy::getInstance('Fields');
 $controller->execute($app->input->get('task'));

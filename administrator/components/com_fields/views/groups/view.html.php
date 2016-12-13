@@ -204,7 +204,7 @@ class FieldsViewGroups extends JViewLegacy
 			'a.title'     => JText::_('JGLOBAL_TITLE'),
 			'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
 			'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.context' => JText::_('JGRID_HEADING_context'),
+			'a.context'   => JText::_('JGRID_HEADING_CONTEXT'),
 			'a.id'        => JText::_('JGRID_HEADING_ID'),
 		);
 	}
