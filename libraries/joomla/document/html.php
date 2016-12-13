@@ -97,6 +97,8 @@ class JDocumentHtml extends JDocument
 	 *
 	 * @var    boolean
 	 * @since  12.1
+	 *
+	 * @note  4.0  Will be replaced by $html5 and the default value will be true.
 	 */
 	private $_html5 = null;
 
@@ -219,7 +221,7 @@ class JDocumentHtml extends JDocument
 		}
 
 		$this->_links = (isset($data['links']) && !empty($data['links']) && is_array($data['links']))
-			? array_unique(array_merge($this->_links, $data['links']))
+			? array_unique(array_merge($this->_links, $data['links']), SORT_REGULAR)
 			: $this->_links;
 		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets']))
 			? array_merge($this->_styleSheets, $data['styleSheets'])

@@ -33,21 +33,41 @@ class InstallerModelWarnings extends JModelList
 	 */
 	public function return_bytes($val)
 	{
-		$val = trim($val);
-		$last = strtolower($val{strlen($val) - 1});
-
-		switch ($last)
+		if (empty($val))
 		{
-			// The 'G' modifier is available since PHP 5.1.0
+			return 0;
+		}
+
+		$val = trim($val);
+
+		preg_match('#([0-9]+)[\s]*([a-z]+)#i', $val, $matches);
+
+		$last = '';
+
+		if (isset($matches[2]))
+		{
+			$last = $matches[2];
+		}
+
+		if (isset($matches[1]))
+		{
+			$val = (int) $matches[1];
+		}
+
+		switch (strtolower($last))
+		{
 			case 'g':
+			case 'gb':
 				$val *= 1024;
 			case 'm':
+			case 'mb':
 				$val *= 1024;
 			case 'k':
+			case 'kb':
 				$val *= 1024;
 		}
 
-		return $val;
+		return (int) $val;
 	}
 
 	/**

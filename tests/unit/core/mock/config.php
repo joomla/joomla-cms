@@ -31,17 +31,13 @@ class TestMockConfig
 			'set'
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JConfig',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JConfig')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		return $mockObject;
 	}

@@ -238,6 +238,6 @@ class JObject
 	 */
 	public function setError($error)
 	{
-		array_push($this->_errors, $error);
+		$this->_errors[] = $error;
 	}
 }

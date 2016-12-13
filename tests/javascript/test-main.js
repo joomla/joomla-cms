@@ -24,7 +24,9 @@ require.config({
 		'jasmineJquery': 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery',
 		'libs': 'media/system/js',
 		'testsRoot': 'tests/javascript',
-		'text': 'tests/javascript/node_modules/text/text'
+		'text': 'tests/javascript/node_modules/text/text',
+		'calLang': 'media/system/js/fields/calendar-locales/en',
+		'calDate': 'media/system/js/fields/calendar-locales/date/gregorian/date-helper'
 	},
 
 	shim: {
@@ -45,6 +47,9 @@ require.config({
 		},
 		'libs/combobox': {
 			deps: ['jquery']
+		},
+		'libs/fields/calendar-vanilla': {
+			deps: ['calLang', 'calDate']
 		}
 	},
 
