@@ -17,8 +17,8 @@ JHtml::_('bootstrap.tooltip');
 $input = JFactory::getApplication()->input;
 if ($this->type == 'image')
 {
-	JHtml::_('script', 'system/jquery.Jcrop.min.js', false, true);
-	JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
+	JHtml::_('script', 'system/jquery.Jcrop.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array('version' => 'auto', 'relative' => true));
 }
 JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($){
@@ -56,7 +56,7 @@ jQuery(document).ready(function($){
 		$(this).addClass('selected');
 	});
 });");
-if($this->type == 'image')
+if ($this->type == 'image')
 {
 	JFactory::getDocument()->addScriptDeclaration("
 		jQuery(document).ready(function() {
@@ -113,7 +113,7 @@ JFactory::getDocument()->addStyleDeclaration("
 		overflow-x: auto;
 	}
 ");
-if($this->type == 'font')
+if ($this->type == 'font')
 {
 	JFactory::getDocument()->addStyleDeclaration(
 			"/* Styles for font preview */
@@ -217,7 +217,10 @@ if($this->type == 'font')
 						<fieldset>
 							<input type="hidden" class="address" name="address" />
 							<input type="file" name="files" required />
-							<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" />
+							<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" /><br>
+							<?php $cMax    = $this->state->get('params')->get('upload_limit'); ?>
+							<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize($cMax . 'MB')); ?>
+							<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 						</fieldset>
 					</form>
 					<br />
@@ -279,7 +282,7 @@ if($this->type == 'font')
 		</form>
 	<?php endif; ?>
 
-	<?php if($this->type == 'home'): ?>
+	<?php if ($this->type == 'home'): ?>
 		<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 			<input type="hidden" name="task" value="" />
 			<?php echo JHtml::_('form.token'); ?>
@@ -294,7 +297,7 @@ if($this->type == 'font')
 			</div>
 		</form>
 	<?php endif; ?>
-	<?php if($this->type == 'file'): ?>
+	<?php if ($this->type == 'file'): ?>
 		<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('COM_TEMPLATES_SOURCE_CODE');?></legend>
@@ -312,7 +315,7 @@ if($this->type == 'font')
 			</fieldset>
 		</form>
 	<?php endif; ?>
-	<?php if($this->type == 'image'): ?>
+	<?php if ($this->type == 'image'): ?>
 		<div id="image-box"><img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" /></div>
 		<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 			<input type ="hidden" id="x" name="x" />
@@ -323,7 +326,7 @@ if($this->type == 'font')
 			<?php echo JHtml::_('form.token'); ?>
 		</form>
 	<?php endif; ?>
-	<?php if($this->type == 'archive'): ?>
+	<?php if ($this->type == 'archive'): ?>
 		<legend><?php echo JText::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
 		<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 			<fieldset>
@@ -345,7 +348,7 @@ if($this->type == 'font')
 
 		</form>
 	<?php endif; ?>
-	<?php if($this->type == 'font'): ?>
+	<?php if ($this->type == 'font'): ?>
 		<div class="font-preview">
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 				<fieldset class="adminform">
@@ -412,16 +415,16 @@ if($this->type == 'font')
 
 <div class="width-40 fltrt">
 
-	<?php if($this->type != 'home'): ?>
+	<?php if ($this->type != 'home'): ?>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_TEMPLATES_FILE_INFO');?></legend>
-			<?php if($this->type == 'file'): ?>
+			<?php if ($this->type == 'file'): ?>
 				<p><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
 			<?php endif; ?>
-			<?php if($this->type == 'image'): ?>
+			<?php if ($this->type == 'image'): ?>
 				<p><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
 			<?php endif; ?>
-			<?php if($this->type == 'font'): ?>
+			<?php if ($this->type == 'font'): ?>
 				<p><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
 			<?php endif; ?>
 		</fieldset>
@@ -459,7 +462,7 @@ if($this->type == 'font')
 	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_MODULES'), 'override-module'); ?>
 	<fieldset class="panelform">
 		<ul class="adminformlist">
-			<?php foreach($this->overridesList['modules'] as $module): ?>
+			<?php foreach ($this->overridesList['modules'] as $module): ?>
 				<li>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 						<span class="icon-copy"></span>&nbsp;<?php echo $module->name; ?>
@@ -492,7 +495,7 @@ if($this->type == 'font')
 	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'), 'override-layout'); ?>
 	<fieldset class="panelform">
 		<ul class="adminformlist">
-			<?php foreach($this->overridesList['layouts'] as $layout): ?>
+			<?php foreach ($this->overridesList['layouts'] as $layout): ?>
 				<li>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 						<span class="icon-copy"></span>&nbsp;<?php echo $layout->name; ?>

@@ -21,7 +21,9 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MENU" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset name="basic"
+				addfieldpath="/administrator/components/com_menus/models/fields"
+			>
 				<field
 					name="menutype"
 					type="menu"
@@ -31,9 +33,13 @@
 
 				<field
 					name="base"
-					type="menuitem"
+					type="modal_menu"
 					label="MOD_MENU_FIELD_ACTIVE_LABEL"
 					description="MOD_MENU_FIELD_ACTIVE_DESC"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
 					>
 					<option value="">JCURRENT</option>
 				</field>

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * HTML View class for the search component
@@ -48,8 +49,7 @@ class SearchViewSearch extends JViewLegacy
 		// Because the application sets a default page title, we need to get it right from the menu item itself
 		if (is_object($menu))
 		{
-			$menu_params = new Registry;
-			$menu_params->loadString($menu->params);
+			$menu_params = new Registry($menu->params);
 
 			if (!$menu_params->get('page_title'))
 			{
@@ -177,8 +177,8 @@ class SearchViewSearch extends JViewLegacy
 				{
 					// E.g. german umlauts like ä are converted to ae and so
 					// $pos calculated with $srow desn't match for $row
-					$correctPos     = (JString::strlen($srow) > JString::strlen($row));
-					$highlighterLen = JString::strlen($hl1 . $hl2);
+					$correctPos     = (StringHelper::strlen($srow) > StringHelper::strlen($row));
+					$highlighterLen = StringHelper::strlen($hl1 . $hl2);
 				}
 
 				foreach ($searchwords as $hlword)
@@ -209,7 +209,7 @@ class SearchViewSearch extends JViewLegacy
 					}
 					else
 					{
-						if (($pos = JString::strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
+						if (($pos = StringHelper::strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 						{
 							// Iconv transliterates '€' to 'EUR'
 							// TODO: add other expanding translations?
@@ -219,9 +219,9 @@ class SearchViewSearch extends JViewLegacy
 							if ($correctPos)
 							{
 								// Calculate necessary corrections from 0 to current $pos
-								$ChkRow     = JString::substr($row, 0, $pos);
-								$sChkRowLen = JString::strlen(strtolower(SearchHelper::remove_accents($ChkRow)));
-								$ChkRowLen  = JString::strlen($ChkRow);
+								$ChkRow     = StringHelper::substr($row, 0, $pos);
+								$sChkRowLen = StringHelper::strlen(strtolower(SearchHelper::remove_accents($ChkRow)));
+								$ChkRowLen  = StringHelper::strlen($ChkRow);
 
 								// Correct $pos
 								$pos -= ($sChkRowLen - $ChkRowLen);
@@ -260,9 +260,9 @@ class SearchViewSearch extends JViewLegacy
 							}
 							else
 							{
-								$hlwordLen = JString::strlen($hlword);
-								$row = JString::substr($row, 0, $pos) . $hl1 . JString::substr($row, $pos, JString::strlen($hlword))
-									. $hl2 . JString::substr($row, $pos + JString::strlen($hlword));
+								$hlwordLen = StringHelper::strlen($hlword);
+								$row = StringHelper::substr($row, 0, $pos) . $hl1 . StringHelper::substr($row, $pos, StringHelper::strlen($hlword))
+									. $hl2 . StringHelper::substr($row, $pos + StringHelper::strlen($hlword));
 							}
 
 							$cnt++;

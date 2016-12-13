@@ -177,15 +177,13 @@ class CategoriesControllerCategory extends JControllerForm
 
 		if (isset($item->params) && is_array($item->params))
 		{
-			$registry = new Registry;
-			$registry->loadArray($item->params);
+			$registry = new Registry($item->params);
 			$item->params = (string) $registry;
 		}
 
 		if (isset($item->metadata) && is_array($item->metadata))
 		{
-			$registry = new Registry;
-			$registry->loadArray($item->metadata);
+			$registry = new Registry($item->metadata);
 			$item->metadata = (string) $registry;
 		}
 	}

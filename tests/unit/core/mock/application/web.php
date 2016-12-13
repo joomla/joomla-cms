@@ -161,17 +161,12 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 		// Collect all the relevant methods in JApplicationWeb (work in progress).
 		$methods = self::getMethods();
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JApplicationWeb',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			true
-		);
+		// Build the mock object & allow call to original constructor.
+		$mockObject = $test->getMockBuilder('JApplicationWeb')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->getMock();
 
 		$mockObject = self::addBehaviours($test, $mockObject, $options);
 
@@ -189,7 +184,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	 */
 	public static function mockAppendBody($content)
 	{
-		array_push(static::$body, (string) $content);
+		static::$body[] = (string) $content;
 	}
 
 	/**
