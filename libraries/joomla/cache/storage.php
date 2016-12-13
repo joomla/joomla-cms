@@ -158,7 +158,7 @@ class JCacheStorage
 				throw new JCacheExceptionUnsupported(sprintf('Unable to load Cache Storage: %s', $handler));
 			}
 
-			include_once $path;
+			JLoader::register($class, $path);
 
 			// The class should now be loaded
 			if (!class_exists($class))
@@ -258,7 +258,7 @@ class JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function flush()
 	{

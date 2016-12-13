@@ -1938,6 +1938,12 @@ table th[class*="span"],
 .table-hover tbody tr.info:hover > td {
 	background-color: #c4e3f3;
 }
+.table-noheader {
+	border-collapse: collapse;
+}
+.table-noheader thead {
+	display: none;
+}
 .dropup,
 .dropdown {
 	position: relative;
@@ -6079,18 +6085,6 @@ fieldset.radio.btn-group {
 	margin: 2px 0px 10px 0px;
 	padding-bottom: 5px;
 }
-.input-prepend .chzn-container-single .chzn-single,
-.input-append .chzn-container-single .chzn-single {
-	border-color: #ccc;
-	height: 26px;
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
-.input-prepend .chzn-container-single .chzn-drop,
-.input-append .chzn-container-single .chzn-drop {
-	border-color: #ccc;
-}
 .input-prepend > .add-on,
 .input-append > .add-on {
 	vertical-align: top;
@@ -7131,8 +7125,14 @@ body.site.fluid {
 }
 .site-title {
 	font-size: 40px;
+	font-size: calc(16px + 2.16vw);
 	line-height: 48px;
 	font-weight: bold;
+}
+@media (min-width: 1024px) {
+	.site-title {
+		font-size: 40px;
+	}
 }
 .brand {
 	color: #001a27;
@@ -7566,6 +7566,12 @@ figcaption {
 		height: 0;
 		z-index: 100;
 	}
+	.nav-collapse .nav > li.active > a {
+		color: #fff;
+	}
+	.nav-collapse .nav > li.active > a:hover {
+		color: #555;
+	}
 }
 @media (min-width: 768px) and (max-width: 979px) {
 	#login-form .input-small {
@@ -7672,4 +7678,13 @@ body.modal-open {
 }
 li {
 	word-wrap: break-word;
+}
+ul.manager .height-50 .icon-folder-2 {
+	height: 35px;
+	width: 35px;
+	line-height: 35px;
+	font-size: 30px;
+}
+.popover-content {
+	min-height: 33px;
 }

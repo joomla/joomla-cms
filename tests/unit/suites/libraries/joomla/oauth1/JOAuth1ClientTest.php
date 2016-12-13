@@ -94,7 +94,7 @@ class JOAuth1ClientTest extends TestCase
 		$my_url = "TEST_URL";
 
 		$this->options = new Registry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->input = new JInput(array());
 		$this->application = $this->getMockWeb();
 
@@ -205,7 +205,7 @@ class JOAuth1ClientTest extends TestCase
 			TestReflection::setValue($input, 'data', $data);
 
 			// Get mock session
-			$mockSession = $this->getMock('JSession', array( '_start', 'get'));
+			$mockSession = $this->getMockBuilder('JSession')->setMethods(array( '_start', 'get'))->getMock();
 
 			if ($fail)
 			{
