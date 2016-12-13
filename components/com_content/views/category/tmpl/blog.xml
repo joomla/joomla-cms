@@ -291,6 +291,7 @@
 					<option value="created">JGLOBAL_CREATED</option>
 					<option value="modified">JGLOBAL_MODIFIED</option>
 					<option value="published">JPUBLISHED</option>
+					<option value="published">JUNPUBLISHED</option>					
 				</field>
 
 				<field
