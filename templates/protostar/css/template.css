@@ -7125,8 +7125,14 @@ body.site.fluid {
 }
 .site-title {
 	font-size: 40px;
+	font-size: calc(16px + 2.16vw);
 	line-height: 48px;
 	font-weight: bold;
+}
+@media (min-width: 1024px) {
+	.site-title {
+		font-size: 40px;
+	}
 }
 .brand {
 	color: #001a27;
