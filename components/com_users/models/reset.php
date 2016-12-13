@@ -498,7 +498,7 @@ class UsersModelReset extends JModelForm
 		$resetHours = (int) $params->get('reset_time');
 		$result = true;
 
-		$lastResetTime = strtotime($user->lastResetTime) ? strtotime($user->lastResetTime) : 0;
+		$lastResetTime = strtotime($user->lastResetTime) ?: 0;
 		$hoursSinceLastReset = (strtotime(JFactory::getDate()->toSql()) - $lastResetTime) / 3600;
 
 		if ($hoursSinceLastReset > $resetHours)

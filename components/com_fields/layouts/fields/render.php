@@ -41,7 +41,7 @@ if (key_exists('fields', $displayData))
 }
 else
 {
-	$fields = $item->fields ? $item->fields : FieldsHelper::getFields($context, $item, true);
+	$fields = $item->fields ?: FieldsHelper::getFields($context, $item, true);
 }
 
 if (!$fields)
