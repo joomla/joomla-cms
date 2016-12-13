@@ -39,15 +39,6 @@
     font-size: 1.1rem;
     line-height: $header-height;
     color: $white-offset;
-    // span {
-    //   width: 30px;
-    //   height: 23px;
-    //   font-size: 1.1rem;
-    //   line-height: 23px;
-    //   color: $white-offset;
-    //   background-color: #424362;
-    //   border-radius: 2px;
-    // }
     &:hover,
     &:focus {
       color: darken($white-offset, 6%);
@@ -95,10 +86,6 @@
     }
   }
 
-  .nav-item:last-child .nav-link {
-    // border-right: 1px solid rgba(0, 0, 0, .125);
-  }
-
   .dropdown-notifications {
     min-width: 280px;
     padding: 0;
@@ -143,7 +130,6 @@
   padding-bottom: 12px;
   overflow: hidden;
   border-bottom: 1px solid $atum-border-color;
-  // box-shadow: $atum-box-shadow;
   .page-title {
     margin-bottom: 0;
     font-size: 1.75rem;
