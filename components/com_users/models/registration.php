@@ -256,8 +256,7 @@ class UsersModelRegistration extends JModelForm
 			$this->data->groups[] = $system;
 
 			// Unset the passwords.
-			unset($this->data->password1);
-			unset($this->data->password2);
+			unset($this->data->password1, $this->data->password2);
 
 			// Get the dispatcher and load the users plugins.
 			$dispatcher = JEventDispatcher::getInstance();
