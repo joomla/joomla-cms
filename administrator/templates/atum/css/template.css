@@ -7803,12 +7803,8 @@ legend {
     font-size: 1.75rem;
     font-weight: normal; }
     .container-title .page-title span {
-      position: absolute;
-      top: 42px;
-      left: -20px;
-      font-size: 8rem;
-      opacity: .075;
-      transform: rotate(-17deg); }
+      margin-right: 10px;
+      color: #5a5d86; }
 
 .menu-collapse {
   position: absolute;

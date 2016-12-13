@@ -135,12 +135,8 @@
     font-size: 1.75rem;
     font-weight: normal;
     span {
-      position: absolute;
-      top: 42px;
-      left: -20px;
-      font-size: 8rem;
-      opacity: .075;
-      transform: rotate(-17deg);
+      margin-right: 10px;
+      color: lighten($atum-template-color, 25%);
     }
   }
 }
