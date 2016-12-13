@@ -7767,8 +7767,8 @@ legend {
       border-radius: 2px; }
     .header .nav-link .tag {
       position: absolute;
-      top: 4px;
-      right: -1px; }
+      top: 2px;
+      right: -5px; }
     .header .nav-link.dropdown-toggle::after {
       display: none; }
   .header .dropdown-notifications {
