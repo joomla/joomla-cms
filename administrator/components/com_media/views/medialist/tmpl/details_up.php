@@ -13,6 +13,9 @@ $user = JFactory::getUser();
 ?>
 <?php if ($this->state->folder != '') : ?>
 <tr>
+	<?php if ($this->canDelete):?>
+		<td>&#160;</td>
+	<?php endif;?>
 	<td class="imgTotal">
 		<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->parent; ?>" target="folderframe">
 			<span class="icon-arrow-up"></span></a>

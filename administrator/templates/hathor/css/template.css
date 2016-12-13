@@ -1667,7 +1667,7 @@ p.tab-description {
 	float: left;
 }
 #form-login {
-	float: right;
+	float: left;
 	padding: 1.1em;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -3593,6 +3593,7 @@ div#database-sliders {
 fieldset.uploadform {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	min-height: 200px;
 }
 #installer-database,
 #installer-discover,
@@ -3936,4 +3937,7 @@ div.toggle-editor {
 }
 .muted {
 	color: #999;
+}
+.popover-content {
+	min-height: 33px;
 }

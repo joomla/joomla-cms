@@ -17,6 +17,22 @@ defined('JPATH_PLATFORM') or die;
 class JInstallerAdapterPackage extends JInstallerAdapter
 {
 	/**
+	 * Flag if the internal event callback has been registered
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private static $eventRegistered = false;
+
+	/**
+	 * An array of extension IDs for each installed extension
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $installedIds = array();
+
+	/**
 	 * The results of each installed extensions
 	 *
 	 * @var    array
@@ -107,6 +123,13 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			);
 		}
 
+		// Add a callback for the `onExtensionAfterInstall` event so we can receive the installed extension ID
+		if (!self::$eventRegistered)
+		{
+			self::$eventRegistered = true;
+			JEventDispatcher::getInstance()->register('onExtensionAfterInstall', array($this, 'onExtensionAfterInstall'));
+		}
+
 		foreach ($this->getManifest()->files->children() as $child)
 		{
 			$file = $source . '/' . (string) $child;
@@ -125,7 +148,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			}
 
 			$tmpInstaller  = new JInstaller;
-			$installResult = $tmpInstaller->{$this->route}($package['dir']);
+			$installResult = $tmpInstaller->install($package['dir']);
 
 			if (!$installResult)
 			{
@@ -139,7 +162,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			}
 
 			$this->results[] = array(
-				'name' => (string) $tmpInstaller->manifest->name,
+				'name'   => (string) $tmpInstaller->manifest->name,
 				'result' => $installResult,
 			);
 		}
@@ -184,6 +207,25 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		if ($uid)
 		{
 			$update->delete($uid);
+		}
+
+		// Set the package ID for each of the installed extensions to track the relationship
+		if (!empty($this->installedIds))
+		{
+			$db = $this->db;
+			$query = $db->getQuery(true)
+				->update('#__extensions')
+				->set($db->quoteName('package_id') . ' = ' . (int) $this->extension->extension_id)
+				->where($db->quoteName('extension_id') . ' IN (' . implode(', ', $this->installedIds) . ')');
+
+			try
+			{
+				$db->setQuery($query)->execute();
+			}
+			catch (JDatabaseExceptionExecuting $e)
+			{
+				JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), JLog::WARNING, 'jerror');
+			}
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
@@ -282,6 +324,24 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	public function loadLanguage($path)
 	{
 		$this->doLoadLanguage($this->getElement(), $path);
+	}
+
+	/**
+	 * Handler for the `onExtensionAfterInstall` event
+	 *
+	 * @param   JInstaller       $installer  JInstaller instance managing the extension's installation
+	 * @param   integer|boolean  $eid        The extension ID of the installed extension on success, boolean false on install failure
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onExtensionAfterInstall(JInstaller $installer, $eid)
+	{
+		if ($eid !== false)
+		{
+			$this->installedIds[] = $eid;
+		}
 	}
 
 	/**
@@ -483,6 +543,17 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			return false;
 		}
 
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
 		$manifestFile = JPATH_MANIFESTS . '/packages/' . $row->get('element') . '.xml';
 		$manifest = new JInstallerManifestPackage($manifestFile);
 
@@ -523,14 +594,10 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		{
 			$manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
 
-			if (is_file($manifestScriptFile))
-			{
-				// Load the file
-				include_once $manifestScriptFile;
-			}
-
 			// Set the class name
 			$classname = $row->element . 'InstallerScript';
+
+			JLoader::register($classname, $manifestScriptFile);
 
 			if (class_exists($classname))
 			{
@@ -564,6 +631,8 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		foreach ($manifest->filelist as $extension)
 		{
 			$tmpInstaller = new JInstaller;
+			$tmpInstaller->setPackageUninstall(true);
+
 			$id = $this->_getExtensionId($extension->type, $extension->id, $extension->client, $extension->group);
 			$client = JApplicationHelper::getClientInfo($extension->client, true);
 

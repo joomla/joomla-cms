@@ -40,7 +40,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 				<?php endif;?>
 			</h3>
 			<?php else : ?>
-			<h3 class="page-header item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id));?>">
+			<h3 class="page-header item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
 				<?php echo $this->escape($child->title); ?></a>
 				<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
 					<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTENT_NUM_ITEMS_TIP'); ?>">
@@ -53,7 +53,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 					<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
 				<?php endif;?>
 			</h3>
-			<?php endif;?>
+			<?php endif; ?>
 
 			<?php if ($this->params->get('show_subcat_desc') == 1) : ?>
 			<?php if ($child->description) : ?>

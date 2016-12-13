@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams" label="JLIB_FORM_FIELD_PARAM_BASIC_LABEL">
+		<fieldset name="fieldparams">
+			<field
+				name="directory"
+				type="text"
+				default=""
+				class="input-xxlarge"
+				label="JLIB_FORM_FIELD_PARAM_IMAGELIST_DIRECTORY_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_IMAGELIST_DIRECTORY_DESC"
+			/>
+
+			<field
+				name="preview"
+				type="list"
+				class="btn-group"
+				default="tooltip"
+				label="JLIB_FORM_FIELD_PARAM_MEDIA_PREVIEW_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_MEDIA_PREVIEW_DESC"
+			>
+				<option value="tooltip">JLIB_FORM_FIELD_PARAM_MEDIA_PREVIEW_TOOLTIP</option>
+				<option value="true">JLIB_FORM_FIELD_PARAM_MEDIA_PREVIEW_INLINE</option>
+				<option value="false">JNO</option>
+			</field>
+
+			<field
+				name="home"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JLIB_FORM_FIELD_PARAM_MEDIA_HOME_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_MEDIA_HOME_DESC"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="image_class"
+				type="textarea"
+				label="JLIB_FORM_FIELD_PARAM_MEDIA_IMAGE_CLASS_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_MEDIA_IMAGE_CLASS_DESC"
+				class="input-xxlarge"
+				size="40"
+			/>
+		</fieldset>
+	</fields>
+</form>

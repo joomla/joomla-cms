@@ -170,15 +170,12 @@ class ContentModelArticle extends JModelItem
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new Registry;
-				$registry->loadString($data->attribs);
+				$registry = new Registry($data->attribs);
 
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new Registry;
-				$registry->loadString($data->metadata);
-				$data->metadata = $registry;
+				$data->metadata = new Registry($data->metadata);
 
 				// Technically guest could edit an article, but lets not check that to improve performance a little.
 				if (!$user->get('guest'))

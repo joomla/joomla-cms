@@ -59,7 +59,7 @@ abstract class JSubMenuHelper
 	public static function addEntry($name, $link = '', $active = false)
 	{
 		JLog::add('JSubMenuHelper::addEntry() is deprecated. Use JHtmlSidebar::addEntry() instead.', JLog::WARNING, 'deprecated');
-		array_push(self::$entries, array($name, $link, $active));
+		self::$entries[] = array($name, $link, $active);
 	}
 
 	/**
@@ -93,7 +93,7 @@ abstract class JSubMenuHelper
 	public static function addFilter($label, $name, $options, $noDefault = false)
 	{
 		JLog::add('JSubMenuHelper::addFilter() is deprecated. Use JHtmlSidebar::addFilter() instead.', JLog::WARNING, 'deprecated');
-		array_push(self::$filters, array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault));
+		self::$filters[] = array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault);
 	}
 
 	/**

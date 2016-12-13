@@ -49,7 +49,7 @@ class JMediawikiUsersTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JMediawikiHttp', array('get', 'post', 'delete', 'patch', 'put'));
+		$this->client = $this->getMockBuilder('JMediawikiHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
 
 		$this->object = new JMediawikiUsers($this->options, $this->client);
 	}

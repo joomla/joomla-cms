@@ -304,6 +304,17 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			return false;
 		}
 
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
 		$retval = true;
 		$manifestFile = JPATH_MANIFESTS . '/files/' . $row->element . '.xml';
 
@@ -341,14 +352,10 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			{
 				$manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
 
-				if (is_file($manifestScriptFile))
-				{
-					// Load the file
-					include_once $manifestScriptFile;
-				}
-
 				// Set the class name
 				$classname = $row->element . 'InstallerScript';
+
+				JLoader::register($classname, $manifestScriptFile);
 
 				if (class_exists($classname))
 				{
@@ -553,7 +560,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 				// Check if folder exists, if not then add to the array for folder creation
 				if (!JFolder::exists($folderName))
 				{
-					array_push($this->folderList, $folderName);
+					$this->folderList[] = $folderName;
 				}
 			}
 
@@ -584,12 +591,12 @@ class JInstallerAdapterFile extends JInstallerAdapter
 
 					if ($eFileName->getName() == 'folder')
 					{
-						$folderName = $targetFolder . '/' . $eFileName;
-						array_push($this->folderList, $folderName);
-						$path['type'] = 'folder';
+						$folderName         = $targetFolder . '/' . $eFileName;
+						$this->folderList[] = $folderName;
+						$path['type']       = 'folder';
 					}
 
-					array_push($this->fileList, $path);
+					$this->fileList[] = $path;
 				}
 			}
 			else
@@ -601,7 +608,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 					$path['src'] = $sourceFolder . '/' . $file;
 					$path['dest'] = $targetFolder . '/' . $file;
 
-					array_push($this->fileList, $path);
+					$this->fileList[] = $path;
 				}
 			}
 		}

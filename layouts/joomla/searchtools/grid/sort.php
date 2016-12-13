@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 $data = $displayData;
 
-$title = htmlspecialchars(JText::_($data->tip ? $data->tip : $data->title));
+$title = htmlspecialchars(JText::_($data->tip ?: $data->title));
 JHtml::_('bootstrap.popover');
 ?>
 <a href="#" onclick="return false;" class="js-stools-column-order hasPopover"

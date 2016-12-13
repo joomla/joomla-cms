@@ -9,7 +9,7 @@ SELECT 1, 0, 1, 85, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1}
 UNION ALL
 SELECT 2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'
 UNION ALL
-SELECT 3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
 SELECT 4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'
 UNION ALL
@@ -17,15 +17,15 @@ SELECT 5, 1, 9, 10, 1, 'com_checkin', 'com_checkin', '{"core.admin":{"7":1},"cor
 UNION ALL
 SELECT 6, 1, 11, 12, 1, 'com_config', 'com_config', '{}'
 UNION ALL
-SELECT 7, 1, 13, 16, 1, 'com_contact', 'com_contact', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 7, 1, 13, 16, 1, 'com_contact', 'com_contact', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 8, 1, 17, 34, 1, 'com_content', 'com_content', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'
+SELECT 8, 1, 17, 34, 1, 'com_content', 'com_content', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.edit":{"4":1},"core.edit.state":{"5":1}}'
 UNION ALL
 SELECT 9, 1, 35, 36, 1, 'com_cpanel', 'com_cpanel', '{}'
 UNION ALL
-SELECT 10, 1, 37, 38, 1, 'com_installer', 'com_installer', '{"core.admin":[],"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'
+SELECT 10, 1, 37, 38, 1, 'com_installer', 'com_installer', '{"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'
 UNION ALL
-SELECT 11, 1, 39, 40, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 11, 1, 39, 40, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1}}'
 UNION ALL
 SELECT 12, 1, 41, 42, 1, 'com_login', 'com_login', '{}'
 UNION ALL
@@ -35,23 +35,23 @@ SELECT 14, 1, 45, 46, 1, 'com_massmail', 'com_massmail', '{}'
 UNION ALL
 SELECT 15, 1, 47, 48, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'
 UNION ALL
-SELECT 16, 1, 49, 50, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 16, 1, 49, 50, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'
 UNION ALL
 SELECT 17, 1, 51, 52, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'
 UNION ALL
-SELECT 18, 1, 53, 54, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 18, 1, 53, 54, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 19, 1, 55, 58, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 19, 1, 55, 58, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 20, 1, 59, 60, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1},"core.manage":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 20, 1, 59, 60, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 21, 1, 61, 62, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1},"core.manage":[]}'
+SELECT 21, 1, 61, 62, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'
 UNION ALL
 SELECT 22, 1, 63, 64, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 23, 1, 65, 66, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 23, 1, 65, 66, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 24, 1, 67, 70, 1, 'com_users', 'com_users', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":{"6":1}}'
+SELECT 24, 1, 67, 70, 1, 'com_users', 'com_users', '{"core.admin":{"7":1},"core.edit.own":{"6":1}}'
 UNION ALL
 SELECT 26, 1, 75, 76, 1, 'com_wrapper', 'com_wrapper', '{}'
 UNION ALL
@@ -63,7 +63,7 @@ SELECT 29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncaterised', '{}'
 UNION ALL
 SELECT 30, 19, 56, 57, 2, 'com_newsfeeds.category.5', 'Uncaterised', '{}'
 UNION ALL
-SELECT 32, 24, 68, 69, 1, 'com_users.notes.category.7', 'Uncaterised', '{}'
+SELECT 32, 24, 68, 69, 2, 'com_users.category.7', 'Uncaterised', '{}'
 UNION ALL
 SELECT 33, 1, 77, 78, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
@@ -108,7 +108,7 @@ SELECT 5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'un
 UNION ALL
 SELECT 7, 32, 1, 11, 12, 1, 'uncategorised', 'com_users.notes', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '1900-01-01 00:00:00', 0, '*'
 UNION ALL
-SELECT 8, 36, 1, 13, 14, 1, 'news', 'com_content', 'News', 'news', '', '<p>This is the latest new from us.</p><p>You can edit this description in the Content Category Manager.</p><p>This will show the most recent article. You can easily change it to show more if you wish.</p><p>The module on the left shows a list of older articles.</p>', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2012-01-04 03:09:08', 42, '2012-01-04 04:32:05', 0, '*';
+SELECT 8, 36, 1, 13, 14, 1, 'news', 'com_content', 'News', 'news', '', '<p>This is the latest news from us.</p><p>You can edit this description in the Content Category Manager.</p><p>This will show the most recent article. You can easily change it to show more if you wish.</p><p>The module on the left shows a list of older articles.</p>', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2012-01-04 03:09:08', 42, '2012-01-04 04:32:05', 0, '*';
 
 SET IDENTITY_INSERT [#__categories] OFF;
 
@@ -321,14 +321,12 @@ TRUNCATE TABLE [#__template_styles];
 SET IDENTITY_INSERT [#__template_styles] ON;
 
 INSERT INTO [#__template_styles] ([id], [template], [client_id], [home], [title], [params])
-SELECT 2, 'bluestork', 1, 1, 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}'
-UNION ALL
-SELECT 3, 'atomic', 0, 0, 'Atomic - Default', '{}'
-UNION ALL
-SELECT 4, 'beez3', 0, 0, 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","lo":"images/joomla_black.png","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'
+SELECT 4, 'beez3', 0, 0, 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.png","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'
 UNION ALL
 SELECT 5, 'hathor', 1, 0, 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'
 UNION ALL
-SELECT 6, 'beez5', 0, 1, 'Your Basic Template', '{"wrapperSmall":53,"wrapperLarge":72,"lo":"","sitetitle":"Your site name or image","sitedescription":"Your tag line for the top of every page","navposition":"left","html5":1}';
+SELECT 7, 'protostar', 0, '1', 'My Default Style (Protostar)', '{"templateColor":"#696969","templateBackgroundColor":"#E3E3E3","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'
+UNION ALL
+SELECT 8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"#000000","logoFile":"","admin_menus":1,"displayHeader":1,"statusFixed":1,"stickyToolbar":1}';
 
 SET IDENTITY_INSERT [#__template_styles] OFF;
