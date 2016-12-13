@@ -91,7 +91,7 @@ class FinderIndexerToken
 	 * The container for matches.
 	 *
 	 * @var    array
-	 * @since  3.x
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $matches = array();
 
@@ -99,7 +99,7 @@ class FinderIndexerToken
 	 * Is derived token (from individual words)
 	 *
 	 * @var    boolean
-	 * @since  3.x
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $derived;
 
@@ -107,7 +107,7 @@ class FinderIndexerToken
 	 * The suggested term
 	 *
 	 * @var    string
-	 * @since  3.x
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $suggestion;
 

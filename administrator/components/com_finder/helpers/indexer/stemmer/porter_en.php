@@ -116,6 +116,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				{
 					// Double consonant ending
 					$wordSubStr=substr($word, -2);
+
 					if ($wordSubStr !== 'll' && $wordSubStr !== 'ss' && $wordSubStr !== 'zz' && self::doubleConsonant($word))
 					{
 						$word = substr($word, 0, -1);
@@ -282,6 +283,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				break;
 			case 'o':
 				$wordSubStr = substr($word, -4);
+
 				if ($wordSubStr === 'tion' || $wordSubStr === 'sion')
 				{
 					self::replace($word, 'ion', '', 1);
@@ -425,7 +427,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 	{
 		$c = self::$regex_consonant;
 
-		return preg_match("#$c{2}$#", $str, $matches) and $matches[0][0] === $matches[0][1];
+		return preg_match("#$c{2}$#", $str, $matches) && $matches[0][0] === $matches[0][1];
 	}
 
 	/**
