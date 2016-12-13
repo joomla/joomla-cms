@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Methods supporting a list of article records.
  *
@@ -22,7 +24,7 @@ class ContentModelArticles extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
@@ -166,7 +168,6 @@ class ContentModelArticles extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
-		$app = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -199,13 +200,24 @@ class ContentModelArticles extends JModelList
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
+		// Join on voting table
+		$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name';
+
+		if (JPluginHelper::isEnabled('content', 'vote'))
+		{
+			$assogroup .= ', v.rating_sum, v.rating_count';
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+		}
+
 		// Join over the associations.
 		if (JLanguageAssociations::isEnabled())
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name');
+				->group($assogroup);
 		}
 
 		// Filter by access level.
@@ -214,11 +226,12 @@ class ContentModelArticles extends JModelList
 			$query->where('a.access = ' . (int) $access);
 		}
 
-		// Implement View Level Access
+		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
+			$query->where('c.access IN (' . $groups . ')');
 		}
 
 		// Filter by published state
@@ -249,9 +262,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($categoryId))
 		{
-			JArrayHelper::toInteger($categoryId);
-			$categoryId = implode(',', $categoryId);
-			$query->where('a.catid IN (' . $categoryId . ')');
+			$query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
 		}
 
 		// Filter on the level.
@@ -303,33 +314,24 @@ class ContentModelArticles extends JModelList
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
 				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					'LEFT',
+					$db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
 				);
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'a.id');
-		$orderDirn = $this->state->get('list.direction', 'desc');
+		$orderCol  = $this->state->get('list.fullordering', 'a.id');
+		$orderDirn = '';
 
-		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		if (empty($orderCol))
 		{
-			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
+			$orderCol  = $this->state->get('list.ordering', 'a.id');
+			$orderDirn = $this->state->get('list.direction', 'DESC');
 		}
 
-		// SQL server change
-		if ($orderCol == 'language')
-		{
-			$orderCol = 'l.title';
-		}
-
-		if ($orderCol == 'access_level')
-		{
-			$orderCol = 'ag.title';
-		}
-
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}
@@ -337,7 +339,7 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Build a list of authors
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  stdClass
 	 *
 	 * @since   1.6
 	 */
@@ -375,8 +377,7 @@ class ContentModelArticles extends JModelList
 
 		if (JFactory::getApplication()->isSite())
 		{
-			$user = JFactory::getUser();
-			$groups = $user->getAuthorisedViewLevels();
+			$groups = JFactory::getUser()->getAuthorisedViewLevels();
 
 			for ($x = 0, $count = count($items); $x < $count; $x++)
 			{

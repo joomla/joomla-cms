@@ -32,6 +32,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			' . $this->form->getField("description")->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 
+			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
 			if (task !== "category.apply")
 			{
 				window.parent.jQuery("#categoryEdit' . $this->item->id . 'Modal").modal("hide");
@@ -99,6 +100,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo $this->form->getInput('extension'); ?>
 		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

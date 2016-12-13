@@ -60,11 +60,6 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div id="j-main-container">
 <?php endif;?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
-			<?php echo JText::_('COM_FINDER_INDEX_NO_CONTENT'); ?>
-		</div>
-		<?php else : ?>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -135,7 +130,6 @@ JFactory::getDocument()->addScriptDeclaration('
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-		<?php endif; ?>
 		<input type="hidden" name="task" value="display" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>

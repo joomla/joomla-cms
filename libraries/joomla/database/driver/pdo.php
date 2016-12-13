@@ -1018,7 +1018,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			// Do not serialize properties that are PDO
 			if ($property->isStatic() == false && !($this->{$property->name} instanceof PDO))
 			{
-				array_push($serializedProperties, $property->name);
+				$serializedProperties[] = $property->name;
 			}
 		}
 

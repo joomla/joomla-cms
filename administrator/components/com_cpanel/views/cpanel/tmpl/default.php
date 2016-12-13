@@ -56,8 +56,7 @@ $user = JFactory::getUser();
 			foreach ($this->modules as $module)
 			{
 				// Get module parameters
-				$params = new Registry;
-				$params->loadString($module->params);
+				$params = new Registry($module->params);
 				$bootstrapSize = $params->get('bootstrap_size');
 				if (!$bootstrapSize)
 				{

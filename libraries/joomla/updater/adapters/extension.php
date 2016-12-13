@@ -31,8 +31,8 @@ class JUpdaterExtension extends JUpdateAdapter
 	 */
 	protected function _startElement($parser, $name, $attrs = array())
 	{
-		array_push($this->stack, $name);
-		$tag = $this->_getStackLocation();
+		$this->stack[] = $name;
+		$tag           = $this->_getStackLocation();
 
 		// Reset the data
 		if (isset($this->$tag))
@@ -69,6 +69,11 @@ class JUpdaterExtension extends JUpdateAdapter
 				if ($name == 'PHP_MINIMUM')
 				{
 					$this->currentUpdate->php_minimum = '';
+				}
+
+				if ($name == 'SUPPORTED_DATABASES')
+				{
+					$this->currentUpdate->supported_databases = $attrs;
 				}
 				break;
 		}
@@ -137,6 +142,56 @@ class JUpdaterExtension extends JUpdateAdapter
 						$phpMatch = false;
 					}
 
+					$dbMatch = false;
+
+					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
+					if (isset($this->currentUpdate->supported_databases))
+					{
+						$db           = JFactory::getDbo();
+						$dbType       = strtoupper($db->getServerType());
+						$dbVersion    = $db->getVersion();
+						$supportedDbs = $this->currentUpdate->supported_databases;
+
+						// Do we have a entry for the database?
+						if (array_key_exists($dbType, $supportedDbs))
+						{
+							$minumumVersion = $supportedDbs[$dbType];
+							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
+
+							if (!$dbMatch)
+							{
+								// Notify the user of the potential update
+								$dbMsg = JText::sprintf(
+									'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
+									$this->currentUpdate->name,
+									$this->currentUpdate->version,
+									JText::_($db->name),
+									$dbVersion,
+									$minumumVersion
+								);
+
+								JFactory::getApplication()->enqueueMessage($dbMsg, 'warning');
+							}
+						}
+						else
+						{
+							// Notify the user of the potential update
+							$dbMsg = JText::sprintf(
+								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
+								$this->currentUpdate->name,
+								$this->currentUpdate->version,
+								JText::_($db->name)
+							);
+
+							JFactory::getApplication()->enqueueMessage($dbMsg, 'warning');
+						}
+					}
+					else
+					{
+						// Set to true if the <supported_databases> tag is not set
+						$dbMatch = true;
+					}
+
 					// Check minimum stability
 					$stabilityMatch = true;
 
@@ -153,13 +208,18 @@ class JUpdaterExtension extends JUpdateAdapter
 						unset($this->currentUpdate->php_minimum);
 					}
 
+					if (isset($this->currentUpdate->supported_databases))
+					{
+						unset($this->currentUpdate->supported_databases);
+					}
+
 					if (isset($this->currentUpdate->stability))
 					{
 						unset($this->currentUpdate->stability);
 					}
 
 					// If the PHP version and minimum stability checks pass, consider this version as a possible update
-					if ($phpMatch && $stabilityMatch)
+					if ($phpMatch && $stabilityMatch && $dbMatch)
 					{
 						if (isset($this->latest))
 						{

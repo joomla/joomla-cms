@@ -188,7 +188,13 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config = new Registry;
 		$config->set('session', false);
 
-		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockClient = $this->getMockBuilder('JApplicationWebClient')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$inspector = new JApplicationCmsInspector($mockInput, $config, $mockClient);
 
@@ -364,6 +370,19 @@ class JApplicationCmsTest extends TestCaseDatabase
 	public function testIsSite()
 	{
 		$this->assertFalse($this->class->isSite());
+	}
+
+	/**
+	 * Tests the JApplicationCms::isClient method.
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function testIsClient()
+	{
+		$this->assertFalse($this->class->isClient('administrator'));
+		$this->assertFalse($this->class->isClient('site'));
 	}
 
 	/**
