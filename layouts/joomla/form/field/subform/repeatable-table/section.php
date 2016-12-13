@@ -19,12 +19,15 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
+JFactory::getDocument()->addStyleDeclaration(
+	'.subform-repeatable-group[data-group="' . $group . '"] .controls { margin-left: 0px }'
+);
 ?>
 
 <tr class="subform-repeatable-group" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">
 	<?php foreach ($form->getGroup('') as $field) : ?>
 	<td>
-		<?php echo $field->input; ?>
+		<?php echo $field->renderField(array('hiddenLabel' => true)); ?>
 	</td>
 	<?php endforeach; ?>
 	<?php if (!empty($buttons)) : ?>
