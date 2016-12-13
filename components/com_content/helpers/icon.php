@@ -39,7 +39,7 @@ abstract class JHtmlIcon
 		// Add the button classes to the attribs array
 		if (isset($attribs['class']))
 		{
-			$attribs['class'] = $attribs['class'] . ' btn btn-primary';
+			$attribs['class'] .= ' btn btn-primary';
 		}
 		else
 		{
