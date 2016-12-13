@@ -102,6 +102,9 @@
         color: $white-offset;
       }
     }
+    button:first-of-type:not(.float-sm-right) {
+      margin-left: 0;
+    }
     button:last-of-type:not(.float-sm-right) {
       margin-left: 0;
     }
