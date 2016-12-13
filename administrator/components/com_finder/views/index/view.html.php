@@ -23,7 +23,7 @@ class FinderViewIndex extends JViewLegacy
 	 *
 	 * @var  array
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $items;
 
