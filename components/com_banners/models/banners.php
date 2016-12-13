@@ -152,44 +152,31 @@ class BannersModelBanners extends JModelList
 				foreach ($keywords as $keyword)
 				{
 					$keyword = trim($keyword);
+					$condition1 = "a.own_prefix=1 "
+						. " AND a.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH( a.metakey_prefix)) "
+						. " OR a.own_prefix=0 "
+						. " AND cl.own_prefix=1 "
+						. " AND cl.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH(cl.metakey_prefix)) "
+						. " OR a.own_prefix=0 "
+						. " AND cl.own_prefix=0 "
+						. " AND " . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
 
-					$quotedKeyword = $db->quote($keyword);
-					$prefixCondition = ($prefix === substr($keyword, 0, strlen($prefix)) ? '1' : '0');
-
-					$condition1 = /** @lang SQL */
-						<<<SQL
-a.own_prefix=1 
-AND a.metakey_prefix=SUBSTRING($quotedKeyword,1,LENGTH( a.metakey_prefix)) 
-OR a.own_prefix=0 
-AND cl.own_prefix=1 
-AND cl.metakey_prefix=SUBSTRING($quotedKeyword,1,LENGTH(cl.metakey_prefix)) 
-OR a.own_prefix=0 
-AND cl.own_prefix=0 
-AND $prefixCondition
-SQL;
-
-					/* Todo: Check with other Joomla members if the above change makes enough sense if the above is not a complete
-					         Statement and there are other conditions following.
-					         The other question is of course, if such queries will in future all be done with the query builder
-					*/
-
-					$escapedKeyword = $db->escape($keyword);
-					$condition2 = "a.metakey REGEXP '[[:<:]]" . $escapedKeyword . "[[:>:]]'";
+					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 
 					if ($cid)
 					{
-						$condition2 .= " OR cl.metakey REGEXP '[[:<:]]" . $escapedKeyword . "[[:>:]]'";
+						$condition2 .= " OR cl.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 					}
 
 					if ($categoryId)
 					{
-						$condition2 .= " OR cat.metakey REGEXP '[[:<:]]" . $escapedKeyword . "[[:>:]]'";
+						$condition2 .= " OR cat.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 					}
 
-					$temp = "($condition1) AND ($condition2)";
+					$temp[] = "($condition1) AND ($condition2)";
 				}
 
-				$query->where($temp);
+				$query->where('(' . implode(' OR ', $temp) . ')');
 			}
 		}
 
