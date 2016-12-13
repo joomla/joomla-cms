@@ -58,23 +58,15 @@ if ($this->direction === 'rtl')
 	JHtml::_('stylesheet', htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
-if ($color === 'image')
+if ($color == 'image')
 {
-	$cssVUrl=$this->baseurl . '/' . htmlspecialchars($headerImage);
-	$cssVBGColor = $this->params->get('backgroundcolor');
-
-
-	$this->addStyleDeclaration(
-	/** @lang CSS */
-	<<<CSS
+	$this->addStyleDeclaration("
 	.logoheader {
-		background: url('$cssVUrl') no-repeat right;
+		background: url('" . $this->baseurl . "/" . htmlspecialchars($headerImage) . "') no-repeat right;
 	}
 	body {
-		background: $cssVBGColor;
-	}
-CSS
-	);
+		background: " . $this->params->get('backgroundcolor') . ";
+	}");
 }
 
 JHtml::_('stylesheet', 'ie7only.css', array('version' => 'auto', 'relative' => true, 'conditional' => 'IE 7'));
