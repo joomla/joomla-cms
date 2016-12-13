@@ -21,7 +21,7 @@ class FinderViewFilters extends JViewLegacy
 	 *
 	 * @var  array
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $items;
 
@@ -30,7 +30,7 @@ class FinderViewFilters extends JViewLegacy
 	 *
 	 * @var  JPagination
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $pagination;
 
@@ -39,7 +39,7 @@ class FinderViewFilters extends JViewLegacy
 	 *
 	 * @var  string
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $sidebar;
 
@@ -48,7 +48,7 @@ class FinderViewFilters extends JViewLegacy
 	 *
 	 * @var  mixed
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $state;
 
@@ -57,7 +57,7 @@ class FinderViewFilters extends JViewLegacy
 	 *
 	 * @var  integer
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $total;
 

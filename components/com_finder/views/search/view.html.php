@@ -16,18 +16,52 @@ defined('_JEXEC') or die;
  */
 class FinderViewSearch extends JViewLegacy
 {
+    /**
+     * The query object
+     *
+     * @var  FinderIndexerQuery
+     */
 	protected $query;
 
+    /**
+     * The application parameters
+     *
+     * @var  Registry  The parameters object
+     */
 	protected $params;
 
+    /**
+     * The model state
+     *
+     * @var  object
+     */
 	protected $state;
 
-	protected $user;
-
+    /**
+     * An array of results
+     *
+     * @var    array
+     *
+     * @since  3.6.1
+     */
 	protected $results;
 
+    /**
+     * The total number of items
+     *
+     * @var    integer
+     *
+     * @since  3.6.1
+     */
 	protected $total;
 
+    /**
+     * The pagination object
+     *
+     * @var    JPagination
+     *
+     * @since  __DEPLOY_VERSION__
+     */
 	protected $pagination;
 
 	/**

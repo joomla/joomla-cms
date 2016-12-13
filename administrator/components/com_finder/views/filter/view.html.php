@@ -21,7 +21,7 @@ class FinderViewFilter extends JViewLegacy
 	 *
 	 * @var  FinderTableFilter
 	 *
-	 * @since  2.5
+	 * @since  3.6.2
 	 */
 	protected $filter;
 
@@ -57,7 +57,7 @@ class FinderViewFilter extends JViewLegacy
 	 *
 	 * @var  integer
 	 *
-	 * @since  2.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $total;
 
