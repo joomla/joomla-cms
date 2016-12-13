@@ -35,7 +35,7 @@ class TagsViewTags extends JViewLegacy
 		$feedEmail        = $app->get('feed_email', 'none');
 		$document->editor = $fromName;
 
-		if ($feedEmail != "none")
+		if ($feedEmail != 'none')
 		{
 			$document->editorEmail = $siteEmail;
 		}

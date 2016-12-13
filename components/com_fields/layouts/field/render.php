@@ -26,6 +26,6 @@ if ($value == '')
 ?>
 
 <dd class="field-entry <?php echo $class; ?>" id="field-entry-<?php echo $field->id; ?>">
-	<span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, "UTF-8"); ?>: </span>
+	<span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
 	<span class="field-value"><?php echo $value; ?></span>
 </dd>

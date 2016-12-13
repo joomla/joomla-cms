@@ -35,7 +35,7 @@ abstract class NewsfeedsHelperRoute
 			$link .= '&catid=' . $catid;
 		}
 
-		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+		if ($language && $language != '*' && JLanguageMultilang::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 		}
@@ -71,7 +71,7 @@ abstract class NewsfeedsHelperRoute
 			// Create the link
 			$link = 'index.php?option=com_newsfeeds&view=category&id=' . $id;
 
-			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+			if ($language && $language != '*' && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 			}
