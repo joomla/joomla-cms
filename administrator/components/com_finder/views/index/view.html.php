@@ -32,7 +32,7 @@ class FinderViewIndex extends JViewLegacy
 	 *
 	 * @var  JPagination
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $pagination;
 
@@ -41,7 +41,7 @@ class FinderViewIndex extends JViewLegacy
 	 *
 	 * @var  array
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $pluginState;
 
@@ -50,7 +50,7 @@ class FinderViewIndex extends JViewLegacy
 	 *
 	 * @var  string
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $sidebar;
 
@@ -59,7 +59,7 @@ class FinderViewIndex extends JViewLegacy
 	 *
 	 * @var  mixed
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $state;
 
@@ -68,7 +68,7 @@ class FinderViewIndex extends JViewLegacy
 	 *
 	 * @var  integer
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $total;
 

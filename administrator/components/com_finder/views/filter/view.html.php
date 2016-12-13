@@ -30,7 +30,7 @@ class FinderViewFilter extends JViewLegacy
 	 *
 	 * @var  JForm
 	 *
-	 * @since  2.5
+	 * @since  3.6.2
 	 */
 	protected $form;
 
@@ -39,7 +39,7 @@ class FinderViewFilter extends JViewLegacy
 	 *
 	 * @var  JObject|boolean
 	 *
-	 * @since  2.5
+	 * @since  3.6.2
 	 */
 	protected $item;
 
@@ -48,7 +48,7 @@ class FinderViewFilter extends JViewLegacy
 	 *
 	 * @var  mixed
 	 *
-	 * @since  2.5
+	 * @since  3.6.2
 	 */
 	protected $state;
 

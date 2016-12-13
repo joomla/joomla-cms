@@ -37,12 +37,14 @@ class FinderViewSearch extends JViewLegacy
      */
 	protected $state;
 
+	protected $user;
+
     /**
      * An array of results
      *
      * @var    array
      *
-     * @since  3.6.1
+     * @since  __DEPLOY_VERSION__
      */
 	protected $results;
 
@@ -51,7 +53,7 @@ class FinderViewSearch extends JViewLegacy
      *
      * @var    integer
      *
-     * @since  3.6.1
+     * @since  __DEPLOY_VERSION__
      */
 	protected $total;
 

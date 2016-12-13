@@ -32,7 +32,7 @@ class FinderViewMaps extends JViewLegacy
 	 *
 	 * @var  JPagination
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $pagination;
 
@@ -41,7 +41,7 @@ class FinderViewMaps extends JViewLegacy
 	 *
 	 * @var  string
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $sidebar;
 
@@ -50,7 +50,7 @@ class FinderViewMaps extends JViewLegacy
 	 *
 	 * @var  object
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $state;
 
@@ -59,7 +59,7 @@ class FinderViewMaps extends JViewLegacy
 	 *
 	 * @var  object
 	 *
-	 * @since  2.5
+	 * @since  3.6.1
 	 */
 	protected $total;
 
