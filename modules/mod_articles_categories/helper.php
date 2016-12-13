@@ -40,9 +40,10 @@ abstract class ModArticlesCategoriesHelper
 			$items = $category->getChildren();
 
 			$count = $params->get('count', 0);
+
 			if ($count > 0 && count($items) > $count)
 			{
-				$items = array_slice($items, 0, $params->get('count', 0));
+				$items = array_slice($items, 0, $count);
 			}
 
 			return $items;
