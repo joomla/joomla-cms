@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\String\StringHelper;
-
 defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
