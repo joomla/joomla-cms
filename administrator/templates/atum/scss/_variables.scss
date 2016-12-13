@@ -5,7 +5,7 @@ $atum-container-main-bg:           #eee !default;
 $atum-border-color:                #cecece !default;
 $atum-box-shadow:                  0 0 3px rgba(0,0,0,.075) !default;
 $atum-block-header-bg:             #f5f5f5 !default;
-$white-offset:                      #fcfcfc;
+$white-offset:                     #fcfcfc;
 $grey:                             #aaa;
 
 $brand-primary:                    #0275d8;
@@ -15,17 +15,17 @@ $brand-warning:                    #f0ad4e;
 $brand-danger:                     #d9534f;
 
 // Header
-$header-height:                    50px;
+$header-height:                    40px;
 
 // Toolbar
 $atum-toolbar-line-height:         1.8rem;
 
 // Menu Toggle
-$atum-button-width:                40px;
-$atum-button-height:               50px;
-$atum-bar-thickness:               4px;
+$atum-button-width:                30px;
+$atum-button-height:               $header-height;
+$atum-bar-thickness:               3px;
 $atum-button-pad:                  5px;
-$atum-button-bar-space:            6px;
+$atum-button-bar-space:            3px;
 $atum-button-transistion-duration: .3s;
 
 // Sidebar
