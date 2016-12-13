@@ -29,7 +29,7 @@ $params = $this->params;
 				</h2>
 				<?php if ($params->get('show_author') && !empty($item->author )) : ?>
 					<div class="createdby" itemprop="author" itemscope itemtype="https://schema.org/Person">
-					<?php $author = ($item->created_by_alias) ? $item->created_by_alias : $item->author; ?>
+					<?php $author = $item->created_by_alias ? $item->created_by_alias : $item->author; ?>
 					<?php $author = '<span itemprop="name">' . $author . '</span>'; ?>
 						<?php if (!empty($item->contact_link) && $params->get('link_author') == true) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author, array('itemprop' => 'url'))); ?>

@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 			<?php echo $this->params->get('logout_description'); ?>
 		<?php endif; ?>
 
-		<?php if (($this->params->get('logout_image') != '')) : ?>
+		<?php if ($this->params->get('logout_image') != '') : ?>
 			<img src="<?php echo $this->escape($this->params->get('logout_image')); ?>" class="thumbnail pull-right logout-image" alt="<?php echo JText::_('COM_USER_LOGOUT_IMAGE_ALT'); ?>"/>
 		<?php endif; ?>
 

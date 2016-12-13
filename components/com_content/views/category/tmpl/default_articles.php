@@ -116,12 +116,12 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
-				<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
+				<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
 					<th scope="col" id="categorylist_header_votes">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
-				<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 					<th scope="col" id="categorylist_header_ratings">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
 					</th>
@@ -225,14 +225,14 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 							</span>
 						</td>
 			<?php endif; ?>
-			<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
+			<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
 				<td headers="categorylist_header_votes" class="list-votes">
 					<span class="badge badge-success">
 						<?php echo JText::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
 					</span>
 				</td>
 			<?php endif; ?>
-			<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+			<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 				<td headers="categorylist_header_ratings" class="list-ratings">
 					<span class="badge badge-warning">
 						<?php echo JText::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
