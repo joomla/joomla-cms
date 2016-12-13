@@ -17,22 +17,22 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 <fieldset id="users-profile-custom">
 	<legend><?php echo JText::_('COM_USERS_SETTINGS_FIELDSET_LABEL'); ?></legend>
 	<dl class="dl-horizontal">
-	<?php foreach ($fields as $field):
-		if (!$field->hidden) :?>
+	<?php foreach ($fields as $field) :
+		if (!$field->hidden) : ?>
 		<dt><?php echo $field->title; ?></dt>
 		<dd>
-			<?php if (JHtml::isRegistered('users.' . $field->id)):?>
-				<?php echo JHtml::_('users.' . $field->id, $field->value);?>
-			<?php elseif (JHtml::isRegistered('users.' . $field->fieldname)):?>
-				<?php echo JHtml::_('users.' . $field->fieldname, $field->value);?>
-			<?php elseif (JHtml::isRegistered('users.' . $field->type)):?>
-				<?php echo JHtml::_('users.' . $field->type, $field->value);?>
-			<?php else:?>
-				<?php echo JHtml::_('users.value', $field->value);?>
-			<?php endif;?>
+			<?php if (JHtml::isRegistered('users.' . $field->id)) : ?>
+				<?php echo JHtml::_('users.' . $field->id, $field->value); ?>
+			<?php elseif (JHtml::isRegistered('users.' . $field->fieldname)) : ?>
+				<?php echo JHtml::_('users.' . $field->fieldname, $field->value); ?>
+			<?php elseif (JHtml::isRegistered('users.' . $field->type)) : ?>
+				<?php echo JHtml::_('users.' . $field->type, $field->value); ?>
+			<?php else : ?>
+				<?php echo JHtml::_('users.value', $field->value); ?>
+			<?php endif; ?>
 		</dd>
-		<?php endif;?>
-	<?php endforeach;?>
+		<?php endif; ?>
+	<?php endforeach; ?>
 	</dl>
 </fieldset>
-<?php endif;?>
+<?php endif; ?>

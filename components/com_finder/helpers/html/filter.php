@@ -66,9 +66,7 @@ abstract class JHtmlFilter
 			// Initialize the filter parameters.
 			if ($filter)
 			{
-				$registry = new Registry;
-				$registry->loadString($filter->params);
-				$filter->params = $registry;
+				$filter->params = new Registry($filter->params);
 			}
 		}
 
@@ -255,9 +253,7 @@ abstract class JHtmlFilter
 				// Initialize the filter parameters.
 				if ($filter)
 				{
-					$registry = new Registry;
-					$registry->loadString($filter->params);
-					$filter->params = $registry;
+					$filter->params = new Registry($filter->params);
 				}
 			}
 
@@ -441,7 +437,7 @@ abstract class JHtmlFilter
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				JHtml::stylesheet('com_finder/dates.css', false, true, false);
+				JHtml::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
 			}
 
 			// Open the widget.

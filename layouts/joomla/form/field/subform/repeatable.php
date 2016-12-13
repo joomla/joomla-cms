@@ -30,7 +30,7 @@ extract($displayData);
 if ($multiple)
 {
 	JHtml::_('jquery.ui', array('core', 'sortable'));
-	JHtml::_('script', 'system/subform-repeatable.js', false, true);
+	JHtml::_('script', 'system/subform-repeatable.js', array('version' => 'auto', 'relative' => true));
 }
 
 $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
@@ -49,7 +49,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 			</div>
 			<?php endif; ?>
 		<?php
-		foreach($forms as $k => $form):
+		foreach ($forms as $k => $form):
 			echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
 		endforeach;
 		?>

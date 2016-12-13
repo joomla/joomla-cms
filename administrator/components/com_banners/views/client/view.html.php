@@ -118,7 +118,7 @@ class BannersViewClient extends JViewLegacy
 		}
 		else
 		{
-			if ($this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				JToolbarHelper::versions('com_banners.client', $this->item->id);
 			}

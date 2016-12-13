@@ -186,6 +186,9 @@ class FinderControllerIndexer extends JControllerLegacy
 			// Swap the applications back.
 			$app = $admin;
 
+			// Log batch completion and memory high-water mark.
+			JLog::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', JLog::INFO);
+
 			// Send the response.
 			$this->sendResponse($state);
 		}
