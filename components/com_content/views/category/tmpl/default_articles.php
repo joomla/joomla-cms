@@ -33,13 +33,11 @@ if (!empty($this->items))
 }
 
 // For B/C we also add the css classes inline. This will be removed in 4.0.
-JFactory::getDocument()->addStyleDeclaration(
-	'
+JFactory::getDocument()->addStyleDeclaration('
 .hide { display: none; }
 .table-noheader { border-collapse: collapse; }
 .table-noheader thead { display: none; }
-'
-);
+');
 
 $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 ?>
