@@ -2,18 +2,19 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
 $app       = JFactory::getApplication();
-$component = $app->getUserStateFromRequest('com_fields.groups.extension', 'extension', '', 'CMD');
+$context   = $app->getUserStateFromRequest('com_fields.groups.context', 'context', '', 'CMD');
+$component = '';
 
-if (!$component)
+if (!$context)
 {
-	$parts     = explode('.', $app->getUserStateFromRequest('com_fields.fields.context', 'context', '', 'CMD'));
+	$parts     = explode('.', $app->getUserStateFromRequest('com_fields.fields.context', 'context', '', 'CMD'), 2);
 	$component = $parts[0];
 }
 

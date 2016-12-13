@@ -28,8 +28,17 @@ class FieldsHelperInternal
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
-	public static function addSubmenu ($component, $vName)
+	public static function addSubmenu ($context, $vName)
 	{
+		$parts = FieldsHelper::extract($context);
+
+		if (!$parts)
+		{
+			return;
+		}
+
+		$component = $parts[0];
+
 		// Avoid nonsense situation.
 		if ($component == 'com_fields')
 		{

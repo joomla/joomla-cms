@@ -11,10 +11,11 @@ function sendPermissions(event) {
 	var asset = 'not';
 	var component = getUrlParam('component');
 	var extension = getUrlParam('extension');
-	var option = getUrlParam('option');
-	var view = getUrlParam('view');
-	var title = component;
-	var value = this.value;
+	var context   = document.getElementById('jform_context').value;
+	var option    = getUrlParam('option');
+	var view      = getUrlParam('view');
+	var title     = component;
+	var value     = this.value;
 
 	if (option == 'com_config' && component == false && extension == false)
 	{
@@ -22,6 +23,10 @@ function sendPermissions(event) {
 	}
 	else if (extension == false && view == 'component'){
 		asset = component;
+	}
+	else if (context){
+		asset = context + '.fieldgroup.' + getUrlParam('id');
+		title = document.getElementById('jform_title').value;
 	}
 	else if (extension != false && view != false){
 		asset = extension + '.' + view + '.' + getUrlParam('id');

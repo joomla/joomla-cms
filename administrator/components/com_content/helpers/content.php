@@ -49,7 +49,7 @@ class ContentHelper extends JHelperContent
 			);
 			JHtmlSidebar::addEntry(
 				JText::_('JGLOBAL_FIELD_GROUPS'),
-				'index.php?option=com_fields&view=groups&extension=com_content',
+				'index.php?option=com_fields&view=groups&context=com_content.article',
 				$vName == 'fields.groups'
 			);
 		}
