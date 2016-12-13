@@ -11,11 +11,15 @@ function sendPermissions(event) {
 	var asset = 'not';
 	var component = getUrlParam('component');
 	var extension = getUrlParam('extension');
-	var context   = document.getElementById('jform_context').value;
 	var option    = getUrlParam('option');
 	var view      = getUrlParam('view');
 	var title     = component;
 	var value     = this.value;
+	var context   = '';
+
+	if (document.getElementById('jform_context')){
+		context = document.getElementById('jform_context').value;
+	}
 
 	if (option == 'com_config' && component == false && extension == false)
 	{
