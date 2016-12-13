@@ -90,13 +90,10 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 		{
 			// Attempt to instantiate the driver.
 			static::$driver = JDatabaseDriver::getInstance($options);
+			static::$driver->connect();
 
-			// Create a new PDO instance for an SQLite memory database and load the test schema into it.
-			$pdo = new PDO('sqlite::memory:');
-			$pdo->exec(file_get_contents(JPATH_TESTS . '/schema/ddl.sql'));
-
-			// Set the PDO instance to the driver using reflection whizbangery.
-			TestReflection::setValue(static::$driver, 'connection', $pdo);
+			// Get the PDO instance for an SQLite memory database and load the test schema into it.
+			static::$driver->getConnection()->exec(file_get_contents(JPATH_TESTS . '/schema/ddl.sql'));
 		}
 		catch (RuntimeException $e)
 		{
@@ -124,7 +121,12 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	public static function tearDownAfterClass()
 	{
 		JFactory::$database = self::$_stash;
-		static::$driver = null;
+
+		if (static::$driver !== null)
+		{
+			static::$driver->disconnect();
+			static::$driver = null;
+		}
 	}
 
 	/**
