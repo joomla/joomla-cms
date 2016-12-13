@@ -37,7 +37,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 
 				<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
 					<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
-				<?php endif;?>
+				<?php endif; ?>
 			</h3>
 			<?php else : ?>
 			<h3 class="page-header item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
@@ -51,7 +51,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 
 				<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
 					<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
-				<?php endif;?>
+				<?php endif; ?>
 			</h3>
 			<?php endif; ?>
 
