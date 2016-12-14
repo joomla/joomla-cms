@@ -131,11 +131,15 @@ class JDocumentError extends JDocument
 			$status = 500;
 		}
 
-		if(JFactory::getConfig()->get( 'error_reporting' ) == "development" || JFactory::getConfig()->get( 'error_reporting' ) == "maximum"){
-			JFactory::getApplication()->setHeader('status', $status . ' ' . str_replace("\n", ' ', $this->_error->getMessage()));
-		}else{
-			JFactory::getApplication()->setHeader('status', $status);
+		$errorReporting = JFactory::getConfig()->get('error_reporting');
+
+		if ($errorReporting === "development" || $errorReporting === "maximum")
+		{
+			$status .= ' ' . str_replace("\n", ' ', $this->_error->getMessage());
 		}
+
+		JFactory::getApplication()->setHeader('status', $status);
+
 		$file = 'error.php';
 
 		// Check template
