@@ -4,16 +4,16 @@
   position: relative;
   z-index: 5;
   height: $header-height;
-  margin-bottom: 4px;
-  background: lighten($atum-template-color, 2%);
+  margin-bottom: 3px;
+  background: $atum-template-color;
   &::after {
     position: absolute;
     top: 100%;
     width: 100%;
-    height: 4px;
+    height: 3px;
     content: "";
     background-color: $brand-primary;
-    background-image: linear-gradient(to right, lighten($atum-template-color, 45%) 0%, lighten($atum-template-color, 25%) 100%);
+    background-image: linear-gradient(to right, $atum-hl-grad-inner 0%, $atum-hl-grad-outer 100%);
   }
   .page-title {
     display: inline-block;
@@ -22,7 +22,7 @@
     font-weight: normal;
     line-height: $header-height;
     color: $atum-inverted-text-color;
-
+    border-bottom: 1px solid #20252e;
     .icon-list {
       color: $atum-inverted-text-color;
     }
@@ -71,7 +71,7 @@
       font-size: 1.1rem;
       line-height: 23px;
       color: $white-offset;
-      background-color: #424362;
+      background-color: lighten($atum-template-color, 10%);
       border-radius: 2px;
     }
 
@@ -126,17 +126,19 @@
 
 .container-title {
   position: relative;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 17px;
+  padding-bottom: 16px;
   overflow: hidden;
-  border-bottom: 1px solid $atum-border-color;
+  color: #fff;
+  background-color: $atum-template-color-light;
   .page-title {
     margin-bottom: 0;
-    font-size: 1.75rem;
+    font-size: 1.3rem;
     font-weight: normal;
     span {
-      margin-right: 10px;
-      color: lighten($atum-template-color, 25%);
+      margin-right: 15px;
+      font-size: $font-size-h1;
+      color: lighten($atum-template-color, 20%);
     }
   }
 }
@@ -150,7 +152,7 @@
   width: $header-height;
   height: $header-height;
   text-align: center;
-  background-color: #424362;
+  background-color: lighten($atum-template-color, 10%);
   .menu-text {
     margin-right: 5px;
     font-size: 16px;

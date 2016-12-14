@@ -1,15 +1,18 @@
 // Global
 $enable-flex:                      true;
-$atum-template-color:              #27283a !default;
-$atum-container-main-bg:           #eee !default;
-$atum-border-color:                #cecece !default;
+$atum-template-color:              #20252e !default;
+$atum-template-color-light:        #262d38 !default;
+$atum-container-main-bg:           #f2f2f2 !default;
+$atum-border-color:                #bbb !default;
 $atum-box-shadow:                  0 0 3px rgba(0,0,0,.075) !default;
 $atum-block-header-bg:             #f5f5f5 !default;
 $white-offset:                     #fcfcfc;
 $grey:                             #aaa;
+$atum-hl-grad-inner:               #00afff;
+$atum-hl-grad-outer:               #00ffe4;
 
-$brand-primary:                    #0275d8;
-$brand-success:                    #5cb85c;
+$brand-primary:                    #007eb7;
+$brand-success:                    #48b848;
 $brand-info:                       #5bc0de;
 $brand-warning:                    #f0ad4e;
 $brand-danger:                     #d9534f;
@@ -32,7 +35,7 @@ $atum-button-transistion-duration: .3s;
 $atum-sidebar-bg:                  $atum-template-color;
 $atum-sidebar-item-title:          .9rem;
 $atum-sidebar-hover:               #5b8dca;
-$atum-sidebar-active:              lighten($atum-template-color, 17%);
+$atum-sidebar-active:              #42c2fc;
 $atum-level-1-bg:                  darken($atum-template-color, 6%);
 $atum-level-2-bg:                  darken($atum-template-color, 8%);
 
