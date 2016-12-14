@@ -241,7 +241,7 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// No debug for Safari and Chrome redirection.
-		if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ""), 'webkit') !== false
+		if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false
 			&& substr($contents, 0, 50) == '<html><head><meta http-equiv="refresh" content="0;')
 		{
 			echo $contents;
@@ -989,8 +989,8 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			$fromString = substr($query, 0, $whereStart);
-			$fromString = str_replace("\t", " ", $fromString);
-			$fromString = str_replace("\n", " ", $fromString);
+			$fromString = str_replace("\t", ' ', $fromString);
+			$fromString = str_replace("\n", ' ', $fromString);
 			$fromString = trim($fromString);
 
 			// Initialise the select/other query type counts the first time.
@@ -2094,9 +2094,9 @@ class PlgSystemDebug extends JPlugin
 			if (isset($timings[$id * 2 + 1]))
 			{
 				$temp     = str_replace('`', '', $log[$id]);
-				$temp     = str_replace("\t", " ", $temp);
-				$temp     = str_replace("\n", " ", $temp);
-				$current .= str_replace("\r\n", " ", $temp) . ";\n";
+				$temp     = str_replace("\t", ' ', $temp);
+				$temp     = str_replace("\n", ' ', $temp);
+				$current .= str_replace("\r\n", ' ', $temp) . ";\n";
 			}
 		}
 

@@ -226,7 +226,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	private function _recaptcha_qsencode($data)
 	{
-		$req = "";
+		$req = '';
 
 		foreach ($data as $key => $value)
 		{

@@ -376,7 +376,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		// We are called via POST. We don't care about the language
 		// and simply set the default language as our current language.
-		if ($this->app->input->getMethod() == "POST"
+		if ($this->app->input->getMethod() == 'POST'
 			|| count($this->app->input->post) > 0
 			|| count($this->app->input->files) > 0)
 		{
