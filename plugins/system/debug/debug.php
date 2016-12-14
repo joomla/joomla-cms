@@ -904,6 +904,7 @@ class PlgSystemDebug extends JPlugin
 				}
 
 				// Computes bargraph as follows: Position begin and end of the bar relatively to whole execution time.
+				//TODO: $prevBar is not used anywhere. Remove?
 				$prevBar = ($id && isset($bars[$id - 1])) ? $bars[$id - 1] : 0;
 
 				$barPre = round($timing[$id][1] / ($totalBargraphTime * 10), 4);
