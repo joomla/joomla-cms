@@ -13,11 +13,13 @@ use Joomla\Registry\Registry;
 
 JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
 
+$authorised = JFactory::getUser()->getAuthorisedViewLevels();
+
 ?>
 <?php if (!empty($displayData)) : ?>
 	<ul class="tags inline">
 		<?php foreach ($displayData as $i => $tag) : ?>
-			<?php if (in_array($tag->access, JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id')))) : ?>
+			<?php if (in_array($tag->access, $authorised)) : ?>
 				<?php $tagParams = new Registry($tag->params); ?>
 				<?php $link_class = $tagParams->get('tag_link_class', 'label label-info'); ?>
 				<li class="tag-<?php echo $tag->tag_id; ?> tag-list<?php echo $i ?>" itemprop="keywords">
