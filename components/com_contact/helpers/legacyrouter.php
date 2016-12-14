@@ -88,9 +88,8 @@ class ContactRouterRulesLegacy implements JComponentRouterRulesInterface
 		// Are we dealing with a contact that is attached to a menu item?
 		if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == (int) $query['id']))
 		{
-			unset($query['view']);
-			unset($query['catid']);
-			unset($query['id']);
+			unset($query['view'], $query['catid'], $query['id']);
+
 			return;
 		}
 
@@ -151,8 +150,7 @@ class ContactRouterRulesLegacy implements JComponentRouterRulesInterface
 				}
 			}
 
-			unset($query['id']);
-			unset($query['catid']);
+			unset($query['id'], $query['catid']);
 		}
 
 		if (isset($query['layout']))
