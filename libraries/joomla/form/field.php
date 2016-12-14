@@ -761,7 +761,7 @@ abstract class JFormField
 	protected function getName($fieldName)
 	{
 		// To support repeated element, extensions can set this in plugin->onRenderSettings
-		$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
+		// $repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
 
 		$name = '';
 
