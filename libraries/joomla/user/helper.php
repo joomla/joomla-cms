@@ -296,6 +296,28 @@ abstract class JUserHelper
 	}
 
 	/**
+	 * Returns userid if a user exists
+	 *
+	 * @param   string  $email  The email to search on.
+	 *
+	 * @return  integer  The user id or 0 if not found.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUserIdByEmail($email)
+	{
+		// Initialise some variables
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('email') . ' = ' . $db->quote($email));
+		$db->setQuery($query, 0, 1);
+
+		return $db->loadResult();
+	}
+
+	/**
 	 * Hashes a password using the current encryption.
 	 *
 	 * @param   string  $password  The plaintext password to encrypt.

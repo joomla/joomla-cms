@@ -29,7 +29,20 @@ JHtml::_('behavior.keepalive');
 				</div>
 			</div>
 		<?php endif; ?>
-		<?php if (!empty ($langs)) : ?>
+		<?php if (count($extraFields)) : ?>
+			<?php $extraFieldCounter = 0; ?>
+			<?php /** @var JAuthenticationFieldInterface $extraField */ ?>
+			<?php foreach ($extraFields as $extraField) : ?>
+				<?php if ($extraField->getType() != 'field') continue; ?>
+				<div id="form-login-extrafield-<?php echo ++$extraFieldCounter; ?>" class="control-group">
+					<div class="controls">
+						<label><?php echo $extraField->getLabel(); ?></label>
+						<?php echo $extraField->getInput(); ?>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		<?php endif; ?>
+		<?php if (!empty($langs)) : ?>
 			<label id="mod-login-language-lbl" for="lang"><?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?></label>
 			<?php echo $langs; ?>
 		<?php endif; ?>
@@ -43,6 +56,23 @@ JHtml::_('behavior.keepalive');
 						<?php echo JText::_('MOD_LOGIN_LOGIN'); ?></a>
 				</div>
 			</div>
+			<?php if (count($extraFields)) : ?>
+				<?php $extraFieldCounter = 0; ?>
+				<?php /** @var JAuthenticationFieldInterface $extraField */ ?>
+				<?php foreach ($extraFields as $extraField) : ?>
+					<?php if ($extraField->getType() != 'button') continue; ?>
+					<div class="button1">
+						<div class="next">
+							<a id="form-login-button-<?php echo ++$extraFieldCounter; ?>" href="<?php echo $extraField->getInput() ?>">
+								<?php if ($extraField->getIcon()) : ?>
+									<span class="<?php echo $extraField->getIcon(); ?>"></span>
+								<?php endif; ?>
+								<?php echo $extraField->getLabel(); ?>
+							</a>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			<?php endif; ?>
 		</div>
 
 		<div class="clr"></div>

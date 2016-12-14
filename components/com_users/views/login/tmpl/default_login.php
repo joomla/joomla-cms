@@ -11,6 +11,9 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
+
+/** @var  UsersViewLogin  $this */
+
 ?>
 <div class="login<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -64,11 +67,25 @@ JHtml::_('behavior.formvalidator');
 				</div>
 			<?php endif; ?>
 
+			<?php if (count($this->extraFields)) : ?>
+				<?php foreach ($this->extraFields as $extraField) : ?>
+					<?php if ($extraField->getType() != 'field') continue; ?>
+					<div class="control-group">
+						<div class="control-label">
+							<label><?php echo $extraField->getLabel(); ?></label>
+						</div>
+						<div class="controls">
+							<?php echo $extraField->getInput(); ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			<?php endif; ?>
+
 			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
-			<div  class="control-group">
-				<div class="control-label"><label><?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?></label></div>
-				<div class="controls"><input id="remember" type="checkbox" name="remember" class="inputbox" value="yes"/></div>
-			</div>
+				<div class="control-group">
+					<div class="control-label"><label><?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?></label></div>
+					<div class="controls"><input id="remember" type="checkbox" name="remember" class="inputbox" value="yes"/></div>
+				</div>
 			<?php endif; ?>
 
 			<div class="control-group">
@@ -76,6 +93,18 @@ JHtml::_('behavior.formvalidator');
 					<button type="submit" class="btn btn-primary">
 						<?php echo JText::_('JLOGIN'); ?>
 					</button>
+					<?php if (count($this->extraFields)) : ?>
+						<?php $extraFieldCounter = 0; ?>
+						<?php foreach ($this->extraFields as $extraField) : ?>
+							<?php if ($extraField->getType() != 'button') continue; ?>
+							<a id="form-login-button-<?php echo ++$extraFieldCounter; ?>" class="btn btn-default" href="<?php echo $extraField->getInput() ?>">
+								<?php if ($extraField->getIcon()): ?>
+									<span class="<?php echo $extraField->getIcon(); ?>"></span>
+								<?php endif; ?>
+								<?php echo $extraField->getLabel(); ?>
+							</a>
+						<?php endforeach; ?>
+					<?php endif; ?>
 				</div>
 			</div>
 
@@ -102,6 +131,17 @@ JHtml::_('behavior.formvalidator');
 			<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
 				<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?></a>
 		</li>
+		<?php endif; ?>
+		<?php if (count($this->extraFields)) : ?>
+			<?php $extraFieldCounter = 0; ?>
+			<?php foreach ($this->extraFields as $extraField) : ?>
+				<?php if ($extraField->getType() != 'link') continue; ?>
+				<li>
+					<a id="form-login-link-<?php echo ++$extraFieldCounter; ?>" href="<?php echo $extraField->getInput(); ?>">
+						<?php echo $extraField->getLabel(); ?>
+					</a>
+				</li>
+			<?php endforeach; ?>
 		<?php endif; ?>
 	</ul>
 </div>

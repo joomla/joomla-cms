@@ -70,6 +70,29 @@ if ($langs)
 			</div>
 		</div>
 		<?php endif; ?>
+		<?php if (count($extraFields)) : ?>
+			<?php $extraFieldCounter = 0; ?>
+			<?php /** @var JAuthenticationFieldInterface $extraField */ ?>
+			<?php foreach ($extraFields as $extraField) : ?>
+				<?php if ($extraField->getType() != 'field') continue; ?>
+				<div id="form-login-extrafield-<?php echo ++$extraFieldCounter; ?>" class="control-group">
+					<div class="controls">
+						<?php if (!$params->get('usetext')) : ?>
+							<div class="input-prepend">
+								<span class="add-on">
+									<span class="<?php echo $extraField->getIcon(); ?> hasTooltip" title="<?php echo $extraField->getLabel(); ?>"></span>
+									<label class="element-invisible"><?php echo $extraField->getLabel(); ?></label>
+								</span>
+								<?php echo $extraField->getInput(); ?>
+							</div>
+						<?php else : ?>
+							<label><?php echo $extraField->getLabel(); ?></label>
+							<?php echo $extraField->getInput(); ?>
+						<?php endif; ?>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		<?php endif; ?>
 		<?php if (!empty($langs)) : ?>
 			<div class="control-group">
 				<div class="controls">
@@ -91,6 +114,19 @@ if ($langs)
 					<button tabindex="3" class="btn btn-primary btn-block btn-large">
 						<span class="icon-lock icon-white"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 					</button>
+					<?php if (count($extraFields)) : ?>
+						<?php $extraFieldCounter = 0; ?>
+						<?php /** @var JAuthenticationFieldInterface $extraField */ ?>
+						<?php foreach ($extraFields as $extraField) : ?>
+							<?php if ($extraField->getType() != 'link') continue; ?>
+							<a id="form-login-button-<?php echo ++$extraFieldCounter; ?>" class="btn btn-default" href="<?php echo $extraField->getInput() ?>">
+								<?php if ($extraField->getIcon()) : ?>
+									<span class="<?php echo $extraField->getIcon(); ?>"></span>
+								<?php endif; ?>
+								<?php echo $extraField->getLabel(); ?>
+							</a>
+						<?php endforeach; ?>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>

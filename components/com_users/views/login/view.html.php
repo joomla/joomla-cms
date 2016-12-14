@@ -16,11 +16,30 @@ defined('_JEXEC') or die;
  */
 class UsersViewLogin extends JViewLegacy
 {
+	/**
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * Additional login form fields
+	 *
+	 * @var  JAuthenticationFieldInterface[]
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $extraFields;
+
+	/**
+	 * Users component parameters
+	 *
+	 * @var  \Joomla\Registry\Registry
+	 */
 	protected $params;
 
 	protected $state;
+
+	protected $tfa;
 
 	protected $user;
 
@@ -57,8 +76,19 @@ class UsersViewLogin extends JViewLegacy
 			$this->setLayout($active->query['layout']);
 		}
 
-		$tfa = JAuthenticationHelper::getTwoFactorMethods();
+		$tfa       = JAuthenticationHelper::getTwoFactorMethods();
 		$this->tfa = is_array($tfa) && count($tfa) > 1;
+
+		if ($this->params->get('login_redirect_url'))
+		{
+			$returnUrl = $this->params->get('login_redirect_url', $this->form->getValue('return'));
+		}
+		else
+		{
+			$returnUrl = $this->params->get('login_redirect_menuitem', $this->form->getValue('return'));
+		}
+
+		$this->extraFields = JAuthenticationHelper::getUserLoginFormFields($returnUrl);
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');
