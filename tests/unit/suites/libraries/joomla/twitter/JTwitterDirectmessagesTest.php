@@ -202,7 +202,6 @@ class JTwitterDirectmessagesTest extends TestCase
 		$since_id = 12345;
 		$max_id = 54321;
 		$count = 10;
-		$page = 1;
 		$entities = true;
 
 		$returnData = new stdClass;

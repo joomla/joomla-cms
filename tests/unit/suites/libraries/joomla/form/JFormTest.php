@@ -1626,7 +1626,7 @@ class JFormTest extends TestCaseDatabase
 		// Test correct usage.
 
 		$field = $form->getField('title');
-		$field = $form->loadField($field);
+		form->loadField($field);
 	}
 
 	/**
