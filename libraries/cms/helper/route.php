@@ -104,7 +104,7 @@ class JHelperRoute
 		}
 
 		// Deal with languages only if needed
-		if (!empty($language) && $language != '*' && JLanguageMultilang::isEnabled())
+		if (!empty($language) && $language != '*' && JPluginHelper::isEnabled('system', 'languagefilter'))
 		{
 			$link .= '&lang=' . $language;
 			$needles['language'] = $language;
@@ -208,7 +208,7 @@ class JHelperRoute
 
 		$active = $menus->getActive();
 
-		if ($active && $active->component == $this->extension && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
+		if ($active && $active->component == $this->extension && ($active->language == '*' || !JPluginHelper::isEnabled('system', 'languagefilter')))
 		{
 			return $active->id;
 		}
@@ -264,7 +264,7 @@ class JHelperRoute
 				'category' => array($id),
 			);
 
-			if ($language && $language != '*' && JLanguageMultilang::isEnabled())
+			if ($language && $language != '*' && JPluginHelper::isEnabled('system', 'languagefilter'))
 			{
 				$link .= '&lang=' . $language;
 				$needles['language'] = $language;

@@ -316,7 +316,7 @@ class ContactModelContact extends JModelForm
 				->order('a.state DESC, a.created DESC');
 
 			// Filter per language if plugin published
-			if (JLanguageMultilang::isEnabled())
+			if (JPluginHelper::isEnabled('system', 'languagefilter'))
 			{
 				$query->where(
 					('a.created_by = ' . (int) $contact->user_id) . ' AND ' .
@@ -501,7 +501,7 @@ class ContactModelContact extends JModelForm
 						->order('a.state DESC, a.created DESC');
 
 					// Filter per language if plugin published
-					if (JLanguageMultilang::isEnabled())
+					if (JPluginHelper::isEnabled('system', 'languagefilter'))
 					{
 						$query->where('a.language IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 					}

@@ -138,7 +138,7 @@ abstract class ModRelatedItemsHelper
 					->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
 
 				// Filter by language
-				if (JLanguageMultilang::isEnabled())
+				if (JPluginHelper::isEnabled('system', 'languagefilter'))
 				{
 					$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 				}

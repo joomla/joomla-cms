@@ -99,7 +99,7 @@ abstract class JFormAbstractlist extends JFormField
 			if ($requires = explode(',', (string) $option['requires']))
 			{
 				// Requires multilanguage
-				if (in_array('multilanguage', $requires) && !JLanguageMultilang::isEnabled())
+				if (in_array('multilanguage', $requires) && !JPluginHelper::isEnabled('system', 'languagefilter'))
 				{
 					continue;
 				}

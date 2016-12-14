@@ -116,7 +116,7 @@ class ContentModelArticles extends JModelList
 			$this->setState('filter.published', 1);
 		}
 
-		$this->setState('filter.language', JLanguageMultilang::isEnabled());
+		$this->setState('filter.language', JPluginHelper::isEnabled('system', 'languagefilter'));
 
 		// Process show_noauth parameter
 		if (!$params->get('show_noauth'))

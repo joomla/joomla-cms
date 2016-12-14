@@ -208,7 +208,7 @@ class ModMenuHelper
 		$lang = JFactory::getLanguage();
 
 		// Look for the home menu
-		if (JLanguageMultilang::isEnabled())
+		if (JPluginHelper::isEnabled('system', 'languagefilter'))
 		{
 			return $menu->getDefault($lang->getTag());
 		}

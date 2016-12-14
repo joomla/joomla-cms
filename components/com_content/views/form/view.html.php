@@ -112,7 +112,7 @@ class ContentViewForm extends JViewLegacy
 		}
 
 		// Propose current language as default when creating new article
-		if (JLanguageMultilang::isEnabled() && empty($this->item->id))
+		if (JPluginHelper::isEnabled('system', 'languagefilter') && empty($this->item->id))
 		{
 			$lang = JFactory::getLanguage()->getTag();
 			$this->form->setFieldAttribute('language', 'default', $lang);

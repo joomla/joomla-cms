@@ -35,7 +35,7 @@ class ModBreadCrumbsHelper
 		$menu    = $app->getMenu();
 
 		// Look for the home menu
-		if (JLanguageMultilang::isEnabled())
+		if (JPluginHelper::isEnabled('system', 'languagefilter'))
 		{
 			$home = $menu->getDefault($lang->getTag());
 		}

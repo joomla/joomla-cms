@@ -150,7 +150,7 @@ class JMenuSite extends JMenu
 			// Filter by language if not set
 			if (($key = array_search('language', $attributes)) === false)
 			{
-				if (JLanguageMultilang::isEnabled())
+				if (JPluginHelper::isEnabled('system', 'languagefilter'))
 				{
 					$attributes[] = 'language';
 					$values[]     = array(JFactory::getLanguage()->getTag(), '*');

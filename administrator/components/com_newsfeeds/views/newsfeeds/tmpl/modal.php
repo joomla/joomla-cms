@@ -75,7 +75,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ($item->language && JLanguageMultilang::isEnabled())
+					<?php if ($item->language && JPluginHelper::isEnabled('system', 'languagefilter'))
 					{
 						$tag = strlen($item->language);
 						if ($tag == 5)
@@ -90,7 +90,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							$lang = "";
 						}
 					}
-					elseif (!JLanguageMultilang::isEnabled())
+					elseif (!JPluginHelper::isEnabled('system', 'languagefilter'))
 					{
 						$lang = "";
 					}

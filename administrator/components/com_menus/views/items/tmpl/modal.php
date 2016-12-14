@@ -88,7 +88,7 @@ jQuery(document).ready(function($) {
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<?php if ($item->type != 'separator' && $item->type != 'alias' && $item->type != 'heading' && $item->type != 'url') : ?>
-						<?php if ($item->language && JLanguageMultilang::isEnabled())
+						<?php if ($item->language && JPluginHelper::isEnabled('system', 'languagefilter'))
 						{
 							if ($item->language !== '*')
 							{
@@ -99,7 +99,7 @@ jQuery(document).ready(function($) {
 								$language = '';
 							}
 						}
-						elseif (!JLanguageMultilang::isEnabled())
+						elseif (!JPluginHelper::isEnabled('system', 'languagefilter'))
 						{
 							$language = '';
 						}

@@ -23,9 +23,12 @@ class JLanguageMultilang
 	 * @return  boolean  True if site is supporting multiple languages; false otherwise.
 	 *
 	 * @since   2.5.4
+	 * @deprecated   __DEPLOY_VERSION__ Use JPluginHelper::isEnabled('system', 'languagefilter') instead.
 	 */
 	public static function isEnabled()
 	{
+		JLog::add(__METHOD__ . '() is deprecated. Use JPluginHelper::isEnabled(\'system\', \'languagefilter\') instead.', JLog::WARNING, 'deprecated');
+
 		// Flag to avoid doing multiple database queries.
 		static $tested = false;
 

@@ -220,7 +220,7 @@ class UsersModelProfile extends JModelForm
 		}
 
 		// When multilanguage is set, a user's default site language should also be a Content Language
-		if (JLanguageMultilang::isEnabled())
+		if (JPluginHelper::isEnabled('system', 'languagefilter'))
 		{
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}

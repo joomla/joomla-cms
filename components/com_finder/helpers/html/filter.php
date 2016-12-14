@@ -116,7 +116,7 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plugin is enabled then drop the language branch.
-			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+			if ($bv->title == 'Language' && JPluginHelper::isEnabled('system', 'languagefilter'))
 			{
 				continue;
 			}
@@ -298,7 +298,7 @@ abstract class JHtmlFilter
 			foreach ($branches as $bk => $bv)
 			{
 				// If the multi-lang plugin is enabled then drop the language branch.
-				if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+				if ($bv->title == 'Language' && JPluginHelper::isEnabled('system', 'languagefilter'))
 				{
 					continue;
 				}
@@ -371,7 +371,7 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plugin is enabled then drop the language branch.
-			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+			if ($bv->title == 'Language' && JPluginHelper::isEnabled('system', 'languagefilter'))
 			{
 				continue;
 			}

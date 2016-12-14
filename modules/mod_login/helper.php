@@ -39,7 +39,7 @@ class ModLoginHelper
 		{
 			$lang = '';
 
-			if (JLanguageMultilang::isEnabled() && $item->language !== '*')
+			if (JPluginHelper::isEnabled('system', 'languagefilter') && $item->language !== '*')
 			{
 				$lang = '&lang=' . $item->language;
 			}

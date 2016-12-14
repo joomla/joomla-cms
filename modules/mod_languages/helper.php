@@ -73,7 +73,7 @@ abstract class ModLanguagesHelper
 
 		$levels    = $user->getAuthorisedViewLevels();
 		$sitelangs = JLanguageHelper::getInstalledLanguages(0);
-		$multilang = JLanguageMultilang::isEnabled();
+		$multilang = JPluginHelper::isEnabled('system', 'languagefilter');
 
 		// Filter allowed languages
 		foreach ($languages as $i => &$language)
