@@ -94,10 +94,10 @@ JFactory::getDocument()->addScriptDeclaration('
 				$userAuthoriseCoreEditState = $user->authorise('core.edit.state', 'com_finder');
 				$userId                     = $user->get('id');
 				foreach ($this->items as $i => $item) :
-                    $canCheckIn   = $userAuthoriseCoreManage || $item->checked_out == $userId || $item->checked_out == 0;
-                    $canChange    = $userAuthoriseCoreEditState && $canCheckIn;
-                    $escapedTitle = $this->escape($item->title);
-                    ?>
+					$canCheckIn   = $userAuthoriseCoreManage || $item->checked_out == $userId || $item->checked_out == 0;
+					$canChange    = $userAuthoriseCoreEditState && $canCheckIn;
+					$escapedTitle = $this->escape($item->title);
+					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->filter_id); ?>

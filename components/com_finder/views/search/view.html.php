@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+
 /**
  * Search HTML view class for the Finder package.
  *
@@ -77,7 +78,7 @@ class FinderViewSearch extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
+		$app    = JFactory::getApplication();
 		$params = $app->getParams();
 
 		// Get view data.
@@ -95,6 +96,7 @@ class FinderViewSearch extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -105,11 +107,11 @@ class FinderViewSearch extends JViewLegacy
 		}
 
 		// Push out the view data.
-		$this->state = &$state;
-		$this->params = &$params;
-		$this->query = &$query;
-		$this->results = &$results;
-		$this->total = &$total;
+		$this->state      = &$state;
+		$this->params     = &$params;
+		$this->query      = &$query;
+		$this->results    = &$results;
+		$this->total      = &$total;
 		$this->pagination = &$pagination;
 
 		// Check for a double quote in the query string.
@@ -192,7 +194,7 @@ class FinderViewSearch extends JViewLegacy
 	/**
 	 * Method to get the layout file for a search result object.
 	 *
-	 * @param   string  $layout  The layout file to check. [optional]
+	 * @param   string $layout The layout file to check. [optional]
 	 *
 	 * @return  string  The layout file to use.
 	 *
@@ -206,7 +208,7 @@ class FinderViewSearch extends JViewLegacy
 		// Check if the file exists.
 		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$exists = JPath::find($this->_path['template'], $filetofind);
+		$exists     = JPath::find($this->_path['template'], $filetofind);
 
 		return ($exists ? $layout : 'result');
 	}
@@ -214,7 +216,7 @@ class FinderViewSearch extends JViewLegacy
 	/**
 	 * Prepares the document
 	 *
-	 * @param   FinderIndexerQuery  $query  The search query
+	 * @param   FinderIndexerQuery $query The search query
 	 *
 	 * @return  void
 	 *
@@ -222,7 +224,7 @@ class FinderViewSearch extends JViewLegacy
 	 */
 	protected function prepareDocument($query)
 	{
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
