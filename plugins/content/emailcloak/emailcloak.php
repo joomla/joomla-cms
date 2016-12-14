@@ -285,12 +285,12 @@ class PlgContentEmailcloak extends JPlugin
 		 * Search for derivatives of link code <a href="mailto:email@example.org">
 		 * <img anything>email@example.org</a>
 		 */
-		$pattern = $this->_getPattern($searchEmail, ($searchImage . $searchEmail));
+		$pattern = $this->_getPattern($searchEmail, $searchImage . $searchEmail);
 
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0];
-			$mailText = $regs[4][0] . ($regs[5][0]);
+			$mailText = $regs[4][0] . $regs[5][0];
 
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
 
@@ -305,7 +305,7 @@ class PlgContentEmailcloak extends JPlugin
 		 * Search for derivatives of link code <a href="mailto:email@example.org">
 		 * <img anything>any text</a>
 		 */
-		$pattern = $this->_getPattern($searchEmail, ($searchImage . $searchText));
+		$pattern = $this->_getPattern($searchEmail, $searchImage . $searchText);
 
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
@@ -437,7 +437,7 @@ class PlgContentEmailcloak extends JPlugin
 		 * Search for derivatives of link code
 		 * <a href="mailto:email@amail.com?subject=Text"><img anything>email@amail.com</a>
 		 */
-		$pattern = $this->_getPattern($searchEmailLink, ($searchImage . $searchEmail));
+		$pattern = $this->_getPattern($searchEmailLink, $searchImage . $searchEmail);
 
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
@@ -461,7 +461,7 @@ class PlgContentEmailcloak extends JPlugin
 		 * Search for derivatives of link code
 		 * <a href="mailto:email@amail.com?subject=Text"><img anything>any text</a>
 		 */
-		$pattern = $this->_getPattern($searchEmailLink, ($searchImage . $searchText));
+		$pattern = $this->_getPattern($searchEmailLink, $searchImage . $searchText);
 
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{

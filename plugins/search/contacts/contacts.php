@@ -183,8 +183,8 @@ class PlgSearchContacts extends JPlugin
 			{
 				$rows[$key]->href  = ContactHelperRoute::getContactRoute($row->slug, $row->catslug);
 				$rows[$key]->text  = $row->title;
-				$rows[$key]->text .= ($row->con_position) ? ', ' . $row->con_position : '';
-				$rows[$key]->text .= ($row->misc) ? ', ' . $row->misc : '';
+				$rows[$key]->text .= $row->con_position ? ', ' . $row->con_position : '';
+				$rows[$key]->text .= $row->misc ? ', ' . $row->misc : '';
 			}
 		}
 

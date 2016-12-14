@@ -698,7 +698,7 @@ class PlgEditorTinymce extends JPlugin
 				// Set some vars
 				$name    = 'button-' . $i . str_replace(" ", "", $button->get('text'));
 				$title   = $button->get('text');
-				$onclick = ($button->get('onclick')) ? $button->get('onclick') : null;
+				$onclick = $button->get('onclick') ? $button->get('onclick') : null;
 				$options = $button->get('options');
 				$icon    = $button->get('name');
 
