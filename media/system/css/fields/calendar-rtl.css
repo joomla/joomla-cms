@@ -2,42 +2,39 @@
  * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
+ .js-calendar {
+	box-shadow: 0 0 15px 4px rgba(0,0,0,.15) !important;
+ }
 .calendar-container {
 	float: left;
 	min-width: 160px;
-	padding: 5px 0;
+	padding: 0;
 	list-style: none;
-	border: 1px solid #ccc;
-	border-radius: 8px;
+	border-radius: 5px;
 	background-color: #ffffff !important;
 	z-index: 1100 !important;
 }
 .calendar-container table {
+	table-layout: fixed;
+	max-width: 262px;
+	border-radius: 5px;
 	background-color: #ffffff !important;
 	z-index: 1100 !important;
 }
 /* The main calendar widget.  DIV containing a table. */
 div.calendar-container table th, .calendar-container table td {
-	padding: 7px;
-	line-height: 1.8em;
-	background-color: #fff;
+	padding: 8px 0;
+	line-height: 1.1em;
+	text-align: center;
 }
 
-div.calendar-container table td {
-	padding-left: 2px;
-	padding-right: 2px;
-}
 div.calendar-container table body td {
 	line-height: 2em;
 }
 
 div.calendar-container table td.title { /* This holds the current "month, year" */
 	vertical-align: middle;
-	font-weight: bold;
 	text-align: center;
-	font-size: 1.1em;
-	background: #fff;
-	color: #000;
 }
 
 .calendar-container table thead td.headrow { /* Row <TR> containing navigation buttons */
@@ -55,16 +52,6 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	color: #999;
 }
 
-.calendar-container table td.daynames { /* Row <TR> containing the day names */
-	width: 14.28571429%;
-	text-align: center;
-	background: #fff;
-}
-.calendar-container table td.daynames.wk { /* Row <TR> containing the day names */
-	width: 12.5%;
-	text-align: center;
-	background: #fff;
-}
 /* The body part -- contains all the days in month. */
 
 .calendar-container table tbody td.day { /* Cells <TD> containing month days dates */
@@ -73,11 +60,6 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 
 .calendar-container table tbody td.wn {
 	background: #fff;
-}
-
-.calendar-container table tbody td.active { /* Active (pressed) cells <TD> */
-	background: #ffffff;
-	color: #000000;
 }
 
 .calendar-container table tbody td.weekend { /* Cells showing weekend days */
@@ -89,21 +71,8 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	color: #ffffff;
 }
 
-td.day-name {
-	width: 14.28571429%;
-}
-
-td.day-name.day-name-week {
-	width: 12.5%;
-}
-
-.calendar-container table thead td.day-name.wn {
-	text-align: center;
-	background-color: #f4f4f4;
-}
-
 .calendar-container table tbody td.day {
-	border: none;
+	border: 0;
 	cursor : pointer;
 }
 
@@ -113,14 +82,29 @@ td.day-name.day-name-week {
 }
 
 .calendar-container table tbody td.selected { /* Cell showing today date */
-	font-weight: bold;
 	background: #3071a9;
 	color: #fff;
+	border: 0;
 }
 
 .calendar-container table tbody td.today {
+	position: relative;
+	height: 100%;
+	width: 100%;
 	font-weight: bold;
-	border: 0.1em solid lime;
+}
+.calendar-container table tbody td.today:after {
+	position: absolute;
+	bottom: 3px;
+	left: 3px;
+	right: 3px;
+	content: "";
+	height: 3px;
+	border-radius: 1.5px;
+	background-color: #46a546;
+}
+.calendar-container table tbody td.today.selected:after {
+	background-color: #fff;
 }
 
 .calendar-container table tbody td.day:hover {
@@ -128,9 +112,13 @@ td.day-name.day-name-week {
 	background: #3d8fd7;
 	color: #fff;
 }
+.calendar-container table tbody td.day:hover:after {
+	background-color: #fff;
+}
 
 .calendar-container table tbody .disabled {
 	color: #999;
+	background-color: #fafafa;
 }
 
 .calendar-container table tbody .emptycell { /* Empty cells (the best is to hide them) */
@@ -144,4 +132,23 @@ td.day-name.day-name-week {
 a.js-btn.btn.btn-danger.btn-exit, a.js-btn.btn.btn-primary.btn-today, a.js-btn.btn.btn-clear {
 	cursor : pointer;
 	text-decoration: none;
+}
+.calendar-container .calendar-head-row td {
+    padding: 4px 0 !important;
+}
+.calendar-container .day-name {
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+.calendar-container .time td {
+	padding: 8px 8px 8px 0;
+}
+.calendar-container .btn-row td {
+	padding: 8px 4px;
+}
+.calendar-container .btn-row td:first-of-type {
+	padding-right: 8px;
+}
+.calendar-container .btn-row td:last-of-type {
+	padding-left: 8px;
 }
