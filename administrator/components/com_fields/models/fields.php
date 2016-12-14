@@ -122,6 +122,7 @@ class FieldsModelFields extends JModelList
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user  = JFactory::getUser();
+		$app   = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -219,11 +220,15 @@ class FieldsModelFields extends JModelList
 		// Filter by state
 		$state = $this->getState('filter.state');
 
+		// Include group state only when not on on back end list
+		$includeGroupState = !$app->isClient('administrator') ||
+			$app->input->get('option') != 'com_fields' ||
+			$app->input->get('view') != 'fields';
 		if (is_numeric($state))
 		{
 			$query->where('a.state = ' . (int) $state);
 
-			if (JFactory::getApplication()->isClient('site'))
+			if ($includeGroupState)
 			{
 				$query->where('(a.group_id = 0 OR g.state = ' . (int) $state . ')');
 			}
@@ -232,9 +237,9 @@ class FieldsModelFields extends JModelList
 		{
 			$query->where('a.state IN (0, 1)');
 
-			if (JFactory::getApplication()->isClient('site'))
+			if ($includeGroupState)
 			{
-				$query->where('(a.group_id = 0 OR g.state IN (0, 1)');
+				$query->where('(a.group_id = 0 OR g.state IN (0, 1))');
 			}
 		}
 
