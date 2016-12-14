@@ -764,7 +764,7 @@ class JApplication extends JApplicationBase
 		if (!in_array(false, $results, true))
 		{
 				$options['username'] = $user->get('username');
-				$results = $this->triggerEvent('onUserAfterLogout', array($options));
+				$this->triggerEvent('onUserAfterLogout', array($options));
 
 			return true;
 		}

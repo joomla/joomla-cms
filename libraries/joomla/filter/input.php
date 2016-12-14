@@ -826,7 +826,6 @@ class JFilterInput extends InputFilter
 		// In the beginning we don't really have a tag, so everything is postTag
 		$preTag = null;
 		$postTag = $source;
-		$currentSpace = false;
 
 		// Setting to null to deal with undefined variables
 		$attr = '';

@@ -321,7 +321,6 @@ class idna_convert
                 } else {
                     // Skip first char
                     if ($k) {
-                        $encoded = '';
                         $encoded = $this->_encode(array_slice($decoded, $last_begin, (($k)-$last_begin)));
                         if ($encoded) {
                             $output .= $encoded;
@@ -337,7 +336,6 @@ class idna_convert
         // Catch the rest of the string
         if ($last_begin) {
             $inp_len = sizeof($decoded);
-            $encoded = '';
             $encoded = $this->_encode(array_slice($decoded, $last_begin, (($inp_len)-$last_begin)));
             if ($encoded) {
                 $output .= $encoded;
@@ -599,7 +597,6 @@ class idna_convert
     protected function _nameprep($input)
     {
         $output = array();
-        $error = false;
         //
         // Mapping
         // Walking through the input array, performing the required steps on each of

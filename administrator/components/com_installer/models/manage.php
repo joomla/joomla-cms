@@ -198,8 +198,6 @@ class InstallerModelManage extends InstallerModel
 			return false;
 		}
 
-		$failed = array();
-
 		/*
 		 * Ensure eid is an array of extension ids in the form id => client_id
 		 * TODO: If it isn't an array do we want to set an error and fail?

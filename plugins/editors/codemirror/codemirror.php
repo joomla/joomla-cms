@@ -57,7 +57,7 @@ class PlgEditorCodemirror extends JPlugin
 		$doc = JFactory::getDocument();
 
 		// Codemirror shall have its own group of plugins to modify and extend its behavior
-		$result = JPluginHelper::importPlugin('editors_codemirror');
+		JPluginHelper::importPlugin('editors_codemirror');
 		$dispatcher	= JEventDispatcher::getInstance();
 
 		// At this point, params can be modified by a plugin before going to the layout renderer.

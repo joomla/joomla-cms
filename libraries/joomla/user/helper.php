@@ -327,9 +327,6 @@ abstract class JUserHelper
 	 */
 	public static function verifyPassword($password, $hash, $user_id = 0)
 	{
-		$rehash = false;
-		$match = false;
-
 		// If we are using phpass
 		if (strpos($hash, '$P$') === 0)
 		{
@@ -353,7 +350,6 @@ abstract class JUserHelper
 		{
 			// Check the password
 			$parts     = explode(':', $hash);
-			$crypt     = $parts[0];
 			$salt      = @$parts[1];
 			$testcrypt = static::getCryptedPassword($password, $salt, 'sha256', true);
 
@@ -365,7 +361,6 @@ abstract class JUserHelper
 		{
 			// Check the password
 			$parts = explode(':', $hash);
-			$crypt = $parts[0];
 			$salt  = @$parts[1];
 
 			$rehash = true;
