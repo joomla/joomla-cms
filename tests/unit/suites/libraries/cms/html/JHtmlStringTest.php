@@ -139,14 +139,6 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 			// Don't return invalid HTML
 			'Plain html over the limit splitting first word' => array(
 				'<span>Plain text</span>',
-				1,
-				false,
-				true,
-				'...',
-			),
-			// Don't return invalid HTML
-			'Plain html over the limit splitting first word' => array(
-				'<span>Plain text</span>',
 				4,
 				false,
 				true,
@@ -173,23 +165,9 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				false,
 				'Plain te...',
 			),
-			'HTML not allowed, no split' => array(
-				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
-				4,
-				true,
-				false,
-				'...',
-			),
 			'First character is < with a maximum length of 1' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				1,
-				true,
-				false,
-				'...',
-			),
-			'HTML not allowed, no split' => array(
-				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
-				5,
 				true,
 				false,
 				'...',
@@ -306,12 +284,6 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				8,
 				true,
 				'<span>Plain</span>...'
-			),
-			'Plain html over the limit splitting first word' => array(
-				'<span>Plain text</span>',
-				4,
-				false,
-				'<span>P</span>...'
 			),
 			'Plain html over the limit splitting first word' => array(
 				'<span>Plain text</span>',
