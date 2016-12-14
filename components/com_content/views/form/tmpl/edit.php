@@ -1,3 +1,4 @@
+
 <?php
 /**
  * @package     Joomla.Site
@@ -66,7 +67,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($params->get('show_urls_images_frontend')) : ?>
-			<?php echo JHtml::_("bootstrap.addTab", $this->tab_name, "images", JText::_("COM_CONTENT_IMAGES_AND_URLS")); ?>
+			<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'images', JText::_('COM_CONTENT_IMAGES_AND_URLS')); ?>
 				<?php echo $this->form->renderField('image_intro', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
