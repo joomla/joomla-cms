@@ -20,6 +20,48 @@ class PlgContentLoadmodule extends JPlugin
 	protected static $modules = array();
 
 	protected static $mods = array();
+	
+	/**
+	 * Plugin that removes <p/> wrapper around loadposition and/or loadmodule placeholders
+	 * 
+	 * @param	string	$context	The context of the content being passed to the plugin.
+	 * @param	object	$article	The article object.
+	 * @param	boolean	$isNew	A boolean which is set to true if the content is about to be created.
+	 * 
+	 * @return	mixed	false if there is an error. Void otherwise.
+	 */
+	public function onContentBeforeSave($context, $article, $isNew)
+	{
+		// Article object fields to modify
+		$fields = array('fulltext', 'introtext');
+		// Expression for which to search
+		$regex = '/<p>\s?({load(position|module)\s(.*?)})\s?<\/p>/i';
+		
+		foreach ($fields as $field)
+		{
+			// Empty field, skip this field
+			if (empty($article->$field))
+				continue;
+			
+			// No placeholder, skip this field
+			if (strpos($article->$field, 'loadposition') === false && strpos($article->$field, 'loadmodule') === false)
+				continue;
+
+			// Find all instances of plugin and put in $matches for loadposition and/or loadmodule
+			// $matches[0] is full pattern match, $matches[1] is the placeholder
+			preg_match_all($regex, $article->$field, $matches, PREG_SET_ORDER);
+
+			// No matches, skip this field
+			if (!$matches)
+				continue;
+			
+			foreach ($matches as $match)
+			{
+				// Remove the wrapper from the placeholder
+				$article->$field = preg_replace("|$match[0]|", $match[1], $article->$field);
+			}
+		}
+	}
 
 	/**
 	 * Plugin that loads module positions within content
@@ -48,11 +90,11 @@ class PlgContentLoadmodule extends JPlugin
 		}
 
 		// Expression to search for (positions)
-		$regex = '/<p>\s{loadposition\s(.*?)}\s<\/p>|{loadposition\s(.*?)}/i';
+		$regex = '/{loadposition\s(.*?)}/i';
 		$style = $this->params->def('style', 'none');
 
 		// Expression to search for(modules)
-		$regexmod = '/<p>\s{loadmodule\s(.*?)}\s<\/p>|{loadmodule\s(.*?)}/i';
+		$regexmod = '/{loadmodule\s(.*?)}/i';
 		$stylemod = $this->params->def('style', 'none');
 
 		// Find all instances of plugin and put in $matches for loadposition
