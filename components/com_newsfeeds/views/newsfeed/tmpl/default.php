@@ -17,31 +17,31 @@ else
 {
 	$lang      = JFactory::getLanguage();
 	$myrtl     = $this->newsfeed->rtl;
-	$direction = " ";
+	$direction = ' ';
 
 		if ($lang->isRtl() && $myrtl == 0)
 		{
-			$direction = " redirect-rtl";
+			$direction = ' redirect-rtl';
 		}
 		elseif ($lang->isRtl() && $myrtl == 1)
 		{
-			$direction = " redirect-ltr";
+			$direction = ' redirect-ltr';
 		}
 		elseif ($lang->isRtl() && $myrtl == 2)
 		{
-			$direction = " redirect-rtl";
+			$direction = ' redirect-rtl';
 		}
 		elseif ($myrtl == 0)
 		{
-			$direction = " redirect-ltr";
+			$direction = ' redirect-ltr';
 		}
 		elseif ($myrtl == 1)
 		{
-			$direction = " redirect-ltr";
+			$direction = ' redirect-ltr';
 		}
 		elseif ($myrtl == 2)
 		{
-			$direction = " redirect-rtl";
+			$direction = ' redirect-rtl';
 		}
 		$images = json_decode($this->item->images);
 	?>

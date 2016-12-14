@@ -33,11 +33,11 @@ if (!empty($this->items))
 }
 
 // For B/C we also add the css classes inline. This will be removed in 4.0.
-JFactory::getDocument()->addStyleDeclaration("
+JFactory::getDocument()->addStyleDeclaration('
 .hide { display: none; }
 .table-noheader { border-collapse: collapse; }
 .table-noheader thead { display: none; }
-");
+');
 
 $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 ?>
@@ -97,11 +97,11 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 				</th>
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 					<th scope="col" id="categorylist_header_date">
-						<?php if ($date == "created") : ?>
+						<?php if ($date == 'created') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
-						<?php elseif ($date == "modified") : ?>
+						<?php elseif ($date == 'modified') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.modified', $listDirn, $listOrder); ?>
-						<?php elseif ($date == "published") : ?>
+						<?php elseif ($date == 'published') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
 						<?php endif; ?>
 					</th>

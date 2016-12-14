@@ -41,7 +41,7 @@ class ContentViewCategory extends JViewCategoryfeed
 		$obj = json_decode($item->images);
 		$introImage = ( isset( $obj->{'image_intro'} ) ) ? $obj->{'image_intro'} : '';
 
-		if (isset($introImage) && ($introImage != "")) 
+		if (isset($introImage) && ($introImage != ''))
 		{
 			$image = preg_match('/http/', $introImage)? $introImage : JURI::root() . $introImage;
 			$item->description = '<p><img src="' . $image . '" /></p>';
