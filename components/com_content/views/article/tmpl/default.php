@@ -96,10 +96,10 @@ JHtml::_('behavior.caption');
 		|| (empty($urls->urls_position) && (!$params->get('urls_position')))) : ?>
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
-	<?php if ($params->get('access-view')):?>
+	<?php if ($params->get('access-view')) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.full_image', $this->item); ?>
 	<?php
-	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):
+	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative) :
 		echo $this->item->pagination;
 	endif;
 	?>
@@ -121,7 +121,7 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 
 	<?php
-	if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && !$this->item->paginationrelative):
+	if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && !$this->item->paginationrelative) :
 		echo $this->item->pagination;
 	?>
 	<?php endif; ?>

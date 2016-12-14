@@ -48,7 +48,10 @@ class JGoogleEmbedMapsTest extends TestCase
 
 		$this->options = new JRegistry;
 
-		$this->http = $this->getMock('JHttp', array('get'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('get'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$this->uri = new JUri;
 		$this->object = new JGoogleEmbedMaps($this->options, $this->uri, $this->http);
 	}

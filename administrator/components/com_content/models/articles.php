@@ -226,11 +226,12 @@ class ContentModelArticles extends JModelList
 			$query->where('a.access = ' . (int) $access);
 		}
 
-		// Implement View Level Access
+		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
+			$query->where('c.access IN (' . $groups . ')');
 		}
 
 		// Filter by published state

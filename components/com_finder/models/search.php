@@ -1114,7 +1114,7 @@ class FinderModelSearch extends JModelList
 				$this->setState('list.ordering', 'l.list_price');
 				break;
 
-			case ($order == 'relevance' && !empty($this->includedTerms)):
+			case ($order == 'relevance' && !empty($this->includedTerms)) :
 				$this->setState('list.ordering', 'm.weight');
 				break;
 

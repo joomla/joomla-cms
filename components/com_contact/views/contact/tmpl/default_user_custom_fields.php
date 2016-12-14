@@ -25,12 +25,12 @@ $userFieldGroups    = array();
 		<?php continue; ?>
 	<?php endif; ?>
 	<?php if (!key_exists($field->group_title, $userFieldGroups)) : ?>
-		<?php $userFieldGroups[$field->group_title] = array();?>
+		<?php $userFieldGroups[$field->group_title] = array(); ?>
 	<?php endif; ?>
-	<?php $userFieldGroups[$field->group_title][] = $field;?>
+	<?php $userFieldGroups[$field->group_title][] = $field; ?>
 <?php endforeach; ?>
 
-<?php foreach ($userFieldGroups as $groupTitle => $fields) :?>
+<?php foreach ($userFieldGroups as $groupTitle => $fields) : ?>
 	<?php $id = JApplicationHelper::stringURLSafe($groupTitle); ?>
 	<?php if ($presentation_style == 'sliders') : ?>
 		<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', $groupTitle ? $groupTitle : JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
@@ -42,7 +42,7 @@ $userFieldGroups    = array();
 
 	<div class="contact-profile" id="user-custom-fields-<?php echo $id; ?>">
 		<dl class="dl-horizontal">
-		<?php foreach ($fields as $field) :?>
+		<?php foreach ($fields as $field) : ?>
 			<?php if (!$field->value) : ?>
 				<?php continue; ?>
 			<?php endif; ?>
