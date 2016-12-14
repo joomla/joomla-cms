@@ -83,8 +83,6 @@ class ModFinderHelper
 		$options['filters'] = ArrayHelper::toInteger($options['filters']);
 
 		// Instantiate a query object.
-		$query = new FinderIndexerQuery($options);
-
-		return $query;
+		return new FinderIndexerQuery($options);
 	}
 }
