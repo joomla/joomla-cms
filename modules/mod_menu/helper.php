@@ -97,6 +97,8 @@ class ModMenuHelper
 					switch ($item->type)
 					{
 						case 'separator':
+							break;
+
 						case 'heading':
 							// No further action needed.
 							break;
