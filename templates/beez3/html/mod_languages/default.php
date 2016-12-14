@@ -29,7 +29,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array('version' => 'auto', 
 	<ul class="<?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
 	<?php foreach ($list as $language) : ?>
 		<?php if ($params->get('show_active', 0) || !$language->active) : ?>
-			<li class="<?php echo $language->active ? 'lang-active' : ''; ?>" dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
+			<li class="<?php echo $language->active ? 'lang-active' : ($language->associated ? 'lang-associated' : ''); ?>" dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
 			<a href="<?php echo $language->link; ?>">
 			<?php if ($params->get('image', 1)) : ?>
 				<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>

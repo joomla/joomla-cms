@@ -97,6 +97,9 @@ abstract class ModLanguagesHelper
 			{
 				$language->active = ($language->lang_code == $lang->getTag());
 
+				// This is a default
+				$language->associated = false;
+
 				// Fetch language rtl
 				// If loaded language get from current JLanguage metadata
 				if ($language->active)
@@ -115,6 +118,7 @@ abstract class ModLanguagesHelper
 					if (isset($cassociations[$language->lang_code]))
 					{
 						$language->link = JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
+						$language->associated = true;
 					}
 					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 					{
