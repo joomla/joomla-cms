@@ -176,7 +176,10 @@ class JHtmlTest extends TestCase
 	 */
 	public function testRegister()
 	{
-		$registered = $this->getMock('MyHtmlClass', array('mockFunction'));
+		// Build the mock object.
+		$registered = $this->getMockBuilder('MyHtmlClass')
+					->setMethods(array('mockFunction'))
+					->getMock();
 
 		// Test that we can register the method
 		$this->assertTrue(
@@ -205,8 +208,10 @@ class JHtmlTest extends TestCase
 	 */
 	public function testUnregister()
 	{
-		// Register a method so we can unregister it
-		$registered = $this->getMock('MyHtmlClass', array('mockFunction'));
+		// Build the mock object to Register a method so we can unregister it.
+		$registered = $this->getMockBuilder('MyHtmlClass')
+					->setMethods(array('mockFunction'))
+					->getMock();
 
 		JHtml::register('prefix.unregister.testfunction', array($registered, 'mockFunction'));
 
@@ -230,7 +235,10 @@ class JHtmlTest extends TestCase
 	 */
 	public function testIsRegistered()
 	{
-		$registered = $this->getMock('MyHtmlClass', array('mockFunction'));
+		// Build the mock object.
+		$registered = $this->getMockBuilder('MyHtmlClass')
+					->setMethods(array('mockFunction'))
+					->getMock();
 
 		// Test that we can register the method.
 		JHtml::register('prefix.isregistered.method', array($registered, 'mockFunction'));
@@ -1439,35 +1447,38 @@ class JHtmlTest extends TestCase
 				strlen($input),
 				'Line:' . __LINE__ . ' The calendar method should return something without error.'
 			);
+			$readonly = isset($data['attribs']['readonly']) ? 'readonly="readonly"' : '';
 
-			$xml = new SimpleXMLElement('<calendar>' . $input . '</calendar>');
+			$xml = new SimpleXMLElement('<field name="'.$data['name'].'" type="calendar" id="'.$data['id'].'"
+			format="'.$data['format'].'" title="' .$data['friendly_date'] . '" value="' . $data['formattedDate'] . '" '. $readonly . ' />');
+
 			$this->assertEquals(
-				'text',
-				(string) $xml->div->input['type'],
-				'Line:' . __LINE__ . ' The calendar input should have `type == "text"`'
+				'calendar',
+				(string) $xml->attributes()->type,
+				'Line:' . __LINE__ . ' The calendar input should have `type == "calendar"`'
 			);
 
 			$this->assertEquals(
 				$data['friendly_date'],
-				(string) $xml->div->input['title'],
+				(string) $xml->attributes()->title,
 				'Line:'.__LINE__.' The calendar input should have `title == "' . $data['friendly_date'] . '"`'
 			);
 
 			$this->assertEquals(
 				$data['name'],
-				(string) $xml->div->input['name'],
+				(string) $xml->attributes()->name,
 				'Line:'.__LINE__.' The calendar input should have `name == "' . $data['name'] . '"`'
 			);
 
 			$this->assertEquals(
 				$data['id'],
-				(string) $xml->div->input['id'],
+				(string) $xml->attributes()->id,
 				'Line:'.__LINE__.' The calendar input should have `id == "' . $data['id'] . '"`'
 			);
 
 			$this->assertEquals(
 				$data['formattedDate'],
-				(string) $xml->div->input['value'],
+				(string) $xml->attributes()->value,
 				'Line:' . __LINE__ . ' The calendar input should have `value == "' . $data['formattedDate'] . '"`'
 			);
 
@@ -1475,69 +1486,28 @@ class JHtmlTest extends TestCase
 			{
 				$this->assertEquals(
 					$data['attribs']['readonly'],
-					(string) $xml->div->input['readonly'],
-					'Line:' . __LINE__ . ' The readonly calendar input should have `readonly == "' . $data['attribs']['readonly'] . '"`'
-				);
-
-				$this->assertTrue(
-					isset($xml->div->button['style']),
-					'Line:' . __LINE__ . ' The calendar input should not have a visible button'
-				);
-
-				$this->assertArrayNotHasKey(
-					'/media/system/js/calendar.js',
-					JFactory::getDocument()->_scripts,
-					'Line:' . __LINE__ . ' JS file "calendar.js" shouldn\'t be loaded'
-				);
-
-				$this->assertArrayNotHasKey(
-					'/media/system/js/calendar-setup.js',
-					JFactory::getDocument()->_scripts,
-					'Line:' . __LINE__ . ' JS file "calendar-setup.js" shouldn\'t be loaded'
-				);
-
-				$this->assertArrayNotHasKey(
-					'text/javascript',
-					JFactory::getDocument()->_script,
-					'Line:' . __LINE__ . ' Inline JS for the calendar shouldn\'t be loaded'
+					$xml->attributes()->readonly,
+					'Line:' . __LINE__ . ' The calendar input should have readonly attribute'
 				);
 			}
-			else
-			{
-				$this->assertFalse(
-					isset($xml->div->input['readonly']),
-					'Line:' . __LINE__ . ' The calendar input shouldn\'t have readonly attribute'
-				);
 
-				$this->assertFalse(
-					isset($xml->div->button['style']),
-					'Line:' . __LINE__ . ' The calendar input should visible button'
-				);
+			$this->assertArrayHasKey(
+				'/media/system/js/fields/calendar-locales/en.js',
+				JFactory::getDocument()->_scripts,
+				'Line:'.__LINE__.' JS file "calendar-vanilla.min.js" should be loaded'
+			);
 
-				$this->assertEquals(
-					$data['id'] . '_img',
-					(string) $xml->div->button['id'],
-					'Line:' . __LINE__ . ' The calendar button should have `id == "' . $data['id'] . '_img' . '"`'
-				);
+			$this->assertArrayHasKey(
+				'/media/system/js/fields/calendar-locales/date/gregorian/date-helper.min.js',
+				JFactory::getDocument()->_scripts,
+				'Line:'.__LINE__.' JS file "date.js" should be loaded'
+			);
 
-				$this->assertArrayHasKey(
-					'/media/system/js/calendar.js',
-					JFactory::getDocument()->_scripts,
-					'Line:'.__LINE__.' JS file "calendar.js" should be loaded'
-				);
-
-				$this->assertArrayHasKey(
-					'/media/system/js/calendar-setup.js',
-					JFactory::getDocument()->_scripts,
-					'Line:'.__LINE__.' JS file "calendar-setup.js" should be loaded'
-				);
-
-				$this->assertContains(
-					'jQuery(document).ready(function($) {Calendar.setup({',
-					JFactory::getDocument()->_script['text/javascript'],
-					'Line:' . __LINE__ . ' Inline JS for the calendar should be loaded'
-				);
-			}
+			$this->assertArrayHasKey(
+				'/media/system/js/fields/calendar-vanilla.min.js',
+				JFactory::getDocument()->_scripts,
+				'Line:'.__LINE__.' JS file "calendar-vanilla.min.js" should be loaded'
+			);
 		}
 	}
 

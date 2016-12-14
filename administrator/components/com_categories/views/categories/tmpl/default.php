@@ -40,13 +40,6 @@ if (count($parts) > 1)
 	{
 		$section = $inflector->toPlural($section);
 	}
-
-	// If the section ends with .fields, then the category belongs to com_fields
-	if (substr($section, -strlen('.fields')) === '.fields')
-	{
-		$component = 'com_fields';
-		$section = 'fields&context=' . str_replace('.fields', '', implode('.', $parts));
-	}
 }
 
 if ($saveOrder)

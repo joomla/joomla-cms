@@ -7125,8 +7125,14 @@ body.site.fluid {
 }
 .site-title {
 	font-size: 40px;
+	font-size: calc(16px + 2.16vw);
 	line-height: 48px;
 	font-weight: bold;
+}
+@media (min-width: 1024px) {
+	.site-title {
+		font-size: 40px;
+	}
 }
 .brand {
 	color: #001a27;
@@ -7559,6 +7565,12 @@ figcaption {
 		overflow: visible;
 		height: 0;
 		z-index: 100;
+	}
+	.nav-collapse .nav > li.active > a {
+		color: #fff;
+	}
+	.nav-collapse .nav > li.active > a:hover {
+		color: #555;
 	}
 }
 @media (min-width: 768px) and (max-width: 979px) {

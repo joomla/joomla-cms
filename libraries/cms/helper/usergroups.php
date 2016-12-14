@@ -308,6 +308,11 @@ final class JHelperUsergroups
 
 		$parentGroup = $this->has($parentId) ? $this->get($parentId) : $this->load($parentId);
 
+		if (!property_exists($parentGroup, 'path'))
+		{
+			$parentGroup = $this->populateGroupData($parentGroup);
+		}
+
 		$group->path = array_merge($parentGroup->path, array($group->id));
 		$group->level = count($group->path) - 1;
 
