@@ -52,7 +52,7 @@ class ContentViewForm extends JViewLegacy
 
 		if (empty($this->item->id))
 		{
-			$authorised = $user->authorise('core.create', 'com_content') || (count($user->getAuthorisedCategories('com_content', 'core.create')));
+			$authorised = $user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create'));
 		}
 		else
 		{

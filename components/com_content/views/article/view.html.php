@@ -82,7 +82,7 @@ class ContentViewArticle extends JViewLegacy
 			$currentLink = $active->link;
 
 			// If the current view is the active item and an article view for this article, then the menu item params take priority
-			if (strpos($currentLink, 'view=article') && (strpos($currentLink, '&id=' . (string) $item->id)))
+			if (strpos($currentLink, 'view=article') && strpos($currentLink, '&id=' . (string) $item->id))
 			{
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))

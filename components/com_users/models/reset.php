@@ -307,7 +307,7 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Verify the token
-		if (!(JUserHelper::verifyPassword($data['token'], $user->activation)))
+		if (!JUserHelper::verifyPassword($data['token'], $user->activation))
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 

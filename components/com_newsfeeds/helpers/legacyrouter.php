@@ -70,8 +70,8 @@ class NewsfeedsRouterRulesLegacy implements JComponentRouterRulesInterface
 			$menuItem = $this->router->menu->getItem($query['Itemid']);
 		}
 
-		$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-		$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+		$mView = empty($menuItem->query['view']) ? null : $menuItem->query['view'];
+		$mId   = empty($menuItem->query['id']) ? null : $menuItem->query['id'];
 
 		if (isset($query['view']))
 		{
@@ -86,7 +86,7 @@ class NewsfeedsRouterRulesLegacy implements JComponentRouterRulesInterface
 		}
 
 		// Are we dealing with an newsfeed that is attached to a menu item?
-		if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id']))
+		if (isset($query['view']) && ($mView == $query['view']) and isset($query['id']) and ($mId == (int) $query['id']))
 		{
 			unset($query['view'], $query['catid'], $query['id']);
 
