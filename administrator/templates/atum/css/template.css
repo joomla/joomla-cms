@@ -7957,6 +7957,36 @@ iframe {
       padding: 8px 10px;
       font-size: 14px; } }
 
+.modal .btn {
+  margin-right: .5rem; }
+
+.modal .btn-primary:not([href]),
+.modal .btn-success:not([href]) {
+  color: #fff; }
+  .modal .btn-primary:not([href]):hover,
+  .modal .btn-success:not([href]):hover {
+    color: #fff; }
+
+.modal-header {
+  padding: 0 15px; }
+  .modal-header .close {
+    width: 46px;
+    margin-top: 0;
+    margin-right: -15px;
+    font-size: 2rem;
+    line-height: 46px;
+    border-left: 1px solid #bbb; }
+
+.modal-body {
+  padding: 0; }
+
+.modal-title {
+  font-weight: normal;
+  line-height: 46px; }
+
+.contentpane {
+  padding: 15px; }
+
 .quick-icons {
   margin-bottom: -15px; }
   .quick-icons *, .quick-icons *::before, .quick-icons *::after {
