@@ -16,60 +16,60 @@ defined('_JEXEC') or die;
  */
 class FinderViewSearch extends JViewLegacy
 {
-    /**
-     * The query object
-     *
-     * @var  FinderIndexerQuery
-     */
+	/**
+	 * The query object
+	 *
+	 * @var  FinderIndexerQuery
+	 */
 	protected $query;
 
-    /**
-     * The application parameters
-     *
-     * @var  Registry  The parameters object
-     */
+	/**
+	 * The application parameters
+	 *
+	 * @var  Registry  The parameters object
+	 */
 	protected $params;
 
-    /**
-     * The model state
-     *
-     * @var  object
-     */
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
 
 	protected $user;
 
-    /**
-     * An array of results
-     *
-     * @var    array
-     *
-     * @since  __DEPLOY_VERSION__
-     */
+	/**
+	 * An array of results
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected $results;
 
-    /**
-     * The total number of items
-     *
-     * @var    integer
-     *
-     * @since  __DEPLOY_VERSION__
-     */
+	/**
+	 * The total number of items
+	 *
+	 * @var    integer
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected $total;
 
-    /**
-     * The pagination object
-     *
-     * @var    JPagination
-     *
-     * @since  __DEPLOY_VERSION__
-     */
+	/**
+	 * The pagination object
+	 *
+	 * @var    JPagination
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected $pagination;
 
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  A template file to load. [optional]
+	 * @param   string $tpl A template file to load. [optional]
 	 *
 	 * @return  mixed  JError object on failure, void on success.
 	 *
