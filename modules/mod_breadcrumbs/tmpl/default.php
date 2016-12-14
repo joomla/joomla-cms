@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('bootstrap.tooltip');
 ?>
 
-<ul itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb<?php echo $moduleclass_sfx; ?>">
+<ul itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb<?php echo $moduleclass_sfx; ?>"<?php if ($params->get('modulecss_id')) : ?> id="<?php echo $params->get('module_id'); ?>"<?php endif;?>>
 	<?php if ($params->get('showHere', 1)) : ?>
 		<li>
 			<?php echo JText::_('MOD_BREADCRUMBS_HERE'); ?>&#160;

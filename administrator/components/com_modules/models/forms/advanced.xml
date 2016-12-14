@@ -5,6 +5,13 @@
 			name="advanced">
 
 			<field
+				name="modulecss_id"
+				type="text"
+				label="COM_MODULES_FIELD_MODULECSS_ID_LABEL"
+				description="COM_MODULES_FIELD_MODULECSS_ID_DESC"
+			/>
+
+			<field
 				name="module_tag"
 				type="moduletag"
 				label="COM_MODULES_FIELD_MODULE_TAG_LABEL"

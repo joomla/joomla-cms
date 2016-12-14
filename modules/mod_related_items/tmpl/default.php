@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<ul class="relateditems<?php echo $moduleclass_sfx; ?>">
+<ul class="relateditems<?php echo $moduleclass_sfx; ?>"<?php if ($params->get('modulecss_id')) : ?> id="<?php echo $params->get('module_id'); ?>"<?php endif;?>>
 <?php foreach ($list as $item) :	?>
 <li>
 	<a href="<?php echo $item->route; ?>">

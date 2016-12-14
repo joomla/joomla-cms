@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 <?php endif; ?>
 
 <?php if (($showmode > 0) && count($names)) : ?>
-	<ul  class="whosonline<?php echo $moduleclass_sfx ?>" >
+	<ul  class="whosonline<?php echo $moduleclass_sfx ?>" <?php if ($params->get('modulecss_id')) : ?> id="<?php echo $params->get('module_id'); ?>"<?php endif;?>>
 	<?php if ($params->get('filter_groups')):?>
 		<p><?php echo JText::_('MOD_WHOSONLINE_SAME_GROUP_MESSAGE'); ?></p>
 	<?php endif;?>

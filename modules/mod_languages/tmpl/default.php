@@ -16,7 +16,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 	JHtml::_('formbehavior.chosen');
 }
 ?>
-<div class="mod-languages<?php echo $moduleclass_sfx; ?>">
+<div class="mod-languages<?php echo $moduleclass_sfx; ?>"<?php if ($params->get('modulecss_id')) : ?> id="<?php echo $params->get('module_id'); ?>"<?php endif;?>>
 <?php if ($headerText) : ?>
 	<div class="pretext"><p><?php echo $headerText; ?></p></div>
 <?php endif; ?>

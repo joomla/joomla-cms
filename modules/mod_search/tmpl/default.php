@@ -25,7 +25,7 @@ else
 	$width = '';
 }
 ?>
-<div class="search<?php echo $moduleclass_sfx ?>">
+<div class="search<?php echo $moduleclass_sfx ?>" <?php if ($params->get('modulecss_id')) : ?> id="<?php echo $params->get('module_id'); ?>"<?php endif;?>>
 	<form action="<?php echo JRoute::_('index.php');?>" method="post" class="form-inline">
 		<?php
 			$output = '<label for="mod-search-searchword' . $module->id . '" class="element-invisible">' . $label . '</label> ';

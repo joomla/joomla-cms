@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 ?>
 <?php JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php'); ?>
-<div class="tagssimilar<?php echo $moduleclass_sfx; ?>">
+<div class="tagssimilar<?php echo $moduleclass_sfx; ?>"<?php if ($params->get('modulecss_id')) : ?> id="<?php echo $params->get('module_id'); ?>"<?php endif;?>>
 <?php if ($list) : ?>
 	<ul>
 	<?php foreach ($list as $i => $item) : ?>

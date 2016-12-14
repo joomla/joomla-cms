@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/banner.php');
 $baseurl = JUri::base();
 ?>
-<div class="bannergroup<?php echo $moduleclass_sfx ?>">
+<div class="bannergroup<?php echo $moduleclass_sfx ?>"<?php if ($params->get('modulecss_id')) : ?> id="<?php echo $params->get('module_id'); ?>"<?php endif;?>>
 <?php if ($headerText) : ?>
 	<?php echo $headerText; ?>
 <?php endif; ?>

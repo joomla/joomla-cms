@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($names)) : ?>
-	<ul class="latestusers<?php echo $moduleclass_sfx ?>" >
+	<ul class="latestusers<?php echo $moduleclass_sfx ?>" <?php if ($params->get('modulecss_id')) : ?> id="<?php echo $params->get('module_id'); ?>"<?php endif;?>>
 	<?php foreach ($names as $name) : ?>
 		<li>
 			<?php echo $name->username; ?>
