@@ -130,7 +130,6 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 								<?php echo JText::_('JNO'); ?>
 							</span>
 						<?php endif;?>
-				</td>
 			<?php echo JHtml::_(
 					'bootstrap.renderModal',
 					'moduleEdit' . $module->id . 'Modal',
@@ -155,6 +154,7 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 								. JText::_("JAPPLY") . '</button>',
 					)
 				); ?>
+				</td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
