@@ -70,7 +70,7 @@ class FinderViewSearch extends JViewLegacy
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string $tpl A template file to load. [optional]
+	 * @param   string  $tpl  A template file to load. [optional]
 	 *
 	 * @return  mixed  JError object on failure, void on success.
 	 *
@@ -194,7 +194,7 @@ class FinderViewSearch extends JViewLegacy
 	/**
 	 * Method to get the layout file for a search result object.
 	 *
-	 * @param   string $layout The layout file to check. [optional]
+	 * @param   string  $layout  The layout file to check. [optional]
 	 *
 	 * @return  string  The layout file to use.
 	 *
@@ -216,7 +216,7 @@ class FinderViewSearch extends JViewLegacy
 	/**
 	 * Prepares the document
 	 *
-	 * @param   FinderIndexerQuery $query The search query
+	 * @param   FinderIndexerQuery  $query  The search query
 	 *
 	 * @return  void
 	 *
