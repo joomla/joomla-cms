@@ -784,6 +784,43 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				false,
 				array(5, 6)
 			),
+			// TODO: Check these tests: 'by casesensitive string ascending' (duplicate keys, only the last of the duplicates gets executed)
+			'by casesensitive string ascending' => array(
+				$input2,
+				'string',
+				1,
+				true,
+				false,
+				array(
+					(object) array(
+						'integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'
+					),
+					(object) array(
+						'integer' => 35, 'float' => 1.29999, 'string' => 'C Test String'
+					),
+					(object) array(
+						'integer' => 15, 'float' => 1.29999, 'string' => 'C Test String'
+					),
+					(object) array(
+						'integer' => 22, 'float' => 1.29999, 'string' => 'E Test String'
+					),
+					(object) array(
+						'integer' => 6, 'float' => 1.29999, 'string' => 'L Test String'
+					),
+					(object) array(
+						'integer' => 1, 'float' => 1.29999, 'string' => 'N Test String'
+					),
+					(object) array(
+						'integer' => 6, 'float' => 1.29999, 'string' => 'g Test String'
+					),
+					(object) array(
+						'integer' => 5, 'float' => 1.29999, 'string' => 't Test String'
+					),
+				),
+				'Should be sorted by the string field in ascending order with casesensitive comparisons',
+				false,
+				array(1, 2)
+			),
 			'by casesensitive string descending' => array(
 				$input2,
 				'string',
@@ -972,6 +1009,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				'Should be sorted by the string,integer field in descending,ascending order with casesensitive comparisons',
 				false
 			),
+			// TODO: Check these tests: 'by casesensitive string ascending' (duplicate keys, only the last of the duplicates gets executed)
 			'by casesensitive string ascending' => array(
 				$input3,
 				'string',
