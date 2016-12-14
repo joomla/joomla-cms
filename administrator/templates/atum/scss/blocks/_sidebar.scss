@@ -29,7 +29,7 @@
   margin-left: 0;
   overflow: hidden;
   background-color: $atum-sidebar-bg;
-  background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.2) 100%);
+  background-image: linear-gradient(to bottom, $atum-sidebar-bg 0%, $atum-template-color-light 100%);
   transition: all .5s ease;
   transform: translateX(-250px);
   .sidebar-brand {
@@ -127,7 +127,7 @@
       border-bottom: 1px solid rgba(255,255,255,.05);
     }
     >.no-dropdown {
-      color: $white;
+      color: $white-offset;
     }
   }
 
@@ -137,10 +137,10 @@
     a {
       position: relative;
       display: block;
-      color: $white;
+      color: $white-offset;
       text-decoration: none;
       cursor: pointer;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.05), inset 0 -1px rgba(0,0,0,.3);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.075), inset 0 -1px rgba(0,0,0,.3);
 
       &::before {
         position: absolute;
@@ -157,13 +157,13 @@
         top: 1px;
         bottom: 1px;
         left: 0;
-        width: 5px;
+        width: 3px;
         content: "";
         background-color: $atum-sidebar-active;
       }
 
       &:hover {
-        color: $white;
+        color: $white-offset;
         text-decoration: none;
         background-color: rgba(0,0,0,.2);
         box-shadow: inset 0 -1px rgba(0,0,0,.2);
@@ -176,7 +176,7 @@
 
     }
     a:not([href]):not([tabindex]) {
-      color: $white;
+      color: $white-offset;
     }
     ul {
       display: none;
@@ -187,7 +187,7 @@
 
     a:hover {
       &::before {
-        width: 5px;
+        width: 3px;
       }
     }
   }
@@ -218,42 +218,33 @@
   }
 
   .collapse-level-1 {
-    background: rgba(0,0,0,.4);
+    background: $atum-level-1-bg;
   }
 
   .collapse-level-2 {
+    background: $atum-level-2-bg;
     > li > a {
       text-indent: 30px;
     }
   }
 
-  > .parent {
-    .collapse-arrow::after {
-      display: inline-block;
-      float: right;
-      width: 0;
-      height: 0;
-      margin-top: 18px;
-      margin-right: 10px;
-      vertical-align: middle;
-      content: "";
-      border-top: .3rem solid;
-      border-right: .3rem solid transparent;
-      border-bottom: 0;
-      border-left: .3rem solid transparent;
-    }
+  > .parent .collapse-arrow::after {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    font-family: FontAwesome;
+    font-size: .75rem;
+    color: $white-offset;
+    content: "\f0d7";
   }
   .open > .collapse-arrow::after {
-    border-top: 0;
-    border-right: .3rem solid transparent;
-    border-bottom: .3rem solid;
-    border-left: .3rem solid transparent;
+    content: "\f0d8";
   }
 }
 
 // Edit view
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
-  color: $white;
+  color: $white-offset;
   cursor: not-allowed;
   background: none;
 }
@@ -264,7 +255,10 @@
     z-index: 10;
     overflow: visible;
   }
-  .sidebar-item-title, .parent .collapse-arrow::after, .parent .parent .collapse-arrow::after {
+  .sidebar-item-title {
+    display: none;
+  }
+  .parent .collapse-arrow::after {
     display: none;
   }
   .main-nav {
@@ -279,7 +273,7 @@
         left: 100%;
         width: 220px;
         padding: 0 13px;
-        font-size: $font-size-h5;
+        font-size: $atum-sidebar-item-title;
         font-weight: bold;
         background-color: $atum-template-color;
         border-radius: 0 $border-radius $border-radius 0;
@@ -290,6 +284,12 @@
       &:hover .sidebar-item-title {
         display: block;
         opacity: 1;
+      }
+      &:hover .collapse-arrow::after {
+        display: block;
+      }
+      &.parent > .collapse-arrow::after {
+        display: none;
       }
       .collapse, &:hover .collapse {
         position: absolute;
@@ -302,16 +302,6 @@
         left: 0;
         display: none;
       }
-      &:hover .parent::after {
-        position: absolute;
-        top: 0;
-        right: 10px;
-        font-family: FontAwesome;
-        font-size: .75rem;
-        color: $white;
-        content: "\f078";
-        opacity: .5;
-      }
     }
     .collapse-level-1 {
       display: block !important;
@@ -319,16 +309,15 @@
       padding: 5px 0 10px;
       margin-top: -1px;
       text-indent: 0;
-      background-color: lighten($atum-template-color, 5%);
       border-bottom-right-radius: $border-radius;
       li {
         position: relative;
-        font-size: $font-size-h5;
+        font-size: $atum-sidebar-item-title;
         line-height: 30px;
-        text-indent: 15px;
+        text-indent: 0;
       }
       a {
-        color: $white;
+        color: $white-offset;
         border: 0;
       }
       a::before {
@@ -345,26 +334,12 @@
         background-color: $atum-template-color;
         box-shadow: none;
       }
-      .sidebar-item-title::before {
-        position: absolute;
-        top: 0;
-        left: 0;
-        font-family: FontAwesome;
-        font-size: .4rem;
-        color: $white;
-        content: "\f111";
-        opacity: .5;
-      }
     }
     .collapse-level-2 {
       padding-bottom: 5px;
-      background-color: lighten($atum-template-color, 7%);
-      .sidebar-item-title::before {
-        content: "\f10c";
-        opacity: .75;
+      .sidebar-item-title {
+        text-indent: 10px;
       }
     }
   }
 }
-
-

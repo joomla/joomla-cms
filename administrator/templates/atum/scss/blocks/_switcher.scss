@@ -10,7 +10,7 @@
   vertical-align: middle;
   cursor: pointer;
   user-select: none;
-  background-color: darken($white, 2%);
+  background-color: darken($white-offset, 2%);
   background-clip: content-box;
   border: 1px solid rgba(0,0,0,.12);
   border-radius: $border-radius;
@@ -56,7 +56,7 @@
     top: 0;
     width: 30px;
     height: 26px;
-    background: $white;
+    background: $white-offset;
     border-radius: $border-radius;
     box-shadow: 0 0 1px rgba(0, 0, 0, .1) inset, 0 1px 3px rgba(0, 0, 0, .15);
     transition: left .2s ease 0s;

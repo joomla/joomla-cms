@@ -1,17 +1,15 @@
 // Toolbar
 
 .subhead {
-  $line-height: 2em;
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   width: auto;
   min-height: 43px;
-  padding: 11px 0 10px;
+  padding: 15px 0;
   color: #0c192e;
-  background: #f5f5f5;
-  border-bottom: 1px solid rgba(0, 0, 0, .17);
+  background: $atum-container-main-bg;
 
   .btn-toolbar {
     margin-bottom: 0;
@@ -32,25 +30,25 @@
     }
     .btn-sm {
       padding: 0 10px;
-      line-height: $line-height;
+      line-height: $atum-toolbar-line-height;
       color: $body-color;
-      background-color: $white;
-      border-color: $btn-secondary-border;
+      background-color: $white-offset;
+      border-color: $atum-border-color;
       [class^="icon-"], [class*=" icon-"] {
         z-index: -1;
         display: inline-block;
         width: 28px;
         height: auto;
         margin: 0 6px 0 -10px;
-        line-height: $line-height;
+        line-height: $atum-toolbar-line-height;
         color: inherit;
         background-color: $gray-lighter;
-        border-right: 1px solid $btn-secondary-border;
+        border-right: 1px solid $atum-border-color;
         border-radius: 3px 0 0 3px;
       }
       &:hover {
         background-color: $gray-lighter;
-        border-color: $btn-secondary-border;
+        border-color: $atum-border-color;
       }
     }
     .btn-primary, .btn-outline-primary {
@@ -80,14 +78,14 @@
     }
     .btn-success:not(.dropdown-toggle) {
       width: 140px;
-      color: $white;
+      color: $white-offset;
       background-color: $brand-success;
       border-color: rgba(0, 0, 0, .2);
       [class^="icon-"], [class*=" icon-"] {
         width: 16px;
         margin-right: 0;
         margin-left: 0;
-        color: $white;
+        color: $white-offset;
         background-color: transparent;
         border-right: 0 none;
         border-left: 0 none;
@@ -97,11 +95,14 @@
       }
     }
     .btn-success.dropdown-toggle {
-      background: #419641;
-      border-color: #419641;
+      background: darken($brand-success, 12%);
+      border-color: darken($brand-success, 12%);
       &::after {
-        color: $white;
+        color: $white-offset;
       }
+    }
+    button:first-of-type:not(.float-sm-right) {
+      margin-left: 0;
     }
     button:last-of-type:not(.float-sm-right) {
       margin-left: 0;
@@ -112,6 +113,8 @@
     top: 0;
     left: 250px;
     z-index: 100;
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
 }
 .closed .subhead-fixed {
