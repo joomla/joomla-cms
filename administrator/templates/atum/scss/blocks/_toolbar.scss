@@ -7,10 +7,9 @@
   left: 0;
   width: auto;
   min-height: 43px;
-  padding: 11px 0 10px;
+  padding: 15px 0;
   color: #0c192e;
-  background: #f5f5f5;
-  border-bottom: 1px solid $atum-border-color;
+  background: $atum-container-main-bg;
 
   .btn-toolbar {
     margin-bottom: 0;
@@ -114,6 +113,8 @@
     top: 0;
     left: 250px;
     z-index: 100;
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
 }
 .closed .subhead-fixed {
