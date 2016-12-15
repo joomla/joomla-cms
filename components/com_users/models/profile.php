@@ -331,8 +331,7 @@ class UsersModelProfile extends JModelForm
 			unset($data['username']);
 		}
 
-		// Unset the block so it does not get overwritten
-		// Unset the sendEmail so it does not get overwritten
+		// Unset block and sendEmail so they do not get overwritten
 		unset($data['block'], $data['sendEmail']);
 
 		// Handle the two factor authentication setup

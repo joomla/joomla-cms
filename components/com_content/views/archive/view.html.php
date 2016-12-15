@@ -45,8 +45,8 @@ class ContentViewArchive extends JViewLegacy
 
 		foreach ($items as $item)
 		{
-			$item->catslug     = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 			// No link for ROOT category
 			if ($item->parent_alias == 'root')
@@ -136,8 +136,8 @@ class ContentViewArchive extends JViewLegacy
 		$this->params     = &$params;
 		$this->user       = &$user;
 		$this->pagination = &$pagination;
-		$this->pagination->setAdditionalUrlParam("month", $state->get('filter.month'));
-		$this->pagination->setAdditionalUrlParam("year", $state->get('filter.year'));
+		$this->pagination->setAdditionalUrlParam('month', $state->get('filter.month'));
+		$this->pagination->setAdditionalUrlParam('year', $state->get('filter.year'));
 
 		$this->_prepareDocument();
 
