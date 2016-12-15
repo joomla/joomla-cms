@@ -69,11 +69,9 @@ class JFormFieldFrontend_Language extends JFormAbstractlist
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(
+		return array_merge(
 			parent::getOptions(),
 			$languages
 		);
-
-		return $options;
 	}
 }
