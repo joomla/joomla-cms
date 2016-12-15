@@ -581,8 +581,8 @@ abstract class JModelLegacy extends JObject
 		$conf = JFactory::getConfig();
 
 		$options = array(
-			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
-			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
+			'defaultgroup' => $group ?: (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
+			'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
 		);
 
 		/** @var JCacheControllerCallback $cache */

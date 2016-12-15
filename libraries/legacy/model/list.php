@@ -694,7 +694,7 @@ class JModelList extends JModelLegacy
 			}
 		}
 
-		if (($cur_state != $new_state) && $new_state !== null && ($resetPage))
+		if (($cur_state != $new_state) && $new_state !== null && $resetPage)
 		{
 			$input->set('limitstart', 0);
 		}
