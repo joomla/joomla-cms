@@ -1081,7 +1081,7 @@ abstract class JHtml
 	public static function addIncludePath($path = '')
 	{
 		// Loop through the path directories
-		foreach ((array)$path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			if (!empty($dir) && !in_array($dir, static::$includePaths))
 			{

@@ -289,7 +289,7 @@ class JToolbar
 	public function addButtonPath($path)
 	{
 		// Loop through the path directories.
-		foreach ((array)$path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
 			$dir = trim($dir);
