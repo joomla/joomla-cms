@@ -139,9 +139,9 @@ class ModMenuHelper
 
 				if (isset($items[$lastitem]))
 				{
-					$items[$lastitem]->deeper     = (($start?:1) > $items[$lastitem]->level);
-					$items[$lastitem]->shallower  = (($start?:1) < $items[$lastitem]->level);
-					$items[$lastitem]->level_diff = ($items[$lastitem]->level - ($start?:1));
+					$items[$lastitem]->deeper     = (($start ?: 1) > $items[$lastitem]->level);
+					$items[$lastitem]->shallower  = (($start ?: 1) < $items[$lastitem]->level);
+					$items[$lastitem]->level_diff = ($items[$lastitem]->level - ($start ?: 1));
 				}
 			}
 
