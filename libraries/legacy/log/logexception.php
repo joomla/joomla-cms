@@ -14,8 +14,8 @@ JLog::add('LogException is deprecated, use SPL Exceptions instead.', JLog::WARNI
 /**
  * Exception class definition for the Log subpackage.
  *
- * @since       11.1
- * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use semantic exceptions instead
+ * @since       1.7
+ * @deprecated  2.5.5 Use semantic exceptions instead
  */
 class LogException extends RuntimeException
 {

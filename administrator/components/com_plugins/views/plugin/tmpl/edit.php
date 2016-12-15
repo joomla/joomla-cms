@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('bootstrap.tooltip');
 $this->fieldsets = $this->form->getFieldsets('params');
 
 JFactory::getDocument()->addScriptDeclaration("
@@ -61,12 +63,12 @@ JFactory::getDocument()->addScriptDeclaration("
 							$short_description = JText::_($this->item->xml->description);
 							$this->fieldset = 'description';
 							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
-							if(!$long_description) {
+							if (!$long_description) {
 								$truncated = JHtmlString::truncate($short_description, 550, true, false);
-								if(strlen($truncated) > 500) {
+								if (strlen($truncated) > 500) {
 									$long_description = $short_description;
 									$short_description = JHtmlString::truncate($truncated, 250);
-									if($short_description == $long_description) {
+									if ($short_description == $long_description) {
 										$long_description = '';
 									}
 								}

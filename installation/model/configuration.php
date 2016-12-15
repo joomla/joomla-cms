@@ -144,6 +144,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Session setting.
 		$registry->set('lifetime', 15);
 		$registry->set('session_handler', 'database');
+		$registry->set('shared_session', 0);
 
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));

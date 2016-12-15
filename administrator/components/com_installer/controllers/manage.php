@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Installer Manage Controller
  *
@@ -47,7 +49,7 @@ class InstallerControllerManage extends JControllerLegacy
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('publish' => 1, 'unpublish' => 0);
 		$task   = $this->getTask();
-		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
+		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids))
 		{
@@ -96,7 +98,7 @@ class InstallerControllerManage extends JControllerLegacy
 		$eid   = $this->input->get('cid', array(), 'array');
 		$model = $this->getModel('manage');
 
-		JArrayHelper::toInteger($eid, array());
+		$eid = ArrayHelper::toInteger($eid, array());
 		$model->remove($eid);
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}
@@ -118,7 +120,7 @@ class InstallerControllerManage extends JControllerLegacy
 		$uid   = $this->input->get('cid', array(), 'array');
 		$model = $this->getModel('manage');
 
-		JArrayHelper::toInteger($uid, array());
+		$uid = ArrayHelper::toInteger($uid, array());
 		$model->refresh($uid);
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}

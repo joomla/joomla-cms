@@ -37,7 +37,7 @@ abstract class ModPopularHelper
 				' a.created, a.hits');
 
 		// Set Ordering filter
-		$model->setState('list.ordering', 'a.hits');
+		$model->setState('list.fullordering', 'a.hits DESC');
 		$model->setState('list.direction', 'DESC');
 
 		// Set Category Filter

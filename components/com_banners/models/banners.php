@@ -152,14 +152,14 @@ class BannersModelBanners extends JModelList
 				foreach ($keywords as $keyword)
 				{
 					$keyword = trim($keyword);
-					$condition1 = "a.own_prefix=1 "
-						. " AND a.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH( a.metakey_prefix)) "
-						. " OR a.own_prefix=0 "
-						. " AND cl.own_prefix=1 "
-						. " AND cl.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH(cl.metakey_prefix)) "
-						. " OR a.own_prefix=0 "
-						. " AND cl.own_prefix=0 "
-						. " AND " . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
+					$condition1 = 'a.own_prefix=1 '
+						. ' AND a.metakey_prefix=SUBSTRING(' . $db->quote($keyword) . ',1,LENGTH( a.metakey_prefix)) '
+						. ' OR a.own_prefix=0 '
+						. ' AND cl.own_prefix=1 '
+						. ' AND cl.metakey_prefix=SUBSTRING(' . $db->quote($keyword) . ',1,LENGTH(cl.metakey_prefix)) '
+						. ' OR a.own_prefix=0 '
+						. ' AND cl.own_prefix=0 '
+						. ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
 
 					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 
@@ -206,9 +206,7 @@ class BannersModelBanners extends JModelList
 
 			foreach ($this->cache['items'] as &$item)
 			{
-				$parameters   = new Registry;
-				$parameters->loadString($item->params);
-				$item->params = $parameters;
+				$item->params = new Registry($item->params);
 			}
 		}
 
@@ -228,6 +226,11 @@ class BannersModelBanners extends JModelList
 		$items     = $this->getItems();
 		$db        = $this->getDbo();
 		$query     = $db->getQuery(true);
+
+		if (!count($items))
+		{
+			return;
+		}
 
 		foreach ($items as $item)
 		{

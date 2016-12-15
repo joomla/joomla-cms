@@ -12,7 +12,7 @@ SELECT 1, 0, 0, 93, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1}
 UNION ALL
 SELECT 2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'
 UNION ALL
-SELECT 3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
 SELECT 4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'
 UNION ALL
@@ -20,15 +20,15 @@ SELECT 5, 1, 9, 10, 1, 'com_checkin', 'com_checkin', '{"core.admin":{"7":1},"cor
 UNION ALL
 SELECT 6, 1, 11, 12, 1, 'com_config', 'com_config', '{}'
 UNION ALL
-SELECT 7, 1, 13, 16, 1, 'com_contact', 'com_contact', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 7, 1, 13, 16, 1, 'com_contact', 'com_contact', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 8, 1, 17, 34, 1, 'com_content', 'com_content', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'
+SELECT 8, 1, 17, 34, 1, 'com_content', 'com_content', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.edit":{"4":1},"core.edit.state":{"5":1}}'
 UNION ALL
 SELECT 9, 1, 35, 36, 1, 'com_cpanel', 'com_cpanel', '{}'
 UNION ALL
-SELECT 10, 1, 37, 38, 1, 'com_installer', 'com_installer', '{"core.admin":[],"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'
+SELECT 10, 1, 37, 38, 1, 'com_installer', 'com_installer', '{"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'
 UNION ALL
-SELECT 11, 1, 39, 40, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 11, 1, 39, 40, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1}}'
 UNION ALL
 SELECT 12, 1, 41, 42, 1, 'com_login', 'com_login', '{}'
 UNION ALL
@@ -38,53 +38,53 @@ SELECT 14, 1, 45, 46, 1, 'com_massmail', 'com_massmail', '{}'
 UNION ALL
 SELECT 15, 1, 47, 48, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'
 UNION ALL
-SELECT 16, 1, 49, 50, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 16, 1, 49, 50, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'
 UNION ALL
 SELECT 17, 1, 51, 52, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'
 UNION ALL
-SELECT 18, 1, 53, 54, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 18, 1, 53, 54, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 19, 1, 55, 58, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 19, 1, 55, 58, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 20, 1, 59, 60, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1},"core.manage":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 20, 1, 59, 60, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 21, 1, 61, 62, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1},"core.manage":[]}'
+SELECT 21, 1, 61, 62, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'
 UNION ALL
 SELECT 22, 1, 63, 64, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 23, 1, 65, 66, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 23, 1, 65, 66, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 24, 1, 67, 70, 1, 'com_users', 'com_users', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.own":{"6":1},"core.edit.state":[]}'
+SELECT 24, 1, 67, 70, 1, 'com_users', 'com_users', '{"core.admin":{"7":1},"core.edit.own":{"6":1}}'
 UNION ALL
 SELECT 26, 1, 77, 78, 1, 'com_wrapper', 'com_wrapper', '{}'
 UNION ALL
-SELECT 27, 8, 18, 23, 2, 'com_content.category.2', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 27, 8, 18, 23, 2, 'com_content.category.2', 'Uncategorised', '{}'
 UNION ALL
-SELECT 28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'
 UNION ALL
-SELECT 29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'
 UNION ALL
-SELECT 30, 19, 56, 57, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 30, 19, 56, 57, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'
 UNION ALL
-SELECT 32, 24, 68, 69, 1, 'com_users.category.7', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 32, 24, 68, 69, 2, 'com_users.category.7', 'Uncategorised', '{}'
 UNION ALL
 SELECT 33, 1, 79, 80, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 35, 8, 24, 33, 2, 'com_content.category.9', 'Blog', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 35, 8, 24, 33, 2, 'com_content.category.9', 'Blog', '{}'
 UNION ALL
-SELECT 36, 27, 19, 20, 3, 'com_content.article.1', 'About', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 36, 27, 19, 20, 3, 'com_content.article.1', 'About', '{}'
 UNION ALL
-SELECT 37, 27, 21, 22, 3, 'com_content.article.2', 'Working on Your Site', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 37, 27, 21, 22, 3, 'com_content.article.2', 'Working on Your Site', '{}'
 UNION ALL
-SELECT 38, 35, 25, 26, 3, 'com_content.article.3', 'Welcome to your blog', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 38, 35, 25, 26, 3, 'com_content.article.3', 'Welcome to your blog', '{}'
 UNION ALL
-SELECT 39, 35, 27, 28, 3, 'com_content.article.4', 'About your home page', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 39, 35, 27, 28, 3, 'com_content.article.4', 'About your home page', '{}'
 UNION ALL
-SELECT 40, 35, 29, 30, 3, 'com_content.article.5', 'Your Modules', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 40, 35, 29, 30, 3, 'com_content.article.5', 'Your Modules', '{}'
 UNION ALL
 SELECT 41, 1, 81, 82, 1, 'com_users.category.10', 'Uncategorised', '{}'
 UNION ALL
-SELECT 42, 1, 83, 84, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'
+SELECT 42, 1, 83, 84, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'
 UNION ALL
 SELECT 43, 35, 31, 32, 3, 'com_content.article.6', 'Your Template', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'
 UNION ALL
@@ -130,7 +130,7 @@ SELECT 2, 37, 'Working on Your Site', 'working-on-your-site', '<p>Here are some 
 <li>To totally change the look of your site you will probably want to install a new template. In the Extensions menu click on Extensions Manager and then go to the Install tab. There are many free and commercial templates available for Joomla.</li>
 <li>As you have already seen, you can control who can see different parts of you site. When you work with modules or articles setting the Access level to Registered will mean that only logged in users can see them</li>
 <li>When you create a new article or other kind of content you also can save it as Published or Unpublished. If it is Unpublished site visitors will not be able to see it but you will.</li>
-<li>You can learn much more about working with Joomla from the <a href="https://docs.joomla.org">Joomla documentation site</a> and get help from other users at the <a href="http://forum.joomla.org">Joomla forums</a>. In the administrator there are help buttons on every page that provide detailed information about the functions on that page.</li>
+<li>You can learn much more about working with Joomla from the <a href="https://docs.joomla.org/">Joomla documentation site</a> and get help from other users at the <a href="https://forum.joomla.org/">Joomla forums</a>. In the administrator there are help buttons on every page that provide detailed information about the functions on that page.</li>
 </ul>', '', 1, 2, '2011-01-01 00:00:00', 628, 'Joomla', '1900-01-01 00:00:00', 713, 0, '1900-01-01 00:00:00', '2011-01-01 00:00:00', '1900-01-01 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":""}', 2, 1, '', '', 3, 8, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''
 UNION ALL
 SELECT 3, 38, 'Welcome to your blog', 'welcome-to-your-blog', '<p>This is a sample blog posting.</p>
@@ -156,7 +156,7 @@ SELECT 5, 40, 'Your Modules', 'your-modules', '<p>Your site has some commonly us
 <li>Popular Tags, which will appear if you use tagging on your articles. Just enter a tag in the Tags field when editing.</li>
 </ul>
 <p>Each of these modules has many options which you can experiment with in the Module Manager in your site Administrator. Moving your mouse over a module and clicking on the edit icon will take you to an edit screen for that module. Always be sure to save and close any module you edit.</p>
-<p>Joomla! also includes many other modules you can incorporate in your site. As you develop your site you may want to add more module that you can find at the <a href="https://extensions.joomla.org">Joomla! Extensions Directory.</a></p>', '', 1, 9, '2011-01-01 00:00:00', 628, 'Joomla', '1900-01-01 00:00:00', 713, 0, '1900-01-01 00:00:00', '2011-01-01 00:00:00', '1900-01-01 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"0","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":""}', 11, 0, '', '', 1, 4, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''
+<p>Joomla! also includes many other modules you can incorporate in your site. As you develop your site you may want to add more module that you can find at the <a href="https://extensions.joomla.org/">Joomla! Extensions Directory.</a></p>', '', 1, 9, '2011-01-01 00:00:00', 628, 'Joomla', '1900-01-01 00:00:00', 713, 0, '1900-01-01 00:00:00', '2011-01-01 00:00:00', '1900-01-01 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":false,"urlatext":"","targeta":"","urlb":false,"urlbtext":"","targetb":"","urlc":false,"urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_tags":"","show_intro":"","info_block_position":"0","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","urls_position":"","alternative_readmore":"","article_layout":""}', 11, 0, '', '', 1, 4, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''
 UNION ALL
 SELECT 6, 43, 'Your Template', 'your-template', '<p>Templates control the look and feel of your website.</p>
 <p>This blog is installed with the Protostar template.</p>

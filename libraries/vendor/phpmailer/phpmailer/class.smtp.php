@@ -30,7 +30,7 @@ class SMTP
      * The PHPMailer SMTP version number.
      * @var string
      */
-    const VERSION = '5.2.16';
+    const VERSION = '5.2.14';
 
     /**
      * SMTP line break constant.
@@ -81,7 +81,7 @@ class SMTP
      * @deprecated Use the `VERSION` constant instead
      * @see SMTP::VERSION
      */
-    public $Version = '5.2.16';
+    public $Version = '5.2.14';
 
     /**
      * SMTP server port number.
@@ -336,22 +336,11 @@ class SMTP
         if (!$this->sendCommand('STARTTLS', 'STARTTLS', 220)) {
             return false;
         }
-
-        //Allow the best TLS version(s) we can
-        $crypto_method = STREAM_CRYPTO_METHOD_TLS_CLIENT;
-
-        //PHP 5.6.7 dropped inclusion of TLS 1.1 and 1.2 in STREAM_CRYPTO_METHOD_TLS_CLIENT
-        //so add them back in manually if we can
-        if (defined('STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT')) {
-            $crypto_method |= STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
-            $crypto_method |= STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT;
-        }
-
         // Begin encrypted connection
         if (!stream_socket_enable_crypto(
             $this->smtp_conn,
             true,
-            $crypto_method
+            STREAM_CRYPTO_METHOD_TLS_CLIENT
         )) {
             return false;
         }
@@ -400,7 +389,7 @@ class SMTP
             );
 
             if (empty($authtype)) {
-                foreach (array('CRAM-MD5', 'LOGIN', 'PLAIN', 'NTLM', 'XOAUTH2') as $method) {
+                foreach (array('LOGIN', 'CRAM-MD5', 'NTLM', 'PLAIN', 'XOAUTH2') as $method) {
                     if (in_array($method, $this->server_caps['AUTH'])) {
                         $authtype = $method;
                         break;
@@ -747,7 +736,7 @@ class SMTP
     protected function parseHelloFields($type)
     {
         $this->server_caps = array();
-        $lines = explode("\n", $this->helo_rply);
+        $lines = explode("\n", $this->last_reply);
 
         foreach ($lines as $n => $s) {
             //First 4 chars contain response code followed by - or space

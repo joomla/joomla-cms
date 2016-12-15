@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Email cloack plugin class.
  *
@@ -98,15 +100,15 @@ class PlgContentEmailcloak extends JPlugin
 		 * Check for presence of {emailcloak=off} which is explicits disables this
 		 * bot for the item.
 		 */
-		if (JString::strpos($text, '{emailcloak=off}') !== false)
+		if (StringHelper::strpos($text, '{emailcloak=off}') !== false)
 		{
-			$text = JString::str_ireplace('{emailcloak=off}', '', $text);
+			$text = StringHelper::str_ireplace('{emailcloak=off}', '', $text);
 
 			return true;
 		}
 
 		// Simple performance check to determine whether bot should process further.
-		if (JString::strpos($text, '@') === false)
+		if (StringHelper::strpos($text, '@') === false)
 		{
 			return true;
 		}
@@ -114,7 +116,7 @@ class PlgContentEmailcloak extends JPlugin
 		$mode = $this->params->def('mode', 1);
 
 		// Example: any@example.org
-		$searchEmail = '([\w\.\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,10}))';
+		$searchEmail = '([\w\.\'\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,10}))';
 
 		// Example: any@example.org?subject=anyText
 		$searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';

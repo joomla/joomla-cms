@@ -60,9 +60,8 @@ class ContactViewCategory extends JViewCategory
 		foreach ($this->items as $item)
 		{
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp       = new Registry;
-			$temp->loadString($item->params);
-			$item->params = clone($this->params);
+			$temp       = new Registry($item->params);
+			$item->params = clone $this->params;
 			$item->params->merge($temp);
 
 			if ($item->params->get('show_email_headings', 0) == 1)
@@ -100,7 +99,7 @@ class ContactViewCategory extends JViewCategory
 			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
 
-			while (($menu->query['option'] != 'com_contact' || $menu->query['view'] == 'contact' || $id != $category->id) && $category->id > 1)
+			while (($menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact' || $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();

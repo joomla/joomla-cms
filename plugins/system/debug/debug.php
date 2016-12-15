@@ -83,6 +83,14 @@ class PlgSystemDebug extends JPlugin
 	protected $app;
 
 	/**
+	 * Container for callback functions to be triggered when rendering the console.
+	 *
+	 * @var    callable[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private static $displayCallbacks = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -186,7 +194,7 @@ class PlgSystemDebug extends JPlugin
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
-			JHtml::_('stylesheet', 'cms/debug.css', array(), true);
+			JHtml::_('stylesheet', 'cms/debug.css', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Only if debugging is enabled for SQL query popovers.
@@ -264,7 +272,10 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('errors');
 			}
 
-			$html[] = $this->display('session');
+			if ($this->params->get('session', 1))
+			{
+				$html[] = $this->display('session');
+			}
 
 			if ($this->params->get('profile', 1))
 			{
@@ -306,9 +317,54 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
+		foreach (self::$displayCallbacks as $name => $callable)
+		{
+			$html[] = $this->displayCallback($name, $callable);
+		}
+
 		$html[] = '</div>';
 
 		echo str_replace('</body>', implode('', $html) . '</body>', $contents);
+	}
+
+	/**
+	 * Add a display callback to be rendered with the debug console.
+	 *
+	 * @param   string    $name      The name of the callable, this is used to generate the section title.
+	 * @param   callable  $callable  The callback function to be added.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  InvalidArgumentException
+	 */
+	public static function addDisplayCallback($name, $callable)
+	{
+		// TODO - When PHP 5.4 is the minimum the parameter should be typehinted "callable" and this check removed
+		if (!is_callable($callable))
+		{
+			throw new InvalidArgumentException('A valid callback function must be given.');
+		}
+
+		self::$displayCallbacks[$name] = $callable;
+
+		return true;
+	}
+
+	/**
+	 * Remove a registered display callback
+	 *
+	 * @param   string  $name  The name of the callable.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function removeDisplayCallback($name)
+	{
+		unset(self::$displayCallbacks[$name]);
+
+		return true;
 	}
 
 	/**
@@ -388,6 +444,38 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $item . '">';
 		$html[] = $this->$fncName();
+		$html[] = '</div>';
+
+		return implode('', $html);
+	}
+
+	/**
+	 * Display method for callback functions.
+	 *
+	 * @param   string    $name      The name of the callable.
+	 * @param   callable  $callable  The callable function.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function displayCallback($name, $callable)
+	{
+		$title = JText::_('PLG_DEBUG_' . strtoupper($name));
+
+		$html = array();
+
+		$js = "toggleContainer('dbg_container_" . $name . "');";
+
+		$class = 'dbg-header';
+
+		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
+
+		// @todo set with js.. ?
+		$style = ' style="display: none;"';
+
+		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $name . '">';
+		$html[] = call_user_func($callable);
 		$html[] = '</div>';
 
 		return implode('', $html);
@@ -1247,7 +1335,9 @@ class PlgSystemDebug extends JPlugin
 
 		$html = array();
 
-		$html[] = '<table class="table table-striped dbg-query-table"><tr>';
+		$html[] = '<table class="table table-striped dbg-query-table">';
+		$html[] = '<thead>';
+		$html[] = '<tr>';
 
 		foreach (array_keys($table[0]) as $k)
 		{
@@ -1255,7 +1345,8 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		$html[] = '</tr>';
-
+		$html[] = '</thead>';
+		$html[] = '<tbody>';
 		$durations = array();
 
 		foreach ($table as $tr)
@@ -1351,7 +1442,7 @@ class PlgSystemDebug extends JPlugin
 
 			$html[] = '</tr>';
 		}
-
+		$html[] = '</tbody>';
 		$html[] = '</table>';
 
 		return implode('', $html);
@@ -1647,9 +1738,9 @@ class PlgSystemDebug extends JPlugin
 			$j = 1;
 
 			$html[] = '<table cellpadding="0" cellspacing="0">';
-
+			$html[] = '<thead>';
 			$html[] = '<tr>';
-			$html[] = '<td colspan="3"><strong>Call stack</strong></td>';
+			$html[] = '<th colspan="3"><strong>Call stack</strong></th>';
 			$html[] = '</tr>';
 
 			$html[] = '<tr>';
@@ -1657,6 +1748,8 @@ class PlgSystemDebug extends JPlugin
 			$html[] = '<th>Function</th>';
 			$html[] = '<th>Location</th>';
 			$html[] = '</tr>';
+			$html[] = '</thead>';
+			$html[] = '<tbody>';
 
 			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{
@@ -1684,7 +1777,7 @@ class PlgSystemDebug extends JPlugin
 				$html[] = '</tr>';
 				$j++;
 			}
-
+			$html[] = '</tbody>';
 			$html[] = '</table>';
 		}
 
@@ -1872,6 +1965,7 @@ class PlgSystemDebug extends JPlugin
 			$htmlCallStack .= '<div>';
 			$htmlCallStack .= '<table class="table table-striped dbg-query-table">';
 			$htmlCallStack .= '<thead>';
+			$htmlCallStack .= '<tr>';
 			$htmlCallStack .= '<th>#</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_CALLER') . '</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_FILE_AND_LINE') . '</th>';

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * JFormRule for com_contact to make sure the subject contains no banned word.
@@ -40,7 +41,7 @@ class JFormRuleContactEmailSubject extends JFormRule
 		{
 			foreach (explode(';', $banned) as $item)
 			{
-				if ($item != '' && JString::stristr($value, $item) !== false)
+				if ($item != '' && StringHelper::stristr($value, $item) !== false)
 				{
 					return false;
 				}

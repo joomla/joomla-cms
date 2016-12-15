@@ -109,6 +109,38 @@ class ContentHelperQuery
 				$orderby = JFactory::getDbo()->getQuery(true)->Rand();
 				break;
 
+			case 'vote' :
+				$orderby = 'a.id DESC ';
+				if (JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$orderby = 'rating_count DESC ';
+				}
+				break;
+
+			case 'rvote' :
+				$orderby = 'a.id ASC ';
+				if (JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$orderby = 'rating_count ASC ';
+				}
+				break;
+
+			case 'rank' :
+				$orderby = 'a.id DESC ';
+				if (JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$orderby = 'rating DESC ';
+				}
+				break;
+
+			case 'rrank' :
+				$orderby = 'a.id ASC ';
+				if (JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$orderby = 'rating ASC ';
+				}
+				break;
+
 			default :
 				$orderby = 'a.ordering';
 				break;
@@ -180,9 +212,7 @@ class ContentHelperQuery
 			$join = '';
 		}
 
-		$results = array ('select' => $select, 'join' => $join);
-
-		return $results;
+		return array ('select' => $select, 'join' => $join);
 	}
 
 	/**

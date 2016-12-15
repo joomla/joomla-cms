@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype item model.
  *
- * @since  12.2
+ * @since  1.6
  */
 abstract class JModelItem extends JModelLegacy
 {
@@ -20,6 +20,7 @@ abstract class JModelItem extends JModelLegacy
 	 * An item.
 	 *
 	 * @var    array
+	 * @since  1.6
 	 */
 	protected $_item = null;
 
@@ -27,7 +28,7 @@ abstract class JModelItem extends JModelLegacy
 	 * Model context string.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $_context = 'group.type';
 
@@ -42,7 +43,7 @@ abstract class JModelItem extends JModelLegacy
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{

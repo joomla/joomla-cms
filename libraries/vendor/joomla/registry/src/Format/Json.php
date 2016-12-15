@@ -53,7 +53,6 @@ class Json extends AbstractRegistryFormat
 	 * @return  object   Data object.
 	 *
 	 * @since   1.0
-	 * @throws  \RuntimeException
 	 */
 	public function stringToObject($data, array $options = array('processSections' => false))
 	{
@@ -64,14 +63,6 @@ class Json extends AbstractRegistryFormat
 			return AbstractRegistryFormat::getInstance('Ini')->stringToObject($data, $options);
 		}
 
-		$decoded = json_decode($data);
-
-		// Check for an error decoding the data
-		if ($decoded === null)
-		{
-			throw new \RuntimeException(sprintf('Error decoding JSON data: %s', json_last_error_msg()));
-		}
-
-		return $decoded;
+		return json_decode($data);
 	}
 }

@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die;
 
-$com_path = JPATH_SITE . '/components/com_content/';
-require_once $com_path . 'helpers/route.php';
+use Joomla\String\StringHelper;
 
-JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
+$com_path = JPATH_SITE . '/components/com_content/';
+
+JLoader::register('ContentHelperRoute', $com_path . 'helpers/route.php');
+JModelLegacy::addIncludePath($com_path . 'models', 'ContentModel');
 
 /**
  * Helper for mod_articles_category
@@ -165,14 +167,28 @@ abstract class ModArticlesCategoryHelper
 		// Ordering
 		$ordering = $params->get('article_ordering', 'a.ordering');
 
-		if (trim($ordering) == 'random')
+		switch ($ordering)
 		{
-			$articles->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
-		}
-		else
-		{
-			$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
-			$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+			case 'random':
+				$articles->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
+				break;
+
+			case 'rating_count':
+			case 'rating':
+				$articles->setState('list.ordering', $ordering);
+				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+
+				if (!JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$articles->setState('list.ordering', 'a.ordering');
+				}
+
+				break;
+
+			default:
+				$articles->setState('list.ordering', $ordering);
+				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+				break;
 		}
 
 		// New Parameters
@@ -235,6 +251,8 @@ abstract class ModArticlesCategoryHelper
 		foreach ($items as &$item)
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
+
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
@@ -444,7 +462,7 @@ abstract class ModArticlesCategoryHelper
 			switch ($type)
 			{
 				case 'month_year' :
-					$month_year = JString::substr($item->created, 0, 7);
+					$month_year = StringHelper::substr($item->created, 0, 7);
 
 					if (!isset($grouped[$month_year]))
 					{
@@ -456,7 +474,7 @@ abstract class ModArticlesCategoryHelper
 
 				case 'year' :
 				default:
-					$year = JString::substr($item->created, 0, 4);
+					$year = StringHelper::substr($item->created, 0, 4);
 
 					if (!isset($grouped[$year]))
 					{

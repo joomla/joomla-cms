@@ -68,14 +68,14 @@ class TestHelper
 				$class  = isset($trace[$i]['object']) ? get_class($trace[$i]['object']) : $trace[$i]['class'];
 				$method = $trace[$i]['function'];
 
-				$ref =& $deprecations[$group][$msg]['count'];
+				$ref = &$deprecations[$group][$msg]['count'];
 				$ref++;
-				$ref =& $deprecations[$group][$msg][$class . '::' . $method];
+				$ref = &$deprecations[$group][$msg][$class . '::' . $method];
 				$ref++;
 			}
 			else
 			{
-				$ref =& $deprecations[$group][$msg]['count'];
+				$ref = &$deprecations[$group][$msg]['count'];
 				$ref++;
 			}
 
@@ -161,6 +161,28 @@ class TestHelper
 				}
 			});
 		}
+	}
+
+	/**
+	 * Adds a logger to include Joomla deprecations in the unit test results
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function registerDeprecationLogger()
+	{
+		JLog::addLogger(
+			array(
+				'logger'   => 'callback',
+				'callback' => function (JLogEntry $entry)
+				{
+					@trigger_error($entry->message, E_USER_DEPRECATED);
+				},
+			),
+			JLog::ALL,
+			array('deprecated')
+		);
 	}
 
 	/**

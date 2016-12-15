@@ -15,7 +15,7 @@ jimport('joomla.filesystem.folder');
  * Form Field to display a list of the layouts for a component view from
  * the extension or template overrides.
  *
- * @since  11.1
+ * @since  1.6
  */
 class JFormFieldComponentlayout extends JFormField
 {
@@ -23,7 +23,7 @@ class JFormFieldComponentlayout extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $type = 'ComponentLayout';
 
@@ -32,7 +32,7 @@ class JFormFieldComponentlayout extends JFormField
 	 *
 	 * @return  string   The field input.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{

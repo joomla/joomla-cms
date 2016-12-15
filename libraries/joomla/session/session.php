@@ -800,6 +800,7 @@ class JSession implements IteratorAggregate
 	public function close()
 	{
 		$this->_handler->save();
+		$this->_state = 'inactive';
 	}
 
 	/**

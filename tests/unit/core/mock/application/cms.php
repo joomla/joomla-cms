@@ -33,7 +33,8 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'isAdmin',
 			'isSite',
 			'getUserState',
-			'getUserStateFromRequest'
+			'getUserStateFromRequest',
+			'setUserState',
 		);
 
 		return array_merge($methods, parent::getMethods());
@@ -88,17 +89,14 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 		$methods = self::getMethods();
 
 		if (isset($options))
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JApplicationCms',
-			$methods,
-			// Constructor arguments.
-			$constructor,
-			// Mock class name.
-			'',
-			// Call original constructor.
-			true
-		);
+		{
+			// Build the mock object & allow call to original constructor.
+			$mockObject = $test->getMockBuilder('JApplicationCms')
+						->setMethods($methods)
+						->setConstructorArgs($constructor)
+						->setMockClassName('')
+						->getMock();
+		}
 
 		$mockObject = self::addBehaviours($test, $mockObject, $options);
 

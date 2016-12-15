@@ -49,8 +49,7 @@ class PHPMailerOAuthGoogle
         $this->oauthUserEmail = $UserEmail;
     }
 
-    private function getProvider()
-    {
+    private function getProvider() {
         return new League\OAuth2\Client\Provider\Google([
             'clientId' => $this->oauthClientId,
             'clientSecret' => $this->oauthClientSecret

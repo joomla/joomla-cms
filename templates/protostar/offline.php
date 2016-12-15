@@ -9,31 +9,34 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 $app              = JFactory::getApplication();
-$doc              = JFactory::getDocument();
-$this->language   = $doc->language;
-$this->direction  = $doc->direction;
 
 // Output as HTML5
-$doc->setHtml5(true);
+$this->setHtml5(true);
 
 $fullWidth = 1;
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+// Add template js
+JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
+
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/offline.css');
+JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'offline.css', array('version' => 'auto', 'relative' => true));
 
 // Use of Google Font
 if ($this->params->get('googleFont'))
 {
-	$doc->addStyleSheet('//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
-	$doc->addStyleDeclaration("
+	JHtml::_('stylesheet', '//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	$this->addStyleDeclaration("
 	h1, h2, h3, h4, h5, h6, .site-title {
 		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
 	}");
@@ -42,7 +45,7 @@ if ($this->params->get('googleFont'))
 // Template color
 if ($this->params->get('templateColor'))
 {
-	$doc->addStyleDeclaration("
+	$this->addStyleDeclaration("
 	body.site {
 		border-top: 3px solid " . $this->params->get('templateColor') . ";
 		background-color: " . $this->params->get('templateBackgroundColor') . ";
@@ -63,12 +66,10 @@ if ($this->params->get('templateColor'))
 }
 
 // Check for a custom CSS file
-$userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
-if (file_exists($userCss) && filesize($userCss) > 0)
-{
-	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/user.css');
-}
+// Check for a custom js file
+JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -94,7 +95,6 @@ else
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="site">
 	<div class="outer">

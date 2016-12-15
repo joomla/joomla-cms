@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Controller tailored to suit most form-based admin operations.
  *
- * @since  12.2
+ * @since  1.6
  * @todo   Add ability to set redirect manually to better cope with frontend usage.
  */
 class JControllerForm extends JControllerLegacy
@@ -21,7 +21,7 @@ class JControllerForm extends JControllerLegacy
 	 * The context for storing internal data, e.g. record.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $context;
 
@@ -29,7 +29,7 @@ class JControllerForm extends JControllerLegacy
 	 * The URL option for the component.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $option;
 
@@ -37,7 +37,7 @@ class JControllerForm extends JControllerLegacy
 	 * The URL view item variable.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $view_item;
 
@@ -45,7 +45,7 @@ class JControllerForm extends JControllerLegacy
 	 * The URL view list variable.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $view_list;
 
@@ -53,7 +53,7 @@ class JControllerForm extends JControllerLegacy
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $text_prefix;
 
@@ -63,7 +63,7 @@ class JControllerForm extends JControllerLegacy
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JControllerLegacy
-	 * @since   12.2
+	 * @since   1.6
 	 * @throws  Exception
 	 */
 	public function __construct($config = array())
@@ -140,7 +140,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean  True if the record can be added, false if not.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function add()
 	{
@@ -186,7 +186,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -205,7 +205,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -222,7 +222,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
@@ -245,7 +245,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
-	 * @since	12.2
+	 * @since	1.7
 	 */
 	public function batch($model)
 	{
@@ -292,7 +292,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean  True if access level checks pass, false otherwise.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function cancel($key = null)
 	{
@@ -355,7 +355,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
@@ -438,7 +438,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  JModelLegacy  The model.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
 	{
@@ -458,23 +458,26 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$tmpl   = $this->input->get('tmpl');
-		$layout = $this->input->get('layout', 'edit', 'string');
 		$append = '';
 
 		// Setup redirect info.
-		if ($tmpl)
+		if ($tmpl = $this->input->get('tmpl', '', 'string'))
 		{
 			$append .= '&tmpl=' . $tmpl;
 		}
 
-		if ($layout)
+		if ($layout = $this->input->get('layout', 'edit', 'string'))
 		{
 			$append .= '&layout=' . $layout;
+		}
+
+		if ($forcedLanguage = $this->input->get('forcedLanguage', '', 'cmd'))
+		{
+			$append .= '&forcedLanguage=' . $forcedLanguage;
 		}
 
 		if ($recordId)
@@ -490,17 +493,21 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function getRedirectToListAppend()
 	{
-		$tmpl = $this->input->get('tmpl');
 		$append = '';
 
 		// Setup redirect info.
-		if ($tmpl)
+		if ($tmpl = $this->input->get('tmpl', '', 'string'))
 		{
 			$append .= '&tmpl=' . $tmpl;
+		}
+
+		if ($forcedLanguage = $this->input->get('forcedLanguage', '', 'cmd'))
+		{
+			$append .= '&forcedLanguage=' . $forcedLanguage;
 		}
 
 		return $append;
@@ -515,7 +522,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
@@ -604,7 +611,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function save($key = null, $urlVar = null)
 	{

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Tags Component Tag Model
@@ -127,18 +128,15 @@ class TagsModelTag extends JModelAdmin
 			}
 
 			// Convert the metadata field to an array.
-			$registry = new Registry;
-			$registry->loadString($result->metadata);
+			$registry = new Registry($result->metadata);
 			$result->metadata = $registry->toArray();
 
 			// Convert the images field to an array.
-			$registry = new Registry;
-			$registry->loadString($result->images);
+			$registry = new Registry($result->images);
 			$result->images = $registry->toArray();
 
 			// Convert the urls field to an array.
-			$registry = new Registry;
-			$registry->loadString($result->urls);
+			$registry = new Registry($result->urls);
 			$result->urls = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.
@@ -286,15 +284,13 @@ class TagsModelTag extends JModelAdmin
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($data['images']);
+			$registry = new Registry($data['images']);
 			$data['images'] = (string) $registry;
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($data['urls']);
+			$registry = new Registry($data['urls']);
 			$data['urls'] = (string) $registry;
 		}
 
@@ -447,8 +443,8 @@ class TagsModelTag extends JModelAdmin
 
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
 		{
-			$title = ($table->title != $title) ? $title : JString::increment($title);
-			$alias = JString::increment($alias, 'dash');
+			$title = ($table->title != $title) ? $title : StringHelper::increment($title);
+			$alias = StringHelper::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);

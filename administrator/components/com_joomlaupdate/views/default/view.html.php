@@ -155,7 +155,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	/**
 	 * Makes sure that the Joomla! Update Component Update is in the database and check if there is a new version.
 	 *
-	 * @return  boolean  True if there is a update else false
+	 * @return  boolean  True if there is an update else false
 	 *
 	 * @since   3.6.3
 	 */
@@ -181,7 +181,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
-		// Try the update only if we have a extension id
+		// Try the update only if we have an extension id
 		if ($joomlaUpdateComponentId != 0)
 		{
 			// Allways force to check for an update!

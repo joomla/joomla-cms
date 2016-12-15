@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * User model.
@@ -612,7 +613,7 @@ class UsersModelUser extends JModelAdmin
 	{
 		// Sanitize user ids.
 		$pks = array_unique($pks);
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 
 		// Remove any values of zero.
 		if (array_search(0, $pks, true))
@@ -631,7 +632,7 @@ class UsersModelUser extends JModelAdmin
 
 		if (!empty($commands['group_id']))
 		{
-			$cmd = JArrayHelper::getValue($commands, 'group_action', 'add');
+			$cmd = ArrayHelper::getValue($commands, 'group_action', 'add');
 
 			if (!$this->batchUser((int) $commands['group_id'], $pks, $cmd))
 			{
@@ -699,7 +700,7 @@ class UsersModelUser extends JModelAdmin
 		// Get the DB object
 		$db = $this->getDbo();
 
-		JArrayHelper::toInteger($user_ids);
+		$user_ids = ArrayHelper::toInteger($user_ids);
 
 		$query = $db->getQuery(true);
 
@@ -740,7 +741,7 @@ class UsersModelUser extends JModelAdmin
 		// Get the DB object
 		$db = $this->getDbo();
 
-		JArrayHelper::toInteger($user_ids);
+		$user_ids = ArrayHelper::toInteger($user_ids);
 
 		// Non-super admin cannot work with super-admin group
 		if ((!JFactory::getUser()->get('isRoot') && JAccess::checkGroup($group_id, 'core.admin')) || $group_id < 1)
@@ -960,15 +961,50 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		// Get the encrypted data
-		list($method, $encryptedConfig) = explode(':', $item->otpKey, 2);
+		list($method, $config) = explode(':', $item->otpKey, 2);
 		$encryptedOtep = $item->otep;
-
-		// Create an encryptor class
+		
+		// Get the secret key, yes the thing that is saved in the configuration file
 		$key = $this->getOtpConfigEncryptionKey();
+		
+		if (strpos($config, '{') === false)
+		{
+			$openssl         = new FOFEncryptAes($key, 256);
+			$mcrypt          = new FOFEncryptAes($key, 256, 'cbc', null, 'mcrypt');
+			
+			$decryptedConfig = $mcrypt->decryptString($config);
+			
+			if (strpos($decryptedConfig, '{') !== false)
+			{
+				// Data encrypted with mcrypt
+				$decryptedOtep = $mcrypt->decryptString($encryptedOtep);
+				$encryptedOtep = $openssl->encryptString($decryptedOtep);
+			}
+			else
+			{
+				// Config data seems to be save encrypted, this can happen with 3.6.3 and openssl, lets get the data
+				$decryptedConfig = $openssl->decryptString($config);
+			}
+			
+			$otpKey = $method . ':' . $decryptedConfig;
+			
+			$query = $db->getQuery(true)
+				->update($db->qn('#__users'))
+				->set($db->qn('otep') . '=' . $db->q($encryptedOtep))
+				->set($db->qn('otpKey') . '=' . $db->q($otpKey))
+				->where($db->qn('id') . ' = ' . $db->q($user_id));
+			$db->setQuery($query);
+			$db->execute();
+		}
+		else
+		{
+			$decryptedConfig = $config;
+		}
+		
+		// Create an encryptor class
 		$aes = new FOFEncryptAes($key, 256);
 
 		// Decrypt the data
-		$decryptedConfig = $aes->decryptString($encryptedConfig);
 		$decryptedOtep = $aes->decryptString($encryptedOtep);
 
 		// Remove the null padding added during encryption
@@ -1008,7 +1044,7 @@ class UsersModelUser extends JModelAdmin
 		// Return the configuration object
 		return $otpConfig;
 	}
-
+	
 	/**
 	 * Sets the one time password (OTP) – a.k.a. two factor authentication –
 	 * configuration for a particular user. The $otpConfig object is the same as
@@ -1040,7 +1076,7 @@ class UsersModelUser extends JModelAdmin
 		{
 			$decryptedConfig = json_encode($otpConfig->config);
 			$decryptedOtep = json_encode($otpConfig->otep);
-			$updates->otpKey = $otpConfig->method . ':' . $aes->encryptString($decryptedConfig);
+			$updates->otpKey = $otpConfig->method . ':' . $decryptedConfig;
 			$updates->otep = $aes->encryptString($decryptedOtep);
 		}
 
