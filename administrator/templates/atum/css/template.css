@@ -8471,13 +8471,13 @@ iframe {
     .subhead .btn-toolbar > * {
       margin-left: .5rem; }
     .subhead .btn-toolbar .btn-group {
-      margin-right: .35rem; }
+      margin-right: .25rem; }
       .subhead .btn-toolbar .btn-group .btn {
         margin-left: 0; }
     .subhead .btn-toolbar .btn-group-sm > .btn,
     .subhead .btn-toolbar .btn-sm,
     .subhead .btn-toolbar .btn-group-sm > .btn {
-      padding: 0 .75rem;
+      padding: 0 .8rem;
       line-height: 24px; }
     .subhead .btn-toolbar .btn-sm, .subhead .btn-toolbar .btn-group-sm > .btn {
       padding: 0 10px;
@@ -8529,10 +8529,10 @@ iframe {
       border-color: #368c36; }
       .subhead .btn-toolbar .btn-success.dropdown-toggle::after {
         color: #fcfcfc; }
-    .subhead .btn-toolbar button:first-of-type:not(.float-sm-right) {
+    .subhead .btn-toolbar > *:first-child:not(.float-sm-right) {
       margin-left: 0; }
-    .subhead .btn-toolbar button:last-of-type:not(.float-sm-right) {
-      margin-left: 0; }
+    .subhead .btn-toolbar .float-sm-right {
+      margin-left: .8rem; }
   .subhead.subhead-fixed {
     position: fixed;
     top: 0;

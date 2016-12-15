@@ -17,7 +17,7 @@
       margin-left: .5rem;
     }
     .btn-group {
-      margin-right: .35rem;
+      margin-right: .25rem;
       .btn {
         margin-left: 0;
       }
@@ -25,7 +25,7 @@
 
     .btn-group-sm > .btn,
     .btn-sm {
-      padding: 0 .75rem;
+      padding: 0 .8rem;
       line-height: 24px;
     }
     .btn-sm {
@@ -101,11 +101,11 @@
         color: $white-offset;
       }
     }
-    button:first-of-type:not(.float-sm-right) {
+    > *:first-child:not(.float-sm-right) {
       margin-left: 0;
     }
-    button:last-of-type:not(.float-sm-right) {
-      margin-left: 0;
+    .float-sm-right {
+      margin-left: .8rem;
     }
   }
   &.subhead-fixed {
