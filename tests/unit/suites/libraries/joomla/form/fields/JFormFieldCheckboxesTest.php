@@ -65,7 +65,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 	 */
 	public function testGetInputNoValueNoChecked()
 	{
-		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
+		$formFieldCheckboxes = $this->getMockBuilder('JFormFieldCheckboxes')->setMethods(array('getOptions'))->getMock();
 
 		$option1 = new JObject;
 		$option1->set('value', 'red');
@@ -160,7 +160,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 	 */
 	public function testGetInputValueNoChecked()
 	{
-		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
+		$formFieldCheckboxes = $this->getMockBuilder('JFormFieldCheckboxes')->setMethods(array('getOptions'))->getMock();
 
 		$option1 = new JObject;
 		$option1->set('value', 'red');
@@ -244,7 +244,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 	 */
 	public function testGetInputValueArrayNoChecked()
 	{
-		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
+		$formFieldCheckboxes = $this->getMockBuilder('JFormFieldCheckboxes')->setMethods(array('getOptions'))->getMock();
 
 		$option1 = new JObject;
 		$option1->set('value', 'red');
@@ -329,7 +329,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 	 */
 	public function testGetInputNoValueOneChecked()
 	{
-		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
+		$formFieldCheckboxes = $this->getMockBuilder('JFormFieldCheckboxes')->setMethods(array('getOptions'))->getMock();
 
 		$option1 = new JObject;
 		$option1->set('value', 'red');
@@ -406,7 +406,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 	 */
 	public function testGetInputNoValueTwoChecked()
 	{
-		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
+		$formFieldCheckboxes = $this->getMockBuilder('JFormFieldCheckboxes')->setMethods(array('getOptions'))->getMock();
 
 		$option1 = new JObject;
 		$option1->set('value', 'red');
@@ -485,7 +485,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 	 */
 	public function testGetInputValueChecked()
 	{
-		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
+		$formFieldCheckboxes = $this->getMockBuilder('JFormFieldCheckboxes')->setMethods(array('getOptions'))->getMock();
 
 		$option1 = new JObject;
 		$option1->set('value', 'red');
@@ -564,7 +564,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 	 */
 	public function testGetInputValuesNoChecked()
 	{
-		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
+		$formFieldCheckboxes = $this->getMockBuilder('JFormFieldCheckboxes')->setMethods(array('getOptions'))->getMock();
 
 		$option1 = new JObject;
 		$option1->set('value', 'red');

@@ -774,7 +774,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
 					case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
 
-						$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
+						$language->link = JRoute::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
 						break;
 
 					// Too bad...

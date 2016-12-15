@@ -39,7 +39,7 @@ abstract class JHtmlIcon
 		// Add the button classes to the attribs array
 		if (isset($attribs['class']))
 		{
-			$attribs['class'] = $attribs['class'] . ' btn btn-primary';
+			$attribs['class'] .= ' btn btn-primary';
 		}
 		else
 		{
@@ -81,9 +81,7 @@ abstract class JHtmlIcon
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
 
-		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
-
-		return $output;
+		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}
 
 	/**

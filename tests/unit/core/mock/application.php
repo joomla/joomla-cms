@@ -36,17 +36,13 @@ class TestMockApplication
 			'getLanguage'
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JApplication',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JApplication')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$menu = TestMockMenu::create($test);
 		$mockObject->expects($test->any())

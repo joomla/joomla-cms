@@ -359,6 +359,7 @@ class PlgSystemUpdatenotification extends JPlugin
 							)
 						)->from($db->qn('#__users'))
 						->where($db->qn('id') . ' IN(' . implode(',', $userIDs) . ')')
+						->where($db->qn('block') . ' = 0')
 						->where($db->qn('sendEmail') . ' = ' . $db->q('1'));
 
 			if (!empty($emails))

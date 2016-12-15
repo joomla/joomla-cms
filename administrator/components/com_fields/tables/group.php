@@ -84,20 +84,6 @@ class FieldsTableGroup extends JTable
 			return false;
 		}
 
-		$this->alias = trim($this->alias);
-
-		if (empty($this->alias))
-		{
-			$this->alias = $this->title;
-		}
-
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
-
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
-		}
-
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 

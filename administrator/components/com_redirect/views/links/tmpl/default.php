@@ -91,7 +91,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</td>
 						<td class="break-word">
 							<?php if ($canEdit) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id);?>" title="<?php echo $this->escape($item->old_url); ?>">
+								<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>" title="<?php echo $this->escape($item->old_url); ?>">
 									<?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?></a>
 							<?php else : ?>
 									<?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?>
@@ -137,7 +137,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					),
 					$this->loadTemplate('batch_body')
 				); ?>
-			<?php endif;?>
+			<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

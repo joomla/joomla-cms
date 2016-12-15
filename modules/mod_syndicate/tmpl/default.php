@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 ?>
-<a href="<?php echo $link ?>" class="syndicate-module<?php echo $moduleclass_sfx ?>">
+<a href="<?php echo $link; ?>" class="syndicate-module<?php echo $moduleclass_sfx; ?>">
 	<?php echo JHtml::_('image', 'system/livemarks.png', 'feed-image', null, true); ?>
 	<?php if ($params->get('display_text', 1)) : ?>
 		<span>
