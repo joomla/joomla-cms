@@ -252,9 +252,9 @@ abstract class JHtmlMenu
 		// First pass - collect children
 		foreach ($mitems as $v)
 		{
-			$pt = $v->parent_id;
-			$list = @$children[$pt] ? $children[$pt] : array();
-			array_push($list, $v);
+			$pt            = $v->parent_id;
+			$list          = @$children[$pt] ? $children[$pt] : array();
+			$list[]        = $v;
 			$children[$pt] = $list;
 		}
 

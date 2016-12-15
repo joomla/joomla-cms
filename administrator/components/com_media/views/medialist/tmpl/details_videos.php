@@ -28,11 +28,11 @@ jQuery(document).ready(function($){
 <?php foreach ($this->videos as $i => $video) : ?>
 	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$video, &$params)); ?>
 	<tr>
-		<?php if ($this->canDelete):?>
+		<?php if ($this->canDelete) : ?>
 			<td>
 				<?php echo JHtml::_('grid.id', $i, $video->name, false, 'rm', 'cb-video'); ?>
 			</td>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<td>
 			<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL, '/', $video->name; ?>" title="<?php echo $video->title; ?>">
@@ -60,7 +60,7 @@ jQuery(document).ready(function($){
 					<span class="icon-remove hasTooltip" title="<?php echo JHtml::tooltipText('JACTION_DELETE'); ?>"></span>
 				</a>
 			</td>
-		<?php endif;?>
+		<?php endif; ?>
 	</tr>
 
 	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$video, &$params)); ?>
