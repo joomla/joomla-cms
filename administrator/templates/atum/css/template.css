@@ -8770,7 +8770,7 @@ iframe {
         background-color: #007eb7;
         opacity: .8; }
 
-.tab-content {
+.nav-tabs + .tab-content {
   padding: 15px;
   background: #fcfcfc;
   border: 1px solid;
