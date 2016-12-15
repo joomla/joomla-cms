@@ -53,8 +53,11 @@ class PlgQuickiconExtensionupdate extends JPlugin
 		$script[] = 'var plg_quickicon_extensionupdate_text = {'
 			. '"UPTODATE" : "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true) . '",'
 			. '"UPDATEFOUND": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true) . '",'
+			. '"UPDATEFOUND_SINGLE": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_SINGLE', true) . '",'
 			. '"UPDATEFOUND_MESSAGE": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', true) . '",'
+			. '"UPDATEFOUND_MESSAGE_SINGLE": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE_SINGLE', true) . '",'
 			. '"UPDATEFOUND_BUTTON": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', true) . '",'
+			. '"UPDATEFOUND_BUTTON_SINGLE": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON_SINGLE', true) . '",'
 			. '"ERROR": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true) . '",'
 			. '};';
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
