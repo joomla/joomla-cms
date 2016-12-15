@@ -108,7 +108,7 @@ class JFormFieldTag extends JFormAbstractlist
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published']? $this->element['published'] : array(0, 1);
+		$published = $this->element['published']?: array(0, 1);
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)

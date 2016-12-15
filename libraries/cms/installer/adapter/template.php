@@ -192,7 +192,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 
 		$base = constant('JPATH_' . strtoupper($client));
 		$extension = 'tpl_' . $this->getName();
-		$source    = $path ? $path : $base . '/templates/' . $this->getName();
+		$source    = $path ?: $base . '/templates/' . $this->getName();
 
 		$this->doLoadLanguage($extension, $source, $base);
 	}

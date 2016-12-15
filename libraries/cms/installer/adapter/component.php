@@ -384,7 +384,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		$extension = $this->getElement();
-		$source    = $path ? $path : $client . '/components/' . $extension;
+		$source    = $path ?: $client . '/components/' . $extension;
 
 		if ($this->getManifest()->administration->files)
 		{
@@ -966,7 +966,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['published'] = 0;
 			$data['parent_id'] = 1;
 			$data['component_id'] = $component_id;
-			$data['img'] = ((string) $menuElement->attributes()->img) ? (string) $menuElement->attributes()->img : 'class:component';
+			$data['img'] = ((string) $menuElement->attributes()->img) ?: 'class:component';
 			$data['home'] = 0;
 			$data['path'] = '';
 			$data['params'] = '';
@@ -1019,7 +1019,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['published'] = 0;
 			$data['parent_id'] = $parent_id;
 			$data['component_id'] = $component_id;
-			$data['img'] = ((string) $child->attributes()->img) ? (string) $child->attributes()->img : 'class:component';
+			$data['img'] = ((string) $child->attributes()->img) ?: 'class:component';
 			$data['home'] = 0;
 
 			// Set the sub menu link
@@ -1061,7 +1061,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 					$request[] = 'sub=' . $child->attributes()->sub;
 				}
 
-				$qstring = (count($request)) ? '&' . implode('&', $request) : '';
+				$qstring = count($request) ? '&' . implode('&', $request) : '';
 				$data['link'] = 'index.php?option=' . $option . $qstring;
 			}
 

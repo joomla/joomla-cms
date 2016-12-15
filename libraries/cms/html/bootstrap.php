@@ -720,7 +720,7 @@ abstract class JHtmlBootstrap
 			JHtml::_('bootstrap.framework');
 
 			// Setup options object
-			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
+			$opt['active'] = (isset($params['active']) && $params['active']) ? (string) $params['active'] : '';
 
 			// Attach tabs to document
 			JFactory::getDocument()
