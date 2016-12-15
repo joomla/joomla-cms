@@ -17,31 +17,31 @@ else
 {
 	$lang      = JFactory::getLanguage();
 	$myrtl     = $this->newsfeed->rtl;
-	$direction = " ";
+	$direction = ' ';
 
 		if ($lang->isRtl() && $myrtl == 0)
 		{
-			$direction = " redirect-rtl";
+			$direction = ' redirect-rtl';
 		}
 		elseif ($lang->isRtl() && $myrtl == 1)
 		{
-			$direction = " redirect-ltr";
+			$direction = ' redirect-ltr';
 		}
 		elseif ($lang->isRtl() && $myrtl == 2)
 		{
-			$direction = " redirect-rtl";
+			$direction = ' redirect-rtl';
 		}
 		elseif ($myrtl == 0)
 		{
-			$direction = " redirect-ltr";
+			$direction = ' redirect-ltr';
 		}
 		elseif ($myrtl == 1)
 		{
-			$direction = " redirect-ltr";
+			$direction = ' redirect-ltr';
 		}
 		elseif ($myrtl == 2)
 		{
-			$direction = " redirect-rtl";
+			$direction = ' redirect-rtl';
 		}
 		$images = json_decode($this->item->images);
 	?>
@@ -66,7 +66,7 @@ else
 
 	<!-- Show Images from Component -->
 	<?php if (isset($images->image_first) and !empty($images->image_first)) : ?>
-	<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>
+	<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
 	<div class="img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>"> <img
 		<?php if ($images->image_first_caption) :
 			echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') . '"';
@@ -75,7 +75,7 @@ else
 	<?php endif; ?>
 
 	<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
-	<?php $imgfloat = (empty($images->float_second)) ? $this->params->get('float_second') : $images->float_second; ?>
+	<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
 	<div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image"> <img
 	<?php if ($images->image_second_caption) :
 		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_second_caption) . '"';

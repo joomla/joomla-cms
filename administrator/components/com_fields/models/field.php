@@ -118,8 +118,9 @@ class FieldsModelField extends JModelAdmin
 
 			if ($data['title'] == $origTable->title)
 			{
-				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				list($title, $alias) = $this->generateNewTitle($data['group_id'], $data['alias'], $data['title']);
 				$data['title'] = $title;
+				$data['label'] = $title;
 				$data['alias'] = $alias;
 			}
 			else

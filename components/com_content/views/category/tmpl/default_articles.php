@@ -33,11 +33,11 @@ if (!empty($this->items))
 }
 
 // For B/C we also add the css classes inline. This will be removed in 4.0.
-JFactory::getDocument()->addStyleDeclaration("
+JFactory::getDocument()->addStyleDeclaration('
 .hide { display: none; }
 .table-noheader { border-collapse: collapse; }
 .table-noheader thead { display: none; }
-");
+');
 
 $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 ?>
@@ -97,11 +97,11 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 				</th>
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 					<th scope="col" id="categorylist_header_date">
-						<?php if ($date == "created") : ?>
+						<?php if ($date == 'created') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
-						<?php elseif ($date == "modified") : ?>
+						<?php elseif ($date == 'modified') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.modified', $listDirn, $listOrder); ?>
-						<?php elseif ($date == "published") : ?>
+						<?php elseif ($date == 'published') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
 						<?php endif; ?>
 					</th>
@@ -116,12 +116,12 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
-				<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
+				<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
 					<th scope="col" id="categorylist_header_votes">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
-				<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 					<th scope="col" id="categorylist_header_ratings">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
 					</th>
@@ -209,7 +209,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 				<td headers="categorylist_header_author" class="list-author">
 					<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 						<?php $author = $article->author ?>
-						<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author); ?>
+						<?php $author = ($article->created_by_alias ?: $author); ?>
 						<?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
 						<?php else : ?>
@@ -225,14 +225,14 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 							</span>
 						</td>
 			<?php endif; ?>
-			<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
+			<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
 				<td headers="categorylist_header_votes" class="list-votes">
 					<span class="badge badge-success">
 						<?php echo JText::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
 					</span>
 				</td>
 			<?php endif; ?>
-			<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+			<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 				<td headers="categorylist_header_ratings" class="list-ratings">
 					<span class="badge badge-warning">
 						<?php echo JText::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
