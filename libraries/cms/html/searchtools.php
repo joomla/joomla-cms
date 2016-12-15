@@ -83,11 +83,11 @@ abstract class JHtmlSearchtools
 				(function($){
 					$(document).ready(function() {
 						$('" . $selector . "').searchtools(
-							" . $options->toString() . '
+							" . $options->toString() . "
 						);
 					});
 				})(jQuery);
-			';
+			";
 			$doc->addScriptDeclaration($script);
 
 			static::$loaded[__METHOD__][$sig] = true;

@@ -610,29 +610,29 @@ abstract class JHtmlBootstrap
 			// Build the script.
 			$script = array();
 			$script[] = "jQuery(function($){";
-			$script[] = "\t$('#" . $selector . "').collapse(" . $options . ')';
+			$script[] = "\t$('#" . $selector . "').collapse(" . $options . ")";
 
 			if ($onShow)
 			{
-				$script[] = "\t.on('show', " . $onShow . ')';
+				$script[] = "\t.on('show', " . $onShow . ")";
 			}
 
 			if ($onShown)
 			{
-				$script[] = "\t.on('shown', " . $onShown . ')';
+				$script[] = "\t.on('shown', " . $onShown . ")";
 			}
 
 			if ($onHide)
 			{
-				$script[] = "\t.on('hideme', " . $onHide . ')';
+				$script[] = "\t.on('hideme', " . $onHide . ")";
 			}
 
 			if ($onHidden)
 			{
-				$script[] = "\t.on('hidden', " . $onHidden . ')';
+				$script[] = "\t.on('hidden', " . $onHidden . ")";
 			}
 
-			$script[] = '});';
+			$script[] = "});";
 
 			// Attach accordion to document
 			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
