@@ -76,8 +76,8 @@ else
 		src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'); ?>"/> </div>
 	<?php endif; ?>
 
-	<?php if isset($images->image_second and !empty($images->image_second)) : ?>
-	<?php $imgfloat = (empty($images->float_second)) ? $this->params->get('float_second') : $images->float_second; ?>
+	<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
+	<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
 	<div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image"> <img
 	<?php if ($images->image_second_caption) :
 		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_second_caption) . '"';
