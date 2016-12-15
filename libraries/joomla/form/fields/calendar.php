@@ -233,11 +233,11 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 
 			if ($showTime && $showTime != 'false')
 			{
-				$this->format = JText::_('DATE_FORMAT_CALENDAR_DATETIME');
+				$this->format = str_replace('**', '', JText::_('DATE_FORMAT_CALENDAR_DATETIME'));
 			}
 			else
 			{
-				$this->format = JText::_('DATE_FORMAT_CALENDAR_DATE');
+				$this->format = str_replace('**', '', JText::_('DATE_FORMAT_CALENDAR_DATE'));
 			}
 		}
 		else
