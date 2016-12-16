@@ -781,11 +781,8 @@ class JViewLegacy extends JObject
 	{
 		jimport('joomla.filesystem.path');
 
-		// Just force to array
-		settype($path, 'array');
-
 		// Loop through the path directories
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			// Clean up the path
 			$dir = JPath::clean($dir);
