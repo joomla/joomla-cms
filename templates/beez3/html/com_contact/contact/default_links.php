@@ -33,7 +33,7 @@ if ($this->params->get('presentation_style') == 'sliders') : ?>
 			$link = (0 === strpos($link, 'http')) ? $link : 'http://'.$link;
 
 			// If no label is present, take the link
-			$label = ($label) ?: $link;
+			$label = $label ?: $link;
 			?>
 			<li>
 				<a href="<?php echo $link; ?>">

@@ -110,12 +110,12 @@ if (!empty($this->items))
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 				</th>
 				<?php endif; ?>
-				<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
+				<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
 					<th id="categorylist_header_votes">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
-				<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 					<th id="categorylist_header_ratings">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
 					</th>
@@ -171,12 +171,12 @@ if (!empty($this->items))
 					</td>
 					<?php endif; ?>
 
-					<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
+					<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
 						<td class="list-votes">
 							<?php echo $article->rating_count; ?>
 						</td>
 					<?php endif; ?>
-					<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+					<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 						<td class="list-ratings">
 							<?php echo $article->rating; ?>
 						</td>
