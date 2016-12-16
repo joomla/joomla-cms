@@ -132,7 +132,7 @@ abstract class ModArticlesCategoryHelper
 				// Get an instance of the generic categories model
 				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
 				$categories->setState('params', $appParams);
-				$levels = $params->get('levels', 1) ? $params->get('levels', 1) : 9999;
+				$levels = $params->get('levels', 1) ?: 9999;
 				$categories->setState('filter.get_children', $levels);
 				$categories->setState('filter.published', 1);
 				$categories->setState('filter.access', $access);

@@ -25,7 +25,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<div id="j-main-container" class="span10">
 		<?php else : ?>
 		<div id="j-main-container">
-		<?php endif;?>
+		<?php endif; ?>
 			<?php if ($this->showMessage) : ?>
 				<?php echo $this->loadTemplate('message'); ?>
 			<?php endif; ?>
