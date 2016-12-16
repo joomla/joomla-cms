@@ -62,11 +62,12 @@ if ($color == 'image')
 {
 	$this->addStyleDeclaration("
 	.logoheader {
-		background: url('" . $this->baseurl . "/" . htmlspecialchars($headerImage) . "') no-repeat right;
+		background: url('" . $this->baseurl . '/' . htmlspecialchars($headerImage) . "') no-repeat right;
 	}
 	body {
-		background: " . $this->params->get('backgroundcolor') . ";
-	}");
+		background: " . $this->params->get('backgroundcolor') . ';
+	}'
+	);
 }
 
 JHtml::_('stylesheet', 'ie7only.css', array('version' => 'auto', 'relative' => true, 'conditional' => 'IE 7'));
