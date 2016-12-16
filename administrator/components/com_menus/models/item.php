@@ -1628,7 +1628,30 @@ class MenusModelItem extends JModelAdmin
 			return true;
 		}
 
-		return parent::publish($pks, $value);
+		$result = false;
+
+		try
+		{
+			$pks = ArrayHelper::toInteger($pks);
+
+			if (!empty($pks))
+			{
+				$dbo = $table->getDbo();
+				$query = $dbo->getQuery(true);
+				$query->update($dbo->quoteName($table->getTableName()))
+					->set($dbo->qn($table->getColumnAlias('published')) . ' = ' . (int) $value)
+					->where('id in (' . implode(',', $pks) . ')');
+				$dbo->setQuery($query)->execute();
+			}
+
+			$result = true;
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+		}
+
+		return $result;
 	}
 
 	/**
