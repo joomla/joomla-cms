@@ -8379,6 +8379,9 @@ iframe {
     font-size: .9rem;
     color: #555; }
 
+.sidebar-wrapper[data-hidden="1"] ~ .status {
+  margin-left: 0; }
+
 .js-switcher {
   position: relative;
   box-sizing: content-box;
