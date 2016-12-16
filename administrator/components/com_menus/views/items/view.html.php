@@ -55,7 +55,11 @@ class MenusViewItems extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		MenusHelper::addSubmenu('items');
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			MenusHelper::addSubmenu('items');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

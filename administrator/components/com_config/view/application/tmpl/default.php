@@ -60,11 +60,11 @@ JFactory::getDocument()->addScriptDeclaration('
 				<li class="active"><a href="#page-site" data-toggle="tab"><?php echo JText::_('JSITE'); ?></a></li>
 				<li><a href="#page-system" data-toggle="tab"><?php echo JText::_('COM_CONFIG_SYSTEM'); ?></a></li>
 				<li><a href="#page-server" data-toggle="tab"><?php echo JText::_('COM_CONFIG_SERVER'); ?></a></li>
-				<li><a href="#page-permissions" data-toggle="tab"><?php echo JText::_('COM_CONFIG_PERMISSIONS'); ?></a></li>
 				<li><a href="#page-filters" data-toggle="tab"><?php echo JText::_('COM_CONFIG_TEXT_FILTERS'); ?></a></li>
 				<?php if ($this->ftp) : ?>
 					<li><a href="#page-ftp" data-toggle="tab"><?php echo JText::_('COM_CONFIG_FTP_SETTINGS'); ?></a></li>
 				<?php endif; ?>
+				<li><a href="#page-permissions" data-toggle="tab"><?php echo JText::_('COM_CONFIG_PERMISSIONS'); ?></a></li>
 			</ul>
 			<div id="config-document" class="tab-content">
 				<div id="page-site" class="tab-pane active">
@@ -103,11 +103,6 @@ JFactory::getDocument()->addScriptDeclaration('
 						</div>
 					</div>
 				</div>
-				<div id="page-permissions" class="tab-pane">
-					<div class="row-fluid">
-						<?php echo $this->loadTemplate('permissions'); ?>
-					</div>
-				</div>
 				<div id="page-filters" class="tab-pane">
 					<div class="row-fluid">
 						<?php echo $this->loadTemplate('filters'); ?>
@@ -118,6 +113,11 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo $this->loadTemplate('ftplogin'); ?>
 					</div>
 				<?php endif; ?>
+				<div id="page-permissions" class="tab-pane">
+					<div class="row-fluid">
+						<?php echo $this->loadTemplate('permissions'); ?>
+					</div>
+				</div>
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
 			</div>

@@ -25,23 +25,11 @@
 					label="PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_LABEL"
 					description="PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_DESC"
 					default="2"
-				>
+					>
 					<option value="1">PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_AFTER_TITLE</option>
 					<option value="2">PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_BEFORE_DISPLAY</option>
 					<option value="3">PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_AFTER_DISPLAY</option>
 					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="prepare_content"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					label="PLG_SYSTEM_FIELDS_CONFIG_PREPARE_CONTENT_LABEL"
-					description="PLG_SYSTEM_FIELDS_CONFIG_PREPARE_CONTENT_DESC"
-					default="1"
-				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>

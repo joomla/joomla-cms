@@ -161,7 +161,7 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 
 		// Load specific css component
-		JHtml::_('stylesheet', $component . '/administrator/categories.css', array(), true);
+		JHtml::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
 
 		// Prepare the toolbar.
 		JToolbarHelper::title(
@@ -203,7 +203,7 @@ class CategoriesViewCategory extends JViewLegacy
 				JToolbarHelper::save2copy('category.save2copy');
 			}
 
-			if ($componentParams->get('save_history', 0) && $itemEditable)
+			if (JComponentHelper::isEnabled('com_contenthistory') && $componentParams->get('save_history', 0) && $itemEditable)
 			{
 				$typeAlias = $extension . '.category';
 				JToolbarHelper::versions($typeAlias, $this->item->id);

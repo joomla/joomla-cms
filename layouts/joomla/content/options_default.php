@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 ?>
 
 <fieldset class="<?php echo !empty($displayData->formclass) ? $displayData->formclass : 'form-horizontal'; ?>">
-	<legend><?php echo $displayData->name ?></legend>
+	<legend><?php echo $displayData->name; ?></legend>
 
 	<?php if (!empty($displayData->description)) : ?>
 		<p><?php echo $displayData->description; ?></p>
@@ -29,7 +29,7 @@ defined('JPATH_BASE') or die;
 			if ($showonstring = $displayData->form->getFieldAttribute($field->fieldname, 'showon'))
 			{
 				JHtml::_('jquery.framework');
-				JHtml::_('script', 'jui/cms.js', false, true);
+				JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
 
 				$showonarr = array();
 

@@ -1086,6 +1086,25 @@ class JLanguage
 	}
 
 	/**
+	 * Getter for the calendar type
+	 *
+	 * @return  string  The calendar type.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getCalendar()
+	{
+		if (isset($this->metadata['calendar']))
+		{
+			return $this->metadata['calendar'];
+		}
+		else
+		{
+			return 'gregorian';
+		}
+	}
+
+	/**
 	 * Get the RTL property.
 	 *
 	 * @return  boolean  True is it an RTL language.

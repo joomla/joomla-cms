@@ -41,13 +41,16 @@ if (key_exists('fields', $displayData))
 }
 else
 {
-	$fields = $item->fields ? $item->fields : FieldsHelper::getFields($context, $item, true);
+	$fields = $item->fields ?: FieldsHelper::getFields($context, $item, true);
 }
 
 if (!$fields)
 {
 	return;
 }
+
+// Check if we have mail context in first element
+$isMail = (reset($fields)->context == 'com_contact.mail');
 
 // Load some output definitions
 $container = 'dl';
@@ -64,7 +67,7 @@ if (key_exists('container-class', $displayData) && $displayData['container-class
 	$class = $displayData['container-class'];
 }
 
-if ($fields[0]->context != 'com_contact.mail')
+if (!$isMail)
 {
 	// Print the container tag
 	echo '<' . $container . ' class="fields-container ' . $class . '">';
@@ -82,7 +85,7 @@ foreach ($fields as $field)
 	echo FieldsHelper::render($context, 'field.render', array('field' => $field));
 }
 
-if ($fields[0]->context != 'com_contact.mail')
+if (!$isMail)
 {
 	// Close the container
 	echo '</' . $container . '>';

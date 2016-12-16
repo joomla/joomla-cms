@@ -47,7 +47,7 @@ extract($displayData);
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', false, true);
+JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
 
 $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize());
 ?>

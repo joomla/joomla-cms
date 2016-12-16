@@ -96,8 +96,8 @@
 			default="1"
 			class="btn-group btn-group-yesno"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field

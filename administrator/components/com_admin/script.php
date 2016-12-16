@@ -120,6 +120,7 @@ class JoomlaInstallerScript
 		}
 
 		$this->uninstallEosPlugin();
+		$this->removeJedUpdateserver();
 	}
 
 	/**
@@ -200,6 +201,49 @@ class JoomlaInstallerScript
 
 		$installer = new JInstaller;
 		$installer->uninstall('plugin', $id);
+	}
+
+	/**
+	 * Remove the never used JED Updateserver
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function removeJedUpdateserver()
+	{
+		$db = JFactory::getDbo();
+
+		try
+		{
+			// Get the update site ID of the JED Update server
+			$id = $db->setQuery(
+				$db->getQuery(true)
+					->select('update_site_id')
+					->from($db->quoteName('#__update_sites'))
+					->where($db->quoteName('location') . ' = ' . $db->quote('https://update.joomla.org/jed/list.xml'))
+			)->loadResult();
+
+			// Delete from update sites
+			$result = $db->setQuery(
+				$db->getQuery(true)
+					->delete($db->quoteName('#__update_sites'))
+					->where($db->quoteName('update_site_id') . ' = ' . $id)
+			)->execute();
+
+			// Delete from update sites extensions
+			$result = $db->setQuery(
+				$db->getQuery(true)
+					->delete($db->quoteName('#__update_sites_extensions'))
+					->where($db->quoteName('update_site_id') . ' = ' . $id)
+			)->execute();
+		}
+		catch (Exception $e)
+		{
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+
+			return;
+		}
 	}
 
 	/**
@@ -1519,6 +1563,33 @@ class JoomlaInstallerScript
 			'/administrator/components/com_redirect/views/links/tmpl/default_batch.php',
 			'/administrator/components/com_tags/views/tags/tmpl/default_batch.php',
 			'/administrator/components/com_users/views/users/tmpl/default_batch.php',
+			'/components/com_contact/metadata.xml',
+			'/components/com_contact/views/category/metadata.xml',
+			'/components/com_contact/views/contact/metadata.xml',
+			'/components/com_contact/views/featured/metadata.xml',
+			'/components/com_content/metadata.xml',
+			'/components/com_content/views/archive/metadata.xml',
+			'/components/com_content/views/article/metadata.xml',
+			'/components/com_content/views/categories/metadata.xml',
+			'/components/com_content/views/category/metadata.xml',
+			'/components/com_content/views/featured/metadata.xml',
+			'/components/com_content/views/form/metadata.xml',
+			'/components/com_finder/views/search/metadata.xml',
+			'/components/com_mailto/views/mailto/metadata.xml',
+			'/components/com_mailto/views/sent/metadata.xml',
+			'/components/com_newsfeeds/metadata.xml',
+			'/components/com_newsfeeds/views/category/metadata.xml',
+			'/components/com_newsfeeds/views/newsfeed/metadata.xml',
+			'/components/com_search/views/search/metadata.xml',
+			'/components/com_tags/metadata.xml',
+			'/components/com_tags/views/tag/metadata.xml',
+			'/components/com_users/metadata.xml',
+			'/components/com_users/views/login/metadata.xml',
+			'/components/com_users/views/profile/metadata.xml',
+			'/components/com_users/views/registration/metadata.xml',
+			'/components/com_users/views/remind/metadata.xml',
+			'/components/com_users/views/reset/metadata.xml',
+			'/components/com_wrapper/metadata.xml',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1628,7 +1699,7 @@ class JoomlaInstallerScript
 			'/libraries/simplepie',
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade',
-			// Joomla __DEPLOY_VERSION__
+			// Joomla! __DEPLOY_VERSION__
 			'/libraries/joomla/data',
 		);
 

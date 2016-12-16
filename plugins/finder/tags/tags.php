@@ -257,6 +257,9 @@ class PlgFinderTags extends FinderIndexerAdapter
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
 
+		// Get content extras.
+		FinderIndexerHelper::getContentExtras($item);
+
 		// Index the item.
 		$this->indexer->index($item);
 	}
@@ -295,7 +298,6 @@ class PlgFinderTags extends FinderIndexerAdapter
 			->select('a.created_time AS start_date, a.created_user_id AS created_by')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access')
 			->select('a.modified_time AS modified, a.modified_user_id AS modified_by')
-			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
 			->select('a.published AS state, a.access, a.created_time AS start_date, a.params');
 
 		// Handle the alias CASE WHEN portion of the query

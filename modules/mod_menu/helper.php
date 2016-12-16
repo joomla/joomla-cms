@@ -56,7 +56,7 @@ class ModMenuHelper
 				{
 					$item->parent = false;
 
-					if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id)
+					if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id && $item->params->get('menu_show', 1) == 1)
 					{
 						$items[$lastitem]->parent = true;
 					}
@@ -139,9 +139,9 @@ class ModMenuHelper
 
 				if (isset($items[$lastitem]))
 				{
-					$items[$lastitem]->deeper     = (($start?$start:1) > $items[$lastitem]->level);
-					$items[$lastitem]->shallower  = (($start?$start:1) < $items[$lastitem]->level);
-					$items[$lastitem]->level_diff = ($items[$lastitem]->level - ($start?$start:1));
+					$items[$lastitem]->deeper     = (($start ?: 1) > $items[$lastitem]->level);
+					$items[$lastitem]->shallower  = (($start ?: 1) < $items[$lastitem]->level);
+					$items[$lastitem]->level_diff = ($items[$lastitem]->level - ($start ?: 1));
 				}
 			}
 
@@ -194,7 +194,7 @@ class ModMenuHelper
 	{
 		$menu = JFactory::getApplication()->getMenu();
 
-		return $menu->getActive() ? $menu->getActive() : self::getDefault();
+		return $menu->getActive() ?: self::getDefault();
 	}
 
 	/**

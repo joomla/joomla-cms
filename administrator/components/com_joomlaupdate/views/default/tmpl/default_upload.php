@@ -62,14 +62,14 @@ JFactory::getDocument()->addStyleDeclaration($css);
 <div class="alert alert-info">
 	<p>
 		<span class="icon icon-info"></span>
-		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://www.joomla.org/download.html') ?>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest'); ?>
 	</p>
 </div>
 
 <?php if (count($this->warnings)) : ?>
 <fieldset>
 	<legend>
-		<?php echo JText::_('COM_INSTALLER_SUBMENU_WARNINGS') ?>
+		<?php echo JText::_('COM_INSTALLER_SUBMENU_WARNINGS'); ?>
 	</legend>
 
 	<?php $i = 0; ?>

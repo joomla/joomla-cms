@@ -56,8 +56,8 @@
 				options.target   = element;
 			}
 
-			if (options.setupCallbacString && !options.setup) {
-				options.setup = new Function('editor', options.setupCallbacString);
+			if (options.setupCallbackString && !options.setup) {
+				options.setup = new Function('editor', options.setupCallbackString);
 			}
 
 			tinyMCE.init(options);

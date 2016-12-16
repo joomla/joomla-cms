@@ -172,9 +172,9 @@ abstract class JHtmlFilter
 			);
 
 			// Populate the toggle button.
-			$html .= "<button class=\"btn\" type=\"button\" class=\"jform-rightbtn\" onclick=\"jQuery('[id=tax-"
-				. $bk . "]').each(function(){this.click();});\"><span class=\"icon-checkbox-partial\"></span> "
-				. JText::_('JGLOBAL_SELECTION_INVERT') . "</button><hr/>";
+			$html .= '<button class="btn" type="button" class="jform-rightbtn" onclick="jQuery(\'[id="tax-'
+				. $bk . '"]\').each(function(){this.click();});"><span class="icon-checkbox-partial"></span> '
+				. JText::_('JGLOBAL_SELECTION_INVERT') . '</button><hr/>';
 
 			// Populate the group with nodes.
 			foreach ($nodes as $nk => $nv)
@@ -437,7 +437,7 @@ abstract class JHtmlFilter
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				JHtml::stylesheet('com_finder/dates.css', false, true, false);
+				JHtml::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
 			}
 
 			// Open the widget.

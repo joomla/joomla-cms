@@ -19,17 +19,27 @@ $param          = array("rssurl" => "https://www.joomla.org/announcements/releas
 						"rssitems" => 5,
 						"rssitemdesc" => 1,
 						"word_count" => 200,
-						"cache" => 0);
+						"cache" => 0,
+						"moduleclass_sfx" => ' list-striped');
 $params         = array('params' => json_encode($param));
 ?>
 
 <?php if (empty($this->items)): ?>
 <h2><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE') ?></h2>
 <p><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC') ?></p>
-<button onclick="window.location='index.php?option=com_postinstall&view=messages&task=reset&eid=<?php echo $this->eid; ?>&<?php echo $this->token ?>=1'; return false;" class="btn btn-warning">
-	<span class="icon icon-eye-open"></span>
-	<?php echo JText::_('COM_POSTINSTALL_BTN_RESET') ?>
-</button>
+<div>
+	<button onclick="window.location='index.php?option=com_postinstall&view=messages&task=reset&eid=<?php echo $this->eid; ?>&<?php echo $this->token ?>=1'; return false;" class="btn btn-warning">
+		<span class="icon icon-eye-open"></span>
+		<?php echo JText::_('COM_POSTINSTALL_BTN_RESET') ?>
+	</button>
+</div>
+<?php if ($this->eid == 700): ?>
+	<br/>
+	<div>
+		<h3><?php echo JText::_('COM_POSTINSTALL_LBL_RELEASENEWS'); ?></h3>
+		<?php echo $renderer->render($mod, $params, $options); ?>
+	</div>
+<?php endif; ?>
 <?php else: ?>
 <?php
 	if ($this->eid == 700):
@@ -39,7 +49,7 @@ $params         = array('params' => json_encode($param));
 ?>
 	<h2><?php echo JText::_('COM_POSTINSTALL_LBL_MESSAGES') ?></h2>
 <?php endif; ?>
-	<?php foreach($this->items as $item): ?>
+	<?php foreach ($this->items as $item): ?>
 	<fieldset>
 		<legend><?php echo JText::_($item->title_key) ?></legend>
 		<p class="small">

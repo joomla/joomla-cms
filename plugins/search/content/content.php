@@ -112,6 +112,7 @@ class PlgSearchContent extends JPlugin
 					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(fv.value) LIKE LOWER(' . $word . ')';
+					$wheres[]  = implode(' OR ', $wheres2);
 				}
 
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';

@@ -832,7 +832,7 @@ class JPaginationTest extends TestCase
 		{
 			$result = TestReflection::getValue($pagination, $property);
 		}
-		elseif(strpos($property, '.'))
+		elseif (strpos($property, '.'))
 		{
 			$prop = explode('.', $property);
 			$prop[1] = ucfirst($prop[1]);

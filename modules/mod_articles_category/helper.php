@@ -132,7 +132,7 @@ abstract class ModArticlesCategoryHelper
 				// Get an instance of the generic categories model
 				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
 				$categories->setState('params', $appParams);
-				$levels = $params->get('levels', 1) ? $params->get('levels', 1) : 9999;
+				$levels = $params->get('levels', 1) ?: 9999;
 				$categories->setState('filter.get_children', $levels);
 				$categories->setState('filter.published', 1);
 				$categories->setState('filter.access', $access);
@@ -251,6 +251,8 @@ abstract class ModArticlesCategoryHelper
 		foreach ($items as &$item)
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
+
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))

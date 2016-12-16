@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
+JHtml::_('stylesheet', 'mod_languages/template.css', array('version' => 'auto', 'relative' => true));
 
 if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 {
@@ -42,12 +42,12 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 					<?php echo $language->title_native; ?>
 				</a>
 			<?php endif; ?>
-		<?php endforeach;?>
+		<?php endforeach; ?>
 		<ul class="<?php echo $params->get('lineheight', 1) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($params->get('show_active', 0) || !$language->active) : ?>
 				<li class="<?php echo $language->active ? 'lang-active' : ''; ?>" >
-				<a href="<?php echo $language->link;?>">
+				<a href="<?php echo $language->link; ?>">
 					<?php if ($language->image) : ?>
 						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 					<?php endif; ?>

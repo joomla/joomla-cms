@@ -396,7 +396,7 @@ class JRouterTest extends TestCase
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = $this->getMockBuilder('JUri')->getMock();
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -459,7 +459,7 @@ class JRouterTest extends TestCase
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = $this->getMockBuilder('JUri')->getMock();
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -534,7 +534,7 @@ class JRouterTest extends TestCase
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = $this->getMockBuilder('JUri')->getMock();
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 

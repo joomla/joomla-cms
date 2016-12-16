@@ -17,7 +17,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormAbstractlist extends JFormField
 {
-
 	/**
 	 * Method to get the field input markup for a generic list.
 	 * Use the multiple attribute to enable multiselect.
@@ -119,7 +118,7 @@ abstract class JFormAbstractlist extends JFormField
 			}
 
 			$value = (string) $option['value'];
-			$text  = trim((string) $option) ? trim((string) $option) : $value;
+			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
@@ -148,6 +147,56 @@ abstract class JFormAbstractlist extends JFormField
 			$options[] = (object) $tmp;
 		}
 
+		if ($this->element['useglobal'])
+		{
+			$tmp        = new stdClass;
+			$tmp->value = '';
+			$tmp->text  = JText::_('JGLOBAL_USE_GLOBAL');
+			$component  = JFactory::getApplication()->input->getCmd('option');
+
+			// Get correct component for menu items
+			if ($component == 'com_menus')
+			{
+				$link      = $this->form->getData()->get('link');
+				$uri       = new JUri($link);
+				$component = $uri->getVar('option', 'com_menus');
+			}
+
+			$params = JComponentHelper::getParams($component);
+			$value  = $params->get($this->fieldname);
+
+			// Try with global configuration
+			if (is_null($value))
+			{
+				$value = JFactory::getConfig()->get($this->fieldname);
+			}
+
+			// Try with menu configuration
+			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
+			{
+				$value = JComponentHelper::getParams('com_menus')->get($this->fieldname);
+			}
+
+			if (!is_null($value))
+			{
+				$value = (string) $value;
+
+				foreach ($options as $option)
+				{
+					if ($option->value === $value)
+					{
+						$value = $option->text;
+
+						break;
+					}
+				}
+
+				$tmp->text = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
+			}
+
+			array_unshift($options, $tmp);
+		}
+
 		reset($options);
 
 		return $options;
@@ -166,19 +215,11 @@ abstract class JFormAbstractlist extends JFormField
 	{
 		$options = $field->fieldparams->get('options', array());
 
-		if (!is_array($options))
-		{
-			$options = json_decode($options);
-		}
-
 		$data = array();
 
-		if (isset($options->name))
+		foreach ($options as $option)
 		{
-			foreach ($options->name as $index => $key)
-			{
-				$data[$key] = $options->value[$index];
-			}
+			$data[$option->value] = $option->name;
 		}
 
 		return $data;
@@ -198,10 +239,13 @@ abstract class JFormAbstractlist extends JFormField
 	 */
 	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
 	{
-		foreach (self::getOptionsFromField($field) as $index => $name)
+		foreach (self::getOptionsFromField($field) as $value => $name)
 		{
-			$element = $fieldNode->appendChild(new DOMElement('option', $name));
-			$element->setAttribute('value', $index);
+			$option = new DOMElement('option', $value);
+			$option->nodeValue = JText::_($name);
+
+			$element = $fieldNode->appendChild($option);
+			$element->setAttribute('value', $value);
 		}
 
 		return parent::postProcessDomNode($field, $fieldNode, $form);

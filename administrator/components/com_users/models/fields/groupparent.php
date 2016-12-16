@@ -35,21 +35,20 @@ class JFormFieldGroupParent extends JFormAbstractlist
 	{
 		$options = JHelperUsergroups::getInstance()->getAll();
 
-		$user = JFactory::getUser();
-
 		// Prevent parenting to children of this item.
 		if ($id = $this->form->getValue('id'))
 		{
 			unset($options[$id]);
 		}
 
-		$options = array_values($options);
+		$options      = array_values($options);
+		$isSuperAdmin = JFactory::getUser()->authorise('core.admin');
 
 		// Pad the option text with spaces using depth level as a multiplier.
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
 			// Show groups only if user is super admin or group is not super admin
-			if ($user->authorise('core.admin') || (!JAccess::checkGroup($options[$i]->value, 'core.admin')))
+			if ($isSuperAdmin || !JAccess::checkGroup($options[$i]->id, 'core.admin'))
 			{
 				$options[$i]->value = $options[$i]->id;
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
@@ -61,8 +60,6 @@ class JFormFieldGroupParent extends JFormAbstractlist
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return array_merge(parent::getOptions(), $options);
 	}
 }

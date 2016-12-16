@@ -881,8 +881,8 @@ class JControllerLegacy extends JObject
 		// Add the id to the list if non-zero.
 		if (!empty($id))
 		{
-			array_push($values, (int) $id);
-			$values = array_unique($values);
+			$values[] = (int) $id;
+			$values   = array_unique($values);
 			$app->setUserState($context . '.id', $values);
 
 			if (defined('JDEBUG') && JDEBUG)
@@ -1051,6 +1051,40 @@ class JControllerLegacy extends JObject
 
 		// Actually add the user-specified directories
 		$this->addPath($type, $path);
+	}
+
+	/**
+	 * Checks for a form token in the request.
+	 *
+	 * Use in conjunction with JHtml::_('form.token') or JSession::getFormToken.
+	 *
+	 * @param   string   $method    The request method in which to look for the token key.
+	 * @param   boolean  $redirect  Whether to implicitly redirect user to the referrer page on failure or simply return false.
+	 *
+	 * @return  boolean  True if found and valid, otherwise return false or redirect to referrer page.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @see     JSession::checkToken()
+	 */
+	public function checkToken($method = 'post', $redirect = true)
+	{
+		$valid = JSession::checkToken($method);
+
+		if (!$valid && $redirect)
+		{
+			$referrer = $this->input->server->getString('HTTP_REFERER');
+
+			if (!JUri::isInternal($referrer))
+			{
+				$referrer = 'index.php';
+			}
+
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
+			$app->redirect($referrer);
+		}
+
+		return $valid;
 	}
 
 	/**

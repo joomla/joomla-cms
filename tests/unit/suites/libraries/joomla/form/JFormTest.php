@@ -549,7 +549,7 @@ class JFormTest extends TestCaseDatabase
 			include_once JPATH_BASE . '/libraries/joomla/user/user.php';
 
 			$user = new JUser;
-			$mockSession = $this->getMock('JSession', array('_start', 'get'));
+			$mockSession = $this->getMockBuilder('JSession')->setMethods(array('_start', 'get'))->getMock();
 			$mockSession->expects($this->once())->method('get')->will(
 				$this->returnValue($user)
 			);
@@ -646,6 +646,20 @@ class JFormTest extends TestCaseDatabase
 			$this->equalTo('1'),
 			'Line:' . __LINE__ . ' A known field in a group fieldset should load successfully.'
 		);
+
+		// Test subform fields
+
+		$this->assertThat(
+			$form->findField('name'),
+			$this->isFalse(),
+			'Line:' . __LINE__ . ' A field should not exist in the form which belongs to a subform.'
+		);
+
+		$this->assertThat(
+			$form->findField('name', 'params'),
+			$this->isFalse(),
+			'Line:' . __LINE__ . ' A field should not exist in the form which belongs to a subform.'
+		);
 	}
 
 	/**
@@ -715,7 +729,7 @@ class JFormTest extends TestCaseDatabase
 
 		$this->assertThat(
 			count($form->findFieldsByGroup()),
-			$this->equalTo(11),
+			$this->equalTo(12),
 			'Line:' . __LINE__ . ' There are 9 field elements in total.'
 		);
 
@@ -737,7 +751,7 @@ class JFormTest extends TestCaseDatabase
 
 		$this->assertThat(
 			count($form->findFieldsByGroup('params')),
-			$this->equalTo(3),
+			$this->equalTo(4),
 			'Line:' . __LINE__ . ' The params group has 3 field elements, including one nested in a fieldset.'
 		);
 
@@ -1032,7 +1046,7 @@ class JFormTest extends TestCaseDatabase
 
 		$this->assertThat(
 			count($form->getGroup('params')),
-			$this->equalTo(3),
+			$this->equalTo(4),
 			'Line:' . __LINE__ . ' The params group should have 3 field elements.'
 		);
 

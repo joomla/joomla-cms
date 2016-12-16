@@ -22,9 +22,9 @@ class JLessFormatterJoomla extends lessc_formatter_classic
 
 	public $breakSelectors = true;
 
-	public $assignSeparator = ": ";
+	public $assignSeparator = ': ';
 
-	public $selectorSeparator = ",";
+	public $selectorSeparator = ',';
 
 	public $indentChar = "\t";
 }
