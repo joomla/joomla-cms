@@ -31,7 +31,7 @@ abstract class JHtmlList
 	 *
 	 * @since   1.5
 	 */
-	public static function images($name, $active = null, $javascript = null, $directory = null, $extensions = "bmp|gif|jpg|png")
+	public static function images($name, $active = null, $javascript = null, $directory = null, $extensions = 'bmp|gif|jpg|png')
 	{
 		if (!$directory)
 		{
@@ -109,7 +109,7 @@ abstract class JHtmlList
 
 			if (StringHelper::strlen($items[$i]->text) > $chop)
 			{
-				$text = StringHelper::substr($items[$i]->text, 0, $chop) . "...";
+				$text = StringHelper::substr($items[$i]->text, 0, $chop) . '...';
 			}
 			else
 			{
