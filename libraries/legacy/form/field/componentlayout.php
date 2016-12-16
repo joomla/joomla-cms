@@ -192,8 +192,7 @@ class JFormFieldComponentlayout extends JFormField
 						{
 							// Remove layout files that exist in the component folder or that have XML files
 							if (in_array(basename($file, '.php'), $component_layouts)
-								|| in_array(basename($file, '.php'), $xml_files)
-							)
+								|| in_array(basename($file, '.php'), $xml_files))
 							{
 								unset($files[$i]);
 							}
