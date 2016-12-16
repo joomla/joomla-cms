@@ -130,7 +130,7 @@ class FieldsModelFields extends JModelList
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
-				', a.fieldparams, a.params, a.assigned_cat_ids, a.type, a.default_value, a.context, a.group_id' .
+				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
 				', a.label, a.description, a.required'
 			)
 		);
@@ -173,10 +173,15 @@ class FieldsModelFields extends JModelList
 			}
 		}
 
+		// Join over the assigned categories
+		$query->select("GROUP_CONCAT(fc.category_id SEPARATOR ',') AS assigned_cat_ids")
+			->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
+			->group('a.id');
+
 		if (($categories = $this->getState('filter.assigned_cat_ids')) && $context)
 		{
 			$categories = (array) $categories;
-			$condition = "a.assigned_cat_ids = '' OR " . $query->findInSet(0, 'a.assigned_cat_ids');
+			$categories = ArrayHelper::toInteger($categories);
 			$parts = FieldsHelper::extract($context);
 
 			if ($parts)
@@ -193,21 +198,20 @@ class FieldsModelFields extends JModelList
 
 						if ($parent)
 						{
-							$condition .= ' OR ' . $query->findInSet((int) $parent->id, 'a.assigned_cat_ids');
+							$categories[] = (int) $parent->id;
 
-							// Traverse the tree up to get all the fields which
-							// are attached to a parent
+							// Traverse the tree up to get all the fields which are attached to a parent
 							while ($parent->getParent() && $parent->getParent()->id != 'root')
 							{
 								$parent = $parent->getParent();
-								$condition .= ' OR ' . $query->findInSet((int) $parent->id, 'a.assigned_cat_ids');
+								$categories[] = (int) $parent->id;
 							}
 						}
 					}
 				}
 			}
 
-			$query->where('(' . $condition . ')');
+			$query->where('(fc.category_id IS NULL OR fc.category_id IN (' . implode(',', $categories) . '))');
 		}
 
 		// Implement View Level Access

@@ -654,7 +654,6 @@ CREATE TABLE "#__fields" (
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "context" varchar(255) DEFAULT '' NOT NULL,
   "group_id" bigint DEFAULT 0 NOT NULL,
-  "assigned_cat_ids" varchar(255) DEFAULT '' NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
   "alias" varchar(255) DEFAULT '' NOT NULL,
   "label" varchar(255) DEFAULT '' NOT NULL,
@@ -688,6 +687,15 @@ CREATE INDEX "#__fields_idx_created_user_id" ON "#__fields" ("created_user_id");
 CREATE INDEX "#__fields_idx_access" ON "#__fields" ("access");
 CREATE INDEX "#__fields_idx_context" ON "#__fields" ("context");
 CREATE INDEX "#__fields_idx_language" ON "#__fields" ("language");
+
+--
+-- Table: #__fields_categories
+--
+CREATE TABLE "#__fields_categories" (
+  "field_id" bigint DEFAULT 0 NOT NULL,
+  "category_id" bigint DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("field_id", "category_id")
+);
 
 --
 -- Table: #__fields_groups
