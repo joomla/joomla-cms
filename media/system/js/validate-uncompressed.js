@@ -61,7 +61,7 @@ var JFormValidator = function() {
  	},
 
  	validate = function(el) {
- 	 	var $el = jQuery(el), tagName, handler;
+ 	 	var $el = jQuery(el), elValue, tagName = $el.prop("tagName").toLowerCase(), handler;
  	 	// Ignore the element if its currently disabled, because are not submitted for the http-request. For those case return always true.
  	 	if ($el.attr('disabled')) {
  	 	 	handleResponse(true, $el);
@@ -69,7 +69,6 @@ var JFormValidator = function() {
  	 	}
  	 	// If the field is required make sure it has a value
  	 	if ($el.attr('required') || $el.hasClass('required')) {
- 	 	 	tagName = $el.prop("tagName").toLowerCase();
  	 	 	if (tagName === 'fieldset' && ($el.hasClass('radio') || $el.hasClass('checkboxes'))) {
  	 	 	 	if (!$el.find('input:checked').length){
  	 	 	 	 	handleResponse(false, $el);
@@ -88,9 +87,15 @@ var JFormValidator = function() {
  	 	 	return true;
  	 	}
  	 	// Check the additional validation types
- 	 	if ((handler) && (handler !== 'none') && (handlers[handler]) && $el.val()) {
+ 	 	if ((handler) && (handler !== 'none') && (handlers[handler])) {
+ 	 	 	if (tagName === 'fieldset' && ($el.hasClass('radio') || $el.hasClass('checkboxes'))) {
+ 	 	 	 	elValue = $el.find('input:checked').val();
+ 	 	 	}
+ 	 	 	else {
+ 	 	 	 	elValue = $el.val();
+ 	 	 	}
  	 	 	// Execute the validation handler and return result
- 	 	 	if (handlers[handler].exec($el.val(), $el) !== true) {
+ 	 	 	if (elValue && handlers[handler].exec(elValue, $el) !== true) {
  	 	 	 	handleResponse(false, $el);
  	 	 	 	return false;
  	 	 	}
