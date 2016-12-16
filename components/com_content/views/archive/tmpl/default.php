@@ -13,7 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.caption');
 ?>
-<div class="archive<?php echo $this->pageclass_sfx;?>">
+<div class="archive<?php echo $this->pageclass_sfx; ?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
 <div class="page-header">
 <h1>
@@ -21,7 +21,7 @@ JHtml::_('behavior.caption');
 </h1>
 </div>
 <?php endif; ?>
-<form id="adminForm" action="<?php echo JRoute::_('index.php')?>" method="post" class="form-inline">
+<form id="adminForm" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-inline">
 	<fieldset class="filters">
 	<div class="filter-search">
 		<?php if ($this->params->get('filter_field') != 'hide') : ?>

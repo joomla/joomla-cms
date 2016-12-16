@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
 /**
  * Fields component helper.
@@ -20,59 +21,41 @@ class FieldsHelperInternal
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  $context  The context of the content passed to the helper
+	 * @param   string  $component  The component the fields are used for
+	 * @param   string  $vName      The view currently active
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since    __DEPLOY_VERSION__
 	 */
-	public static function addSubmenu ($context)
+	public static function addSubmenu ($component, $vName)
 	{
 		// Avoid nonsense situation.
-		if ($context == 'com_fields')
+		if ($component == 'com_fields')
 		{
 			return;
 		}
-
-		$parts = FieldsHelper::extract($context);
-
-		if (!$parts)
-		{
-			return;
-		}
-
-		$component = $parts[0];
-		$section   = $parts[1];
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
 		$file  = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
-		if (file_exists($file))
+		if (!file_exists($file))
 		{
-			require_once $file;
+			return;
+		}
 
-			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName  = $prefix . 'Helper';
+		require_once $file;
 
-			if (class_exists($cName))
-			{
-				if (is_callable(array($cName, 'addSubmenu')))
-				{
-					$lang = JFactory::getLanguage();
+		$cName  = ucfirst($eName) . 'Helper';
 
-					/*
-					 * Loading language file from the administrator/language
-					 * directory then loading language file from the
-					 * administrator/components/*context* /
-					 * language directory
-					 */
-					$lang->load($component, JPATH_BASE, null, false, true)
-						|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+		if (class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
+		{
+			$lang = JFactory::getLanguage();
+			$lang->load($component, JPATH_ADMINISTRATOR)
+			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
-					call_user_func(array($cName, 'addSubmenu'), 'fields' . (isset($section) ? '.' . $section : ''));
-				}
-			}
+			$cName::addSubmenu('fields.' . $vName);
 		}
 	}
 
@@ -87,7 +70,9 @@ class FieldsHelperInternal
 	 */
 	public static function canEditFieldValue($field)
 	{
-		return JFactory::getUser()->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
+		$parts = FieldsHelper::extract($field->context);
+
+		return JFactory::getUser()->authorise('core.edit.value', $parts[0] . '.field.' . (int) $field->id);
 	}
 
 	/**
@@ -99,8 +84,6 @@ class FieldsHelperInternal
 	 */
 	public static function loadPlugins()
 	{
-		jimport('joomla.filesystem.folder');
-
 		foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
 		{
 			if (!JPluginHelper::isEnabled('fields', $folder['name']))

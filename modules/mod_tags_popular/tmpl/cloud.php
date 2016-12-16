@@ -39,7 +39,7 @@ if (!count($list)) : ?>
 		if ($countdiff == 0) :
 			$fontsize = $minsize;
 		else :
-			$fontsize = $minsize + (($maxsize - $minsize) / ($countdiff)) * ($item->count - $mincount);
+			$fontsize = $minsize + (($maxsize - $minsize) / $countdiff) * ($item->count - $mincount);
 		endif;
 ?>
 		<span class="tag">

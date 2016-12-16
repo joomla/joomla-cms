@@ -37,6 +37,7 @@ class InstallerModelManage extends InstallerModel
 				'client', 'client_translated',
 				'type', 'type_translated',
 				'folder', 'folder_translated',
+				'package_id',
 				'extension_id',
 			);
 		}
@@ -230,7 +231,7 @@ class InstallerModelManage extends InstallerModel
 				$rowtype = $row->type;
 			}
 
-			if ($row->type && $row->type != 'language')
+			if ($row->type)
 			{
 				$result = $installer->uninstall($row->type, $id);
 
@@ -246,14 +247,6 @@ class InstallerModelManage extends InstallerModel
 				// Package uninstalled successfully
 				$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
 				$result = true;
-
-				continue;
-			}
-
-			if ($row->type == 'language')
-			{
-				// One should always uninstall a language package, not a single language
-				$msgs[] = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
 
 				continue;
 			}

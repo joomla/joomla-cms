@@ -2246,9 +2246,9 @@ button.close {
 .btn-large {
 	padding: 11px 19px;
 	font-size: 16.25px;
-	-webkit-border-radius: 30px;
-	-moz-border-radius: 30px;
-	border-radius: 30px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
 }
 .btn-large [class^="icon-"],
 .btn-large [class*=" icon-"] {
@@ -2658,6 +2658,7 @@ input[type="submit"].btn.btn-mini {
 	top: -2px;
 	right: -21px;
 	line-height: 18px;
+	cursor: pointer;
 }
 .alert-success {
 	background-color: #dff0d8;
@@ -8383,7 +8384,7 @@ textarea:focus,
 input:focus,
 .uneditable-input:focus {
 	box-shadow: none;
-	border: 1px solid #3071A9 !important;
+	border: 1px solid #3071A9;
 }
 textarea {
 	resize: both;
@@ -8791,6 +8792,12 @@ body.modal-open {
 }
 .popover-content {
 	min-height: 33px;
+}
+.lead,
+.navbar .brand,
+.hero-unit,
+.hero-unit .lead {
+	font-weight: 400;
 }
 .pull-right {
 	float: left;

@@ -25,7 +25,7 @@ $isSingleTag = (count($this->item) == 1);
 		</h2>
 	<?php endif; ?>
 	<?php // We only show a tag description if there is a single tag. ?>
-	<?php if (count($this->item) == 1 && (($this->params->get('tag_list_show_tag_image', 1)) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
+	<?php if (count($this->item) == 1 && ($this->params->get('tag_list_show_tag_image', 1) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
 		<div class="category-desc">
 			<?php $images = json_decode($this->item[0]->images); ?>
 			<?php if ($this->params->get('tag_list_show_tag_image', 1) == 1 && !empty($images->image_fulltext)) : ?>
@@ -38,7 +38,7 @@ $isSingleTag = (count($this->item) == 1);
 		</div>
 	<?php endif; ?>
 	<?php // If there are multiple tags and a description or image has been supplied use that. ?>
-	<?php if ($this->params->get('tag_list_show_tag_description', 1) || $this->params->get('show_description_image', 1)): ?>
+	<?php if ($this->params->get('tag_list_show_tag_description', 1) || $this->params->get('show_description_image', 1)) : ?>
 		<?php if ($this->params->get('show_description_image', 1) == 1 && $this->params->get('tag_list_image')) : ?>
 			<img src="<?php echo $this->params->get('tag_list_image'); ?>">
 		<?php endif; ?>

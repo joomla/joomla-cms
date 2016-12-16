@@ -68,14 +68,14 @@ class TestHelper
 				$class  = isset($trace[$i]['object']) ? get_class($trace[$i]['object']) : $trace[$i]['class'];
 				$method = $trace[$i]['function'];
 
-				$ref =& $deprecations[$group][$msg]['count'];
+				$ref = &$deprecations[$group][$msg]['count'];
 				$ref++;
-				$ref =& $deprecations[$group][$msg][$class . '::' . $method];
+				$ref = &$deprecations[$group][$msg][$class . '::' . $method];
 				$ref++;
 			}
 			else
 			{
-				$ref =& $deprecations[$group][$msg]['count'];
+				$ref = &$deprecations[$group][$msg]['count'];
 				$ref++;
 			}
 

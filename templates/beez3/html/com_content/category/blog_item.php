@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$params =& $this->item->params;
+$params = &$this->item->params;
 $images = json_decode($this->item->images);
 $app = JFactory::getApplication();
 $canEdit = $this->item->params->get('access-edit');

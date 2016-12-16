@@ -47,7 +47,7 @@ class JSessionTest extends TestCase
 		$this->object = JSession::getInstance('none', $config, $handler);
 
 		$this->input = new JInput;
-		$this->input->cookie = $this->getMock('JInputCookie', array('set', 'get'));
+		$this->input->cookie = $this->getMockBuilder('JInputCookie')->setMethods(array('set', 'get'))->getMock();
 		$this->object->initialise($this->input);
 
 		$this->input->cookie->expects($this->any())
