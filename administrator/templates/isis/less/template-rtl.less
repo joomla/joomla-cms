@@ -350,3 +350,28 @@ a.grid_true {
 .modal-header {
 	text-align: right;
 }
+
+
+/* Media Manager */
+#mediamanager-form .thumbnails .thumbnail {
+    margin-left: 18px !important;
+    margin-right: 0;
+}
+.thumbnails .imgThumb label::before, .thumbnails .imgThumb .imgThumbInside::before {
+	left: 0;
+	right: auto;
+	border-radius: 3px 0;
+}
+.thumbnails .thumbnail input[type="radio"], .thumbnails .thumbnail input[type="checkbox"] {
+    left: auto;
+    right: 5px;
+}
+.thumbnails .imgDelete a.close {
+	border-radius: 0 3px;
+}
+.thumbnails .imgPreview a, .thumbnails .imgDetails {
+    border-radius: 3px 0;
+    border-width: 1px 0 0 1px;
+    left: auto;
+    right: 0;
+}
