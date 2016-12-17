@@ -811,4 +811,29 @@ abstract class JUserHelper
 
 		return md5(JUri::base() . $uaShort);
 	}
+
+	/**
+	 * Check if there is a super user in the user ids.
+	 *
+	 * @param   array   $userIds  An array of user IDs on which to operate
+	 *
+	 * @return  boolean  True on success, false on failure
+	 *
+	 * @since   3.6.5
+	 */
+	public static function checkSuperUserInUsers(array $userIds)
+	{
+		foreach ($userIds as $userId)
+		{
+			foreach (static::getUserGroups($userId) as $userGroupId)
+			{
+				if (JAccess::checkGroup($userGroupId, 'core.admin'))
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
 }
