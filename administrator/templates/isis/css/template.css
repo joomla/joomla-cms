@@ -8798,24 +8798,24 @@ body.modal-open {
 	margin-bottom: -5px;
 	overflow: hidden;
 }
-.indic-edit {
+.indicate-edit {
 	margin-left: 2px;
 	margin-right: 2px;
+	-webkit-transition: all 0.15s ease;
+	-moz-transition: all 0.15s ease;
+	-o-transition: all 0.15s ease;
+	transition: all 0.15s ease;
 }
-.indic-edit::before {
+.indicate-edit::before {
 	color: #3071a9;
 }
 @media (min-width: 979px) {
-	.indic-edit {
+	.indicate-edit {
 		margin-left: -16px;
-		-webkit-transition: all 0.15s ease;
-		-moz-transition: all 0.15s ease;
-		-o-transition: all 0.15s ease;
-		transition: all 0.15s ease;
 	}
 }
-tr:hover .indic-edit,
-.itemList-title:focus .indic-edit {
+tr:hover .indicate-edit,
+.itemList-title:focus .indicate-edit {
 	margin-left: 2px;
 	margin-right: 2px;
 }

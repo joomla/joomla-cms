@@ -179,7 +179,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								<?php endif; ?>
 								<?php if ($canEdit || $canEditOwn) : ?>
 									<a class="hasTooltip itemList-title" href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
-										<span class="icon-edit indic-edit"> </span><?php echo $this->escape($item->title); ?></a>
+										<span class="icon-edit indicate-edit"> </span><?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 								<?php endif; ?>
