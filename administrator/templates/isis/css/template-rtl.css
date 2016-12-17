@@ -8793,7 +8793,7 @@ body.modal-open {
 .hero-unit .lead {
 	font-weight: 400;
 }
-.articleList-title {
+.itemList-title {
 	display: inline-block;
 	margin-bottom: -5px;
 	overflow: hidden;
@@ -8815,7 +8815,7 @@ body.modal-open {
 	}
 }
 tr:hover .indic-edit,
-.articleList-title:focus .indic-edit {
+.itemList-title:focus .indic-edit {
 	margin-left: 2px;
 	margin-right: 2px;
 }
