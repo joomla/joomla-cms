@@ -255,14 +255,7 @@ class JControllerForm extends JControllerLegacy
 		// Build an array of item contexts to check
 		$contexts = array();
 
-		if (isset($this->extension))
-		{
-			$option = $this->extension;
-		}
-		else
-		{
-			$option = $this->option;
-		}
+		$option = isset($this->extension) ? $this->extension : $this->option;
 
 		foreach ($cid as $id)
 		{
