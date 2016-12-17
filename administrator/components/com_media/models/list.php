@@ -209,9 +209,11 @@ class MediaModelList extends JModelLegacy
 		// Iterate over the folders if they exist
 		if ($folderList !== false)
 		{
+			$tmpBaseObject = new JObject;
+
 			foreach ($folderList as $folder)
 			{
-				$tmp = new JObject;
+				$tmp = clone $tmpBaseObject;
 				$tmp->name = basename($folder);
 				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);

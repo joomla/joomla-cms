@@ -328,20 +328,20 @@ abstract class JHtmlMenu
 	{
 		if (@$children[$id] && $level <= $maxlevel)
 		{
+			if ($type)
+			{
+				$pre = '<sup>|_</sup>&#160;';
+				$spacer = '.&#160;&#160;&#160;&#160;&#160;&#160;';
+			}
+			else
+			{
+				$pre = '- ';
+				$spacer = '&#160;&#160;';
+			}
+
 			foreach ($children[$id] as $v)
 			{
 				$id = $v->id;
-
-				if ($type)
-				{
-					$pre = '<sup>|_</sup>&#160;';
-					$spacer = '.&#160;&#160;&#160;&#160;&#160;&#160;';
-				}
-				else
-				{
-					$pre = '- ';
-					$spacer = '&#160;&#160;';
-				}
 
 				if ($v->parent_id == 0)
 				{
