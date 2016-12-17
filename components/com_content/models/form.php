@@ -48,12 +48,34 @@ class ContentModelForm extends ContentModelArticle
 
 		$this->setState('article.catid', $app->input->getInt('catid'));
 
-		$return = $app->input->get('return', null, 'base64');
-		$this->setState('return_page', base64_decode($return));
-
 		// Load the parameters.
 		$params = $app->getParams();
 		$this->setState('params', $params);
+
+		$redirect = null;
+		
+		$menuitem = (int) $params->get('redirect_menuitem');
+
+		if ($menuitem > 0)
+		{
+			$lang = '';
+
+			if (JLanguageMultilang::isEnabled())
+			{
+				$item = $app->getMenu()->getItem($menuitem);
+
+				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+			}
+			
+			$redirect = base64_encode('index.php?Itemid=' . $menuitem . $lang);
+		}
+
+		$return = base64_decode($app->input->get('return', $redirect, 'base64'));
+
+		if (JUri::isInternal($return))
+		{
+			$this->setState('return_page', $return);
+		}
 
 		$this->setState('layout', $app->input->getString('layout'));
 	}
