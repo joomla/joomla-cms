@@ -50,6 +50,8 @@ class InstallerModelLanguages extends JModelList
 	 * Get the Update Site
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  string  The URL of the Accredited Languagepack Updatesite XML
 	 */
 	private function getUpdateSite()
 	{
@@ -114,7 +116,7 @@ class InstallerModelLanguages extends JModelList
 	{
 		$updateSite = $this->getUpdateSite();
 
-		$jhttp = new JHttp();
+		$jhttp = new JHttp;
 		$response = $jhttp->get($updateSite);
 
 		$updateSiteXML = simplexml_load_string($response->body);
@@ -125,7 +127,7 @@ class InstallerModelLanguages extends JModelList
 
 		foreach ($updateSiteXML->extension as $extension)
 		{
-			$language = new stdClass();
+			$language = new stdClass;
 
 			foreach ($extension->attributes() as $key => $value)
 			{
@@ -145,7 +147,8 @@ class InstallerModelLanguages extends JModelList
 		}
 
 		// Sort the array by value of subarray
-		usort($languages, function($a, $b) {
+		usort($languages, function($a, $b)
+		{
 			$ordering = $this->getState('list.ordering');
 
 			if ($this->getState('list.direction') === 'ASC')
@@ -156,7 +159,8 @@ class InstallerModelLanguages extends JModelList
 			{
 				return StringHelper::strcmp($b->$ordering, $a->$ordering);
 			}
-		});
+		}
+		);
 
 		// Count the non-paginated list
 		$this->languageCount = count($languages);
