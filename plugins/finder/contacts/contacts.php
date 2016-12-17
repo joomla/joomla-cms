@@ -77,6 +77,14 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Indicate if the content categories are defined using hierarchies.
+	 *
+	 * @var    bool
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $hierarchy_categories = true;
+
+	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
@@ -165,6 +173,11 @@ class PlgFinderContacts extends FinderIndexerAdapter
 			{
 				$this->categoryAccessChange($row);
 			}
+			// Check if the state are different.
+			if (!$isNew && $this->old_catstate != $row->published)
+			{
+				$this->updateStateByCategoryId($row->id);
+			}
 		}
 
 		return true;
@@ -196,13 +209,14 @@ class PlgFinderContacts extends FinderIndexerAdapter
 			}
 		}
 
-		// Check for access levels from the category
+		// Check for access levels and state from the category.
 		if ($context == 'com_categories.category')
 		{
-			// Query the database for the old access level if the item isn't new
+			// Query the database for the old access level and old state if the item isn't new.
 			if (!$isNew)
 			{
 				$this->checkCategoryAccess($row);
+				$this->checkCategoryState($row);
 			}
 		}
 
@@ -345,6 +359,10 @@ class PlgFinderContacts extends FinderIndexerAdapter
 			$item->addInstruction(FinderIndexer::META_CONTEXT, 'webpage');
 		}
 
+		// Translate the state. Contacts should only be published if the category is published.
+		$cat_state = $this->getCategoryState($item->cat_state, $item->cat_lft, $item->cat_rgt);
+		$item->state = $this->translateState($item->state, $cat_state);
+
 		// Handle the contact user name.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'user');
 
@@ -417,7 +435,8 @@ class PlgFinderContacts extends FinderIndexerAdapter
 			->select('a.suburb AS city, a.state AS region, a.country, a.postcode AS zip')
 			->select('a.telephone, a.fax, a.misc AS summary, a.email_to AS email, a.mobile')
 			->select('a.webpage, a.access, a.published AS state, a.ordering, a.params, a.catid')
-			->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
+			->select('c.title AS category, c.published AS cat_state, c.access AS cat_access')
+			->select('c.lft AS cat_lft, c.rgt AS cat_rgt');
 
 		// Handle the alias CASE WHEN portion of the query
 		$case_when_item_alias = ' CASE WHEN ';
