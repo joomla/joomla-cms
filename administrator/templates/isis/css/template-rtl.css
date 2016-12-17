@@ -8696,18 +8696,12 @@ body.modal-open {
 #mediamanager-form .height-50 .icon-folder-2 {
 	font-size: 40px;
 }
-=======
-
 .subform-repeatable {
 	padding-right: 10px;
 }
-=======
-
 .subform-repeatable > .btn-toolbar {
 	margin: 0;
 }
-=======
-
 .subform-repeatable > .btn-toolbar .group-add {
 	line-height: 26px;
 	width: 56px;
@@ -8798,6 +8792,29 @@ body.modal-open {
 .hero-unit,
 .hero-unit .lead {
 	font-weight: 400;
+}
+.articleList-title {
+	overflow: hidden;
+}
+.indic-edit {
+	margin-left: 2px;
+	margin-right: 2px;
+}
+.indic-edit::before {
+	color: #3071a9;
+}
+@media (min-width: 979px) {
+	.indic-edit {
+		margin-left: -16px;
+		-webkit-transition: all 0.15s ease;
+		-moz-transition: all 0.15s ease;
+		-o-transition: all 0.15s ease;
+		transition: all 0.15s ease;
+	}
+}
+tr:hover .indic-edit {
+	margin-left: 2px;
+	margin-right: 2px;
 }
 .pull-right {
 	float: left;
@@ -9715,4 +9732,13 @@ a.grid_true {
 	border-width: 1px 0 0 1px;
 	left: auto;
 	right: 0;
+}
+@media (min-width: 979px) {
+	.indic-edit {
+		margin-right: -16px;
+		-webkit-transition: all 0.15s ease;
+		-moz-transition: all 0.15s ease;
+		-o-transition: all 0.15s ease;
+		transition: all 0.15s ease;
+	}
 }

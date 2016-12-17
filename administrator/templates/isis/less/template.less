@@ -1773,8 +1773,6 @@ body.modal-open {
 
 }
 
-// Media XTD Button
-=======
 /* Repeatable SubForm */
 .subform-repeatable {
 	padding-right: 10px;
@@ -1879,4 +1877,26 @@ body.modal-open {
 /* Overrid font-weight 200 */
 .lead, .navbar .brand, .hero-unit, .hero-unit .lead {
 	font-weight: 400;
+}
+
+/* Hover Edit Icon */
+.articleList-title {
+	overflow: hidden;
+}
+.indic-edit {
+	margin-left: 2px;
+	margin-right: 2px;
+	&::before {
+		color: @linkColor;
+	}
+}
+@media (min-width: 979px) {
+	.indic-edit {
+		margin-left: -16px;
+		.transition(all 0.15s ease);
+	}
+}
+tr:hover .indic-edit {
+	margin-left: 2px;
+	margin-right: 2px;
 }

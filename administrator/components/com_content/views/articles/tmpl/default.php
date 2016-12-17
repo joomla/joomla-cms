@@ -168,7 +168,7 @@ $assoc = JLanguageAssociations::isEnabled();
 							</div>
 						</td>
 						<td class="has-context">
-							<div class="pull-left break-word">
+							<div class="pull-left break-word articleList-title">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 								<?php endif; ?>
@@ -179,7 +179,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								<?php endif; ?>
 								<?php if ($canEdit || $canEditOwn) : ?>
 									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
-										<?php echo $this->escape($item->title); ?></a>
+										<span class="icon-edit indic-edit"> </span><?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 								<?php endif; ?>
