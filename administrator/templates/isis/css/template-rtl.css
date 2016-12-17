@@ -8793,14 +8793,16 @@ body.modal-open {
 .hero-unit .lead {
 	font-weight: 400;
 }
+table .btn-group {
+	margin: 0 15px;
+}
 table a[data-original-title="Edit"] {
-	display: inline-block;
-	margin-bottom: -5px;
-	overflow: hidden;
+	position: relative;
 }
 .indicate-edit {
-	margin-left: 2px;
-	margin-right: 2px;
+	position: absolute;
+	top: 0;
+	right: 100%;
 	-webkit-transition: all 0.15s ease;
 	-moz-transition: all 0.15s ease;
 	-o-transition: all 0.15s ease;
@@ -8811,13 +8813,12 @@ table a[data-original-title="Edit"] {
 }
 @media (min-width: 979px) {
 	.indicate-edit {
-		margin-left: -16px;
+		opacity: 0;
 	}
 }
 tr:hover .indicate-edit,
 .itemList-title:focus .indicate-edit {
-	margin-left: 2px;
-	margin-right: 2px;
+	opacity: 1;
 }
 .pull-right {
 	float: left;

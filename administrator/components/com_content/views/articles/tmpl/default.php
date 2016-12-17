@@ -157,6 +157,9 @@ $assoc = JLanguageAssociations::isEnabled();
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+								<?php if ($item->checked_out) : ?>
+									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
+								<?php else : ?>
 								<?php // Create dropdown items and render the dropdown list.
 								if ($canChange)
 								{
@@ -165,13 +168,11 @@ $assoc = JLanguageAssociations::isEnabled();
 									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
 								}
 								?>
+								<?php endif; ?>
 							</div>
 						</td>
 						<td class="has-context">
 							<div class="pull-left break-word">
-								<?php if ($item->checked_out) : ?>
-									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
-								<?php endif; ?>
 								<?php if ($item->language == '*') : ?>
 									<?php $language = JText::alt('JALL', 'language'); ?>
 								<?php else : ?>
