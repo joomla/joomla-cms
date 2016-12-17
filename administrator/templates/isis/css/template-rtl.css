@@ -8814,7 +8814,8 @@ body.modal-open {
 		transition: all 0.15s ease;
 	}
 }
-tr:hover .indic-edit {
+tr:hover .indic-edit,
+.articleList-title:focus .indic-edit {
 	margin-left: 2px;
 	margin-right: 2px;
 }
