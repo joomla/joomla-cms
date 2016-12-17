@@ -815,7 +815,7 @@ abstract class JUserHelper
 	/**
 	 * Check if there is a super user in the user ids.
 	 *
-	 * @param   array   $userIds  An array of user IDs on which to operate
+	 * @param   array  $userIds  An array of user IDs on which to operate
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
