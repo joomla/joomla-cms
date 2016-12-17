@@ -151,7 +151,7 @@ class InstallerModelLanguages extends JModelList
 		{
 			$ordering = $this->getState('list.ordering');
 
-			if ($this->getState('list.direction') === 'ASC')
+			if (strtolower($this->getState('list.direction')) === 'asc')
 			{
 				return StringHelper::strcmp($a->$ordering, $b->$ordering);
 			}
