@@ -8794,6 +8794,8 @@ body.modal-open {
 	font-weight: 400;
 }
 .articleList-title {
+	display: inline-block;
+	margin-bottom: -5px;
 	overflow: hidden;
 }
 .indic-edit {
