@@ -8793,7 +8793,7 @@ body.modal-open {
 .hero-unit .lead {
 	font-weight: 400;
 }
-.itemList-title {
+table a[data-original-title="Edit"] {
 	display: inline-block;
 	margin-bottom: -5px;
 	overflow: hidden;
