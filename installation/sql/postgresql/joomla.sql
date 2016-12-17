@@ -1232,7 +1232,6 @@ CREATE TABLE "#__languages" (
   CONSTRAINT "#__languages_idx_sef" UNIQUE ("sef"),
   CONSTRAINT "#__languages_idx_langcode" UNIQUE ("lang_code")
 );
-CREATE INDEX "#__languages_idx_image" ON "#__languages" ("image");
 CREATE INDEX "#__languages_idx_ordering" ON "#__languages" ("ordering");
 CREATE INDEX "#__languages_idx_access" ON "#__languages" ("access");
 
