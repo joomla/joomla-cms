@@ -321,7 +321,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	{
 		foreach ($this->disconnectHandlers as $h)
 		{
-			$h(&$this);
+			$h($this);
 		}
 
 		$this->freeResult();

@@ -156,7 +156,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			foreach ($this->disconnectHandlers as $h)
 			{
-				$h(&$this);
+				$h($this);
 			}
 
 			pg_close($this->connection);

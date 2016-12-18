@@ -220,7 +220,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			foreach ($this->disconnectHandlers as $h)
 			{
-				$h(&$this);
+				$h($this);
 			}
 
 			mysqli_close($this->connection);
