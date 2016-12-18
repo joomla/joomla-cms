@@ -33,10 +33,10 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	public static function getAssociations($id = 0, $view = null)
 	{
 		$jinput = JFactory::getApplication()->input;
-		$view   = is_null($view) ? $jinput->get('view') : $view;
+		$view   = $view === null ? $jinput->get('view') : $view;
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
-		if ($view == 'article' || $view == 'category' || $view == 'featured')
+		if ($view === 'article' || $view === 'category' || $view === 'featured')
 		{
 			if ($id)
 			{
@@ -53,7 +53,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 			}
 		}
 
-		if ($view == 'category' || $view == 'categories')
+		if ($view === 'category' || $view === 'categories')
 		{
 			return self::getCategoryAssociations($id, 'com_content');
 		}
