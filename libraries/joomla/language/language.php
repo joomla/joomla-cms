@@ -819,6 +819,25 @@ class JLanguage
 	}
 
 	/**
+	 * Allow extensions to dynamically set new strings
+	 * [Don't allow to reset/change constants so one extension won't damage other]
+	 *
+	 * @param  $constant
+	 * @param  $value
+	 *
+	 * @return  bool
+	 *
+	 * @since  3.7
+	 */
+	public function addString($constant, $value){
+		if(!isset($this->strings[$constant]) && $value){
+			$this->strings[$constant] = $value;
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Parses a language file.
 	 *
 	 * @param   string  $filename  The name of the file.
