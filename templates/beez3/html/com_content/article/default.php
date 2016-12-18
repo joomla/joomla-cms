@@ -79,9 +79,9 @@ if ($params->get('show_title')) : ?>
 
 	<?php echo $this->item->event->beforeDisplayContent; ?>
 
-<?php $useDefList = (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_parent_category'))
-	or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))
-	or ($params->get('show_hits'))); ?>
+<?php $useDefList = ($params->get('show_author') or $params->get('show_category') or $params->get('show_parent_category')
+	or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date')
+	or $params->get('show_hits')); ?>
 
 <?php if ($useDefList) : ?>
  <dl class="article-info">
@@ -127,7 +127,7 @@ if ($params->get('show_title')) : ?>
 <?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 	<dd class="createdby">
 		<?php $author = $this->item->author; ?>
-		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author);?>
+		<?php $author = ($this->item->created_by_alias ?: $author);?>
 		<?php if (!empty($this->item->contact_link ) &&  $params->get('link_author') == true) : ?>
 			<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
 		<?php else : ?>
@@ -154,7 +154,7 @@ if ($params->get('show_title')) : ?>
 	<?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
 	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
-	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
+	<?php $imgfloat = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
 
 	<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
 	<img
