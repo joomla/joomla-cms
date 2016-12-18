@@ -149,7 +149,7 @@ class ContentControllerArticle extends JControllerForm
 		parent::cancel($key);
 
 		// Redirect to the return page.
-		$this->setRedirect($this->getReturnPage());
+		$this->setRedirect(JRoute::_($this->getReturnPage()));
 	}
 
 	/**
@@ -169,7 +169,7 @@ class ContentControllerArticle extends JControllerForm
 
 		if (!$result)
 		{
-			$this->setRedirect($this->getReturnPage());
+			$this->setRedirect(JRoute::_($this->getReturnPage()));
 		}
 
 		return $result;
@@ -286,12 +286,40 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = 'a_id')
 	{
-		$result = parent::save($key, $urlVar);
+		$result    = parent::save($key, $urlVar);
+		$app       = JFactory::getApplication();
+		$articleId = $app->input->getInt('a_id');
 
-		// If ok, redirect to the return page.
-		if ($result)
+		// Load the parameters.
+		$params   = $app->getParams();
+		$menuitem = (int) $params->get('redirect_menuitem');
+
+		// Check for redirection after submission when creating a new article only
+		if ($menuitem > 0 && $articleId == 0)
 		{
-			$this->setRedirect($this->getReturnPage());
+			$lang = '';
+
+			if (JLanguageMultilang::isEnabled())
+			{
+				$item = $app->getMenu()->getItem($menuitem);
+				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+			}
+
+			$return = base64_encode('index.php?Itemid=' . $menuitem . $lang);
+
+			// If ok, redirect to the return page.
+			if ($result)
+			{
+				$this->setRedirect(JRoute::_(base64_decode($return)));
+			}
+		}
+		else
+		{
+			// If ok, redirect to the return page.
+			if ($result)
+			{
+				$this->setRedirect(JRoute::_($this->getReturnPage()));
+			}
 		}
 
 		return $result;
