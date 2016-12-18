@@ -827,7 +827,7 @@ class JLanguage
 	 *
 	 * @return  bool
 	 *
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function addString($constant, $value)
 	{
