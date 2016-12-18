@@ -1113,7 +1113,7 @@ class PlgSystemDebug extends JPlugin
 
 				$htmlAccordions = JHtml::_(
 					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
-						'active' => ($info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : '')
+						'active' => $info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : ''
 					)
 				);
 
@@ -1197,7 +1197,7 @@ class PlgSystemDebug extends JPlugin
 		$html = array();
 
 		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
-			. sprintf(' <span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', ($totalQueryTime)) . '</h4><br />';
+			. sprintf(' <span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime) . '</h4><br />';
 
 		if ($total_duplicates)
 		{
@@ -1484,7 +1484,7 @@ class PlgSystemDebug extends JPlugin
 						foreach ($this->sqlShowProfiles as $qn)
 						{
 							// Run SHOW PROFILE FOR QUERY for each query where a profile is available (max 100).
-							$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) ($qn['Query_ID']));
+							$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) $qn['Query_ID']);
 							$this->sqlShowProfileEach[(int) ($qn['Query_ID'] - 1)] = $db->loadAssocList();
 						}
 					}
@@ -1573,7 +1573,7 @@ class PlgSystemDebug extends JPlugin
 			{
 				$html[] = '<li>';
 
-				$html[] = ($status)
+				$html[] = $status
 					? JText::_('PLG_DEBUG_LANG_LOADED')
 					: JText::_('PLG_DEBUG_LANG_NOT_LOADED');
 
@@ -1617,7 +1617,7 @@ class PlgSystemDebug extends JPlugin
 			if (is_array($occurance) && isset($occurance[0]))
 			{
 				$info = $occurance[0];
-				$file = ($info['file']) ? $info['file'] : '';
+				$file = $info['file'] ? $info['file'] : '';
 
 				if (!isset($guesses[$file]))
 				{
@@ -1799,7 +1799,7 @@ class PlgSystemDebug extends JPlugin
 	protected function formatLink($file, $line = '')
 	{
 		$link = str_replace(JPATH_ROOT, 'JROOT', $file);
-		$link .= ($line) ? ':' . $line : '';
+		$link .= $line ? ':' . $line : '';
 
 		if ($this->linkFormat)
 		{
@@ -2079,7 +2079,7 @@ class PlgSystemDebug extends JPlugin
 	protected function writeToFile()
 	{
 		$app    = JFactory::getApplication();
-		$domain = ($app->isSite()) ? 'site' : 'admin';
+		$domain = $app->isSite() ? 'site' : 'admin';
 		$input  = $app->input;
 		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
 
