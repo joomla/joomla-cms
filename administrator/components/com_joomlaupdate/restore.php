@@ -834,6 +834,14 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	protected $ignoreDirectories = array();
 
 	/**
+	 * Public constructor
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
+	/**
 	 * Wakeup function, called whenever the class is unserialized
 	 */
 	public function __wakeup()
