@@ -76,6 +76,11 @@
 @import "icomoon.less";
 // Chosen.css Flat Override 
 @import "chzn-override.less";
+
+// Blocks
+@import "blocks/_modals.less";
+
+
 /* Body */
 html {
 	height: 100%;
@@ -728,10 +733,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 		padding-top: 30px;
 	}
 
-	body.component {
-		padding-top: 0;
-	}
-
 	.row-fluid [class*="span"] {
 		margin-left: 15px;
 	}
@@ -759,12 +760,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	.container-fluid {
 		padding-left: 0;
 		padding-right: 0;
-	}
-}
-
-@media (min-width: 738px) {
-	body.component {
-		padding-top: 0;
 	}
 }
 
@@ -1457,18 +1452,6 @@ textarea.noResize {
 	resize: none;
 }
 
-/* Prevent scrolling on the parent window of a modal */
-body.modal-open {
-	overflow: hidden;
-	-ms-overflow-style: none;
-}
-
-/* Corrects the modals padding */
-.field-media-wrapper .modal .modal-body {
-	padding: 5px 10px;
-	overflow: hidden;
-}
-
 /* Stats plugin */
 .js-pstats-data-details dd {
 	margin-left: 240px;
@@ -1477,15 +1460,6 @@ body.modal-open {
 	width: 220px;
 }
 
-/* Clear div after modal-body rendering */
-.modal-footer {
-	clear: both;
-}
-
-/* Modal Header text align left even if parent container centered */
-.modal-header {
-	text-align: left;
-}
 
 /* ACL Permission page */
 #permissions,
@@ -1773,8 +1747,6 @@ body.modal-open {
 
 }
 
-// Media XTD Button
-=======
 /* Repeatable SubForm */
 .subform-repeatable {
 	padding-right: 10px;
