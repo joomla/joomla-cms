@@ -732,7 +732,7 @@ class PlgSystemDebug extends JPlugin
 					}
 				}
 
-				$totalQueryTime = $totalQueryTime * 1000;
+				$totalQueryTime *= 1000;
 
 				if ($totalQueryTime > ($totalTime * 0.25))
 				{
@@ -1007,12 +1007,12 @@ class PlgSystemDebug extends JPlugin
 			// Increment the count.
 			if (stripos($query, 'select') === 0)
 			{
-				$selectQueryTypeTicker[$fromString] = $selectQueryTypeTicker[$fromString] + 1;
+				$selectQueryTypeTicker[$fromString]++;
 				unset($otherQueryTypeTicker[$fromString]);
 			}
 			else
 			{
-				$otherQueryTypeTicker[$fromString] = $otherQueryTypeTicker[$fromString] + 1;
+				$otherQueryTypeTicker[$fromString]++;
 				unset($selectQueryTypeTicker[$fromString]);
 			}
 
@@ -1869,7 +1869,7 @@ class PlgSystemDebug extends JPlugin
 					}
 				)
 			);
-			$logEntriesTotal = $logEntriesTotal - $logEntriesDatabasequery;
+			$logEntriesTotal -= $logEntriesDatabasequery;
 		}
 
 		// Deprecated log entries
@@ -1885,7 +1885,7 @@ class PlgSystemDebug extends JPlugin
 
 		if (!$showDeprecated)
 		{
-			$logEntriesTotal = $logEntriesTotal - $logEntriesDeprecated;
+			$logEntriesTotal -= $logEntriesDeprecated;
 		}
 
 		$showEverything = $this->params->get('log-everything', 0);
