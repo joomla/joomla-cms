@@ -1346,7 +1346,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			$explodedQuery = explode('\'', $query);
 
-			for ($nIndex = 1, $nIndexMax = count($explodedQuery); $nIndex < $nIndexMax; $nIndex+= 2)
+			for ($nIndex = 0, $nIndexMax = count($explodedQuery); $nIndex < $nIndexMax; $nIndex+= 2)
 			{
 				if (strpos($explodedQuery[$nIndex], $prefix))
 				{
