@@ -459,7 +459,7 @@ class Joomla_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
             $method = 'process'.$tagName;
             if (method_exists($this, $method) === true) {
                 // Process each tag if a method is defined.
-	            $this->$method($errorPos);
+                call_user_func(array($this, $method), $errorPos);
             } else {
                 if (is_array($tagElement) === true) {
                     foreach ($tagElement as $key => $element) {

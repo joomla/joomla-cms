@@ -63,7 +63,7 @@ class CategoriesHelper
 					$lang->load($component, JPATH_BASE, null, false, true)
 					|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
-					$cName->addSubmenu('categories' . (isset($section) ? '.' . $section : ''));
+					call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
 				}
 			}
 		}
