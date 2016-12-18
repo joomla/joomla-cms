@@ -66,10 +66,8 @@ $cparams = JComponentHelper::getParams('com_media');
 </div>
 <?php endif; ?>
 <?php if (!empty($this->intro_items)) : ?>
-	<?php
-	$introcount = count($this->intro_items);
-	$counter = 0;
-	?>
+	<?php $introcount = count($this->intro_items); ?>
+	<?php $counter = 0; ?>
 	<?php foreach ($this->intro_items as $key => &$item) : ?>
 		<?php $rowcount = ((int) $key % (int) $this->columns) + 1; ?>
 		<?php if ($rowcount === 1) : ?>
