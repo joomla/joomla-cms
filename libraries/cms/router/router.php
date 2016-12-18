@@ -636,7 +636,7 @@ class JRouter
 
 		foreach ($this->_rules['build' . $stage] as $rule)
 		{
-			call_user_func_array($rule, array(&$this, &$uri));
+			$rule(&$this, &$uri);
 		}
 	}
 

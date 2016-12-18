@@ -127,7 +127,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		{
 			foreach ($this->disconnectHandlers as $h)
 			{
-				call_user_func_array($h, array( &$this));
+				$h(&$this);
 			}
 
 			mysql_close($this->connection);

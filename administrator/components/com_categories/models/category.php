@@ -410,7 +410,7 @@ class CategoriesModelCategory extends JModelAdmin
 					|| $lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false)
 					|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
 					|| $lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
-				call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
+				$cName->onPrepareForm(&$form);
 
 				// Check for an error.
 				if ($form instanceof Exception)
