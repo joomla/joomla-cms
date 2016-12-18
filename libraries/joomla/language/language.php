@@ -822,8 +822,8 @@ class JLanguage
 	 * Allow extensions to dynamically set new strings
 	 * [Don't allow to reset/change constants so one extension won't damage other]
 	 *
-	 * @param  $constant
-	 * @param  $value
+	 * @param   string  $constant
+	 * @param   string  $value
 	 *
 	 * @return  bool
 	 *
