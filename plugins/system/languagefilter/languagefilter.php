@@ -108,8 +108,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				if (($language->access && !in_array($language->access, $levels))
 					|| (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0))))
 				{
-					unset($this->lang_codes[$language->lang_code]);
-					unset($this->sefs[$language->sef]);
+					unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
 				}
 			}
 		}
@@ -376,7 +375,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		// We are called via POST. We don't care about the language
 		// and simply set the default language as our current language.
-		if ($this->app->input->getMethod() == "POST"
+		if ($this->app->input->getMethod() == 'POST'
 			|| count($this->app->input->post) > 0
 			|| count($this->app->input->files) > 0)
 		{
@@ -774,7 +773,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
 					case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
 
-						$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
+						$language->link = JRoute::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
 						break;
 
 					// Too bad...

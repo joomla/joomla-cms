@@ -148,7 +148,7 @@ class PlgUserProfile extends JPlugin
 			// Convert website url to utf8 for display
 			$value = JStringPunycode::urlToUTF8(htmlspecialchars($value));
 
-			if (substr($value, 0, 4) == "http")
+			if (substr($value, 0, 4) == 'http')
 			{
 				return '<a href="' . $value . '">' . $value . '</a>';
 			}
@@ -282,8 +282,8 @@ class PlgUserProfile extends JPlugin
 		$tosarticle = $this->params->get('register_tos_article');
 		$tosenabled = $this->params->get('register-require_tos', 0);
 
-		// We need to be in the registration form, field needs to be enabled and we need an article ID
-		if ($name != 'com_users.registration' || !$tosenabled || !$tosarticle)
+		// We need to be in the registration form and field needs to be enabled
+		if ($name != 'com_users.registration' || !$tosenabled)
 		{
 			// We only want the TOS in the registration form
 			$form->removeField('tos', 'profile');
@@ -374,12 +374,12 @@ class PlgUserProfile extends JPlugin
 		$task       = JFactory::getApplication()->input->getCmd('task');
 		$option     = JFactory::getApplication()->input->getCmd('option');
 		$tosarticle = $this->params->get('register_tos_article');
-		$tosenabled = ($this->params->get('register-require_tos', 0) == 2) ? true : false;
+		$tosenabled = ($this->params->get('register-require_tos', 0) == 2);
 
-		if (($task == 'register') && ($tosenabled) && ($tosarticle) && ($option == 'com_users'))
+		if (($task == 'register') && $tosenabled && $tosarticle && ($option == 'com_users'))
 		{
 			// Check that the tos is checked.
-			if ((!($data['profile']['tos'])))
+			if (!$data['profile']['tos'])
 			{
 				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
 			}
@@ -402,7 +402,7 @@ class PlgUserProfile extends JPlugin
 	{
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
-		if ($userId && $result && isset($data['profile']) && (count($data['profile'])))
+		if ($userId && $result && isset($data['profile']) && count($data['profile']))
 		{
 			try
 			{

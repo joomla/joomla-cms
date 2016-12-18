@@ -122,6 +122,7 @@ class FieldsModelFields extends JModelList
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user  = JFactory::getUser();
+		$app   = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -175,7 +176,7 @@ class FieldsModelFields extends JModelList
 		if (($categories = $this->getState('filter.assigned_cat_ids')) && $context)
 		{
 			$categories = (array) $categories;
-			$condition = "a.assigned_cat_ids = '' or find_in_set(0, a.assigned_cat_ids) ";
+			$condition = "a.assigned_cat_ids = '' OR " . $query->findInSet(0, 'a.assigned_cat_ids');
 			$parts = FieldsHelper::extract($context);
 
 			if ($parts)
@@ -192,14 +193,14 @@ class FieldsModelFields extends JModelList
 
 						if ($parent)
 						{
-							$condition .= 'or find_in_set(' . (int) $parent->id . ',a.assigned_cat_ids) ';
+							$condition .= ' OR ' . $query->findInSet((int) $parent->id, 'a.assigned_cat_ids');
 
 							// Traverse the tree up to get all the fields which
 							// are attached to a parent
 							while ($parent->getParent() && $parent->getParent()->id != 'root')
 							{
 								$parent = $parent->getParent();
-								$condition .= 'or find_in_set(' . (int) $parent->id . ',a.assigned_cat_ids) ';
+								$condition .= ' OR ' . $query->findInSet((int) $parent->id, 'a.assigned_cat_ids');
 							}
 						}
 					}
@@ -219,11 +220,15 @@ class FieldsModelFields extends JModelList
 		// Filter by state
 		$state = $this->getState('filter.state');
 
+		// Include group state only when not on on back end list
+		$includeGroupState = !$app->isClient('administrator') ||
+			$app->input->get('option') != 'com_fields' ||
+			$app->input->get('view') != 'fields';
 		if (is_numeric($state))
 		{
 			$query->where('a.state = ' . (int) $state);
 
-			if (JFactory::getApplication()->isClient('site'))
+			if ($includeGroupState)
 			{
 				$query->where('(a.group_id = 0 OR g.state = ' . (int) $state . ')');
 			}
@@ -232,9 +237,9 @@ class FieldsModelFields extends JModelList
 		{
 			$query->where('a.state IN (0, 1)');
 
-			if (JFactory::getApplication()->isClient('site'))
+			if ($includeGroupState)
 			{
-				$query->where('(a.group_id = 0 OR g.state IN (0, 1)');
+				$query->where('(a.group_id = 0 OR g.state IN (0, 1))');
 			}
 		}
 

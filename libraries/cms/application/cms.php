@@ -738,7 +738,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function isClient($identifier)
 	{
-		return $this->getName() == $identifier;
+		return $this->getName() === $identifier;
 	}
 
 	/**

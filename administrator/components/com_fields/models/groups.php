@@ -42,7 +42,6 @@ class FieldsModelGroups extends JModelList
 				'id', 'a.id',
 				'title', 'a.title',
 				'type', 'a.type',
-				'alias', 'a.alias',
 				'state', 'a.state',
 				'access', 'a.access',
 				'access_level',
@@ -125,7 +124,7 @@ class FieldsModelGroups extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.note' .
+				'a.id, a.title, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created, a.created_by, a.ordering, a.language'
 			)
 		);
@@ -195,7 +194,7 @@ class FieldsModelGroups extends JModelList
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$query->where('a.title LIKE ' . $search);
 			}
 		}
 
