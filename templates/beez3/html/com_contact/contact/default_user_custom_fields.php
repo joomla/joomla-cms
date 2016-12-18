@@ -32,13 +32,13 @@ $userFieldGroups    = array();
 <?php foreach ($userFieldGroups as $categoryTitle => $fields) :?>
 	<?php $id = JApplicationHelper::stringURLSafe($categoryTitle); ?>
 	<?php if ($this->params->get('presentation_style') == 'sliders') :
-		echo JHtml::_('sliders.panel', $categoryTitle ? $categoryTitle : JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
+		echo JHtml::_('sliders.panel', $categoryTitle ?: JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-		<?php echo JHtmlTabs::panel($categoryTitle ? $categoryTitle : JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
+		<?php echo JHtmlTabs::panel($categoryTitle ?: JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') == 'plain'):?>
-		<?php echo '<h3>'. ( $categoryTitle ? $categoryTitle : JText::_('COM_CONTACT_USER_FIELDS')).'</h3>'; ?>
+		<?php echo '<h3>'. ( $categoryTitle ?: JText::_('COM_CONTACT_USER_FIELDS')).'</h3>'; ?>
 	<?php endif; ?>
 
 	<div class="contact-profile" id="user-custom-fields-<?php echo $id; ?>">

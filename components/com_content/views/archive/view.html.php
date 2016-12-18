@@ -49,7 +49,7 @@ class ContentViewArchive extends JViewLegacy
 			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 			// No link for ROOT category
-			if ($item->parent_alias == 'root')
+			if ($item->parent_alias === 'root')
 			{
 				$item->parent_slug = null;
 			}
@@ -114,7 +114,7 @@ class ContentViewArchive extends JViewLegacy
 		$years = array();
 		$years[] = JHtml::_('select.option', null, JText::_('JYEAR'));
 
-		for ($i = 0; $i < count($this->years); $i++)
+		for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++)
 		{
 			$years[] = JHtml::_('select.option', $this->years[$i], $this->years[$i]);
 		}

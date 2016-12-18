@@ -390,7 +390,7 @@ class JUser extends JObject
 			}
 		}
 
-		return $this->isRoot ? true : JAccess::check($this->id, $action, $assetname);
+		return $this->isRoot ? true : (bool) JAccess::check($this->id, $action, $assetname);
 	}
 
 	/**
