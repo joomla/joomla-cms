@@ -312,142 +312,101 @@ abstract class FinderIndexer
 		$count = 0;
 		$buffer = null;
 
-		if (!empty($input))
+		if (empty($input))
 		{
-			// If the input is a resource, batch the process out.
-			if (is_resource($input))
+			return $count;
+		}
+
+		// If the input is a resource, batch the process out.
+		if (is_resource($input))
+		{
+			// Batch the process out to avoid memory limits.
+			while (!feof($input))
 			{
-				// Batch the process out to avoid memory limits.
-				while (!feof($input))
+				// Read into the buffer.
+				$buffer .= fread($input, 2048);
+
+				/*
+				 * If we haven't reached the end of the file, seek to the last
+				 * space character and drop whatever is after that to make sure
+				 * we didn't truncate a term while reading the input.
+				 */
+				if (!feof($input))
 				{
-					// Read into the buffer.
-					$buffer .= fread($input, 2048);
+					// Find the last space character.
+					$ls = strrpos($buffer, ' ');
 
-					/*
-					 * If we haven't reached the end of the file, seek to the last
-					 * space character and drop whatever is after that to make sure
-					 * we didn't truncate a term while reading the input.
-					 */
-					if (!feof($input))
+					// Adjust string based on the last space character.
+					if ($ls)
 					{
-						// Find the last space character.
-						$ls = strrpos($buffer, ' ');
+						// Truncate the string to the last space character.
+						$string = substr($buffer, 0, $ls);
 
-						// Adjust string based on the last space character.
-						if ($ls)
-						{
-							// Truncate the string to the last space character.
-							$string = substr($buffer, 0, $ls);
-
-							// Adjust the buffer based on the last space for the next iteration and trim.
-							$buffer = StringHelper::trim(substr($buffer, $ls));
-						}
-						// No space character was found.
-						else
-						{
-							$string = $buffer;
-						}
+						// Adjust the buffer based on the last space for the next iteration and trim.
+						$buffer = JString::trim(substr($buffer, $ls));
 					}
-					// We've reached the end of the file, so parse whatever remains.
+					// No space character was found.
 					else
 					{
 						$string = $buffer;
 					}
-
-					// Parse the input.
-					$string = FinderIndexerHelper::parse($string, $format);
-
-					// Check the input.
-					if (empty($string))
-					{
-						continue;
-					}
-
-					// Tokenize the input.
-					$tokens = FinderIndexerHelper::tokenize($string, $lang);
-
-					// Add the tokens to the database.
-					$count += $this->addTokensToDb($tokens, $context);
-
-					// Check if we're approaching the memory limit of the token table.
-					if ($count > static::$state->options->get('memory_table_limit', 30000))
-					{
-						$this->toggleTables(false);
-					}
-
-					unset($string);
-					unset($tokens);
 				}
-			}
-			// If the input is greater than 2K in size, it is more efficient to
-			// batch out the operation into smaller chunks of work.
-			elseif (strlen($input) > 2048)
-			{
-				$start = 0;
-				$end = strlen($input);
-				$chunk = 2048;
-
-				/*
-				 * As it turns out, the complex regular expressions we use for
-				 * sanitizing input are not very efficient when given large
-				 * strings. It is much faster to process lots of short strings.
-				 */
-				while ($start < $end)
+				// We've reached the end of the file, so parse whatever remains.
+				else
 				{
-					// Setup the string.
-					$string = substr($input, $start, $chunk);
-
-					// Find the last space character if we aren't at the end.
-					$ls = (($start + $chunk) < $end ? strrpos($string, ' ') : false);
-
-					// Truncate to the last space character.
-					if ($ls !== false)
-					{
-						$string = substr($string, 0, $ls);
-					}
-
-					// Adjust the start position for the next iteration.
-					$start += ($ls !== false ? ($ls + 1 - $chunk) + $chunk : $chunk);
-
-					// Parse the input.
-					$string = FinderIndexerHelper::parse($string, $format);
-
-					// Check the input.
-					if (empty($string))
-					{
-						continue;
-					}
-
-					// Tokenize the input.
-					$tokens = FinderIndexerHelper::tokenize($string, $lang);
-
-					// Add the tokens to the database.
-					$count += $this->addTokensToDb($tokens, $context);
-
-					// Check if we're approaching the memory limit of the token table.
-					if ($count > static::$state->options->get('memory_table_limit', 30000))
-					{
-						$this->toggleTables(false);
-					}
-				}
-			}
-			else
-			{
-				// Parse the input.
-				$input = FinderIndexerHelper::parse($input, $format);
-
-				// Check the input.
-				if (empty($input))
-				{
-					return $count;
+					$string = $buffer;
 				}
 
-				// Tokenize the input.
-				$tokens = FinderIndexerHelper::tokenize($input, $lang);
+				// Parse, tokenise and add tokens to the database.
+				$count = $this->tokenizeToDbShort($string, $context, $lang, $format, $count);
 
-				// Add the tokens to the database.
-				$count = $this->addTokensToDb($tokens, $context);
+				unset($string);
+				unset($tokens);
 			}
+
+			return $count;
+		}
+
+		// Parse, tokenise and add tokens to the database.
+		$count = $this->tokenizeToDbShort($input, $context, $lang, $format, $count);
+
+		return $count;
+	}
+
+	/**
+	 * Method to parse input, tokenise it, then add the tokens to the database.
+	 *
+	 * @param   string   $input    String to parse, tokenise and add to database.
+	 * @param   integer  $context  The context of the input. See context constants.
+	 * @param   string   $lang     The language of the input.
+	 * @param   string   $format   The format of the input.
+	 * @param   integer  $count    The number of tokens processed so far.
+	 *
+	 * @return  integer  Cummulative number of tokens extracted from the input so far.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function tokenizeToDbShort($input, $context, $lang, $format, $count)
+	{
+		// Parse the input.
+		$input = FinderIndexerHelper::parse($input, $format);
+
+		// Check the input.
+		if (empty($input))
+		{
+			return $count;
+		}
+
+		// Tokenize the input.
+		$tokens = FinderIndexerHelper::tokenize($input, $lang);
+
+		// Add the tokens to the database.
+		$count += $this->addTokensToDb($tokens, $context);
+
+		// Check if we're approaching the memory limit of the token table.
+		if ($count > static::$state->options->get('memory_table_limit', 30000))
+		{
+			$this->toggleTables(false);
 		}
 
 		return $count;

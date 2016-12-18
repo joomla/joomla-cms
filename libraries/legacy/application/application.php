@@ -151,7 +151,7 @@ class JApplication extends JApplicationBase
 		// Create the session if a session name is passed.
 		if ($config['session'] !== false)
 		{
-			$this->_createSession(self::getHash($config['session_name']));
+			$this->_createSession(JApplicationHelper::getHash($config['session_name']));
 		}
 
 		$this->requestTime = gmdate('Y-m-d H:i');
@@ -202,11 +202,11 @@ class JApplication extends JApplicationBase
 
 		// Set user specific editor.
 		$user = JFactory::getUser();
-		$editor = $user->getParam('editor', $this->getCfg('editor'));
+		$editor = $user->getParam('editor', $this->get('editor'));
 
 		if (!JPluginHelper::isEnabled('editors', $editor))
 		{
-			$editor = $this->getCfg('editor');
+			$editor = $this->get('editor');
 
 			if (!JPluginHelper::isEnabled('editors', $editor))
 			{
@@ -305,7 +305,7 @@ class JApplication extends JApplicationBase
 		$this->triggerEvent('onBeforeRender');
 
 		// Render the document.
-		$caching = ($this->getCfg('caching') >= 2) ? true : false;
+		$caching = ($this->get('caching') >= 2) ? true : false;
 		JResponse::setBody($document->render($caching, $params));
 
 		// Trigger the onAfterRender event.
@@ -387,7 +387,7 @@ class JApplication extends JApplicationBase
 		// so we will output a javascript redirect statement.
 		if (headers_sent())
 		{
-			echo "<script>document.location.href='" . str_replace("'", "&apos;", $url) . "';</script>\n";
+			echo "<script>document.location.href='" . str_replace("'", '&apos;', $url) . "';</script>\n";
 		}
 		else
 		{
@@ -399,7 +399,7 @@ class JApplication extends JApplicationBase
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					. '<script>document.location.href=\'' . str_replace("'", "&apos;", $url) . '\';</script></head></html>';
+					. '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script></head></html>';
 			}
 			else
 			{
@@ -972,14 +972,14 @@ class JApplication extends JApplicationBase
 		switch ($this->_clientId)
 		{
 			case 0:
-				if ($this->getCfg('force_ssl') == 2)
+				if ($this->get('force_ssl') == 2)
 				{
 					$options['force_ssl'] = true;
 				}
 				break;
 
 			case 1:
-				if ($this->getCfg('force_ssl') >= 1)
+				if ($this->get('force_ssl') >= 1)
 				{
 					$options['force_ssl'] = true;
 				}
@@ -1012,7 +1012,7 @@ class JApplication extends JApplicationBase
 		}
 
 		// Check to see the the session already exists.
-		$handler = $this->getCfg('session_handler');
+		$handler = $this->get('session_handler');
 
 		if (($handler != 'database' && ($time % 2 || $session->isNew()))
 			|| ($handler == 'database' && $session->isNew()))
@@ -1197,7 +1197,7 @@ class JApplication extends JApplicationBase
 	 */
 	public function __toString()
 	{
-		$compress = $this->getCfg('gzip', false);
+		$compress = $this->get('gzip', false);
 
 		return JResponse::toString($compress);
 	}

@@ -101,8 +101,8 @@ else
 						<a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
 						<?php echo $feed[$i]->title; ?></a></span>
 					<?php else : ?>
-						<span class="feed-link"><?php  echo $title; ?></span>
-					<?php  endif; ?>
+						<span class="feed-link"><?php echo $title; ?></span>
+					<?php endif; ?>
 
 					<?php if (!empty($text) && $params->get('rssitemdesc')) : ?>
 						<div class="feed-item-description">
