@@ -8807,7 +8807,7 @@ textarea.noResize {
 }
 .CodeMirror {
 	height: calc(100vh - 400px);
-	min-height: 300px;
+	min-height: 400px;
 }
 .pull-right {
 	float: left;
