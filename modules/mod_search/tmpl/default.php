@@ -25,8 +25,8 @@ else
 	$width = '';
 }
 ?>
-<div class="search<?php echo $moduleclass_sfx ?>">
-	<form action="<?php echo JRoute::_('index.php');?>" method="post" class="form-inline">
+<div class="search<?php echo $moduleclass_sfx; ?>">
+	<form action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-inline">
 		<?php
 			$output = '<label for="mod-search-searchword' . $module->id . '" class="element-invisible">' . $label . '</label> ';
 			$output .= '<input name="searchword" id="mod-search-searchword' . $module->id . '" maxlength="' . $maxlength . '"  class="inputbox search-query" type="search"' . $width;

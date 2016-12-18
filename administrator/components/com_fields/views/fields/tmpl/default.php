@@ -154,7 +154,7 @@ if ($saveOrder)
 													<?php continue; ?>
 												<?php endif; ?>
 												<?php $c = $category->get($cat); ?>
-												<?php if (!$c || $c->id == 'root') :  ?>
+												<?php if (!$c || $c->id == 'root') : ?>
 													<?php continue; ?>
 												<?php endif; ?>
 												<?php $buffer .= ' ' . $c->title . ','; ?>
@@ -166,7 +166,7 @@ if ($saveOrder)
 							</td>
 							<td class="small">
 								<?php $label = 'COM_FIELDS_TYPE_' . strtoupper($item->type); ?>
-								<?php if (!JFactory::getLanguage()->hasKey($label)) :  ?>
+								<?php if (!JFactory::getLanguage()->hasKey($label)) : ?>
 									<?php $label = Joomla\String\StringHelper::ucfirst($item->type); ?>
 								<?php endif; ?>
 								<?php echo $this->escape(JText::_($label)); ?>

@@ -442,21 +442,27 @@ class JCacheTest extends TestCase
 	 */
 	public function testGc()
 	{
-		$this->object = JCache::getInstance('output', array('lifetime' => 2, 'defaultgroup' => ''));
+		$this->object = JCache::getInstance('output', array('storage' => 'file', 'lifetime' => 5/60, 'defaultgroup' => ''));
+		$this->object->setCaching(true);
 
 		$this->object->store($this->testData_A, 42, '');
 		$this->object->store($this->testData_B, 43, '');
 
-		sleep(5);
+		$handler = $this->object->cache->_getStorage();
+		$path    = TestReflection::invoke($handler, '_getFilePath', 42, '');
 
+		// Changing the time of last modification to the past
+		$this->assertTrue(touch($path, $handler->_now - $handler->_lifetime - 1));
+
+		// Collect Garbage
 		$this->object->gc();
 
-		$this->assertFalse(
-			$this->object->get(42, '')
-		);
-		$this->assertFalse(
-			$this->object->get(43, '')
-		);
+		$this->assertFalse(file_exists($path), "Cache file should not exist.");
+
+		$this->assertFalse($this->object->get(42, ''));
+
+		// To be sure that cache is working
+		$this->assertEquals($this->testData_B, $this->object->get(43, ''));
 	}
 
 	/**

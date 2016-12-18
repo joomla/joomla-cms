@@ -14,11 +14,11 @@ JHtml::_('bootstrap.tooltip');
 <?php foreach ($this->folders as $i => $folder) : ?>
 	<?php $link = 'index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=' . $folder->path_relative; ?>
 	<tr>
-		<?php if ($this->canDelete):?>
+		<?php if ($this->canDelete) : ?>
 			<td>
 				<?php echo JHtml::_('grid.id', $i, $folder->name, false, 'rm', 'cb-folder'); ?>
 			</td>
-		<?php endif;?>
+		<?php endif; ?>
 		<td class="imgTotal">
 			<a href="<?php echo $link; ?>" target="folderframe"><span class="icon-folder-2"></span></a>
 		</td>
@@ -37,6 +37,6 @@ JHtml::_('bootstrap.tooltip');
 					<span class="icon-remove hasTooltip" title="<?php echo JHtml::tooltipText('JACTION_DELETE'); ?>"></span>
 				</a>
 			</td>
-		<?php endif;?>
+		<?php endif; ?>
 	</tr>
 <?php endforeach; ?>
