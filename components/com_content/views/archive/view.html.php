@@ -114,7 +114,7 @@ class ContentViewArchive extends JViewLegacy
 		$years = array();
 		$years[] = JHtml::_('select.option', null, JText::_('JYEAR'));
 
-		for ($i = 0; $i < count($this->years); $i++)
+		for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++)
 		{
 			$years[] = JHtml::_('select.option', $this->years[$i], $this->years[$i]);
 		}

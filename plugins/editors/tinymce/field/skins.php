@@ -35,7 +35,7 @@ class JFormFieldSkins extends JFormAbstractlist
 
 		$directories = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
-		for ($i = 0; $i < count($directories); ++$i)
+		for ($i = 0, $iMax = count($directories); $i < $iMax; ++$i)
 		{
 			$dir = basename($directories[$i]);
 			$options[] = JHtml::_('select.option', $i, $dir);

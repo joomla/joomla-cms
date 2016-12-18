@@ -310,7 +310,7 @@ class JLinkedinJobs extends JLinkedinObject
 		{
 			$data['facet'] = array();
 
-			for ($i = 0; $i < count($facet); $i++)
+			for ($i = 0, $iMax = count($facet); $i < $iMax; $i++)
 			{
 				if ($facet[$i])
 				{

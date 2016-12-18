@@ -1472,7 +1472,7 @@ class JFormTest extends TestCaseDatabase
 		$originalset = $originalform->getXml()->xpath('/form/fields/field');
 		$set = $form->getXml()->xpath('/form/fields/field');
 
-		for ($i = 0; $i < count($originalset); $i++)
+		for ($i = 0, $iMax = count($originalset); $i < $iMax; $i++)
 		{
 			$this->assertThat(
 				(string) ($originalset[$i]->attributes()->name) == (string) ($set[$i]->attributes()->name),

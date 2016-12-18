@@ -21,7 +21,7 @@ ksort($this->files, SORT_STRING);
 
 			if (count($fileArray) >= count($keyArray))
 			{
-				for ($i = 0; $i < count($keyArray); $i++)
+				for ($i = 0, $iMax = count($keyArray); $i < $iMax; $i++)
 				{
 					if ($keyArray[$i] === $fileArray[$i])
 					{
