@@ -148,9 +148,9 @@ class PlgEditorCodemirror extends JPlugin
 
 		$done = true;
 
-		JFactory::getDocument()->addScriptDeclaration("
+		JFactory::getDocument()->addScriptDeclaration('
 		;function jInsertEditorText(text, editor) { Joomla.editors.instances[editor].replaceSelection(text); }
-		");
+		');
 
 		return true;
 	}
@@ -340,7 +340,7 @@ class PlgEditorCodemirror extends JPlugin
 
 		if (!$fonts)
 		{
-			$fonts = json_decode(JFile::read(__DIR__ . '/fonts.json'), true);
+			$fonts = json_decode(file_get_contents(__DIR__ . '/fonts.json'), true);
 		}
 
 		return isset($fonts[$font]) ? (object) $fonts[$font] : null;

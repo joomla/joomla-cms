@@ -74,7 +74,10 @@ class JOAuth2ClientTest extends TestCase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new Registry;
-		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$array = array();
 		$this->input = new JInput($array);
 		$this->application = $this->getMockWeb();

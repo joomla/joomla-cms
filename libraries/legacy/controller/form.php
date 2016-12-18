@@ -114,8 +114,8 @@ class JControllerForm extends JControllerLegacy
 				array('/([^aeiouy]|qu)y$/i', "$1ies"),
 				array('/([^aeiouy]|qu)ies$/i', "$1y"),
 				array('/(bu)s$/i', "$1ses"),
-				array('/s$/i', "s"),
-				array('/$/', "s"),
+				array('/s$/i', 's'),
+				array('/$/', 's'),
 			);
 
 			// Check for matches using regular expressions

@@ -62,7 +62,7 @@ class ConfigControllerHelper
 			}
 		}
 
-		if (empty($tasks[0]) || $tasks[0] == 'Config')
+		if (empty($tasks[0]) || $tasks[0] === 'Config')
 		{
 			$location = 'Config';
 		}
@@ -98,7 +98,7 @@ class ConfigControllerHelper
 			{
 				$view = 'Component';
 			}
-			elseif ($option == 'com_config')
+			elseif ($option === 'com_config')
 			{
 				$view = 'Application';
 			}

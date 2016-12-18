@@ -108,7 +108,7 @@ class JLayoutFile extends JLayoutBase
 
 		if ($this->isDebugEnabled())
 		{
-			echo "<pre>" . $this->renderDebugMessages() . "</pre>";
+			echo '<pre>' . $this->renderDebugMessages() . '</pre>';
 		}
 
 		// Nothing to show

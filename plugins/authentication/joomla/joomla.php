@@ -82,6 +82,10 @@ class PlgAuthenticationJoomla extends JPlugin
 		}
 		else
 		{
+			// Let's hash the entered password even if we don't have a matching user for some extra response time
+			// By doing so, we mitigate side channel user enumeration attacks
+			JUserHelper::hashPassword($credentials['password']);
+
 			// Invalid user
 			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
