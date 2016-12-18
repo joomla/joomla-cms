@@ -1300,7 +1300,6 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
   PRIMARY KEY (`lang_id`),
   UNIQUE KEY `idx_sef` (`sef`),
   UNIQUE KEY `idx_langcode` (`lang_code`),
-  KEY `idx_image` (`image`),
   KEY `idx_access` (`access`),
   KEY `idx_ordering` (`ordering`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
