@@ -831,7 +831,7 @@ class JLanguage
 	 */
 	public function addString($constant, $value)
 	{
-		if(!isset($this->strings[$constant]) && $value)
+		if (!isset($this->strings[$constant]) && $value)
 		{
 			$this->strings[$constant] = $value;
 			return true;
