@@ -176,7 +176,7 @@ class FieldsModelFields extends JModelList
 		if (($categories = $this->getState('filter.assigned_cat_ids')) && $context)
 		{
 			$categories = (array) $categories;
-			$condition = "a.assigned_cat_ids = '' or find_in_set(0, a.assigned_cat_ids) ";
+			$condition = "a.assigned_cat_ids = '' OR " . $query->findInSet(0, 'a.assigned_cat_ids');
 			$parts = FieldsHelper::extract($context);
 
 			if ($parts)
@@ -193,14 +193,14 @@ class FieldsModelFields extends JModelList
 
 						if ($parent)
 						{
-							$condition .= 'or find_in_set(' . (int) $parent->id . ',a.assigned_cat_ids) ';
+							$condition .= ' OR ' . $query->findInSet((int) $parent->id, 'a.assigned_cat_ids');
 
 							// Traverse the tree up to get all the fields which
 							// are attached to a parent
 							while ($parent->getParent() && $parent->getParent()->id != 'root')
 							{
 								$parent = $parent->getParent();
-								$condition .= 'or find_in_set(' . (int) $parent->id . ',a.assigned_cat_ids) ';
+								$condition .= ' OR ' . $query->findInSet((int) $parent->id, 'a.assigned_cat_ids');
 							}
 						}
 					}
