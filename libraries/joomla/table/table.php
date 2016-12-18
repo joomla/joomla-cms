@@ -117,6 +117,14 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	protected $_jsonEncode = array();
 
 	/**
+	 * Indicator that the column ordering use large numbers.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_large_ordering_numbers = false;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -1275,6 +1283,44 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	}
 
 	/**
+	 * Method to get the earlier ordering value for a group of rows defined by an SQL WHERE clause.
+	 *
+	 * This is useful for placing a new item first in a group of items in the table.
+	 *
+	 * @param   string  $where  WHERE clause to use for selecting the MIN(ordering) for the table.
+	 *
+	 * @return  integer  The first free ordering value.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  UnexpectedValueException
+	 */
+	public function getEarlierOrder($where = '')
+	{
+		// If there is no ordering field set an error and return false.
+		if (!property_exists($this, 'ordering'))
+		{
+			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+		}
+
+		// Get the least ordering value for a given where clause.
+		$query = $this->_db->getQuery(true)
+			->select('COALESCE(MIN(ordering), 2147483647)')
+			->from($this->_tbl)
+			->where('ordering >= 0');
+
+		if ($where)
+		{
+			$query->where($where);
+		}
+
+		$this->_db->setQuery($query);
+		$min = (int) $this->_db->loadResult();
+
+		// Return the first ordering value - 1.
+		return ($min - 1);
+	}
+
+	/**
 	 * Method to get the next ordering value for a group of rows defined by an SQL WHERE clause.
 	 *
 	 * This is useful for placing a new item last in a group of items in the table.
@@ -1356,12 +1402,15 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 		$k = $this->_tbl_key;
 
+		// To use more efficient alternative sort in descending order
+		$order_by = $this->_large_ordering_numbers ? 'ordering DESC' : 'ordering';
+
 		// Get the primary keys and ordering values for the selection.
 		$query = $this->_db->getQuery(true)
 			->select(implode(',', $this->_tbl_keys) . ', ordering')
 			->from($this->_tbl)
 			->where('ordering >= 0')
-			->order('ordering');
+			->order($order_by);
 
 		// Setup the extra where and ordering clause data.
 		if ($where)
@@ -1372,19 +1421,24 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		$this->_db->setQuery($query);
 		$rows = $this->_db->loadObjectList();
 
+		// Last reserved number for alternative re-order
+		$last = 2147483647;
+
 		// Compact the ordering values.
 		foreach ($rows as $i => $row)
 		{
 			// Make sure the ordering is a positive integer.
 			if ($row->ordering >= 0)
 			{
+				$ordering = $this->_large_ordering_numbers ? ($last - $i - 1) : ($i + 1);
+
 				// Only update rows that are necessary.
-				if ($row->ordering != $i + 1)
+				if ($row->ordering != $ordering)
 				{
 					// Update the row ordering field.
 					$query->clear()
 						->update($this->_tbl)
-						->set('ordering = ' . ($i + 1));
+						->set('ordering = ' . $ordering);
 					$this->appendPrimaryKeys($query, $row);
 					$this->_db->setQuery($query);
 					$this->_db->execute();

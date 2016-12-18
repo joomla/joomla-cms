@@ -17,6 +17,14 @@ defined('_JEXEC') or die;
 class ContentTableFeatured extends JTable
 {
 	/**
+	 * Indicator that the column ordering use large numbers.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_large_ordering_numbers = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$db  Database connector object
