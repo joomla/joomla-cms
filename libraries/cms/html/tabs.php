@@ -87,8 +87,8 @@ abstract class JHtmlTabs
 			$opt['onActive']            = isset($params['onActive']) ? '\\' . $params['onActive'] : null;
 			$opt['onBackground']        = isset($params['onBackground']) ? '\\' . $params['onBackground'] : null;
 			$opt['display']             = isset($params['startOffset']) ? (int) $params['startOffset'] : null;
-			$opt['titleSelector']       = "dt.tabs";
-			$opt['descriptionSelector'] = "dd.tabs";
+			$opt['titleSelector']       = 'dt.tabs';
+			$opt['descriptionSelector'] = 'dd.tabs';
 
 			// When use storage is set and value is false - By default we allow to use storage
 			$opt['useStorage'] = (isset($params['useCookie']) && !$params['useCookie']) ? false : true;

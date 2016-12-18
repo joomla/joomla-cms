@@ -497,7 +497,7 @@ class JRouterSite extends JRouter
 		$crouter   = $this->getComponentRouter($component);
 		$parts     = $crouter->build($query);
 		$result    = implode('/', $parts);
-		$tmp       = ($result != "") ? $result : '';
+		$tmp       = ($result != '') ? $result : '';
 
 		// Build the application route
 		$built = false;
