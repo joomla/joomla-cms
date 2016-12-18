@@ -109,7 +109,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Disable query cache and turn profiling ON in debug mode.
 		if ($this->debug)
 		{
-			mysql_query('SET query_cache_type = OFF;', , $this->connection);
+			mysql_query('SET query_cache_type = 0;', $this->connection);
 
 			if ($this->hasProfiling())
 			{
