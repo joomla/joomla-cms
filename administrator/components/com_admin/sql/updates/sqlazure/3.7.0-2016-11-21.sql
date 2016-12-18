@@ -1,5 +1,3 @@
 -- Replace language image UNIQUE index for a normal INDEX.
-ALTER TABLE [#__languages] DROP CONSTRAINT [#__languages$idx_image];
-CREATE NONCLUSTERED INDEX [idx_image] ON [#__languages] (
-	[image] ASC
-) WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+-- Note: This needs to be done in just one query because of the database schema checker.
+ALTER TABLE [#__languages] DROP CONSTRAINT [#__languages$idx_image], ADD INDEX [#__languages$idx_image] NONCLUSTERED ([image]);
