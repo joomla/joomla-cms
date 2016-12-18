@@ -324,11 +324,15 @@ class FieldsModelField extends JModelAdmin
 		if (empty($context) && isset($data['context']))
 		{
 			$context = $data['context'];
-			$parts   = explode('.', $context);
+			$parts   = FieldsHelper::extract($context);
 
 			$this->setState('field.context', $context);
-			$this->setState('field.component', $parts[0]);
-			$this->setState('field.section', isset($parts[1]) ? $parts[1] : '');
+
+			if ($parts)
+			{
+				$this->setState('field.component', $parts[0]);
+				$this->setState('field.section', $parts[1]);
+			}
 		}
 
 		// Get the form.
@@ -769,7 +773,7 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		$form->setFieldAttribute('type', 'component', $component);
-		$form->setFieldAttribute('group_id', 'extension', $component);
+		$form->setFieldAttribute('group_id', 'context', $this->state->get('field.context'));
 		$form->setFieldAttribute('rules', 'component', $component);
 
 		// Trigger the default form events.
