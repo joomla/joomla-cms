@@ -17,10 +17,23 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
+$listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$canOrder  = $user->authorise('core.edit.state', 'com_content.article');
 $saveOrder = $listOrder == 'fp.ordering';
+$columns   = 10;
+
+if (strpos($listOrder, 'publish_up') !== false)
+{
+	$orderingColumn = 'publish_up';
+}
+elseif (strpos($listOrder, 'publish_down') !== false)
+{
+	$orderingColumn = 'publish_down';
+}
+else
+{
+	$orderingColumn = 'created';
+}
 
 if ($saveOrder)
 {
@@ -37,7 +50,7 @@ if ($saveOrder)
 	<div id="j-main-container" class="span10">
 		<?php else : ?>
 		<div id="j-main-container">
-			<?php endif;?>
+			<?php endif; ?>
 			<?php
 			// Search tools bar
 			echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
@@ -72,11 +85,21 @@ if ($saveOrder)
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
+						<?php if ($this->vote) : ?>
+							<?php $columns++; ?>
+							<th width="1%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+							</th>
+							<?php $columns++; ?>
+							<th width="1%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif; ?>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -84,7 +107,7 @@ if ($saveOrder)
 					</thead>
 					<tfoot>
 					<tr>
-						<td colspan="10">
+						<td colspan="<?php echo $columns; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -174,18 +197,30 @@ if ($saveOrder)
 								<?php endif; ?>
 							</td>
 							<td class="small hidden-phone">
-								<?php if ($item->language == '*') : ?>
-									<?php echo JText::alt('JALL', 'language'); ?>
-								<?php else:?>
-									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-								<?php endif;?>
+								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
 							<td class="nowrap small hidden-phone">
-								<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
-							</td>
+								<?php
+								$date = $item->{$orderingColumn};
+								echo $date > 0 ? JHtml::_('date', $date, JText::_('DATE_FORMAT_LC4')) : '-';
+								?>							</td>
 							<td class="center hidden-phone">
+								<span class="badge badge-info">
 								<?php echo (int) $item->hits; ?>
+								</span>
 							</td>
+							<?php if ($this->vote) : ?>
+								<td class="hidden-phone">
+									<span class="badge badge-success" >
+									<?php echo (int) $item->rating_count; ?>
+									</span>
+								</td>
+								<td class="hidden-phone">
+									<span class="badge badge-warning" >
+									<?php echo (int) $item->rating; ?>
+									</span>
+								</td>
+							<?php endif; ?>
 							<td class="center hidden-phone">
 								<?php echo (int) $item->id; ?>
 							</td>

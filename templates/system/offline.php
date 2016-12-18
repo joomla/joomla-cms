@@ -9,7 +9,25 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 $app = JFactory::getApplication();
+
+// Output as HTML5
+$this->setHtml5(true);
+
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
+
+// Styles
+JHtml::_('stylesheet', 'offline.css', array('version' => 'auto', 'relative' => true));
+
+if ($this->direction == 'rtl')
+{
+	JHtml::_('stylesheet', 'offline_rtl.css', array('version' => 'auto', 'relative' => true));
+}
+
+JHtml::_('stylesheet', 'general.css', array('version' => 'auto', 'relative' => true));
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -17,18 +35,13 @@ JHtml::_('bootstrap.framework');
 $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/offline.css" type="text/css" />
-	<?php if ($this->direction == 'rtl') : ?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/offline_rtl.css" type="text/css" />
-	<?php endif; ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/general.css" type="text/css" />
 </head>
 <body>
-<jdoc:include type="message" />
+	<jdoc:include type="message" />
 	<div id="frame" class="outline">
 		<?php if ($app->get('offline_image') && file_exists($app->get('offline_image'))) : ?>
 			<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename'), ENT_COMPAT, 'UTF-8'); ?>" />

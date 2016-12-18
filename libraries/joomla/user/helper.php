@@ -389,7 +389,7 @@ abstract class JUserHelper
 	}
 
 	/**
-	 * Formats a password using the current encryption.
+	 * Formats a password using the old encryption methods.
 	 *
 	 * @param   string   $plaintext     The plaintext password to encrypt.
 	 * @param   string   $salt          The salt to use to encrypt the password. []
@@ -509,7 +509,7 @@ abstract class JUserHelper
 	}
 
 	/**
-	 * Returns a salt for the appropriate kind of password encryption.
+	 * Returns a salt for the appropriate kind of password encryption using the old encryption methods.
 	 * Optionally takes a seed and a plaintext password, to extract the seed
 	 * of an existing password, or for encryption types that use the plaintext
 	 * in the generation of the salt.
@@ -569,11 +569,11 @@ abstract class JUserHelper
 			case 'crypt-blowfish':
 				if ($seed)
 				{
-					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 16);
+					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 30);
 				}
 				else
 				{
-					return '$2$' . substr(md5(JCrypt::genRandomBytes()), 0, 12) . '$';
+					return '$2y$10$' . substr(md5(JCrypt::genRandomBytes()), 0, 22) . '$';
 				}
 				break;
 
@@ -612,7 +612,7 @@ abstract class JUserHelper
 
 					for ($i = 0; $i < 8; $i++)
 					{
-						$salt .= $APRMD5{rand(0, 63)};
+						$salt .= $APRMD5{mt_rand(0, 63)};
 					}
 
 					return $salt;
@@ -810,5 +810,30 @@ abstract class JUserHelper
 		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
 
 		return md5(JUri::base() . $uaShort);
+	}
+
+	/**
+	 * Check if there is a super user in the user ids.
+	 *
+	 * @param   array  $userIds  An array of user IDs on which to operate
+	 *
+	 * @return  boolean  True on success, false on failure
+	 *
+	 * @since   3.6.5
+	 */
+	public static function checkSuperUserInUsers(array $userIds)
+	{
+		foreach ($userIds as $userId)
+		{
+			foreach (static::getUserGroups($userId) as $userGroupId)
+			{
+				if (JAccess::checkGroup($userGroupId, 'core.admin'))
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

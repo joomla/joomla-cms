@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.6" client="site" type="language" method="upgrade">
-	<name>English (United Kingdom)</name>
+	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>3.6.3</version>
-	<creationDate>August 2016</creationDate>
+	<version>3.6.5</version>
+	<creationDate>December 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>

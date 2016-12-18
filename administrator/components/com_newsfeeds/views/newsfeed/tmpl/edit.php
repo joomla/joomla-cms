@@ -14,7 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', 'select');
 
 $app   = JFactory::getApplication();
 $input = $app->input;
@@ -27,6 +28,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		if (task == "newsfeed.cancel" || document.formvalidator.isValid(document.getElementById("newsfeed-form"))) {
 			Joomla.submitform(task, document.getElementById("newsfeed-form"));
 
+			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
 			if (task !== "newsfeed.apply")
 			{
 				window.parent.jQuery("#newsfeedEdit' . $this->item->id . 'Modal").modal("hide");
@@ -104,5 +106,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

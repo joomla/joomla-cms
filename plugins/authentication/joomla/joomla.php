@@ -82,6 +82,10 @@ class PlgAuthenticationJoomla extends JPlugin
 		}
 		else
 		{
+			// Let's hash the entered password even if we don't have a matching user for some extra response time
+			// By doing so, we mitigate side channel user enumeration attacks
+			JUserHelper::hashPassword($credentials['password']);
+
 			// Invalid user
 			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
@@ -118,7 +122,7 @@ class PlgAuthenticationJoomla extends JPlugin
 			if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
 			{
 				// Warn the user if they are using a secret code but they have not
-				// enabed two factor auth in their account.
+				// enabled two factor auth in their account.
 				if (!empty($credentials['secretkey']))
 				{
 					try

@@ -119,7 +119,7 @@ class JHtmlFieldEmailTest_DataSet
 			array(
 				'id' => 'myTestId',
 				'name' => 'myTestName',
-				'maxLength' => 250,
+				'maxlength' => 250,
 			),
 			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" maxlength="250" />',
 		),
@@ -130,7 +130,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'required' => true,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" required aria-required="true" />',
+			'<input type="email" name="myTestName" class="validate-email required" id="myTestId" value="" required aria-required="true" />',
 		),
 
 	);

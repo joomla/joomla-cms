@@ -102,7 +102,7 @@ class JCacheController
 				throw new RuntimeException('Unable to load Cache Controller: ' . $type, 500);
 			}
 
-			include_once $path;
+			JLoader::register($class, $path);
 
 			// The class should now be loaded
 			if (!class_exists($class))

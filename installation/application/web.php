@@ -294,51 +294,26 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	public function getLocaliseAdmin($db = false)
 	{
-		// Read the files in the admin area.
-		$path               = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
-		$langfiles['admin'] = JFolder::folders($path);
+		$langfiles = array();
 
-		// Read the files in the site area.
-		$path              = JLanguage::getLanguagePath(JPATH_SITE);
-		$langfiles['site'] = JFolder::folders($path);
-
+		// If db connection, fetch them from the database.
 		if ($db)
 		{
-			$langfiles_disk     = $langfiles;
-			$langfiles          = array();
-			$langfiles['admin'] = array();
-			$langfiles['site']  = array();
-
-			$query = $db->getQuery(true)
-				->select($db->quoteName(array('element','client_id')))
-				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('language'));
-			$db->setQuery($query);
-			$langs = $db->loadObjectList();
-
-			foreach ($langs as $lang)
+			foreach (JLanguageHelper::getInstalledLanguages() as $clientId => $language)
 			{
-				switch ($lang->client_id)
+				$clientName = $clientId === 0 ? 'site' : 'admin';
+
+				foreach ($language as $languageCode => $lang)
 				{
-					// Site.
-					case 0:
-						if (in_array($lang->element, $langfiles_disk['site']))
-						{
-							$langfiles['site'][] = $lang->element;
-						}
-
-						break;
-
-					// Administrator.
-					case 1:
-						if (in_array($lang->element, $langfiles_disk['admin']))
-						{
-							$langfiles['admin'][] = $lang->element;
-						}
-
-						break;
+					$langfiles[$clientName][] = $lang->element;
 				}
 			}
+		}
+		// Read the folder names in the site and admin area.
+		else
+		{
+			$langfiles['site']  = JFolder::folders(JLanguage::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = JFolder::folders(JLanguage::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
 		return $langfiles;
@@ -465,15 +440,16 @@ final class InstallationApplicationWeb extends JApplicationCms
 		if ($document === null)
 		{
 			$lang = JFactory::getLanguage();
-
 			$type = $this->input->get('format', 'html', 'word');
+			$date = new JDate('now');
 
 			$attributes = array(
-				'charset' => 'utf-8',
-				'lineend' => 'unix',
-				'tab' => '  ',
-				'language' => $lang->getTag(),
-				'direction' => $lang->isRtl() ? 'rtl' : 'ltr',
+				'charset'      => 'utf-8',
+				'lineend'      => 'unix',
+				'tab'          => "\t",
+				'language'     => $lang->getTag(),
+				'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
+				'mediaversion' => md5($date->format('YmdHi')),
 			);
 
 			$document = JDocument::getInstance($type, $attributes);
@@ -534,7 +510,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		if (!$session->get('registry') instanceof Registry)
 		{
 			// Registry has been corrupted somehow.
-			$session->set('registry', new Registry('session'));
+			$session->set('registry', new Registry);
 		}
 
 		// Set the session object.

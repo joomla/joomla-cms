@@ -43,7 +43,7 @@ class MailtoController extends JControllerLegacy
 	public function send()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app     = JFactory::getApplication();
 		$session = JFactory::getSession();
@@ -135,7 +135,6 @@ class MailtoController extends JControllerLegacy
 
 		// Build the message to send
 		$msg  = JText::_('COM_MAILTO_EMAIL_MSG');
-		$link = $link;
 		$body = sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data

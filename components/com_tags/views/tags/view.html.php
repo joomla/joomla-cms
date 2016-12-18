@@ -68,8 +68,7 @@ class TagsViewTags extends JViewLegacy
 				}
 
 				// Prepare the data.
-				$temp = new Registry;
-				$temp->loadString($itemElement->params);
+				$temp = new Registry($itemElement->params);
 				$itemElement->params = clone $params;
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
@@ -123,7 +122,7 @@ class TagsViewTags extends JViewLegacy
 				}
 			}
 		}
-		elseif(!empty($items[0]))
+		elseif (!empty($items[0]))
 		{
 			// Merge so that tag params take priority
 			$temp->merge($items[0]->params);

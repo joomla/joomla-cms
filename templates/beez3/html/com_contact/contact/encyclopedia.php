@@ -59,7 +59,7 @@ $cparams = JComponentHelper::getParams('com_media');
 		<?php if ($this->contact->state && $this->params->get('show_state')) : ?>
 			<p class="contact-state"><?php echo $this->contact->state; ?></p>
 		<?php endif; ?>
-		<?php // Let's use contry to list the main countries it grows in. '?>
+		<?php // Let's use country to list the main countries it grows in. ?>
 		<?php if ($this->contact->country && $this->params->get('show_country')) : ?>
 			<p class="contact-country"><?php echo $this->contact->country; ?></p>
 		<?php endif; ?>

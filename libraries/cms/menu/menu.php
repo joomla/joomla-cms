@@ -21,7 +21,7 @@ class JMenu
 	/**
 	 * Array to hold the menu items
 	 *
-	 * @var    array
+	 * @var    JMenuItem[]
 	 * @since  1.5
 	 * @deprecated  4.0  Will convert to $items
 	 */
@@ -79,23 +79,6 @@ class JMenu
 			{
 				$this->_default[trim($item->language)] = $item->id;
 			}
-
-			// Decode the item params
-			try
-			{
-				$result = new Registry;
-				$result->loadString($item->params);
-				$item->params = $result;
-			}
-			catch (RuntimeException $e)
-			{
-				/**
-				 * Joomla shipped with a broken sample json string for 4 years which caused fatals with new
-				 * error checks. So for now we catch the exception here - but one day we should remove it and require
-				 * valid JSON.
-				 */
-				$item->params = new Registry;
-			}
 		}
 
 		$this->user = isset($options['user']) && $options['user'] instanceof JUser ? $options['user'] : JFactory::getUser();
@@ -129,10 +112,11 @@ class JMenu
 				{
 					$path = $info->path . '/includes/menu.php';
 
-					if (file_exists($path))
+					JLoader::register($classname, $path);
+
+					if (class_exists($classname))
 					{
 						JLog::add('Non-autoloadable JMenu subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-						include_once $path;
 					}
 				}
 			}

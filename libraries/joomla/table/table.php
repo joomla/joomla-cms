@@ -225,16 +225,18 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	/**
 	 * Get the columns from database table.
 	 *
+	 * @param   bool  $reload  flag to reload cache
+	 *
 	 * @return  mixed  An array of the field names, or false if an error occurs.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function getFields()
+	public function getFields($reload = false)
 	{
 		static $cache = null;
 
-		if ($cache === null)
+		if ($cache === null || $reload)
 		{
 			// Lookup the fields for this table only once.
 			$name   = $this->_tbl;
@@ -284,7 +286,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				if ($tryThis = JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
 				{
 					// Import the class file.
-					include_once $tryThis;
+					JLoader::register($tableClass, $tryThis);
 				}
 			}
 
@@ -292,7 +294,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			{
 				/*
 				* If unable to find the class file in the JTable include paths. Return false.
-				* The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in __DEPLOY_VERSION__.
+				* The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in 3.6.3.
 				* In 4.0 an Exception (type to be determined) will be thrown.
 				* For more info see https://github.com/joomla/joomla-cms/issues/11570
 				*/

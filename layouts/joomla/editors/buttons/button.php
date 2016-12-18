@@ -14,11 +14,11 @@ $button = $displayData;
 ?>
 <?php if ($button->get('name')) : ?>
 	<?php
-		$class    = ($button->get('class')) ? $button->get('class') : null;
-		$class	 .= ($button->get('modal')) ? ' modal-button' : null;
-		$href     = ($button->get('link')) ? ' href="' . JUri::base() . $button->get('link') . '"' : null;
-		$onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : '';
-		$title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
+		$class    = $button->get('class') ?: null;
+		$class	 .= $button->get('modal') ? ' modal-button' : null;
+		$href     = $button->get('link') ? ' href="' . JUri::base() . $button->get('link') . '"' : null;
+		$onclick  = $button->get('onclick') ? ' onclick="' . $button->get('onclick') . '"' : '';
+		$title    = $button->get('title') ?: $button->get('text');
 
 	// Load modal popup behavior
 	if ($button->get('modal'))

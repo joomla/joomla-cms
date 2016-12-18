@@ -58,9 +58,7 @@ class JComponentHelper
 
 		if (is_string($result->params))
 		{
-			$temp = new Registry;
-			$temp->loadString(static::$components[$option]->params);
-			static::$components[$option]->params = $temp;
+			static::$components[$option]->params = new Registry(static::$components[$option]->params);
 		}
 
 		return $result;
@@ -77,9 +75,7 @@ class JComponentHelper
 	 */
 	public static function isEnabled($option)
 	{
-		$result = static::getComponent($option, true);
-
-		return $result->enabled;
+		return (bool) static::getComponent($option, true)->enabled;
 	}
 
 	/**
@@ -514,7 +510,7 @@ class JComponentHelper
 	 *
 	 * @return  array  The components property
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public static function getComponents()
 	{

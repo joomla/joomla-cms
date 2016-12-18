@@ -40,13 +40,13 @@ abstract class ModLatestHelper
 		switch ($params->get('ordering'))
 		{
 			case 'm_dsc':
-				$model->setState('list.ordering', 'modified DESC, created');
+				$model->setState('list.fullordering', 'modified DESC, created');
 				$model->setState('list.direction', 'DESC');
 				break;
 
 			case 'c_dsc':
 			default:
-				$model->setState('list.ordering', 'created');
+				$model->setState('list.fullordering', 'created');
 				$model->setState('list.direction', 'DESC');
 				break;
 		}

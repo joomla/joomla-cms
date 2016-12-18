@@ -83,6 +83,14 @@ class PlgSystemDebug extends JPlugin
 	protected $app;
 
 	/**
+	 * Container for callback functions to be triggered when rendering the console.
+	 *
+	 * @var    callable[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private static $displayCallbacks = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -186,7 +194,7 @@ class PlgSystemDebug extends JPlugin
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
-			JHtml::_('stylesheet', 'cms/debug.css', array(), true);
+			JHtml::_('stylesheet', 'cms/debug.css', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Only if debugging is enabled for SQL query popovers.
@@ -233,7 +241,7 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// No debug for Safari and Chrome redirection.
-		if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ""), 'webkit') !== false
+		if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false
 			&& substr($contents, 0, 50) == '<html><head><meta http-equiv="refresh" content="0;')
 		{
 			echo $contents;
@@ -264,7 +272,10 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('errors');
 			}
 
-			$html[] = $this->display('session');
+			if ($this->params->get('session', 1))
+			{
+				$html[] = $this->display('session');
+			}
 
 			if ($this->params->get('profile', 1))
 			{
@@ -306,9 +317,54 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
+		foreach (self::$displayCallbacks as $name => $callable)
+		{
+			$html[] = $this->displayCallback($name, $callable);
+		}
+
 		$html[] = '</div>';
 
 		echo str_replace('</body>', implode('', $html) . '</body>', $contents);
+	}
+
+	/**
+	 * Add a display callback to be rendered with the debug console.
+	 *
+	 * @param   string    $name      The name of the callable, this is used to generate the section title.
+	 * @param   callable  $callable  The callback function to be added.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  InvalidArgumentException
+	 */
+	public static function addDisplayCallback($name, $callable)
+	{
+		// TODO - When PHP 5.4 is the minimum the parameter should be typehinted "callable" and this check removed
+		if (!is_callable($callable))
+		{
+			throw new InvalidArgumentException('A valid callback function must be given.');
+		}
+
+		self::$displayCallbacks[$name] = $callable;
+
+		return true;
+	}
+
+	/**
+	 * Remove a registered display callback
+	 *
+	 * @param   string  $name  The name of the callable.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function removeDisplayCallback($name)
+	{
+		unset(self::$displayCallbacks[$name]);
+
+		return true;
 	}
 
 	/**
@@ -388,6 +444,38 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $item . '">';
 		$html[] = $this->$fncName();
+		$html[] = '</div>';
+
+		return implode('', $html);
+	}
+
+	/**
+	 * Display method for callback functions.
+	 *
+	 * @param   string    $name      The name of the callable.
+	 * @param   callable  $callable  The callable function.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function displayCallback($name, $callable)
+	{
+		$title = JText::_('PLG_DEBUG_' . strtoupper($name));
+
+		$html = array();
+
+		$js = "toggleContainer('dbg_container_" . $name . "');";
+
+		$class = 'dbg-header';
+
+		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
+
+		// @todo set with js.. ?
+		$style = ' style="display: none;"';
+
+		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $name . '">';
+		$html[] = call_user_func($callable);
 		$html[] = '</div>';
 
 		return implode('', $html);
@@ -644,7 +732,7 @@ class PlgSystemDebug extends JPlugin
 					}
 				}
 
-				$totalQueryTime = $totalQueryTime * 1000;
+				$totalQueryTime *= 1000;
 
 				if ($totalQueryTime > ($totalTime * 0.25))
 				{
@@ -901,8 +989,8 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			$fromString = substr($query, 0, $whereStart);
-			$fromString = str_replace("\t", " ", $fromString);
-			$fromString = str_replace("\n", " ", $fromString);
+			$fromString = str_replace("\t", ' ', $fromString);
+			$fromString = str_replace("\n", ' ', $fromString);
 			$fromString = trim($fromString);
 
 			// Initialise the select/other query type counts the first time.
@@ -919,12 +1007,12 @@ class PlgSystemDebug extends JPlugin
 			// Increment the count.
 			if (stripos($query, 'select') === 0)
 			{
-				$selectQueryTypeTicker[$fromString] = $selectQueryTypeTicker[$fromString] + 1;
+				$selectQueryTypeTicker[$fromString]++;
 				unset($otherQueryTypeTicker[$fromString]);
 			}
 			else
 			{
-				$otherQueryTypeTicker[$fromString] = $otherQueryTypeTicker[$fromString] + 1;
+				$otherQueryTypeTicker[$fromString]++;
 				unset($selectQueryTypeTicker[$fromString]);
 			}
 
@@ -1025,7 +1113,7 @@ class PlgSystemDebug extends JPlugin
 
 				$htmlAccordions = JHtml::_(
 					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
-						'active' => ($info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : '')
+						'active' => $info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : ''
 					)
 				);
 
@@ -1109,7 +1197,7 @@ class PlgSystemDebug extends JPlugin
 		$html = array();
 
 		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
-			. sprintf(' <span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', ($totalQueryTime)) . '</h4><br />';
+			. sprintf(' <span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime) . '</h4><br />';
 
 		if ($total_duplicates)
 		{
@@ -1247,7 +1335,9 @@ class PlgSystemDebug extends JPlugin
 
 		$html = array();
 
-		$html[] = '<table class="table table-striped dbg-query-table"><tr>';
+		$html[] = '<table class="table table-striped dbg-query-table">';
+		$html[] = '<thead>';
+		$html[] = '<tr>';
 
 		foreach (array_keys($table[0]) as $k)
 		{
@@ -1255,7 +1345,8 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		$html[] = '</tr>';
-
+		$html[] = '</thead>';
+		$html[] = '<tbody>';
 		$durations = array();
 
 		foreach ($table as $tr)
@@ -1351,7 +1442,7 @@ class PlgSystemDebug extends JPlugin
 
 			$html[] = '</tr>';
 		}
-
+		$html[] = '</tbody>';
 		$html[] = '</table>';
 
 		return implode('', $html);
@@ -1393,7 +1484,7 @@ class PlgSystemDebug extends JPlugin
 						foreach ($this->sqlShowProfiles as $qn)
 						{
 							// Run SHOW PROFILE FOR QUERY for each query where a profile is available (max 100).
-							$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) ($qn['Query_ID']));
+							$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) $qn['Query_ID']);
 							$this->sqlShowProfileEach[(int) ($qn['Query_ID'] - 1)] = $db->loadAssocList();
 						}
 					}
@@ -1482,7 +1573,7 @@ class PlgSystemDebug extends JPlugin
 			{
 				$html[] = '<li>';
 
-				$html[] = ($status)
+				$html[] = $status
 					? JText::_('PLG_DEBUG_LANG_LOADED')
 					: JText::_('PLG_DEBUG_LANG_NOT_LOADED');
 
@@ -1526,7 +1617,7 @@ class PlgSystemDebug extends JPlugin
 			if (is_array($occurance) && isset($occurance[0]))
 			{
 				$info = $occurance[0];
-				$file = ($info['file']) ? $info['file'] : '';
+				$file = $info['file'] ? $info['file'] : '';
 
 				if (!isset($guesses[$file]))
 				{
@@ -1647,9 +1738,9 @@ class PlgSystemDebug extends JPlugin
 			$j = 1;
 
 			$html[] = '<table cellpadding="0" cellspacing="0">';
-
+			$html[] = '<thead>';
 			$html[] = '<tr>';
-			$html[] = '<td colspan="3"><strong>Call stack</strong></td>';
+			$html[] = '<th colspan="3"><strong>Call stack</strong></th>';
 			$html[] = '</tr>';
 
 			$html[] = '<tr>';
@@ -1657,6 +1748,8 @@ class PlgSystemDebug extends JPlugin
 			$html[] = '<th>Function</th>';
 			$html[] = '<th>Location</th>';
 			$html[] = '</tr>';
+			$html[] = '</thead>';
+			$html[] = '<tbody>';
 
 			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{
@@ -1684,7 +1777,7 @@ class PlgSystemDebug extends JPlugin
 				$html[] = '</tr>';
 				$j++;
 			}
-
+			$html[] = '</tbody>';
 			$html[] = '</table>';
 		}
 
@@ -1706,7 +1799,7 @@ class PlgSystemDebug extends JPlugin
 	protected function formatLink($file, $line = '')
 	{
 		$link = str_replace(JPATH_ROOT, 'JROOT', $file);
-		$link .= ($line) ? ':' . $line : '';
+		$link .= $line ? ':' . $line : '';
 
 		if ($this->linkFormat)
 		{
@@ -1776,7 +1869,7 @@ class PlgSystemDebug extends JPlugin
 					}
 				)
 			);
-			$logEntriesTotal = $logEntriesTotal - $logEntriesDatabasequery;
+			$logEntriesTotal -= $logEntriesDatabasequery;
 		}
 
 		// Deprecated log entries
@@ -1792,7 +1885,7 @@ class PlgSystemDebug extends JPlugin
 
 		if (!$showDeprecated)
 		{
-			$logEntriesTotal = $logEntriesTotal - $logEntriesDeprecated;
+			$logEntriesTotal -= $logEntriesDeprecated;
 		}
 
 		$showEverything = $this->params->get('log-everything', 0);
@@ -1872,6 +1965,7 @@ class PlgSystemDebug extends JPlugin
 			$htmlCallStack .= '<div>';
 			$htmlCallStack .= '<table class="table table-striped dbg-query-table">';
 			$htmlCallStack .= '<thead>';
+			$htmlCallStack .= '<tr>';
 			$htmlCallStack .= '<th>#</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_CALLER') . '</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_FILE_AND_LINE') . '</th>';
@@ -1985,7 +2079,7 @@ class PlgSystemDebug extends JPlugin
 	protected function writeToFile()
 	{
 		$app    = JFactory::getApplication();
-		$domain = ($app->isSite()) ? 'site' : 'admin';
+		$domain = $app->isSite() ? 'site' : 'admin';
 		$input  = $app->input;
 		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
 
@@ -2000,9 +2094,9 @@ class PlgSystemDebug extends JPlugin
 			if (isset($timings[$id * 2 + 1]))
 			{
 				$temp     = str_replace('`', '', $log[$id]);
-				$temp     = str_replace("\t", " ", $temp);
-				$temp     = str_replace("\n", " ", $temp);
-				$current .= str_replace("\r\n", " ", $temp) . ";\n";
+				$temp     = str_replace("\t", ' ', $temp);
+				$temp     = str_replace("\n", ' ', $temp);
+				$current .= str_replace("\r\n", ' ', $temp) . ";\n";
 			}
 		}
 

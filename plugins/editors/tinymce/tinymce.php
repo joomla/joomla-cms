@@ -46,9 +46,9 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
-		JHtml::script($this->_basePath . '/tinymce.min.js', false, false, false, false, false);
-
-		return;
+		JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
+		JHtml::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
+		JHtml::_('script', 'system/tinymce-init.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -125,43 +125,110 @@ class PlgEditorTinymce extends JPlugin
 			$id = $name;
 		}
 
+		$id = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
+
+		// Only add "px" to width and height if they are not given as a percentage
+		if (is_numeric($width))
+		{
+			$width .= 'px';
+		}
+
+		if (is_numeric($height))
+		{
+			$height .= 'px';
+		}
+
+		// Data object for the layout
+		$textarea = new stdClass;
+		$textarea->name    = $name;
+		$textarea->id      = $id;
+		$textarea->class   = 'mce_editable joomla-editor-tinymce';
+		$textarea->cols    = $col;
+		$textarea->rows    = $row;
+		$textarea->width   = $width;
+		$textarea->height  = $height;
+		$textarea->content = $content;
+
+		// Render Editor markup
+		$editor = '<div class="editor">';
+		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
+		$editor .= $this->_toogleButton($id);
+		$editor .= '</div>';
+
+		// Setup Default options for the Editor script
+		$doc      = JFactory::getDocument();
+		$options  = $doc->getScriptOptions('plg_editor_tinymce');
+
+		// Check whether we alredy have them
+		if (!empty($options['tinyMCE']['default']))
+		{
+			return $editor;
+		}
+
 		$app      = JFactory::getApplication();
+		$user     = JFactory::getUser();
 		$language = JFactory::getLanguage();
-		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
-		$id       = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
+		$access   = array_flip($user->getAuthorisedViewLevels());
+
+		// Get configuration for User view level
+		$setAccess       = array();
+		$extraOptions    = new stdClass;
+		$extraOptionsAll = $this->params->get('configuration.setoptions', array());
+
+		foreach ($extraOptionsAll as $set => $val)
+		{
+			$setAccess[$set] = empty($val->access) ? 1 : $val->access;
+
+			if (isset($access[$setAccess[$set]]))
+			{
+				$extraOptions = $val;
+			}
+		}
+
+		$toolbarParams    = new stdClass;
+		$toolbarParamsAll = $this->params->get('configuration.toolbars', array());
+
+		foreach ($toolbarParamsAll as $set => $val)
+		{
+			if (isset($access[$setAccess[$set]]))
+			{
+				$toolbarParams = $val;
+			}
+		}
+
+		// Merge the params
+		$levelParams = new Joomla\Registry\Registry($toolbarParams);
+		$levelParams->loadObject($extraOptions);
 
 		// List the skins
 		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
-		// Set the selected skin in the current side, front-end or back-end
+		// Set the selected skin
+		$skin = 'lightgray';
 		$side = $app->isAdmin() ? 'skin_admin' : 'skin';
+
 		if ((int) $this->params->get($side, 0) < count($skindirs))
 		{
-			$skin = 'skin : "' . basename($skindirs[(int) $this->params->get($side, 0)]) . '",';
-		}
-		else
-		{
-			$skin = 'skin : "lightgray",';
+			$skin = basename($skindirs[(int) $this->params->get($side, 0)]);
 		}
 
-		$entity_encoding = $this->params->get('entity_encoding', 'raw');
 		$langMode        = $this->params->get('lang_mode', 0);
 		$langPrefix      = $this->params->get('lang_code', 'en');
 
 		if ($langMode)
 		{
-			if (file_exists(JPATH_ROOT . "/media/editors/tinymce/langs/" . $language->getTag() . ".js"))
+			if (file_exists(JPATH_ROOT . '/media/editors/tinymce/langs/' . $language->getTag() . '.js'))
 			{
 				$langPrefix = $language->getTag();
 			}
-			elseif (file_exists(JPATH_ROOT . "/media/editors/tinymce/langs/" . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . ".js"))
+			elseif (file_exists(JPATH_ROOT . '/media/editors/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js'))
 			{
 				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
 			}
 			else
 			{
-				$langPrefix = "en";
+				$langPrefix = 'en';
 			}
 		}
 
@@ -172,8 +239,8 @@ class PlgEditorTinymce extends JPlugin
 			$text_direction = 'rtl';
 		}
 
-		$use_content_css    = $this->params->get('content_css', 1);
-		$content_css_custom = $this->params->get('content_css_custom', '');
+		$use_content_css    = $levelParams->get('content_css', 1);
+		$content_css_custom = $levelParams->get('content_css_custom', '');
 
 		/*
 		 * Lets get the default template for the site application
@@ -192,12 +259,12 @@ class PlgEditorTinymce extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$app->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-			return;
+			return '';
 		}
 
-		$content_css    = '';
+		$content_css    = null;
 		$templates_path = JPATH_SITE . '/templates';
 
 		// Loading of css file for 'styles' dropdown
@@ -206,13 +273,13 @@ class PlgEditorTinymce extends JPlugin
 			// If URL, just pass it to $content_css
 			if (strpos($content_css_custom, 'http') !== false)
 			{
-				$content_css = 'content_css : "' . $content_css_custom . '",';
+				$content_css = $content_css_custom;
 			}
 
 			// If it is not a URL, assume it is a file name in the current template folder
 			else
 			{
-				$content_css = 'content_css : "' . JUri::root(true) . '/templates/' . $template . '/css/' . $content_css_custom . '",';
+				$content_css = JUri::root(true) . '/templates/' . $template . '/css/' . $content_css_custom;
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
 				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
@@ -238,50 +305,24 @@ class PlgEditorTinymce extends JPlugin
 					}
 					else
 					{
-						$content_css = 'content_css : "' . JUri::root(true) . '/templates/system/css/editor.css",';
+						$content_css = JUri::root(true) . '/templates/system/css/editor.css';
 					}
 				}
 				else
 				{
-					$content_css = 'content_css : "' . JUri::root(true) . '/templates/' . $template . '/css/editor.css",';
+					$content_css = JUri::root(true) . '/templates/' . $template . '/css/editor.css';
 				}
 			}
 		}
 
-		$relative_urls = $this->params->get('relative_urls', '1');
-
-		if ($relative_urls)
-		{
-			// Relative
-			$relative_urls = "true";
-		}
-		else
-		{
-			// Absolute
-			$relative_urls = "false";
-		}
-
-		$newlines = $this->params->get('newlines', 0);
-
-		if ($newlines)
-		{
-			// Break
-			$forcenewline = "force_br_newlines : true, force_p_newlines : false, forced_root_block : '',";
-		}
-		else
-		{
-			// Paragraph
-			$forcenewline = "force_br_newlines : false, force_p_newlines : true, forced_root_block : 'p',";
-		}
-		
 		$ignore_filter = false;
 
 		// Text filtering
-		if ($this->params->get('use_config_textfilters', 0))
+		if ($levelParams->get('use_config_textfilters', 0))
 		{
 			// Use filters from com_config
 			$filter = static::getGlobalFilters();
-			
+
 			$ignore_filter = $filter === false;
 
 			$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
@@ -293,23 +334,17 @@ class PlgEditorTinymce extends JPlugin
 
 			// Valid elements are all whitelist entries in com_config, which are now missing in the tagBlacklist
 			$default_filter = JFilterInput::getInstance();
-			$valid_elements =	implode(',', array_diff($default_filter->tagBlacklist, $tagBlacklist));
+			$valid_elements = implode(',', array_diff($default_filter->tagBlacklist, $tagBlacklist));
 
 			$extended_elements = '';
 		}
 		else
 		{
 			// Use filters from TinyMCE params
-			$invalid_elements  = $this->params->get('invalid_elements', 'script,applet,iframe');
-			$extended_elements = $this->params->get('extended_elements', '');
-			$valid_elements    = $this->params->get('valid_elements', '');
+			$invalid_elements  = trim($levelParams->get('invalid_elements', 'script,applet,iframe'));
+			$extended_elements = trim($levelParams->get('extended_elements', ''));
+			$valid_elements    = trim($levelParams->get('valid_elements', ''));
 		}
-
-		// Advanced Options
-		$access = JFactory::getUser()->getAuthorisedViewLevels();
-
-		// Flip for performance, so we can direct check for the key isset($access[$key])
-		$access = array_flip($access);
 
 		$html_height = $this->params->get('html_height', '550');
 		$html_width  = $this->params->get('html_width', '');
@@ -319,296 +354,100 @@ class PlgEditorTinymce extends JPlugin
 			$html_width = '';
 		}
 
-		// Image advanced options
-		$image_advtab = $this->params->get('image_advtab', 1);
-
-		if (isset($access[$image_advtab]))
-		{
-			$image_advtab = "true";
-		}
-		else
-		{
-			$image_advtab = "false";
-		}
-
 		// The param is true for vertical resizing only, false or both
-		$resizing          = $this->params->get('resizing', '1');
-		$resize_horizontal = $this->params->get('resize_horizontal', '1');
+		$resizing          = (bool) $levelParams->get('resizing', true);
+		$resize_horizontal = (bool) $levelParams->get('resize_horizontal', true);
 
-		if ($resizing || $resizing == 'true')
+		if ($resizing && $resize_horizontal)
 		{
-			if ($resize_horizontal || $resize_horizontal == 'true')
-			{
-				$resizing = 'resize: "both",';
-			}
-			else
-			{
-				$resizing = 'resize: true,';
-			}
-		}
-		else
-		{
-			$resizing = 'resize: false,';
+			$resizing = 'both';
 		}
 
-		$toolbar1_add   = array();
-		$toolbar2_add   = array();
-		$toolbar3_add   = array();
-		$toolbar4_add   = array();
-		$elements       = array();
-		$plugins        = array(
+		// Set of always available plugins
+		$plugins  = array(
 			'autolink',
 			'lists',
-			'image',
-			'charmap',
-			'print',
-			'preview',
-			'anchor',
-			'pagebreak',
-			'code',
 			'save',
-			'textcolor',
 			'colorpicker',
-			'importcss');
-		$toolbar1_add[] = 'bold';
-		$toolbar1_add[] = 'italic';
-		$toolbar1_add[] = 'underline';
-		$toolbar1_add[] = 'strikethrough';
+			'importcss',
+		);
 
-		// Alignment buttons
-		$alignment = $this->params->get('alignment', 1);
+		// Allowed elements
+		$elements = array(
+			'hr[id|title|alt|class|width|size|noshade]',
+		);
 
-		if (isset($access[$alignment]))
+		if ($extended_elements)
 		{
-			$toolbar1_add[] = '|';
-			$toolbar1_add[] = 'alignleft';
-			$toolbar1_add[] = 'aligncenter';
-			$toolbar1_add[] = 'alignright';
-			$toolbar1_add[] = 'alignjustify';
+			$elements = array_merge($elements, explode(',', $extended_elements));
 		}
 
-		$toolbar1_add[] = '|';
-		$toolbar1_add[] = 'styleselect';
-		$toolbar1_add[] = '|';
-		$toolbar1_add[] = 'formatselect';
+		// Prepare the toolbar/menubar
+		$knownButtons = static::getKnownButtons();
 
-		// Fonts
-		$fonts = $this->params->get('fonts', 1);
-
-		if (isset($access[$fonts]))
+		// Check if there no value at all
+		if (!$levelParams->get('menu') && !$levelParams->get('toolbar1') && !$levelParams->get('toolbar2'))
 		{
-			$toolbar1_add[] = 'fontselect';
-			$toolbar1_add[] = 'fontsizeselect';
+			// Set from preset
+			$presets = static::getToolbarPreset();
+
+			// Presets: 3 is special = advances, 2 is registered = medium, all else is public = simple
+			$preset = isset($access[3]) ? $presets['advanced'] :
+				(isset($access[2]) ? $presets['medium'] : $presets['simple']);
+
+			$levelParams->loadArray($preset);
 		}
 
-		// Search & replace
-		$searchreplace = $this->params->get('searchreplace', 1);
+		$menubar  = (array) $levelParams->get('menu', array());
+		$toolbar1 = (array) $levelParams->get('toolbar1', array());
+		$toolbar2 = (array) $levelParams->get('toolbar2', array());
 
-		if (isset($access[$searchreplace]))
+		// Make an easy way to check which button is enabled
+		$allButtons = array_merge($toolbar1, $toolbar2);
+		$allButtons = array_combine($allButtons, $allButtons);
+
+		// Check for button-specific plugins
+		foreach ($allButtons as $btnName)
 		{
-			$plugins[]      = 'searchreplace';
-			$toolbar2_add[] = 'searchreplace';
-		}
-
-		$toolbar2_add[] = '|';
-		$toolbar2_add[] = 'bullist';
-		$toolbar2_add[] = 'numlist';
-		$toolbar2_add[] = '|';
-		$toolbar2_add[] = 'outdent';
-		$toolbar2_add[] = 'indent';
-		$toolbar2_add[] = '|';
-		$toolbar2_add[] = 'undo';
-		$toolbar2_add[] = 'redo';
-		$toolbar2_add[] = '|';
-
-		// Insert date and/or time plugin
-		$insertdate = $this->params->get('insertdate', 1);
-
-		if (isset($access[$insertdate]))
-		{
-			$plugins[]      = 'insertdatetime';
-			$toolbar4_add[] = 'inserttime';
-		}
-
-		// Link plugin
-		$link = $this->params->get('link', 1);
-
-		if (isset($access[$link]))
-		{
-			$plugins[]      = 'link';
-			$toolbar2_add[] = 'link';
-			$toolbar2_add[] = 'unlink';
-		}
-
-		$toolbar2_add[] = 'anchor';
-		$toolbar2_add[] = 'image';
-		$toolbar2_add[] = '|';
-		$toolbar2_add[] = 'code';
-
-		// Colors
-		$colors = $this->params->get('colors', 1);
-
-		if (isset($access[$colors]))
-		{
-			$toolbar2_add[] = '|';
-			$toolbar2_add[] = 'forecolor,backcolor';
-		}
-
-		// Fullscreen
-		$fullscreen = $this->params->get('fullscreen', 1);
-
-		if (isset($access[$fullscreen]))
-		{
-			$plugins[]      = 'fullscreen';
-			$toolbar2_add[] = '|';
-			$toolbar2_add[] = 'fullscreen';
-		}
-
-		// Table
-		$table = $this->params->get('table', 1);
-
-		if (isset($access[$table]))
-		{
-			$plugins[]      = 'table';
-			$toolbar3_add[] = 'table';
-			$toolbar3_add[] = '|';
-		}
-
-		$toolbar3_add[] = 'subscript';
-		$toolbar3_add[] = 'superscript';
-		$toolbar3_add[] = '|';
-		$toolbar3_add[] = 'charmap';
-
-		// Emotions
-		$smilies = $this->params->get('smilies', 1);
-
-		if (isset($access[$smilies]))
-		{
-			$plugins[]      = 'emoticons';
-			$toolbar3_add[] = 'emoticons';
-		}
-
-		// Media plugin
-		$media = $this->params->get('media', 1);
-
-		if (isset($access[$media]))
-		{
-			$plugins[]      = 'media';
-			$toolbar3_add[] = 'media';
-		}
-
-		// Horizontal line
-		$hr = $this->params->get('hr', 1);
-
-		if (isset($access[$hr]))
-		{
-			$plugins[]      = 'hr';
-			$elements[]     = 'hr[id|title|alt|class|width|size|noshade]';
-			$toolbar3_add[] = 'hr';
-		}
-		else
-		{
-			$elements[] = 'hr[id|class|title|alt]';
-		}
-
-		// RTL/LTR buttons
-		$directionality = $this->params->get('directionality', 1);
-
-		if (isset($access[$directionality]))
-		{
-			$plugins[]      = 'directionality';
-			$toolbar3_add[] = 'ltr rtl';
-		}
-
-		if ($extended_elements != "")
-		{
-			$elements = explode(',', $extended_elements);
-		}
-
-		$toolbar4_add[] = 'cut';
-		$toolbar4_add[] = 'copy';
-
-		// Paste
-		$paste = $this->params->get('paste', 1);
-
-		if (isset($access[$paste]))
-		{
-			$plugins[]      = 'paste';
-			$toolbar4_add[] = 'paste';
-		}
-
-		$toolbar4_add[] = '|';
-
-		// Visualchars
-		$visualchars = $this->params->get('visualchars', 1);
-
-		if (isset($access[$visualchars]))
-		{
-			$plugins[]      = 'visualchars';
-			$toolbar4_add[] = 'visualchars';
-		}
-
-		// Visualblocks
-		$visualblocks = $this->params->get('visualblocks', 1);
-
-		if (isset($access[$visualblocks]))
-		{
-			$plugins[]      = 'visualblocks';
-			$toolbar4_add[] = 'visualblocks';
-		}
-
-		// Non-breaking
-		$nonbreaking = $this->params->get('nonbreaking', 1);
-
-		if (isset($access[$nonbreaking]))
-		{
-			$plugins[]      = 'nonbreaking';
-			$toolbar4_add[] = 'nonbreaking';
-		}
-
-		// Blockquote
-		$blockquote = $this->params->get('blockquote', 1);
-
-		if (isset($access[$blockquote]))
-		{
-			$toolbar4_add[] = 'blockquote';
+			if (!empty($knownButtons[$btnName]['plugin']))
+			{
+				$plugins[] = $knownButtons[$btnName]['plugin'];
+			}
 		}
 
 		// Template
-		$template = $this->params->get('template', 1);
+		$templates = array();
 
-		if (isset($access[$template]))
+		if (!empty($allButtons['template']))
 		{
-			$plugins[]      = 'template';
-			$toolbar4_add[] = 'template';
-
 			// Note this check for the template_list.js file will be removed in Joomla 4.0
-			if (is_file(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js"))
+			if (is_file(JPATH_ROOT . '/media/editors/tinymce/templates/template_list.js'))
 			{
 				// If using the legacy file we need to include and input the files the new way
-				$str = file_get_contents(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js");
+				$str = file_get_contents(JPATH_ROOT . '/media/editors/tinymce/templates/template_list.js');
 
 				// Find from one [ to the last ]
+				$matches = array();
 				preg_match_all('/\[.*\]/', $str, $matches);
-
-				$templates = "templates: [";
 
 				// Set variables
 				foreach ($matches['0'] as $match)
 				{
+					$values = array();
 					preg_match_all('/\".*\"/', $match, $values);
-					$result       = trim($values["0"]["0"], '"');
+					$result       = trim($values['0']['0'], '"');
 					$final_result = explode(',', $result);
-					$templates .= "{title: '" . trim($final_result['0'], ' " ') . "', description: '"
-						. trim($final_result['2'], ' " ') . "', url: '" . JUri::root() . trim($final_result['1'], ' " ') . "'},";
+
+					$templates[] = array(
+						'title' => trim($final_result['0'], ' " '),
+						'description' => trim($final_result['2'], ' " '),
+						'url' => JUri::root(true) . '/' . trim($final_result['1'], ' " '),
+					);
 				}
 
-				$templates .= "],";
 			}
 			else
 			{
-				$templates = 'templates: [';
-
 				foreach (glob(JPATH_ROOT . '/media/editors/tinymce/templates/*.html') as $filename)
 				{
 					$filename = basename($filename, '.html');
@@ -629,109 +468,62 @@ class PlgEditorTinymce extends JPlugin
 							$description = JText::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
 						}
 
-						$templates .= '{title: \'' . $title . '\', description: \'' . $description . '\', url:\''
-							. JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
+						$templates[] = array(
+							'title' => $title,
+							'description' => $description,
+							'url' => JUri::root(true) . '/media/editors/tinymce/templates/' . $filename . '.html',
+						);
 					}
 				}
-
-				$templates .= '],';
 			}
 		}
-		else
+
+		// Check for extra plugins, from the setoptions form
+		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'contextmenu' => 1) as $pName => $def)
 		{
-			$templates = '';
+			if ($levelParams->get($pName, $def))
+			{
+				$plugins[] = $pName;
+			}
 		}
 
-		// Print
-		$print = $this->params->get('print', 1);
+		// User custom plugins and buttons
+		$custom_plugin = trim($levelParams->get('custom_plugin', ''));
+		$custom_button = trim($levelParams->get('custom_button', ''));
 
-		if (isset($access[$print]))
+		if ($custom_plugin)
 		{
-			$plugins[]      = 'print';
-			$toolbar4_add[] = '|';
-			$toolbar4_add[] = 'print';
-			$toolbar4_add[] = 'preview';
+			$separator = strpos($custom_plugin, ',') !== false ? ',' : ' ';
+			$plugins   = array_merge($plugins, explode($separator, $custom_plugin));
 		}
 
-		// Spellchecker
-		$spell = $this->params->get('spell', 0);
-
-		if (isset($access[$spell]))
+		if ($custom_button)
 		{
-			$plugins[]      = 'spellchecker';
-			$toolbar4_add[] = '|';
-			$toolbar4_add[] = 'spellchecker';
-		}
-
-		// Wordcount
-		$wordcount = $this->params->get('wordcount', 1);
-
-		if (isset($access[$wordcount]))
-		{
-			$plugins[] = 'wordcount';
-		}
-
-		// Advlist
-		$advlist = $this->params->get('advlist', 1);
-
-		if (isset($access[$advlist]))
-		{
-			$plugins[] = 'advlist';
-		}
-
-		// Codesample
-		$advlist = $this->params->get('code_sample', 1);
-
-		if (isset($access[$advlist]))
-		{
-			$plugins[]      = 'codesample';
-			$toolbar4_add[] = 'codesample';
-		}
-
-		// Autosave
-		$autosave = $this->params->get('autosave', 1);
-
-		if (isset($access[$autosave]))
-		{
-			$plugins[] = 'autosave';
-		}
-
-		// Context menu
-		$contextmenu = $this->params->get('contextmenu', 1);
-
-		if (isset($access[$contextmenu]))
-		{
-			$plugins[] = 'contextmenu';
-		}
-
-		$custom_plugin = $this->params->get('custom_plugin', '');
-
-		if ($custom_plugin != "")
-		{
-			$plugins[] = $custom_plugin;
-		}
-
-		$custom_button = $this->params->get('custom_button', '');
-
-		if ($custom_button != "")
-		{
-			$toolbar4_add[] = $custom_button;
+			$separator = strpos($custom_button, ',') !== false ? ',' : ' ';
+			$toolbar2  = array_merge($toolbar2, explode($separator, $custom_button));
 		}
 
 		// We shall put the XTD button inside tinymce
 		$btns      = $this->tinyButtons($id, $buttons);
 		$btnsNames = $btns['names'];
-		$tinyBtns  = $btns['script'];
+		$tinyBtns  = implode('; ', $btns['script']);
+
+		if (!empty($btnsNames))
+		{
+			// Add them to the first toolbar
+			$toolbar1 = array_merge($toolbar1, array('|'), $btnsNames);
+
+			JHtml::_('script', 'system/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
+		}
 
 		// Drag and drop Images
-		$allowImgPaste = "false";
-		$dragDropPlg   = '';
-		$dragdrop      = $this->params->get('drag_drop', 1);
-		$user          = JFactory::getUser();
+		$allowImgPaste = false;
+		$dragdrop      = $levelParams->get('drag_drop', 1);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$allowImgPaste = "true";
+			$plugins[]     = 'jdragdrop';
+			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
 			$uploadUrl     = JUri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
@@ -739,7 +531,7 @@ class PlgEditorTinymce extends JPlugin
 				. '&' . JSession::getFormToken() . '=1'
 				. '&asset=image&format=json';
 
-			if (JFactory::getApplication()->isSite())
+			if ($app->isSite())
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}
@@ -751,7 +543,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 
 			// Get specific path
-			$tempPath = $this->params->get('path', '');
+			$tempPath = $levelParams->get('path', '');
 
 			if (!empty($tempPath))
 			{
@@ -759,10 +551,8 @@ class PlgEditorTinymce extends JPlugin
 				$tempPath = ltrim($tempPath, '/');
 			}
 
-			$dragDropPlg = 'jdragdrop';
-
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-			JFactory::getDocument()->addScriptDeclaration(
+			$doc->addScriptDeclaration(
 				"
 		var setCustomDir    = '" . $isSubDir . "';
 		var mediaUploadPath = '" . $tempPath . "';
@@ -771,23 +561,83 @@ class PlgEditorTinymce extends JPlugin
 			);
 		}
 
-		// Prepare config variables
-		$plugins  = implode(',', $plugins);
-		$elements = implode(',', $elements);
+		// Build the final options set
+		$scriptOptions = array(
+			'suffix'  => '.min',
+			'baseURL' => JUri::root(true) . '/media/editors/tinymce',
+			'directionality' => $text_direction,
+			'language' => $langPrefix,
+			'autosave_restore_when_empty' => false,
+			'skin'   => $skin,
+			'theme'  => $theme,
+			'schema' => 'html5',
 
-		// Prepare config variables
-		$toolbar1 = implode(' ', $toolbar1_add) . ' | '
-			. implode(' ', $toolbar2_add) . ' | '
-			. implode(' ', $toolbar3_add) . ' | '
-			. implode(' ', $toolbar4_add) . ' | '
-			. implode(" | ", $btnsNames);
-		$toolbar5 = implode(" | ", $btnsNames);
+			// Toolbars
+			'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
+			'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1),
+			'toolbar2' => empty($toolbar2) ? null  : implode(' ', $toolbar2),
 
-		// The buttons script
-		$tinyBtns = implode("; ", $tinyBtns);
+			'plugins'  => implode(',', array_unique($plugins)),
 
-		// See if mobileVersion is activated
-		$mobileVersion = $this->params->get('mobile', 0);
+			// Cleanup/Output
+			'inline_styles'    => true,
+			'gecko_spellcheck' => true,
+			'entity_encoding'  => $levelParams->get('entity_encoding', 'raw'),
+			'verify_html'      => !$ignore_filter,
+
+			'valid_elements'          => $valid_elements,
+			'extended_valid_elements' => implode(',', $elements),
+			'invalid_elements'        => $invalid_elements,
+
+			// URL
+			'relative_urls'      => (bool) $levelParams->get('relative_urls', true),
+			'remove_script_host' => false,
+
+			// Layout
+			'content_css'        => $content_css,
+			'document_base_url'  => JUri::root(true) . '/',
+			'paste_data_images'  => $allowImgPaste,
+			'importcss_append'   => true,
+			'height'             => $html_height,
+			'width'              => $html_width,
+			'resize'             => $resizing,
+			'templates'          => $templates,
+			'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
+
+			// @TODO make it better, do not generate JavaScript in PHP !!!
+			'setupCallbackString' => $tinyBtns,
+		);
+
+		if ($levelParams->get('newlines'))
+		{
+			// Break
+			$scriptOptions['force_br_newlines'] = true;
+			$scriptOptions['force_p_newlines']  = false;
+			$scriptOptions['forced_root_block'] = '';
+		}
+		else
+		{
+			// Paragraph
+			$scriptOptions['force_br_newlines'] = false;
+			$scriptOptions['force_p_newlines']  = true;
+			$scriptOptions['forced_root_block'] = 'p';
+		}
+
+		$scriptOptions['rel_list'] = array(
+			array('title' => 'Alternate', 'value' => 'alternate'),
+			array('title' => 'Author', 'value' => 'author'),
+			array('title' => 'Bookmark', 'value' => 'bookmark'),
+			array('title' => 'Help', 'value' => 'help'),
+			array('title' => 'License', 'value' => 'license'),
+			array('title' => 'Lightbox', 'value' => 'lightbox'),
+			array('title' => 'Next', 'value' => 'next'),
+			array('title' => 'No Follow', 'value' => 'nofollow'),
+			array('title' => 'No Referrer', 'value' => 'noreferrer'),
+			array('title' => 'Prefetch', 'value' => 'prefetch'),
+			array('title' => 'Prev', 'value' => 'prev'),
+			array('title' => 'Search', 'value' => 'search'),
+			array('title' => 'Tag', 'value' => 'tag'),
+		);
 
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
@@ -795,182 +645,18 @@ class PlgEditorTinymce extends JPlugin
 		 **/
 		if (!$this->app->client->mobile)
 		{
-			$smallButtons = 'toolbar_items_size: "small",';
+			$scriptOptions['toolbar_items_size'] = 'small';
 		}
-		elseif ($mobileVersion == false)
+		elseif ($levelParams->get('mobile', 0))
 		{
-			$smallButtons = '';
-		}
-		else
-		{
-			$smallButtons = '';
-			$mode         = 0;
+			$scriptOptions['menubar'] = false;
+			unset($scriptOptions['toolbar2']);
 		}
 
-		$script = '';
+		$options['tinyMCE']['default'] = $scriptOptions;
 
-		// First line is for Mootools b/c
-		$script .= "
-		window.getSize = window.getSize || function(){return {x: jQuery(window).width(), y: jQuery(window).height()};};
-		tinymce.suffix = '.min';
-		tinymce.baseURL = '" . JUri::root() . "media/editors/tinymce';
-		tinymce.init({
-		";
-
-		// General
-		$script .= "
-		directionality: \"$text_direction\",
-		selector: \"textarea#$id\",
-		language : \"$langPrefix\",
-		mode : \"specific_textareas\",
-		autosave_restore_when_empty: false,
-		$skin
-		theme : \"$theme\",
-		schema: \"html5\",
-		";
-
-		// Cleanup/Output
-		$script .= "
-		inline_styles : true,
-		gecko_spellcheck : true,
-		entity_encoding : \"$entity_encoding\",
-		verify_html: " . ($ignore_filter ? 'false' : 'true') . ",
-		$forcenewline
-		$smallButtons
-		";
-
-		// URL
-		$script .= "
-		relative_urls : $relative_urls,
-		remove_script_host : false,
-		";
-
-		// Layout
-		$script .= "
-		$content_css
-		document_base_url : \"" . JUri::root() . "\",
-		setup: function (editor) {
-			$tinyBtns
-		},
-		paste_data_images: $allowImgPaste,
-		";
-
-		switch ($mode)
-		{
-			case 0: /* Simple mode*/
-				$script .= "
-			menubar: false,
-			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | code | $toolbar5\",
-			plugins: \"$dragDropPlg code\",
-		});
-		";
-				break;
-
-			case 1:
-			default: /* Advanced mode*/
-				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-					. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
-
-				$script .= "
-			valid_elements : \"$valid_elements\",
-			extended_valid_elements : \"$elements\",
-			invalid_elements : \"$invalid_elements\",
-			// Plugins
-			plugins : \"table link code hr charmap autolink lists importcss $dragDropPlg\",
-			// Toolbar
-			toolbar1: \"$toolbar1 | $toolbar5\",
-			removed_menuitems: \"newdocument\",
-			// Layout
-			importcss_append: true,
-			// Advanced Options
-			$resizing
-			height : \"$html_height\",
-			width : \"$html_width\"
-		});
-			";
-				break;
-
-			case 2: /* Extended mode*/
-				$script .= "
-			valid_elements : \"$valid_elements\",
-			extended_valid_elements : \"$elements\",
-			invalid_elements : \"$invalid_elements\",
-			// Plugins
-			plugins : \"$plugins $dragDropPlg\",
-			// Toolbar
-			toolbar1: \"$toolbar1\",
-			removed_menuitems: \"newdocument\",
-			// URL
-			rel_list : [
-				{title: 'Alternate', value: 'alternate'},
-				{title: 'Author', value: 'author'},
-				{title: 'Bookmark', value: 'bookmark'},
-				{title: 'Help', value: 'help'},
-				{title: 'License', value: 'license'},
-				{title: 'Lightbox', value: 'lightbox'},
-				{title: 'Next', value: 'next'},
-				{title: 'No Follow', value: 'nofollow'},
-				{title: 'No Referrer', value: 'noreferrer'},
-				{title: 'Prefetch', value: 'prefetch'},
-				{title: 'Prev', value: 'prev'},
-				{title: 'Search', value: 'search'},
-				{title: 'Tag', value: 'tag'}
-			],
-			//Templates
-			" . $templates . "
-			// Layout
-			importcss_append: true,
-			// Advanced Options
-			$resizing
-			image_advtab: $image_advtab,
-			height : \"$html_height\",
-			width : \"$html_width\",
-		});
-		";
-				break;
-		}
-
-		$script .= "
-		function jInsertEditorText( text, editor )
-		{
-			tinyMCE.activeEditor.execCommand('mceInsertContent', false, text);
-		}
-		";
-
-		if (!empty($btnsNames))
-		{
-			$modalFix = JHtml::_('script', 'system/tiny-close.min.js', false, true, true, false, true);
-			JFactory::getDocument()->addScript($modalFix, "text/javascript", true, false);
-		}
-
-		JFactory::getDocument()->addScriptDeclaration($script);
-		JFactory::getDocument()->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
-
-		// Only add "px" to width and height if they are not given as a percentage
-		if (is_numeric($width))
-		{
-			$width .= 'px';
-		}
-
-		if (is_numeric($height))
-		{
-			$height .= 'px';
-		}
-
-		// Data object for the layout
-		$textarea = new stdClass;
-		$textarea->name    = $name;
-		$textarea->id      = $id;
-		$textarea->cols    = $col;
-		$textarea->rows    = $row;
-		$textarea->width   = $width;
-		$textarea->height  = $height;
-		$textarea->content = $content;
-
-		$editor = '<div class="editor">';
-		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
-		$editor .= $this->_toogleButton($id);
-		$editor .= '</div>';
+		$doc->addStyleDeclaration('.mce-in { padding: 5px 10px !important;}');
+		$doc->addScriptOptions('plg_editor_tinymce', $options);
 
 		return $editor;
 	}
@@ -1010,13 +696,13 @@ class PlgEditorTinymce extends JPlugin
 			if ($button->get('name'))
 			{
 				// Set some vars
-				$name    = 'button-' . $i . str_replace(" ", "", $button->get('text'));
+				$name    = 'button-' . $i . str_replace(' ', '', $button->get('text'));
 				$title   = $button->get('text');
-				$onclick = ($button->get('onclick')) ? $button->get('onclick') : null;
+				$onclick = $button->get('onclick') ? $button->get('onclick') : null;
 				$options = $button->get('options');
 				$icon    = $button->get('name');
 
-				if ($button->get('link') != "#")
+				if ($button->get('link') != '#')
 				{
 					$href = JUri::base() . $button->get('link');
 				}
@@ -1282,5 +968,154 @@ class PlgEditorTinymce extends JPlugin
 
 			return $filter;
 		}
+	}
+
+	/**
+	 * Return list of known TinyMCE buttons
+	 *
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public static function getKnownButtons()
+	{
+		// See https://www.tinymce.com/docs/demo/full-featured/
+		// And https://www.tinymce.com/docs/plugins/
+		$buttons = array(
+
+			// General buttons
+			'|'              => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SEPARATOR'), 'text' => '|'),
+
+			'undo'           => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_UNDO')),
+			'redo'           => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_REDO')),
+
+			'bold'           => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_BOLD')),
+			'italic'         => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ITALIC')),
+			'underline'      => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_UNDERLINE')),
+			'strikethrough'  => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_STRIKETHROUGH')),
+			'styleselect'    => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_STYLESELECT'), 'text' => 'Formats'),
+			'formatselect'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FORMATSELECT'), 'text' => 'Paragraph'),
+			'fontselect'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FONTSELECT'), 'text' => 'Font'),
+			'fontsizeselect' => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FONTSIZESELECT'), 'text' => 'Fontsize'),
+
+			'alignleft'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ALIGNLEFT')),
+			'aligncenter'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ALIGNCENTER')),
+			'alignright'    => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ALIGNRIGHT')),
+			'alignjustify'  => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ALIGNJUSTIFY')),
+
+			'outdent'       => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_OUTDENT')),
+			'indent'        => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_INDENT')),
+
+			'bullist'       => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_BULLIST')),
+			'numlist'       => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_NUMLIST')),
+
+			'link'          => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_LINK'), 'plugin' => 'link'),
+			'unlink'        => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_UNLINK'), 'plugin' => 'link'),
+
+			'subscript'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SUBSCRIPT')),
+			'superscript'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SUPERSCRIPT')),
+			'blockquote'    => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_BLOCKQUOTE')),
+
+			'cut'           => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_CUT')),
+			'copy'          => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_COPY')),
+			'paste'         => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_PASTE'), 'plugin' => 'paste'),
+			'pastetext'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_PASTETEXT'), 'plugin' => 'paste'),
+			'removeformat'  => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_REMOVEFORMAT')),
+
+			// Buttons from the plugins
+			'forecolor'      => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FORECOLOR'), 'plugin' => 'textcolor'),
+			'backcolor'      => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_BACKCOLOR'), 'plugin' => 'textcolor'),
+			'anchor'         => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ANCHOR'), 'plugin' => 'anchor'),
+			'hr'             => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_HR'), 'plugin' => 'hr'),
+			'ltr'            => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_LTR'), 'plugin' => 'directionality'),
+			'rtl'            => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_RTL'), 'plugin' => 'directionality'),
+			'code'           => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_CODE'), 'plugin' => 'code'),
+			'codesample'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_CODESAMPLE'), 'plugin' => 'codesample'),
+			'table'          => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_TABLE'), 'plugin' => 'table'),
+			'charmap'        => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_CHARMAP'), 'plugin' => 'charmap'),
+			'visualchars'    => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_VISUALCHARS'), 'plugin' => 'visualchars'),
+			'visualblocks'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_VISUALBLOCKS'), 'plugin' => 'visualblocks'),
+			'nonbreaking'    => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_NONBREAKING'), 'plugin' => 'nonbreaking'),
+			'emoticons'      => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_EMOTICONS'), 'plugin' => 'emoticons'),
+			'image'          => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_IMAGE'), 'plugin' => 'image'),
+			'media'          => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_MEDIA'), 'plugin' => 'media'),
+			'pagebreak'      => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_PAGEBREAK'), 'plugin' => 'pagebreak'),
+			'print'          => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_PRINT'), 'plugin' => 'print'),
+			'preview'        => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_PREVIEW'), 'plugin' => 'preview'),
+			'fullscreen'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FULLSCREEN'), 'plugin' => 'fullscreen'),
+			'template'       => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_TEMPLATE'), 'plugin' => 'template'),
+			'searchreplace'  => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SEARCHREPLACE'), 'plugin' => 'searchreplace'),
+			'insertdatetime' => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_INSERTDATETIME'), 'plugin' => 'insertdatetime'),
+			// 'spellchecker'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SPELLCHECKER'), 'plugin' => 'spellchecker'),
+		);
+
+		return $buttons;
+	}
+
+	/**
+	 * Return toolbar presets
+	 *
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public static function getToolbarPreset()
+	{
+		$preset = array();
+
+		$preset['simple'] = array(
+			'menu' => array(),
+			'toolbar1' => array(
+				'bold', 'underline', 'strikethrough', '|',
+				'undo', 'redo', '|',
+				'bullist', 'numlist', '|',
+				'pastetext'
+			),
+			'toolbar2' => array(),
+		);
+
+		$preset['medium'] = array(
+			'menu' => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
+			'toolbar1' => array(
+				'bold', 'italic', 'underline', 'strikethrough', '|',
+				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
+				'formatselect', '|',
+				'bullist', 'numlist', '|',
+				'outdent', 'indent', '|',
+				'undo', 'redo', '|',
+				'link', 'unlink', 'anchor', 'code', '|',
+				'hr', 'table', '|',
+				'subscript', 'superscript', '|',
+				'charmap', 'pastetext' , 'preview'
+			),
+			'toolbar2' => array(),
+		);
+
+		$preset['advanced'] = array(
+			'menu'     => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
+			'toolbar1' => array(
+				'bold', 'italic', 'underline', 'strikethrough', '|',
+				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
+				'styleselect', '|',
+				'formatselect', 'fontselect', 'fontsizeselect', '|',
+				'searchreplace', '|',
+				'bullist', 'numlist', '|',
+				'outdent', 'indent', '|',
+				'undo', 'redo', '|',
+				'link', 'unlink', 'anchor', 'image', '|',
+				'code', '|',
+				'forecolor', 'backcolor', '|',
+				'fullscreen', '|',
+				'table', '|',
+				'subscript', 'superscript', '|',
+				'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', '|',
+				'cut', 'copy', 'paste', 'pastetext', '|',
+				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
+				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat',
+			),
+			'toolbar2' => array(),
+		);
+
+		return $preset;
 	}
 }

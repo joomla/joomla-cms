@@ -12,7 +12,7 @@
  *
  * @return  boolean
  *
- * @since   __DEPLOY_VERSION__
+ * @since   3.6.3
  */
 function updatecachetime_postinstall_condition()
 {
@@ -32,7 +32,7 @@ function updatecachetime_postinstall_condition()
  *
  * @return  void
  *
- * @since   __DEPLOY_VERSION__
+ * @since   3.6.3
  */
 function updatecachetime_postinstall_action()
 {
@@ -49,7 +49,7 @@ function updatecachetime_postinstall_action()
 	// Store the changes
 	if (!$table->store())
 	{
-		// If there is a error show it to the admin
+		// If there is an error show it to the admin
 		JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 	}
 }

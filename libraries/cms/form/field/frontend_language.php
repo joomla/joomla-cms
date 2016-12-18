@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides a list of published content languages with home pages
@@ -18,7 +16,7 @@ JFormHelper::loadFieldClass('list');
  * @see    JFormFieldLanguage for a select list of application languages.
  * @since  3.5
  */
-class JFormFieldFrontend_Language extends JFormFieldList
+class JFormFieldFrontend_Language extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

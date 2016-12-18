@@ -145,8 +145,7 @@ class UsersModelProfile extends JModelForm
 			}
 
 			// Unset the passwords.
-			unset($this->data->password1);
-			unset($this->data->password2);
+			unset($this->data->password1, $this->data->password2);
 
 			$registry           = new Registry($this->data->params);
 			$this->data->params = $registry->toArray();
@@ -191,6 +190,10 @@ class UsersModelProfile extends JModelForm
 		{
 			return false;
 		}
+
+		// For com_fields the context is com_users.user
+		JLoader::import('components.com_fields.helpers.fields', JPATH_ADMINISTRATOR);
+		FieldsHelper::prepareForm('com_users.user', $form, $data);
 
 		// Check for username compliance and parameter set
 		$isUsernameCompliant = true;
@@ -328,11 +331,8 @@ class UsersModelProfile extends JModelForm
 			unset($data['username']);
 		}
 
-		// Unset the block so it does not get overwritten
-		unset($data['block']);
-
-		// Unset the sendEmail so it does not get overwritten
-		unset($data['sendEmail']);
+		// Unset block and sendEmail so they do not get overwritten
+		unset($data['block'], $data['sendEmail']);
 
 		// Handle the two factor authentication setup
 		if (array_key_exists('twofactor', $data))

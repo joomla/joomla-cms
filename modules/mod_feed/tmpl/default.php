@@ -19,35 +19,35 @@ else
 {
 	$lang      = JFactory::getLanguage();
 	$myrtl     = $params->get('rssrtl');
-	$direction = " ";
+	$direction = ' ';
 
 	if ($lang->isRtl() && $myrtl == 0)
 	{
-		$direction = " redirect-rtl";
+		$direction = ' redirect-rtl';
 	}
 
 	// Feed description
 	elseif ($lang->isRtl() && $myrtl == 1)
 	{
-		$direction = " redirect-ltr";
+		$direction = ' redirect-ltr';
 	}
 
 	elseif ($lang->isRtl() && $myrtl == 2)
 	{
-		$direction = " redirect-rtl";
+		$direction = ' redirect-rtl';
 	}
 
 	elseif ($myrtl == 0)
 	{
-		$direction = " redirect-ltr";
+		$direction = ' redirect-ltr';
 	}
 	elseif ($myrtl == 1)
 	{
-		$direction = " redirect-ltr";
+		$direction = ' redirect-ltr';
 	}
 	elseif ($myrtl == 2)
 	{
-		$direction = " redirect-rtl";
+		$direction = ' redirect-rtl';
 	}
 
 	if ($feed != false)
@@ -86,13 +86,7 @@ else
 	<?php if (!empty($feed))
 	{ ?>
 		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
-		<?php for ($i = 0; $i < $params->get('rssitems', 5); $i++)
-		{
-			if (!$feed->offsetExists($i))
-			{
-				break;
-			}
-			?>
+		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 5)); $i < $max; $i++) { ?>
 			<?php
 				$uri   = (!empty($feed[$i]->uri) || !is_null($feed[$i]->uri)) ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
 				$uri   = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
@@ -105,8 +99,8 @@ else
 						<a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
 						<?php echo $feed[$i]->title; ?></a></span>
 					<?php else : ?>
-						<span class="feed-link"><?php  echo $title; ?></span>
-					<?php  endif; ?>
+						<span class="feed-link"><?php echo $title; ?></span>
+					<?php endif; ?>
 
 					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>
 						<div class="feed-item-description">

@@ -52,8 +52,7 @@ abstract class JHtmlBehavior
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$config = JFactory::getConfig();
-			$debug = $config->get('debug');
+			$debug = JDEBUG;
 		}
 
 		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
@@ -61,7 +60,7 @@ abstract class JHtmlBehavior
 			static::framework(false, $debug);
 		}
 
-		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
+		JHtml::_('script', 'system/mootools-' . $type . '.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		// Keep loading core.js for BC reasons
 		static::core();
@@ -88,7 +87,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('script', 'system/core.js', false, true);
+		JHtml::_('script', 'system/core.js', array('version' => 'auto', 'relative' => true));
 		static::$loaded[__METHOD__] = true;
 
 		return;
@@ -114,7 +113,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/caption.js', false, true);
+		JHtml::_('script', 'system/caption.js', array('version' => 'auto', 'relative' => true));
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -187,8 +186,8 @@ abstract class JHtmlBehavior
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
 
-		JHtml::_('script', 'system/punycode.js', false, true);
-		JHtml::_('script', 'system/validate.js', false, true);
+		JHtml::_('script', 'system/punycode.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'system/validate.js', array('version' => 'auto', 'relative' => true));
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -210,7 +209,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/switcher.js', true, true);
+		JHtml::_('script', 'system/switcher.js', array('framework' => true, 'version' => 'auto', 'relative' => true));
 
 		$script = "
 			document.switcher = null;
@@ -245,7 +244,7 @@ abstract class JHtmlBehavior
 		// Include core
 		static::core();
 
-		JHtml::_('script', 'system/combobox.js', false, true);
+		JHtml::_('script', 'system/combobox.js', array('version' => 'auto', 'relative' => true));
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -359,8 +358,8 @@ abstract class JHtmlBehavior
 			static::framework(true);
 
 			// Load the JavaScript and css
-			JHtml::_('script', 'system/modal.js', true, true);
-			JHtml::_('stylesheet', 'system/modal.css', array(), true);
+			JHtml::_('script', 'system/modal.js', array('framework' => true, 'version' => 'auto', 'relative' => true));
+			JHtml::_('stylesheet', 'system/modal.css', array('version' => 'auto', 'relative' => true));
 		}
 
 		$sig = md5(serialize(array($selector, $params)));
@@ -474,7 +473,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/multiselect.js', false, true);
+		JHtml::_('script', 'system/multiselect.js', array('version' => 'auto', 'relative' => true));
 
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -505,8 +504,8 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		static::framework();
 
-		JHtml::_('script', 'system/mootree.js', true, true, false, false);
-		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
+		JHtml::_('script', 'system/mootree.js', array('framework' => true, 'version' => 'auto', 'relative' => true));
+		JHtml::_('stylesheet', 'system/mootree.css', array('version' => 'auto', 'relative' => true));
 
 		if (isset(static::$loaded[__METHOD__][$id]))
 		{
@@ -562,30 +561,12 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0
 	 */
 	public static function calendar()
 	{
-		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		$document = JFactory::getDocument();
-		$tag = JFactory::getLanguage()->getTag();
-
-		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), ' media' => 'all'), true);
-		JHtml::_('script', $tag . '/calendar.js', false, true);
-		JHtml::_('script', $tag . '/calendar-setup.js', false, true);
-
-		$translation = static::calendartranslation();
-
-		if ($translation)
-		{
-			$document->addScriptDeclaration($translation);
-		}
-
-		static::$loaded[__METHOD__] = true;
+		JLog::add('JHtmlBehavior::calendar is deprecated as the static assets are being loaded in the relative layout.', JLog::WARNING, 'deprecated');
 	}
 
 	/**
@@ -594,6 +575,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.7
+	 *
+	 * @deprecated 4.0 Use directly the field or the layout
 	 */
 	public static function colorpicker()
 	{
@@ -606,8 +589,8 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'jui/jquery.minicolors.min.js', false, true);
-		JHtml::_('stylesheet', 'jui/jquery.minicolors.css', false, true);
+		JHtml::_('script', 'jui/jquery.minicolors.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('stylesheet', 'jui/jquery.minicolors.css', array('version' => 'auto', 'relative' => true));
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
 					jQuery('.minicolors').each(function() {
@@ -638,6 +621,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated 4.0 Use directly the field or the layout
 	 */
 	public static function simplecolorpicker()
 	{
@@ -650,8 +635,8 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'jui/jquery.simplecolors.min.js', false, true);
-		JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', false, true);
+		JHtml::_('script', 'jui/jquery.simplecolors.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', array('version' => 'auto', 'relative' => true));
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
 					jQuery('select.simplecolors').simplecolors();
@@ -680,37 +665,32 @@ abstract class JHtmlBehavior
 		$session = JFactory::getSession();
 
 		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
-		if ($session->storeName != 'database')
+		$refreshTime = 300;
+
+		if ($session->storeName === 'database')
 		{
-			$refresh_time = 300000;
-		}
-		else
-		{
-			$life_time    = $session->getExpire() * 1000;
-			$refresh_time = ($life_time <= 60000) ? 45000 : $life_time - 60000;
+			$lifeTime    = $session->getExpire();
+			$refreshTime = $lifeTime <= 60 ? 45 : $lifeTime - 60;
 
 			// The longest refresh period is one hour to prevent integer overflow.
-			if ($refresh_time > 3600000 || $refresh_time <= 0)
+			if ($refreshTime > 3600 || $refreshTime <= 0)
 			{
-				$refresh_time = 3600000;
+				$refreshTime = 3600;
 			}
 		}
 
-		$url = JUri::base(true) . '/index.php';
-
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
-		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
-		{
-			$url .= '?option=com_ajax&format=json';
-		}
+		$uri = 'index.php' . (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest ? '?option=com_ajax&format=json' : '');
 
-		JFactory::getDocument()->addScriptDeclaration(
-		/** @lang JavaScript */
-			<<<JS
-window.setInterval(function(){var r;try{r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")}catch(e){}
-if(r){r.open("GET","$url",true);r.send(null)}},$refresh_time);
-JS
-		);
+		// Include core and polyfill for browsers lower than IE 9.
+		static::core();
+		static::polyfill('event', 'lt IE 9');
+
+		// Add keepalive script options.
+		JFactory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
+
+		// Add script.
+		JHtml::_('script', 'system/keepalive.js', array('version' => 'auto', 'relative' => true));
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -755,7 +735,7 @@ JS
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/highlighter.js', false, true);
+		JHtml::_('script', 'system/highlighter.js', array('version' => 'auto', 'relative' => true));
 
 		foreach ($terms as $i => $term)
 		{
@@ -793,9 +773,13 @@ JS
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated  4.0  Add a X-Frame-Options HTTP Header with the SAMEORIGIN value instead.
 	 */
 	public static function noframes()
 	{
+		JLog::add(__METHOD__ . ' is deprecated, add a X-Frame-Options HTTP Header with the SAMEORIGIN value instead.', JLog::WARNING, 'deprecated');
+
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
 		{
@@ -847,95 +831,6 @@ JS
 	}
 
 	/**
-	 * Internal method to translate the JavaScript Calendar
-	 *
-	 * @return  string  JavaScript that translates the object
-	 *
-	 * @since   1.5
-	 */
-	protected static function calendartranslation()
-	{
-		static $jsscript = 0;
-
-		// Guard clause, avoids unnecessary nesting
-		if ($jsscript)
-		{
-			return false;
-		}
-
-		$jsscript = 1;
-
-		// To keep the code simple here, run strings through JText::_() using array_map()
-		$callback = array('JText', '_');
-		$weekdays_full = array_map(
-			$callback, array(
-				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY',
-			)
-		);
-		$weekdays_short = array_map(
-			$callback,
-			array(
-				'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN',
-			)
-		);
-		$months_long = array_map(
-			$callback, array(
-				'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
-				'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
-			)
-		);
-		$months_short = array_map(
-			$callback, array(
-				'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
-				'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT',
-			)
-		);
-
-		// This will become an object in Javascript but define it first in PHP for readability
-		$today = " " . JText::_('JLIB_HTML_BEHAVIOR_TODAY') . " ";
-		$text = array(
-			'INFO'           => JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
-			'ABOUT'          => "DHTML Date/Time Selector\n"
-				. "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n"
-				. "For latest version visit: http://www.dynarch.com/projects/calendar/\n"
-				. "Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details."
-				. "\n\n"
-				. JText::_('JLIB_HTML_BEHAVIOR_DATE_SELECTION')
-				. JText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT')
-				. JText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT')
-				. JText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE'),
-			'ABOUT_TIME'      => "\n\n"
-				. "Time selection:\n"
-				. "- Click on any of the time parts to increase it\n"
-				. "- or Shift-click to decrease it\n"
-				. "- or click and drag for faster selection.",
-			'PREV_YEAR'       => JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU'),
-			'PREV_MONTH'      => JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU'),
-			'GO_TODAY'        => JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY'),
-			'NEXT_MONTH'      => JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU'),
-			'SEL_DATE'        => JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE'),
-			'DRAG_TO_MOVE'    => JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
-			'PART_TODAY'      => $today,
-			'DAY_FIRST'       => JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
-			'WEEKEND'         => JFactory::getLanguage()->getWeekEnd(),
-			'CLOSE'           => JText::_('JLIB_HTML_BEHAVIOR_CLOSE'),
-			'TODAY'           => JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
-			'TIME_PART'       => JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),
-			'DEF_DATE_FORMAT' => "%Y-%m-%d",
-			'TT_DATE_FORMAT'  => JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
-			'WK'              => JText::_('JLIB_HTML_BEHAVIOR_WK'),
-			'TIME'            => JText::_('JLIB_HTML_BEHAVIOR_TIME'),
-		);
-
-		return 'Calendar._DN = ' . json_encode($weekdays_full) . ';'
-			. ' Calendar._SDN = ' . json_encode($weekdays_short) . ';'
-			. ' Calendar._FD = 0;'
-			. ' Calendar._MN = ' . json_encode($months_long) . ';'
-			. ' Calendar._SMN = ' . json_encode($months_short) . ';'
-			. ' Calendar._TT = ' . json_encode($text) . ';';
-	}
-
-	/**
 	 * Add unobtrusive JavaScript support to keep a tab state.
 	 *
 	 * Note that keeping tab state only works for inner tabs if in accordance with the following example:
@@ -959,7 +854,50 @@ JS
 		}
 		// Include jQuery
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/tabs-state.js', false, true);
+		JHtml::_('script', 'system/tabs-state.js', array('version' => 'auto', 'relative' => true));
 		self::$loaded[__METHOD__] = true;
+	}
+
+	/**
+	 * Add javascript polyfills.
+	 *
+	 * @param   string|array  $polyfillTypes       The polyfill type(s). Examples: event, array('event', 'classlist').
+	 * @param   string        $conditionalBrowser  An IE conditional expression. Example: lt IE 9 (lower than IE 9).
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function polyfill($polyfillTypes = null, $conditionalBrowser = null)
+	{
+		if (is_null($polyfillTypes))
+		{
+			return false;
+		}
+
+		if (!is_array($polyfillTypes))
+		{
+			$polyfillTypes = array($polyfillTypes);
+		}
+
+		foreach ($polyfillTypes as $polyfillType)
+		{
+			$sig = md5(serialize(array($polyfillType, $conditionalBrowser)));
+
+			// Only load once
+			if (isset(static::$loaded[__METHOD__][$sig]))
+			{
+				continue;
+			}
+
+			// If include according to browser.
+			$scriptOptions = array('version' => 'auto', 'relative' => true);
+			$scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
+
+			JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', $scriptOptions);
+
+			// Set static array
+			static::$loaded[__METHOD__][$sig] = true;
+		}
 	}
 }
