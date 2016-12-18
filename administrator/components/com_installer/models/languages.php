@@ -147,19 +147,21 @@ class InstallerModelLanguages extends JModelList
 		}
 
 		// Sort the array by value of subarray
-		usort($languages, function($a, $b)
-		{
-			$ordering = $this->getState('list.ordering');
+		usort(
+			$languages,
+			function($a, $b)
+			{
+				$ordering = $this->getState('list.ordering');
 
-			if (strtolower($this->getState('list.direction')) === 'asc')
-			{
-				return StringHelper::strcmp($a->$ordering, $b->$ordering);
+				if (strtolower($this->getState('list.direction')) === 'asc')
+				{
+					return StringHelper::strcmp($a->$ordering, $b->$ordering);
+				}
+				else
+				{
+					return StringHelper::strcmp($b->$ordering, $a->$ordering);
+				}
 			}
-			else
-			{
-				return StringHelper::strcmp($b->$ordering, $a->$ordering);
-			}
-		}
 		);
 
 		// Count the non-paginated list
