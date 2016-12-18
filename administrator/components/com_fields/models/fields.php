@@ -78,9 +78,13 @@ class FieldsModelFields extends JModelList
 		$this->setState('filter.context', $context);
 
 		// Split context into component and optional section
-		$parts = explode('.', $context);
-		$this->setState('filter.component', $parts[0]);
-		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+		$parts = FieldsHelper::extract($context);
+
+		if ($parts)
+		{
+			$this->setState('filter.component', $parts[0]);
+			$this->setState('filter.section', $parts[1]);
+		}
 	}
 
 	/**
@@ -345,7 +349,7 @@ class FieldsModelFields extends JModelList
 		if ($form)
 		{
 			$form->setValue('context', null, $this->getState('filter.context'));
-			$form->setFieldAttribute('group_id', 'extension', $this->getState('filter.component'), 'filter');
+			$form->setFieldAttribute('group_id', 'context', $this->getState('filter.context'), 'filter');
 		}
 
 		return $form;
@@ -368,7 +372,7 @@ class FieldsModelFields extends JModelList
 		$query->select('title AS text, id AS value, state');
 		$query->from('#__fields_groups');
 		$query->where('state IN (0,1)');
-		$query->where('extension = ' . $db->quote($this->state->get('filter.component')));
+		$query->where('context = ' . $db->quote($this->state->get('filter.component')));
 		$query->where('access IN (' . implode(',', $viewlevels) . ')');
 
 		$db->setQuery($query);
