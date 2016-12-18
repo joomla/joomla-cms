@@ -7114,6 +7114,7 @@ body {
 	height: 100%;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	box-sizing: border-box;
 }
 a:hover,
 a:active,
