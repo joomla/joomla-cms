@@ -7377,7 +7377,7 @@ class AKEncryptionAES
 
 			$plaintxtByte = array();
 
-			for ($i = 0, $iMax = strlen($ciphertext[$b]); $i < $iMax; $i++)
+			for ($i = 0; $i < strlen($ciphertext[$b]); $i++)
 			{
 				// -- xor plaintext with ciphered counter byte-by-byte --
 				$plaintxtByte[$i] = $cipherCntr[$i] ^ ord(substr($ciphertext[$b], $i, 1));
