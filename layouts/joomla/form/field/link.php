@@ -57,16 +57,14 @@ $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 
 // The hidden text field.
 $jsonvalue = $value ? htmlspecialchars($value, ENT_COMPAT, 'UTF-8') : '';
-
-echo '<div class="input-prepend input-append">'
-	.'	<input type="hidden" name="' . $name . '" id="' . $id . '" value="' . $jsonvalue . '" readonly="readonly"' . $attr . '/>';
-
 $linkoriginal = ($link ? $link : 'index.php?option=com_content&amp;view=link&amp;tmpl=component&amp;asset=' . $asset . '&amp;author=' . $authorField);
 ?>
-<a class="modal btn" title="<?php echo JText::_('JLIB_FORM_BUTTON_SELECT'); ?>" id="<?php echo $id; ?>-btn" href="
-<?php echo ($readonly ? '' : $linkoriginal . '&amp;fieldid=' . $id . '&amp;link=' . $jsonvalue) . '"'
+<div class="input-prepend input-append">
+	<input type="hidden" name="<?php echo $name . '" id="' . $id . '" value="' . $jsonvalue . '" readonly="readonly"' . $attr; ?> />
+	<a class="modal btn" title="<?php echo JText::_('JLIB_FORM_BUTTON_SELECT'); ?>" id="<?php echo $id; ?>-btn" href="
+	<?php echo ($readonly ? '' : $linkoriginal . '&amp;fieldid=' . $id . '&amp;link=' . $jsonvalue) . '"'
 		. ' rel="{handler: \'iframe\', size: {x: 800, y: 260}}"'; ?>><?php echo JText::_('JLIB_FORM_BUTTON_SELECT'); ?></a>
-<a class="btn hasTooltip" title="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>" href="#" onclick="jInsertFieldValue('', '<?php echo $id; ?>');var btn = document.getElementById('<?php echo $id; ?>-btn');btn.href = '<?php echo $linkoriginal . '&amp;fieldid=' . $id . "&amp;link="; ?>'; return false;">
-	<i class="icon-remove"></i>
-</a>
+	<a class="btn hasTooltip" title="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>" href="#" onclick="jInsertFieldValue('', '<?php echo $id; ?>');var btn = document.getElementById('<?php echo $id; ?>-btn');btn.href = '<?php echo $linkoriginal . '&amp;fieldid=' . $id . "&amp;link="; ?>'; return false;">
+		<i class="icon-remove"></i>
+	</a>
 </div>

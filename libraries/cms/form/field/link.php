@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla CMS.
  * Provides a modal link editor
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldLink extends JFormField
 {
@@ -21,7 +21,7 @@ class JFormFieldLink extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'Link';
 
@@ -29,7 +29,7 @@ class JFormFieldLink extends JFormField
 	 * The authorField.
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $authorField;
 
@@ -37,7 +37,7 @@ class JFormFieldLink extends JFormField
 	 * The asset.
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $asset;
 
@@ -45,7 +45,7 @@ class JFormFieldLink extends JFormField
 	 * The link.
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $link;
 
@@ -53,7 +53,7 @@ class JFormFieldLink extends JFormField
 	 * Modal width.
 	 *
 	 * @var    integer
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $width;
 
@@ -61,7 +61,7 @@ class JFormFieldLink extends JFormField
 	 * Modal height.
 	 *
 	 * @var    integer
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $height;
 
@@ -69,7 +69,7 @@ class JFormFieldLink extends JFormField
 	 * Layout to render
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout = 'joomla.form.field.link';
 
@@ -80,7 +80,7 @@ class JFormFieldLink extends JFormField
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __get($name)
 	{
@@ -105,7 +105,7 @@ class JFormFieldLink extends JFormField
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __set($name, $value)
 	{
@@ -135,7 +135,7 @@ class JFormFieldLink extends JFormField
 	 * @return  boolean  True on success.
 	 *
 	 * @see 	JFormField::setup()
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
@@ -161,7 +161,7 @@ class JFormFieldLink extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getInput()
 	{

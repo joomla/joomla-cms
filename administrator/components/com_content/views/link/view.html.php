@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Link component
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class ContentViewLink extends JViewLegacy
 {
@@ -23,7 +23,7 @@ class ContentViewLink extends JViewLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
