@@ -9,6 +9,8 @@
  */
 
 jQuery(function($) {
+	'use strict';
+
     var loadTabs = function() {
         function saveActiveTab(href) {
             // Remove the old entry if exists, key is always dependant on the url

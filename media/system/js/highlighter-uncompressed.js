@@ -10,6 +10,8 @@ if (typeof(Joomla) === 'undefined') {
 }
 
 Joomla.Highlighter = function(_options){
+	'use strict';
+
     var $, words, options = {
         autoUnhighlight: true,
         caseSensitive: false,
@@ -108,4 +110,4 @@ Joomla.Highlighter = function(_options){
         highlight: highlight,
         unhighlight : unhighlight
     };
-}
+};

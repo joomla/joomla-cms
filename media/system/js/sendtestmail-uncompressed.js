@@ -3,13 +3,10 @@
  * @copyright       Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
+var sendTestMail = function () {
+	'use strict';
 
-/**
- * Calls the sending process of the config class
- */
-var sendTestMail = function ()
-{
-	$ = jQuery;
+	var $ = jQuery;
 
 	var email_data = {
 		smtpauth  : $('input[name="jform[smtpauth]"]:checked').val(),
@@ -49,7 +46,12 @@ var sendTestMail = function ()
 	});
 };
 
-jQuery(document).ready(function ($)
+jQuery(function ($)
 {
+	'use strict';
+
+	/**
+	* Calls the sending process of the config class
+	*/
 	$('#sendtestmail').click(sendTestMail);
 });

@@ -58,6 +58,8 @@
  *  saying "nothing to setup".
  */
 Calendar.setup = function (params) {
+	'use strict';
+
 	function param_default(pname, def) { if (typeof params[pname] == "undefined") { params[pname] = def; } };
 
 	param_default("inputField",      null);

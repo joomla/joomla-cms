@@ -10,6 +10,8 @@
  * @since       1.5
  */
 var JSwitcher = function(toggler, element, _options) {
+	'use strict';
+
     var $, $togglers, $elements, current, options = {
         onShow : function() {
         },

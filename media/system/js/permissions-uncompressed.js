@@ -2,8 +2,10 @@
  * Function to send Permissions via Ajax to Com-Config Application Controller
  */
 function sendPermissions(event) {
+	'use strict';
+
 	// set the icon while storing the values
-	var icon = document.getElementById('icon_' + this.id);
+	var icon = document.getElementById('icon_' + event.target.id);
 	icon.removeAttribute('class');
 	icon.setAttribute('style', 'background: url(../media/system/images/modal/spinner.gif); display: inline-block; width: 16px; height: 16px');
 
@@ -14,7 +16,7 @@ function sendPermissions(event) {
 	var option = getUrlParam('option');
 	var view = getUrlParam('view');
 	var title = component;
-	var value = this.value;
+	var value = event.target.value;
 
 	if (option == 'com_config' && component == false && extension == false)
 	{
@@ -32,7 +34,7 @@ function sendPermissions(event) {
 		title = document.getElementById('jform_title').value;
 	}
 
-	var id = this.id.replace('jform_rules_', '');
+	var id = event.target.id.replace('jform_rules_', '');
 	var lastUnderscoreIndex = id.lastIndexOf('_');
 
 	var permission_data = {
@@ -104,6 +106,8 @@ function sendPermissions(event) {
  * Function to get parameters out of the url
  */
 function getUrlParam(variable) {
+	'use strict';
+
 	var query = window.location.search.substring(1);
 	var vars = query.split('&');
 	for (var i=0;i<vars.length;i++)

@@ -12,10 +12,7 @@
 define(['jquery', 'text!testsRoot/permissions/fixtures/fixture.html', 'libs/permissions', 'libs/core'], function ($, fixture) {
 	$('body').append(fixture);
 
-	window.id = '0';
-	window.value = '1';
-
-	event = {target: '#sendBtn'};
+	event = {target: document.getElementById('0')};
 
 	responses = {
 		success: {
