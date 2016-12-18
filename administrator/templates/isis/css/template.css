@@ -8799,3 +8799,7 @@ body.modal-open {
 .hero-unit .lead {
 	font-weight: 400;
 }
+.CodeMirror {
+	height: calc(100vh - 400px);
+	min-height: 300px;
+}
