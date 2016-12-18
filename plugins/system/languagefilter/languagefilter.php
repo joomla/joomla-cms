@@ -374,9 +374,10 @@ class PlgSystemLanguageFilter extends JPlugin
 			$lang_code = $this->sefs[$lang]->lang_code;
 		}
 
-		// We are called via POST. We don't care about the language
+		// We are called via POST or the nolangfilter url parameter was set. We don't care about the language
 		// and simply set the default language as our current language.
 		if ($this->app->input->getMethod() == "POST"
+			|| $this->app->input->get('nolangfilter', 0) == 1
 			|| count($this->app->input->post) > 0
 			|| count($this->app->input->files) > 0)
 		{
