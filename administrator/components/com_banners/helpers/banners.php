@@ -89,23 +89,23 @@ class BannersHelper extends JHelperContent
 
 		foreach ($rows as $row)
 		{
-			$purchase_type = $row->purchase_type;
+			$purchaseType = $row->purchase_type;
 
-			if ($purchase_type < 0 && $row->cid)
+			if ($purchaseType < 0 && $row->cid)
 			{
 				/** @var BannersTableClient $client */
 				$client = JTable::getInstance('Client', 'BannersTable');
 				$client->load($row->cid);
-				$purchase_type = $client->purchase_type;
+				$purchaseType = $client->purchase_type;
 			}
 
-			if ($purchase_type < 0)
+			if ($purchaseType < 0)
 			{
 				$params = JComponentHelper::getParams('com_banners');
-				$purchase_type = $params->get('purchase_type');
+				$purchaseType = $params->get('purchase_type');
 			}
 
-			switch ($purchase_type)
+			switch ($purchaseType)
 			{
 				case 1:
 					$reset = $nullDate;
