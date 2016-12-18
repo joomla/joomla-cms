@@ -735,6 +735,11 @@
 			label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
 			description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
 			size="20"/>
+		<field
+			name="image_fulltext_link"
+			type="link"
+			label="COM_CONTENT_FIELD_IMAGE_LINK_LABEL"
+			description="COM_CONTENT_FIELD_IMAGE_LINK_DESC"/>
 	</fields>
 	<fields name="urls" label="COM_CONTENT_FIELD_URLS_OPTIONS">
 		<field
