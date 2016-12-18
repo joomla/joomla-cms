@@ -35,6 +35,11 @@
 			html: true
 		});
 
+		// Fix toolbar and footer width for edit views
+		if (document.getElementById('wrapper').classList.contains('wrapper0')) {
+			document.querySelector('.subhead').style.left = 0;
+			document.getElementById('status').style.marginLeft = 0;
+		}
 		if (document.getElementById('sidebar-wrapper') && !document.getElementById('sidebar-wrapper').getAttribute('data-hidden')) {
 			/** Sidebar */
 			var sidebar       = document.getElementById('sidebar-wrapper'),
@@ -319,7 +324,7 @@
 			if (subhead) {
 				navTop = document.querySelector('.subhead').offsetHeight;
 
-				if (document.getElementById('sidebar-wrapper').style.display === 'none') {
+				if (document.getElementById('sidebar-wrapper') && document.getElementById('sidebar-wrapper').style.display === 'none') {
 					subhead.style.left = 0;
 				}
 
@@ -341,7 +346,7 @@
 					isFixed = true;
 					subhead.classList.add('subhead-fixed');
 
-					if (document.getElementById('sidebar-wrapper').style.display === 'none') {
+					if (document.getElementById('sidebar-wrapper') && document.getElementById('sidebar-wrapper').style.display === 'none') {
 						subhead.style.left = 0;
 					}
 				} else if (scrollTop <= navTop && isFixed) {

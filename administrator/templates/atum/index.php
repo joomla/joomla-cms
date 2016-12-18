@@ -72,15 +72,17 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 	</noscript>
 
 	<?php // Wrapper ?>
-	<div id="wrapper" class="wrapper">
+	<div id="wrapper" class="wrapper<?php echo $hidden ? '0' : ''; ?>">
 
 		<?php // Sidebar ?>
-		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
+		<?php if (!$hidden) : ?>
+			<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
 			<div id="main-brand-sm" class="main-brand  hidden-xs-up">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 					<img src="<?php echo $logoSm; ?>" class="logo" alt="<?php echo $sitename;?>" />
 				</a>
 			</div>
+
 			<div id="main-brand" class="main-brand">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename;?>" />
@@ -89,16 +91,19 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 			<jdoc:include type="modules" name="menu" style="none" />
 			<div class="sidebar-brand"></div>
 		</div>
+		<?php endif; ?>
 
 		<?php // Header ?>
 		<header id="header" class="header">
 			<div class="container-fluid">
 				<div class="text-xs-center">
+					<?php if (!$hidden) : ?>
 					<div class="menu-collapse">
 						<a id="menu-collapse" class="menu-toggle" href="#">
 							<span></span>
 						</a>
 					</div>
+					<?php endif; ?>
 					<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
 						<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
 						<span class="icon-out-2 small"></span>
