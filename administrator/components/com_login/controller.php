@@ -96,8 +96,17 @@ class LoginController extends JControllerLegacy
 
 		$userid = $this->input->getInt('uid', null);
 
+		if ($app->get('shared_session', '0'))
+		{
+			$clientid = null;
+		}
+		else
+		{
+			$clientid = $userid ? 0 : 1;
+		}
+
 		$options = array(
-			'clientid' => ($userid) ? 0 : 1
+			'clientid' => $clientid,
 		);
 
 		$result = $app->logout($userid, $options);

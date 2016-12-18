@@ -288,7 +288,7 @@ class PlgUserJoomla extends JPlugin
 		$sharedSessions = $this->app->get('shared_session', '0');
 
 		// Check to see if we're deleting the current session
-		if ($my->id == $user['id'] && (!$sharedSessions && $options['clientid'] == $this->app->getClientId()))
+		if ($my->id == $user['id'] && ($sharedSessions || (!$sharedSessions && $options['clientid'] == $this->app->getClientId())))
 		{
 			// Hit the user last visit field
 			$my->setLastVisit();
