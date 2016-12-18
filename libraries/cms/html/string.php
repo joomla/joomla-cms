@@ -36,7 +36,7 @@ abstract class JHtmlString
 	public static function truncate($text, $length = 0, $noSplit = true, $allowHtml = true)
 	{
 		// Assume a lone open tag is invalid HTML.
-		if ($length == 1 && substr($text, 0, 1) == '<')
+		if ($length == 1 && substr($text, 0, 1) === '<')
 		{
 			return '...';
 		}
@@ -63,7 +63,7 @@ abstract class JHtmlString
 		{
 			$tmp = trim(StringHelper::substr($text, 0, $length));
 
-			if (substr($tmp, 0, 1) == '<' && strpos($tmp, '>') === false)
+			if (substr($tmp, 0, 1) === '<' && strpos($tmp, '>') === false)
 			{
 				return '...';
 			}
@@ -171,13 +171,13 @@ abstract class JHtmlString
 		}
 
 		// Take care of short simple cases.
-		if ($maxLength <= 3 && substr($html, 0, 1) != '<' && strpos(substr($html, 0, $maxLength - 1), '<') === false && $baseLength > $maxLength)
+		if ($maxLength <= 3 && substr($html, 0, 1) !== '<' && strpos(substr($html, 0, $maxLength - 1), '<') === false && $baseLength > $maxLength)
 		{
 			return '...';
 		}
 
 		// Deal with maximum length of 1 where the string starts with a tag.
-		if ($maxLength == 1 && substr($html, 0, 1) == '<')
+		if ($maxLength == 1 && substr($html, 0, 1) === '<')
 		{
 			$endTagPos = strlen(strstr($html, '>', true));
 			$tag = substr($html, 1, $endTagPos);
@@ -206,13 +206,13 @@ abstract class JHtmlString
 
 		// If the plain text is shorter than the max length the variable will not end in ...
 		// In that case we use the whole string.
-		if (substr($ptString, -3) != '...')
+		if (substr($ptString, -3) !== '...')
 		{
 				return $html;
 		}
 
 		// Regular truncate gives us the ellipsis but we want to go back for text and tags.
-		if ($ptString == '...')
+		if ($ptString === '...')
 		{
 			$stripped = substr(strip_tags($html), 0, $maxLength);
 			$ptString = JHtml::_('string.truncate', $stripped, $maxLength, $noSplit, $allowHtml = false);
@@ -227,7 +227,7 @@ abstract class JHtmlString
 			// Get the truncated string assuming HTML is allowed.
 			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = true);
 
-			if ($htmlString == '...' && strlen($ptString) + 3 > $maxLength)
+			if ($htmlString === '...' && strlen($ptString) + 3 > $maxLength)
 			{
 				return $htmlString;
 			}

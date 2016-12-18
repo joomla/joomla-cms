@@ -55,7 +55,7 @@ abstract class JHtmlBehavior
 			$debug = JDEBUG;
 		}
 
-		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
+		if ($type !== 'core' && empty(static::$loaded[__METHOD__]['core']))
 		{
 			static::framework(false, $debug);
 		}

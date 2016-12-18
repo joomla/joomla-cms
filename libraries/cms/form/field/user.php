@@ -86,7 +86,7 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 			$name = JUser::getInstance($this->value)->name;
 		}
 		// Handle the special case for "current".
-		elseif (strtoupper($this->value) == 'CURRENT')
+		elseif (strtoupper($this->value) === 'CURRENT')
 		{
 			// 'CURRENT' is not a reasonable value to be placed in the html
 			$current = JFactory::getUser();

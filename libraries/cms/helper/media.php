@@ -70,7 +70,7 @@ class JHelperMedia
 
 		jimport('joomla.filesystem.file');
 
-		if (str_replace(' ', '', $file['name']) != $file['name'] || $file['name'] !== JFile::makeSafe($file['name']))
+		if (str_replace(' ', '', $file['name']) !== $file['name'] || $file['name'] !== JFile::makeSafe($file['name']))
 		{
 			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
 
@@ -272,13 +272,13 @@ class JHelperMedia
 
 			while (false !== ($entry = $d->read()))
 			{
-				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry)
+				if (substr($entry, 0, 1) !== '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry)
 					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false)
 				{
 					$total_file++;
 				}
 
-				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
+				if (substr($entry, 0, 1) !== '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
 				{
 					$total_dir++;
 				}

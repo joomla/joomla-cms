@@ -670,12 +670,12 @@ abstract class JHtmlSelect
 
 			$key = (string) $key;
 
-			if ($options['groups'] && $key == '<OPTGROUP>')
+			if ($options['groups'] && $key === '<OPTGROUP>')
 			{
 				$html .= $baseIndent . '<optgroup label="' . ($options['list.translate'] ? JText::_($text) : $text) . '">' . $options['format.eol'];
 				$baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
 			}
-			elseif ($options['groups'] && $key == '</OPTGROUP>')
+			elseif ($options['groups'] && $key === '</OPTGROUP>')
 			{
 				$baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
 				$html .= $baseIndent . '</optgroup>' . $options['format.eol'];
@@ -725,7 +725,7 @@ abstract class JHtmlSelect
 						}
 					}
 				}
-				elseif ((string) $key == (string) $options['list.select'])
+				elseif ((string) $key === (string) $options['list.select'])
 				{
 					$extra .= ' selected="selected"';
 				}
@@ -799,7 +799,7 @@ abstract class JHtmlSelect
 			}
 			else
 			{
-				$extra .= ((string) $k == (string) $selected ? ' checked="checked" ' : '');
+				$extra .= ((string) $k === (string) $selected ? ' checked="checked" ' : '');
 			}
 
 			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';

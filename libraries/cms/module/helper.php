@@ -50,7 +50,7 @@ abstract class JModuleHelper
 		}
 
 		// If we didn't find it, and the name is mod_something, create a dummy object
-		if (is_null($result) && substr($name, 0, 4) == 'mod_')
+		if (is_null($result) && substr($name, 0, 4) === 'mod_')
 		{
 			$result            = new stdClass;
 			$result->id        = 0;
@@ -295,7 +295,7 @@ abstract class JModuleHelper
 		{
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
-			$template = ($temp[0] == '_') ? $template : $temp[0];
+			$template = ($temp[0] === '_') ? $template : $temp[0];
 			$layout = $temp[1];
 			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
 		}

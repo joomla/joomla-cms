@@ -104,7 +104,7 @@ class JHelperRoute
 		}
 
 		// Deal with languages only if needed
-		if (!empty($language) && $language != '*' && JLanguageMultilang::isEnabled())
+		if (!empty($language) && $language !== '*' && JLanguageMultilang::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 			$needles['language'] = $language;
@@ -149,7 +149,7 @@ class JHelperRoute
 			$attributes = array('component_id');
 			$values     = array($component->id);
 
-			if ($language != '*')
+			if ($language !== '*')
 			{
 				$attributes[] = 'language';
 				$values[]     = array($needles['language'], '*');
@@ -180,7 +180,7 @@ class JHelperRoute
 						 * $language != * can override existing entries
 						 * $language == * cannot override existing entries
 						 */
-						if (!isset(static::$lookup[$language][$view][$item->query['id']]) || $item->language != '*')
+						if (!isset(static::$lookup[$language][$view][$item->query['id']]) || $item->language !== '*')
 						{
 							static::$lookup[$language][$view][$item->query['id']] = $item->id;
 						}
@@ -208,7 +208,7 @@ class JHelperRoute
 
 		$active = $menus->getActive();
 
-		if ($active && $active->component == $this->extension && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
+		if ($active && $active->component === $this->extension && ($active->language === '*' || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
 		}
@@ -264,7 +264,7 @@ class JHelperRoute
 				'category' => array($id),
 			);
 
-			if ($language && $language != '*' && JLanguageMultilang::isEnabled())
+			if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 				$needles['language'] = $language;

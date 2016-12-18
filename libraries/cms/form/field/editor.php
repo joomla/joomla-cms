@@ -152,11 +152,11 @@ class JFormFieldEditor extends JFormFieldTextarea implements JFormDomfieldinterf
 			case 'buttons':
 				$value = (string) $value;
 
-				if ($value == 'true' || $value == 'yes' || $value == '1')
+				if ($value === 'true' || $value === 'yes' || $value == '1')
 				{
 					$this->buttons = true;
 				}
-				elseif ($value == 'false' || $value == 'no' || $value == '0')
+				elseif ($value === 'false' || $value === 'no' || $value == '0')
 				{
 					$this->buttons = false;
 				}
@@ -211,11 +211,11 @@ class JFormFieldEditor extends JFormFieldTextarea implements JFormDomfieldinterf
 			$hide       = (string) $this->element['hide'];
 			$editorType = (string) $this->element['editor'];
 
-			if ($buttons == 'true' || $buttons == 'yes' || $buttons == '1')
+			if ($buttons === 'true' || $buttons === 'yes' || $buttons == '1')
 			{
 				$this->buttons = true;
 			}
-			elseif ($buttons == 'false' || $buttons == 'no' || $buttons == '0')
+			elseif ($buttons === 'false' || $buttons === 'no' || $buttons == '0')
 			{
 				$this->buttons = false;
 			}

@@ -72,7 +72,7 @@ class JRouterSite extends JRouter
 	{
 		$vars = array();
 
-		if ($this->app->get('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https')
+		if ($this->app->get('force_ssl') == 2 && strtolower($uri->getScheme()) !== 'https')
 		{
 			// Forward to https
 			$uri->setScheme('https');
@@ -105,7 +105,7 @@ class JRouterSite extends JRouter
 		// Identify format
 		if ($this->_mode == JROUTER_MODE_SEF)
 		{
-			if ($this->app->get('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
+			if ($this->app->get('sef_suffix') && !(substr($path, -9) === 'index.php' || substr($path, -1) === '/'))
 			{
 				if ($suffix = pathinfo($path, PATHINFO_EXTENSION))
 				{
@@ -154,7 +154,7 @@ class JRouterSite extends JRouter
 		// Add the suffix to the uri
 		if ($this->_mode == JROUTER_MODE_SEF && $route)
 		{
-			if ($this->app->get('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
+			if ($this->app->get('sef_suffix') && !(substr($route, -9) === 'index.php' || substr($route, -1) === '/'))
 			{
 				if ($format = $uri->getVar('format', 'html'))
 				{
@@ -301,7 +301,7 @@ class JRouterSite extends JRouter
 		// Parse the application route
 		$segments = explode('/', $route);
 
-		if (count($segments) > 1 && $segments[0] == 'component')
+		if (count($segments) > 1 && $segments[0] === 'component')
 		{
 			$vars['option'] = 'com_' . $segments[1];
 			$vars['Itemid'] = null;
@@ -319,7 +319,7 @@ class JRouterSite extends JRouter
 			// Iterate through all items and check route matches.
 			foreach ($items as $item)
 			{
-				if ($item->route && StringHelper::strpos($route_lowercase . '/', $item->route . '/') === 0 && $item->type != 'menulink')
+				if ($item->route && StringHelper::strpos($route_lowercase . '/', $item->route . '/') === 0 && $item->type !== 'menulink')
 				{
 					// Usual method for non-multilingual site.
 					if (!$this->app->getLanguageFilter())
@@ -338,7 +338,7 @@ class JRouterSite extends JRouter
 						}
 					}
 					// Multilingual site.
-					elseif ($item->language == '*' || $item->language == $lang_tag)
+					elseif ($item->language === '*' || $item->language == $lang_tag)
 					{
 						// Exact route match.
 						if ($item->route == $route_lowercase)

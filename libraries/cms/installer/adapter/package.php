@@ -491,7 +491,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 				case 'update':
 					if ($this->parent->manifestClass->$method($this) === false)
 					{
-						if ($method != 'uninstall')
+						if ($method !== 'uninstall')
 						{
 							// The script failed, rollback changes
 							throw new RuntimeException(
@@ -511,7 +511,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		$this->extensionMessage .= ob_get_clean();
 
 		// If in postflight or uninstall, set the message for display
-		if (($method == 'uninstall' || $method == 'postflight') && $this->extensionMessage != '')
+		if (($method === 'uninstall' || $method === 'postflight') && $this->extensionMessage != '')
 		{
 			$this->parent->set('extension_message', $this->extensionMessage);
 		}
@@ -580,7 +580,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		// Check for a valid XML root tag.
-		if ($xml->getName() != 'extension')
+		if ($xml->getName() !== 'extension')
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'), JLog::WARNING, 'jerror');
 

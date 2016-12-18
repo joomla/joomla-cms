@@ -76,7 +76,7 @@ abstract class JHtmlGrid
 
 		$direction = strtolower($direction);
 		$icon = array('arrow-up-3', 'arrow-down-3');
-		$index = (int) ($direction == 'desc');
+		$index = (int) ($direction === 'desc');
 
 		if ($order != $selected)
 		{
@@ -84,14 +84,14 @@ abstract class JHtmlGrid
 		}
 		else
 		{
-			$direction = ($direction == 'desc') ? 'asc' : 'desc';
+			$direction = ($direction === 'desc') ? 'asc' : 'desc';
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');return false;"'
 			. ' class="hasPopover" title="' . htmlspecialchars(JText::_($tip ? $tip : $title)) . '"'
 			. ' data-content="' . htmlspecialchars(JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-placement="top">';
 
-		if (isset($title['0']) && $title['0'] == '<')
+		if (isset($title['0']) && $title['0'] === '<')
 		{
 			$html .= $title;
 		}
@@ -180,7 +180,7 @@ abstract class JHtmlGrid
 		}
 		else
 		{
-			if ($identifier == 'id')
+			if ($identifier === 'id')
 			{
 				return JHtml::_('grid.id', $i, $row->$identifier);
 			}

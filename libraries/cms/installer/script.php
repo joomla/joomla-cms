@@ -132,7 +132,7 @@ class JInstallerScript
 		}
 
 		// Abort if the extension being installed is not newer than the currently installed version
-		if (strtolower($type) == 'update' && !$this->allowDowngrades)
+		if (strtolower($type) === 'update' && !$this->allowDowngrades)
 		{
 			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', JFactory::getDbo()->quote($this->extension));
 			$oldRelease = $manifest['version'];
@@ -230,7 +230,7 @@ class JInstallerScript
 		{
 			foreach ($param_array as $name => $value)
 			{
-				if ($type == 'edit')
+				if ($type === 'edit')
 				{
 					// Add or edit the new variable(s) to the existing params
 					if (is_array($value))
@@ -243,7 +243,7 @@ class JInstallerScript
 						$params[(string) $name] = (string) $value;
 					}
 				}
-				elseif ($type == 'remove')
+				elseif ($type === 'remove')
 				{
 					// Unset the parameter from the array
 					unset($params[(string) $name]);

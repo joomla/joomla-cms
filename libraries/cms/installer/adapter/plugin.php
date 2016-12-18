@@ -122,7 +122,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		parent::createExtensionRoot();
 
 		// If we're updating at this point when there is always going to be an extension_root find the old XML files
-		if ($this->route == 'update')
+		if ($this->route === 'update')
 		{
 			// Create a new installer because findManifest sets stuff; side effects!
 			$tmpInstaller = new JInstaller;
@@ -165,7 +165,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			if (!$this->parent->copyManifest(-1))
 			{
@@ -359,14 +359,14 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
 			$this->extension->state = 0;
 			$this->extension->name = $manifest_details['name'];
-			$this->extension->enabled = ('editors' == $this->extension->folder) ? 1 : 0;
+			$this->extension->enabled = ('editors' === $this->extension->folder) ? 1 : 0;
 			$this->extension->params = $this->parent->getParams();
 
 			if (!$this->extension->store())
@@ -422,7 +422,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
 			// Editor plugins are published by default
-			if ($this->group == 'editors')
+			if ($this->group === 'editors')
 			{
 				$this->extension->enabled = 1;
 			}
@@ -638,7 +638,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 				$file = JFile::stripExt($file);
 
 				// Ignore example plugins
-				if ($file == 'example' || $manifest_details === false)
+				if ($file === 'example' || $manifest_details === false)
 				{
 					continue;
 				}
@@ -670,7 +670,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 					);
 					$file = JFile::stripExt($file);
 
-					if ($file == 'example' || $manifest_details === false)
+					if ($file === 'example' || $manifest_details === false)
 					{
 						continue;
 					}

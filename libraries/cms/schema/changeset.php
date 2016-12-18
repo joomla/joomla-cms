@@ -95,7 +95,7 @@ class JSchemaChangeset
 		// If on mysql, add a query at the end to check for utf8mb4 conversion status
 		$serverType = $this->db->getServerType();
 
-		if ($serverType == 'mysql')
+		if ($serverType === 'mysql')
 		{
 			// Let the update query be something harmless which should always succeed
 			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance(
@@ -258,11 +258,11 @@ class JSchemaChangeset
 		// Get the folder from the database name
 		$sqlFolder = $this->db->name;
 
-		if ($sqlFolder == 'mysqli' || $sqlFolder == 'pdomysql')
+		if ($sqlFolder === 'mysqli' || $sqlFolder === 'pdomysql')
 		{
 			$sqlFolder = 'mysql';
 		}
-		elseif ($sqlFolder == 'sqlsrv')
+		elseif ($sqlFolder === 'sqlsrv')
 		{
 			$sqlFolder = 'sqlazure';
 		}

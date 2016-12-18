@@ -141,11 +141,11 @@ abstract class JSchemaChangeitem
 		// Get the class name
 		$dbname = $db->name;
 
-		if ($dbname == 'mysqli' || $dbname == 'pdomysql')
+		if ($dbname === 'mysqli' || $dbname === 'pdomysql')
 		{
 			$dbname = 'mysql';
 		}
-		elseif ($dbname == 'sqlazure')
+		elseif ($dbname === 'sqlazure')
 		{
 			$dbname = 'sqlsrv';
 		}

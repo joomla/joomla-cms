@@ -124,7 +124,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// Copy site files
 		if ($this->getManifest()->files)
 		{
-			if ($this->route == 'update')
+			if ($this->route === 'update')
 			{
 				$result = $this->parent->parseFiles($this->getManifest()->files, 0, $this->oldFiles);
 			}
@@ -147,7 +147,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// Copy admin files
 		if ($this->getManifest()->administration->files)
 		{
-			if ($this->route == 'update')
+			if ($this->route === 'update')
 			{
 				$result = $this->parent->parseFiles($this->getManifest()->administration->files, 1, $this->oldAdminFiles);
 			}
@@ -289,7 +289,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		// We will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			if (!$this->parent->copyManifest())
 			{
@@ -356,7 +356,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	{
 		$element = parent::getElement($element);
 
-		if (substr($element, 0, 4) != 'com_')
+		if (substr($element, 0, 4) !== 'com_')
 		{
 			$element = 'com_' . $element;
 		}
@@ -580,7 +580,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	protected function storeExtension($deleteExisting = false)
 	{
 		// The extension is stored during prepareDiscoverInstall for discover installs
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			return;
 		}

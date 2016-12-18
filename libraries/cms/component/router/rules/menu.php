@@ -118,8 +118,8 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 		// Check if the active menuitem matches the requested language
 		$active = $this->router->menu->getActive();
 
-		if ($active && $active->component == 'com_' . $this->router->getName()
-			&& ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
+		if ($active && $active->component === 'com_' . $this->router->getName()
+			&& ($language === '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
 		{
 			$query['Itemid'] = $active->id;
 			return;
@@ -192,7 +192,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 						 * language == * cannot override existing entries
 						 */
 						if (isset($item->query[$views[$view]->key])
-							&& (!isset($this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]]) || $item->language != '*'))
+							&& (!isset($this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]]) || $item->language !== '*'))
 						{
 							$this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]] = $item->id;
 							$this->lookup[$language][$view][$item->query[$views[$view]->key]] = $item->id;
@@ -205,7 +205,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 						 * language != * can override existing entries
 						 * language == * cannot override existing entries
 						 */
-						if (!isset($this->lookup[$language][$view . $layout]) || $item->language != '*')
+						if (!isset($this->lookup[$language][$view . $layout]) || $item->language !== '*')
 						{
 							$this->lookup[$language][$view . $layout] = $item->id;
 							$this->lookup[$language][$view] = $item->id;

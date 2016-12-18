@@ -44,7 +44,7 @@ class JToolbarButtonStandard extends JToolbarButton
 		$options['class'] = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
 
-		if ($name == 'apply' || $name == 'new')
+		if ($name === 'apply' || $name === 'new')
 		{
 			$options['btnClass'] = 'btn btn-small btn-success';
 			$options['class'] .= ' icon-white';
