@@ -324,8 +324,7 @@ abstract class ModArticlesCategoryHelper
 	 */
 	public static function _cleanIntrotext($introtext)
 	{
-		$introtext = str_replace('<p>', ' ', $introtext);
-		$introtext = str_replace('</p>', ' ', $introtext);
+		$introtext = str_replace(array('<p>','</p>'), ' ', $introtext);
 		$introtext = strip_tags($introtext, '<a><em><strong>');
 		$introtext = trim($introtext);
 
@@ -361,7 +360,7 @@ abstract class ModArticlesCategoryHelper
 			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
 
 			// If the new plain text string matches the original plain text string we are done.
-			if ($ptString == $htmlStringToPtString)
+			if ($ptString === $htmlStringToPtString)
 			{
 				return $htmlString;
 			}
@@ -414,7 +413,7 @@ abstract class ModArticlesCategoryHelper
 				$grouped[$item->$fieldName] = array();
 			}
 
-			if (is_null($fieldNameToKeep))
+			if ($fieldNameToKeep === null)
 			{
 				$grouped[$item->$fieldName][$key] = $item;
 			}
