@@ -19,7 +19,7 @@ function updatecachetime_postinstall_condition()
 	$cacheTimeout = (int) JComponentHelper::getComponent('com_installer')->params->get('cachetimeout', 6);
 
 	// Check if cachetimeout is eq zero
-	if ($cacheTimeout == 0 && JPluginHelper::isEnabled('system', 'updatenotification'))
+	if ($cacheTimeout === 0 && JPluginHelper::isEnabled('system', 'updatenotification'))
 	{
 		return true;
 	}

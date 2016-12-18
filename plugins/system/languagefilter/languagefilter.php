@@ -210,8 +210,8 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		if ($this->mode_sef
 			&& (!$this->params->get('remove_default_prefix', 0)
-			|| $lang != $this->default_lang
-			|| $lang != $this->current_lang))
+			|| $lang !== $this->default_lang
+			|| $lang !== $this->current_lang))
 		{
 			$uri->setPath($uri->getPath() . '/' . $sef . '/');
 		}
@@ -309,7 +309,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					$lang_code = $this->default_lang;
 				}
 
-				if ($this->params->get('remove_default_prefix', 0) && $lang_code == $this->default_lang)
+				if ($this->params->get('remove_default_prefix', 0) && $lang_code === $this->default_lang)
 				{
 					$found = true;
 				}
@@ -323,7 +323,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				// If we found our language, but its the default language and we don't want a prefix for that, we are on a wrong URL.
 				// Or we try to change the language back to the default language. We need a redirect to the proper URL for the default language.
 				if ($this->params->get('remove_default_prefix', 0)
-					&& $lang_code == $this->default_lang)
+					&& $lang_code === $this->default_lang)
 				{
 					// Create a cookie.
 					$this->setLanguageCookie($lang_code);
@@ -339,7 +339,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					array_shift($parts);
 
 					// Empty parts array when "index.php" is the only part left.
-					if (count($parts) == 1 && $parts[0] === 'index.php')
+					if (count($parts) === 1 && $parts[0] === 'index.php')
 					{
 						$parts = array();
 					}
@@ -425,7 +425,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			{
 				// Use the current language sef or the default one.
 				if (!$this->params->get('remove_default_prefix', 0)
-					|| $lang_code != $this->default_lang)
+					|| $lang_code !== $this->default_lang)
 				{
 					$path = $this->lang_codes[$lang_code]->sef . '/' . $path;
 				}
@@ -474,7 +474,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		$this->app->set('language', $lang_code);
 		$language = JFactory::getLanguage();
 
-		if ($language->getTag() != $lang_code)
+		if ($language->getTag() !== $lang_code)
 		{
 			$newLang = JLanguage::getInstance($lang_code);
 
@@ -488,7 +488,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		}
 
 		// Create a cookie.
-		if ($this->getLanguageCookie() != $lang_code)
+		if ($this->getLanguageCookie() !== $lang_code)
 		{
 			$this->setLanguageCookie($lang_code);
 		}
@@ -549,7 +549,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				$lang_code = $this->current_lang;
 			}
 
-			if ($lang_code == $this->user_lang_code || !isset($this->lang_codes[$lang_code]))
+			if ($lang_code === $this->user_lang_code || !isset($this->lang_codes[$lang_code]))
 			{
 				if ($this->app->isSite())
 				{
@@ -663,7 +663,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						// We are on a Home page, we redirect to the user preferred site language Home page.
 						$item = $menu->getDefault($lang_code);
 
-						if ($item && $item->language != $active->language && $item->language != '*')
+						if ($item && $item->language !== $active->language && $item->language !== '*')
 						{
 							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $item->id);
 							$foundAssociation = true;
@@ -671,7 +671,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					}
 				}
 
-				if ($foundAssociation && $lang_code != $this->current_lang)
+				if ($foundAssociation && $lang_code !== $this->current_lang)
 				{
 					// Change language.
 					$this->current_lang = $lang_code;
@@ -722,14 +722,14 @@ class PlgSystemLanguageFilter extends JPlugin
 				$current_link = JRoute::_($currentInternalUrl);
 
 				// Load menu associations
-				if ($active_link == $current_link)
+				if ($active_link === $current_link)
 				{
 					$associations = MenusHelper::getAssociations($active->id);
 				}
 
 				// Check if we are on the home page
 				$is_home = ($active->home
-					&& ($active_link == $current_link || $active_link == $current_link . 'index.php' || $active_link . '/' == $current_link));
+					&& ($active_link === $current_link || $active_link === $current_link . 'index.php' || $active_link . '/' === $current_link));
 			}
 
 			// Load component associations.
@@ -760,7 +760,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						break;
 
 					// Current language link
-					case ($i == $this->current_lang):
+					case ($i === $this->current_lang):
 						$language->link = JRoute::_($currentInternalUrl);
 						break;
 

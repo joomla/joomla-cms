@@ -141,7 +141,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		if ($context == 'com_content.article' || $context == 'com_content.form')
 		{
 			// Check if the access levels are different.
-			if (!$isNew && $this->old_access != $row->access)
+			if (!$isNew && $this->old_access !== $row->access)
 			{
 				// Process the change.
 				$this->itemAccessChange($row);
@@ -155,7 +155,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		if ($context == 'com_categories.category')
 		{
 			// Check if the access levels are different.
-			if (!$isNew && $this->old_cataccess != $row->access)
+			if (!$isNew && $this->old_cataccess !== $row->access)
 			{
 				$this->categoryAccessChange($row);
 			}

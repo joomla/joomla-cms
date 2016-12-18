@@ -149,7 +149,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		if ($context == 'com_newsfeeds.newsfeed')
 		{
 			// Check if the access levels are different.
-			if (!$isNew && $this->old_access != $row->access)
+			if (!$isNew && $this->old_access !== $row->access)
 			{
 				// Process the change.
 				$this->itemAccessChange($row);
@@ -163,7 +163,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		if ($context == 'com_categories.category')
 		{
 			// Check if the access levels are different.
-			if (!$isNew && $this->old_cataccess != $row->access)
+			if (!$isNew && $this->old_cataccess !== $row->access)
 			{
 				$this->categoryAccessChange($row);
 			}
@@ -252,7 +252,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled.
-		if (JComponentHelper::isEnabled($this->extension) == false)
+		if (JComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}

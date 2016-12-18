@@ -311,8 +311,8 @@ class PlgContentPagebreak extends JPlugin
 				$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 
-			$liClass   = ($limitstart == $i - 1) ? ' class="active"' : '';
-			$class     = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
+			$liClass   = ($limitstart === $i - 1) ? ' class="active"' : '';
+			$class     = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
 			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">' . $title . '</a></li>';
 			$i++;
 		}
@@ -320,8 +320,8 @@ class PlgContentPagebreak extends JPlugin
 		if ($this->params->get('showall'))
 		{
 			$link      = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
-			$liClass   = ($limitstart == $i - 1) ? ' class="active"' : '';
-			$class     = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
+			$liClass   = ($limitstart === $i - 1) ? ' class="active"' : '';
+			$class     = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
 			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">'
 				. JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES') . '</a></li>';
 		}
@@ -365,7 +365,7 @@ class PlgContentPagebreak extends JPlugin
 
 		if ($page > 0)
 		{
-			$page_prev = $page - 1 == 0 ? '' : $page - 1;
+			$page_prev = $page - 1 === 0 ? '' : $page - 1;
 
 			$link_prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . $page_prev);
 

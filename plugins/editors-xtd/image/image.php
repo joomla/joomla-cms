@@ -40,7 +40,7 @@ class PlgButtonImage extends JPlugin
 		$user      = JFactory::getUser();
 		$extension = JFactory::getApplication()->input->get('option');
 
-		if ($asset == '')
+		if ($asset === '')
 		{
 			$asset = $extension;
 		}
@@ -48,7 +48,7 @@ class PlgButtonImage extends JPlugin
 		if ($user->authorise('core.edit', $asset)
 			|| $user->authorise('core.create', $asset)
 			|| (count($user->getAuthorisedCategories($asset, 'core.create')) > 0)
-			|| ($user->authorise('core.edit.own', $asset) && $author == $user->id)
+			|| ($user->authorise('core.edit.own', $asset) && $author === $user->id)
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author == $user->id))
 		{

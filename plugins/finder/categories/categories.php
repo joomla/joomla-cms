@@ -126,7 +126,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		if ($context == 'com_categories.category')
 		{
 			// Check if the access levels are different.
-			if (!$isNew && $this->old_access != $row->access)
+			if (!$isNew && $this->old_access !== $row->access)
 			{
 				// Process the change.
 				$this->itemAccessChange($row);
@@ -136,7 +136,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			$this->reindex($row->id);
 
 			// Check if the parent access level is different.
-			if (!$isNew && $this->old_cataccess != $row->access)
+			if (!$isNew && $this->old_cataccess !== $row->access)
 			{
 				$this->categoryAccessChange($row);
 			}
@@ -244,13 +244,13 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled.
-		if (JComponentHelper::isEnabled($this->extension) == false)
+		if (JComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
 
 		// Check if the extension that owns the category is also enabled.
-		if (JComponentHelper::isEnabled($item->extension) == false)
+		if (JComponentHelper::isEnabled($item->extension) === false)
 		{
 			return;
 		}

@@ -580,7 +580,7 @@ class PlgSystemFields extends JPlugin
 			$db->setQuery($query);
 			$tmp = $db->loadObjectList();
 
-			if (count($tmp) == 1)
+			if (count($tmp) === 1)
 			{
 				$parts = FieldsHelper::extract($tmp[0]->context);
 
