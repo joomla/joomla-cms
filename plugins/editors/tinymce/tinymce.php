@@ -218,17 +218,17 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($langMode)
 		{
-			if (file_exists(JPATH_ROOT . "/media/editors/tinymce/langs/" . $language->getTag() . ".js"))
+			if (file_exists(JPATH_ROOT . '/media/editors/tinymce/langs/' . $language->getTag() . '.js'))
 			{
 				$langPrefix = $language->getTag();
 			}
-			elseif (file_exists(JPATH_ROOT . "/media/editors/tinymce/langs/" . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . ".js"))
+			elseif (file_exists(JPATH_ROOT . '/media/editors/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js'))
 			{
 				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
 			}
 			else
 			{
-				$langPrefix = "en";
+				$langPrefix = 'en';
 			}
 		}
 
@@ -421,10 +421,10 @@ class PlgEditorTinymce extends JPlugin
 		if (!empty($allButtons['template']))
 		{
 			// Note this check for the template_list.js file will be removed in Joomla 4.0
-			if (is_file(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js"))
+			if (is_file(JPATH_ROOT . '/media/editors/tinymce/templates/template_list.js'))
 			{
 				// If using the legacy file we need to include and input the files the new way
-				$str = file_get_contents(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js");
+				$str = file_get_contents(JPATH_ROOT . '/media/editors/tinymce/templates/template_list.js');
 
 				// Find from one [ to the last ]
 				$matches = array();
@@ -435,7 +435,7 @@ class PlgEditorTinymce extends JPlugin
 				{
 					$values = array();
 					preg_match_all('/\".*\"/', $match, $values);
-					$result       = trim($values["0"]["0"], '"');
+					$result       = trim($values['0']['0'], '"');
 					$final_result = explode(',', $result);
 
 					$templates[] = array(
@@ -506,7 +506,7 @@ class PlgEditorTinymce extends JPlugin
 		// We shall put the XTD button inside tinymce
 		$btns      = $this->tinyButtons($id, $buttons);
 		$btnsNames = $btns['names'];
-		$tinyBtns  = implode("; ", $btns['script']);
+		$tinyBtns  = implode('; ', $btns['script']);
 
 		if (!empty($btnsNames))
 		{
@@ -655,7 +655,7 @@ class PlgEditorTinymce extends JPlugin
 
 		$options['tinyMCE']['default'] = $scriptOptions;
 
-		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
+		$doc->addStyleDeclaration('.mce-in { padding: 5px 10px !important;}');
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
 
 		return $editor;
@@ -696,13 +696,13 @@ class PlgEditorTinymce extends JPlugin
 			if ($button->get('name'))
 			{
 				// Set some vars
-				$name    = 'button-' . $i . str_replace(" ", "", $button->get('text'));
+				$name    = 'button-' . $i . str_replace(' ', '', $button->get('text'));
 				$title   = $button->get('text');
-				$onclick = ($button->get('onclick')) ? $button->get('onclick') : null;
+				$onclick = $button->get('onclick') ? $button->get('onclick') : null;
 				$options = $button->get('options');
 				$icon    = $button->get('name');
 
-				if ($button->get('link') != "#")
+				if ($button->get('link') != '#')
 				{
 					$href = JUri::base() . $button->get('link');
 				}

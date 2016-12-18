@@ -105,7 +105,7 @@ class PlgContentVote extends JPlugin
 	 */
 	private function displayVotingData($context, &$row, &$params, $page)
 	{
-		$parts = explode(".", $context);
+		$parts = explode('.', $context);
 
 		if ($parts[0] != 'com_content')
 		{
