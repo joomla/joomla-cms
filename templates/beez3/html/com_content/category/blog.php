@@ -65,12 +65,11 @@ $cparams = JComponentHelper::getParams('com_media');
 	<?php endforeach; ?>
 </div>
 <?php endif; ?>
-<?php
+<?php if (!empty($this->intro_items)) : ?>
+	<?php
 	$introcount = count($this->intro_items);
 	$counter = 0;
-?>
-<?php if (!empty($this->intro_items)) : ?>
-
+	?>
 	<?php foreach ($this->intro_items as $key => &$item) : ?>
 		<?php $rowcount = ((int) $key % (int) $this->columns) + 1; ?>
 		<?php if ($rowcount === 1) : ?>
@@ -84,7 +83,7 @@ $cparams = JComponentHelper::getParams('com_media');
 		?>
 		</article>
 		<?php $counter++; ?>
-		<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
+		<?php if (($rowcount === $this->columns) or ($counter === $introcount)) : ?>
 			<span class="row-separator"></span>
 			</div>
 		<?php endif; ?>
