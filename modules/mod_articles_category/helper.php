@@ -132,7 +132,7 @@ abstract class ModArticlesCategoryHelper
 				// Get an instance of the generic categories model
 				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
 				$categories->setState('params', $appParams);
-				$levels = $params->get('levels', 1) ? $params->get('levels', 1) : 9999;
+				$levels = $params->get('levels', 1) ?: 9999;
 				$categories->setState('filter.get_children', $levels);
 				$categories->setState('filter.published', 1);
 				$categories->setState('filter.access', $access);
@@ -193,9 +193,9 @@ abstract class ModArticlesCategoryHelper
 
 		// New Parameters
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
-		$articles->setState('filter.author_id', $params->get('created_by', ""));
+		$articles->setState('filter.author_id', $params->get('created_by', ''));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
-		$articles->setState('filter.author_alias', $params->get('created_by_alias', ""));
+		$articles->setState('filter.author_alias', $params->get('created_by_alias', ''));
 		$articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
 		$excluded_articles = $params->get('excluded_articles', '');
 
@@ -324,8 +324,7 @@ abstract class ModArticlesCategoryHelper
 	 */
 	public static function _cleanIntrotext($introtext)
 	{
-		$introtext = str_replace('<p>', ' ', $introtext);
-		$introtext = str_replace('</p>', ' ', $introtext);
+		$introtext = str_replace(array('<p>','</p>'), ' ', $introtext);
 		$introtext = strip_tags($introtext, '<a><em><strong>');
 		$introtext = trim($introtext);
 
@@ -361,7 +360,7 @@ abstract class ModArticlesCategoryHelper
 			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
 
 			// If the new plain text string matches the original plain text string we are done.
-			if ($ptString == $htmlStringToPtString)
+			if ($ptString === $htmlStringToPtString)
 			{
 				return $htmlString;
 			}
@@ -414,7 +413,7 @@ abstract class ModArticlesCategoryHelper
 				$grouped[$item->$fieldName] = array();
 			}
 
-			if (is_null($fieldNameToKeep))
+			if ($fieldNameToKeep === null)
 			{
 				$grouped[$item->$fieldName][$key] = $item;
 			}

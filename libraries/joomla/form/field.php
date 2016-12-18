@@ -1113,7 +1113,13 @@ abstract class JFormField
 		{
 			if (is_array($param))
 			{
-				$param = implode(',', $param);
+				// Multidimensional arrays (eg. list options) can't be transformed properly
+				$param = count($param) == count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
+			}
+
+			if (!$param)
+			{
+				continue;
 			}
 
 			$node->setAttribute($key, $param);
@@ -1150,7 +1156,7 @@ abstract class JFormField
 	 */
 	public function getFormParameters()
 	{
-		jimport('joomla.filesystem.file');
+		JLoader::import('joomla.filesystem.file');
 
 		$reflectionClass = new ReflectionClass($this);
 		$fileName        = dirname($reflectionClass->getFileName()) . '/../parameters/';
@@ -1158,7 +1164,7 @@ abstract class JFormField
 
 		if (JFile::exists($fileName))
 		{
-			return JFile::read($fileName);
+			return file_get_contents($fileName);
 		}
 
 		return '';

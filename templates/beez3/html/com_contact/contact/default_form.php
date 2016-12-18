@@ -57,7 +57,7 @@ if (isset($this->error)) : ?>
 			                    <?php else:?>
 			                         <div class="control-label">
 			                            <?php echo $field->label; ?>
-			                            <?php if (!$field->required && $field->type != "Spacer") : ?>
+			                            <?php if (!$field->required && $field->type != 'Spacer') : ?>
 			                               <span class="optional"><?php echo JText::_('COM_CONTACT_OPTIONAL');?></span>
 			                            <?php endif; ?>
 			                         </div>

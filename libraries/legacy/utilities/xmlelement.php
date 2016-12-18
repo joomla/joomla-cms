@@ -66,7 +66,7 @@ class JXMLElement extends SimpleXMLElement
 		// If there are no children and it contains no data, end it off with a />
 		if (!count($this->children()) && !(string) $this)
 		{
-			$out .= " />";
+			$out .= ' />';
 		}
 		else
 		{

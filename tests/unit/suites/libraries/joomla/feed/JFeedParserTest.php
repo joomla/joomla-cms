@@ -41,12 +41,11 @@ class JFeedParserTest extends TestCase
 	 */
 	public function testParse()
 	{
-		// Create the mock so we can verify calls.
-		$parser = $this->getMock(
-			'JFeedParserMock',
-			array('initialise', 'processElement'),
-			array($this->_reader)
-		);
+		// Build the mock so we can verify calls.
+		$parser  = $this->getMockBuilder('JFeedParserMock')
+					->setMethods(array('initialise', 'processElement'))
+					->setConstructorArgs(array($this->_reader))
+					->getMock();
 
 		// Setup some expectations for the mock object.
 		$parser->expects($this->once())->method('initialise');
@@ -81,7 +80,7 @@ class JFeedParserTest extends TestCase
 		$this->assertAttributeEmpty('namespaces', $this->_instance);
 
 		// Add a new namespace.
-		$mock = $this->getMock('JFeedParserNamespace');
+		$mock = $this->getMockBuilder('JFeedParserNamespace')->getMock();
 		$this->_instance->registerNamespace('foo', $mock);
 
 		$this->assertAttributeEquals(
@@ -184,7 +183,7 @@ class JFeedParserTest extends TestCase
 	public function testFetchNamespace()
 	{
 		// Set a mock namespace into the namespaces for the parser object.
-		$mock = $this->getMock('JFeedParserNamespace');
+		$mock = $this->getMockBuilder('JFeedParserNamespace')->getMock();
 		$namespaces = array('mock' => $mock);
 		TestReflection::setValue($this->_instance, 'namespaces', $namespaces);
 
