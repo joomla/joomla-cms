@@ -678,10 +678,10 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#___fields_categories`
+-- Table structure for table `#__fields_categories`
 --
 
-CREATE TABLE `#___fields_categories` (
+CREATE TABLE `#__fields_categories` (
   `field_id` int(11) NOT NULL DEFAULT 0,
   `category_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`field_id`,`category_id`)
