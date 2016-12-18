@@ -161,7 +161,7 @@ class JAccess
 	 * @param   integer|string  $assetKey  The asset key (asset id or asset name). null fallback to root asset.
 	 * @param   boolean         $preload   Indicates whether preloading should be used.
 	 *
-	 * @return  boolean  True if authorised.
+	 * @return  boolean|null  True if allowed, false for an explicit deny, null for an implicit deny.
 	 *
 	 * @since   11.1
 	 */

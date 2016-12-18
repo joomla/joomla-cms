@@ -961,7 +961,7 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				if (!in_array($childId, $pks))
 				{
-					array_push($pks, $childId);
+					$pks[] = $childId;
 				}
 			}
 

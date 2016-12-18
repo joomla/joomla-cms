@@ -112,8 +112,8 @@ $doc->addStyleDeclaration('
 
 	<!-- Render tabs for each set -->
 	<ul class="nav nav-tabs" id="set-tabs">
-		<?php foreach ( $setsNames as $num => $title ): ?>
-		<li class="<?php echo $num === $setsAmount - 1 ? 'active' : '' ?>">
+		<?php foreach ( $setsNames as $num => $title ) : ?>
+		<li class="<?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>">
 			<a href="#set-<?php echo $num; ?>"><?php echo $title; ?></a>
 		</li>
 		<?php endforeach; ?>
@@ -127,7 +127,7 @@ $doc->addStyleDeclaration('
 			'medium'   => 'btn-info',
 			'advanced' => 'btn-warning',
 		);
-		foreach ( $setsNames as $num => $title ):
+		foreach ( $setsNames as $num => $title ) :
 
 			// Check whether the values exists, and if empty then use from preset
 			if (empty($value['toolbars'][$num]['menu'])
@@ -154,12 +154,12 @@ $doc->addStyleDeclaration('
 			$valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? array() : $value['toolbars'][$num]['toolbar1'];
 			$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
 		?>
-			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : '' ?>" id="set-<?php echo $num; ?>">
+			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" id="set-<?php echo $num; ?>">
 				<div class="btn-toolbar clearfix">
 					<div class="btn-group pull-right">
 
-					<?php foreach(array_keys($toolbarPreset) as $presetName):
-						$btnClass = empty($presetButtonClases[$presetName])	? 'btn-primary' : $presetButtonClases[$presetName];
+					<?php foreach(array_keys($toolbarPreset) as $presetName) :
+						$btnClass = empty($presetButtonClases[$presetName]) ? 'btn-primary' : $presetButtonClases[$presetName];
 						?>
 						<button type="button" class="btn btn-mini <?php echo $btnClass; ?> button-action"
 						    data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">

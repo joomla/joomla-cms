@@ -583,7 +583,7 @@ class JHelperTags extends JHelper
 
 			// Join over the users for the author and email
 			->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author")
-			->select("ua.email AS author_email")
+			->select('ua.email AS author_email')
 
 			->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id')
 
