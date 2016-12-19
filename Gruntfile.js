@@ -72,20 +72,6 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Fetch the polyfills
-		fetchpages: {
-			polyfills: {
-				options: {
-					baseURL: '',
-					destinationFolder: 'media/vendor/polyfills/js/',
-					urls: polyFillsUrls,
-					cleanHTML: false,
-					fetchBaseURL: false,
-					followLinks: false
-				}
-			}
-		},
-
 		// Concatenate some javascript files
 		concat: {
 			someFiles: {
@@ -297,7 +283,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-scss-lint');
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-shell');
-	grunt.loadNpmTasks('grunt-fetch-pages');
 	grunt.loadNpmTasks('grunt-postcss');
 
 	grunt.registerTask('default',
