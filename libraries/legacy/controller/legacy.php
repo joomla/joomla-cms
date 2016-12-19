@@ -440,16 +440,13 @@ class JControllerLegacy extends JObject
 	 */
 	protected function addPath($type, $path)
 	{
-		// Just force path to array
-		settype($path, 'array');
-
 		if (!isset($this->paths[$type]))
 		{
 			$this->paths[$type] = array();
 		}
 
 		// Loop through the path directories
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
 			$dir = rtrim(JPath::check($dir, '/'), '/') . '/';

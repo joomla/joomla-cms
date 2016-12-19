@@ -800,7 +800,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				if ($this->params->get('xdefault', 1))
 				{
 					$xdefault_language = $this->params->get('xdefault_language', $this->default_lang);
-					$xdefault_language = ( $xdefault_language === 'default' ) ? $this->default_lang : $xdefault_language;
+					$xdefault_language = ($xdefault_language === 'default') ? $this->default_lang : $xdefault_language;
 
 					if (isset($languages[$xdefault_language]))
 					{
