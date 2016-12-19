@@ -243,7 +243,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 						}
 						else
 						{
-							if ((int) $item->query[$views[$view]->key] == (int) $id)
+							if ((int) $item->query[$views[$view]->key] === (int) $id)
 							{
 								$found2 = true;
 							}

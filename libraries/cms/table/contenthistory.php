@@ -201,7 +201,7 @@ class JTableContenthistory extends JTable
 		$idsToSave = $db->loadColumn(0);
 
 		// Don't process delete query unless we have at least the maximum allowed versions
-		if (count($idsToSave) == (int) $maxVersions)
+		if (count($idsToSave) === (int) $maxVersions)
 		{
 			// Delete any rows not in our list and and not flagged to keep forever.
 			$query = $db->getQuery(true);

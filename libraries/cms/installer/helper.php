@@ -173,7 +173,7 @@ abstract class JInstallerHelper
 		 */
 		$dirList = array_merge((array) JFolder::files($extractdir, ''), (array) JFolder::folders($extractdir, ''));
 
-		if (count($dirList) == 1)
+		if (count($dirList) === 1)
 		{
 			if (JFolder::exists($extractdir . '/' . $dirList[0]))
 			{

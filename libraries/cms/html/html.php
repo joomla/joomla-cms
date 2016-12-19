@@ -68,8 +68,8 @@ abstract class JHtml
 		// Check to see whether we need to load a helper file
 		$parts = explode('.', $key);
 
-		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
-		$file = (count($parts) == 2 ? array_shift($parts) : '');
+		$prefix = (count($parts) === 3 ? array_shift($parts) : 'JHtml');
+		$file = (count($parts) === 2 ? array_shift($parts) : '');
 		$func = array_shift($parts);
 
 		return array(strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func);

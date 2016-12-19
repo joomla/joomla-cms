@@ -388,7 +388,7 @@ class JTableCorecontent extends JTable
 		}
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
+		if ($checkin && (count($pks) === $this->_db->getAffectedRows()))
 		{
 			// Checkin the rows.
 			foreach ($pks as $pk)

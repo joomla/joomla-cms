@@ -227,7 +227,7 @@ class JRouterSite extends JRouter
 		$this->setVar('Itemid', $this->app->input->getInt('Itemid', null));
 
 		// Only an Itemid  OR if filter language plugin set? Get the full information from the itemid
-		if (count($this->getVars()) == 1 || ($this->app->getLanguageFilter() && count($this->getVars()) == 2))
+		if (count($this->getVars()) === 1 || ($this->app->getLanguageFilter() && count($this->getVars()) === 2))
 		{
 			$item = $this->menu->getItem($this->getVar('Itemid'));
 
@@ -599,7 +599,7 @@ class JRouterSite extends JRouter
 			$query = $uri->getQuery(true);
 			if ($this->_mode != 1
 				&& isset($query['Itemid'])
-				&& (count($query) == 2 || (count($query) == 3 && isset($query['lang']))))
+				&& (count($query) === 2 || (count($query) === 3 && isset($query['lang']))))
 			{
 				// Get the active menu item
 				$itemid = $uri->getVar('Itemid');

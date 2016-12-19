@@ -36,7 +36,7 @@ abstract class JHtmlString
 	public static function truncate($text, $length = 0, $noSplit = true, $allowHtml = true)
 	{
 		// Assume a lone open tag is invalid HTML.
-		if ($length == 1 && substr($text, 0, 1) == '<')
+		if ($length === 1 && substr($text, 0, 1) === '<')
 		{
 			return '...';
 		}
@@ -105,7 +105,7 @@ abstract class JHtmlString
 				$numOpened = count($openedTags);
 
 				// All tags are closed so trim the text and finish.
-				if (count($closedTags) == $numOpened)
+				if (count($closedTags) === $numOpened)
 				{
 					return trim($tmp) . '...';
 				}
@@ -165,7 +165,7 @@ abstract class JHtmlString
 		$baseLength = strlen($html);
 
 		// If the original HTML string is shorter than the $maxLength do nothing and return that.
-		if ($baseLength <= $maxLength || $maxLength == 0)
+		if ($baseLength <= $maxLength || $maxLength === 0)
 		{
 			return $html;
 		}
@@ -177,7 +177,7 @@ abstract class JHtmlString
 		}
 
 		// Deal with maximum length of 1 where the string starts with a tag.
-		if ($maxLength == 1 && substr($html, 0, 1) == '<')
+		if ($maxLength === 1 && substr($html, 0, 1) === '<')
 		{
 			$endTagPos = strlen(strstr($html, '>', true));
 			$tag = substr($html, 1, $endTagPos);
@@ -199,7 +199,7 @@ abstract class JHtmlString
 		$ptString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = false);
 
 		// It's all HTML, just return it.
-		if (strlen($ptString) == 0)
+		if (strlen($ptString) === 0)
 		{
 				return $html;
 		}
