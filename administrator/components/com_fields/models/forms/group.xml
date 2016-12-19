@@ -116,10 +116,11 @@
 
 		<field
 			name="description"
-			type="textarea"
+			type="editor"
 			label="JGLOBAL_DESCRIPTION"
-			size="40"
-			filter="HTML"
+			filter="JComponentHelper::filterText"
+			buttons="true"
+			hide="readmore,pagebreak"
 		/>
 
 		<field
