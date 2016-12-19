@@ -905,8 +905,7 @@ class JHelperTags extends JHelper
 			->select('a.id AS value')
 			->select('a.path AS text')
 			->select('a.path')
-			->from('#__tags AS a')
-			;
+			->from('#__tags AS a');
 
 		// Filter language.
 		if (!empty($filters['flanguage']))
