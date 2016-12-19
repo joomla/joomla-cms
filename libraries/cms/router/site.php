@@ -95,7 +95,7 @@ class JRouterSite extends JRouter
 
 			// If a php file has been found in the request path, check to see if it is a valid file.
 			// Also verify that it represents the same file from the server variable for entry script.
-			if (file_exists(JPATH_SITE . $matches[0]) && ($matches[0] == $relativeScriptPath))
+			if (file_exists(JPATH_SITE . $matches[0]) && ($matches[0] === $relativeScriptPath))
 			{
 				// Remove the entry point segments from the request path for proper routing.
 				$path = str_replace($matches[0], '', $path);
@@ -166,7 +166,7 @@ class JRouterSite extends JRouter
 			if ($this->app->get('sef_rewrite'))
 			{
 				// Transform the route
-				if ($route == 'index.php')
+				if ($route === 'index.php')
 				{
 					$route = '';
 				}
@@ -325,7 +325,7 @@ class JRouterSite extends JRouter
 					if (!$this->app->getLanguageFilter())
 					{
 						// Exact route match. We can break iteration because exact item was found.
-						if ($item->route == $route_lowercase)
+						if ($item->route === $route_lowercase)
 						{
 							$found = $item;
 							break;
@@ -338,22 +338,22 @@ class JRouterSite extends JRouter
 						}
 					}
 					// Multilingual site.
-					elseif ($item->language === '*' || $item->language == $lang_tag)
+					elseif ($item->language === '*' || $item->language === $lang_tag)
 					{
 						// Exact route match.
-						if ($item->route == $route_lowercase)
+						if ($item->route === $route_lowercase)
 						{
 							$found = $item;
 
 							// Break iteration only if language is matched.
-							if ($item->language == $lang_tag)
+							if ($item->language === $lang_tag)
 							{
 								break;
 							}
 						}
 
 						// Partial route match. Item with highest level or same language takes priority.
-						if (!$found || $found->level < $item->level || $item->language == $lang_tag)
+						if (!$found || $found->level < $item->level || $item->language === $lang_tag)
 						{
 							$found = $item;
 						}
@@ -497,7 +497,7 @@ class JRouterSite extends JRouter
 		$crouter   = $this->getComponentRouter($component);
 		$parts     = $crouter->build($query);
 		$result    = implode('/', $parts);
-		$tmp       = ($result != '') ? $result : '';
+		$tmp       = ($result !== '') ? $result : '';
 
 		// Build the application route
 		$built = false;
@@ -506,7 +506,7 @@ class JRouterSite extends JRouter
 		{
 			$item = $this->menu->getItem($query['Itemid']);
 
-			if (is_object($item) && $query['option'] == $item->component)
+			if (is_object($item) && $query['option'] === $item->component)
 			{
 				if (!$item->home)
 				{
@@ -533,7 +533,7 @@ class JRouterSite extends JRouter
 		}
 
 		// Unset unneeded query information
-		if (isset($item) && $query['option'] == $item->component)
+		if (isset($item) && $query['option'] === $item->component)
 		{
 			unset($query['Itemid']);
 		}
@@ -562,7 +562,7 @@ class JRouterSite extends JRouter
 		// Process the attached parse rules
 		$vars = parent::processParseRules($uri, $stage);
 
-		if ($stage == self::PROCESS_DURING)
+		if ($stage === self::PROCESS_DURING)
 		{
 			// Process the pagination support
 			if ($this->_mode == JROUTER_MODE_SEF)
@@ -593,7 +593,7 @@ class JRouterSite extends JRouter
 	 */
 	protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
 	{
-		if ($stage == self::PROCESS_DURING)
+		if ($stage === self::PROCESS_DURING)
 		{
 			// Make sure any menu vars are used if no others are specified
 			$query = $uri->getQuery(true);
@@ -623,7 +623,7 @@ class JRouterSite extends JRouter
 		// Process the attached build rules
 		parent::processBuildRules($uri, $stage);
 
-		if ($stage == self::PROCESS_BEFORE)
+		if ($stage === self::PROCESS_BEFORE)
 		{
 			// Get the query data
 			$query = $uri->getQuery(true);
@@ -640,7 +640,7 @@ class JRouterSite extends JRouter
 			$uri->setQuery($query);
 		}
 
-		if ($stage == self::PROCESS_DURING)
+		if ($stage === self::PROCESS_DURING)
 		{
 			// Get the path data
 			$route = $uri->getPath();
@@ -681,7 +681,7 @@ class JRouterSite extends JRouter
 			{
 				$item = $this->menu->getItem($this->getVar('Itemid'));
 
-				if (isset($item) && $item->component == $option)
+				if (isset($item) && $item->component === $option)
 				{
 					$uri->setVar('Itemid', $item->id);
 				}

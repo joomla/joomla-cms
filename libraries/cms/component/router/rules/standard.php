@@ -108,7 +108,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 			{
 				if (!$view->key)
 				{
-					if ($view->name == $segment)
+					if ($view->name === $segment)
 					{
 						// The segment is a view name
 						$parent = $views[$vars['view']];
@@ -189,7 +189,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 		$views = $this->router->getViews();
 
 		// Return directly when the URL of the Itemid is identical with the URL to build
-		if (isset($item->query['view']) && $item->query['view'] == $query['view'])
+		if (isset($item->query['view']) && $item->query['view'] === $query['view'])
 		{
 			$view = $views[$query['view']];
 
@@ -203,7 +203,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 				}
 				unset($query['view']);
 
-				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] == $query['layout'])
+				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] === $query['layout'])
 				{
 					unset($query['layout']);
 				}
@@ -213,7 +213,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 
 			if (!$view->key)
 			{
-				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] == $query['layout'])
+				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] === $query['layout'])
 				{
 					unset($query['view']);
 					unset($query['layout']);
@@ -264,7 +264,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 			}
 			else
 			{
-				if ($item->query['view'] != $view)
+				if ($item->query['view'] !== $view)
 				{
 					array_shift($path);
 				}

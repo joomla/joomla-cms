@@ -96,7 +96,7 @@ class JComponentRouterRulesNomenu implements JComponentRouterRulesInterface
 		{
 			$item = $this->router->menu->getItem($query['Itemid']);
 
-			if (!isset($query['option']) || ($item && $item->query['option'] == $query['option']))
+			if (!isset($query['option']) || ($item && $item->query['option'] === $query['option']))
 			{
 				$menu_found = true;
 			}

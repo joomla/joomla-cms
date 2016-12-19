@@ -219,7 +219,7 @@ class JHelperTags extends JHelper
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
-				if ($tagText == $tag)
+				if ($tagText === $tag)
 				{
 					$newTags[] = (int) $tag;
 				}
@@ -307,7 +307,7 @@ class JHelperTags extends JHelper
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
-				if ($tagText == $tag)
+				if ($tagText === $tag)
 				{
 					$newTags[] = (int) $tag;
 				}

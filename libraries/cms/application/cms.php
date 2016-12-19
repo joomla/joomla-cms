@@ -332,7 +332,7 @@ class JApplicationCms extends JApplicationWeb
 				if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false)
 				{
 					// Check short task version, must be on the same option of the view
-					if ($this->input->getCmd('option', '') != $option || array_search($task, $tasks) === false)
+					if ($this->input->getCmd('option', '') !== $option || array_search($task, $tasks) === false)
 					{
 						// Not permitted task
 						$redirect = true;
@@ -341,7 +341,7 @@ class JApplicationCms extends JApplicationWeb
 			}
 			else
 			{
-				if ($this->input->getCmd('option', '') != $option || $this->input->getCmd('view', '') != $view || $this->input->getCmd('layout', '') != $layout)
+				if ($this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view || $this->input->getCmd('layout', '') !== $layout)
 				{
 					// Requested a different option/view/layout
 					$redirect = true;
@@ -902,7 +902,7 @@ class JApplicationCms extends JApplicationWeb
 			 */
 			$user = JFactory::getUser();
 
-			if ($response->type == 'Cookie')
+			if ($response->type === 'Cookie')
 			{
 				$user->set('cookieLogin', true);
 			}

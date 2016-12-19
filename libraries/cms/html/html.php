@@ -1014,10 +1014,10 @@ abstract class JHtml
 
 		$readonly     = isset($attribs['readonly']) && $attribs['readonly'] === 'readonly';
 		$disabled     = isset($attribs['disabled']) && $attribs['disabled'] === 'disabled';
-		$autocomplete = isset($attribs['autocomplete']) && $attribs['autocomplete'] == '';
-		$autofocus    = isset($attribs['autofocus']) && $attribs['autofocus'] == '';
-		$required     = isset($attribs['required']) && $attribs['required'] == '';
-		$filter       = isset($attribs['filter']) && $attribs['filter'] == '';
+		$autocomplete = isset($attribs['autocomplete']) && $attribs['autocomplete'] === '';
+		$autofocus    = isset($attribs['autofocus']) && $attribs['autofocus'] === '';
+		$required     = isset($attribs['required']) && $attribs['required'] === '';
+		$filter       = isset($attribs['filter']) && $attribs['filter'] === '';
 		$todayBtn     = isset($attribs['todayBtn']) ? $attribs['todayBtn'] : true;
 		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : false;
 		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : true;

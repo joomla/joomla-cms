@@ -1338,7 +1338,7 @@ class JInstaller extends JAdapter
 			 * we need to create it.
 			 */
 
-			if (basename($path['dest']) != $path['dest'])
+			if (basename($path['dest']) !== $path['dest'])
 			{
 				$newdir = dirname($path['dest']);
 
@@ -1420,11 +1420,11 @@ class JInstaller extends JAdapter
 			// We will only install language files where a core language pack
 			// already exists.
 
-			if ((string) $file->attributes()->tag != '')
+			if ((string) $file->attributes()->tag !== '')
 			{
 				$path['src'] = $source . '/' . $file;
 
-				if ((string) $file->attributes()->client != '')
+				if ((string) $file->attributes()->client !== '')
 				{
 					// Override the client
 					$langclient = JApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
@@ -1454,7 +1454,7 @@ class JInstaller extends JAdapter
 			 * we need to create it.
 			 */
 
-			if (basename($path['dest']) != $path['dest'])
+			if (basename($path['dest']) !== $path['dest'])
 			{
 				$newdir = dirname($path['dest']);
 
@@ -1535,7 +1535,7 @@ class JInstaller extends JAdapter
 			 * we need to create it.
 			 */
 
-			if (basename($path['dest']) != $path['dest'])
+			if (basename($path['dest']) !== $path['dest'])
 			{
 				$newdir = dirname($path['dest']);
 
@@ -1659,7 +1659,7 @@ class JInstaller extends JAdapter
 				elseif (($exists = file_exists($filedest)) && !$overwrite)
 				{
 					// It's okay if the manifest already exists
-					if ($this->getPath('manifest') == $filesource)
+					if ($this->getPath('manifest') === $filesource)
 					{
 						continue;
 					}

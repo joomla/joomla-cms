@@ -511,7 +511,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		$this->extensionMessage .= ob_get_clean();
 
 		// If in postflight or uninstall, set the message for display
-		if (($method === 'uninstall' || $method === 'postflight') && $this->extensionMessage != '')
+		if (($method === 'uninstall' || $method === 'postflight') && $this->extensionMessage !== '')
 		{
 			$this->parent->set('extension_message', $this->extensionMessage);
 		}

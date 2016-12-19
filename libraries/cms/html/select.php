@@ -124,7 +124,7 @@ abstract class JHtmlSelect
 				$attribs = $options['list.attr'];
 			}
 
-			if ($attribs != '')
+			if ($attribs !== '')
 			{
 				$attribs = ' ' . $attribs;
 			}
@@ -686,7 +686,7 @@ abstract class JHtmlSelect
 				$splitText = explode(' - ', $text, 2);
 				$text = $splitText[0];
 
-				if (isset($splitText[1]) && $splitText[1] != '' && !preg_match('/^[\s]+$/', $splitText[1]))
+				if (isset($splitText[1]) && $splitText[1] !== '' && !preg_match('/^[\s]+$/', $splitText[1]))
 				{
 					$text .= ' - ' . $splitText[1];
 				}

@@ -239,7 +239,7 @@ abstract class JHtmlString
 			$htmlStringToPtString = rtrim($htmlStringToPtString, '.');
 
 			// If the new plain text string matches the original plain text string we are done.
-			if ($ptString == $htmlStringToPtString)
+			if ($ptString === $htmlStringToPtString)
 			{
 				return $htmlString . '...';
 			}

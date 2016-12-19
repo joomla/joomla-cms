@@ -91,7 +91,7 @@ abstract class JPluginHelper
 			foreach ($plugins as $p)
 			{
 				// Is this the right plugin?
-				if ($p->type == $type)
+				if ($p->type === $type)
 				{
 					$result[] = $p;
 				}
@@ -102,7 +102,7 @@ abstract class JPluginHelper
 			foreach ($plugins as $p)
 			{
 				// Is this plugin in the right group?
-				if ($p->type == $type && $p->name == $plugin)
+				if ($p->type === $type && $p->name === $plugin)
 				{
 					$result = $p;
 					break;
@@ -165,7 +165,7 @@ abstract class JPluginHelper
 			// Get the specified plugin(s).
 			for ($i = 0, $t = count($plugins); $i < $t; $i++)
 			{
-				if ($plugins[$i]->type == $type && ($plugin === null || $plugins[$i]->name == $plugin))
+				if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin))
 				{
 					static::import($plugins[$i], $autocreate, $dispatcher);
 					$results = true;

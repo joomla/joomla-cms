@@ -520,7 +520,7 @@ final class JApplicationSite extends JApplicationCms
 			{
 				foreach ($templates as $tmpl)
 				{
-					if ($tmpl->template == $template_override)
+					if ($tmpl->template === $template_override)
 					{
 						$template = $tmpl;
 						break;

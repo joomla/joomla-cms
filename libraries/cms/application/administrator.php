@@ -415,7 +415,7 @@ class JApplicationAdministrator extends JApplicationCms
 		$rootUser = $this->get('root_user');
 
 		if (property_exists('JConfig', 'root_user')
-			&& (JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
+			&& (JFactory::getUser()->get('username') === $rootUser || JFactory::getUser()->id === (string) $rootUser))
 		{
 			$this->enqueueMessage(
 				JText::sprintf(

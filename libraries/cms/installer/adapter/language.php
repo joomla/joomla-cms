@@ -616,7 +616,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		// Verify that it's not the default language for that client
 		$params = JComponentHelper::getParams('com_languages');
 
-		if ($params->get($client->name) == $element)
+		if ($params->get($client->name) === $element)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'), JLog::WARNING, 'jerror');
 
@@ -689,7 +689,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		{
 			$registry = new Registry($user->params);
 
-			if ($registry->get($param_name) == $element)
+			if ($registry->get($param_name) === $element)
 			{
 				$registry->set($param_name, '');
 				$query->clear()
