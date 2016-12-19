@@ -24,43 +24,8 @@ JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
 // Include jQuery
 JHtml::_('jquery.framework');
 
-// Save modal fields back to parent window
-JFactory::getDocument()->addScriptDeclaration("
-(function ($)
-{
-	'use strict';
-
-	window.LinkManager = {
-		/**
-		 * Saves the link attributes back to the parent window.
-		 *
-		 * @return void
-		 */
-		saveAttr: function(fieldid, oldvalue)
-		{
-			var f_url = document.getElementById('f_url').value,
-				f_title = document.getElementById('f_title').value,
-				f_rel = document.getElementById('f_rel').value,
-				link = {url: f_url, title: f_title, rel: f_rel},
-				linkjson = JSON.stringify(link),
-				btn = window.parent.document.getElementById(fieldid + '-btn');
-			btn.href = btn.href.replace(oldvalue, 'link=' + linkjson);
-			window.parent.jInsertFieldValue(linkjson, fieldid);
-			console.log(linkjson);
-		},
-		/**
-		 * Closes the modal window.
-		 *
-		 * @return void
-		 */
-		close: function()
-		{
-			window.parent.jQuery('.modal.in').modal('hide');
-			window.parent.jModalClose();
-		}
-	};
-}(jQuery));
-");
+// Include script to save modal fields back to parent window
+JHtml::_('script', 'com_content/popup-linkmanager.min.js', false, true, false, false, true);
 ?>
 <div class="container-popup">
 
