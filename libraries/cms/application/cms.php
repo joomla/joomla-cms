@@ -341,8 +341,8 @@ class JApplicationCms extends JApplicationWeb
 			}
 			else
 			{
-				if ($this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view ||
-					$this->input->getCmd('layout', '') !== $layout)
+				if ($this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
+					|| $this->input->getCmd('layout', '') !== $layout)
 				{
 					// Requested a different option/view/layout
 					$redirect = true;
