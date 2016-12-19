@@ -97,12 +97,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							}
 							else
 							{
-								$lang = "";
+								$lang = '';
 							}
 						}
 						elseif (!JLanguageMultilang::isEnabled())
 						{
-							$lang = "";
+							$lang = '';
 						}
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
