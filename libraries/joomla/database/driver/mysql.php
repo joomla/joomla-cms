@@ -113,6 +113,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 			if ($this->hasProfiling())
 			{
+				mysql_query('SET profiling_history_size = 100;', $this->connection);
 				mysql_query('SET profiling = 1;', $this->connection);
 			}
 		}
