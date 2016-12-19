@@ -276,7 +276,7 @@
 				name="show_user_custom_fields"
 				type="fieldgroups"
 				multiple="true"
-				extension="com_users"
+				context="com_users.user"
 				label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 				description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
 				>
