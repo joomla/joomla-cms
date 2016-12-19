@@ -34,7 +34,7 @@ $params = &$this->params;
 		</h2>
 
 
-<?php if (($params->get('show_author')) or ($params->get('show_parent_category')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))  or ($params->get('show_hits'))) : ?>
+<?php if ($params->get('show_author') or $params->get('show_parent_category') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_hits')) : ?>
  <dl class="article-info">
  <dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
@@ -79,7 +79,7 @@ $params = &$this->params;
 <?php if ($params->get('show_author') && !empty($item->author )) : ?>
 	<dd class="createdby">
 		<?php $author = $item->author; ?>
-		<?php $author = ($item->created_by_alias ? $item->created_by_alias : $author);?>
+		<?php $author = ($item->created_by_alias ?: $author);?>
 			<?php if (!empty($item->contact_link ) &&  $params->get('link_author') == true):?>
 				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $item->contact_link, $author)); ?>
 			<?php else :?>
@@ -92,7 +92,7 @@ $params = &$this->params;
 		<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
 		</dd>
 <?php endif; ?>
-<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))  or ($params->get('show_hits'))) :?>
+<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_hits')) :?>
 	 </dl>
 <?php endif; ?>
 

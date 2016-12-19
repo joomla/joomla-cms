@@ -283,7 +283,7 @@ class MenusModelItems extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.id, mt.title');
+				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.id, mt.title, l.sef');
 		}
 
 		// Join over the extensions

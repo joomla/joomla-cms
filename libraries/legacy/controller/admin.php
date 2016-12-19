@@ -391,7 +391,7 @@ class JControllerAdmin extends JControllerLegacy
 
 		if ($return)
 		{
-			echo "1";
+			echo '1';
 		}
 
 		// Close the application

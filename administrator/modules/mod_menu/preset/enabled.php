@@ -122,7 +122,7 @@ if ($user->authorise('core.manage', 'com_users'))
 
 		$this->addChild(
 				new JMenuNode(
-						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&extension=com_users', 'class:category')
+						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&context=com_users.user', 'class:category')
 				);
 	}
 
@@ -263,7 +263,7 @@ if ($user->authorise('core.manage', 'com_content'))
 
 		$this->addChild(
 			new JMenuNode(
-				JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&extension=com_content', 'class:category')
+				JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&context=com_content.article', 'class:category')
 		);
 	}
 
