@@ -104,7 +104,7 @@ class JLanguage
 	protected $strings = array();
 
 	/**
-	 * Defined on fly
+	 * Translations defined on fly
 	 *
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
