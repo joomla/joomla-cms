@@ -375,7 +375,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		// We are called via POST. We don't care about the language
 		// and simply set the default language as our current language.
-		if ($this->app->input->getMethod() == 'POST'
+		if ($this->app->input->getMethod() === 'POST'
 			|| count($this->app->input->post) > 0
 			|| count($this->app->input->files) > 0)
 		{
@@ -704,7 +704,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$doc = JFactory::getDocument();
 
-		if ($this->app->isSite() && $this->params->get('alternate_meta', 1) && $doc->getType() == 'html')
+		if ($this->app->isSite() && $this->params->get('alternate_meta', 1) && $doc->getType() === 'html')
 		{
 			$languages             = $this->lang_codes;
 			$homes                 = JLanguageMultilang::getSiteHomePages();
@@ -801,7 +801,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				if ($this->params->get('xdefault', 1))
 				{
 					$xdefault_language = $this->params->get('xdefault_language', $this->default_lang);
-					$xdefault_language = ( $xdefault_language == 'default' ) ? $this->default_lang : $xdefault_language;
+					$xdefault_language = ($xdefault_language === 'default') ? $this->default_lang : $xdefault_language;
 
 					if (isset($languages[$xdefault_language]))
 					{
