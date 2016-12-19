@@ -86,7 +86,7 @@ class PlgSystemStats extends JPlugin
 			return;
 		}
 
-		if (JUri::getInstance()->getVar("tmpl") === "component")
+		if (JUri::getInstance()->getVar('tmpl') === 'component')
 		{
 			return;
 		}
@@ -402,7 +402,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function isAjaxRequest()
 	{
-		return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) == 'xmlhttprequest';
+		return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
 	}
 
 	/**
@@ -545,7 +545,7 @@ class PlgSystemStats extends JPlugin
 				{
 					$options = array(
 						'defaultgroup' => $group,
-						'cachebase'    => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $this->app->get('cache_path', JPATH_SITE . '/cache')
+						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->app->get('cache_path', JPATH_SITE . '/cache')
 					);
 
 					$cache = JCache::getInstance('callback', $options);

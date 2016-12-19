@@ -79,7 +79,7 @@ abstract class JHtmlJGrid
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
 
-			if ($active_class == "protected")
+			if ($active_class == 'protected')
 			{
 				$html[] = '<span class="icon-lock"></span>';
 			}

@@ -62,7 +62,20 @@ class PlgUserJoomla extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (RuntimeException $e)
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			return false;
+		}
+
+		$query = $this->db->getQuery(true)
+			->delete($this->db->quoteName('#__messages'))
+			->where($this->db->quoteName('user_id_from') . ' = ' . (int) $user['id']);
+
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -91,7 +104,8 @@ class PlgUserJoomla extends JPlugin
 		if ($isnew)
 		{
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
-			if ($this->app->isAdmin())
+			// The method check here ensures that if running as a CLI Application we don't get any errors
+			if (method_exists($this->app, 'isAdmin') && $this->app->isAdmin())
 			{
 				if ($mail_to_user)
 				{
@@ -244,7 +258,7 @@ class PlgUserJoomla extends JPlugin
 
 		if ($this->app->isSite())
 		{
-			$this->app->input->cookie->set("joomla_user_state", "logged_in", 0, $cookie_path, $cookie_domain, 0);
+			$this->app->input->cookie->set('joomla_user_state', 'logged_in', 0, $cookie_path, $cookie_domain, 0);
 		}
 
 		return true;
@@ -313,7 +327,7 @@ class PlgUserJoomla extends JPlugin
 
 		if ($this->app->isSite())
 		{
-			$this->app->input->cookie->set("joomla_user_state", "", time() - 86400, $cookie_path, $cookie_domain, 0);
+			$this->app->input->cookie->set('joomla_user_state', '', time() - 86400, $cookie_path, $cookie_domain, 0);
 		}
 
 		return true;

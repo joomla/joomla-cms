@@ -108,13 +108,10 @@ class ConfigModelTemplates extends ConfigModelForm
 			$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
 		}
 
-		if (file_exists($formFile))
+		// Get the template form.
+		if (file_exists($formFile) && !$form->loadFile($formFile, false, '//config'))
 		{
-			// Get the template form.
-			if (!$form->loadFile($formFile, false, '//config'))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-			}
+			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Attempt to load the xml file.

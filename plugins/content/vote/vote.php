@@ -61,7 +61,7 @@ class PlgContentVote extends JPlugin
 	 */
 	public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
 	{
-		if ($this->votingPosition != 'top')
+		if ($this->votingPosition !== 'top')
 		{
 			return '';
 		}
@@ -83,7 +83,7 @@ class PlgContentVote extends JPlugin
 	 */
 	public function onContentAfterDisplay($context, &$row, &$params, $page = 0)
 	{
-		if ($this->votingPosition != 'bottom')
+		if ($this->votingPosition !== 'bottom')
 		{
 			return '';
 		}
@@ -105,9 +105,9 @@ class PlgContentVote extends JPlugin
 	 */
 	private function displayVotingData($context, &$row, &$params, $page)
 	{
-		$parts = explode(".", $context);
+		$parts = explode('.', $context);
 
-		if ($parts[0] != 'com_content')
+		if ($parts[0] !== 'com_content')
 		{
 			return false;
 		}
@@ -128,7 +128,7 @@ class PlgContentVote extends JPlugin
 		include $path;
 		$html = ob_get_clean();
 
-		if ($this->app->input->getString('view', '') == 'article' && $row->state == 1)
+		if ($this->app->input->getString('view', '') === 'article' && $row->state == 1)
 		{
 			// Get the path for the voting form layout file
 			$path = JPluginHelper::getLayoutPath('content', 'vote', 'vote');
