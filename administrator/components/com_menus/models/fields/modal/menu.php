@@ -64,7 +64,7 @@ class JFormFieldModal_Menu extends JFormField
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   3.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __get($name)
 	{
@@ -88,7 +88,7 @@ class JFormFieldModal_Menu extends JFormField
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __set($name, $value)
 	{
