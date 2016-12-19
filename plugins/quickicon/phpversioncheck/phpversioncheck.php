@@ -224,7 +224,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 		}
 
 		// Only to com_cpanel
-		if ($this->app->input->get('option') != 'com_cpanel')
+		if ($this->app->input->get('option') !== 'com_cpanel')
 		{
 			return false;
 		}

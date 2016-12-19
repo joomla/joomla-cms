@@ -242,7 +242,7 @@ class PlgSystemDebug extends JPlugin
 
 		// No debug for Safari and Chrome redirection.
 		if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false
-			&& substr($contents, 0, 50) == '<html><head><meta http-equiv="refresh" content="0;')
+			&& substr($contents, 0, 50) === '<html><head><meta http-equiv="refresh" content="0;')
 		{
 			echo $contents;
 
@@ -1372,7 +1372,7 @@ class PlgSystemDebug extends JPlugin
 				}
 
 				// Treat special columns.
-				if ($k == 'Duration')
+				if ($k === 'Duration')
 				{
 					if ($td >= 0.001 && ($td == $durations[0] || (isset($durations[1]) && $td == $durations[1])))
 					{
@@ -1388,13 +1388,13 @@ class PlgSystemDebug extends JPlugin
 					// Display duration in milliseconds with the unit instead of seconds.
 					$html[] = sprintf('%.2f&nbsp;ms', $td * 1000);
 				}
-				elseif ($k == 'Error')
+				elseif ($k === 'Error')
 				{
 					// An error in the EXPLAIN query occurred, display it instead of the result (means original query had syntax error most probably).
 					$html[] = '<td class="dbg-warning">' . htmlspecialchars($td);
 					$hasWarnings = true;
 				}
-				elseif ($k == 'key')
+				elseif ($k === 'key')
 				{
 					if ($td === 'NULL')
 					{
@@ -1409,7 +1409,7 @@ class PlgSystemDebug extends JPlugin
 						$html[] = '<td><strong>' . htmlspecialchars($td) . '</strong>';
 					}
 				}
-				elseif ($k == 'Extra')
+				elseif ($k === 'Extra')
 				{
 					$htmlTd = htmlspecialchars($td);
 
@@ -1865,7 +1865,7 @@ class PlgSystemDebug extends JPlugin
 				array_filter(
 					$this->logEntries, function($logEntry)
 					{
-						return $logEntry->category == 'databasequery';
+						return $logEntry->category === 'databasequery';
 					}
 				)
 			);
@@ -1877,7 +1877,7 @@ class PlgSystemDebug extends JPlugin
 			array_filter(
 				$this->logEntries, function($logEntry)
 				{
-					return $logEntry->category == 'deprecated';
+					return $logEntry->category === 'deprecated';
 				}
 			)
 		);

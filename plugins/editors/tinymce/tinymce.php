@@ -537,7 +537,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 
 			// Is Joomla installed in subdirectory
-			if (JUri::root(true) != '/')
+			if (JUri::root(true) !== '/')
 			{
 				$isSubDir = JUri::root(true);
 			}
@@ -702,7 +702,7 @@ class PlgEditorTinymce extends JPlugin
 				$options = $button->get('options');
 				$icon    = $button->get('name');
 
-				if ($button->get('link') != '#')
+				if ($button->get('link') !== '#')
 				{
 					$href = JUri::base() . $button->get('link');
 				}
@@ -836,11 +836,11 @@ class PlgEditorTinymce extends JPlugin
 			$filterData = $filters->$groupId;
 			$filterType = strtoupper($filterData->filter_type);
 
-			if ($filterType == 'NH')
+			if ($filterType === 'NH')
 			{
 				// Maximum HTML filtering.
 			}
-			elseif ($filterType == 'NONE')
+			elseif ($filterType === 'NONE')
 			{
 				// No HTML filtering.
 				$unfiltered = true;
@@ -876,13 +876,13 @@ class PlgEditorTinymce extends JPlugin
 
 				// Collect the blacklist or whitelist tags and attributes.
 				// Each list is cummulative.
-				if ($filterType == 'BL')
+				if ($filterType === 'BL')
 				{
 					$blackList           = true;
 					$blackListTags       = array_merge($blackListTags, $tempTags);
 					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
 				}
-				elseif ($filterType == 'CBL')
+				elseif ($filterType === 'CBL')
 				{
 					// Only set to true if Tags or Attributes were added
 					if ($tempTags || $tempAttributes)
@@ -892,7 +892,7 @@ class PlgEditorTinymce extends JPlugin
 						$customListAttributes = array_merge($customListAttributes, $tempAttributes);
 					}
 				}
-				elseif ($filterType == 'WL')
+				elseif ($filterType === 'WL')
 				{
 					$whiteList           = true;
 					$whiteListTags       = array_merge($whiteListTags, $tempTags);

@@ -65,7 +65,7 @@ class PlgSystemCache extends JPlugin
 			return;
 		}
 
-		if ($user->get('guest') && $app->input->getMethod() == 'GET')
+		if ($user->get('guest') && $app->input->getMethod() === 'GET')
 		{
 			$this->_cache->setCaching(true);
 		}
