@@ -162,4 +162,23 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	{
 		return " find_in_set(" . $value . ", " . $set . ")";
 	}
+
+	/**
+	 * Translate the mysql GROUP_CONCAT() function.
+	 *
+	 * Usage:
+	 * $query->groupConcat($field, $separator)
+	 *
+	 * @param   string  $field      The field to group .
+	 *
+	 * @param   string  $separator  The separator.
+	 *
+	 * @return  string  Returns the GROUP_CONCAT() mysql translation.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function groupConcat($field, $separator = ',')
+	{
+		return " GROUP_CONCAT(" . $field . " SEPARATOR '" . $separator . "')";
+	}
 }
