@@ -60,9 +60,7 @@ class JRequest
 	 */
 	public static function getMethod()
 	{
-		$method = strtoupper($_SERVER['REQUEST_METHOD']);
-
-		return $method;
+		return strtoupper($_SERVER['REQUEST_METHOD']);
 	}
 
 	/**
@@ -452,9 +450,7 @@ class JRequest
 				break;
 		}
 
-		$result = self::_cleanVar($input, $mask);
-
-		return $result;
+		return self::_cleanVar($input, $mask);
 	}
 
 	/**
@@ -528,7 +524,6 @@ class JRequest
 		if ($mask & 2)
 		{
 			// If the allow raw flag is set, do not modify the variable
-			$var = $var;
 		}
 		elseif ($mask & 4)
 		{

@@ -642,7 +642,6 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   `asset_id` int(10) NOT NULL DEFAULT 0,
   `context` varchar(255) NOT NULL DEFAULT '',
   `group_id` int(10) NOT NULL DEFAULT 0,
-  `assigned_cat_ids` varchar(255) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(255) NOT NULL DEFAULT '',
   `label` varchar(255) NOT NULL DEFAULT '',
@@ -680,13 +679,25 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__fields_categories`
+--
+
+CREATE TABLE `#__fields_categories` (
+  `field_id` int(11) NOT NULL DEFAULT 0,
+  `category_id` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`field_id`,`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__fields_groups`
 --
 
 CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) NOT NULL DEFAULT 0,
-  `extension` varchar(255) NOT NULL DEFAULT '',
+  `context` varchar(255) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
@@ -705,7 +716,7 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   KEY `idx_state` (`state`),
   KEY `idx_created_by` (`created_by`),
   KEY `idx_access` (`access`),
-  KEY `idx_extension` (`extension`),
+  KEY `idx_context` (`context`),
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -1301,7 +1312,6 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
   PRIMARY KEY (`lang_id`),
   UNIQUE KEY `idx_sef` (`sef`),
   UNIQUE KEY `idx_langcode` (`lang_code`),
-  KEY `idx_image` (`image`),
   KEY `idx_access` (`access`),
   KEY `idx_ordering` (`ordering`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
