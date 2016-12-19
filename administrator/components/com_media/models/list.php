@@ -131,11 +131,13 @@ class MediaModelList extends JModelLegacy
 		// Iterate over the files if they exist
 		if ($fileList !== false)
 		{
+			$tmpBaseObject = new JObject;
+
 			foreach ($fileList as $file)
 			{
 				if (is_file($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
 				{
-					$tmp = new JObject;
+					$tmp = clone $tmpBaseObject;
 					$tmp->name = $file;
 					$tmp->title = $file;
 					$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
