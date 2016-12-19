@@ -359,7 +359,7 @@ class JLanguage
 			}
 		}
 
-		if (!$this->strings[$key])
+		if (!isset($this->strings[$key]))
 		{
 			if ($this->debug)
 			{
