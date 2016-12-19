@@ -22,32 +22,40 @@ class JRoute
 	 * @var    JRouter
 	 * @since  12.2
 	 */
-	private static $_router = null;
+	private static $_router = array();
 
 	/**
 	 * Translates an internal Joomla URL to a humanly readable URL.
 	 *
-	 * @param   string   $url    Absolute or Relative URI to Joomla resource.
-	 * @param   boolean  $xhtml  Replace & by &amp; for XML compliance.
-	 * @param   integer  $ssl    Secure state for the resolved URI.
-	 *                             0: (default) No change, use the protocol currently used in the request
-	 *                             1: Make URI secure using global secure site URI.
-	 *                             2: Make URI unsecure using the global unsecure site URI.
+	 * @param   string   $url           Absolute or Relative URI to Joomla resource.
+	 * @param   boolean  $xhtml         Replace & by &amp; for XML compliance.
+	 * @param   integer  $ssl           Secure state for the resolved URI.
+	 *                                    0: (default) No change, use the protocol currently used in the request
+	 *                                    1: Make URI secure using global secure site URI.
+	 *                                    2: Make URI unsecure using the global unsecure site URI.
+	 * @param   string   $forcedClient  Force route for a specific client.
+	 *                                    null: (default) don't force client.
+	 *                                    site: force site (frontend) client.
+	 *                                    administrator: force administrator (backend) client.
 	 *
 	 * @return string The translated humanly readable URL.
 	 *
 	 * @since   11.1
 	 */
-	public static function _($url, $xhtml = true, $ssl = null)
+	public static function _($url, $xhtml = true, $ssl = null, $forcedClient = null)
 	{
-		if (!self::$_router)
+		// Get the router.
+		$app = JFactory::getApplication();
+
+		// Check which client we are using.
+		$client = isset($forcedClient) ? $forcedClient : $app->getName();
+
+		if (!isset(self::$_router[$client]))
 		{
-			// Get the router.
-			$app = JFactory::getApplication();
-			self::$_router = $app::getRouter();
+			self::$_router[$client] = $app->getRouter($client);
 
 			// Make sure that we have our router
-			if (!self::$_router)
+			if (!self::$_router[$client])
 			{
 				return;
 			}
@@ -59,7 +67,7 @@ class JRoute
 		}
 
 		// Build route.
-		$uri = self::$_router->build($url);
+		$uri = self::$_router[$client]->build($url);
 
 		$scheme = array('path', 'query', 'fragment');
 

@@ -47,8 +47,16 @@ class JRouterAdministrator extends JRouter
 		// Get the path data
 		$route = $uri->getPath();
 
+		$basePath = JUri::base(true);
+
+		// If the admin router is called from site client.
+		if (JPATH_BASE == JPATH_SITE)
+		{
+			$basePath = $basePath . '/administrator';
+		}
+
 		// Add basepath to the uri
-		$uri->setPath(JUri::base(true) . '/' . $route);
+		$uri->setPath($basePath . '/' . $route);
 
 		return $uri;
 	}
