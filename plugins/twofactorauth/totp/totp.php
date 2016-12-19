@@ -110,7 +110,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		$url = $totp->getUrl($username, $hostname, $secret);
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
-		$new_totp = $otpConfig->method != 'totp';
+		$new_totp = $otpConfig->method !== 'totp';
 
 		// Start output buffering
 		@ob_start();

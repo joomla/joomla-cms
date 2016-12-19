@@ -115,7 +115,7 @@ class PlgSearchContent extends JPlugin
 					$wheres[]  = implode(' OR ', $wheres2);
 				}
 
-				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 
