@@ -93,7 +93,7 @@ var JFormValidator = function() {
 
 			if ($el.getAttribute('pattern') && $el.getAttribute('pattern') != '') {
 				if ($el.value.length) {
-					isValid = /$el.getAttribute('pattern')/.test($el.value);
+					isValid = new RegExp('^' + $el.getAttribute('pattern') + '$').test($el.value);
 					handleResponse(isValid, $el);
 					return isValid;
 				} else {
