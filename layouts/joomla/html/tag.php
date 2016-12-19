@@ -113,7 +113,7 @@ if ($allowCustom)
 				// Tag deselected so remove it from the internal list.
 				if (params.hasOwnProperty('deselected'))
 				{
-					var index = tagList.indexOf(parseInt(params.deselected));
+					var index = $.inArray(parseInt(params.deselected), tagList);
 
 					if (index > -1)
 					{
