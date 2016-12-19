@@ -1,31 +1,14 @@
-<<<<<<< HEAD:media/vendor/polyfills/js/polyfill.event.js
-/* Polyfill service v3.13.0
- * For detailed credits and licence information see http://github.com/financial-times/polyfill-service.
+/* Polyfill service v3.15.0
+ * For detailed credits and licence information see https://github.com/financial-times/polyfill-service.
  * 
  * UA detected: ie/8.0.0
-=======
-/**
- * Polyfill service v3.13.0
- * For detailed credits and licence information see http://github.com/financial-times/polyfill-service.
- * 
->>>>>>> joomla/master:media/system/js/polyfill.event-uncompressed.js
  * Features requested: Event
  * 
  * - Window, License: CC0 (required by "Event")
- * - Document, License: CC0 (required by "Element", "Event")
+ * - Document, License: CC0 (required by "Event", "Element")
  * - Element, License: CC0 (required by "Event")
  * - Object.defineProperty, License: CC0 (required by "Event")
-<<<<<<< HEAD:media/vendor/polyfills/js/polyfill.event.js
  * - Event, License: CC0 */
-=======
- * - Event, License: CC0
- *
- * @build      https://cdn.polyfill.io/v2/polyfill.js?features=Event&flags=always,gated
- * 
- * @copyright  Copyright (c) 2016 Financial Times
- * @license    MIT License, https://github.com/Financial-Times/polyfill-service/blob/master/LICENSE.md
- */
->>>>>>> joomla/master:media/system/js/polyfill.event-uncompressed.js
 
 (function(undefined) {
 if (!('Window' in this)) {
@@ -192,11 +175,11 @@ if (!(// In IE8, defineProperty could only act on DOM elements, so full support
 		}
 
 		if (object === null || !(object instanceof Object || typeof object === 'object')) {
-			throw new TypeError('Object must be an object (Object.defineProperty polyfill)');
+			throw new TypeError('Object.defineProperty called on non-object');
 		}
 
 		if (!(descriptor instanceof Object)) {
-			throw new TypeError('Descriptor must be an object (Object.defineProperty polyfill)');
+			throw new TypeError('Property description must be an object');
 		}
 
 		var propertyString = String(property);
@@ -207,7 +190,7 @@ if (!(// In IE8, defineProperty could only act on DOM elements, so full support
 		// handle descriptor.get
 		if (getterType) {
 			if (getterType !== 'function') {
-				throw new TypeError('Getter expected a function (Object.defineProperty polyfill)');
+				throw new TypeError('Getter must be a function');
 			}
 			if (!supportsAccessors) {
 				throw new TypeError(ERR_ACCESSORS_NOT_SUPPORTED);
@@ -223,7 +206,7 @@ if (!(// In IE8, defineProperty could only act on DOM elements, so full support
 		// handle descriptor.set
 		if (setterType) {
 			if (setterType !== 'function') {
-				throw new TypeError('Setter expected a function (Object.defineProperty polyfill)');
+				throw new TypeError('Setter must be a function');
 			}
 			if (!supportsAccessors) {
 				throw new TypeError(ERR_ACCESSORS_NOT_SUPPORTED);
@@ -479,7 +462,6 @@ if (!((function(global) {
 }());
 
 }
-
 
 })
 .call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});

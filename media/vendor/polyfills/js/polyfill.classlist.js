@@ -1,10 +1,5 @@
-<<<<<<< HEAD:media/vendor/polyfills/js/polyfill.classlist.js
-/* Polyfill service v3.13.0
-=======
-/**
- * Polyfill service v3.13.0
->>>>>>> joomla/master:media/system/js/polyfill.classlist-uncompressed.js
- * For detailed credits and licence information see http://github.com/financial-times/polyfill-service.
+/* Polyfill service v3.15.0
+ * For detailed credits and licence information see https://github.com/financial-times/polyfill-service.
  * 
  * UA detected: ie/8.0.0
  * Features requested: Element.prototype.classList
@@ -43,11 +38,11 @@ if (!(// In IE8, defineProperty could only act on DOM elements, so full support
 		}
 
 		if (object === null || !(object instanceof Object || typeof object === 'object')) {
-			throw new TypeError('Object must be an object (Object.defineProperty polyfill)');
+			throw new TypeError('Object.defineProperty called on non-object');
 		}
 
 		if (!(descriptor instanceof Object)) {
-			throw new TypeError('Descriptor must be an object (Object.defineProperty polyfill)');
+			throw new TypeError('Property description must be an object');
 		}
 
 		var propertyString = String(property);
@@ -58,7 +53,7 @@ if (!(// In IE8, defineProperty could only act on DOM elements, so full support
 		// handle descriptor.get
 		if (getterType) {
 			if (getterType !== 'function') {
-				throw new TypeError('Getter expected a function (Object.defineProperty polyfill)');
+				throw new TypeError('Getter must be a function');
 			}
 			if (!supportsAccessors) {
 				throw new TypeError(ERR_ACCESSORS_NOT_SUPPORTED);
@@ -74,7 +69,7 @@ if (!(// In IE8, defineProperty could only act on DOM elements, so full support
 		// handle descriptor.set
 		if (setterType) {
 			if (setterType !== 'function') {
-				throw new TypeError('Setter expected a function (Object.defineProperty polyfill)');
+				throw new TypeError('Setter must be a function');
 			}
 			if (!supportsAccessors) {
 				throw new TypeError(ERR_ACCESSORS_NOT_SUPPORTED);
@@ -371,7 +366,6 @@ Object.defineProperty(Element.prototype, 'classList', {
 });
 
 }
-
 
 })
 .call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});

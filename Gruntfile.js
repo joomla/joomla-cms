@@ -31,7 +31,8 @@ module.exports = function(grunt) {
 			legacy        : 'media/system/js/legacy',
 			puny          : 'media/vendor/punycode/js',
 			codemirror    : 'media/vendor/codemirror',
-			adminTemplate : 'administrator/templates/atum'
+			adminTemplate : 'administrator/templates/atum',
+			node_module   : 'build/assets_tmp/node_modules/'
 		},
 
 		// Let's clean up the system
@@ -91,15 +92,15 @@ module.exports = function(grunt) {
 				files: [
 					{
 						src: settings.CmAddons.js.map(function (v) {
-							return 'build/assets_tmp/node_modules/codemirror/' + v;
+							return '<%= folder.node_module %>codemirror/' + v;
 						}),
-						dest:'build/assets_tmp/node_modules/codemirror/lib/addons.js'
+						dest: '<%= folder.node_module %>codemirror/lib/addons.js'
 					},
 					{
 						src: settings.CmAddons.css.map(function (v) {
-							return 'build/assets_tmp/node_modules/codemirror/' + v;
+							return '<%= folder.node_module %>codemirror/' + v;
 						}),
-						dest: 'build/assets_tmp/node_modules/codemirror/lib/addons.css'
+						dest: '<%= folder.node_module %>codemirror/lib/addons.css'
 					}
 				]
 			}
@@ -110,73 +111,72 @@ module.exports = function(grunt) {
 			fromSource: {
 				files: [
 					// jQuery js files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/jquery/dist/', src: ['*', '!(core.js)'], dest: 'media/vendor/jquery/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>jquery/dist/', src: ['*', '!(core.js)'], dest: 'media/vendor/jquery/js/', filter: 'isFile'},
 					// jQuery js migrate files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/jquery-migrate/dist/', src: ['**'], dest: 'media/vendor/jquery/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>jquery-migrate/dist/', src: ['**'], dest: 'media/vendor/jquery/js/', filter: 'isFile'},
 					//Bootastrap js files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/bootstrap/dist/js/', src: ['**'], dest: 'media/vendor/bootstrap/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>bootstrap/dist/js/', src: ['**'], dest: 'media/vendor/bootstrap/js/', filter: 'isFile'},
 					//Bootastrap scss files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/bootstrap/scss/', src: ['**'], dest: 'media/vendor/bootstrap/scss/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>bootstrap/scss/', src: ['**'], dest: 'media/vendor/bootstrap/scss/', filter: 'isFile'},
 					//Bootastrap css files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/bootstrap/dist/css/', src: ['**'], dest: 'media/vendor/bootstrap/css/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>bootstrap/dist/css/', src: ['**'], dest: 'media/vendor/bootstrap/css/', filter: 'isFile'},
 					//Teether js files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/tether/dist/js/', src: ['**'], dest: 'media/vendor/tether/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>tether/dist/js/', src: ['**'], dest: 'media/vendor/tether/js/', filter: 'isFile'},
 					// Punycode js files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/punycode/', src: ['punycode.js', 'LICENSE-MIT.txt'], dest: 'media/vendor/punycode/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>punycode/', src: ['punycode.js', 'LICENSE-MIT.txt'], dest: 'media/vendor/punycode/js/', filter: 'isFile'},
 					// Cropperjs css files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/cropperjs/dist', src: ['*.css'], dest: 'media/vendor/cropperjs/css/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>cropperjs/dist', src: ['*.css'], dest: 'media/vendor/cropperjs/css/', filter: 'isFile'},
 					// Cropperjs js files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/cropperjs/dist', src: ['*.js'], dest: 'media/vendor/cropperjs/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>cropperjs/dist', src: ['*.js'], dest: 'media/vendor/cropperjs/js/', filter: 'isFile'},
 					//Font Awesome css files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/font-awesome/css/', src: ['**'], dest: 'media/vendor/font-awesome/css/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>font-awesome/css/', src: ['**'], dest: 'media/vendor/font-awesome/css/', filter: 'isFile'},
 					//Font Awesome scss files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/font-awesome/scss/', src: ['**'], dest: 'media/vendor/font-awesome/scss/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>font-awesome/scss/', src: ['**'], dest: 'media/vendor/font-awesome/scss/', filter: 'isFile'},
 					//Font Awesome fonts files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/font-awesome/fonts/', src: ['**'], dest: 'media/vendor/font-awesome/fonts/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>font-awesome/fonts/', src: ['**'], dest: 'media/vendor/font-awesome/fonts/', filter: 'isFile'},
 					// tinyMCE plugins
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/tinymce/plugins/', src: ['**'], dest: 'media/vendor/tinymce/plugins/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>tinymce/plugins/', src: ['**'], dest: 'media/vendor/tinymce/plugins/', filter: 'isFile'},
 					// tinyMCE skins
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/tinymce/skins/', src: ['**'], dest: 'media/vendor/tinymce/skins/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>tinymce/skins/', src: ['**'], dest: 'media/vendor/tinymce/skins/', filter: 'isFile'},
 					// tinyMCE themes
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/tinymce/themes/', src: ['**'], dest: 'media/vendor/tinymce/themes/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>tinymce/themes/', src: ['**'], dest: 'media/vendor/tinymce/themes/', filter: 'isFile'},
 					// tinyMCE js files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/tinymce/', src: ['tinymce.js','tinymce.min.js','license.txt','changelog.txt'], dest: 'media/vendor/tinymce/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>tinymce/', src: ['tinymce.js','tinymce.min.js','license.txt','changelog.txt'], dest: 'media/vendor/tinymce/', filter: 'isFile'},
 					// Code mirror addon files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/codemirror/addon/', src: ['**'], dest: 'media/vendor/codemirror/addon/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>codemirror/addon/', src: ['**'], dest: 'media/vendor/codemirror/addon/', filter: 'isFile'},
 					// Code mirror keymap files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/codemirror/keymap/', src: ['**'], dest: 'media/vendor/codemirror/keymap/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>codemirror/keymap/', src: ['**'], dest: 'media/vendor/codemirror/keymap/', filter: 'isFile'},
 					// Code mirror lib files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/codemirror/lib', src: ['**'], dest: 'media/vendor/codemirror/lib/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>codemirror/lib', src: ['**'], dest: 'media/vendor/codemirror/lib/', filter: 'isFile'},
 					// Code mirror mode files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/codemirror/mode', src: ['**'], dest: 'media/vendor/codemirror/mode/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>codemirror/mode', src: ['**'], dest: 'media/vendor/codemirror/mode/', filter: 'isFile'},
 					// Code mirror theme files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/codemirror/theme', src: ['**'], dest: 'media/vendor/codemirror/theme/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>codemirror/theme', src: ['**'], dest: 'media/vendor/codemirror/theme/', filter: 'isFile'},
 					// Media Element js, swf, xap files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/mediaelement/build', src: ['*.js', '*.swf', '*.xap', '!jquery.js'], dest: 'media/vendor/mediaelement/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>mediaelement/build', src: ['*.js', '*.swf', '*.xap', '!jquery.js'], dest: 'media/vendor/mediaelement/js/', filter: 'isFile'},
 					// Media Element css, png, gif, svg files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/mediaelement/build', src: ['*.css', '*.png', '*.svg', '*.gif'], dest: 'media/vendor/mediaelement/css/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>mediaelement/build', src: ['*.css', '*.png', '*.svg', '*.gif'], dest: 'media/vendor/mediaelement/css/', filter: 'isFile'},
 					// MiniColors js files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/jquery-minicolors', src: ['*.js'], dest: 'media/vendor/minicolors/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>jquery-minicolors', src: ['*.js'], dest: 'media/vendor/minicolors/js/', filter: 'isFile'},
 					// MiniColors css, ong files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/jquery-minicolors', src: ['*.css', '*.png'], dest: 'media/vendor/minicolors/css/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>jquery-minicolors', src: ['*.css', '*.png'], dest: 'media/vendor/minicolors/css/', filter: 'isFile'},
 					// Awesomplete js files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/awesomplete', src: ['awesomplete.js', 'awesomplete.min.js'], dest: 'media/vendor/awesomplete/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>awesomplete', src: ['awesomplete.js', 'awesomplete.min.js'], dest: 'media/vendor/awesomplete/js/', filter: 'isFile'},
 					// Awesomplete css files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/awesomplete', src: ['awesomplete.css'], dest: 'media/vendor/awesomplete/css/'},
+					{ expand: true, cwd: '<%= folder.node_module %>awesomplete', src: ['awesomplete.css'], dest: 'media/vendor/awesomplete/css/'},
 					// Dragula js files
-					{ expand: true, cwd: 'build/assets_tmp/node_modules/dragula/dist', src: ['*.js'], dest: 'media/vendor/dragula/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>dragula/dist', src: ['*.js'], dest: 'media/vendor/dragula/js/', filter: 'isFile'},
 					// Dragula css files
-					{ cwd: 'build/assets_tmp/node_modules/dragula/dist', src: ['*.css'], dest: 'media/vendor/dragula/css/', expand: true, filter: 'isFile'},
+					{ cwd: '<%= folder.node_module %>dragula/dist', src: ['*.css'], dest: 'media/vendor/dragula/css/', expand: true, filter: 'isFile'},
 
 					// Licenses
-					{ src: ['build/assets_tmp/node_modules/jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
-					{ src: ['build/assets_tmp/tmp/jcop/jcrop-MIT-LICENSE.txt'], dest: 'media/vendor/jcrop/jcrop-MIT-LICENSE.txt'},
-					{ src: ['build/assets_tmp/node_modules/bootstrap/LICENSE'], dest: 'media/vendor/bootstrap/LICENSE'},
-					{ src: ['build/assets_tmp/node_modules/tether/LICENSE'], dest: 'media/vendor/tether/LICENSE'},
-					{ src: ['build/assets_tmp/tmp/codemirror/LICENSE'], dest: 'media/vendor/codemirror/LICENSE'},
-					{ src: ['build/assets_tmp/tmp/jcrop/jcrop-MIT-LICENSE.txt'], dest: 'media/vendor/jcrop/jcrop-MIT-LICENSE.txt'},
-					{ src: ['build/assets_tmp/node_modules/dragula/license'], dest: 'media/vendor/dragula/license'},
-					{ src: ['build/assets_tmp/node_modules/awesomplete/LICENSE'], dest: 'media/vendor/awesomplete/LICENSE'},
+					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
+					{ src: ['<%= folder.node_module %>bootstrap/LICENSE'], dest: 'media/vendor/bootstrap/LICENSE'},
+					{ src: ['<%= folder.node_module %>tether/LICENSE'], dest: 'media/vendor/tether/LICENSE'},
+					{ src: ['<%= folder.node_module %>codemirror/LICENSE'], dest: 'media/vendor/codemirror/LICENSE'},
+					{ src: ['<%= folder.node_module %>jcrop/jcrop-MIT-LICENSE.txt'], dest: 'media/vendor/jcrop/jcrop-MIT-LICENSE.txt'},
+					{ src: ['<%= folder.node_module %>dragula/license'], dest: 'media/vendor/dragula/license'},
+					{ src: ['<%= folder.node_module %>awesomplete/LICENSE'], dest: 'media/vendor/awesomplete/LICENSE'},
 				]
 			}
 		},
