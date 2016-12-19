@@ -20,6 +20,23 @@
 		/>
 
 		<field
+			name="menuempty"
+			type="hidden"
+			label="PLG_CONTENT_CREATEMENUITEM_MENUS_MENUEMPTY"
+			description="PLG_CONTENT_CREATEMENUITEM_MENUS_MENUEMPTY_DESC"
+			filter="integer"
+			default="1"
+		/>
+
+		<field
+				name="retrievedmenu"
+				type="hidden"
+				label="PLG_CONTENT_CREATEMENUITEM_MENUS_RETRIEVEDMENU"
+				description="PLG_CONTENT_CREATEMENUITEM_MENUS_RETRIEVEDMENU_DESC"
+				default=""
+		/>
+
+		<field
 			name="menualias"
 			type="alias"
 			label="JFIELD_ALIAS_LABEL"

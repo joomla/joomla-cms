@@ -72,12 +72,14 @@ class PlgContentCreateMenuitem extends JPlugin
 
 		if (!empty($menuItems))
 		{
-			$data->menuid       = $menuItems[0]->id;
-			$data->menutitle    = $menuItems[0]->title;
-			$data->menualias    = $menuItems[0]->alias;
-			$data->menutype     = $menuItems[0]->menutype;
-			$data->parent_id    = $menuItems[0]->parent_id;
-			$data->menuordering = $menuItems[0]->id;
+			$data->menuid        = $menuItems[0]->id;
+			$data->menutitle     = $menuItems[0]->title;
+			$data->menualias     = $menuItems[0]->alias;
+			$data->menutype      = $menuItems[0]->menutype;
+			$data->parent_id     = $menuItems[0]->parent_id;
+			$data->menuordering  = $menuItems[0]->id;
+			$data->menuempty     = 0;
+			$data->retrievedmenu = $menuItems[0]->title;
 
 			JHtml::_('script', 'plg_content_createmenuitem/parentitem.js', array('version' => 'auto', 'relative' => true));
 		}
@@ -141,13 +143,25 @@ class PlgContentCreateMenuitem extends JPlugin
 		$table = JTable::getInstance('Menu');
 		$formData = $session->get('formData');
 
-		if ($table->load(array('title' => $formData['menutitle'])))
+		if ($table->load(array('title' => $formData['menutitle'])) && $formData['menuempty'] == 1)
 		{
 			JFactory::getApplication()->enqueueMessage(
 				JText::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $table->getErrors()),
 				'error');
 
 			return false;
+		}
+
+		if($formData['menutitle'] != $formData['retrievedmenu'])
+		{
+			if($table->load(array('title' => $formData['menutitle'])))
+			{
+				JFactory::getApplication()->enqueueMessage(
+					JText::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $table->getErrors()),
+					'error');
+
+				return false;
+			}
 		}
 
 		return true;
