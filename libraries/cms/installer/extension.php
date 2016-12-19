@@ -151,15 +151,4 @@ class JInstallerExtension extends JObject
  */
 class JExtension extends JInstallerExtension
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
-	 *
-	 * @since  3.1
-	 */
-	public function __construct(SimpleXMLElement $element = null)
-	{
-		parent::__construct($element);
-	}
 }

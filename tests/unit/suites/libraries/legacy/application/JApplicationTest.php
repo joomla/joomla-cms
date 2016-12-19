@@ -72,7 +72,7 @@ class JApplicationTest extends TestCase
 	 *
 	 * @return  void
 	 */
-	public function testGetHash()
+	public function testJApplicationGetHash()
 	{
 		// Temporarily override the config cache in JFactory.
 		$temp = JFactory::$config;
@@ -80,6 +80,26 @@ class JApplicationTest extends TestCase
 
 		$this->assertThat(
 			JApplication::getHash('This is a test'),
+			$this->equalTo(md5('foo' . 'This is a test')),
+			'Tests that the secret string is added to the hash.'
+		);
+
+		JFactory::$config = $temp;
+	}
+
+	/**
+	 * Testing JApplicationHelper::getHash
+	 *
+	 * @return  void
+	 */
+	public function testJApplicationHelperGetHash()
+	{
+		// Temporarily override the config cache in JFactory.
+		$temp = JFactory::$config;
+		JFactory::$config = new JObject(array('secret' => 'foo'));
+
+		$this->assertThat(
+			JApplicationHelper::getHash('This is a test'),
 			$this->equalTo(md5('foo' . 'This is a test')),
 			'Tests that the secret string is added to the hash.'
 		);

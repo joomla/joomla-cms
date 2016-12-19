@@ -1113,7 +1113,13 @@ abstract class JFormField
 		{
 			if (is_array($param))
 			{
-				$param = implode(',', $param);
+				// Multidimensional arrays (eg. list options) can't be transformed properly
+				$param = count($param) == count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
+			}
+
+			if (!$param)
+			{
+				continue;
 			}
 
 			$node->setAttribute($key, $param);

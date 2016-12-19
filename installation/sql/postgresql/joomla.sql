@@ -696,7 +696,7 @@ CREATE INDEX "#__fields_idx_language" ON "#__fields" ("language");
 CREATE TABLE "#__fields_groups" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
-  "extension" varchar(255) DEFAULT '' NOT NULL,
+  "context" varchar(255) DEFAULT '' NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
   "description" text NOT NULL,
@@ -716,7 +716,7 @@ CREATE INDEX "#__fields_groups_idx_checked_out" ON "#__fields_groups" ("checked_
 CREATE INDEX "#__fields_groups_idx_state" ON "#__fields_groups" ("state");
 CREATE INDEX "#__fields_groups_idx_created_by" ON "#__fields_groups" ("created_by");
 CREATE INDEX "#__fields_groups_idx_access" ON "#__fields_groups" ("access");
-CREATE INDEX "#__fields_groups_idx_extension" ON "#__fields_groups" ("extension");
+CREATE INDEX "#__fields_groups_idx_context" ON "#__fields_groups" ("context");
 CREATE INDEX "#__fields_groups_idx_language" ON "#__fields_groups" ("language");
 
 --
@@ -1232,7 +1232,6 @@ CREATE TABLE "#__languages" (
   CONSTRAINT "#__languages_idx_sef" UNIQUE ("sef"),
   CONSTRAINT "#__languages_idx_langcode" UNIQUE ("lang_code")
 );
-CREATE INDEX "#__languages_idx_image" ON "#__languages" ("image");
 CREATE INDEX "#__languages_idx_ordering" ON "#__languages" ("ordering");
 CREATE INDEX "#__languages_idx_access" ON "#__languages" ("access");
 

@@ -33,7 +33,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php
 		// Search tools bar and filters
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
@@ -178,7 +178,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 							<?php endif; ?>
 						</td>
 						<td class="small hidden-phone hidden-tablet">
-							<?php echo $item->name;?>
+							<?php echo $item->name; ?>
 						</td>
 						<?php if ($clientId === 0) : ?>
 						<td class="small hidden-phone hidden-tablet">
@@ -198,7 +198,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<?php // Load the batch processing form. ?>
 		<?php if ($user->authorise('core.create', 'com_modules')
