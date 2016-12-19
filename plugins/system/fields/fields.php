@@ -503,7 +503,7 @@ class PlgSystemFields extends JPlugin
 				}
 
 				// Transofrm com_article to com_content
-				if ($component == 'com_article')
+				if ($component === 'com_article')
 				{
 					$component = 'com_content';
 				}
@@ -567,7 +567,7 @@ class PlgSystemFields extends JPlugin
 			return null;
 		}
 
-		if ($parts[1] == 'form')
+		if ($parts[1] === 'form')
 		{
 			// The context is not from a known one, we need to do a lookup
 			// @todo use the api here.
