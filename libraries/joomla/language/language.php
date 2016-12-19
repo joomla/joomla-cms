@@ -359,7 +359,7 @@ class JLanguage
 			}
 		}
 
-		if(!$this->strings[$key])
+		if (!$this->strings[$key])
 		{
 			if ($this->debug)
 			{
@@ -846,7 +846,8 @@ class JLanguage
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function def($constant, $value){
+	public function def($constant, $value)
+	{
 		if (!isset($this->strings[$constant]) && $value)
 		{
 			$this->_strings[$constant] = $value;
