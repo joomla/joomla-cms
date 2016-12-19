@@ -47,12 +47,6 @@ vendors:
                   'version': '0.8.1'
                   'dependencies': ''
 
-
-### The javascript polyfills
-polyfills:
-        - 'Element.prototype.classList'
-        - 'Event'
-
 ## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:
         js:

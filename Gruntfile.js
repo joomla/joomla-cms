@@ -318,19 +318,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('test-scss', ['scsslint']);
 
-	grunt.registerTask('polyfills', 'Download the polyfills from FT.', function() {
-		// Build the array of the polyfills urls for curl
-		for (name in settings.polyfills) {
-			var filename = settings.polyfills[name].toLowerCase();
-			if (filename === 'element.prototype.classlist') filename = 'classlist';
-			polyFillsUrls.push({url: 'https://cdn.polyfill.io/v2/polyfill.js?features=' + settings.polyfills[name] + '&flags=always,gated&ua=Mozilla/4.0%20(compatible;%20MSIE%208.0;%20Windows%20NT%206.0;%20Trident/4.0)', localFile: 'polyfill.' + filename + '.js'});
-		}
-
-		grunt.task.run([
-			'fetchpages:polyfills'
-		]);
-	});
-
 	grunt.registerTask('updateXML', 'Update XML for tinyMCE and Codemirror', function() {
 		// Update the XML files for tinyMCE and Codemirror
 		tinyXml = grunt.file.read('plugins/editors/tinymce/tinymce.xml');
