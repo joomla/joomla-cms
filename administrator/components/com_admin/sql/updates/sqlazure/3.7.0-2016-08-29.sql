@@ -65,7 +65,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__fields_groups](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[asset_id] [int] NOT NULL DEFAULT 0,
-	[extension] [nvarchar](255) NOT NULL DEFAULT '',
+	[context] [nvarchar](255) NOT NULL DEFAULT '',
 	[title] [nvarchar](255) NOT NULL DEFAULT '',
 	[note] [nvarchar](255) NOT NULL DEFAULT '',
 	[description] [nvarchar](max) NOT NULL DEFAULT '',
@@ -100,8 +100,8 @@ CREATE NONCLUSTERED INDEX [idx_access] ON [#__fields_groups](
 	[access] ASC)
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-CREATE NONCLUSTERED INDEX [idx_extension] ON [#__fields_groups](
-	[extension] ASC)
+CREATE NONCLUSTERED INDEX [idx_context] ON [#__fields_groups](
+	[context] ASC)
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_language] ON [#__fields_groups](
