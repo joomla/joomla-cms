@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * HTML View class for the Contacts component
  *
@@ -60,7 +58,7 @@ class ContactViewCategory extends JViewCategory
 		foreach ($this->items as $item)
 		{
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp       = new Registry($item->params);
+			$temp       = $item->params;
 			$item->params = clone $this->params;
 			$item->params->merge($temp);
 
