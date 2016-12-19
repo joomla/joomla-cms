@@ -170,7 +170,7 @@ class PlgSearchContent extends JPlugin
 
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
-				->select('GROUP_CONCAT(fv.value SEPARATOR \', \') AS fields')
+				->select($query->groupConcat('fv.value', ", ") . " AS fields")
 				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
 
 				->from('#__content AS a')
@@ -246,7 +246,7 @@ class PlgSearchContent extends JPlugin
 					. $case_when . ',' . $case_when1 . ', '
 					. 'c.title AS section, \'2\' AS browsernav'
 			)
-			->select('GROUP_CONCAT(fv.value SEPARATOR \', \') AS fields');
+			->select($query->groupConcat('fv.value', ', ') . " AS fields");
 
 			// .'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
 			$query->from('#__content AS a')
