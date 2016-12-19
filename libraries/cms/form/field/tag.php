@@ -71,8 +71,8 @@ class JFormFieldTag extends JFormAbstractlist
 			$id    = isset($this->element['id']) ? $this->element['id'] : null;
 			$cssId = '#' . $this->getId($id, $this->element['name']);
 
-			// Load the ajax-chosen customised field
-			JHtml::_('tag.ajaxfield', $cssId, $this->allowCustom());
+			// Load the ajax-chosen customised field.
+			JHtml::_('tag.ajaxfield', $cssId, $this->allowCustom(), $this->element['language']);
 		}
 
 		if (!is_array($this->value) && !empty($this->value))
@@ -108,43 +108,13 @@ class JFormFieldTag extends JFormAbstractlist
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published']? $this->element['published'] : array(0, 1);
-
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT a.id AS value, a.path, a.title AS text, a.level, a.published, a.lft')
+			->select('a.id AS value')
+			->select('a.title AS text')
+			->select('a.path')
 			->from('#__tags AS a')
-			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
-
-		// Filter language
-		if (!empty($this->element['language']))
-		{
-			if (strpos($this->element['language'], ',') !== false)
-			{
-				$language = implode(',', $db->quote(explode(',', $this->element['language'])));
-			}
-			else
-			{
-				$language = $db->quote($this->element['language']);
-			}
-
-			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
-		}
-
-		$query->where($db->qn('a.lft') . ' > 0');
-
-		// Filter on the published state
-		if (is_numeric($published))
-		{
-			$query->where('a.published = ' . (int) $published);
-		}
-		elseif (is_array($published))
-		{
-			$published = ArrayHelper::toInteger($published);
-			$query->where('a.published IN (' . implode(',', $published) . ')');
-		}
-
-		$query->order('a.lft ASC');
+			->where('a.id IN (' . implode(',', $this->value) . ')');
 
 		// Get the options.
 		$db->setQuery($query);
@@ -157,6 +127,15 @@ class JFormFieldTag extends JFormAbstractlist
 		{
 			return array();
 		}
+
+		// Search for additional tags and merge them into the options list.
+		$filters = [
+			'flanguage'	=> $this->element['language'],
+			'published'	=> $this->element['published'],
+			'exclude'	=> implode(',', $this->value),
+			'limit'		=> (int) JComponentHelper::getParams('com_tags')->get('maximum', 200),
+			];
+		$options = ArrayHelper::sortObjects(array_merge($options, JHelperTags::searchTags($filters)), 'text', 1);
 
 		// Block the possibility to set a tag as it own parent
 		if ($this->form->getName() == 'com_tags.tag')

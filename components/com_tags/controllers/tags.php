@@ -28,11 +28,13 @@ class TagsControllerTags extends JControllerLegacy
 
 		// Receive request data
 		$filters = array(
-			'like'      => trim($app->input->get('like', null)),
-			'title'     => trim($app->input->get('title', null)),
+			'like'      => trim($app->input->getString('like', null)),
+			'title'     => trim($app->input->getString('title', null)),
 			'flanguage' => $app->input->get('flanguage', null),
 			'published' => $app->input->get('published', 1, 'integer'),
-			'parent_id' => $app->input->get('parent_id', null)
+			'parent_id' => $app->input->get('parent_id', null),
+			'limit'		=> $app->input->get('limit', null),
+			'exclude'	=> $app->input->getString('exclude', null),
 		);
 
 		if ($results = JHelperTags::searchTags($filters))
