@@ -7112,7 +7112,7 @@ body.modal-open {
 	-ms-overflow-style: none;
 }
 .modal-header {
-	padding: 0 15px;
+	padding: 0 20px;
 	text-align: left;
 }
 .modal-header h3 {
@@ -7132,6 +7132,10 @@ body.modal-open {
 	width: 100%;
 	height: auto;
 	overflow: hidden;
+}
+.modal-body .container-fluid {
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 .modal-footer {
 	clear: both;
