@@ -84,20 +84,6 @@ class FieldsTableGroup extends JTable
 			return false;
 		}
 
-		$this->alias = trim($this->alias);
-
-		if (empty($this->alias))
-		{
-			$this->alias = $this->title;
-		}
-
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
-
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
-		}
-
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
@@ -133,7 +119,7 @@ class FieldsTableGroup extends JTable
 	 */
 	protected function _getAssetName()
 	{
-		return $this->extension . '.fieldgroup.' . (int) $this->id;
+		return $this->context . '.fieldgroup.' . (int) $this->id;
 	}
 
 	/**
@@ -173,7 +159,7 @@ class FieldsTableGroup extends JTable
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($this->extension));
+			->where($db->quoteName('name') . ' = ' . $db->quote($this->context));
 		$db->setQuery($query);
 
 		if ($assetId = (int) $db->loadResult())

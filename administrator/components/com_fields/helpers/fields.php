@@ -156,7 +156,7 @@ class FieldsHelper
 					$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
 				}
 
-				if ($field->value == '')
+				if ($field->value === '' || $field->value === null)
 				{
 					$field->value = $field->default_value;
 				}
@@ -324,7 +324,7 @@ class FieldsHelper
 			 * Setting the onchange event to reload the page when the category
 			 * has changed
 			*/
-			$form->setFieldAttribute('catid', 'onchange', "categoryHasChanged(this);");
+			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
 			JFactory::getDocument()->addScriptDeclaration(
 					"function categoryHasChanged(element){
 				var cat = jQuery(element);
@@ -487,20 +487,33 @@ class FieldsHelper
 		}
 
 		// Looping trough the fields again to set the value
-		if (isset($data->id) && $data->id)
+		if (!isset($data->id) || !$data->id)
 		{
-			foreach ($fields as $field)
+			return true;
+		}
+
+		foreach ($fields as $field)
+		{
+			$value = $model->getFieldValue($field->id, $field->context, $data->id);
+
+			if ($value === null)
 			{
-				$value = $model->getFieldValue($field->id, $field->context, $data->id);
-
-				if ($value === null)
-				{
-					continue;
-				}
-
-				// Setting the value on the field
-				$form->setValue($field->alias, 'params', $value);
+				continue;
 			}
+
+			if (!is_array($value) && $value !== '')
+			{
+				// Function getField doesn't cache the fields, so we try to do it only when necessary
+				$formField = $form->getField($field->alias, 'params');
+
+				if ($formField && $formField->forceMultiple)
+				{
+					$value = (array) $value;
+				}
+			}
+
+			// Setting the value on the field
+			$form->setValue($field->alias, 'params', $value);
 		}
 
 		return true;

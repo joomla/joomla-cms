@@ -711,7 +711,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function isClient($identifier)
 	{
-		return $this->getName() == $identifier;
+		return $this->getName() === $identifier;
 	}
 
 	/**
@@ -783,14 +783,13 @@ class JApplicationCms extends JApplicationWeb
 
 		/*
 		 * Note: The below code CANNOT change from instantiating a session via JFactory until there is a proper dependency injection container supported
-		 * by the application. The current default behaviours result in this method being called each time an application class is instantiated meaning
-		 * each application will attempt to start a new session. https://github.com/joomla/joomla-cms/issues/12108 explains why things will crash and
-		 * burn if you ever attempt to make this change without a proper dependency injection container.
+		 * by the application. The current default behaviours result in this method being called each time an application class is instantiated.
+		 * https://github.com/joomla/joomla-cms/issues/12108 explains why things will crash and burn if you ever attempt to make this change
+		 * without a proper dependency injection container.
 		 */
 
 		$session = JFactory::getSession($options);
 		$session->initialise($this->input, $this->dispatcher);
-		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
 		$db = JFactory::getDbo();
@@ -1095,7 +1094,7 @@ class JApplicationCms extends JApplicationWeb
 
 		$caching = false;
 
-		if ($this->isSite() && $this->get('caching') && $this->get('caching', 2) == 2 && !JFactory::getUser()->get('id'))
+		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !JFactory::getUser()->get('id'))
 		{
 			$caching = true;
 		}

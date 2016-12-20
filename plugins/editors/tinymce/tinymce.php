@@ -206,7 +206,7 @@ class PlgEditorTinymce extends JPlugin
 
 		// Set the selected skin
 		$skin = 'lightgray';
-		$side = $app->isAdmin() ? 'skin_admin' : 'skin';
+		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
 
 		if ((int) $this->params->get($side, 0) < count($skindirs))
 		{
@@ -218,17 +218,17 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($langMode)
 		{
-			if (file_exists(JPATH_ROOT . "/media/editors/tinymce/langs/" . $language->getTag() . ".js"))
+			if (file_exists(JPATH_ROOT . '/media/editors/tinymce/langs/' . $language->getTag() . '.js'))
 			{
 				$langPrefix = $language->getTag();
 			}
-			elseif (file_exists(JPATH_ROOT . "/media/editors/tinymce/langs/" . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . ".js"))
+			elseif (file_exists(JPATH_ROOT . '/media/editors/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js'))
 			{
 				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
 			}
 			else
 			{
-				$langPrefix = "en";
+				$langPrefix = 'en';
 			}
 		}
 
@@ -421,10 +421,10 @@ class PlgEditorTinymce extends JPlugin
 		if (!empty($allButtons['template']))
 		{
 			// Note this check for the template_list.js file will be removed in Joomla 4.0
-			if (is_file(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js"))
+			if (is_file(JPATH_ROOT . '/media/editors/tinymce/templates/template_list.js'))
 			{
 				// If using the legacy file we need to include and input the files the new way
-				$str = file_get_contents(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js");
+				$str = file_get_contents(JPATH_ROOT . '/media/editors/tinymce/templates/template_list.js');
 
 				// Find from one [ to the last ]
 				$matches = array();
@@ -435,7 +435,7 @@ class PlgEditorTinymce extends JPlugin
 				{
 					$values = array();
 					preg_match_all('/\".*\"/', $match, $values);
-					$result       = trim($values["0"]["0"], '"');
+					$result       = trim($values['0']['0'], '"');
 					$final_result = explode(',', $result);
 
 					$templates[] = array(
@@ -506,7 +506,7 @@ class PlgEditorTinymce extends JPlugin
 		// We shall put the XTD button inside tinymce
 		$btns      = $this->tinyButtons($id, $buttons);
 		$btnsNames = $btns['names'];
-		$tinyBtns  = implode("; ", $btns['script']);
+		$tinyBtns  = implode('; ', $btns['script']);
 
 		if (!empty($btnsNames))
 		{
@@ -531,13 +531,13 @@ class PlgEditorTinymce extends JPlugin
 				. '&' . JSession::getFormToken() . '=1'
 				. '&asset=image&format=json';
 
-			if ($app->isSite())
+			if ($app->isClient('site'))
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}
 
 			// Is Joomla installed in subdirectory
-			if (JUri::root(true) != '/')
+			if (JUri::root(true) !== '/')
 			{
 				$isSubDir = JUri::root(true);
 			}
@@ -655,7 +655,7 @@ class PlgEditorTinymce extends JPlugin
 
 		$options['tinyMCE']['default'] = $scriptOptions;
 
-		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
+		$doc->addStyleDeclaration('.mce-in { padding: 5px 10px !important;}');
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
 
 		return $editor;
@@ -696,13 +696,13 @@ class PlgEditorTinymce extends JPlugin
 			if ($button->get('name'))
 			{
 				// Set some vars
-				$name    = 'button-' . $i . str_replace(" ", "", $button->get('text'));
+				$name    = 'button-' . $i . str_replace(' ', '', $button->get('text'));
 				$title   = $button->get('text');
-				$onclick = ($button->get('onclick')) ? $button->get('onclick') : null;
+				$onclick = $button->get('onclick') ? $button->get('onclick') : null;
 				$options = $button->get('options');
 				$icon    = $button->get('name');
 
-				if ($button->get('link') != "#")
+				if ($button->get('link') !== '#')
 				{
 					$href = JUri::base() . $button->get('link');
 				}
@@ -836,11 +836,11 @@ class PlgEditorTinymce extends JPlugin
 			$filterData = $filters->$groupId;
 			$filterType = strtoupper($filterData->filter_type);
 
-			if ($filterType == 'NH')
+			if ($filterType === 'NH')
 			{
 				// Maximum HTML filtering.
 			}
-			elseif ($filterType == 'NONE')
+			elseif ($filterType === 'NONE')
 			{
 				// No HTML filtering.
 				$unfiltered = true;
@@ -876,13 +876,13 @@ class PlgEditorTinymce extends JPlugin
 
 				// Collect the blacklist or whitelist tags and attributes.
 				// Each list is cummulative.
-				if ($filterType == 'BL')
+				if ($filterType === 'BL')
 				{
 					$blackList           = true;
 					$blackListTags       = array_merge($blackListTags, $tempTags);
 					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
 				}
-				elseif ($filterType == 'CBL')
+				elseif ($filterType === 'CBL')
 				{
 					// Only set to true if Tags or Attributes were added
 					if ($tempTags || $tempAttributes)
@@ -892,7 +892,7 @@ class PlgEditorTinymce extends JPlugin
 						$customListAttributes = array_merge($customListAttributes, $tempAttributes);
 					}
 				}
-				elseif ($filterType == 'WL')
+				elseif ($filterType === 'WL')
 				{
 					$whiteList           = true;
 					$whiteListTags       = array_merge($whiteListTags, $tempTags);

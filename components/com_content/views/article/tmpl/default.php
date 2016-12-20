@@ -96,10 +96,10 @@ JHtml::_('behavior.caption');
 		|| (empty($urls->urls_position) && (!$params->get('urls_position')))) : ?>
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
-	<?php if ($params->get('access-view')):?>
+	<?php if ($params->get('access-view')) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.full_image', $this->item); ?>
 	<?php
-	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):
+	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative) :
 		echo $this->item->pagination;
 	endif;
 	?>
@@ -121,7 +121,7 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 
 	<?php
-	if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && !$this->item->paginationrelative):
+	if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && !$this->item->paginationrelative) :
 		echo $this->item->pagination;
 	?>
 	<?php endif; ?>
@@ -148,13 +148,13 @@ JHtml::_('behavior.caption');
 		elseif ($readmore = $attribs->alternative_readmore) :
 			echo $readmore;
 			if ($params->get('show_readmore_title', 0) != 0) :
-				echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+				echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 			endif;
 		elseif ($params->get('show_readmore_title', 0) == 0) :
 			echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
 		else :
 			echo JText::_('COM_CONTENT_READ_MORE');
-			echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+			echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 		endif; ?>
 		</a>
 	</p>

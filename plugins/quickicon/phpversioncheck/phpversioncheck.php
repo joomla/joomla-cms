@@ -200,7 +200,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	private function shouldDisplayMessage()
 	{
 		// Only on admin app
-		if (!$this->app->isAdmin())
+		if (!$this->app->isClient('administrator'))
 		{
 			return false;
 		}
@@ -224,7 +224,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 		}
 
 		// Only to com_cpanel
-		if ($this->app->input->get('option') != 'com_cpanel')
+		if ($this->app->input->get('option') !== 'com_cpanel')
 		{
 			return false;
 		}

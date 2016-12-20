@@ -29,7 +29,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
 			jQuery("#permissions-sliders select").attr("disabled", "disabled");
-			' . $this->form->getField("description")->save() . '
+			' . $this->form->getField('description')->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 
 			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.

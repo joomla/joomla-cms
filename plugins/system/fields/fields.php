@@ -505,7 +505,7 @@ class PlgSystemFields extends JPlugin
 				}
 
 				// Transofrm com_article to com_content
-				if ($component == 'com_article')
+				if ($component === 'com_article')
 				{
 					$component = 'com_content';
 				}
