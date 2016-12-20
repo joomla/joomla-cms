@@ -255,7 +255,7 @@ class InstallerModelManage extends InstallerModel
 			$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
 		}
 
-		$msg = implode("<br />", $msgs);
+		$msg = implode('<br />', $msgs);
 		$app = JFactory::getApplication();
 		$app->enqueueMessage($msg);
 		$this->setState('action', 'remove');

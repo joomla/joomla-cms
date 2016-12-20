@@ -302,7 +302,7 @@ class FieldsHelper
 			 * Setting the onchange event to reload the page when the category
 			 * has changed
 			*/
-			$form->setFieldAttribute('catid', 'onchange', "categoryHasChanged(this);");
+			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
 			JFactory::getDocument()->addScriptDeclaration(
 					"function categoryHasChanged(element){
 				var cat = jQuery(element);

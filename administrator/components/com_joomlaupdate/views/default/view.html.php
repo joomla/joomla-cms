@@ -166,7 +166,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('element') . " = " . $db->quote('com_joomlaupdate'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'));
 		$db->setQuery($query);
 
 		try

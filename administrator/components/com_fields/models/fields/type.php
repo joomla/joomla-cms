@@ -39,7 +39,7 @@ class JFormFieldType extends JFormAbstractlist
 	{
 		$return = parent::setup($element, $value, $group);
 
-		$this->onchange = "typeHasChanged(this);";
+		$this->onchange = 'typeHasChanged(this);';
 
 		return $return;
 	}
