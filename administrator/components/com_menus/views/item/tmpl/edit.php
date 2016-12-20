@@ -49,21 +49,23 @@ jQuery(document).ready(function ($){
 	
 	// Menu type Login Form specific
 	$('#item-form').on('submit', function() {
-		// Login
-		if ($('#jform_params_login_redirect_url').closest('.control-group').css('display') === 'block') {
-			$('#jform_params_login_redirect_menuitem_id').val('');
-		}
-		if ($('#jform_params_login_redirect_menuitem_name').closest('.control-group').css('display') === 'block') {
-			$('#jform_params_login_redirect_url').val('')
-			
-		}
-	
-		// Logout
-		if ($('#jform_params_logout_redirect_url').closest('.control-group').css('display') !== 'block') {
-			$('#jform_params_logout_redirect_url').val('')
-		}
-		if ($('#jform_params_logout_redirect_menuitem_name').closest('.control-group').css('display') !== 'block') {
-			$('#jform_params_logout_redirect_menuitem_id').val('')
+		if ($('#jform_params_login_redirect_url') && $('#jform_params_logout_redirect_url')) {
+			// Login
+			if ($('#jform_params_login_redirect_url').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_login_redirect_menuitem_id').val('');
+			}
+			if ($('#jform_params_login_redirect_menuitem_name').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_login_redirect_url').val('');
+
+			}
+
+			// Logout
+			if ($('#jform_params_logout_redirect_url').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_logout_menuitem_id').val('');
+			}
+			if ($('#jform_params_logout_redirect_menuitem_name').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_logout_redirect_redirect_url').val('');
+			}
 		}
 	});
 });
