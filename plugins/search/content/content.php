@@ -176,7 +176,9 @@ class PlgSearchContent extends JPlugin
 				->from('#__content AS a')
 				->join('INNER', '#__categories AS c ON c.id=a.catid')
 				->join('INNER', '#__fields AS f ON f.context = ' . $db->q('com_content.article'))
-				->join('LEFT', '#__fields_values AS fv ON CAST(fv.item_id AS INTEGER) = a.id AND fv.field_id = f.id AND fv.context = ' . $db->q('com_content.article'))
+				->join('LEFT', '#__fields_values AS fv ON CAST(fv.item_id AS INTEGER) = a.id 
+						AND fv.field_id = f.id AND fv.context = ' . $db->q('com_content.article')
+				)
 				->where(
 					'(' . $where . ') AND a.state=1 AND f.state=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
 						. 'AND c.access IN (' . $groups . ') AND f.access IN (' . $groups . ') '
@@ -252,7 +254,9 @@ class PlgSearchContent extends JPlugin
 			$query->from('#__content AS a')
 				->join('INNER', '#__categories AS c ON c.id=a.catid AND c.access IN (' . $groups . ')')
 				->join('INNER', '#__fields AS f ON f.context = ' . $db->q('com_content.article'))
-				->join('LEFT', '#__fields_values AS fv ON CAST(fv.item_id AS INTEGER) = a.id AND fv.field_id = f.id AND fv.context = ' . $db->q('com_content.article'))
+				->join('LEFT', '#__fields_values AS fv ON CAST(fv.item_id AS INTEGER) = a.id 
+						AND fv.field_id = f.id AND fv.context = '$db->q('com_content.article')
+				)
 				->where(
 					'(' . $where . ') AND a.state = 2 AND f.state=1 AND c.published = 1 AND a.access IN (' . $groups
 						. ') AND c.access IN (' . $groups . ') AND f.access IN (' . $groups . ') '
