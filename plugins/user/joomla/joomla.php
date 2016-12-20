@@ -105,7 +105,7 @@ class PlgUserJoomla extends JPlugin
 		{
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
 			// The method check here ensures that if running as a CLI Application we don't get any errors
-			if (method_exists($this->app, 'isAdmin') && $this->app->isAdmin())
+			if (method_exists($this->app, 'isClient') && $this->app->isClient('administrator'))
 			{
 				if ($mail_to_user)
 				{
@@ -256,7 +256,7 @@ class PlgUserJoomla extends JPlugin
 		$cookie_domain = $this->app->get('cookie_domain', '');
 		$cookie_path   = $this->app->get('cookie_path', '/');
 
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
 			$this->app->input->cookie->set('joomla_user_state', 'logged_in', 0, $cookie_path, $cookie_domain, 0);
 		}
@@ -325,7 +325,7 @@ class PlgUserJoomla extends JPlugin
 		$cookie_domain = $this->app->get('cookie_domain', '');
 		$cookie_path   = $this->app->get('cookie_path', '/');
 
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
 			$this->app->input->cookie->set('joomla_user_state', '', time() - 86400, $cookie_path, $cookie_domain, 0);
 		}

@@ -200,7 +200,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	private function shouldDisplayMessage()
 	{
 		// Only on admin app
-		if (!$this->app->isAdmin())
+		if (!$this->app->isClient('administrator'))
 		{
 			return false;
 		}
