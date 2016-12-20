@@ -19,7 +19,7 @@ $showRightColumn = ($this->countModules('position-3') or $this->countModules('po
 $showbottom      = ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
 $showleft        = ($this->countModules('position-4') or $this->countModules('position-7') or $this->countModules('position-5'));
 
-if ($showRightColumn == 0 and $showleft == 0)
+if ($showRightColumn === false and $showleft === false)
 {
 	$showno = 0;
 }
