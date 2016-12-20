@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_media
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
@@ -22,8 +22,7 @@ class MediaControllerApi extends JControllerLegacy
 	 *
 	 * The following query parameters must be set to get a successfull response:
 	 * - resource: 	The resource to work with, can be folders or files
-	 * - name:		If a specific folder or file element is meant.
-	 * - path:		The path when not the root element is meant.
+	 * - path:		The path of the resource.
 	 *
 	 * Some examples with a more understandable rest url equivalent:
 	 * - GET a list of folders below the root:
@@ -72,9 +71,6 @@ class MediaControllerApi extends JControllerLegacy
 			return $this->send(null, 'Unknown resource!', true);
 		}
 
-		// Get the required variables
-		$path = $this->input->getPath('path');
-
 		// Buld the function name
 		$functionName = strtolower($method) . ucfirst($resource);
 
@@ -83,6 +79,9 @@ class MediaControllerApi extends JControllerLegacy
 		{
 			return $this->send(null, "Can't process request?", true);
 		}
+
+		// Get the required variables
+		$path = $this->input->getPath('path');
 
 		// Gather the data
 		$data = call_user_func(array($this, $functionName), $path, $this->input->json);
