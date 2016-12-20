@@ -152,9 +152,9 @@ class PlgContentCreateMenuitem extends JPlugin
 			return false;
 		}
 
-		if($formData['menutitle'] != $formData['retrievedmenu'])
+		if ($formData['menutitle'] != $formData['retrievedmenu'])
 		{
-			if($table->load(array('title' => $formData['menutitle'])))
+			if ($table->load(array('title' => $formData['menutitle'])))
 			{
 				JFactory::getApplication()->enqueueMessage(
 					JText::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $table->getErrors()),
