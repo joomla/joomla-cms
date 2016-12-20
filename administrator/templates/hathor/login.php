@@ -55,7 +55,7 @@ JHtml::_('stylesheet', 'colour_' . $colour . '.css', array('version' => 'auto', 
 if ($this->direction === 'rtl')
 {
 	JHtml::_('stylesheet', 'template_rtl.css', array('version' => 'auto', 'relative' => true));
-	JHtml::_('stylesheet', 'colour_' . $colour . '_rtl.css', array('version' => 'auto', 'relative' => true));;
+	JHtml::_('stylesheet', 'colour_' . $colour . '_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
 // Load additional CSS styles for bold Text
