@@ -32,30 +32,27 @@ class MediaControllerApi extends JControllerLegacy
 	 * - GET a list of subfolders:
 	 * 		index.php?option=com_media&task=api.v1&resource=folders&path=/sampledata/fruitshop
 	 * 		/api/v1/folders/sampledata/fruitshop
-	 * - GET folder information for a specific folder:
-	 * 		index.php?option=com_media&task=api.v1&resource=files&name=test.jpg&path=/sampledata/fruitshop
-	 * 		/api/v1/folders/sampledata/fruitshop
 	 * - POST a new folder into a specific folder:
 	 * 		index.php?option=com_media&task=api.v1&resource=folders&path=/sampledata/fruitshop
 	 * 		/api/v1/files/sampledata/fruitshop
 	 * - DELETE an existing folder in a specific folder:
-	 * 		index.php?option=com_media&task=api.v1&resource=folders&name=test&path=/sampledata/fruitshop
+	 * 		index.php?option=com_media&task=api.v1&resource=folders&path=/sampledata/fruitshop/test
 	 * 		/api/v1/files/sampledata/fruitshop/test
 	 *
 	 * - GET a list of files for specific folder:
 	 * 		index.php?option=com_media&task=api.v1&resource=files&path=/sampledata/fruitshop
 	 * 		/api/v1/files/sampledata/fruitshop
 	 * - GET file information for a specific file:
-	 * 		index.php?option=com_media&task=api.v1&resource=files&name=test.jpg&path=/sampledata/fruitshop
-	 * 		/api/v1/files/sampledata/fruitshop
+	 * 		index.php?option=com_media&task=api.v1&resource=files&path=/sampledata/fruitshop/test.jpg
+	 * 		/api/v1/files/sampledata/fruitshop/test.jpg
 	 * - POST a new file into a specific folder:
 	 * 		index.php?option=com_media&task=api.v1&resource=files&path=/sampledata/fruitshop
 	 * 		/api/v1/files/sampledata/fruitshop
 	 * - PUT an existing file into a specific folder:
-	 * 		index.php?option=com_media&task=api.v1&resource=files&name=test.jpg&path=/sampledata/fruitshop
+	 * 		index.php?option=com_media&task=api.v1&resource=files&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/v1/files/sampledata/fruitshop/test.jpg
 	 * - DELETE an existing file in a specific folder:
-	 * 		index.php?option=com_media&task=api.v1&resource=files&name=test.jpg&path=/sampledata/fruitshop
+	 * 		index.php?option=com_media&task=api.v1&resource=files&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/v1/files/sampledata/fruitshop/test.jpg
 	 *
 	 * @return  void
@@ -76,7 +73,6 @@ class MediaControllerApi extends JControllerLegacy
 		}
 
 		// Get the required variables
-		$name = $this->input->getPath('name');
 		$path = $this->input->getPath('path');
 
 		// Buld the function name
@@ -85,11 +81,11 @@ class MediaControllerApi extends JControllerLegacy
 		// Check if the function can be called
 		if (!is_callable(array($this, $functionName)))
 		{
-			return $this->send(null, "Can't preocess request?", true);
+			return $this->send(null, "Can't process request?", true);
 		}
 
 		// Gather the data
-		$data = call_user_func(array($this, $functionName), $name, $path, $this->input->json);
+		$data = call_user_func(array($this, $functionName), $path, $this->input->json);
 
 		// Return the data
 		return $this->send($data, 'ok', false);
@@ -99,15 +95,14 @@ class MediaControllerApi extends JControllerLegacy
 	 * Returns the folders for the given folder. If the name is set,then it returns the folder
 	 * meta data.
 	 *
-	 * @param  string      $name    The name
-	 * @param  string      $folder  The folder
-	 * @param  JInputJSON  $input   The input
+	 * @param  string      $path   The folder
+	 * @param  JInputJSON  $input  The input
 	 *
 	 * @return  string[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getFolders($name = null, $folder = null, JInputJSON $input = null)
+	private function getFolders($path = null, JInputJSON $input = null)
 	{
 		return array('Demo');
 	}
