@@ -34,7 +34,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public $serverType = 'mysql';
 
 	/**
-	 * @var    mysqli  The database connection resource.
+	 * The database connection resource.
+	 *
+	 * @var    mysqli
 	 * @since  11.1
 	 */
 	protected $connection;
@@ -58,6 +60,22 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 * @since  12.2
 	 */
 	protected $nullDate = '0000-00-00 00:00:00';
+
+	/**
+	 * The prepared statement.
+	 *
+	 * @var    mysqli_stmt
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $prepared;
+
+	/**
+	 * Contains the current query execution status
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $executed = false;
 
 	/**
 	 * @var    string  The minimum supported database version.
@@ -173,18 +191,20 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			throw new JDatabaseExceptionUnsupported('The MySQL adapter mysqli is not available');
 		}
 
-		$this->connection = @mysqli_connect(
+		$this->connection = mysqli_init();
+
+		$connected = $this->connection->real_connect(
 			$this->options['host'], $this->options['user'], $this->options['password'], null, $this->options['port'], $this->options['socket']
 		);
 
 		// Attempt to connect to the server.
-		if (!$this->connection)
+		if (!$connected)
 		{
-			throw new JDatabaseExceptionConnecting('Could not connect to MySQL.');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL.', $this->connection->connect_errno);
 		}
 
 		// Set sql_mode to non_strict mode
-		mysqli_query($this->connection, "SET @@SESSION.sql_mode = '';");
+		$this->connection->query("SET @@SESSION.sql_mode = '';");
 
 		// If auto-select is enabled select the given database.
 		if ($this->options['select'] && !empty($this->options['database']))
@@ -201,8 +221,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
 		{
-			mysqli_query($this->connection, "SET profiling_history_size = 100;");
-			mysqli_query($this->connection, "SET profiling = 1;");
+			$this->connection->query("SET profiling_history_size = 100;");
+			$this->connection->query("SET profiling = 1;");
 		}
 	}
 
@@ -220,10 +240,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			foreach ($this->disconnectHandlers as $h)
 			{
-				call_user_func_array($h, array( &$this));
+				call_user_func_array($h, array(&$this));
 			}
 
-			mysqli_close($this->connection);
+			$this->connection->close();
 		}
 
 		$this->connection = null;
@@ -243,7 +263,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$result = mysqli_real_escape_string($this->getConnection(), $text);
+		$result = $this->connection->real_escape_string($text);
 
 		if ($extra)
 		{
@@ -276,7 +296,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		if (is_object($this->connection))
 		{
-			return mysqli_ping($this->connection);
+			return $this->connection->ping();
 		}
 
 		return false;
@@ -317,7 +337,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		return mysqli_affected_rows($this->connection);
+		return $this->connection->affected_rows;
 	}
 
 	/**
@@ -340,10 +360,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			return $result->Value;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -364,10 +382,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			return $result->Value;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -510,7 +526,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		return mysqli_get_server_info($this->connection);
+		return $this->connection->get_server_info();
 	}
 
 	/**
@@ -525,7 +541,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		return mysqli_insert_id($this->connection);
+		return $this->connection->insert_id;
 	}
 
 	/**
@@ -592,14 +608,58 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			if (is_object($this->cursor))
 			{
 				// Avoid warning if result already freed by third-party library
-				@$this->freeResult();
+				@$this->freeResult($this->cursor);
 			}
 
 			$memoryBefore = memory_get_usage();
 		}
 
-		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
-		$this->cursor = @mysqli_query($this->connection, $query);
+		// Execute the query.
+		$this->executed = false;
+
+		if ($this->prepared instanceof mysqli_stmt)
+		{
+			// Bind the variables:
+			if ($this->sql instanceof JDatabaseQueryPreparable)
+			{
+				$bounded =& $this->sql->getBounded();
+
+				if (count($bounded))
+				{
+					$params     = array();
+					$typeString = '';
+
+					foreach ($bounded as $key => $obj)
+					{
+						// Add the type to the type string
+						$typeString .= $obj->dataType;
+
+						// And add the value as an additional param
+						$params[] = $obj->value;
+					}
+
+					// Make everything references for call_user_func_array()
+					$bindParams = array();
+					$bindParams[] = &$typeString;
+
+					for ($i = 0; $i < count($params); $i++)
+					{
+						$bindParams[] = &$params[$i];
+					}
+
+					call_user_func_array(array($this->prepared, 'bind_param'), $bindParams);
+				}
+			}
+
+			$this->executed = $this->prepared->execute();
+			$this->cursor   = $this->prepared->get_result();
+
+			// If the query was successful and we did not get a cursor, then set this to true (mimics mysql_query() return)
+			if ($this->executed && !$this->cursor)
+			{
+				$this->cursor = true;
+			}
+		}
 
 		if ($this->debug)
 		{
@@ -622,7 +682,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		}
 
 		// If an error occurred handle it.
-		if (!$this->cursor)
+		if (!$this->executed)
 		{
 			// Get the error number and message before we execute any more queries.
 			$this->errorNum = $this->getErrorNumber();
@@ -703,12 +763,48 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			return false;
 		}
 
-		if (!mysqli_select_db($this->connection, $database))
+		if (!$this->connection->select_db($database))
 		{
 			throw new JDatabaseExceptionConnecting('Could not connect to database.');
 		}
 
 		return true;
+	}
+
+	/**
+	 * Sets the SQL statement string for later execution.
+	 *
+	 * @param   JDatabaseQuery|string  $query   The SQL statement to set either as a JDatabaseQuery object or a string.
+	 * @param   integer                $offset  The affected row offset to set.
+	 * @param   integer                $limit   The maximum affected rows to set.
+	 *
+	 * @return  JDatabaseDriverMysqli  This object to support method chaining.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setQuery($query, $offset = null, $limit = null)
+	{
+		$this->connect();
+
+		$this->freeResult();
+
+		if (is_string($query))
+		{
+			// Allows taking advantage of bound variables in a direct query:
+			$query = $this->getQuery(true)->setQuery($query);
+		}
+
+		if ($query instanceof JDatabaseQueryLimitable && !is_null($offset) && !is_null($limit))
+		{
+			$query->setLimit($limit, $offset);
+		}
+
+		$sql = $this->replacePrefix((string) $query);
+
+		$this->prepared = $this->connection->prepare($sql);
+
+		// Store reference to the DatabaseQuery instance
+		return parent::setQuery($query, $offset, $limit);
 	}
 
 	/**
@@ -762,11 +858,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public function transactionCommit($toSavepoint = false)
 	{
-		$this->connect();
-
 		if (!$toSavepoint || $this->transactionDepth <= 1)
 		{
-			if ($this->setQuery('COMMIT')->execute())
+			$this->connect();
+
+			if ($this->connection->commit())
 			{
 				$this->transactionDepth = 0;
 			}
@@ -789,11 +885,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public function transactionRollback($toSavepoint = false)
 	{
-		$this->connect();
-
 		if (!$toSavepoint || $this->transactionDepth <= 1)
 		{
-			if ($this->setQuery('ROLLBACK')->execute())
+			if ($this->connection->rollback())
 			{
 				$this->transactionDepth = 0;
 			}
@@ -802,9 +896,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		}
 
 		$savepoint = 'SP_' . ($this->transactionDepth - 1);
-		$this->setQuery('ROLLBACK TO SAVEPOINT ' . $this->quoteName($savepoint));
 
-		if ($this->execute())
+		if ($this->executeTransactionQuery('ROLLBACK TO SAVEPOINT ' . $this->quoteName($savepoint)))
 		{
 			$this->transactionDepth--;
 		}
@@ -824,9 +917,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
+		// Disallow auto commit
+		$this->connection->autocommit(false);
+
 		if (!$asSavepoint || !$this->transactionDepth)
 		{
-			if ($this->setQuery('START TRANSACTION')->execute())
+			if ($this->executeTransactionQuery('START TRANSACTION'))
 			{
 				$this->transactionDepth = 1;
 			}
@@ -835,12 +931,113 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		}
 
 		$savepoint = 'SP_' . $this->transactionDepth;
-		$this->setQuery('SAVEPOINT ' . $this->quoteName($savepoint));
 
-		if ($this->execute())
+		if ($this->executeTransactionQuery('SAVEPOINT ' . $this->quoteName($savepoint)))
 		{
 			$this->transactionDepth++;
 		}
+	}
+
+	/**
+	 * Internal method to execute queries regarding transactions.
+	 *
+	 * This method uses `mysqli_query()` directly due to the execute() method using prepared statements and the underlying API not supporting this.
+	 *
+	 * @param   string  $query  SQL statement to execute.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function executeTransactionQuery($query)
+	{
+		$this->connect();
+
+		// If debugging is enabled then let's log the query.
+		if ($this->debug)
+		{
+			// Add the query to the object queue.
+			$this->log[] = $query;
+
+			JLog::add($query, JLog::DEBUG, 'databasequery');
+
+			$this->timings[] = microtime(true);
+
+			if (is_object($this->cursor))
+			{
+				// Avoid warning if result already freed by third-party library
+				@$this->freeResult($this->cursor);
+			}
+
+			$memoryBefore = memory_get_usage();
+		}
+
+		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
+		$cursor = @$this->connection->query($query);
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
+
+			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
+				$memoryBefore,
+				memory_get_usage(),
+				is_object($this->cursor) ? $this->getNumRows() : null,
+			);
+		}
+
+		// If an error occurred handle it.
+		if (!$cursor)
+		{
+			// Get the error number and message before we execute any more queries.
+			$this->errorNum = $this->getErrorNumber();
+			$this->errorMsg = $this->getErrorMessage($query);
+
+			// Check if the server was disconnected.
+			if (!$this->connected())
+			{
+				try
+				{
+					// Attempt to reconnect.
+					$this->connection = null;
+					$this->connect();
+				}
+				// If connect fails, ignore that exception and throw the normal exception.
+				catch (RuntimeException $e)
+				{
+					// Get the error number and message.
+					$this->errorNum = $this->getErrorNumber();
+					$this->errorMsg = $this->getErrorMessage($query);
+
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
+					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum, $e);
+				}
+
+				// Since we were able to reconnect, run the query again.
+				return $this->executeTransactionQuery($query);
+			}
+			// The server was not disconnected.
+			else
+			{
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
+				throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
+			}
+		}
+
+		$this->freeResult($cursor);
+
+		return true;
 	}
 
 	/**
@@ -897,11 +1094,17 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	protected function freeResult($cursor = null)
 	{
-		mysqli_free_result($cursor ? $cursor : $this->cursor);
+		$this->executed = false;
 
-		if ((! $cursor) || ($cursor === $this->cursor))
+		if ($cursor instanceof mysqli_result)
 		{
-			$this->cursor = null;
+			$cursor->free_result();
+		}
+
+		if ($cursor instanceof mysqli_stmt)
+		{
+			$cursor->close();
+			$cursor = null;
 		}
 	}
 
@@ -984,7 +1187,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	protected function getErrorNumber()
 	{
-		return (int) mysqli_errno($this->connection);
+		return (int) $this->connection->errno;
 	}
 
 	/**
@@ -998,7 +1201,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	protected function getErrorMessage($query)
 	{
-		$errorMessage = (string) mysqli_error($this->connection);
+		$errorMessage = (string) $this->connection->error;
 
 		// Replace the Databaseprefix with `#__` if we are not in Debug
 		if (!$this->debug)

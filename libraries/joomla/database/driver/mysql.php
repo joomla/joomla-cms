@@ -383,6 +383,45 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	}
 
 	/**
+	 * Sets the SQL statement string for later execution.
+	 *
+	 * @param   mixed    $query   The SQL statement to set either as a JDatabaseQuery object or a string.
+	 * @param   integer  $offset  The affected row offset to set.
+	 * @param   integer  $limit   The maximum affected rows to set.
+	 *
+	 * @return  JDatabaseDriverMysql  This object to support method chaining.
+	 *
+	 * @since   11.1
+	 * @note    Due to class inheritance from the MySQLi driver, this is a direct copy of the JDatabaseDriver::setQuery() method to "reset" things
+	 */
+	public function setQuery($query, $offset = 0, $limit = 0)
+	{
+		$this->sql = $query;
+
+		if ($query instanceof JDatabaseQueryLimitable)
+		{
+			if (!$limit && $query->limit)
+			{
+				$limit = $query->limit;
+			}
+
+			if (!$offset && $query->offset)
+			{
+				$offset = $query->offset;
+			}
+
+			$query->setLimit($limit, $offset);
+		}
+		else
+		{
+			$this->limit = (int) max(0, $limit);
+			$this->offset = (int) max(0, $offset);
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Set the connection to use UTF-8 character encoding.
 	 *
 	 * @return  boolean  True on success.
@@ -419,6 +458,99 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method to commit a transaction.
+	 *
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 */
+	public function transactionCommit($toSavepoint = false)
+	{
+		$this->connect();
+
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			if ($this->setQuery('COMMIT')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
+		}
+
+		$this->transactionDepth--;
+	}
+
+	/**
+	 * Method to roll back a transaction.
+	 *
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 */
+	public function transactionRollback($toSavepoint = false)
+	{
+		$this->connect();
+
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			if ($this->setQuery('ROLLBACK')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . ($this->transactionDepth - 1);
+		$this->setQuery('ROLLBACK TO SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth--;
+		}
+	}
+
+	/**
+	 * Method to initialize a transaction.
+	 *
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 */
+	public function transactionStart($asSavepoint = false)
+	{
+		$this->connect();
+
+		if (!$asSavepoint || !$this->transactionDepth)
+		{
+			if ($this->setQuery('START TRANSACTION')->execute())
+			{
+				$this->transactionDepth = 1;
+			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . $this->transactionDepth;
+		$this->setQuery('SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth++;
+		}
 	}
 
 	/**
@@ -475,7 +607,12 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	protected function freeResult($cursor = null)
 	{
-		mysql_free_result($cursor ? $cursor : $this->cursor);
+		$freeCursor = $cursor ? $cursor : $this->cursor;
+
+		if ($freeCursor)
+		{
+			mysql_free_result($freeCursor);
+		}
 	}
 
 	/**
