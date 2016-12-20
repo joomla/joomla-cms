@@ -1354,6 +1354,13 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
+		// Speedup by SQL optimalization
+		if ( strpos($this->_db->name, 'mysql') !== false )
+		{
+			return $this->reorderMysql($where);
+		}
+
+		// Default (slow) reorder
 		$k = $this->_tbl_key;
 
 		// Get the primary keys and ordering values for the selection.
@@ -1391,6 +1398,46 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				}
 			}
 		}
+
+		return true;
+	}
+
+	/**
+	 * Method to compact the ordering values of rows in a group of rows
+	 * defined by an SQL WHERE clause.
+	 *
+	 * @param   string  $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
+	 *
+	 * @return  mixed  Boolean  True on success.
+	 *
+	 * @link    http://docs.joomla.org/JTable/reorder
+	 * @since   11.1
+	 */
+	protected function reorderMysql($where = '')
+	{
+		$k = $this->_tbl_key;
+
+		$this->_db->setQuery('set @num = 0');
+		$this->_db->execute();
+
+		$query = $this->_db->getQuery(true)
+			->update($this->_tbl)
+			->set('ordering = @num := @num + 1')
+			->where('ordering >= 0')
+			->order('ordering');
+
+		// Setup the extra where and ordering clause data.
+		if ($where)
+		{
+			$query->where($where);
+		}
+
+		/* Warning: Unpatched version of JDatabaseQuery->__toString ignores 'order' to update query.
+		 * Then query must be built from string like this:
+		 * $query = "update {$this->_tbl} set ordering = @num := @num + 1 where ordering >= 0 " . $where? (" and " . $where): "" . " order by ordering"; */
+
+		$this->_db->setQuery($query);
+		$this->_db->execute();
 
 		return true;
 	}
