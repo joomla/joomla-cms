@@ -82,25 +82,6 @@ class FieldsModelField extends JModelAdmin
 			$field = $this->getItem($data['id']);
 		}
 
-		if (!isset($data['assigned_cat_ids']))
-		{
-			$data['assigned_cat_ids'] = array();
-		}
-		else
-		{
-			$cats = (array) $data['assigned_cat_ids'];
-
-			foreach ($cats as $key => $c)
-			{
-				if (empty($c))
-				{
-					unset($cats[$key]);
-				}
-			}
-
-			$data['assigned_cat_ids'] = $cats;
-		}
-
 		if (!isset($data['label']) && isset($data['params']['label']))
 		{
 			$data['label'] = $data['params']['label'];
@@ -118,8 +99,9 @@ class FieldsModelField extends JModelAdmin
 
 			if ($data['title'] == $origTable->title)
 			{
-				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				list($title, $alias) = $this->generateNewTitle($data['group_id'], $data['alias'], $data['title']);
 				$data['title'] = $title;
+				$data['label'] = $title;
 				$data['alias'] = $alias;
 			}
 			else
@@ -133,27 +115,61 @@ class FieldsModelField extends JModelAdmin
 			$data['state'] = 0;
 		}
 
-		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+		if (!parent::save($data))
+		{
+			return false;
+		}
 
-		$success = parent::save($data);
+		// Save the assigned categories into #__fields_categories
+		$db = $this->getDbo();
+		$id = (int) $this->getState('field.id');
+		$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
+		$cats = ArrayHelper::toInteger($cats);
+
+		$assignedCatIds = array();
+
+		foreach ($cats as $cat)
+		{
+			if ($cat)
+			{
+				$assignedCatIds[] = $cat;
+			}
+		}
+
+		// First delete all assigned categories
+		$query = $db->getQuery(true);
+		$query->delete('#__fields_categories')
+			->where('field_id = ' . $id);
+		$db->setQuery($query);
+		$db->execute();
+
+		// Inset new assigned categories
+		$tupel = new stdClass;
+		$tupel->field_id = $id;
+
+		foreach ($assignedCatIds as $catId)
+		{
+			$tupel->category_id = $catId;
+			$db->insertObject('#__fields_categories', $tupel);
+		}
 
 		// If the options have changed delete the values
-		if ($success && $field && isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
+		if ($field && isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
 		{
 			$oldParams = json_decode($field->fieldparams['options']);
 			$newParams = json_decode($data['fieldparams']['options']);
 
 			if (is_object($oldParams) && is_object($newParams) && $oldParams->name != $newParams->name)
 			{
-				$query = $this->_db->getQuery(true);
+				$query = $db->getQuery(true);
 				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
 					->where("value not in ('" . implode("','", $newParams->name) . "')");
-				$this->_db->setQuery($query);
-				$this->_db->execute();
+				$db->setQuery($query);
+				$db->execute();
 			}
 		}
 
-		return $success;
+		return true;
 	}
 
 	/**
@@ -184,10 +200,14 @@ class FieldsModelField extends JModelAdmin
 				$result->fieldparams = $registry->toArray();
 			}
 
-			if ($result->assigned_cat_ids)
-			{
-				$result->assigned_cat_ids = explode(',', $result->assigned_cat_ids);
-			}
+			$db = $this->getDbo();
+			$query = $db->getQuery(true);
+			$query->select('category_id')
+				->from('#__fields_categories')
+				->where('field_id = ' . (int) $result->id);
+
+			$db->setQuery($query);
+			$result->assigned_cat_ids = $db->loadColumn() ?: array(0);
 
 			// Convert the created and modified dates to local user time for
 			// display in the form.
@@ -323,11 +343,15 @@ class FieldsModelField extends JModelAdmin
 		if (empty($context) && isset($data['context']))
 		{
 			$context = $data['context'];
-			$parts   = explode('.', $context);
+			$parts   = FieldsHelper::extract($context);
 
 			$this->setState('field.context', $context);
-			$this->setState('field.component', $parts[0]);
-			$this->setState('field.section', isset($parts[1]) ? $parts[1] : '');
+
+			if ($parts)
+			{
+				$this->setState('field.component', $parts[0]);
+				$this->setState('field.section', $parts[1]);
+			}
 		}
 
 		// Get the form.
@@ -768,7 +792,7 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		$form->setFieldAttribute('type', 'component', $component);
-		$form->setFieldAttribute('group_id', 'extension', $component);
+		$form->setFieldAttribute('group_id', 'context', $this->state->get('field.context'));
 		$form->setFieldAttribute('rules', 'component', $component);
 
 		// Trigger the default form events.

@@ -494,24 +494,11 @@ final class InstallationApplicationWeb extends JApplicationCms
 			'force_ssl' => $this->get('force_ssl'),
 		);
 
+		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
+
 		// Instantiate the session object.
 		$session = JSession::getInstance($handler, $options);
 		$session->initialise($this->input, $this->dispatcher);
-
-		if ($session->getState() == 'expired')
-		{
-			$session->restart();
-		}
-		else
-		{
-			$session->start();
-		}
-
-		if (!$session->get('registry') instanceof Registry)
-		{
-			// Registry has been corrupted somehow.
-			$session->set('registry', new Registry);
-		}
 
 		// Set the session object.
 		$this->session = $session;

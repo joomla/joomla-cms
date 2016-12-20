@@ -241,8 +241,8 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// No debug for Safari and Chrome redirection.
-		if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ""), 'webkit') !== false
-			&& substr($contents, 0, 50) == '<html><head><meta http-equiv="refresh" content="0;')
+		if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false
+			&& substr($contents, 0, 50) === '<html><head><meta http-equiv="refresh" content="0;')
 		{
 			echo $contents;
 
@@ -732,7 +732,7 @@ class PlgSystemDebug extends JPlugin
 					}
 				}
 
-				$totalQueryTime = $totalQueryTime * 1000;
+				$totalQueryTime *= 1000;
 
 				if ($totalQueryTime > ($totalTime * 0.25))
 				{
@@ -989,8 +989,8 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			$fromString = substr($query, 0, $whereStart);
-			$fromString = str_replace("\t", " ", $fromString);
-			$fromString = str_replace("\n", " ", $fromString);
+			$fromString = str_replace("\t", ' ', $fromString);
+			$fromString = str_replace("\n", ' ', $fromString);
 			$fromString = trim($fromString);
 
 			// Initialise the select/other query type counts the first time.
@@ -1007,12 +1007,12 @@ class PlgSystemDebug extends JPlugin
 			// Increment the count.
 			if (stripos($query, 'select') === 0)
 			{
-				$selectQueryTypeTicker[$fromString] = $selectQueryTypeTicker[$fromString] + 1;
+				$selectQueryTypeTicker[$fromString]++;
 				unset($otherQueryTypeTicker[$fromString]);
 			}
 			else
 			{
-				$otherQueryTypeTicker[$fromString] = $otherQueryTypeTicker[$fromString] + 1;
+				$otherQueryTypeTicker[$fromString]++;
 				unset($selectQueryTypeTicker[$fromString]);
 			}
 
@@ -1113,7 +1113,7 @@ class PlgSystemDebug extends JPlugin
 
 				$htmlAccordions = JHtml::_(
 					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
-						'active' => ($info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : '')
+						'active' => $info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : ''
 					)
 				);
 
@@ -1197,7 +1197,7 @@ class PlgSystemDebug extends JPlugin
 		$html = array();
 
 		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
-			. sprintf(' <span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', ($totalQueryTime)) . '</h4><br />';
+			. sprintf(' <span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime) . '</h4><br />';
 
 		if ($total_duplicates)
 		{
@@ -1372,7 +1372,7 @@ class PlgSystemDebug extends JPlugin
 				}
 
 				// Treat special columns.
-				if ($k == 'Duration')
+				if ($k === 'Duration')
 				{
 					if ($td >= 0.001 && ($td == $durations[0] || (isset($durations[1]) && $td == $durations[1])))
 					{
@@ -1388,13 +1388,13 @@ class PlgSystemDebug extends JPlugin
 					// Display duration in milliseconds with the unit instead of seconds.
 					$html[] = sprintf('%.2f&nbsp;ms', $td * 1000);
 				}
-				elseif ($k == 'Error')
+				elseif ($k === 'Error')
 				{
 					// An error in the EXPLAIN query occurred, display it instead of the result (means original query had syntax error most probably).
 					$html[] = '<td class="dbg-warning">' . htmlspecialchars($td);
 					$hasWarnings = true;
 				}
-				elseif ($k == 'key')
+				elseif ($k === 'key')
 				{
 					if ($td === 'NULL')
 					{
@@ -1409,7 +1409,7 @@ class PlgSystemDebug extends JPlugin
 						$html[] = '<td><strong>' . htmlspecialchars($td) . '</strong>';
 					}
 				}
-				elseif ($k == 'Extra')
+				elseif ($k === 'Extra')
 				{
 					$htmlTd = htmlspecialchars($td);
 
@@ -1484,7 +1484,7 @@ class PlgSystemDebug extends JPlugin
 						foreach ($this->sqlShowProfiles as $qn)
 						{
 							// Run SHOW PROFILE FOR QUERY for each query where a profile is available (max 100).
-							$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) ($qn['Query_ID']));
+							$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) $qn['Query_ID']);
 							$this->sqlShowProfileEach[(int) ($qn['Query_ID'] - 1)] = $db->loadAssocList();
 						}
 					}
@@ -1573,7 +1573,7 @@ class PlgSystemDebug extends JPlugin
 			{
 				$html[] = '<li>';
 
-				$html[] = ($status)
+				$html[] = $status
 					? JText::_('PLG_DEBUG_LANG_LOADED')
 					: JText::_('PLG_DEBUG_LANG_NOT_LOADED');
 
@@ -1617,7 +1617,7 @@ class PlgSystemDebug extends JPlugin
 			if (is_array($occurance) && isset($occurance[0]))
 			{
 				$info = $occurance[0];
-				$file = ($info['file']) ? $info['file'] : '';
+				$file = $info['file'] ? $info['file'] : '';
 
 				if (!isset($guesses[$file]))
 				{
@@ -1799,7 +1799,7 @@ class PlgSystemDebug extends JPlugin
 	protected function formatLink($file, $line = '')
 	{
 		$link = str_replace(JPATH_ROOT, 'JROOT', $file);
-		$link .= ($line) ? ':' . $line : '';
+		$link .= $line ? ':' . $line : '';
 
 		if ($this->linkFormat)
 		{
@@ -1865,11 +1865,11 @@ class PlgSystemDebug extends JPlugin
 				array_filter(
 					$this->logEntries, function($logEntry)
 					{
-						return $logEntry->category == 'databasequery';
+						return $logEntry->category === 'databasequery';
 					}
 				)
 			);
-			$logEntriesTotal = $logEntriesTotal - $logEntriesDatabasequery;
+			$logEntriesTotal -= $logEntriesDatabasequery;
 		}
 
 		// Deprecated log entries
@@ -1877,7 +1877,7 @@ class PlgSystemDebug extends JPlugin
 			array_filter(
 				$this->logEntries, function($logEntry)
 				{
-					return $logEntry->category == 'deprecated';
+					return $logEntry->category === 'deprecated';
 				}
 			)
 		);
@@ -1885,7 +1885,7 @@ class PlgSystemDebug extends JPlugin
 
 		if (!$showDeprecated)
 		{
-			$logEntriesTotal = $logEntriesTotal - $logEntriesDeprecated;
+			$logEntriesTotal -= $logEntriesDeprecated;
 		}
 
 		$showEverything = $this->params->get('log-everything', 0);
@@ -2079,7 +2079,7 @@ class PlgSystemDebug extends JPlugin
 	protected function writeToFile()
 	{
 		$app    = JFactory::getApplication();
-		$domain = ($app->isSite()) ? 'site' : 'admin';
+		$domain = $app->isSite() ? 'site' : 'admin';
 		$input  = $app->input;
 		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
 
@@ -2094,9 +2094,9 @@ class PlgSystemDebug extends JPlugin
 			if (isset($timings[$id * 2 + 1]))
 			{
 				$temp     = str_replace('`', '', $log[$id]);
-				$temp     = str_replace("\t", " ", $temp);
-				$temp     = str_replace("\n", " ", $temp);
-				$current .= str_replace("\r\n", " ", $temp) . ";\n";
+				$temp     = str_replace("\t", ' ', $temp);
+				$temp     = str_replace("\n", ' ', $temp);
+				$current .= str_replace("\r\n", ' ', $temp) . ";\n";
 			}
 		}
 

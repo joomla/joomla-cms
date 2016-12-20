@@ -122,7 +122,7 @@ class PlgSearchNewsfeeds extends JPlugin
 					$wheres[] = implode(' OR ', $wheres2);
 				}
 
-				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 
@@ -164,8 +164,8 @@ class PlgSearchNewsfeeds extends JPlugin
 		$case_when1 .= ' ELSE ';
 		$case_when1 .= $c_id . ' END as catslug';
 
-		$query->select('a.name AS title, \'\' AS created, a.link AS text, ' . $case_when . "," . $case_when1)
-			->select($query->concatenate(array($db->quote($searchNewsfeeds), 'c.title'), " / ") . ' AS section')
+		$query->select('a.name AS title, \'\' AS created, a.link AS text, ' . $case_when . ',' . $case_when1)
+			->select($query->concatenate(array($db->quote($searchNewsfeeds), 'c.title'), ' / ') . ' AS section')
 			->select('\'1\' AS browsernav')
 			->from('#__newsfeeds AS a')
 			->join('INNER', '#__categories as c ON c.id = a.catid')
