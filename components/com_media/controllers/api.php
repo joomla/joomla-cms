@@ -20,9 +20,9 @@ class MediaControllerApi extends JControllerLegacy
 	 * Api action endpoint for the media manager front end. The HTTP methods GET, PUT, POST and DELETE
 	 * are supported.
 	 *
-	 * The following query parameters must be set to get a successfull response:
-	 * - resource: 	The resource to work with, can be folders or files
-	 * - path:		The path of the resource.
+	 * The following query parameters are processed:
+	 * - resource: The resource to work with, must be folders or files.
+	 * - path:     The path of the resource, if not set then the default / is set.
 	 *
 	 * Some examples with a more understandable rest url equivalent:
 	 * - GET a list of folders below the root:
@@ -81,7 +81,7 @@ class MediaControllerApi extends JControllerLegacy
 		}
 
 		// Get the required variables
-		$path = $this->input->getPath('path');
+		$path = $this->input->getPath('path', '/');
 
 		// Gather the data
 		$data = call_user_func(array($this, $functionName), $path, $this->input->json);
