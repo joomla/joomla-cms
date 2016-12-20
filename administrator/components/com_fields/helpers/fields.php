@@ -97,7 +97,16 @@ class FieldsHelper
 		if ($item && (isset($item->catid) || isset($item->fieldscatid)))
 		{
 			$assignedCatIds = isset($item->catid) ? $item->catid : $item->fieldscatid;
-			self::$fieldsCache->setState('filter.assigned_cat_ids', is_array($assignedCatIds) ? $assignedCatIds : explode(',', $assignedCatIds));
+
+			if (!is_array($assignedCatIds))
+			{
+				$assignedCatIds = explode(',', $assignedCatIds);
+			}
+
+			// Fields without any category assigned should show as well
+			$assignedCatIds[] = 0;
+
+			self::$fieldsCache->setState('filter.assigned_cat_ids', $assignedCatIds);
 		}
 
 		$fields = self::$fieldsCache->getItems();

@@ -141,27 +141,6 @@ if ($saveOrder)
 											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 										<?php endif; ?>
 									</span>
-									<div class="small">
-										<?php $category = JCategories::getInstance(str_replace('com_', '', $component)); ?>
-										<?php if ($category) : ?>
-											<?php $buffer = JText::_('JCATEGORY') . ': '; ?>
-											<?php $cats = array_filter(explode(',', $item->assigned_cat_ids)); ?>
-											<?php if (empty($cats)) : ?>
-												<?php $buffer .= JText::_('JALL'); ?>
-											<?php endif; ?>
-											<?php foreach ($cats as $cat) : ?>
-												<?php if (empty($cat)) : ?>
-													<?php continue; ?>
-												<?php endif; ?>
-												<?php $c = $category->get($cat); ?>
-												<?php if (!$c || $c->id == 'root') : ?>
-													<?php continue; ?>
-												<?php endif; ?>
-												<?php $buffer .= ' ' . $c->title . ','; ?>
-											<?php endforeach; ?>
-											<?php echo trim($buffer, ','); ?>
-										<?php endif; ?>
-									</div>
 								</div>
 							</td>
 							<td class="small">
