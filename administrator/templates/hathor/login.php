@@ -93,7 +93,7 @@ else
 	<div id="containerwrap">
 		<!-- Header Logo -->
 		<div id="header">
-			<h1 class="title"><?php echo $this->params->get('showSiteName') ? $app->get('sitename') . " " . JText::_('JADMINISTRATION') : JText::_('JADMINISTRATION'); ?></h1>
+			<h1 class="title"><?php echo $this->params->get('showSiteName') ? $app->get('sitename') . ' ' . JText::_('JADMINISTRATION') : JText::_('JADMINISTRATION'); ?></h1>
 		</div><!-- end header -->
 		<!-- Content Area -->
 		<div id="content">
