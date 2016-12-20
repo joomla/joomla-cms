@@ -22,31 +22,31 @@ class InstallationModelLanguages extends JModelBase
 	 * @var    object  Client object.
 	 * @since  3.1
 	 */
-	protected $client = null;
+	protected $client;
 
 	/**
 	 * @var    array  Languages description.
 	 * @since  3.1
 	 */
-	protected $data = null;
+	protected $data;
 
 	/**
 	 * @var    string  Language path.
 	 * @since  3.1
 	 */
-	protected $path = null;
+	protected $path;
 
 	/**
 	 * @var    integer  Total number of languages installed.
 	 * @since  3.1
 	 */
-	protected $langlist = null;
+	protected $langlist;
 
 	/**
 	 * @var    Admin Id, author of all generated content.
 	 * @since  3.1
 	 */
-	protected $adminId = null;
+	protected $adminId;
 
 	/**
 	 * Constructor: Deletes the default installation config file and recreates it with the good config file.
