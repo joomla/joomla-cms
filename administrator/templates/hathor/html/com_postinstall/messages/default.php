@@ -21,7 +21,8 @@ $param          = array(
 	'rssitemdesc'     => 1,
 	'word_count'      => 200,
 	'cache'           => 0,
-	'moduleclass_sfx' => ' list-striped');
+	'moduleclass_sfx' => ' list-striped'
+);
 $params         = array('params' => json_encode($param));
 ?>
 
