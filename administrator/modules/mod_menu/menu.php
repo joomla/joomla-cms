@@ -214,12 +214,12 @@ class JAdminCssMenu extends JObject
 
 		if ($this->_current->link != null && $this->_current->target != null)
 		{
-			echo '<a' . $linkClass . ' ' . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\" >"
+			echo '<a' . $linkClass . ' ' . $dataToggle . ' href="' . $this->_current->link . '" target="' . $this->_current->target . '" >'
 				. $this->_current->title . $dropdownCaret . '</a>';
 		}
 		elseif ($this->_current->link != null && $this->_current->target == null)
 		{
-			echo '<a' . $linkClass . ' ' . $dataToggle . " href=\"" . $this->_current->link . "\">" . $this->_current->title . $dropdownCaret . '</a>';
+			echo '<a' . $linkClass . ' ' . $dataToggle . ' href="' . $this->_current->link . '">' . $this->_current->title . $dropdownCaret . '</a>';
 		}
 		elseif ($this->_current->title != null)
 		{
