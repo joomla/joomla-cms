@@ -975,7 +975,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	public static function getKnownButtons()
 	{
@@ -1057,7 +1057,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	public static function getToolbarPreset()
 	{

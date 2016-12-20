@@ -86,7 +86,7 @@ class PlgSystemDebug extends JPlugin
 	 * Container for callback functions to be triggered when rendering the console.
 	 *
 	 * @var    callable[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	private static $displayCallbacks = array();
 
@@ -335,7 +335,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  InvalidArgumentException
 	 */
 	public static function addDisplayCallback($name, $callable)
@@ -358,7 +358,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function removeDisplayCallback($name)
 	{
@@ -457,7 +457,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function displayCallback($name, $callable)
 	{

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Plugin to check the PHP version and display a warning about its support status
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class PlgQuickiconPhpVersionCheck extends JPlugin
 {
@@ -20,7 +20,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 * Constant representing the active PHP version being fully supported
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	const PHP_SUPPORTED = 0;
 
@@ -28,7 +28,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 * Constant representing the active PHP version receiving security support only
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	const PHP_SECURITY_ONLY = 1;
 
@@ -36,7 +36,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 * Constant representing the active PHP version being unsupported
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	const PHP_UNSUPPORTED = 2;
 
@@ -44,7 +44,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $app;
 
@@ -52,7 +52,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 * Load plugin language files automatically
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -63,7 +63,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onGetIcons($context)
 	{
@@ -97,7 +97,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 *
 	 * @return  array  Array of PHP support data
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @note    The dates used in this method should correspond to the dates given on PHP.net
 	 * @see     https://secure.php.net/supported-versions.php
 	 * @see     https://secure.php.net/eol.php
@@ -195,7 +195,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function shouldDisplayMessage()
 	{

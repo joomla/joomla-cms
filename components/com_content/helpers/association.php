@@ -68,7 +68,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	 *
 	 * @return  array   An array containing the association URL and the related language object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public static function displayAssociations($id)
 	{
