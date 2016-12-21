@@ -227,6 +227,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$session = \JFactory::getSession();
 		$user = \JFactory::getUser();
 
+		// If $user is still null at this point, we've hit an interesting chicken or egg problem getting the user loaded into the application
+		if (!$user)
+		{
+			$this->loadIdentity($session->get('user'));
+		}
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('session_id'))
 			->from($db->quoteName('#__session'))
