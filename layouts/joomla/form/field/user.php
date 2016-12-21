@@ -95,7 +95,7 @@ if (!$readonly)
 ?>
 <?php // Create a dummy text field with the user name. ?>
 <div class="field-user-wrapper"
-	data-url="<?php echo (string) $url; ?>"
+	data-url="<?php echo (string) $uri; ?>"
 	data-modal=".modal"
 	data-modal-width="100%"
 	data-modal-height="400px"
@@ -111,7 +111,7 @@ if (!$readonly)
 						'bootstrap.renderModal',
 						'userModal_' . $id,
 						array(
-							'url'         => $url,
+							'url'         => $uri,
 							'title'       => JText::_('JLIB_FORM_CHANGE_USER'),
 							'closeButton' => true,
 							'height'      => '100%',
