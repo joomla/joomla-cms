@@ -28,14 +28,4 @@ interface JFormDomfieldinterface
 	 * @since   3.7.0
 	 */
 	public function appendXMLFieldTag($field, DOMElement $parent, JForm $form);
-
-	/**
-	 * Returns the parameters of the field as an XML string which can be loaded
-	 * into JForm.
-	 *
-	 * @return  string
-	 *
-	 * @since   3.7.0
-	 */
-	public function getFormParameters();
 }
