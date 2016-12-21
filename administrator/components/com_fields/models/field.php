@@ -354,6 +354,9 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
+		// Load the fields plugin that they can add additional parameters to the form
+		JPluginHelper::importPlugin('fields');
+
 		// Get the form.
 		$form = $this->loadForm(
 			'com_fields.field' . $context, 'field',
@@ -374,11 +377,6 @@ class FieldsModelField extends JModelAdmin
 			$data['context'] = $context;
 		}
 
-		if (isset($data['type']))
-		{
-			$this->loadTypeForms($form, $data['type']);
-		}
-
 		$fieldId  = $jinput->get('id');
 		$assetKey = $this->state->get('field.component') . '.field.' . $fieldId;
 
@@ -394,31 +392,6 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		return $form;
-	}
-
-	/**
-	 * Load the form declaration for the type.
-	 *
-	 * @param   JForm   &$form  The form
-	 * @param   string  $type   The type
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	private function loadTypeForms(JForm &$form, $type)
-	{
-		FieldsHelperInternal::loadPlugins();
-
-		$type = JFormHelper::loadFieldType($type);
-
-		// Load all children that's why we need to define the xpath
-		if (!($type instanceof JFormDomfieldinterface))
-		{
-			return;
-		}
-
-		$form->load($type->getFormParameters(), true, '/form/*');
 	}
 
 	/**
@@ -768,8 +741,6 @@ class FieldsModelField extends JModelAdmin
 
 		if (isset($dataObject->type))
 		{
-			$this->loadTypeForms($form, $dataObject->type);
-
 			$form->setFieldAttribute('type', 'component', $component);
 
 			// Not allowed to change the type of an existing record

@@ -11,6 +11,7 @@
 	<description>PLG_FIELDS_TEXT_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="text">text.php</filename>
+		<filename>params.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_fields_text.ini</language>

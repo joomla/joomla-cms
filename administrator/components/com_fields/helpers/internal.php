@@ -85,24 +85,36 @@ class FieldsHelperInternal
 	}
 
 	/**
-	 * Loads the fields plugins.
+	 * Loads the fields plugins and returns an array of field descriptions from the plugins.
 	 *
-	 * @return  void
+	 * The returned array contains arrays with the following values:
+	 * - label: The label of the field
+	 * - type:  The type of the field
+	 * - path:  The path of the folder where the field can be found
+	 *
+	 * @return  array
 	 *
 	 * @since   3.7.0
 	 */
-	public static function loadPlugins()
+	public static function getFieldDescriptions()
 	{
-		foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
-		{
-			if (!JPluginHelper::isEnabled('fields', $folder['name']))
-			{
-				continue;
-			}
+		JPluginHelper::importPlugin('fields');
+		$eventData = JEventDispatcher::getInstance()->trigger('onGetCustomFields');
 
-			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), JPATH_ADMINISTRATOR);
-			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), $folder['fullname']);
-			JFormHelper::addFieldPath($folder['fullname'] . '/fields');
+		$data = array();
+
+		foreach ($eventData as $fields)
+		{
+			foreach ($fields as $fieldDescription)
+			{
+				if (!array_key_exists('path', $fieldDescription))
+				{
+					$fieldDescription['path'] = null;
+				}
+				$data[$fieldDescription['type']] = $fieldDescription;
+			}
 		}
+
+		return $data;
 	}
 }

@@ -325,7 +325,7 @@ class FieldsHelper
 			return true;
 		}
 
-		FieldsHelperInternal::loadPlugins();
+		$fieldDescriptions = FieldsHelperInternal::getFieldDescriptions();
 
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');
@@ -334,21 +334,32 @@ class FieldsHelper
 
 		// Organizing the fields according to their group
 		$fieldsPerGroup = array(
-				0 => array()
+			0 => array()
 		);
 
 		foreach ($fields as $field)
 		{
+			if (!array_key_exists($field->type, $fieldDescriptions))
+			{
+				// Field type is not available
+				continue;
+			}
+
 			if (!array_key_exists($field->group_id, $fieldsPerGroup))
 			{
 				$fieldsPerGroup[$field->group_id] = array();
+			}
+
+			if ($path = $fieldDescriptions[$field->type]['path'])
+			{
+				// Add the lookup path for the field
+				JFormHelper::addFieldPath($path);
 			}
 
 			$fieldsPerGroup[$field->group_id][] = $field;
 		}
 
 		// On the front, sometimes the admin fields path is not included
-		JFormHelper::addFieldPath(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/fields');
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
 		// Looping trough the groups

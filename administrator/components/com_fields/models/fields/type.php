@@ -8,9 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
-JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
-
 /**
  * Fields Type
  *
@@ -19,8 +16,6 @@ JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 class JFormFieldType extends JFormAbstractlist
 {
 	public $type = 'Type';
-
-	public static $BLACKLIST = array('moduleposition', 'aliastag');
 
 	/**
 	 * Method to attach a JForm object to the field.
@@ -55,68 +50,11 @@ class JFormFieldType extends JFormAbstractlist
 	{
 		$options = parent::getOptions();
 
-		FieldsHelperInternal::loadPlugins();
-		JFormHelper::addFieldPath(JPATH_LIBRARIES . '/cms/form/field');
-		$paths = JFormHelper::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_fields/models/fields');
+		$fields = FieldsHelperInternal::getFieldDescriptions();
 
-		$component = null;
-
-		$parts = FieldsHelper::extract(JFactory::getApplication()->input->get('context'));
-
-		if ($parts)
+		foreach ($fields as $fieldDescription)
 		{
-			$component = $parts[0];
-			$paths[] = JPATH_ADMINISTRATOR . '/components/' . $component . '/models/fields';
-			JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
-			JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
-		}
-
-		foreach ($paths as $path)
-		{
-			if (!JFolder::exists($path))
-			{
-				continue;
-			}
-			// Looping trough the types
-			foreach (JFolder::files($path, 'php', true, true) as $filePath)
-			{
-				$name = str_replace('.php', '', basename($filePath));
-
-				if (in_array(strtolower($name), self::$BLACKLIST))
-				{
-					continue;
-				}
-
-				$className = JFormHelper::loadFieldClass($name);
-
-				if ($className === false)
-				{
-					continue;
-				}
-
-				// Check if the field implements JFormField and JFormDomFieldInterface
-				if (!is_subclass_of($className, 'JFormField') || !is_subclass_of($className, 'JFormDomfieldinterface'))
-				{
-					continue;
-				}
-
-				// Adjust the name
-				$name = strtolower(str_replace('JFormField', '', $className));
-
-				$label = StringHelper::ucfirst($name);
-
-				if (JFactory::getLanguage()->hasKey('COM_FIELDS_TYPE_' . strtoupper($name)))
-				{
-					$label = 'COM_FIELDS_TYPE_' . strtoupper($name);
-				}
-
-				if ($component && JFactory::getLanguage()->hasKey(strtoupper($component) . '_FIELDS_TYPE_' . strtoupper($name)))
-				{
-					$label = strtoupper($component) . '_FIELDS_TYPE_' . strtoupper($name);
-				}
-
-				$options[] = JHtml::_('select.option', $name, JText::_($label));
-			}
+			$options[] = JHtml::_('select.option', $fieldDescription['type'], $fieldDescription['label']);
 		}
 
 		// Sorting the fields based on the text which is displayed
