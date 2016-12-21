@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JFormFieldSQL extends JFormAbstractlist implements JFormDomfieldinterface
+class JFormFieldSQL extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

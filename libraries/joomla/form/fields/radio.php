@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://www.w3.org/TR/html-markup/command.radio.html#command.radio
  * @since  11.1
  */
-class JFormFieldRadio extends JFormAbstractlist implements JFormDomfieldinterface
+class JFormFieldRadio extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

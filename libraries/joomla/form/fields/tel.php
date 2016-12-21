@@ -20,7 +20,7 @@ JFormHelper::loadFieldClass('text');
  * @see    JHtmlTel for rendering of telephone numbers
  * @since  11.1
  */
-class JFormFieldTel extends JFormFieldText implements JFormDomfieldinterface
+class JFormFieldTel extends JFormFieldText
 {
 	/**
 	 * The form field type.

@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @see    JFormFieldCheckbox
  * @since  11.1
  */
-class JFormFieldCheckboxes extends JFormAbstractlist implements JFormDomfieldinterface
+class JFormFieldCheckboxes extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

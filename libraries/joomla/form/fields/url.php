@@ -19,7 +19,7 @@ JFormHelper::loadFieldClass('text');
  * @see    JFormRuleUrl for validation of full urls
  * @since  11.1
  */
-class JFormFieldUrl extends JFormFieldText implements JFormDomfieldinterface
+class JFormFieldUrl extends JFormFieldText
 {
 	/**
 	 * The form field type.

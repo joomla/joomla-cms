@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JFormFieldList extends JFormAbstractlist implements JFormDomfieldinterface
+class JFormFieldList extends JFormAbstractlist
 {
 	/**
 	 * The form field type.
