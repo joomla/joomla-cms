@@ -136,7 +136,7 @@ class JMenuSite extends JMenu
 	 * @param   string   $values      The value of the field
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *
-	 * @return  array
+	 * @return  JMenuItem|JMenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
 	 *
 	 * @since   1.6
 	 */
@@ -187,7 +187,7 @@ class JMenuSite extends JMenu
 	 *
 	 * @param   string  $language  The language code.
 	 *
-	 * @return  mixed  The item object or null when not found for given language
+	 * @return  JMenuItem|null  The item object or null when not found for given language
 	 *
 	 * @since   1.6
 	 */
