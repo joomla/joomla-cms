@@ -18,6 +18,7 @@ $app       = JFactory::getApplication();
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $context   = $this->escape($this->state->get('filter.context'));
+$component = $this->state->get('filter.component');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
@@ -37,12 +38,7 @@ if ($saveOrder)
 	<div id="j-main-container" class="span10">
 		<div id="filter-bar" class="js-stools-container-bar pull-left">
 			<div class="btn-group pull-left">
-				<?php $fieldSets = $this->filterForm->getFieldsets('custom'); ?>
-				<?php foreach ($fieldSets as $name => $fieldSet) : ?>
-					<?php foreach ($this->filterForm->getFieldset($name) as $field) : ?>
-						<?php echo $field->input; ?>
-					<?php endforeach; ?>
-				<?php endforeach; ?>
+				<?php echo $this->filterForm->getField('context')->input; ?>
 			</div>&nbsp;
 		</div>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
@@ -69,8 +65,8 @@ if ($saveOrder)
 						<th class="text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="text-xs-center">
-							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'category_title', $listDirn, $listOrder); ?>
+						<th class="text-xs-center">
+							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'group_title', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
@@ -93,10 +89,10 @@ if ($saveOrder)
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<?php $ordering   = ($listOrder == 'a.ordering'); ?>
-						<?php $canEdit    = $user->authorise('core.edit', $context . '.field.' . $item->id); ?>
+						<?php $canEdit    = $user->authorise('core.edit', $component . '.field.' . $item->id); ?>
 						<?php $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0; ?>
-						<?php $canEditOwn = $user->authorise('core.edit.own', $context . '.field.' . $item->id) && $item->created_user_id == $userId; ?>
-						<?php $canChange  = $user->authorise('core.edit.state', $context . '.field.' . $item->id) && $canCheckin; ?>
+						<?php $canEditOwn = $user->authorise('core.edit.own', $component . '.field.' . $item->id) && $item->created_user_id == $userId; ?>
+						<?php $canChange  = $user->authorise('core.edit.state', $component . '.field.' . $item->id) && $canCheckin; ?>
 						<tr class="row<?php echo $i % 2; ?>" item-id="<?php echo $item->id ?>">
 							<td class="order nowrap center hidden-sm-down">
 								<?php $iconClass = ''; ?>
@@ -145,7 +141,7 @@ if ($saveOrder)
 										<?php endif; ?>
 									</span>
 									<div class="small">
-										<?php $category = JCategories::getInstance(str_replace('com_', '', $this->component)); ?>
+										<?php $category = JCategories::getInstance(str_replace('com_', '', $component)); ?>
 										<?php if ($category) : ?>
 											<?php $buffer = JText::_('JCATEGORY') . ': '; ?>
 											<?php $cats = array_filter(explode(',', $item->assigned_cat_ids)); ?>
@@ -157,7 +153,7 @@ if ($saveOrder)
 													<?php continue; ?>
 												<?php endif; ?>
 												<?php $c = $category->get($cat); ?>
-												<?php if (!$c || $c->id == 'root') :  ?>
+												<?php if (!$c || $c->id == 'root') : ?>
 													<?php continue; ?>
 												<?php endif; ?>
 												<?php $buffer .= ' ' . $c->title . ','; ?>
@@ -169,23 +165,19 @@ if ($saveOrder)
 							</td>
 							<td class="small text-xs-center">
 								<?php $label = 'COM_FIELDS_TYPE_' . strtoupper($item->type); ?>
-								<?php if (!JFactory::getLanguage()->hasKey($label)) :  ?>
-									<?php $label = JString::ucfirst($item->type); ?>
+								<?php if (!JFactory::getLanguage()->hasKey($label)) : ?>
+									<?php $label = Joomla\String\StringHelper::ucfirst($item->type); ?>
 								<?php endif; ?>
 								<?php echo $this->escape(JText::_($label)); ?>
 							</td>
 							<td>
-								<?php echo $this->escape($item->category_title); ?>
+								<?php echo $this->escape($item->group_title); ?>
 							</td>
 							<td class="small hidden-sm-down text-xs-center">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
 							<td class="small nowrap hidden-sm-down text-xs-center">
-								<?php if ($item->language == '*') : ?>
-									<?php echo JText::alt('JALL', 'language'); ?>
-								<?php else : ?>
-									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-								<?php endif; ?>
+								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
 							<td class="center hidden-sm-down text-xs-center">
 								<span><?php echo (int) $item->id; ?></span>
@@ -195,9 +187,9 @@ if ($saveOrder)
 				</tbody>
 			</table>
 			<?php //Load the batch processing form. ?>
-			<?php if ($user->authorise('core.create', $this->component)
-				&& $user->authorise('core.edit', $this->component)
-				&& $user->authorise('core.edit.state', $this->component)) : ?>
+			<?php if ($user->authorise('core.create', $component)
+				&& $user->authorise('core.edit', $component)
+				&& $user->authorise('core.edit.state', $component)) : ?>
 				<?php echo JHtml::_(
 						'bootstrap.renderModal',
 						'collapseModal',
@@ -209,8 +201,6 @@ if ($saveOrder)
 					); ?>
 			<?php endif; ?>
 		<?php endif; ?>
-
-		<input type="hidden" id="context" name="context" value="<?php echo $context; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>

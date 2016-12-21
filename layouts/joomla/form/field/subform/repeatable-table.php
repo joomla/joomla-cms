@@ -38,7 +38,7 @@ $table_head = '';
 
 if (!empty($groupByFieldset))
 {
-	foreach($tmpl->getFieldsets() as $fieldset) {
+	foreach ($tmpl->getFieldsets() as $fieldset) {
 		$table_head .= '<th>' . JText::_($fieldset->label);
 
 		if (!empty($fieldset->description))
@@ -53,7 +53,7 @@ if (!empty($groupByFieldset))
 }
 else
 {
-	foreach($tmpl->getGroup('') as $field) {
+	foreach ($tmpl->getGroup('') as $field) {
 		$table_head .= '<th>' . strip_tags($field->label);
 		$table_head .= '<br><small style="font-weight:normal">' . JText::_($field->description) . '</small>';
 		$table_head .= '</th>';
@@ -75,30 +75,30 @@ else
 			<thead>
 				<tr>
 					<?php echo $table_head; ?>
-					<?php if (!empty($buttons)):?>
+					<?php if (!empty($buttons)) : ?>
 					<th style="width:8%;">
-					<?php if (!empty($buttons['add'])):?>
+					<?php if (!empty($buttons['add'])) : ?>
 						<div class="btn-group">
 							<a class="group-add btn btn-sm button btn-success"><span class="icon-plus icon-white"></span> </a>
 						</div>
-					<?php endif;?>
+					<?php endif; ?>
 					</th>
 					<?php endif; ?>
 				</tr>
 			</thead>
 			<tbody>
 			<?php
-			foreach($forms as $k => $form):
+			foreach ($forms as $k => $form) :
 				echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
 			endforeach;
 			?>
 			</tbody>
 		</table>
-		<?php if ($multiple):?>
+		<?php if ($multiple) : ?>
 		<script type="text/subform-repeatable-template-section" class="subform-repeatable-template-section">
-		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons));?>
+		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons)); ?>
 		</script>
-		<?php endif;?>
+		<?php endif; ?>
 		</div>
 	</div>
 </div>

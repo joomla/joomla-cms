@@ -66,7 +66,7 @@ class JFacebookOauthTest extends TestCase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new Registry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->input = new JInput;
 
 		$this->object = new JFacebookOauth($this->options, $this->client, $this->input);

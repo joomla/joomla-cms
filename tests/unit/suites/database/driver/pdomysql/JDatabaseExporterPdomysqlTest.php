@@ -34,21 +34,20 @@ class JDatabaseExporterPdomysqlTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		// Set up the database object mock.
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverPdomysql',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'quoteName',
-				'loadObjectList',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		$this->dbo = $this->getMockBuilder('JDatabaseDriverPdomysql')
+					->setMethods(array(
+						'getErrorNum',
+						'getPrefix',
+						'getTableColumns',
+						'getTableKeys',
+						'quoteName',
+						'loadObjectList',
+						'setQuery',
+					))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$this->dbo->expects(
 			$this->any()

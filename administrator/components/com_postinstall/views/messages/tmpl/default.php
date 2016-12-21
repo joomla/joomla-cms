@@ -13,15 +13,15 @@ $renderer = JFactory::getDocument()->loadRenderer('module');
 $options  = array('style' => 'raw');
 $mod      = JModuleHelper::getModule('mod_feed');
 $param    = array(
-		"rssurl" => "https://www.joomla.org/announcements/release-news.feed?type=rss",
-		"rsstitle" => 0,
-		"rssdesc" => 0,
-		"rssimage" => 1,
-		"rssitems" => 5,
-		"rssitemdesc" => 1,
-		"word_count" => 200,
-		"cache" => 0,
-	);
+	'rssurl' => 'https://www.joomla.org/announcements/release-news.feed?type=rss',
+	'rsstitle' => 0,
+	'rssdesc' => 0,
+	'rssimage' => 1,
+	'rssitems' => 5,
+	'rssitemdesc' => 1,
+	'word_count'	=> 200,
+	'cache' => 0,
+);
 $params = array('params' => json_encode($param));
 
 ?>
@@ -32,24 +32,26 @@ $params = array('params' => json_encode($param));
 	<?php echo JHtml::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-control custom-select'), 'value', 'text', $this->eid, 'eid'); ?>
 </form>
 
-<?php if (empty($this->items)) : ?>
-<div class="hero-unit">
-	<h2><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
-	<p><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
-	<a href="index.php?option=com_postinstall&amp;view=messages&amp;task=reset&amp;eid=<?php echo $this->eid; ?>&amp;<?php echo $this->token; ?>=1" class="btn btn-warning btn-lg">
-		<span class="icon icon-eye-open"></span>
-		<?php echo JText::_('COM_POSTINSTALL_BTN_RESET'); ?>
-	</a>
-</div>
-<?php else : ?>
 <?php if ($this->eid == 700) : ?>
 <div class="row">
 	<div class="col-md-8">
 <?php endif; ?>
+<?php if (empty($this->items)) : ?>
+	<div class="jumbotron">
+		<h2><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
+		<p><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
+		<a href="index.php?option=com_postinstall&amp;view=messages&amp;task=reset&amp;eid=<?php echo $this->eid; ?>&amp;<?php echo $this->token; ?>=1" class="btn btn-warning btn-lg">
+			<span class="icon icon-eye-open"></span>
+			<?php echo JText::_('COM_POSTINSTALL_BTN_RESET'); ?>
+		</a>
+	</div>
+<?php else : ?>
 	<?php foreach ($this->items as $item) : ?>
 	<fieldset>
 		<legend><?php echo JText::_($item->title_key); ?></legend>
-		<p class="small"><?php echo JText::sprintf('COM_POSTINSTALL_LBL_SINCEVERSION', $item->version_introduced); ?></p>
+		<p class="small">
+			<?php echo JText::sprintf('COM_POSTINSTALL_LBL_SINCEVERSION', $item->version_introduced); ?>
+		</p>
 		<p><?php echo JText::_($item->description_key); ?></p>
 		<div>
 			<?php if ($item->type !== 'message') : ?>
@@ -65,6 +67,7 @@ $params = array('params' => json_encode($param));
 		</div>
 	</fieldset>
 	<?php endforeach; ?>
+<?php endif; ?>
 <?php if ($this->eid == 700) : ?>
 	</div>
 	<div class="col-md-4">
@@ -72,5 +75,4 @@ $params = array('params' => json_encode($param));
 		<?php echo $renderer->render($mod, $params, $options); ?>
 	</div>
 </div>
-<?php endif; ?>
 <?php endif; ?>

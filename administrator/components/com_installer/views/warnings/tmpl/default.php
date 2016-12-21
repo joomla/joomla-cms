@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 ?>
 <div id="installer-warnings" class="clearfix">
-	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings');?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings'); ?>" method="post" name="adminForm" id="adminForm">
 		<div id="j-main-container" class="j-main-container">
 		<?php if (count($this->messages)) : ?>
-			<?php foreach($this->messages as $message) : ?>
+			<?php foreach ($this->messages as $message) : ?>
 				<div class="alert alert-warning" role="alert">
 					<h4 class="alert-heading"><?php echo $message['message']; ?></h4>
 					<p class="m-b-0"><?php echo $message['description']; ?></p>

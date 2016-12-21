@@ -63,7 +63,7 @@ class JOpenstreetmapTest extends TestCase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 
 		$this->object = new JOpenstreetmap($this->oauth, $this->options, $this->client);
 	}

@@ -101,6 +101,6 @@ JFactory::getDocument()->addStyleDeclaration(
 	</div>
 
 	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', '', 'cmd');?>" />
+	<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', '', 'cmd'); ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

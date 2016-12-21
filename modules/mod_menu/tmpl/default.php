@@ -28,8 +28,7 @@ if ($tagId = $params->get('tag_id', ''))
 		$class .= ' default';
 	}
 
-
-	if (($item->id == $active_id) || ($item->type == 'alias' && $item->params->get('aliasoptions') == $active_id))
+	if ($item->id == $active_id || ($item->type === 'alias' && $item->params->get('aliasoptions') == $active_id))
 	{
 		$class .= ' current';
 	}
@@ -38,7 +37,7 @@ if ($tagId = $params->get('tag_id', ''))
 	{
 		$class .= ' active';
 	}
-	elseif ($item->type == 'alias')
+	elseif ($item->type === 'alias')
 	{
 		$aliasToId = $item->params->get('aliasoptions');
 
@@ -52,7 +51,7 @@ if ($tagId = $params->get('tag_id', ''))
 		}
 	}
 
-	if ($item->type == 'separator')
+	if ($item->type === 'separator')
 	{
 		$class .= ' divider';
 	}

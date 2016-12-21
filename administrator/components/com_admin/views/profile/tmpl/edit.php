@@ -60,7 +60,7 @@ $fieldsets = $this->form->getFieldsets();
 				<div class="control-group">
 					<div class="controls"><?php echo $field->input; ?></div>
 				</div>
-			<?php else: ?>
+			<?php else : ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $field->label; ?>

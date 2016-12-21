@@ -39,7 +39,7 @@ $modalClasses = array('modal');
 
 if (!isset($params['animation']) || $params['animation'])
 {
-	array_push($modalClasses, 'fade');
+	$modalClasses[] = 'fade';
 }
 
 $modalWidth       = isset($params['modalWidth']) ? round((int) $params['modalWidth'], -1) : '';

@@ -216,7 +216,7 @@ class CategoriesViewCategory extends JViewLegacy
 				'btn-success'
 			);
 
-			if ($componentParams->get('save_history', 0) && $itemEditable)
+			if (JComponentHelper::isEnabled('com_contenthistory') && $componentParams->get('save_history', 0) && $itemEditable)
 			{
 				$typeAlias = $extension . '.category';
 				JToolbarHelper::versions($typeAlias, $this->item->id);
