@@ -265,6 +265,12 @@ class ApplicationModel extends FormModel
 			$this->_db->execute();
 		}
 
+		// Purge the database session table if we are disabling session metadata and not using the database handler
+		if ($prev['session_metadata'] == 1 && $data['session_metadata'] == 0 && strtolower($data['session_handler']) != 'database')
+		{
+			$this->_db->truncateTable('#__session');
+		}
+
 		// Set the shared session configuration
 		if (isset($data['shared_session']))
 		{
