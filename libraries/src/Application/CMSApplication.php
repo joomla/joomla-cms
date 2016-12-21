@@ -276,7 +276,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				$values[] = (int) $this->getClientId();
 			}
 
-			// If the insert failed, exit the application.
 			try
 			{
 				$db->setQuery(
