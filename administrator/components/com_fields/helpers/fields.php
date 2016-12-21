@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::register('FieldsHelperInternal', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/internal.php');
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
 /**
@@ -325,7 +324,7 @@ class FieldsHelper
 			return true;
 		}
 
-		FieldsHelperInternal::loadPlugins();
+		self::loadPlugins();
 
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');
@@ -427,7 +426,7 @@ class FieldsHelper
 					// Rendering the type
 					$node = $type->appendXMLFieldTag($field, $fieldset, $form);
 
-					if (!FieldsHelperInternal::canEditFieldValue($field))
+					if (!self::canEditFieldValue($field))
 					{
 						$node->setAttribute('disabled', 'true');
 					}
@@ -587,5 +586,77 @@ class FieldsHelper
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Configure the Linkbar.
+	 *
+	 * @param   string  $context  The context the fields are used for
+	 * @param   string  $vName    The view currently active
+	 *
+	 * @return  void
+	 *
+	 * @since    3.7.0
+	 */
+	public static function addSubmenu($context, $vName)
+	{
+		$parts = self::extract($context);
+
+		if (!$parts)
+		{
+			return;
+		}
+
+		$component = $parts[0];
+
+		// Avoid nonsense situation.
+		if ($component == 'com_fields')
+		{
+			return;
+		}
+
+		// Try to find the component helper.
+		$eName = str_replace('com_', '', $component);
+		$file  = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+
+		if (!file_exists($file))
+		{
+			return;
+		}
+
+		require_once $file;
+
+		$cName = ucfirst($eName) . 'Helper';
+
+		if (class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
+		{
+			$lang = JFactory::getLanguage();
+			$lang->load($component, JPATH_ADMINISTRATOR)
+			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+
+			$cName::addSubmenu('fields.' . $vName);
+		}
+	}
+
+	/**
+	 * Loads the fields plugins.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public static function loadPlugins()
+	{
+		foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
+		{
+			if (!JPluginHelper::isEnabled('fields', $folder['name']))
+			{
+				continue;
+			}
+
+			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), JPATH_ADMINISTRATOR);
+			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), $folder['fullname']);
+			JFormHelper::addFieldPath($folder['fullname'] . '/fields');
+		}
 	}
 }
