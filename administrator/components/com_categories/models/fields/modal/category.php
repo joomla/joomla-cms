@@ -271,7 +271,7 @@ class JFormFieldModal_Category extends JFormField
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getLabel()
 	{

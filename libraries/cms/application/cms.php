@@ -707,7 +707,7 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @return  boolean  True if this application is of the given type client interface.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function isClient($identifier)
 	{

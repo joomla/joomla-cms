@@ -1060,7 +1060,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  boolean  True if found and valid, otherwise return false or redirect to referrer page.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @see     JSession::checkToken()
 	 */
 	public function checkToken($method = 'post', $redirect = true)

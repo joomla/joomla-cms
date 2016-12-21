@@ -335,7 +335,7 @@ class UsersHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getContexts()
 	{

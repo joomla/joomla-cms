@@ -69,7 +69,7 @@ class JLanguageMultilang
 	 * @return  array of language extension objects.
 	 *
 	 * @since   3.5
-	 * @deprecated   __DEPLOY_VERSION__  Use JLanguageHelper::getInstalledLanguages(0) instead.
+	 * @deprecated   3.7.0  Use JLanguageHelper::getInstalledLanguages(0) instead.
 	 */
 	public static function getSiteLangs()
 	{

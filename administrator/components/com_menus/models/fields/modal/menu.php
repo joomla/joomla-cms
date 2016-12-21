@@ -13,7 +13,7 @@ JHtml::_('bootstrap.tooltip', '.hasTooltip');
 /**
  * Supports a modal menu item picker.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormFieldModal_Menu extends JFormField
 {
@@ -21,7 +21,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $type = 'Modal_Menu';
 
@@ -30,7 +30,7 @@ class JFormFieldModal_Menu extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getInput()
 	{
@@ -262,7 +262,7 @@ class JFormFieldModal_Menu extends JFormField
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getLabel()
 	{

@@ -24,7 +24,7 @@ class PlgSystemFields extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -37,7 +37,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentBeforeSave($context, $item, $isNew)
 	{
@@ -109,7 +109,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterSave($context, $item, $isNew)
 	{
@@ -183,7 +183,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onUserAfterSave($userData, $isNew, $success, $msg)
 	{
@@ -220,7 +220,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterDelete($context, $item)
 	{
@@ -251,7 +251,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onUserAfterDelete($user, $succes, $msg)
 	{
@@ -269,7 +269,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentPrepareForm(JForm $form, $data)
 	{
@@ -310,7 +310,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentPrepareData($context, $data)
 	{
@@ -337,7 +337,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterTitle($context, $item, $params, $limitstart = 0)
 	{
@@ -354,7 +354,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentBeforeDisplay($context, $item, $params, $limitstart = 0)
 	{
@@ -371,7 +371,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterDisplay($context, $item, $params, $limitstart = 0)
 	{
@@ -388,7 +388,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function display($context, $item, $params, $displayType)
 	{
@@ -454,7 +454,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentPrepare($context, $item)
 	{
@@ -485,7 +485,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onPrepareFinderContent($item)
 	{

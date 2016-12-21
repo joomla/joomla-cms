@@ -55,7 +55,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 * The minimum year number to subtract/add from the current year
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $minyear;
 
@@ -63,7 +63,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 * The maximum year number to subtract/add from the current year
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $maxyear;
 
@@ -71,7 +71,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $layout = 'joomla.form.field.calendar';
 
@@ -255,7 +255,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected function getLayoutData()
 	{

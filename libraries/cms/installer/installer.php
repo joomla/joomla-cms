@@ -106,7 +106,7 @@ class JInstaller extends JAdapter
 	 * Flag if the uninstall process was triggered by uninstalling a package
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $packageUninstall = false;
 
@@ -238,7 +238,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function isPackageUninstall()
 	{
@@ -252,7 +252,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function setPackageUninstall($uninstall)
 	{

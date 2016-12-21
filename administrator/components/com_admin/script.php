@@ -208,7 +208,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function removeJedUpdateserver()
 	{
@@ -1551,7 +1551,7 @@ class JoomlaInstallerScript
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade/jade.js',
 			'/media/editors/codemirror/mode/jade/jade.min.js',
-			// Joomla __DEPLOY_VERSION__
+			// Joomla 3.7.0
 			'/libraries/joomla/user/authentication.php',
 			'/libraries/platform.php',
 			'/libraries/joomla/data/data.php',
@@ -1704,7 +1704,7 @@ class JoomlaInstallerScript
 			'/libraries/simplepie',
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade',
-			// Joomla! __DEPLOY_VERSION__
+			// Joomla! 3.7.0
 			'/libraries/joomla/data',
 		);
 
