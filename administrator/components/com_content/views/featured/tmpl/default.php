@@ -155,18 +155,49 @@ if ($saveOrder)
 								<?php else : ?>
 									<?php $language = $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 								<?php endif; ?>
-							</td>
-							<td class="small hidden-sm-down">
-								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-							</td>
-							<td class="nowrap small hidden-sm-down">
-								<?php
-								$date = $item->{$orderingColumn};
-								echo $date > 0 ? JHtml::_('date', $date, JText::_('DATE_FORMAT_LC4')) : '-';
-								?>							</td>
+								<?php if ($canEdit) : ?>
+									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
+										<?php echo $this->escape($item->title); ?></a>
+								<?php else : ?>
+									<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
+								<?php endif; ?>
+								<span class="small break-word">
+								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+							</span>
+								<div class="small">
+									<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+								</div>
+							</div>
+						</td>
+						<td class="small hidden-sm-down text-xs-center">
+							<?php echo $this->escape($item->access_level); ?>
+						</td>
+						<td class="small hidden-sm-down text-xs-center">
+							<?php if ($item->created_by_alias) : ?>
+								<?php echo $this->escape($item->author_name); ?>
+								<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
+							<?php else : ?>
+								<?php echo $this->escape($item->author_name); ?>
+							<?php endif; ?>
+						</td>
+						<td class="small hidden-sm-down text-xs-center">
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+						</td>
+						<td class="nowrap small hidden-sm-down text-xs-center">
+							<?php
+							$date = $item->{$orderingColumn};
+							echo $date > 0 ? JHtml::_('date', $date, JText::_('DATE_FORMAT_LC4')) : '-';
+							?>
+						</td>
+						<td class="hidden-sm-down text-xs-center">
+							<span class="tag tag-info">
+							<?php echo (int) $item->hits; ?>
+							</span>
+						</td>
+						<?php if ($this->vote) : ?>
 							<td class="hidden-sm-down text-xs-center">
-								<span class="tag tag-info">
-								<?php echo (int) $item->hits; ?>
+								<span class="tag tag-success" >
+								<?php echo (int) $item->rating_count; ?>
 								</span>
 							</td>
 							<td class="hidden-sm-down text-xs-center">

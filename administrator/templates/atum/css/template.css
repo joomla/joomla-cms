@@ -8086,6 +8086,7 @@ iframe {
   .js-stools .js-stools-field-list,
   .js-stools .js-stools-field-filter {
     display: inline-block;
+    float: left;
     margin-right: 5px;
     margin-bottom: 5px; }
     .js-stools .js-stools-field-list .form-control,
