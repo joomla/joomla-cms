@@ -320,20 +320,20 @@ class FieldsHelper
 			#jfields-loading-msg {
 				background: white;
 				border-radius: 4px;
-				padding: 24px;
-				font-size: 24px;
+				padding: 6px 12px;
+				font-size: 18px;
 				position: fixed;
-				top: 50%;
+				top: 45%;
 				left: 50%;
 				-webkit-transform: translate(-50%, -50%);
 				transform: translate(-50%, -50%);
-				box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.75);
+				box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 				z-index: 2050;
 			}");
 			JFactory::getDocument()->addScriptDeclaration("
 			function categoryHasChanged(element){
 				jQuery('<div id=\"jfields-overlay\"></div>').appendTo(document.body);
-				jQuery('<div id=\"jfields-loading-msg\">Loading ... please wait</div>').appendTo(document.body);
+				jQuery('<div id=\"jfields-loading-msg\">".JText::_('JLOADING')." ...</div>').appendTo(document.body);
 				var cat = jQuery(element);
 				if (cat.val() == '" . $assignedCatids . "')return;
 				jQuery('input[name=task]').val('field.storeform');
