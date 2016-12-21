@@ -167,43 +167,46 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$session = $event->getSession();
 
-		// TODO: At some point we need to get away from having session data always in the db.
-		$db   = \JFactory::getDbo();
-		$time = time();
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		// Purge expired session data if not using the database handler; the handler will run garbage collection as a native part of PHP's API
-		if ($handler != 'database' && $time % 2)
+		// If tracking of optional session metadata is enabled, run the following operations (defaults to true for B/C since forever)
+		if ($this->get('session_metadata', true))
 		{
-			// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
-			try
-			{
-				$db->setQuery(
-					$db->getQuery(true)
-						->delete($db->quoteName('#__session'))
-						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())))
-				)->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				/*
-				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
-				 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
-				 */
-			}
-		}
+			$db   = \JFactory::getDbo();
+			$time = time();
 
-		/*
-		 * Check for extra session metadata when:
-		 *
-		 * 1) The database handler is in use and the session is new
-		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
-		 */
-		if (($handler != 'database' && ($time % 2 || $session->isNew())) || ($handler == 'database' && $session->isNew()))
-		{
-			$this->checkSession();
+			// Get the session handler from the configuration.
+			$handler = strtolower($this->get('session_handler', 'none'));
+
+			// Purge expired session data if not using the database handler; the handler will run garbage collection as a native part of PHP's API
+			if ($handler !== 'database' && $time % 2)
+			{
+				// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
+				try
+				{
+					$db->setQuery(
+						$db->getQuery(true)
+							->delete($db->quoteName('#__session'))
+							->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())))
+					)->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					/*
+					 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+					 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
+					 */
+				}
+			}
+
+			/*
+			 * Check for extra session metadata when:
+			 *
+			 * 1) The database handler is in use and the session is new
+			 * 2) The database handler is not in use and the time is an even numbered second or the session is new
+			 */
+			if (($handler !== 'database' && ($time % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
+			{
+				$this->checkSession();
+			}
 		}
 	}
 
@@ -278,7 +281,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			}
 			catch (\RuntimeException $e)
 			{
-				throw new \RuntimeException(\JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
+				/*
+				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+				 * As this query only deals with session metadata, if the session handler is using the database then the handler will
+				 * try again to insert/update the important parts of the data otherwise in a worst case scenario the user's session does
+				 * not persist beyond this request.  When non-database session handlers are in use, this really doesn't matter.
+				 */
 			}
 		}
 	}
