@@ -118,7 +118,8 @@ class ApplicationModel extends FormModel
 
 		try
 		{
-			\JDatabaseDriver::getInstance($options)->getVersion();
+			$revisedDbo = \JDatabaseDriver::getInstance($options);
+			$revisedDbo->getVersion();
 		}
 		catch (\Exception $e)
 		{
@@ -273,22 +274,22 @@ class ApplicationModel extends FormModel
 				// If we are are using the session handler, purge the extra columns, otherwise truncate the whole session table
 				if ($data['session_handler'] === 'database')
 				{
-					$dbc->setQuery(
-						$dbc->getQuery(true)
+					$revisedDbo->setQuery(
+						$revisedDbo->getQuery(true)
 							->update('#__session')
 							->set(
 								[
-									$dbc->quoteName('client_id') . ' = 0',
-									$dbc->quoteName('guest') . ' = NULL',
-									$dbc->quoteName('userid') . ' = NULL',
-									$dbc->quoteName('username') . ' = NULL',
+									$revisedDbo->quoteName('client_id') . ' = 0',
+									$revisedDbo->quoteName('guest') . ' = NULL',
+									$revisedDbo->quoteName('userid') . ' = NULL',
+									$revisedDbo->quoteName('username') . ' = NULL',
 								]
 							)
 					)->execute();
 				}
 				else
 				{
-					$dbc->truncateTable('#__session');
+					$revisedDbo->truncateTable('#__session');
 				}
 			}
 			catch (RuntimeException $e)
