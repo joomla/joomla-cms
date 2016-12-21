@@ -65,7 +65,7 @@
 			name="type"
 			type="type"
 			label="COM_FIELDS_FIELD_TYPE_LABEL"
-			default="text"
+			default="ftext"
 			description="COM_FIELDS_FIELD_TYPE_DESC"
 			required="true"
 		/>
