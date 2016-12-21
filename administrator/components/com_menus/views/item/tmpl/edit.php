@@ -61,10 +61,10 @@ jQuery(document).ready(function ($){
 
 			// Logout
 			if ($('#jform_params_logout_redirect_url').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_logout_menuitem_id').val('');
+				$('#jform_params_logout_redirect_menuitem_id').val('');
 			}
-			if ($('#jform_params_logout_redirect_menuitem_name').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_logout_redirect_redirect_url').val('');
+			if ($('#jform_params_logout_redirect_menuitem_id').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_logout_redirect_url').val('');
 			}
 		}
 	});
