@@ -779,7 +779,7 @@ class PlgEditorTinymce extends JPlugin
 			})();";
 
 				// The array with the toolbar buttons
-				$btnsNames[] = $name;
+				$btnsNames[] = $name . ' | ';
 
 				// The array with code for each button
 				$tinyBtns[] = $tempConstructor;
