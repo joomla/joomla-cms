@@ -230,7 +230,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// If $user is still null at this point, we've hit an interesting chicken or egg problem getting the user loaded into the application
 		if (!$user)
 		{
-			$this->loadIdentity($session->get('user'));
+			$user = $session->get('user');
+			$this->loadIdentity($user);
 		}
 
 		$query = $db->getQuery(true)
