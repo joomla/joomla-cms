@@ -396,7 +396,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			$this->parent->pushStep(
 				array(
 					'type' => 'extension',
-					'extension_id' => $this->extension->extension_id,
+					'id'   => $this->extension->extension_id,
 				)
 			);
 
