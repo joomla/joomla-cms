@@ -212,6 +212,7 @@ class FieldsModelFields extends JModelList
 			}
 
 			$categories = array_unique($categories);
+
 			// Join over the assigned categories
 			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
 			->group('a.id, l.title, l.image, uc.name, ag.title, ua.name, g.title, g.access, g.state');
