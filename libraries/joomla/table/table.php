@@ -1288,6 +1288,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	{
 		// Check if there is an ordering field set
 		$orderingField = $this->getColumnAlias('ordering');
+
 		if (!property_exists($this, $orderingField))
 		{
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
@@ -1349,6 +1350,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	{
 		// Check if there is an ordering field set
 		$orderingField = $this->getColumnAlias('ordering');
+
 		if (!property_exists($this, $orderingField))
 		{
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
@@ -1413,11 +1415,12 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	{
 		// Check if there is an ordering field set
 		$orderingField = $this->getColumnAlias('ordering');
+
 		if (!property_exists($this, $orderingField))
 		{
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
-		
+
 		$quotedOrderingField = $this->_db->quoteName($orderingField);
 
 		// If the change is none, do nothing.
