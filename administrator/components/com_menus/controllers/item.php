@@ -535,8 +535,11 @@ class MenusControllerItem extends JControllerForm
 		$menutype = $this->input->get->get('menutype');
 
 		$model = $this->getModel('Items', '', array());
+		$model->getState();
 		$model->setState('filter.menutype', $menutype);
 		$model->setState('list.select', 'a.id, a.title, a.level');
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', 0);
 
 		$results = $model->getItems();
 

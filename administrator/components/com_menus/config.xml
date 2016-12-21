@@ -10,7 +10,9 @@
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC"
-			/>
+			default=""
+		/>
+
 		<field
 			name="show_page_heading"
 			type="radio"
@@ -23,19 +25,24 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
+
 		<field
 			name="page_heading"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC"
+			default=""
 			showon="show_page_heading:1"
-			/>
+		/>
+
 		<field
 			name="pageclass_sfx"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
 			description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC"
-			/>
+			default=""
+		/>
+
 	</fieldset>
 
 	<fieldset
@@ -51,6 +58,8 @@
 			filter="rules"
 			validate="rules"
 			component="com_menus"
-			section="component" />
+			section="component"
+		/>
+
 	</fieldset>
 </config>

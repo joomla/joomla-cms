@@ -108,7 +108,7 @@ class JLayoutFile extends JLayoutBase
 
 		if ($this->isDebugEnabled())
 		{
-			echo "<pre>" . $this->renderDebugMessages() . "</pre>";
+			echo '<pre>' . $this->renderDebugMessages() . '</pre>';
 		}
 
 		// Nothing to show
@@ -494,7 +494,7 @@ class JLayoutFile extends JLayoutBase
 				break;
 
 			default:
-				$client = (int) JFactory::getApplication()->isAdmin();
+				$client = (int) JFactory::getApplication()->isClient('administrator');
 				break;
 		}
 

@@ -97,7 +97,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
 					</td>
 					<td>
-						<label for="cb<?php echo $i ?>">
+						<label for="cb<?php echo $i; ?>">
 							<?php echo $this->escape($item->title); ?>
 						</label>
 					</td>
@@ -119,7 +119,6 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo (strlen($item->url) > 80) ? substr($item->url, 0, 70) . '...' : $item->url; ?>
 					</td>
 				</tr>
-
 				<?php endforeach; ?>
 			</tbody>
 		</table>

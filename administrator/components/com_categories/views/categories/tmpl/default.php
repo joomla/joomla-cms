@@ -40,13 +40,6 @@ if (count($parts) > 1)
 	{
 		$section = $inflector->toPlural($section);
 	}
-
-	// If the section ends with .fields, then the category belongs to com_fields
-	if (substr($section, -strlen('.fields')) === '.fields')
-	{
-		$component = 'com_fields';
-		$section = 'fields&context=' . str_replace('.fields', '', implode('.', $parts));
-	}
 }
 
 if ($saveOrder)
@@ -86,25 +79,25 @@ if ($saveOrder)
 							<th width="3%" class="nowrap text-xs-center hidden-sm-down">
 								<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>"></i>
 							</th>
-						<?php endif;?>
+						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) :
 							$columns++; ?>
 							<th width="3%" class="nowrap text-xs-center hidden-sm-down">
 								<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
 							</th>
-						<?php endif;?>
+						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) :
 							$columns++; ?>
 							<th width="3%" class="nowrap text-xs-center hidden-sm-down">
 								<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>"></i>
 							</th>
-						<?php endif;?>
+						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) :
 							$columns++; ?>
 							<th width="3%" class="nowrap text-xs-center hidden-sm-down">
 								<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>"></i>
 							</th>
-						<?php endif;?>
+						<?php endif; ?>
 						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
@@ -213,35 +206,35 @@ if ($saveOrder)
 							</td>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 								<td class="text-xs-center btns hidden-sm-down">
-									<a class="tag <?php echo ($item->count_published > 0) ? 'tag-success' : 'tag-default'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=' . (int) $item->level);?>">
+									<a class="tag <?php echo ($item->count_published > 0) ? 'tag-success' : 'tag-default'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=' . (int) $item->level); ?>">
 										<?php echo $item->count_published; ?></a>
 								</td>
-							<?php endif;?>
+							<?php endif; ?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 								<td class="text-xs-center btns hidden-sm-down">
-									<a class="tag <?php echo ($item->count_unpublished > 0) ? 'tag-danger' : 'tag-default'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level);?>">
+									<a class="tag <?php echo ($item->count_unpublished > 0) ? 'tag-danger' : 'tag-default'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level); ?>">
 										<?php echo $item->count_unpublished; ?></a>
 								</td>
-							<?php endif;?>
+							<?php endif; ?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 								<td class="text-xs-center btns hidden-sm-down">
-									<a class="tag <?php echo ($item->count_archived > 0) ? 'tag-info' : 'tag-default'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=' . (int) $item->level);?>">
+									<a class="tag <?php echo ($item->count_archived > 0) ? 'tag-info' : 'tag-default'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=' . (int) $item->level); ?>">
 										<?php echo $item->count_archived; ?></a>
 								</td>
-							<?php endif;?>
+							<?php endif; ?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 								<td class="text-xs-center btns hidden-sm-down">
-									<a class="tag <?php echo ($item->count_trashed > 0) ? 'tag-inverse' : 'tag-default'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=' . (int) $item->level);?>">
+									<a class="tag <?php echo ($item->count_trashed > 0) ? 'tag-inverse' : 'tag-default'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=' . (int) $item->level); ?>">
 										<?php echo $item->count_trashed; ?></a>
 								</td>
-							<?php endif;?>
+							<?php endif; ?>
 
 							<td class="small hidden-sm-down text-xs-center">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
 							<?php if ($this->assoc) : ?>
 								<td class="hidden-sm-down text-xs-center">
-									<?php if ($item->association): ?>
+									<?php if ($item->association) : ?>
 										<?php echo JHtml::_('CategoriesAdministrator.association', $item->id, $extension); ?>
 									<?php endif; ?>
 								</td>

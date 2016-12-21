@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
-$this->name = JText::_('COM_CONFIG_PERMISSION_SETTINGS');
-$this->fieldsname = 'permissions';
-$this->formclass = 'form-no-margin';
-$this->showlabel = false;
+$this->name        = JText::_('COM_CONFIG_PERMISSION_SETTINGS');
+$this->description = '';
+$this->fieldsname  = 'permissions';
+$this->formclass   = 'form-no-margin';
+$this->showlabel   = false;
 echo JLayoutHelper::render('joomla.content.options_default', $this);

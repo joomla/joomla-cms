@@ -67,7 +67,7 @@
 		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
 			description="COM_CONTENT_FIELD_CREATED_DESC"
 			translateformat="true"
-			   weeknumbers="true"
+			weeknumbers="true"
 			showtime="true"
 			size="22"
 			filter="user_utc" />
@@ -79,7 +79,7 @@
 			label="COM_CONTENT_FIELD_CREATED_BY_ALIAS_LABEL" description="COM_CONTENT_FIELD_CREATED_BY_ALIAS_DESC"
 			size="20" />
 
-		<field name="modified" type="calendar" class="readonly"
+		<field name="modified" type="calendar" class="form-control"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL" description="COM_CONTENT_FIELD_MODIFIED_DESC"
 			translateformat="true"
 			showtime="true"
@@ -102,7 +102,9 @@
 			type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL"
 			description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
+			translateformat="true"
+			showtime="true"
+			size="22"
 			filter="user_utc" />
 
 		<field name="publish_down" type="calendar"

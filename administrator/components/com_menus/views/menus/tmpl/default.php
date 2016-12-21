@@ -175,8 +175,8 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 													'url'         => $link,
 													'height'      => '400px',
 													'width'       => '800px',
-													'bodyHeight'  => '70',
-													'modalWidth'  => '80',
+													'bodyHeight'  => 70,
+													'modalWidth'  => 80,
 													'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
 															. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
 															. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
@@ -204,8 +204,8 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 											'url'         => $link,
 											'height'      => '400px',
 											'width'       => '800px',
-											'bodyHeight'  => '70',
-											'modalWidth'  => '80',
+											'bodyHeight'  => 70,
+											'modalWidth'  => 80,
 											'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
 													. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#closeBtn\').click();">'
 													. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
@@ -226,7 +226,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

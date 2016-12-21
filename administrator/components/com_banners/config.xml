@@ -12,7 +12,7 @@
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
 			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			id="purchase_type"
-			default="0"
+			default="1"
 			>
 			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
 			<option value="2">COM_BANNERS_FIELD_VALUE_YEARLY</option>
@@ -50,8 +50,11 @@
 			type="text"
 			label="COM_BANNERS_FIELD_METAKEYWORDPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_METAKEYWORDPREFIX_DESC"
+			default=""
 		/>
+
 	</fieldset>
+
 	<fieldset
 		name="banners"
 		label="COM_BANNERS_FIELDSET_CONFIG_BANNER_OPTIONS_LABEL"
@@ -76,9 +79,10 @@
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			filter="integer"
-			default="5"
+			default="10"
 			showon="save_history:1"
 		/>
+
 	</fieldset>
 
 	<fieldset
@@ -96,5 +100,6 @@
 			component="com_banners"
 			section="component"
 		/>
+
 	</fieldset>
 </config>

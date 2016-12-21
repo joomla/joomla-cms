@@ -61,14 +61,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th width="5%" class="hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-sm-down text-xs-center">
+						<th class="hidden-sm-down text-xs-center">
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_PACKAGE_ID', 'package_id', $listDirn, $listOrder); ?>
+						</th>
+						<th width="1%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="10">
+						<td colspan="11">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -113,7 +116,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="hidden-sm-down text-xs-center">
 							<?php echo $item->folder_translated; ?>
 						</td>
+<<<<<<< HEAD
 						<td class="hidden-sm-down text-xs-center">
+=======
+						<td class="hidden-phone">
+							<?php echo $item->package_id ?: '&#160;'; ?>
+						</td>
+						<td class="hidden-phone">
+>>>>>>> joomla/master
 							<?php echo $item->extension_id; ?>
 						</td>
 					</tr>

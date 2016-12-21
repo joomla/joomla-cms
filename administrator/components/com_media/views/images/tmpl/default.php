@@ -58,65 +58,84 @@ else // XTD Image plugin
 ?>
 <div class="container-popup">
 
-	<form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author'); ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
+	<form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
 
 		<div id="messages" style="display: none;">
-			<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true) ?>
+			<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true); ?>
 		</div>
 
 		<div class="well">
 			<div class="row">
 				<div class="col-md-12 control-group">
 					<div class="control-label">
-						<label class="control-label" for="folder"><?php echo JText::_('COM_MEDIA_DIRECTORY') ?></label>
+						<label class="control-label" for="folder"><?php echo JText::_('COM_MEDIA_DIRECTORY'); ?></label>
 					</div>
 					<div class="controls">
 						<?php echo $this->folderList; ?>
-						<button class="btn" type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP') ?>"><?php echo JText::_('COM_MEDIA_UP') ?></button>
+						<button class="btn" type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP'); ?>"><?php echo JText::_('COM_MEDIA_UP'); ?></button>
 					</div>
 				</div>
 				<div class="float-xs-right">
 					<button class="btn btn-success button-save-selected" type="button" <?php if (!empty($onClick)) :
-					// This is for Mootools compatibility ?>onclick="<?php echo $onClick; ?>"<?php endif; ?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
+					// This is for Mootools compatibility ?>onclick="<?php echo $onClick; ?>"<?php endif; ?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT'); ?></button>
 					<button class="btn btn-outline-danger button-cancel" type="button" onclick="window.parent.jQuery('.modal.in').modal('hide');<?php if (!empty($onClick)) :
-						// This is for Mootools compatibility ?>parent.jModalClose();<?php endif ?>" data-dismiss="modal"><?php echo JText::_('JCANCEL') ?></button>
+						// This is for Mootools compatibility ?>parent.jModalClose();<?php endif ?>" data-dismiss="modal"><?php echo JText::_('JCANCEL'); ?></button>
 				</div>
 			</div>
 		</div>
 
-		<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
+		<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>"></iframe>
 
 		<div class="well">
 			<div class="row">
 				<div class="col-md-6 control-group">
 					<div class="control-label">
-						<label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL') ?></label>
+						<label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL'); ?></label>
 					</div>
 					<div class="controls">
 						<input type="text" id="f_url" value="" />
 					</div>
 				</div>
+<<<<<<< HEAD
 				<?php if (!$this->state->get('field.id')):?>
 					<div class="col-md-6 control-group">
+=======
+				<?php if (!$this->state->get('field.id')) : ?>
+					<div class="span6 control-group">
+>>>>>>> joomla/master
 						<div class="control-label">
-							<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
+							<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN'); ?></label>
 						</div>
 						<div class="controls">
+<<<<<<< HEAD
 							<select class="custom-select" size="1" id="f_align">
 								<option value="" selected="selected"><?php echo JText::_('COM_MEDIA_NOT_SET') ?></option>
 								<option value="left"><?php echo JText::_('JGLOBAL_LEFT') ?></option>
 								<option value="text-xs-center"><?php echo JText::_('JGLOBAL_CENTER') ?></option>
 								<option value="right"><?php echo JText::_('JGLOBAL_RIGHT') ?></option>
+=======
+							<select size="1" id="f_align">
+								<option value="" selected="selected"><?php echo JText::_('COM_MEDIA_NOT_SET'); ?></option>
+								<option value="left"><?php echo JText::_('JGLOBAL_LEFT'); ?></option>
+								<option value="center"><?php echo JText::_('JGLOBAL_CENTER'); ?></option>
+								<option value="right"><?php echo JText::_('JGLOBAL_RIGHT'); ?></option>
+>>>>>>> joomla/master
 							</select>
 						</div>
 					</div>
-				<?php endif;?>
+				<?php endif; ?>
 			</div>
+<<<<<<< HEAD
 			<?php if (!$this->state->get('field.id')):?>
 				<div class="row">
 					<div class="col-md-6 control-group">
+=======
+			<?php if (!$this->state->get('field.id')) : ?>
+				<div class="row-fluid">
+					<div class="span6 control-group">
+>>>>>>> joomla/master
 						<div class="control-label">
-							<label for="f_alt"><?php echo JText::_('COM_MEDIA_IMAGE_DESCRIPTION') ?></label>
+							<label for="f_alt"><?php echo JText::_('COM_MEDIA_IMAGE_DESCRIPTION'); ?></label>
 						</div>
 						<div class="controls">
 							<input type="text" id="f_alt" value="" />
@@ -124,7 +143,7 @@ else // XTD Image plugin
 					</div>
 					<div class="col-md-6 control-group">
 						<div class="control-label">
-							<label for="f_title"><?php echo JText::_('COM_MEDIA_TITLE') ?></label>
+							<label for="f_title"><?php echo JText::_('COM_MEDIA_TITLE'); ?></label>
 						</div>
 						<div class="controls">
 							<input type="text" id="f_title" value="" />
@@ -134,7 +153,7 @@ else // XTD Image plugin
 				<div class="row">
 					<div class="col-md-6 control-group">
 						<div class="control-label">
-							<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label>
+							<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION'); ?></label>
 						</div>
 						<div class="controls">
 							<input type="text" id="f_caption" value="" />
@@ -142,7 +161,7 @@ else // XTD Image plugin
 					</div>
 					<div class="col-md-6 control-group">
 						<div class="control-label">
-							<label title="<?php echo JText::_('COM_MEDIA_CAPTION_CLASS_DESC'); ?>" class="noHtmlTip" for="f_caption_class"><?php echo JText::_('COM_MEDIA_CAPTION_CLASS_LABEL') ?></label>
+							<label title="<?php echo JText::_('COM_MEDIA_CAPTION_CLASS_DESC'); ?>" class="noHtmlTip" for="f_caption_class"><?php echo JText::_('COM_MEDIA_CAPTION_CLASS_LABEL'); ?></label>
 						</div>
 						<div class="controls">
 							<input type="text" list="d_caption_class" id="f_caption_class" value="" />
@@ -154,7 +173,7 @@ else // XTD Image plugin
 						</div>
 					</div>
 				</div>
-			<?php endif;?>
+			<?php endif; ?>
 
 			<input type="hidden" id="dirPath" name="dirPath" />
 			<input type="hidden" id="f_file" name="f_file" />
@@ -164,7 +183,11 @@ else // XTD Image plugin
 	</form>
 
 	<?php if ($user->authorise('core.create', 'com_media')) : ?>
+<<<<<<< HEAD
 		<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>&amp;view=images" id="uploadForm" name="uploadForm" method="post" enctype="multipart/form-data">
+=======
+		<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
+>>>>>>> joomla/master
 			<div id="uploadform" class="well">
 				<fieldset id="upload-noflash" class="actions">
 					<div class="control-group">

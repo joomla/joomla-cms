@@ -699,7 +699,7 @@ class JCache
 		$cached['mime_encoding'] = $document->getMimeEncoding();
 
 		// Pathway data
-		if ($app->isSite() && $loptions['nopathway'] != 1)
+		if ($app->isClient('site') && $loptions['nopathway'] != 1)
 		{
 			$cached['pathway'] = is_array($data) && isset($data['pathway']) ? $data['pathway'] : $app->getPathway()->getPathway();
 		}
