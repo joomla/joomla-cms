@@ -265,10 +265,41 @@ class ApplicationModel extends FormModel
 			$this->_db->execute();
 		}
 
-		// Purge the database session table if we are disabling session metadata and not using the database handler
-		if ($prev['session_metadata'] == 1 && $data['session_metadata'] == 0 && strtolower($data['session_handler']) != 'database')
+		// Purge the database session table if we are disabling session metadata
+		if ($prev['session_metadata'] == 1 && $data['session_metadata'] == 0)
 		{
-			$this->_db->truncateTable('#__session');
+			try
+			{
+				// If we are are using the session handler, purge the extra columns, otherwise truncate the whole session table
+				if (strtolower($data['session_handler']) == 'database')
+				{
+					$dbc->setQuery(
+						$dbc->getQuery(true)
+							->update('#__session')
+							->set(
+								[
+									$dbc->quoteName('client_id') . ' = 0',
+									$dbc->quoteName('guest') . ' = NULL',
+									$dbc->quoteName('userid') . ' = NULL',
+									$dbc->quoteName('username') . ' = NULL',
+								]
+							)
+					)->execute();
+				}
+				else
+				{
+					$dbc->truncateTable('#__session');
+				}
+			}
+			catch (RuntimeException $e)
+			{
+				/*
+				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+				 * Also, this data won't be added or checked anymore once the configuration is saved, so it'll purge itself
+				 * through normal garbage collection anyway or if not using the database handler someone can purge the
+				 * table on their own.  Either way, carry on Soldier!
+				 */
+			}
 		}
 
 		// Set the shared session configuration
