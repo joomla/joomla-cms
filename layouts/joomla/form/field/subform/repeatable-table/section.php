@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 JFactory::getDocument()->addStyleDeclaration(
-	'.subform-repeatable-group[data-group="' . $group . '"] .controls { margin-left: 0px }'
+	'.subform-table-sublayout-section .controls { margin-left: 0px }'
 );
 ?>
 
