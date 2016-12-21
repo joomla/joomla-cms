@@ -303,13 +303,44 @@ class FieldsHelper
 			 * has changed
 			*/
 			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
-			JFactory::getDocument()->addScriptDeclaration(
-					"function categoryHasChanged(element){
-				var cat = jQuery(element);
-				if (cat.val() == '" . $assignedCatids . "')return;
-				jQuery('input[name=task]').val('field.storeform');
-				element.form.action='" . $uri . "';
-				element.form.submit();
+			JFactory::getDocument()->addStyleDeclaration("
+			#jfields-overlay {
+				position:absolute;
+				top:0;
+				left:0;
+				right:0;
+				bottom:0;
+				background-color: #707070;
+				background-image: -webkit-repeating-linear-gradient(135deg,#707070,#707070 6px,#676767 6px,#676767 12px);
+				background-image: repeating-linear-gradient(135deg,#707070,#707070 6px,#676767 6px,#676767 12px);
+				opacity: 0.5;
+				filter: alpha(opacity=50);
+				z-index: 2000;
+			}
+			#jfields-loading-msg {
+				background: white;
+				border-radius: 4px;
+				padding: 24px;
+				font-size: 24px;
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				-webkit-transform: translate(-50%, -50%);
+				transform: translate(-50%, -50%);
+				box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.75);
+				z-index: 2050;
+			}");
+			JFactory::getDocument()->addScriptDeclaration("
+			function categoryHasChanged(element){
+				jQuery('<div id=\"jfields-overlay\"></div>').appendTo(document.body);
+				jQuery('<div id=\"jfields-loading-msg\">Loading ... please wait</div>').appendTo(document.body);
+				//setTimeout(function() {
+					var cat = jQuery(element);
+					if (cat.val() == '" . $assignedCatids . "')return;
+					jQuery('input[name=task]').val('field.storeform');
+					element.form.action='" . $uri . "';
+					element.form.submit();
+				//}, 20);
 			}
 			jQuery( document ).ready(function() {
 				var formControl = '#" . $form->getFormControl() . "_catid';
