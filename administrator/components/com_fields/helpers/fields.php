@@ -334,13 +334,11 @@ class FieldsHelper
 			function categoryHasChanged(element){
 				jQuery('<div id=\"jfields-overlay\"></div>').appendTo(document.body);
 				jQuery('<div id=\"jfields-loading-msg\">Loading ... please wait</div>').appendTo(document.body);
-				//setTimeout(function() {
-					var cat = jQuery(element);
-					if (cat.val() == '" . $assignedCatids . "')return;
-					jQuery('input[name=task]').val('field.storeform');
-					element.form.action='" . $uri . "';
-					element.form.submit();
-				//}, 20);
+				var cat = jQuery(element);
+				if (cat.val() == '" . $assignedCatids . "')return;
+				jQuery('input[name=task]').val('field.storeform');
+				element.form.action='" . $uri . "';
+				element.form.submit();
 			}
 			jQuery( document ).ready(function() {
 				var formControl = '#" . $form->getFormControl() . "_catid';
