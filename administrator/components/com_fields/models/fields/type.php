@@ -50,7 +50,7 @@ class JFormFieldType extends JFormAbstractlist
 	{
 		$options = parent::getOptions();
 
-		$fieldSpecifications = FieldsHelperInternal::getFieldsSpecification();
+		$fieldSpecifications = FieldsHelperInternal::getFieldTypes();
 
 		foreach ($fieldSpecifications as $fieldSpecification)
 		{

@@ -325,7 +325,7 @@ class FieldsHelper
 			return true;
 		}
 
-		$fieldSpecifications = FieldsHelperInternal::getFieldsSpecification();
+		$fieldSpecifications = FieldsHelperInternal::getFieldTypes();
 
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');

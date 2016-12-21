@@ -96,7 +96,7 @@ class FieldsHelperInternal
 	 *
 	 * @since   3.7.0
 	 */
-	public static function getFieldsSpecification()
+	public static function getFieldTypes()
 	{
 		JPluginHelper::importPlugin('fields');
 		$eventData = JEventDispatcher::getInstance()->trigger('onGetCustomFieldTypes');
