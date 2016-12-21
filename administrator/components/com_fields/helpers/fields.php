@@ -153,12 +153,7 @@ class FieldsHelper
 					// Gathering the value for the field
 					$value = $dispatcher->trigger('onCustomFieldsPrepareField', array($context, $item, &$field));
 
-					// If the value is empty, render the base layout
-					if (! $value)
-					{
-						$value = self::render($context, 'field.prepare.base', array('field' => $field));
-					}
-					elseif (is_array($value))
+					if (is_array($value))
 					{
 						$value = implode($value, ' ');
 					}
