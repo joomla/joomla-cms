@@ -850,18 +850,6 @@
 			showon="session_handler:filesystem" />
 
 		<field
-			name="session_metadata"
-			type="radio"
-			class="switcher"
-			default="1"
-			label="COM_CONFIG_FIELD_SESSION_METADATA_LABEL"
-			description="COM_CONFIG_FIELD_SESSION_METADATA_DESC"
-			filter="boolean">
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
 			name="session_filesystem_path"
 			type="text"
 			default=""
@@ -997,6 +985,18 @@
 			default="0"
 			filter="boolean"
 			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="session_metadata"
+			type="radio"
+			class="switcher"
+			default="1"
+			label="COM_CONFIG_FIELD_SESSION_METADATA_LABEL"
+			description="COM_CONFIG_FIELD_SESSION_METADATA_DESC"
+			filter="boolean">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
