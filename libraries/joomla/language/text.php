@@ -254,6 +254,88 @@ class JText
 	}
 
 	/**
+	 * Produces a Javascript storage of plural strings, which can be accessed
+	 * with Joomla.JText.plural() in the browser.
+	 *
+	 * Note that this method can take a mixed number of arguments as for the sprintf function.
+	 *
+	 * The last argument can take an array of options:
+	 *
+	 * array('interpretBackSlashes'=>boolean, 'script'=>boolean)
+	 *
+	 * where:
+	 *
+	 * interpretBackSlashes is a boolean to interpret backslashes \\->\, \n->new line, \t->tabulation.
+	 *
+	 * @param   array  $baseStrings  The basename of the language string
+	 * @param   bool   $merge        Whether to merge with existing (true) or replace (false)
+	 *
+	 * @return  array  The translated strings
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function pluralJS(array $baseStrings, $merge = true)
+	{
+		$lang     = JFactory::getLanguage();
+		$args     = func_get_args();
+		$count    = count($args);
+		$suffixes = $lang->getAllPluralSuffixes();
+
+		$interpretBackslashes = array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true;
+		$lastParameterIsArray = count($args) > 1 && is_array($args[$count - 1]);
+		$strings = array();
+
+		foreach ($baseStrings as $baseString) {
+			if ($lang->hasKey($baseString)) {
+				if ($lastParameterIsArray) {
+					$strings[$baseString] = $lang->_(
+						$baseString, false, $interpretBackslashes
+					);
+				} else {
+					$strings[$baseString] = $lang->_(
+						$baseString, false
+					);
+				}
+				continue;
+			}
+
+			if ($lastParameterIsArray) {
+				foreach ($suffixes as $suffix) {
+					$key = $baseString . '_' . $suffix[2];
+
+					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true)) {
+						$strings[$key] = $lang->_(
+							$key, false, $interpretBackslashes
+						);
+					}
+				}
+			} else {
+				foreach ($suffixes as $suffix) {
+					$key = $baseString . '_' . $suffix[2];
+
+					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true)) {
+						$strings[$key] = $lang->_(
+							$key, false
+						);
+					}
+				}
+			}
+		}
+
+		// Load core.js dependency
+		JHtml::_('behavior.core');
+
+		// Update Joomla.JText script options
+		JFactory::getDocument()->addScriptOptions('joomla.jtext', $strings, $merge);
+		if (count($strings) > 0)
+		{
+			JFactory::getDocument()->addScriptOptions('joomla.jtext.pluralData.suffixes', $suffixes, $merge);
+		}
+
+		return $strings;
+	}
+
+	/**
 	 * Passes a string thru a sprintf.
 	 *
 	 * Note that this method can take a mixed number of arguments as for the sprintf function.

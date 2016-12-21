@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+
 /**
  * Joomla! update notification plugin
  *
@@ -28,7 +29,7 @@ class PlgQuickiconExtensionupdate extends JPlugin
 	 * Returns an icon definition for an icon which looks for extensions updates
 	 * via AJAX and displays a notification when such updates are found.
 	 *
-	 * @param   string  $context  The calling context
+	 * @param   string $context The calling context
 	 *
 	 * @return  array  A list of icon definition associative arrays, consisting of the
 	 *                 keys link, image, text and access.
@@ -50,18 +51,21 @@ class PlgQuickiconExtensionupdate extends JPlugin
 		$script   = array();
 		$script[] = 'var plg_quickicon_extensionupdate_url = \'' . $url . '\';';
 		$script[] = 'var plg_quickicon_extensionupdate_ajax_url = \'' . $ajax_url . '\';';
-		$script[] = 'var plg_quickicon_extensionupdate_text = {'
-			. '"UPTODATE" : "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true) . '",'
-			. '"UPDATEFOUND": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true) . '",'
-			. '"UPDATEFOUND_SINGLE": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_SINGLE', true) . '",'
-			. '"UPDATEFOUND_MESSAGE": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', true) . '",'
-			. '"UPDATEFOUND_MESSAGE_SINGLE": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE_SINGLE', true) . '",'
-			. '"UPDATEFOUND_BUTTON": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', true) . '",'
-			. '"UPDATEFOUND_BUTTON_SINGLE": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON_SINGLE', true) . '",'
-			. '"ERROR": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true) . '",'
-			. '};';
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
-		JHtml::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_(
+			'script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', array(
+				        'version'  => 'auto',
+				        'relative' => true
+			        )
+		);
+
+		JText::pluralJS(array(
+			                'PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE',
+			                'PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND',
+			                'PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE',
+			                'PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON',
+			                'PLG_QUICKICON_EXTENSIONUPDATE_ERROR'
+		                ));
 
 		return array(
 			array(

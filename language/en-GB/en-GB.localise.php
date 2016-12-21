@@ -23,21 +23,62 @@ abstract class En_GBLocalise
 	 * @return  array  An array of potential suffixes.
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated 4.0
 	 */
 	public static function getPluralSuffixes($count)
 	{
-		if ($count == 0)
+		$suffixes = self::getAllPluralSuffixes();
+
+		foreach ($suffixes as $suffix)
 		{
-			return array('0');
+			// The possible operators are: <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne respectively.
+			// but for our case we only allow symbol operators: <, <=, >, >=, ==, =, !=, <> respectively.
+			// That is, so we don't need to write additional comparison functions in javascript, and because frankly,
+			// it works without them.
+			if (version_compare($count, $suffix[1], $suffix[0]))
+			{
+				return array($suffix[2]);
+			}
 		}
-		elseif ($count == 1)
-		{
-			return array('1');
-		}
-		else
-		{
-			return array('MORE');
-		}
+		return array();
+	}
+
+
+	/**
+	 * Returns an array of suffixes for plural rules.
+	 * This array holds the suffix information and their prerequisites
+	 * The array is the used by the getPluralSuffixes for PHP and JS
+	 *
+	 * @return  array  An array of suffixes for use by the getPluralSuffixes function
+	 * for either PHP or JS.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getAllPluralSuffixes()
+	{
+		/*
+		 * The array of suffixes-data ([0]=>comparison operator, [1]=>comparison value and [2]=>the suffix itself)
+		 *
+		 * - the first key [0] is the comparison operator (or anything one wants, as long
+		 * as the PHP and JS suffix generators can decode it.)
+		 *
+		 * - the second key [1] is the number that the count is compared to
+		 *
+		 * - the third key [2] is the suffix itself
+		 *
+		 *
+		 * The allowed comparison operators for our case we only allow symbol operators: <, <=, >, >=, ==, =, !=, <> respectively.
+		 * That is, so we don't need to write additional comparison functions in javascript, and because frankly,
+		 * it works without them.
+		 *
+		 */
+
+		return array(
+			array('=', 0, '0'),
+			array('=', 1, '1'),
+			array('>', 2, 'MORE'),
+		);
 	}
 
 	/**

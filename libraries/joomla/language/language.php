@@ -144,6 +144,14 @@ class JLanguage
 	protected $pluralSuffixesCallback = null;
 
 	/**
+	 * Name of the allPluralSuffixesCallback function for this language.
+	 *
+	 * @var    callable
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $allPluralSuffixesCallback = null;
+
+	/**
 	 * Name of the ignoredSearchWordsCallback function for this language.
 	 *
 	 * @var    callable
@@ -243,6 +251,7 @@ class JLanguage
 			/* Class exists. Try to find
 			 * -a transliterate method,
 			 * -a getPluralSuffixes method,
+			 * -a getAllPluralSuffixes method,
 			 * -a getIgnoredSearchWords method
 			 * -a getLowerLimitSearchWord method
 			 * -a getUpperLimitSearchWord method
@@ -256,6 +265,11 @@ class JLanguage
 			if (method_exists($class, 'getPluralSuffixes'))
 			{
 				$this->pluralSuffixesCallback = array($class, 'getPluralSuffixes');
+			}
+
+			if (method_exists($class, 'getAllPluralSuffixes'))
+			{
+				$this->allPluralSuffixesCallback = array($class, 'getAllPluralSuffixes');
 			}
 
 			if (method_exists($class, 'getIgnoredSearchWords'))
@@ -449,6 +463,25 @@ class JLanguage
 		else
 		{
 			return array((string) $count);
+		}
+	}
+
+	/**
+	 * Returns an array of all suffixes for plural rules.
+	 *
+	 * @return  array    The array of suffixes.
+	 *
+	 * @since   __DEPLOY_VERSION_
+	 */
+	public function getAllPluralSuffixes()
+	{
+		if ($this->pluralSuffixesCallback !== null)
+		{
+			return call_user_func($this->allPluralSuffixesCallback);
+		}
+		else
+		{
+			return array();
 		}
 	}
 

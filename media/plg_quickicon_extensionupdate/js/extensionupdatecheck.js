@@ -12,37 +12,35 @@ jQuery(document).ready(function() {
                 var updateInfoList = jQuery.parseJSON(data);
             } catch (e) {
                 // An error occurred
-                link.html(plg_quickicon_extensionupdate_text.ERROR);
+                link.html(Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR'));
             }
 
             if (updateInfoList instanceof Array) {
-                if (updateInfoList.length == 0) {
+                var updateInfoListCount = updateInfoList.length;
+                if (updateInfoListCount === 0) {
                     // No updates
-                    link.html(plg_quickicon_extensionupdate_text.UPTODATE);
+                    link.html(Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE'));
                 } else {
-                    var updateString = updateInfoList.length==1 ?
-                        plg_quickicon_extensionupdate_text.UPDATEFOUND_MESSAGE_SINGLE.replace("%s", 1) :
-                        plg_quickicon_extensionupdate_text.UPDATEFOUND_MESSAGE.replace("%s", updateInfoList.length);
+                    var updateString = Joomla.JText.plural('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', updateInfoListCount);
+                    updateString = updateString.replace("%s", updateInfoListCount.toString());
                     jQuery('#system-message-container').prepend(
                         '<div class="alert alert-error alert-joomlaupdate">'
                         + updateString
                         + ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_extensionupdate_url + '\'">'
-                        + (updateInfoList.length==1 ? plg_quickicon_extensionupdate_text.UPDATEFOUND_BUTTON_SINGLE : plg_quickicon_extensionupdate_text.UPDATEFOUND_BUTTON) + '</button>'
+                        + Joomla.JText.plural('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', updateInfoListCount) + '</button>'
                         + '</div>'
                     );
-                    var updateString = updateInfoList.length==1 ?
-                        plg_quickicon_extensionupdate_text.UPDATEFOUND_SINGLE.replace("%s", 1):
-                        plg_quickicon_extensionupdate_text.UPDATEFOUND.replace("%s", updateInfoList.length);
+                    var updateString = Joomla.JText.plural('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', updateInfoListCount).replace("%s", updateInfoListCount.toString());
                     link.html(updateString);
                 }
             } else {
                 // An error occurred
-                link.html(plg_quickicon_extensionupdate_text.ERROR);
+                link.html(Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR'));
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
             // An error occurred
-            jQuery('#plg_quickicon_extensionupdate').find('span.j-links-link').html(plg_quickicon_extensionupdate_text.ERROR);
+            jQuery('#plg_quickicon_extensionupdate').find('span.j-links-link').html(Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR'));
         },
         url: plg_quickicon_extensionupdate_ajax_url + '&eid=0&skip=700'
     };
