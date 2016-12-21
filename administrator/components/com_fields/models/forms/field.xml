@@ -28,7 +28,7 @@
 			label="COM_FIELDS_FIELD_GROUP_LABEL"
 			description="COM_FIELDS_FIELD_GROUP_DESC"
 		>
-			<option value="0"></option>
+			<option value="0">JNONE</option>
 		</field>
 
 		<field
