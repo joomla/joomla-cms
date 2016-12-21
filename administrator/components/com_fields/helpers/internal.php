@@ -14,7 +14,7 @@ JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 /**
  * Fields component helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsHelperInternal
 {
@@ -26,7 +26,7 @@ class FieldsHelperInternal
 	 *
 	 * @return  void
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    3.7.0
 	 */
 	public static function addSubmenu ($context, $vName)
 	{
@@ -75,7 +75,7 @@ class FieldsHelperInternal
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function canEditFieldValue($field)
 	{
@@ -89,7 +89,7 @@ class FieldsHelperInternal
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function loadPlugins()
 	{

@@ -28,7 +28,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		if (task == "newsfeed.cancel" || document.formvalidator.isValid(document.getElementById("newsfeed-form"))) {
 			Joomla.submitform(task, document.getElementById("newsfeed-form"));
 
-			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
+			// @deprecated 4.0  The following js is not needed since 3.7.0.
 			if (task !== "newsfeed.apply")
 			{
 				window.parent.jQuery("#newsfeedEdit' . $this->item->id . 'Modal").modal("hide");

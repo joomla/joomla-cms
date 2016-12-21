@@ -872,7 +872,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function updateDates($db)
 	{
