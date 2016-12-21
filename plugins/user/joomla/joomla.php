@@ -234,7 +234,7 @@ class PlgUserJoomla extends CMSPlugin
 		// Load the logged in user to the application
 		$this->app->loadIdentity($instance);
 
-		$session = Factory::getSession();
+		$session = $this->app->getSession();
 
 		// Grab the current session ID
 		$oldSessionId = $session->getId();
@@ -245,8 +245,11 @@ class PlgUserJoomla extends CMSPlugin
 		// Register the needed session variables
 		$session->set('user', $instance);
 
-		// Ensure the new session's metadata is written to the database
-		$this->app->checkSession();
+		// Update the user related fields for the Joomla sessions table if tracking session metadata.
+		if ($this->app->get('session_metadata', true))
+		{
+			$this->app->checkSession();
+		}
 
 		// Purge the old session
 		$query = $this->db->getQuery(true)
@@ -315,8 +318,8 @@ class PlgUserJoomla extends CMSPlugin
 			$session->destroy();
 		}
 
-		// Enable / Disable Forcing logout all users with same userid
-		$forceLogout = $this->params->get('forceLogout', 1);
+		// Enable / Disable Forcing logout all users with same userid, but only if session metadata is tracked
+		$forceLogout = $this->params->get('forceLogout', 1) && $this->app->get('session_metadata', true);
 
 		if ($forceLogout)
 		{
