@@ -48,8 +48,6 @@ class JFormFieldAuthor extends JFormAbstractlist
 		{
 			static::$options[$hash] = parent::getOptions();
 
-			$options = array();
-
 			$db = JFactory::getDbo();
 
 			// Construct the query

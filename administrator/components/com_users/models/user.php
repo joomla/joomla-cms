@@ -916,7 +916,6 @@ class UsersModelUser extends JModelAdmin
 		{
 			$result   = array();
 			$form     = $this->getForm();
-			$groupIDs = array();
 
 			if ($form)
 			{
