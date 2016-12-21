@@ -8805,6 +8805,15 @@ textarea.noResize {
 .hero-unit .lead {
 	font-weight: 400;
 }
+#menu-assignment .menu-links {
+	margin-left: 0;
+}
+#menu-assignment .menu-links-block {
+	background-color: #fafafa;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 15px;
+}
 .pull-right {
 	float: left;
 }
