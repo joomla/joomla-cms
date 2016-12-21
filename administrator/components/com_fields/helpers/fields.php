@@ -325,7 +325,7 @@ class FieldsHelper
 			return true;
 		}
 
-		$fieldDescriptions = FieldsHelperInternal::getFieldDescriptions();
+		$fieldSpecifications = FieldsHelperInternal::getFieldsSpecification();
 
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');
@@ -339,7 +339,7 @@ class FieldsHelper
 
 		foreach ($fields as $field)
 		{
-			if (!array_key_exists($field->type, $fieldDescriptions))
+			if (!array_key_exists($field->type, $fieldSpecifications))
 			{
 				// Field type is not available
 				continue;
@@ -350,7 +350,7 @@ class FieldsHelper
 				$fieldsPerGroup[$field->group_id] = array();
 			}
 
-			if ($path = $fieldDescriptions[$field->type]['path'])
+			if ($path = $fieldSpecifications[$field->type]['path'])
 			{
 				// Add the lookup path for the field
 				JFormHelper::addFieldPath($path);

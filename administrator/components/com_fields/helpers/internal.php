@@ -85,9 +85,9 @@ class FieldsHelperInternal
 	}
 
 	/**
-	 * Loads the fields plugins and returns an array of field descriptions from the plugins.
+	 * Loads the fields plugins and returns an array of field specifications from the plugins.
 	 *
-	 * The returned array contains arrays with the following values:
+	 * The returned array contains arrays with the following keys:
 	 * - label: The label of the field
 	 * - type:  The type of the field
 	 * - path:  The path of the folder where the field can be found
@@ -96,7 +96,7 @@ class FieldsHelperInternal
 	 *
 	 * @since   3.7.0
 	 */
-	public static function getFieldDescriptions()
+	public static function getFieldsSpecification()
 	{
 		JPluginHelper::importPlugin('fields');
 		$eventData = JEventDispatcher::getInstance()->trigger('onGetCustomFields');
