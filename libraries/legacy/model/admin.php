@@ -1322,7 +1322,6 @@ abstract class JModelAdmin extends JModelForm
 			}
 			elseif ($table->$orderingField != $order[$i])
 			{
-
 				$table->$orderingField = $order[$i];
 
 				if ($type)
