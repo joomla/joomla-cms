@@ -1297,6 +1297,7 @@ class JTableNested extends JTable
 
 			// If the table has an ordering field, use that for ordering.
 			$orderingField = $this->getColumnAlias('ordering');
+
 			if (property_exists($this, $orderingField))
 			{
 				$query->order('parent_id, ' . $this->_db->quoteName($orderingField) . ', lft');
