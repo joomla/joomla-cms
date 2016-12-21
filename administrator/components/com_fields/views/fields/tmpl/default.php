@@ -141,6 +141,14 @@ if ($saveOrder)
 											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 										<?php endif; ?>
 									</span>
+									<div class="small">
+										<?php echo JText::_('JCATEGORY') . ': '; ?>
+										<?php if ($categories = FieldsHelper::getAssignedCategoriesTitles($item->id)) : ?>
+											<?php echo implode(', ', $categories); ?>
+										<?php else: ?>
+											<?php echo JText::_('JALL'); ?>
+										<?php endif; ?>
+									</div>
 								</div>
 							</td>
 							<td class="small">
