@@ -358,6 +358,12 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
+		if (isset($data['type']))
+		{
+			// This is needed that the plugins can determine the type
+			$this->setState('field.type', $data['type']);
+		}
+
 		// Load the fields plugin that they can add additional parameters to the form
 		JPluginHelper::importPlugin('fields');
 
@@ -366,7 +372,7 @@ class FieldsModelField extends JModelAdmin
 			'com_fields.field' . $context, 'field',
 			array(
 				'control'   => 'jform',
-				'load_data' => $loadData,
+				'load_data' => true,
 			)
 		);
 
@@ -706,7 +712,7 @@ class FieldsModelField extends JModelAdmin
 				);
 
 				// Set the type if available from the request
-				$data->set('type', $app->input->getWord('type', $data->get('type')));
+				$data->set('type', $app->input->getWord('type', $this->state->get('field.type', $data->get('type'))));
 			}
 
 			if ($data->label && !isset($data->params['label']))

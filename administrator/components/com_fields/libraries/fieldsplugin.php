@@ -18,7 +18,7 @@ abstract class FieldsPlugin extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Returns the custom fields specification.
+	 * Returns the custom fields types.
 	 *
 	 * @return  string[][]
 	 *
@@ -43,6 +43,31 @@ abstract class FieldsPlugin extends JPlugin
 
 		// Return the data
 		return array($data);
+	}
+
+	/**
+	 * Prepares the field value.
+	 *
+	 * @param   string    $context  The context.
+	 * @param   stdclass  $item     The item.
+	 * @param   stdclass  $field    The field.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onCustomFieldsPrepareField($context, $item, $field)
+	{
+		// Check if the field should be processed by us
+		if ($field->type != $this->_name)
+		{
+			return;
+		}
+
+		$path = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts';
+
+		// Prepare the value from the type layout
+		return JLayoutHelper::render('field.prepare.' . $field->type, array('field' => $field), $path);
 	}
 
 	/**

@@ -143,29 +143,30 @@ class FieldsHelper
 
 				if ($prepareValue)
 				{
-					$value = null;
+					JPluginHelper::importPlugin('fields');
 
-					/*
-					 * On before field prepare
-					 * Event allow plugins to modfify the output of the field before it is prepared
-					 */
 					$dispatcher = JEventDispatcher::getInstance();
-					$dispatcher->trigger('onFieldBeforePrepare', array($context, $item, &$field));
 
-					// Prepare the value from the type layout
-					$value = self::render($context, 'field.prepare.' . $field->type, array('field' => $field));
+					// Event allow plugins to modfify the output of the field before it is prepared
+					$dispatcher->trigger('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
+
+					// Gathering the value for the field
+					$value = $dispatcher->trigger('onCustomFieldsPrepareField', array($context, $item, &$field));
 
 					// If the value is empty, render the base layout
 					if (! $value)
 					{
 						$value = self::render($context, 'field.prepare.base', array('field' => $field));
 					}
+					elseif (is_array($value))
+					{
+						$value = implode($value, ' ');
+					}
 
-					/*
-					 * On after field render
-					 * Event allow plugins to modfify the output of the prepared field
-					 */
-					$dispatcher->trigger('onFieldAfterPrepare', array($context, $item, $field, &$value));
+					// Event allow plugins to modfify the output of the prepared field
+					$dispatcher->trigger('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
+
+					// Assign the value
 					$field->value = $value;
 				}
 
@@ -211,15 +212,6 @@ class FieldsHelper
 		{
 			// Trying to render the layout on Fields itself
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
-		}
-
-		if ($value == '')
-		{
-			// Trying to render the layout of the plugins
-			foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
-			{
-				$value = JLayoutHelper::render($layoutFile, $displayData, $folder['fullname'] . '/layouts');
-			}
 		}
 
 		return $value;
