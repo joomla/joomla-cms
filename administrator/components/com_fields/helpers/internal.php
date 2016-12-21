@@ -99,7 +99,7 @@ class FieldsHelperInternal
 	public static function getFieldsSpecification()
 	{
 		JPluginHelper::importPlugin('fields');
-		$eventData = JEventDispatcher::getInstance()->trigger('onGetCustomFields');
+		$eventData = JEventDispatcher::getInstance()->trigger('onGetCustomFieldTypes');
 
 		$data = array();
 

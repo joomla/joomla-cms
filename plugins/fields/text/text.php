@@ -12,13 +12,20 @@ defined('_JEXEC') or die;
 /**
  * Fields Text Plugin
  *
- * @since  3.7.0
+ * @since  __DEPLOY_VERSION__
  */
 class PlgFieldsText extends JPlugin
 {
 	protected $autoloadLanguage = true;
 
-	public function onGetCustomFields()
+	/**
+	 * Returns the custom fields specification.
+	 *
+	 * @return  string[][]
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onGetCustomFieldTypes()
 	{
 		$data = array('type' => 'text', 'label' => JText::_('PLG_FIELDS_TEXT_LABEL'));
 		return array($data);
@@ -32,7 +39,7 @@ class PlgFieldsText extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentPrepareForm(JForm $form, $data)
 	{
@@ -41,15 +48,17 @@ class PlgFieldsText extends JPlugin
 			return;
 		}
 
-		// Gather the type
-		$type = $form->getValue('type') ? : 'text';
+		$formData = (object)$data;
 
-		if(isset($data->type) && $data->type)
+		// Gather the type
+		$type = $form->getValue('type') ? : $this->_name;
+
+		if(isset($formData->type) && $formData->type)
 		{
-			$type = $data->type;
+			$type = $formData->type;
 		}
 
-		if ($type != 'text')
+		if ($type != $this->_name)
 		{
 			return;
 		}
