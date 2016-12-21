@@ -15,17 +15,4 @@ defined('JPATH_PLATFORM') or die();
  */
 interface JFormDomfieldinterface
 {
-	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
-	 *
-	 * @param   stdClass    $field   The field.
-	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   JForm       $form    The form.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	public function appendXMLFieldTag($field, DOMElement $parent, JForm $form);
 }

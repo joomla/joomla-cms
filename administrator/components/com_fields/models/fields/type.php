@@ -50,11 +50,11 @@ class JFormFieldType extends JFormAbstractlist
 	{
 		$options = parent::getOptions();
 
-		$fieldSpecifications = FieldsHelperInternal::getFieldTypes();
+		$fieldTypes = FieldsHelperInternal::getFieldTypes();
 
-		foreach ($fieldSpecifications as $fieldSpecification)
+		foreach ($fieldTypes as $fieldType)
 		{
-			$options[] = JHtml::_('select.option', $fieldSpecification['type'], $fieldSpecification['label']);
+			$options[] = JHtml::_('select.option', $fieldType['type'], $fieldType['label']);
 		}
 
 		// Sorting the fields based on the text which is displayed

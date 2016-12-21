@@ -325,7 +325,7 @@ class FieldsHelper
 			return true;
 		}
 
-		$fieldSpecifications = FieldsHelperInternal::getFieldTypes();
+		$fieldTypes = FieldsHelperInternal::getFieldTypes();
 
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');
@@ -339,7 +339,7 @@ class FieldsHelper
 
 		foreach ($fields as $field)
 		{
-			if (!array_key_exists($field->type, $fieldSpecifications))
+			if (!array_key_exists($field->type, $fieldTypes))
 			{
 				// Field type is not available
 				continue;
@@ -350,7 +350,7 @@ class FieldsHelper
 				$fieldsPerGroup[$field->group_id] = array();
 			}
 
-			if ($path = $fieldSpecifications[$field->type]['path'])
+			if ($path = $fieldTypes[$field->type]['path'])
 			{
 				// Add the lookup path for the field
 				JFormHelper::addFieldPath($path);
@@ -425,33 +425,17 @@ class FieldsHelper
 			// Looping trough the fields for that context
 			foreach ($groupFields as $field)
 			{
-				// Creating the XML form data
-				$type = JFormHelper::loadFieldType($field->type);
-
-				if (!$type)
-				{
-					continue;
-				}
-
 				try
 				{
-					// Rendering the type
-					$node = $type->appendXMLFieldTag($field, $fieldset, $form);
-
-					if (!FieldsHelperInternal::canEditFieldValue($field))
-					{
-						$node->setAttribute('disabled', 'true');
-					}
+					JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
 
 					/*
-					 *If the field belongs to a assigned_cat_ids but the
-					 * assigned_cat_ids in the data is not known, set the
-					 * required
-					 * flag to false on any circumstance
+					 * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
+					 * is not known, set the required flag to false on any circumstance.
 					 */
-					if (! $assignedCatids && $field->assigned_cat_ids)
+					if (! $assignedCatids && $field->assigned_cat_ids && $form->getField($field->alias))
 					{
-						$node->setAttribute('required', 'false');
+						$form->setFieldAttribute($field->alias, 'required', 'false');
 					}
 				}
 				catch (Exception $e)

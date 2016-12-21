@@ -260,7 +260,11 @@ class FieldsModelField extends JModelAdmin
 			$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 		}
 
-		return JTable::getInstance($name, $prefix, $options);
+		// Default to text type
+		$table       = JTable::getInstance($name, $prefix, $options);
+		$table->type = 'text';
+
+		return $table;
 	}
 
 	/**

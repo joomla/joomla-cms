@@ -85,7 +85,7 @@ class FieldsHelperInternal
 	}
 
 	/**
-	 * Loads the fields plugins and returns an array of field specifications from the plugins.
+	 * Loads the fields plugins and returns an array of field types from the plugins.
 	 *
 	 * The returned array contains arrays with the following keys:
 	 * - label: The label of the field
@@ -99,7 +99,7 @@ class FieldsHelperInternal
 	public static function getFieldTypes()
 	{
 		JPluginHelper::importPlugin('fields');
-		$eventData = JEventDispatcher::getInstance()->trigger('onGetCustomFieldTypes');
+		$eventData = JEventDispatcher::getInstance()->trigger('onCustomFieldsGetTypes');
 
 		$data = array();
 
