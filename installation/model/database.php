@@ -90,7 +90,7 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	public function initialise($options)
 	{
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Load the backend language files so that the DB error messages work.
@@ -214,7 +214,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Check database version.
@@ -428,7 +428,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Set the character set to UTF-8 for pre-existing databases.
@@ -477,7 +477,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Check database type.
@@ -716,7 +716,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Build the path to the sample data file.
@@ -747,7 +747,7 @@ class InstallationModelDatabase extends JModelBase
 				return false;
 			}
 
-			$this->postInstallSampleData($db);
+			$this->postInstallSampleData($db, $options->sample_file);
 		}
 
 		return true;
@@ -756,16 +756,23 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Sample data tables and data post install process.
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   JDatabaseDriver  $db              Database connector object $db*.
+	 * @param   string           $sampleFileName  The sample dats filename.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postInstallSampleData($db)
+	protected function postInstallSampleData($db, $sampleFileName = '')
 	{
 		// Update the sample data user ids.
 		$this->updateUserIds($db);
+
+		// If not joomla sample data for testing, update the sample data dates.
+		if ($sampleFileName !== 'sample_testing.sql')
+		{
+			$this->updateDates($db);
+		}
 	}
 
 	/**
@@ -805,8 +812,11 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected function postInstallCmsData($db)
 	{
-		// Update the sample data user ids.
+		// Update the cms data user ids.
 		$this->updateUserIds($db);
+
+		// Update the cms data dates.
+		$this->updateDates($db);
 	}
 
 	/**
@@ -823,22 +833,23 @@ class InstallationModelDatabase extends JModelBase
 		// Create the ID for the root user.
 		$userId = self::getUserId();
 
-		// Update all created_by field of the tables with the random user id
-		// categories (created_user_id), contact_details, content, newsfeeds.
-		$updates_array = array(
-			'categories'      => 'created_user_id',
-			'contact_details' => 'created_by',
-			'content'         => 'created_by',
-			'newsfeeds'       => 'created_by',
-			'tags'            => 'created_user_id',
-			'ucm_content'     => 'core_created_user_id',
-			'ucm_history'     => 'editor_user_id',
+		// Update all core tables created_by fields of the tables with the random user id.
+		$updatesArray = array(
+			'#__banners'         => 'created_by',
+			'#__categories'      => 'created_user_id',
+			'#__contact_details' => 'created_by',
+			'#__content'         => 'created_by',
+			'#__newsfeeds'       => 'created_by',
+			'#__tags'            => 'created_user_id',
+			'#__ucm_content'     => 'core_created_user_id',
+			'#__ucm_history'     => 'editor_user_id',
+			'#__user_notes'      => 'created_user_id',
 		);
 
-		foreach ($updates_array as $table => $field)
+		foreach ($updatesArray as $table => $field)
 		{
 			$query = $db->getQuery(true)
-				->update($db->quoteName('#__' . $table))
+				->update($db->quoteName($table))
 				->set($db->quoteName($field) . ' = ' . $db->quote($userId));
 
 			$db->setQuery($query);
@@ -850,6 +861,65 @@ class InstallationModelDatabase extends JModelBase
 			catch (RuntimeException $e)
 			{
 				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			}
+		}
+	}
+
+	/**
+	 * Method to update the dates of sql data content to the current date.
+	 *
+	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.7.0
+	 */
+	protected function updateDates($db)
+	{
+		// Get the current date.
+		$currentDate = JFactory::getDate()->toSql();
+		$nullDate    = $db->getNullDate();
+
+		// Update all core tables date fields of the tables with the current date.
+		$updatesArray = array(
+			'#__banners'             => array('publish_up', 'publish_down', 'reset', 'created', 'modified'),
+			'#__banner_tracks'       => array('track_date'),
+			'#__categories'          => array('created_time', 'modified_time'),
+			'#__contact_details'     => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__content'             => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__contentitem_tag_map' => array('tag_date'),
+			'#__finder_filters'      => array('created', 'modified'),
+			'#__finder_links'        => array('indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'),
+			'#__messages'            => array('date_time'),
+			'#__modules'             => array('publish_up', 'publish_down'),
+			'#__newsfeeds'           => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__redirect_links'      => array('created_date', 'modified_date'),
+			'#__tags'                => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
+			'#__ucm_content'         => array('core_created_time', 'core_modified_time', 'core_publish_up', 'core_publish_down'),
+			'#__ucm_history'         => array('save_date'),
+			'#__users'               => array('registerDate', 'lastvisitDate', 'lastResetTime'),
+			'#__user_notes'          => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
+		);
+
+		foreach ($updatesArray as $table => $fields)
+		{
+			foreach ($fields as $field)
+			{
+				$query = $db->getQuery(true)
+					->update($db->quoteName($table))
+					->set($db->quoteName($field) . ' = ' . $db->quote($currentDate))
+					->where($db->quoteName($field) . ' != ' . $db->quote($nullDate));
+
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
 			}
 		}
 	}

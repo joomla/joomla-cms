@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+	<fieldset
+		addfieldpath="/administrator/components/com_categories/models/fields"
+	>
 		<field
 			name="id"
 			type="hidden"
@@ -22,12 +24,16 @@
 
 		<field
 			name="catid"
-			type="category"
+			type="modal_category"
+			label="COM_USERS_FIELD_CATEGORY_ID_LABEL"
+			description="JFIELD_CATEGORY_DESC"
 			extension="com_users"
 			required="true"
-			label="COM_USERS_FIELD_CATEGORY_ID_LABEL"
-			description="JFIELD_CATEGORY_DESC" >
-		</field>
+			select="true"
+			new="true"
+			edit="true"
+			clear="true"
+		/>
 
 		<field
 			name="subject"

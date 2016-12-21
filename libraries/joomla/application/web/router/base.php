@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Basic Web application router class for the Joomla Platform.
  *
- * @since  12.2
+ * @since       12.2
+ * @deprecated  3.7.0  Use the `joomla/router` package via Composer instead
  */
 class JApplicationWebRouterBase extends JApplicationWebRouter
 {

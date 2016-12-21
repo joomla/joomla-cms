@@ -54,7 +54,7 @@ $saveOrder = $listOrder == 'ordering';
 				<option value=""><?php echo JText::_('COM_PLUGINS_OPTION_FOLDER');?></option>
 				<?php echo JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'));?>
 			</select>
-            <label class="selectlabel" for="filter_access">
+            		<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
 			<select name="filter_access" id="filter_access">
@@ -82,7 +82,7 @@ $saveOrder = $listOrder == 'ordering';
 				</th>
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
-					<?php if ($canOrder && $saveOrder) :?>
+					<?php if ($canOrder && $saveOrder) : ?>
 						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'plugins.saveorder'); ?>
 					<?php endif; ?>
 				</th>
@@ -93,7 +93,7 @@ $saveOrder = $listOrder == 'ordering';
 				<th class="nowrap width-10">
 					<?php echo JHtml::_('grid.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'element', $listDirn, $listOrder); ?>
 				</th>
-                <th class="title access-col">
+                		<th class="title access-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap id-col">

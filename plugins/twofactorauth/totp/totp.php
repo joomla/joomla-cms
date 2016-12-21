@@ -50,11 +50,11 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$app = JFactory::getApplication();
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				$current_section = 2;
 			}
-			elseif ($app->isSite())
+			elseif ($app->isClient('site'))
 			{
 				$current_section = 1;
 			}
@@ -110,7 +110,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		$url = $totp->getUrl($username, $hostname, $secret);
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
-		$new_totp = $otpConfig->method != 'totp';
+		$new_totp = $otpConfig->method !== 'totp';
 
 		// Start output buffering
 		@ob_start();

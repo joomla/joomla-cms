@@ -97,17 +97,13 @@ class TestMockDatabaseDriver
 			'updateObject',
 		));
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JDatabaseDriver' . $driver,
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JDatabaseDriver' . $driver)
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		// Mock selected methods.
 		$test->assignMockReturns(

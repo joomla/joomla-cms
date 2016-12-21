@@ -139,7 +139,7 @@ class JFormFieldRules extends JFormField
 		JHtml::_('bootstrap.tooltip');
 
 		// Add Javascript for permission change
-		JHtml::_('script', 'system/permissions.js', false, true);
+		JHtml::_('script', 'system/permissions.js', array('version' => 'auto', 'relative' => true));
 
 		// Load JavaScript message titles
 		JText::script('ERROR');
@@ -432,7 +432,7 @@ class JFormFieldRules extends JFormField
 		$html[] = '<div class="clr"></div>';
 		$html[] = '<div class="alert">';
 
-		if ($section === 'component' || $section === null)
+		if ($section === 'component' || !$section)
 		{
 			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
 		}

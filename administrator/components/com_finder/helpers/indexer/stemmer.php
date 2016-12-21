@@ -63,7 +63,7 @@ abstract class FinderIndexerStemmer
 		}
 
 		// Instantiate the stemmer.
-		include_once $path;
+		JLoader::register($class, $path);
 		$instances[$adapter] = new $class;
 
 		return $instances[$adapter];

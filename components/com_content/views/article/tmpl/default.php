@@ -18,7 +18,11 @@ $urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
 $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
+
+// Check if associations are implemented. If they are, define the parameter.
+$assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associations'));
 JHtml::_('behavior.caption');
+
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language; ?>" />
@@ -35,7 +39,7 @@ JHtml::_('behavior.caption');
 
 	<?php // Todo Not that elegant would be nice to group the params ?>
 	<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
-	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') ); ?>
+	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
 
 	<?php if (!$useDefList && $this->print) : ?>
 		<div id="pop-print" class="btn hidden-print">
@@ -92,17 +96,10 @@ JHtml::_('behavior.caption');
 		|| (empty($urls->urls_position) && (!$params->get('urls_position')))) : ?>
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
-	<?php if ($params->get('access-view')):?>
-	<?php if (isset($images->image_fulltext) && !empty($images->image_fulltext)) : ?>
-	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
-	<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
-	<?php if ($images->image_fulltext_caption):
-		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_fulltext_caption) . '"';
-	endif; ?>
-	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>" itemprop="image"/> </div>
-	<?php endif; ?>
+	<?php if ($params->get('access-view')) : ?>
+	<?php echo JLayoutHelper::render('joomla.content.full_image', $this->item); ?>
 	<?php
-	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):
+	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative) :
 		echo $this->item->pagination;
 	endif;
 	?>
@@ -124,7 +121,7 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 
 	<?php
-	if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && !$this->item->paginationrelative):
+	if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && !$this->item->paginationrelative) :
 		echo $this->item->pagination;
 	?>
 	<?php endif; ?>
@@ -134,7 +131,7 @@ JHtml::_('behavior.caption');
 	<?php // Optional teaser intro text for guests ?>
 	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
-	<?php echo JHtml::_('content.prepare', $this->item->introtext); ?>	
+	<?php echo JHtml::_('content.prepare', $this->item->introtext); ?>
 	<?php // Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
 	<?php $menu = JFactory::getApplication()->getMenu(); ?>
@@ -151,13 +148,13 @@ JHtml::_('behavior.caption');
 		elseif ($readmore = $attribs->alternative_readmore) :
 			echo $readmore;
 			if ($params->get('show_readmore_title', 0) != 0) :
-				echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+				echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 			endif;
 		elseif ($params->get('show_readmore_title', 0) == 0) :
 			echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
 		else :
 			echo JText::_('COM_CONTENT_READ_MORE');
-			echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+			echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 		endif; ?>
 		</a>
 	</p>

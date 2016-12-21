@@ -9,15 +9,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides a select list of help sites.
  *
  * @since  1.6
  */
-class JFormFieldHelpsite extends JFormFieldList
+class JFormFieldHelpsite extends JFormAbstractlist
 {
 	/**
 	 * The form field type.
@@ -51,7 +49,7 @@ class JFormFieldHelpsite extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		JHtml::script('system/helpsite.js', false, true);
+		JHtml::_('script', 'system/helpsite.js', array('version' => 'auto', 'relative' => true));
 
 		$showDefault = $this->getAttribute('showDefault') === 'false' ? 'false' : 'true';
 

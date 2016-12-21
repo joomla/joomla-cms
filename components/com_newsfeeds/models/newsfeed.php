@@ -127,20 +127,17 @@ class NewsfeedsModelNewsfeed extends JModelItem
 
 				// Check for published state if filter set.
 
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->published != $published) && ($data->published != $archived)))
+				if ((is_numeric($published) || is_numeric($archived)) && (($data->published != $published) && ($data->published != $archived)))
 				{
 					JError::raiseError(404, JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'));
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new Registry;
-				$registry->loadString($data->params);
+				$registry = new Registry($data->params);
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new Registry;
-				$registry->loadString($data->metadata);
-				$data->metadata = $registry;
+				$data->metadata = new Registry($data->metadata);
 
 				// Compute access permissions.
 

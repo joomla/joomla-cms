@@ -38,6 +38,20 @@ class ContactHelper extends JHelperContent
 			'index.php?option=com_categories&extension=com_contact',
 			$vName == 'categories'
 		);
+
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_contact')->get('custom_fields_enable', '1'))
+		{
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELDS'),
+				'index.php?option=com_fields&context=com_contact.contact',
+				$vName == 'fields.fields'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELD_GROUPS'),
+				'index.php?option=com_fields&view=groups&context=com_contact.contact',
+				$vName == 'fields.groups'
+			);
+		}
 	}
 
 	/**
@@ -92,5 +106,93 @@ class ContactHelper extends JHelperContent
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Adds Count Items for Tag Manager.
+	 *
+	 * @param   stdClass[]  &$items     The banner tag objects
+	 * @param   string      $extension  The name of the active view.
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6
+	 */
+	public static function countTagItems(&$items, $extension)
+	{
+		$db = JFactory::getDbo();
+		$parts     = explode('.', $extension);
+		$component = $parts[0];
+		$section   = null;
+		if (count($parts) > 1)
+		{
+			$section = $parts[1];
+		}
+		$join = $db->qn('#__contact_details') . ' AS c ON ct.content_item_id=c.id';
+		if ($section === 'category')
+		{
+			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
+		}
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('published as state, count(*) AS count')
+				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->where('ct.tag_id = ' . (int) $item->id)
+				->where('ct.type_alias =' . $db->q($extension))
+				->join('LEFT', $join)
+				->group('published');
+
+			$db->setQuery($query);
+			$contacts = $db->loadObjectList();
+
+			foreach ($contacts as $contact)
+			{
+				if ($contact->state == 1)
+				{
+					$item->count_published = $contact->count;
+				}
+
+				if ($contact->state == 0)
+				{
+					$item->count_unpublished = $contact->count;
+				}
+
+				if ($contact->state == 2)
+				{
+					$item->count_archived = $contact->count;
+				}
+
+				if ($contact->state == -2)
+				{
+					$item->count_trashed = $contact->count;
+				}
+			}
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public static function getContexts()
+	{
+		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_contact.contact' => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
+			'com_contact.mail' => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+		);
+
+		return $contexts;
 	}
 }

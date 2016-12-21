@@ -54,7 +54,7 @@ JHtml::_('behavior.modal');
 
 // Include jQuery
 JHtml::_('jquery.framework');
-JHtml::_('script', 'media/mediafield-mootools.min.js', true, true, false, false, true);
+JHtml::_('script', 'media/mediafield-mootools.min.js', array('version' => 'auto', 'relative' => true, 'framework' => true));
 
 // Tooltip for INPUT showing whole image path
 $options = array(

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Menu Types table
  *
- * @since  11.1
+ * @since  1.6
  */
 class JTableMenuType extends JTable
 {
@@ -21,7 +21,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since  11.1
+	 * @since   1.6
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -34,7 +34,7 @@ class JTableMenuType extends JTable
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @see     JTable::check()
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function check()
 	{
@@ -81,7 +81,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
 	{
@@ -162,7 +162,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function delete($pk = null)
 	{

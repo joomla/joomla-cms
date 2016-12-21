@@ -5,6 +5,7 @@
 		name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
+		addfieldpath="/administrator/components/com_fields/models/fields"
 		>
 
 		<field
@@ -73,6 +74,31 @@
 			<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
 			<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
 			<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
+		</field>
+
+		<field
+			name="show_tags"
+			type="radio"
+			label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
+			description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
+			id="show_tags"
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+
+		<field
+			name="show_info"
+			type="radio"
+			label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
+			description="COM_CONTACT_FIELD_SHOW_INFO_DESC"
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -220,10 +246,10 @@
 		</field>
 
 		<field
-			name="show_misc"
+			name="show_image"
 			type="radio"
-			label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
+			label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
+			description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
 			>
@@ -232,10 +258,10 @@
 		</field>
 
 		<field
-			name="show_image"
+			name="show_misc"
 			type="radio"
-			label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
+			label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
+			description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
 			>
@@ -313,6 +339,17 @@
 		</field>
 
 		<field
+			name="show_user_custom_fields"
+			type="fieldgroups"
+			multiple="true"
+			context="com_users.user"
+			label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
+			description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
+			>
+			<option value="-1">JALL</option>
+		</field>
+
+		<field
 			name="show_links"
 			type="radio"
 			label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
@@ -369,18 +406,6 @@
 			showon="show_links:1"
 		/>
 
-		<field
-			name="show_tags"
-			type="radio"
-			label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
-			id="show_tags"
-			default="1"
-			class="btn-group btn-group-yesno"
-			>
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
 	</fieldset>
 
 	<fieldset
@@ -971,6 +996,44 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+
+		<field
+			name="sef_advanced"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SEF_ADVANCED_LABEL"
+			description="JGLOBAL_SEF_ADVANCED_DESC"
+			filter="integer">
+			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
+			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
+		</field>
+
+		<field
+			name="sef_ids"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SEF_NOIDS_LABEL"
+			description="JGLOBAL_SEF_NOIDS_DESC"
+			showon="sef_advanced:1"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="custom_fields_enable"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset

@@ -42,7 +42,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 			if ($showOnData = $field->getAttribute('dataShowOn'))
 			{
 				JHtml::_('jquery.framework');
-				JHtml::_('script', 'jui/cms.js', false, true);
+				JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
 				$showOn = " data-showon='" . $showOnData . "'";
 			}
 			?>

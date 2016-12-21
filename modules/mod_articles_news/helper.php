@@ -55,11 +55,25 @@ abstract class ModArticlesNewsHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
+		//  Featured switch
+		switch ($params->get('show_featured'))
+		{
+			case '1' :
+				$model->setState('filter.featured', 'only');
+				break;
+			case '0' :
+				$model->setState('filter.featured', 'hide');
+				break;
+			default :
+				$model->setState('filter.featured', 'show');
+				break;
+		}
+		
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
 
-		if (trim($ordering) == 'rand()')
+		if (trim($ordering) === 'rand()')
 		{
 			$model->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
 		}
@@ -77,6 +91,8 @@ abstract class ModArticlesNewsHelper
 		{
 			$item->readmore = strlen(trim($item->fulltext));
 			$item->slug     = $item->id . ':' . $item->alias;
+
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
 			$item->catslug  = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))

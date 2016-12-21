@@ -31,7 +31,7 @@ JText::script('JGLOBAL_LOOKING_FOR');
 
 // Include jQuery
 JHtml::_('jquery.framework');
-JHtml::_('script', 'jui/ajax-chosen.min.js', false, true, false, false, $debug);
+JHtml::_('script', 'jui/ajax-chosen.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 JFactory::getDocument()->addScriptDeclaration(
 	"

@@ -67,6 +67,12 @@ class JUri extends Uri
 				{
 					$https = 's://';
 				}
+				elseif ((isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+					!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+					(strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) !== 'http')))
+				{
+					$https = 's://';
+				}
 				else
 				{
 					$https = '://';

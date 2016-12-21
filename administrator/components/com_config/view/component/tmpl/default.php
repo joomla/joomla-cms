@@ -15,6 +15,7 @@ $template = $app->getTemplate();
 // Load the tooltip behavior.
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
 // Load JS message titles
@@ -58,7 +59,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					<?php $rel = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>
 						<?php JHtml::_('jquery.framework'); ?>
-						<?php JHtml::_('script', 'jui/cms.js', false, true); ?>
+						<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
 						<?php $showonarr = array(); ?>
 						<?php foreach (preg_split('%\[AND\]|\[OR\]%', $fieldSet->showon) as $showonfield) : ?>
 							<?php $showon = explode(':', $showonfield, 2); ?>
@@ -87,7 +88,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							<?php $datashowon = ''; ?>
 							<?php if ($showonstring = $field->getAttribute('showon')) : ?>
 								<?php JHtml::_('jquery.framework'); ?>
-								<?php JHtml::_('script', 'jui/cms.js', false, true); ?>
+								<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
 								<?php $showonarr = array(); ?>
 								<?php foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield) : ?>
 									<?php $showon = explode(':', $showonfield, 2); ?>
@@ -103,12 +104,12 @@ JFactory::getDocument()->addScriptDeclaration(
 								<?php echo $field->input; ?>
 							<?php else : ?>
 								<div class="control-group"<?php echo $datashowon; ?>>
-									<?php if ($name != "permissions") : ?>
+									<?php if ($name != 'permissions') : ?>
 										<div class="control-label">
 											<?php echo $field->label; ?>
 										</div>
 									<?php endif; ?>
-									<div class="<?php if ($name != "permissions") : ?>controls<?php endif; ?>">
+									<div class="<?php if ($name != 'permissions') : ?>controls<?php endif; ?>">
 										<?php echo $field->input; ?>
 									</div>
 								</div>

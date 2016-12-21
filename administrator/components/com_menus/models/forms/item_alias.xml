@@ -5,10 +5,15 @@
 	<fields name="params">
 
 		<fieldset name="aliasoptions">
-			<field name="aliasoptions" type="menuitem"
+			<field name="aliasoptions" type="modal_menu"
 				description="COM_MENUS_ITEM_FIELD_ALIAS_MENU_DESC"
 				label="COM_MENUS_ITEM_FIELD_ALIAS_MENU_LABEL"
-				required="true" />
+				required="true"
+				select="true"
+				new="true"
+				edit="true"
+				clear="true"
+			/>
 		</fieldset>
 
 		<fieldset name="menu-options"

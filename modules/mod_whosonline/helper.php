@@ -32,10 +32,12 @@ class ModWhosonlineHelper
 		$user_array  = 0;
 		$guest_array = 0;
 
+		$whereCondition = JFactory::getConfig()->get('shared_session', '0') ? 'IS NULL' : '= 0';
+
 		$query = $db->getQuery(true)
 			->select('guest, client_id')
 			->from('#__session')
-			->where('client_id = 0');
+			->where('client_id ' . $whereCondition);
 		$db->setQuery($query);
 
 		try
@@ -83,12 +85,14 @@ class ModWhosonlineHelper
 	 **/
 	public static function getOnlineUserNames($params)
 	{
+		$whereCondition = JFactory::getConfig()->get('shared_session', '0') ? 'IS NULL' : '= 0';
+
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('a.username', 'a.userid', 'a.client_id')))
 			->from('#__session AS a')
 			->where($db->quoteName('a.userid') . ' != 0')
-			->where($db->quoteName('a.client_id') . ' = 0')
+			->where($db->quoteName('a.client_id') . ' ' . $whereCondition)
 			->group($db->quoteName(array('a.username', 'a.userid', 'a.client_id')));
 
 		$user = JFactory::getUser();
