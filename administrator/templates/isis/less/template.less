@@ -1853,3 +1853,28 @@ textarea.noResize {
 .lead, .navbar .brand, .hero-unit, .hero-unit .lead {
 	font-weight: 400;
 }
+
+/* Hover Edit Icon */
+table .btn-group {
+	margin: 0 15px;
+}
+table a[data-original-title="Edit"] {
+	position: relative;
+}
+.indicate-edit {
+	position: absolute;
+	top: 0;
+	right: 100%;
+	.transition(all 0.15s ease);
+	&::before {
+		color: @linkColor;
+	}
+}
+@media (min-width: 979px) {
+	.indicate-edit {
+		opacity: 0;
+	}
+}
+tr:hover .indicate-edit, .itemList-title:focus .indicate-edit {
+	opacity: 1;
+}

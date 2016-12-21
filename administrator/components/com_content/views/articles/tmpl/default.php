@@ -157,6 +157,9 @@ $assoc = JLanguageAssociations::isEnabled();
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+								<?php if ($item->checked_out) : ?>
+									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
+								<?php else : ?>
 								<?php // Create dropdown items and render the dropdown list.
 								if ($canChange)
 								{
@@ -165,13 +168,11 @@ $assoc = JLanguageAssociations::isEnabled();
 									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
 								}
 								?>
+								<?php endif; ?>
 							</div>
 						</td>
 						<td class="has-context">
 							<div class="pull-left break-word">
-								<?php if ($item->checked_out) : ?>
-									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
-								<?php endif; ?>
 								<?php if ($item->language == '*') : ?>
 									<?php $language = JText::alt('JALL', 'language'); ?>
 								<?php else : ?>
@@ -179,7 +180,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								<?php endif; ?>
 								<?php if ($canEdit || $canEditOwn) : ?>
 									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
-										<?php echo $this->escape($item->title); ?></a>
+										<span class="icon-edit indicate-edit"> </span><?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 								<?php endif; ?>

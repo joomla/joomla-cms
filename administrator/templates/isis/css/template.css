@@ -8805,3 +8805,30 @@ textarea.noResize {
 .hero-unit .lead {
 	font-weight: 400;
 }
+table .btn-group {
+	margin: 0 15px;
+}
+table a[data-original-title="Edit"] {
+	position: relative;
+}
+.indicate-edit {
+	position: absolute;
+	top: 0;
+	right: 100%;
+	-webkit-transition: all 0.15s ease;
+	-moz-transition: all 0.15s ease;
+	-o-transition: all 0.15s ease;
+	transition: all 0.15s ease;
+}
+.indicate-edit::before {
+	color: #3071a9;
+}
+@media (min-width: 979px) {
+	.indicate-edit {
+		opacity: 0;
+	}
+}
+tr:hover .indicate-edit,
+.itemList-title:focus .indicate-edit {
+	opacity: 1;
+}
