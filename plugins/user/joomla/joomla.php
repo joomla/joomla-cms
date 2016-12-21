@@ -63,17 +63,21 @@ class PlgUserJoomla extends CMSPlugin
 			return false;
 		}
 
-		$query = $this->db->getQuery(true)
-			->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
+		// Only execute this query if using the database session handler
+		if ($this->app->get('session_handler', 'database') === 'database')
+		{
+			$query = $this->db->getQuery(true)
+				->delete($this->db->quoteName('#__session'))
+				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
 
-		try
-		{
-			$this->db->setQuery($query)->execute();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			return false;
+			try
+			{
+				$this->db->setQuery($query)->execute();
+			}
+			catch (ExecutionFailureException $e)
+			{
+				return false;
+			}
 		}
 
 		$query = $this->db->getQuery(true)

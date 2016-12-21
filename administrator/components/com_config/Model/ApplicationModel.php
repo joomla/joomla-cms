@@ -271,7 +271,7 @@ class ApplicationModel extends FormModel
 			try
 			{
 				// If we are are using the session handler, purge the extra columns, otherwise truncate the whole session table
-				if (strtolower($data['session_handler']) == 'database')
+				if ($data['session_handler'] === 'database')
 				{
 					$dbc->setQuery(
 						$dbc->getQuery(true)

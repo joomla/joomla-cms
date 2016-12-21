@@ -862,6 +862,15 @@
 		</field>
 
 		<field
+			name="session_filesystem_path"
+			type="text"
+			default=""
+			label="COM_CONFIG_FIELD_FILESYSTEM_PATH_LABEL"
+			description="COM_CONFIG_FIELD_FILESYSTEM_PATH_DESC"
+			filter="path"
+			showon="session_handler:filesystem" />
+
+		<field
 			name="session_memcache_server_host"
 			type="text"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"

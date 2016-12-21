@@ -174,7 +174,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$time = time();
 
 			// Get the session handler from the configuration.
-			$handler = strtolower($this->get('session_handler', 'none'));
+			$handler = $this->get('session_handler', 'none');
 
 			// Purge expired session data if not using the database handler; the handler will run garbage collection as a native part of PHP's API
 			if ($handler !== 'database' && $time % 2)
