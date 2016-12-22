@@ -60,8 +60,12 @@ else
 	}
 
 	$sublayout = 'section';
-}
 
+	// Label will not be shown for sections layout, so reset the margin left
+	JFactory::getDocument()->addStyleDeclaration(
+		'.subform-table-sublayout-section .controls { margin-left: 0px }'
+	);
+}
 ?>
 
 <div class="row-fluid">

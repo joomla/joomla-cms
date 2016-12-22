@@ -18,10 +18,6 @@ defined('_JEXEC') or die;
  * @var array   $buttons    Array of the buttons that will be rendered
  */
 extract($displayData);
-
-JFactory::getDocument()->addStyleDeclaration(
-	'.subform-table-sublayout-section .controls { margin-left: 0px }'
-);
 ?>
 
 <tr class="subform-repeatable-group" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">
