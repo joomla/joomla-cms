@@ -140,7 +140,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		// Load form the script container
 		if (!options) {
 			var elements = document.querySelectorAll('.joomla-script-options.new'),
-				str, element, option;
+			    str, element, option;
 
 			for (var i = 0, l = elements.length; i < l; i++) {
 				element = elements[i];
@@ -177,7 +177,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		if (!/^[0-9A-F]{32}$/i.test(newToken)) { return; }
 
 		var els = document.getElementsByTagName( 'input' ),
-			i, el, n;
+		    i, el, n;
 
 		for ( i = 0, n = els.length; i < n; i++ ) {
 			el = els[i];
@@ -186,20 +186,6 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				el.name = newToken;
 			}
 		}
-	};
-
-	/**
-	 * USED IN: administrator/components/com_banners/views/client/tmpl/default.php
-	 * Actually, probably not used anywhere. Can we deprecate in favor of <input type="email">?
-	 *
-	 * Verifies if the string is in a valid email format
-	 *
-	 * @param string
-	 * @return boolean
-	 */
-	Joomla.isEmail = function( text ) {
-		var regex = /^[\w.!#$%&‚Äô*+\/=?^`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]{2,})+$/i;
-		return regex.test( text );
 	};
 
 	/**
@@ -218,7 +204,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		stub = stub ? stub : 'cb';
 
 		var c = 0,
-			i, e, n;
+		    i, e, n;
 
 		for ( i = 0, n = checkbox.form.elements.length; i < n; i++ ) {
 			e = checkbox.form.elements[ i ];
@@ -240,18 +226,28 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * Render messages send via JSON
 	 * Used by some javascripts such as validate.js
 	 *
-	 * @param   object  messages    JavaScript object containing the messages to render. Example:
+	 * @param   {object}  messages    JavaScript object containing the messages to render. Example:
 	 *                              var messages = {
-	 *                              	"message": ["Message one", "Message two"],
-	 *                              	"error": ["Error one", "Error two"]
+	 *                                  "message": ["Message one", "Message two"],
+	 *                                  "error": ["Error one", "Error two"]
 	 *                              };
+	 * @param  {string} selector     The selector of the container where the message will be rendered
+	 * @param  {bool}   keepOld      If we shall discard old messages
+	 * @param  {int}    timeout      The milliseconds before the message self destruct
 	 * @return  void
 	 */
-	Joomla.renderMessages = function( messages ) {
-		Joomla.removeMessages();
+	Joomla.renderMessages = function( messages, selector, keepOld, timeout ) {
+		var messageContainer, type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper, alertClass;
 
-		var messageContainer = document.getElementById( 'system-message-container' ),
-			type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper, alertClass;
+		if (typeof selector === 'undefined' || selector && selector === '#system-message-container') {
+			messageContainer = document.getElementById( 'system-message-container' );
+		} else {
+			messageContainer = document.querySelector( selector );
+		}
+
+		if (typeof keepOld === 'undefined' || keepOld && keepOld === false) {
+			Joomla.removeMessages( messageContainer );
+		}
 
 		for ( type in messages ) {
 			if ( !messages.hasOwnProperty( type ) ) { continue; }
@@ -295,6 +291,12 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			}
 
 			messageContainer.appendChild( messagesBox );
+
+			if (timeout && parseInt(timeout) > 0) {
+				setTimeout(function() {
+					Joomla.removeMessages(messageContainer);
+				}, timeout);
+			}
 		}
 	};
 
@@ -302,10 +304,18 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	/**
 	 * Remove messages
 	 *
+	 * @param  {element} container    The element of the container of the message to be removed
+	 *
 	 * @return  void
 	 */
-	Joomla.removeMessages = function() {
-		var messageContainer = document.getElementById( 'system-message-container' );
+	Joomla.removeMessages = function( container ) {
+		var messageContainer;
+
+		if (typeof container === 'undefined') {
+			messageContainer = document.getElementById( 'system-message-container' );
+		} else {
+			messageContainer = container;
+		}
 
 		// Empty container with a while for Chrome performance issues
 		while ( messageContainer.firstChild ) messageContainer.removeChild( messageContainer.firstChild );
@@ -320,9 +330,9 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * Treat AJAX errors.
 	 * Used by some javascripts such as sendtestmail.js and permissions.js
 	 *
-	 * @param   object  xhr          XHR object.
-	 * @param   string  textStatus   Type of error that occurred.
-	 * @param   string  error        Textual portion of the HTTP status.
+	 * @param   {object}  xhr          XHR object.
+	 * @param   {string}  textStatus   Type of error that occurred.
+	 * @param   {string}  error        Textual portion of the HTTP status.
 	 *
 	 * @return  object  JavaScript object containing the system error message.
 	 *
@@ -398,7 +408,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 		// Toggle main toggle checkbox depending on checkbox selection
 		var c = true,
-			i, e, n;
+		    i, e, n;
 
 		for ( i = 0, n = form.elements.length; i < n; i++ ) {
 			e = form.elements[ i ];
@@ -410,25 +420,6 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		}
 
 		form.elements[ 'checkall-toggle' ].checked = c;
-	};
-
-	/**
-	 * USED IN: libraries/joomla/html/toolbar/button/help.php
-	 *
-	 * Pops up a new window in the middle of the screen
-	 */
-	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
-		var winl = ( screen.width - w ) / 2,
-			wint = ( screen.height - h ) / 2,
-			winprops = 'height=' + h +
-				',width=' + w +
-				',top=' + wint +
-				',left=' + winl +
-				',scrollbars=' + scroll +
-				',resizable';
-
-		window.open( mypage, myname, winprops )
-			.window.focus();
 	};
 
 	/**
@@ -446,104 +437,6 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
-	 * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
-	 *
-	 * Writes a dynamically generated list
-	 *
-	 * @param string
-	 *          The parameters to insert into the <select> tag
-	 * @param array
-	 *          A javascript array of list options in the form [key,value,text]
-	 * @param string
-	 *          The key to display for the initial state of the list
-	 * @param string
-	 *          The original key that was selected
-	 * @param string
-	 *          The original item value that was selected
-	 * @param string
-	 *          The elem where the list will be written
-	 */
-	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
-		var html = '<select ' + selectParams + '>',
-			hasSelection = key == orig_key,
-			i = 0,
-			selected, x, item;
-
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
-
-			item = source[ x ];
-
-			if ( item[ 0 ] != key ) { continue; }
-
-			selected = '';
-
-			if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
-				selected = 'selected="selected"';
-			}
-
-			html += '<option value="' + item[ 1 ] + '" ' + selected + '>' + item[ 2 ] + '</option>';
-
-			i++;
-		}
-		html += '</select>';
-
-		if (element) {
-			element.innerHTML = html;
-		} else {
-			document.writeln( html );
-		}
-	};
-
-	/**
-	 * USED IN: administrator/components/com_content/views/article/view.html.php
-	 * actually, probably not used anywhere.
-	 *
-	 * Changes a dynamically generated list
-	 *
-	 * @param string
-	 *          The name of the list to change
-	 * @param array
-	 *          A javascript array of list options in the form [key,value,text]
-	 * @param string
-	 *          The key to display
-	 * @param string
-	 *          The original key that was selected
-	 * @param string
-	 *          The original item value that was selected
-	 */
-	window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
-		var list = document.adminForm[ listname ],
-			hasSelection = key == orig_key,
-			i, x, item, opt;
-
-		// empty the list
-		while ( list.firstChild ) list.removeChild( list.firstChild );
-
-		i = 0;
-
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
-
-			item = source[x];
-
-			if ( item[ 0 ] != key ) { continue; }
-
-			opt = new Option();
-			opt.value = item[ 1 ];
-			opt.text = item[ 2 ];
-
-			if ( ( hasSelection && orig_val == opt.value ) || (!hasSelection && i === 0) ) {
-				opt.selected = true;
-			}
-
-			list.options[ i++ ] = opt;
-		}
-
-		list.length = i;
-	};
-
-	/**
 	 * USED IN: administrator/components/com_menus/views/menus/tmpl/default.php
 	 * Probably not used at all
 	 *
@@ -557,7 +450,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		if ( !radioObj ) { return ''; }
 
 		var n = radioObj.length,
-			i;
+		    i;
 
 		if ( n === undefined ) {
 			return radioObj.checked ? radioObj.value : '';
@@ -573,25 +466,6 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
-	 * USED IN: administrator/components/com_users/views/mail/tmpl/default.php
-	 * Let's get rid of this and kill it
-	 *
-	 * @param frmName
-	 * @param srcListName
-	 * @return
-	 */
-	window.getSelectedValue = function ( frmName, srcListName ) {
-		var srcList = document[ frmName ][ srcListName ],
-			i = srcList.selectedIndex;
-
-		if ( i !== null && i > -1 ) {
-			return srcList.options[ i ].value;
-		} else {
-			return null;
-		}
-	};
-
-	/**
 	 * USED IN: all over :)
 	 *
 	 * @param id
@@ -600,8 +474,8 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 */
 	window.listItemTask = function ( id, task ) {
 		var f = document.adminForm,
-			i = 0, cbx,
-			cb = f[ id ];
+		    i = 0, cbx,
+		    cb = f[ id ];
 
 		if ( !cb ) return false;
 
@@ -620,24 +494,6 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		window.submitform( task );
 
 		return false;
-	};
-
-	/**
-	 * Default function. Usually would be overriden by the component
-	 *
-	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
-	 */
-	window.submitbutton = function ( pressbutton ) {
-		Joomla.submitbutton( pressbutton );
-	};
-
-	/**
-	 * Submit the admin form
-	 *
-	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
-	 */
-	window.submitform = function ( pressbutton ) {
-		Joomla.submitform(pressbutton);
 	};
 
 	// needed for Table Column ordering

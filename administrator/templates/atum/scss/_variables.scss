@@ -69,6 +69,23 @@ $card-bg-color-light:              #f8f8f8;
 $card-bg-color-dark:               $atum-template-color;
 $card-border-color:                $atum-border-color;
 
+// Alerts
+$state-success-text:               #fff !default;
+$state-success-bg:                 $brand-success !default;
+$state-success-border:             darken($brand-success, 5%) !default;
+
+$state-info-text:                  #fff !default;
+$state-info-bg:                    $brand-info !default;
+$state-info-border:                darken($brand-info, 7%) !default;
+
+$state-warning-text:               #fff !default;
+$state-warning-bg:                 $brand-warning !default;
+$state-warning-border:             darken($brand-warning, 5%) !default;
+
+$state-danger-text:                #fff !default;
+$state-danger-bg:                  $brand-danger !default;
+$state-danger-border:              darken($brand-danger, 5%) !default;
+
 // Switchers
 $switcher-color-success:           rgb(100, 189, 99);
 $switcher-color-danger:            rgb(188, 101, 100);
