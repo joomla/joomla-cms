@@ -37,25 +37,34 @@ var Installation = function(_container, _base) {
         Joomla.loadingLayer("show");
         busy = true;
         Joomla.removeMessages();
-        var data = 'format: json&' + $form.serialize();
+        var data = $form.serialize();
 
         $.ajax({
-            type : "POST",
-            url : baseUrl,
-            data : data,
-            dataType : 'json'
-        }).done(function(r) {
+            type: "POST",
+            url: baseUrl,
+            data: data,
+            dataType: 'json'
+        }).done(function (r) {
             Joomla.replaceTokens(r.token);
+
             if (r.messages) {
                 Joomla.renderMessages(r.messages);
             }
-            var lang = $('html').attr('lang');
-            if (r.lang !== null && lang.toLowerCase() === r.lang.toLowerCase()) {
-                Install.goToPage(r.data.view, true);
+
+            if (r.error) {
+                Joomla.renderMessages({'error': [r.message]});
+                Joomla.loadingLayer("hide");
+                busy = false;
             } else {
-                window.location = baseUrl + '?view=' + r.data.view;
+                var lang = $('html').attr('lang');
+
+                if (r.lang !== null && lang.toLowerCase() === r.lang.toLowerCase()) {
+                    Install.goToPage(r.data.view, true);
+                } else {
+                    window.location = baseUrl + '?view=' + r.data.view;
+                }
             }
-        }).fail(function(xhr) {
+        }).fail(function (xhr) {
             Joomla.loadingLayer("hide");
             busy = false;
             try {
@@ -85,25 +94,34 @@ var Installation = function(_container, _base) {
         Joomla.loadingLayer("show");
         busy = true;
         Joomla.removeMessages();
-        var data = 'format: json&' + $form.serialize();
+        var data = $form.serialize();
 
         $.ajax({
-            type : "POST",
-            url : baseUrl,
-            data : data,
-            dataType : 'json'
-        }).done(function(r) {
+            type: "POST",
+            url: baseUrl,
+            data: data,
+            dataType: 'json'
+        }).done(function (r) {
             Joomla.replaceTokens(r.token);
+
             if (r.messages) {
                 Joomla.renderMessages(r.messages);
             }
-            var lang = $('html').attr('lang');
-            if (lang.toLowerCase() === r.lang.toLowerCase()) {
-                Install.goToPage(r.data.view, true);
+
+            if (r.error) {
+                Joomla.renderMessages({'error': [r.message]});
+                Joomla.loadingLayer("hide");
+                busy = false;
             } else {
-                window.location = baseUrl + '?view=' + r.data.view;
+                var lang = $('html').attr('lang');
+
+                if (lang.toLowerCase() === r.lang.toLowerCase()) {
+                    Install.goToPage(r.data.view, true);
+                } else {
+                    window.location = baseUrl + '?view=' + r.data.view;
+                }
             }
-        }).fail(function(xhr) {
+        }).fail(function (xhr) {
             Joomla.loadingLayer("hide");
             busy = false;
             try {
@@ -157,7 +175,7 @@ var Installation = function(_container, _base) {
      * @param tasks       An array of install tasks to execute
      * @param step_width  The width of the progress bar element
      */
-    var install = function(tasks, step_width) {
+    var install = function (tasks, step_width) {
         var $progress = $('#install_progress').find('.bar');
 
         if (!tasks.length) {
@@ -173,32 +191,41 @@ var Installation = function(_container, _base) {
         var task = tasks.shift();
         var $form = $('#adminForm');
         var $tr = $('#install_' + task);
-        var data = 'format: json&' + $form.serialize();
+        var data = $form.serialize();
 
         $progress.css('width', parseFloat($progress.get(0).style.width) + step_width + '%');
         $tr.addClass('active');
         Joomla.loadingLayer("show");
 
         $.ajax({
-            type : "POST",
-            url : baseUrl + '?task=Install' + task,
-            data : data,
-            dataType : 'json'
-        }).done(function(r) {
-
+            type: "POST",
+            url: baseUrl + '?format=json&task=Install' + task,
+            data: data,
+            dataType: 'json'
+        }).done(function (r) {
             Joomla.replaceTokens(r.token);
-            if (r.messages) {
-                Joomla.renderMessages(r.messages);
-                Install.goToPage(r.data.view, true);
+
+            if (r.error) {
+                if (r.messages) {
+                    Joomla.renderMessages(r.messages);
+                }
+
+                Joomla.renderMessages({'error': [r.message]});
+
+                Install.goToPage('summary', true);
             } else {
-                $progress.css('width', parseFloat($progress.get(0).style.width) + (step_width * 10) + '%');
-                $tr.removeClass('active');
-                Joomla.loadingLayer("hide");
+                if (r.messages) {
+                    Joomla.renderMessages(r.messages);
+                    Install.goToPage(r.data.view, true);
+                } else {
+                    $progress.css('width', parseFloat($progress.get(0).style.width) + (step_width * 10) + '%');
+                    $tr.removeClass('active');
+                    Joomla.loadingLayer("hide");
 
-                install(tasks, step_width);
+                    install(tasks, step_width);
+                }
             }
-
-        }).fail(function(xhr) {
+        }).fail(function (xhr) {
             Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
             Install.goToPage('summary');
 
@@ -217,12 +244,12 @@ var Installation = function(_container, _base) {
      * @param el  The page element requesting the event
      */
     var detectFtpRoot = function(el) {
-        var $el = $(el), data = 'format: json&' + $el.closest('form').serialize();
+        var $el = $(el), data = $el.closest('form').serialize();
 
         $el.attr('disabled', 'disabled');
         $.ajax({
             type : "POST",
-            url : baseUrl + '?task=detectftproot',
+            url : baseUrl + '?format=json&task=detectftproot',
             data : data,
             dataType : 'json'
         }).done(function(r) {
@@ -253,13 +280,13 @@ var Installation = function(_container, _base) {
      */
     var verifyFtpSettings = function(el) {
         // make the ajax call
-        var $el = $(el), data = 'format: json&' + $el.closest('form').serialize();
+        var $el = $(el), data = $el.closest('form').serialize();
 
         $el.attr('disabled', 'disabled');
 
         $.ajax({
             type : "POST",
-            url : baseUrl + '?task=verifyftpsettings',
+            url : baseUrl + '?format=json&task=verifyftpsettings',
             data : data,
             dataType : 'json'
         }).done(function(r) {

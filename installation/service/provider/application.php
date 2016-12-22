@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Error\Renderer\JsonRenderer;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -49,6 +50,15 @@ class InstallationServiceProviderApplication implements ServiceProviderInterface
 				return $app;
 			},
 			true
+		);
+
+		// Inject a custom JSON error renderer
+		$container->share(
+			JsonRenderer::class,
+			function (Container $container)
+			{
+				return new InstallationErrorJson;
+			}
 		);
 	}
 }
