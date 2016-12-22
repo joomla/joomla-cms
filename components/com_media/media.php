@@ -14,6 +14,5 @@ $lang = JFactory::getLanguage();
 $lang->load('com_media', JPATH_ADMINISTRATOR, null, false, true)
 ||	$lang->load('com_media', JPATH_SITE, null, false, true);
 
-$controller = JControllerLegacy::getInstance('Media');
-$controller->execute(JFactory::getApplication()->input->get('task'));
-$controller->redirect();
+// Hand processing over to the admin base file
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/media.php';
