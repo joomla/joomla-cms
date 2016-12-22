@@ -131,9 +131,9 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 									<?php echo $item->count_trashed; ?></a>
 							</td>
 							<td class="small hidden-sm-down text-xs-center">
-								<?php if ($item->purchase_type < 0): ?>
+								<?php if ($item->purchase_type < 0) : ?>
 									<?php echo JText::sprintf('COM_BANNERS_DEFAULT', JText::_('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$params->get('purchase_type')])); ?>
-								<?php else: ?>
+								<?php else : ?>
 									<?php echo JText::_('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$item->purchase_type]); ?>
 								<?php endif; ?>
 							</td>

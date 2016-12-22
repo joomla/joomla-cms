@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="component">
+	<fieldset 
+		name="component"
+		label="COM_SEARCH_FIELDSET_SEARCH_OPTIONS_LABEL">
 		<field
 			name="enabled"
 			type="radio"
@@ -12,26 +14,28 @@
 			<option value="1">JYES</option>
 		</field>
 
-		<field name="search_phrases"
-				type="radio"
-				class="switcher"
-				default="1"
-				description="COM_SEARCH_FIELD_SEARCH_PHRASES_DESC"
-				label="COM_SEARCH_FIELD_SEARCH_PHRASES_LABEL"
+		<field
+			name="search_phrases"
+			type="radio"
+			class="switcher"
+			label="COM_SEARCH_FIELD_SEARCH_PHRASES_LABEL"
+			description="COM_SEARCH_FIELD_SEARCH_PHRASES_DESC"
+			default="1"
 			>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
-		<field name="search_areas"
-				type="radio"
-				class="switcher"
-				default="1"
-				description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
-				label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
+		<field
+			name="search_areas"
+			type="radio"
+			class="switcher"
+			label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
+			description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
+			default="1"
 			>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -50,6 +54,7 @@
 			type="text"
 			label="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_NAME_LABEL"
 			description="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_NAME_DESC"
+			default=""
 		/>
 
 		<field
@@ -57,8 +62,11 @@
 			type="textarea"
 			label="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_LABEL"
 			description="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_DESC"
-			cols="30" rows="2"
+			default=""
+			cols="30"
+			rows="2"
 		/>
+
 	</fieldset>
 
 	<fieldset
@@ -74,6 +82,8 @@
 			filter="rules"
 			validate="rules"
 			component="com_search"
-			section="component" />
+			section="component"
+		/>
+
 	</fieldset>
 </config>

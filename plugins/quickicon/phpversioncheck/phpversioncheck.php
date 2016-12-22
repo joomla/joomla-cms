@@ -125,6 +125,10 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 				'security' => '2017-12-03',
 				'eos'      => '2018-12-03'
 			),
+			'7.1' => array(
+				'security' => '2018-12-01',
+				'eos'      => '2019-12-01'
+			),
 		);
 
 		// Fill our return array with default values
@@ -196,7 +200,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	private function shouldDisplayMessage()
 	{
 		// Only on admin app
-		if (!$this->app->isAdmin())
+		if (!$this->app->isClient('administrator'))
 		{
 			return false;
 		}
@@ -220,7 +224,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 		}
 
 		// Only to com_cpanel
-		if ($this->app->input->get('option') != 'com_cpanel')
+		if ($this->app->input->get('option') !== 'com_cpanel')
 		{
 			return false;
 		}

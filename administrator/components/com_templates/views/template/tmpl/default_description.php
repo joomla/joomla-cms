@@ -17,6 +17,6 @@ defined('_JEXEC') or die;
 	</div>
 	<h2><?php echo ucfirst($this->template->element); ?></h2>
 	<?php $client = JApplicationHelper::getClientInfo($this->template->client_id); ?>
-	<p><?php $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $this->template->element);?></p>
-	<p><?php  echo JText::_($this->template->xmldata->description); ?></p>
+	<p><?php $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $this->template->element); ?></p>
+	<p><?php echo JText::_($this->template->xmldata->description); ?></p>
 </div>

@@ -433,7 +433,7 @@ class JFormFieldRules extends JFormField
 		$html[] = '</div></div>';
 		$html[] = '<div class="alert alert-warning">';
 
-		if ($section === 'component' || $section === null)
+		if ($section === 'component' || !$section)
 		{
 			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
 		}

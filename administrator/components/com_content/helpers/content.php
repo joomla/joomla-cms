@@ -43,15 +43,15 @@ class ContentHelper extends JHelperContent
 		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
 		{
 			JHtmlSidebar::addEntry(
-					JText::_('JGLOBAL_FIELDS'),
-					'index.php?option=com_fields&context=com_content.article',
-					$vName == 'fields.article'
-					);
+				JText::_('JGLOBAL_FIELDS'),
+				'index.php?option=com_fields&context=com_content.article',
+				$vName == 'fields.fields'
+			);
 			JHtmlSidebar::addEntry(
-					JText::_('JGLOBAL_FIELD_GROUPS'),
-					'index.php?option=com_categories&extension=com_content.article.fields',
-					$vName == 'categories.article'
-					);
+				JText::_('JGLOBAL_FIELD_GROUPS'),
+				'index.php?option=com_fields&view=groups&context=com_content.article',
+				$vName == 'fields.groups'
+			);
 		}
 
 		JHtmlSidebar::addEntry(
@@ -203,5 +203,23 @@ class ContentHelper extends JHelperContent
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getContexts()
+	{
+		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_content.article' => JText::_('COM_CONTENT'),
+		);
+
+		return $contexts;
 	}
 }

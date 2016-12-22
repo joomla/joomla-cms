@@ -22,12 +22,14 @@
 @import "blocks/icons";
 @import "blocks/iframe";
 @import "blocks/login";
+@import "blocks/modals";
 @import "blocks/quickicons";
 @import "blocks/searchtools";
 @import "blocks/sidebar";
 @import "blocks/status";
 @import "blocks/switcher";
 @import "blocks/toolbar";
+@import "blocks/treeselect";
 @import "blocks/utilities";
 
 // Vendor overrides
@@ -52,7 +54,6 @@
 @import "pages/com_cpanel";
 @import "pages/com_modules";
 
-
 .container-main, .system-debug {
   padding-bottom: 50px;
 }
@@ -61,7 +62,7 @@
   position: relative;
   min-height: calc(100vh - 50px);
   padding-top: 15px;
-  background: $atum-container-main-bg;
+  background-color: $atum-container-main-bg;
 }
 .list-view-main {
   .container-main {
@@ -70,7 +71,7 @@
 }
 
 .content {
-  margin-top: 50px;
+  margin-top: 42px;
   border-radius: $border-radius;
 }
 .j-main-container {

@@ -91,7 +91,7 @@ class JMenuSite extends JMenu
 					// Set the query
 					$db->setQuery($query);
 
-					return $db->loadObjectList('id');
+					return $db->loadObjectList('id', 'JMenuItem');
 				},
 				array(),
 				md5(get_class($this)),
@@ -145,7 +145,7 @@ class JMenuSite extends JMenu
 		$attributes = (array) $attributes;
 		$values     = (array) $values;
 
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
 			// Filter by language if not set
 			if (($key = array_search('language', $attributes)) === false)
@@ -193,7 +193,7 @@ class JMenuSite extends JMenu
 	 */
 	public function getDefault($language = '*')
 	{
-		if (array_key_exists($language, $this->_default) && $this->app->isSite() && $this->app->getLanguageFilter())
+		if (array_key_exists($language, $this->_default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
 		{
 			return $this->_items[$this->_default[$language]];
 		}

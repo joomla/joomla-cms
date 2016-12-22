@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 <h3>
-	<?php echo JText::_('COM_FINDER_STATISTICS_TITLE') ?>
+	<?php echo JText::_('COM_FINDER_STATISTICS_TITLE'); ?>
 </h3>
 
 <div class="row">
@@ -20,15 +20,15 @@ defined('_JEXEC') or die;
 			<thead>
 				<tr>
 					<th>
-						<?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_HEADING');?>
+						<?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_HEADING'); ?>
 					</th>
 					<th>
-						<?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_COUNT');?>
+						<?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_COUNT'); ?>
 					</th>
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach ($this->data->type_list as $type) :?>
+				<?php foreach ($this->data->type_list as $type) : ?>
 				<tr>
 					<td>
 						<?php
@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
 						?>
 					</td>
 					<td>
-						<span class="tag tag-info"><?php echo number_format($type->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'));?></span>
+						<span class="tag tag-info"><?php echo number_format($type->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?></span>
 					</td>
 				</tr>
 				<?php endforeach; ?>

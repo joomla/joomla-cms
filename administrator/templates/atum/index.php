@@ -72,15 +72,17 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 	</noscript>
 
 	<?php // Wrapper ?>
-	<div id="wrapper" class="wrapper">
+	<div id="wrapper" class="wrapper<?php echo $hidden ? '0' : ''; ?>">
 
 		<?php // Sidebar ?>
-		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
+		<?php if (!$hidden) : ?>
+			<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
 			<div id="main-brand-sm" class="main-brand  hidden-xs-up">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 					<img src="<?php echo $logoSm; ?>" class="logo" alt="<?php echo $sitename;?>" />
 				</a>
 			</div>
+
 			<div id="main-brand" class="main-brand">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename;?>" />
@@ -89,111 +91,111 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 			<jdoc:include type="modules" name="menu" style="none" />
 			<div class="sidebar-brand"></div>
 		</div>
+		<?php endif; ?>
 
 		<?php // Header ?>
 		<header id="header" class="header">
 			<div class="container-fluid">
 				<div class="text-xs-center">
+					<?php if (!$hidden) : ?>
 					<div class="menu-collapse">
 						<a id="menu-collapse" class="menu-toggle" href="#">
 							<span></span>
 						</a>
 					</div>
+					<?php endif; ?>
+					<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
+						<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
+						<span class="icon-out-2 small"></span>
+					</a>
+					<nav>
+						<ul class="nav navbar-nav">
 
-					<jdoc:include type="modules" name="title" />
+							<li class="nav-item">
+								<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?>">
+									<i class="fa fa-envelope"></i>
+									<?php $countUnread = JFactory::getSession()->get('messages.unread'); ?>
+									<?php if ($countUnread > 0) : ?>
+										<span class="tag tag-pill tag-success"><?php echo $countUnread; ?></span>
+									<?php endif; ?>
+								</a>
+							</li>
 
-					<div class="float-xs-right">
-						<nav>
-							<ul class="nav navbar-nav float-xs-right">
-								<li class="nav-item">
-									<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
-										<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
-										<span class="icon-out-2 small"></span>
-									</a>
-								</li>
+							<?php
+								/*
+								 * @TODO: Remove FOF call as it's being removed in core
+								 */
+								try
+								{
+									$messagesModel = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
+									$messages      = $messagesModel->getItemList();
+								}
+								catch (RuntimeException $e)
+								{
+									$messages = array();
 
-								<li class="nav-item">
-									<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?>">
-										<i class="fa fa-envelope"></i>
-										<?php $countUnread = JFactory::getSession()->get('messages.unread'); ?>
-										<?php if ($countUnread > 0) : ?>
-											<span class="tag tag-pill tag-success"><?php echo $countUnread; ?></span>
+									// Still render the error message from the Exception object
+									JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
+								}
+								$lang->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
+							?>
+							<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('TPL_ATUM_POST_INSTALLATION_MESSAGES'); ?>">
+									<i class="fa fa-bell"></i>
+									<?php if (count($messages) > 0) : ?>
+										<span class="tag tag-pill tag-success"><?php echo count($messages); ?></span>
+									<?php endif; ?>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
+									<div class="list-group">
+										<?php if (empty($messages)) : ?>
+										<p class="list-group-item text-xs-center">
+											<b><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></b>
+										</p>
 										<?php endif; ?>
-									</a>
-								</li>
-
-								<?php
-									/*
-									 * @TODO: Remove FOF call as it's being removed in core
-									 */
-									try
-									{
-										$messagesModel = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
-										$messages      = $messagesModel->getItemList();
-									}
-									catch (RuntimeException $e)
-									{
-										$messages = array();
-
-										// Still render the error message from the Exception object
-										JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
-									}
-									$lang->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
-								?>
-								<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
-								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('TPL_ATUM_POST_INSTALLATION_MESSAGES'); ?>">
-										<i class="fa fa-bell"></i>
-										<?php if (count($messages) > 0) : ?>
-											<span class="tag tag-pill tag-success"><?php echo count($messages); ?></span>
-										<?php endif; ?>
-									</a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
-										<div class="list-group">
-											<?php if (empty($messages)) : ?>
-											<p class="list-group-item text-xs-center">
-												<b><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></b>
+										<?php foreach ($messages as $message) : ?>
+										<a href="<?php echo JRoute::_('index.php?option=com_postinstall&amp;eid=700'); ?>" class="list-group-item list-group-item-action">
+											<h5 class="list-group-item-heading"><?php echo JHtml::_('string.truncate', JText::_($message->title_key), 28, false, false); ?></h5>
+											<p class="list-group-item-text small">
+												<?php echo JHtml::_('string.truncate', JText::_($message->description_key), 120, false, false); ?>
 											</p>
-											<?php endif; ?>
-											<?php foreach ($messages as $message) : ?>
-											<a href="<?php echo JRoute::_('index.php?option=com_postinstall&amp;eid=700'); ?>" class="list-group-item list-group-item-action">
-												<h5 class="list-group-item-heading"><?php echo JHtml::_('string.truncate', JText::_($message->title_key), 28, false, false); ?></h5>
-												<p class="list-group-item-text small">
-													<?php echo JHtml::_('string.truncate', JText::_($message->description_key), 120, false, false); ?>
-												</p>
-											</a>
-											<?php endforeach; ?>
-										</div>
+										</a>
+										<?php endforeach; ?>
 									</div>
-								</li>
-								<?php endif; ?>
+								</div>
+							</li>
+							<?php endif; ?>
 
-								<li class="nav-item dropdown header-profile">
-									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+							<li class="nav-item dropdown header-profile">
+								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+									<i class="fa fa-user"></i>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<div class="dropdown-item header-profile-user">
 										<i class="fa fa-user"></i>
-									</a>
-									<div class="dropdown-menu dropdown-menu-right">
-										<div class="dropdown-item header-profile-user">
-											<i class="fa fa-user"></i>
-											<?php echo $user->name; ?>
-										</div>
-										<a class="dropdown-item" href="<?php echo JRoute::_('index.php?option=com_admin&amp;task=profile.edit&amp;id=' 
-											. $user->id); ?>"><?php echo JText::_('TPL_ATUM_EDIT_ACCOUNT'); ?></a>
-										<a class="dropdown-item" href="<?php echo JRoute::_('index.php?option=com_login&task=logout&' 
-											. JSession::getFormToken() . '=1') ?>"><?php echo JText::_('TPL_ATUM_LOGOUT'); ?></a>
+										<?php echo $user->name; ?>
 									</div>
-								</li>
+									<a class="dropdown-item" href="<?php echo JRoute::_('index.php?option=com_admin&amp;task=profile.edit&amp;id=' 
+										. $user->id); ?>"><?php echo JText::_('TPL_ATUM_EDIT_ACCOUNT'); ?></a>
+									<a class="dropdown-item" href="<?php echo JRoute::_('index.php?option=com_login&task=logout&' 
+										. JSession::getFormToken() . '=1') ?>"><?php echo JText::_('TPL_ATUM_LOGOUT'); ?></a>
+								</div>
+							</li>
 
-							</ul>
-						</nav>
-					</div>
+						</ul>
+					</nav>
 				</div>
 			</div>
 		</header>
+		<div class="container-title">
+			<div class="container-fluid">
+				<jdoc:include type="modules" name="title" />
+			</div>
+		</div>
 
 		<?php // container-fluid ?>
 		<div class="container-fluid container-main">
-
 			<?php if (!$cpanel) : ?>
 				<?php // Subheader ?>
 				<a class="btn btn-subhead hidden-md-up" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ATUM_TOOLBAR'); ?>
