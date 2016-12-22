@@ -43,6 +43,8 @@ class ContentViewArchive extends JViewLegacy
 		// Get the page/component configuration
 		$params = &$state->params;
 
+		JPluginHelper::importPlugin('content');
+
 		foreach ($items as $item)
 		{
 			$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
@@ -64,7 +66,6 @@ class ContentViewArchive extends JViewLegacy
 				$item->text = $item->introtext;
 			}
 
-			JPluginHelper::importPlugin('content');
 			$dispatcher->trigger('onContentPrepare', array ('com_content.archive', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext

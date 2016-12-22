@@ -379,7 +379,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 	 */
 	public function testUploadUnknown()
 	{
-		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt');
+		$this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt');
 	}
 
 	/**
@@ -391,7 +391,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 	 */
 	public function testUploadFake()
 	{
-		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'fakephoto.png');
+		$this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'fakephoto.png');
 	}
 
 	/**

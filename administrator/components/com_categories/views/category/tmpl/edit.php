@@ -32,7 +32,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			' . $this->form->getField('description')->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 
-			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
+			// @deprecated 4.0  The following js is not needed since 3.7.0.
 			if (task !== "category.apply")
 			{
 				window.parent.jQuery("#categoryEdit' . $this->item->id . 'Modal").modal("hide");

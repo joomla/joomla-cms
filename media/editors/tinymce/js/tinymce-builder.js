@@ -13,7 +13,7 @@
      * @param {Object}      options
      * @constructor
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  3.7.0
      */
     var JoomlaTinyMCEBuilder = function(container, options) {
         this.$container = $(container);
@@ -124,7 +124,7 @@
      * @param {Array|null}  value      The value
      * @param {Boolean}     withInput  Whether append input
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  3.7.0
      */
     JoomlaTinyMCEBuilder.prototype.renderBar = function(container, type, value, withInput) {
         var $container = $(container),
@@ -165,7 +165,7 @@
      *
      * @return {jQuery}
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  3.7.0
      */
     JoomlaTinyMCEBuilder.prototype.createButton = function(name, info, type){
         var $element = $('<div />', {
@@ -195,7 +195,7 @@
      * @param {String}      group
      * @param {String}      set
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  3.7.0
      */
     JoomlaTinyMCEBuilder.prototype.appendInput = function (element, group, set) {
         var $el    = $(element),

@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Fields Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsModelFields extends JModelList
 {
@@ -24,7 +24,7 @@ class FieldsModelFields extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($config = array())
 	{
@@ -67,7 +67,7 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -98,7 +98,7 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -118,7 +118,7 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getListQuery()
 	{
@@ -317,7 +317,7 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  array  An array of results.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  RuntimeException
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
@@ -344,7 +344,7 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  JForm/false  the JForm object or false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
@@ -364,7 +364,7 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  array  An array of groups
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getGroups()
 	{

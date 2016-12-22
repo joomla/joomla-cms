@@ -15,7 +15,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Fields Gallery form field
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormFieldGallery extends JFormFieldList
 {
@@ -27,7 +27,7 @@ class JFormFieldGallery extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getOptions()
 	{

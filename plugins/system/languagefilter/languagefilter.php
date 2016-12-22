@@ -266,7 +266,6 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		// Did we find the current and existing language yet?
 		$found = false;
-		$lang_code = false;
 
 		// Are we in SEF mode or not?
 		if ($this->mode_sef)

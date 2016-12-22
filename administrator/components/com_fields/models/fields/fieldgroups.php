@@ -13,7 +13,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Fields Groups
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormFieldFieldgroups extends JFormAbstractlist
 {
@@ -24,7 +24,7 @@ class JFormFieldFieldgroups extends JFormAbstractlist
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getOptions()
 	{

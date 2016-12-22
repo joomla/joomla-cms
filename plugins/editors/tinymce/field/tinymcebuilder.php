@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
- * @since       __DEPLOY_VERSION__
+ * @since       3.7.0
  */
 class JFormFieldTinymceBuilder extends JFormField
 {
@@ -22,7 +22,7 @@ class JFormFieldTinymceBuilder extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $type = 'tinymcebuilder';
 
@@ -30,7 +30,7 @@ class JFormFieldTinymceBuilder extends JFormField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $layout = 'plugins.editors.tinymce.field.tinymcebuilder';
 
@@ -39,7 +39,7 @@ class JFormFieldTinymceBuilder extends JFormField
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected function getLayoutData()
 	{

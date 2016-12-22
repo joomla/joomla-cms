@@ -15,21 +15,21 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Field Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsModelField extends JModelAdmin
 {
 	/**
 	 * @var null|string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public $typeAlias = null;
 
 	/**
 	 * @var string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $text_prefix = 'COM_FIELDS';
 
@@ -45,7 +45,7 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * @var array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private $valueCache = array();
 
@@ -55,7 +55,7 @@ class FieldsModelField extends JModelAdmin
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($config = array())
 	{
@@ -71,7 +71,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function save($data)
 	{
@@ -179,7 +179,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  mixed    Object on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getItem($pk = null)
 	{
@@ -250,7 +250,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  Exception
 	 */
 	public function getTable($name = 'Field', $prefix = 'FieldsTable', $options = array())
@@ -272,7 +272,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    3.7.0
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
@@ -298,7 +298,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function delete(&$pks)
 	{
@@ -312,9 +312,18 @@ class FieldsModelField extends JModelAdmin
 
 			if (!empty($pks))
 			{
+				// Delete Values
 				$query = $this->getDbo()->getQuery(true);
 
 				$query->delete($query->qn('#__fields_values'))
+					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+
+				$this->getDbo()->setQuery($query)->execute();
+
+				// Delete Assigned Categories
+				$query = $this->getDbo()->getQuery(true);
+
+				$query->delete($query->qn('#__fields_categories'))
 					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();
@@ -332,7 +341,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -404,7 +413,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function loadTypeForms(JForm &$form, $type)
 	{
@@ -431,7 +440,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function setFieldValue($fieldId, $context, $itemId, $value)
 	{
@@ -537,7 +546,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  NULL|string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function getFieldValue($fieldId, $context, $itemId)
 	{
@@ -585,7 +594,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function cleanupValues($context, $itemId)
 	{
@@ -605,7 +614,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function canDelete($record)
 	{
@@ -632,7 +641,7 @@ class FieldsModelField extends JModelAdmin
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the
 	 *                   component.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function canEditState($record)
 	{
@@ -653,7 +662,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function populateState()
 	{
@@ -685,7 +694,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getReorderConditions($table)
 	{
@@ -697,7 +706,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function loadFormData()
 	{
@@ -753,7 +762,7 @@ class FieldsModelField extends JModelAdmin
 	 * @return  void
 	 *
 	 * @see     JFormField
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
@@ -807,7 +816,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
@@ -839,7 +848,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  array|boolean  new IDs if successful, false otherwise and internal error is set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -901,7 +910,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
