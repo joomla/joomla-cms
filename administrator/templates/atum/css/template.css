@@ -8552,6 +8552,73 @@ iframe {
   margin-bottom: 20px;
   margin-left: 0; }
 
+.treeselect {
+  display: block;
+  padding-left: 0;
+  list-style: none; }
+  .treeselect .nav-header {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-left: .5rem;
+    color: #373a3c; }
+  .treeselect li {
+    display: block;
+    list-style: none; }
+  .treeselect > li {
+    margin-bottom: 5px;
+    background-color: #eceeef;
+    border-radius: 0.25rem; }
+    .treeselect > li > .treeselect-toggle {
+      border-radius: 0.25rem 0 0; }
+    .treeselect > li > .treeselect-toggle.fa-chevron-right {
+      border-radius: 0.25rem 0 0 0.25rem; }
+  .treeselect .icon- {
+    display: none; }
+  .treeselect .treeselect-toggle {
+    display: inline-block;
+    width: 2.2rem;
+    height: 1.9rem;
+    padding: 0;
+    line-height: 1.9rem;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    background-color: #007eb7; }
+  .treeselect .treeselect-sub {
+    padding-left: 2.2rem;
+    background-color: #f7f7f9; }
+    .treeselect .treeselect-sub > li {
+      border-top: 1px solid #eceeef; }
+    .treeselect .treeselect-sub .treeselect-toggle {
+      width: 1.9rem;
+      color: #55595c;
+      cursor: pointer;
+      background-color: transparent; }
+  .treeselect .treeselect-menu {
+    display: inline-block; }
+  .treeselect .treeselect-item {
+    display: inline-block;
+    padding-left: 2.2rem;
+    margin-bottom: -5px; }
+    .treeselect .treeselect-item input {
+      margin-top: .65rem;
+      margin-right: .45rem;
+      margin-left: .65rem; }
+    .treeselect .treeselect-item label {
+      margin-bottom: 0;
+      line-height: 2.1rem; }
+  .treeselect .treeselect-toggle + .treeselect-item {
+    padding-left: 0; }
+  .treeselect .dropdown-toggle {
+    padding: 0 .5rem .3rem;
+    margin-left: .5rem; }
+    .treeselect .dropdown-toggle::after {
+      margin-left: 0;
+      font-size: 1rem;
+      color: #55595c; }
+  .treeselect .treeselect-header + .treeselect-sub > li > .treeselect-item {
+    padding-left: 0; }
+
 .element-invisible {
   position: absolute;
   width: 1px;
@@ -8961,20 +9028,6 @@ iframe {
 
 .admin.com_modules .js-stools-container-bar .btn-toolbar {
   float: left; }
-
-.admin.com_modules .treeselect .list-unstyled {
-  padding-left: 40px; }
-
-.admin.com_modules .treeselect .treeselect-toggle {
-  padding: 2px;
-  cursor: pointer; }
-
-.admin.com_modules .treeselect .tree-label,
-.admin.com_modules .treeselect .nav-header {
-  margin-left: 15px; }
-
-.admin.com_modules .treeselect .treeselect-menu {
-  margin-left: 5px; }
 
 .container-main, .system-debug {
   padding-bottom: 50px; }

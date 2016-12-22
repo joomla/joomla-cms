@@ -1,0 +1,85 @@
+.treeselect {
+  display: block;
+  padding-left: 0;
+  list-style: none;
+  .nav-header {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-left: .5rem;
+    color: $gray-dark;
+  }
+  li {
+    display: block;
+    list-style: none;
+  }
+  > li {
+    margin-bottom: 5px;
+    background-color: $gray-lighter;
+    border-radius: $border-radius;
+    > .treeselect-toggle {
+      border-radius: $border-radius 0 0;
+    }
+    > .treeselect-toggle.fa-chevron-right {
+      border-radius: $border-radius 0 0 $border-radius;
+    }
+  }
+  .icon- {
+    display: none;
+  }
+  .treeselect-toggle {
+    display: inline-block;
+    width: $treeselect-line-height;
+    height: 1.9rem;
+    padding: 0;
+    line-height: 1.9rem;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    background-color: $brand-primary;
+  }
+  .treeselect-sub {
+    padding-left: $treeselect-line-height;
+    background-color: $gray-lightest;
+    > li {
+      border-top: 1px solid $gray-lighter;
+    }
+    .treeselect-toggle {
+      width: 1.9rem;
+      color: $gray;
+      cursor: pointer;
+      background-color: transparent;
+    }
+  }
+  .treeselect-menu {
+    display: inline-block;
+  }
+  .treeselect-item {
+    display: inline-block;
+    padding-left: $treeselect-line-height;
+    margin-bottom: -5px;
+    input {
+      margin-top: .65rem;
+      margin-right: .45rem;
+      margin-left: .65rem;
+    }
+    label {
+      margin-bottom: 0;
+      line-height: 2.1rem;
+    }
+  }
+  .treeselect-toggle + .treeselect-item {
+    padding-left: 0;
+  }
+  .dropdown-toggle {
+    padding: 0 .5rem .3rem;
+    margin-left: .5rem;
+    &::after {
+      margin-left: 0;
+      font-size: 1rem;
+      color: $gray;
+    }
+  }
+  .treeselect-header + .treeselect-sub > li > .treeselect-item {
+    padding-left: 0;
+  }
+}

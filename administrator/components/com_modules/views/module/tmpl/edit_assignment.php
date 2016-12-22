@@ -79,8 +79,8 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php if (count($type->links)) : ?>
 					<?php $prevlevel = 0; ?>
 					<li>
-						<div class="treeselect-item float-xs-left">
-							<label class="float-xs-left nav-header"><?php echo $type->title; ?></label></div>
+						<div class="treeselect-item treeselect-header">
+							<label class="nav-header"><?php echo $type->title; ?></label></div>
 					<?php foreach ($type->links as $i => $link) : ?>
 						<?php
 						if ($prevlevel < $link->level)
@@ -105,7 +105,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						}
 						?>
 							<li>
-								<div class="treeselect-item float-xs-left">
+								<div class="treeselect-item">
 									<?php $uselessMenuItem = (in_array($link->type, array("separator", "heading", "alias", "url"))); ?>
 									<input type="checkbox" class="float-xs-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
 									<label for="<?php echo $id . $link->value; ?>" class="float-xs-left">
@@ -142,7 +142,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 			<div style="display:none" id="treeselectmenu">
-				<div class="float-xs-left nav-hover treeselect-menu">
+				<div class="nav-hover treeselect-menu">
 					<div class="dropdown">
 						<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-xs btn-secondary">
 							<span class="caret"></span>
