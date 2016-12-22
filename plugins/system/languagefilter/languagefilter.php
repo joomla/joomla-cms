@@ -636,7 +636,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						// If any association set to the user preferred site language, redirect to that page.
 						if ($assoc)
 						{
-							$associations = MenusHelper::getAssociations($itemid);
+							$associations = MenusHelper::getAssociations($uri->getVar('Itemid'));
 						}
 
 						if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
