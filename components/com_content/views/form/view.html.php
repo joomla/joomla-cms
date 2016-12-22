@@ -28,7 +28,7 @@ class ContentViewForm extends JViewLegacy
 	 * Should we show a captcha form for the submission of the article?
 	 *
 	 * @var   bool
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	protected $captchaEnabled = false;
 
@@ -112,7 +112,7 @@ class ContentViewForm extends JViewLegacy
 		}
 
 		// Propose current language as default when creating new article
-		if (JLanguageMultilang::isEnabled() && empty($this->item->id))
+		if (empty($this->item->id) && JLanguageMultilang::isEnabled())
 		{
 			$lang = JFactory::getLanguage()->getTag();
 			$this->form->setFieldAttribute('language', 'default', $lang);

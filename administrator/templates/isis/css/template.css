@@ -7107,6 +7107,44 @@ div.modal.jviewport-width100 {
 	margin: 1px 0;
 	padding: 0 !important;
 }
+.CodeMirror {
+	height: calc(100vh - 400px);
+	min-height: 400px;
+	max-height: 800px;
+}
+body.modal-open {
+	overflow: hidden;
+	-ms-overflow-style: none;
+}
+.modal-header {
+	padding: 0 15px;
+	text-align: left;
+}
+.modal-header h3 {
+	font-weight: normal;
+	line-height: 50px;
+}
+.modal-header .close {
+	width: 50px;
+	margin-top: 0;
+	margin-right: -15px;
+	font-size: 2rem;
+	line-height: 50px;
+	border-left: 1px solid #ccc;
+}
+.modal-body {
+	padding: 0;
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+}
+.modal-footer {
+	clear: both;
+}
+.contentpane {
+	padding: 10px;
+	height: auto;
+}
 html {
 	height: 100%;
 }
@@ -7114,6 +7152,7 @@ body {
 	height: 100%;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	box-sizing: border-box;
 }
 a:hover,
 a:active,
@@ -7688,9 +7727,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	body {
 		padding-top: 30px;
 	}
-	body.component {
-		padding-top: 0;
-	}
 	.row-fluid [class*="span"] {
 		margin-left: 15px;
 	}
@@ -7713,11 +7749,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	.container-fluid {
 		padding-left: 0;
 		padding-right: 0;
-	}
-}
-@media (min-width: 738px) {
-	body.component {
-		padding-top: 0;
 	}
 }
 @media (max-width: 738px) {
@@ -8395,25 +8426,11 @@ textarea.vert {
 textarea.noResize {
 	resize: none;
 }
-body.modal-open {
-	overflow: hidden;
-	-ms-overflow-style: none;
-}
-.field-media-wrapper .modal .modal-body {
-	padding: 5px 10px;
-	overflow: hidden;
-}
 .js-pstats-data-details dd {
 	margin-left: 240px;
 }
 .js-pstats-data-details dt {
 	width: 220px;
-}
-.modal-footer {
-	clear: both;
-}
-.modal-header {
-	text-align: left;
 }
 #permissions table td,
 #page-permissions table td {
@@ -8696,18 +8713,12 @@ body.modal-open {
 #mediamanager-form .height-50 .icon-folder-2 {
 	font-size: 40px;
 }
-=======
-
 .subform-repeatable {
 	padding-right: 10px;
 }
-=======
-
 .subform-repeatable > .btn-toolbar {
 	margin: 0;
 }
-=======
-
 .subform-repeatable > .btn-toolbar .group-add {
 	line-height: 26px;
 	width: 56px;
@@ -8798,4 +8809,13 @@ body.modal-open {
 .hero-unit,
 .hero-unit .lead {
 	font-weight: 400;
+}
+#menu-assignment .menu-links {
+	margin-left: 0;
+}
+#menu-assignment .menu-links-block {
+	background-color: #fafafa;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 15px;
 }

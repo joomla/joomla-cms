@@ -74,7 +74,7 @@ JHtml::_('behavior.caption');
 	<?php if (!empty($this->intro_items)) : ?>
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 			<?php $rowcount = ((int) $key % (int) $this->columns) + 1; ?>
-			<?php if ($rowcount == 1) : ?>
+			<?php if ($rowcount === 1) : ?>
 				<?php $row = $counter / $this->columns; ?>
 				<div class="items-row cols-<?php echo (int) $this->columns; ?> <?php echo 'row-' . $row; ?> row-fluid clearfix">
 			<?php endif; ?>
@@ -101,7 +101,7 @@ JHtml::_('behavior.caption');
 		</div>
 	<?php endif; ?>
 
-	<?php if (!empty($this->children[$this->category->id]) && $this->maxLevel != 0) : ?>
+	<?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
 		<div class="cat-children">
 			<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 				<h3> <?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?> </h3>

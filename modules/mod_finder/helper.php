@@ -74,7 +74,7 @@ class ModFinderHelper
 
 		// Get the static taxonomy filters.
 		$options = array();
-		$options['filter'] = ($request->get('f', 0, 'int') != 0) ? $request->get('f', '', 'int') : $params->get('searchfilter');
+		$options['filter'] = ($request->get('f', 0, 'int') !== 0) ? $request->get('f', '', 'int') : $params->get('searchfilter');
 		$options['filter'] = $filter->clean($options['filter'], 'int');
 
 		// Get the dynamic taxonomy filters.

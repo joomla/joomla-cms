@@ -14,22 +14,31 @@ JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 /**
  * Fields component helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsHelperInternal
 {
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  $component  The component the fields are used for
-	 * @param   string  $vName      The view currently active
+	 * @param   string  $context  The context the fields are used for
+	 * @param   string  $vName    The view currently active
 	 *
 	 * @return  void
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    3.7.0
 	 */
-	public static function addSubmenu ($component, $vName)
+	public static function addSubmenu ($context, $vName)
 	{
+		$parts = FieldsHelper::extract($context);
+
+		if (!$parts)
+		{
+			return;
+		}
+
+		$component = $parts[0];
+
 		// Avoid nonsense situation.
 		if ($component == 'com_fields')
 		{
@@ -66,7 +75,7 @@ class FieldsHelperInternal
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function canEditFieldValue($field)
 	{
@@ -80,7 +89,7 @@ class FieldsHelperInternal
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function loadPlugins()
 	{

@@ -778,10 +778,10 @@ class JControllerForm extends JControllerLegacy
 			return false;
 		}
 
-		$langKey = $this->text_prefix . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
+		$langKey = $this->text_prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
 		$prefix  = JFactory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
 
-		$this->setMessage(JText::_($prefix . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
+		$this->setMessage(JText::_($prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)

@@ -43,13 +43,15 @@ class ContentViewArchive extends JViewLegacy
 		// Get the page/component configuration
 		$params = &$state->params;
 
+		JPluginHelper::importPlugin('content');
+
 		foreach ($items as $item)
 		{
 			$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 			// No link for ROOT category
-			if ($item->parent_alias == 'root')
+			if ($item->parent_alias === 'root')
 			{
 				$item->parent_slug = null;
 			}
@@ -64,7 +66,6 @@ class ContentViewArchive extends JViewLegacy
 				$item->text = $item->introtext;
 			}
 
-			JPluginHelper::importPlugin('content');
 			$dispatcher->trigger('onContentPrepare', array ('com_content.archive', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
@@ -114,7 +115,7 @@ class ContentViewArchive extends JViewLegacy
 		$years = array();
 		$years[] = JHtml::_('select.option', null, JText::_('JYEAR'));
 
-		for ($i = 0; $i < count($this->years); $i++)
+		for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++)
 		{
 			$years[] = JHtml::_('select.option', $this->years[$i], $this->years[$i]);
 		}

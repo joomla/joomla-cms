@@ -14,7 +14,7 @@ JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 /**
  * FieldsHelper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsHelper
 {
@@ -30,7 +30,7 @@ class FieldsHelper
 	 *
 	 * @return  array|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function extract($contextString)
 	{
@@ -62,7 +62,7 @@ class FieldsHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getFields($context, $item = null, $prepareValue = false, array $valuesToOverride = null)
 	{
@@ -188,7 +188,7 @@ class FieldsHelper
 	 *
 	 * @return  NULL|string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public static function render($context, $layoutFile, $displayData)
 	{
@@ -234,7 +234,7 @@ class FieldsHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function prepareForm($context, JForm $form, $data)
 	{
@@ -302,7 +302,7 @@ class FieldsHelper
 			 * Setting the onchange event to reload the page when the category
 			 * has changed
 			*/
-			$form->setFieldAttribute('catid', 'onchange', "categoryHasChanged(this);");
+			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
 			JFactory::getDocument()->addScriptDeclaration(
 					"function categoryHasChanged(element){
 				var cat = jQuery(element);
@@ -504,7 +504,7 @@ class FieldsHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function canEditFieldValue($field)
 	{
@@ -520,7 +520,7 @@ class FieldsHelper
 	 *
 	 * @return  stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function countItems(&$items)
 	{
@@ -564,7 +564,7 @@ class FieldsHelper
 	 *
 	 * @return  int  The fields system plugin extension id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getFieldsPluginId()
 	{
