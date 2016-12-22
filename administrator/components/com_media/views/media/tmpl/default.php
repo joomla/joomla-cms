@@ -47,7 +47,7 @@ if ($lang->isRtl())
 	<div id="j-sidebar-container" class="col-md-2">
 		<?php echo $this->sidebar; ?>
 		<div class="j-toggle-sidebar-header">
-		<h3 style="padding-left: 10px;"><?php echo JText::_('COM_MEDIA_FOLDERS');?> </h3>
+		<h3 style="padding-left: 10px;"><?php echo JText::_('COM_MEDIA_FOLDERS'); ?> </h3>
 		</div>
 		<div id="treeview" class="sidebar">
 			<div id="media-tree_tree" class="sidebar-nav">
@@ -78,10 +78,10 @@ if ($lang->isRtl())
 			<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
 		</form>
 
-		<?php if ($user->authorise('core.create', 'com_media')):?>
-		<?php // File Upload Form ?>
+		<?php if ($user->authorise('core.create', 'com_media')) : ?>
+		<!-- File Upload Form -->
 		<div id="collapseUpload" class="collapse">
-			<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;format=html" id="uploadForm" class="form-inline" name="uploadForm" method="post" enctype="multipart/form-data">
+			<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;format=html" id="uploadForm" class="form-inline" name="uploadForm" method="post" enctype="multipart/form-data">
 				<div id="uploadform">
 					<fieldset id="upload-noflash" class="actions">
 						<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
@@ -99,22 +99,22 @@ if ($lang->isRtl())
 			</form>
 		</div>
 		<div id="collapseFolder" class="collapse">
-			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" class="form-inline" method="post">
+			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index'); ?>" name="folderForm" id="folderForm" class="form-inline" method="post">
 				<div class="path">
-					<input type="text" class="form-control" id="folderpath" readonly="readonly" class="update-folder" />
+					<input type="text" id="folderpath" readonly="readonly" class="form-control update-folder" />
 					<input required type="text" class="form-control" id="foldername" name="foldername" />
-					<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
+					<input class="form-control update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
 					<button type="submit" class="btn btn-secondary"><span class="icon-folder-open"></span> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
 				</div>
 				<?php echo JHtml::_('form.token'); ?>
 			</form>
 		</div>
-		<?php endif;?>
+		<?php endif; ?>
 
-		<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" method="post">
+		<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index'); ?>" name="folderForm" id="folderForm" method="post">
 			<div id="folderview">
 				<div class="view">
-					<iframe class="thumbnail" src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder;?>" id="folderframe" name="folderframe" width="100%" height="500px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
+					<iframe class="thumbnail" src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>" id="folderframe" name="folderframe" width="100%" height="500px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
 				</div>
 				<?php echo JHtml::_('form.token'); ?>
 			</div>

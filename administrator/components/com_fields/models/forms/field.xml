@@ -23,12 +23,10 @@
 		/>
 
 		<field
-			name="catid"
-			type="categoryedit"
-			allowAdd="true"
+			name="group_id"
+			type="fieldgroups"
 			label="COM_FIELDS_FIELD_GROUP_LABEL"
-			extension="com_fields"
-			description="COM_FIELDS_FIELD_GROUP_DESC" class=""
+			description="COM_FIELDS_FIELD_GROUP_DESC"
 		>
 			<option value=""></option>
 		</field>
@@ -86,7 +84,7 @@
 
 		<field
 			name="default_value"
-			type="text"
+			type="textarea"
 			filter="raw"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
 			description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
@@ -211,7 +209,6 @@
 			translate_label="false"
 			filter="rules"
 			validate="rules"
-			component="com_fields"
 			section="field"
 		/>
 

@@ -164,8 +164,8 @@ abstract class JHtmlTag
 	public static function ajaxfield($selector = '#jform_tags', $allowCustom = true)
 	{
 		// Get the component parameters
-		$params = JComponentHelper::getParams("com_tags");
-		$minTermLength = (int) $params->get("min_term_length", 3);
+		$params = JComponentHelper::getParams('com_tags');
+		$minTermLength = (int) $params->get('min_term_length', 3);
 
 		JText::script('JGLOBAL_KEEP_TYPING');
 		JText::script('JGLOBAL_LOOKING_FOR');

@@ -62,6 +62,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							<?php
 							$this->fieldset    = 'description';
 							$short_description = JText::_($this->item->xml->description);
+							$this->fieldset    = 'description';
 							$long_description  = JLayoutHelper::render('joomla.edit.fieldset', $this);
 
 							if (!$long_description)

@@ -41,33 +41,44 @@
 			</field>
 		</fieldset>
 
-		<fieldset name="page-options"
-			label="COM_MENUS_PAGE_OPTIONS_LABEL"
-		>
+		<fieldset name="page-options" label="COM_MENUS_PAGE_OPTIONS_LABEL">
 
-
-			<field name="page_title" type="text"
+			<field
+				name="page_title"
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
-				description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC" />
+				description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC"
+				useglobal="true"
+			/>
 
-			<field name="show_page_heading" type="list"
+			<field
+				name="show_page_heading"
+				type="list"
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 				description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
+				class="chzn-color"
 				default=""
 				useglobal="true"
 				>
-				<option value="1" class="yes">JYES</option>
-				<option value="0" class="no">JNO</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 
-			<field name="page_heading" type="text"
+			<field
+				name="page_heading"
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
-				description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC" />
+				description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC"
+				useglobal="true"
+			/>
 
-			<field name="pageclass_sfx" type="text"
+			<field
+				name="pageclass_sfx"
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
-				description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC" />
-
+				description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC"
+				useglobal="true"
+			/>
 
 		</fieldset>
 

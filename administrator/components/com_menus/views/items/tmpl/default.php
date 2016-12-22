@@ -21,7 +21,6 @@ $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $ordering   = ($listOrder == 'a.lft');
-$canOrder   = $user->authorise('core.edit.state',	'com_menus');
 $saveOrder  = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $menuType   = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
 
@@ -81,7 +80,7 @@ if ($menuType == '')
 							<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 							</th>
-						<?php endif;?>
+						<?php endif; ?>
 						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
@@ -100,7 +99,7 @@ if ($menuType == '')
 
 				<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 				<?php
-				
+
 				foreach ($this->items as $i => $item) :
 					$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
 					$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $item->menutype_id);
@@ -136,7 +135,7 @@ if ($menuType == '')
 						$parentsStr = "";
 					}
 					?>
-					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
+					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $item->level; ?>">
 						<?php if ($menuType) : ?>
 							<td class="order nowrap text-xs-center hidden-sm-down">
 								<?php
@@ -155,7 +154,7 @@ if ($menuType == '')
 									<span class="icon-menu"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
-									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" />
+									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>" />
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
@@ -172,7 +171,7 @@ if ($menuType == '')
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
-								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
+								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 									<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
@@ -180,12 +179,12 @@ if ($menuType == '')
 							<span class="small">
 							<?php if ($item->type != 'url') : ?>
 								<?php if (empty($item->note)) : ?>
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 								<?php else : ?>
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note));?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 								<?php endif; ?>
 							<?php elseif ($item->type == 'url' && $item->note) : ?>
-								<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
+								<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 							<?php endif; ?>
 							</span>
 							<?php echo JHtml::_('MenusHtml.Menus.visibility', $item->params); ?>

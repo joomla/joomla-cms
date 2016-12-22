@@ -125,7 +125,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

@@ -148,7 +148,7 @@ class ContactViewContact extends JViewLegacy
 				'btn-success'
 			);
 
-			if ($this->state->params->get('save_history', 0) && $itemEditable)
+			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				JToolbarHelper::versions('com_contact.contact', $this->item->id);
 			}

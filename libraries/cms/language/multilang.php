@@ -36,7 +36,7 @@ class JLanguageMultilang
 		$app = JFactory::getApplication();
 
 		// If being called from the frontend, we can avoid the database query.
-		if ($app->isSite())
+		if ($app->isClient('site'))
 		{
 			$enabled = $app->getLanguageFilter();
 

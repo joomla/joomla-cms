@@ -90,21 +90,33 @@ var JFormValidator = function() {
 			}
 			// Only validate the field if the validate class is set
 			handler = ($el.getAttribute('class') && $el.getAttribute('class').match(/validate-([a-zA-Z0-9\_\-]+)/)) ? $el.getAttribute('class').match(/validate-([a-zA-Z0-9\_\-]+)/)[1] : "";
-			if (handler === '') {
-				handleResponse(true, $el);
-				return true;
-			}
-			// Check the additional validation types
-			if ((handler) && (handler !== 'none') && (handlers[handler]) && $el.value) {
-				// Execute the validation handler and return result
-				if (handlers[handler].exec($el.value, $el) !== true) {
+
+			if ($el.getAttribute('pattern') && $el.getAttribute('pattern') != '') {
+				if ($el.value.length) {
+					isValid = new RegExp('^' + $el.getAttribute('pattern') + '$').test($el.value);
+					handleResponse(isValid, $el);
+					return isValid;
+				} else {
 					handleResponse(false, $el);
 					return false;
 				}
+			} else {
+				if (handler === '') {
+					handleResponse(true, $el);
+					return true;
+				}
+				// Check the additional validation types
+				if ((handler) && (handler !== 'none') && (handlers[handler]) && $el.value) {
+					// Execute the validation handler and return result
+					if (handlers[handler].exec($el.value, $el) !== true) {
+						handleResponse(false, $el);
+						return false;
+					}
+				}
+				// Return validation state
+				handleResponse(true, $el);
+				return true;
 			}
-			// Return validation state
-			handleResponse(true, $el);
-			return true;
 		},
 
 		isValid = function(form) {

@@ -47,9 +47,25 @@ vendors:
                   'version': '0.8.1'
                   'dependencies': ''
 
-
-### The javascript polyfills
-polyfills:
-        - 'Element.prototype.classList'
-        - 'Event'
-
+## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
+CmAddons:
+        js:
+            - 'addon/display/fullscreen.js'
+            - 'addon/display/panel.js'
+            - 'addon/edit/closebrackets.js'
+            - 'addon/edit/closetag.js'
+            - 'addon/edit/matchbrackets.js'
+            - 'addon/edit/matchtags.js'
+            - 'addon/fold/brace-fold.js'
+            - 'addon/fold/foldcode.js'
+            - 'addon/fold/foldgutter.js'
+            - 'addon/fold/xml-fold.js'
+            - 'addon/mode/loadmode.js'
+            - 'addon/mode/multiplex.js'
+            - 'addon/scroll/simplescrollbars.js'
+            - 'addon/selection/active-line.js'
+            - 'keymap/vim.js'
+        css:
+            - 'addon/display/fullscreen.css'
+            - 'addon/fold/foldgutter.css'
+            - 'addon/scroll/simplescrollbars.css'

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<div class="control-group">
 		<div class="control-label">
 			<label for="new_name" class="modalTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>">
-				<?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?>
+				<?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME'); ?>
 			</label>
 		</div>
 		<div class="controls">

@@ -38,7 +38,7 @@ JHtml::_('script', 'com_finder/finder.js', array('version' => 'auto', 'relative'
 <?php endif;
 
 // Load the search results layout if we are performing a search.
-if ($this->query->search === true):
+if ($this->query->search === true) :
 ?>
 	<div id="search-results">
 		<?php echo $this->loadTemplate('results'); ?>

@@ -29,9 +29,9 @@
   .treeselect-toggle {
     display: inline-block;
     width: $treeselect-line-height;
-    height: $treeselect-line-height;
+    height: 1.9rem;
     padding: 0;
-    line-height: $treeselect-line-height;
+    line-height: 1.9rem;
     color: #fff;
     text-align: center;
     cursor: pointer;
@@ -56,9 +56,9 @@
   .treeselect-item {
     display: inline-block;
     padding-left: $treeselect-line-height;
+    margin-bottom: -5px;
     input {
-      position: relative;
-      top: 1px;
+      margin-top: .65rem;
       margin-right: .45rem;
       margin-left: .65rem;
     }

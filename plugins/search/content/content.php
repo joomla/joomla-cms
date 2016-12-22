@@ -115,7 +115,7 @@ class PlgSearchContent extends JPlugin
 					$wheres[]  = implode(' OR ', $wheres2);
 				}
 
-				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 
@@ -187,7 +187,7 @@ class PlgSearchContent extends JPlugin
 				->order($order);
 
 			// Filter by language.
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 			{
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
@@ -242,7 +242,7 @@ class PlgSearchContent extends JPlugin
 
 			$query->select(
 				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '
-					. $query->concatenate(array("a.introtext", "a.fulltext")) . ' AS text,'
+					. $query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text,'
 					. $case_when . ',' . $case_when1 . ', '
 					. 'c.title AS section, \'2\' AS browsernav'
 			)
@@ -262,7 +262,7 @@ class PlgSearchContent extends JPlugin
 				->order($order);
 
 			// Filter by language.
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 			{
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
@@ -291,8 +291,8 @@ class PlgSearchContent extends JPlugin
 				{
 					$date = JFactory::getDate($item->created);
 
-					$created_month = $date->format("n");
-					$created_year  = $date->format("Y");
+					$created_month = $date->format('n');
+					$created_year  = $date->format('Y');
 
 					$list3[$key]->href = JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
 				}

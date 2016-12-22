@@ -62,7 +62,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						<a class="tag <?php echo $item->returns > 0 ? ' tag-success' : ' tag-default'; ?>" target="_blank" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
 							<?php echo $item->returns; ?><span class="icon-out-2"><span class="element-invisible"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span></span></a>
 					</td>
-					<?php else: ?>
+					<?php else : ?>
 					<td class="text-xs-center">
 						<?php echo JText::_('COM_SEARCH_NO_RESULTS'); ?>
 					</td>

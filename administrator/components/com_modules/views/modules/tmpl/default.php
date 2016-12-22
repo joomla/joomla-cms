@@ -155,7 +155,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 							<?php endif; ?>
 						</td>
 						<td class="small hidden-sm-down text-xs-center">
-							<?php echo $item->name;?>
+							<?php echo $item->name; ?>
 						</td>
 						<?php if ($clientId === 0) : ?>
 						<td class="small hidden-sm-down text-xs-center">
@@ -175,7 +175,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<?php // Load the batch processing form. ?>
 		<?php if ($user->authorise('core.create', 'com_modules')

@@ -42,7 +42,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tfoot>
 				<tbody>
 					<?php $i = 0; ?>
-					<?php foreach ($this->items as $table => $count): ?>
+					<?php foreach ($this->items as $table => $count) : ?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-xs-center"><?php echo JHtml::_('grid.id', $i, $table); ?></td>
 							<td>
@@ -58,7 +58,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>
