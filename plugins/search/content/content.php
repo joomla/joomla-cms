@@ -183,7 +183,7 @@ class PlgSearchContent extends JPlugin
 				->order($order);
 
 			// Join over Fields.
-			$query->join('LEFT', '#__fields_values AS fv ON fv.item_id = a.id')
+			$query->join('LEFT', '#__fields_values AS fv ON CAST(fv.item_id AS INTEGER) = a.id')
 				->join('LEFT', '#__fields AS f ON f.id = fv.field_id')
 				->where('(fv.context IS NULL OR fv.context = ' . $db->q('com_content.article') . ')')
 				->where('(f.state IS NULL OR f.state = 1)')
@@ -262,7 +262,7 @@ class PlgSearchContent extends JPlugin
 				->order($order);
 
 			// Join over Fields.
-			$query->join('LEFT', '#__fields_values AS fv ON fv.item_id = a.id')
+			$query->join('LEFT', '#__fields_values AS fv ON CAST(fv.item_id AS INTEGER) = a.id')
 				->join('LEFT', '#__fields AS f ON f.id = fv.field_id')
 				->where('(fv.context IS NULL OR fv.context = ' . $db->q('com_content.article') . ')')
 				->where('(f.state IS NULL OR f.state = 1)')
@@ -323,7 +323,7 @@ class PlgSearchContent extends JPlugin
 					$query->select('value')
 						->from('#__fields_values')
 						->where('context = ' . $db->quote('com_content.article'))
-						->where('item_id = ' . (int) $article->slug);
+						->where('item_id = ' . $db->quote((int) $article->slug));
 					$db->setQuery($query);
 					$article->fields = implode(',', $db->loadColumn());
 
