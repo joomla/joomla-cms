@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 JLoader::register('FieldsHelperInternal', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/internal.php');
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
-
 /**
  * FieldsHelper
  *
