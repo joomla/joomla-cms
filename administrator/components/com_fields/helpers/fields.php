@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 JLoader::register('FieldsHelperInternal', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/internal.php');
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
+
 /**
  * FieldsHelper
  *
@@ -303,37 +304,11 @@ class FieldsHelper
 			 * has changed
 			*/
 			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
-			JFactory::getDocument()->addStyleDeclaration("
-			#jfields-overlay {
-				position:absolute;
-				top:0;
-				left:0;
-				right:0;
-				bottom:0;
-				background-color: #707070;
-				background-image: -webkit-repeating-linear-gradient(135deg,#707070,#707070 6px,#676767 6px,#676767 12px);
-				background-image: repeating-linear-gradient(135deg,#707070,#707070 6px,#676767 6px,#676767 12px);
-				opacity: 0.5;
-				filter: alpha(opacity=50);
-				z-index: 2000;
-			}
-			#jfields-loading-msg {
-				background: white;
-				border-radius: 4px;
-				padding: 6px 12px;
-				font-size: 18px;
-				position: fixed;
-				top: 45%;
-				left: 50%;
-				-webkit-transform: translate(-50%, -50%);
-				transform: translate(-50%, -50%);
-				box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-				z-index: 2050;
-			}");
+
+			// Preload spindle-wheel when we need to submit form due to category selector changed
 			JFactory::getDocument()->addScriptDeclaration("
-			function categoryHasChanged(element){
-				jQuery('<div id=\"jfields-overlay\"></div>').appendTo(document.body);
-				jQuery('<div id=\"jfields-loading-msg\">" . JText::_('JLOADING') . " ...</div>').appendTo(document.body);
+			function categoryHasChanged(element) {
+				Joomla.loadingLayer('show');
 				var cat = jQuery(element);
 				if (cat.val() == '" . $assignedCatids . "')return;
 				jQuery('input[name=task]').val('field.storeform');
@@ -341,6 +316,7 @@ class FieldsHelper
 				element.form.submit();
 			}
 			jQuery( document ).ready(function() {
+				Joomla.loadingLayer('load');
 				var formControl = '#" . $form->getFormControl() . "_catid';
 				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
 			});");
