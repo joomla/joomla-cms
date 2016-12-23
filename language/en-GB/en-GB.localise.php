@@ -73,7 +73,7 @@ abstract class En_GBLocalise
 		return array(
 			array('=', 0, '0'),
 			array('=', 1, '1'),
-			array('>', 2, 'MORE'),
+			array('>', 1, 'MORE'),
 		);
 	}
 
