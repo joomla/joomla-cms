@@ -11,10 +11,28 @@
 	<description>PLG_FIELDS_TEXT_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="text">text.php</filename>
-		<filename>params.xml</filename>
+		<folder>params</folder>
+		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_fields_text.ini</language>
 		<language tag="en-GB">en-GB.plg_fields_text.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="filter"
+					type="list"
+					class="btn-group"
+					default="0"
+					label="PLG_FIELDS_TEXT_FIELDPARAMS_FILTER_LABEL"
+					description="PLG_FIELDS_TEXT_FIELDPARAMS_FILTER_DESC"
+				>
+					<option value="0">JNO</option>
+					<option value="raw">PLG_FIELDS_TEXT_FIELDPARAMS_FILTER_RAW</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

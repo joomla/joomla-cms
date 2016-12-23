@@ -26,23 +26,44 @@ abstract class FieldsPlugin extends JPlugin
 	 */
 	public function onCustomFieldsGetTypes()
 	{
-		// The data array
-		$data = array();
+		$types = array();
 
-		// Generic attributes
-		$data['type']  = $this->_name;
-		$data['label'] = JText::_('PLG_FIELDS_' . strtoupper($this->_name) . '_LABEL');
+		// The root of the plugin
+		$root = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
 
-		$path = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/fields';
-
-		// Add the path when it exists
-		if (file_exists($path))
+		foreach (JFolder::files($root . '/tmpl', '.php') as $layout)
 		{
-			$data['path'] = $path;
+			// Strip the extension
+			$layout = str_replace('.php', '', $layout);
+
+			// The data array
+			$data = array();
+
+			// The language key
+			$key = strtoupper($layout);
+
+			if ($key != strtoupper($this->_name))
+			{
+				$key = strtoupper($this->_name) . '_' . $layout;
+			}
+
+			// Needed attributes
+			$data['type']  = $layout;
+			$data['label'] = JText::_('PLG_FIELDS_' . $key . '_LABEL');
+
+			$path = $root . '/fields';
+
+			// Add the path when it exists
+			if (file_exists($path))
+			{
+				$data['path'] = $path;
+			}
+
+			$types[] = $data;
 		}
 
 		// Return the data
-		return array($data);
+		return $types;
 	}
 
 	/**
@@ -59,15 +80,25 @@ abstract class FieldsPlugin extends JPlugin
 	public function onCustomFieldsPrepareField($context, $item, $field)
 	{
 		// Check if the field should be processed by us
-		if ($field->type != $this->_name)
+		if (!$this->isTypeSupported($field->type))
 		{
 			return;
 		}
 
-		$path = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts';
+		// Merge the params from the plugin and field which has precedence
+		$fieldParams = $this->params;
+		$fieldParams->merge($field->fieldparams);
 
-		// Prepare the value from the type layout
-		return JLayoutHelper::render('field.prepare.' . $field->type, array('field' => $field), $path);
+		// Get the path for the layout file
+		$path = JPluginHelper::getLayoutPath('fields', $field->type, $field->type);
+
+		// Render the layout
+		ob_start();
+		include $path;
+		$output = ob_get_clean();
+
+		// Return the output
+		return $output;
 	}
 
 	/**
@@ -86,7 +117,7 @@ abstract class FieldsPlugin extends JPlugin
 	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
 	{
 		// Check if the field should be processed by us
-		if ($field->type != $this->_name)
+		if (!$this->isTypeSupported($field->type))
 		{
 			return;
 		}
@@ -126,13 +157,19 @@ abstract class FieldsPlugin extends JPlugin
 		// Set the specific field parameters
 		foreach ($field->fieldparams->toArray() as $key => $param)
 		{
+			if ($param === '')
+			{
+				// If the param is empty get it from the plugin parameters
+				$param = $this->params->get($key);
+			}
+
 			if (is_array($param))
 			{
 				// Multidimensional arrays (eg. list options) can't be transformed properly
 				$param = count($param) == count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
 			}
 
-			if (!$param)
+			if ($param === '')
 			{
 				continue;
 			}
@@ -157,7 +194,7 @@ abstract class FieldsPlugin extends JPlugin
 	 * @param   JForm     $form  The form
 	 * @param   stdClass  $data  The data
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -169,7 +206,24 @@ abstract class FieldsPlugin extends JPlugin
 			return;
 		}
 
-		$path = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/params.xml';
+		// Ensure it is an object
+		$formData = (object)$data;
+
+		// Gather the type
+		$type = $form->getValue('type');
+
+		if(!empty($formData->type))
+		{
+			$type = $formData->type;
+		}
+
+		// Not us
+		if (!$this->isTypeSupported($type))
+		{
+			return;
+		}
+
+		$path = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/params/' . $type . '.xml';
 
 		// Check if params file exists
 		if (!file_exists($path))
@@ -177,24 +231,29 @@ abstract class FieldsPlugin extends JPlugin
 			return;
 		}
 
-		// Ensure it is an object
-		$formData = (object)$data;
-
-		// Gather the type
-		$type = $form->getValue('type');
-
-		if(isset($formData->type) && $formData->type)
-		{
-			$type = $formData->type;
-		}
-
-		// Not us
-		if ($type != $this->_name)
-		{
-			return;
-		}
-
 		// Load the specific plugin parameters
 		$form->load(file_get_contents($path), true, '/form/*');
+	}
+
+	/**
+	 * Returns true if the given type is supported by the plugin.
+	 *
+	 * @param   string  $type  The type
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function isTypeSupported($type)
+	{
+		foreach ($this->onCustomFieldsGetTypes() as $typeSpecification)
+		{
+			if ($type == $typeSpecification['type'])
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

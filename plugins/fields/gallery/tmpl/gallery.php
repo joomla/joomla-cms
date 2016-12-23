@@ -9,12 +9,6 @@
 
 defined('_JEXEC') or die;
 
-if (!key_exists('field', $displayData))
-{
-	return;
-}
-
-$field = $displayData['field'];
 $value = $field->value;
 
 if (!$value)
@@ -35,9 +29,9 @@ JHtml::_('stylesheet', 'plg_fields_gallery/fotorama.min.css', array('version' =>
 
 $value = (array) $value;
 
-$thumbWidth     = $field->fieldparams->get('thumbnail_width', '64');
-$maxImageWidth  = $field->fieldparams->get('max_width', 0);
-$maxImageHeight = $field->fieldparams->get('max_height', 0);
+$thumbWidth     = $fieldParams->get('thumbnail_width', '64');
+$maxImageWidth  = $fieldParams->get('max_width', 0);
+$maxImageHeight = $fieldParams->get('max_height', 0);
 
 // Main container
 $buffer = '<div class="fotorama" data-nav="thumbs" data-width="100%" ' . ($maxImageHeight ? 'data-height="' . $maxImageHeight . '"' : '') . '>';
@@ -51,9 +45,9 @@ foreach ($value as $path)
 	}
 
 	// The root folder
-	$root = $field->fieldparams->get('directory', 'images');
+	$root = $fieldParams->get('directory', 'images');
 
-	foreach (JFolder::files(JPATH_ROOT . '/' . $root . '/' . $path, '.', $field->fieldparams->get('recursive', '1'), true) as $file)
+	foreach (JFolder::files(JPATH_ROOT . '/' . $root . '/' . $path, '.', $fieldParams->get('recursive', '1'), true) as $file)
 	{
 		// Skip none image files
 		if (!in_array(
