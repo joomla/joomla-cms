@@ -90,7 +90,7 @@ JHtml::_('bootstrap.tooltip');
 		<?php endif; ?>
 		<div id="form-login-submit" class="control-group">
 			<div class="controls">
-				<button type="submit" tabindex="0" name="Submit" class="btn btn-primary"><?php echo JText::_('JLOGIN'); ?></button>
+				<button id="modlgn-button" type="submit" tabindex="0" name="Submit" class="btn btn-primary"><?php echo JText::_('JLOGIN'); ?></button>
 			</div>
 		</div>
 		<?php
