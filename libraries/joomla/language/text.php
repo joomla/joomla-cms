@@ -291,15 +291,11 @@ class JText
 			{
 				if ($lastParameterIsArray)
 				{
-					$strings[$baseString] = $lang->_(
-						$baseString, false, $interpretBackslashes
-					);
+					$strings[$baseString] = $lang->_($baseString, false, $interpretBackslashes);
 				}
 				else
 				{
-					$strings[$baseString] = $lang->_(
-						$baseString, false
-					);
+					$strings[$baseString] = $lang->_($baseString, false);
 				}
 				continue;
 			}
@@ -312,9 +308,7 @@ class JText
 
 					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true))
 					{
-						$strings[$key] = $lang->_(
-							$key, false, $interpretBackslashes
-						);
+						$strings[$key] = $lang->_($key, false, $interpretBackslashes);
 					}
 				}
 			}
@@ -326,9 +320,7 @@ class JText
 
 					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true))
 					{
-						$strings[$key] = $lang->_(
-							$key, false
-						);
+						$strings[$key] = $lang->_($key, false);
 					}
 				}
 			}
