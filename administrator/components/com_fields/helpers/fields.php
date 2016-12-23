@@ -333,7 +333,7 @@ class FieldsHelper
 			JFactory::getDocument()->addScriptDeclaration("
 			function categoryHasChanged(element){
 				jQuery('<div id=\"jfields-overlay\"></div>').appendTo(document.body);
-				jQuery('<div id=\"jfields-loading-msg\">".JText::_('JLOADING')." ...</div>').appendTo(document.body);
+				jQuery('<div id=\"jfields-loading-msg\">" . JText::_('JLOADING') . " ...</div>').appendTo(document.body);
 				var cat = jQuery(element);
 				if (cat.val() == '" . $assignedCatids . "')return;
 				jQuery('input[name=task]').val('field.storeform');
