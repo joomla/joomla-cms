@@ -494,7 +494,7 @@ ENDDATA;
 				else
 				{
 					// Try to find the system temp path.
-					$tmpfile = @tempnam("dummy", "");
+					$tmpfile = @tempnam('dummy', '');
 					$systemp = @dirname($tmpfile);
 					@unlink($tmpfile);
 

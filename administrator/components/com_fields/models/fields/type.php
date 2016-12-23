@@ -14,7 +14,7 @@ JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 /**
  * Fields Type
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormFieldType extends JFormAbstractlist
 {
@@ -33,13 +33,13 @@ class JFormFieldType extends JFormAbstractlist
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
 		$return = parent::setup($element, $value, $group);
 
-		$this->onchange = "typeHasChanged(this);";
+		$this->onchange = 'typeHasChanged(this);';
 
 		return $return;
 	}
@@ -49,7 +49,7 @@ class JFormFieldType extends JFormAbstractlist
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getOptions()
 	{

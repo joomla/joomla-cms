@@ -174,7 +174,7 @@ class JLanguageHelper
 	 *
 	 * @return  array  Array with the installed languages.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getInstalledLanguages($clientId = null, $processMetaData = false, $processManifest = false, $pivot = 'element',
 		$orderField = null, $orderDirection = null)
@@ -321,7 +321,7 @@ class JLanguageHelper
 	 *
 	 * @return  array  Array of the content languages.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getContentLanguages($checkPublished = true, $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
 		$orderDirection = null)

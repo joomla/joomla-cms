@@ -162,46 +162,46 @@ Joomla.editors.instances = Joomla.editors.instances || {};
         }
     };
 
-    /**
-     * Joomla options storage
-     *
-     * @type {{}}
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    Joomla.optionsStorage = Joomla.optionsStorage || null;
+	/**
+	 * Joomla options storage
+	 *
+	 * @type {{}}
+	 *
+	 * @since 3.7.0
+	 */
+	Joomla.optionsStorage = Joomla.optionsStorage || null;
 
-    /**
-     * Get script(s) options
-     *
-     * @param {String} key  Name in Storage
-     * @param mixed    def  Default value if nothing found
-     *
-     * @return mixed
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    Joomla.getOptions = function( key, def ) {
-        // Load options if they not exists
-        if (!Joomla.optionsStorage) {
-            Joomla.loadOptions();
-        }
+	/**
+	 * Get script(s) options
+	 *
+	 * @param {String} key  Name in Storage
+	 * @param mixed    def  Default value if nothing found
+	 *
+	 * @return mixed
+	 *
+	 * @since 3.7.0
+	 */
+	Joomla.getOptions = function( key, def ) {
+		// Load options if they not exists
+		if (!Joomla.optionsStorage) {
+			Joomla.loadOptions();
+		}
 
         return Joomla.optionsStorage[key] !== undefined ? Joomla.optionsStorage[key] : def;
     };
 
-    /**
-     * Load new options from given options object or from Element
-     *
-     * @param {Object|undefined} options   The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    Joomla.loadOptions = function( options ) {
-        // Load form the script container
-        if (!options) {
-            var elements = document.querySelectorAll('.joomla-script-options.new'),
-                str, element, option;
+	/**
+	 * Load new options from given options object or from Element
+	 *
+	 * @param {Object|undefined} options   The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
+	 *
+	 * @since 3.7.0
+	 */
+	Joomla.loadOptions = function( options ) {
+		// Load form the script container
+		if (!options) {
+			var elements = document.querySelectorAll('.joomla-script-options.new'),
+				str, element, option;
 
             for (var i = 0, l = elements.length; i < l; i++) {
                 element = elements[i];

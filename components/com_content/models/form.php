@@ -177,17 +177,15 @@ class ContentModelForm extends ContentModelArticle
 	public function save($data)
 	{
 		// Associations are not edited in frontend ATM so we have to inherit them
-		if (JLanguageAssociations::isEnabled() && !empty($data['id']))
+		if (JLanguageAssociations::isEnabled() && !empty($data['id'])
+			&& $associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $data['id']))
 		{
-			if ($associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $data['id']))
+			foreach ($associations as $tag => $associated)
 			{
-				foreach ($associations as $tag => $associated)
-				{
-					$associations[$tag] = (int) $associated->id;
-				}
-
-				$data['associations'] = $associations;
+				$associations[$tag] = (int) $associated->id;
 			}
+
+			$data['associations'] = $associations;
 		}
 
 		return parent::save($data);

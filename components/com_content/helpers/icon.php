@@ -147,7 +147,7 @@ abstract class JHtmlIcon
 		}
 
 		$date   = JHtml::_('date', $article->created);
-		$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
+		$author = $article->created_by_alias ?: $article->author;
 
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;

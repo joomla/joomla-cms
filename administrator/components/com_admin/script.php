@@ -208,7 +208,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function removeJedUpdateserver()
 	{
@@ -225,14 +225,14 @@ class JoomlaInstallerScript
 			)->loadResult();
 
 			// Delete from update sites
-			$result = $db->setQuery(
+			$db->setQuery(
 				$db->getQuery(true)
 					->delete($db->quoteName('#__update_sites'))
 					->where($db->quoteName('update_site_id') . ' = ' . $id)
 			)->execute();
 
 			// Delete from update sites extensions
-			$result = $db->setQuery(
+			$db->setQuery(
 				$db->getQuery(true)
 					->delete($db->quoteName('#__update_sites_extensions'))
 					->where($db->quoteName('update_site_id') . ' = ' . $id)
@@ -1220,6 +1220,11 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format/json.php',
 			'/libraries/joomla/registry/format/php.php',
 			'/libraries/joomla/registry/format/xml.php',
+			'/libraries/joomla/github/users.php',
+			'/media/system/js/validate-jquery-uncompressed.js',
+			'/templates/beez3/html/message.php',
+			'/libraries/fof/platform/joomla.php',
+			'/libraries/fof/readme.txt',
 			// Joomla 3.3.1
 			'/administrator/templates/isis/html/message.php',
 			// Joomla 3.3.6
@@ -1546,7 +1551,7 @@ class JoomlaInstallerScript
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade/jade.js',
 			'/media/editors/codemirror/mode/jade/jade.min.js',
-			// Joomla __DEPLOY_VERSION__
+			// Joomla 3.7.0
 			'/libraries/joomla/user/authentication.php',
 			'/libraries/platform.php',
 			'/libraries/joomla/data/data.php',
@@ -1699,7 +1704,7 @@ class JoomlaInstallerScript
 			'/libraries/simplepie',
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade',
-			// Joomla! __DEPLOY_VERSION__
+			// Joomla! 3.7.0
 			'/libraries/joomla/data',
 		);
 
@@ -1924,7 +1929,7 @@ class JoomlaInstallerScript
 		}
 
 		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		$fileName1 = JPATH_ROOT . "/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
+		$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
 
 		if (is_file($fileName1))
 		{
@@ -1948,7 +1953,7 @@ class JoomlaInstallerScript
 		}
 
 		// Step 2: Perform the index modifications and conversions
-		$fileName2 = JPATH_ROOT . "/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
+		$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql';
 
 		if (is_file($fileName2))
 		{

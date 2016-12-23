@@ -413,6 +413,11 @@ class UsersModelUser extends JModelAdmin
 
 		JPluginHelper::importPlugin($this->events_map['save']);
 
+		// Prepare the logout options.
+		$options = array(
+			'clientid' => $app->get('shared_session', '0') ? null : 0,
+		);
+
 		// Access checks.
 		foreach ($pks as $i => $pk)
 		{
@@ -429,11 +434,6 @@ class UsersModelUser extends JModelAdmin
 
 				// Don't allow non-super-admin to delete a super admin
 				$allow = (!$iAmSuperAdmin && JAccess::check($pk, 'core.admin')) ? false : $allow;
-
-				// Prepare the logout options.
-				$options = array(
-					'clientid' => 0
-				);
 
 				if ($allow)
 				{
@@ -677,6 +677,19 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function batchReset($user_ids, $action)
 	{
+		$user_ids = ArrayHelper::toInteger($user_ids);
+
+		// Check if I am a Super Admin
+		$iAmSuperAdmin = JFactory::getUser()->authorise('core.admin');
+
+		// Non-super super user cannot work with super-admin user.
+		if (!$iAmSuperAdmin && JUserHelper::checkSuperUserInUsers($user_ids))
+		{
+			$this->setError(JText::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
+
+			return false;
+		}
+
 		// Set the action to perform
 		if ($action === 'yes')
 		{
@@ -738,18 +751,29 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function batchUser($group_id, $user_ids, $action)
 	{
-		// Get the DB object
-		$db = $this->getDbo();
-
 		$user_ids = ArrayHelper::toInteger($user_ids);
 
-		// Non-super admin cannot work with super-admin group
-		if ((!JFactory::getUser()->get('isRoot') && JAccess::checkGroup($group_id, 'core.admin')) || $group_id < 1)
+		// Check if I am a Super Admin
+		$iAmSuperAdmin = JFactory::getUser()->authorise('core.admin');
+
+		// Non-super super user cannot work with super-admin user.
+		if (!$iAmSuperAdmin && JUserHelper::checkSuperUserInUsers($user_ids))
+		{
+			$this->setError(JText::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
+
+			return false;
+		}
+
+		// Non-super admin cannot work with super-admin group.
+		if ((!$iAmSuperAdmin && JAccess::checkGroup($group_id, 'core.admin')) || $group_id < 1)
 		{
 			$this->setError(JText::_('COM_USERS_ERROR_INVALID_GROUP'));
 
 			return false;
 		}
+
+		// Get the DB object
+		$db = $this->getDbo();
 
 		switch ($action)
 		{
@@ -892,7 +916,6 @@ class UsersModelUser extends JModelAdmin
 		{
 			$result   = array();
 			$form     = $this->getForm();
-			$groupIDs = array();
 
 			if ($form)
 			{
@@ -963,17 +986,17 @@ class UsersModelUser extends JModelAdmin
 		// Get the encrypted data
 		list($method, $config) = explode(':', $item->otpKey, 2);
 		$encryptedOtep = $item->otep;
-		
+
 		// Get the secret key, yes the thing that is saved in the configuration file
 		$key = $this->getOtpConfigEncryptionKey();
-		
+
 		if (strpos($config, '{') === false)
 		{
 			$openssl         = new FOFEncryptAes($key, 256);
 			$mcrypt          = new FOFEncryptAes($key, 256, 'cbc', null, 'mcrypt');
-			
+
 			$decryptedConfig = $mcrypt->decryptString($config);
-			
+
 			if (strpos($decryptedConfig, '{') !== false)
 			{
 				// Data encrypted with mcrypt
@@ -985,9 +1008,9 @@ class UsersModelUser extends JModelAdmin
 				// Config data seems to be save encrypted, this can happen with 3.6.3 and openssl, lets get the data
 				$decryptedConfig = $openssl->decryptString($config);
 			}
-			
+
 			$otpKey = $method . ':' . $decryptedConfig;
-			
+
 			$query = $db->getQuery(true)
 				->update($db->qn('#__users'))
 				->set($db->qn('otep') . '=' . $db->q($encryptedOtep))
@@ -1000,7 +1023,7 @@ class UsersModelUser extends JModelAdmin
 		{
 			$decryptedConfig = $config;
 		}
-		
+
 		// Create an encryptor class
 		$aes = new FOFEncryptAes($key, 256);
 
@@ -1044,7 +1067,7 @@ class UsersModelUser extends JModelAdmin
 		// Return the configuration object
 		return $otpConfig;
 	}
-	
+
 	/**
 	 * Sets the one time password (OTP) – a.k.a. two factor authentication –
 	 * configuration for a particular user. The $otpConfig object is the same as

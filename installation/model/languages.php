@@ -692,7 +692,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function publishContentLanguages()
 	{

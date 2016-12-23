@@ -139,7 +139,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @note    This method defaults to true to emulate the behavior of 3.6 and earlier which did not support this lookup
 	 */
 	protected function canUninstallPackageChild($packageId)

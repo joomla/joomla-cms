@@ -62,7 +62,7 @@ class BannersModelBanners extends JModelList
 		$cid        = $this->getState('filter.client_id');
 		$categoryId = $this->getState('filter.category_id');
 		$keywords   = $this->getState('filter.keywords');
-		$randomise  = ($ordering == 'random');
+		$randomise  = ($ordering === 'random');
 		$nullDate   = $db->quote($db->getNullDate());
 		$nowDate    = $db->quote(JFactory::getDate()->toSql());
 
@@ -134,7 +134,7 @@ class BannersModelBanners extends JModelList
 
 		if ($tagSearch)
 		{
-			if (count($keywords) == 0)
+			if (count($keywords) === 0)
 			{
 				$query->where('0');
 			}
@@ -231,7 +231,7 @@ class BannersModelBanners extends JModelList
 		{
 			return;
 		}
-		
+
 		foreach ($items as $item)
 		{
 			$bid[] = (int) $item->id;
@@ -291,7 +291,7 @@ class BannersModelBanners extends JModelList
 					JError::raiseError(500, $e->getMessage());
 				}
 
-				if ($db->getAffectedRows() == 0)
+				if ($db->getAffectedRows() === 0)
 				{
 					// Insert new count
 					$query->clear();
