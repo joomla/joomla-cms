@@ -22,7 +22,7 @@
   "require-dev": {
 	"codeception/codeception": "~2.2",
 	"joomla-projects/joomla-browser": "v3.6.4",
-	"joomla-projects/selenium-server-standalone": "v3.0.1.1",
+	"joomla-projects/selenium-server-standalone": "v3.0.1.2",
 	"codegyre/robo": "~0.6",
 	"joomla-projects/robo": "dev-master",
 	"fzaninotto/faker": "^1.5",
