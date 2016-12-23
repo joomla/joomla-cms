@@ -133,9 +133,29 @@ if ($navbar_color)
 	.navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle,
 	#status.status-top {
 		background: " . $navbar_color . ";
-	}");
+	}
+	.scrollable {
+		overflow-x: scroll;
+		overflow-y: hidden;
+		white-space: nowrap;
+	}
+	.scrolled-btns {
+		min-width: 1250px;
+	}
+		");
 }
-
+// Scrollable toolbar
+$this->addStyleDeclaration("
+	.scrollable {
+    overflow-x:scroll;
+    overflow-y:hidden;
+    white-space: nowrap;
+    max-width:100%;
+	}
+	.scrolled-btns {
+	min-width: 1300px;
+	}
+		");
 // Template header color
 if ($header_color)
 {
@@ -259,19 +279,12 @@ if ($this->params->get('linkColor'))
 <?php endif; ?>
 <?php if (!$cpanel) : ?>
 	<!-- Subheader -->
-	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR'); ?>
-		<span class="icon-wrench"></span></a>
-	<div class="subhead-collapse collapse" id="isisJsData" data-tmpl-sticky="<?php echo $stickyBar; ?>" data-tmpl-offset="<?php echo $offset; ?>">
-		<div class="subhead">
-			<div class="container-fluid">
-				<div id="container-collapse" class="container-collapse"></div>
-				<div class="row-fluid">
-					<div class="span12">
-						<!-- target for skip to content link -->
-						<a id="skiptarget" class="element-invisible"><?php echo JText::_('TPL_ISIS_SKIP_TO_MAIN_CONTENT_HERE'); ?></a>
-						<jdoc:include type="modules" name="toolbar" style="no" />
-					</div>
-				</div>
+	<div id="isisJsData" data-tmpl-sticky="<?php echo $stickyBar; ?>" data-tmpl-offset="<?php echo $offset; ?>">
+		<div class="row-fluid">
+			<div class="scrollable">
+				<!-- target for skip to content link -->
+				<a id="skiptarget" class="element-invisible"><?php echo JText::_('TPL_ISIS_SKIP_TO_MAIN_CONTENT_HERE'); ?></a>
+				<jdoc:include type="modules" name="toolbar" style="no" />
 			</div>
 		</div>
 	</div>
