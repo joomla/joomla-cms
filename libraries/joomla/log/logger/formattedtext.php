@@ -145,7 +145,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 
 		if (!JFile::append($this->path, $line))
 		{
-			throw new RuntimeException('Cannot write to log file.');
+			throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_CANNOT_WRITE_TO_LOG_FILE'));
 		}
 	}
 
@@ -207,7 +207,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 
 		if (!JFile::write($this->path, $head))
 		{
-			throw new RuntimeException('Cannot write to log file.');
+			throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_CANNOT_WRITE_TO_LOG_FILE'));
 		}
 	}
 
