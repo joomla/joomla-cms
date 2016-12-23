@@ -287,19 +287,6 @@ class JText
 
 		foreach ($baseStrings as $baseString)
 		{
-			if ($lang->hasKey($baseString))
-			{
-				if ($lastParameterIsArray)
-				{
-					$strings[$baseString] = $lang->_($baseString, false, $interpretBackslashes);
-				}
-				else
-				{
-					$strings[$baseString] = $lang->_($baseString, false);
-				}
-				continue;
-			}
-
 			if ($lastParameterIsArray)
 			{
 				foreach ($suffixes as $suffix)
@@ -324,6 +311,19 @@ class JText
 					}
 				}
 			}
+
+			if ($lang->hasKey($baseString) && !in_array($baseString, $strings[$baseString], true))
+			{
+				if ($lastParameterIsArray)
+				{
+					$strings[$baseString] = $lang->_($baseString, false, $interpretBackslashes);
+				}
+				else
+				{
+					$strings[$baseString] = $lang->_($baseString, false);
+				}
+			}
+
 		}
 
 		// Load core.js dependency
