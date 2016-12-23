@@ -479,59 +479,38 @@ class PlgSystemFields extends JPlugin
 	/**
 	 * The finder event.
 	 *
-	 * @param   stdClass  $item  The item
+	 * @param   FinderIndexerResult  &$item      The item to index as a FinderIndexerResult object.
+	 * @param   string               $extension  The extension name.
 	 *
-	 * @return  boolean
+	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onPrepareFinderContent($item)
+	public function onPrepareFinderContent(FinderIndexerResult &$item, $extension = '')
 	{
 		$section = strtolower($item->layout);
-		$tax     = $item->getTaxonomy('Type');
 
-		if ($tax)
+		// Create a dummy object with the required fields
+		$tmp     = new stdClass;
+		$tmp->id = $item->id;
+		$tmp->catid = $item->catid;
+
+		// Getting the fields for the constructed context
+		$fields = FieldsHelper::getFields($extension . '.' . $section, $tmp, true);
+
+		// No extra data to add to this content item.
+		if (empty($fields))
 		{
-			foreach ($tax as $context => $value)
-			{
-				// This is only a guess, needs to be improved
-				$component = strtolower($context);
+			return true;
+		}
 
-				if (strpos($context, 'com_') !== 0)
-				{
-					$component = 'com_' . $component;
-				}
-
-				// Transofrm com_article to com_content
-				if ($component === 'com_article')
-				{
-					$component = 'com_content';
-				}
-
-				// Create a dummy object with the required fields
-				$tmp     = new stdClass;
-				$tmp->id = $item->__get('id');
-
-				if ($item->__get('catid'))
-				{
-					$tmp->catid = $item->__get('catid');
-				}
-
-				// Getting the fields for the constructed context
-				$fields = FieldsHelper::getFields($component . '.' . $section, $tmp, true);
-
-				if (is_array($fields))
-				{
-					foreach ($fields as $field)
-					{
-						// Adding the instructions how to handle the text
-						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->alias);
-
-						// Adding the field value as a field
-						$item->{$field->alias} = $field->value;
-					}
-				}
-			}
+		// Add the extra custom fields to the item to be indexed.
+		foreach ($fields as $field)
+		{
+			// Add an instruction to index the field value.
+			$indexFieldName = 'jfield_' . $field->alias;
+			$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $indexFieldName);
+			$item->{$indexFieldName} = $field->value;
 		}
 
 		return true;

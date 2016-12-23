@@ -416,14 +416,15 @@ class FinderIndexerHelper
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
-	 * @param   FinderIndexerResult  &$item  The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  &$item      The item to index as a FinderIndexerResult object.
+	 * @param   string               $extension  Extension name.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public static function getContentExtras(FinderIndexerResult &$item)
+	public static function getContentExtras(FinderIndexerResult &$item, $extension = '')
 	{
 		// Get the event dispatcher.
 		$dispatcher = JEventDispatcher::getInstance();
@@ -432,7 +433,7 @@ class FinderIndexerHelper
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the event.
-		$results = $dispatcher->trigger('onPrepareFinderContent', array(&$item));
+		$results = $dispatcher->trigger('onPrepareFinderContent', array(&$item, $extension));
 
 		// Check the returned results. This is for plugins that don't throw
 		// exceptions when they encounter serious errors.
