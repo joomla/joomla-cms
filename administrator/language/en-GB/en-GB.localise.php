@@ -32,10 +32,6 @@ abstract class En_GBLocalise
 
 		foreach ($suffixes as $suffix)
 		{
-			// The possible operators are: <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne respectively.
-			// but for our case we only allow symbol operators: <, <=, >, >=, ==, =, !=, <> respectively.
-			// That is, so we don't need to write additional comparison functions in javascript, and because frankly,
-			// it works without them.
 			if (version_compare($count, $suffix[1], $suffix[0]))
 			{
 				return array($suffix[2]);

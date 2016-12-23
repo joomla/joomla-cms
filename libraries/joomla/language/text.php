@@ -283,15 +283,20 @@ class JText
 
 		$interpretBackslashes = array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true;
 		$lastParameterIsArray = count($args) > 1 && is_array($args[$count - 1]);
-		$strings = array();
+		$strings              = array();
 
-		foreach ($baseStrings as $baseString) {
-			if ($lang->hasKey($baseString)) {
-				if ($lastParameterIsArray) {
+		foreach ($baseStrings as $baseString)
+		{
+			if ($lang->hasKey($baseString))
+			{
+				if ($lastParameterIsArray)
+				{
 					$strings[$baseString] = $lang->_(
 						$baseString, false, $interpretBackslashes
 					);
-				} else {
+				}
+				else
+				{
 					$strings[$baseString] = $lang->_(
 						$baseString, false
 					);
@@ -299,21 +304,28 @@ class JText
 				continue;
 			}
 
-			if ($lastParameterIsArray) {
-				foreach ($suffixes as $suffix) {
+			if ($lastParameterIsArray)
+			{
+				foreach ($suffixes as $suffix)
+				{
 					$key = $baseString . '_' . $suffix[2];
 
-					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true)) {
+					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true))
+					{
 						$strings[$key] = $lang->_(
 							$key, false, $interpretBackslashes
 						);
 					}
 				}
-			} else {
-				foreach ($suffixes as $suffix) {
+			}
+			else
+			{
+				foreach ($suffixes as $suffix)
+				{
 					$key = $baseString . '_' . $suffix[2];
 
-					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true)) {
+					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true))
+					{
 						$strings[$key] = $lang->_(
 							$key, false
 						);
