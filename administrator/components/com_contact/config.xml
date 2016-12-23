@@ -539,7 +539,6 @@
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			default="-1"
-			storetype="int"
 			>
 			<option value="-1">JALL</option>
 			<option value="0">JNONE</option>
