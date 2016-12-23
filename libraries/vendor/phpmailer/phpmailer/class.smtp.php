@@ -247,6 +247,12 @@ class SMTP
     public function connect($host, $port = null, $timeout = 30, $options = array())
     {
         static $streamok;
+
+        // Set ssl values if options is not defined
+        if (count($options) == 0) {
+          $options['ssl'] = array('verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true);
+        }
+
         //This is enabled by default since 5.0.0 but some providers disable it
         //Check this once and cache the result
         if (is_null($streamok)) {
