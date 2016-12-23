@@ -82,6 +82,8 @@ JFactory::getDocument()->addScriptDeclaration('
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
@@ -91,8 +93,6 @@ JFactory::getDocument()->addScriptDeclaration('
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
 			<?php echo $this->form->getInput('rules'); ?>

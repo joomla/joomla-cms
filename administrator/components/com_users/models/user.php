@@ -413,6 +413,11 @@ class UsersModelUser extends JModelAdmin
 
 		JPluginHelper::importPlugin($this->events_map['save']);
 
+		// Prepare the logout options.
+		$options = array(
+			'clientid' => $app->get('shared_session', '0') ? null : 0,
+		);
+
 		// Access checks.
 		foreach ($pks as $i => $pk)
 		{
@@ -429,11 +434,6 @@ class UsersModelUser extends JModelAdmin
 
 				// Don't allow non-super-admin to delete a super admin
 				$allow = (!$iAmSuperAdmin && JAccess::check($pk, 'core.admin')) ? false : $allow;
-
-				// Prepare the logout options.
-				$options = array(
-					'clientid' => 0
-				);
 
 				if ($allow)
 				{
@@ -916,7 +916,6 @@ class UsersModelUser extends JModelAdmin
 		{
 			$result   = array();
 			$form     = $this->getForm();
-			$groupIDs = array();
 
 			if ($form)
 			{

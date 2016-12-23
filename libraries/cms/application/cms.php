@@ -962,8 +962,8 @@ class JApplicationCms extends JApplicationWeb
 		$parameters['username'] = $user->get('username');
 		$parameters['id'] = $user->get('id');
 
-		// Set clientid in the options array if it hasn't been set already.
-		if (!isset($options['clientid']))
+		// Set clientid in the options array if it hasn't been set already and shared sessions are not enabled.
+		if (!$this->get('shared_session', '0') && !isset($options['clientid']))
 		{
 			$options['clientid'] = $this->getClientId();
 		}

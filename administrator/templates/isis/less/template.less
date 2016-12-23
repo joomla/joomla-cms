@@ -78,6 +78,7 @@
 @import "chzn-override.less";
 
 // Blocks
+@import "blocks/_editors.less";
 @import "blocks/_modals.less";
 
 
@@ -1852,4 +1853,17 @@ textarea.noResize {
 /* Overrid font-weight 200 */
 .lead, .navbar .brand, .hero-unit, .hero-unit .lead {
 	font-weight: 400;
+}
+
+/* Template Menu Assignment */
+#menu-assignment {
+	.menu-links {
+		margin-left: 0;
+	}
+	.menu-links-block {
+		background-color: #fafafa;
+	    border: 1px solid #ddd;
+	    border-radius: 3px;
+	    padding: 15px;
+	}
 }

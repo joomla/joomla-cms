@@ -122,7 +122,6 @@ class ContactHelper extends JHelperContent
 	{
 		$db = JFactory::getDbo();
 		$parts     = explode('.', $extension);
-		$component = $parts[0];
 		$section   = null;
 		if (count($parts) > 1)
 		{
