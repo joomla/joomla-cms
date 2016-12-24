@@ -1090,7 +1090,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	public function addStepToInstaller(array $step = array())
 	{
 		// We only add rollback step on new installs.
-		if ($this->parent->isUpgrade())
+		if ($this->currentExtensionId)
 		{
 			return null;
 		}
