@@ -1083,6 +1083,8 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	/**
 	 * Generic update method for extensions
 	 *
+	 * @param   array  $step  The step to rollback.
+	 *
 	 * @return  null
 	 *
 	 * @since   __DEPLOY_VERSION__
