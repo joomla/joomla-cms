@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '0-alpha1';
+	const DEV_LEVEL = '0-alpha2';
 
 	/**
 	 * Development status.
@@ -46,7 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Alpha';
+	const DEV_STATUS = 'dev';
 
 	/**
 	 * Build number.
