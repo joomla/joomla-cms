@@ -150,8 +150,20 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			$tmpInstaller  = new JInstaller;
 			$installResult = $tmpInstaller->install($package['dir']);
 
+			// On package install failure rollback all other extensions already installed.
 			if (!$installResult)
 			{
+				// Remove current sicne it's already rollbacked.
+				unset($childInstallers[$file]);
+
+				// Rollback all previous extensions.
+				foreach ($childInstallers as $childInstaller)
+				{
+					$childInstaller->abort();
+				}
+
+				$this->results = array();
+
 				throw new RuntimeException(
 					JText::sprintf(
 						'JLIB_INSTALLER_ABORT_PACK_INSTALL_ERROR_EXTENSION',
