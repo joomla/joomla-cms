@@ -130,6 +130,8 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			JEventDispatcher::getInstance()->register('onExtensionAfterInstall', array($this, 'onExtensionAfterInstall'));
 		}
 
+		$childInstallers = array();
+
 		foreach ($this->getManifest()->files->children() as $child)
 		{
 			$file = $source . '/' . (string) $child;
@@ -147,8 +149,8 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 				$package = JInstallerHelper::unpack($file);
 			}
 
-			$tmpInstaller  = new JInstaller;
-			$installResult = $tmpInstaller->install($package['dir']);
+			$childInstallers[$file]  = new JInstaller;
+			$installResult = $childInstallers[$file]->install($package['dir']);
 
 			// On package install failure rollback all other extensions already installed.
 			if (!$installResult)
