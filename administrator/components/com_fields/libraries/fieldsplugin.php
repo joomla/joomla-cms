@@ -207,12 +207,12 @@ abstract class FieldsPlugin extends JPlugin
 		}
 
 		// Ensure it is an object
-		$formData = (object)$data;
+		$formData = (object) $data;
 
 		// Gather the type
 		$type = $form->getValue('type');
 
-		if(!empty($formData->type))
+		if (!empty($formData->type))
 		{
 			$type = $formData->type;
 		}
