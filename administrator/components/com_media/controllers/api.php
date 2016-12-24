@@ -84,7 +84,7 @@ class MediaControllerApi extends JControllerLegacy
 		}
 		catch (Exception $e)
 		{
-			$this->sendAndClose(null, 'Error: ' . $e->getMessage(), false);
+			$this->sendAndClose(null, 'Error: ' . $e->getMessage(), true);
 		}
 	}
 
@@ -109,17 +109,17 @@ class MediaControllerApi extends JControllerLegacy
 	 *
 	 * {"success":true,"message":"ok","messages":null,"data":["Demo"]}
 	 *
-	 * @param mixed   $data     The data to send
-	 * @param string  $message  The message
-	 * @param boolean $success  If is is a successfull response
+	 * @param mixed    $data     The data to send
+	 * @param string   $message  The message
+	 * @param boolean  $error    If it is an error response
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function sendAndClose($data, $message, $success)
+	private function sendAndClose($data, $message, $error)
 	{
-		echo new JResponseJson($data, $message, $success);
+		echo new JResponseJson($data, $message, $error);
 
 		JFactory::getApplication()->close();
 	}
