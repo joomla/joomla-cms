@@ -504,13 +504,15 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
+		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+
 		// Add the extra custom fields to the item to be indexed.
 		foreach ($fields as $field)
 		{
 			// Add an instruction to index the field value.
 			$indexFieldName = 'jfield_' . $field->alias;
 			$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $indexFieldName);
-			$item->{$indexFieldName} = $field->value;
+			$item->{$indexFieldName} = $model->getFieldValue($field->id, $extension . '.' . $section, $item->id);
 		}
 
 		return true;
