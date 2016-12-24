@@ -488,7 +488,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onPrepareFinderContent(FinderIndexerResult &$item, $extension = '')
 	{
-		$section = strtolower($item->layout);
+		$context = $extension . '.' . strtolower($item->layout);
 
 		// Create a dummy object with the required fields
 		$tmp     = new stdClass;
@@ -496,7 +496,7 @@ class PlgSystemFields extends JPlugin
 		$tmp->catid = $item->catid;
 
 		// Getting the fields for the constructed context
-		$fields = FieldsHelper::getFields($extension . '.' . $section, $tmp, true);
+		$fields = FieldsHelper::getFields($context, $tmp, true);
 
 		// No extra data to add to this content item.
 		if (empty($fields))
@@ -512,7 +512,7 @@ class PlgSystemFields extends JPlugin
 			// Add an instruction to index the field value.
 			$indexFieldName = 'jfield_' . $field->alias;
 			$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $indexFieldName);
-			$item->{$indexFieldName} = $model->getFieldValue($field->id, $extension . '.' . $section, $item->id);
+			$item->{$indexFieldName} = $model->getFieldValue($field->id, $context, $item->id);
 		}
 
 		return true;
