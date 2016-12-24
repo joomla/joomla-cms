@@ -475,7 +475,7 @@ class JLanguage
 	 */
 	public function getAllPluralSuffixes()
 	{
-		if ($this->pluralSuffixesCallback !== null)
+		if ($this->allPluralSuffixesCallback !== null)
 		{
 			return call_user_func($this->allPluralSuffixesCallback);
 		}
