@@ -73,8 +73,6 @@ class ContactControllerContact extends JControllerForm
 			}
 		}
 
-		// Contact plugins
-		JPluginHelper::importPlugin('contact');
 		$dispatcher = JEventDispatcher::getInstance();
 
 		// Validate the posted data.

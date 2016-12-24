@@ -24,6 +24,10 @@ if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal')
 	JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 }
 
+
+// Contact plugins
+JPluginHelper::importPlugin('contact');
+
 $controller = JControllerLegacy::getInstance('Contact');
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();
