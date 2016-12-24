@@ -1079,4 +1079,28 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		// Now jump into the install method to run the update
 		return $this->install();
 	}
+
+	/**
+	 * Generic update method for extensions
+	 *
+	 * @return  null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addStepToInstaller(array $step = array())
+	{
+		// We only add rollback step on new installs.
+		if ($this->parent->isUpgrade())
+		{
+			return null;
+		}
+
+		// The rollback step need something.
+		if ($step === array())
+		{
+			return null;
+		}
+
+		$this->parent->pushStep($step);
+	}
 }

@@ -346,52 +346,59 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			return;
 		}
 
-		// Was there a template already installed with the same name?
+		// If extension already exists, load the entry.
 		if ($this->currentExtensionId)
 		{
+			// If we are not allowed to overwrite on update.
 			if (!$this->parent->isOverwrite())
 			{
-				// Install failed, roll back changes
 				throw new RuntimeException(
-					JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_ALREADY_INSTALLED')
+					JText::sprintf('JLIB_INSTALLER_ABORT_STORE_EXTENSION_ALREADY_EXISTS',
+						JText::_('JLIB_INSTALLER_EXTENSION_TYPE_' . strtoupper($this->type)),
+						JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->name
+						)
 				);
 			}
 
 			// Load the entry and update the manifest_cache
 			$this->extension->load($this->currentExtensionId);
 		}
+		// If extension doesn't exist, add an entry to the extension table with defaults.
 		else
 		{
-			$this->extension->type = 'template';
-			$this->extension->element = $this->element;
-
-			// There is no folder for templates
-			$this->extension->folder = '';
-			$this->extension->enabled = 1;
-			$this->extension->protected = 0;
-			$this->extension->access = 1;
-			$this->extension->client_id = $this->clientId;
-			$this->extension->params = $this->parent->getParams();
-
-			// Custom data
+			$this->extension->type        = $this->type;
+			$this->extension->element     = $this->element;
+			$this->extension->folder      = '';
+			$this->extension->enabled     = 1;
+			$this->extension->protected   = 0;
+			$this->extension->access      = 1;
+			$this->extension->ordering    = 0;
+			$this->extension->client_id   = $this->clientId;
+			$this->extension->params      = $this->parent->getParams();
+			$this->extension->system_data = '';
 			$this->extension->custom_data = '';
 		}
 
-		// Name might change in an update
-		$this->extension->name = $this->name;
+		// On install or update refresh name and manifest cache.
+		$this->extension->name           = $this->name;
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
+		// If store extension failed, abort and throw and extension.
 		if (!$this->extension->store())
 		{
-			// Install failed, roll back changes
 			throw new RuntimeException(
-				JText::sprintf(
-					'JLIB_INSTALLER_ABORT_ROLLBACK',
-					JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+				JText::sprintf('JLIB_INSTALLER_ABORT_STORE_EXTENSION_FAILED',
+					JText::_('JLIB_INSTALLER_EXTENSION_TYPE_' . strtoupper($this->type)),
+					JText::_('JLIB_INSTALLER_' . $this->route),
+					$this->name,
 					$this->extension->getError()
 				)
 			);
 		}
+
+		// Add a installer rollback step to the installation step stack so we can rollback the changes if we need.
+		$this->addStepToInstaller(array('type' => 'extension', 'id' => $this->extension->extension_id));
 	}
 
 	/**

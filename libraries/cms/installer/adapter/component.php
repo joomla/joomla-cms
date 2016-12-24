@@ -570,90 +570,71 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	/**
 	 * Method to store the extension to the database
 	 *
-	 * @param   bool  $deleteExisting  Should I try to delete existing records of the same component?
-	 *
 	 * @return  void
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	protected function storeExtension($deleteExisting = false)
+	protected function storeExtension()
 	{
 		// The extension is stored during prepareDiscoverInstall for discover installs
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			return;
 		}
 
-		// Add or update an entry to the extension table
-		$this->extension->name    = $this->name;
-		$this->extension->type    = 'component';
-		$this->extension->element = $this->element;
-
-		// If we are told to delete existing extension entries then do so.
-		if ($deleteExisting)
+		// If extension already exists, load the entry.
+		if ($this->currentExtensionId)
 		{
-			$db = $this->parent->getDbo();
-
-			$query = $db->getQuery(true)
-						->select($db->qn('extension_id'))
-						->from($db->qn('#__extensions'))
-						->where($db->qn('name') . ' = ' . $db->q($this->extension->name))
-						->where($db->qn('type') . ' = ' . $db->q($this->extension->type))
-						->where($db->qn('element') . ' = ' . $db->q($this->extension->element));
-
-			$db->setQuery($query);
-
-			$extension_ids = $db->loadColumn();
-
-			if (!empty($extension_ids))
+			// If we are not allowed to overwrite on update.
+			if (!$this->parent->isOverwrite())
 			{
-				foreach ($extension_ids as $eid)
-				{
-					// Remove leftover admin menus for this extension ID
-					$this->_removeAdminMenus($eid);
-
-					// Remove the extension record itself
-					/** @var JTableExtension $extensionTable */
-					$extensionTable = JTable::getInstance('extension');
-					$extensionTable->delete($eid);
-				}
+				throw new RuntimeException(
+					JText::sprintf('JLIB_INSTALLER_ABORT_STORE_EXTENSION_ALREADY_EXISTS',
+						JText::_('JLIB_INSTALLER_EXTENSION_TYPE_' . strtoupper($this->type)),
+						JText::_('JLIB_INSTALLER_' . $this->route),
+						$this->name
+						)
+				);
 			}
-		}
 
-		// If there is not already a row, generate a heap of defaults
-		if (!$this->currentExtensionId)
+			$this->extension->load($this->currentExtensionId);
+		}
+		// If extension doesn't exist, add an entry to the extension table with defaults.
+		else
 		{
-			$this->extension->folder    = '';
-			$this->extension->enabled   = 1;
-			$this->extension->protected = 0;
-			$this->extension->access    = 0;
-			$this->extension->client_id = 1;
-			$this->extension->params    = $this->parent->getParams();
-			$this->extension->custom_data = '';
+			$this->extension->type        = $this->type;
+			$this->extension->element     = $this->element;
+			$this->extension->folder      = '';
+			$this->extension->enabled     = 1;
+			$this->extension->protected   = 0;
+			$this->extension->access      = 0;
+			$this->extension->client_id   = 1;
+			$this->extension->ordering    = 0;
+			$this->extension->params      = $this->parent->getParams();
 			$this->extension->system_data = '';
+			$this->extension->custom_data = '';
 		}
 
+		// On install or update refresh name and manifest cache.
+		$this->extension->name           = $this->name;
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
-		$couldStore = $this->extension->store();
-
-		if (!$couldStore && $deleteExisting)
+		// If store extension failed, abort and throw and extension.
+		if (!$this->extension->store())
 		{
-			// Install failed, roll back changes
 			throw new RuntimeException(
-				JText::sprintf(
-					'JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK',
+				JText::sprintf('JLIB_INSTALLER_ABORT_STORE_EXTENSION_FAILED',
+					JText::_('JLIB_INSTALLER_EXTENSION_TYPE_' . strtoupper($this->typee)),
+					JText::_('JLIB_INSTALLER_' . $this->route),
+					$this->name,
 					$this->extension->getError()
 				)
 			);
 		}
 
-		if (!$couldStore && !$deleteExisting)
-		{
-			// Maybe we have a failed installation (e.g. timeout). Let's retry after deleting old records.
-			$this->storeExtension(true);
-		}
+		// Add a installer rollback step to the installation step stack so we can rollback the changes if we need.
+		$this->addStepToInstaller(array('type' => 'extension', 'id' => $this->extension->extension_id));
 	}
 
 	/**

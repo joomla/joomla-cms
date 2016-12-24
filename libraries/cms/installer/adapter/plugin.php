@@ -359,15 +359,15 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
-			$this->extension->state = 0;
-			$this->extension->name = $manifest_details['name'];
-			$this->extension->enabled = ('editors' == $this->extension->folder) ? 1 : 0;
-			$this->extension->params = $this->parent->getParams();
+			$this->extension->state          = 0;
+			$this->extension->name           = $manifest_details['name'];
+			$this->extension->enabled        = $this->extension->folder === 'editors' ? 1 : 0;
+			$this->extension->params         = $this->parent->getParams();
 
 			if (!$this->extension->store())
 			{
@@ -378,71 +378,58 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			return;
 		}
 
-		// Was there a plugin with the same name already installed?
+		// If extension already exists, load the entry.
 		if ($this->currentExtensionId)
 		{
+			// If we are not allowed to overwrite on update.
 			if (!$this->parent->isOverwrite())
 			{
-				// Install failed, roll back changes
 				throw new RuntimeException(
-					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS',
+					JText::sprintf('JLIB_INSTALLER_ABORT_STORE_EXTENSION_ALREADY_EXISTS',
+						JText::_('JLIB_INSTALLER_EXTENSION_TYPE_' . strtoupper($this->type)),
 						JText::_('JLIB_INSTALLER_' . $this->route),
 						$this->name
-					)
+						)
 				);
 			}
 
 			$this->extension->load($this->currentExtensionId);
-			$this->extension->name = $this->name;
-			$this->extension->manifest_cache = $this->parent->generateManifestCache();
-
-			// Update the manifest cache and name
-			$this->extension->store();
 		}
+		// If extension doesn't exist, add an entry to the extension table with defaults.
 		else
 		{
-			// Store in the extensions table (1.6)
-			$this->extension->name = $this->name;
-			$this->extension->type = 'plugin';
-			$this->extension->ordering = 0;
-			$this->extension->element = $this->element;
-			$this->extension->folder = $this->group;
-			$this->extension->enabled = 0;
-			$this->extension->protected = 0;
-			$this->extension->access = 1;
-			$this->extension->client_id = 0;
-			$this->extension->params = $this->parent->getParams();
-
-			// Custom data
-			$this->extension->custom_data = '';
-
-			// System data
+			$this->extension->type        = $this->type;
+			$this->extension->element     = $this->element;
+			$this->extension->folder      = $this->group;
+			$this->extension->enabled     = $this->group === 'editors' ? 1 : 0;
+			$this->extension->protected   = 0;
+			$this->extension->access      = 1;
+			$this->extension->client_id   = 0;
+			$this->extension->ordering    = 0;
+			$this->extension->params      = $this->parent->getParams();
 			$this->extension->system_data = '';
-			$this->extension->manifest_cache = $this->parent->generateManifestCache();
-
-			// Editor plugins are published by default
-			if ($this->group == 'editors')
-			{
-				$this->extension->enabled = 1;
-			}
-
-			if (!$this->extension->store())
-			{
-				// Install failed, roll back changes
-				throw new RuntimeException(
-					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK',
-						JText::_('JLIB_INSTALLER_' . $this->route),
-						$this->extension->getError()
-					)
-				);
-			}
-
-			// Since we have created a plugin item, we add it to the installation step stack
-			// so that if we have to rollback the changes we can undo it.
-			$this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
+			$this->extension->custom_data = '';
 		}
+
+		// On install or update refresh name and manifest cache.
+		$this->extension->name           = $this->name;
+		$this->extension->manifest_cache = $this->parent->generateManifestCache();
+
+		// If store extension failed, abort and throw and extension.
+		if (!$this->extension->store())
+		{
+			throw new RuntimeException(
+				JText::sprintf('JLIB_INSTALLER_ABORT_STORE_EXTENSION_FAILED',
+					JText::_('JLIB_INSTALLER_EXTENSION_TYPE_' . strtoupper($this->type)),
+					JText::_('JLIB_INSTALLER_' . $this->route),
+					$this->name,
+					$this->extension->getError()
+				)
+			);
+		}
+
+		// Add a installer rollback step to the installation step stack so we can rollback the changes if we need.
+		$this->addStepToInstaller(array('type' => 'extension', 'id' => $this->extension->extension_id));
 	}
 
 	/**
