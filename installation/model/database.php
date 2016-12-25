@@ -1098,7 +1098,7 @@ class InstallationModelDatabase extends JModelBase
 				 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
 				 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
 				 */
-				if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
+				if (!$db->hasUTF8mb4Support() && stripos($query, 'CONVERT TO CHARACTER SET utf8 ') !==false)
 				{
 					continue;
 				}
