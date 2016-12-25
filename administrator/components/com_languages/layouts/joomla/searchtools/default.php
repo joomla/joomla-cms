@@ -16,7 +16,7 @@ $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
 if ($data['view'] instanceof LanguagesViewInstalled)
 {
-	JFactory::getDocument()->addStyleDeclaration("
+	JFactory::getDocument()->addStyleDeclaration('
 		/* Fixed filter field in search bar */
 		.js-stools .js-stools-client_id {
 			float: left;
@@ -30,7 +30,7 @@ if ($data['view'] instanceof LanguagesViewInstalled)
 		}
 		.js-stools .js-stools-container-bar .js-stools-field-filter .chzn-container {
 			padding: 3px 0;
-		}");
+		}');
 
 	// Client id filter doesn't have to activate the filter bar
 	unset($data['view']->activeFilters['client_id']);
