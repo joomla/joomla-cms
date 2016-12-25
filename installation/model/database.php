@@ -157,14 +157,11 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Workaround for UPPERCASE table prefix for postgresql
-		if ($options->db_type == 'postgresql')
+		if ($options->db_type == 'postgresql' && strtolower($options->db_prefix) != $options->db_prefix)
 		{
-			if (strtolower($options->db_prefix) != $options->db_prefix)
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
 
-				return false;
-			}
+			return false;
 		}
 
 		// Get a database object.
@@ -641,12 +638,9 @@ class InstallationModelDatabase extends JModelBase
 			$dblocalise = 'sql/' . $type . '/localise.sql';
 		}
 
-		if (is_file($dblocalise))
+		if (is_file($dblocalise) && !$this->populateDatabase($db, $dblocalise))
 		{
-			if (!$this->populateDatabase($db, $dblocalise))
-			{
-				return false;
-			}
+			return false;
 		}
 
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
@@ -863,6 +857,7 @@ class InstallationModelDatabase extends JModelBase
 				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
+		return true;
 	}
 
 	/**
@@ -922,6 +917,7 @@ class InstallationModelDatabase extends JModelBase
 				}
 			}
 		}
+		return true;
 	}
 
 	/**

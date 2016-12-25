@@ -702,14 +702,11 @@ class InstallationModelLanguages extends JModelBase
 		// For each content language.
 		foreach ($siteLanguages as $siteLang)
 		{
-			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)))
+			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
-				if (!$tableLanguage->publish())
-				{
-					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
 
-					continue;
-				}
+				continue;
 			}
 		}
 

@@ -104,12 +104,9 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 			// Activate optional ISO code Plugin
 			$activatePluginIsoCode = (int) $data['activatePluginLanguageCode'];
 
-			if ($activatePluginIsoCode)
+			if ($activatePluginIsoCode && !$model->enablePlugin('plg_system_languagecode'))
 			{
-				if (!$model->enablePlugin('plg_system_languagecode'))
-				{
-					$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE'), 'warning');
-				}
+				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE'), 'warning');
 			}
 
 			if (!$model->addModuleLanguageSwitcher())
