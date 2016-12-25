@@ -1064,7 +1064,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Note we ignoring $query here as it not used in the original code.
 
 		// The SQL Error Information
-		$errorInfo = implode(", ", $this->connection->errorInfo());
+		$errorInfo = implode(', ', $this->connection->errorInfo());
 
 		// Replace the Databaseprefix with `#__` if we are not in Debug
 		if (!$this->debug)

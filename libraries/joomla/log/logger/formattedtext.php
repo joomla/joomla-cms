@@ -231,7 +231,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 		$matches = array();
 
 		// Get all of the available fields in the format string.
-		preg_match_all("/{(.*?)}/i", $this->format, $matches);
+		preg_match_all('/{(.*?)}/i', $this->format, $matches);
 
 		// Build the parsed fields list based on the found fields.
 		foreach ($matches[1] as $match)

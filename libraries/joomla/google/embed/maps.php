@@ -667,7 +667,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 
 		if (isset($markers) && count($markers))
 		{
-			$setup .= "var marker;";
+			$setup .= 'var marker;';
 
 			foreach ($markers as $marker)
 			{
@@ -703,21 +703,21 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			$output .= $setup;
 			$output .= '}';
 
-			$onload = "function() {";
+			$onload = 'function() {';
 			$onload .= 'var script = document.createElement("script");';
 			$onload .= 'script.type = "text/javascript";';
-			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : "")
+			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : '')
 				. "sensor={$sensor}&callback={$asynccallback}';";
 			$onload .= 'document.body.appendChild(script);';
 			$onload .= '}';
 		}
 		else
 		{
-			$output = "<script type='text/javascript' src='{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : "") . "sensor={$sensor}'>";
+			$output = "<script type='text/javascript' src='{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : '') . "sensor={$sensor}'>";
 			$output .= '</script>';
 			$output .= '<script type="text/javascript">';
 
-			$onload = "function() {";
+			$onload = 'function() {';
 			$onload .= $setup;
 			$onload .= '}';
 		}

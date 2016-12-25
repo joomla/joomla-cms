@@ -37,7 +37,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		// Reset the data
 		if (isset($this->$tag))
 		{
-			$this->$tag->_data = "";
+			$this->$tag->_data = '';
 		}
 
 		switch ($name)
@@ -46,7 +46,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				$this->currentUpdate = JTable::getInstance('update');
 				$this->currentUpdate->update_site_id = $this->updateSiteId;
 				$this->currentUpdate->detailsurl = $this->_url;
-				$this->currentUpdate->folder = "";
+				$this->currentUpdate->folder = '';
 				$this->currentUpdate->client_id = 1;
 				break;
 
@@ -314,7 +314,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				return $this->findUpdate($options);
 			}
 
-			JLog::add("Error parsing url: " . $this->_url, JLog::WARNING, 'updater');
+			JLog::add('Error parsing url: ' . $this->_url, JLog::WARNING, 'updater');
 
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');

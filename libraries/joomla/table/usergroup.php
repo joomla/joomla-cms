@@ -203,10 +203,10 @@ class JTableUsergroup extends JTable
 
 		foreach ($ids as $id)
 		{
-			$replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote("[") . ')';
-			$replace[] = ',' . $db->quote(",$id,") . ',' . $db->quote(",") . ')';
-			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote("]") . ')';
-			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote("[]") . ')';
+			$replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote('[') . ')';
+			$replace[] = ',' . $db->quote(",$id,") . ',' . $db->quote(',') . ')';
+			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote(']') . ')';
+			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote('[]') . ')';
 		}
 
 		$query->clear()

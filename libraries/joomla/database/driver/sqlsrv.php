@@ -375,7 +375,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		// If we want the whole field data object add that to the list.
@@ -1004,7 +1004,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		$table = $this->replacePrefix((string) $table);
 		$query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'" .
-			" ORDER BY ORDINAL_POSITION";
+			' ORDER BY ORDINAL_POSITION';
 		$this->setQuery($query);
 
 		if ($this->loadResult())

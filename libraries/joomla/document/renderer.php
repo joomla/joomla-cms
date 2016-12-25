@@ -30,7 +30,7 @@ class JDocumentRenderer
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $_mime = "text/html";
+	protected $_mime = 'text/html';
 
 	/**
 	 * Class constructor

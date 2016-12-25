@@ -51,7 +51,7 @@ class JFormFieldLanguage extends JFormAbstractlist
 				$languages,
 				function ($a, $b)
 				{
-					return strcmp($a["value"], $b["value"]);
+					return strcmp($a['value'], $b['value']);
 				}
 			);
 		}

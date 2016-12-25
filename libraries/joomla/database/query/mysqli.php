@@ -160,6 +160,6 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 */
 	public function findInSet($value, $set)
 	{
-		return " find_in_set(" . $value . ", " . $set . ")";
+		return ' find_in_set(' . $value . ', ' . $set . ')';
 	}
 }

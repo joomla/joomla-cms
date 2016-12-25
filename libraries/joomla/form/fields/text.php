@@ -141,14 +141,14 @@ class JFormFieldText extends JFormField implements JFormDomfieldinterface
 
 			if (!empty($inputmode))
 			{
-				$defaultInputmode = in_array('default', $inputmode) ? JText::_("JLIB_FORM_INPUTMODE") . ' ' : '';
+				$defaultInputmode = in_array('default', $inputmode) ? JText::_('JLIB_FORM_INPUTMODE') . ' ' : '';
 
 				foreach (array_keys($inputmode, 'default') as $key)
 				{
 					unset($inputmode[$key]);
 				}
 
-				$this->inputmode = $defaultInputmode . implode(" ", $inputmode);
+				$this->inputmode = $defaultInputmode . implode(' ', $inputmode);
 			}
 
 			// Set the dirname.

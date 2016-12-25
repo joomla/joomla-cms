@@ -152,13 +152,13 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 		// Check if we need to mangle the query.
 		if ($limit || $offset)
 		{
-			$query = "SELECT joomla2.*
+			$query = 'SELECT joomla2.*
 		              FROM (
 		                  SELECT joomla1.*, ROWNUM AS joomla_db_rownum
 		                  FROM (
-		                      " . $query . "
+		                      ' . $query . '
 		                  ) joomla1
-		              ) joomla2";
+		              ) joomla2';
 
 			// Check if the limit value is greater than zero.
 			if ($limit > 0)

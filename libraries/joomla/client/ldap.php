@@ -571,7 +571,7 @@ class JClientLdap
 	 */
 	public static function LDAPNetAddr($networkaddress)
 	{
-		$addr = "";
+		$addr = '';
 		$addrtype = (int) substr($networkaddress, 0, 1);
 
 		// Throw away bytes 0 and 1 which should be the addrtype and the "#" separator
@@ -612,7 +612,7 @@ class JClientLdap
 				if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9))
 				{
 					// Dot separate IP addresses...
-					$addr .= ".";
+					$addr .= '.';
 				}
 			}
 

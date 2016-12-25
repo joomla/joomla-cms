@@ -296,12 +296,12 @@ class JArchiveZip implements JArchiveExtractable
 		// Read files in the archive
 		while ($file = @zip_read($zip))
 		{
-			if (!zip_entry_open($zip, $file, "r"))
+			if (!zip_entry_open($zip, $file, 'r'))
 			{
 				return $this->raiseWarning(100, 'Unable to read entry');
 			}
 
-			if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/")
+			if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != '/')
 			{
 				$buffer = zip_entry_read($file, zip_entry_filesize($file));
 
@@ -384,7 +384,7 @@ class JArchiveZip implements JArchiveExtractable
 
 			$entries[$name] = array(
 				'attr' => null,
-				'crc' => sprintf("%08s", dechex($info['CRC32'])),
+				'crc' => sprintf('%08s', dechex($info['CRC32'])),
 				'csize' => $info['Compressed'],
 				'date' => null,
 				'_dataStart' => null,

@@ -147,7 +147,7 @@ class JFormFieldSQL extends JFormAbstractlist implements JFormDomfieldinterface
 				$query['order'] = (string) $this->element['sql_order'];
 
 				// Get the filters
-				$filters = isset($this->element['sql_filter']) ? explode(",", $this->element['sql_filter']) : '';
+				$filters = isset($this->element['sql_filter']) ? explode(',', $this->element['sql_filter']) : '';
 
 				// Get the default value for query if empty
 				if (is_array($filters))

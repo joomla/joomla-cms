@@ -24,7 +24,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $syndicationURL = "";
+	public $syndicationURL = '';
 
 	/**
 	 * Image feed element
@@ -44,7 +44,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $copyright = "";
+	public $copyright = '';
 
 	/**
 	 * Published date feed element
@@ -54,7 +54,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $pubDate = "";
+	public $pubDate = '';
 
 	/**
 	 * Lastbuild date feed element
@@ -64,7 +64,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $lastBuildDate = "";
+	public $lastBuildDate = '';
 
 	/**
 	 * Editor feed element
@@ -74,7 +74,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $editor = "";
+	public $editor = '';
 
 	/**
 	 * Docs feed element
@@ -82,7 +82,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $docs = "";
+	public $docs = '';
 
 	/**
 	 * Editor email feed element
@@ -92,7 +92,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $editorEmail = "";
+	public $editorEmail = '';
 
 	/**
 	 * Webmaster email feed element
@@ -102,7 +102,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $webmaster = "";
+	public $webmaster = '';
 
 	/**
 	 * Category feed element
@@ -112,7 +112,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $category = "";
+	public $category = '';
 
 	/**
 	 * TTL feed attribute
@@ -122,7 +122,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $ttl = "";
+	public $ttl = '';
 
 	/**
 	 * Rating feed element
@@ -132,7 +132,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $rating = "";
+	public $rating = '';
 
 	/**
 	 * Skiphours feed element
@@ -142,7 +142,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $skipHours = "";
+	public $skipHours = '';
 
 	/**
 	 * Skipdays feed element
@@ -152,7 +152,7 @@ class JDocumentFeed extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $skipDays = "";
+	public $skipDays = '';
 
 	/**
 	 * The feed items collection
@@ -400,7 +400,7 @@ class JFeedEnclosure
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $url = "";
+	public $url = '';
 
 	/**
 	 * Length enclosure element
@@ -410,7 +410,7 @@ class JFeedEnclosure
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $length = "";
+	public $length = '';
 
 	/**
 	 * Type enclosure element
@@ -420,7 +420,7 @@ class JFeedEnclosure
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = "";
+	public $type = '';
 }
 
 /**
@@ -438,7 +438,7 @@ class JFeedImage
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $title = "";
+	public $title = '';
 
 	/**
 	 * URL image attribute
@@ -448,7 +448,7 @@ class JFeedImage
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $url = "";
+	public $url = '';
 
 	/**
 	 * Link image attribute
@@ -458,7 +458,7 @@ class JFeedImage
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $link = "";
+	public $link = '';
 
 	/**
 	 * Width image attribute
