@@ -469,7 +469,8 @@ class JLanguage
 	/**
 	 * Returns an array of all suffixes for plural rules.
 	 *
-	 * @return  array    The array of suffixes.
+	 * @return  array|bool  The translated strings or an false in case of a failure (eg. language file not supporting the
+	 *                      getAllPluralSuffixes() callback)
 	 *
 	 * @since   __DEPLOY_VERSION_
 	 */
@@ -481,7 +482,10 @@ class JLanguage
 		}
 		else
 		{
-			return array();
+			JLog::add('The language file in use, has no getAllPluralSuffixes() method, in addition to an updated 
+            getPluralSuffixes() method. This method is needed for client-side pluralization.', JLog::WARNING, 'missing-method');
+
+			return false;
 		}
 	}
 

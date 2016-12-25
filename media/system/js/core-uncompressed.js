@@ -57,20 +57,25 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
 	 */
+	//todo: implement eval()
 	Joomla.JText = {
 		strings   : {},
 		pluralData: {
 			'comparisons': {
-				'<'  : function (a, b) { return a < b; },
-				'<=' : function (a, b) { return a <= b; },
-				'>'  : function (a, b) { return a > b; },
-				'>=' : function (a, b) { return a >= b; },
-				'='  : function (a, b) { return a === b; },
-				'==' : function (a, b) { return a === b; },
-				'!=' : function (a, b) { return a !== b; },
-				'<>' : function (a, b) { return a !== b; }
+				'<'   : function (a, b) { return a < b; },
+				'<='  : function (a, b) { return a <= b; },
+				'>'   : function (a, b) { return a > b; },
+				'>='  : function (a, b) { return a >= b; },
+				'='   : function (a, b) { return a === b; },
+				'=='  : function (a, b) { return a === b; },
+				'!='  : function (a, b) { return a !== b; },
+				'<>'  : function (a, b) { return a !== b; },
+				'eval': function (count, code) {return eval(code.js)}
 			},
-			'suffixes'   : {}
+			'suffixes'   : {},
+			'implemented': function () {
+				return Joomla.getOptions('joomla.jtext.pluralData.suffixes') !== false;
+			}
 		},
 
 
@@ -121,14 +126,22 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				Joomla.loadOptions({'joomla.jtext.pluraldata.suffixes': null});
 			}
 
-			var pluralizedString = '';
-			jQuery.each(this.pluralData.suffixes, function (index, data) {
-				if (Joomla.JText.pluralData.comparisons[(data[0])](n, (data[1]))) {
-					pluralizedString = string + '_' + data[2];
-					return false;
-				}
-			});
-			return this._(pluralizedString, pluralizedString);
+			if (suffixes===false){
+				return false;
+			}
+			if (jQuery.isArray(suffixes)) {
+				var pluralizedString = '';
+				jQuery.each(this.pluralData.suffixes, function (index, data) {
+					if (data[0] === 'eval') {
+						pluralizedString = string + '_' + Joomla.JText.pluralData.comparisons[(data[0])](n, (data[1]));
+						return false;
+					} else if (Joomla.JText.pluralData.comparisons[(data[0])](n, (data[1]))) {
+						pluralizedString = string + '_' + data[2];
+						return false;
+					}
+				});
+				return this._(pluralizedString, pluralizedString);
+			}
 		},
 
 		/**

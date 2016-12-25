@@ -270,7 +270,8 @@ class JText
 	 * @param   array  $baseStrings  The basename of the language string
 	 * @param   bool   $merge        Whether to merge with existing (true) or replace (false)
 	 *
-	 * @return  array  The translated strings
+	 * @return  array|bool  The translated strings or an false in case of a failure (eg. language file not supporting the
+	 *                      getAllPluralSuffixes() callback)
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -280,50 +281,51 @@ class JText
 		$args     = func_get_args();
 		$count    = count($args);
 		$suffixes = $lang->getAllPluralSuffixes();
+		if ($suffixes === false) {
+			JFactory::getDocument()->addScriptOptions('joomla.jtext.pluralData.suffixes', false, false);
+
+			return false;
+		}
 
 		$interpretBackslashes = array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true;
 		$lastParameterIsArray = count($args) > 1 && is_array($args[$count - 1]);
-		$strings              = array();
+		$strings = array();
 
-		foreach ($baseStrings as $baseString)
-		{
-			if ($lastParameterIsArray)
-			{
-				foreach ($suffixes as $suffix)
-				{
+		foreach ($baseStrings as $baseString) {
+			if ($lang->hasKey($baseString)) {
+				if ($lastParameterIsArray) {
+					$strings[$baseString] = $lang->_(
+						$baseString, false, $interpretBackslashes
+					);
+				} else {
+					$strings[$baseString] = $lang->_(
+						$baseString, false
+					);
+				}
+				continue;
+			}
+
+			if ($lastParameterIsArray) {
+				foreach ($suffixes as $suffix) {
 					$key = $baseString . '_' . $suffix[2];
 
-					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true))
-					{
-						$strings[$key] = $lang->_($key, false, $interpretBackslashes);
+					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true)) {
+						$strings[$key] = $lang->_(
+							$key, false, $interpretBackslashes
+						);
+					}
+				}
+			} else {
+				foreach ($suffixes as $suffix) {
+					$key = $baseString . '_' . $suffix[2];
+
+					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true)) {
+						$strings[$key] = $lang->_(
+							$key, false
+						);
 					}
 				}
 			}
-			else
-			{
-				foreach ($suffixes as $suffix)
-				{
-					$key = $baseString . '_' . $suffix[2];
-
-					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true))
-					{
-						$strings[$key] = $lang->_($key, false);
-					}
-				}
-			}
-
-			if ($lang->hasKey($baseString) && !in_array($baseString, $strings[$baseString], true))
-			{
-				if ($lastParameterIsArray)
-				{
-					$strings[$baseString] = $lang->_($baseString, false, $interpretBackslashes);
-				}
-				else
-				{
-					$strings[$baseString] = $lang->_($baseString, false);
-				}
-			}
-
 		}
 
 		// Load core.js dependency
