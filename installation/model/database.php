@@ -346,7 +346,7 @@ class InstallationModelDatabase extends JModelBase
 
 			if ($column != 't')
 			{
-				$db->setQuery("CREATE LANGUAGE plpgsql");
+				$db->setQuery('CREATE LANGUAGE plpgsql');
 
 				try
 				{
@@ -1182,7 +1182,7 @@ class InstallationModelDatabase extends JModelBase
 		// Parse the schema file to break up queries.
 		for ($i = 0; $i < strlen($query) - 1; $i++)
 		{
-			if ($query[$i] == ";" && !$in_string)
+			if ($query[$i] == ';' && !$in_string)
 			{
 				$queries[] = substr($query, 0, $i);
 				$query     = substr($query, $i + 1);
@@ -1213,7 +1213,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Add function part as is.
-		for ($f = 1; $f < count($funct); $f++)
+		for ($f = 1, $fMax = count($funct); $f < $fMax; $f++)
 		{
 			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
 		}
