@@ -193,7 +193,7 @@ class InstallationResponseJson
 		{
 			foreach ($messages as $msg)
 			{
-				if (isset($msg['type']) && isset($msg['message']))
+				if (isset($msg['type'], $msg['message']))
 				{
 					$lists[$msg['type']][] = $msg['message'];
 				}
