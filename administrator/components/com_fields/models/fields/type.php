@@ -146,13 +146,18 @@ class JFormFieldType extends JFormAbstractlist
 		$uri->setVar('view', null);
 		$uri->setVar('layout', null);
 
-		JFactory::getDocument()->addScriptDeclaration(
-				"function typeHasChanged(element){
+
+		JFactory::getDocument()->addScriptDeclaration("
+			jQuery( document ).ready(function() {
+				Joomla.loadingLayer('load');
+			});
+			function typeHasChanged(element){
 				var cat = jQuery(element);
 				jQuery('input[name=task]').val('field.storeform');
 				element.form.action='" . $uri . "';
 				element.form.submit();
-			}");
+			}
+		");
 
 		return $options;
 	}
