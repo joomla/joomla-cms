@@ -213,8 +213,8 @@ class PlgEditorTinymce extends JPlugin
 			$skin = basename($skindirs[(int) $this->params->get($side, 0)]);
 		}
 
-		$langMode        = $this->params->get('lang_mode', 0);
-		$langPrefix      = $this->params->get('lang_code', 'en');
+		$langMode        = $levelParams->get('lang_mode', 1);
+		$langPrefix      = $levelParams->get('lang_code', 'en');
 
 		if ($langMode)
 		{
