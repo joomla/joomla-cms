@@ -32,6 +32,10 @@ abstract class En_GBLocalise
 
 		foreach ($suffixes as $suffix)
 		{
+			// The possible operators are: <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne respectively.
+			// but for our case we only allow symbol operators: <, <=, >, >=, ==, =, !=, <> respectively.
+			// That is, so we don't need to write additional comparison functions in javascript, and because frankly,
+			// it works without them.
 			if (version_compare($count, $suffix[1], $suffix[0]))
 			{
 				return array($suffix[2]);
@@ -54,26 +58,68 @@ abstract class En_GBLocalise
 	public static function getAllPluralSuffixes()
 	{
 		/*
-		 * The array of suffixes-data ([0]=>comparison operator, [1]=>comparison value and [2]=>the suffix itself)
+		 * This method may hold two variants of suffixes generators
 		 *
-		 * - the first key [0] is the comparison operator (or anything one wants, as long
-		 * as the PHP and JS suffix generators can decode it.)
+		 * 1) For the "simple" generators one might choose to use an array of suffixes-data
+		 *    ([0]=>comparison operator, [1]=>comparison value and [2]=>the suffix itself)
 		 *
-		 * - the second key [1] is the number that the count is compared to
+		 *   - the first key [0] is the comparison operator (or anything one wants, as long
+		 *     as the PHP and JS suffix generators can decode it.)
 		 *
-		 * - the third key [2] is the suffix itself
+		 *   - the second key [1] is the number that the count is compared to
+		 *
+		 *   - the third key [2] is the suffix itself
+		 *
+		 *   The allowed comparison operators for our case we only allow symbol operators: <, <=, >, >=, ==, =, !=, <> respectively.
+		 *   That is, so we don't need to write additional comparison functions in javascript, and because frankly,
+		 *   it works without them.
+		 *
+		 *   Example:
+		 *   <code>
+		 *        return array(
+		 *            array('=', 0, '0'),
+		 *            array('=', 1, '1'),
+		 *            array('>', 2, 'MORE'),
+		 *        );
+		 *   </code>
 		 *
 		 *
-		 * The allowed comparison operators for our case we only allow symbol operators: <, <=, >, >=, ==, =, !=, <> respectively.
-		 * That is, so we don't need to write additional comparison functions in javascript, and because frankly,
-		 * it works without them.
+		 * 2) For the more complex generators, instead of using multiple simple suffixes-data arrays, one might use
+		 *    the eval generator, providing one PHP and one JS code string that will be evaluated in the back-end and front-end respectively
 		 *
+		 *   Example: Suffixes generator for the russian language using eval (both PHP and JS)
+		 *   <code>
+		 *        return array(
+		 *              array('eval',
+		 *                  array(
+		 *                      'php' =>
+		 *                          'if ($count === 0) {
+		 *                              $return = array(\'0\');
+		 *                          } else {
+		 *                              $return = array(($count%10==1 && $count%100!=11 ? \'1\' : ($count%10>=2 && $count%10<=4 && ($count%100<10 || $count%100>=20) ? \'2\' : \'MORE\')));
+		 *                          }
+		 *                              return $return;
+		 *                           ',
+		 *                      'js'  =>
+		 *                          'var return;
+		 *                           if (count === 0) {
+		 *                               ret = [\'0\'];
+		 *                           } else {
+		 *                               ret = [(count%10==1 && count%100!=11 ? \'1\' : (count%10>=2 && count%10<=4 && (count%100<10 || count%100>=20) ? \'2\' : \'MORE\'))];
+		 *                           }
+		 *                           return ret;
+		 *                           '
+		 *                  )
+		 *              ),
+		 *           );
+		 *   </code>
 		 */
+
 
 		return array(
 			array('=', 0, '0'),
 			array('=', 1, '1'),
-			array('>', 1, 'MORE'),
+			array('>', 2, 'MORE'),
 		);
 	}
 
