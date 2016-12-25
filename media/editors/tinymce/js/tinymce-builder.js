@@ -7,6 +7,23 @@
     "use strict";
 
     /**
+     * Fake TinyMCE object to allow to use TinyMCE translation for the button labels
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    window.tinymce = {
+        langCode: 'en',
+        langStrings: {},
+        addI18n: function (code, strings){
+            this.langCode    = code;
+            this.langStrings = strings || {};
+        },
+        translate: function (string){
+            return this.langStrings[string] ? this.langStrings[string] : string;
+        }
+    };
+
+    /**
      * Joomla TinyMCE Builder
      *
      * @param {HTMLElement} container
@@ -172,7 +189,7 @@
             'class': 'mce-btn',
             'data-name': name,
             'data-toggle': 'tooltip',
-            'title': info.label
+            'title': tinymce.translate(info.label)
         });
         var $btn = $('<button/>', {
             'type': 'button'
@@ -180,10 +197,10 @@
         $element.append($btn);
 
         if (type === 'menu') {
-            $btn.html('<span class="mce-txt">' + info.label + '</span> <i class="mce-caret"></i>');
+            $btn.html('<span class="mce-txt">' + tinymce.translate(info.label) + '</span> <i class="mce-caret"></i>');
         } else {
             $element.addClass('mce-btn-small');
-            $btn.html(info.text ? info.text : '<span class="mce-ico mce-i-' + name + '"></span>');
+            $btn.html(info.text ? tinymce.translate(info.text) : '<span class="mce-ico mce-i-' + name + '"></span>');
         }
 
         return $element;
