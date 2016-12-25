@@ -38,7 +38,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<ul class="nav nav-tabs nav-stacked">
 				<?php foreach ($list as $title => $item) : ?>
 					<li>
-						<?php $menutype = array('id' => $this->recordId, 'title' => (isset($item->type) ? $item->type : $item->title), 'request' => $item->request); ?>
+						<?php $menutype = array('id' => $this->recordId, 'title' => isset($item->type) ? $item->type : $item->title, 'request' => $item->request); ?>
 						<?php $menutype = base64_encode(json_encode($menutype)); ?>
 						<a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"
 							onclick="javascript:setmenutype('<?php echo $menutype; ?>')">

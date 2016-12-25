@@ -448,7 +448,7 @@ class MenusModelMenutypes extends JModelLegacy
 				if ($layout != 'default')
 				{
 					// If the template is set, add in format template:layout so we save the template name
-					$o->request['layout'] = (isset($templateName[$file])) ? $templateName[$file] . ':' . $layout : $layout;
+					$o->request['layout'] = isset($templateName[$file]) ? $templateName[$file] . ':' . $layout : $layout;
 				}
 
 				// Load layout metadata if it exists.

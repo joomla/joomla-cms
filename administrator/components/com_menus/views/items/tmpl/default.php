@@ -32,7 +32,7 @@ if ($saveOrder && $menuType)
 }
 
 $assoc = JLanguageAssociations::isEnabled();
-$colSpan = ($assoc) ? 10 : 9;
+$colSpan = $assoc ? 10 : 9;
 
 if ($menuType == '')
 {

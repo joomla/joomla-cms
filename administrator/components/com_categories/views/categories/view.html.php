@@ -186,7 +186,7 @@ class CategoriesViewCategories extends JViewLegacy
 		// Prepare the toolbar.
 		JToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
 
-		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories($component, 'core.create'))) > 0)
+		if ($canDo->get('core.create') || count($user->getAuthorisedCategories($component, 'core.create')) > 0)
 		{
 			JToolbarHelper::addNew('category.add');
 		}

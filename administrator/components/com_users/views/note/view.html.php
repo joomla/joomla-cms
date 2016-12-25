@@ -91,13 +91,13 @@ class UsersViewNote extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_USERS_NOTES'), 'users user');
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit') || (count($user->getAuthorisedCategories('com_users', 'core.create')))))
+		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_users', 'core.create'))))
 		{
 			JToolbarHelper::apply('note.apply');
 			JToolbarHelper::save('note.save');
 		}
 
-		if (!$checkedOut && (count($user->getAuthorisedCategories('com_users', 'core.create'))))
+		if (!$checkedOut && count($user->getAuthorisedCategories('com_users', 'core.create')))
 		{
 			JToolbarHelper::save2new('note.save2new');
 		}

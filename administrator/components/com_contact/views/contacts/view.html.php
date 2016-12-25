@@ -135,12 +135,12 @@ class ContactViewContacts extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
 
-		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_contact', 'core.create'))) > 0)
+		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 		{
 			JToolbarHelper::addNew('contact.add');
 		}
 
-		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
+		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
 		{
 			JToolbarHelper::editList('contact.edit');
 		}

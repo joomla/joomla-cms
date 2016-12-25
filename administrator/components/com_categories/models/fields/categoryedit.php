@@ -292,7 +292,7 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 				}
 
 				if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true
-					&& (isset($oldParent))
+					&& isset($oldParent)
 					&& $option->value != $oldParent)
 				{
 					unset($options[$i]);
@@ -311,7 +311,7 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 				}
 
 				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
-					&& (isset($oldParent))
+					&& isset($oldParent)
 					&& $option->value != $oldParent)
 				{
 					{

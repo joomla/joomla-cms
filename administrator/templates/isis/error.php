@@ -192,7 +192,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 			<h1 class="page-title"><?php echo JText::_('ERROR'); ?></h1>
 		</div>
 	</header>
-	<?php if ((!$statusFixed) && ($this->getInstance()->countModules('status'))) : ?>
+	<?php if ((!$statusFixed) && $this->getInstance()->countModules('status')) : ?>
 		<!-- Begin Status Module -->
 		<div id="status" class="navbar status-top hidden-phone">
 			<div class="btn-toolbar">

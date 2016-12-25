@@ -103,7 +103,7 @@ class BannersViewBanners extends JViewLegacy
 			JToolbarHelper::addNew('banner.add');
 		}
 
-		if (($canDo->get('core.edit')))
+		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('banner.edit');
 		}

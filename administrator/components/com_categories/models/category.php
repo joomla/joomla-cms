@@ -481,7 +481,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
 
-		if ((!empty($data['tags']) && $data['tags'][0] != ''))
+		if (!empty($data['tags']) && $data['tags'][0] != '')
 		{
 			$table->newTags = $data['tags'];
 		}

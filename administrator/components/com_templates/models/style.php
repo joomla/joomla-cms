@@ -271,7 +271,7 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Add the default fields directory
-		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$baseFolder = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 		JForm::addFieldPath($baseFolder . '/templates/' . $template . '/field');
 
 		// These variables are used to add data from the plugin XML files.
@@ -432,7 +432,7 @@ class TemplatesModelStyle extends JModelAdmin
 		// Disable home field if it is default style
 
 		if ((is_array($data) && array_key_exists('home', $data) && $data['home'] == '1')
-			|| ((is_object($data) && isset($data->home) && $data->home == '1')))
+			|| (is_object($data) && isset($data->home) && $data->home == '1'))
 		{
 			$form->setFieldAttribute('home', 'readonly', 'true');
 		}

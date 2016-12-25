@@ -199,7 +199,7 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 			}
 
 			// And at least one of these must be a vowel or "y"
-			return (preg_match('/[' . $vars['vowels'] . ']/', utf8_encode($reversed_stem)));
+			return preg_match('/[' . $vars['vowels'] . ']/', utf8_encode($reversed_stem));
 		}
 	}
 
@@ -234,7 +234,7 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 			$rule = $vars['rules'][$rule_number];
 			preg_match($vars['rule_pattern'], $rule, $matches);
 
-			if (($matches[2] != '*') || ($intact))
+			if (($matches[2] != '*') || $intact)
 			{
 				$reversed_stem = utf8_decode($matches[4]) . substr($reversed_input, $matches[3], strlen($reversed_input) - $matches[3]);
 

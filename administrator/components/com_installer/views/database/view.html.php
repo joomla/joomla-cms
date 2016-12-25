@@ -40,8 +40,8 @@ class InstallerViewDatabase extends InstallerViewDefault
 		$this->schemaVersion = $this->get('SchemaVersion');
 		$this->updateVersion = $this->get('UpdateVersion');
 		$this->filterParams  = $this->get('DefaultTextFilters');
-		$this->schemaVersion = ($this->schemaVersion) ?  $this->schemaVersion : JText::_('JNONE');
-		$this->updateVersion = ($this->updateVersion) ?  $this->updateVersion : JText::_('JNONE');
+		$this->schemaVersion = $this->schemaVersion ?  $this->schemaVersion : JText::_('JNONE');
+		$this->updateVersion = $this->updateVersion ?  $this->updateVersion : JText::_('JNONE');
 		$this->pagination = $this->get('Pagination');
 		$this->errorCount = count($this->errors);
 

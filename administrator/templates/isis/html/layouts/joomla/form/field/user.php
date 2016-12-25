@@ -118,5 +118,5 @@ if (!$readonly)
 			); ?>
 		<?php endif; ?>
 	</div>
-	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>" class="field-user-input<?php ($class) ? ' ' . $class : ''; ?>" data-onchange="<?php echo $this->escape($onchange); ?>" />
+	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>" class="field-user-input<?php $class ? ' ' . $class : ''; ?>" data-onchange="<?php echo $this->escape($onchange); ?>" />
 </div>

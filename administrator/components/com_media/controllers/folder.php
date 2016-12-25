@@ -217,7 +217,7 @@ class MediaControllerFolder extends JControllerLegacy
 				}
 			}
 
-			$this->input->set('folder', ($parent) ? $parent . '/' . $folder : $folder);
+			$this->input->set('folder', $parent ? $parent . '/' . $folder : $folder);
 		}
 		else
 		{

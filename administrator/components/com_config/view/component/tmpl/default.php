@@ -66,7 +66,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							<?php $showonarr[] = array(
 								'field'  => $this->form->getFormControl() . '[' . $showon[0] . ']',
 								'values' => explode(',', $showon[1]),
-								'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $fieldSet->showon, $matches)) ? $matches[1] : ''
+								'op'     => preg_match('%\[(AND|OR)\]' . $showonfield . '%', $fieldSet->showon, $matches) ? $matches[1] : ''
 							); ?>
 						<?php endforeach; ?>
 						<?php $rel = ' data-showon=\'' . json_encode($showonarr) . '\''; ?>
@@ -95,7 +95,7 @@ JFactory::getDocument()->addScriptDeclaration(
 									<?php $showonarr[] = array(
 										'field'  => $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name') . ']',
 										'values' => explode(',', $showon[1]),
-										'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
+										'op'     => preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches) ? $matches[1] : ''
 									); ?>
 								<?php endforeach; ?>
 								<?php $datashowon = ' data-showon=\'' . json_encode($showonarr) . '\''; ?>
