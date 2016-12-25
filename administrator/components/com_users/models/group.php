@@ -169,7 +169,7 @@ class UsersModelGroup extends JModelAdmin
 		// Check for non-super admin trying to save with super admin group
 		$iAmSuperAdmin = JFactory::getUser()->authorise('core.admin');
 
-		if ((!$iAmSuperAdmin) && $groupSuperAdmin)
+		if (!$iAmSuperAdmin && $groupSuperAdmin)
 		{
 			$this->setError(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 
