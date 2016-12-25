@@ -136,9 +136,7 @@ class InstallationModelSetup extends JModelBase
 		unset($return['admin_password2']);
 
 		// Store the options in the session.
-		$vars = $this->storeOptions($return);
-
-		return $vars;
+		return $this->storeOptions($return);
 	}
 
 	/**
