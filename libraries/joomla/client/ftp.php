@@ -1615,16 +1615,16 @@ class JClientFtp
 					$fType = (int) strpos('-dl', $regs[1]{0});
 
 					// $tmp_array['line'] = $regs[0];
-					$tmp_array['type'] = $fType;
+					$tmp_array['type']   = $fType;
 					$tmp_array['rights'] = $regs[1];
 
 					// $tmp_array['number'] = $regs[2];
-					$tmp_array['user'] = $regs[3];
+					$tmp_array['user']  = $regs[3];
 					$tmp_array['group'] = $regs[4];
-					$tmp_array['size'] = $regs[5];
-					$tmp_array['date'] = @date('m-d', strtotime($regs[6]));
-					$tmp_array['time'] = $regs[7];
-					$tmp_array['name'] = $regs[9];
+					$tmp_array['size']  = $regs[5];
+					$tmp_array['date']  = @date('m-d', strtotime($regs[6]));
+					$tmp_array['time']  = $regs[7];
+					$tmp_array['name']  = $regs[9];
 				}
 
 				// If we just want files, do not add a folder
