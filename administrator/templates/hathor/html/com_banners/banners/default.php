@@ -181,7 +181,7 @@ $saveOrder = $listOrder == 'ordering';
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ? $item->imptotal : JText::_('COM_BANNERS_UNLIMITED'));?>
+					<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ?: JText::_('COM_BANNERS_UNLIMITED'));?>
 				</td>
 				<td class="center">
 					<?php echo $item->clicks;?> -

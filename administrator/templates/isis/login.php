@@ -22,7 +22,7 @@ $frontEndUri = JUri::getInstance(JUri::root());
 $frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
 
 // Color Params
-$background_color = $this->params->get('loginBackgroundColor') ? $this->params->get('loginBackgroundColor') : '';
+$background_color = $this->params->get('loginBackgroundColor') ?: '';
 $color_is_light = ($background_color && colorIsLight($background_color));
 
 // Add JavaScript Frameworks

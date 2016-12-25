@@ -117,7 +117,7 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 	protected function getOptions()
 	{
 		$options = array();
-		$published = $this->element['published'] ? $this->element['published'] : array(0, 1);
+		$published = $this->element['published'] ?: array(0, 1);
 		$name = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.

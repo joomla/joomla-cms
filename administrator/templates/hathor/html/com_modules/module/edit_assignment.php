@@ -73,7 +73,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php echo JHtml::_('tabs.start', 'module-menu-assignment-tabs', array('useCookie' => 1));?>
 
 			<?php foreach ($menuTypes as &$type) :
-				echo JHtml::_('tabs.panel', $type->title ? $type->title : $type->menutype, $type->menutype.'-details');
+				echo JHtml::_('tabs.panel', $type->title ?: $type->menutype, $type->menutype.'-details');
 
 				$chkbox_class = 'chk-menulink-' . $type->id; ?>
 

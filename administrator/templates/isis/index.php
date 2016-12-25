@@ -76,7 +76,7 @@ $statusFixed   = $this->params->get('statusFixed', '1');
 $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
 // Header classes
-$navbar_color = $this->params->get('templateColor') ? $this->params->get('templateColor') : '';
+$navbar_color = $this->params->get('templateColor') ?: '';
 $header_color = ($displayHeader && $this->params->get('headerColor')) ? $this->params->get('headerColor') : '';
 $navbar_is_light = ($navbar_color && colorIsLight($navbar_color));
 $header_is_light = ($header_color && colorIsLight($header_color));

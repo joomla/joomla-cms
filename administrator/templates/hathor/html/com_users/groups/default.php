@@ -118,7 +118,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo $item->user_count ? $item->user_count : ''; ?>
+					<?php echo $item->user_count ?: ''; ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>

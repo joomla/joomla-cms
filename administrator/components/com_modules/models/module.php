@@ -847,8 +847,8 @@ class ModulesModelModule extends JModelAdmin
 				$helpKey = trim((string) $help[0]['key']);
 				$helpURL = trim((string) $help[0]['url']);
 
-				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+				$this->helpKey = $helpKey ?: $this->helpKey;
+				$this->helpURL = $helpURL ?: $this->helpURL;
 			}
 		}
 

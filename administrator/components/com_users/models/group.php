@@ -193,7 +193,7 @@ class UsersModelGroup extends JModelAdmin
 
 				foreach ($otherGroups as $otherGroup)
 				{
-					$otherSuperAdmin = $otherSuperAdmin ? $otherSuperAdmin : JAccess::checkGroup($otherGroup, 'core.admin');
+					$otherSuperAdmin = $otherSuperAdmin ?: JAccess::checkGroup($otherGroup, 'core.admin');
 				}
 
 				/**

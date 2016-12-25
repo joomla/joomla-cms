@@ -1124,8 +1124,8 @@ class MenusModelItem extends JModelAdmin
 			$helpURL = trim((string) $help[0]['url']);
 			$helpLoc = trim((string) $help[0]['local']);
 
-			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+			$this->helpKey = $helpKey ?: $this->helpKey;
+			$this->helpURL = $helpURL ?: $this->helpURL;
 			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
 		}
 
