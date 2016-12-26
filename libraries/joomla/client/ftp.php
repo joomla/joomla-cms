@@ -1739,7 +1739,7 @@ class JClientFtp
 		{
 			$this->_response .= fgets($this->_conn, 4096);
 		}
-		while (!preg_match('/^([0-9]{3})(-(.*' . CRLF . ")+\\1)? [^" . CRLF . ']+' . CRLF . "$/", $this->_response, $parts) && time() < $endTime);
+		while (!preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\1)? [^' . CRLF . ']+' . CRLF . "$/", $this->_response, $parts) && time() < $endTime);
 
 		// Catch a timeout or bad response
 		if (!isset($parts[1]))
@@ -1813,7 +1813,7 @@ class JClientFtp
 		{
 			$this->_response .= fgets($this->_conn, 4096);
 		}
-		while (!preg_match('/^([0-9]{3})(-(.*' . CRLF . ")+\\1)? [^" . CRLF . ']+' . CRLF . "$/", $this->_response, $parts) && time() < $endTime);
+		while (!preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\1)? [^' . CRLF . ']+' . CRLF . "$/", $this->_response, $parts) && time() < $endTime);
 
 		// Catch a timeout or bad response
 		if (!isset($parts[1]))
