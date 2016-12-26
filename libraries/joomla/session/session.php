@@ -662,11 +662,11 @@ class JSession implements IteratorAggregate
 		if (isset($_SESSION['__default']) && !empty($_SESSION['__default']))
 		{
 			$migratableKeys = array('user',
-			                        'session.token',
-			                        'session.counter',
-			                        'session.timer.start',
-			                        'session.timer.last',
-			                        'session.timer.now'
+									'session.token',
+									'session.counter',
+									'session.timer.start',
+									'session.timer.last',
+									'session.timer.now'
 			);
 
 			foreach ($migratableKeys as $migratableKey)
