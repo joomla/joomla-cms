@@ -309,7 +309,7 @@ class JText
 				foreach ($suffixes as $suffix) {
 					$key = $baseString . '_' . $suffix[2];
 
-					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true)) {
+					if ($lang->hasKey($key) && !in_array($key, $strings, true)) {
 						$strings[$key] = $lang->_(
 							$key, false, $interpretBackslashes
 						);
@@ -319,7 +319,7 @@ class JText
 				foreach ($suffixes as $suffix) {
 					$key = $baseString . '_' . $suffix[2];
 
-					if ($lang->hasKey($key) && !in_array($key, $strings[$key], true)) {
+					if ($lang->hasKey($key) && !in_array($key, $strings, true)) {
 						$strings[$key] = $lang->_(
 							$key, false
 						);
