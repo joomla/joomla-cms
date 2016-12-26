@@ -135,11 +135,13 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function install($lids)
 	{
-		$installer = new JInstaller;
+		$installerBase = new JInstaller;
 
 		// Loop through every selected language.
 		foreach ($lids as $id)
 		{
+			$installer = clone $installerBase;
+
 			// Loads the update database object that represents the language.
 			$language = JTable::getInstance('update');
 			$language->load($id);
