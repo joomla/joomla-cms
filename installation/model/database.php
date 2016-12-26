@@ -818,7 +818,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @param   JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.6.1
 	 */
@@ -857,7 +857,6 @@ class InstallationModelDatabase extends JModelBase
 				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
-		return true;
 	}
 
 	/**
@@ -865,7 +864,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @param   JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
@@ -917,7 +916,6 @@ class InstallationModelDatabase extends JModelBase
 				}
 			}
 		}
-		return true;
 	}
 
 	/**
@@ -1094,7 +1092,7 @@ class InstallationModelDatabase extends JModelBase
 				 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
 				 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
 				 */
-				if (!$db->hasUTF8mb4Support() && stripos($query, 'CONVERT TO CHARACTER SET utf8 ') !==false)
+				if (!$db->hasUTF8mb4Support() && stripos($query, 'CONVERT TO CHARACTER SET utf8 ') !== false)
 				{
 					continue;
 				}
