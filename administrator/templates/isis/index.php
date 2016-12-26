@@ -247,7 +247,7 @@ if ($this->params->get('linkColor'))
 		</div>
 	</header>
 <?php endif; ?>
-<?php if ((!$statusFixed) && $this->countModules('status')) : ?>
+<?php if (!$statusFixed && $this->countModules('status')) : ?>
 	<!-- Begin Status Module -->
 	<div id="status" class="navbar status-top hidden-phone">
 		<div class="btn-toolbar">
