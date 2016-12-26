@@ -191,12 +191,12 @@ abstract class MultilangstatusHelper
 				unset($warnings[$index]);
 			}
 
-			if ($warn->alang == 0 && ($warn->slang == 0 && empty($warn->mlang)))
+			if ($warn->alang == 0 && $warn->slang == 0 && empty($warn->mlang))
 			{
 				unset($warnings[$index]);
 			}
 
-			if ($warn->alang == 0 && ($warn->slang == $languages && empty($warn->mlang)))
+			if ($warn->alang == 0 && $warn->slang == $languages && empty($warn->mlang))
 			{
 				unset($warnings[$index]);
 			}
