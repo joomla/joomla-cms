@@ -29,7 +29,7 @@ class PlgQuickiconExtensionupdate extends JPlugin
 	 * Returns an icon definition for an icon which looks for extensions updates
 	 * via AJAX and displays a notification when such updates are found.
 	 *
-	 * @param   string  $context The calling context
+	 * @param   string  $context  The calling context
 	 *
 	 * @return  array   A list of icon definition associative arrays, consisting of the
 	 *                  keys link, image, text and access.
@@ -60,8 +60,7 @@ class PlgQuickiconExtensionupdate extends JPlugin
 					'PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON',
 					'PLG_QUICKICON_EXTENSIONUPDATE_ERROR'
 				)
-			) === false
-		)
+			) === false)
 		{
 			$script[] = 'var plg_quickicon_extensionupdate_text = {'
 				. '"UPTODATE" : "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true) . '",'
@@ -75,9 +74,9 @@ class PlgQuickiconExtensionupdate extends JPlugin
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 		JHtml::_(
 			'script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', array(
-				        'version'  => 'auto',
-				        'relative' => true
-			        )
+						'version'  => 'auto',
+						'relative' => true
+					)
 		);
 
 
