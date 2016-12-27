@@ -209,7 +209,7 @@ class MediaControllerFolder extends JControllerLegacy
 				if (JFolder::create($object_file->filepath))
 				{
 					$data = "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>";
-					JFile::write($object_file->filepath . "/index.html", $data);
+					JFile::write($object_file->filepath . '/index.html', $data);
 
 					// Trigger the onContentAfterSave event.
 					$dispatcher->trigger('onContentAfterSave', array('com_media.folder', &$object_file, true));
