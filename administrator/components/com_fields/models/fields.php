@@ -178,9 +178,9 @@ class FieldsModelFields extends JModelList
 		}
 
 		// Join over the assigned categories
-		$query->select("GROUP_CONCAT(fc.category_id SEPARATOR ',') AS assigned_cat_ids")
+		$query->select($query->groupConcat('fc.category_id', ',') . " AS assigned_cat_ids")
 			->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
-			->group('a.id');
+			->group('a.id, l.title, l.image, uc.name, ag.title, ua.name, g.title, g.access, g.state');
 
 		if (($categories = $this->getState('filter.assigned_cat_ids')) && $context)
 		{

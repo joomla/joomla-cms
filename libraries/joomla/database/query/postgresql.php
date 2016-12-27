@@ -676,4 +676,23 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	{
 		return " $value = ANY (string_to_array($set, ',')::integer[]) ";
 	}
+
+	/**
+	 * Translate the mysql GROUP_CONCAT() function.
+	 *
+	 * Usage:
+	 * $query->groupConcat($field, $separator)
+	 *
+	 * @param   string  $field      The field to group .
+	 *
+	 * @param   string  $separator  The separator.
+	 *
+	 * @return  string  Returns the GROUP_CONCAT() postgresql translation.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function groupConcat($field, $separator = ',')
+	{
+		return " array_to_string(array_agg($field), '$separator') ";
+	}
 }
