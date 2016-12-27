@@ -169,31 +169,25 @@ class PlgEditorTinymce extends JPlugin
 		$user     = JFactory::getUser();
 		$language = JFactory::getLanguage();
 		$theme    = 'modern';
-		$access   = array_flip($user->getAuthorisedViewLevels());
+		$ugroups  = array_combine($user->getAuthorisedGroups(), $user->getAuthorisedGroups());
 
-		// Get configuration for User view level
-		$setAccess       = array();
-		$extraOptions    = new stdClass;
-		$extraOptionsAll = $this->params->get('configuration.setoptions', array());
+		// Get configuration depend from User group
+		$extraOptions     = new stdClass;
+		$toolbarParams    = new stdClass;
+		$extraOptionsAll  = $this->params->get('configuration.setoptions', array());
+		$toolbarParamsAll = $this->params->get('configuration.toolbars', array());
 
 		foreach ($extraOptionsAll as $set => $val)
 		{
-			$setAccess[$set] = empty($val->access) ? 1 : $val->access;
+			$val->access = empty($val->access) ? array() : $val->access;
 
-			if (isset($access[$setAccess[$set]]))
-			{
-				$extraOptions = $val;
-			}
-		}
-
-		$toolbarParams    = new stdClass;
-		$toolbarParamsAll = $this->params->get('configuration.toolbars', array());
-
-		foreach ($toolbarParamsAll as $set => $val)
-		{
-			if (isset($access[$setAccess[$set]]))
-			{
-				$toolbarParams = $val;
+			// Check whether User in one of allowed group
+			foreach ($val->access as $group) {
+				if (isset($ugroups[$group]))
+				{
+					$extraOptions  = $val;
+					$toolbarParams = $toolbarParamsAll->$set;
+				}
 			}
 		}
 
@@ -388,12 +382,24 @@ class PlgEditorTinymce extends JPlugin
 		// Check if there no value at all
 		if (!$levelParams->get('menu') && !$levelParams->get('toolbar1') && !$levelParams->get('toolbar2'))
 		{
-			// Set from preset
+			// Get from preset
 			$presets = static::getToolbarPreset();
 
-			// Presets: 3 is special = advances, 2 is registered = medium, all else is public = simple
-			$preset = isset($access[3]) ? $presets['advanced'] :
-				(isset($access[2]) ? $presets['medium'] : $presets['simple']);
+			// Predefine group:
+			// Set 0: for Administrator, Editor, Super Users (4,7,8)
+			// Set 1: for Registered, Manager (2,6), all else are public
+			switch (true){
+				case isset($ugroups[4]) || isset($ugroups[7]) || isset($ugroups[8]):
+					$preset = $presets['advanced'];
+					break;
+
+				case isset($ugroups[2]) || isset($ugroups[6]):
+					$preset = $presets['medium'];
+					break;
+
+				default:
+					$preset = $presets['simple'];
+			}
 
 			$levelParams->loadArray($preset);
 		}

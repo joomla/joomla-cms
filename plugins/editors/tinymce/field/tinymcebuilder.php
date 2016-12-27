@@ -93,13 +93,14 @@ class JFormFieldTinymceBuilder extends JFormField
 			$setsForms[$num] = JForm::getInstance($formname, $formsource, array('control' => $control));
 
 			// Bind the values
-
 			if (empty($this->value['setoptions'][$num]))
 			{
 				$formValues = $valueOld;
 
-				// Predefine access: 0 for special, 1 for registered, all else is public
-				$formValues->access = !$num ? 3 : ($num === 1 ? 2 : 1);
+				// Predefine group:
+				// Set 0: for Administrator, Editor, Super Users (4,7,8)
+				// Set 1: for Registered, Manager (2,6), all else are public
+				$formValues->access = !$num ? array(4,7,8) : ($num === 1 ? array(2,6) : 1);
 			}
 			else
 			{
