@@ -110,7 +110,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 		try
 		{
-			$dbc = JDatabaseDriver::getInstance($options)->getVersion();
+			JDatabaseDriver::getInstance($options)->getVersion();
 		}
 		catch (Exception $e)
 		{

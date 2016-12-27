@@ -225,14 +225,14 @@ class JoomlaInstallerScript
 			)->loadResult();
 
 			// Delete from update sites
-			$result = $db->setQuery(
+			$db->setQuery(
 				$db->getQuery(true)
 					->delete($db->quoteName('#__update_sites'))
 					->where($db->quoteName('update_site_id') . ' = ' . $id)
 			)->execute();
 
 			// Delete from update sites extensions
-			$result = $db->setQuery(
+			$db->setQuery(
 				$db->getQuery(true)
 					->delete($db->quoteName('#__update_sites_extensions'))
 					->where($db->quoteName('update_site_id') . ' = ' . $id)

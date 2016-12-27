@@ -7107,6 +7107,11 @@ div.modal.jviewport-width100 {
 	margin: 1px 0;
 	padding: 0 !important;
 }
+.CodeMirror {
+	height: calc(100vh - 400px);
+	min-height: 400px;
+	max-height: 800px;
+}
 body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;

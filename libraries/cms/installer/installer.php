@@ -940,7 +940,6 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		$queries = array();
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
 

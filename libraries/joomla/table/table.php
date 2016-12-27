@@ -1358,7 +1358,6 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
-		$k = $this->_tbl_key;
 		$quotedOrderingField = $this->_db->quoteName($orderingField);
 
 		// Get the primary keys and ordering values for the selection.
@@ -1431,7 +1430,6 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			return true;
 		}
 
-		$k     = $this->_tbl_key;
 		$row   = null;
 		$query = $this->_db->getQuery(true);
 

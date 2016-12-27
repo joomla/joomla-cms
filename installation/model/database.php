@@ -302,7 +302,7 @@ class InstallationModelDatabase extends JModelBase
 		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
 		{
 			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
-			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>=')))
+			if (preg_match('#[\\\/\.\0]#', $options->db_name) && (!version_compare($db_version, '5.1.6', '>=')))
 			{
 				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version), 'error');
 
@@ -346,7 +346,7 @@ class InstallationModelDatabase extends JModelBase
 
 			if ($column != 't')
 			{
-				$db->setQuery("CREATE LANGUAGE plpgsql");
+				$db->setQuery('CREATE LANGUAGE plpgsql');
 
 				try
 				{
@@ -1182,7 +1182,7 @@ class InstallationModelDatabase extends JModelBase
 		// Parse the schema file to break up queries.
 		for ($i = 0; $i < strlen($query) - 1; $i++)
 		{
-			if ($query[$i] == ";" && !$in_string)
+			if ($query[$i] == ';' && !$in_string)
 			{
 				$queries[] = substr($query, 0, $i);
 				$query     = substr($query, $i + 1);
@@ -1213,7 +1213,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Add function part as is.
-		for ($f = 1; $f < count($funct); $f++)
+		for ($f = 1, $fMax = count($funct); $f < $fMax; $f++)
 		{
 			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
 		}
