@@ -251,11 +251,11 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 
 		if (substr($interval, 0, 1) != '-')
 		{
-			return "datetime('" . $date . "', '+" . $interval . ' ' . $datePart . "')";
+			return "datetime('" . $date . "', '+" . $interval . " " . $datePart . "')";
 		}
 		else
 		{
-			return "datetime('" . $date . "', '" . $interval . ' ' . $datePart . "')";
+			return "datetime('" . $date . "', '" . $interval . " " . $datePart . "')";
 		}
 	}
 

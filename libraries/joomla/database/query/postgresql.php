@@ -612,12 +612,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	{
 		if (substr($interval, 0, 1) != '-')
 		{
-			return "timestamp '$date' + interval '$interval $datePart'";
+			return "timestamp '" . $date . "' + interval '" . $interval . " " . $datePart . "'";
 		}
 		else
 		{
-			$interval = ltrim($interval, '-');
-			return "timestamp '$date' - interval '$interval $datePart'";
+			return "timestamp '" . $date . "' - interval '" . ltrim($interval, '-') . " " . $datePart . "'";
 		}
 	}
 

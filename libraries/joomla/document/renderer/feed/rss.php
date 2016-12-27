@@ -75,12 +75,12 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 
 		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
 		$feed .= "	<channel>\n";
-		$feed .= '		<title>' . $feed_title . "</title>\n";
-		$feed .= '		<description><![CDATA[' . $data->getDescription() . "]]></description>\n";
-		$feed .= '		<link>' . str_replace(' ', '%20', $url . $datalink) . "</link>\n";
-		$feed .= '		<lastBuildDate>' . htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
-		$feed .= '		<generator>' . $data->getGenerator() . "</generator>\n";
-		$feed .= '		<atom:link rel="self" type="application/rss+xml" href="' . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
+		$feed .= "		<title>" . $feed_title . "</title>\n";
+		$feed .= "		<description><![CDATA[" . $data->getDescription() . "]]></description>\n";
+		$feed .= "		<link>" . str_replace(' ', '%20', $url . $datalink) . "</link>\n";
+		$feed .= "		<lastBuildDate>" . htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
+		$feed .= "		<generator>" . $data->getGenerator() . "</generator>\n";
+		$feed .= "		<atom:link rel=\"self\" type=\"application/rss+xml\" href=\"" . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
 
 		if ($data->image != null)
 		{
@@ -91,17 +91,17 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 
 			if ($data->image->width != '')
 			{
-				$feed .= '			<width>' . $data->image->width . "</width>\n";
+				$feed .= "			<width>" . $data->image->width . "</width>\n";
 			}
 
 			if ($data->image->height != '')
 			{
-				$feed .= '			<height>' . $data->image->height . "</height>\n";
+				$feed .= "			<height>" . $data->image->height . "</height>\n";
 			}
 
 			if ($data->image->description != '')
 			{
-				$feed .= '			<description><![CDATA[' . $data->image->description . "]]></description>\n";
+				$feed .= "			<description><![CDATA[" . $data->image->description . "]]></description>\n";
 			}
 
 			$feed .= "		</image>\n";
@@ -109,30 +109,30 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 
 		if ($data->getLanguage() !== '')
 		{
-			$feed .= '		<language>' . $data->getLanguage() . "</language>\n";
+			$feed .= "		<language>" . $data->getLanguage() . "</language>\n";
 		}
 
 		if ($data->copyright != '')
 		{
-			$feed .= '		<copyright>' . htmlspecialchars($data->copyright, ENT_COMPAT, 'UTF-8') . "</copyright>\n";
+			$feed .= "		<copyright>" . htmlspecialchars($data->copyright, ENT_COMPAT, 'UTF-8') . "</copyright>\n";
 		}
 
 		if ($data->editorEmail != '')
 		{
-			$feed .= '		<managingEditor>' . htmlspecialchars($data->editorEmail, ENT_COMPAT, 'UTF-8') . ' ('
+			$feed .= "		<managingEditor>" . htmlspecialchars($data->editorEmail, ENT_COMPAT, 'UTF-8') . ' ('
 				. htmlspecialchars($data->editor, ENT_COMPAT, 'UTF-8') . ")</managingEditor>\n";
 		}
 
 		if ($data->webmaster != '')
 		{
-			$feed .= '		<webMaster>' . htmlspecialchars($data->webmaster, ENT_COMPAT, 'UTF-8') . "</webMaster>\n";
+			$feed .= "		<webMaster>" . htmlspecialchars($data->webmaster, ENT_COMPAT, 'UTF-8') . "</webMaster>\n";
 		}
 
 		if ($data->pubDate != '')
 		{
 			$pubDate = JFactory::getDate($data->pubDate);
 			$pubDate->setTimeZone($tz);
-			$feed .= '		<pubDate>' . htmlspecialchars($pubDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
+			$feed .= "		<pubDate>" . htmlspecialchars($pubDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 		}
 
 		if (!empty($data->category))
@@ -141,38 +141,38 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 			{
 				foreach ($data->category as $cat)
 				{
-					$feed .= '		<category>' . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "</category>\n";
+					$feed .= "		<category>" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "</category>\n";
 				}
 			}
 			else
 			{
-				$feed .= '		<category>' . htmlspecialchars($data->category, ENT_COMPAT, 'UTF-8') . "</category>\n";
+				$feed .= "		<category>" . htmlspecialchars($data->category, ENT_COMPAT, 'UTF-8') . "</category>\n";
 			}
 		}
 
 		if ($data->docs != '')
 		{
-			$feed .= '		<docs>' . htmlspecialchars($data->docs, ENT_COMPAT, 'UTF-8') . "</docs>\n";
+			$feed .= "		<docs>" . htmlspecialchars($data->docs, ENT_COMPAT, 'UTF-8') . "</docs>\n";
 		}
 
 		if ($data->ttl != '')
 		{
-			$feed .= '		<ttl>' . htmlspecialchars($data->ttl, ENT_COMPAT, 'UTF-8') . "</ttl>\n";
+			$feed .= "		<ttl>" . htmlspecialchars($data->ttl, ENT_COMPAT, 'UTF-8') . "</ttl>\n";
 		}
 
 		if ($data->rating != '')
 		{
-			$feed .= '		<rating>' . htmlspecialchars($data->rating, ENT_COMPAT, 'UTF-8') . "</rating>\n";
+			$feed .= "		<rating>" . htmlspecialchars($data->rating, ENT_COMPAT, 'UTF-8') . "</rating>\n";
 		}
 
 		if ($data->skipHours != '')
 		{
-			$feed .= '		<skipHours>' . htmlspecialchars($data->skipHours, ENT_COMPAT, 'UTF-8') . "</skipHours>\n";
+			$feed .= "		<skipHours>" . htmlspecialchars($data->skipHours, ENT_COMPAT, 'UTF-8') . "</skipHours>\n";
 		}
 
 		if ($data->skipDays != '')
 		{
-			$feed .= '		<skipDays>' . htmlspecialchars($data->skipDays, ENT_COMPAT, 'UTF-8') . "</skipDays>\n";
+			$feed .= "		<skipDays>" . htmlspecialchars($data->skipDays, ENT_COMPAT, 'UTF-8') . "</skipDays>\n";
 		}
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
@@ -190,8 +190,8 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 			}
 
 			$feed .= "		<item>\n";
-			$feed .= '			<title>' . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
-			$feed .= '			<link>' . str_replace(' ', '%20', $itemlink) . "</link>\n";
+			$feed .= "			<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
+			$feed .= "			<link>" . str_replace(' ', '%20', $itemlink) . "</link>\n";
 
 			if (empty($data->items[$i]->guid))
 			{
@@ -202,7 +202,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 				$feed .= "			<guid isPermaLink=\"false\">" . htmlspecialchars($data->items[$i]->guid, ENT_COMPAT, 'UTF-8') . "</guid>\n";
 			}
 
-			$feed .= '			<description><![CDATA[' . $this->_relToAbs($data->items[$i]->description) . "]]></description>\n";
+			$feed .= "			<description><![CDATA[" . $this->_relToAbs($data->items[$i]->description) . "]]></description>\n";
 
 			if ($data->items[$i]->authorEmail != '')
 			{
@@ -224,12 +224,12 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 				{
 					foreach ($data->items[$i]->category as $cat)
 					{
-						$feed .= '			<category>' . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "</category>\n";
+						$feed .= "			<category>" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "</category>\n";
 					}
 				}
 				else
 				{
-					$feed .= '			<category>' . htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8') . "</category>\n";
+					$feed .= "			<category>" . htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8') . "</category>\n";
 				}
 			}
 
@@ -242,7 +242,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 			{
 				$itemDate = JFactory::getDate($data->items[$i]->date);
 				$itemDate->setTimeZone($tz);
-				$feed .= '			<pubDate>' . htmlspecialchars($itemDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
+				$feed .= "			<pubDate>" . htmlspecialchars($itemDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 			}
 
 			if ($data->items[$i]->enclosure != null)
