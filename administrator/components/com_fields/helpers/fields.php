@@ -97,7 +97,16 @@ class FieldsHelper
 		if ($item && (isset($item->catid) || isset($item->fieldscatid)))
 		{
 			$assignedCatIds = isset($item->catid) ? $item->catid : $item->fieldscatid;
-			self::$fieldsCache->setState('filter.assigned_cat_ids', is_array($assignedCatIds) ? $assignedCatIds : explode(',', $assignedCatIds));
+
+			if (!is_array($assignedCatIds))
+			{
+				$assignedCatIds = explode(',', $assignedCatIds);
+			}
+
+			// Fields without any category assigned should show as well
+			$assignedCatIds[] = 0;
+
+			self::$fieldsCache->setState('filter.assigned_cat_ids', $assignedCatIds);
 		}
 
 		$fields = self::$fieldsCache->getItems();
@@ -557,6 +566,37 @@ class FieldsHelper
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Gets assigned categories titles for a field
+	 *
+	 * @param   stdClass[]  $fieldId  The field ID
+	 *
+	 * @return  array  Array with the assigned categories
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getAssignedCategoriesTitles($fieldId)
+	{
+		$fieldId = (int) $fieldId;
+
+		if (!$fieldId)
+		{
+			return array();
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('c.title'))
+				->from($db->quoteName('#__fields_categories', 'a'))
+				->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+				->where('field_id = ' . $fieldId);
+
+		$db->setQuery($query);
+
+		return $db->loadColumn();
 	}
 
 	/**
