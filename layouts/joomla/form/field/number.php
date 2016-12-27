@@ -69,8 +69,7 @@ if (is_numeric($value))
 }
 else
 {
-	$value = "";
-	$value = isset($min) ? $min : $value;
+	$value = isset($min) ? $min : '';
 }
 
 // Including fallback code for HTML5 non supported browsers.
