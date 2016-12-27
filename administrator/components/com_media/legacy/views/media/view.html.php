@@ -78,7 +78,7 @@ class MediaViewMedia extends JViewLegacy
 		if ($user->authorise('core.create', 'com_media'))
 		{
 			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.uploadmedia');
+			$layout = new JLayoutFile('toolbar.uploadmedia', JPATH_COMPONENT_ADMINISTRATOR . '/legacy/layouts');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
@@ -88,7 +88,7 @@ class MediaViewMedia extends JViewLegacy
 		if ($user->authorise('core.create', 'com_media'))
 		{
 			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.newfolder');
+			$layout = new JLayoutFile('toolbar.newfolder', JPATH_COMPONENT_ADMINISTRATOR . '/legacy/layouts');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
@@ -98,7 +98,7 @@ class MediaViewMedia extends JViewLegacy
 		if ($user->authorise('core.delete', 'com_media'))
 		{
 			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.deletemedia');
+			$layout = new JLayoutFile('toolbar.deletemedia', JPATH_COMPONENT_ADMINISTRATOR . '/legacy/layouts');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
