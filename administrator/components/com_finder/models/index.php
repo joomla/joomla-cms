@@ -52,6 +52,7 @@ class FinderModelIndex extends JModelList
 				'url', 'l.url',
 				'indexdate', 'l.indexdate',
 				'content_map',
+				'l.terms_count',
 			);
 		}
 

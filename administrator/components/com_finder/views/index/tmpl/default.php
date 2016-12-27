@@ -84,6 +84,9 @@ JFactory::getDocument()->addScriptDeclaration('
 					<th width="35%" class="nowrap hidden-phone hidden-tablet">
 						<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
 					</th>
+					<th width="1%" class="nowrap hidden-phone hidden-tablet">
+						<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_TERMS_COUNT', 'l.terms_count', $listDirn, $listOrder); ?>
+					</th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -124,6 +127,11 @@ JFactory::getDocument()->addScriptDeclaration('
 					</td>
 					<td class="small break-word hidden-phone hidden-tablet">
 						<?php echo (strlen($item->url) > 80) ? substr($item->url, 0, 70) . '...' : $item->url; ?>
+					</td>
+					<td class="center hidden-phone hidden-tablet">
+						<a href="<?php echo JRoute::_('index.php?option=com_finder&view=terms&filter[link]=' . $item->link_id); ?>">
+							<span class="badge badge-info"><?php echo $item->terms_count; ?></span>
+						</a>
 					</td>
 				</tr>
 

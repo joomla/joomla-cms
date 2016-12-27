@@ -423,10 +423,17 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		// Mark afterMapping in the profiler.
 		static::$profiler ? static::$profiler->mark('afterMapping') : null;
 
+		// Determine the number of terms for this content item.
+		$query->clear()
+			->select('count(DISTINCT(term))')
+			->from('#__finder_tokens_aggregate');
+		$termsCount = $db->setQuery($query)->loadResult();
+
 		// Update the signature.
 		$query->clear()
 			->update($db->quoteName('#__finder_links'))
 			->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig))
+			->set($db->quoteName('terms_count') . ' = ' . (int) $termsCount)
 			->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
 		$db->setQuery($query);
 		$db->execute();

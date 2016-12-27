@@ -55,6 +55,8 @@
 			<option value="l.indexdate DESC">COM_FINDER_INDEX_HEADING_INDEX_DATE_DESC</option>
 			<option value="l.url ASC">COM_FINDER_INDEX_HEADING_LINK_URL_ASC</option>
 			<option value="l.url DESC">COM_FINDER_INDEX_HEADING_LINK_URL_DESC</option>
+			<option value="l.terms_count ASC">COM_FINDER_INDEX_HEADING_TERMS_COUNT_ASC</option>
+			<option value="l.terms_count DESC">COM_FINDER_INDEX_HEADING_TERMS_COUNT_DESC</option>
 		</field>
 		<field
 			name="limit"
