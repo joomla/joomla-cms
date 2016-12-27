@@ -1141,7 +1141,7 @@ abstract class JFormField
 	 *
 	 * @since   3.7.0
 	 */
-	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
 	{
 	}
 
