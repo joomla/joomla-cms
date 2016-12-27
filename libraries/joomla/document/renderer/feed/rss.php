@@ -85,9 +85,9 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 		if ($data->image != null)
 		{
 			$feed .= "		<image>\n";
-			$feed .= '			<url>' . $data->image->url . "</url>\n";
-			$feed .= '			<title>' . htmlspecialchars($data->image->title, ENT_COMPAT, 'UTF-8') . "</title>\n";
-			$feed .= '			<link>' . str_replace(' ', '%20', $data->image->link) . "</link>\n";
+			$feed .= "			<url>" . $data->image->url . "</url>\n";
+			$feed .= "			<title>" . htmlspecialchars($data->image->title, ENT_COMPAT, 'UTF-8') . "</title>\n";
+			$feed .= "			<link>" . str_replace(' ', '%20', $data->image->link) . "</link>\n";
 
 			if ($data->image->width != '')
 			{
@@ -235,7 +235,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 
 			if ($data->items[$i]->comments != '')
 			{
-				$feed .= '			<comments>' . htmlspecialchars($data->items[$i]->comments, ENT_COMPAT, 'UTF-8') . "</comments>\n";
+				$feed .= "			<comments>" . htmlspecialchars($data->items[$i]->comments, ENT_COMPAT, 'UTF-8') . "</comments>\n";
 			}
 
 			if ($data->items[$i]->date != '')
