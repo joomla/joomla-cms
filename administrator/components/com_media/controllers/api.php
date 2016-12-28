@@ -133,9 +133,9 @@ class MediaControllerApi extends JControllerLegacy
 	 *
 	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//"}]}
 	 *
-	 * @param mixed    $data     The data to send
-	 * @param string   $message  The message
-	 * @param boolean  $error    If it is an error response
+	 * @param   mixed    $data     The data to send
+	 * @param   string   $message  The message
+	 * @param   boolean  $error    If it is an error response
 	 *
 	 * @return  void
 	 *

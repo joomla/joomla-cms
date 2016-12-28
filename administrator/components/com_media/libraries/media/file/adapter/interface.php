@@ -23,7 +23,7 @@ interface MediaFileAdapterInterface
 	 * - name: The name of the file
 	 * - path: The relative path to the root
 	 *
-	 * @param  string  $path  The folder
+	 * @param   string  $path  The folder
 	 *
 	 * @return  stdClass[]
 	 *
@@ -35,7 +35,7 @@ interface MediaFileAdapterInterface
 	/**
 	 * Deletes the folder or file of the given path.
 	 *
-	 * @param  string  $path  The path to the file or folder
+	 * @param   string  $path  The path to the file or folder
 	 *
 	 * @return  void
 	 *

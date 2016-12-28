@@ -28,15 +28,15 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * The absolute root path in the local file system.
 	 *
-	 * @param  string  $rootPath  The root path
+	 * @param   string  $rootPath  The root path
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($rootPath)
 	{
 		if (!file_exists($rootPath))
 		{
-			throw new InvalidArgumentException();
+			throw new InvalidArgumentException;
 		}
 
 		$this->rootPath = $rootPath;
@@ -53,7 +53,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * - extension: The file extension
 	 * - size:      The size of the file
 	 *
-	 * @param  string  $path  The folder
+	 * @param   string  $path  The folder
 	 *
 	 * @return  stdClass[]
 	 *
@@ -115,7 +115,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Deletes the folder or file of the given path.
 	 *
-	 * @param  string  $path  The path to the file or folder
+	 * @param   string  $path  The path to the file or folder
 	 *
 	 * @return  void
 	 *
