@@ -177,15 +177,16 @@ class ContactHelper extends JHelperContent
 	}
 
 	/**
-	 * Map the section for custom fields.
+	 * Returns a valid section for contacts. If it is not valid then null
+	 * is returned.
 	 *
 	 * @param   string  $section  The section to get the mapping for
 	 *
-	 * @return  string  The new section
+	 * @return  string|null  The new section
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getRealSection($section)
+	public static function validateSection($section)
 	{
 		if (JFactory::getApplication()->isClient('site') && $section == 'contact')
 		{
