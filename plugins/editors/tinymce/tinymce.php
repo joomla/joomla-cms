@@ -171,18 +171,21 @@ class PlgEditorTinymce extends JPlugin
 		$theme    = 'modern';
 		$ugroups  = array_combine($user->getAuthorisedGroups(), $user->getAuthorisedGroups());
 
-		// Get configuration depend from User group
+		// Prepare the parameters
+		$levelParams      = new Joomla\Registry\Registry();
 		$extraOptions     = new stdClass;
 		$toolbarParams    = new stdClass;
 		$extraOptionsAll  = $this->params->get('configuration.setoptions', array());
 		$toolbarParamsAll = $this->params->get('configuration.toolbars', array());
 
+		// Get configuration depend from User group
 		foreach ($extraOptionsAll as $set => $val)
 		{
 			$val->access = empty($val->access) ? array() : $val->access;
 
 			// Check whether User in one of allowed group
-			foreach ($val->access as $group) {
+			foreach ($val->access as $group)
+			{
 				if (isset($ugroups[$group]))
 				{
 					$extraOptions  = $val;
@@ -191,8 +194,14 @@ class PlgEditorTinymce extends JPlugin
 			}
 		}
 
+		// Check for old params for B/C, and load them first
+		if ($this->params->exists('mode') && $this->params->exists('alignment'))
+		{
+			$levelParams->merge($this->params);
+		}
+
 		// Merge the params
-		$levelParams = new Joomla\Registry\Registry($toolbarParams);
+		$levelParams->loadObject($toolbarParams);
 		$levelParams->loadObject($extraOptions);
 
 		// List the skins
@@ -202,13 +211,13 @@ class PlgEditorTinymce extends JPlugin
 		$skin = 'lightgray';
 		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
 
-		if ((int) $this->params->get($side, 0) < count($skindirs))
+		if ((int) $levelParams->get($side, 0) < count($skindirs))
 		{
-			$skin = basename($skindirs[(int) $this->params->get($side, 0)]);
+			$skin = basename($skindirs[(int) $levelParams->get($side, 0)]);
 		}
 
-		$langMode        = $levelParams->get('lang_mode', 1);
-		$langPrefix      = $levelParams->get('lang_code', 'en');
+		$langMode   = $levelParams->get('lang_mode', 1);
+		$langPrefix = $levelParams->get('lang_code', 'en');
 
 		if ($langMode)
 		{

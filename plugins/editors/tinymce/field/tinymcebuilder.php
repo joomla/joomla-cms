@@ -44,8 +44,8 @@ class JFormFieldTinymceBuilder extends JFormField
 	protected function getLayoutData()
 	{
 		$data       = parent::getLayoutData();
-		$valueAll   = (object) $this->form->getValue('params');
-		$setsAmount = empty($valueAll->sets_amount) ? 3 : $valueAll->sets_amount;
+		$paramsAll  = (object) $this->form->getValue('params');
+		$setsAmount = empty($paramsAll->sets_amount) ? 3 : $paramsAll->sets_amount;
 
 		// Get the plugin
 		require_once JPATH_PLUGINS . '/editors/tinymce/tinymce.php';
@@ -78,11 +78,16 @@ class JFormFieldTinymceBuilder extends JFormField
 		$setsForms  = array();
 		$formsource = JPATH_PLUGINS . '/editors/tinymce/form/setoptions.xml';
 
-		// Check the old values for B/C
-		$valueOld = new stdClass;
-		if ($this->value && empty($this->value['setoptions']))
+		// Preload an old params for B/C
+		$setParams = new stdClass;
+		if ($paramsAll && empty($paramsAll->configuration['setoptions']))
 		{
-			$valueOld = $valueAll;
+			$plugin = JPluginHelper::getPlugin('editors', 'tinymce');
+
+			if (is_object($plugin) && !empty($plugin->params))
+			{
+				$setParams = (object) json_decode($plugin->params);
+			}
 		}
 
 		foreach (array_keys($data['setsNames']) as $num)
@@ -92,10 +97,10 @@ class JFormFieldTinymceBuilder extends JFormField
 
 			$setsForms[$num] = JForm::getInstance($formname, $formsource, array('control' => $control));
 
-			// Bind the values
+			// Check whether we already have saved values or it first time or even old params
 			if (empty($this->value['setoptions'][$num]))
 			{
-				$formValues = $valueOld;
+				$formValues = $setParams;
 
 				// Predefine group:
 				// Set 0: for Administrator, Editor, Super Users (4,7,8)
@@ -107,6 +112,7 @@ class JFormFieldTinymceBuilder extends JFormField
 				$formValues = $this->value['setoptions'][$num];
 			}
 
+			// Bind the values
 			$setsForms[$num]->bind($formValues);
 		}
 
