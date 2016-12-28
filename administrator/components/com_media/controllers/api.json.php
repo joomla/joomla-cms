@@ -61,31 +61,31 @@ class MediaControllerApi extends JControllerLegacy
 	 * Some examples with a more understandable rest url equivalent:
 	 * - GET a list of folders below the root:
 	 * 		index.php?option=com_media&task=api.files
-	 * 		/api/files
+	 * 		/api/files&format=json
 	 * - GET a list of files and subfolders of a given folder:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop
-	 * 		/api/files/sampledata/fruitshop
+	 * 		/api/files/sampledata/fruitshop&format=json
 	 * - GET file information for a specific file:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 * 		/api/files/sampledata/fruitshop/test.jpg&format=json
 	 *
 	 * - POST a new file or folder into a specific folder:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop
-	 * 		/api/files/sampledata/fruitshop
+	 * 		/api/files/sampledata/fruitshop&format=json
 	 *
 	 * - PUT a media file:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 * 		/api/files/sampledata/fruitshop/test.jpg&format=json
 	 * - PUT process a media file:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg&action=process
-	 * 		/api/files/sampledata/fruitshop/test.jpg/process
+	 * 		/api/files/sampledata/fruitshop/test.jpg/process&format=json
 	 *
 	 * - DELETE an existing folder in a specific folder:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test
-	 * 		/api/files/sampledata/fruitshop/test
+	 * 		/api/files/sampledata/fruitshop/test&format=json
 	 * - DELETE an existing file in a specific folder:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 * 		/api/files/sampledata/fruitshop/test.jpg&format=json
 	 *
 	 * @return  void
 	 *
