@@ -144,7 +144,5 @@ class MediaControllerApi extends JControllerLegacy
 	protected function sendAndClose($data, $message, $error)
 	{
 		echo new JResponseJson($data, $message, $error);
-
-		JFactory::getApplication()->close();
 	}
 }
