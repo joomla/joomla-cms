@@ -43,25 +43,34 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	}
 
 	/**
-	 * Returns the folders for the given folder. If the name is set,then it returns the folder
-	 * meta data.
+	 * Returns the folders and files for the given path. The returned objects
+	 * have the following properties avilable:
+	 * - type: The type can be file or dir
+	 * - name: The name of the file
+	 * - path: The relative path to the root
 	 *
-	 * @param  string      $path   The folder
-	 * @param  JInputJSON  $input  The input
+	 * If the type is file, then some additional properties are available:
+	 * - extension: The file extension
+	 * - size:      The size of the file
 	 *
-	 * @return  string[]
+	 * @param  string  $path  The folder
+	 *
+	 * @return  stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
 	 */
 	public function getFiles($path = '/')
 	{
 		if (is_file($this->rootPath . $path))
 		{
 			// Create the file object
-			$obj       = new stdClass();
-			$obj->type = 'file';
-			$obj->name = basename($path);
-			$obj->path = $path;
+			$obj            = new stdClass;
+			$obj->type      = 'file';
+			$obj->name      = basename($path);
+			$obj->path      = $path;
+			$obj->extension = JFile::getExt($file);
+			$obj->size      = filesize($this->rootPath . $path . $file);
 
 			return array($obj);
 		}
@@ -78,7 +87,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		// Read the folders
 		foreach (JFolder::folders($this->rootPath . $path) as $folder)
 		{
-			$obj       = new stdClass();
+			$obj       = new stdClass;
 			$obj->type = 'dir';
 			$obj->name = $folder;
 			$obj->path = $path;
@@ -89,10 +98,12 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		// Read the files
 		foreach (JFolder::files($this->rootPath . $path) as $file)
 		{
-			$obj       = new stdClass();
-			$obj->type = 'file';
-			$obj->name = $file;
-			$obj->path = $path;
+			$obj            = new stdClass;
+			$obj->type      = 'file';
+			$obj->name      = $file;
+			$obj->path      = $path;
+			$obj->extension = JFile::getExt($file);
+			$obj->size      = filesize($this->rootPath . $path . $file);
 
 			$data[]    = $obj;
 		}

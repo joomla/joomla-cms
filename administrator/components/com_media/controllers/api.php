@@ -1,6 +1,4 @@
 <?php
-use Symfony\Component\Intl\Exception\NotImplementedException;
-
 /**
  * @package     Joomla.Site
  * @subpackage  com_media
