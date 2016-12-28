@@ -128,7 +128,7 @@ class PlgContentVote extends JPlugin
 		include $path;
 		$html = ob_get_clean();
 
-		if ($this->app->input->getString('view', '') === 'article' && $row->state === 1)
+		if ($this->app->input->getString('view', '') === 'article' && $row->state == 1)
 		{
 			// Get the path for the voting form layout file
 			$path = JPluginHelper::getLayoutPath('content', 'vote', 'vote');
