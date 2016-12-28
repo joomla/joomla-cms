@@ -23,7 +23,7 @@ class MediaControllerApi extends JControllerLegacy
 	 *
 	 * @var MediaFileAdapterInterface
 	 */
-	private $adapter = null;
+	protected $adapter = null;
 
 	/**
 	 * Constructor.
@@ -141,7 +141,7 @@ class MediaControllerApi extends JControllerLegacy
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function sendAndClose($data, $message, $error)
+	protected function sendAndClose($data, $message, $error)
 	{
 		echo new JResponseJson($data, $message, $error);
 
