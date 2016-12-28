@@ -266,6 +266,11 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->order;
 				}
 
+				if ($this->unionAll)
+				{
+					$query .= (string) $this->unionAll;
+				}
+
 				break;
 
 			case 'delete':
