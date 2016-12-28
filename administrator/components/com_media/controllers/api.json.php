@@ -118,18 +118,17 @@ class MediaControllerApi extends JControllerLegacy
 					throw new BadMethodCallException('Method not supported yet!');
 			}
 
-
 			// Return the data
-			$this->sendAndClose($data);
+			$this->sendResponse($data);
 		}
 		catch (Exception $e)
 		{
-			$this->sendAndClose(null, 'Error: ' . $e->getMessage(), true);
+			$this->sendResponse(null, 'Error: ' . $e->getMessage(), true);
 		}
 	}
 
 	/**
-	 * Echoes the given data as JSON in the following format:
+	 * Send the given data as JSON response in the following format:
 	 *
 	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//"}]}
 	 *
@@ -141,7 +140,7 @@ class MediaControllerApi extends JControllerLegacy
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function sendAndClose($data, $message = null, $error = false)
+	protected function sendResponse($data = null, $message = null, $error = false)
 	{
 		echo new JResponseJson($data, $message, $error);
 	}
