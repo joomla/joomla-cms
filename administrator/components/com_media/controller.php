@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Media Manager Component Controller
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 class MediaController extends JControllerLegacy
 {
 	/**
