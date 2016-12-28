@@ -52,6 +52,7 @@ require_once JPATH_CONFIGURATION . '/configuration.php';
 
 // System configuration.
 $config = new JConfig;
+define('JDEBUG', $config->debug);
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
@@ -142,6 +143,7 @@ class FinderCli extends JApplicationCli
 
 		// Total reporting.
 		$this->out(JText::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)), true);
+		$this->out(JText::sprintf('FINDER_CLI_PEAK_MEMORY_USAGE', number_format(memory_get_peak_usage(true))));
 
 		// Print a blank line at the end.
 		$this->out();
@@ -156,7 +158,7 @@ class FinderCli extends JApplicationCli
 	 */
 	private function index()
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
+		JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
 
 		// Disable caching.
 		$config = JFactory::getConfig();
@@ -166,7 +168,8 @@ class FinderCli extends JApplicationCli
 		// Reset the indexer state.
 		FinderIndexer::resetState();
 
-		// Import the finder plugins.
+		// Import the plugins.
+		JPluginHelper::importPlugin('system');
 		JPluginHelper::importPlugin('finder');
 
 		// Starting Indexer.

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
-if ($app->isSite())
+if ($app->isClient('site'))
 {
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
@@ -98,12 +98,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							$lang = substr($item->language, 0, 3);
 						}
 						else {
-							$lang = "";
+							$lang = '';
 						}
 					}
 					elseif (!JLanguageMultilang::isEnabled())
 					{
-						$lang = "";
+						$lang = '';
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
@@ -114,18 +114,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<a href="javascript:void(0);" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
 								<?php echo $this->escape($item->title); ?></a>
 							<div class="small">
-								<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
+								<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 							</div>
 						</td>
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="small">
-							<?php if ($item->language == '*'): ?>
-								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else:?>
-								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif;?>
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td class="nowrap small hidden-phone">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>

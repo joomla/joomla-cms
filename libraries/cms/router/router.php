@@ -184,10 +184,11 @@ class JRouter
 				{
 					$path = $info->path . '/includes/router.php';
 
-					if (file_exists($path))
+					JLoader::register($classname, $path);
+
+					if (class_exists($classname))
 					{
 						JLog::add('Non-autoloadable JRouter subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-						include_once $path;
 					}
 				}
 			}
@@ -693,7 +694,7 @@ class JRouter
 
 		foreach ($vars as $key => $var)
 		{
-			if ($var == "")
+			if ($var == '')
 			{
 				unset($vars[$key]);
 			}

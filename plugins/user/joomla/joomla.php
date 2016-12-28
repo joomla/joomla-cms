@@ -62,7 +62,20 @@ class PlgUserJoomla extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (RuntimeException $e)
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			return false;
+		}
+
+		$query = $this->db->getQuery(true)
+			->delete($this->db->quoteName('#__messages'))
+			->where($this->db->quoteName('user_id_from') . ' = ' . (int) $user['id']);
+
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -91,7 +104,8 @@ class PlgUserJoomla extends JPlugin
 		if ($isnew)
 		{
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
-			if ($this->app->isAdmin())
+			// The method check here ensures that if running as a CLI Application we don't get any errors
+			if (method_exists($this->app, 'isClient') && $this->app->isClient('administrator'))
 			{
 				if ($mail_to_user)
 				{
@@ -239,13 +253,12 @@ class PlgUserJoomla extends JPlugin
 		$instance->setLastVisit();
 
 		// Add "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
-		$conf          = JFactory::getConfig();
-		$cookie_domain = $conf->get('cookie_domain', '');
-		$cookie_path   = $conf->get('cookie_path', '/');
+		$cookie_domain = $this->app->get('cookie_domain', '');
+		$cookie_path   = $this->app->get('cookie_path', '/');
 
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
-			$this->app->input->cookie->set("joomla_user_state", "logged_in", 0, $cookie_path, $cookie_domain, 0);
+			$this->app->input->cookie->set('joomla_user_state', 'logged_in', 0, $cookie_path, $cookie_domain, 0);
 		}
 
 		return true;
@@ -272,8 +285,10 @@ class PlgUserJoomla extends JPlugin
 			return true;
 		}
 
+		$sharedSessions = $this->app->get('shared_session', '0');
+
 		// Check to see if we're deleting the current session
-		if ($my->id == $user['id'] && $options['clientid'] == $this->app->getClientId())
+		if ($my->id == $user['id'] && ($sharedSessions || (!$sharedSessions && $options['clientid'] == $this->app->getClientId())))
 		{
 			// Hit the user last visit field
 			$my->setLastVisit();
@@ -289,8 +304,12 @@ class PlgUserJoomla extends JPlugin
 		{
 			$query = $this->db->getQuery(true)
 				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
-				->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
+
+			if (!$sharedSessions)
+			{
+				$query->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+			}
 
 			try
 			{
@@ -303,13 +322,12 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
-		$conf          = JFactory::getConfig();
-		$cookie_domain = $conf->get('cookie_domain', '');
-		$cookie_path   = $conf->get('cookie_path', '/');
+		$cookie_domain = $this->app->get('cookie_domain', '');
+		$cookie_path   = $this->app->get('cookie_path', '/');
 
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
-			$this->app->input->cookie->set("joomla_user_state", "", time() - 86400, $cookie_path, $cookie_domain, 0);
+			$this->app->input->cookie->set('joomla_user_state', '', time() - 86400, $cookie_path, $cookie_domain, 0);
 		}
 
 		return true;

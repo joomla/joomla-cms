@@ -33,6 +33,11 @@ class JDocumentHtmlTest extends TestCase
 				'relation' => 'Start',
 				'relType' => 'rel',
 				'attribs' => array()
+			),
+			'index.php?option=com_test' => array(
+				'relation' => 'End',
+				'relType' => 'rel',
+				'attribs' => array()
 			)
 		),
 		'styleSheets' => array(

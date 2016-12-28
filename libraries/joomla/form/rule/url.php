@@ -10,6 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+use Joomla\Uri\UriHelper;
 
 /**
  * Form Rule class for the Joomla Platform.
@@ -45,7 +47,7 @@ class JFormRuleUrl extends JFormRule
 			return true;
 		}
 
-		$urlParts = JString::parse_url($value);
+		$urlParts = UriHelper::parse_url($value);
 
 		// See http://www.w3.org/Addressing/URL/url-spec.txt
 		// Use the full list or optionally specify a list of permitted schemes.
@@ -76,7 +78,7 @@ class JFormRuleUrl extends JFormRule
 				return false;
 			}
 			// The best we can do for the rest is make sure that the path exists and is valid UTF-8.
-			if (!array_key_exists('path', $urlParts) || !JString::valid((string) $urlParts['path']))
+			if (!array_key_exists('path', $urlParts) || !StringHelper::valid((string) $urlParts['path']))
 			{
 				return false;
 			}
@@ -103,7 +105,7 @@ class JFormRuleUrl extends JFormRule
 
 		// The best we can do for the rest is make sure that the strings are valid UTF-8
 		// and the port is an integer.
-		if (array_key_exists('host', $urlParts) && !JString::valid((string) $urlParts['host']))
+		if (array_key_exists('host', $urlParts) && !StringHelper::valid((string) $urlParts['host']))
 		{
 			return false;
 		}
@@ -113,7 +115,7 @@ class JFormRuleUrl extends JFormRule
 			return false;
 		}
 
-		if (array_key_exists('path', $urlParts) && !JString::valid((string) $urlParts['path']))
+		if (array_key_exists('path', $urlParts) && !StringHelper::valid((string) $urlParts['path']))
 		{
 			return false;
 		}

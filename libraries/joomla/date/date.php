@@ -25,9 +25,10 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  string   $hour          H - 24-hour format of an hour with leading zeros.
  * @property-read  string   $minute        i - Minutes with leading zeros.
  * @property-read  string   $second        s - Seconds with leading zeros.
+ * @property-read  string   $microsecond   u - Microseconds with leading zeros.
  * @property-read  string   $month         m - Numeric representation of a month, with leading zeros.
  * @property-read  string   $ordinal       S - English ordinal suffix for the day of the month, 2 characters.
- * @property-read  string   $week          W - Numeric representation of the day of the week.
+ * @property-read  string   $week          W - ISO-8601 week number of year, weeks starting on Monday.
  * @property-read  string   $year          Y - A full numeric representation of a year, 4 digits.
  *
  * @since  11.1
@@ -105,6 +106,13 @@ class JDate extends DateTime
 		// If the date is numeric assume a unix timestamp and convert it.
 		date_default_timezone_set('UTC');
 		$date = is_numeric($date) ? date('c', $date) : $date;
+
+		// If php version below 7.1 and current time, add the microseconds to date.
+		// See http://php.net/manual/en/migration71.incompatible.php#migration71.incompatible.datetime-microseconds
+		if ($date === 'now' && version_compare(PHP_VERSION, '7.1.0', '<'))
+		{
+			$date = parent::createFromFormat('U.u', number_format(microtime(true), 6, '.', ''), $tz)->format('Y-m-d H:i:s.u');
+		}
 
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);

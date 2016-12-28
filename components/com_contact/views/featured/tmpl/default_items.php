@@ -95,7 +95,7 @@ $params = &$this->item->params;
 
 		<tbody>
 			<?php foreach ($this->items as $i => $item) : ?>
-				<tr class="<?php echo ($i % 2) ? "odd" : "even"; ?>" itemscope itemtype="https://schema.org/Person">
+				<tr class="<?php echo ($i % 2) ? 'odd' : 'even'; ?>" itemscope itemtype="https://schema.org/Person">
 					<td class="item-num">
 						<?php echo $i; ?>
 					</td>

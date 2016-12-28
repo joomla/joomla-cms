@@ -110,7 +110,8 @@
 				label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
 				description="PLG_USER_PROFILE_FIELD_DOB_DESC"
 				info="PLG_USER_PROFILE_SPACER_DOB"
-				format="%Y-%m-%d"
+				translateformat="true"
+				showtime="false"
 				filter="server_utc"
 			/>
 

@@ -103,6 +103,14 @@ class JInstaller extends JAdapter
 	protected $redirect_url = null;
 
 	/**
+	 * Flag if the uninstall process was triggered by uninstalling a package
+	 *
+	 * @var    boolean
+	 * @since  3.7.0
+	 */
+	protected $packageUninstall = false;
+
+	/**
 	 * JInstaller instance container.
 	 *
 	 * @var    JInstaller
@@ -223,6 +231,32 @@ class JInstaller extends JAdapter
 	public function setRedirectUrl($newurl)
 	{
 		$this->redirect_url = $newurl;
+	}
+
+	/**
+	 * Get whether this installer is uninstalling extensions which are part of a package
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function isPackageUninstall()
+	{
+		return $this->packageUninstall;
+	}
+
+	/**
+	 * Set whether this installer is uninstalling extensions which are part of a package
+	 *
+	 * @param   boolean  $uninstall  True if a package triggered the uninstall, false otherwise
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function setPackageUninstall($uninstall)
+	{
+		$this->packageUninstall = $uninstall;
 	}
 
 	/**
@@ -906,7 +940,6 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		$queries = array();
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
 
@@ -1521,12 +1554,12 @@ class JInstaller extends JAdapter
 	}
 
 	/**
-	 * Method to parse the parameters of an extension, build the INI
-	 * string for its default parameters, and return the INI string.
+	 * Method to parse the parameters of an extension, build the JSON string for its default parameters, and return the JSON string.
 	 *
-	 * @return  string   INI string of parameter values
+	 * @return  string  JSON string of parameter values
 	 *
 	 * @since   3.1
+	 * @note    This method must always return a JSON compliant string
 	 */
 	public function getParams()
 	{
@@ -1535,6 +1568,7 @@ class JInstaller extends JAdapter
 		{
 			return '{}';
 		}
+
 		// Getting the fieldset tags
 		$fieldsets = $this->manifest->config->fields->fieldset;
 
@@ -1547,7 +1581,7 @@ class JInstaller extends JAdapter
 			if (!count($fieldset->children()))
 			{
 				// Either the tag does not exist or has no children therefore we return zero files processed.
-				return;
+				return '{}';
 			}
 
 			// Iterating through the fields and collecting the name/default values:
@@ -2289,7 +2323,7 @@ class JInstaller extends JAdapter
 			if (!class_exists($class))
 			{
 				// Try to load the adapter object
-				require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName;
+				JLoader::register($class, $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName);
 
 				if (!class_exists($class))
 				{
@@ -2350,7 +2384,7 @@ class JInstaller extends JAdapter
 			}
 
 			// Try once more to find the class
-			require_once $path;
+			JLoader::register($class, $path);
 
 			if (!class_exists($class))
 			{

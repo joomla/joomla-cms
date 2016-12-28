@@ -17,7 +17,7 @@ $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$canOrder  = $user->authorise('core.edit.state', 'com_banners.category');
+$canOrder  = $user->authorise('core.edit.state', 'com_banners');
 $saveOrder = $listOrder == 'ordering';
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
@@ -198,11 +198,7 @@ $saveOrder = $listOrder == 'ordering';
 					<?php endif;?>
 				</td>
 				<td class="center">
-					<?php if ($item->language == '*'):?>
-						<?php echo JText::alt('JALL', 'language'); ?>
-					<?php else:?>
-						<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-					<?php endif;?>
+					<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 				</td>
 				<td class="center">
 					<?php echo $item->id; ?>

@@ -92,7 +92,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_newsfeeds categories.
-		if ($extension == 'com_newsfeeds')
+		if ($extension === 'com_newsfeeds')
 		{
 			$this->categoryStateChange($pks, $value);
 		}
@@ -111,11 +111,11 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	 */
 	public function onFinderAfterDelete($context, $table)
 	{
-		if ($context == 'com_newsfeeds.newsfeed')
+		if ($context === 'com_newsfeeds.newsfeed')
 		{
 			$id = $table->id;
 		}
-		elseif ($context == 'com_finder.index')
+		elseif ($context === 'com_finder.index')
 		{
 			$id = $table->link_id;
 		}
@@ -146,7 +146,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle newsfeeds here.
-		if ($context == 'com_newsfeeds.newsfeed')
+		if ($context === 'com_newsfeeds.newsfeed')
 		{
 			// Check if the access levels are different.
 			if (!$isNew && $this->old_access != $row->access)
@@ -160,7 +160,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		}
 
 		// Check for access changes in the category.
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Check if the access levels are different.
 			if (!$isNew && $this->old_cataccess != $row->access)
@@ -188,7 +188,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle newsfeeds here.
-		if ($context == 'com_newsfeeds.newsfeed')
+		if ($context === 'com_newsfeeds.newsfeed')
 		{
 			// Query the database for the old access level if the item isn't new.
 			if (!$isNew)
@@ -198,7 +198,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		}
 
 		// Check for access levels from the category.
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Query the database for the old access level if the item isn't new.
 			if (!$isNew)
@@ -226,13 +226,13 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle newsfeeds here.
-		if ($context == 'com_newsfeeds.newsfeed')
+		if ($context === 'com_newsfeeds.newsfeed')
 		{
 			$this->itemStateChange($pks, $value);
 		}
 
 		// Handle when the plugin is disabled.
-		if ($context == 'com_plugins.plugin' && $value === 0)
+		if ($context === 'com_plugins.plugin' && $value === 0)
 		{
 			$this->pluginDisable($pks);
 		}
@@ -260,13 +260,9 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Initialize the item parameters.
-		$registry = new Registry;
-		$registry->loadString($item->params);
-		$item->params = $registry;
+		$item->params = new Registry($item->params);
 
-		$registry = new Registry;
-		$registry->loadString($item->metadata);
-		$item->metadata = $registry;
+		$item->metadata = new Registry($item->metadata);
 
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);

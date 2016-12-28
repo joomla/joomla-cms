@@ -22,14 +22,14 @@ $className = substr($extension, 4);
  * This will work for the core components but not necessarily for other components
  * that may have different pluralisation rules.
  */
-if (substr($className, -1) == 's')
+if (substr($className, -1) === 's')
 {
 	$className = rtrim($className, 's');
 }
 $tagsData = $displayData->get('category')->tags->itemTags;
 ?>
 <div>
-	<div class="<?php echo $className .'-category' . $displayData->pageclass_sfx;?>">
+	<div class="<?php echo $className .'-category' . $displayData->pageclass_sfx; ?>">
 		<?php if ($params->get('show_page_heading')) : ?>
 			<h1>
 				<?php echo $displayData->escape($params->get('page_heading')); ?>
@@ -59,7 +59,7 @@ $tagsData = $displayData->get('category')->tags->itemTags;
 		<?php endif; ?>
 		<?php echo $displayData->loadTemplate($displayData->subtemplatename); ?>
 
-		<?php if ($displayData->get('children') && $displayData->maxLevel != 0) : ?>
+		<?php if ($displayData->maxLevel != 0 && $displayData->get('children')) : ?>
 			<div class="cat-children">
 				<?php if ($params->get('show_category_heading_title_text', 1) == 1) : ?>
 					<h3>

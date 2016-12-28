@@ -29,7 +29,9 @@ class PlgButtonPagebreak extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return array A two element array of (imageName, textToInsert)
+	 * @return  JObject  The button options as JObject
+	 *
+	 * @since   1.5
 	 */
 	public function onDisplay($name)
 	{

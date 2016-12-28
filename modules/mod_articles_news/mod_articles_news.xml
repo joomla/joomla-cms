@@ -100,6 +100,18 @@
 				</field>
 
 				<field
+					name="show_introtext"
+					type="radio"
+					label="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_DESC"
+					default="1"
+					class="btn-group btn-group-yesno"
+				>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+				</field>
+
+				<field
 					name="readmore"
 					type="radio"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
@@ -120,6 +132,18 @@
 				/>
 
 				<field
+					name="show_featured"
+					type="list"
+					label="MOD_ARTICLES_NEWS_FIELD_FEATURED_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_FEATURED_DESC"
+					default=""
+					>
+					<option value="">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">MOD_ARTICLES_NEWS_VALUE_ONLY_SHOW_FEATURED</option>
+				</field>
+
+				<field
 					name="ordering"
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"
@@ -128,6 +152,7 @@
 					>
 					<option value="a.publish_up">MOD_ARTICLES_NEWS_FIELD_ORDERING_PUBLISHED_DATE</option>
 					<option value="a.created">MOD_ARTICLES_NEWS_FIELD_ORDERING_CREATED_DATE</option>
+					<option value="a.modified">MOD_ARTICLES_NEWS_FIELD_ORDERING_MODIFIED_DATE</option>
 					<option value="a.ordering">MOD_ARTICLES_NEWS_FIELD_ORDERING_ORDERING</option>
 					<option value="a.hits">JGLOBAL_HITS</option>
 					<option value="rand()">MOD_ARTICLES_NEWS_FIELD_ORDERING_RANDOM</option>
@@ -139,7 +164,7 @@
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
 					description="JGLOBAL_ORDER_DIRECTION_DESC"
 					default="1"
-					showon="ordering:a.publish_up,a.created,a.ordering,a.hits"
+					showon="ordering:a.publish_up,a.created,a.modified,a.ordering,a.hits"
 					>
 					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
 					<option value="1">JGLOBAL_ORDER_DESCENDING</option>

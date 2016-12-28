@@ -187,7 +187,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 			$session = JFactory::getSession();
 			$data    = $session->getData();
 
-			// Before storing it, let's serialize and encode the JRegistry object
+			// Before storing it, let's serialize and encode the Registry object
 			$_SESSION['joomla'] = base64_encode(serialize($data));
 
 			session_write_close();
