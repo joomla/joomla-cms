@@ -123,7 +123,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 		if ($context === 'com_tags.tag')
 		{
 			// Check if the access levels are different
-			if (!$isNew && $this->old_access !== $row->access)
+			if (!$isNew && $this->old_access != $row->access)
 			{
 				// Process the change.
 				$this->itemAccessChange($row);
