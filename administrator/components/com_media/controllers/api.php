@@ -1,4 +1,6 @@
 <?php
+use Symfony\Component\Intl\Exception\NotImplementedException;
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_media
@@ -112,6 +114,10 @@ class MediaControllerApi extends JControllerLegacy
 				case 'delete':
 					$data = $this->adapter->delete($path);
 					break;
+				case 'post':
+				case 'put':
+				default:
+					throw new BadMethodCallException('Method not supported yet!');
 			}
 
 
