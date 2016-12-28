@@ -123,7 +123,7 @@ class MediaControllerApi extends JControllerLegacy
 		}
 		catch (Exception $e)
 		{
-			$this->sendResponse(null, 'Error: ' . $e->getMessage(), true);
+			$this->sendResponse($e);
 		}
 	}
 
