@@ -133,7 +133,7 @@ class MediaControllerApi extends JControllerLegacy
 	/**
 	 * Echoes the given data as JSON in the following format:
 	 *
-	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//banners"}]}
+	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//"}]}
 	 *
 	 * @param mixed    $data     The data to send
 	 * @param string   $message  The message
