@@ -53,6 +53,9 @@ if ($client->browser == WebClient::IE && $client->version <= 8)
 	$basePath .= '/legacy';
 }
 
+// Autoload the libraries
+JLoader::discover('MediaFileAdapter', JPATH_COMPONENT_ADMINISTRATOR . '/libraries/media/file/adapter', true, true);
+
 $controller = JControllerLegacy::getInstance('Media', array('base_path' => $basePath));
 $controller->execute($input->get('task'));
 $controller->redirect();

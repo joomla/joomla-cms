@@ -19,6 +19,39 @@ defined('_JEXEC') or die;
 class MediaControllerApi extends JControllerLegacy
 {
 	/**
+	 * The local file adapter to work with.
+	 *
+	 * @var MediaFileAdapterInterface
+	 */
+	private $adapter = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
+	 *
+	 * @since   3.0
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		if (!isset($config['fileadapter']))
+		{
+			// Compile the root path
+			$root = JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('file_path', 'images');
+			$root = rtrim($root) . '/';
+
+			// Default to the local adapter
+			$config['fileadapter'] = new MediaFileAdapterLocal($root);
+		}
+
+		$this->adapter = $config['fileadapter'];
+	}
+
+	/**
 	 * Api endpoint for the media manager front end. The HTTP methods GET, PUT, POST and DELETE
 	 * are supported.
 	 *
@@ -27,30 +60,29 @@ class MediaControllerApi extends JControllerLegacy
 	 *
 	 * Some examples with a more understandable rest url equivalent:
 	 * - GET a list of folders below the root:
-	 * 		index.php?option=com_media&task=api.folders
-	 * 		/api/folders
-	 * - GET a list of subfolders:
-	 * 		index.php?option=com_media&task=api.folders&path=/sampledata/fruitshop
-	 * 		/api/folders/sampledata/fruitshop
-	 * - POST a new folder into a specific folder:
-	 * 		index.php?option=com_media&task=api.folders&path=/sampledata/fruitshop
-	 * 		/api/folders/sampledata/fruitshop
-	 * - DELETE an existing folder in a specific folder:
-	 * 		index.php?option=com_media&task=api.folders&path=/sampledata/fruitshop/test
-	 * 		/api/folders/sampledata/fruitshop/test
-	 *
-	 * - GET a list of files for specific folder:
+	 * 		index.php?option=com_media&task=api.files
+	 * 		/api/files
+	 * - GET a list of files and subfolders of a given folder:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop
 	 * 		/api/files/sampledata/fruitshop
 	 * - GET file information for a specific file:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/files/sampledata/fruitshop/test.jpg
-	 * - POST a new file into a specific folder:
+	 *
+	 * - POST a new file or folder into a specific folder:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop
 	 * 		/api/files/sampledata/fruitshop
-	 * - PUT an existing file into a specific folder:
+	 *
+	 * - PUT a media file:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 * - PUT process a media file:
+	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg&action=process
+	 * 		/api/files/sampledata/fruitshop/test.jpg/process
+	 *
+	 * - DELETE an existing folder in a specific folder:
+	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test
+	 * 		/api/files/sampledata/fruitshop/test
 	 * - DELETE an existing file in a specific folder:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/files/sampledata/fruitshop/test.jpg
@@ -59,7 +91,7 @@ class MediaControllerApi extends JControllerLegacy
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function folders()
+	public function files()
 	{
 		// @todo add ACL check
 
@@ -75,9 +107,13 @@ class MediaControllerApi extends JControllerLegacy
 			switch (strtolower($method))
 			{
 				case 'get':
-					$data = $this->getFolders($path);
+					$data = $this->adapter->getFiles($path);
+					break;
+				case 'delete':
+					$data = $this->adapter->delete($path);
 					break;
 			}
+
 
 			// Return the data
 			$this->sendAndClose($data, 'ok', false);
@@ -89,25 +125,9 @@ class MediaControllerApi extends JControllerLegacy
 	}
 
 	/**
-	 * Returns the folders for the given folder. If the name is set,then it returns the folder
-	 * meta data.
-	 *
-	 * @param  string      $path   The folder
-	 * @param  JInputJSON  $input  The input
-	 *
-	 * @return  string[]
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getFolders($path = null)
-	{
-		return array('Demo');
-	}
-
-	/**
 	 * Echoes the given data as JSON in the following format:
 	 *
-	 * {"success":true,"message":"ok","messages":null,"data":["Demo"]}
+	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//banners"}]}
 	 *
 	 * @param mixed    $data     The data to send
 	 * @param string   $message  The message
