@@ -312,9 +312,18 @@ class FieldsModelField extends JModelAdmin
 
 			if (!empty($pks))
 			{
+				// Delete Values
 				$query = $this->getDbo()->getQuery(true);
 
 				$query->delete($query->qn('#__fields_values'))
+					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+
+				$this->getDbo()->setQuery($query)->execute();
+
+				// Delete Assigned Categories
+				$query = $this->getDbo()->getQuery(true);
+
+				$query->delete($query->qn('#__fields_categories'))
 					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();

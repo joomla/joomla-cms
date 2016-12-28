@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+	<fieldset name="group">
+		<field
+			name="context"
+			type="fieldcontexts"
+			onchange="this.form.submit();"
+		/>
+	</fieldset>
 	<fields name="filter">
 		<field
 			name="search"
