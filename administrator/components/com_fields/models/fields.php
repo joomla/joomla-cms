@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Fields Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsModelFields extends JModelList
 {
@@ -24,7 +24,7 @@ class FieldsModelFields extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($config = array())
 	{
@@ -47,6 +47,7 @@ class FieldsModelFields extends JModelList
 				'category_title',
 				'category_id', 'a.category_id',
 				'group_id', 'a.group_id',
+				'assigned_cat_ids'
 			);
 		}
 
@@ -67,7 +68,7 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -98,7 +99,7 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -118,7 +119,7 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getListQuery()
 	{
@@ -177,11 +178,6 @@ class FieldsModelFields extends JModelList
 			}
 		}
 
-		// Join over the assigned categories
-		$query->select("GROUP_CONCAT(fc.category_id SEPARATOR ',') AS assigned_cat_ids")
-			->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
-			->group('a.id');
-
 		if (($categories = $this->getState('filter.assigned_cat_ids')) && $context)
 		{
 			$categories = (array) $categories;
@@ -215,7 +211,20 @@ class FieldsModelFields extends JModelList
 				}
 			}
 
-			$query->where('(fc.category_id IS NULL OR fc.category_id IN (' . implode(',', $categories) . '))');
+			$categories = array_unique($categories);
+
+			// Join over the assigned categories
+			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
+			->group('a.id, l.title, l.image, uc.name, ag.title, ua.name, g.title, g.access, g.state');
+
+			if (in_array('0', $categories))
+			{
+				$query->where('(fc.category_id IS NULL OR fc.category_id IN (' . implode(',', $categories) . '))');
+			}
+			else
+			{
+				$query->where('fc.category_id IN (' . implode(',', $categories) . ')');
+			}
 		}
 
 		// Implement View Level Access
@@ -317,7 +326,7 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  array  An array of results.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  RuntimeException
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
@@ -344,7 +353,7 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  JForm/false  the JForm object or false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
@@ -354,6 +363,7 @@ class FieldsModelFields extends JModelList
 		{
 			$form->setValue('context', null, $this->getState('filter.context'));
 			$form->setFieldAttribute('group_id', 'context', $this->getState('filter.context'), 'filter');
+			$form->setFieldAttribute('assigned_cat_ids', 'extension', $this->state->get('filter.component'), 'filter');
 		}
 
 		return $form;
@@ -364,7 +374,7 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  array  An array of groups
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getGroups()
 	{

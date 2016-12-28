@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Fields Contexts
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormFieldFieldcontexts extends JFormAbstractlist
 {
@@ -23,7 +23,7 @@ class JFormFieldFieldcontexts extends JFormAbstractlist
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getInput()
 	{
@@ -35,7 +35,7 @@ class JFormFieldFieldcontexts extends JFormAbstractlist
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getOptions()
 	{

@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 /**
  * Groups Table
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsTableGroup extends JTable
 {
@@ -22,7 +22,7 @@ class FieldsTableGroup extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  JDatabaseDriver object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($db = null)
 	{
@@ -41,7 +41,7 @@ class FieldsTableGroup extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function bind($src, $ignore = '')
@@ -72,7 +72,7 @@ class FieldsTableGroup extends JTable
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
 	 * @link    https://docs.joomla.org/JTable/check
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function check()
 	{
@@ -115,7 +115,7 @@ class FieldsTableGroup extends JTable
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function _getAssetName()
 	{
@@ -132,7 +132,7 @@ class FieldsTableGroup extends JTable
 	 * @return  string  The string to use as the title in the asset table.
 	 *
 	 * @link    https://docs.joomla.org/JTable/getAssetTitle
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function _getAssetTitle()
 	{
@@ -151,7 +151,7 @@ class FieldsTableGroup extends JTable
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{

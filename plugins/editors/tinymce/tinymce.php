@@ -206,15 +206,15 @@ class PlgEditorTinymce extends JPlugin
 
 		// Set the selected skin
 		$skin = 'lightgray';
-		$side = $app->isAdmin() ? 'skin_admin' : 'skin';
+		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
 
 		if ((int) $this->params->get($side, 0) < count($skindirs))
 		{
 			$skin = basename($skindirs[(int) $this->params->get($side, 0)]);
 		}
 
-		$langMode        = $this->params->get('lang_mode', 0);
-		$langPrefix      = $this->params->get('lang_code', 'en');
+		$langMode        = $levelParams->get('lang_mode', 1);
+		$langPrefix      = $levelParams->get('lang_code', 'en');
 
 		if ($langMode)
 		{
@@ -531,7 +531,7 @@ class PlgEditorTinymce extends JPlugin
 				. '&' . JSession::getFormToken() . '=1'
 				. '&asset=image&format=json';
 
-			if ($app->isSite())
+			if ($app->isClient('site'))
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}
@@ -779,7 +779,7 @@ class PlgEditorTinymce extends JPlugin
 			})();";
 
 				// The array with the toolbar buttons
-				$btnsNames[] = $name;
+				$btnsNames[] = $name . ' | ';
 
 				// The array with code for each button
 				$tinyBtns[] = $tempConstructor;
@@ -975,7 +975,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	public static function getKnownButtons()
 	{
@@ -986,67 +986,67 @@ class PlgEditorTinymce extends JPlugin
 			// General buttons
 			'|'              => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SEPARATOR'), 'text' => '|'),
 
-			'undo'           => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_UNDO')),
-			'redo'           => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_REDO')),
+			'undo'           => array('label' => 'Undo'),
+			'redo'           => array('label' => 'Redo'),
 
-			'bold'           => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_BOLD')),
-			'italic'         => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ITALIC')),
-			'underline'      => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_UNDERLINE')),
-			'strikethrough'  => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_STRIKETHROUGH')),
+			'bold'           => array('label' => 'Bold'),
+			'italic'         => array('label' => 'Italic'),
+			'underline'      => array('label' => 'Underline'),
+			'strikethrough'  => array('label' => 'Strikethrough'),
 			'styleselect'    => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_STYLESELECT'), 'text' => 'Formats'),
 			'formatselect'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FORMATSELECT'), 'text' => 'Paragraph'),
-			'fontselect'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FONTSELECT'), 'text' => 'Font'),
-			'fontsizeselect' => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FONTSIZESELECT'), 'text' => 'Fontsize'),
+			'fontselect'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FONTSELECT'), 'text' => 'Font Family'),
+			'fontsizeselect' => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FONTSIZESELECT'), 'text' => 'Font Sizes'),
 
-			'alignleft'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ALIGNLEFT')),
-			'aligncenter'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ALIGNCENTER')),
-			'alignright'    => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ALIGNRIGHT')),
-			'alignjustify'  => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ALIGNJUSTIFY')),
+			'alignleft'     => array('label' => 'Align left'),
+			'aligncenter'   => array('label' => 'Align center'),
+			'alignright'    => array('label' => 'Align right'),
+			'alignjustify'  => array('label' => 'Justify'),
 
-			'outdent'       => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_OUTDENT')),
-			'indent'        => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_INDENT')),
+			'outdent'       => array('label' => 'Decrease indent'),
+			'indent'        => array('label' => 'Increase indent'),
 
-			'bullist'       => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_BULLIST')),
-			'numlist'       => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_NUMLIST')),
+			'bullist'       => array('label' => 'Bullet list'),
+			'numlist'       => array('label' => 'Numbered list'),
 
-			'link'          => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_LINK'), 'plugin' => 'link'),
-			'unlink'        => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_UNLINK'), 'plugin' => 'link'),
+			'link'          => array('label' => 'Insert/edit link', 'plugin' => 'link'),
+			'unlink'        => array('label' => 'Remove link', 'plugin' => 'link'),
 
-			'subscript'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SUBSCRIPT')),
-			'superscript'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SUPERSCRIPT')),
-			'blockquote'    => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_BLOCKQUOTE')),
+			'subscript'     => array('label' => 'Subscript'),
+			'superscript'   => array('label' => 'Superscript'),
+			'blockquote'    => array('label' => 'Blockquote'),
 
-			'cut'           => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_CUT')),
-			'copy'          => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_COPY')),
-			'paste'         => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_PASTE'), 'plugin' => 'paste'),
-			'pastetext'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_PASTETEXT'), 'plugin' => 'paste'),
-			'removeformat'  => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_REMOVEFORMAT')),
+			'cut'           => array('label' => 'Cut'),
+			'copy'          => array('label' => 'Copy'),
+			'paste'         => array('label' => 'Paste', 'plugin' => 'paste'),
+			'pastetext'     => array('label' => 'Paste as text', 'plugin' => 'paste'),
+			'removeformat'  => array('label' => 'Clear formatting'),
 
 			// Buttons from the plugins
-			'forecolor'      => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FORECOLOR'), 'plugin' => 'textcolor'),
-			'backcolor'      => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_BACKCOLOR'), 'plugin' => 'textcolor'),
-			'anchor'         => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ANCHOR'), 'plugin' => 'anchor'),
-			'hr'             => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_HR'), 'plugin' => 'hr'),
-			'ltr'            => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_LTR'), 'plugin' => 'directionality'),
-			'rtl'            => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_RTL'), 'plugin' => 'directionality'),
-			'code'           => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_CODE'), 'plugin' => 'code'),
-			'codesample'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_CODESAMPLE'), 'plugin' => 'codesample'),
-			'table'          => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_TABLE'), 'plugin' => 'table'),
-			'charmap'        => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_CHARMAP'), 'plugin' => 'charmap'),
-			'visualchars'    => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_VISUALCHARS'), 'plugin' => 'visualchars'),
-			'visualblocks'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_VISUALBLOCKS'), 'plugin' => 'visualblocks'),
-			'nonbreaking'    => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_NONBREAKING'), 'plugin' => 'nonbreaking'),
-			'emoticons'      => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_EMOTICONS'), 'plugin' => 'emoticons'),
-			'image'          => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_IMAGE'), 'plugin' => 'image'),
-			'media'          => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_MEDIA'), 'plugin' => 'media'),
-			'pagebreak'      => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_PAGEBREAK'), 'plugin' => 'pagebreak'),
-			'print'          => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_PRINT'), 'plugin' => 'print'),
-			'preview'        => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_PREVIEW'), 'plugin' => 'preview'),
-			'fullscreen'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FULLSCREEN'), 'plugin' => 'fullscreen'),
-			'template'       => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_TEMPLATE'), 'plugin' => 'template'),
-			'searchreplace'  => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SEARCHREPLACE'), 'plugin' => 'searchreplace'),
-			'insertdatetime' => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_INSERTDATETIME'), 'plugin' => 'insertdatetime'),
-			// 'spellchecker'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SPELLCHECKER'), 'plugin' => 'spellchecker'),
+			'forecolor'      => array('label' => 'Text color', 'plugin' => 'textcolor'),
+			'backcolor'      => array('label' => 'Background color', 'plugin' => 'textcolor'),
+			'anchor'         => array('label' => 'Anchor', 'plugin' => 'anchor'),
+			'hr'             => array('label' => 'Horizontal line', 'plugin' => 'hr'),
+			'ltr'            => array('label' => 'Left to right', 'plugin' => 'directionality'),
+			'rtl'            => array('label' => 'Right to left', 'plugin' => 'directionality'),
+			'code'           => array('label' => 'Source code', 'plugin' => 'code'),
+			'codesample'     => array('label' => 'Insert/Edit code sample', 'plugin' => 'codesample'),
+			'table'          => array('label' => 'Table', 'plugin' => 'table'),
+			'charmap'        => array('label' => 'Special character', 'plugin' => 'charmap'),
+			'visualchars'    => array('label' => 'Show invisible characters', 'plugin' => 'visualchars'),
+			'visualblocks'   => array('label' => 'Show blocks', 'plugin' => 'visualblocks'),
+			'nonbreaking'    => array('label' => 'Nonbreaking space', 'plugin' => 'nonbreaking'),
+			'emoticons'      => array('label' => 'Emoticons', 'plugin' => 'emoticons'),
+			'image'          => array('label' => 'Insert/edit image', 'plugin' => 'image'),
+			'media'          => array('label' => 'Insert/edit video', 'plugin' => 'media'),
+			'pagebreak'      => array('label' => 'Page break', 'plugin' => 'pagebreak'),
+			'print'          => array('label' => 'Print', 'plugin' => 'print'),
+			'preview'        => array('label' => 'Preview', 'plugin' => 'preview'),
+			'fullscreen'     => array('label' => 'Fullscreen', 'plugin' => 'fullscreen'),
+			'template'       => array('label' => 'Insert template', 'plugin' => 'template'),
+			'searchreplace'  => array('label' => 'Find and replace', 'plugin' => 'searchreplace'),
+			'insertdatetime' => array('label' => 'Insert date/time', 'plugin' => 'insertdatetime'),
+			// 'spellchecker'   => array('label' => 'Spellcheck', 'plugin' => 'spellchecker'),
 		);
 
 		return $buttons;
@@ -1057,7 +1057,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	public static function getToolbarPreset()
 	{

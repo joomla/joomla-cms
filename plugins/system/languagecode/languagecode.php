@@ -28,7 +28,7 @@ class PlgSystemLanguagecode extends JPlugin
 		$app = JFactory::getApplication();
 
 		// Use this plugin only in site application.
-		if ($app->isSite())
+		if ($app->isClient('site'))
 		{
 			// Get the response body.
 			$body = $app->getBody();

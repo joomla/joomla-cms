@@ -46,6 +46,7 @@ extract($displayData);
  * @var   int     $setsAmount      Amount of sets
  * @var   array   $setsNames       List of Sets names
  * @var   JForm[] $setsForms       Form with extra options for an each set
+ * @var   string   $languageFile   TinyMCE language file to translate the buttons
  *
  * @var   JLayoutFile  $this       Context
  */
@@ -54,6 +55,12 @@ JHtml::_('behavior.core');
 JHtml::_('stylesheet', 'media/editors/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
 JHtml::_('jquery.ui', array('core', 'sortable'));
 JHtml::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
+
+if ($languageFile)
+{
+	JHtml::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
+}
+
 
 $doc = JFactory::getDocument();
 $doc->addScriptOptions('plg_editors_tinymce_builder', array(

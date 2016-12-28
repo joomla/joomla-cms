@@ -208,7 +208,7 @@ class JGoogleAuthOauth2Test extends TestCase
 		$this->oauth->setToken($token);
 
 		$this->http->expects($this->once())->method('get')->willReturnCallback(array($this, 'getOauthCallback'));
-		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
+		$this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
 
 		$this->assertEquals('https://accounts.google.com/o/oauth2/auth', $this->object->getOption('authurl'));
 		$this->assertEquals('https://accounts.google.com/o/oauth2/token', $this->object->getOption('tokenurl'));

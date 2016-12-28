@@ -50,11 +50,11 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$app = JFactory::getApplication();
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				$current_section = 2;
 			}
-			elseif ($app->isSite())
+			elseif ($app->isClient('site'))
 			{
 				$current_section = 1;
 			}
