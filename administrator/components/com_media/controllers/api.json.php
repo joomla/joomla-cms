@@ -120,7 +120,7 @@ class MediaControllerApi extends JControllerLegacy
 
 
 			// Return the data
-			$this->sendAndClose($data, 'ok', false);
+			$this->sendAndClose($data);
 		}
 		catch (Exception $e)
 		{
@@ -141,7 +141,7 @@ class MediaControllerApi extends JControllerLegacy
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function sendAndClose($data, $message, $error)
+	protected function sendAndClose($data, $message = null, $error = false)
 	{
 		echo new JResponseJson($data, $message, $error);
 	}
