@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('joomla.filesystem.file');
 JLoader::import('joomla.filesystem.folder');
 
 /**
