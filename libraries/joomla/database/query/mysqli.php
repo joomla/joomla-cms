@@ -162,9 +162,9 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	{
 		return " find_in_set(" . $value . ", " . $set . ")";
 	}
- 
-  /**
-   * Casts a value to a char.
+
+	/**
+	 * Casts a value to a char.
 	 *
 	 * Ensure that the value is properly quoted before passing to the method.
 	 *
@@ -190,4 +190,5 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 		{
 			return ' CAST(' . $value . ' AS CHAR(' . $len . '))';
 		}
+	}
 }
