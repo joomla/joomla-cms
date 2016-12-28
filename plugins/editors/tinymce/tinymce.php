@@ -1255,9 +1255,9 @@ class PlgEditorTinymce extends JPlugin
 		 */
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-		            ->select('template')
-		            ->from('#__template_styles')
-		            ->where('client_id=0 AND home=' . $db->quote('1'));
+					->select('template')
+					->from('#__template_styles')
+					->where('client_id=0 AND home=' . $db->quote('1'));
 
 		$db->setQuery($query);
 
@@ -1787,9 +1787,9 @@ class PlgEditorTinymce extends JPlugin
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
 			$uploadUrl     = JUri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
-			                 . $session->getName() . '=' . $session->getId()
-			                 . '&' . JSession::getFormToken() . '=1'
-			                 . '&asset=image&format=json';
+								. $session->getName() . '=' . $session->getId()
+								. '&' . JSession::getFormToken() . '=1'
+								. '&asset=image&format=json';
 
 			if ($app->isSite())
 			{
@@ -1829,10 +1829,10 @@ class PlgEditorTinymce extends JPlugin
 
 		// Prepare config variables
 		$toolbar1 = implode(' ', $toolbar1_add) . ' | '
-		            . implode(' ', $toolbar2_add) . ' | '
-		            . implode(' ', $toolbar3_add) . ' | '
-		            . implode(' ', $toolbar4_add) . ' | '
-		            . implode(" | ", $btnsNames);
+					. implode(' ', $toolbar2_add) . ' | '
+					. implode(' ', $toolbar3_add) . ' | '
+					. implode(' ', $toolbar4_add) . ' | '
+					. implode(" | ", $btnsNames);
 		$toolbar5 = implode(" | ", $btnsNames);
 
 		// The buttons script
@@ -1909,7 +1909,7 @@ class PlgEditorTinymce extends JPlugin
 			case 1:
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-				            . "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
+							. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
 
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
