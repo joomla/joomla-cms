@@ -102,9 +102,11 @@ class JFormFieldTinymceBuilder extends JFormField
 			{
 				$formValues = $setParams;
 
-				// Predefine group:
-				// Set 0: for Administrator, Editor, Super Users (4,7,8)
-				// Set 1: for Registered, Manager (2,6), all else are public
+				/*
+				 * Predefine group:
+				 * Set 0: for Administrator, Editor, Super Users (4,7,8)
+				 * Set 1: for Registered, Manager (2,6), all else are public
+				 */
 				$formValues->access = !$num ? array(4,7,8) : ($num === 1 ? array(2,6) : 1);
 			}
 			else

@@ -172,7 +172,7 @@ class PlgEditorTinymce extends JPlugin
 		$ugroups  = array_combine($user->getAuthorisedGroups(), $user->getAuthorisedGroups());
 
 		// Prepare the parameters
-		$levelParams      = new Joomla\Registry\Registry();
+		$levelParams      = new Joomla\Registry\Registry;
 		$extraOptions     = new stdClass;
 		$toolbarParams    = new stdClass;
 		$extraOptionsAll  = $this->params->get('configuration.setoptions', array());
@@ -394,10 +394,13 @@ class PlgEditorTinymce extends JPlugin
 			// Get from preset
 			$presets = static::getToolbarPreset();
 
-			// Predefine group:
-			// Set 0: for Administrator, Editor, Super Users (4,7,8)
-			// Set 1: for Registered, Manager (2,6), all else are public
-			switch (true){
+			/*
+			 * Predefine group as:
+			 * Set 0: for Administrator, Editor, Super Users (4,7,8)
+			 * Set 1: for Registered, Manager (2,6), all else are public
+			 */
+			switch (true)
+			{
 				case isset($ugroups[4]) || isset($ugroups[7]) || isset($ugroups[8]):
 					$preset = $presets['advanced'];
 					break;
