@@ -75,13 +75,13 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(2, $files);
 
 		// Check the folder
-		$this->assertInstanceOf(stdClass::class, $files[0]);
+		$this->assertInstanceOf('stdClass', $files[0]);
 		$this->assertEquals('dir', $files[0]->type);
 		$this->assertEquals('unit', $files[0]->name);
 		$this->assertEquals('/', $files[0]->path);
 
 		// Check the file
-		$this->assertInstanceOf(stdClass::class, $files[1]);
+		$this->assertInstanceOf('stdClass', $files[1]);
 		$this->assertEquals('file', $files[1]->type);
 		$this->assertEquals('test.txt', $files[1]->name);
 		$this->assertEquals('/', $files[1]->path);
