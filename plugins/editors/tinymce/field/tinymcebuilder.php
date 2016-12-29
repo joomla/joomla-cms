@@ -80,9 +80,11 @@ class JFormFieldTinymceBuilder extends JFormField
 
 		// Preload an old params for B/C
 		$setParams = new stdClass;
-		if ($paramsAll && empty($paramsAll->configuration['setoptions']))
+		if (!empty($paramsAll->html_width) && empty($paramsAll->configuration['setoptions']))
 		{
 			$plugin = JPluginHelper::getPlugin('editors', 'tinymce');
+
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_TINY_LEGACY_WARNING', '#'), 'warning');
 
 			if (is_object($plugin) && !empty($plugin->params))
 			{
