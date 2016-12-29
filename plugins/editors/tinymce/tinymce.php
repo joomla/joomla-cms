@@ -557,7 +557,7 @@ class PlgEditorTinymce extends JPlugin
 			// Add them to the first toolbar
 			$toolbar1 = array_merge($toolbar1, array('|'), $btnsNames);
 
-			JHtml::_('script', 'system/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
+			JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
 		}
 
 		// Drag and drop Images
