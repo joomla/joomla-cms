@@ -44,6 +44,8 @@ class JCacheStorageMock extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
+		//todo:  OK to remove this unused assignment? Or is some implementation missing?
+
 		$cache_id = $this->_getCacheId($id, $group);
 
 		if (isset($this->_storage[$id]))
