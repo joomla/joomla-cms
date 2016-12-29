@@ -71,6 +71,13 @@ class JTwitterHelpTest extends TestCase
 	protected $backupServer;
 
 	/**
+	 * @var  JTwitterOAuth  Test-Object
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $oauth;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -118,12 +125,7 @@ class JTwitterHelpTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->input);
-		unset($this->client);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->input, $this->client, $this->oauth, $this->object);
 	}
 
 	/**

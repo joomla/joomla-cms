@@ -18,9 +18,16 @@
 class JObjectTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JObject
+	 * @var  JObject  Test-Object
 	 */
 	protected $object;
+
+	/**
+	 * @var  JObject  Test-Object
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $o;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.

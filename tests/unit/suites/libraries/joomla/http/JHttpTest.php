@@ -73,9 +73,7 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->transport);
-		unset($this->object);
+		unset($this->options, $this->transport, $this->object);
 		parent::tearDown();
 	}
 

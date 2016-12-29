@@ -61,8 +61,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->stubUrl);
+		unset($this->options, $this->stubUrl);
 		parent::tearDown();
 	}
 

@@ -20,6 +20,35 @@ require_once __DIR__ . '/stubs/JImageFilterInspector.php';
 class JImageTest extends TestCase
 {
 	/**
+	 * @var  string  TestFile-path for JPG file
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $testFile;
+
+	/**
+	 * @var  string  TestFile-path for GIF file
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $testFileGif;
+
+	/**
+	 * @var  string  TestFile-path for BMP file
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $testFileBmp;
+
+	/**
+	 * @var  string  TestFile-path for PNG file
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $testFilePng;
+
+
+	/**
 	 * Setup for testing.
 	 *
 	 * @return  void
@@ -56,10 +85,7 @@ class JImageTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->testFile);
-		unset($this->testFileGif);
-		unset($this->testFilePng);
-		unset($this->testFileBmp);
+		unset($this->testFile, $this->testFileGif, $this->testFilePng, $this->testFileBmp);
 		parent::tearDown();
 	}
 

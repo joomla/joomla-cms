@@ -67,9 +67,7 @@ class JGoogleEmbedMapsTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->uri);
-		unset($this->object);
+		unset($this->options, $this->uri, $this->object);
 		parent::tearDown();
 	}
 

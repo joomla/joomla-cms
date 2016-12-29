@@ -65,9 +65,7 @@ class JMediawikiUsersTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->client);
-		unset($this->object);
+		unset($this->options, $this->client, $this->object);
 	}
 
 	/**

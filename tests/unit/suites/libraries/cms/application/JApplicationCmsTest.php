@@ -127,9 +127,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$_SERVER = $this->backupServer;
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($config);
-		unset($this->class);
+		unset($this->backupServer, $config, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();

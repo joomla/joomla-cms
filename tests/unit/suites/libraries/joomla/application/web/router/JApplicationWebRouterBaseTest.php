@@ -227,8 +227,7 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->_instance);
-		unset($this->_input);
+		unset($this->_instance, $this->_input);
 		parent::tearDown();
 	}
 }

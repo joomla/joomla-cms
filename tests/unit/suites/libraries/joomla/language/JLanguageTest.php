@@ -61,8 +61,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	protected function tearDown()
 	{
 		JFolder::delete(JPATH_TESTS . '/tmp/language');
-		unset($this->object);
-		unset($this->inspector);
+		unset($this->object, $this->inspector);
 		parent::tearDown();
 	}
 

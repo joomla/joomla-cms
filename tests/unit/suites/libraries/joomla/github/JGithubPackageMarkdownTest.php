@@ -52,10 +52,7 @@ class JGithubPackageMarkdownTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->client);
-		unset($this->response);
-		unset($this->object);
+		unset($this->options, $this->client, $this->response, $this->object);
 		parent::tearDown();
 	}
 

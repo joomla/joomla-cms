@@ -81,10 +81,7 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->response);
-		unset($this->client);
-		unset($this->object);
+		unset($this->options, $this->response, $this->client, $this->object);
 		parent::tearDown();
 	}
 
