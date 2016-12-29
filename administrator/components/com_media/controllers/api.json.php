@@ -61,31 +61,31 @@ class MediaControllerApi extends JControllerLegacy
 	 * Some examples with a more understandable rest url equivalent:
 	 * - GET a list of folders below the root:
 	 * 		index.php?option=com_media&task=api.files
-	 * 		/api/files&format=json
+	 * 		/api/files
 	 * - GET a list of files and subfolders of a given folder:
-	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop
-	 * 		/api/files/sampledata/fruitshop&format=json
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
+	 * 		/api/files/sampledata/fruitshop
 	 * - GET file information for a specific file:
-	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg&format=json
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
+	 * 		/api/files/sampledata/fruitshop/test.jpg
 	 *
 	 * - POST a new file or folder into a specific folder:
-	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop
-	 * 		/api/files/sampledata/fruitshop&format=json
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
+	 * 		/api/files/sampledata/fruitshop
 	 *
 	 * - PUT a media file:
-	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg&format=json
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
+	 * 		/api/files/sampledata/fruitshop/test.jpg
 	 * - PUT process a media file:
-	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg&action=process
-	 * 		/api/files/sampledata/fruitshop/test.jpg/process&format=json
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&action=process
+	 * 		/api/files/sampledata/fruitshop/test.jpg/process
 	 *
 	 * - DELETE an existing folder in a specific folder:
-	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test
-	 * 		/api/files/sampledata/fruitshop/test&format=json
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test
+	 * 		/api/files/sampledata/fruitshop/test
 	 * - DELETE an existing file in a specific folder:
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg&format=json
+	 * 		/api/files/sampledata/fruitshop/test.jpg
 	 *
 	 * @return  void
 	 *
@@ -132,16 +132,14 @@ class MediaControllerApi extends JControllerLegacy
 	 *
 	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//"}]}
 	 *
-	 * @param   mixed    $data     The data to send
-	 * @param   string   $message  The message
-	 * @param   boolean  $error    If it is an error response
+	 * @param   mixed  $data  The data to send
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function sendResponse($data = null, $message = null, $error = false)
+	protected function sendResponse($data = null)
 	{
-		echo new JResponseJson($data, $message, $error);
+		echo new JResponseJson($data);
 	}
 }
