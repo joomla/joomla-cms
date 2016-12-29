@@ -832,6 +832,9 @@ class JLanguage
 		// Capture hidden PHP errors from the parsing.
 		if ($this->debug)
 		{
+			// See http://php.net/manual/en/reserved.variables.phperrormsg.php
+			$php_errormsg = null;
+
 			$trackErrors = ini_get('track_errors');
 			ini_set('track_errors', true);
 		}
