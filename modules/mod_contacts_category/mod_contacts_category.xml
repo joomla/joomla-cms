@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="site" method="upgrade">
+	<name>mod_contacts_category</name>
+	<author>Joomla! Project</author>
+	<creationDate>October 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>MOD_CONTACTS_CATEGORY_XML_DESCRIPTION</description>
+	<files>
+		<filename module="mod_contacts_category">mod_contacts_category.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_contacts_category.ini</language>
+		<language tag="en-GB">en-GB.mod_contacts_category.sys.ini</language>
+	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_CONTACTS_CATEGORY" />
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="mode"
+					type="list"
+					label="MOD_CONTACTS_CATEGORY_FIELD_MODE_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_MODE_DESC"
+					default="normal"
+					>
+					<option value="normal">MOD_CONTACTS_CATEGORY_OPTION_NORMAL_VALUE</option>
+					<option value="dynamic">MOD_CONTACTS_CATEGORY_OPTION_DYNAMIC_VALUE</option>
+				</field>
+
+				<field
+					name="show_on_contact_page"
+					type="radio"
+					label="MOD_CONTACTS_CATEGORY_FIELD_SHOWONCONTACTPAGE_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_SHOWONCONTACTPAGE_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					showon="mode:dynamic"
+					>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+				</field>
+			</fieldset>
+
+			<fieldset
+				name="filtering"
+				label="MOD_CONTACTS_CATEGORY_FIELD_GROUP_FILTERING_LABEL"
+			>
+
+				<field
+					name="count"
+					type="text"
+					label="MOD_CONTACTS_CATEGORY_FIELD_COUNT_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_COUNT_DESC"
+					default="0"
+				/>
+
+				<field
+					name="show_front"
+					type="list"
+					label="MOD_CONTACTS_CATEGORY_FIELD_SHOWFEATURED_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_SHOWFEATURED_DESC"
+					default="show"
+					>
+					<option value="show">JSHOW</option>
+					<option value="hide">JHIDE</option>
+					<option value="only">MOD_CONTACTS_CATEGORY_OPTION_ONLYFEATURED_VALUE</option>
+				</field>
+
+				<field
+					name="filteringspacer1"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
+					name="category_filtering_type"
+					type="radio"
+					label="MOD_CONTACTS_CATEGORY_FIELD_CATFILTERINGTYPE_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_CATFILTERINGTYPE_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">MOD_CONTACTS_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
+					<option value="0">MOD_CONTACTS_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
+				</field>
+
+				<field
+					name="catid"
+					type="category"
+					label="JCATEGORY"
+					description="MOD_CONTACTS_CATEGORY_FIELD_CATEGORY_DESC"
+					extension="com_contact"
+					multiple="true"
+					size="5"
+					>
+					<option value="">JOPTION_ALL_CATEGORIES</option>
+				</field>
+
+				<field
+					name="show_child_category_contacts"
+					type="radio"
+					label="MOD_CONTACTS_CATEGORY_FIELD_SHOWCHILDCATEGORYCONTACTS_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_SHOWCHILDCATEGORYCONTACTS_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">MOD_CONTACTS_CATEGORY_OPTION_INCLUDE_VALUE</option>
+					<option value="0">MOD_CONTACTS_CATEGORY_OPTION_EXCLUDE_VALUE</option>
+				</field>
+
+				<field
+					name="levels"
+					type="text"
+					label="MOD_CONTACTS_CATEGORY_FIELD_CATDEPTH_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_CATDEPTH_DESC"
+					default="1"
+				/>
+
+				<field
+					name="filteringspacer2"
+					type="spacer"
+					hr="true"
+				/>
+
+
+				<field
+					name="excluded_contacts"
+					type="textarea"
+					label="MOD_CONTACTS_CATEGORY_FIELD_EXCLUDEDCONTACTS_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_EXCLUDEDCONTACTS_DESC"
+					cols="10"
+					rows="3"
+				/>
+
+			</fieldset>
+
+			<fieldset
+				name="ordering"
+				label="MOD_CONTACTS_CATEGORY_FIELD_GROUP_ORDERING_LABEL"
+			>
+
+				<field
+					name="contact_ordering"
+					type="list"
+					label="MOD_CONTACTS_CATEGORY_FIELD_CONTACTORDERING_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_CONTACTORDERING_DESC"
+					default="a.title"
+					>
+					<option value="a.ordering">MOD_CONTACTS_CATEGORY_OPTION_ORDERING_VALUE</option>
+					<option value="fp.ordering">MOD_CONTACTS_CATEGORY_OPTION_ORDERINGFEATURED_VALUE</option>
+					<option value="a.hits">MOD_CONTACTS_CATEGORY_OPTION_HITS_VALUE</option>
+					<option value="a.title">JGLOBAL_TITLE</option>
+					<option value="a.id">MOD_CONTACTS_CATEGORY_OPTION_ID_VALUE</option>
+					<option value="random">MOD_CONTACTS_CATEGORY_OPTION_RANDOM_VALUE</option>
+				</field>
+
+				<field
+					name="contact_ordering_direction"
+					type="list"
+					label="MOD_CONTACTS_CATEGORY_FIELD_CONTACTORDERINGDIR_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_CONTACTORDERINGDIR_DESC"
+					default="ASC"
+					>
+					<option value="DESC">MOD_CONTACTS_CATEGORY_OPTION_DESCENDING_VALUE</option>
+					<option value="ASC">MOD_CONTACTS_CATEGORY_OPTION_ASCENDING_VALUE</option>
+				</field>
+			</fieldset>
+
+			<fieldset
+				name="grouping"
+				label="MOD_CONTACTS_CATEGORY_FIELD_GROUP_GROUPING_LABEL"
+				>
+
+				<field
+					name="contact_grouping"
+					type="list"
+					label="MOD_CONTACTS_CATEGORY_FIELD_CONTACTGROUPING_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_CONTACTGROUPING_DESC"
+					default="none"
+					>
+					<option value="none">JNONE</option>
+					<option value="category_title">JCATEGORY</option>
+				</field>
+
+				<field
+					name="contact_grouping_direction"
+					type="list"
+					label="MOD_CONTACTS_CATEGORY_FIELD_CONTACTGROUPINGDIR_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_CONTACTGROUPINGDIR_DESC"
+					default="ksort"
+					>
+					<option value="krsort">MOD_CONTACTS_CATEGORY_OPTION_DESCENDING_VALUE</option>
+					<option value="ksort">MOD_CONTACTS_CATEGORY_OPTION_ASCENDING_VALUE</option>
+				</field>
+
+			</fieldset>
+
+			<fieldset
+				name="display"
+				label="MOD_CONTACTS_CATEGORY_FIELD_GROUP_DISPLAY_LABEL"
+				>
+
+				<field
+					name="link_titles"
+					type="radio"
+					label="MOD_CONTACTS_CATEGORY_FIELD_LINKTITLES_LABEL"
+					description="MOD_CONTACTS_CATEGORY_FIELD_LINKTITLES_DESC"
+					default="1"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="show_category"
+					type="radio"
+					label="JCATEGORY"
+					description="MOD_CONTACTS_CATEGORY_FIELD_SHOWCATEGORY_DESC"
+					default="0"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+				</field>
+
+			</fieldset>
+
+			<fieldset name="advanced">
+
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
+
+				<field
+					name="owncache"
+					type="list"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					default="1"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+
+				<field
+					name="cache_time"
+					type="text"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

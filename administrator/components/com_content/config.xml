@@ -910,6 +910,8 @@
 				<option value="created">JGLOBAL_CREATED</option>
 				<option value="modified">JGLOBAL_MODIFIED</option>
 				<option value="published">JPUBLISHED</option>
+				<option value="unpublished">JUNPUBLISHED</option>
+
 			</field>
 
 		<field name="show_pagination"

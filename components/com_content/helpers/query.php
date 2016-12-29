@@ -173,6 +173,11 @@ class ContentHelperQuery
 				$queryDate = ' CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END ';
 				break;
 
+			// Use created if publish_down is not set
+			case 'published' :
+				$queryDate = ' CASE WHEN a.publish_down = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_down END ';
+				break;
+
 			case 'created' :
 			default :
 				$queryDate = ' a.created ';
