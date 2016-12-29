@@ -120,9 +120,14 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
 	{
+		$app = JFactory::getApplication();
+
 		// Check for old params for B/C
 		if ($this->params->exists('mode') && $this->params->exists('alignment'))
 		{
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $this->getPluginId());
+			$app->enqueueMessage(JText::sprintf('PLG_TINY_LEGACY_WARNING', $link), 'warning');
+
 			return $this->onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons, $id, $asset, $author);
 		}
 
@@ -165,13 +170,12 @@ class PlgEditorTinymce extends JPlugin
 		$doc      = JFactory::getDocument();
 		$options  = $doc->getScriptOptions('plg_editor_tinymce');
 
-		// Check whether we alredy have them
+		// Check whether we already have them
 		if (!empty($options['tinyMCE']['default']))
 		{
 			return $editor;
 		}
 
-		$app      = JFactory::getApplication();
 		$user     = JFactory::getUser();
 		$language = JFactory::getLanguage();
 		$theme    = 'modern';
@@ -1135,6 +1139,26 @@ class PlgEditorTinymce extends JPlugin
 		);
 
 		return $preset;
+	}
+
+	/**
+	 * Gets the plugin extension id.
+	 *
+	 * @return  int  The plugin id.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getPluginId()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select($db->quoteName('extension_id'))
+					->from($db->quoteName('#__extensions'))
+					->where($db->quoteName('folder') . ' = ' . $db->quote($this->_type))
+					->where($db->quoteName('element') . ' = ' . $db->quote($this->_name));
+		$db->setQuery($query);
+
+		return (int) $db->loadResult();
 	}
 
 	/**
