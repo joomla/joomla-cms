@@ -48,7 +48,7 @@ else
 }
 ?>
 <?php if (count($this->images) > 0 || count($this->folders) > 0) : ?>
-	<ul class="manager thumbnails">
+	<ul class="manager thumbnails thumbnails-media">
 		<?php for ($i = 0, $n = count($this->folders); $i < $n; $i++) :
 			$this->setFolder($i);
 			echo $this->loadTemplate('folder');
