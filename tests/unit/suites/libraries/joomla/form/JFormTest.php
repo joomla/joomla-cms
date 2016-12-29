@@ -78,8 +78,8 @@ class JFormTest extends TestCaseDatabase
 		$dom = new DOMDocument('1.0');
 		$dom->preserveWhiteSpace = false;
 		$dom->formatOutput = true;
-		$dom->loadXml($form->getXml()->asXml());
-		echo $dom->saveXml();
+		$dom->loadXML($form->getXml()->asXml());
+		echo $dom->saveXML();
 	}
 
 	/**
