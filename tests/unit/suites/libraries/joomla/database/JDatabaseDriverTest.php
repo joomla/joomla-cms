@@ -133,7 +133,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	{
 		$this->assertContains(
 			'sqlite',
-			$this->db->getConnectors(),
+			$this->db::getConnectors(),
 			'The getConnectors method should return an array with Sqlite as an available option.'
 		);
 	}
@@ -195,7 +195,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	public function testSplitSql()
 	{
 		$this->assertThat(
-			$this->db->splitSql('SELECT * FROM #__foo;SELECT * FROM #__bar;'),
+			$this->db::splitSql('SELECT * FROM #__foo;SELECT * FROM #__bar;'),
 			$this->equalTo(
 				array(
 					'SELECT * FROM #__foo;',

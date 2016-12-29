@@ -39,7 +39,7 @@ class JAccessTest extends TestCaseDatabase
 		$array1 = array(0 => 1, 1 => 1, 2 => 2, 3 => 3);
 
 		$this->assertThat(
-			$access->getAuthorisedViewLevels(42),
+			$access::getAuthorisedViewLevels(42),
 			$this->equalTo($array1),
 			'Line:' . __Line__ . ' Super user gets Public (levels 1)'
 		);
@@ -95,7 +95,7 @@ class JAccessTest extends TestCaseDatabase
 	public function testCheck($userId, $action, $assetId, $result, $message)
 	{
 		$access = new JAccess;
-		$this->assertThat($access->check($userId, $action, $assetId), $this->equalTo($result), $message);
+		$this->assertThat($access::check($userId, $action, $assetId), $this->equalTo($result), $message);
 	}
 
 	/**
@@ -150,7 +150,7 @@ class JAccessTest extends TestCaseDatabase
 	public function testCheckGroup($groupId, $action, $assetId, $result, $message)
 	{
 		$access = new JAccess;
-		$this->assertThat($access->checkGroup($groupId, $action, $assetId), $this->equalTo($result), $message);
+		$this->assertThat($access::checkGroup($groupId, $action, $assetId), $this->equalTo($result), $message);
 	}
 
 	/**
@@ -163,7 +163,7 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetAssetRulesValidTrue()
 	{
 		$access = new JAccess;
-		$ObjArrayJrules = $access->getAssetRules(3, true);
+		$ObjArrayJrules = $access::getAssetRules(3, true);
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1,"7":1},' .
 			'"core.manage":{"7":1,"6":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},' .
 			'"core.edit.own":{"6":1,"3":1}}';
@@ -180,7 +180,7 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetAssetRulesValidFalse()
 	{
 		$access = new JAccess;
-		$ObjArrayJrules = $access->getAssetRules(3, false);
+		$ObjArrayJrules = $access::getAssetRules(3, false);
 		$string1 = '{"core.admin":{"7":1},"core.manage":{"6":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Non recursive rules from a valid asset. Line: ' . __LINE__);
 	}
@@ -195,7 +195,7 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetAssetRulesInvalidFalse()
 	{
 		$access = new JAccess;
-		$ObjArrayJrules = $access->getAssetRules(1550, false);
+		$ObjArrayJrules = $access::getAssetRules(1550, false);
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},' .
 			'"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Invalid asset uses rule from root. Line: ' . __LINE__);
@@ -211,7 +211,7 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetAssetRulesTextFalse()
 	{
 		$access = new JAccess;
-		$ObjArrayJrules = $access->getAssetRules('testasset', false);
+		$ObjArrayJrules = $access::getAssetRules('testasset', false);
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},' .
 			'"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Invalid asset uses rule from root. Line: ' . __LINE__);
@@ -227,7 +227,7 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetAssetRulesTextTrue()
 	{
 		$access = new JAccess;
-		$ObjArrayJrules = $access->getAssetRules('testasset', true);
+		$ObjArrayJrules = $access::getAssetRules('testasset', true);
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},' .
 			'"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Invalid asset uses rule from root. Line: ' . __LINE__);
@@ -243,7 +243,7 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetGroupTitle()
 	{
 		$access = new JAccess;
-		$this->assertThat($access->getGroupTitle(1), $this->equalTo('Public'), 'Get group title. Line: ' . __LINE__);
+		$this->assertThat($access::getGroupTitle(1), $this->equalTo('Public'), 'Get group title. Line: ' . __LINE__);
 	}
 
 	/**
@@ -257,7 +257,7 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$access = new JAccess;
 		$array1 = array(0 => 42);
-		$this->assertThat($access->getUsersByGroup(8, true), $this->equalTo($array1), 'Get one user. Line: ' . __LINE__);
+		$this->assertThat($access::getUsersByGroup(8, true), $this->equalTo($array1), 'Get one user. Line: ' . __LINE__);
 	}
 
 	/**
@@ -272,7 +272,7 @@ class JAccessTest extends TestCaseDatabase
 		$access = new JAccess;
 
 		$array3 = array(0 => 42, 1 => 43, 2 => 44);
-		$this->assertThat($access->getUsersByGroup(1, true), $this->equalTo($array3), 'Get multiple users. Line: ' . __LINE__);
+		$this->assertThat($access::getUsersByGroup(1, true), $this->equalTo($array3), 'Get multiple users. Line: ' . __LINE__);
 	}
 
 	/**
@@ -287,7 +287,7 @@ class JAccessTest extends TestCaseDatabase
 		$access = new JAccess;
 
 		$array2 = array();
-		$this->assertThat($access->getUsersByGroup(15, false), $this->equalTo($array2), 'No group specified. Line: ' . __LINE__);
+		$this->assertThat($access::getUsersByGroup(15, false), $this->equalTo($array2), 'No group specified. Line: ' . __LINE__);
 	}
 
 	/**

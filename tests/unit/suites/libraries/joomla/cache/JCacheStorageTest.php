@@ -361,7 +361,7 @@ class JCacheStorageTest extends TestCase
 	public function testIsSupported()
 	{
 		$this->assertThat(
-			$this->object->isSupported(),
+			$this->object::isSupported(),
 			$this->isTrue()
 		);
 	}

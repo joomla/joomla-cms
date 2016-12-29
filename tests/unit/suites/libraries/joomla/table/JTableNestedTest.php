@@ -129,17 +129,17 @@ class JTableNestedTest extends TestCaseDatabase
 
 		// Change the id of the root node.
 		self::$driver->setQuery('UPDATE #__categories SET parent_id = 99 WHERE id = 1')->execute();
-		$this->class->resetRootId();
+		$this->class::resetRootId();
 		$this->assertEquals(1, $this->class->getRootId(), 'Checks for lft = 0 case.');
 
 		// Change the lft of the root node.
 		self::$driver->setQuery('UPDATE #__categories SET lft = 99, alias = ' . self::$driver->q('root') . ' WHERE id = 1')->execute();
-		$this->class->resetRootId();
+		$this->class::resetRootId();
 		$this->assertEquals(1, $this->class->getRootId(), 'Checks for alias = root case.');
 
 		// Change the alias of the root node.
 		self::$driver->setQuery('UPDATE #__categories SET alias = ' . self::$driver->q('foo') . ' WHERE id = 1')->execute();
-		$this->class->resetRootId();
+		$this->class::resetRootId();
 		$this->assertFalse($this->class->getRootId(), 'Checks for failure.');
 	}
 
@@ -481,7 +481,7 @@ class JTableNestedTest extends TestCaseDatabase
 		// Reset the root node.
 		self::$driver->setQuery('UPDATE #__categories SET parent_id = 99, lft = 99, rgt = 99 WHERE id = 1')
 			->execute();
-		$this->class->resetRootId();
+		$this->class::resetRootId();
 
 		TestReflection::setValue($this->class, '_cache', array());
 		$this->assertFalse($this->class->rebuild(), 'Checks failure where no root node is found.');

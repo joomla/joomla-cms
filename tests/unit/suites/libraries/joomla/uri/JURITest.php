@@ -632,7 +632,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testparsewhennoschemegiven()
 	{
 		$this->object->parse('www.myotherexample.com');
-		$this->assertFalse($this->object->isInternal('www.myotherexample.com'));
+		$this->assertFalse($this->object::isInternal('www.myotherexample.com'));
 	}
 
 	/**
@@ -645,7 +645,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testsefurl()
 	{
 		$this->object->parse('/login');
-		$this->assertFalse($this->object->isInternal('/login'));
+		$this->assertFalse($this->object::isInternal('/login'));
 	}
 
 	/**
@@ -658,7 +658,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testisInternalWithNoSchemeAndNotInternal()
 	{
 		$this->assertFalse(
-			$this->object->isInternal('www.myotherexample.com'),
+			$this->object::isInternal('www.myotherexample.com'),
 			'www.myotherexample.com should NOT be resolved as internal'
 		);
 	}
@@ -673,7 +673,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testisInternalWithNoSchemeAndNoHostnameAndNotInternal()
 	{
 		$this->assertFalse(
-			$this->object->isInternal('myotherexample.com'),
+			$this->object::isInternal('myotherexample.com'),
 			'myotherexample.com should NOT be resolved as internal'
 		);
 	}
@@ -688,7 +688,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testisInternalWithSchemeAndNotInternal()
 	{
 		$this->assertFalse(
-			$this->object->isInternal('http://www.myotherexample.com'),
+			$this->object::isInternal('http://www.myotherexample.com'),
 			'http://www.myotherexample.com should NOT be resolved as  internal'
 		);
 	}
@@ -703,7 +703,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testisInternalWhenInternalWithNoDomainOrScheme()
 	{
 		$this->assertTrue(
-			$this->object->isInternal('index.php?option=com_something'),
+			$this->object::isInternal('index.php?option=com_something'),
 			'index.php?option=com_something should be internal'
 		);
 	}
@@ -718,7 +718,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testisInternalWhenInternalWithDomainAndSchemeAndPort()
 	{
 		$this->assertTrue(
-			$this->object->isInternal(JUri::base() . 'index.php?option=com_something'),
+			$this->object::isInternal(JUri::base() . 'index.php?option=com_something'),
 			JUri::base() . 'index.php?option=com_something should be internal'
 		);
 	}
@@ -742,7 +742,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 		$this->object = new JUri;
 
 		$this->assertTrue(
-			$this->object->isInternal(JUri::base() . 'index.php?option=com_something'),
+			$this->object::isInternal(JUri::base() . 'index.php?option=com_something'),
 			JUri::base() . 'index.php?option=com_something should be internal'
 		);
 	}
@@ -757,7 +757,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testisInternalWhenNOTInternalWithDomainAndSchemeAndPortAndIndex()
 	{
 		$this->assertFalse(
-			$this->object->isInternal('http://www.myotherexample.com/index.php?option=com_something'),
+			$this->object::isInternal('http://www.myotherexample.com/index.php?option=com_something'),
 			'http://www.myotherexample.com/index.php?option=com_something should NOT be internal'
 		);
 	}
@@ -772,7 +772,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testisInternalWhenNOTInternalWithDomainAndNoSchemeAndPortAndIndex()
 	{
 		$this->assertFalse(
-			$this->object->isInternal('www.myotherexample.com/index.php?option=com_something'),
+			$this->object::isInternal('www.myotherexample.com/index.php?option=com_something'),
 			'www.myotherexample.comindex.php?option=com_something should NOT be internal'
 		);
 	}
@@ -787,7 +787,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testisInternal3rdPartyDevs()
 	{
 		$this->assertFalse(
-			$this->object->isInternal('/customDevScript.php'),
+			$this->object::isInternal('/customDevScript.php'),
 			'/customDevScript.php should NOT be internal'
 		);
 	}
@@ -802,7 +802,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testAppendingOfBaseToTheEndOfTheUrl()
 	{
 		$this->assertFalse(
-			$this->object->isInternal('/customDevScript.php?www.example.com'),
+			$this->object::isInternal('/customDevScript.php?www.example.com'),
 			'/customDevScript.php?www.example.com should NOT be internal'
 		);
 	}
@@ -817,7 +817,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testAppendingOfBaseToTheEndOfTheUrl2()
 	{
 		$this->assertFalse(
-			$this->object->isInternal('www.otherexample.com/www.example.com'),
+			$this->object::isInternal('www.otherexample.com/www.example.com'),
 			'www.otherexample.com/www.example.com should NOT be internal'
 		);
 	}
@@ -832,7 +832,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testSchemeEmptyButHostAndPortMatch()
 	{
 		$this->assertTrue(
-			$this->object->isInternal('www.example.com:80'),
+			$this->object::isInternal('www.example.com:80'),
 			'www.example.com:80 should be internal'
 		);
 	}
@@ -847,7 +847,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testPregMatch()
 	{
 		$this->assertFalse(
-			$this->object->isInternal('wwwhexample.com'),
+			$this->object::isInternal('wwwhexample.com'),
 			'wwwhexample.com should NOT be internal'
 		);
 	}
