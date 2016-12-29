@@ -6,26 +6,23 @@
 				name="directory"
 				type="folderlist"
 				directory="images"
-				class="input-xxlarge"
-				required="true"
 				hide_none="true"
 				hide_default="true"
 				recursive="true"
-				default="/"
-				label="JLIB_FORM_FIELD_PARAM_IMAGELIST_DIRECTORY_LABEL"
-				description="JLIB_FORM_FIELD_PARAM_IMAGELIST_DIRECTORY_DESC"
+				label="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_LABEL"
+				description="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_DESC"
 			>
+				<option value="">PLG_FIELDS_IMAGELIST_PARAMS_USE_GLOBAL</option>
 				<option value="/">/</option>
 			</field>
 
 			<field
 				name="multiple"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_LABEL"
-				description="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_DESC"
+				type="list"
+				label="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_LABEL"
+				description="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_DESC"
 			>
+				<option value="">PLG_FIELDS_IMAGELIST_PARAMS_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
@@ -33,9 +30,8 @@
 			<field
 				name="image_class"
 				type="textarea"
-				label="JLIB_FORM_FIELD_PARAM_MEDIA_IMAGE_CLASS_LABEL"
-				description="JLIB_FORM_FIELD_PARAM_MEDIA_IMAGE_CLASS_DESC"
-				class="input-xxlarge"
+				label="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_LABEL"
+				description="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_DESC"
 				size="40"
 			/>
 		</fieldset>

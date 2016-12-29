@@ -5,8 +5,8 @@
 			<field
 				name="multiple"
 				type="list"
-				label="PLG_FIELDS_LIST_PARAMS_LIST_MULTIPLE_LABEL"
-				description="PLG_FIELDS_LIST_PARAMS_LIST_MULTIPLE_DESC"
+				label="PLG_FIELDS_LIST_PARAMS_MULTIPLE_LABEL"
+				description="PLG_FIELDS_LIST_PARAMS_MULTIPLE_DESC"
 			>
 				<option value="">PLG_FIELDS_TEXT_PARAMS_USE_GLOBAL</option>
 				<option value="1">JYES</option>
