@@ -21,7 +21,6 @@
  */
 function jexit($message = 0)
 {
-	return;
 }
 
 define('_JEXEC', 1);
