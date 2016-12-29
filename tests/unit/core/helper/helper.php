@@ -56,6 +56,11 @@ class TestHelper
 
 			$i = count($trace);
 
+			while (isset($trace[--$i]['class']) && ('ReflectionMethod' === $trace[$i]['class'] || 0 === strpos($trace[$i]['class'], 'PHPUnit_')))
+			{
+				// Nothing to do
+			}
+
 			$group = $type === E_USER_DEPRECATED ? 'user' : 'php';
 
 			if (isset($trace[$i]['object']) || isset($trace[$i]['class']))
