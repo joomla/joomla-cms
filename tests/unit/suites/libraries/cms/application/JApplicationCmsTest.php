@@ -346,9 +346,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testGetRouter()
 	{
-		$class = $this->class;
-
-		$this->assertInstanceOf('JRouter', $class::getRouter(''));
+		$this->assertInstanceOf('JRouter', JApplicationCmsInspector::getRouter(''));
 	}
 
 	/**

@@ -283,10 +283,9 @@ class JAuthenticationTest extends TestCase
 	 */
 	public function testAuthorise($input, $expect, $message)
 	{
-		$authentication = JAuthentication::getInstance();
 		$this->assertEquals(
 			$expect,
-			$authentication::authorise($input),
+			JAuthentication::authorise($input),
 			$message
 		);
 	}

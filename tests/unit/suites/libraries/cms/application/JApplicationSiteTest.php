@@ -231,7 +231,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	{
 		$class = $this->class;
 
-		$this->assertInstanceOf('JRouterSite', $class::getRouter());
+		$this->assertInstanceOf('JRouterSite', JApplicationSite::getRouter());
 	}
 
 	/**

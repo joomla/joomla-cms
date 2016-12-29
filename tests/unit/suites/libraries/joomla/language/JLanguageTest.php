@@ -738,20 +738,18 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExists()
 	{
-		$object = $this->object;
-
 		$this->assertFalse(
-			$object::exists(null)
+			JLanguage::exists(null)
 		);
 
 		$basePath = __DIR__ . '/data';
 
 		$this->assertTrue(
-			$object::exists('en-GB', $basePath)
+			JLanguage::exists('en-GB', $basePath)
 		);
 
 		$this->assertFalse(
-			$object::exists('es-ES', $basePath)
+			JLanguage::exists('es-ES', $basePath)
 		);
 	}
 
