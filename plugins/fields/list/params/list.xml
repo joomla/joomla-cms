@@ -5,8 +5,8 @@
 			<field
 				name="multiple"
 				type="list"
-				label="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_LABEL"
-				description="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_DESC"
+				label="PLG_FIELDS_LIST_PARAMS_LIST_MULTIPLE_LABEL"
+				description="PLG_FIELDS_LIST_PARAMS_LIST_MULTIPLE_DESC"
 			>
 				<option value="">PLG_FIELDS_TEXT_PARAMS_USE_GLOBAL</option>
 				<option value="1">JYES</option>
@@ -16,20 +16,20 @@
 				name="options"
 				type="subform" layout="joomla.form.field.subform.repeatable-table"
 				icon="list" multiple="true"
-				description="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_VALUES_DESC"
-				label="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_VALUES_LABEL"
+				description="PLG_FIELDS_LIST_PARAMS_OPTIONS_DESC"
+				label="PLG_FIELDS_LIST_PARAMS_OPTIONS_LABEL"
 			>
 				<form hidden="true" name="list_templates_modal" repeat="true">
 					<field
 						name="name"
-						label="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_VALUES_NAME_LABEL"
+						label="PLG_FIELDS_LIST_PARAMS_OPTIONS_NAME_LABEL"
 						size="30"
 						type="text"
 					/>
 
 					<field
 						name="value"
-						label="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_VALUES_VALUE_LABEL"
+						label="PLG_FIELDS_LIST_PARAMS_OPTIONS_VALUE_LABEL"
 						size="30"
 						type="text"
 					/>

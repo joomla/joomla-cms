@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension type="plugin" version="3.7.0" group="fields" method="upgrade">
-	<name>plg_fields_list</name>
+	<name>plg_fields_checkboxes</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
@@ -8,46 +8,37 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
-	<description>PLG_FIELDS_LIST_XML_DESCRIPTION</description>
+	<description>PLG_FIELDS_CHECKBOXES_XML_DESCRIPTION</description>
 	<files>
-		<filename plugin="list">list.php</filename>
+		<filename plugin="checkboxes">checkboxes.php</filename>
+		<folder>params</folder>
+		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_fields_list.ini</language>
-		<language tag="en-GB">en-GB.plg_fields_list.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_checkboxes.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_checkboxes.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="multiple"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="PLG_FIELDS_LIST_PARAMS_LIST_MULTIPLE_LABEL"
-					description="PLG_FIELDS_LIST_PARAMS_LIST_MULTIPLE_DESC"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
 					name="options"
 					type="subform" layout="joomla.form.field.subform.repeatable-table"
 					icon="list" multiple="true"
-					description="PLG_FIELDS_LIST_PARAMS_OPTIONS_DESC"
-					label="PLG_FIELDS_LIST_PARAMS_OPTIONS_LABEL"
+					description="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_DESC"
+					label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_LABEL"
 				>
 					<form hidden="true" name="list_templates_modal" repeat="true">
 						<field
 							name="name"
-							label="PLG_FIELDS_LIST_PARAMS_OPTIONS_NAME_LABEL"
+							label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_NAME_LABEL"
 							size="30"
 							type="text"
 						/>
 	
 						<field
 							name="value"
-							label="PLG_FIELDS_LIST_PARAMS_OPTIONS_VALUE_LABEL"
+							label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_VALUE_LABEL"
 							size="30"
 							type="text"
 						/>
