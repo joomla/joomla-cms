@@ -37,7 +37,7 @@ class JComponentRouterBaseTest extends TestCase
 		 * Test if standard setup of JComponentRouterBase works and $app and
 		 * $menu are properly populated
 		 */
-		$object = new JComponentRouterBaseInspector();
+		$object = new JComponentRouterBaseInspector;
 		$this->assertInstanceOf('JComponentRouterInterface', $object);
 		$this->assertInstanceOf('JComponentRouterBase', $object);
 		$this->assertEquals($app, $object->app);
@@ -57,7 +57,7 @@ class JComponentRouterBaseTest extends TestCase
 		/**
 		 * Test if the setup works when both an app and menu object is handed over
 		 */
-		$menu2 = new stdClass();
+		$menu2 = new stdClass;
 		$object = new JComponentRouterBaseInspector($app, $menu2);
 		$this->assertEquals($app, $object->app);
 		$this->assertEquals($menu2, $object->menu);
