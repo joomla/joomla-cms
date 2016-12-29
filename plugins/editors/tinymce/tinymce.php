@@ -123,10 +123,13 @@ class PlgEditorTinymce extends JPlugin
 		$app = JFactory::getApplication();
 
 		// Check for old params for B/C
-		if ($this->params->exists('mode') && $this->params->exists('alignment'))
+		$config_warn_count = $app->getUserState('plg_editors_tinymce.config_legacy_warn_count', 0);
+		if ($app->isClient('administrator') && $this->params->exists('mode') && $this->params->exists('alignment')
+			&& $config_warn_count < 2)
 		{
 			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $this->getPluginId());
 			$app->enqueueMessage(JText::sprintf('PLG_TINY_LEGACY_WARNING', $link), 'warning');
+			$app->setUserState('plg_editors_tinymce.config_legacy_warn_count', ++$config_warn_count);
 
 			return $this->onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons, $id, $asset, $author);
 		}
