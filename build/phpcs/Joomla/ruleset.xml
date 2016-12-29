@@ -137,10 +137,6 @@
 		<exclude-pattern type="relative">tests/*</exclude-pattern>
 	</rule>
 
-	<rule ref="Joomla.Functions.FunctionDeclarationSniff">
-		<exclude-pattern type="relative">tests/*</exclude-pattern>
-	</rule>
-
 	<rule ref="Joomla.Commenting.FileComment">
 		<exclude-pattern type="relative">tests/*</exclude-pattern>
 	</rule>
