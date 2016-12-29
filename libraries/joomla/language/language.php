@@ -829,32 +829,24 @@ class JLanguage
 	 */
 	protected function parse($filename)
 	{
+		// Capture hidden PHP errors from the parsing.
 		if ($this->debug)
 		{
-			// Capture hidden PHP errors from the parsing.
-			$php_errormsg = null;
-			$track_errors = ini_get('track_errors');
+			$trackErrors = ini_get('track_errors');
 			ini_set('track_errors', true);
 		}
 
-		$contents = file_get_contents($filename);
-		$contents = str_replace('_QQ_', '"\""', $contents);
-		$strings = @parse_ini_string($contents);
+		$strings = @parse_ini_file($filename);
 
-		if (!is_array($strings))
-		{
-			$strings = array();
-		}
-
+		// Restore error tracking to what it was before.
 		if ($this->debug)
 		{
-			// Restore error tracking to what it was before.
-			ini_set('track_errors', $track_errors);
+			ini_set('track_errors', $trackErrors);
 
 			$this->debugFile($filename);
 		}
 
-		return $strings;
+		return is_array($strings) ? $strings : array();
 	}
 
 	/**
