@@ -297,12 +297,10 @@
             // Disable already selected options
             $accessSelects.each(function () {
                 var $select = $(this), val = $select.val(), query = [],
-                    $otherSelects = $accessSelects.not(this),
-                    $options = $otherSelects.find('option');
+                    $options = $accessSelects.not(this).find('option');
 
                 for (var i = 0, l = val.length; i < l; i++ ) {
                     if (!val[i]) continue;
-
                     query.push('[value="' + val[i] + '"]');
                 }
 
