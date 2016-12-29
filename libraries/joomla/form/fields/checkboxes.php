@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field class for the Joomla Platform.
  * Displays options as a list of checkboxes.
@@ -17,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @see    JFormFieldCheckbox
  * @since  11.1
  */
-class JFormFieldCheckboxes extends JFormAbstractlist
+class JFormFieldCheckboxes extends JFormFieldList
 {
 	/**
 	 * The form field type.

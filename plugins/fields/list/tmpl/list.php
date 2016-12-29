@@ -1,19 +1,13 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_fields
+ * @package     Joomla.Plugin
+ * @subpackage  Fields.List
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
-if (!key_exists('field', $displayData))
-{
-	return;
-}
-
-$field      = $displayData['field'];
 $fieldValue = $field->value;
 
 if ($fieldValue == '')
@@ -23,7 +17,7 @@ if ($fieldValue == '')
 
 $fieldValue = (array) $fieldValue;
 $texts      = array();
-$options    = JFormFieldList::getOptionsFromField($field);
+$options    = $this->getOptionsFromField($field);
 
 foreach ($options as $value => $name)
 {

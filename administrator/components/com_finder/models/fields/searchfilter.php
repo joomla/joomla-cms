@@ -9,12 +9,14 @@
 
 defined('JPATH_BASE') or die();
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Search Filter field for the Finder package.
  *
  * @since  2.5
  */
-class JFormFieldSearchFilter extends JFormAbstractlist
+class JFormFieldSearchFilter extends JFormFieldList
 {
 	/**
 	 * The form field type.

@@ -8,12 +8,14 @@
  */
 defined('_JEXEC') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Fields Type
  *
  * @since  3.7.0
  */
-class JFormFieldType extends JFormAbstractlist
+class JFormFieldType extends JFormFieldList
 {
 	public $type = 'Type';
 
@@ -50,7 +52,7 @@ class JFormFieldType extends JFormAbstractlist
 	{
 		$options = parent::getOptions();
 
-		$fieldTypes = FieldsHelperInternal::getFieldTypes();
+		$fieldTypes = FieldsHelper::getFieldTypes();
 
 		foreach ($fieldTypes as $fieldType)
 		{

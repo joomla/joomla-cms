@@ -86,7 +86,7 @@ abstract class FieldsPlugin extends JPlugin
 		}
 
 		// Merge the params from the plugin and field which has precedence
-		$fieldParams = $this->params;
+		$fieldParams = clone $this->params;
 		$fieldParams->merge($field->fieldparams);
 
 		// Get the path for the layout file
@@ -119,7 +119,7 @@ abstract class FieldsPlugin extends JPlugin
 		// Check if the field should be processed by us
 		if (!$this->isTypeSupported($field->type))
 		{
-			return;
+			return null;
 		}
 
 		$app = JFactory::getApplication();
@@ -131,7 +131,7 @@ abstract class FieldsPlugin extends JPlugin
 		}
 		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
 		{
-			return;
+			return null;
 		}
 
 		// Create the node
@@ -178,7 +178,7 @@ abstract class FieldsPlugin extends JPlugin
 		}
 
 		// Check if it is allowed to edit the field
-		if (!FieldsHelperInternal::canEditFieldValue($field))
+		if (!FieldsHelper::canEditFieldValue($field))
 		{
 			$node->setAttribute('disabled', 'true');
 		}

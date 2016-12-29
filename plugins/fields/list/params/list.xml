@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="fieldparams" label="JLIB_FORM_FIELD_PARAM_BASIC_LABEL">
+	<fields name="fieldparams">
 		<fieldset name="fieldparams">
 			<field
 				name="multiple"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_LABEL"
-				description="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_DESC"
+				type="list"
+				label="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_LABEL"
+				description="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_DESC"
 			>
+				<option value="">PLG_FIELDS_TEXT_PARAMS_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
@@ -17,20 +16,20 @@
 				name="options"
 				type="subform" layout="joomla.form.field.subform.repeatable-table"
 				icon="list" multiple="true"
-				description="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_VALUES_DESC"
-				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_VALUES_LABEL"
+				description="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_VALUES_DESC"
+				label="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_VALUES_LABEL"
 			>
 				<form hidden="true" name="list_templates_modal" repeat="true">
 					<field
 						name="name"
-						label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_VALUES_NAME_LABEL"
+						label="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_VALUES_NAME_LABEL"
 						size="30"
 						type="text"
 					/>
 
 					<field
 						name="value"
-						label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_VALUES_VALUE_LABEL"
+						label="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_VALUES_VALUE_LABEL"
 						size="30"
 						type="text"
 					/>

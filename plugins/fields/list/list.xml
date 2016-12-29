@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.7.0" group="fields" method="upgrade">
+	<name>plg_fields_list</name>
+	<author>Joomla! Project</author>
+	<creationDate>March 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.7.0</version>
+	<description>PLG_FIELDS_LIST_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="list">list.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_fields_list.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_list.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="multiple"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_LABEL"
+					description="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="options"
+					type="subform" layout="joomla.form.field.subform.repeatable-table"
+					icon="list" multiple="true"
+					description="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_VALUES_DESC"
+					label="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_VALUES_LABEL"
+				>
+					<form hidden="true" name="list_templates_modal" repeat="true">
+						<field
+							name="name"
+							label="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_VALUES_NAME_LABEL"
+							size="30"
+							type="text"
+						/>
+	
+						<field
+							name="value"
+							label="PLG_FIELDS_LIST_PARAM_LIST_MULTIPLE_VALUES_VALUE_LABEL"
+							size="30"
+							type="text"
+						/>
+					</form>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
