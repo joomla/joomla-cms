@@ -330,12 +330,12 @@ abstract class JHtmlMenu
 		{
 			if ($type)
 			{
-				$pre = '<sup>|_</sup>&#160;';
+				$pre    = '<sup>|_</sup>&#160;';
 				$spacer = '.&#160;&#160;&#160;&#160;&#160;&#160;';
 			}
 			else
 			{
-				$pre = '- ';
+				$pre    = '- ';
 				$spacer = '&#160;&#160;';
 			}
 
