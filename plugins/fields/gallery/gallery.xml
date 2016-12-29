@@ -24,24 +24,24 @@
 					name="thumbnail_width"
 					type="text"
 					default="64"
-					label="PLG_FIELDS_GALLERY_FIELDPARAMS_THUMBNAIL_WIDTH_LABEL"
-					description="PLG_FIELDS_GALLERY_FIELDPARAMS_THUMBNAIL_WIDTH_DESC"
+					label="PLG_FIELDS_GALLERY_PARAMS_THUMBNAIL_WIDTH_LABEL"
+					description="PLG_FIELDS_GALLERY_PARAMS_THUMBNAIL_WIDTH_DESC"
 					size="5"
 				/>
 	
 				<field
 					name="max_width"
 					type="text"
-					label="PLG_FIELDS_GALLERY_FIELDPARAMS_MAX_WIDTH_LABEL"
-					description="PLG_FIELDS_GALLERY_FIELDPARAMS_MAX_WIDTH_DESC"
+					label="PLG_FIELDS_GALLERY_PARAMS_MAX_WIDTH_LABEL"
+					description="PLG_FIELDS_GALLERY_PARAMS_MAX_WIDTH_DESC"
 					size="5"
 				/>
 	
 				<field
 					name="max_height"
 					type="text"
-					label="PLG_FIELDS_GALLERY_FIELDPARAMS_MAX_HEIGHT_LABEL"
-					description="PLG_FIELDS_GALLERY_FIELDPARAMS_MAX_HEIGHT_DESC"
+					label="PLG_FIELDS_GALLERY_PARAMS_MAX_HEIGHT_LABEL"
+					description="PLG_FIELDS_GALLERY_PARAMS_MAX_HEIGHT_DESC"
 					size="5"
 				/>
 	
@@ -49,8 +49,8 @@
 					name="recursive"
 					type="radio"
 					class="btn-group btn-group-yesno" default="1"
-					label="PLG_FIELDS_GALLERY_FIELDPARAMS_RECURSIVE_LABEL"
-					description="PLG_FIELDS_GALLERY_FIELDPARAMS_RECURSIVE_DESC"
+					label="PLG_FIELDS_GALLERY_PARAMS_RECURSIVE_LABEL"
+					description="PLG_FIELDS_GALLERY_PARAMS_RECURSIVE_DESC"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -61,8 +61,8 @@
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="PLG_FIELDS_GALLERY_FIELDPARAMS_MULTIPLE_LABEL"
-					description="PLG_FIELDS_GALLERY_FIELDPARAMS_MULTIPLE_DESC"
+					label="PLG_FIELDS_GALLERY_PARAMS_MULTIPLE_LABEL"
+					description="PLG_FIELDS_GALLERY_PARAMS_MULTIPLE_DESC"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -72,8 +72,8 @@
 					name="directory"
 					type="text"
 					default="images"
-					label="PLG_FIELDS_GALLERY_FIELDPARAMS_DIRECTORY_LABEL"
-					description="PLG_FIELDS_GALLERY_FIELDPARAMS_DIRECTORY_DESC"
+					label="PLG_FIELDS_GALLERY_PARAMS_DIRECTORY_LABEL"
+					description="PLG_FIELDS_GALLERY_PARAMS_DIRECTORY_DESC"
 				/>
 			</fieldset>
 		</fields>

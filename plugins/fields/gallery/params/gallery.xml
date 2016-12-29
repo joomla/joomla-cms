@@ -5,34 +5,34 @@
 			<field
 				name="thumbnail_width"
 				type="text"
-				label="PLG_FIELDS_GALLERY_FIELDPARAMS_THUMBNAIL_WIDTH_LABEL"
-				description="PLG_FIELDS_GALLERY_FIELDPARAMS_THUMBNAIL_WIDTH_DESC"
+				label="PLG_FIELDS_GALLERY_PARAMS_THUMBNAIL_WIDTH_LABEL"
+				description="PLG_FIELDS_GALLERY_PARAMS_THUMBNAIL_WIDTH_DESC"
 				size="5"
 			/>
 
 			<field
 				name="max_width"
 				type="text"
-				label="PLG_FIELDS_GALLERY_FIELDPARAMS_MAX_WIDTH_LABEL"
-				description="PLG_FIELDS_GALLERY_FIELDPARAMS_MAX_WIDTH_DESC"
+				label="PLG_FIELDS_GALLERY_PARAMS_MAX_WIDTH_LABEL"
+				description="PLG_FIELDS_GALLERY_PARAMS_MAX_WIDTH_DESC"
 				size="5"
 			/>
 
 			<field
 				name="max_height"
 				type="text"
-				label="PLG_FIELDS_GALLERY_FIELDPARAMS_MAX_HEIGHT_LABEL"
-				description="PLG_FIELDS_GALLERY_FIELDPARAMS_MAX_HEIGHT_DESC"
+				label="PLG_FIELDS_GALLERY_PARAMS_MAX_HEIGHT_LABEL"
+				description="PLG_FIELDS_GALLERY_PARAMS_MAX_HEIGHT_DESC"
 				size="5"
 			/>
 
 			<field
 				name="recursive"
 				type="list"
-				label="PLG_FIELDS_GALLERY_FIELDPARAMS_RECURSIVE_LABEL"
-				description="PLG_FIELDS_GALLERY_FIELDPARAMS_RECURSIVE_DESC"
+				label="PLG_FIELDS_GALLERY_PARAMS_RECURSIVE_LABEL"
+				description="PLG_FIELDS_GALLERY_PARAMS_RECURSIVE_DESC"
 			>
-				<option value="">PLG_FIELDS_GALLERY_FIELDPARAMS_USE_GLOBAL</option>
+				<option value="">PLG_FIELDS_GALLERY_PARAMS_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
@@ -40,10 +40,10 @@
 			<field
 				name="multiple"
 				type="list"
-				label="PLG_FIELDS_GALLERY_FIELDPARAMS_MULTIPLE_LABEL"
-				description="PLG_FIELDS_GALLERY_FIELDPARAMS_MULTIPLE_DESC"
+				label="PLG_FIELDS_GALLERY_PARAMS_MULTIPLE_LABEL"
+				description="PLG_FIELDS_GALLERY_PARAMS_MULTIPLE_DESC"
 			>
-				<option value="">PLG_FIELDS_GALLERY_FIELDPARAMS_USE_GLOBAL</option>
+				<option value="">PLG_FIELDS_GALLERY_PARAMS_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
@@ -51,8 +51,8 @@
 			<field
 				name="directory"
 				type="text"
-				label="PLG_FIELDS_GALLERY_FIELDPARAMS_DIRECTORY_LABEL"
-				description="PLG_FIELDS_GALLERY_FIELDPARAMS_DIRECTORY_DESC"
+				label="PLG_FIELDS_GALLERY_PARAMS_DIRECTORY_LABEL"
+				description="PLG_FIELDS_GALLERY_PARAMS_DIRECTORY_DESC"
 			/>
 		</fieldset>
 	</fields>
