@@ -50,6 +50,7 @@
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
 	</rule>
 
 	<rule ref="Generic.Formatting.DisallowMultipleStatements">
@@ -132,7 +133,9 @@
 
 	<!-- Remove the following when the folder limitations are dropped -->
 
-	<rule ref="Joomla.Classes.MethodScope"/>
+	<rule ref="Joomla.Classes.MethodScope">
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
 
 	<rule ref="Joomla.Commenting.FunctionComment">
 		<!-- We only want this for libraries, language and cli for now -->
@@ -147,7 +150,9 @@
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
 	</rule>
 
-	<rule ref="Joomla.Commenting.ClassComment"/>
+	<rule ref="Joomla.Commenting.ClassComment">
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
 
 	<rule ref="Joomla.ControlStructures.ControlSignature">
 		<!-- These exceptions are permanent -->
