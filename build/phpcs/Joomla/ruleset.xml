@@ -141,6 +141,7 @@
 		<!-- We only want this for libraries, language and cli for now -->
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
 	</rule>
 
 	<rule ref="Joomla.Commenting.SingleComment">
