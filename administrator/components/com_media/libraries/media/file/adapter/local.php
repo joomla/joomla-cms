@@ -63,23 +63,27 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function getFiles($path = '/')
 	{
+		// Set up the path correctly
+		$path = JPath::clean('/' . $path);
+
+		// Check if file exists
+		if (!file_exists($this->rootPath . $path))
+		{
+			return array();
+		}
+
+		// Check if the path points to a file
 		if (is_file($this->rootPath . $path))
 		{
 			// Create the file object
 			$obj            = new stdClass;
 			$obj->type      = 'file';
 			$obj->name      = basename($path);
-			$obj->path      = $path;
-			$obj->extension = JFile::getExt($file);
-			$obj->size      = filesize($this->rootPath . $path . $file);
+			$obj->path      = pathinfo($path, PATHINFO_DIRNAME);
+			$obj->extension = JFile::getExt($obj->name);
+			$obj->size      = filesize($this->rootPath . $path);
 
 			return array($obj);
-		}
-
-		// Set up the path correctly
-		if ($path != '/')
-		{
-			$path = '/' . trim($path, '/') . '/';
 		}
 
 		// The data to return
@@ -104,7 +108,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			$obj->name      = $file;
 			$obj->path      = $path;
 			$obj->extension = JFile::getExt($file);
-			$obj->size      = filesize($this->rootPath . $path . $file);
+			$obj->size      = filesize($this->rootPath . $path);
 
 			$data[]    = $obj;
 		}

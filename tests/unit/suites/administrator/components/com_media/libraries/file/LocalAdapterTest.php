@@ -84,7 +84,87 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('stdClass', $files[1]);
 		$this->assertEquals('file', $files[1]->type);
 		$this->assertEquals('test.txt', $files[1]->name);
+		$this->assertEquals('txt', $files[1]->extension);
 		$this->assertEquals('/', $files[1]->path);
+		$this->assertGreaterThan(1, $files[1]->size);
+	}
+
+	/**
+	 * Test MediaFileAdapterLocal::getFiles with a single file
+	 *
+	 * @return  void
+	 */
+	public function testGetSingleFile()
+	{
+		// Make some test files
+		JFile::write($this->root . 'test.txt', 'test');
+
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Fetch the files from the root folder
+		$files = $adapter->getFiles('test.txt');
+
+		// Check if the array is big enough
+		$this->assertNotEmpty($files);
+		$this->assertCount(1, $files);
+
+		// Check the file
+		$this->assertInstanceOf('stdClass', $files[0]);
+		$this->assertEquals('file', $files[0]->type);
+		$this->assertEquals('test.txt', $files[0]->name);
+		$this->assertEquals('txt', $files[0]->extension);
+		$this->assertEquals('/', $files[0]->path);
+		$this->assertGreaterThan(0, $files[0]->size);
+	}
+
+	/**
+	 * Test MediaFileAdapterLocal::getFiles with a single file and a different path
+	 *
+	 * @return  void
+	 */
+	public function testGetSingleFileSpecialPath()
+	{
+		// Make some test files
+		JFile::write($this->root . 'test.txt', 'test');
+
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Fetch the files from the root folder
+		$files = $adapter->getFiles('/test.txt');
+
+		// Check if the array is big enough
+		$this->assertNotEmpty($files);
+		$this->assertCount(1, $files);
+
+		// Check the file
+		$this->assertInstanceOf('stdClass', $files[0]);
+		$this->assertEquals('file', $files[0]->type);
+		$this->assertEquals('test.txt', $files[0]->name);
+		$this->assertEquals('txt', $files[0]->extension);
+		$this->assertEquals('/', $files[0]->path);
+		$this->assertGreaterThan(0, $files[0]->size);
+	}
+
+	/**
+	 * Test MediaFileAdapterLocal::getFiles with an invalid path
+	 *
+	 * @return  void
+	 */
+	public function testGetFilesInvalidPath()
+	{
+		// Make some test files
+		JFile::write($this->root . 'test.txt', 'test');
+
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Fetch the files from the root folder
+		$files = $adapter->getFiles('/test1.txt');
+
+		// Check if the array is empty
+		$this->assertEmpty($files);
 	}
 
 	/**
