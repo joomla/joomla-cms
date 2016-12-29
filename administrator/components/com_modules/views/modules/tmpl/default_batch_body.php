@@ -30,9 +30,8 @@ $attr = array(
 );
 
 ?>
-
-<p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
 <div class="container-fluid">
+	<p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
 	<div class="row-fluid">
 		<div class="control-group span6">
 			<div class="controls">
