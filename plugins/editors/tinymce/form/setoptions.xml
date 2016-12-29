@@ -4,6 +4,7 @@
             name="access"
             type="usergrouplist"
             multiple="true"
+            class="access-select"
             label="JFIELD_ACCESS_LABEL"
             description="JFIELD_ACCESS_DESC"
     />
