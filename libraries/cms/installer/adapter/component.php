@@ -954,7 +954,12 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// Let's figure out what the menu item data should look like
 		$data = array();
 
-		if ($menuElement)
+		// @TODO: Just do not create the menu if $menuElement not exist
+		if (in_array((string) $menuElement['hidden'], array('true', 'hidden')))
+		{
+			return true;
+		}
+		elseif ($menuElement)
 		{
 			// I have a menu element, use this information
 			$data['menutype'] = 'main';
