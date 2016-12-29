@@ -484,7 +484,6 @@ class JTableNestedTest extends TestCaseDatabase
 		self::$driver->setQuery('UPDATE #__categories SET parent_id = 99, lft = 99, rgt = 99 WHERE id = 1')
 			->execute();
 
-		$this->class::resetRootId();
 		$class = $this->class;
 
 		$class::resetRootId();
