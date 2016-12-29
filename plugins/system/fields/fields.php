@@ -145,19 +145,19 @@ class PlgSystemFields extends JPlugin
 		// Loading the model
 		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 
-		$id = null;
-
-		if (isset($item->id))
-		{
-			$id = $item->id;
-		}
-
 		foreach ($fieldsObjects as $field)
 		{
 			// Only save the fields with the alias from the data
 			if (!key_exists($field->alias, $fields))
 			{
 				continue;
+			}
+
+			$id = null;
+
+			if (isset($item->id))
+			{
+				$id = $item->id;
 			}
 
 			if (!$id)
