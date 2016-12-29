@@ -178,16 +178,14 @@ class JGithubPackageRepositoriesMergingTest extends PHPUnit_Framework_TestCase
 		$this->response->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		             ->method('post')
-		             ->with('/repos/joomla/joomla-platform/merges')
-		             ->will($this->returnValue($this->response))
-		;
+			->method('post')
+			->with('/repos/joomla/joomla-platform/merges')
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->perform('joomla', 'joomla-platform', '123', '456', 'My Message'),
 			$this->equalTo(json_decode($this->sampleString))
-		)
-		;
+		);
 	}
 
 	/**
@@ -199,16 +197,14 @@ class JGithubPackageRepositoriesMergingTest extends PHPUnit_Framework_TestCase
 		$this->response->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		             ->method('post')
-		             ->with('/repos/joomla/joomla-platform/merges')
-		             ->will($this->returnValue($this->response))
-		;
+			->method('post')
+			->with('/repos/joomla/joomla-platform/merges')
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->perform('joomla', 'joomla-platform', '123', '456', 'My Message'),
 			$this->equalTo(json_decode($this->sampleString))
-		)
-		;
+		);
 	}
 
 	/**
@@ -220,16 +216,14 @@ class JGithubPackageRepositoriesMergingTest extends PHPUnit_Framework_TestCase
 		$this->response->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		             ->method('post')
-		             ->with('/repos/joomla/joomla-platform/merges')
-		             ->will($this->returnValue($this->response))
-		;
+			->method('post')
+			->with('/repos/joomla/joomla-platform/merges')
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->perform('joomla', 'joomla-platform', '123', '456', 'My Message'),
 			$this->equalTo(json_decode($this->sampleString))
-		)
-		;
+		);
 	}
 
 	/**
@@ -241,16 +235,14 @@ class JGithubPackageRepositoriesMergingTest extends PHPUnit_Framework_TestCase
 		$this->response->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		             ->method('post')
-		             ->with('/repos/joomla/joomla-platform/merges')
-		             ->will($this->returnValue($this->response))
-		;
+			->method('post')
+			->with('/repos/joomla/joomla-platform/merges')
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->perform('joomla', 'joomla-platform', '123', '456', 'My Message'),
 			$this->equalTo(json_decode($this->sampleString))
-		)
-		;
+		);
 	}
 
 	/**
@@ -262,15 +254,13 @@ class JGithubPackageRepositoriesMergingTest extends PHPUnit_Framework_TestCase
 		$this->response->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		             ->method('post')
-		             ->with('/repos/joomla/joomla-platform/merges')
-		             ->will($this->returnValue($this->response))
-		;
+			->method('post')
+			->with('/repos/joomla/joomla-platform/merges')
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->perform('joomla', 'joomla-platform', '123', '456', 'My Message'),
 			$this->equalTo(json_decode($this->sampleString))
-		)
-		;
+		);
 	}
 }
