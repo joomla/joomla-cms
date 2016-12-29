@@ -106,18 +106,6 @@ class JCacheStorageMock extends JCacheStorage
 	}
 
 	/**
-	 * Test to see if the storage handler is available.
-	 *
-	 * @return   boolean  True on success, false otherwise
-	 *
-	 * @since    12.1
-	 */
-	public static function isSupported()
-	{
-		return true;
-	}
-
-	/**
 	 * Get a cache_id string from an id/group pair
 	 *
 	 * @param   string  $id     The cache data id
