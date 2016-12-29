@@ -23,8 +23,18 @@ abstract class JInstallerManifest
 	 *
 	 * @var    string
 	 * @since  3.1
+	 *
+	 * @deprecated  4.0
 	 */
 	public $manifest_file = '';
+
+	/**
+	 * Path to the manifest file
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $manifestFile = '';
 
 	/**
 	 * Name of the extension
@@ -51,6 +61,50 @@ abstract class JInstallerManifest
 	public $description = '';
 
 	/**
+	 * Author for the library
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	public $author = '';
+
+	/**
+	 * Author email for the library (alias)
+	 *
+	 * @var    string
+	 * @since  3.1
+	 *
+	 * @deprecated  4.0
+	 */
+	public $authoremail = '';
+
+	/**
+	 * Author email for the library
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $authorEmail = '';
+
+	/**
+	 * Author URL for the library
+	 *
+	 * @var    string
+	 * @since  3.1
+	 *
+	 * @deprecated  4.0
+	 */
+	public $authorurl = '';
+
+	/**
+	 * Author URL for the library
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $authorURL = '';
+
+	/**
 	 * Packager of the extension
 	 *
 	 * @var    string
@@ -63,8 +117,18 @@ abstract class JInstallerManifest
 	 *
 	 * @var    string
 	 * @since  3.1
+	 *
+	 * @deprecated  4.0
 	 */
 	public $packagerurl = '';
+
+	/**
+	 * Packager's URL of the extension
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $packagerURL = '';
 
 	/**
 	 * Update site for the extension
@@ -79,8 +143,18 @@ abstract class JInstallerManifest
 	 *
 	 * @var    array
 	 * @since  3.1
+	 *
+	 * @deprecated  4.0
 	 */
 	public $filelist = array();
+
+	/**
+	 * List of files in the extension
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $fileList = array();
 
 	/**
 	 * Constructor
@@ -91,6 +165,13 @@ abstract class JInstallerManifest
 	 */
 	public function __construct($xmlpath = '')
 	{
+		// old and new variables are referenced for B/C
+		$this->authorEmail = &$this->authoremail;
+		$this->authorURL = &$this->authorurl;
+		$this->manifestFile = &$this->manifest_file;
+		$this->packagerURL  = &$this->packagerurl;
+		$this->fileList     = &$this->filelist;
+
 		if (strlen($xmlpath))
 		{
 			$this->loadManifestFromXml($xmlpath);
@@ -108,7 +189,7 @@ abstract class JInstallerManifest
 	 */
 	public function loadManifestFromXml($xmlfile)
 	{
-		$this->manifest_file = basename($xmlfile, '.xml');
+		$this->manifestFile = basename($xmlfile, '.xml');
 
 		$xml = simplexml_load_file($xmlfile);
 

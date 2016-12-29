@@ -21,8 +21,18 @@ class JInstallerManifestPackage extends JInstallerManifest
 	 *
 	 * @var    string
 	 * @since  3.1
+	 *
+	 * @deprecated  4.0
 	 */
 	public $packagename = '';
+
+	/**
+	 * Unique name of the package
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $packageName = '';
 
 	/**
 	 * Website for the package
@@ -37,8 +47,18 @@ class JInstallerManifestPackage extends JInstallerManifest
 	 *
 	 * @var    string
 	 * @since  3.1
+	 *
+	 * @deprecated  4.0
 	 */
 	public $scriptfile = '';
+
+	/**
+	 * Scriptfile for the package
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $scriptFile = '';
 
 	/**
 	 * Flag if the package blocks individual child extensions from being uninstalled
@@ -47,6 +67,21 @@ class JInstallerManifestPackage extends JInstallerManifest
 	 * @since  3.7.0
 	 */
 	public $blockChildUninstall = false;
+
+	/**
+	 * JInstallerManifestPackage constructor.
+	 *
+	 * @param   string  $xmlpath  Path to XML manifest file.
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function __construct($xmlpath = '')
+	{
+		// old and new variables are referenced for B/C
+		$this->packageName = &$this->packagename;
+		$this->scriptFile  = &$this->scriptfile;
+
+		parent::__construct($xmlpath);
+	}
 
 	/**
 	 * Apply manifest data from a SimpleXMLElement to the object.
@@ -60,15 +95,15 @@ class JInstallerManifestPackage extends JInstallerManifest
 	protected function loadManifestFromData(SimpleXMLElement $xml)
 	{
 		$this->name        = (string) $xml->name;
-		$this->packagename = (string) $xml->packagename;
+		$this->packageName = (string) $xml->packagename;
 		$this->update      = (string) $xml->update;
-		$this->authorurl   = (string) $xml->authorUrl;
+		$this->authorURL   = (string) $xml->authorUrl;
 		$this->author      = (string) $xml->author;
-		$this->authoremail = (string) $xml->authorEmail;
+		$this->authorEmail = (string) $xml->authorEmail;
 		$this->description = (string) $xml->description;
 		$this->packager    = (string) $xml->packager;
-		$this->packagerurl = (string) $xml->packagerurl;
-		$this->scriptfile  = (string) $xml->scriptfile;
+		$this->packagerURL = (string) $xml->packagerurl;
+		$this->scriptFile  = (string) $xml->scriptfile;
 		$this->version     = (string) $xml->version;
 
 		if (isset($xml->blockChildUninstall))
@@ -87,7 +122,7 @@ class JInstallerManifestPackage extends JInstallerManifest
 			{
 				// NOTE: JInstallerExtension doesn't expect a string.
 				// DO NOT CAST $file
-				$this->filelist[] = new JInstallerExtension($file);
+				$this->fileList[] = new JInstallerExtension($file);
 			}
 		}
 
@@ -98,7 +133,7 @@ class JInstallerManifestPackage extends JInstallerManifest
 			{
 				// NOTE: JInstallerExtension doesn't expect a string.
 				// DO NOT CAST $folder
-				$this->filelist[] = new JInstallerExtension($folder);
+				$this->fileList[] = new JInstallerExtension($folder);
 			}
 		}
 	}
