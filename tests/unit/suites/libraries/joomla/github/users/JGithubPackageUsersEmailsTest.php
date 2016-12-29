@@ -23,9 +23,9 @@ class JGithubPackageUsersEmailsTest extends PHPUnit_Framework_TestCase
 	protected $response;
 
 	/**
-     * @var JGithubPackageUsersEmails
-     */
-    protected $object;
+	 * @var JGithubPackageUsersEmails
+	 */
+	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
@@ -58,60 +58,60 @@ class JGithubPackageUsersEmailsTest extends PHPUnit_Framework_TestCase
 		$this->object = new JGithubPackageUsersEmails($this->options, $this->client);
 	}
 
-    /**
-     * @covers JGithubPackageUsersEmails::getList
-     */
-    public function testGetList()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageUsersEmails::getList
+	 */
+	public function testGetList()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/user/emails')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/user/emails')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->getList(),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->getList(),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageUsersEmails::add
-     */
-    public function testAdd()
-    {
-	    $this->response->code = 201;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageUsersEmails::add
+	 */
+	public function testAdd()
+	{
+		$this->response->code = 201;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('post')
-		    ->with('/user/emails')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/user/emails')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->add('email@example.com'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->add('email@example.com'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageUsersEmails::delete
-     */
-    public function testDelete()
-    {
-	    $this->response->code = 204;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageUsersEmails::delete
+	 */
+	public function testDelete()
+	{
+		$this->response->code = 204;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('delete')
-		    ->with('/user/emails')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('delete')
+			->with('/user/emails')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->delete('email@example.com'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->delete('email@example.com'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 }
