@@ -165,7 +165,7 @@ abstract class JInstallerManifest
 	 */
 	public function __construct($xmlpath = '')
 	{
-		// old and new variables are referenced for B/C
+		// Old and new variables are referenced for B/C
 		$this->authorEmail = &$this->authoremail;
 		$this->authorURL = &$this->authorurl;
 		$this->manifestFile = &$this->manifest_file;

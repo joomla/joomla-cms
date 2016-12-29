@@ -72,11 +72,12 @@ class JInstallerManifestPackage extends JInstallerManifest
 	 * JInstallerManifestPackage constructor.
 	 *
 	 * @param   string  $xmlpath  Path to XML manifest file.
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($xmlpath = '')
 	{
-		// old and new variables are referenced for B/C
+		// Old and new variables are referenced for B/C
 		$this->packageName = &$this->packagename;
 		$this->scriptFile  = &$this->scriptfile;
 
