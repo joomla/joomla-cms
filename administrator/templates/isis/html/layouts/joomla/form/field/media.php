@@ -130,8 +130,8 @@ $url    = ($readonly ? ''
 		<?php endif; ?>
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>/>
 		<?php if ($disabled != true) : ?>
-			<a class="btn add-on button-select"><?php echo JText::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
-			<a class="btn icon-remove hasTooltip add-on button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"></a>
+			<a class="btn add-on button-select"><?php echo JText::_('JLIB_FORM_BUTTON_SELECT'); ?></a>
+			<a class="btn icon-remove hasTooltip add-on button-clear" title="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>"></a>
 		<?php endif; ?>
 	</div>
 	<?php if ($showPreview && !$showAsTooltip) : ?>

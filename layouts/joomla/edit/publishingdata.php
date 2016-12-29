@@ -29,8 +29,7 @@ $hiddenFields = $displayData->get('hidden_fields') ?: array();
 
 foreach ($fields as $field)
 {
-	$field = is_array($field) ? $field : array($field);
-	foreach ($field as $f)
+	foreach ((array) $field as $f)
 	{
 		if ($form->getField($f))
 		{

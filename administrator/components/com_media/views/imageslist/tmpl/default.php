@@ -18,32 +18,32 @@ if ($lang->isRtl())
 	JHtml::_('stylesheet', 'media/popup-imagelist_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
-JFactory::getDocument()->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
+JFactory::getDocument()->addScriptDeclaration('var ImageManager = window.parent.ImageManager;');
 
 if ($lang->isRtl())
 {
 	JFactory::getDocument()->addStyleDeclaration(
-		"
+		'
 			@media (max-width: 767px) {
 				li.imgOutline.thumbnail.height-80.width-80.center {
 					float: right;
 					margin-right: 15px;
 				}
 			}
-		"
+		'
 	);
 }
 else
 {
 	JFactory::getDocument()->addStyleDeclaration(
-		"
+		'
 			@media (max-width: 767px) {
 				li.imgOutline.thumbnail.height-80.width-80.center {
 					float: left;
 					margin-left: 15px;
 				}
 			}
-		"
+		'
 	);
 }
 ?>

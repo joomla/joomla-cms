@@ -110,11 +110,6 @@ class FieldsTableField extends JTable
 			$this->type = 'text';
 		}
 
-		if (is_array($this->assigned_cat_ids))
-		{
-			$this->assigned_cat_ids = implode(',', $this->assigned_cat_ids);
-		}
-
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 

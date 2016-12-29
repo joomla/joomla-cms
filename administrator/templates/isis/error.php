@@ -122,7 +122,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js"></script>
 	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
-<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task;?>" data-spy="scroll" data-target=".subhead" data-offset="87">
 	<!-- Top Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
