@@ -118,7 +118,9 @@ class JHelperMediaTest extends TestCaseDatabase
 	 */
 	public function testGetTypeIcon()
 	{
-		$name = $this->object::getTypeIcon('myfile.pdf');
+		$object = $this->object;
+
+		$name = $object::getTypeIcon('myfile.pdf');
 		$this->assertEquals($name, 'pdf');
 	}
 
@@ -208,7 +210,9 @@ class JHelperMediaTest extends TestCaseDatabase
 	 */
 	public function testImageResize($width, $height, $target, $expected)
 	{
-		$newSize = $this->object::imageResize($width, $height, $target);
+		$object = $this->object;
+
+		$newSize = $object::imageResize($width, $height, $target);
 		$this->assertEquals($newSize, $expected);
 	}
 }

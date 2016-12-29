@@ -173,6 +173,8 @@ abstract class TestCaseCache extends TestCase
 	 */
 	public function testIsSupported()
 	{
-		$this->assertTrue($this->handler::isSupported(), 'Claims the cache handler is not supported.');
+		$handler = $this->handler;
+
+		$this->assertTrue($handler::isSupported(), 'Claims the cache handler is not supported.');
 	}
 }

@@ -118,9 +118,11 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLinkXHTMLSafe()
 	{
+		$object = $this->object;
+
 		$this->assertEquals(
 			'<a href="http://www.example.com/index.frd?one=1&amp;two=2&amp;three=3">This & That</a>',
-			$this->object::linkXHTMLSafe('<a href="http://www.example.com/index.frd?one=1&two=2&three=3">This & That</a>'),
+			$object::linkXHTMLSafe('<a href="http://www.example.com/index.frd?one=1&two=2&three=3">This & That</a>'),
 			'Should clean ampersands only out of link, not out of link text'
 		);
 	}
@@ -132,9 +134,11 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStringURLSafe()
 	{
+		$object = $this->object;
+
 		$this->assertEquals(
 			'1234567890-qwertyuiop-qwertyuiop-asdfghjkl-asdfghjkl-zxcvbnm-zxcvbnm',
-			$this->object::stringURLSafe('`1234567890-=~!@#$%^&*()_+	qwertyuiop[]\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:"zxcvbnm,./ZXCVBNM<>?'),
+			$object::stringURLSafe('`1234567890-=~!@#$%^&*()_+	qwertyuiop[]\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:"zxcvbnm,./ZXCVBNM<>?'),
 			'Should clean keyboard string down to ASCII-7'
 		);
 	}
