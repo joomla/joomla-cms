@@ -96,16 +96,16 @@ class JInstallerManifestPackage extends JInstallerManifest
 	protected function loadManifestFromData(SimpleXMLElement $xml)
 	{
 		$this->name        = (string) $xml->name;
-		$this->packageName = (string) $xml->packagename;
-		$this->update      = (string) $xml->update;
-		$this->authorURL   = (string) $xml->authorUrl;
+		$this->packageName = (string) $xml->packageName ?: (string) $xml->packagename;
+		$this->version     = (string) $xml->version;
+		$this->description = (string) $xml->description;
+		$this->scriptFile  = (string) $xml->scriptfile;
 		$this->author      = (string) $xml->author;
 		$this->authorEmail = (string) $xml->authorEmail;
-		$this->description = (string) $xml->description;
+		$this->authorURL   = (string) $xml->authorURL ?: (string) $xml->authorUrl;
 		$this->packager    = (string) $xml->packager;
-		$this->packagerURL = (string) $xml->packagerurl;
-		$this->scriptFile  = (string) $xml->scriptfile;
-		$this->version     = (string) $xml->version;
+		$this->packagerURL = (string) $xml->packagerURL ?: (string) $xml->packagerurl;
+		$this->update      = (string) $xml->update;
 
 		if (isset($xml->blockChildUninstall))
 		{

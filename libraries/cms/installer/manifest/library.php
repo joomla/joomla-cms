@@ -96,15 +96,15 @@ class JInstallerManifestLibrary extends JInstallerManifest
 	protected function loadManifestFromData(SimpleXMLElement $xml)
 	{
 		$this->name         = (string) $xml->name;
-		$this->libraryName  = (string) $xml->libraryname;
+		$this->libraryName  = (string) $xml->libraryName ?: (string) $xml->libraryname;
 		$this->version      = (string) $xml->version;
 		$this->description  = (string) $xml->description;
 		$this->creationDate = (string) $xml->creationDate;
 		$this->author       = (string) $xml->author;
 		$this->authorEmail  = (string) $xml->authorEmail;
-		$this->authorURL    = (string) $xml->authorUrl;
+		$this->authorURL    = (string) $xml->authorURL ?: (string) $xml->authorUrl;
 		$this->packager     = (string) $xml->packager;
-		$this->packagerURL  = (string) $xml->packagerurl;
+		$this->packagerURL  = (string) $xml->packagerURL ?: (string) $xml->packagerurl;
 		$this->update       = (string) $xml->update;
 
 		if (isset($xml->files) && isset($xml->files->file) && count($xml->files->file))
