@@ -266,7 +266,7 @@ class JInstallerTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 */
-	public function testParseXMLInstallFile()
+	public function testParseOldXMLInstallFile()
 	{
 		$xml = JInstaller::parseXMLInstallFile(__DIR__ . '/data/pkg_joomla.xml');
 
@@ -282,6 +282,53 @@ class JInstallerTest extends TestCaseDatabase
 			$xml['version'],
 			'2.5.0',
 			'The version string should be 2.5.0 as specified in the parsed XML file'
+		);
+
+		// Verify that an old style element name is still usable
+		$this->assertEquals(
+			$xml['packagename'],
+			'joomla',
+			'The package name string should be "joomla" as specified in the parsed XML file'
+		);
+	}
+
+	/**
+	 * Tests the parseXMLInstallFile method
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function testParseNewXMLInstallFile()
+	{
+		$xml = JInstaller::parseXMLInstallFile(__DIR__ . '/data/pkg_joomla_new.xml');
+
+		// Verify the method returns an array of data
+		$this->assertInternalType(
+			'array',
+			$xml,
+			'Ensure JInstaller::parseXMLInstallFile returns an array'
+		);
+
+		// Verify the version string in the $xml object matches that from the XML file
+		$this->assertEquals(
+			$xml['version'],
+			'2.5.0',
+			'The version string should be 2.5.0 as specified in the parsed XML file'
+		);
+
+		// Verify that an old style element name is still usable
+		$this->assertEquals(
+			$xml['packagename'],
+			'joomla',
+			'The old package name string should be "joomla" as specified in the parsed XML file'
+		);
+
+		// Verify that an old style element name is still usable
+		$this->assertEquals(
+			$xml['packageName'],
+			'joomla',
+			'The new package name string should be "joomla" as specified in the parsed XML file'
 		);
 	}
 

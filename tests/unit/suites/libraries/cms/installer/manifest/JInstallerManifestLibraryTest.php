@@ -43,6 +43,10 @@ class JInstallerManifestLibraryTest extends TestCase
 			'joomla',
 			$this->object->libraryname
 		);
+		$this->assertEquals(
+			'joomla',
+			$this->object->libraryName
+		);
 
 		$this->assertEquals(
 			'11.4',
@@ -60,6 +64,11 @@ class JInstallerManifestLibraryTest extends TestCase
 		);
 
 		$this->assertEquals(
+			'2008',
+			$this->object->creationDate
+		);
+
+		$this->assertEquals(
 			'Joomla! Project',
 			$this->object->author
 		);
@@ -70,8 +79,18 @@ class JInstallerManifestLibraryTest extends TestCase
 		);
 
 		$this->assertEquals(
+			'admin@joomla.org',
+			$this->object->authorEmail
+		);
+
+		$this->assertEquals(
 			'https://www.joomla.org',
 			$this->object->authorurl
+		);
+
+		$this->assertEquals(
+			'https://www.joomla.org',
+			$this->object->authorURL
 		);
 
 		$this->assertEquals(
@@ -82,6 +101,11 @@ class JInstallerManifestLibraryTest extends TestCase
 		$this->assertEquals(
 			'https://www.joomla.org',
 			$this->object->packagerurl
+		);
+
+		$this->assertEquals(
+			'https://www.joomla.org',
+			$this->object->packagerURL
 		);
 
 		$this->assertEquals(

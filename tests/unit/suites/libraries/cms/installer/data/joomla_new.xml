@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="library" version="2.5">
+    <name>Joomla! Platform</name>
+    <libraryName>joomla</libraryName>
+    <version>11.4</version>
+    <description>LIB_JOOMLA_XML_DESCRIPTION</description>
+    <creationDate>2008</creationDate>
+    <copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorURL>https://www.joomla.org</authorURL>
+    <packager>Joomla!</packager>
+    <packagerURL>https://www.joomla.org</packagerURL>
+    <update>http://update.joomla.org/libraries/joomla</update>
+    <files folder="libraries">
+        <folder>joomla</folder>
+        <file>import.php</file>
+        <file>loader.php</file>
+        <file>platform.php</file>
+    </files>
+</extension>

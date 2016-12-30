@@ -32,6 +32,26 @@ class JInstallerExtensionTest extends TestCase
 			$this->isInstanceOf('JInstallerExtension'),
 			'Instantiating JInstallerExtension failed'
 		);
+		// Verify that an old style element name is still usable
+		$this->assertEquals(
+			$xml->authorUrl,
+			'https://www.joomla.org',
+			'The new package name string should be "joomla" as specified in the parsed XML file'
+		);
+
+		$xml = simplexml_load_file(__DIR__ . '/data/pkg_joomla_new.xml');
+
+		$this->assertThat(
+			$installer = new JInstallerExtension($xml),
+			$this->isInstanceOf('JInstallerExtension'),
+			'Instantiating JInstallerExtension failed'
+		);
+		// Verify that a new style element name is available
+		$this->assertEquals(
+			$xml->authorURL,
+			'https://www.joomla.org',
+			'The new package name string should be "joomla" as specified in the parsed XML file'
+		);
 	}
 
 	/**
@@ -50,5 +70,27 @@ class JInstallerExtensionTest extends TestCase
 			$this->isInstanceOf('JInstallerExtension'),
 			'Instantiating JInstallerExtension failed'
 		);
+
+		// Verify that an old style element name is still usable
+		$this->assertEquals(
+			$xml->authorUrl,
+			'www.joomla.org',
+			'The new package name string should be "joomla" as specified in the parsed XML file'
+		);
+
+		$xml = simplexml_load_file(__DIR__ . '/data/mod_finder_new.xml');
+
+		$this->assertThat(
+			$installer = new JInstallerExtension($xml),
+			$this->isInstanceOf('JInstallerExtension'),
+			'Instantiating JInstallerExtension failed'
+		);
+		// Verify that a new style element name is available
+		$this->assertEquals(
+			$xml->authorURL,
+			'www.joomla.org',
+			'The new package name string should be "joomla" as specified in the parsed XML file'
+		);
+
 	}
 }
