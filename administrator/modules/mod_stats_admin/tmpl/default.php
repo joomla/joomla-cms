@@ -8,6 +8,23 @@
  */
 
 defined('_JEXEC') or die;
+
+JHtml::_('jquery.framework');
+JFactory::getDocument()->addScriptDeclaration('
+	jQuery(document).ready(function($) {
+		$("a.js-revert").on("click", function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			var activeTab = [];
+			activeTab.push("#" + e.target.href.split("#")[1]);
+
+			localStorage.removeItem(e.target.href.replace(/&return=[a-zA-Z0-9%]+/, "").replace(/&[a-zA-Z-_]+=[0-9]+/, ""));
+			localStorage.setItem("/administrator/" + e.target.href.split("/administrator/")[1].split("#")[0], JSON.stringify(activeTab));
+			return window.location.href = e.target.href.split("#")[0];
+		});
+	});
+');
 ?>
 <ul class="list-striped list-condensed stats-module<?php echo $moduleclass_sfx ?>">
 	<?php foreach ($list as $item) : ?>
