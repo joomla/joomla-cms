@@ -146,29 +146,4 @@ class JFormFieldUser extends JFormField
 
 		return;
 	}
-
-	/**
-	 * Transforms the field into an XML element and appends it as child on the given parent. This
-	 * is the default implementation of a field. Form fields which do support to be transformed into
-	 * an XML Element mut implement the JFormDomfieldinterface.
-	 *
-	 * @param   stdClass    $field   The field.
-	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   JForm       $form    The form.
-	 *
-	 * @return  DOMElement
-	 *
-	 * @since   3.7.0
-	 * @see     JFormDomfieldinterface::appendXMLFieldTag
-	 */
-	public function appendXMLFieldTag($field, DOMElement $parent, JForm $form)
-	{
-		if (JFactory::getApplication()->isClient('site'))
-		{
-			// The user field is not working on the front end
-			return;
-		}
-
-		return parent::appendXMLFieldTag($field, $parent, $form);
-	}
 }
