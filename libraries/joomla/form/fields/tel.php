@@ -66,23 +66,4 @@ class JFormFieldTel extends JFormFieldText
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly
 			. $hint . $autocomplete . $autofocus . $spellcheck . $onchange . $maxLength . $required . ' />';
 	}
-
-	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
-	 *
-	 * @param   stdClass    $field      The field.
-	 * @param   DOMElement  $fieldNode  The field node.
-	 * @param   JForm       $form       The form.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
-	{
-		$fieldNode->setAttribute('validate', 'tel');
-
-		return parent::postProcessDomNode($field, $fieldNode, $form);
-	}
 }
