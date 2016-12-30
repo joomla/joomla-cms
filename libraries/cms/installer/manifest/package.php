@@ -22,7 +22,7 @@ class JInstallerManifestPackage extends JInstallerManifest
 	 * @var    string
 	 * @since  3.1
 	 *
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use $packageName instead
 	 */
 	public $packagename = '';
 
@@ -48,7 +48,7 @@ class JInstallerManifestPackage extends JInstallerManifest
 	 * @var    string
 	 * @since  3.1
 	 *
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use $scriptFile instead
 	 */
 	public $scriptfile = '';
 

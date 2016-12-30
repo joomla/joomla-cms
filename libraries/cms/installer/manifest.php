@@ -24,7 +24,7 @@ abstract class JInstallerManifest
 	 * @var    string
 	 * @since  3.1
 	 *
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use $manifestFile instead
 	 */
 	public $manifest_file = '';
 
@@ -74,7 +74,7 @@ abstract class JInstallerManifest
 	 * @var    string
 	 * @since  3.1
 	 *
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use $authorEmail instead
 	 */
 	public $authoremail = '';
 
@@ -92,7 +92,7 @@ abstract class JInstallerManifest
 	 * @var    string
 	 * @since  3.1
 	 *
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use $authorURL instead
 	 */
 	public $authorurl = '';
 
@@ -118,7 +118,7 @@ abstract class JInstallerManifest
 	 * @var    string
 	 * @since  3.1
 	 *
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use $packagerURL instead
 	 */
 	public $packagerurl = '';
 
@@ -144,7 +144,7 @@ abstract class JInstallerManifest
 	 * @var    array
 	 * @since  3.1
 	 *
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use $fileList instead
 	 */
 	public $filelist = array();
 

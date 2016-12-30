@@ -22,7 +22,7 @@ class JInstallerManifestLibrary extends JInstallerManifest
 	 * @var    string
 	 * @since  3.1
 	 *
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use $libraryName instead
 	 */
 	public $libraryname = '';
 
@@ -48,7 +48,7 @@ class JInstallerManifestLibrary extends JInstallerManifest
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 *
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use $creationDate instead
 	 */
 	public $creationdate = '';
 
