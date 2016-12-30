@@ -4,12 +4,11 @@
 		<fieldset name="fieldparams">
 			<field
 				name="multiple"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_LABEL"
-				description="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_DESC"
+				type="list"
+				label="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_LABEL"
+				description="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_DESC"
 			>
+				<option value="">PLG_FIELDS_USERGROUPLIST_PARAMS_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
