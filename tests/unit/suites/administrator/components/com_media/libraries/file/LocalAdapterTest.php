@@ -78,14 +78,14 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('stdClass', $files[0]);
 		$this->assertEquals('dir', $files[0]->type);
 		$this->assertEquals('unit', $files[0]->name);
-		$this->assertEquals('/', $files[0]->path);
+		$this->assertEquals('/unit', $files[0]->path);
 
 		// Check the file
 		$this->assertInstanceOf('stdClass', $files[1]);
 		$this->assertEquals('file', $files[1]->type);
 		$this->assertEquals('test.txt', $files[1]->name);
 		$this->assertEquals('txt', $files[1]->extension);
-		$this->assertEquals('/', $files[1]->path);
+		$this->assertEquals('/test.txt', $files[1]->path);
 		$this->assertGreaterThan(1, $files[1]->size);
 	}
 
@@ -114,7 +114,7 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('file', $files[0]->type);
 		$this->assertEquals('test.txt', $files[0]->name);
 		$this->assertEquals('txt', $files[0]->extension);
-		$this->assertEquals('/', $files[0]->path);
+		$this->assertEquals('/test.txt', $files[0]->path);
 		$this->assertGreaterThan(0, $files[0]->size);
 	}
 
@@ -143,7 +143,7 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('file', $files[0]->type);
 		$this->assertEquals('test.txt', $files[0]->name);
 		$this->assertEquals('txt', $files[0]->extension);
-		$this->assertEquals('/', $files[0]->path);
+		$this->assertEquals('/test.txt', $files[0]->path);
 		$this->assertGreaterThan(0, $files[0]->size);
 	}
 

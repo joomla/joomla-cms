@@ -64,24 +64,25 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	public function getFiles($path = '/')
 	{
 		// Set up the path correctly
-		$path = JPath::clean('/' . $path);
+		$path     = JPath::clean('/' . $path);
+		$basePath = JPath::clean($this->rootPath . $path);
 
 		// Check if file exists
-		if (!file_exists($this->rootPath . $path))
+		if (!file_exists($basePath))
 		{
 			return array();
 		}
 
 		// Check if the path points to a file
-		if (is_file($this->rootPath . $path))
+		if (is_file($basePath))
 		{
 			// Create the file object
 			$obj            = new stdClass;
 			$obj->type      = 'file';
 			$obj->name      = basename($path);
-			$obj->path      = pathinfo($path, PATHINFO_DIRNAME);
+			$obj->path      = str_replace($this->rootPath, '/', $basePath);
 			$obj->extension = JFile::getExt($obj->name);
-			$obj->size      = filesize($this->rootPath . $path);
+			$obj->size      = filesize($basePath);
 
 			return array($obj);
 		}
@@ -90,27 +91,27 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$data = array();
 
 		// Read the folders
-		foreach (JFolder::folders($this->rootPath . $path) as $folder)
+		foreach (JFolder::folders($basePath) as $folder)
 		{
 			$obj       = new stdClass;
 			$obj->type = 'dir';
 			$obj->name = $folder;
-			$obj->path = $path;
+			$obj->path = str_replace($this->rootPath, '/', JPath::clean($basePath . '/' . $folder));
 
-			$data[]    = $obj;
+			$data[] = $obj;
 		}
 
 		// Read the files
-		foreach (JFolder::files($this->rootPath . $path) as $file)
+		foreach (JFolder::files($basePath) as $file)
 		{
 			$obj            = new stdClass;
 			$obj->type      = 'file';
 			$obj->name      = $file;
-			$obj->path      = $path;
+			$obj->path      = str_replace($this->rootPath, '/', JPath::clean($basePath . '/' . $file));
 			$obj->extension = JFile::getExt($file);
 			$obj->size      = filesize($this->rootPath . $path);
 
-			$data[]    = $obj;
+			$data[] = $obj;
 		}
 
 		// Return the data
