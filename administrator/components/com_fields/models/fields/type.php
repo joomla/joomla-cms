@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
+
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
 /**
@@ -55,7 +56,7 @@ class JFormFieldType extends JFormAbstractlist
 	{
 		$options = parent::getOptions();
 
-		FieldsHelperInternal::loadPlugins();
+		FieldsHelper::loadPlugins();
 		JFormHelper::addFieldPath(JPATH_LIBRARIES . '/cms/form/field');
 		$paths = JFormHelper::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_fields/models/fields');
 
