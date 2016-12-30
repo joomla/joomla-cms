@@ -1942,6 +1942,24 @@ class JInstaller extends JAdapter
 
 				if (!is_null($manifest))
 				{
+					// Backward compatibility for old style xml element naming
+					if (!isset($manifest->packagename) && isset($manifest->packageName))
+					{
+						$manifest->packagename = $manifest->packageName;
+					}
+					if (!isset($manifest->libraryname) && isset($manifest->libraryName))
+					{
+						$manifest->libraryname = $manifest->libraryName;
+					}
+					if (!isset($manifest->authorUrl) && isset($manifest->authorURL))
+					{
+						$manifest->authorUrl = $manifest->authorURL;
+					}
+					if (!isset($manifest->packagerurl) && isset($manifest->packagerURL))
+					{
+						$manifest->packagerurl = $manifest->packagerURL;
+					}
+
 					// If the root method attribute is set to upgrade, allow file overwrite
 					if ((string) $manifest->attributes()->method == 'upgrade')
 					{
