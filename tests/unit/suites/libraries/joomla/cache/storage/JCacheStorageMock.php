@@ -44,13 +44,11 @@ class JCacheStorageMock extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		//todo:  OK to remove this unused assignment? Or is some implementation missing?
-
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if (isset($this->_storage[$id]))
+		if (isset($this->_storage[$cache_id]))
 		{
-			return $this->_storage[$id];
+			return $this->_storage[$cache_id];
 		}
 
 		return false;
@@ -71,7 +69,7 @@ class JCacheStorageMock extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		return ($this->_storage[$id] = $data);
+		return ($this->_storage[$cache_id] = $data);
 	}
 
 	/**
@@ -87,7 +85,7 @@ class JCacheStorageMock extends JCacheStorage
 	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		unset($this->_storage[$id]);
+		unset($this->_storage[$cache_id]);
 	}
 
 	/**
