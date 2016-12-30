@@ -191,19 +191,7 @@ class JLanguage
 		$this->metadata = $this->getMetadata($this->lang);
 		$this->setDebug($debug);
 
-		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
-
-		if (file_exists($filename) && $contents = $this->parse($filename))
-		{
-			if (is_array($contents))
-			{
-				// Sort the underlying heap by key values to optimize merging
-				ksort($contents, SORT_STRING);
-				$this->override = $contents;
-			}
-
-			unset($contents);
-		}
+		$this->override = JLanguageHelper::parseIniFile(JPATH_BASE . '/language/overrides/' . $lang . '.override.ini', $this->debug);
 
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
@@ -785,21 +773,13 @@ class JLanguage
 	{
 		$this->counter++;
 
-		$result = false;
-		$strings = false;
+		$result  = false;
+		$strings = JLanguageHelper::parseIniFile($filename, $this->debug);
 
-		if (file_exists($filename))
+		if ($strings !== array())
 		{
-			$strings = $this->parse($filename);
-		}
-
-		if ($strings)
-		{
-			if (is_array($strings) && count($strings))
-			{
-				$this->strings = array_replace($this->strings, $strings, $this->override);
-				$result = true;
-			}
+			$this->strings = array_replace($this->strings, $strings, $this->override);
+			$result = true;
 		}
 
 		// Record the result of loading the extension's file.
@@ -821,30 +801,11 @@ class JLanguage
 	 * @return  array  The array of parsed strings.
 	 *
 	 * @since   11.1
+	 * @deprecated  __DEPLOY_VERSION__ Use JLanguageHelper::parseIniFile() instead.
 	 */
 	protected function parse($filename)
 	{
-		// Capture hidden PHP errors from the parsing.
-		if ($this->debug)
-		{
-			// See https://secure.php.net/manual/en/reserved.variables.phperrormsg.php
-			$php_errormsg = null;
-
-			$trackErrors = ini_get('track_errors');
-			ini_set('track_errors', true);
-		}
-
-		$strings = JLanguageHelper::parseIniFile($filename);
-
-		// Restore error tracking to what it was before.
-		if ($this->debug)
-		{
-			ini_set('track_errors', $trackErrors);
-
-			$this->debugFile($filename);
-		}
-
-		return $strings;
+		return JLanguageHelper::parseIniFile($filename, $this->debug);
 	}
 
 	/**
@@ -856,6 +817,7 @@ class JLanguage
 	 *
 	 * @since   3.6.3
 	 * @throws  InvalidArgumentException
+	 * @todo: the debug language should use the main debug like any other object
 	 */
 	public function debugFile($filename)
 	{
