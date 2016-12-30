@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="fieldparams" label="JLIB_FORM_FIELD_PARAM_BASIC_LABEL">
+	<fields name="fieldparams">
 		<fieldset name="fieldparams">
 			<field
 				name="schemes"

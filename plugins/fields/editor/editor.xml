@@ -11,10 +11,54 @@
 	<description>PLG_FIELDS_EDITOR_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="editor">editor.php</filename>
+		<folder>params</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_fields_editor.ini</language>
 		<language tag="en-GB">en-GB.plg_fields_editor.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="buttons"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
+					description="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+	
+				<field
+					name="hide"
+					type="text"
+					default="pagebreak,readmore"
+					label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
+					description="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_DESC"
+				/>
+	
+				<field
+					name="width"
+					type="text"
+					default="100%"
+					label="PLG_FIELDS_EDITOR_PARAMS_WIDTH_LABEL"
+					description="PLG_FIELDS_EDITOR_PARAMS_WIDTH_DESC"
+					size="5"
+				/>
+	
+				<field
+					name="height"
+					type="text"
+					default="250px"
+					label="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_LABEL"
+					description="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_DESC"
+					size="5"
+				/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>
