@@ -71,7 +71,7 @@ class JInstallerManifestPackage extends JInstallerManifest
 	/**
 	 * JInstallerManifestPackage constructor.
 	 *
-	 * @param   string $xmlPath Path to XML manifest file.
+	 * @param   string  $xmlPath  Path to XML manifest file.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */

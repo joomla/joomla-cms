@@ -71,7 +71,7 @@ class JInstallerManifestLibrary extends JInstallerManifest
 	/**
 	 * JInstallerManifestLibrary constructor.
 	 *
-	 * @param   string $xmlPath Path to XML manifest file.
+	 * @param   string  $xmlPath  Path to XML manifest file.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -79,7 +79,7 @@ class JInstallerManifestLibrary extends JInstallerManifest
 	{
 		// Old and new variables are referenced for B/C
 		$this->creationDate = &$this->creationdate;
-		$this->libraryName = &$this->libraryname;
+		$this->libraryName  = &$this->libraryname;
 
 		parent::__construct($xmlPath);
 	}

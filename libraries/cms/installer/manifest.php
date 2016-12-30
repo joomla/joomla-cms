@@ -159,15 +159,15 @@ abstract class JInstallerManifest
 	/**
 	 * Constructor
 	 *
-	 * @param   string $xmlPath Path to XML manifest file.
+	 * @param   string  $xmlPath  Path to XML manifest file.
 	 *
 	 * @since   3.1
 	 */
 	public function __construct($xmlPath = '')
 	{
 		// Old and new variables are referenced for B/C
-		$this->authorEmail = &$this->authoremail;
-		$this->authorURL = &$this->authorurl;
+		$this->authorEmail  = &$this->authoremail;
+		$this->authorURL    = &$this->authorurl;
 		$this->manifestFile = &$this->manifest_file;
 		$this->packagerURL  = &$this->packagerurl;
 		$this->fileList     = &$this->filelist;
@@ -181,7 +181,7 @@ abstract class JInstallerManifest
 	/**
 	 * Load a manifest from a file
 	 *
-	 * @param   string $xmlFile Path to file to load
+	 * @param   string  $xmlFile  Path to file to load
 	 *
 	 * @return  boolean
 	 *
@@ -210,7 +210,7 @@ abstract class JInstallerManifest
 	/**
 	 * Apply manifest data from a SimpleXMLElement to the object.
 	 *
-	 * @param   SimpleXMLElement  $xml  Data to load
+	 * @param   SimpleXMLElement $xml Data to load
 	 *
 	 * @return  void
 	 *
