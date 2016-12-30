@@ -1200,15 +1200,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			JLanguage::parseXMLLanguageFile($path),
 			'Line: ' . __LINE__
 		);
-
-		//todo:  OK to remove this unused assignment and following assertion? Or is some implementation missing?
-
-		$path2 = __DIR__ . '/data/language/es-ES/es-ES.xml';
-		$this->assertEquals(
-			$option,
-			JLanguage::parseXMLLanguageFile($path),
-			'Line: ' . __LINE__
-		);
 	}
 
 	/**
