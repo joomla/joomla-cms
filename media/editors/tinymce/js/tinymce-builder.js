@@ -283,5 +283,34 @@
             event.preventDefault();
             $(this).tab("show");
         });
+
+        // Allow to select the group only once per the set
+        var $accessSelects = $('#joomla-tinymce-builder').find('.access-select');
+        toggleAvailableOption();
+        $accessSelects.on('change', function () {
+            toggleAvailableOption();
+        });
+
+        function toggleAvailableOption () {
+            $accessSelects.find('option[disabled]').removeAttr('disabled');
+
+            // Disable already selected options
+            $accessSelects.each(function () {
+                var $select = $(this), val = $select.val(), query = [],
+                    $options = $accessSelects.not(this).find('option');
+
+                for (var i = 0, l = val.length; i < l; i++ ) {
+                    if (!val[i]) continue;
+                    query.push('[value="' + val[i] + '"]');
+                }
+
+                if (query.length) {
+                    $options.filter(query.join(',')).attr('disabled', 'disabled');
+                }
+            });
+
+            // Update Chosen
+            $accessSelects.trigger('liszt:updated');
+        }
     });
 }(jQuery));
