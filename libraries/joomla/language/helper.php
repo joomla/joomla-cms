@@ -380,4 +380,30 @@ class JLanguageHelper
 
 		return $languages;
 	}
+
+	/**
+	 * Save strings to a language file.
+	 *
+	 * @param   string  $filename  The language ini file path.
+	 * @param   array   $strings   The array of strings.
+	 *
+	 * @return  boolean  True if saved, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function saveToIniFile($filename, array $strings)
+	{
+		JLoader::register('JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
+
+		// Escape double quotes.
+		foreach ($strings as $key => $string)
+		{
+			$strings[$key] = addcslashes($string, '"');
+		}
+
+		// Write override.ini file with the strings.
+		$registry = new Registry($strings);
+
+		return JFile::write($filename, $registry->toString('INI'));
+	}
 }
