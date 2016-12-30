@@ -12,32 +12,34 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Tree Class.
  *
- * @since       11.1
- * @deprecated  12.3 (Platform) & 4.0 (CMS)
- * @codeCoverageIgnore
+ * @since       1.5
+ * @deprecated  3.0
  */
 class JTree extends JObject
 {
 	/**
 	 * Root node
 	 *
-	 * @var    object
-	 * @since  11.1
+	 * @var    JNode
+	 * @since  1.5
+	 * @deprecated  3.0
 	 */
 	protected $_root = null;
 
 	/**
 	 * Current working node
 	 *
-	 * @var    object
-	 * @since  11.1
+	 * @var    JNode
+	 * @since  1.5
+	 * @deprecated  3.0
 	 */
 	protected $_current = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  3.0
 	 */
 	public function __construct()
 	{
@@ -53,9 +55,10 @@ class JTree extends JObject
 	 * @param   array    &$node       The node to process
 	 * @param   boolean  $setCurrent  True to set as current working node
 	 *
-	 * @return  mixed
+	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  3.0
 	 */
 	public function addChild(&$node, $setCurrent = false)
 	{
@@ -74,7 +77,8 @@ class JTree extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  3.0
 	 */
 	public function getParent()
 	{
@@ -88,7 +92,8 @@ class JTree extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  3.0
 	 */
 	public function reset()
 	{

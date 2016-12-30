@@ -45,4 +45,37 @@ class JUtility
 
 		return $retarray;
 	}
+
+	/**
+	 * Method to get the maximum allowed file size for the HTTP uploads based on the active PHP configuration
+	 *
+	 * @param   mixed  $custom  A custom upper limit, if the PHP settings are all above this then this will be used
+	 *
+	 * @return  int  Size in number of bytes
+	 *
+	 * @since   3.7.0
+	 */
+	public static function getMaxUploadSize($custom = null)
+	{
+		if ($custom)
+		{
+			$custom = JHtml::_('number.bytes', $custom, '');
+
+			if ($custom > 0)
+			{
+				$sizes[] = $custom;
+			}
+		}
+
+		/*
+		 * Read INI settings which affects upload size limits
+		 * and Convert each into number of bytes so that we can compare
+		 */
+		$sizes[] = JHtml::_('number.bytes', ini_get('memory_limit'), '');
+		$sizes[] = JHtml::_('number.bytes', ini_get('post_max_size'), '');
+		$sizes[] = JHtml::_('number.bytes', ini_get('upload_max_filesize'), '');
+
+		// The minimum of these is the limiting factor
+		return min($sizes);
+	}
 }

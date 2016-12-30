@@ -15,7 +15,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
-$hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' || $this->item['module'] == 'mod_custom';
+$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
 
 // If multi-language site, make language read-only
 if (JLanguageMultilang::isEnabled())
@@ -99,7 +99,7 @@ if (JLanguageMultilang::isEnabled())
 						<hr />
 
 						<?php
-						if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])): ?>
+						if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('published'); ?>
@@ -167,7 +167,7 @@ if (JLanguageMultilang::isEnabled())
 							<?php echo $this->loadTemplate('options'); ?>
 						</div>
 
-						<?php if ($hasContent): ?>
+						<?php if ($hasContent) : ?>
 							<div class="tab-pane" id="custom">
 								<?php echo $this->form->getInput('content'); ?>
 							</div>
@@ -175,8 +175,8 @@ if (JLanguageMultilang::isEnabled())
 					</fieldset>
 				</div>
 
-				<input type="hidden" name="id" value="<?php echo $this->item['id'];?>" />
-				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64');?>" />
+				<input type="hidden" name="id" value="<?php echo $this->item['id']; ?>" />
+				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64'); ?>" />
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
 

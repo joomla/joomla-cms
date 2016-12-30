@@ -18,7 +18,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="js-submit-button form-validate form-horizontal">
 	<fieldset>
-		<legend><?php echo JText::_('COM_USERS_USERGROUP_DETAILS');?></legend>
+		<legend><?php echo JText::_('COM_USERS_USERGROUP_DETAILS'); ?></legend>
 		<div class="control-group">
 			<div class="control-label">
 				<?php echo $this->form->getLabel('title'); ?>
@@ -28,12 +28,12 @@ JHtml::_('formbehavior.chosen', 'select');
 			</div>
 		</div>
 		<div class="control-group">
-			<?php $parent_id = $this->form->getField('parent_id');?>
+			<?php $parent_id = $this->form->getField('parent_id'); ?>
 			<?php if (!$parent_id->hidden) : ?>
 				<div class="control-label">
 					<?php echo $parent_id->label; ?>
 				</div>
-			<?php endif;?>
+			<?php endif; ?>
 			<div class="controls">
 				<?php echo $parent_id->input; ?>
 			</div>

@@ -23,13 +23,13 @@ JHtml::_('formbehavior.chosen', 'select');
 <?php
 
 	// Search for com_config field set
-	if (!empty($fieldSets['com_config'])):?>
+	if (!empty($fieldSets['com_config'])) : ?>
 
 	<fieldset class="form-horizontal">
 		<?php echo $this->form->renderFieldset('com_config'); ?>
 	</fieldset>
 
-<?php else:
+<?php else :
 
 	// Fall-back to display all in params
 	foreach ($fieldSets as $name => $fieldSet) :

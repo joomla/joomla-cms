@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('textarea');
  * @see    JEditor
  * @since  1.6
  */
-class JFormFieldEditor extends JFormFieldTextarea
+class JFormFieldEditor extends JFormFieldTextarea implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -317,5 +317,25 @@ class JFormFieldEditor extends JFormFieldTextarea
 	public function save()
 	{
 		return $this->getEditor()->save($this->id);
+	}
+
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', 0) ? 'true' : 'false');
+		$fieldNode->setAttribute('filter', 'JComponentHelper::filterText');
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

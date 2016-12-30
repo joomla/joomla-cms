@@ -54,7 +54,7 @@ class AdminViewHelp extends JViewLegacy
 	 * @var    string
 	 * @since  1.6
 	 */
-	protected $latest_version_check = 'https://www.joomla.org/download.html';
+	protected $latest_version_check = 'https://downloads.joomla.org/latest';
 
 	/**
 	 * URL for the start here link

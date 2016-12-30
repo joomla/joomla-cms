@@ -369,7 +369,7 @@ class ContenthistoryModelHistory extends JModelList
 		$typeId = JFactory::getApplication()->input->getInteger('type_id', 0);
 		$typeTable->load($typeId);
 		$typeAliasArray = explode('.', $typeTable->type_alias);
-		JTable::addIncludePath(JPATH_ROOT . '/administrator/components/' . $typeAliasArray[0] . '/tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAliasArray[0] . '/tables');
 		$contentTable = $typeTable->getContentTable();
 		$keyValue = JFactory::getApplication()->input->getInteger('item_id', 0);
 

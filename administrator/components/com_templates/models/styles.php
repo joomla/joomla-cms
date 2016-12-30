@@ -111,7 +111,7 @@ class TemplatesModelStyles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.template, a.title, a.home, a.client_id, l.title AS language_title, l.image as image'
+				'a.id, a.template, a.title, a.home, a.client_id, l.title AS language_title, l.image as image, l.sef AS language_sef'
 			)
 		);
 		$query->from($db->quoteName('#__template_styles', 'a'))

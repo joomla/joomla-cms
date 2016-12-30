@@ -11,14 +11,12 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  1.6
  */
-class JFormFieldMenutype extends JFormFieldList
+class JFormFieldMenutype extends JFormAbstractlist
 {
 	/**
 	 * The form field type.
@@ -99,7 +97,7 @@ class JFormFieldMenutype extends JFormFieldList
 				'modalWidth' => '80',
 				'bodyHeight' => '70',
 				'footer'     => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+						. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 			)
 		);
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'

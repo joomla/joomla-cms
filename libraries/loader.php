@@ -584,7 +584,7 @@ abstract class JLoader
 	 *
 	 * @since   11.3
 	 */
-	private static function _autoload($class)
+	public static function _autoload($class)
 	{
 		foreach (self::$prefixes as $prefix => $lookup)
 		{

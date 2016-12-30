@@ -390,7 +390,7 @@ class JUser extends JObject
 			}
 		}
 
-		return $this->isRoot ? true : JAccess::check($this->id, $action, $assetname);
+		return $this->isRoot ? true : (bool) JAccess::check($this->id, $action, $assetname);
 	}
 
 	/**
@@ -798,8 +798,7 @@ class JUser extends JObject
 
 			if ($my->id == $table->id)
 			{
-				$registry = new Registry;
-				$registry->loadString($table->params);
+				$registry = new Registry($table->params);
 				$my->setParameters($registry);
 			}
 

@@ -8,13 +8,13 @@
  */
 
 defined('_JEXEC') or die;
-JHtml::script('com_wrapper/iframe-height.min.js', false, true);
+JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="contentpane<?php echo $this->pageclass_sfx; ?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>
-			<?php if ($this->escape($this->params->get('page_heading'))) :?>
+			<?php if ($this->escape($this->params->get('page_heading'))) : ?>
 				<?php echo $this->escape($this->params->get('page_heading')); ?>
 			<?php else : ?>
 				<?php echo $this->escape($this->params->get('page_title')); ?>

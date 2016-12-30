@@ -62,7 +62,7 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 		if (is_dir($this->outputPath))
 		{
 			// delete files in output directory
-			foreach(glob("{$this->outputPath}/*") as $file)
+			foreach (glob("{$this->outputPath}/*") as $file)
 			{
 				unlink($file);
 			}

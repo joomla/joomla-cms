@@ -11,12 +11,12 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
-if ($app->isSite())
+if ($app->isClient('site'))
 {
-	JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
 
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo JRoute::_('index.php?option=com_menus&view=items&layout=modal&tmpl=component'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+	<form action="<?php echo JRoute::_('index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
@@ -120,9 +120,9 @@ jQuery(document).ready(function($) {
 									<?php echo $this->escape($item->title); ?></a>
 								<span class="small">
 									<?php if (empty($item->note)) : ?>
-										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									<?php else : ?>
-										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note));?>
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 									<?php endif; ?>
 								</span>
 								<div title="<?php echo $this->escape($item->path); ?>">
@@ -139,7 +139,11 @@ jQuery(document).ready(function($) {
 									<?php if ($item->language == '*' || $item->home == '0') : ?>
 										<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && 0); ?>
 									<?php else : ?>
-										<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+										<?php if ($item->language_image) : ?>
+											<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+										<?php else : ?>
+											<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+										<?php endif; ?>
 									<?php endif; ?>
 								<?php endif; ?>
 							</td>
@@ -147,12 +151,12 @@ jQuery(document).ready(function($) {
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
 							<td class="small hidden-phone">
-								<?php if ($item->language == ''):?>
+								<?php if ($item->language == '') : ?>
 									<?php echo JText::_('JDEFAULT'); ?>
 								<?php elseif ($item->language == '*') : ?>
 									<?php echo JText::alt('JALL', 'language'); ?>
 								<?php else : ?>
-									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 								<?php endif; ?>
 							</td>
 							<td class="hidden-phone">

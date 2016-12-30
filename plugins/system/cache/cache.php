@@ -55,7 +55,7 @@ class PlgSystemCache extends JPlugin
 		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator'))
 		{
 			return;
 		}
@@ -65,7 +65,7 @@ class PlgSystemCache extends JPlugin
 			return;
 		}
 
-		if ($user->get('guest') && $app->input->getMethod() == 'GET')
+		if ($user->get('guest') && $app->input->getMethod() === 'GET')
 		{
 			$this->_cache->setCaching(true);
 		}
@@ -99,7 +99,7 @@ class PlgSystemCache extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator'))
 		{
 			return;
 		}

@@ -50,7 +50,7 @@ class JHtmlBehaviorTest extends TestCase
 		// We generate a random template name so that we don't collide or hit anything
 		JFactory::$application->expects($this->any())
 			->method('getTemplate')
-			->willReturn('mytemplate' . rand(1, 10000));
+			->willReturn('mytemplate' . mt_rand(1, 10000));
 
 		$this->backupServer = $_SERVER;
 
@@ -438,24 +438,6 @@ class JHtmlBehaviorTest extends TestCase
 			$expected,
 			JHtmlBehaviorInspector::getLoaded(),
 			'The tree behavior is not loaded with all dependencies'
-		);
-	}
-
-	/**
-	 * Tests the calendar method.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testCalendar()
-	{
-		JHtmlBehavior::calendar();
-
-		$this->assertEquals(
-			array('JHtmlBehavior::calendar' => true),
-			JHtmlBehaviorInspector::getLoaded(),
-			'The calendar behavior is not loaded with all dependencies'
 		);
 	}
 

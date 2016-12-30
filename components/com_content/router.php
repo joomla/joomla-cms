@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ class ContentRouter extends JComponentRouterView
 
 	/**
 	 * Content Component router constructor
-	 * 
+	 *
 	 * @param   JApplicationCms  $app   The application object
 	 * @param   JMenu            $menu  The menu object to work with
 	 */
@@ -54,14 +54,14 @@ class ContentRouter extends JComponentRouterView
 		}
 		else
 		{
-			require_once JPATH_SITE . '/components/com_content/helpers/legacyrouter.php';
+			JLoader::register('ContentRouterRulesLegacy', __DIR__ . '/helpers/legacyrouter.php');
 			$this->attachRule(new ContentRouterRulesLegacy($this));
 		}
 	}
 
 	/**
 	 * Method to get the segment(s) for a category
-	 * 
+	 *
 	 * @param   string  $id     ID of the category to retrieve the segments for
 	 * @param   array   $query  The request that is build right now
 	 *
@@ -94,7 +94,7 @@ class ContentRouter extends JComponentRouterView
 
 	/**
 	 * Method to get the segment(s) for a category
-	 * 
+	 *
 	 * @param   string  $id     ID of the category to retrieve the segments for
 	 * @param   array   $query  The request that is build right now
 	 *
@@ -107,7 +107,7 @@ class ContentRouter extends JComponentRouterView
 
 	/**
 	 * Method to get the segment(s) for an article
-	 * 
+	 *
 	 * @param   string  $id     ID of the article to retrieve the segments for
 	 * @param   array   $query  The request that is build right now
 	 *
@@ -141,7 +141,7 @@ class ContentRouter extends JComponentRouterView
 
 	/**
 	 * Method to get the id for a category
-	 * 
+	 *
 	 * @param   string  $segment  Segment to retrieve the ID for
 	 * @param   array   $query    The request that is parsed right now
 	 *
@@ -177,10 +177,10 @@ class ContentRouter extends JComponentRouterView
 
 	/**
 	 * Method to get the segment(s) for a category
-	 * 
+	 *
 	 * @param   string  $segment  Segment to retrieve the ID for
 	 * @param   array   $query    The request that is parsed right now
-	 * 
+	 *
 	 * @return  mixed   The id of this item or false
 	 */
 	public function getCategoriesId($segment, $query)
@@ -190,10 +190,10 @@ class ContentRouter extends JComponentRouterView
 
 	/**
 	 * Method to get the segment(s) for an article
-	 * 
+	 *
 	 * @param   string  $segment  Segment of the article to retrieve the ID for
 	 * @param   array   $query    The request that is parsed right now
-	 * 
+	 *
 	 * @return  mixed   The id of this item or false
 	 */
 	public function getArticleId($segment, $query)

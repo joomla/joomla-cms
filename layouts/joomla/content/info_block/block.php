@@ -14,8 +14,8 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 ?>
 	<dl class="article-info muted">
 
-		<?php if ($displayData['position'] == 'above' && ($blockPosition == 0 || $blockPosition == 2)
-				|| $displayData['position'] == 'below' && ($blockPosition == 1)
+		<?php if ($displayData['position'] === 'above' && ($blockPosition == 0 || $blockPosition == 2)
+				|| $displayData['position'] === 'below' && ($blockPosition == 1)
 				) : ?>
 
 			<dt class="article-info-term">
@@ -46,8 +46,8 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 
 		<?php endif; ?>
 
-		<?php if ($displayData['position'] == 'above' && ($blockPosition == 0)
-				|| $displayData['position'] == 'below' && ($blockPosition == 1 || $blockPosition == 2)
+		<?php if ($displayData['position'] === 'above' && ($blockPosition == 0)
+				|| $displayData['position'] === 'below' && ($blockPosition == 1 || $blockPosition == 2)
 				) : ?>
 			<?php if ($displayData['params']->get('show_create_date')) : ?>
 				<?php echo JLayoutHelper::render('joomla.content.info_block.create_date', $displayData); ?>

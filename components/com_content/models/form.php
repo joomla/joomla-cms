@@ -87,8 +87,7 @@ class ContentModelForm extends ContentModelArticle
 		$value = ArrayHelper::toObject($properties, 'JObject');
 
 		// Convert attrib field to Registry.
-		$value->params = new Registry;
-		$value->params->loadString($value->attribs);
+		$value->params = new Registry($value->attribs);
 
 		// Compute selected asset permissions.
 		$user   = JFactory::getUser();
@@ -141,8 +140,7 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		// Convert the metadata field to an array.
-		$registry = new Registry;
-		$registry->loadString($value->metadata);
+		$registry = new Registry($value->metadata);
 		$value->metadata = $registry->toArray();
 
 		if ($itemId)
@@ -179,17 +177,15 @@ class ContentModelForm extends ContentModelArticle
 	public function save($data)
 	{
 		// Associations are not edited in frontend ATM so we have to inherit them
-		if (JLanguageAssociations::isEnabled() && !empty($data['id']))
+		if (JLanguageAssociations::isEnabled() && !empty($data['id'])
+			&& $associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $data['id']))
 		{
-			if ($associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $data['id']))
+			foreach ($associations as $tag => $associated)
 			{
-				foreach ($associations as $tag => $associated)
-				{
-					$associations[$tag] = (int) $associated->id;
-				}
-
-				$data['associations'] = $associations;
+				$associations[$tag] = (int) $associated->id;
 			}
+
+			$data['associations'] = $associations;
 		}
 
 		return parent::save($data);

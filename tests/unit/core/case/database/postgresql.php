@@ -133,12 +133,12 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 
 		if (!empty(self::$_options['host']))
 		{
-		        $dsn .= 'host=' . self::$_options['host'] . ' ';
+			$dsn .= 'host=' . self::$_options['host'] . ';';
 		}
 
 		if (!empty(self::$_options['port']))
 		{
-		        $dsn .= 'port=' . self::$_options['port'] . ' ';
+			$dsn .= 'port=' . self::$_options['port'] . ';';
 		}
 
 		$dsn .= 'dbname=' . self::$_options['database'];

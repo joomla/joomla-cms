@@ -47,6 +47,7 @@ abstract class JHtmlContentAdministrator
 			$query = $db->getQuery(true)
 				->select('c.*')
 				->select('l.sef as lang_sef')
+				->select('l.lang_code')
 				->from('#__content as c')
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
@@ -69,32 +70,19 @@ abstract class JHtmlContentAdministrator
 			{
 				foreach ($items as &$item)
 				{
-					$text = strtoupper($item->lang_sef);
-					$url = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
-					$tooltipParts = array(
-						JHtml::_(
-							'image',
-							'mod_languages/' . $item->image . '.gif',
-							$item->language_title,
-							array('title' => $item->language_title),
-							true
-						),
-						$item->title,
-						'(' . $item->category_title . ')'
-					);
+					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
+					$url     = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
 
-					$item->link = JHtml::_(
-						'tooltip',
-						implode(' ', $tooltipParts),
-						null,
-						null,
-						$text,
-						$url,
-						null,
-						'hasTooltip label label-association label-' . $item->lang_sef
-					);
+					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br />' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$classes = 'hasPopover label label-association label-' . $item->lang_sef;
+
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
+						. '" data-content="' . $tooltip . '" data-placement="top">'
+						. $text . '</a>';
 				}
 			}
+
+			JHtml::_('bootstrap.popover');
 
 			$html = JLayoutHelper::render('joomla.content.associations', $items);
 		}

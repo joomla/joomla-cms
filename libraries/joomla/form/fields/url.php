@@ -19,7 +19,7 @@ JFormHelper::loadFieldClass('text');
  * @see    JFormRuleUrl for validation of full urls
  * @since  11.1
  */
-class JFormFieldUrl extends JFormFieldText
+class JFormFieldUrl extends JFormFieldText implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -74,5 +74,29 @@ class JFormFieldUrl extends JFormFieldText
 		);
 
 		return array_merge($data, $extraData);
+	}
+
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('validate', 'url');
+
+		if (! $fieldNode->getAttribute('relative'))
+		{
+			$fieldNode->removeAttribute('relative');
+		}
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

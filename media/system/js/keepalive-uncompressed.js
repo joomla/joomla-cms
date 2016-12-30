@@ -9,7 +9,7 @@
  * Used for keeping the session alive
  *
  * @package  Joomla
- * @since    __DEPLOY_VERSION__
+ * @since    3.7.0
  */
 !(function(){
 	'use strict';
@@ -29,7 +29,7 @@
 				},
 				onError: function(xhr)
 				{
-					Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+					// Do nothing
 				}
 			});
 		}, keepaliveInterval);

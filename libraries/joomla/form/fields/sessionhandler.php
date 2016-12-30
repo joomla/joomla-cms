@@ -9,15 +9,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides a select list of session handler options.
  *
  * @since  11.1
  */
-class JFormFieldSessionHandler extends JFormFieldList
+class JFormFieldSessionHandler extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

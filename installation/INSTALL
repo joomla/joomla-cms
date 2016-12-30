@@ -16,7 +16,7 @@ First you must have the base environment for Joomla.
 We have thoroughly tested Joomla! on: Linux, Free BSD, Mac OS X and Windows.
 Linux or one of the BSD's are recommended, but anything else that can run 
 a supported PHP version, a supported database and a supported web server listed
-in the Technical Requirements at https://www.joomla.org/about-joomla/technical-requirements.html
+in the Technical Requirements at https://downloads.joomla.org/technical-requirements
 should do it.
 
 
@@ -44,7 +44,7 @@ INSTALLATION
 1. DOWNLOAD Joomla
 
 	You can obtain the latest Joomla! release from:
-		https://www.joomla.org/download.html
+		https://downloads.joomla.org/latest
 
 	Copy the tar.gz file into a working directory eg
 

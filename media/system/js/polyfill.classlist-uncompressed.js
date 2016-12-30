@@ -1,5 +1,5 @@
 /**
- * Polyfill service v3.9.2
+ * Polyfill service v3.13.0
  * For detailed credits and licence information see http://github.com/financial-times/polyfill-service.
  * 
  * Features requested: Element.prototype.classList
@@ -43,11 +43,6 @@ if (!(// In IE8, defineProperty could only act on DOM elements, so full support
 			return nativeDefineProperty(object, property, descriptor);
 		}
 
-		var propertyString = String(property);
-		var hasValueOrWritable = 'value' in descriptor || 'writable' in descriptor;
-		var getterType = 'get' in descriptor && typeof descriptor.get;
-		var setterType = 'set' in descriptor && typeof descriptor.set;
-
 		if (object === null || !(object instanceof Object || typeof object === 'object')) {
 			throw new TypeError('Object must be an object (Object.defineProperty polyfill)');
 		}
@@ -55,6 +50,11 @@ if (!(// In IE8, defineProperty could only act on DOM elements, so full support
 		if (!(descriptor instanceof Object)) {
 			throw new TypeError('Descriptor must be an object (Object.defineProperty polyfill)');
 		}
+
+		var propertyString = String(property);
+		var hasValueOrWritable = 'value' in descriptor || 'writable' in descriptor;
+		var getterType = 'get' in descriptor && typeof descriptor.get;
+		var setterType = 'set' in descriptor && typeof descriptor.set;
 
 		// handle descriptor.get
 		if (getterType) {
@@ -99,7 +99,7 @@ if (!(// In IE8, defineProperty could only act on DOM elements, so full support
 
 
 // _DOMTokenList
-var _DOMTokenList = (function (global) {
+var _DOMTokenList = (function () { // eslint-disable-line no-unused-vars
 
 	function tokenize(token) {
 		if (/^-?[_a-zA-Z]+[_a-zA-Z0-9-]*$/.test(token)) {
@@ -177,11 +177,10 @@ var _DOMTokenList = (function (global) {
 
 	return DTL;
 
-})(this);
+}());
 if (!("Document" in this)) {
 
 // Document
-
 if (this.HTMLDocument) { // IE8
 
 	// HTMLDocument is an extension of Document.  If the browser has HTMLDocument but not Document, the former will suffice as an alias for the latter.
@@ -277,7 +276,7 @@ if (!('Element' in this && 'HTMLElement' in this)) {
 	}
 
 	// Apply Element prototype to the pre-existing DOM as soon as the body element appears.
-	function bodyCheck(e) {
+	function bodyCheck() {
 		if (!(loopLimit--)) clearTimeout(interval);
 		if (document.body && !document.body.prototype && /(complete|interactive)/.test(document.readyState)) {
 			shiv(document, true);
@@ -299,7 +298,7 @@ if (!('Element' in this && 'HTMLElement' in this)) {
 
 	// remove sandboxed iframe
 	document.removeChild(vbody);
-})();
+}());
 
 }
 
@@ -338,7 +337,7 @@ Object.defineProperty(Element.prototype, 'classList', {
 
 		ClassList.prototype = new _DOMTokenList;
 
-		ClassList.prototype.item = function item(index) {
+		ClassList.prototype.item = function item(index) { // eslint-disable-line no-unused-vars
 			return pull(), original.item.apply(classList, arguments);
 		};
 
@@ -350,7 +349,7 @@ Object.defineProperty(Element.prototype, 'classList', {
 			return pull(), original.add.apply(classList, arguments), push();
 		};
 
-		ClassList.prototype.contains = function contains(token) {
+		ClassList.prototype.contains = function contains(token) { // eslint-disable-line no-unused-vars
 			return pull(), original.contains.apply(classList, arguments);
 		};
 

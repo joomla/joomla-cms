@@ -233,10 +233,7 @@ class JLanguage
 
 		while (!class_exists($class) && $path)
 		{
-			if (file_exists($path))
-			{
-				require_once $path;
-			}
+			JLoader::register($class, $path);
 
 			$path = next($paths);
 		}
@@ -1086,6 +1083,25 @@ class JLanguage
 	public function getTag()
 	{
 		return $this->metadata['tag'];
+	}
+
+	/**
+	 * Getter for the calendar type
+	 *
+	 * @return  string  The calendar type.
+	 *
+	 * @since   3.7.0
+	 */
+	public function getCalendar()
+	{
+		if (isset($this->metadata['calendar']))
+		{
+			return $this->metadata['calendar'];
+		}
+		else
+		{
+			return 'gregorian';
+		}
 	}
 
 	/**
