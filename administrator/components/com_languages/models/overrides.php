@@ -56,7 +56,7 @@ class LanguagesModelOverrides extends JModelList
 
 		// Parse the override.ini file in order to get the keys and strings.
 		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
-		$strings = LanguagesHelper::parseFile($filename);
+		$strings = JLanguageHelper::parseIniFile($filename);
 
 		// Delete the override.ini file if empty.
 		if (file_exists($filename) && empty($strings))
@@ -247,14 +247,13 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		jimport('joomla.filesystem.file');
-		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		$filterclient = JFactory::getApplication()->getUserState('com_languages.overrides.filter.client');
 		$client = $filterclient == 0 ? 'SITE' : 'ADMINISTRATOR';
 
 		// Parse the override.ini file in oder to get the keys and strings.
 		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
-		$strings = LanguagesHelper::parseFile($filename);
+		$strings  = JLanguageHelper::parseIniFile($filename);
 
 		// Unset strings that shall be deleted
 		foreach ($cids as $key)

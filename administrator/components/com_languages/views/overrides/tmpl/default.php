@@ -21,7 +21,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $opposite_client   = $this->state->get('filter.client') == '1' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
 $opposite_filename = constant('JPATH_' . strtoupper(1 - $this->state->get('filter.client')? 'administrator' : 'site'))
 	. '/language/overrides/' . $this->state->get('filter.language', 'en-GB') . '.override.ini';
-$opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
+$opposite_strings  = JLanguageHelper::parseIniFile($opposite_filename);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">

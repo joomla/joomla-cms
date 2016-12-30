@@ -380,4 +380,32 @@ class JLanguageHelper
 
 		return $languages;
 	}
+
+	/**
+	 * Parse strings from a language file.
+	 *
+	 * @param   string  $filename  The language ini file path.
+	 *
+	 * @return  boolean  True if saved, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function parseIniFile($filename)
+	{
+		// Check if file exists.
+		if (!file_exists($filename))
+		{
+			return array();
+		}
+
+		// @deprecated __DEPLOY_VERSION__ Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
+		if (!defined('_QQ_'))
+		{
+			define('_QQ_', '"');
+		}
+
+		$strings = @parse_ini_file($filename);
+
+		return is_array($strings) ? $strings : array();
+	}
 }

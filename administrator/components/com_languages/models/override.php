@@ -89,13 +89,11 @@ class LanguagesModelOverride extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
-
 		$input    = JFactory::getApplication()->input;
 		$pk       = (!empty($pk)) ? $pk : $input->get('id');
 		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client')))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
-		$strings = LanguagesHelper::parseFile($filename);
+		$strings = JLanguageHelper::parseIniFile($filename);
 
 		$result = new stdClass;
 		$result->key      = '';
@@ -109,7 +107,7 @@ class LanguagesModelOverride extends JModelAdmin
 
 		$opposite_filename = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site')) 
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
-		$opposite_strings = LanguagesHelper::parseFile($opposite_filename);
+		$opposite_strings = JLanguageHelper::parseIniFile($opposite_filename);
 		$result->both = isset($opposite_strings[$pk]) && ($opposite_strings[$pk] == $strings[$pk]);
 
 		return $result;
@@ -127,7 +125,6 @@ class LanguagesModelOverride extends JModelAdmin
 	 */
 	public function save($data, $opposite_client = false)
 	{
-		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 		jimport('joomla.filesystem.file');
 
 		$app = JFactory::getApplication();
@@ -155,7 +152,7 @@ class LanguagesModelOverride extends JModelAdmin
 
 		// Parse the override.ini file in oder to get the keys and strings.
 		$filename = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
-		$strings  = LanguagesHelper::parseFile($filename);
+		$strings  = JLanguageHelper::parseIniFile($filename);
 
 		if (isset($strings[$data['id']]))
 		{
