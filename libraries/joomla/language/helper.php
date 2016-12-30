@@ -402,7 +402,7 @@ class JLanguageHelper
 		}
 
 		// Write override.ini file with the strings.
-		$registry = new Registry($strings);
+		$registry = new Joomla\Registry\Registry($strings);
 
 		return JFile::write($filename, $registry->toString('INI'));
 	}
