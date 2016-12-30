@@ -286,8 +286,8 @@ class JInstallerTest extends TestCaseDatabase
 
 		// Verify that an old style element name is still usable
 		$this->assertEquals(
-			$xml['packagename'],
-			'joomla',
+			$xml['authorUrl'],
+			'https://www.joomla.org',
 			'The package name string should be "joomla" as specified in the parsed XML file'
 		);
 	}
@@ -319,15 +319,15 @@ class JInstallerTest extends TestCaseDatabase
 
 		// Verify that an old style element name is still usable
 		$this->assertEquals(
-			$xml['packagename'],
-			'joomla',
+			$xml['authorUrl'],
+			'https://www.joomla.org',
 			'The old package name string should be "joomla" as specified in the parsed XML file'
 		);
 
 		// Verify that an old style element name is still usable
 		$this->assertEquals(
-			$xml['packageName'],
-			'joomla',
+			$xml['authorURL'],
+			'https://www.joomla.org',
 			'The new package name string should be "joomla" as specified in the parsed XML file'
 		);
 	}
