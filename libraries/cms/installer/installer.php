@@ -2257,7 +2257,8 @@ class JInstaller extends JAdapter
 
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;
-		$data['authorUrl'] = $data['authorURL'] = (string) $xml->authorUrl;
+		$data['authorUrl'] = (string) $xml->authorUrl?: $xml->authorURL;
+		$data['authorURL'] = &$data['authorUrl'];
 		$data['version'] = (string) $xml->version;
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
