@@ -320,7 +320,7 @@ class FieldsHelper
 			return true;
 		}
 
-		$fieldTypes = FieldsHelper::getFieldTypes();
+		$fieldTypes = self::getFieldTypes();
 
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');
