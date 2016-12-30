@@ -93,8 +93,9 @@ class JToolbarButtonConfirm extends JToolbarButton
 
 		if ($list)
 		{
-			$cmd  = "if (document.adminForm.boxchecked.value == 0) { alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')); } ";
-			$cmd .= "else { " . $cmd . " }";
+			$alert = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
+			$cmd   = "if (document.adminForm.boxchecked.value == 0) { " . $alert . " } else { " . $cmd . " }";
+			
 		}
 
 		return $cmd;
