@@ -2,7 +2,9 @@
 <form>
     <field
             name="access"
-            type="accesslevel"
+            type="usergrouplist"
+            multiple="true"
+            class="access-select"
             label="PLG_TINY_FIELD_SETACCESS_LABEL"
             description="JFIELD_ACCESS_DESC"
             labelclass="label label-success"

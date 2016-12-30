@@ -142,24 +142,11 @@ if ($saveOrder)
 										<?php endif; ?>
 									</span>
 									<div class="small">
-										<?php $category = JCategories::getInstance(str_replace('com_', '', $component)); ?>
-										<?php if ($category) : ?>
-											<?php $buffer = JText::_('JCATEGORY') . ': '; ?>
-											<?php $cats = array_filter(explode(',', $item->assigned_cat_ids)); ?>
-											<?php if (empty($cats)) : ?>
-												<?php $buffer .= JText::_('JALL'); ?>
-											<?php endif; ?>
-											<?php foreach ($cats as $cat) : ?>
-												<?php if (empty($cat)) : ?>
-													<?php continue; ?>
-												<?php endif; ?>
-												<?php $c = $category->get($cat); ?>
-												<?php if (!$c || $c->id == 'root') : ?>
-													<?php continue; ?>
-												<?php endif; ?>
-												<?php $buffer .= ' ' . $c->title . ','; ?>
-											<?php endforeach; ?>
-											<?php echo trim($buffer, ','); ?>
+										<?php echo JText::_('JCATEGORY') . ': '; ?>
+										<?php if ($categories = FieldsHelper::getAssignedCategoriesTitles($item->id)) : ?>
+											<?php echo implode(', ', $categories); ?>
+										<?php else: ?>
+											<?php echo JText::_('JALL'); ?>
 										<?php endif; ?>
 									</div>
 								</div>
