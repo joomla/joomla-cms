@@ -71,17 +71,17 @@ class JInstallerManifestPackage extends JInstallerManifest
 	/**
 	 * JInstallerManifestPackage constructor.
 	 *
-	 * @param   string  $xmlpath  Path to XML manifest file.
+	 * @param   string $xmlPath Path to XML manifest file.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function __construct($xmlpath = '')
+	public function __construct($xmlPath = '')
 	{
 		// Old and new variables are referenced for B/C
 		$this->packageName = &$this->packagename;
 		$this->scriptFile  = &$this->scriptfile;
 
-		parent::__construct($xmlpath);
+		parent::__construct($xmlPath);
 	}
 
 	/**

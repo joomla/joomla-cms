@@ -159,11 +159,11 @@ abstract class JInstallerManifest
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $xmlpath  Path to XML manifest file.
+	 * @param   string $xmlPath Path to XML manifest file.
 	 *
 	 * @since   3.1
 	 */
-	public function __construct($xmlpath = '')
+	public function __construct($xmlPath = '')
 	{
 		// Old and new variables are referenced for B/C
 		$this->authorEmail = &$this->authoremail;
@@ -172,30 +172,30 @@ abstract class JInstallerManifest
 		$this->packagerURL  = &$this->packagerurl;
 		$this->fileList     = &$this->filelist;
 
-		if (strlen($xmlpath))
+		if ($xmlPath !== '')
 		{
-			$this->loadManifestFromXml($xmlpath);
+			$this->loadManifestFromXml($xmlPath);
 		}
 	}
 
 	/**
 	 * Load a manifest from a file
 	 *
-	 * @param   string  $xmlfile  Path to file to load
+	 * @param   string $xmlFile Path to file to load
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function loadManifestFromXml($xmlfile)
+	public function loadManifestFromXml($xmlFile)
 	{
-		$this->manifestFile = basename($xmlfile, '.xml');
+		$this->manifestFile = basename($xmlFile, '.xml');
 
-		$xml = simplexml_load_file($xmlfile);
+		$xml = simplexml_load_file($xmlFile);
 
 		if (!$xml)
 		{
-			$this->_errors[] = JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
+			$this->_errors[] = JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlFile);
 
 			return false;
 		}
