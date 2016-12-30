@@ -58,11 +58,6 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				permContainer = form.getAttribute( 'data-permissions-selector' ),
 				skipPermissionsValidation = form.getAttribute( 'data-skip-permissions' );
 
-			if (Joomla.getOptions('form')) {
-				var beforeSave = Joomla.getOptions('form').beforeSave.replace(/&quot;/, '"'),
-					afterSave = Joomla.getOptions('form').afterSave.replace(/&quot;/, '"');
-			}
-
 			if (!cancelTask) {
 				cancelTask = pressbutton[0] + '.cancel';
 			}
@@ -82,15 +77,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 					}
 				}
 
-				if ( beforeSave ) {
-					new Function( beforeSave );
-				}
-
 				Joomla.submitform( task, document.querySelector( '.js-submit-button' ) );
-
-				if ( afterSave ) {
-					new Function( afterSave );
-				}
 			}
 		} else {
 			Joomla.submitform( task );

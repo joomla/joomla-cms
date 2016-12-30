@@ -61,25 +61,31 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 	$params->show_urls_images_backend = $this->item->attribs['show_urls_images_backend'];
 }
 
-// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
-$afterSave = "if (task !== 'article.apply') { window.parent.jQuery('#articleEdit" . $this->item->id . "Modal').modal('hide'); }";
+JFactory::getDocument()->addScriptDeclaration('
+	Joomla.submitbutton = function(task)
+	{
+		if (task == "article.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
+		{
+			jQuery("#permissions-sliders select").attr("disabled", "disabled");
+			/** @deprecated 4.0  Editors need to pass their content to the textarea before save. **/
+			' . $this->form->getField('articletext')->save() . '
+			Joomla.submitform(task, document.getElementById("item-form"));
 
+			/** @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__. **/
+			if (task !== "article.apply")
+			{
+				window.parent.jQuery("#articleEdit' . (int) $this->item->id . 'Modal").modal("hide");
+			}
+		}
+	};
+');
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
-
-// Pass some PHP created script to javascipt
-JFactory::getDocument()->addScriptOptions(
-	'form',
-	array(
-		'beforeSave' => htmlentities($this->form->getField("description")->save(), ENT_COMPAT, 'UTF-8'),
-		'afterSave' => htmlentities($afterSave, ENT_COMPAT, 'UTF-8'),
-	)
-);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="js-submit-button form-validate" data-skip-permissions="true">
+<form action="<?php echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

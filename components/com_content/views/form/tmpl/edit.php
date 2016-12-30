@@ -26,13 +26,17 @@ if (!$editoroptions)
 	$params->show_urls_images_frontend = '0';
 }
 
-// Pass some PHP created script to javascipt
-JFactory::getDocument()->addScriptOptions(
-	'form',
-	array(
-		'beforeSave' => htmlentities($this->form->getField('articletext')->save(), ENT_QUOTES, 'UTF-8')
-	)
-);
+JFactory::getDocument()->addScriptDeclaration("
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
+		{
+			/** @deprecated 4.0  Editors need to pass their content to the textarea before save. **/
+			" . $this->form->getField('articletext')->save() . "
+			Joomla.submitform(task);
+		}
+	}
+");
 ?>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($params->get('show_page_heading')) : ?>
@@ -43,7 +47,7 @@ JFactory::getDocument()->addScriptOptions(
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="js-submit-button form-validate form-vertical">
+	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 		<fieldset>
 			<?php echo JHtml::_("bootstrap.startTabSet", "com-content-form", array("active" => "editor")); ?>
 

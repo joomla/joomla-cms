@@ -23,8 +23,24 @@ $assoc = JLanguageAssociations::isEnabled();
 // Are associations implemented for this extension?
 $extensionassoc = array_key_exists('item_associations', $this->form->getFieldsets());
 
-// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
-$afterSave = "if (task !== 'category.apply') { window.parent.jQuery('#categoryEdit" . $this->item->id . "Modal').modal('hide'); }";
+JFactory::getDocument()->addScriptDeclaration('
+	Joomla.submitbutton = function(task)
+	{
+		if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
+		{
+			jQuery("#permissions-sliders select").attr("disabled", "disabled");
+			/** @deprecated 4.0  Editors need to pass their content to the textarea before save. **/
+			' . $this->form->getField("description")->save() . '
+			Joomla.submitform(task, document.getElementById("item-form"));
+
+			/** @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__. **/
+			if (task !== "category.apply")
+			{
+				window.parent.jQuery("#categoryEdit' . $this->item->id . 'Modal").modal("hide");
+			}
+		}
+	};
+');
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('jmetadata', 'item_associations');
@@ -33,19 +49,9 @@ $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
-
-// Pass some PHP created script to javascipt
-JFactory::getDocument()->addScriptOptions(
-	'form',
-	array(
-		'beforeSave' => htmlentities($this->form->getField("description")->save(), ENT_COMPAT, 'UTF-8'),
-		'afterSave' => htmlentities($afterSave, ENT_COMPAT, 'UTF-8'),
-
-	)
-);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="js-submit-button form-validate" data-skip-permissions="true">
+<form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
