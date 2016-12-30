@@ -305,29 +305,4 @@ class JFormFieldSQL extends JFormFieldList
 
 		return $options;
 	}
-
-	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
-	 *
-	 * @param   stdClass    $field      The field.
-	 * @param   DOMElement  $fieldNode  The field node.
-	 * @param   JForm       $form       The form.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
-	{
-		$fieldNode->setAttribute('value_field', 'text');
-		$fieldNode->setAttribute('key_field', 'value');
-
-		if (! $fieldNode->getAttribute('query'))
-		{
-			$fieldNode->setAttribute('query', 'select id as value, name as text from #__users');
-		}
-
-		return parent::postProcessDomNode($field, $fieldNode, $form);
-	}
 }
