@@ -77,7 +77,7 @@ class ModStatsHelper
 			$rows[$i]->title = JText::_('MOD_STATS_GZIP');
 			$rows[$i]->icon  = 'lightning';
 			$rows[$i]->data  = $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
-			$rows[$i]->link  = JRoute::_('index.php?option=com_config#page-system');
+			$rows[$i]->link  = JRoute::_('index.php?option=com_config#page-server');
 			$i++;
 		}
 
