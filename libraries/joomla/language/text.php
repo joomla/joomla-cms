@@ -280,7 +280,7 @@ class JText
 		$lang     = JFactory::getLanguage();
 		$args     = func_get_args();
 		$count    = count($args);
-		$suffixes = $lang->getAllPluralSuffixes();
+		$suffixes = method_exists($lang, 'getAllPluralSuffixes') ? $lang->getAllPluralSuffixes() : false;
 		if ($suffixes === false)
 		{
 			JFactory::getDocument()->addScriptOptions('joomla.jtext.pluralData.suffixes', false, false);

@@ -52,7 +52,7 @@ class PlgQuickiconExtensionupdate extends JPlugin
 		$script[] = 'var plg_quickicon_extensionupdate_url = \'' . $url . '\';';
 		$script[] = 'var plg_quickicon_extensionupdate_ajax_url = \'' . $ajax_url . '\';';
 
-		if (JText::pluralJS(
+		if (method_exists('JText','pluralJS') && JText::pluralJS(
 				array(
 					'PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE',
 					'PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND',
