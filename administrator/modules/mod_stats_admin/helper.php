@@ -51,6 +51,7 @@ class ModStatsHelper
 			$rows[$i]->title = JText::_('MOD_STATS_PHP');
 			$rows[$i]->icon  = 'cogs';
 			$rows[$i]->data  = phpversion();
+			$rows[$i]->link  = JRoute::_('index.php?option=com_admin&view=sysinfo#phpinfo');
 			$i++;
 
 			$rows[$i]        = new stdClass;
