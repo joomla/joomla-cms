@@ -112,7 +112,7 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_USERS');
 				$rows[$i]->icon  = 'users';
 				$rows[$i]->data  = $users;
-				$rows[$i]->link  = JUri::root() . 'administrator/index.php?option=com_users';
+				$rows[$i]->link  = JRoute::_('index.php?option=com_users');
 				$i++;
 			}
 
@@ -122,7 +122,7 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES');
 				$rows[$i]->icon  = 'file';
 				$rows[$i]->data  = $items;
-				$rows[$i]->link  = JUri::root() . 'administrator/index.php?option=com_content&view=articles&filter[published]=1';
+				$rows[$i]->link  = JRoute::_('index.php?option=com_content&view=articles&filter[published]=1');
 				$i++;
 			}
 
