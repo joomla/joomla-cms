@@ -398,13 +398,8 @@ class JLanguageHelper
 	public static function parseIniFile($fileName)
 	{
 		$contents = file_get_contents($fileName);
-		$strings = @parse_ini_string($contents);
+		$strings  = @parse_ini_string($contents);
 
-		if (!is_array($strings))
-		{
-			$strings = array();
-		}
-
-		return $strings;
+		return is_array($strings) ? $strings : array();
 	}
 }
