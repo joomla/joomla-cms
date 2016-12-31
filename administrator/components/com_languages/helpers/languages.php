@@ -72,7 +72,7 @@ class LanguagesHelper
 	 *
 	 * @since   2.5
 	 *
-	 * @deprecated  4.0  Use JLanguageHelper::parseIniFile($filename)
+	 * @deprecated  4.0  Use JLanguageHelper::parseIniFile($fileName)
 	 */
 	public static function parseFile($fileName)
 	{
