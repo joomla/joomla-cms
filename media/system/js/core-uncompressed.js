@@ -62,7 +62,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				cancelTask = pressbutton[0] + '.cancel';
 			}
 
-			if ((pressbutton == cancelTask ) || document.formvalidator.isValid( document.querySelector( '.js-submit-button' ) ))
+			if ((task == cancelTask ) || document.formvalidator.isValid( document.querySelector( '.js-submit-button' ) ))
 			{
 				if ( skipPermissionsValidation ) {
 

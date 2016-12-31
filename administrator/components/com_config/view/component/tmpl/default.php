@@ -33,7 +33,7 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="js-form form-validate form-horizontal"
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="js-submit-button form-validate form-horizontal"
 	data-cancel-task="config.cancel.component" data-skip-permissions="true">
 	<div class="row-fluid">
 
