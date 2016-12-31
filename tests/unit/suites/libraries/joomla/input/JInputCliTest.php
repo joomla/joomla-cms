@@ -73,7 +73,7 @@ class JInputCliTest extends PHPUnit_Framework_TestCase
 	{
 		return array(
 
-			// php test.php --foo --bar=baz
+			// Represents: php test.php --foo --bar=baz
 			array(
 				array('test.php', '--foo', '--bar=baz'),
 				array(
@@ -83,7 +83,7 @@ class JInputCliTest extends PHPUnit_Framework_TestCase
 				array()
 			),
 
-			// php test.php -abc
+			// Represents: php test.php -abc
 			array(
 				array('test.php', '-abc'),
 				array(
@@ -94,7 +94,7 @@ class JInputCliTest extends PHPUnit_Framework_TestCase
 				array()
 			),
 
-			// php test.php arg1 arg2 arg3
+			// Represents: php test.php arg1 arg2 arg3
 			array(
 				array('test.php', 'arg1', 'arg2', 'arg3'),
 				array(),
@@ -105,7 +105,7 @@ class JInputCliTest extends PHPUnit_Framework_TestCase
 				)
 			),
 
-			// php test.php plain-arg --foo --bar=baz --funny="spam=eggs" --also-funny=spam=eggs \
+			// Represents: php test.php plain-arg --foo --bar=baz --funny="spam=eggs" --also-funny=spam=eggs \
 			//      'plain arg 2' -abc -k=value "plain arg 3" --s="original" --s='overwrite' --s
 			array(
 				array('test.php', 'plain-arg', '--foo', '--bar=baz', '--funny=spam=eggs', '--also-funny=spam=eggs',
@@ -128,7 +128,7 @@ class JInputCliTest extends PHPUnit_Framework_TestCase
 				)
 			),
 
-			// php test.php --key value -abc not-c-value
+			// Represents: php test.php --key value -abc not-c-value
 			array(
 				array('test.php', '--key', 'value', '-abc', 'not-c-value'),
 				array(
@@ -142,7 +142,7 @@ class JInputCliTest extends PHPUnit_Framework_TestCase
 				)
 			),
 
-			// php test.php --key1 value1 -a --key2 -b b-value --c
+			// Represents: php test.php --key1 value1 -a --key2 -b b-value --c
 			array(
 				array('test.php', '--key1', 'value1', '-a', '--key2', '-b', 'b-value', '--c'),
 				array(
