@@ -54,7 +54,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 		if (form) {
 			var pressbutton = task.split('.'),
-				cancelTask = form.getAttribute( 'data-cancel' ),
+				cancelTask = form.getAttribute( 'data-cancel-task' ),
 				permContainer = form.getAttribute( 'data-permissions-selector' ),
 				skipPermissionsValidation = form.getAttribute( 'data-skip-permissions' );
 
