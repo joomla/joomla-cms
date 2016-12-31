@@ -12,6 +12,11 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Utilities\ArrayHelper;
 
 /**
+ * Allows for quoting in language .ini files.
+ */
+define('_QQ_', '"');
+
+/**
  * Language helper class
  *
  * @since  11.1
@@ -177,7 +182,7 @@ class JLanguageHelper
 	 * @since   3.7.0
 	 */
 	public static function getInstalledLanguages($clientId = null, $processMetaData = false, $processManifest = false, $pivot = 'element',
-		$orderField = null, $orderDirection = null)
+	                                             $orderField = null, $orderDirection = null)
 	{
 		static $installedLanguages = null;
 
@@ -230,7 +235,7 @@ class JLanguageHelper
 					{
 						$lang->metadata = JLanguage::parseXMLLanguageFile($metafile);
 					}
-					// Not able to process xml language file. Fail silently.
+						// Not able to process xml language file. Fail silently.
 					catch (Exception $e)
 					{
 						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), JLog::WARNING, 'language');
@@ -254,7 +259,7 @@ class JLanguageHelper
 					{
 						$lang->manifest = JInstaller::parseXMLInstallFile($metafile);
 					}
-					// Not able to process xml language file. Fail silently.
+						// Not able to process xml language file. Fail silently.
 					catch (Exception $e)
 					{
 						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), JLog::WARNING, 'language');
@@ -324,7 +329,7 @@ class JLanguageHelper
 	 * @since   3.7.0
 	 */
 	public static function getContentLanguages($checkPublished = true, $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
-		$orderDirection = null)
+	                                           $orderDirection = null)
 	{
 		static $contentLanguages = null;
 
@@ -379,5 +384,25 @@ class JLanguageHelper
 		}
 
 		return $languages;
+	}
+
+	/**
+	 * @param   string  $filename  Path and name of the ini file to parse.
+	 *
+	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function parseIniFile($fileName)
+	{
+		$contents = file_get_contents($fileName);
+		$strings = @parse_ini_string($contents);
+
+		if (!is_array($strings))
+		{
+			$strings = array();
+		}
+
+		return $strings;
 	}
 }

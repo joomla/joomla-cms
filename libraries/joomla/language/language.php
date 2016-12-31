@@ -12,11 +12,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\String\StringHelper;
 
 /**
- * Allows for quoting in language .ini files.
- */
-define('_QQ_', '"');
-
-/**
  * Languages/translation handler class
  *
  * @since  11.1
@@ -821,13 +816,13 @@ class JLanguage
 	/**
 	 * Parses a language file.
 	 *
-	 * @param   string  $filename  The name of the file.
+	 * @param   string  $fileName  The name of the file.
 	 *
 	 * @return  array  The array of parsed strings.
 	 *
 	 * @since   11.1
 	 */
-	protected function parse($filename)
+	protected function parse($fileName)
 	{
 		if ($this->debug)
 		{
@@ -837,21 +832,14 @@ class JLanguage
 			ini_set('track_errors', true);
 		}
 
-		$contents = file_get_contents($filename);
-		$contents = str_replace('_QQ_', '"\""', $contents);
-		$strings = @parse_ini_string($contents);
-
-		if (!is_array($strings))
-		{
-			$strings = array();
-		}
+		$strings = JLanguageHelper::parseIniFile($fileName);
 
 		if ($this->debug)
 		{
 			// Restore error tracking to what it was before.
 			ini_set('track_errors', $track_errors);
 
-			$this->debugFile($filename);
+			$this->debugFile($fileName);
 		}
 
 		return $strings;
