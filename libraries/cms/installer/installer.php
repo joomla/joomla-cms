@@ -2252,20 +2252,19 @@ class JInstaller extends JAdapter
 		// Check if we're a language. If so use metafile.
 		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('JLIB_UNKNOWN');
-		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('JLIB_UNKNOWN');
-
-		$data['copyright'] = (string) $xml->copyright;
-		$data['authorEmail'] = (string) $xml->authorEmail;
-		$data['authorUrl'] = (string) $xml->authorUrl?: $xml->authorURL;
-		$data['authorURL'] = &$data['authorUrl'];
-		$data['version'] = (string) $xml->version;
-		$data['description'] = (string) $xml->description;
-		$data['group'] = (string) $xml->group;
+		$data['creationDate'] = (string) $xml->creationDate ?: JText::_('JLIB_UNKNOWN');
+		$data['author']       = (string) $xml->author ?: JText::_('JLIB_UNKNOWN');
+		$data['copyright']    = (string) $xml->copyright;
+		$data['authorEmail']  = (string) $xml->authorEmail;
+		$data['authorUrl']    = (string) $xml->authorUrl ?: (string) $xml->authorURL;
+		$data['authorURL']    = &$data['authorUrl'];
+		$data['version']      = (string) $xml->version;
+		$data['description']  = (string) $xml->description;
+		$data['group']        = (string) $xml->group;
 
 		if ($xml->files && count($xml->files->children()))
 		{
-			$filename = JFile::getName($path);
+			$filename         = JFile::getName($path);
 			$data['filename'] = JFile::stripExt($filename);
 
 			foreach ($xml->files->children() as $oneFile)
