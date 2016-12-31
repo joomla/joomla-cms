@@ -141,6 +141,10 @@
 		<exclude-pattern type="relative">tests/*</exclude-pattern>
 	</rule>
 
+	<rule ref="Joomla.Functions.FunctionCallSignature">
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
+
 	<rule ref="Joomla.Commenting.FunctionComment">
 		<!-- We only want this for libraries, language and cli for now -->
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
