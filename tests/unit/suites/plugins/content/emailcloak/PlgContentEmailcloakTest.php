@@ -85,7 +85,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 				 */
 				'this should not be parsed as it has no (at) sign in it - see what I did there? ;)',
 
-				// this third row is the full output of the cloak with inline javascript mode enabled
+				// This third row is the full output of the cloak with inline javascript mode enabled
 				''
 
 			),
