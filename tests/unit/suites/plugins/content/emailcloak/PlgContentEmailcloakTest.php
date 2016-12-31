@@ -229,10 +229,10 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 		$row->text = $input;
 		$params = new JRegistry;
 
-		// assert we have the correct event
+		// Assert we have the correct event
 		$this->assertInstanceOf('PlgContentEmailcloak', $this->class);
 
-		// assert that we are getting a clean process
+		// Assert that we are getting a clean process
 		$res = $this->class->onContentPrepare('com_content.article', $row, $params);
 		$this->assertEquals(1, $res);
 
@@ -241,38 +241,41 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 		preg_match("/addy_text([0-9a-z]{32})/", $row->text, $output_array);
 
 		// If we did some cloaking then test the JS
-		if (count($output_array)) {
+		if (count($output_array))
+		{
 			$hash = $output_array[1];
 
-			// assert the JLIB_HTML_CLOAKING span is intact
+			// Assert the JLIB_HTML_CLOAKING span is intact
 			$this->assertRegExp('/\<span\sid\=\"cloak[0-9a-z]{32}\"\>JLIB_HTML_CLOAKING\<\/span\>/', $row->text);
 			$cloakHTML = '<span id="cloak' . $hash . '">JLIB_HTML_CLOAKING</span>';
 			$this->assertContains($cloakHTML, $row->text);
 
 
-			if ($expectedJs) {
-				// need to do this to overcome whitespace comparison issue in phpunit for some reason...
+			if ($expectedJs)
+			{
+				// Need to do this to overcome whitespace comparison issue in phpunit for some reason...
 				preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $row->text, $innerJS);
 				$result = trim($innerJS[1][0]);
 
 				preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $expectedJs, $innerJS);
 				$expected = trim($innerJS[1][0]);
 
-				// assert the render is as the expected render with injected hash
+				// Assert the render is as the expected render with injected hash
 				$this->assertEquals(trim(str_replace('__HASH__', $hash, $expected)), $result);
 
-				if (null !== $expectedHTML) {
+				if (null !== $expectedHTML)
+				{
 					$html = $this->convertJStoHTML($result, $hash);
 					$this->assertEquals($html, $expectedHTML);
 				}
 			}
 
 
-		} else {
-
+		}
+		else
+		{
 			// We never cloaked an email but lets ensure we did not screw up the article text anyway!
 			$this->assertEquals($expectedHTML, $row->text);
-
 		}
 	}
 
@@ -308,13 +311,16 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 			$js);
 
 		// Because with all those replaces, you and I will need this a lot :)
-		if (true === $debug) {
+		if (true === $debug)
+		{
 			echo "\n\n" . trim($js) . "\n\n";
 			eval($js);
 			echo "\n\n";
 			var_dump(trim($resultantHTML));
 			die;
-		} else {
+		}
+		else
+		{
 			// EVAL IS EVIL - I know - but here its not a security risk, and is 'ok'-ish.
 			eval($js);
 		}
