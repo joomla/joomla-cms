@@ -38,7 +38,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$session = $this->getMockSession();
 
-		// force the cloak JS inline so that we can unit test it easier than messing with script head in document
+		// Force the cloak JS inline so that we can unit test it easier than messing with script head in document
 		JFactory::getApplication()->input->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
 
 		/**
@@ -71,7 +71,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 	{
 		return array(
 
-			# 0
+			// 0
 			array(
 				// This first row is the input, this is what would be in the article
 				'this should not be parsed as it has no (at) sign in it - see what I did there? ;)',
@@ -90,7 +90,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 
 			),
 
-			# ? - see: https://github.com/joomla/joomla-cms/pull/11378#issuecomment-237829598
+			// ? - see: https://github.com/joomla/joomla-cms/pull/11378#issuecomment-237829598
 			/**
 			 * This is failing at the moment so Im excluding it while the above PR #11378 is worked on
 			 * and while this unit test suite is being improved - but this test highlights the fact we need these tests!
@@ -111,7 +111,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 			 * ),*/
 
 
-			# 1
+			// 1
 			array(
 				'<a href="http://mce_host/ourdirectory/email@example.org">anytext</a>',
 
@@ -128,7 +128,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 				"
 			),
 
-			# 2
+			// 2
 			array(
 				'<p><a href="mailto:joe@nowhere.com"><span style="font-style: 8pt;">Joe_fontsize8</span></a></p>',
 
@@ -146,7 +146,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 				"
 			),
 
-			# 3
+			// 3
 			array(
 				'<p><a href="mailto:joe@nowhere13.com?subject= A text"><span style="font-size: 14pt;">Joe_subject_ fontsize13</span></a></p>',
 
@@ -270,7 +270,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 
 		} else {
 
-			// ok we never cloaked an email but lets ensure we did not screw up the article text anyway!
+			// We never cloaked an email but lets ensure we did not screw up the article text anyway!
 			$this->assertEquals($expectedHTML, $row->text);
 
 		}
@@ -307,7 +307,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 			sprintf('$addy%s .', $hash),
 			$js);
 
-		// because with all those replaces, you and I will need this a lot :)
+		// Because with all those replaces, you and I will need this a lot :)
 		if (true === $debug) {
 			echo "\n\n" . trim($js) . "\n\n";
 			eval($js);
@@ -331,10 +331,10 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 		$row = 'test string';
 		$params = new JRegistry;
 
-		// assert we have the correct event
+		// Assert we have the correct event
 		$this->assertInstanceOf('PlgContentEmailcloak', $this->class);
 
-		// assert that we are getting a clean process
+		// Assert that we are getting a clean process
 		$res = $this->class->onContentPrepare('com_finder.indexer', $row, $params);
 		$this->assertEquals(1, $res);
 		$this->assertEquals('test string', $row);
