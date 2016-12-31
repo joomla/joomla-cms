@@ -57,7 +57,7 @@ class ModStatsHelper
 			$rows[$i]->title = JText::_($db->name);
 			$rows[$i]->icon  = 'database';
 			$rows[$i]->data  = $db->getVersion();
-			$rows[$i]->link  = JUri::root() . 'administrator/index.php?option=com_config#page-server';
+			$rows[$i]->link  = JRoute::_('index.php?option=com_config#page-server');
 			$i++;
 
 			$rows[$i]        = new stdClass;
@@ -70,14 +70,14 @@ class ModStatsHelper
 			$rows[$i]->title = JText::_('MOD_STATS_CACHING');
 			$rows[$i]->icon  = 'dashboard';
 			$rows[$i]->data  = $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
-			$rows[$i]->link  = JUri::root() . 'administrator/index.php?option=com_config#page-system';
+			$rows[$i]->link  = JRoute::_('index.php?option=com_config#page-system');
 			$i++;
 
 			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_('MOD_STATS_GZIP');
 			$rows[$i]->icon  = 'lightning';
 			$rows[$i]->data  = $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
-			$rows[$i]->link  = JUri::root() . 'administrator/index.php?option=com_config#page-system';
+			$rows[$i]->link  = JRoute::_('index.php?option=com_config#page-system');
 			$i++;
 		}
 
@@ -115,7 +115,7 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_USERS');
 				$rows[$i]->icon  = 'users';
 				$rows[$i]->data  = $users;
-				$rows[$i]->link  = JUri::root() . 'administrator/index.php?option=com_users';
+				$rows[$i]->link  = JRoute::_('index.php?option=com_users');
 				$i++;
 			}
 
@@ -125,7 +125,7 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES');
 				$rows[$i]->icon  = 'file';
 				$rows[$i]->data  = $items;
-				$rows[$i]->link  = JUri::root() . 'administrator/index.php?option=com_content&view=articles&filter[published]=1';
+				$rows[$i]->link  = JRoute::_('index.php?option=com_content&view=articles&filter[published]=1');
 				$i++;
 			}
 
