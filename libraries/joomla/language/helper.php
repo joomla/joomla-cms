@@ -329,7 +329,7 @@ class JLanguageHelper
 	 * @since   3.7.0
 	 */
 	public static function getContentLanguages($checkPublished = true, $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
-	                                           $orderDirection = null)
+											   $orderDirection = null)
 	{
 		static $contentLanguages = null;
 
@@ -387,7 +387,9 @@ class JLanguageHelper
 	}
 
 	/**
-	 * @param   string  $filename  Path and name of the ini file to parse.
+	 * Parses a language ini file.
+	 *
+	 * @param   string  $fileName  Path and name of the ini file to parse.
 	 *
 	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned.
 	 *
