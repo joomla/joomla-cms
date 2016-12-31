@@ -60,6 +60,7 @@ class TestMockDispatcher
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();
+
 		// Mock selected methods.
 		$test->assignMockReturns(
 			$mockObject, array(

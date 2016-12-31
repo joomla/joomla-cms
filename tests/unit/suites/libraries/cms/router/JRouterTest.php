@@ -99,7 +99,7 @@ class JRouterTest extends TestCase
 		$cache->setAccessible(true);
 		$cache->setValue(array());
 
-		#$this->markTestSkipped('Untestable due to global instance cache not clearable.');
+		// $this->markTestSkipped('Untestable due to global instance cache not clearable.');
 
 		$object = JRouter::getInstance($client, array('mode' => 'test'));
 

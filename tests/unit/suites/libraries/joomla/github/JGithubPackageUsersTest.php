@@ -367,7 +367,7 @@ class JGithubPackageUsersTest extends PHPUnit_Framework_TestCase
 			->with('/user', $input, 0, 0)
 			->will($this->returnValue($this->response));
 
-		//$this->object->edit($name, $email, $blog, $company, $location, $hireable, $bio);
+		// $this->object->edit($name, $email, $blog, $company, $location, $hireable, $bio);
 
 
 		$this->assertThat(

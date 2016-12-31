@@ -129,7 +129,7 @@ class JGithubPackageRepositoriesDownloadsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($this->response));
 
 		$this->assertThat(
-			$this->object->upload('joomla', 'joomla-platform', 123, 'a/b/aaa.zip', 'acl', 201, 'aaa.zip', '123abc', '123abc', '123abc','content_type', '@aaa.zip'),
+			$this->object->upload('joomla', 'joomla-platform', 123, 'a/b/aaa.zip', 'acl', 201, 'aaa.zip', '123abc', '123abc', '123abc', 'content_type', '@aaa.zip'),
 			$this->equalTo($this->response->body)
 		);
 	}

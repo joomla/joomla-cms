@@ -18,8 +18,8 @@ require_once __DIR__ . '/../stubs/JComponentRouterViewInspector.php';
  * @subpackage  Component
  * @since       3.5
  */
-class JComponentRouterRulesMenuTest extends TestCaseDatabase {
-
+class JComponentRouterRulesMenuTest extends TestCaseDatabase
+{
 	/**
 	 * Object under test
 	 *
@@ -59,7 +59,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 		$router->registerView($featured);
 		$form = new JComponentRouterViewconfiguration('form');
 		$router->registerView($form);
-		$router->menu = new MockJComponentRouterRulesMenuMenuObject();
+		$router->menu = new MockJComponentRouterRulesMenuMenuObject;
 
 		$this->object = new JComponentRouterRulesMenuInspector($router);
 	}
