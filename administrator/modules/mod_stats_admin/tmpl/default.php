@@ -26,12 +26,19 @@ JFactory::getDocument()->addScriptDeclaration('
 	});
 ');
 ?>
-<ul class="list-striped list-condensed stats-module<?php echo $moduleclass_sfx ?>">
+<div class="row-striped">
 	<?php foreach ($list as $item) : ?>
-		<?php if(isset($item->link)) : ?>
-			<li><span class="icon-<?php echo $item->icon; ?>" title="<?php echo $item->title; ?>"></span> <?php echo $item->title . ' '; ?><a class="badge badge-info js-revert" href ="<?php echo $item->link; ?>"><?php echo $item->data; ?></a></li>
-		<?php else : ?>
-			<li><span class="icon-<?php echo $item->icon; ?>" title="<?php echo $item->title; ?>"></span> <?php echo $item->title; ?> <?php echo $item->data; ?></li>
-		<?php endif; ?>
+		<div class="row-fluid">
+			<div class="span4">
+				<li><span class="icon-<?php echo $item->icon; ?>" title="<?php echo $item->title; ?>"></span> <?php echo $item->title . ' '; ?>
+			</div>
+			<div class="span8">
+				<?php if(isset($item->link)) : ?>
+					<a class="badge badge-info js-revert" href ="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>
+				<?php else : ?>
+					<?php echo $item->data; ?>
+				<?php endif; ?>
+			</div>
+		</div>
 	<?php endforeach; ?>
-</ul>
+</div>
