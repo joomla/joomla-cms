@@ -132,7 +132,8 @@ class JRouterTest extends TestCase
 			'id'   => 3,
 			'name' => 'tester',
 			'path' => __DIR__ . '/data'
-		));
+			)
+		);
 
 		$this->assertInstanceOf('JRouter', JRouter::getInstance('tester'));
 	}
@@ -393,6 +394,7 @@ class JRouterTest extends TestCase
 	public function testParseRulesCanReplacePresetVariables($preset, $rules, $stage, $expected)
 	{
 		$this->object->setVars($preset, false);
+
 		foreach ($rules as $rule)
 		{
 			$this->object->attachParseRule($rule, $stage);
@@ -456,6 +458,7 @@ class JRouterTest extends TestCase
 	public function testParseRulesCanAddVariables($preset, $rules, $stage, $expected)
 	{
 		$this->object->setVars($preset, false);
+
 		foreach ($rules as $rule)
 		{
 			$this->object->attachParseRule($rule, $stage);
@@ -531,6 +534,7 @@ class JRouterTest extends TestCase
 	public function testFirstParseRuleTakesPrecedence($preset, $rules, $stage, $expected)
 	{
 		$this->object->setVars($preset, false);
+
 		foreach ($rules as $rule)
 		{
 			$this->object->attachParseRule($rule, $stage);
