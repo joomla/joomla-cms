@@ -295,14 +295,19 @@ class JText
 
 		foreach ($baseStrings as $baseString)
 		{
-			if ($lang->hasKey($baseString)) {
-				$strings[$baseString] = $lang->_($baseString, false, $lastParameterIsArray ? $interpretBackslashes : null);
+			if ($lang->hasKey($baseString))
+			{
+				$strings[$baseString] = $lang->_(
+					$baseString, false, $lastParameterIsArray ? $interpretBackslashes : null
+				);
 			}
 
-			foreach ($suffixes as $suffix) {
+			foreach ($suffixes as $suffix)
+			{
 				$key = $baseString . '_' . $suffix[2];
 
-				if ($lang->hasKey($key) && !in_array($key, $strings, true)) {
+				if ($lang->hasKey($key) && !in_array($key, $strings, true))
+				{
 					$strings[$key] = $lang->_(
 						$key, false, $lastParameterIsArray ? $interpretBackslashes : null
 					);
