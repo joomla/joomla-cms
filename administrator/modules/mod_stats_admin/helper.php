@@ -45,6 +45,7 @@ class ModStatsHelper
 			$rows[$i]->title = JText::_('MOD_STATS_OS');
 			$rows[$i]->icon  = 'screen';
 			$rows[$i]->data  = substr(php_uname(), 0, 7);
+			$rows[$i]->link  = JRoute::_('index.php?option=com_admin&view=sysinfo#site');
 			$i++;
 
 			$rows[$i]        = new stdClass;
@@ -65,6 +66,7 @@ class ModStatsHelper
 			$rows[$i]->title = JText::_('MOD_STATS_TIME');
 			$rows[$i]->icon  = 'clock';
 			$rows[$i]->data  = JHtml::_('date', 'now', 'H:i');
+			$rows[$i]->link  = JRoute::_('index.php?option=com_config#page-server');
 			$i++;
 
 			$rows[$i]        = new stdClass;
