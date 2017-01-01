@@ -216,10 +216,12 @@ class JRouterTest extends TestCase
 	{
 		$uri    = new JUri('index.php?var1=value1');
 		$object = new JRouter;
+
 		if (!empty($mode))
 		{
 			$object->setMode($mode);
 		}
+
 		$result = $this->object->build('index.php?var1=value1');
 		$this->assertEquals($uri, $result);
 	}
