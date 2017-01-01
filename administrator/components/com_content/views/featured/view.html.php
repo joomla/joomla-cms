@@ -180,7 +180,7 @@ class ContentViewFeatured extends JViewLegacy
 			'a.created_by'   => JText::_('JAUTHOR'),
 			'language'       => JText::_('JGRID_HEADING_LANGUAGE'),
 			'a.created'      => JText::_('JDATE'),
-			'a.id'           => JText::_('JGRID_HEADING_ID')
+			'a.id'           => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

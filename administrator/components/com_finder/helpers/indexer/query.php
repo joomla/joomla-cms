@@ -347,7 +347,7 @@ class FinderIndexerQuery
 			$query = array(
 				'view' => $uri->getVar('view'),
 				'f'    => $uri->getVar('f'),
-				'q'    => $uri->getVar('q')
+				'q'    => $uri->getVar('q'),
 			);
 
 			$item = FinderHelperRoute::getItemid($query);
@@ -743,7 +743,7 @@ class FinderIndexerQuery
 		 */
 		$patterns = array(
 			'before' => JText::_('COM_FINDER_FILTER_WHEN_BEFORE'),
-			'after'  => JText::_('COM_FINDER_FILTER_WHEN_AFTER')
+			'after'  => JText::_('COM_FINDER_FILTER_WHEN_AFTER'),
 		);
 
 		// Add the taxonomy branch titles to the possible patterns.
@@ -966,7 +966,7 @@ class FinderIndexerQuery
 		$operators = array(
 			'AND' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_AND')),
 			'OR'  => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_OR')),
-			'NOT' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_NOT'))
+			'NOT' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_NOT')),
 		);
 
 		// If language debugging is enabled you need to ignore the debug strings in matching.

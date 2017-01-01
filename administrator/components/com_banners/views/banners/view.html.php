@@ -183,7 +183,7 @@ class BannersViewBanners extends JViewLegacy
 			'impmade'     => JText::_('COM_BANNERS_HEADING_IMPRESSIONS'),
 			'clicks'      => JText::_('COM_BANNERS_HEADING_CLICKS'),
 			'a.language'  => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'        => JText::_('JGRID_HEADING_ID')
+			'a.id'        => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

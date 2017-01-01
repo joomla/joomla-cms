@@ -282,7 +282,7 @@ class CategoriesViewCategories extends JViewLegacy
 			'a.title'     => JText::_('JGLOBAL_TITLE'),
 			'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
 			'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'        => JText::_('JGRID_HEADING_ID')
+			'a.id'        => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

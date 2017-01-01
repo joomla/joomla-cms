@@ -423,9 +423,9 @@ $fileModalData = array(
 	'selector' => 'fileModal',
 	'params'   => array(
 		'title'  => JText::_('COM_TEMPLATES_NEW_FILE_HEADER'),
-		'footer' => $this->loadTemplate('modal_file_footer')
+		'footer' => $this->loadTemplate('modal_file_footer'),
 	),
-	'body'     => $this->loadTemplate('modal_file_body')
+	'body'     => $this->loadTemplate('modal_file_body'),
 );
 ?>
 <?php echo JLayoutHelper::render('joomla.modal.main', $fileModalData); ?>

@@ -54,7 +54,7 @@ class ContactModelContact extends JModelAdmin
 		'assetgroup_id' => 'batchAccess',
 		'language_id'   => 'batchLanguage',
 		'tag'           => 'batchTag',
-		'user_id'       => 'batchUser'
+		'user_id'       => 'batchUser',
 	);
 
 	/**

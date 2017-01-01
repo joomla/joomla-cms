@@ -206,7 +206,7 @@ class ContactViewContacts extends JViewLegacy
 			'a.featured'     => JText::_('JFEATURED'),
 			'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
 			'a.language'     => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'           => JText::_('JGRID_HEADING_ID')
+			'a.id'           => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }
