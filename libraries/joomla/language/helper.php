@@ -12,6 +12,11 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Utilities\ArrayHelper;
 
 /**
+ * Allows for quoting in language .ini files.
+ */
+define('_QQ_', '"');
+
+/**
  * Language helper class
  *
  * @since  11.1
@@ -230,7 +235,7 @@ class JLanguageHelper
 					{
 						$lang->metadata = JLanguage::parseXMLLanguageFile($metafile);
 					}
-					// Not able to process xml language file. Fail silently.
+						// Not able to process xml language file. Fail silently.
 					catch (Exception $e)
 					{
 						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), JLog::WARNING, 'language');
@@ -254,7 +259,7 @@ class JLanguageHelper
 					{
 						$lang->manifest = JInstaller::parseXMLInstallFile($metafile);
 					}
-					// Not able to process xml language file. Fail silently.
+						// Not able to process xml language file. Fail silently.
 					catch (Exception $e)
 					{
 						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), JLog::WARNING, 'language');
@@ -379,5 +384,21 @@ class JLanguageHelper
 		}
 
 		return $languages;
+	}
+
+	/**
+	 * Parses a language ini file.
+	 *
+	 * @param   string  $fileName  Path and name of the ini file to parse.
+	 *
+	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function parseIniFile($fileName)
+	{
+		$strings = @parse_ini_file($fileName);
+
+		return is_array($strings) ? $strings : array();
 	}
 }
