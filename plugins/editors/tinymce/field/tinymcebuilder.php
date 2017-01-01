@@ -44,8 +44,8 @@ class JFormFieldTinymceBuilder extends JFormField
 	protected function getLayoutData()
 	{
 		$data       = parent::getLayoutData();
-		$valueAll   = (object) $this->form->getValue('params');
-		$setsAmount = empty($valueAll->sets_amount) ? 3 : $valueAll->sets_amount;
+		$paramsAll  = (object) $this->form->getValue('params');
+		$setsAmount = empty($paramsAll->sets_amount) ? 3 : $paramsAll->sets_amount;
 
 		// Get the plugin
 		require_once JPATH_PLUGINS . '/editors/tinymce/tinymce.php';
@@ -78,11 +78,18 @@ class JFormFieldTinymceBuilder extends JFormField
 		$setsForms  = array();
 		$formsource = JPATH_PLUGINS . '/editors/tinymce/form/setoptions.xml';
 
-		// Check the old values for B/C
-		$valueOld = new stdClass;
-		if ($this->value && empty($this->value['setoptions']))
+		// Preload an old params for B/C
+		$setParams = new stdClass;
+		if (!empty($paramsAll->html_width) && empty($paramsAll->configuration['setoptions']))
 		{
-			$valueOld = $valueAll;
+			$plugin = JPluginHelper::getPlugin('editors', 'tinymce');
+
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_TINY_LEGACY_WARNING', '#'), 'warning');
+
+			if (is_object($plugin) && !empty($plugin->params))
+			{
+				$setParams = (object) json_decode($plugin->params);
+			}
 		}
 
 		foreach (array_keys($data['setsNames']) as $num)
@@ -92,20 +99,24 @@ class JFormFieldTinymceBuilder extends JFormField
 
 			$setsForms[$num] = JForm::getInstance($formname, $formsource, array('control' => $control));
 
-			// Bind the values
-
+			// Check whether we already have saved values or it first time or even old params
 			if (empty($this->value['setoptions'][$num]))
 			{
-				$formValues = $valueOld;
+				$formValues = $setParams;
 
-				// Predefine access: 0 for special, 1 for registered, all else is public
-				$formValues->access = !$num ? 3 : ($num === 1 ? 2 : 1);
+				/*
+				 * Predefine group:
+				 * Set 0: for Administrator, Editor, Super Users (4,7,8)
+				 * Set 1: for Registered, Manager (2,6), all else are public
+				 */
+				$formValues->access = !$num ? array(4,7,8) : ($num === 1 ? array(2,6) : 1);
 			}
 			else
 			{
 				$formValues = $this->value['setoptions'][$num];
 			}
 
+			// Bind the values
 			$setsForms[$num]->bind($formValues);
 		}
 
