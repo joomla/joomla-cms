@@ -281,6 +281,7 @@ class JText
 		$args     = func_get_args();
 		$count    = count($args);
 		$suffixes = method_exists($lang, 'getAllPluralSuffixes') ? $lang->getAllPluralSuffixes() : false;
+
 		if ($suffixes === false)
 		{
 			JFactory::getDocument()->addScriptOptions('joomla.jtext.pluralData.suffixes', false, false);
@@ -294,49 +295,17 @@ class JText
 
 		foreach ($baseStrings as $baseString)
 		{
-			if ($lang->hasKey($baseString))
-			{
-				if ($lastParameterIsArray)
-				{
-					$strings[$baseString] = $lang->_(
-						$baseString, false, $interpretBackslashes
-					);
-				}
-				else
-				{
-					$strings[$baseString] = $lang->_(
-						$baseString, false
-					);
-				}
-				continue;
+			if ($lang->hasKey($baseString)) {
+				$strings[$baseString] = $lang->_($baseString, false, $lastParameterIsArray ? $interpretBackslashes : null);
 			}
 
-			if ($lastParameterIsArray)
-			{
-				foreach ($suffixes as $suffix)
-				{
-					$key = $baseString . '_' . $suffix[2];
+			foreach ($suffixes as $suffix) {
+				$key = $baseString . '_' . $suffix[2];
 
-					if ($lang->hasKey($key) && !in_array($key, $strings, true))
-					{
-						$strings[$key] = $lang->_(
-							$key, false, $interpretBackslashes
-						);
-					}
-				}
-			}
-			else
-			{
-				foreach ($suffixes as $suffix)
-				{
-					$key = $baseString . '_' . $suffix[2];
-
-					if ($lang->hasKey($key) && !in_array($key, $strings, true))
-					{
-						$strings[$key] = $lang->_(
-							$key, false
-						);
-					}
+				if ($lang->hasKey($key) && !in_array($key, $strings, true)) {
+					$strings[$key] = $lang->_(
+						$key, false, $lastParameterIsArray ? $interpretBackslashes : null
+					);
 				}
 			}
 		}
