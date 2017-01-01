@@ -30,7 +30,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	<?php foreach ($list as $item) : ?>
 		<div class="row-fluid">
 			<div class="span4">
-				<li><span class="icon-<?php echo $item->icon; ?>" title="<?php echo $item->title; ?>"></span> <?php echo $item->title . ' '; ?>
+				<span class="icon-<?php echo $item->icon; ?>" title="<?php echo $item->title; ?>"></span> <?php echo $item->title . ' '; ?>
 			</div>
 			<div class="span8">
 				<?php if(isset($item->link)) : ?>
