@@ -100,7 +100,7 @@ class PluginsViewPlugins extends JViewLegacy
 			'folder'       => JText::_('COM_PLUGINS_FOLDER_HEADING'),
 			'element'      => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
 			'access'       => JText::_('JGRID_HEADING_ACCESS'),
-			'extension_id' => JText::_('JGRID_HEADING_ID')
+			'extension_id' => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

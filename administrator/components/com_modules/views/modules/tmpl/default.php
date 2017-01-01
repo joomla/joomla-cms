@@ -209,7 +209,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 				'collapseModal',
 				array(
 					'title'  => JText::_('COM_MODULES_BATCH_OPTIONS'),
-					'footer' => $this->loadTemplate('batch_footer')
+					'footer' => $this->loadTemplate('batch_footer'),
 				),
 				$this->loadTemplate('batch_body')
 			); ?>

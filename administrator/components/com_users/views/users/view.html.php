@@ -190,7 +190,7 @@ class UsersViewUsers extends JViewLegacy
 			'a.email'         => JText::_('JGLOBAL_EMAIL'),
 			'a.lastvisitDate' => JText::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
 			'a.registerDate'  => JText::_('COM_USERS_HEADING_REGISTRATION_DATE'),
-			'a.id'            => JText::_('JGRID_HEADING_ID')
+			'a.id'            => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

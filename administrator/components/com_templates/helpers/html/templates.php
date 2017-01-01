@@ -86,7 +86,7 @@ class JHtmlTemplates
 						'title'  => JText::_('COM_TEMPLATES_BUTTON_PREVIEW'),
 						'height' => '500px',
 						'width'  => '800px',
-						'footer' => $footer
+						'footer' => $footer,
 					),
 					$body = '<div><img src="' . $preview . '" style="max-width:100%"></div>'
 				);

@@ -136,7 +136,7 @@ class JHtmlUsers
 				'footer'      => $footer,
 				'url'         => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&filter[user_id]=' . (int) $userId),
 				'height'      => '300px',
-				'width'       => '800px'
+				'width'       => '800px',
 			)
 		);
 

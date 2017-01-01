@@ -187,7 +187,7 @@ if ($saveOrder)
 					'collapseModal',
 					array(
 						'title'  => JText::_('COM_NEWSFEEDS_BATCH_OPTIONS'),
-						'footer' => $this->loadTemplate('batch_footer')
+						'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')
 				); ?>

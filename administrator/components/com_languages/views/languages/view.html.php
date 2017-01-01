@@ -132,7 +132,7 @@ class LanguagesViewLanguages extends JViewLegacy
 			'a.sef'          => JText::_('COM_LANGUAGES_FIELD_LANG_CODE_LABEL'),
 			'a.image'        => JText::_('COM_LANGUAGES_HEADING_LANG_IMAGE'),
 			'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
-			'a.lang_id'      => JText::_('JGRID_HEADING_ID')
+			'a.lang_id'      => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }
