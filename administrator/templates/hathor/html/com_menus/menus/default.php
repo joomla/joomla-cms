@@ -157,10 +157,10 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 									'bootstrap.renderModal',
 									'module' . $module->id . 'Modal',
 									array(
-										'url' => $link,
-										'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+										'url'    => $link,
+										'title'  => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
 										'height' => '300px',
-										'width' => '800px',
+										'width'  => '800px',
 										'footer' => '<a class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
 											. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 											. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module'
@@ -177,13 +177,13 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 							'bootstrap.renderModal',
 							'moduleModal',
 							array(
-								'url' => $link,
-								'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+								'url'    => $link,
+								'title'  => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
 								'height' => '500px',
-								'width' => '800px',
+								'width'  => '800px',
 								'footer' => '<a class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
 									. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-								)
+							)
 						); ?>
 					<?php endif; ?>
 				</td>
