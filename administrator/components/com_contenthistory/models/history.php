@@ -29,10 +29,14 @@ class ContenthistoryModelHistory extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-					'version_id', 'h.version_id',
-					'version_note', 'h.version_note',
-					'save_date', 'h.save_date',
-					'editor_user_id', 'h.editor_user_id',
+				'version_id',
+				'h.version_id',
+				'version_note',
+				'h.version_note',
+				'save_date',
+				'h.save_date',
+				'editor_user_id',
+				'h.editor_user_id',
 			);
 		}
 
