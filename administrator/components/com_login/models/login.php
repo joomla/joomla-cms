@@ -33,8 +33,8 @@ class LoginModelLogin extends JModelLegacy
 		$method = $input->getMethod();
 
 		$credentials = array(
-			'username' => $input->$method->get('username', '', 'USERNAME'),
-			'password' => $input->$method->get('passwd', '', 'RAW'),
+			'username'  => $input->$method->get('username', '', 'USERNAME'),
+			'password'  => $input->$method->get('passwd', '', 'RAW'),
 			'secretkey' => $input->$method->get('secretkey', '', 'RAW'),
 		);
 		$this->setState('credentials', $credentials);

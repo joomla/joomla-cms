@@ -346,9 +346,10 @@ class FinderIndexerQuery
 			// Get the menu item id.
 			$query = array(
 				'view' => $uri->getVar('view'),
-				'f' => $uri->getVar('f'),
-				'q' => $uri->getVar('q')
+				'f'    => $uri->getVar('f'),
+				'q'    => $uri->getVar('q')
 			);
+
 			$item = FinderHelperRoute::getItemid($query);
 
 			// Add the menu item id if present.
@@ -742,7 +743,7 @@ class FinderIndexerQuery
 		 */
 		$patterns = array(
 			'before' => JText::_('COM_FINDER_FILTER_WHEN_BEFORE'),
-			'after' => JText::_('COM_FINDER_FILTER_WHEN_AFTER')
+			'after'  => JText::_('COM_FINDER_FILTER_WHEN_AFTER')
 		);
 
 		// Add the taxonomy branch titles to the possible patterns.
@@ -753,7 +754,7 @@ class FinderIndexerQuery
 		}
 
 		// Container for search terms and phrases.
-		$terms = array();
+		$terms   = array();
 		$phrases = array();
 
 		// Cleared filter branches.
@@ -964,7 +965,7 @@ class FinderIndexerQuery
 		// An array of our boolean operators. $operator => $translation
 		$operators = array(
 			'AND' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_AND')),
-			'OR' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_OR')),
+			'OR'  => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_OR')),
 			'NOT' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_NOT'))
 		);
 

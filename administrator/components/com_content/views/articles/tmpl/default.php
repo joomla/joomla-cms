@@ -252,7 +252,7 @@ $assoc = JLanguageAssociations::isEnabled();
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
-						'title' => JText::_('COM_CONTENT_BATCH_OPTIONS'),
+						'title'  => JText::_('COM_CONTENT_BATCH_OPTIONS'),
 						'footer' => $this->loadTemplate('batch_footer')
 					),
 					$this->loadTemplate('batch_body')

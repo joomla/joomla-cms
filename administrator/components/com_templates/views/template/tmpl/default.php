@@ -377,12 +377,12 @@ if ($this->type == 'font')
 
 <?php // Collapse Modal
 $copyModalData = array(
-	'selector'	=> 'copyModal',
-	'params'	=> array(
-		'title'		=> JText::_('COM_TEMPLATES_TEMPLATE_COPY'),
-		'footer'	=> $this->loadTemplate('modal_copy_footer')
+	'selector' => 'copyModal',
+	'params'   => array(
+		'title'  => JText::_('COM_TEMPLATES_TEMPLATE_COPY'),
+		'footer' => $this->loadTemplate('modal_copy_footer')
 	),
-	'body'		=> $this->loadTemplate('modal_copy_body')
+	'body'     => $this->loadTemplate('modal_copy_body')
 );
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
@@ -392,12 +392,12 @@ $copyModalData = array(
 <?php if ($this->type != 'home') : ?>
 	<?php // Rename Modal
 	$renameModalData = array(
-		'selector'	=> 'renameModal',
-		'params'	=> array(
-			'title'		=> JText::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName),
-			'footer'	=> $this->loadTemplate('modal_rename_footer')
+		'selector' => 'renameModal',
+		'params'   => array(
+			'title'  => JText::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName),
+			'footer' => $this->loadTemplate('modal_rename_footer')
 		),
-		'body'		=> $this->loadTemplate('modal_rename_body')
+		'body'     => $this->loadTemplate('modal_rename_body')
 	);
 	?>
 	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
@@ -408,47 +408,47 @@ $copyModalData = array(
 <?php if ($this->type != 'home') : ?>
 	<?php // Delete Modal
 	$deleteModalData = array(
-		'selector'	=> 'deleteModal',
-		'params'	=> array(
-			'title'		=> JText::_('COM_TEMPLATES_ARE_YOU_SURE'),
-			'footer'	=> $this->loadTemplate('modal_delete_footer')
+		'selector' => 'deleteModal',
+		'params'   => array(
+			'title'  => JText::_('COM_TEMPLATES_ARE_YOU_SURE'),
+			'footer' => $this->loadTemplate('modal_delete_footer')
 		),
-		'body'		=> $this->loadTemplate('modal_delete_body')
+		'body'     => $this->loadTemplate('modal_delete_body')
 	);
 	?>
 	<?php echo JLayoutHelper::render('joomla.modal.main', $deleteModalData); ?>
 <?php endif; ?>
 <?php // File Modal
 $fileModalData = array(
-	'selector'	=> 'fileModal',
-	'params'	=> array(
-		'title'		=> JText::_('COM_TEMPLATES_NEW_FILE_HEADER'),
-		'footer'	=> $this->loadTemplate('modal_file_footer')
+	'selector' => 'fileModal',
+	'params'   => array(
+		'title'  => JText::_('COM_TEMPLATES_NEW_FILE_HEADER'),
+		'footer' => $this->loadTemplate('modal_file_footer')
 	),
-	'body'		=> $this->loadTemplate('modal_file_body')
+	'body'     => $this->loadTemplate('modal_file_body')
 );
 ?>
 <?php echo JLayoutHelper::render('joomla.modal.main', $fileModalData); ?>
 <?php // Folder Modal
 $folderModalData = array(
-	'selector'	=> 'folderModal',
-	'params'	=> array(
-		'title'		=> JText::_('COM_TEMPLATES_MANAGE_FOLDERS'),
-		'footer'	=> $this->loadTemplate('modal_folder_footer')
+	'selector' => 'folderModal',
+	'params'   => array(
+		'title'  => JText::_('COM_TEMPLATES_MANAGE_FOLDERS'),
+		'footer' => $this->loadTemplate('modal_folder_footer')
 	),
-	'body'		=> $this->loadTemplate('modal_folder_body')
+	'body'     => $this->loadTemplate('modal_folder_body')
 );
 ?>
 <?php echo JLayoutHelper::render('joomla.modal.main', $folderModalData); ?>
 <?php if ($this->type != 'home') : ?>
 	<?php // Resize Modal
 	$resizeModalData = array(
-		'selector'	=> 'resizeModal',
-		'params'	=> array(
-			'title'		=> JText::_('COM_TEMPLATES_RESIZE_IMAGE'),
-			'footer'	=> $this->loadTemplate('modal_resize_footer')
+		'selector' => 'resizeModal',
+		'params'   => array(
+			'title'  => JText::_('COM_TEMPLATES_RESIZE_IMAGE'),
+			'footer' => $this->loadTemplate('modal_resize_footer')
 		),
-		'body'		=> $this->loadTemplate('modal_resize_body')
+		'body'     => $this->loadTemplate('modal_resize_body')
 	);
 	?>
 	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">

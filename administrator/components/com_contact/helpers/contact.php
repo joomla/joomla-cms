@@ -189,7 +189,7 @@ class ContactHelper extends JHelperContent
 
 		$contexts = array(
 			'com_contact.contact' => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
-			'com_contact.mail' => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+			'com_contact.mail'    => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
 		);
 
 		return $contexts;

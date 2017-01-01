@@ -198,15 +198,15 @@ class ContactViewContacts extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => JText::_('JSTATUS'),
-			'a.name' => JText::_('JGLOBAL_TITLE'),
+			'a.ordering'     => JText::_('JGRID_HEADING_ORDERING'),
+			'a.published'    => JText::_('JSTATUS'),
+			'a.name'         => JText::_('JGLOBAL_TITLE'),
 			'category_title' => JText::_('JCATEGORY'),
-			'ul.name' => JText::_('COM_CONTACT_FIELD_LINKED_USER_LABEL'),
-			'a.featured' => JText::_('JFEATURED'),
-			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'ul.name'        => JText::_('COM_CONTACT_FIELD_LINKED_USER_LABEL'),
+			'a.featured'     => JText::_('JFEATURED'),
+			'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
+			'a.language'     => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'           => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

@@ -83,9 +83,9 @@ class JHtmlTemplates
 					'bootstrap.renderModal',
 					$template . '-Modal',
 					array(
-						'title' => JText::_('COM_TEMPLATES_BUTTON_PREVIEW'),
+						'title'  => JText::_('COM_TEMPLATES_BUTTON_PREVIEW'),
 						'height' => '500px',
-						'width' => '800px',
+						'width'  => '800px',
 						'footer' => $footer
 					),
 					$body = '<div><img src="' . $preview . '" style="max-width:100%"></div>'

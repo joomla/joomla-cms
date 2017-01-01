@@ -124,15 +124,15 @@ class LanguagesViewLanguages extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-				'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
-				'a.published' => JText::_('JSTATUS'),
-				'a.title' => JText::_('JGLOBAL_TITLE'),
-				'a.title_native' => JText::_('COM_LANGUAGES_HEADING_TITLE_NATIVE'),
-				'a.lang_code' => JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'),
-				'a.sef' => JText::_('COM_LANGUAGES_FIELD_LANG_CODE_LABEL'),
-				'a.image' => JText::_('COM_LANGUAGES_HEADING_LANG_IMAGE'),
-				'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-				'a.lang_id' => JText::_('JGRID_HEADING_ID')
+			'a.ordering'     => JText::_('JGRID_HEADING_ORDERING'),
+			'a.published'    => JText::_('JSTATUS'),
+			'a.title'        => JText::_('JGLOBAL_TITLE'),
+			'a.title_native' => JText::_('COM_LANGUAGES_HEADING_TITLE_NATIVE'),
+			'a.lang_code'    => JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'),
+			'a.sef'          => JText::_('COM_LANGUAGES_FIELD_LANG_CODE_LABEL'),
+			'a.image'        => JText::_('COM_LANGUAGES_HEADING_LANG_IMAGE'),
+			'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
+			'a.lang_id'      => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

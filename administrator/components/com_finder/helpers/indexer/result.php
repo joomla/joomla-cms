@@ -40,10 +40,10 @@ class FinderIndexerResult
 	 */
 	protected $instructions = array(
 		FinderIndexer::TITLE_CONTEXT => array('title', 'subtitle', 'id'),
-		FinderIndexer::TEXT_CONTEXT => array('summary', 'body'),
-		FinderIndexer::META_CONTEXT => array('meta', 'list_price', 'sale_price'),
-		FinderIndexer::PATH_CONTEXT => array('path', 'alias'),
-		FinderIndexer::MISC_CONTEXT => array('comments')
+		FinderIndexer::TEXT_CONTEXT  => array('summary', 'body'),
+		FinderIndexer::META_CONTEXT  => array('meta', 'list_price', 'sale_price'),
+		FinderIndexer::PATH_CONTEXT  => array('path', 'alias'),
+		FinderIndexer::MISC_CONTEXT  => array('comments')
 	);
 
 	/**
