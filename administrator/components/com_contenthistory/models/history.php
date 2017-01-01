@@ -339,13 +339,13 @@ class ContenthistoryModelHistory extends JModelList
 				'h.character_count, h.sha1_hash, h.version_data, h.keep_forever'
 			)
 		)
-		->from($db->quoteName('#__ucm_history') . ' AS h')
-		->where($db->quoteName('h.ucm_item_id') . ' = ' . (int) $this->getState('item_id'))
-		->where($db->quoteName('h.ucm_type_id') . ' = ' . (int) $this->getState('type_id'))
+			->from($db->quoteName('#__ucm_history') . ' AS h')
+			->where($db->quoteName('h.ucm_item_id') . ' = ' . (int) $this->getState('item_id'))
+			->where($db->quoteName('h.ucm_type_id') . ' = ' . (int) $this->getState('type_id'))
 
 		// Join over the users for the editor
-		->select('uc.name AS editor')
-		->join('LEFT', '#__users AS uc ON uc.id = h.editor_user_id');
+			->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id = h.editor_user_id');
 
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering');
