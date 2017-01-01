@@ -241,7 +241,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 			'collapseModal',
 			array(
 				'title'  => JText::_('COM_MENUS_BATCH_OPTIONS'),
-				'footer' => $this->loadTemplate('batch_footer')
+				'footer' => $this->loadTemplate('batch_footer'),
 			),
 			$this->loadTemplate('batch_body')
 		); ?>

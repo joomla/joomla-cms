@@ -220,7 +220,7 @@ $saveOrder = $listOrder == 'ordering';
 			'collapseModal',
 			array(
 				'title'  => JText::_('COM_BANNERS_BATCH_OPTIONS'),
-				'footer' => $this->loadTemplate('batch_footer')
+				'footer' => $this->loadTemplate('batch_footer'),
 			),
 			$this->loadTemplate('batch_body')
 		); ?>

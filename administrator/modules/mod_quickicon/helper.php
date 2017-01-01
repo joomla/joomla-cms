@@ -55,7 +55,7 @@ abstract class ModQuickIconHelper
 						'icon'   => 'header/icon-48-article-add.png',
 						'text'   => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
-						'group'  => 'MOD_QUICKICON_CONTENT'
+						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
 					array(
 						'link'   => JRoute::_('index.php?option=com_content'),
@@ -63,7 +63,7 @@ abstract class ModQuickIconHelper
 						'icon'   => 'header/icon-48-article.png',
 						'text'   => JText::_('MOD_QUICKICON_ARTICLE_MANAGER'),
 						'access' => array('core.manage', 'com_content'),
-						'group'  => 'MOD_QUICKICON_CONTENT'
+						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
 					array(
 						'link'   => JRoute::_('index.php?option=com_categories&extension=com_content'),
@@ -71,7 +71,7 @@ abstract class ModQuickIconHelper
 						'icon'   => 'header/icon-48-category.png',
 						'text'   => JText::_('MOD_QUICKICON_CATEGORY_MANAGER'),
 						'access' => array('core.manage', 'com_content'),
-						'group'  => 'MOD_QUICKICON_CONTENT'
+						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
 					array(
 						'link'   => JRoute::_('index.php?option=com_media'),
@@ -79,7 +79,7 @@ abstract class ModQuickIconHelper
 						'icon'   => 'header/icon-48-media.png',
 						'text'   => JText::_('MOD_QUICKICON_MEDIA_MANAGER'),
 						'access' => array('core.manage', 'com_media'),
-						'group'  => 'MOD_QUICKICON_CONTENT'
+						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
 					array(
 						'link'   => JRoute::_('index.php?option=com_menus'),
@@ -87,7 +87,7 @@ abstract class ModQuickIconHelper
 						'icon'   => 'header/icon-48-menumgr.png',
 						'text'   => JText::_('MOD_QUICKICON_MENU_MANAGER'),
 						'access' => array('core.manage', 'com_menus'),
-						'group'  => 'MOD_QUICKICON_STRUCTURE'
+						'group'  => 'MOD_QUICKICON_STRUCTURE',
 					),
 					array(
 						'link'   => JRoute::_('index.php?option=com_users'),
@@ -95,7 +95,7 @@ abstract class ModQuickIconHelper
 						'icon'   => 'header/icon-48-user.png',
 						'text'   => JText::_('MOD_QUICKICON_USER_MANAGER'),
 						'access' => array('core.manage', 'com_users'),
-						'group'  => 'MOD_QUICKICON_USERS'
+						'group'  => 'MOD_QUICKICON_USERS',
 					),
 					array(
 						'link'   => JRoute::_('index.php?option=com_modules'),
@@ -103,7 +103,7 @@ abstract class ModQuickIconHelper
 						'icon'   => 'header/icon-48-module.png',
 						'text'   => JText::_('MOD_QUICKICON_MODULE_MANAGER'),
 						'access' => array('core.manage', 'com_modules'),
-						'group'  => 'MOD_QUICKICON_STRUCTURE'
+						'group'  => 'MOD_QUICKICON_STRUCTURE',
 					),
 					array(
 						'link'   => JRoute::_('index.php?option=com_config'),
@@ -111,7 +111,7 @@ abstract class ModQuickIconHelper
 						'icon'   => 'header/icon-48-config.png',
 						'text'   => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
-						'group'  => 'MOD_QUICKICON_CONFIGURATION'
+						'group'  => 'MOD_QUICKICON_CONFIGURATION',
 					),
 					array(
 						'link'   => JRoute::_('index.php?option=com_templates'),
@@ -119,7 +119,7 @@ abstract class ModQuickIconHelper
 						'icon'   => 'header/icon-48-themes.png',
 						'text'   => JText::_('MOD_QUICKICON_TEMPLATE_MANAGER'),
 						'access' => array('core.manage', 'com_templates'),
-						'group'  => 'MOD_QUICKICON_CONFIGURATION'
+						'group'  => 'MOD_QUICKICON_CONFIGURATION',
 					),
 					array(
 						'link'   => JRoute::_('index.php?option=com_languages'),
@@ -127,7 +127,7 @@ abstract class ModQuickIconHelper
 						'icon'   => 'header/icon-48-language.png',
 						'text'   => JText::_('MOD_QUICKICON_LANGUAGE_MANAGER'),
 						'access' => array('core.manage', 'com_languages'),
-						'group'  => 'MOD_QUICKICON_CONFIGURATION'
+						'group'  => 'MOD_QUICKICON_CONFIGURATION',
 					),
 					array(
 						'link'   => JRoute::_('index.php?option=com_installer'),
@@ -135,8 +135,8 @@ abstract class ModQuickIconHelper
 						'icon'   => 'header/icon-48-extension.png',
 						'text'   => JText::_('MOD_QUICKICON_INSTALL_EXTENSIONS'),
 						'access' => array('core.manage', 'com_installer'),
-						'group'  => 'MOD_QUICKICON_EXTENSIONS'
-					)
+						'group'  => 'MOD_QUICKICON_EXTENSIONS',
+					),
 				);
 			}
 			else
@@ -158,7 +158,7 @@ abstract class ModQuickIconHelper
 						'image'  => 'cog',
 						'text'   => null,
 						'access' => true,
-						'group'  => 'MOD_QUICKICON_EXTENSIONS'
+						'group'  => 'MOD_QUICKICON_EXTENSIONS',
 					);
 					$icon = array_merge($default, $icon);
 
