@@ -304,6 +304,26 @@ class Cache
 	}
 
 	/**
+	 * Flush all existing items in storage.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function flush()
+	{
+		// Get the storage
+		$handler = $this->_getStorage();
+
+		if (!($handler instanceof Exception))
+		{
+			return $handler->flush();
+		}
+
+		return false;
+	}
+
+	/**
 	 * Garbage collect expired cache data
 	 *
 	 * @return  boolean
