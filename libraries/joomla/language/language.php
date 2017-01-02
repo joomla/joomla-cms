@@ -761,7 +761,7 @@ class JLanguage
 	 *
 	 * This method will not note the successful loading of a file - use load() instead.
 	 *
-	 * @param   string  $filename   The name of the file.
+	 * @param   string  $fileName   The name of the file.
 	 * @param   string  $extension  The name of the extension.
 	 *
 	 * @return  boolean  True if new strings have been added to the language
@@ -769,12 +769,12 @@ class JLanguage
 	 * @see     JLanguage::load()
 	 * @since   11.1
 	 */
-	protected function loadLanguage($filename, $extension = 'unknown')
+	protected function loadLanguage($fileName, $extension = 'unknown')
 	{
 		$this->counter++;
 
 		$result  = false;
-		$strings = $this->parse($filename);
+		$strings = $this->parse($fileName);
 
 		if ($strings !== array())
 		{
@@ -788,7 +788,7 @@ class JLanguage
 			$this->paths[$extension] = array();
 		}
 
-		$this->paths[$extension][$filename] = $result;
+		$this->paths[$extension][$fileName] = $result;
 
 		return $result;
 	}
