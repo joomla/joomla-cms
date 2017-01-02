@@ -74,9 +74,6 @@ class JControllerLegacyTest extends TestCase
 		$path = JPath::clean(JPATH_ROOT . '/addmodelpath');
 		JControllerLegacy::addModelPath($path);
 
-		// The default path is the class file folder/forms
-		$valid = JPATH_PLATFORM . '/joomla/form/fields';
-
 		$this->assertTrue(
 			in_array($path, JModelLegacy::addIncludePath()),
 			'Line:' . __LINE__ . ' The path should be added to the JModel paths.'

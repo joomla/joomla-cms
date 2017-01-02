@@ -35,7 +35,7 @@ class PlgSystemSef extends JPlugin
 	{
 		$doc = $this->app->getDocument();
 
-		if (!$this->app->isSite() || $doc->getType() !== 'html')
+		if (!$this->app->isClient('site') || $doc->getType() !== 'html')
 		{
 			return;
 		}
@@ -86,7 +86,7 @@ class PlgSystemSef extends JPlugin
 	 */
 	public function onAfterRender()
 	{
-		if (!$this->app->isSite())
+		if (!$this->app->isClient('site'))
 		{
 			return;
 		}

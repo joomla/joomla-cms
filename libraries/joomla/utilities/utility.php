@@ -53,7 +53,7 @@ class JUtility
 	 *
 	 * @return  int  Size in number of bytes
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getMaxUploadSize($custom = null)
 	{

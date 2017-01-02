@@ -1150,7 +1150,6 @@ class JTwitterStatusesTest extends TestCase
 		}
 		else
 		{
-			$data = array();
 			$this->setExpectedException('RuntimeException');
 
 			$this->object->getOembed(null, null);

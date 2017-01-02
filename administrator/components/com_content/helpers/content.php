@@ -145,7 +145,6 @@ class ContentHelper extends JHelperContent
 	{
 		$db = JFactory::getDbo();
 		$parts     = explode('.', $extension);
-		$component = $parts[0];
 		$section   = null;
 
 		if (count($parts) > 1)
@@ -210,7 +209,7 @@ class ContentHelper extends JHelperContent
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getContexts()
 	{

@@ -384,7 +384,7 @@ abstract class FinderIndexer
 	 *
 	 * @return  integer  Cummulative number of tokens extracted from the input so far.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function tokenizeToDbShort($input, $context, $lang, $format, $count)
 	{

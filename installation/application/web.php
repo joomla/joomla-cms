@@ -482,7 +482,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		$name = md5($this->get('secret') . $this->get('session_name', get_class($this)));
 
 		// Calculate the session lifetime.
-		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
+		$lifetime = ($this->get('lifetime') ? $this->get('lifetime') * 60 : 900);
 
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');

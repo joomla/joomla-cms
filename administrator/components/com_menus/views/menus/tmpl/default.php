@@ -24,7 +24,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
 
 $script = array();
-$script[] = "jQuery(document).ready(function() {";
+$script[] = 'jQuery(document).ready(function() {';
 
 foreach ($this->items as $item) :
 	if ($user->authorise('core.edit', 'com_menus')) :
@@ -40,7 +40,7 @@ $script[] = '		setTimeout(function(){';
 $script[] = '			window.parent.location.reload();';
 $script[] = '		},1000);';
 $script[] = '	});';
-$script[] = "});";
+$script[] = '});';
 
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
@@ -189,13 +189,13 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 													'modalWidth'  => '80',
 													'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
 															. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-															. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+															. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 															. '<button type="button" class="btn btn-primary" aria-hidden="true"'
 															. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-															. JText::_("JSAVE") . '</button>'
+															. JText::_('JSAVE') . '</button>'
 															. '<button type="button" class="btn btn-success" aria-hidden="true"'
 															. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
-															. JText::_("JAPPLY") . '</button>',
+															. JText::_('JAPPLY') . '</button>',
 												)
 											); ?>
 									<?php endif; ?>
@@ -218,13 +218,13 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 											'modalWidth'  => '80',
 											'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
 													. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#closeBtn\').click();">'
-													. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+													. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 													. '<button type="button" class="btn btn-primary" aria-hidden="true"'
 													. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#saveBtn\').click();">'
-													. JText::_("JSAVE") . '</button>'
+													. JText::_('JSAVE') . '</button>'
 													. '<button type="button" class="btn btn-success" aria-hidden="true"'
 													. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#applyBtn\').click();">'
-													. JText::_("JAPPLY") . '</button>',
+													. JText::_('JAPPLY') . '</button>',
 										)
 									); ?>
 							<?php endif; ?>

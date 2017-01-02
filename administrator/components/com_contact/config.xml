@@ -5,6 +5,7 @@
 		name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
+		addfieldpath="/administrator/components/com_fields/models/fields"
 		>
 
 		<field
@@ -341,7 +342,9 @@
 
 		<field
 			name="show_user_custom_fields"
-			type="category"
+			type="fieldgroups"
+			multiple="true"
+			context="com_users.user"
 			label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 			description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
 			multiple="true"
