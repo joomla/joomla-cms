@@ -90,10 +90,10 @@ class LanguagesModelOverride extends JModelAdmin
 	public function getItem($pk = null)
 	{
 		$input    = JFactory::getApplication()->input;
-		$pk       = (!empty($pk)) ? $pk : $input->get('id');
-		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client')))
+		$pk       = !empty($pk) ? $pk : $input->get('id');
+		$fileName = constant('JPATH_' . strtoupper($this->getState('filter.client')))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
-		$strings = JLanguageHelper::parseIniFile($filename);
+		$strings  = JLanguageHelper::parseIniFile($fileName);
 
 		$result = new stdClass;
 		$result->key      = '';
@@ -105,10 +105,10 @@ class LanguagesModelOverride extends JModelAdmin
 			$result->override = $strings[$pk];
 		}
 
-		$opposite_filename = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site')) 
+		$oppositeFileName = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site')) 
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
-		$opposite_strings = JLanguageHelper::parseIniFile($opposite_filename);
-		$result->both = isset($opposite_strings[$pk]) && ($opposite_strings[$pk] == $strings[$pk]);
+		$oppositeStrings  = JLanguageHelper::parseIniFile($oppositeFileName);
+		$result->both = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
 
 		return $result;
 	}
@@ -151,8 +151,8 @@ class LanguagesModelOverride extends JModelAdmin
 		$client = $client ? 'administrator' : 'site';
 
 		// Parse the override.ini file in oder to get the keys and strings.
-		$filename = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
-		$strings  = JLanguageHelper::parseIniFile($filename);
+		$fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
+		$strings  = JLanguageHelper::parseIniFile($fileName);
 
 		if (isset($strings[$data['id']]))
 		{
@@ -185,7 +185,7 @@ class LanguagesModelOverride extends JModelAdmin
 		$registry = new Registry($strings);
 		$reg = $registry->toString('INI');
 
-		if (!JFile::write($filename, $reg))
+		if (!JFile::write($fileName, $reg))
 		{
 			return false;
 		}

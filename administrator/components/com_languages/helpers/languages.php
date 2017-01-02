@@ -66,16 +66,16 @@ class LanguagesHelper
 	/**
 	 * Method for parsing ini files.
 	 *
-	 * @param   string  $filename  Path and name of the ini file to parse.
+	 * @param   string  $fileName  Path and name of the ini file to parse.
 	 *
 	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned.
 	 *
 	 * @since   2.5
 	 * @deprecated   __DEPLOY_VERSION__ Use JLanguageHelper::parseIniFile() instead.
 	 */
-	public static function parseFile($filename)
+	public static function parseFile($fileName)
 	{
-		return JLanguageHelper::parseIniFile($filename);
+		return JLanguageHelper::parseIniFile($fileName);
 	}
 
 	/**

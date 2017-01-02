@@ -55,13 +55,13 @@ class LanguagesModelOverrides extends JModelList
 		$client = in_array($this->state->get('filter.client'), array(0, 'site')) ? 'SITE' : 'ADMINISTRATOR';
 
 		// Parse the override.ini file in order to get the keys and strings.
-		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
-		$strings = JLanguageHelper::parseIniFile($filename);
+		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$strings  = JLanguageHelper::parseIniFile($fileName);
 
 		// Delete the override.ini file if empty.
-		if (file_exists($filename) && empty($strings))
+		if (file_exists($fileName) && $strings === array())
 		{
-			JFile::delete($filename);
+			JFile::delete($fileName);
 		}
 
 		// Filter the loaded strings according to the search box.
@@ -252,8 +252,8 @@ class LanguagesModelOverrides extends JModelList
 		$client = $filterclient == 0 ? 'SITE' : 'ADMINISTRATOR';
 
 		// Parse the override.ini file in oder to get the keys and strings.
-		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
-		$strings  = JLanguageHelper::parseIniFile($filename);
+		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$strings  = JLanguageHelper::parseIniFile($fileName);
 
 		// Unset strings that shall be deleted
 		foreach ($cids as $key)
@@ -273,9 +273,9 @@ class LanguagesModelOverrides extends JModelList
 		$registry = new Registry($strings);
 		$reg = $registry->toString('INI');
 
-		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 
-		if (!JFile::write($filename, $reg))
+		if (!JFile::write($fileName, $reg))
 		{
 			return false;
 		}

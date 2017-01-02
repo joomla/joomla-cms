@@ -796,16 +796,16 @@ class JLanguage
 	/**
 	 * Parses a language file.
 	 *
-	 * @param   string  $filename  The name of the file.
+	 * @param   string  $fileName  The name of the file.
 	 *
 	 * @return  array  The array of parsed strings.
 	 *
 	 * @since   11.1
 	 * @deprecated  __DEPLOY_VERSION__ Use JLanguageHelper::parseIniFile() instead.
 	 */
-	protected function parse($filename)
+	protected function parse($fileName)
 	{
-		return JLanguageHelper::parseIniFile($filename, $this->debug);
+		return JLanguageHelper::parseIniFile($fileName, $this->debug);
 	}
 
 	/**

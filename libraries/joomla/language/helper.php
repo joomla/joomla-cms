@@ -384,17 +384,17 @@ class JLanguageHelper
 	/**
 	 * Parse strings from a language file.
 	 *
-	 * @param   string   $filename  The language ini file path.
+	 * @param   string   $fileName  The language ini file path.
 	 * @param   boolean  $debug     If set to true debug language ini file.
 	 *
 	 * @return  boolean  True if saved, false otherwise.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function parseIniFile($filename, $debug = false)
+	public static function parseIniFile($fileName, $debug = false)
 	{
 		// Check if file exists.
-		if (!file_exists($filename))
+		if (!file_exists($fileName))
 		{
 			return array();
 		}
@@ -415,7 +415,7 @@ class JLanguageHelper
 			ini_set('track_errors', true);
 		}
 
-		$strings = @parse_ini_file($filename);
+		$strings = @parse_ini_file($fileName);
 
 		// Restore error tracking to what it was before.
 		if ($debug === true)
@@ -423,7 +423,7 @@ class JLanguageHelper
 			ini_set('track_errors', $trackErrors);
 
 			// @todo: the debug language should use the main debug like any other object
-			JFactory::getLanguage()->debugFile($filename);
+			JFactory::getLanguage()->debugFile($fileName);
 		}
 
 		return is_array($strings) ? $strings : array();
