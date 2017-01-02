@@ -306,7 +306,7 @@ class MenusModelItems extends JModelList
 							'u.name',
 							'c.element',
 							'ag.title',
-              'e.enabled',
+							'e.enabled',
 							'e.name',
 							'mt.id',
 							'mt.title',
