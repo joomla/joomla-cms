@@ -101,6 +101,10 @@
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
 			<option value="a.created_by ASC">JAUTHOR_ASC</option>
 			<option value="a.created_by DESC">JAUTHOR_DESC</option>
+			<option value="a.publish_up ASC">COM_CONTENT_PUBLISH_UP_ASC</option>
+			<option value="a.publish_up DESC">COM_CONTENT_PUBLISH_UP_DESC</option>
+			<option value="a.publish_down ASC">COM_CONTENT_PUBLISH_DOWN_ASC</option>
+			<option value="a.publish_down DESC">COM_CONTENT_PUBLISH_DOWN_DESC</option>
 			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
 			<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.created ASC">JDATE_ASC</option>

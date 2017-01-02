@@ -38,7 +38,7 @@ class JFormRuleCaptcha extends JFormRule
 		$app    = JFactory::getApplication();
 		$plugin = $app->get('captcha');
 
-		if ($app->isSite())
+		if ($app->isClient('site'))
 		{
 			$plugin = $app->getParams()->get('captcha', $plugin);
 		}

@@ -188,7 +188,13 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config = new Registry;
 		$config->set('session', false);
 
-		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockClient = $this->getMockBuilder('JApplicationWebClient')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$inspector = new JApplicationCmsInspector($mockInput, $config, $mockClient);
 
@@ -253,6 +259,23 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->assertEquals(array('JWebDoExecute', 'onBeforeRender', 'onAfterRender', 'onAfterRespond'), TestMockDispatcher::$triggered);
 		$this->assertEquals('JWeb Body', $this->class->getBody());
 		$this->assertEquals('JWeb Body', $buffer);
+	}
+
+	/**
+	 * Tests the JApplicationCms::get method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function testGet()
+	{
+		$config = new Registry(array('foo' => 'bar'));
+
+		TestReflection::setValue($this->class, 'config', $config);
+
+		$this->assertEquals('bar', $this->class->get('foo', 'car'));
+		$this->assertEquals('car', $this->class->get('goo', 'car'));
 	}
 
 	/**
@@ -371,7 +394,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function testIsClient()
 	{

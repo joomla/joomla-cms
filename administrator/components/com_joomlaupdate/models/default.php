@@ -251,7 +251,22 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = $updateInfo['object']->downloadurl->_data;
-		$basename   = basename($packageURL);
+		$headers    = get_headers($packageURL, 1);
+
+		// Follow the Location headers until the actual download URL is known
+		while (isset($headers['Location']))
+		{
+			$packageURL = $headers['Location'];
+			$headers    = get_headers($packageURL, 1);
+		}
+
+		// Remove protocol, path and query string from URL
+		$basename = basename($packageURL);
+
+		if (strpos($basename, '?') !== false)
+		{
+			$basename = substr($basename, 0, strpos($basename, '?'));
+		}
 
 		// Find the path to the temp directory and the local package.
 		$config  = JFactory::getConfig();
@@ -479,7 +494,7 @@ ENDDATA;
 				else
 				{
 					// Try to find the system temp path.
-					$tmpfile = @tempnam("dummy", "");
+					$tmpfile = @tempnam('dummy', '');
 					$systemp = @dirname($tmpfile);
 					@unlink($tmpfile);
 

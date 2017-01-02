@@ -11,10 +11,15 @@ function sendPermissions(event) {
 	var asset = 'not';
 	var component = getUrlParam('component');
 	var extension = getUrlParam('extension');
-	var option = getUrlParam('option');
-	var view = getUrlParam('view');
-	var title = component;
-	var value = this.value;
+	var option    = getUrlParam('option');
+	var view      = getUrlParam('view');
+	var title     = component;
+	var value     = this.value;
+	var context   = '';
+
+	if (document.getElementById('jform_context')){
+		context = document.getElementById('jform_context').value;
+	}
 
 	if (option == 'com_config' && component == false && extension == false)
 	{
@@ -22,6 +27,10 @@ function sendPermissions(event) {
 	}
 	else if (extension == false && view == 'component'){
 		asset = component;
+	}
+	else if (context){
+		asset = context + '.fieldgroup.' + getUrlParam('id');
+		title = document.getElementById('jform_title').value;
 	}
 	else if (extension != false && view != false){
 		asset = extension + '.' + view + '.' + getUrlParam('id');
@@ -74,8 +83,9 @@ function sendPermissions(event) {
 			{
 				icon.setAttribute('class', 'icon-save');
 
-				jQuery(event.target).parents().next('td').find('span')
-					.removeClass().addClass(response.data.class)
+				jQuery(event.target).parents().next("td").find("span")
+					.removeClass()
+					.addClass(response['data']['class'])
 					.html(response.data.text);
 			}
 		}

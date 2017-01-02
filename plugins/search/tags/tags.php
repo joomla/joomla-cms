@@ -129,7 +129,7 @@ class PlgSearchTags extends JPlugin
 			$query->where('a.access IN (' . $groups . ')');
 		}
 
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 		{
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
@@ -156,7 +156,7 @@ class PlgSearchTags extends JPlugin
 			foreach ($rows as $key => $row)
 			{
 				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->id);
-				$rows[$key]->text       = ($row->description != "" ? $row->description : $row->title);
+				$rows[$key]->text       = ($row->description != '' ? $row->description : $row->title);
 				$rows[$key]->text      .= $row->note;
 				$rows[$key]->section    = $section;
 				$rows[$key]->created    = $row->created;

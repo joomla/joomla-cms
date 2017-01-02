@@ -113,7 +113,7 @@ $saveOrder = $listOrder == 'ordering';
 				</th>
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
-					<?php if ($canOrder && $saveOrder) :?>
+					<?php if ($canOrder && $saveOrder) : ?>
 						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'modules.saveorder'); ?>
 					<?php endif; ?>
 				</th>
@@ -163,7 +163,15 @@ $saveOrder = $listOrder == 'ordering';
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('modules.state', $item->published, $i, $canChange, 'cb'); ?>
+					<?php // Check if extension is enabled ?>
+					<?php if ($item->enabled > 0) : ?>
+						<?php echo JHtml::_('modules.state', $item->published, $i, $canChange, 'cb'); ?>
+					<?php else : ?>
+						<?php // Extension is not enabled, show a message that indicates this. ?>
+							<button class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>">
+								<i class="icon-ban-circle"></i>
+							</button>
+					<?php endif; ?>					
 				</td>
 				<td class="center">
 					<?php echo $item->position; ?>
@@ -196,7 +204,13 @@ $saveOrder = $listOrder == 'ordering';
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<td class="center">
-					<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+					<?php if ($item->language == ''):?>
+						<?php echo JText::_('JDEFAULT'); ?>
+					<?php elseif ($item->language == '*'):?>
+						<?php echo JText::alt('JALL', 'language'); ?>
+					<?php else:?>
+						<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+					<?php endif;?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>
