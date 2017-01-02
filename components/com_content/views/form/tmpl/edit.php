@@ -47,9 +47,9 @@ JFactory::getDocument()->addScriptDeclaration("
 
 	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 		<fieldset>
-			<?php echo JHtml::_("bootstrap.startTabSet", "com-content-form", array("active" => "editor")); ?>
+			<?php echo JHtml::_('bootstrap.startTabSet', 'com-content-form', array('active' => 'editor')); ?>
 
-			<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "editor", JText::_("COM_CONTENT_ARTICLE_CONTENT")); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'com-content-form', 'editor', JText::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 				<?php echo $this->form->renderField('title'); ?>
 
 				<?php if (is_null($this->item->id)) : ?>
@@ -61,10 +61,10 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php if ($this->captchaEnabled) : ?>
 					<?php echo $this->form->renderField('captcha'); ?>
 				<?php endif; ?>
-			<?php echo JHtml::_("bootstrap.endTab"); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php if ($params->get('show_urls_images_frontend')): ?>
-			<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "images", JText::_("COM_CONTENT_IMAGES_AND_URLS")); ?>
+			<?php if ($params->get('show_urls_images_frontend')) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'com-content-form', 'images', JText::_('COM_CONTENT_IMAGES_AND_URLS')); ?>
 				<?php echo $this->form->renderField('image_intro', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
@@ -94,21 +94,21 @@ JFactory::getDocument()->addScriptDeclaration("
 						<?php echo $this->form->getInput('targetc', 'urls'); ?>
 					</div>
 				</div>
-			<?php echo JHtml::_("bootstrap.endTab"); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
 			<?php foreach ($this->form->getFieldsets('params') as $name => $fieldSet) : ?>
-				<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "params-" . $name, JText::_($fieldSet->label)); ?>
-					<?php if (isset($fieldSet->description) && trim($fieldSet->description)): ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'com-content-form', 'params-' . $name, JText::_($fieldSet->label)); ?>
+					<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 						<?php echo '<p class="alert alert-info">' . $this->escape(JText::_($fieldSet->description)) . '</p>'; ?>
 					<?php endif; ?>
 					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
-				<?php echo JHtml::_("bootstrap.endTab"); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endforeach; ?>
 
-			<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "publishing", JText::_("COM_CONTENT_PUBLISHING")); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'com-content-form', 'publishing', JText::_('COM_CONTENT_PUBLISHING')); ?>
 				<?php echo $this->form->renderField('catid'); ?>
 				<?php echo $this->form->renderField('tags'); ?>
 				<?php if ($params->get('save_history', 0)) : ?>
@@ -122,7 +122,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php echo $this->form->renderField('publish_down'); ?>
 				<?php endif; ?>
 				<?php echo $this->form->renderField('access'); ?>
-				<?php if (is_null($this->item->id)):?>
+				<?php if (is_null($this->item->id)) : ?>
 					<div class="control-group">
 						<div class="control-label">
 						</div>
@@ -131,18 +131,18 @@ JFactory::getDocument()->addScriptDeclaration("
 						</div>
 					</div>
 				<?php endif; ?>
-			<?php echo JHtml::_("bootstrap.endTab"); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "language", JText::_("JFIELD_LANGUAGE_LABEL")); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'com-content-form', 'language', JText::_('JFIELD_LANGUAGE_LABEL')); ?>
 				<?php echo $this->form->renderField('language'); ?>
-			<?php echo JHtml::_("bootstrap.endTab"); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "metadata", JText::_("COM_CONTENT_METADATA")); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'com-content-form', 'metadata', JText::_('COM_CONTENT_METADATA')); ?>
 				<?php echo $this->form->renderField('metadesc'); ?>
 				<?php echo $this->form->renderField('metakey'); ?>
-			<?php echo JHtml::_("bootstrap.endTab"); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_("bootstrap.endTabSet"); ?>
+			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="return" value="<?php echo $this->return_page; ?>" />

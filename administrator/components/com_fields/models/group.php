@@ -8,12 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
-
 /**
  * Group Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsModelGroup extends JModelAdmin
 {
@@ -24,32 +22,16 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function save($data)
 	{
 		// Alter the title for save as copy
 		$input = JFactory::getApplication()->input;
 
+		// Save new group as unpublished
 		if ($input->get('task') == 'save2copy')
 		{
-			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
-
-			if ($data['title'] == $origTable->title)
-			{
-				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-				$data['title'] = $title;
-				$data['alias'] = $alias;
-			}
-			else
-			{
-				if ($data['alias'] == $origTable->alias)
-				{
-					$data['alias'] = '';
-				}
-			}
-
 			$data['state'] = 0;
 		}
 
@@ -65,37 +47,12 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  Exception
 	 */
 	public function getTable($name = 'Group', $prefix = 'FieldsTable', $options = array())
 	{
 		return JTable::getInstance($name, $prefix, $options);
-	}
-
-	/**
-	 * Method to change the title & alias.
-	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
-	 *
-	 * @return  array  Contains the modified title and alias.
-	 *
-	 * @since    __DEPLOY_VERSION__
-	 */
-	protected function generateNewTitle($category_id, $alias, $title)
-	{
-		// Alter the title & alias
-		$table = $this->getTable();
-
-		while ($table->load(array('alias' => $alias)))
-		{
-			$title = StringHelper::increment($title);
-			$alias = StringHelper::increment($alias, 'dash');
-		}
-
-		return array($title, $alias);
 	}
 
 	/**
@@ -106,22 +63,22 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$extension = $this->getState('filter.extension');
+		$context = $this->getState('filter.context');
 		$jinput = JFactory::getApplication()->input;
 
-		if (empty($extension) && isset($data['extension']))
+		if (empty($context) && isset($data['context']))
 		{
-			$extension = $data['extension'];
-			$this->setState('filter.extension', $extension);
+			$context = $data['context'];
+			$this->setState('filter.context', $context);
 		}
 
 		// Get the form.
 		$form = $this->loadForm(
-			'com_fields.group.' . $extension, 'group',
+			'com_fields.group.' . $context, 'group',
 			array(
 				'control'   => 'jform',
 				'load_data' => $loadData,
@@ -134,12 +91,12 @@ class FieldsModelGroup extends JModelAdmin
 		}
 
 		// Modify the form based on Edit State access controls.
-		if (empty($data['extension']))
+		if (empty($data['context']))
 		{
-			$data['extension'] = $extension;
+			$data['context'] = $context;
 		}
 
-		if (!JFactory::getUser()->authorise('core.edit.state', $extension . '.fieldgroup.' . $jinput->get('id')))
+		if (!JFactory::getUser()->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -160,7 +117,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function canDelete($record)
 	{
@@ -169,7 +126,7 @@ class FieldsModelGroup extends JModelAdmin
 			return false;
 		}
 
-		return JFactory::getUser()->authorise('core.delete', $record->extension . '.fieldgroup.' . (int) $record->id);
+		return JFactory::getUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
 	}
 
 	/**
@@ -180,7 +137,7 @@ class FieldsModelGroup extends JModelAdmin
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the
 	 *                   component.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function canEditState($record)
 	{
@@ -189,11 +146,11 @@ class FieldsModelGroup extends JModelAdmin
 		// Check for existing fieldgroup.
 		if (!empty($record->id))
 		{
-			return $user->authorise('core.edit.state', $record->extension . '.fieldgroup.' . (int) $record->id);
+			return $user->authorise('core.edit.state', $record->context . '.fieldgroup.' . (int) $record->id);
 		}
 
 		// Default to component settings.
-		return $user->authorise('core.edit.state', $record->extension);
+		return $user->authorise('core.edit.state', $record->context);
 	}
 
 	/**
@@ -203,14 +160,14 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function populateState()
 	{
 		parent::populateState();
 
-		$extension = JFactory::getApplication()->getUserStateFromRequest('com_fields.groups.extension', 'extension', 'com_fields', 'CMD');
-		$this->setState('filter.extension', $extension);
+		$context = JFactory::getApplication()->getUserStateFromRequest('com_fields.groups.context', 'context', 'com_fields', 'CMD');
+		$this->setState('filter.context', $context);
 	}
 
 	/**
@@ -220,11 +177,11 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'extension = ' . $this->_db->quote($table->extension);
+		return 'context = ' . $this->_db->quote($table->context);
 	}
 
 	/**
@@ -237,15 +194,20 @@ class FieldsModelGroup extends JModelAdmin
 	 * @return  void
 	 *
 	 * @see     JFormField
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		parent::preprocessForm($form, $data, $group);
 
-		// Set the access control rules field component value.
-		$form->setFieldAttribute('rules', 'component', $this->state->get('filter.extension'));
+		$parts = FieldsHelper::extract($this->state->get('filter.context'));
+
+		if ($parts)
+		{
+			// Set the access control rules field component value.
+			$form->setFieldAttribute('rules', 'component', $parts[0]);
+		}
 	}
 
 	/**
@@ -253,7 +215,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  array    The default data is an empty array.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function loadFormData()
 	{
@@ -268,9 +230,9 @@ class FieldsModelGroup extends JModelAdmin
 			// Pre-select some filters (Status, Language, Access) in edit form if those have been selected in Field Group Manager
 			if (!$data->id)
 			{
-				// Check for which extension the Field Group Manager is used and get selected fields
-				$extension = substr($app->getUserState('com_fields.groups.filter.extension'), 4);
-				$filters = (array) $app->getUserState('com_fields.groups.' . $extension . '.filter');
+				// Check for which context the Field Group Manager is used and get selected fields
+				$context = substr($app->getUserState('com_fields.groups.filter.context'), 4);
+				$filters = (array) $app->getUserState('com_fields.groups.' . $context . '.filter');
 
 				$data->set(
 					'state',
@@ -299,7 +261,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  mixed    Object on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getItem($pk = null)
 	{
@@ -308,7 +270,7 @@ class FieldsModelGroup extends JModelAdmin
 			// Prime required properties.
 			if (empty($item->id))
 			{
-				$item->extension = $this->getState('filter.extension');
+				$item->context = $this->getState('filter.context');
 			}
 
 			// Convert the created and modified dates to local user time for display in the form.
@@ -348,12 +310,12 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$extension = JFactory::getApplication()->input->get('extension');
+		$context = JFactory::getApplication()->input->get('context');
 
-		parent::cleanCache($extension);
+		parent::cleanCache($context);
 	}
 }

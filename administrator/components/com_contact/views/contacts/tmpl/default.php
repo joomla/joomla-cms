@@ -36,7 +36,7 @@ if ($saveOrder)
 	<div id="j-main-container" class="span10">
 	<?php else : ?>
 	<div id="j-main-container">
-	<?php endif;?>
+	<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"></div>
 		<?php if (empty($this->items)) : ?>
@@ -69,7 +69,7 @@ if ($saveOrder)
 						<th width="5%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
-						<?php endif;?>
+						<?php endif; ?>
 						<th width="15%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
@@ -168,7 +168,7 @@ if ($saveOrder)
 								<?php echo JHtml::_('contact.association', $item->id); ?>
 							<?php endif; ?>
 						</td>
-						<?php endif;?>
+						<?php endif; ?>
 						<td class="small hidden-phone">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
@@ -193,7 +193,7 @@ if ($saveOrder)
 					$this->loadTemplate('batch_body')
 				); ?>
 			<?php endif; ?>
-		<?php endif;?>
+		<?php endif; ?>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>

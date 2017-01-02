@@ -300,7 +300,7 @@ class LanguagesModelInstalled extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$client = $this->getState('client_id');
-		$type = "language";
+		$type = 'language';
 
 		// Select field element from the extensions table.
 		$query->select($this->getState('list.select', 'a.element'))

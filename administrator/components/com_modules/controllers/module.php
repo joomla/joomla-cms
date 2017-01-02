@@ -117,7 +117,6 @@ class ModulesControllerModule extends JControllerForm
 		// Initialise variables.
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
-		$userId = $user->get('id');
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', 'com_modules.module.' . $recordId))
