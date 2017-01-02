@@ -807,7 +807,6 @@ class JLanguage
 		$strings = JLanguageHelper::parseIniFile($fileName, $this->debug);
 
 		// Debug the ini file if needed.
-		// @todo Debugging an ini file should not be coupled with the language object
 		if ($this->debug === true && file_exists($fileName))
 		{
 			$this->debugFile($fileName);
@@ -825,7 +824,6 @@ class JLanguage
 	 *
 	 * @since   3.6.3
 	 * @throws  InvalidArgumentException
-	 * @todo    Debugging an ini file should not be coupled with the language object
 	 */
 	public function debugFile($filename)
 	{
