@@ -45,7 +45,7 @@ class PlgSystemLogout extends JPlugin
 		parent::__construct($subject, $config);
 
 		// If we are on admin don't process.
-		if (!$this->app->isSite())
+		if (!$this->app->isClient('site'))
 		{
 			return;
 		}
