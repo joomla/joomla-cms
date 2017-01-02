@@ -33,6 +33,7 @@ class SearchViewSearches extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$app                 = JFactory::getApplication();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
@@ -49,13 +50,14 @@ class SearchViewSearches extends JViewLegacy
 			return false;
 		}
 
+		// Check if plugin is enabled
 		if ($this->enabled)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
+			$app->enqueueMessage(JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
 		}
 		else
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
+			$app->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
 		}
 
 		$this->addToolbar();

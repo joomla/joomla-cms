@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
-$app             = JFactory::getApplication();
-$doc             = JFactory::getDocument();
-$user            = JFactory::getUser();
-$this->language  = $doc->language;
-$this->direction = $doc->direction;
+/** @var JDocumentHtml $this */
+
+$app  = JFactory::getApplication();
+$user = JFactory::getUser();
 
 // Output as HTML5
-$doc->setHtml5(true);
+$this->setHtml5(true);
 
 // Getting params from template
 $params = $app->getTemplate(true)->params;
@@ -29,7 +28,7 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
-if($task == "edit" || $layout == "form" )
+if ($task === 'edit' || $layout === 'form')
 {
 	$fullWidth = 1;
 }
@@ -41,16 +40,20 @@ else
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+// Add template js
+JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
+
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => true));
 
 // Use of Google Font
 if ($this->params->get('googleFont'))
 {
-	$doc->addStyleSheet('//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
-	$doc->addStyleDeclaration("
+	JHtml::_('stylesheet', '//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	$this->addStyleDeclaration("
 	h1, h2, h3, h4, h5, h6, .site-title {
 		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
 	}");
@@ -59,13 +62,13 @@ if ($this->params->get('googleFont'))
 // Template color
 if ($this->params->get('templateColor'))
 {
-	$doc->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	body.site {
-		border-top: 3px solid " . $this->params->get('templateColor') . ";
-		background-color: " . $this->params->get('templateBackgroundColor') . ";
+		border-top: 3px solid ' . $this->params->get('templateColor') . ';
+		background-color: ' . $this->params->get('templateBackgroundColor') . ';
 	}
 	a {
-		color: " . $this->params->get('templateColor') . ";
+		color: ' . $this->params->get('templateColor') . ';
 	}
 	.nav-list > .active > a,
 	.nav-list > .active > a:hover,
@@ -75,17 +78,15 @@ if ($this->params->get('templateColor'))
 	.nav-pills > .active > a,
 	.nav-pills > .active > a:hover,
 	.btn-primary {
-		background: " . $this->params->get('templateColor') . ";
-	}");
+		background: ' . $this->params->get('templateColor') . ';
+	}');
 }
 
 // Check for a custom CSS file
-$userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
-if (file_exists($userCss) && filesize($userCss) > 0)
-{
-	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/user.css');
-}
+// Check for a custom js file
+JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -93,19 +94,19 @@ JHtml::_('bootstrap.loadCss', false, $this->direction);
 // Adjusting content width
 if ($this->countModules('position-7') && $this->countModules('position-8'))
 {
-	$span = "span6";
+	$span = 'span6';
 }
 elseif ($this->countModules('position-7') && !$this->countModules('position-8'))
 {
-	$span = "span9";
+	$span = 'span9';
 }
 elseif (!$this->countModules('position-7') && $this->countModules('position-8'))
 {
-	$span = "span9";
+	$span = 'span9';
 }
 else
 {
-	$span = "span12";
+	$span = 'span12';
 }
 
 // Logo file or site title param
@@ -127,7 +128,6 @@ else
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="site <?php echo $option
 	. ' view-' . $view
@@ -135,10 +135,10 @@ else
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
 	. ($params->get('fluidContainer') ? ' fluid' : '');
-	echo ($this->direction == 'rtl' ? ' rtl' : '');
+	echo ($this->direction === 'rtl' ? ' rtl' : '');
 ?>">
 	<!-- Body -->
-	<div class="body">
+	<div class="body" id="top">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<!-- Header -->
 			<header class="header" role="banner">
@@ -158,6 +158,7 @@ else
 				<nav class="navigation" role="navigation">
 					<div class="navbar pull-left">
 						<a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+							<span class="element-invisible"><?php echo JTEXT::_('TPL_PROTOSTAR_TOGGLE_MENU'); ?></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>

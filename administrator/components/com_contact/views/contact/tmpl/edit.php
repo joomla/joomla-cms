@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
+JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
 JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
@@ -26,9 +27,10 @@ JFactory::getDocument()->addScriptDeclaration('
 	{
 		if (task == "contact.cancel" || document.formvalidator.isValid(document.getElementById("contact-form")))
 		{
-			' . $this->form->getField("misc")->save() . '
+			' . $this->form->getField('misc')->save() . '
 			Joomla.submitform(task, document.getElementById("contact-form"));
 
+			// @deprecated 4.0  The following js is not needed since 3.7.0.
 			if (task !== "contact.apply")
 			{
 				window.parent.jQuery("#contactEdit' . $this->item->id . 'Modal").modal("hide");
@@ -117,5 +119,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

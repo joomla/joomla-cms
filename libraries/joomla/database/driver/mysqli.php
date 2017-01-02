@@ -76,7 +76,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		// Get some basic values from the options.
 		$options['host']     = (isset($options['host'])) ? $options['host'] : 'localhost';
-		$options['user']     = (isset($options['user'])) ? $options['user'] : 'root';
+		$options['user']     = (isset($options['user'])) ? $options['user'] : '';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 		$options['select']   = (isset($options['select'])) ? (bool) $options['select'] : true;
@@ -626,7 +626,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$this->errorNum = $this->getErrorNumber();
-			$this->errorMsg = $this->getErrorMessage($query);
+			$this->errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -642,7 +642,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				{
 					// Get the error number and message.
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage($query);
+					$this->errorMsg = $this->getErrorMessage();
 
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
@@ -990,13 +990,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Return the actual SQL Error message
 	 *
-	 * @param   string  $query  The SQL Query that fails
-	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage($query)
+	protected function getErrorMessage()
 	{
 		$errorMessage = (string) mysqli_error($this->connection);
 
@@ -1004,9 +1002,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if (!$this->debug)
 		{
 			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			$query        = str_replace($this->tablePrefix, '#__', $query);
 		}
 
-		return $errorMessage . ' SQL=' . $query;
+		return $errorMessage;
 	}
 }

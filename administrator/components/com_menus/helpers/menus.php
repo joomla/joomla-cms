@@ -159,12 +159,11 @@ class MenusHelper
 					  a.checked_out,
 					  a.language,
 					  a.lft')
-			->from('#__menu AS a')
-			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->from('#__menu AS a');
 
 		if (JLanguageMultilang::isEnabled())
 		{
-			$query->select('l.title AS language_title, l.image AS language_image')
+			$query->select('l.title AS language_title, l.image AS language_image, l.sef AS language_sef')
 				->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 		}
 

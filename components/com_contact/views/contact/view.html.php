@@ -50,6 +50,14 @@ class ContactViewContact extends JViewLegacy
 	protected $return_page;
 
 	/**
+	 * Should we show a captcha form for the submission of the contact request?
+	 *
+	 * @var   bool
+	 * @since 3.6.3
+	 */
+	protected $captchaEnabled = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -130,12 +138,12 @@ class ContactViewContact extends JViewLegacy
 		{
 			case 1 :
 				// Text
-				$params->set('marker_address',   JText::_('COM_CONTACT_ADDRESS') . ": ");
-				$params->set('marker_email',     JText::_('JGLOBAL_EMAIL') . ": ");
-				$params->set('marker_telephone', JText::_('COM_CONTACT_TELEPHONE') . ": ");
-				$params->set('marker_fax',       JText::_('COM_CONTACT_FAX') . ": ");
-				$params->set('marker_mobile',    JText::_('COM_CONTACT_MOBILE') . ": ");
-				$params->set('marker_misc',      JText::_('COM_CONTACT_OTHER_INFORMATION') . ": ");
+				$params->set('marker_address',   JText::_('COM_CONTACT_ADDRESS') . ': ');
+				$params->set('marker_email',     JText::_('JGLOBAL_EMAIL') . ': ');
+				$params->set('marker_telephone', JText::_('COM_CONTACT_TELEPHONE') . ': ');
+				$params->set('marker_fax',       JText::_('COM_CONTACT_FAX') . ': ');
+				$params->set('marker_mobile',    JText::_('COM_CONTACT_MOBILE') . ': ');
+				$params->set('marker_misc',      JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
 				$params->set('marker_class',     'jicons-text');
 				break;
 
@@ -153,60 +161,60 @@ class ContactViewContact extends JViewLegacy
 			default :
 				if ($params->get('icon_address'))
 				{
-					$image1 = JHtml::_('image', $params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS') . ": ", null, false);
+					$image1 = JHtml::_('image', $params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS') . ': ', null, false);
 				}
 				else
 				{
-					$image1 = JHtml::_('image', 'contacts/' . $params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS') . ": ", null, true);
+					$image1 = JHtml::_('image', 'contacts/' . $params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS') . ': ', null, true);
 				}
 
 				if ($params->get('icon_email'))
 				{
-					$image2 = JHtml::_('image', $params->get('icon_email', 'emailButton.png'), JText::_('JGLOBAL_EMAIL') . ": ", null, false);
+					$image2 = JHtml::_('image', $params->get('icon_email', 'emailButton.png'), JText::_('JGLOBAL_EMAIL') . ': ', null, false);
 				}
 				else
 				{
-					$image2 = JHtml::_('image', 'contacts/' . $params->get('icon_email', 'emailButton.png'), JText::_('JGLOBAL_EMAIL') . ": ", null, true);
+					$image2 = JHtml::_('image', 'contacts/' . $params->get('icon_email', 'emailButton.png'), JText::_('JGLOBAL_EMAIL') . ': ', null, true);
 				}
 
 				if ($params->get('icon_telephone'))
 				{
-					$image3 = JHtml::_('image', $params->get('icon_telephone', 'con_tel.png'), JText::_('COM_CONTACT_TELEPHONE') . ": ", null, false);
+					$image3 = JHtml::_('image', $params->get('icon_telephone', 'con_tel.png'), JText::_('COM_CONTACT_TELEPHONE') . ': ', null, false);
 				}
 				else
 				{
-					$image3 = JHtml::_('image', 'contacts/' . $params->get('icon_telephone', 'con_tel.png'), JText::_('COM_CONTACT_TELEPHONE') . ": ", null, true);
+					$image3 = JHtml::_('image', 'contacts/' . $params->get('icon_telephone', 'con_tel.png'), JText::_('COM_CONTACT_TELEPHONE') . ': ', null, true);
 				}
 
 				if ($params->get('icon_fax'))
 				{
-					$image4 = JHtml::_('image', $params->get('icon_fax', 'con_fax.png'), JText::_('COM_CONTACT_FAX') . ": ", null, false);
+					$image4 = JHtml::_('image', $params->get('icon_fax', 'con_fax.png'), JText::_('COM_CONTACT_FAX') . ': ', null, false);
 				}
 				else
 				{
-					$image4 = JHtml::_('image', 'contacts/' . $params->get('icon_fax', 'con_fax.png'), JText::_('COM_CONTACT_FAX') . ": ", null, true);
+					$image4 = JHtml::_('image', 'contacts/' . $params->get('icon_fax', 'con_fax.png'), JText::_('COM_CONTACT_FAX') . ': ', null, true);
 				}
 
 				if ($params->get('icon_misc'))
 				{
-					$image5 = JHtml::_('image', $params->get('icon_misc', 'con_info.png'), JText::_('COM_CONTACT_OTHER_INFORMATION') . ": ", null, false);
+					$image5 = JHtml::_('image', $params->get('icon_misc', 'con_info.png'), JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, false);
 				}
 				else
 				{
 					$image5 = JHtml::_(
 						'image',
 						'contacts/' . $params->get('icon_misc', 'con_info.png'),
-						JText::_('COM_CONTACT_OTHER_INFORMATION') . ": ", null, true
+						JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, true
 					);
 				}
 
 				if ($params->get('icon_mobile'))
 				{
-					$image6 = JHtml::_('image', $params->get('icon_mobile', 'con_mobile.png'), JText::_('COM_CONTACT_MOBILE') . ": ", null, false);
+					$image6 = JHtml::_('image', $params->get('icon_mobile', 'con_mobile.png'), JText::_('COM_CONTACT_MOBILE') . ': ', null, false);
 				}
 				else
 				{
-					$image6 = JHtml::_('image', 'contacts/' . $params->get('icon_mobile', 'con_mobile.png'), JText::_('COM_CONTACT_MOBILE') . ": ", null, true);
+					$image6 = JHtml::_('image', 'contacts/' . $params->get('icon_mobile', 'con_mobile.png'), JText::_('COM_CONTACT_MOBILE') . ': ', null, true);
 				}
 
 				$params->set('marker_address',   $image1);
@@ -255,16 +263,29 @@ class ContactViewContact extends JViewLegacy
 			$item->misc = $item->text;
 		}
 
+		$contactUser = null;
+		if ($params->get('show_user_custom_fields') && $item->user_id && $contactUser = JFactory::getUser($item->user_id))
+		{
+			$contactUser->text = '';
+			JEventDispatcher::getInstance()->trigger('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
+
+			if (!isset($contactUser->fields))
+			{
+				$contactUser->fields = array();
+			}
+		}
+
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->contact  = &$item;
-		$this->params   = &$params;
-		$this->return   = &$return;
-		$this->state    = &$state;
-		$this->item     = &$item;
-		$this->user     = &$user;
-		$this->contacts = &$contacts;
+		$this->contact     = &$item;
+		$this->params      = &$params;
+		$this->return      = &$return;
+		$this->state       = &$state;
+		$this->item        = &$item;
+		$this->user        = &$user;
+		$this->contacts    = &$contacts;
+		$this->contactUser = $contactUser;
 
 		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_contact.contact', $this->item->id);
@@ -288,8 +309,19 @@ class ContactViewContact extends JViewLegacy
 
 		$model = $this->getModel();
 		$model->hit();
-		$this->_prepareDocument();
 
+		$captchaSet = $params->get('captcha', JFactory::getApplication()->get('captcha', '0'));
+
+		foreach (JPluginHelper::getPlugin('captcha') as $plugin)
+		{
+			if ($captchaSet === $plugin->name)
+			{
+				$this->captchaEnabled = true;
+				break;
+			}
+		}
+
+		$this->_prepareDocument();
 		return parent::display($tpl);
 	}
 
@@ -325,7 +357,7 @@ class ContactViewContact extends JViewLegacy
 		$id = (int) @$menu->query['id'];
 
 		// If the menu item does not concern this contact
-		if ($menu && ($menu->query['option'] != 'com_contact' || $menu->query['view'] != 'contact' || $id != $this->item->id))
+		if ($menu && ($menu->query['option'] !== 'com_contact' || $menu->query['view'] !== 'contact' || $id != $this->item->id))
 		{
 			// If this is not a single contact menu item, set the page title to the contact title
 			if ($this->item->name)
@@ -336,7 +368,7 @@ class ContactViewContact extends JViewLegacy
 			$path = array(array('title' => $this->contact->name, 'link' => ''));
 			$category = JCategories::getInstance('Contact')->get($this->contact->catid);
 
-			while ($category && ($menu->query['option'] != 'com_contact' || $menu->query['view'] == 'contact' || $id != $category->id) && $category->id > 1)
+			while ($category && ($menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact' || $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($this->contact->catid));
 				$category = $category->getParent();

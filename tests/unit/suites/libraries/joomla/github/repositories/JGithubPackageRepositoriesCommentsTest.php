@@ -23,9 +23,9 @@ class JGithubPackageRepositoriesCommentsTest extends PHPUnit_Framework_TestCase
 	protected $response;
 
 	/**
-     * @var JGithubPackageRepositoriesComments
-     */
-    protected $object;
+	 * @var JGithubPackageRepositoriesComments
+	 */
+	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
@@ -52,123 +52,123 @@ class JGithubPackageRepositoriesCommentsTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options  = new JRegistry;
-		$this->client   = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
-		$this->response = $this->getMock('JHttpResponse');
+		$this->client   = $this->getMockBuilder('JGithubHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
+		$this->response = $this->getMockBuilder('JHttpResponse')->getMock();
 
 		$this->object = new JGithubPackageRepositoriesComments($this->options, $this->client);
 	}
 
-    /**
-     * @covers JGithubPackageRepositoriesComments::getListRepository
-     */
-    public function testGetListRepository()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageRepositoriesComments::getListRepository
+	 */
+	public function testGetListRepository()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/repos/joomla/joomla-platform/comments')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/comments')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->getListRepository('joomla', 'joomla-platform'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->getListRepository('joomla', 'joomla-platform'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageRepositoriesComments::getList
-     */
-    public function testGetList()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageRepositoriesComments::getList
+	 */
+	public function testGetList()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/repos/joomla/joomla-platform/commits/123/comments')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/commits/123/comments')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->getList('joomla', 'joomla-platform', '123'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->getList('joomla', 'joomla-platform', '123'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageRepositoriesComments::get
-     */
-    public function testGet()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageRepositoriesComments::get
+	 */
+	public function testGet()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/repos/joomla/joomla-platform/comments/123')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/comments/123')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->get('joomla', 'joomla-platform', 123),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->get('joomla', 'joomla-platform', 123),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageRepositoriesComments::edit
-     */
-    public function testEdit()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageRepositoriesComments::edit
+	 */
+	public function testEdit()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('patch')
-		    ->with('/repos/joomla/joomla-platform/comments/123')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('patch')
+			->with('/repos/joomla/joomla-platform/comments/123')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->edit('joomla', 'joomla-platform', 123, 'My Comment'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->edit('joomla', 'joomla-platform', 123, 'My Comment'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageRepositoriesComments::delete
-     */
-    public function testDelete()
-    {
-	    $this->response->code = 204;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageRepositoriesComments::delete
+	 */
+	public function testDelete()
+	{
+		$this->response->code = 204;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('delete')
-		    ->with('/repos/joomla/joomla-platform/comments/123')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('delete')
+			->with('/repos/joomla/joomla-platform/comments/123')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->delete('joomla', 'joomla-platform', 123),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->delete('joomla', 'joomla-platform', 123),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageRepositoriesComments::create
-     */
-    public function testCreate()
-    {
-	    $this->response->code = 201;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageRepositoriesComments::create
+	 */
+	public function testCreate()
+	{
+		$this->response->code = 201;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('post')
-		    ->with('/repos/joomla/joomla-platform/commits/123abc/comments')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/repos/joomla/joomla-platform/commits/123abc/comments')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->create('joomla', 'joomla-platform', '123abc', 'My Comment', 456, 'path/file.php', 789),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->create('joomla', 'joomla-platform', '123abc', 'My Comment', 456, 'path/file.php', 789),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 }

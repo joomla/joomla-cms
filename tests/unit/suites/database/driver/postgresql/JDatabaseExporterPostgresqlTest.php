@@ -18,7 +18,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 	/**
 	 * @var    JDatabaseDriverPostgresql  The mocked database object for use by test methods.
 	 */
-	protected $dbo = null;
+	protected $dbo;
 
 	/**
 	 * @var    string  A query string or object.
@@ -133,6 +133,20 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		$this->dbo->expects($this->any())
 			->method('getTableList')
 			->willReturn(array('jos_dbtest'));
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo);
 	}
 
 	/**

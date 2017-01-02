@@ -44,6 +44,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	protected function tearDown()
 	{
 		TestReflection::setValue($this->object, 'instance', null);
+		unset($this->object);
 	}
 
 	/**

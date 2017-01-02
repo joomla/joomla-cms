@@ -38,7 +38,7 @@ $this->ignore_fieldsets = array('jmetadata');
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="form-vertical">
-					<?php echo $this->form->getControlGroup('description'); ?>
+					<?php echo $this->form->renderField('description'); ?>
 				</div>
 			</div>
 			<div class="span3">

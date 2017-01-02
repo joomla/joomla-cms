@@ -50,11 +50,11 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$app = JFactory::getApplication();
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				$current_section = 2;
 			}
-			elseif ($app->isSite())
+			elseif ($app->isClient('site'))
 			{
 				$current_section = 1;
 			}
@@ -104,13 +104,13 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// These are used by Google Authenticator to tell accounts apart
 		$username = JFactory::getUser($user_id)->username;
-		$hostname = JFactory::getUri()->getHost();
+		$hostname = JUri::getInstance()->getHost();
 
 		// This is the URL to the QR code for Google Authenticator
 		$url = $totp->getUrl($username, $hostname, $secret);
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
-		$new_totp = $otpConfig->method != 'totp';
+		$new_totp = $otpConfig->method !== 'totp';
 
 		// Start output buffering
 		@ob_start();

@@ -44,14 +44,6 @@ class PlgSystemStats extends JPlugin
 	protected $app;
 
 	/**
-	 * Load plugin language files automatically
-	 *
-	 * @var    boolean
-	 * @since  3.5
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
@@ -84,7 +76,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		if (!$this->app->isAdmin() || !$this->isAllowedUser())
+		if (!$this->app->isClient('administrator') || !$this->isAllowedUser())
 		{
 			return;
 		}
@@ -94,13 +86,16 @@ class PlgSystemStats extends JPlugin
 			return;
 		}
 
-		if (JUri::getInstance()->getVar("tmpl") === "component")
+		if (JUri::getInstance()->getVar('tmpl') === 'component')
 		{
 			return;
 		}
 
+		// Load plugin language files only when needed (ex: they are not needed in site client).
+		$this->loadLanguage();
+
 		JHtml::_('jquery.framework');
-		JHtml::script('plg_system_stats/stats.js', false, true, false);
+		JHtml::_('script', 'plg_system_stats/stats.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -407,7 +402,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function isAjaxRequest()
 	{
-		return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) == 'xmlhttprequest';
+		return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
 	}
 
 	/**
@@ -542,8 +537,6 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
-		$conf = JFactory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			foreach ($cacheClients as $client_id)
@@ -552,8 +545,7 @@ class PlgSystemStats extends JPlugin
 				{
 					$options = array(
 						'defaultgroup' => $group,
-						'cachebase'    => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
+						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->app->get('cache_path', JPATH_SITE . '/cache')
 					);
 
 					$cache = JCache::getInstance('callback', $options);

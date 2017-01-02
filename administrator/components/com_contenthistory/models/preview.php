@@ -64,9 +64,29 @@ class ContenthistoryModelPreview extends JModelItem
 		if ($return == true)
 		{
 			$result = new stdClass;
-			$result->save_date = $table->save_date;
 			$result->version_note = $table->version_note;
 			$result->data = ContenthistoryHelper::prepareData($table);
+
+			// Let's use custom calendars when present
+			$result->save_date = JHtml::_('date', $table->save_date, 'Y-m-d H:i:s');
+
+			$dateProperties = array (
+				'modified_time',
+				'created_time',
+				'modified',
+				'created',
+				'checked_out_time',
+				'publish_up',
+				'publish_down',
+			);
+
+			foreach ($dateProperties as $dateProperty)
+			{
+				if (array_key_exists($dateProperty, $result->data) && $result->data->$dateProperty->value != '0000-00-00 00:00:00')
+				{
+					$result->data->$dateProperty->value = JHtml::_('date', $result->data->$dateProperty->value, 'Y-m-d H:i:s');
+				}
+			}
 
 			return $result;
 		}

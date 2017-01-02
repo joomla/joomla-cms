@@ -47,7 +47,7 @@ class JSessionTest extends TestCase
 		$this->object = JSession::getInstance('none', $config, $handler);
 
 		$this->input = new JInput;
-		$this->input->cookie = $this->getMock('JInputCookie', array('set', 'get'));
+		$this->input->cookie = $this->getMockBuilder('JInputCookie')->setMethods(array('set', 'get'))->getMock();
 		$this->object->initialise($this->input);
 
 		$this->input->cookie->expects($this->any())
@@ -68,6 +68,9 @@ class JSessionTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		unset($this->input);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -78,7 +81,7 @@ class JSessionTest extends TestCase
 	 *
 	 * @return array
 	 */
-	Public function casesGetInstance()
+	public function casesGetInstance()
 	{
 		return array(
 			'first_instance' => array(

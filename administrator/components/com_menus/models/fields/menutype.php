@@ -9,19 +9,19 @@
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  1.6
  */
-class JFormFieldMenutype extends JFormFieldList
+class JFormFieldMenutype extends JFormAbstractlist
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
+	 * @var     string
 	 * @since   1.6
 	 */
 	protected $type = 'menutype';
@@ -29,7 +29,7 @@ class JFormFieldMenutype extends JFormFieldList
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  string  The field input markup.
 	 *
 	 * @since   1.6
 	 */
@@ -67,7 +67,7 @@ class JFormFieldMenutype extends JFormFieldList
 				$link = $this->form->getValue('link');
 
 				// Clean the link back to the option, view and layout
-				$value = JText::_(JArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
+				$value = JText::_(ArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
 				break;
 		}
 		// Include jQuery
@@ -96,8 +96,8 @@ class JFormFieldMenutype extends JFormFieldList
 				'height'     => '300px',
 				'modalWidth' => '80',
 				'bodyHeight' => '70',
-				'footer'     => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				'footer'     => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+						. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 			)
 		);
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'

@@ -33,8 +33,10 @@ class JFormFieldModal_Contact extends JFormField
 	 */
 	protected function getInput()
 	{
-		$allowEdit  = ((string) $this->element['edit'] == 'true') ? true : false;
-		$allowClear = ((string) $this->element['clear'] != 'false') ? true : false;
+		$allowNew    = ((string) $this->element['new'] == 'true');
+		$allowEdit   = ((string) $this->element['edit'] == 'true');
+		$allowClear  = ((string) $this->element['clear'] != 'false');
+		$allowSelect = ((string) $this->element['select'] != 'false');
 
 		// Load language
 		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
@@ -42,83 +44,50 @@ class JFormFieldModal_Contact extends JFormField
 		// The active contact id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
-		// Build the script.
-		$script = array();
+		// Create the modal id.
+		$modalId = 'Contact_' . $this->id;
 
-		// Select button script
-		$script[] = '	function jSelectContact_' . $this->id . '(id, name, object) {';
-		$script[] = '		document.getElementById("' . $this->id . '_id").value = id;';
-		$script[] = '		document.getElementById("' . $this->id . '_name").value = name;';
+		// Add the modal field script to the document head.
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/modal-fields.js', array('version' => 'auto', 'relative' => true));
 
-		if ($allowEdit)
+		// Script to proxy the select modal function to the modal-fields.js file.
+		if ($allowSelect)
 		{
-			$script[] = '		if (id == "' . (int) $this->value . '") {';
-			$script[] = '			jQuery("#' . $this->id . '_edit").removeClass("hidden");';
-			$script[] = '		} else {';
-			$script[] = '			jQuery("#' . $this->id . '_edit").addClass("hidden");';
-			$script[] = '		}';
+			static $scriptSelect = null;
+
+			if (is_null($scriptSelect))
+			{
+				$scriptSelect = array();
+			}
+
+			if (!isset($scriptSelect[$this->id]))
+			{
+				JFactory::getDocument()->addScriptDeclaration("
+				function jSelectContact_" . $this->id . "(id, title, object) {
+					window.processModalSelect('Contact', '" . $this->id . "', id, title, '', object);
+				}
+				");
+
+				$scriptSelect[$this->id] = true;
+			}
 		}
-
-		if ($allowClear)
-		{
-			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
-		}
-
-		$script[] = '		jQuery("#contactSelect' . $this->id . 'Modal").modal("hide");';
-
-		if ($this->required)
-		{
-			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_id"));';
-			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_name"));';
-		}
-
-		$script[] = '	}';
-
-		// Edit button script
-		$script[] = '	function jEditContact_' . $value . '(name) {';
-		$script[] = '		document.getElementById("' . $this->id . '_name").value = name;';
-		$script[] = '	}';
-
-		// Clear button script
-		static $scriptClear;
-
-		if ($allowClear && !$scriptClear)
-		{
-			$scriptClear = true;
-
-			$script[] = '	function jClearContact(id) {';
-			$script[] = '		document.getElementById(id + "_id").value = "";';
-			$script[] = '		document.getElementById(id + "_name").value = "'
-				. htmlspecialchars(JText::_('COM_CONTACT_SELECT_A_CONTACT', true), ENT_COMPAT, 'UTF-8') . '";';
-			$script[] = '		jQuery("#"+id + "_clear").addClass("hidden");';
-			$script[] = '		if (document.getElementById(id + "_edit")) {';
-			$script[] = '			jQuery("#"+id + "_edit").addClass("hidden");';
-			$script[] = '		}';
-			$script[] = '		return false;';
-			$script[] = '	}';
-		}
-
-		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 		// Setup variables for display.
-		$html = array();
-
-		$linkContacts = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component'
-			. '&amp;function=jSelectContact_' . $this->id;
-
-		$linkContact  = 'index.php?option=com_contact&amp;view=contact&amp;layout=modal&amp;tmpl=component'
-			. '&amp;task=contact.edit'
-			. '&amp;function=jEditContact_' . $value;
+		$linkContacts = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
+		$linkContact  = 'index.php?option=com_contact&amp;view=contact&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
+		$modalTitle   = JText::_('COM_CONTACT_CHANGE_CONTACT');
 
 		if (isset($this->element['language']))
 		{
 			$linkContacts .= '&amp;forcedLanguage=' . $this->element['language'];
-			$linkContact  .= '&amp;forcedLanguage=' . $this->element['language'];
+			$linkContact   .= '&amp;forcedLanguage=' . $this->element['language'];
+			$modalTitle     .= ' &#8212; ' . $this->element['label'];
 		}
 
-		$urlSelect = $linkContacts . '&amp;' . JSession::getFormToken() . '=1';
-		$urlEdit   = $linkContact . '&amp;id=' . $value . '&amp;' . JSession::getFormToken() . '=1';
+		$urlSelect = $linkContacts . '&amp;function=jSelectContact_' . $this->id;
+		$urlEdit   = $linkContact . '&amp;task=contact.edit&amp;id=\' + document.getElementById("' . $this->id . '_id").value + \'';
+		$urlNew    = $linkContact . '&amp;task=contact.add';
 
 		if ($value)
 		{
@@ -139,36 +108,49 @@ class JFormFieldModal_Contact extends JFormField
 			}
 		}
 
-		if (empty($title))
-		{
-			$title = JText::_('COM_CONTACT_SELECT_A_CONTACT');
-		}
-
-		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+		$title = empty($title) ? JText::_('COM_CONTACT_SELECT_A_CONTACT') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
 		// The current contact display field.
-		$html[] = '<span class="input-append">';
-		$html[] = '<input class="input-medium" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35" />';
+		$html  = '<span class="input-append">';
+		$html .= '<input class="input-medium" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35" />';
 
 		// Select contact button
-		$html[] = '<a'
-			. ' class="btn hasTooltip"'
-			. ' data-toggle="modal"'
-			. ' role="button"'
-			. ' href="#contactSelect' . $this->id . 'Modal"'
-			. ' title="' . JHtml::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
-			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
-			. '</a>';
+		if ($allowSelect)
+		{
+			$html .= '<a'
+				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
+				. ' id="' . $this->id . '_select"'
+				. ' data-toggle="modal"'
+				. ' role="button"'
+				. ' href="#ModalSelect' . $modalId . '"'
+				. ' title="' . JHtml::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
+				. '<span class="icon-file"></span> ' . JText::_('JSELECT')
+				. '</a>';
+		}
+
+		// New contact button
+		if ($allowNew)
+		{
+			$html .= '<a'
+				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
+				. ' id="' . $this->id . '_new"'
+				. ' data-toggle="modal"'
+				. ' role="button"'
+				. ' href="#ModalNew' . $modalId . '"'
+				. ' title="' . JHtml::tooltipText('COM_CONTACT_NEW_CONTACT') . '">'
+				. '<span class="icon-new"></span> ' . JText::_('JACTION_CREATE')
+				. '</a>';
+		}
 
 		// Edit contact button
 		if ($allowEdit)
 		{
-			$html[] = '<a'
+			$html .= '<a'
 				. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
-				. ' href="#contactEdit' . $value . 'Modal"'
+				. ' href="#ModalEdit' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '">'
 				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
 				. '</a>';
@@ -177,64 +159,106 @@ class JFormFieldModal_Contact extends JFormField
 		// Clear contact button
 		if ($allowClear)
 		{
-			$html[] = '<button'
+			$html .= '<a'
 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_clear"'
-				. ' onclick="return jClearContact(\'' . $this->id . '\')">'
+				. ' href="#"'
+				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
 				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
-				. '</button>';
+				. '</a>';
 		}
 
-		$html[] = '</span>';
+		$html .= '</span>';
 
 		// Select contact modal
-		$html[] = JHtml::_(
-			'bootstrap.renderModal',
-			'contactSelect' . $this->id . 'Modal',
-			array(
-				'title'       => JText::_('COM_CONTACT_CHANGE_CONTACT'),
-				'url'         => $urlSelect,
-				'height'      => '400px',
-				'width'       => '800px',
-				'bodyHeight'  => '70',
-				'modalWidth'  => '80',
-				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
-			)
-		);
+		if ($allowSelect)
+		{
+			$html .= JHtml::_(
+				'bootstrap.renderModal',
+				'ModalSelect' . $modalId,
+				array(
+					'title'       => $modalTitle,
+					'url'         => $urlSelect,
+					'height'      => '400px',
+					'width'       => '800px',
+					'bodyHeight'  => '70',
+					'modalWidth'  => '80',
+					'footer'      => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+				)
+			);
+		}
 
-		// Edit contact modal
-		$html[] = JHtml::_(
-			'bootstrap.renderModal',
-			'contactEdit' . $value . 'Modal',
-			array(
-				'title'       => JText::_('COM_CONTACT_EDIT_CONTACT'),
-				'backdrop'    => 'static',
-				'keyboard'    => false,
-				'closeButton' => false,
-				'url'         => $urlEdit,
-				'height'      => '400px',
-				'width'       => '800px',
-				'bodyHeight'  => '70',
-				'modalWidth'  => '80',
-				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
-						. ' onclick="jQuery(\'#contactEdit' . $value . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-						. '<button type="button" class="btn btn-primary" aria-hidden="true"'
-						. ' onclick="jQuery(\'#contactEdit' . $value . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-						. JText::_("JSAVE") . '</button>'
-						. '<button type="button" class="btn btn-success" aria-hidden="true"'
-						. ' onclick="jQuery(\'#contactEdit' . $value . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
-						. JText::_("JAPPLY") . '</button>',
-			)
-		);
+		// New contact modal
+		if ($allowNew)
+		{
+			$html .= JHtml::_(
+				'bootstrap.renderModal',
+				'ModalNew' . $modalId,
+				array(
+					'title'       => JText::_('COM_CONTACT_NEW_CONTACT'),
+					'backdrop'    => 'static',
+					'keyboard'    => false,
+					'closeButton' => false,
+					'url'         => $urlNew,
+					'height'      => '400px',
+					'width'       => '800px',
+					'bodyHeight'  => '70',
+					'modalWidth'  => '80',
+					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \''
+							. $this->id . '\', \'add\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \''
+							. $this->id . '\', \'add\', \'contact\', \'save\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+							. JText::_('JSAVE') . '</a>'
+							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \''
+							. $this->id . '\', \'add\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+							. JText::_('JAPPLY') . '</a>',
+				)
+			);
+		}
+
+		// Edit contact modal.
+		if ($allowEdit)
+		{
+			$html .= JHtml::_(
+				'bootstrap.renderModal',
+				'ModalEdit' . $modalId,
+				array(
+					'title'       => JText::_('COM_CONTACT_EDIT_CONTACT'),
+					'backdrop'    => 'static',
+					'keyboard'    => false,
+					'closeButton' => false,
+					'url'         => $urlEdit,
+					'height'      => '400px',
+					'width'       => '800px',
+					'bodyHeight'  => '70',
+					'modalWidth'  => '80',
+					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id
+							. '\', \'edit\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \''
+							. $this->id . '\', \'edit\', \'contact\', \'save\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+							. JText::_('JSAVE') . '</a>'
+							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \''
+							. $this->id . '\', \'edit\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+							. JText::_('JAPPLY') . '</a>',
+				)
+			);
+		}
 
 		// Note: class='required' for client side validation.
 		$class = $this->required ? ' class="required modal-value"' : '';
 
-		$html[] = '<input type="hidden" id="' . $this->id . '_id"' . $class . ' name="' . $this->name . '" value="' . $value . '" />';
+		$html .= '<input type="hidden" id="' . $this->id . '_id"' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name . '"'
+			. '" data-text="' . htmlspecialchars(JText::_('COM_CONTACT_SELECT_A_CONTACT', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
 
-		return implode("\n", $html);
+		return $html;
 	}
 
 	/**

@@ -16,11 +16,33 @@ defined('_JEXEC') or die;
  */
 class ContentViewArticle extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	protected $item;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var  JObject
+	 */
+	protected $canDo;
 
 	/**
 	 * Execute and display a template script.
@@ -36,14 +58,12 @@ class ContentViewArticle extends JViewLegacy
 		if ($this->getLayout() == 'pagebreak')
 		{
 			// TODO: This is really dogy - should change this one day.
-			$input = JFactory::getApplication()->input;
-			$eName = $input->getCmd('e_name');
-			$eName    = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
-			$document = JFactory::getDocument();
-			$document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
+			$eName = JFactory::getApplication()->input->getCmd('e_name');
+			$eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
+			$this->document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 			$this->eName = &$eName;
-			parent::display($tpl);
-			return;
+
+			return parent::display($tpl);
 		}
 
 		$this->form  = $this->get('Form');
@@ -55,17 +75,27 @@ class ContentViewArticle extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
-		if ($this->getLayout() == 'modal')
+		// If we are forcing a language in modal (used for associations).
+		if ($this->getLayout() === 'modal' && $forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
+			// Set the language field to the forcedLanguage and disable changing it.
+			$this->form->setValue('language', null, $forcedLanguage);
 			$this->form->setFieldAttribute('language', 'readonly', 'true');
-			$this->form->setFieldAttribute('catid', 'readonly', 'true');
+
+			// Only allow to select categories with All language or with the forced language.
+			$this->form->setFieldAttribute('catid', 'language', '*,' . $forcedLanguage);
+
+			// Only allow to select tags with All language or with the forced language.
+			$this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
 		}
 
 		$this->addToolbar();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -79,7 +109,7 @@ class ContentViewArticle extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 		$user       = JFactory::getUser();
-		$userId     = $user->get('id');
+		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
@@ -123,7 +153,7 @@ class ContentViewArticle extends JViewLegacy
 				JToolbarHelper::save2copy('article.save2copy');
 			}
 
-			if ($this->state->params->get('save_history', 0) && $itemEditable)
+			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				JToolbarHelper::versions('com_content.article', $this->item->id);
 			}

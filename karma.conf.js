@@ -13,11 +13,15 @@ module.exports = function (config) {
 		// list of files / patterns to load in the browser
 		files: [
 			{pattern: 'tests/javascript/node_modules/jquery/dist/jquery.min.js', included: false},
-			{pattern: 'tests/javascript/node_modules/jquery-ui-bundle/jquery-ui.min.js', included: false},
 			{pattern: 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery.js', included: false},
 			{pattern: 'tests/javascript/node_modules/text/text.js', included: false},
 			{pattern: 'media/jui/js/bootstrap.min.js', included: false},
+			{pattern: 'media/jui/js/jquery.ui.core.min.js', included: false},
+			{pattern: 'media/jui/js/jquery.ui.sortable.min.js', included: false},
 			{pattern: 'media/system/js/*.js', included: false},
+			{pattern: 'media/system/js/fields/*.js', included: false},
+			{pattern: 'media/system/js/fields/calendar-locales/*.js', included: false},
+			{pattern: 'media/system/js/fields/calendar-locales/date/gregorian/*.js', included: false},
 			{pattern: 'tests/javascript/**/fixture.html', included: false},
 			{pattern: 'tests/javascript/**/spec.js', included: false},
 			{pattern: 'tests/javascript/**/spec-setup.js', included: false},

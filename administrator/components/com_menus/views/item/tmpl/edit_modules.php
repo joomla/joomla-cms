@@ -51,42 +51,42 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 		<thead>
 		<tr>
 			<th class="left">
-				<?php echo JText::_('COM_MENUS_HEADING_ASSIGN_MODULE');?>
+				<?php echo JText::_('COM_MENUS_HEADING_ASSIGN_MODULE'); ?>
 			</th>
 			<th>
-				<?php echo JText::_('COM_MENUS_HEADING_LEVELS');?>
+				<?php echo JText::_('COM_MENUS_HEADING_LEVELS'); ?>
 			</th>
 			<th>
-				<?php echo JText::_('COM_MENUS_HEADING_POSITION');?>
+				<?php echo JText::_('COM_MENUS_HEADING_POSITION'); ?>
 			</th>
 			<th>
-				<?php echo JText::_('COM_MENUS_HEADING_DISPLAY');?>
+				<?php echo JText::_('COM_MENUS_HEADING_DISPLAY'); ?>
 			</th>
 			<th>
-				<?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS');?>
+				<?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?>
 			</th>
 		</tr>
 		</thead>
 		<tbody>
 		<?php foreach ($this->modules as $i => &$module) : ?>
-			<?php  if (is_null($module->menuid)) : ?>
-				<?php  if (!$module->except || $module->menuid < 0) : ?>
-					<?php  $no = "no "; ?>
-				<?php  else : ?>
-					<?php  $no = ""; ?>
-				<?php  endif; ?>
-			<?php  else : ?>
-				<?php  $no = ""; ?>
-			<?php  endif; ?>
-			<?php  if ($module->published) : ?>
-				<?php  $status = ""; ?>
-			<?php  else : ?>
-				<?php  $status = "unpublished "; ?>
-			<?php  endif; ?>
-			<tr class="<?php echo $no;?><?php echo $status;?>row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>" style="display:table-row">
+			<?php if (is_null($module->menuid)) : ?>
+				<?php if (!$module->except || $module->menuid < 0) : ?>
+					<?php $no = 'no '; ?>
+				<?php else : ?>
+					<?php $no = ''; ?>
+				<?php endif; ?>
+			<?php else : ?>
+				<?php $no = ''; ?>
+			<?php endif; ?>
+			<?php if ($module->published) : ?>
+				<?php $status = ''; ?>
+			<?php else : ?>
+				<?php $status = 'unpublished '; ?>
+			<?php endif; ?>
+			<tr class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>" id="tr-<?php echo $module->id; ?>" style="display:table-row">
 				<td id="<?php echo $module->id; ?>">
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id=' . $module->id . '&amp;tmpl=component&amp;view=module&amp;layout=modal'; ?>
-					<a href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>" id="title-<?php echo $module->id; ?>">
+					<a href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>" id="title-<?php echo $module->id; ?>">
 						<?php echo $this->escape($module->title); ?></a>
 				</td>
 				<td id="access-<?php echo $module->id; ?>">
@@ -97,7 +97,7 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 				</td>
 				<td id="menus-<?php echo $module->id; ?>">
 					<?php if (is_null($module->menuid)) : ?>
-						<?php if ($module->except):?>
+						<?php if ($module->except) : ?>
 							<span class="label label-success">
 								<?php echo JText::_('JYES'); ?>
 							</span>
@@ -105,7 +105,7 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 							<span class="label label-important">
 								<?php echo JText::_('JNO'); ?>
 							</span>
-						<?php endif;?>
+						<?php endif; ?>
 					<?php elseif ($module->menuid > 0) : ?>
 						<span class="label label-success">
 							<?php echo JText::_('JYES'); ?>
@@ -121,7 +121,7 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 					<?php endif; ?>
 				</td>
 				<td id="status-<?php echo $module->id; ?>">
-						<?php if ($module->published):?>
+						<?php if ($module->published) : ?>
 							<span class="label label-success">
 								<?php echo JText::_('JYES'); ?>
 							</span>
@@ -129,7 +129,7 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 							<span class="label label-important">
 								<?php echo JText::_('JNO'); ?>
 							</span>
-						<?php endif;?>
+						<?php endif; ?>
 				</td>
 			<?php echo JHtml::_(
 					'bootstrap.renderModal',
@@ -144,15 +144,15 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 						'width'       => '800px',
 						'bodyHeight'  => '70',
 						'modalWidth'  => '80',
-						'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+						'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
 								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-								. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+								. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 								. '<button type="button" class="btn btn-primary" aria-hidden="true"'
 								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-								. JText::_("JSAVE") . '</button>'
+								. JText::_('JSAVE') . '</button>'
 								. '<button type="button" class="btn btn-success" aria-hidden="true"'
 								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
-								. JText::_("JAPPLY") . '</button>',
+								. JText::_('JAPPLY') . '</button>',
 					)
 				); ?>
 			</tr>

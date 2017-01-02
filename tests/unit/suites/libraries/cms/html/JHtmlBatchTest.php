@@ -58,7 +58,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -201,7 +201,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 			'tag'   => 'select',
 			'child' => array(
 				'tag'        => 'option',
-				'content'    => 'English (UK)',
+				'content'    => 'English (en-GB)',
 				'attributes' => array('value' => 'en-GB')
 			)
 		);

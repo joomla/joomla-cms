@@ -274,25 +274,25 @@ class CategoriesModelCategories extends JModelList
 		}
 
 		// Group by on Categories for JOIN with component tables to count items
-		$query->group('a.id, 
-				a.title, 
-				a.alias, 
-				a.note, 
-				a.published, 
-				a.access, 
-				a.checked_out, 
-				a.checked_out_time, 
-				a.created_user_id, 
-				a.path, 
-				a.parent_id, 
-				a.level, 
-				a.lft, 
-				a.rgt, 
-				a.language, 
+		$query->group('a.id,
+				a.title,
+				a.alias,
+				a.note,
+				a.published,
+				a.access,
+				a.checked_out,
+				a.checked_out_time,
+				a.created_user_id,
+				a.path,
+				a.parent_id,
+				a.level,
+				a.lft,
+				a.rgt,
+				a.language,
 				l.title,
 				l.image,
-				uc.name, 
-				ag.title, 
+				uc.name,
+				ag.title,
 				ua.name'
 		);
 
@@ -370,7 +370,7 @@ class CategoriesModelCategories extends JModelList
 	 */
 	public function countItems(&$items, $extension)
 	{
-		$parts = explode('.', $extension);
+		$parts = explode('.', $extension, 2);
 		$component = $parts[0];
 		$section = null;
 
@@ -385,10 +385,10 @@ class CategoriesModelCategories extends JModelList
 
 		if (file_exists($file))
 		{
-			require_once $file;
-
 			$prefix = ucfirst($eName);
 			$cName = $prefix . 'Helper';
+
+			JLoader::register($cName, $file);
 
 			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
 			{

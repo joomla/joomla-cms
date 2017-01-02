@@ -61,6 +61,13 @@ class JFacebookEventTest extends TestCase
 	protected $sampleUrl = '"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/372662_10575676585_830678637_q.jpg"';
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -70,6 +77,7 @@ class JFacebookEventTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -85,7 +93,7 @@ class JFacebookEventTest extends TestCase
 		);
 
 		$this->options = new Registry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->input = new JInput;
 		$this->oauth = new JFacebookOauth($this->options, $this->client, $this->input);
 		$this->oauth->setToken($access_token);
@@ -99,6 +107,26 @@ class JFacebookEventTest extends TestCase
 		$this->options->set('authmethod', 'get');
 
 		parent::setUp();
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($this->options);
+		unset($this->client);
+		unset($this->input);
+		unset($this->oauth);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

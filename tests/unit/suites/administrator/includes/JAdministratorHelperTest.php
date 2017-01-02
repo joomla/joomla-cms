@@ -34,7 +34,7 @@ class JAdministratorHelperTest extends TestCase
 
 		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$application->input = $this->getMockInput();
-		$this->user = $this->getMock('JUser', array('get', 'authorise'));
+		$this->user = $this->getMockBuilder('JUser')->setMethods(array('get', 'authorise'))->getMock();
 
 		JFactory::$application->expects($this->once())
 			->method('getIdentity')
@@ -48,6 +48,7 @@ class JAdministratorHelperTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		unset($this->user);
 	}
 
 	/**

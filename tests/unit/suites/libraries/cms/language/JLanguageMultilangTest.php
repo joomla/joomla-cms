@@ -89,6 +89,7 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 		TestReflection::setValue('JEventDispatcher', 'instance', null);
 
 		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -140,7 +141,8 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 */
 	public function testIsEnabledWithAdminApp()
 	{
-		$mockApplication = $this->getMock('JApplicationAdministrator');
+		// Build the mock object.
+		$mockApplication = $this->getMockBuilder('JApplicationAdministrator')->getMock();
 		$mockApplication->expects($this->any())
 			->method('isSite')
 			->willReturn(false);

@@ -59,6 +59,7 @@ class JRouter
 	 *
 	 * @var    integer
 	 * @since  1.5
+	 * @deprecated  4.0
 	 */
 	protected $mode = null;
 
@@ -67,7 +68,7 @@ class JRouter
 	 *
 	 * @var    integer
 	 * @since  1.5
-	 * @deprecated  4.0 Will convert to $mode
+	 * @deprecated  4.0
 	 */
 	protected $_mode = null;
 
@@ -183,10 +184,11 @@ class JRouter
 				{
 					$path = $info->path . '/includes/router.php';
 
-					if (file_exists($path))
+					JLoader::register($classname, $path);
+
+					if (class_exists($classname))
 					{
 						JLog::add('Non-autoloadable JRouter subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-						include_once $path;
 					}
 				}
 			}
@@ -245,7 +247,7 @@ class JRouter
 	 *
 	 * @param   string  $url  The internal URL or an associative array
 	 *
-	 * @return  string  The absolute search engine friendly URL
+	 * @return  JUri  The absolute search engine friendly URL object
 	 *
 	 * @since   1.5
 	 */
@@ -294,6 +296,7 @@ class JRouter
 	 * @return  integer
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public function getMode()
 	{
@@ -308,6 +311,7 @@ class JRouter
 	 * @return  void
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public function setMode($mode)
 	{
@@ -690,7 +694,7 @@ class JRouter
 
 		foreach ($vars as $key => $var)
 		{
-			if ($var == "")
+			if ($var == '')
 			{
 				unset($vars[$key]);
 			}

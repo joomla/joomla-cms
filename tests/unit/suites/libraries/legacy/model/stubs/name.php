@@ -26,6 +26,5 @@ class NokeywordInName extends JModelLegacy
 	 */
 	public function __construct()
 	{
-		return;
 	}
 }

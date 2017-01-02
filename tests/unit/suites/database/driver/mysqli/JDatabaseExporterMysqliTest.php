@@ -18,7 +18,7 @@ class JDatabaseExporterMysqliTest extends TestCase
 	/**
 	 * @var    JDatabaseDriverMysqli  The mocked database object for use by test methods.
 	 */
-	protected $dbo = null;
+	protected $dbo;
 
 	/**
 	 * Sets up the testing conditions
@@ -84,6 +84,20 @@ class JDatabaseExporterMysqliTest extends TestCase
 		$this->dbo->expects($this->any())
 			->method('loadObjectList')
 			->willReturnCallback(array($this, 'callbackLoadObjectList'));
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo);
 	}
 
 	/**

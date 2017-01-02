@@ -59,7 +59,7 @@ class ModulesViewModules extends JViewLegacy
 			$this->filterForm->removeField('client_id', '');
 
 			// If in the frontend state and language should not activate the search tools.
-			if (JFactory::getApplication()->isSite())
+			if (JFactory::getApplication()->isClient('site'))
 			{
 				unset($this->activeFilters['state']);
 				unset($this->activeFilters['language']);
@@ -126,7 +126,7 @@ class ModulesViewModules extends JViewLegacy
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
+			JHtml::_('bootstrap.renderModal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button

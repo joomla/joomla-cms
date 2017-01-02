@@ -944,12 +944,6 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testExecute()
 	{
-		/* REPLACE is not present in PostgreSQL */
-		$query = self::$driver->getQuery(true);
-		$query->delete();
-		$query->from('#__dbtest')->where('id=5');
-		self::$driver->setQuery($query)->execute();
-
 		$query = self::$driver->getQuery(true);
 		$query->insert('#__dbtest')
 			->columns('id,title,start_date, description')
@@ -1045,7 +1039,14 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testSetUtf()
 	{
-		$this->assertEquals(0, self::$driver->setUtf());
+		if (!function_exists('pg_set_client_encoding'))
+		{
+			$this->assertEquals(-1, self::$driver->setUtf());
+		}
+		else
+		{
+			$this->assertEquals(0, self::$driver->setUtf());
+		}
 	}
 
 	/**

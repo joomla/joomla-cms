@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
- * @since       __DEPLOY_VERSION__
+ * @since       3.6.3
  * @version     1.0.0
  */
 
@@ -60,7 +60,7 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 				request.respondWith(responses.success);
 			});
         
-			it("should make a AJAX request of type POST", function() {
+			it("should make an AJAX request of type POST", function() {
 				expect(request.method).toBe('POST');
 			});
         

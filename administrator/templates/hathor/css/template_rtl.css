@@ -1320,3 +1320,6 @@ div.toggle-editor {
 .modal-footer button {
 	float: left;
 }
+#form-login  {
+	float: right;
+}

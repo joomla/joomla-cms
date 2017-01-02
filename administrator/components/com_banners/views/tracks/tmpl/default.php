@@ -23,7 +23,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
@@ -94,12 +94,12 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				'height'      => '370px',
 				'width'       => '300px',
 				'modalWidth'  => '40',
-				'footer'      => '<button class="btn" data-dismiss="modal" type="button"'
+				'footer'      => '<a class="btn" data-dismiss="modal" type="button"'
 						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#closeBtn\').click();">'
-						. JText::_("COM_BANNERS_CANCEL") . '</button>'
+						. JText::_('COM_BANNERS_CANCEL') . '</a>'
 						. '<button class="btn btn-success" type="button"'
 						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
-						. JText::_("COM_BANNERS_TRACKS_EXPORT") . '</button>',
+						. JText::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
 			)
 		); ?>
 

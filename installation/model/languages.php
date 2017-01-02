@@ -22,31 +22,31 @@ class InstallationModelLanguages extends JModelBase
 	 * @var    object  Client object.
 	 * @since  3.1
 	 */
-	protected $client = null;
+	protected $client;
 
 	/**
 	 * @var    array  Languages description.
 	 * @since  3.1
 	 */
-	protected $data = null;
+	protected $data;
 
 	/**
 	 * @var    string  Language path.
 	 * @since  3.1
 	 */
-	protected $path = null;
+	protected $path;
 
 	/**
 	 * @var    integer  Total number of languages installed.
 	 * @since  3.1
 	 */
-	protected $langlist = null;
+	protected $langlist;
 
 	/**
 	 * @var    Admin Id, author of all generated content.
 	 * @since  3.1
 	 */
-	protected $adminId = null;
+	protected $adminId;
 
 	/**
 	 * Constructor: Deletes the default installation config file and recreates it with the good config file.
@@ -153,7 +153,7 @@ class InstallationModelLanguages extends JModelBase
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				JFactory::getApplication()->enqueueMessage($message);
+				JFactory::getApplication()->enqueueMessage($message, 'warning');
 
 				continue;
 			}
@@ -167,7 +167,7 @@ class InstallationModelLanguages extends JModelBase
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				JFactory::getApplication()->enqueueMessage($message);
+				JFactory::getApplication()->enqueueMessage($message, 'warning');
 
 				continue;
 			}
@@ -182,7 +182,7 @@ class InstallationModelLanguages extends JModelBase
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				JFactory::getApplication()->enqueueMessage($message);
+				JFactory::getApplication()->enqueueMessage($message, 'warning');
 
 				continue;
 			}
@@ -216,9 +216,8 @@ class InstallationModelLanguages extends JModelBase
 	{
 		$instance = JTable::getInstance('update');
 		$instance->load($uid);
-		$detailurl = trim($instance->detailsurl);
 
-		return $detailurl;
+		return trim($instance->detailsurl);
 	}
 
 	/**
@@ -234,9 +233,8 @@ class InstallationModelLanguages extends JModelBase
 	{
 		$update = new JUpdate;
 		$update->loadFromXml($remote_manifest);
-		$package_url = trim($update->get('downloadurl', false)->_data);
 
-		return $package_url;
+		return trim($update->get('downloadurl', false)->_data);
 	}
 
 	/**
@@ -265,9 +263,7 @@ class InstallationModelLanguages extends JModelBase
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file.
-		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
-
-		return $package;
+		return JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 	}
 
 	/**
@@ -688,6 +684,39 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
+	 * Publish the Installed Content Languages.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function publishContentLanguages()
+	{
+		$app = JFactory::getApplication();
+
+		// Publish the Content Languages.
+		$tableLanguage = JTable::getInstance('Language');
+
+		$siteLanguages = $this->getInstalledlangs('site');
+
+		// For each content language.
+		foreach ($siteLanguages as $siteLang)
+		{
+			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)))
+			{
+				if (!$tableLanguage->publish())
+				{
+					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+
+					continue;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Gets a unique language SEF string.
 	 *
 	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
@@ -701,6 +730,7 @@ class InstallationModelLanguages extends JModelBase
 	 * @return  string
 	 *
 	 * @since   3.2
+	 * @depreacted   4.0 Not used anymore.
 	 */
 	public function getSefString($itemLanguage, $siteLanguages)
 	{
@@ -737,6 +767,7 @@ class InstallationModelLanguages extends JModelBase
 	 * @return  boolean
 	 *
 	 * @since   3.2
+	 * @depreacted   4.0 Not used anymore.
 	 */
 	public function addLanguage($itemLanguage, $sefLangString)
 	{

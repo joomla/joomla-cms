@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Model for the global configuration
@@ -56,20 +57,20 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		// Get the config data.
 		$config = new JConfig;
-		$data   = JArrayHelper::fromObject($config);
+		$data   = ArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
 		// Get the text filter data
 		$params          = JComponentHelper::getParams('com_config');
-		$data['filters'] = JArrayHelper::fromObject($params->get('filters'));
+		$data['filters'] = ArrayHelper::fromObject($params->get('filters'));
 
 		// If no filter data found, get from com_content (update of 1.6/1.7 site)
 		if (empty($data['filters']))
 		{
 			$contentParams = JComponentHelper::getParams('com_content');
-			$data['filters'] = JArrayHelper::fromObject($contentParams->get('filters'));
+			$data['filters'] = ArrayHelper::fromObject($contentParams->get('filters'));
 		}
 
 		// Check for data in the session.
@@ -109,7 +110,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 		try
 		{
-			$dbc = JDatabaseDriver::getInstance($options)->getVersion();
+			JDatabaseDriver::getInstance($options)->getVersion();
 		}
 		catch (Exception $e)
 		{
@@ -127,7 +128,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$host    = JUri::getInstance()->getHost();
 				$options = new \Joomla\Registry\Registry;
 				$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
-				
+
 				// Do not check for valid server certificate here, leave this to the user, moreover disable using a proxy if any is configured.
 				$options->set('transport.curl',
 					array(
@@ -140,9 +141,9 @@ class ConfigModelApplication extends ConfigModelForm
 				$response = JHttpFactory::getHttp($options)->get('https://' . $host . JUri::root(true) . '/', array('Host' => $host), 10);
 
 				// If available in HTTPS check also the status code.
-				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310), true))
+				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))
 				{
-					throw new RuntimeException('HTTPS version of the site returned an invalid HTTP status code.');
+					throw new RuntimeException(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
 				}
 			}
 			catch (RuntimeException $e)
@@ -153,7 +154,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$app->setUserState('com_config.config.global.data.force_ssl', 0);
 
 				// Inform the user
-				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE'), 'warning');
+				$app->enqueueMessage(JText::sprintf('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE', $e->getMessage()), 'warning');
 			}
 		}
 
@@ -201,15 +202,14 @@ class ConfigModelApplication extends ConfigModelForm
 		// Save the text filters
 		if (isset($data['filters']))
 		{
-			$registry = new Registry;
-			$registry->loadArray(array('filters' => $data['filters']));
+			$registry = new Registry(array('filters' => $data['filters']));
 
 			$extension = JTable::getInstance('extension');
 
 			// Get extension_id
-			$extension_id = $extension->find(array('name' => 'com_config'));
+			$extensionId = $extension->find(array('name' => 'com_config'));
 
-			if ($extension->load((int) $extension_id))
+			if ($extension->load((int) $extensionId))
 			{
 				$extension->params = (string) $registry;
 
@@ -232,7 +232,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 		// Get the previous configuration.
 		$prev = new JConfig;
-		$prev = JArrayHelper::fromObject($prev);
+		$prev = ArrayHelper::fromObject($prev);
 
 		// Merge the new data in. We do this to preserve values that were not in the form.
 		$data = array_merge($prev, $data);
@@ -252,6 +252,26 @@ class ConfigModelApplication extends ConfigModelForm
 		{
 			$table = JTable::getInstance('session');
 			$table->purge(-1);
+		}
+
+		// Set the shared session configuration
+		if (isset($data['shared_session']))
+		{
+			$currentShared = isset($prev['shared_session']) ? $prev['shared_session'] : '0';
+
+			// Has the user enabled shared sessions?
+			if ($data['shared_session'] == 1 && $currentShared == 0)
+			{
+				// Generate a random shared session name
+				$data['session_name'] = JUserHelper::genRandomPassword(16);
+			}
+
+			// Has the user disabled shared sessions?
+			if ($data['shared_session'] == 0 && $currentShared == 1)
+			{
+				// Remove the session name value
+				unset($data['session_name']);
+			}
 		}
 
 		if (empty($data['cache_handler']))
@@ -276,8 +296,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Create the new configuration object.
-		$config = new Registry('config');
-		$config->loadArray($data);
+		$config = new Registry($data);
 
 		// Overwrite the old FTP credentials with the new ones.
 		$temp = JFactory::getConfig();
@@ -310,12 +329,11 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		// Get the previous configuration.
 		$prev = new JConfig;
-		$prev = JArrayHelper::fromObject($prev);
+		$prev = ArrayHelper::fromObject($prev);
 
 		// Create the new configuration object, and unset the root_user property
-		$config = new Registry('config');
 		unset($prev['root_user']);
-		$config->loadArray($prev);
+		$config = new Registry($prev);
 
 		// Write the configuration file.
 		return $this->writeConfigFile($config);
@@ -553,7 +571,6 @@ class ConfigModelApplication extends ConfigModelForm
 				{
 					unset($temp[$permission['action']][$permission['rule']]);
 				}
-
 			}
 			else
 			{
@@ -623,7 +640,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 				$parentAssetId = (int) $this->db->loadResult();
 			}
-			
+
 			// Get the group parent id of the current group.
 			$query->clear()
 				->select($this->db->quoteName('parent_id'))
@@ -661,9 +678,18 @@ class ConfigModelApplication extends ConfigModelForm
 		$assetRule = JAccess::getAssetRules($assetId, false, false)->allow($permission['action'], $permission['rule']);
 
 		// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-		$inheritedGroupRule            = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
-		$inheritedGroupParentAssetRule = !empty($parentAssetId) ? JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId) : null;
-		$inheritedParentGroupRule      = !empty($parentGroupId) ? JAccess::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
+		$inheritedGroupRule = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
+
+		if (!empty($parentAssetId))
+		{
+			$inheritedGroupParentAssetRule = JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId);
+		}
+		else
+		{
+			$inheritedGroupParentAssetRule = null;
+		}
+
+		$inheritedParentGroupRule = !empty($parentGroupId) ? JAccess::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
 
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
@@ -718,6 +744,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
+
 			/**
 			 * Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
 			 * Or some parent group has an explicit "Denied".
@@ -748,7 +775,7 @@ class ConfigModelApplication extends ConfigModelForm
 	/**
 	 * Method to send a test mail which is called via an AJAX request
 	 *
-	 * @return bool
+	 * @return boolean
 	 *
 	 * @since   3.5
 	 * @throws Exception

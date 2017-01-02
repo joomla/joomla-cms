@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Allows for quoting in language .ini files.
  */
@@ -231,10 +233,7 @@ class JLanguage
 
 		while (!class_exists($class) && $path)
 		{
-			if (file_exists($path))
-			{
-				require_once $path;
-			}
+			JLoader::register($class, $path);
 
 			$path = next($paths);
 		}
@@ -398,7 +397,7 @@ class JLanguage
 		}
 
 		$string = JLanguageTransliterate::utf8_latin_to_ascii($string);
-		$string = JString::strtolower($string);
+		$string = StringHelper::strtolower($string);
 
 		return $string;
 	}
@@ -723,16 +722,17 @@ class JLanguage
 	 */
 	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
 	{
+		// If language is null set as the current language.
+		if (!$lang)
+		{
+			$lang = $this->lang;
+		}
+
 		// Load the default language first if we're not debugging and a non-default language is requested to be loaded
 		// with $default set to true
 		if (!$this->debug && ($lang != $this->default) && $default)
 		{
 			$this->load($extension, $basePath, $this->default, false, true);
-		}
-
-		if (!$lang)
-		{
-			$lang = $this->lang;
 		}
 
 		$path = self::getLanguagePath($basePath, $lang);
@@ -829,107 +829,129 @@ class JLanguage
 	 */
 	protected function parse($filename)
 	{
+		// Capture hidden PHP errors from the parsing.
 		if ($this->debug)
 		{
-			// Capture hidden PHP errors from the parsing.
+			// See https://secure.php.net/manual/en/reserved.variables.phperrormsg.php
 			$php_errormsg = null;
-			$track_errors = ini_get('track_errors');
+
+			$trackErrors = ini_get('track_errors');
 			ini_set('track_errors', true);
 		}
 
-		$contents = file_get_contents($filename);
-		$contents = str_replace('_QQ_', '"\""', $contents);
-		$strings = @parse_ini_string($contents);
+		$strings = @parse_ini_file($filename);
 
-		if (!is_array($strings))
-		{
-			$strings = array();
-		}
-
+		// Restore error tracking to what it was before.
 		if ($this->debug)
 		{
-			// Restore error tracking to what it was before.
-			ini_set('track_errors', $track_errors);
+			ini_set('track_errors', $trackErrors);
 
-			// Initialise variables for manually parsing the file for common errors.
-			$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
-			$this->debug = false;
-			$errors = array();
-
-			// Open the file as a stream.
-			$file = new SplFileObject($filename);
-
-			foreach ($file as $lineNumber => $line)
-			{
-				// Avoid BOM error as BOM is OK when using parse_ini.
-				if ($lineNumber == 0)
-				{
-					$line = str_replace("\xEF\xBB\xBF", '', $line);
-				}
-
-				$line = trim($line);
-
-				// Ignore comment lines.
-				if (!strlen($line) || $line['0'] == ';')
-				{
-					continue;
-				}
-
-				// Ignore grouping tag lines, like: [group]
-				if (preg_match('#^\[[^\]]*\](\s*;.*)?$#', $line))
-				{
-					continue;
-				}
-
-				// Remove the "_QQ_" from the equation
-				$line = str_replace('"_QQ_"', '', $line);
-				$realNumber = $lineNumber + 1;
-
-				// Check for any incorrect uses of _QQ_.
-				if (strpos($line, '_QQ_') !== false)
-				{
-					$errors[] = $realNumber;
-					continue;
-				}
-
-				// Check for odd number of double quotes.
-				if (substr_count($line, '"') % 2 != 0)
-				{
-					$errors[] = $realNumber;
-					continue;
-				}
-
-				// Check that the line passes the necessary format.
-				if (!preg_match('#^[A-Z][A-Z0-9_\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
-				{
-					$errors[] = $realNumber;
-					continue;
-				}
-
-				// Check that the key is not in the blacklist.
-				$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
-
-				if (in_array($key, $blacklist))
-				{
-					$errors[] = $realNumber;
-				}
-			}
-
-			// Check if we encountered any errors.
-			if (count($errors))
-			{
-				$this->errorfiles[$filename] = $filename . ' : error(s) in line(s) ' . implode(', ', $errors);
-			}
-			elseif ($php_errormsg)
-			{
-				// We didn't find any errors but there's probably a parse notice.
-				$this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $php_errormsg;
-			}
-
-			$this->debug = true;
+			$this->debugFile($filename);
 		}
 
-		return $strings;
+		return is_array($strings) ? $strings : array();
+	}
+
+	/**
+	 * Debugs a language file
+	 *
+	 * @param   string  $filename  Absolute path to the file to debug
+	 *
+	 * @return  integer  A count of the number of parsing errors
+	 *
+	 * @since   3.6.3
+	 * @throws  InvalidArgumentException
+	 */
+	public function debugFile($filename)
+	{
+		// Make sure our file actually exists
+		if (!file_exists($filename))
+		{
+			throw new InvalidArgumentException(
+				sprintf('Unable to locate file "%s" for debugging', $filename)
+			);
+		}
+
+		// Initialise variables for manually parsing the file for common errors.
+		$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
+		$debug = $this->getDebug();
+		$this->debug = false;
+		$errors = array();
+		$php_errormsg = null;
+
+		// Open the file as a stream.
+		$file = new SplFileObject($filename);
+
+		foreach ($file as $lineNumber => $line)
+		{
+			// Avoid BOM error as BOM is OK when using parse_ini.
+			if ($lineNumber == 0)
+			{
+				$line = str_replace("\xEF\xBB\xBF", '', $line);
+			}
+
+			$line = trim($line);
+
+			// Ignore comment lines.
+			if (!strlen($line) || $line['0'] == ';')
+			{
+				continue;
+			}
+
+			// Ignore grouping tag lines, like: [group]
+			if (preg_match('#^\[[^\]]*\](\s*;.*)?$#', $line))
+			{
+				continue;
+			}
+
+			// Remove the "_QQ_" from the equation
+			$line = str_replace('"_QQ_"', '', $line);
+			$realNumber = $lineNumber + 1;
+
+			// Check for any incorrect uses of _QQ_.
+			if (strpos($line, '_QQ_') !== false)
+			{
+				$errors[] = $realNumber;
+				continue;
+			}
+
+			// Check for odd number of double quotes.
+			if (substr_count($line, '"') % 2 != 0)
+			{
+				$errors[] = $realNumber;
+				continue;
+			}
+
+			// Check that the line passes the necessary format.
+			if (!preg_match('#^[A-Z][A-Z0-9_\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
+			{
+				$errors[] = $realNumber;
+				continue;
+			}
+
+			// Check that the key is not in the blacklist.
+			$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
+
+			if (in_array($key, $blacklist))
+			{
+				$errors[] = $realNumber;
+			}
+		}
+
+		// Check if we encountered any errors.
+		if (count($errors))
+		{
+			$this->errorfiles[$filename] = $filename . ' : error(s) in line(s) ' . implode(', ', $errors);
+		}
+		elseif ($php_errormsg)
+		{
+			// We didn't find any errors but there's probably a parse notice.
+			$this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $php_errormsg;
+		}
+
+		$this->debug = $debug;
+
+		return count($errors);
 	}
 
 	/**
@@ -1056,6 +1078,25 @@ class JLanguage
 	public function getTag()
 	{
 		return $this->metadata['tag'];
+	}
+
+	/**
+	 * Getter for the calendar type
+	 *
+	 * @return  string  The calendar type.
+	 *
+	 * @since   3.7.0
+	 */
+	public function getCalendar()
+	{
+		if (isset($this->metadata['calendar']))
+		{
+			return $this->metadata['calendar'];
+		}
+		else
+		{
+			return 'gregorian';
+		}
 	}
 
 	/**

@@ -53,15 +53,21 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$document->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($document->_metaTags['name']['tags']));
 		}
 
+		if ($document->getScriptOptions())
+		{
+			JHtml::_('behavior.core');
+		}
+
 		// Trigger the onBeforeCompileHead event
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
 
 		// Get line endings
-		$lnEnd  = $document->_getLineEnd();
-		$tab    = $document->_getTab();
-		$tagEnd = ' />';
-		$buffer = '';
+		$lnEnd        = $document->_getLineEnd();
+		$tab          = $document->_getTab();
+		$tagEnd       = ' />';
+		$buffer       = '';
+		$mediaVersion = $document->getMediaVersion();
 
 		// Generate charset when using HTML5 (should happen first)
 		if ($document->isHtml5())
@@ -130,29 +136,67 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		$defaultCssMimes = array('text/css');
 
 		// Generate stylesheet links
-		foreach ($document->_styleSheets as $strSrc => $strAttr)
+		foreach ($document->_styleSheets as $src => $attribs)
 		{
-			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '"';
+			// Check if stylesheet uses IE conditional statements.
+			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
 
-			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultCssMimes)))
+			// Check if script uses media version.
+			if (isset($attribs['options']['version']) && $attribs['options']['version'] && strpos($src, '?') === false
+				&& ($mediaVersion || $attribs['options']['version'] !== 'auto'))
 			{
-				$buffer .= ' type="' . $strAttr['mime'] . '"';
+				$src .= '?' . ($attribs['options']['version'] === 'auto' ? $mediaVersion : $attribs['options']['version']);
 			}
 
-			if (!is_null($strAttr['media']))
+			$buffer .= $tab;
+
+			// This is for IE conditional statements support.
+			if (!is_null($conditional))
 			{
-				$buffer .= ' media="' . $strAttr['media'] . '"';
+				$buffer .= '<!--[if ' . $conditional . ']>';
 			}
 
-			if (is_array($strAttr['attribs']))
+			$buffer .= '<link href="' . $src . '" rel="stylesheet"';
+
+			// Add script tag attributes.
+			foreach ($attribs as $attrib => $value)
 			{
-				if ($temp = ArrayHelper::toString($strAttr['attribs']))
+				// Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
+				if ($attrib === 'options')
 				{
-					$buffer .= ' ' . $temp;
+					continue;
 				}
+
+				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+				if (in_array($attrib, array('type', 'mime')) && $document->isHtml5() && in_array($value, $defaultCssMimes))
+				{
+					continue;
+				}
+
+				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+				if ($attrib === 'mime')
+				{
+					$attrib = 'type';
+				}
+
+				// Add attribute to script tag output.
+				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
+
+				// Json encode value if it's an array.
+				$value = !is_scalar($value) ? json_encode($value) : $value;
+
+				$buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
 			}
 
-			$buffer .= $tagEnd . $lnEnd;
+			$buffer .= $tagEnd;
+
+			// This is for IE conditional statements support.
+			if (!is_null($conditional))
+			{
+				$buffer .= '<![endif]-->';
+			}
+
+			$buffer .= $lnEnd;
 		}
 
 		// Generate stylesheet declarations
@@ -184,69 +228,100 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $tab . '</style>' . $lnEnd;
 		}
 
-		$defaultJsMimes = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
-
-		// Generate script file links
-		foreach ($document->_scripts as $strSrc => $strAttr)
-		{
-			$buffer .= $tab . '<script src="' . $strSrc . '"';
-
-			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultJsMimes)))
-			{
-				$buffer .= ' type="' . $strAttr['mime'] . '"';
-			}
-
-			if ($strAttr['defer'])
-			{
-				$buffer .= ' defer';
-
-				if (!$document->isHtml5())
-				{
-					$buffer .= '="defer"';
-				}
-			}
-
-			if ($strAttr['async'])
-			{
-				$buffer .= ' async';
-
-				if (!$document->isHtml5())
-				{
-					$buffer .= '="async"';
-				}
-			}
-
-			$buffer .= '></script>' . $lnEnd;
-		}
-
 		// Generate scripts options
 		$scriptOptions = $document->getScriptOptions();
 
 		if (!empty($scriptOptions))
 		{
-			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
+			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new">';
 
-			// This is for full XHTML support.
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
-			}
-
-			$pretyPrint  = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
-			$jsonOptions = json_encode($scriptOptions, $pretyPrint);
+			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
 			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
 
-			// TODO: use .extend(Joomla.optionsStorage, options) when it will be safe
-			$buffer .= $tab . 'var Joomla = Joomla || {};' . $lnEnd;
-			$buffer .= $tab . 'Joomla.optionsStorage = ' . $jsonOptions . ';' . $lnEnd;
+			$buffer .= $jsonOptions;
+			$buffer .= '</script>' . $lnEnd;
+		}
 
-			// See above note
-			if ($document->_mime != 'text/html')
+		$defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
+		$html5NoValueAttributes = array('defer', 'async');
+
+		// Generate script file links
+		foreach ($document->_scripts as $src => $attribs)
+		{
+			// Check if script uses IE conditional statements.
+			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
+
+			// Check if script uses media version.
+			if (isset($attribs['options']['version']) && $attribs['options']['version'] && strpos($src, '?') === false
+				&& ($mediaVersion || $attribs['options']['version'] !== 'auto'))
 			{
-				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
+				$src .= '?' . ($attribs['options']['version'] === 'auto' ? $mediaVersion : $attribs['options']['version']);
 			}
 
-			$buffer .= $tab . '</script>' . $lnEnd;
+			$buffer .= $tab;
+
+			// This is for IE conditional statements support.
+			if (!is_null($conditional))
+			{
+				$buffer .= '<!--[if ' . $conditional . ']>';
+			}
+
+			$buffer .= '<script src="' . $src . '"';
+
+			// Add script tag attributes.
+			foreach ($attribs as $attrib => $value)
+			{
+				// Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
+				if ($attrib === 'options')
+				{
+					continue;
+				}
+
+				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+				if (in_array($attrib, array('type', 'mime')) && $document->isHtml5() && in_array($value, $defaultJsMimes))
+				{
+					continue;
+				}
+
+				// B/C: If defer and async is false or empty don't render the attribute.
+				if (in_array($attrib, array('defer', 'async')) && !$value)
+				{
+					continue;
+				}
+
+				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+				if ($attrib === 'mime')
+				{
+					$attrib = 'type';
+				}
+				// B/C defer and async can be set to yes when using the old method.
+				elseif (in_array($attrib, array('defer', 'async')) && $value === true)
+				{
+					$value = $attrib;
+				}
+
+				// Add attribute to script tag output.
+				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
+
+				if (!($document->isHtml5() && in_array($attrib, $html5NoValueAttributes)))
+				{
+					// Json encode value if it's an array.
+					$value = !is_scalar($value) ? json_encode($value) : $value;
+
+					$buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+				}
+			}
+
+			$buffer .= '></script>';
+
+			// This is for IE conditional statements support.
+			if (!is_null($conditional))
+			{
+				$buffer .= '<![endif]-->';
+			}
+
+			$buffer .= $lnEnd;
 		}
 
 		// Generate script declarations
@@ -278,41 +353,12 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
-		// Generate script language declarations.
-		if (count(JText::script()))
-		{
-			$buffer .= $tab . '<script';
-
-			if (!$document->isHtml5())
-			{
-				$buffer .= ' type="text/javascript"';
-			}
-
-			$buffer .= '>' . $lnEnd;
-
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
-			}
-
-			$buffer .= $tab . $tab . '(function() {' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'Joomla.JText.load(' . json_encode(JText::script()) . ');' . $lnEnd;
-			$buffer .= $tab . $tab . '})();' . $lnEnd;
-
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
-			}
-
-			$buffer .= $tab . '</script>' . $lnEnd;
-		}
-
 		// Output the custom tags - array_unique makes sure that we don't output the same tags twice
 		foreach (array_unique($document->_custom) as $custom)
 		{
 			$buffer .= $tab . $custom . $lnEnd;
 		}
 
-		return $buffer;
+		return ltrim($buffer, $tab);
 	}
 }

@@ -71,6 +71,16 @@ class ContentModelFeatured extends ContentModelArticles
 			$featuredCategories = $params->get('featured_categories');
 			$this->setState('filter.frontpage.categories', $featuredCategories);
 		}
+
+		$articleOrderby   = $params->get('orderby_sec', 'rdate');
+		$articleOrderDate = $params->get('order_date');
+		$categoryOrderby  = $params->def('orderby_pri', '');
+
+		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate);
+		$primary   = ContentHelperQuery::orderbyPrimary($categoryOrderby);
+
+		$this->setState('list.ordering', $primary . $secondary . ', a.created DESC');
+		$this->setState('list.direction', '');
 	}
 
 	/**
@@ -119,18 +129,6 @@ class ContentModelFeatured extends ContentModelArticles
 	 */
 	protected function getListQuery()
 	{
-		// Set the blog ordering
-		$params = $this->state->params;
-		$articleOrderby = $params->get('orderby_sec', 'rdate');
-		$articleOrderDate = $params->get('order_date');
-		$categoryOrderby = $params->def('orderby_pri', '');
-		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
-		$primary = ContentHelperQuery::orderbyPrimary($categoryOrderby);
-
-		$orderby = $primary . ' ' . $secondary . ' a.created DESC ';
-		$this->setState('list.ordering', $orderby);
-		$this->setState('list.direction', '');
-
 		// Create a new query object.
 		$query = parent::getListQuery();
 

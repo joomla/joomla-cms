@@ -35,12 +35,12 @@ JFactory::getDocument()->addScriptDeclaration('
 		<div class="row-fluid">
 			<div class="span9">
 				<?php
-				echo $this->form->getControlGroup('contact');
-				echo $this->form->getControlGroup('email');
-				echo $this->form->getControlGroup('purchase_type');
-				echo $this->form->getControlGroup('track_impressions');
-				echo $this->form->getControlGroup('track_clicks');
-				echo $this->form->getControlGroups('extra');
+				echo $this->form->renderField('contact');
+				echo $this->form->renderField('email');
+				echo $this->form->renderField('purchase_type');
+				echo $this->form->renderField('track_impressions');
+				echo $this->form->renderField('track_clicks');
+				echo $this->form->renderFieldset('extra');
 				?>
 			</div>
 			<div class="span3">
@@ -50,7 +50,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
-		<?php echo $this->form->getControlGroups('metadata'); ?>
+		<?php echo $this->form->renderFieldset('metadata'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>

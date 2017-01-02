@@ -53,12 +53,12 @@ $link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=com
 	. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
 
 // Invalidate the input value if no user selected
-if (JText::_('JLIB_FORM_SELECT_USER') == htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'))
+if (JText::_('JLIB_FORM_SELECT_USER') === htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'))
 {
-	$userName = "";
+	$userName = '';
 }
 
-JHtml::script('jui/fielduser.min.js', false, true, false, false, true);
+JHtml::_('script', 'jui/fielduser.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <?php // Create a dummy text field with the user name. ?>
 <div class="field-user-wrapper"
@@ -87,7 +87,7 @@ JHtml::script('jui/fielduser.min.js', false, true, false, false, true);
 				array(
 					'title'  => JText::_('JLIB_FORM_CHANGE_USER'),
 					'closeButton' => true,
-					'footer' => '<button type="button" class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
+					'footer' => '<a type="button" class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
 				)
 			); ?>
 		<?php endif; ?>

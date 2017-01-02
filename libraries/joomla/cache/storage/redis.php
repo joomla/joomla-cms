@@ -55,6 +55,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 * @return  Redis|boolean  Redis connection object on success, boolean on failure
 	 *
 	 * @since   3.4
+	 * @note    As of 4.0 this method will throw a JCacheExceptionConnecting object on connection failure
 	 */
 	protected function getConnection()
 	{
@@ -63,16 +64,15 @@ class JCacheStorageRedis extends JCacheStorage
 			return false;
 		}
 
-		$config = JFactory::getConfig();
-		$app    = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
-		$this->_persistent = $config->get('redis_persist', true);
+		$this->_persistent = $app->get('redis_persist', true);
 
 		$server = array(
-			'host' => $config->get('redis_server_host', 'localhost'),
-			'port' => $config->get('redis_server_port', 6379),
-			'auth' => $config->get('redis_server_auth', null),
-			'db'   => (int) $config->get('redis_server_db', null),
+			'host' => $app->get('redis_server_host', 'localhost'),
+			'port' => $app->get('redis_server_port', 6379),
+			'auth' => $app->get('redis_server_auth', null),
+			'db'   => (int) $app->get('redis_server_db', null),
 		);
 
 		static::$_redis = new Redis;
@@ -106,7 +106,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				JError::raiseWarning(500, 'Redis connection failed');
 			}
@@ -116,7 +116,7 @@ class JCacheStorageRedis extends JCacheStorage
 
 		if ($auth == false)
 		{
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				JError::raiseWarning(500, 'Redis authentication failed');
 			}
@@ -130,7 +130,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				JError::raiseWarning(500, 'Redis failed to select database');
 			}
@@ -146,7 +146,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				JError::raiseWarning(500, 'Redis ping failed');
 			}

@@ -49,6 +49,7 @@ class JTableTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
+		unset($this->object);
 		parent::tearDown();
 	}
 

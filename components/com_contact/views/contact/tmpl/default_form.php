@@ -12,29 +12,17 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 
-$captchaEnabled = false;
-
-$captchaSet = $this->params->get('captcha', JFactory::getApplication()->get('captcha', '0'));
-
-foreach (JPluginHelper::getPlugin('captcha') as $plugin)
-{
-	if ($captchaSet === $plugin->name)
-	{
-		$captchaEnabled = true;
-		break;
-	}
-}
 ?>
 <div class="contact-form">
 	<form id="contact-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-validate form-horizontal well">
-		<?php foreach ($this->form->getFieldsets() as $fieldset): ?>
-			<?php if ($fieldset->name === 'captcha' && !$captchaEnabled) : ?>
+		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
+			<?php if ($fieldset->name === 'captcha' && !$this->captchaEnabled) : ?>
 				<?php continue; ?>
 			<?php endif; ?>
 			<?php $fields = $this->form->getFieldset($fieldset->name); ?>
 			<?php if (count($fields)) : ?>
 				<fieldset>
-					<?php if (isset($fieldset->label) && strlen($legend = trim(JText::_($fieldset->label)))) : ?>
+					<?php if (isset($fieldset->label) && ($legend = trim(JText::_($fieldset->label))) !== '') : ?>
 						<legend><?php echo $legend; ?></legend>
 					<?php endif; ?>
 					<?php foreach ($fields as $field) : ?>

@@ -58,7 +58,7 @@ class JFormFieldHelpsiteTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -73,27 +73,16 @@ class JFormFieldHelpsiteTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JForm('form1');
-
-		$this->assertThat(
-			$form->load('<form><field name="helpsite" type="helpsite" label="Help Site" description="Help Site listing" /></form>'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
-		);
-
-
-		$field = new JFormFieldHelpsite($form);
-
-		$this->assertThat(
-			$field->setup($form->getXml()->field, 'value'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setup method should return true.'
+		$field = new JFormFieldHelpsite;
+		$field->setup(
+			new SimpleXMLElement('<field name="helpsite" type="helpsite" label="Help Site" description="Help Site listing" />'),
+			'value'
 		);
 
 		$this->assertContains(
-			'<option value="https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}">',
+			'<option value="https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&amp;lang={langcode}">',
 			$field->input,
-			'Line:' . __LINE__ . ' The getInput method should return an option with a link to the help site.'
+			'The getInput method should return an option with a link to the help site.'
 		);
 	}
 }

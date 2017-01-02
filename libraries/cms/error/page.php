@@ -35,14 +35,53 @@ class JErrorPage
 		{
 			try
 			{
-				// If site is offline and it's a 404 error, just go to index (to see offline message, instead of 404)
-				if ($error->getCode() == '404' && JFactory::getConfig()->get('offline') == 1)
+				// Try to log the error, but don't let the logging cause a fatal error
+				try
 				{
-					JFactory::getApplication()->redirect('index.php');
+					JLog::add(
+						sprintf(
+							'Uncaught %1$s of type %2$s thrown. Stack trace: %3$s',
+							$expectedClass,
+							get_class($error),
+							$error->getTraceAsString()
+						),
+						JLog::CRITICAL,
+						'error'
+					);
+				}
+				catch (Throwable $e)
+				{
+					// Logging failed, don't make a stink about it though
+				}
+				catch (Exception $e)
+				{
+					// Logging failed, don't make a stink about it though
 				}
 
-				$app      = JFactory::getApplication();
-				$document = JDocument::getInstance('error');
+				$app = JFactory::getApplication();
+
+				// If site is offline and it's a 404 error, just go to index (to see offline message, instead of 404)
+				if ($error->getCode() == '404' && $app->get('offline') == 1)
+				{
+					$app->redirect('index.php');
+				}
+
+				$attributes = array(
+					'charset'   => 'utf-8',
+					'lineend'   => 'unix',
+					'tab'       => "\t",
+					'language'  => 'en-GB',
+					'direction' => 'ltr',
+				);
+
+				// If there is a JLanguage instance in JFactory then let's pull the language and direction from its metadata
+				if (JFactory::$language)
+				{
+					$attributes['language']  = JFactory::getLanguage()->getTag();
+					$attributes['direction'] = JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr';
+				}
+
+				$document = JDocument::getInstance('error', $attributes);
 
 				if (!$document)
 				{
@@ -61,7 +100,7 @@ class JErrorPage
 					ob_end_clean();
 				}
 
-				$document->setTitle(JText::_('Error') . ': ' . $error->getCode());
+				$document->setTitle(JText::_('ERROR') . ': ' . $error->getCode());
 
 				$data = $document->render(
 					false,

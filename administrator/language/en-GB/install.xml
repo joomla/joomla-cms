@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.6" client="administrator" type="language" method="upgrade">
-	<name>English (United Kingdom)</name>
+	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>3.6.3</version>
-	<creationDate>August 2016</creationDate>
+	<version>3.7.0</version>
+	<creationDate>December 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -33,6 +33,8 @@
 		<filename>en-GB.com_contenthistory.sys.ini</filename>
 		<filename>en-GB.com_cpanel.ini</filename>
 		<filename>en-GB.com_cpanel.sys.ini</filename>
+		<filename>en-GB.com_fields.ini</filename>
+		<filename>en-GB.com_fields.sys.ini</filename>
 		<filename>en-GB.com_finder.ini</filename>
 		<filename>en-GB.com_finder.sys.ini</filename>
 		<filename>en-GB.com_installer.ini</filename>
@@ -139,8 +141,12 @@
 		<filename>en-GB.plg_editors_tinymce.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_article.ini</filename>
 		<filename>en-GB.plg_editors-xtd_article.sys.ini</filename>
+		<filename>en-GB.plg_editors-xtd_contact.ini</filename>
+		<filename>en-GB.plg_editors-xtd_contact.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_image.ini</filename>
 		<filename>en-GB.plg_editors-xtd_image.sys.ini</filename>
+		<filename>en-GB.plg_editors-xtd_menu.ini</filename>
+		<filename>en-GB.plg_editors-xtd_menu.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_module.ini</filename>
 		<filename>en-GB.plg_editors-xtd_module.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_pagebreak.ini</filename>
@@ -149,6 +155,8 @@
 		<filename>en-GB.plg_editors-xtd_readmore.sys.ini</filename>
 		<filename>en-GB.plg_extension_joomla.ini</filename>
 		<filename>en-GB.plg_extension_joomla.sys.ini</filename>
+		<filename>en-GB.plg_fields_gallery.ini</filename>
+		<filename>en-GB.plg_fields_gallery.sys.ini</filename>
 		<filename>en-GB.plg_finder_categories.ini</filename>
 		<filename>en-GB.plg_finder_categories.sys.ini</filename>
 		<filename>en-GB.plg_finder_contacts.ini</filename>
@@ -173,6 +181,8 @@
 		<filename>en-GB.plg_quickicon_extensionupdate.sys.ini</filename>
 		<filename>en-GB.plg_quickicon_joomlaupdate.ini</filename>
 		<filename>en-GB.plg_quickicon_joomlaupdate.sys.ini</filename>
+		<filename>en-GB.plg_quickicon_phpversioncheck.ini</filename>
+		<filename>en-GB.plg_quickicon_phpversioncheck.sys.ini</filename>
 		<filename>en-GB.plg_search_categories.ini</filename>
 		<filename>en-GB.plg_search_categories.sys.ini</filename>
 		<filename>en-GB.plg_search_contacts.ini</filename>
@@ -189,6 +199,8 @@
 		<filename>en-GB.plg_system_cache.sys.ini</filename>
 		<filename>en-GB.plg_system_debug.ini</filename>
 		<filename>en-GB.plg_system_debug.sys.ini</filename>
+		<filename>en-GB.plg_system_fields.ini</filename>
+		<filename>en-GB.plg_system_fields.sys.ini</filename>
 		<filename>en-GB.plg_system_highlight.ini</filename>
 		<filename>en-GB.plg_system_highlight.sys.ini</filename>
 		<filename>en-GB.plg_system_languagecode.ini</filename>

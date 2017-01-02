@@ -92,6 +92,7 @@
 		/>
 
 		<field name="ordering" type="moduleorder"
+			linked="position"
 			description="JFIELD_ORDERING_DESC"
 			label="JFIELD_ORDERING_LABEL"
 		/>

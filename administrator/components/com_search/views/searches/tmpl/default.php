@@ -27,7 +27,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container" class="span10">
 	<?php else : ?>
 	<div id="j-main-container">
-	<?php endif;?>
+	<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
@@ -66,17 +66,16 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						<?php echo (int) $item->hits; ?>
 					</td>
 					<?php if ($this->state->get('show_results')) : ?>
-					
+
 					<td class="center btns">
-						<a class="badge <?php if ($item->returns > 0) echo "badge-success"; ?>" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
-							<?php echo $item->returns; ?></a>
+						<a class="badge <?php if ($item->returns > 0) echo 'badge-success'; ?>" target="_blank" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
+							<?php echo $item->returns; ?><span class="icon-out-2"><span class="element-invisible"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span></span></a>
 					</td>
-					<?php else: ?>
+					<?php else : ?>
 					<td class="center">
 						<?php echo JText::_('COM_SEARCH_NO_RESULTS'); ?>
 					</td>
 					<?php endif; ?>
-					</td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>

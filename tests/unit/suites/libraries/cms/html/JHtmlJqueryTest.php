@@ -44,6 +44,7 @@ class JHtmlJqueryTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$config = $this->getMockConfig();
 		JFactory::$document = $this->getMockDocument();
 
 		$this->backupServer = $_SERVER;
@@ -63,7 +64,7 @@ class JHtmlJqueryTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();

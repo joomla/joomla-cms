@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-if (JFactory::getApplication()->isSite())
+if (JFactory::getApplication()->isClient('site'))
 {
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
@@ -119,13 +119,7 @@ modulePosIns = function(position) {
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="small hidden-phone">
-						<?php if ($item->language == '') : ?>
-							<?php echo JText::_('JDEFAULT'); ?>
-						<?php elseif ($item->language == '*') : ?>
-							<?php echo JText::alt('JALL', 'language'); ?>
-						<?php else : ?>
-							<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-						<?php endif;?>
+						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
 					<td class="hidden-phone">
 						<?php echo (int) $item->id; ?>
@@ -134,7 +128,7 @@ modulePosIns = function(position) {
 			<?php endforeach; ?>
 			</tbody>
 		</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

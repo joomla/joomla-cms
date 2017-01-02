@@ -145,7 +145,7 @@ class JApplicationCms extends JApplicationWeb
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new Registry('session'));
+			$session->set('registry', new Registry);
 			$session->set('user', new JUser);
 		}
 	}
@@ -184,7 +184,6 @@ class JApplicationCms extends JApplicationWeb
 
 			$columns = array(
 				$db->quoteName('session_id'),
-				$db->quoteName('client_id'),
 				$db->quoteName('guest'),
 				$db->quoteName('time'),
 				$db->quoteName('userid'),
@@ -193,12 +192,17 @@ class JApplicationCms extends JApplicationWeb
 
 			$values = array(
 				$db->quote($session->getId()),
-				(int) $this->getClientId(),
 				(int) $user->guest,
 				$db->quote((int) $time),
 				(int) $user->id,
 				$db->quote($user->username),
 			);
+
+			if (!$this->get('shared_session', '0'))
+			{
+				$columns[] = $db->quoteName('client_id');
+				$values[] = (int) $this->getClientId();
+			}
 
 			$query->insert($db->quoteName('#__session'))
 				->columns($columns)
@@ -646,6 +650,9 @@ class JApplicationCms extends JApplicationWeb
 		// Register the language object with JFactory
 		JFactory::$language = $this->getLanguage();
 
+		// Load the library language files
+		$this->loadLibraryLanguage();
+
 		// Set user specific editor.
 		$user = JFactory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));
@@ -673,10 +680,11 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  boolean  True if this application is administrator.
 	 *
 	 * @since   3.2
+	 * @deprecated  Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
-		return $this->getClientId() === 1;
+		return $this->isClient('administrator');
 	}
 
 	/**
@@ -685,10 +693,37 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  boolean  True if this application is site.
 	 *
 	 * @since   3.2
+	 * @deprecated  Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
-		return $this->getClientId() === 0;
+		return $this->isClient('site');
+	}
+
+	/**
+	 * Check the client interface by name.
+	 *
+	 * @param   string  $identifier  String identifier for the application interface
+	 *
+	 * @return  boolean  True if this application is of the given type client interface.
+	 *
+	 * @since   3.7.0
+	 */
+	public function isClient($identifier)
+	{
+		return $this->getName() === $identifier;
+	}
+
+	/**
+	 * Load the library language files for the application
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.3
+	 */
+	protected function loadLibraryLanguage()
+	{
+		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**
@@ -746,10 +781,15 @@ class JApplicationCms extends JApplicationWeb
 
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
-		// There's an internal coupling to the session object being present in JFactory, need to deal with this at some point
+		/*
+		 * Note: The below code CANNOT change from instantiating a session via JFactory until there is a proper dependency injection container supported
+		 * by the application. The current default behaviours result in this method being called each time an application class is instantiated.
+		 * https://github.com/joomla/joomla-cms/issues/12108 explains why things will crash and burn if you ever attempt to make this change
+		 * without a proper dependency injection container.
+		 */
+
 		$session = JFactory::getSession($options);
 		$session->initialise($this->input, $this->dispatcher);
-		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
 		$db = JFactory::getDbo();
@@ -806,8 +846,6 @@ class JApplicationCms extends JApplicationWeb
 	public function login($credentials, $options = array())
 	{
 		// Get the global JAuthentication object.
-		jimport('joomla.user.authentication');
-
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
@@ -821,12 +859,11 @@ class JApplicationCms extends JApplicationWeb
 			 * This permits authentication plugins blocking the user.
 			 */
 			$authorisations = $authenticate->authorise($response, $options);
+			$denied_states = JAuthentication::STATUS_EXPIRED | JAuthentication::STATUS_DENIED;
 
 			foreach ($authorisations as $authorisation)
 			{
-				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
-
-				if (in_array($authorisation->status, $denied_states))
+				if ((int) $authorisation->status & $denied_states)
 				{
 					// Trigger onUserAuthorisationFailure Event.
 					$this->triggerEvent('onUserAuthorisationFailure', array((array) $authorisation));
@@ -925,8 +962,8 @@ class JApplicationCms extends JApplicationWeb
 		$parameters['username'] = $user->get('username');
 		$parameters['id'] = $user->get('id');
 
-		// Set clientid in the options array if it hasn't been set already.
-		if (!isset($options['clientid']))
+		// Set clientid in the options array if it hasn't been set already and shared sessions are not enabled.
+		if (!$this->get('shared_session', '0') && !isset($options['clientid']))
 		{
 			$options['clientid'] = $this->getClientId();
 		}
@@ -1057,7 +1094,7 @@ class JApplicationCms extends JApplicationWeb
 
 		$caching = false;
 
-		if ($this->isSite() && $this->get('caching') && $this->get('caching', 2) == 2 && !JFactory::getUser()->get('id'))
+		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !JFactory::getUser()->get('id'))
 		{
 			$caching = true;
 		}
@@ -1109,7 +1146,7 @@ class JApplicationCms extends JApplicationWeb
 	 * Sets the value of a user state variable.
 	 *
 	 * @param   string  $key    The path of the state.
-	 * @param   string  $value  The value of the variable.
+	 * @param   mixed   $value  The value of the variable.
 	 *
 	 * @return  mixed  The previous state, if one existed.
 	 *

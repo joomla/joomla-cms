@@ -171,7 +171,7 @@ class JControllerBaseTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
-		parent::teardown();
+		unset($this->_instance);
+		parent::tearDown();
 	}
 }
