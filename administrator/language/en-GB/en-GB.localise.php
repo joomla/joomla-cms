@@ -57,31 +57,32 @@ abstract class En_GBLocalise
 	 *
 	 *                The creation is pretty easy when the PHP counterpart exists
 	 *
-	 *                Example:
+	 * @example  with simple pluralization:
 	 *
-	 *                <code>
-	 *                    if (count === 0) {
-	 *                      return '0';
-	 *                    }
-	 *                    else if (count === 1) {
-	 *                      return '1';
-	 *                    }
-	 *                    else {
-	 *                      return 'MORE';
-	 *                    }
-	 *                </code>
+	 *  <code>
+	 *    if (count === 0) {
+	 *      return '0';
+	 *    }
+	 *    else if (count === 1) {
+	 *      return '1';
+	 *    }
+	 *    else {
+	 *      return 'MORE';
+	 *    }
+	 *  </code>
 	 *
-	 *                Example for more complicated code (Here Russian).
-	 *                <code>
-	 *                    var ret;
+	 * @example  with more complicated pluralization (Russian):
 	 *
-	 *                    if (count === 0) {
-	 *                        ret = ['0'];
-	 *                    } else {
-	 *                        ret = [(count%10==1 && count%100!=11 ? '1' : (count%10>=2 && count%10<=4 && (count%100<10 || count%100>=20) ? '2' : 'MORE'))];
-	 *                    }
-	 *                    return ret;
-	 *                </code>
+	 *  <code>
+	 *    var ret;
+	 *
+	 *    if (count === 0) {
+	 *        ret = ['0'];
+	 *    } else {
+	 *        ret = [(count%10==1 && count%100!=11 ? '1' : (count%10>=2 && count%10<=4 && (count%100<10 || count%100>=20) ? '2' : 'MORE'))];
+	 *    }
+	 *    return ret;
+	 *  </code>
 	 *
 	 * @return  array  An array of data for use by the pluralJS() function
 	 *
