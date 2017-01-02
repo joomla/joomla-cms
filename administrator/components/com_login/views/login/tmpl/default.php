@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.noframes');
-
 /**
  * Get the login modules
  * If you want to use a completely different login module change the value of name

@@ -64,9 +64,6 @@ class TemplatesControllerStyle extends JControllerForm
 			unset($data['xml']);
 
 			$key = $table->getKeyName();
-			$urlVar = $key;
-
-			$recordId = $this->input->getInt($urlVar);
 
 			// Access check.
 			if (!$this->allowSave($data, $key))

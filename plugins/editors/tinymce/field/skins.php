@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.form.helper');
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the TinyMCE editor.
  * Generates the list of options for available skins.
@@ -20,7 +18,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  Editors.tinymce
  * @since       3.4
  */
-class JFormFieldSkins extends JFormFieldList
+class JFormFieldSkins extends JFormAbstractlist
 {
 	protected $type = 'skins';
 

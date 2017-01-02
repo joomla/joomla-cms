@@ -39,6 +39,21 @@ class ContentHelper extends JHelperContent
 			'index.php?option=com_categories&extension=com_content',
 			$vName == 'categories'
 		);
+
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
+		{
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELDS'),
+				'index.php?option=com_fields&context=com_content.article',
+				$vName == 'fields.fields'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELD_GROUPS'),
+				'index.php?option=com_fields&view=groups&context=com_content.article',
+				$vName == 'fields.groups'
+			);
+		}
+
 		JHtmlSidebar::addEntry(
 			JText::_('COM_CONTENT_SUBMENU_FEATURED'),
 			'index.php?option=com_content&view=featured',
@@ -114,5 +129,96 @@ class ContentHelper extends JHelperContent
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Adds Count Items for Tag Manager.
+	 *
+	 * @param   stdClass[]  &$items     The content objects
+	 * @param   string      $extension  The name of the active view.
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6
+	 */
+	public static function countTagItems(&$items, $extension)
+	{
+		$db = JFactory::getDbo();
+		$parts     = explode('.', $extension);
+		$section   = null;
+
+		if (count($parts) > 1)
+		{
+			$section = $parts[1];
+		}
+
+		$join  = $db->qn('#__content') . ' AS c ON ct.content_item_id=c.id';
+		$state = 'state';
+
+		if ($section === 'category')
+		{
+			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
+			$state = 'published as state';
+		}
+
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select($state . ', count(*) AS count')
+				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->where('ct.tag_id = ' . (int) $item->id)
+				->where('ct.type_alias =' . $db->q($extension))
+				->join('LEFT', $join)
+				->group('state');
+			$db->setQuery($query);
+			$contents = $db->loadObjectList();
+
+			foreach ($contents as $content)
+			{
+				if ($content->state == 1)
+				{
+					$item->count_published = $content->count;
+				}
+
+				if ($content->state == 0)
+				{
+					$item->count_unpublished = $content->count;
+				}
+
+				if ($content->state == 2)
+				{
+					$item->count_archived = $content->count;
+				}
+
+				if ($content->state == -2)
+				{
+					$item->count_trashed = $content->count;
+				}
+			}
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public static function getContexts()
+	{
+		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_content.article' => JText::_('COM_CONTENT'),
+		);
+
+		return $contexts;
 	}
 }

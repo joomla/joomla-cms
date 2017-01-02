@@ -49,7 +49,7 @@ if ($isMoo)
 		<?php if (!$userRequired) : ?>
 		<div class="pull-left">
 			<button type="button" class="btn button-select" data-user-value="0" data-user-name="<?php echo $this->escape(JText::_('JLIB_FORM_SELECT_USER')); ?>"
-				data-user-field="<?php echo $this->escape($field);?>" <?php if ($isMoo) : ?>value="" onclick="window.parent.jSelectUser(this)"<?php endif; ?>><?php echo JText::_('JOPTION_NO_USER'); ?></button>&nbsp;
+				data-user-field="<?php echo $this->escape($field); ?>" <?php if ($isMoo) : ?>value="" onclick="window.parent.jSelectUser(this)"<?php endif; ?>><?php echo JText::_('JOPTION_NO_USER'); ?></button>&nbsp;
 		</div>
 		<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
@@ -95,7 +95,7 @@ if ($isMoo)
 				<tr class="row<?php echo $i % 2; ?>">
 					<td>
 						<a class="pointer button-select" href="#" data-user-value="<?php echo $item->id; ?>" data-user-name="<?php echo $this->escape($item->name); ?>"
-							data-user-field="<?php echo $this->escape($field);?>" <?php if ($isMoo) : ?>onclick="<?php echo $onClick; ?>"<?php endif; ?>>
+							data-user-field="<?php echo $this->escape($field); ?>" <?php if ($isMoo) : ?>onclick="<?php echo $onClick; ?>"<?php endif; ?>>
 							<?php echo $this->escape($item->name); ?>
 						</a>
 					</td>
@@ -123,6 +123,7 @@ if ($isMoo)
 		<input type="hidden" name="field" value="<?php echo $this->escape($field); ?>" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="required" value="<?php echo $userRequired; ?>" />
+		<input type="hidden" name="ismoo" value="<?php echo $input->get('ismoo', 1, 'int'); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 </div>

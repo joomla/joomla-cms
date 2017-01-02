@@ -96,9 +96,7 @@ class ContactModelCategory extends JModelList
 			$item = & $items[$i];
 			if (!isset($this->_params))
 			{
-				$params = new Registry;
-				$params->loadString($item->params);
-				$item->params = $params;
+				$item->params = new Registry($item->params);
 			}
 			$this->tags = new JHelperTags;
 			$this->tags->getItemTags('com_contact.contact', $item->id);

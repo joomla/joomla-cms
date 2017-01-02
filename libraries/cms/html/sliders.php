@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Sliders elements
  *
- * @since  1.6
+ * @since       1.6
+ * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
  */
 abstract class JHtmlSliders
 {
@@ -25,6 +26,7 @@ abstract class JHtmlSliders
 	 * @return  string
 	 *
 	 * @since   1.6
+	 * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
 	 */
 	public static function start($group = 'sliders', $params = array())
 	{
@@ -39,6 +41,7 @@ abstract class JHtmlSliders
 	 * @return  string  hTML to close the pane
 	 *
 	 * @since   1.6
+	 * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
 	 */
 	public static function end()
 	{
@@ -54,6 +57,7 @@ abstract class JHtmlSliders
 	 * @return  string  HTML to start a panel
 	 *
 	 * @since   1.6
+	 * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
 	 */
 	public static function panel($text, $id)
 	{
@@ -70,6 +74,7 @@ abstract class JHtmlSliders
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
 	 */
 	protected static function loadBehavior($group, $params = array())
 	{

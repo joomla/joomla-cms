@@ -14,10 +14,25 @@ $app = JFactory::getApplication();
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.framework');
 
-$n = count($this->items);
+$params    = &$this->item->params;
+$n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn = $this->escape($this->state->get('list.direction'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 
+// Check for at least one editable article
+$isEditable = false;
+
+if (!empty($this->items))
+{
+	foreach ($this->items as $article)
+	{
+		if ($article->params->get('access-edit'))
+		{
+			$isEditable = true;
+			break;
+		}
+	}
+}
 ?>
 
 <?php if (empty($this->items)) : ?>
@@ -29,12 +44,12 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('filter_field') != 'hide') : ?>
+	<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 	<fieldset class="filters">
 		<legend class="hidelabeltxt">
 			<?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?>
 		</legend>
-		<?php if ($this->params->get('filter_field') != 'tag') :?>
+		<?php if ($this->params->get('filter_field') !== 'tag') :?>
 		<div class="filter-search">
 			<label class="filter-search-lbl element-invisible" for="filter-search">
 				<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?>
@@ -58,28 +73,27 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('filter_field') != 'hide') :?>
+	<?php if ($this->params->get('filter_field') !== 'hide') :?>
 	</fieldset>
 	<?php endif; ?>
 
 	<div class="clr"></div>
 
 	<table class="category">
-		<?php if ($this->params->get('show_headings')) :?>
+		<?php if ($this->params->get('show_headings')) : ?>
 		<thead>
 			<tr>
-
 				<th class="list-title" id="tableOrdering">
 					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 				<th class="list-date" id="tableOrdering2">
-					<?php if ($date == 'created') : ?>
+					<?php if ($date === 'created') : ?>
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.created', $listDirn, $listOrder); ?>
-					<?php elseif ($date == 'modified') : ?>
+					<?php elseif ($date === 'modified') : ?>
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.modified', $listDirn, $listOrder); ?>
-					<?php elseif ($date == 'published') : ?>
+					<?php elseif ($date === 'published') : ?>
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
 					<?php endif; ?>
 				</th>
@@ -95,6 +109,19 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				<th class="list-hits" id="tableOrdering4">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 				</th>
+				<?php endif; ?>
+				<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
+					<th id="categorylist_header_votes">
+						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+					</th>
+				<?php endif; ?>
+				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
+					<th id="categorylist_header_ratings">
+						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
+					</th>
+				<?php endif; ?>
+				<?php if ($isEditable) : ?>
+					<th id="categorylist_header_edit"><?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?></th>
 				<?php endif; ?>
 			</tr>
 		</thead>
@@ -128,7 +155,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					<td class="list-author">
 						<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 							<?php $author = $article->author ?>
-							<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author); ?>
+							<?php $author = ($article->created_by_alias ?: $author); ?>
 							<?php if (!empty($article->contact_link) &&  $this->params->get('link_author') == true):?>
 								<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
 							<?php else :?>
@@ -144,6 +171,23 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					</td>
 					<?php endif; ?>
 
+					<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
+						<td class="list-votes">
+							<?php echo $article->rating_count; ?>
+						</td>
+					<?php endif; ?>
+					<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
+						<td class="list-ratings">
+							<?php echo $article->rating; ?>
+						</td>
+					<?php endif; ?>
+					<?php if ($isEditable) : ?>
+						<td class="list-edit">
+							<?php if ($article->params->get('access-edit')) : ?>
+								<?php echo JHtml::_('icon.edit', $article, $params, array(), true); ?>
+							<?php endif; ?>
+						</td>
+					<?php endif; ?>
 				<?php else : ?>
 				<td>
 					<?php

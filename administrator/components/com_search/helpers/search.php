@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Search component helper.
  *
@@ -73,10 +75,10 @@ class SearchHelper
 		}
 
 		// Check for words to ignore.
-		$aterms = explode(' ', JString::strtolower($searchword));
+		$aterms = explode(' ', StringHelper::strtolower($searchword));
 
 		// First case is single ignored word.
-		if (count($aterms) == 1 && in_array(JString::strtolower($searchword), $search_ignore))
+		if (count($aterms) == 1 && in_array(StringHelper::strtolower($searchword), $search_ignore))
 		{
 			$ignored = true;
 		}
@@ -86,7 +88,7 @@ class SearchHelper
 
 		foreach ($aterms as $aterm)
 		{
-			if (JString::strlen($aterm) < $lower_limit)
+			if (StringHelper::strlen($aterm) < $lower_limit)
 			{
 				$search_ignore[] = $aterm;
 			}
@@ -120,14 +122,14 @@ class SearchHelper
 		// Limit searchword to a maximum of characters.
 		$upper_limit = $lang->getUpperLimitSearchWord();
 
-		if (JString::strlen($searchword) > $upper_limit)
+		if (StringHelper::strlen($searchword) > $upper_limit)
 		{
-			$searchword  = JString::substr($searchword, 0, $upper_limit - 1);
+			$searchword  = StringHelper::substr($searchword, 0, $upper_limit - 1);
 			$restriction = true;
 		}
 
 		// Searchword must contain a minimum of characters.
-		if ($searchword && JString::strlen($searchword) < $lang->getLowerLimitSearchWord())
+		if ($searchword && StringHelper::strlen($searchword) < $lang->getLowerLimitSearchWord())
 		{
 			$searchword  = '';
 			$restriction = true;
@@ -166,7 +168,7 @@ class SearchHelper
 	public static function prepareSearchContent($text, $searchword)
 	{
 		// Strips tags won't remove the actual jscript.
-		$text = preg_replace("'<script[^>]*>.*?</script>'si", "", $text);
+		$text = preg_replace("'<script[^>]*>.*?</script>'si", '', $text);
 		$text = preg_replace('/{.+?}/', '', $text);
 
 		// $text = preg_replace('/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is','\2', $text);
@@ -219,7 +221,7 @@ class SearchHelper
 			{
 				$term = self::remove_accents($term);
 
-				if (JString::stristr($text, $term) !== false)
+				if (StringHelper::stristr($text, $term) !== false)
 				{
 					return true;
 				}
@@ -261,14 +263,14 @@ class SearchHelper
 		$lang        = JFactory::getLanguage();
 		$length      = $lang->getSearchDisplayedCharactersNumber();
 		$ltext       = self::remove_accents($text);
-		$textlen     = JString::strlen($ltext);
-		$lsearchword = JString::strtolower(self::remove_accents($searchword));
+		$textlen     = StringHelper::strlen($ltext);
+		$lsearchword = StringHelper::strtolower(self::remove_accents($searchword));
 		$wordfound   = false;
 		$pos         = 0;
 
 		while ($wordfound === false && $pos < $textlen)
 		{
-			if (($wordpos = @JString::strpos($ltext, ' ', $pos + $length)) !== false)
+			if (($wordpos = @StringHelper::strpos($ltext, ' ', $pos + $length)) !== false)
 			{
 				$chunk_size = $wordpos - $pos;
 			}
@@ -277,8 +279,8 @@ class SearchHelper
 				$chunk_size = $length;
 			}
 
-			$chunk     = JString::substr($ltext, $pos, $chunk_size);
-			$wordfound = JString::strpos(JString::strtolower($chunk), $lsearchword);
+			$chunk     = StringHelper::substr($ltext, $pos, $chunk_size);
+			$wordfound = StringHelper::strpos(StringHelper::strtolower($chunk), $lsearchword);
 
 			if ($wordfound === false)
 			{
@@ -288,17 +290,17 @@ class SearchHelper
 
 		if ($wordfound !== false)
 		{
-			return (($pos > 0) ? '...&#160;' : '') . JString::substr($text, $pos, $chunk_size) . '&#160;...';
+			return (($pos > 0) ? '...&#160;' : '') . StringHelper::substr($text, $pos, $chunk_size) . '&#160;...';
 		}
 		else
 		{
-			if (($wordpos = @JString::strpos($text, ' ', $length)) !== false)
+			if (($wordpos = @StringHelper::strpos($text, ' ', $length)) !== false)
 			{
-				return JString::substr($text, 0, $wordpos) . '&#160;...';
+				return StringHelper::substr($text, 0, $wordpos) . '&#160;...';
 			}
 			else
 			{
-				return JString::substr($text, 0, $length);
+				return StringHelper::substr($text, 0, $length);
 			}
 		}
 	}

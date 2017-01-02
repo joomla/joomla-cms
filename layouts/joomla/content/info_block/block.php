@@ -36,9 +36,14 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 				<?php echo JLayoutHelper::render('joomla.content.info_block.category', $displayData); ?>
 			<?php endif; ?>
 
+			<?php if ($displayData['params']->get('show_associations')) : ?>
+				<?php echo JLayoutHelper::render('joomla.content.info_block.associations', $displayData); ?>
+			<?php endif; ?>
+
 			<?php if ($displayData['params']->get('show_publish_date')) : ?>
 				<?php echo JLayoutHelper::render('joomla.content.info_block.publish_date', $displayData); ?>
 			<?php endif; ?>
+
 		<?php endif; ?>
 
 		<?php if ($displayData['position'] === 'above' && ($blockPosition == 0)

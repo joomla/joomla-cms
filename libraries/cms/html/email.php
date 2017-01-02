@@ -48,7 +48,7 @@ abstract class JHtmlEmail
 		$mail = static::convertEncoding($mail);
 
 		// Random hash
-		$rand = md5($mail . rand(1, 100000));
+		$rand = md5($mail . mt_rand(1, 100000));
 
 		// Split email by @ symbol
 		$mail       = explode('@', $mail);
@@ -89,7 +89,6 @@ abstract class JHtmlEmail
 			$tmpScript = "document.getElementById('cloak" . $rand . "').innerHTML += addy" . $rand . ";";
 		}
 
-		$inlineScript = '';
 		$script       = "
 				document.getElementById('cloak" . $rand . "').innerHTML = '';
 				var prefix = '&#109;a' + 'i&#108;' + '&#116;o';
