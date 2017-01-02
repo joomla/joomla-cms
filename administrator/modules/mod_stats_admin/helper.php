@@ -123,33 +123,6 @@ class ModStatsHelper
 				$rows[$i]->data  = $items;
 				$i++;
 			}
-
-			if (JComponentHelper::isInstalled('com_weblinks'))
-			{
-				$query->clear()
-					->select('COUNT(id) AS count_links')
-					->from('#__weblinks')
-					->where('state = 1');
-				$db->setQuery($query);
-
-				try
-				{
-					$links = $db->loadResult();
-				}
-				catch (RuntimeException $e)
-				{
-					$links = false;
-				}
-
-				if ($links)
-				{
-					$rows[$i]        = new stdClass;
-					$rows[$i]->title = JText::_('MOD_STATS_WEBLINKS');
-					$rows[$i]->icon  = 'out-2';
-					$rows[$i]->data  = $links;
-					$i++;
-				}
-			}
 		}
 
 		if ($counter)
