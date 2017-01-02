@@ -33,8 +33,8 @@ class ContenthistoryViewPreview extends JViewLegacy
 	{
 		$this->state = $this->get('State');
 		$this->item  = $this->get('Item');
-		
-		if (false === $this->item) 
+
+		if (false === $this->item)
 		{
 			JFactory::getLanguage()->load('com_content', JPATH_SITE, null, true);
 

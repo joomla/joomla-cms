@@ -149,7 +149,7 @@ class SearchHelper
 	public static function prepareSearchContent($text, $searchword)
 	{
 		// Strips tags won't remove the actual jscript.
-		$text = preg_replace("'<script[^>]*>.*?</script>'si", "", $text);
+		$text = preg_replace("'<script[^>]*>.*?</script>'si", '', $text);
 		$text = preg_replace('/{.+?}/', '', $text);
 
 		// $text = preg_replace('/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is','\2', $text);

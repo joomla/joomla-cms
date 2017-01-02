@@ -518,8 +518,7 @@ class JViewLegacy extends JObject
 		if ($this->_template != false)
 		{
 			// Unset so as not to introduce into template scope
-			unset($tpl);
-			unset($file);
+			unset($tpl, $file);
 
 			// Never allow a 'this' property
 			if (isset($this->this))
@@ -622,11 +621,8 @@ class JViewLegacy extends JObject
 	{
 		jimport('joomla.filesystem.path');
 
-		// Just force to array
-		settype($path, 'array');
-
 		// Loop through the path directories
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			// Clean up the path
 			$dir = JPath::clean($dir);

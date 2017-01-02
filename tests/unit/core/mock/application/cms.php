@@ -30,6 +30,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'getTemplate',
 			'getLanguageFilter',
 			'initialiseApp',
+			'isClient',
 			'isAdmin',
 			'isSite',
 			'getUserState',

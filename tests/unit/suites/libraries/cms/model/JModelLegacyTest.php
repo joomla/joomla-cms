@@ -76,6 +76,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	{
 		// Reset JTable::$_includePaths
 		TestReflection::setValue('JTable', '_includePaths', array());
+		parent::tearDownAfterClass();
 	}
 
 	/**

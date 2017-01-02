@@ -140,7 +140,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		$query->from('jos_dbtest');
 		self::$driver->setQuery($query);
 
-		$result = self::$driver->execute();
+		self::$driver->execute();
 
 		$this->assertThat(self::$driver->getAffectedRows(), $this->equalTo(4), __LINE__);
 	}

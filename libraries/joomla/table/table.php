@@ -640,7 +640,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 			}
 		}
 
-		// If the source value is not an array or object return false.
+		// Check if the source value is an array or object
 		if (!is_object($src) && !is_array($src))
 		{
 			throw new InvalidArgumentException(sprintf('%s::bind(*%s*)', get_class($this), gettype($src)));
@@ -1465,15 +1465,17 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 */
 	public function getNextOrder($where = '')
 	{
-		// If there is no ordering field set an error and return false.
-		if (!property_exists($this, 'ordering'))
+		// Check if there is an ordering field set
+		$orderingField = $this->getColumnAlias('ordering');
+
+		if (!property_exists($this, $orderingField))
 		{
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		// Get the largest ordering value for a given where clause.
 		$query = $this->_db->getQuery(true)
-			->select('MAX(ordering)')
+			->select('MAX(' . $this->_db->quoteName($orderingField) . ')')
 			->from($this->_tbl);
 
 		if ($where)
@@ -1525,20 +1527,22 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 */
 	public function reorder($where = '')
 	{
-		// If there is no ordering field set an error and return false.
-		if (!property_exists($this, 'ordering'))
+		// Check if there is an ordering field set
+		$orderingField = $this->getColumnAlias('ordering');
+
+		if (!property_exists($this, $orderingField))
 		{
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
-		$k = $this->_tbl_key;
+		$quotedOrderingField = $this->_db->quoteName($orderingField);
 
 		// Get the primary keys and ordering values for the selection.
 		$query = $this->_db->getQuery(true)
-			->select(implode(',', $this->_tbl_keys) . ', ordering')
+			->select(implode(',', $this->_tbl_keys) . ', ' . $quotedOrderingField)
 			->from($this->_tbl)
-			->where('ordering >= 0')
-			->order('ordering');
+			->where($quotedOrderingField . ' >= 0')
+			->order($quotedOrderingField);
 
 		// Setup the extra where and ordering clause data.
 		if ($where)
@@ -1564,15 +1568,15 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 		foreach ($rows as $i => $row)
 		{
 			// Make sure the ordering is a positive integer.
-			if ($row->ordering >= 0)
+			if ($row->$orderingField >= 0)
 			{
 				// Only update rows that are necessary.
-				if ($row->ordering != $i + 1)
+				if ($row->$orderingField != $i + 1)
 				{
 					// Update the row ordering field.
 					$query->clear()
 						->update($this->_tbl)
-						->set('ordering = ' . ($i + 1));
+						->set($quotedOrderingField . ' = ' . ($i + 1));
 					$this->appendPrimaryKeys($query, $row);
 					$this->_db->setQuery($query);
 					$this->_db->execute();
@@ -1609,11 +1613,15 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 */
 	public function move($delta, $where = '')
 	{
-		// If there is no ordering field set an error and return false.
-		if (!property_exists($this, 'ordering'))
+		// Check if there is an ordering field set
+		$orderingField = $this->getColumnAlias('ordering');
+
+		if (!property_exists($this, $orderingField))
 		{
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
+
+		$quotedOrderingField = $this->_db->quoteName($orderingField);
 
 		// If the change is none, do nothing.
 		if (empty($delta))
@@ -1621,25 +1629,24 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 			return true;
 		}
 
-		$k     = $this->_tbl_key;
 		$row   = null;
 		$query = $this->_db->getQuery(true);
 
 		// Select the primary key and ordering values from the table.
-		$query->select(implode(',', $this->_tbl_keys) . ', ordering')
+		$query->select(implode(',', $this->_tbl_keys) . ', ' . $quotedOrderingField)
 			->from($this->_tbl);
 
 		// If the movement delta is negative move the row up.
 		if ($delta < 0)
 		{
-			$query->where('ordering < ' . (int) $this->ordering)
-				->order('ordering DESC');
+			$query->where($quotedOrderingField . ' < ' . (int) $this->$orderingField)
+				->order($quotedOrderingField . ' DESC');
 		}
 		// If the movement delta is positive move the row down.
 		elseif ($delta > 0)
 		{
-			$query->where('ordering > ' . (int) $this->ordering)
-				->order('ordering ASC');
+			$query->where($quotedOrderingField . ' > ' . (int) $this->$orderingField)
+				->order($quotedOrderingField . ' ASC');
 		}
 
 		// Add the custom WHERE clause if set.
@@ -1670,7 +1677,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 			// Update the ordering field for this instance to the row's ordering value.
 			$query->clear()
 				->update($this->_tbl)
-				->set('ordering = ' . (int) $row->ordering);
+				->set($quotedOrderingField . ' = ' . (int) $row->$orderingField);
 			$this->appendPrimaryKeys($query);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -1678,20 +1685,20 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 			// Update the ordering field for the row to this instance's ordering value.
 			$query->clear()
 				->update($this->_tbl)
-				->set('ordering = ' . (int) $this->ordering);
+				->set($quotedOrderingField . ' = ' . (int) $this->$orderingField);
 			$this->appendPrimaryKeys($query, $row);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
 			// Update the instance value.
-			$this->ordering = $row->ordering;
+			$this->$orderingField = $row->$orderingField;
 		}
 		else
 		{
 			// Update the ordering field for this instance.
 			$query->clear()
 				->update($this->_tbl)
-				->set('ordering = ' . (int) $this->ordering);
+				->set($quotedOrderingField . ' = ' . (int) $this->$orderingField);
 			$this->appendPrimaryKeys($query);
 			$this->_db->setQuery($query);
 			$this->_db->execute();

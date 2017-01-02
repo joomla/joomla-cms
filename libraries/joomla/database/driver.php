@@ -447,8 +447,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				$query = '';
 				$start = $i + 1;
 			}
-
-			$endComment = false;
 		}
 
 		return $queries;

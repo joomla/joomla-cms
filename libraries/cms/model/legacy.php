@@ -100,12 +100,7 @@ abstract class JModelLegacy extends JObject
 		{
 			jimport('joomla.filesystem.path');
 
-			if (!is_array($path))
-			{
-				$path = array($path);
-			}
-
-			foreach ($path as $includePath)
+			foreach ((array) $path as $includePath)
 			{
 				if (!in_array($includePath, $paths[$prefix]))
 				{

@@ -1289,6 +1289,8 @@ abstract class JModelAdmin extends JModelForm
 			return JError::raiseWarning(500, JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'));
 		}
 
+		$orderingField = $table->getColumnAlias('ordering');
+
 		// Update ordering values
 		foreach ($pks as $i => $pk)
 		{
@@ -1301,9 +1303,9 @@ abstract class JModelAdmin extends JModelForm
 				unset($pks[$i]);
 				JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
 			}
-			elseif ($table->ordering != $order[$i])
+			elseif ($table->$orderingField != $order[$i])
 			{
-				$table->ordering = $order[$i];
+				$table->$orderingField = $order[$i];
 
 				if (!$table->store())
 				{

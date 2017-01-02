@@ -94,7 +94,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$currentLink = $active->link;
 
 			// If the current view is the active item and an newsfeed view for this feed, then the menu item params take priority
-			if (strpos($currentLink, 'view=newsfeed') && (strpos($currentLink, '&id=' . (string) $item->id)))
+			if (strpos($currentLink, 'view=newsfeed') && strpos($currentLink, '&id=' . (string) $item->id))
 			{
 				// $item->params are the newsfeed params, $temp are the menu item params
 				// Merge so that the menu item params take priority
@@ -137,7 +137,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Check the access to the newsfeed
 		$levels = $user->getAuthorisedViewLevels();
 
-		if (!in_array($item->access, $levels) or ((in_array($item->access, $levels) and (!in_array($item->category_access, $levels)))))
+		if (!in_array($item->access, $levels) or (in_array($item->access, $levels) and (!in_array($item->category_access, $levels))))
 		{
 			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
@@ -151,8 +151,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Get the newsfeed
 		$newsfeed = $item;
 
-		$temp = new Registry($item->params);
-		$params->merge($temp);
+		$params->merge($item->params);
 
 		try
 		{

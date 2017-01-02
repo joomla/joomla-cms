@@ -280,7 +280,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function testIsClient()
 	{

@@ -82,7 +82,7 @@ elseif ($input->get('module'))
 			$class = 'Mod' . ucfirst($module) . 'Helper';
 		}
 
-		$method = $input->get('method') ? $input->get('method') : 'get';
+		$method = $input->get('method') ?: 'get';
 
 		if (is_file($helperFile))
 		{

@@ -168,7 +168,7 @@ class TestHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function registerDeprecationLogger()
 	{

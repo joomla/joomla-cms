@@ -71,8 +71,8 @@ foreach ($value as $path)
 		// Getting the properties of the image
 		$properties = JImage::getImageFileProperties($file);
 
-		// Relative path
-		$localPath    = str_replace(JPATH_ROOT . '/' . $root . '/', '', $file);
+		// Relative path, in order to use str_replace you need same directory separators, so "clean" the paths
+		$localPath    = str_replace(JPath::clean(JPATH_ROOT . '/' . $root . '/'), '', $file);
 		$webImagePath = $root . '/' . $localPath;
 
 		if (($maxImageWidth && $properties->width > $maxImageWidth) || ($maxImageHeight && $properties->height > $maxImageHeight))

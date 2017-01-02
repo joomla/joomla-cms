@@ -469,7 +469,7 @@ class JDocument
 	 */
 	public function addScript($url, $options = array(), $attribs = array())
 	{
-		// B/C before __DEPLOY_VERSION__
+		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
 			JLog::add('The addScript method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
@@ -526,7 +526,7 @@ class JDocument
 	{
 		JLog::add('The method is deprecated, use addScript(url, attributes, options) instead.', JLog::WARNING, 'deprecated');
 
-		// B/C before __DEPLOY_VERSION__
+		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
 			$argList = func_get_args();
@@ -652,7 +652,7 @@ class JDocument
 	 */
 	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
-		// B/C before __DEPLOY_VERSION__
+		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
 			JLog::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
@@ -717,7 +717,7 @@ class JDocument
 	{
 		JLog::add('The method is deprecated, use addStyleSheet(url, attributes, options) instead.', JLog::WARNING, 'deprecated');
 
-		// B/C before __DEPLOY_VERSION__
+		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
 			$argList = func_get_args();

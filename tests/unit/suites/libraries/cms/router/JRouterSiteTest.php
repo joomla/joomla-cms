@@ -226,7 +226,7 @@ class JRouterSiteTest extends TestCaseDatabase
 		$uri  = new JUri($url);
 		$this->object->parseInit($this->object, $uri);
 
-		$this->assertEquals($expectedUris, (string)$uri);
+		$this->assertEquals($expectedUris, (string) $uri);
 	}
 
 	/**
@@ -505,7 +505,7 @@ class JRouterSiteTest extends TestCaseDatabase
 
 		$this->object->buildSefRoute($this->object, $uri);
 
-		$this->assertEquals($expected, (string)$uri);
+		$this->assertEquals($expected, (string) $uri);
 	}
 
 	/**
@@ -579,10 +579,7 @@ class JRouterSiteTest extends TestCaseDatabase
 		$uri = new JUri('index.php');
 		$this->object->buildRewrite($this->object, $uri);
 		$this->assertEquals('', $uri->getPath());
-
-		$uri = new JUri('index.php/test/path/');
-		$this->object->buildRewrite($this->object, $uri);
-		$this->assertEquals('test/path/', $uri->getPath());
+		$this->assertEquals($expected, (string) $uri);
 	}
 
 	/**

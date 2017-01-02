@@ -49,13 +49,13 @@ JHtml::_('stylesheet', 'print.css', array('version' => 'auto', 'relative' => tru
 JHtml::_('stylesheet', 'general.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '.css', array('version' => 'auto', 'relative' => true));
 
-if ($this->direction == 'rtl')
+if ($this->direction === 'rtl')
 {
 	JHtml::_('stylesheet', 'template_rtl.css', array('version' => 'auto', 'relative' => true));
 	JHtml::_('stylesheet', htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
-if ($color == 'image')
+if ($color === 'image')
 {
 	$this->addStyleDeclaration("
 	.logoheader {
@@ -134,7 +134,7 @@ JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true
 						<jdoc:include type="modules" name="position-2" />
 					</div>
 
-					<?php if ($navposition == 'left' and $showleft) : ?>
+					<?php if ($navposition === 'left' and $showleft) : ?>
 						<nav class="left1 <?php if ($showRightColumn == null) { echo 'leftbigger';} ?>" id="nav">
 							<jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
 							<jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
@@ -174,7 +174,7 @@ JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true
 						</aside><!-- end right -->
 					<?php endif; ?>
 
-					<?php if ($navposition == 'center' and $showleft) : ?>
+					<?php if ($navposition === 'center' and $showleft) : ?>
 						<nav class="left <?php if ($showRightColumn == null) { echo 'leftbigger'; } ?>" id="nav" >
 
 							<jdoc:include type="modules" name="position-7"  style="beezDivision" headerLevel="3" />

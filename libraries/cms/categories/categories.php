@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * JCategories Class.
  *
@@ -265,7 +263,7 @@ class JCategories
 			// Get the selected category
 			$query->where('s.id=' . (int) $id);
 
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 			{
 				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->quote(JFactory::getLanguage()->getTag())
 					. ',' . $db->quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
@@ -277,7 +275,7 @@ class JCategories
 		}
 		else
 		{
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 			{
 				$query->where('c.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}

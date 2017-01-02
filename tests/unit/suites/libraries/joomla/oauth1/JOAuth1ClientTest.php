@@ -92,7 +92,6 @@ class JOAuth1ClientTest extends TestCase
 
 		$key = "TEST_KEY";
 		$secret = "TEST_SECRET";
-		$my_url = "TEST_URL";
 
 		$this->options = new Registry;
 		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();

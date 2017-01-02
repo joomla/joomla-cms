@@ -255,7 +255,7 @@ class MenusModelItem extends JModelAdmin
 			{
 				if (!in_array($childId, $pks))
 				{
-					array_push($pks, $childId);
+					$pks[] = $childId;
 				}
 			}
 
@@ -1106,7 +1106,7 @@ class MenusModelItem extends JModelAdmin
 		else
 		{
 			// We don't have a component. Load the form XML to get the help path
-			$xmlFile = JPath::find(JPATH_ROOT . '/administrator/components/com_menus/models/forms', 'item_' . $type . '.xml');
+			$xmlFile = JPath::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', 'item_' . $type . '.xml');
 
 			// Attempt to load the xml file.
 			if ($xmlFile && !$xml = simplexml_load_file($xmlFile))

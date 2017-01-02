@@ -38,7 +38,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		<div class="row-fluid">
 			<div class="span9">
 				<?php echo $this->form->renderField('label'); ?>
-				<?php echo $this->form->renderField('extension'); ?>
+				<?php echo $this->form->renderField('context'); ?>
 				<?php echo $this->form->renderField('description'); ?>
 			</div>
 			<div class="span3">

@@ -59,7 +59,7 @@ class PlgEditorCodemirror extends JPlugin
 		$doc = JFactory::getDocument();
 
 		// Codemirror shall have its own group of plugins to modify and extend its behavior
-		$result = JPluginHelper::importPlugin('editors_codemirror');
+		JPluginHelper::importPlugin('editors_codemirror');
 
 		// At this point, params can be modified by a plugin before going to the layout renderer.
 		JFactory::getApplication()->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params));
@@ -149,9 +149,9 @@ class PlgEditorCodemirror extends JPlugin
 
 		$done = true;
 
-		JFactory::getDocument()->addScriptDeclaration("
+		JFactory::getDocument()->addScriptDeclaration('
 		;function jInsertEditorText(text, editor) { Joomla.editors.instances[editor].replaceSelection(text); }
-		");
+		');
 
 		return true;
 	}

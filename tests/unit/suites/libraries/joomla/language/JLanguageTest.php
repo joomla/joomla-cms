@@ -1200,13 +1200,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			JLanguage::parseXMLLanguageFile($path),
 			'Line: ' . __LINE__
 		);
-
-		$path2 = __DIR__ . '/data/language/es-ES/es-ES.xml';
-		$this->assertEquals(
-			$option,
-			JLanguage::parseXMLLanguageFile($path),
-			'Line: ' . __LINE__
-		);
 	}
 
 	/**

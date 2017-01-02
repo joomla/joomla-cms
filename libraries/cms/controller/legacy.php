@@ -450,16 +450,13 @@ class JControllerLegacy
 	 */
 	protected function addPath($type, $path)
 	{
-		// Just force path to array
-		settype($path, 'array');
-
 		if (!isset($this->paths[$type]))
 		{
 			$this->paths[$type] = array();
 		}
 
 		// Loop through the path directories
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
 			$dir = rtrim(JPath::check($dir, '/'), '/') . '/';
@@ -880,8 +877,8 @@ class JControllerLegacy
 		// Add the id to the list if non-zero.
 		if (!empty($id))
 		{
-			array_push($values, (int) $id);
-			$values = array_unique($values);
+			$values[] = (int) $id;
+			$values   = array_unique($values);
 			$app->setUserState($context . '.id', $values);
 
 			if (defined('JDEBUG') && JDEBUG)
@@ -1060,7 +1057,7 @@ class JControllerLegacy
 	 *
 	 * @return  boolean  True if found and valid, otherwise return false or redirect to referrer page.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @see     JSession::checkToken()
 	 */
 	public function checkToken($method = 'post', $redirect = true)

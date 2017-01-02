@@ -407,7 +407,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getSefString($itemLanguageTag)
 	{
@@ -626,6 +626,17 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		if ($params->get($client->name) == $element)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($extension->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $extension->name), JLog::WARNING, 'jerror');
 
 			return false;
 		}

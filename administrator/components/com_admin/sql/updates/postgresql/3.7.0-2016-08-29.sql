@@ -6,7 +6,6 @@ CREATE TABLE "#__fields" (
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "context" varchar(255) DEFAULT '' NOT NULL,
   "group_id" bigint DEFAULT 0 NOT NULL,
-  "assigned_cat_ids" varchar(255) DEFAULT '' NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
   "alias" varchar(255) DEFAULT '' NOT NULL,
   "label" varchar(255) DEFAULT '' NOT NULL,
@@ -42,12 +41,21 @@ CREATE INDEX "#__fields_idx_context" ON "#__fields" ("context");
 CREATE INDEX "#__fields_idx_language" ON "#__fields" ("language");
 
 --
+-- Table: #__fields_categories
+--
+CREATE TABLE "#__fields_categories" (
+  "field_id" bigint DEFAULT 0 NOT NULL,
+  "category_id" bigint DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("field_id", "category_id")
+);
+
+--
 -- Table: #__fields_groups
 --
 CREATE TABLE "#__fields_groups" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
-  "extension" varchar(255) DEFAULT '' NOT NULL,
+  "context" varchar(255) DEFAULT '' NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
   "description" text DEFAULT '' NOT NULL,
@@ -67,7 +75,7 @@ CREATE INDEX "#__fields_idx_checked_out" ON "#__fields_groups" ("checked_out");
 CREATE INDEX "#__fields_idx_state" ON "#__fields_groups" ("state");
 CREATE INDEX "#__fields_idx_created_by" ON "#__fields_groups" ("created_by");
 CREATE INDEX "#__fields_idx_access" ON "#__fields_groups" ("access");
-CREATE INDEX "#__fields_idx_extension" ON "#__fields_groups" ("extension");
+CREATE INDEX "#__fields_idx_context" ON "#__fields_groups" ("context");
 CREATE INDEX "#__fields_idx_language" ON "#__fields_groups" ("language");
 
 --

@@ -192,7 +192,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	 */
 	public static function mockAppendBody($content)
 	{
-		array_push(static::$body, (string) $content);
+		static::$body[] = (string) $content;
 	}
 
 	/**

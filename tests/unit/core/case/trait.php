@@ -354,7 +354,7 @@ trait TestCaseTrait
 	 */
 	protected function restoreErrorHandlers()
 	{
-		$this->setErrorhandlers($this->_stashedErrorState);
+		$this->setErrorHandlers($this->_stashedErrorState);
 	}
 
 	/**
@@ -390,7 +390,6 @@ trait TestCaseTrait
 	protected function setErrorHandlers($errorHandlers)
 	{
 		$mode = null;
-		$options = null;
 
 		foreach ($errorHandlers as $type => $params)
 		{

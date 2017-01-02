@@ -63,9 +63,9 @@ class JDocumentHtmlTest extends TestCase
 		'custom' => array(
 			"<script>var html5 = true;</script>"
 		),
-	    'scriptText' => array(
-		    'JYES'
-	    )
+		'scriptText' => array(
+			'JYES'
+		)
 	);
 
 	/**

@@ -90,12 +90,12 @@ class JRouterSite extends JRouter
 
 	/**
 	 * Force to SSL
-	 * 
+	 *
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function parseCheckSSL(&$router, &$uri)
@@ -110,12 +110,12 @@ class JRouterSite extends JRouter
 
 	/**
 	 * Do some initial cleanup before parsing the URL
-	 * 
+	 *
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function parseInit(&$router, &$uri)
@@ -149,12 +149,12 @@ class JRouterSite extends JRouter
 
 	/**
 	 * Parse the format of the request
-	 * 
+	 *
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function parseFormat(&$router, &$uri)
@@ -177,7 +177,7 @@ class JRouterSite extends JRouter
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function parseSefRoute(&$router, &$uri)
@@ -301,7 +301,7 @@ class JRouterSite extends JRouter
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function parseRawRoute(&$router, &$uri)
@@ -332,7 +332,7 @@ class JRouterSite extends JRouter
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function parsePaginationData(&$router, &$uri)
@@ -352,7 +352,7 @@ class JRouterSite extends JRouter
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function buildInit(&$router, &$uri)
@@ -382,7 +382,7 @@ class JRouterSite extends JRouter
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function buildComponentPreprocess(&$router, &$uri)
@@ -418,7 +418,7 @@ class JRouterSite extends JRouter
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function buildSefRoute(&$router, &$uri)
@@ -436,15 +436,14 @@ class JRouterSite extends JRouter
 
 		// Build the component route
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-		$tmp       = '';
-		$Itemid    = isset($query['Itemid']) ? $query['Itemid'] : null;
+		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
 		$crouter   = $this->getComponentRouter($component);
 		$parts     = $crouter->build($query);
 		$tmp       = trim(implode('/', $parts));
 
-		if (empty($query['Itemid']) && !empty($Itemid))
+		if (empty($query['Itemid']) && !empty($itemID))
 		{
-			$query['Itemid'] = $Itemid;
+			$query['Itemid'] = $itemID;
 		}
 
 		// Build the application route
@@ -482,7 +481,7 @@ class JRouterSite extends JRouter
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function buildPaginationData(&$router, &$uri)
@@ -496,12 +495,12 @@ class JRouterSite extends JRouter
 
 	/**
 	 * Build the format of the request
-	 * 
+	 *
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function buildFormat(&$router, &$uri)
@@ -524,7 +523,7 @@ class JRouterSite extends JRouter
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function buildRewrite(&$router, &$uri)
@@ -552,7 +551,7 @@ class JRouterSite extends JRouter
 	 * @param   JUri         &$uri     URI object to process
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0
 	 */
 	public function buildBase(&$router, &$uri)

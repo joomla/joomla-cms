@@ -24,13 +24,13 @@ jQuery(document).ready(function($){
 <?php foreach ($this->videos as $i => $video) : ?>
 	<?php JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_media.file', &$video, &$params)); ?>
 	<li class="imgOutline thumbnail height-80 width-80 center">
-		<?php if ($this->canDelete):?>
-			<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $video->name; ?>" rel="<?php echo $video->name; ?>" title="<?php echo JText::_('JACTION_DELETE');?>">&#215;</a>
+		<?php if ($this->canDelete) : ?>
+			<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $video->name; ?>" rel="<?php echo $video->name; ?>" title="<?php echo JText::_('JACTION_DELETE'); ?>">&#215;</a>
 			<div class="pull-left">
 				<?php echo JHtml::_('grid.id', $i, $video->name, false, 'rm', 'cb-video'); ?>
 			</div>
 			<div class="clearfix"></div>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<div class="height-50">
 			<?php echo JHtml::_('image', $video->icon_32, $video->title, null, true); ?>

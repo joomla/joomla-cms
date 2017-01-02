@@ -90,7 +90,7 @@ class JFormFieldCaptcha extends JFormField implements JFormDomfieldinterface
 
 		$default = $app->get('captcha');
 
-		if ($app->isSite())
+		if ($app->isClient('site'))
 		{
 			$default = $app->getParams()->get('captcha', $default);
 		}

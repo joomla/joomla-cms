@@ -34,7 +34,7 @@ class AdminViewSysinfo extends JViewLegacy
 		}
 
 		header('MIME-Version: 1.0');
-		header('Content-Disposition: attachment; filename="systeminfo-' . date("c") . '.json"');
+		header('Content-Disposition: attachment; filename="systeminfo-' . date('c') . '.json"');
 		header('Content-Transfer-Encoding: binary');
 
 		$data = $this->getLayoutData();

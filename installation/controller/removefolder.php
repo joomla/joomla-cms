@@ -43,7 +43,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 		// Check whether we need to use FTP.
 		$useFTP = false;
 
-		if ((file_exists($path) && !is_writable($path)))
+		if (file_exists($path) && !is_writable($path))
 		{
 			$useFTP = true;
 		}

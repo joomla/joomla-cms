@@ -87,7 +87,7 @@ class TestMockMenu
 		foreach (self::$data as $id => $item)
 		{
 			$return[] = array($id, $item);
-			$return[] = array((string)$id, $item);
+			$return[] = array((string) $id, $item);
 		}
 
 		return $return;

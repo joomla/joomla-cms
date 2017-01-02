@@ -169,6 +169,8 @@ class JViewCategory extends JViewLegacy
 
 		if ($this->runPlugins)
 		{
+			JPluginHelper::importPlugin('content');
+
 			foreach ($items as $itemElement)
 			{
 				$itemElement = (object) $itemElement;
@@ -176,8 +178,6 @@ class JViewCategory extends JViewLegacy
 
 				// For some plugins.
 				!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
-
-				JPluginHelper::importPlugin('content');
 
 				JFactory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
 
