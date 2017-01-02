@@ -91,8 +91,9 @@ class JHelperMedia
 
 		// Media file names should never have executable extensions buried in them.
 		$executable = array(
-			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
+			'php', 'php3', 'php4', 'php5', 'php6', 'php7', 'pht', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade',
+			'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct',
+			'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
 		);
 
 		$check = array_intersect($filetypes, $executable);
