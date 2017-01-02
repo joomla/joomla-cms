@@ -197,7 +197,7 @@ final class JHelperUsergroups
 				->select('count(id)')
 				->from('#__usergroups');
 
-			$db->setQuery($query, 0, 1);
+			$db->setQuery($query);
 
 			$this->total = (int) $db->loadResult();
 		}

@@ -46,9 +46,9 @@ class JCacheStorageMock extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if (isset($this->_storage[$id]))
+		if (isset($this->_storage[$cache_id]))
 		{
-			return $this->_storage[$id];
+			return $this->_storage[$cache_id];
 		}
 
 		return false;
@@ -69,7 +69,7 @@ class JCacheStorageMock extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		return ($this->_storage[$id] = $data);
+		return ($this->_storage[$cache_id] = $data);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class JCacheStorageMock extends JCacheStorage
 	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		unset($this->_storage[$id]);
+		unset($this->_storage[$cache_id]);
 	}
 
 	/**
@@ -103,18 +103,6 @@ class JCacheStorageMock extends JCacheStorage
 	public function clean($group, $mode = null)
 	{
 		return ($this->_storage = array());
-	}
-
-	/**
-	 * Test to see if the storage handler is available.
-	 *
-	 * @return   boolean  True on success, false otherwise
-	 *
-	 * @since    12.1
-	 */
-	public static function isSupported()
-	{
-		return true;
 	}
 
 	/**

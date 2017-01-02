@@ -91,7 +91,7 @@ class JImage
 	/**
 	 * @var    boolean  True for best quality. False for speed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $generateBestQuality = true;
 
@@ -1199,7 +1199,7 @@ class JImage
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function setThumbnailGenerate($quality = true)
 	{

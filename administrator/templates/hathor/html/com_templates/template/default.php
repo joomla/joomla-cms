@@ -85,7 +85,7 @@ if ($this->type == 'image')
 			};
 		});");
 }
-JFactory::getDocument()->addStyleDeclaration("
+JFactory::getDocument()->addStyleDeclaration('
 	/* Styles for modals */
 	.selected{
 		background: #08c;
@@ -112,7 +112,7 @@ JFactory::getDocument()->addStyleDeclaration("
 	.tree-holder{
 		overflow-x: auto;
 	}
-");
+');
 if ($this->type == 'font')
 {
 	JFactory::getDocument()->addStyleDeclaration(

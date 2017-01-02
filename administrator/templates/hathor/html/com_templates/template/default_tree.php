@@ -31,16 +31,16 @@ ksort($this->files, SORT_STRING);
 
 				if ($count == count($keyArray))
 				{
-					$class = "folder show";
+					$class = 'folder show';
 				}
 				else
 				{
-					$class = "folder";
+					$class = 'folder';
 				}
 			}
 			else
 			{
-				$class = "folder";
+				$class = 'folder';
 			}
 
 			?>

@@ -21,7 +21,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 JFactory::getDocument()->addStyleDeclaration(
-	"
+	'
 	@media (min-width: 768px) {
 		div.modal {
 			left: none;
@@ -29,7 +29,7 @@ JFactory::getDocument()->addStyleDeclaration(
 			margin-left: -250px;
 		}
 	}
-	"
+	'
 );
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_messages&view=messages'); ?>" method="post" name="adminForm" id="adminForm">
@@ -40,7 +40,7 @@ JFactory::getDocument()->addStyleDeclaration(
 	<div id="j-main-container" class="span10">
 		<?php else : ?>
 		<div id="j-main-container">
-	<?php endif;?>
+	<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"></div>
 		<?php if (empty($this->items)) : ?>
