@@ -191,7 +191,7 @@ class JLanguage
 		$this->metadata = $this->getMetadata($this->lang);
 		$this->setDebug($debug);
 
-		$this->override = JLanguageHelper::parseIniFile(JPATH_BASE . '/language/overrides/' . $lang . '.override.ini', $this->debug);
+		$this->override = $this->parse(JPATH_BASE . '/language/overrides/' . $lang . '.override.ini', $this->debug);
 
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
@@ -774,7 +774,7 @@ class JLanguage
 		$this->counter++;
 
 		$result  = false;
-		$strings = JLanguageHelper::parseIniFile($filename, $this->debug);
+		$strings = $this->parse($filename, $this->debug);
 
 		if ($strings !== array())
 		{
@@ -801,11 +801,19 @@ class JLanguage
 	 * @return  array  The array of parsed strings.
 	 *
 	 * @since   11.1
-	 * @deprecated  __DEPLOY_VERSION__ Use JLanguageHelper::parseIniFile() instead.
 	 */
 	protected function parse($fileName)
 	{
-		return JLanguageHelper::parseIniFile($fileName, $this->debug);
+		$strings = JLanguageHelper::parseIniFile($fileName, $this->debug);
+
+		// Debug the ini file if needed.
+		// @todo Debugging an ini file should not be coupled with the language object
+		if ($this->debug === true && file_exists($fileName))
+		{
+			$this->debugFile($fileName);
+		}
+
+		return $strings;
 	}
 
 	/**
@@ -817,7 +825,7 @@ class JLanguage
 	 *
 	 * @since   3.6.3
 	 * @throws  InvalidArgumentException
-	 * @todo: the debug language should use the main debug like any other object
+	 * @todo    Debugging an ini file should not be coupled with the language object
 	 */
 	public function debugFile($filename)
 	{

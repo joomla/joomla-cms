@@ -421,12 +421,8 @@ class JLanguageHelper
 		if ($debug === true)
 		{
 			ini_set('track_errors', $trackErrors);
-
-			// @todo: the debug language should use the main debug like any other object
-			JFactory::getLanguage()->debugFile($fileName);
 		}
 
 		return is_array($strings) ? $strings : array();
 	}
 }
-
