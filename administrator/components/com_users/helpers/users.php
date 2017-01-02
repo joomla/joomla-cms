@@ -75,7 +75,7 @@ class UsersHelper
 			);
 			JHtmlSidebar::addEntry(
 				JText::_('JGLOBAL_FIELD_GROUPS'),
-				'index.php?option=com_fields&view=groups&extension=com_users',
+				'index.php?option=com_fields&view=groups&context=com_users.user',
 				$vName == 'fields.groups'
 			);
 		}
@@ -305,7 +305,7 @@ class UsersHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getContexts()
 	{

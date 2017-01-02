@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<div class="accordion-group">
 		<div class="accordion-heading">
 			<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#batch">
-				<?php echo JText::_('COM_REDIRECT_BATCH_UPDATE_WITH_NEW_URL');?>
+				<?php echo JText::_('COM_REDIRECT_BATCH_UPDATE_WITH_NEW_URL'); ?>
 			</a>
 		</div>
 		<div id="batch" class="accordion-body collapse">

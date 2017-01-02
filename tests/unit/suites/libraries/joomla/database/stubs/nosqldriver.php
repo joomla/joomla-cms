@@ -84,7 +84,6 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 */
 	public function disconnect()
 	{
-		return;
 	}
 
 	/**

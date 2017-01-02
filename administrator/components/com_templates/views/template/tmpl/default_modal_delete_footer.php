@@ -18,5 +18,5 @@ $input = JFactory::getApplication()->input;
 	<input type="hidden" name="file" value="<?php echo $this->file; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 	<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
-	<button type="submit" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></button>
+	<button type="submit" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>
 </form>
