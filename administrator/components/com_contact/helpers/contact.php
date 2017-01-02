@@ -44,12 +44,12 @@ class ContactHelper extends JHelperContent
 			JHtmlSidebar::addEntry(
 				JText::_('JGLOBAL_FIELDS'),
 				'index.php?option=com_fields&context=com_contact.contact',
-				$vName == 'fields.contact'
+				$vName == 'fields.fields'
 			);
 			JHtmlSidebar::addEntry(
 				JText::_('JGLOBAL_FIELD_GROUPS'),
-				'index.php?option=com_categories&extension=com_contact.contact.fields',
-				$vName == 'categories.contact'
+				'index.php?option=com_fields&view=groups&context=com_contact.contact',
+				$vName == 'fields.groups'
 			);
 		}
 	}
@@ -122,7 +122,6 @@ class ContactHelper extends JHelperContent
 	{
 		$db = JFactory::getDbo();
 		$parts     = explode('.', $extension);
-		$component = $parts[0];
 		$section   = null;
 		if (count($parts) > 1)
 		{
@@ -175,5 +174,24 @@ class ContactHelper extends JHelperContent
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public static function getContexts()
+	{
+		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_contact.contact' => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
+			'com_contact.mail' => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+		);
+
+		return $contexts;
 	}
 }

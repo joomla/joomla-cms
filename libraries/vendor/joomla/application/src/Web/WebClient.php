@@ -52,6 +52,8 @@ class WebClient
 	const SAFARI = 20;
 	const OPERA = 21;
 	const ANDROIDTABLET = 22;
+	const EDGE = 23;
+	const BLINK = 24;
 
 	/**
 	 * @var    integer  The detected platform on which the web client runs.
@@ -266,6 +268,11 @@ class WebClient
 			$this->browser = self::IE;
 			$patternBrowser = ' rv';
 		}
+		elseif (stripos($userAgent, 'Edge') !== false)
+		{
+			$this->browser = self::EDGE;
+			$patternBrowser = 'Edge';
+		}
 		elseif ((stripos($userAgent, 'Firefox') !== false) && (stripos($userAgent, 'like Firefox') === false))
 		{
 			$this->browser = self::FIREFOX;
@@ -371,8 +378,38 @@ class WebClient
 			// Attempt to detect the client engine -- starting with the most popular ... for now.
 			$this->engine = self::TRIDENT;
 		}
+		elseif (stripos($userAgent, 'Edge') !== false || stripos($userAgent, 'EdgeHTML') !== false)
+		{
+			$this->engine = self::EDGE;
+		}
+		elseif (stripos($userAgent, 'Chrome') !== false)
+		{
+			$result  = explode('/', stristr($userAgent, 'Chrome'));
+			$version = explode(' ', $result[1]);
+
+			if ($version[0] >= 28)
+			{
+				$this->engine = self::BLINK;
+			}
+			else
+			{
+				$this->engine = self::WEBKIT;
+			}
+		}
 		elseif (stripos($userAgent, 'AppleWebKit') !== false || stripos($userAgent, 'blackberry') !== false)
 		{
+			if (stripos($userAgent, 'AppleWebKit') !== false)
+			{
+				$result  = explode('/', stristr($userAgent, 'AppleWebKit'));
+				$version = explode(' ', $result[1]);
+
+				if ($version[0] === 537.36)
+				{
+					// AppleWebKit/537.36 is Blink engine specific, exception is Blink emulated IEMobile, Trident or Edge
+					$this->engine = self::BLINK;
+				}
+			}
+
 			// Evidently blackberry uses WebKit and doesn't necessarily report it.  Bad RIM.
 			$this->engine = self::WEBKIT;
 		}
@@ -383,6 +420,14 @@ class WebClient
 		}
 		elseif (stripos($userAgent, 'Opera') !== false || stripos($userAgent, 'Presto') !== false)
 		{
+			$result  = explode('/', stristr($userAgent, 'Opera'));
+			$version = explode(' ', $result[1]);
+
+			if ($version[0] >= 15)
+			{
+				$this->engine = self::BLINK;
+			}
+
 			// Sometimes Opera browsers don't say Presto.
 			$this->engine = self::PRESTO;
 		}
@@ -523,7 +568,7 @@ class WebClient
 	 */
 	protected function detectRobot($userAgent)
 	{
-		if (preg_match('/http|bot|robot|spider|crawler|curl|^$/i', $userAgent))
+		if (preg_match('/http|bot|bingbot|googlebot|robot|spider|slurp|crawler|curl|^$/i', $userAgent))
 		{
 			$this->robot = true;
 		}

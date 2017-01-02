@@ -146,7 +146,6 @@ class CategoriesViewCategories extends JViewLegacy
 		$section    = $this->state->get('filter.section');
 		$canDo      = JHelperContent::getActions($component, 'category', $categoryId);
 		$user       = JFactory::getUser();
-		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
 
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
@@ -210,9 +209,9 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', $extension)
-			&& $user->authorise('core.edit', $extension)
-			&& $user->authorise('core.edit.state', $extension))
+		if ($canDo->get('core.create')
+			&& $canDo->get('core.edit')
+			&& $canDo->get('core.edit.state'))
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 

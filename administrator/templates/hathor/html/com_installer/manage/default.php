@@ -67,6 +67,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 				</th>
+				<th>
+					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_PACKAGE_ID', 'package_id', $listDirn, $listOrder); ?>
+				</th>
 				<th class="nowrap id-col">
 					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 				</th>
@@ -110,6 +113,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</td>
 				<td class="center">
 					<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
+				</td>
+				<td class="center">
+					<?php echo $item->package_id ?: JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 				</td>
 				<td>
 					<?php echo $item->extension_id ?>

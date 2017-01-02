@@ -26,6 +26,14 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	protected $data;
 
 	/**
+	 * Flag if the Registry data object has been initialized
+	 *
+	 * @var    boolean
+	 * @since  1.5.2
+	 */
+	protected $initialized = false;
+
+	/**
 	 * Registry instances container.
 	 *
 	 * @var    array
@@ -356,6 +364,16 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		$handler = AbstractRegistryFormat::getInstance($format, $options);
 
 		$obj = $handler->stringToObject($data, $options);
+
+		// If the data object has not yet been initialized, direct assign the object
+		if (!$this->initialized)
+		{
+			$this->data        = $obj;
+			$this->initialized = true;
+
+			return $this;
+		}
+
 		$this->loadObject($obj);
 
 		return $this;
@@ -662,6 +680,9 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 */
 	protected function bindData($parent, $data, $recursive = true, $allowNull = true)
 	{
+		// The data object is now initialized
+		$this->initialized = true;
+
 		// Ensure the input data is an array.
 		$data = is_object($data)
 			? get_object_vars($data)

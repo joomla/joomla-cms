@@ -24,6 +24,14 @@
 				edit="true"
 				clear="true"
 			/>
+			<field
+				name="filter_tag"
+				type="tag"
+				description="JTAG_FIELD_SELECT_DESC"
+				label="JTAG"
+				>
+				<option value="">JNONE</option>
+			</field>
 		</fieldset>
 	</fields>
 

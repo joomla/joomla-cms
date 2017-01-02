@@ -27,6 +27,9 @@ $mainPageUri = $frontEndUri->toString();
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
+// Add filter polyfill for IE8
+JHtml::_('behavior.polyfill', array('filter'), 'lte IE 9');
+
 // Add template js
 JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
 
@@ -119,7 +122,7 @@ if ($stickyToolbar)
 // Template color
 if ($navbar_color)
 {
-	$this->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	.navbar-inner,
 	.navbar-inverse .navbar-inner,
 	.dropdown-menu li > a:hover,
@@ -129,37 +132,37 @@ if ($navbar_color)
 	.navbar-inverse .nav li.dropdown.active > .dropdown-toggle,
 	.navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle,
 	#status.status-top {
-		background: " . $navbar_color . ";
-	}");
+		background: ' . $navbar_color . ';
+	}');
 }
 
 // Template header color
 if ($header_color)
 {
-	$this->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	.header {
-		background: " . $header_color . ";
-	}");
+		background: ' . $header_color . ';
+	}');
 }
 
 // Sidebar background color
 if ($this->params->get('sidebarColor'))
 {
-	$this->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	.nav-list > .active > a,
 	.nav-list > .active > a:hover {
-		background: " . $this->params->get('sidebarColor') . ";
-	}");
+		background: ' . $this->params->get('sidebarColor') . ';
+	}');
 }
 
 // Link color
 if ($this->params->get('linkColor'))
 {
-	$this->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	a,
 	.j-toggle-sidebar-button {
-		color: " . $this->params->get('linkColor') . ";
-	}");
+		color: ' . $this->params->get('linkColor') . ';
+	}');
 }
 ?>
 <!DOCTYPE html>

@@ -123,11 +123,11 @@ abstract class JMailHelper
 
 		/*
 		 * Check the local address
-		 * We're a bit more conservative about what constitutes a "legal" address, that is, a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-
+		 * We're a bit more conservative about what constitutes a "legal" address, that is, a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-
 		 * The first and last character in local cannot be a period ('.')
 		 * Also, period should not appear 2 or more times consecutively
 		 */
-		$allowed = 'a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-';
+		$allowed = "a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-";
 		$regex = "/^[$allowed][\.$allowed]{0,63}$/";
 
 		if (!preg_match($regex, $local) || substr($local, -1) == '.' || $local[0] == '.' || preg_match('/\.\./', $local))
