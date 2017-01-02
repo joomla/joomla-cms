@@ -13,16 +13,17 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
+$clientId   = (int) $this->state->get('client_id', 0);
 $user		= JFactory::getUser();
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
-$trashed	= $this->state->get('filter.state') == -2 ? true : false;
 $saveOrder	= ($listOrder == 'a.ordering');
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'moduleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+$colSpan = $clientId === 1 ? 9 : 10;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -32,9 +33,16 @@ if ($saveOrder)
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<?php if ($this->total > 0) : ?>
+<?php endif; ?>
+		<?php
+		// Search tools bar and filters
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+		?>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
+			</div>
+		<?php else : ?>
 			<table class="table table-striped" id="moduleList">
 				<thead>
 					<tr>
@@ -56,9 +64,11 @@ if ($saveOrder)
 						<th width="10%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 						</th>
+						<?php if ($clientId === 0) : ?>
 						<th width="10%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 						</th>
+						<?php endif; ?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 						</th>
@@ -72,7 +82,7 @@ if ($saveOrder)
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="10">
+						<td colspan="<?php echo $colSpan; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -115,15 +125,25 @@ if ($saveOrder)
 							<?php // Check if extension is enabled ?>
 							<?php if ($item->enabled > 0) : ?>
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-								<?php // Create dropdown items ?>
-								<?php JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules'); ?>
-								<?php $action = $trashed ? 'untrash' : 'trash'; ?>
-								<?php JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'modules'); ?>
-								<?php // Render dropdown list ?>
-								<?php echo JHtml::_('actionsdropdown.render', $this->escape($item->title)); ?>
+								<?php // Create dropdown items and render the dropdown list.
+								if ($canCreate)
+								{
+									JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules');
+								}
+								if ($canChange)
+								{
+									JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'modules');
+								}
+								if ($canCreate || $canChange)
+								{
+									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+								}
+								?>
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
-								<button class="btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
+								<button class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>">
+									<i class="icon-ban-circle"></i>
+								</button>
 							<?php endif; ?>
 							</div>
 						</td>
@@ -133,7 +153,7 @@ if ($saveOrder)
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'modules.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
-									<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>">
+									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 										<?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
@@ -158,23 +178,18 @@ if ($saveOrder)
 							<?php endif; ?>
 						</td>
 						<td class="small hidden-phone hidden-tablet">
-							<?php echo $item->name;?>
+							<?php echo $item->name; ?>
 						</td>
+						<?php if ($clientId === 0) : ?>
 						<td class="small hidden-phone hidden-tablet">
 							<?php echo $item->pages; ?>
 						</td>
-
+						<?php endif; ?>
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="small hidden-phone">
-							<?php if ($item->language == '') : ?>
-								<?php echo JText::_('JDEFAULT'); ?>
-							<?php elseif ($item->language == '*'):?>
-								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else:?>
-								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif;?>
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
@@ -183,7 +198,7 @@ if ($saveOrder)
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<?php // Load the batch processing form. ?>
 		<?php if ($user->authorise('core.create', 'com_modules')
