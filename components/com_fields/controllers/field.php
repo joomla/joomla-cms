@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Fields controller class for Fields Component.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsControllerField extends JControllerLegacy
 {
@@ -20,7 +20,7 @@ class FieldsControllerField extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function storeform()
 	{

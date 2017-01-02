@@ -400,7 +400,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getSefString($itemLanguageTag)
 	{

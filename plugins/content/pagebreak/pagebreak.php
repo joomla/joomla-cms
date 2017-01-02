@@ -44,7 +44,7 @@ class PlgContentPagebreak extends JPlugin
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{
-		$canProceed = $context == 'com_content.article';
+		$canProceed = $context === 'com_content.article';
 
 		if (!$canProceed)
 		{
@@ -87,7 +87,7 @@ class PlgContentPagebreak extends JPlugin
 			$page = 0;
 		}
 
-		if ($params->get('intro_only') || $params->get('popup') || $full || $view != 'article')
+		if ($params->get('intro_only') || $params->get('popup') || $full || $view !== 'article')
 		{
 			$row->text = preg_replace($regex, '', $row->text);
 
@@ -158,7 +158,7 @@ class PlgContentPagebreak extends JPlugin
 			// Reset the text, we already hold it in the $text array.
 			$row->text = '';
 
-			if ($style == 'pages')
+			if ($style === 'pages')
 			{
 				// Display TOC.
 				if ($hasToc)

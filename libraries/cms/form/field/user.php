@@ -158,12 +158,12 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 	 *
 	 * @return  DOMElement
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @see     JFormDomfieldinterface::appendXMLFieldTag
 	 */
 	public function appendXMLFieldTag($field, DOMElement $parent, JForm $form)
 	{
-		if (JFactory::getApplication()->isSite())
+		if (JFactory::getApplication()->isClient('site'))
 		{
 			// The user field is not working on the front end
 			return;

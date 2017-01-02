@@ -105,7 +105,7 @@ class PlgUserJoomla extends JPlugin
 		{
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
 			// The method check here ensures that if running as a CLI Application we don't get any errors
-			if (method_exists($this->app, 'isAdmin') && $this->app->isAdmin())
+			if (method_exists($this->app, 'isClient') && $this->app->isClient('administrator'))
 			{
 				if ($mail_to_user)
 				{
@@ -253,7 +253,7 @@ class PlgUserJoomla extends JPlugin
 		$instance->setLastVisit();
 
 		// Add "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
 			$this->app->input->cookie->set(
 				'joomla_user_state',
@@ -293,7 +293,7 @@ class PlgUserJoomla extends JPlugin
 		$sharedSessions = $this->app->get('shared_session', '0');
 
 		// Check to see if we're deleting the current session
-		if ($my->id == $user['id'] && (!$sharedSessions && $options['clientid'] == $this->app->getClientId()))
+		if ($my->id == $user['id'] && ($sharedSessions || (!$sharedSessions && $options['clientid'] == $this->app->getClientId())))
 		{
 			// Hit the user last visit field
 			$my->setLastVisit();
@@ -327,7 +327,7 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
 			$this->app->input->cookie->set('joomla_user_state', '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 		}

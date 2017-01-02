@@ -44,12 +44,12 @@ if (!empty($this->items))
 <?php else : ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('filter_field') != 'hide') : ?>
+	<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 	<fieldset class="filters">
 		<legend class="hidelabeltxt">
 			<?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?>
 		</legend>
-		<?php if ($this->params->get('filter_field') != 'tag') :?>
+		<?php if ($this->params->get('filter_field') !== 'tag') :?>
 		<div class="filter-search">
 			<label class="filter-search-lbl element-invisible" for="filter-search">
 				<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?>
@@ -73,7 +73,7 @@ if (!empty($this->items))
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('filter_field') != 'hide') :?>
+	<?php if ($this->params->get('filter_field') !== 'hide') :?>
 	</fieldset>
 	<?php endif; ?>
 
@@ -89,11 +89,11 @@ if (!empty($this->items))
 
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 				<th class="list-date" id="tableOrdering2">
-					<?php if ($date == 'created') : ?>
+					<?php if ($date === 'created') : ?>
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.created', $listDirn, $listOrder); ?>
-					<?php elseif ($date == 'modified') : ?>
+					<?php elseif ($date === 'modified') : ?>
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.modified', $listDirn, $listOrder); ?>
-					<?php elseif ($date == 'published') : ?>
+					<?php elseif ($date === 'published') : ?>
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
 					<?php endif; ?>
 				</th>

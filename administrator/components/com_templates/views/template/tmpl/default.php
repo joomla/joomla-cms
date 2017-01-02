@@ -88,7 +88,7 @@ if ($this->type == 'image')
 				onChange:   showCoords,
 				onSelect:   showCoords,
 				onRelease:  clearCoords,
-				trueSize:   [" . $this->image['width'] . "," . $this->image['height'] . "]
+				trueSize:   [" . $this->image['width'] . ',' . $this->image['height'] . "]
 			},function(){
 				jcrop_api = this;
 			});
@@ -110,7 +110,7 @@ if ($this->type == 'image')
 		});");
 }
 
-JFactory::getDocument()->addStyleDeclaration("
+JFactory::getDocument()->addStyleDeclaration('
 	/* Styles for modals */
 	.selected{
 		background: #08c;
@@ -148,7 +148,7 @@ JFactory::getDocument()->addStyleDeclaration("
 	.tree-holder{
 		overflow-x: auto;
 	}
-");
+');
 
 if ($this->type == 'font')
 {

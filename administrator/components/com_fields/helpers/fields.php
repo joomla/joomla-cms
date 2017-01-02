@@ -8,13 +8,12 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::register('FieldsHelperInternal', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/internal.php');
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
 /**
  * FieldsHelper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsHelper
 {
@@ -30,7 +29,7 @@ class FieldsHelper
 	 *
 	 * @return  array|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function extract($contextString)
 	{
@@ -62,7 +61,7 @@ class FieldsHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getFields($context, $item = null, $prepareValue = false, array $valuesToOverride = null)
 	{
@@ -97,7 +96,16 @@ class FieldsHelper
 		if ($item && (isset($item->catid) || isset($item->fieldscatid)))
 		{
 			$assignedCatIds = isset($item->catid) ? $item->catid : $item->fieldscatid;
-			self::$fieldsCache->setState('filter.assigned_cat_ids', is_array($assignedCatIds) ? $assignedCatIds : explode(',', $assignedCatIds));
+
+			if (!is_array($assignedCatIds))
+			{
+				$assignedCatIds = explode(',', $assignedCatIds);
+			}
+
+			// Fields without any category assigned should show as well
+			$assignedCatIds[] = 0;
+
+			self::$fieldsCache->setState('filter.assigned_cat_ids', $assignedCatIds);
 		}
 
 		$fields = self::$fieldsCache->getItems();
@@ -188,7 +196,7 @@ class FieldsHelper
 	 *
 	 * @return  NULL|string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public static function render($context, $layoutFile, $displayData)
 	{
@@ -234,7 +242,7 @@ class FieldsHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function prepareForm($context, JForm $form, $data)
 	{
@@ -302,7 +310,7 @@ class FieldsHelper
 			 * Setting the onchange event to reload the page when the category
 			 * has changed
 			*/
-			$form->setFieldAttribute('catid', 'onchange', "categoryHasChanged(this);");
+			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
 			JFactory::getDocument()->addScriptDeclaration(
 					"function categoryHasChanged(element){
 				var cat = jQuery(element);
@@ -325,7 +333,7 @@ class FieldsHelper
 			return true;
 		}
 
-		FieldsHelperInternal::loadPlugins();
+		self::loadPlugins();
 
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');
@@ -427,7 +435,7 @@ class FieldsHelper
 					// Rendering the type
 					$node = $type->appendXMLFieldTag($field, $fieldset, $form);
 
-					if (!FieldsHelperInternal::canEditFieldValue($field))
+					if (!self::canEditFieldValue($field))
 					{
 						$node->setAttribute('disabled', 'true');
 					}
@@ -504,7 +512,7 @@ class FieldsHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function canEditFieldValue($field)
 	{
@@ -520,7 +528,7 @@ class FieldsHelper
 	 *
 	 * @return  stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function countItems(&$items)
 	{
@@ -560,11 +568,42 @@ class FieldsHelper
 	}
 
 	/**
+	 * Gets assigned categories titles for a field
+	 *
+	 * @param   stdClass[]  $fieldId  The field ID
+	 *
+	 * @return  array  Array with the assigned categories
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getAssignedCategoriesTitles($fieldId)
+	{
+		$fieldId = (int) $fieldId;
+
+		if (!$fieldId)
+		{
+			return array();
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('c.title'))
+				->from($db->quoteName('#__fields_categories', 'a'))
+				->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+				->where('field_id = ' . $fieldId);
+
+		$db->setQuery($query);
+
+		return $db->loadColumn();
+	}
+
+	/**
 	 * Gets the fields system plugin extension id.
 	 *
 	 * @return  int  The fields system plugin extension id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getFieldsPluginId()
 	{
@@ -587,5 +626,77 @@ class FieldsHelper
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Configure the Linkbar.
+	 *
+	 * @param   string  $context  The context the fields are used for
+	 * @param   string  $vName    The view currently active
+	 *
+	 * @return  void
+	 *
+	 * @since    3.7.0
+	 */
+	public static function addSubmenu($context, $vName)
+	{
+		$parts = self::extract($context);
+
+		if (!$parts)
+		{
+			return;
+		}
+
+		$component = $parts[0];
+
+		// Avoid nonsense situation.
+		if ($component == 'com_fields')
+		{
+			return;
+		}
+
+		// Try to find the component helper.
+		$eName = str_replace('com_', '', $component);
+		$file  = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+
+		if (!file_exists($file))
+		{
+			return;
+		}
+
+		require_once $file;
+
+		$cName = ucfirst($eName) . 'Helper';
+
+		if (class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
+		{
+			$lang = JFactory::getLanguage();
+			$lang->load($component, JPATH_ADMINISTRATOR)
+			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+
+			$cName::addSubmenu('fields.' . $vName);
+		}
+	}
+
+	/**
+	 * Loads the fields plugins.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public static function loadPlugins()
+	{
+		foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
+		{
+			if (!JPluginHelper::isEnabled('fields', $folder['name']))
+			{
+				continue;
+			}
+
+			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), JPATH_ADMINISTRATOR);
+			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), $folder['fullname']);
+			JFormHelper::addFieldPath($folder['fullname'] . '/fields');
+		}
 	}
 }

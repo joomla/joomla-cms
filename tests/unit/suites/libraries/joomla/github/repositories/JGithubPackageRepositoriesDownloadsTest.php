@@ -23,9 +23,9 @@ class JGithubPackageRepositoriesDownloadsTest extends PHPUnit_Framework_TestCase
 	protected $response;
 
 	/**
-     * @var JGithubPackageRepositoriesDownloads
-     */
-    protected $object;
+	 * @var JGithubPackageRepositoriesDownloads
+	 */
+	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
@@ -58,98 +58,98 @@ class JGithubPackageRepositoriesDownloadsTest extends PHPUnit_Framework_TestCase
 		$this->object = new JGithubPackageRepositoriesDownloads($this->options, $this->client);
 	}
 
-    /**
-     * @covers JGithubPackageRepositoriesDownloads::getList
-     */
-    public function testGetList()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageRepositoriesDownloads::getList
+	 */
+	public function testGetList()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/repos/joomla/joomla-platform/downloads')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/downloads')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->getList('joomla', 'joomla-platform'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->getList('joomla', 'joomla-platform'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageRepositoriesDownloads::get
-     */
-    public function testGet()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageRepositoriesDownloads::get
+	 */
+	public function testGet()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/repos/joomla/joomla-platform/downloads/123abc')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/downloads/123abc')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->get('joomla', 'joomla-platform', '123abc'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->get('joomla', 'joomla-platform', '123abc'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageRepositoriesDownloads::create
-     */
-    public function testCreate()
-    {
-	    $this->response->code = 201;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageRepositoriesDownloads::create
+	 */
+	public function testCreate()
+	{
+		$this->response->code = 201;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('post')
-		    ->with('/repos/joomla/joomla-platform/downloads')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/repos/joomla/joomla-platform/downloads')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->create('joomla', 'joomla-platform', 'aaa.zip', 1234, 'Description', 'content_type'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->create('joomla', 'joomla-platform', 'aaa.zip', 1234, 'Description', 'content_type'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageRepositoriesDownloads::upload
-     */
-    public function testUpload()
-    {
-	    $this->response->code = 201;
-	    $this->response->body = true;
+	/**
+	 * @covers JGithubPackageRepositoriesDownloads::upload
+	 */
+	public function testUpload()
+	{
+		$this->response->code = 201;
+		$this->response->body = true;
 
-	    $this->client->expects($this->once())
-		    ->method('post')
-		    ->with('https://github.s3.amazonaws.com/')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('post')
+			->with('https://github.s3.amazonaws.com/')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->upload('joomla', 'joomla-platform', 123, 'a/b/aaa.zip', 'acl', 201, 'aaa.zip', '123abc', '123abc', '123abc','content_type', '@aaa.zip'),
-		    $this->equalTo($this->response->body)
-	    );
-    }
+		$this->assertThat(
+			$this->object->upload('joomla', 'joomla-platform', 123, 'a/b/aaa.zip', 'acl', 201, 'aaa.zip', '123abc', '123abc', '123abc','content_type', '@aaa.zip'),
+			$this->equalTo($this->response->body)
+		);
+	}
 
-    /**
-     * @covers JGithubPackageRepositoriesDownloads::delete
-     */
-    public function testDelete()
-    {
-	    $this->response->code = 204;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageRepositoriesDownloads::delete
+	 */
+	public function testDelete()
+	{
+		$this->response->code = 204;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('delete')
-		    ->with('/repos/joomla/joomla-platform/downloads/123')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('delete')
+			->with('/repos/joomla/joomla-platform/downloads/123')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->delete('joomla', 'joomla-platform', 123),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->delete('joomla', 'joomla-platform', 123),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 }

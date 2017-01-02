@@ -20,7 +20,7 @@ class JDatabaseExporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 * @var    object  The mocked database object for use by test methods.
 	 * @since  3.4
 	 */
-	protected $dbo = null;
+	protected $dbo;
 
 	/**
 	 * Sets up the testing conditions

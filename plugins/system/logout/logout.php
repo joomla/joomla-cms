@@ -74,7 +74,7 @@ class PlgSystemLogout extends JPlugin
 	 */
 	public function onUserLogout($user, $options = array())
 	{
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
 			// Create the cookie.
 			$this->app->input->cookie->set(
@@ -106,7 +106,7 @@ class PlgSystemLogout extends JPlugin
 		$app = JFactory::getApplication();
 
 		// Make sure the error is a 403 and we are in the frontend.
-		if ($error->getCode() == 403 && $app->isSite())
+		if ($error->getCode() == 403 && $app->isClient('site'))
 		{
 			// Redirect to the home page.
 			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'));

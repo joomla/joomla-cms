@@ -785,7 +785,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
-		parent::setup();
+		parent::setUp();
 
 // 		$this->saveFactoryState();
 
