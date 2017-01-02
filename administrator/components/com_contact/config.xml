@@ -343,12 +343,10 @@
 		<field
 			name="show_user_custom_fields"
 			type="fieldgroups"
-			multiple="true"
-			context="com_users.user"
 			label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 			description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
 			multiple="true"
-			extension="com_users.user.fields"
+			context="com_users.user"
 			default="-1"
 			>
 			<option value="-1">JALL</option>
