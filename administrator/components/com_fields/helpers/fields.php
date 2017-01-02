@@ -8,12 +8,12 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::register('FieldsHelperInternal', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/internal.php');
+JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
 /**
  * FieldsHelper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsHelper
 {
@@ -29,7 +29,7 @@ class FieldsHelper
 	 *
 	 * @return  array|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function extract($contextString)
 	{
@@ -61,7 +61,7 @@ class FieldsHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getFields($context, $item = null, $prepareValue = false, array $valuesToOverride = null)
 	{
@@ -75,7 +75,7 @@ class FieldsHelper
 				'ignore_request' => true)
 			);
 
-			self::$fieldsCache->setState('filter.published', 1);
+			self::$fieldsCache->setState('filter.state', 1);
 			self::$fieldsCache->setState('list.limit', 0);
 		}
 
@@ -96,7 +96,16 @@ class FieldsHelper
 		if ($item && (isset($item->catid) || isset($item->fieldscatid)))
 		{
 			$assignedCatIds = isset($item->catid) ? $item->catid : $item->fieldscatid;
-			self::$fieldsCache->setState('filter.assigned_cat_ids', is_array($assignedCatIds) ? $assignedCatIds : explode(',', $assignedCatIds));
+
+			if (!is_array($assignedCatIds))
+			{
+				$assignedCatIds = explode(',', $assignedCatIds);
+			}
+
+			// Fields without any category assigned should show as well
+			$assignedCatIds[] = 0;
+
+			self::$fieldsCache->setState('filter.assigned_cat_ids', $assignedCatIds);
 		}
 
 		$fields = self::$fieldsCache->getItems();
@@ -133,7 +142,7 @@ class FieldsHelper
 					$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
 				}
 
-				if (! $field->value)
+				if ($field->value === '' || $field->value === null)
 				{
 					$field->value = $field->default_value;
 				}
@@ -187,11 +196,11 @@ class FieldsHelper
 	 *
 	 * @return  NULL|string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public static function render($context, $layoutFile, $displayData)
 	{
-		$value = null;
+		$value = '';
 
 		/*
 		 * Because the layout refreshes the paths before the render function is
@@ -206,13 +215,13 @@ class FieldsHelper
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
 
-		if (!$value)
+		if ($value == '')
 		{
 			// Trying to render the layout on Fields itself
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
 		}
 
-		if (!$value)
+		if ($value == '')
 		{
 			// Trying to render the layout of the plugins
 			foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
@@ -233,7 +242,7 @@ class FieldsHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function prepareForm($context, JForm $form, $data)
 	{
@@ -301,7 +310,7 @@ class FieldsHelper
 			 * Setting the onchange event to reload the page when the category
 			 * has changed
 			*/
-			$form->setFieldAttribute('catid', 'onchange', "categoryHasChanged(this);");
+			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
 			JFactory::getDocument()->addScriptDeclaration(
 					"function categoryHasChanged(element){
 				var cat = jQuery(element);
@@ -324,65 +333,63 @@ class FieldsHelper
 			return true;
 		}
 
-		FieldsHelperInternal::loadPlugins();
+		self::loadPlugins();
 
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');
 		$fieldsNode = $xml->appendChild(new DOMElement('form'))->appendChild(new DOMElement('fields'));
 		$fieldsNode->setAttribute('name', 'params');
 
-		// Organizing the fields according to their category
-		$fieldsPerCategory = array(
+		// Organizing the fields according to their group
+		$fieldsPerGroup = array(
 				0 => array()
 		);
 
 		foreach ($fields as $field)
 		{
-			if (! key_exists($field->catid, $fieldsPerCategory))
+			if (!array_key_exists($field->group_id, $fieldsPerGroup))
 			{
-				$fieldsPerCategory[$field->catid] = array();
+				$fieldsPerGroup[$field->group_id] = array();
 			}
 
-			$fieldsPerCategory[$field->catid][] = $field;
+			$fieldsPerGroup[$field->group_id][] = $field;
 		}
 
 		// On the front, sometimes the admin fields path is not included
 		JFormHelper::addFieldPath(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/fields');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
-		// Looping trough the categories
-		foreach ($fieldsPerCategory as $catid => $catFields)
+		// Looping trough the groups
+		foreach ($fieldsPerGroup as $group_id => $groupFields)
 		{
-			if (! $catFields)
+			if (!$groupFields)
 			{
 				continue;
 			}
 
 			// Defining the field set
+			/** @var DOMElement $fieldset */
 			$fieldset = $fieldsNode->appendChild(new DOMElement('fieldset'));
-			$fieldset->setAttribute('name', 'fields-' . $catid);
+			$fieldset->setAttribute('name', 'fields-' . $group_id);
 			$fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
 			$fieldset->setAttribute('addrulepath', '/administrator/components/' . $component . '/models/rules');
 
-			$label = '';
+			$label       = '';
 			$description = '';
 
-			if ($catid > 0)
+			if ($group_id)
 			{
-				/*
-				 * JCategories can't handle com_content with a section, going
-				 * directly to the table
-				 */
-				$category = JTable::getInstance('Category');
-				$category->load($catid);
+				$group = JTable::getInstance('Group', 'FieldsTable');
+				$group->load($group_id);
 
-				if ($category->id)
+				if ($group->id)
 				{
-					$label = $category->title;
-					$description = $category->description;
+					$label       = $group->title;
+					$description = $group->description;
 				}
 			}
 
-			if (! $label || !$description)
+			if (!$label || !$description)
 			{
 				$lang = JFactory::getLanguage();
 
@@ -413,7 +420,7 @@ class FieldsHelper
 			$fieldset->setAttribute('description', strip_tags($description));
 
 			// Looping trough the fields for that context
-			foreach ($catFields as $field)
+			foreach ($groupFields as $field)
 			{
 				// Creating the XML form data
 				$type = JFormHelper::loadFieldType($field->type);
@@ -428,7 +435,7 @@ class FieldsHelper
 					// Rendering the type
 					$node = $type->appendXMLFieldTag($field, $fieldset, $form);
 
-					if (!FieldsHelperInternal::canEditFieldValue($field))
+					if (!self::canEditFieldValue($field))
 					{
 						$node->setAttribute('disabled', 'true');
 					}
@@ -459,27 +466,40 @@ class FieldsHelper
 		);
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
-			&& JFactory::getApplication()->isSite())
+			&& JFactory::getApplication()->isClient('site'))
 		{
 			// Modules on front end editing don't have data and an id set
-			$data->id = $input->getInt('id');
+			$data->id = JFactory::getApplication()->input->getInt('id');
 		}
 
 		// Looping trough the fields again to set the value
-		if (isset($data->id) && $data->id)
+		if (!isset($data->id) || !$data->id)
 		{
-			foreach ($fields as $field)
+			return true;
+		}
+
+		foreach ($fields as $field)
+		{
+			$value = $model->getFieldValue($field->id, $field->context, $data->id);
+
+			if ($value === null)
 			{
-				$value = $model->getFieldValue($field->id, $field->context, $data->id);
-
-				if ($value === null)
-				{
-					continue;
-				}
-
-				// Setting the value on the field
-				$form->setValue($field->alias, 'params', $value);
+				continue;
 			}
+
+			if (!is_array($value) && $value !== '')
+			{
+				// Function getField doesn't cache the fields, so we try to do it only when necessary
+				$formField = $form->getField($field->alias, 'params');
+
+				if ($formField && $formField->forceMultiple)
+				{
+					$value = (array) $value;
+				}
+			}
+
+			// Setting the value on the field
+			$form->setValue($field->alias, 'params', $value);
 		}
 
 		return true;
@@ -492,11 +512,13 @@ class FieldsHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function canEditFieldValue($field)
 	{
-		return JFactory::getUser()->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
+		$parts = self::extract($field->context);
+
+		return JFactory::getUser()->authorise('core.edit.value', $parts[0] . '.field.' . (int) $field->id);
 	}
 
 	/**
@@ -506,7 +528,7 @@ class FieldsHelper
 	 *
 	 * @return  stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function countItems(&$items)
 	{
@@ -520,35 +542,25 @@ class FieldsHelper
 			$item->count_published   = 0;
 
 			$query = $db->getQuery(true);
-			$query->select('state, count(*) AS count')
+			$query->select('state, count(1) AS count')
 				->from($db->quoteName('#__fields'))
-				->where('catid = ' . (int) $item->id)
+				->where('group_id = ' . (int) $item->id)
 				->group('state');
 			$db->setQuery($query);
 
 			$fields = $db->loadObjectList();
 
-			foreach ($fields as $article)
+			$states = array(
+				'-2' => 'count_trashed',
+				'0'  => 'count_unpublished',
+				'1'  => 'count_published',
+				'2'  => 'count_archived',
+			);
+
+			foreach ($fields as $field)
 			{
-				if ($article->state == 1)
-				{
-					$item->count_published = $article->count;
-				}
-
-				if ($article->state == 0)
-				{
-					$item->count_unpublished = $article->count;
-				}
-
-				if ($article->state == 2)
-				{
-					$item->count_archived = $article->count;
-				}
-
-				if ($article->state == -2)
-				{
-					$item->count_trashed = $article->count;
-				}
+				$property = $states[$field->state];
+				$item->$property = $field->count;
 			}
 		}
 
@@ -556,11 +568,42 @@ class FieldsHelper
 	}
 
 	/**
+	 * Gets assigned categories titles for a field
+	 *
+	 * @param   stdClass[]  $fieldId  The field ID
+	 *
+	 * @return  array  Array with the assigned categories
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getAssignedCategoriesTitles($fieldId)
+	{
+		$fieldId = (int) $fieldId;
+
+		if (!$fieldId)
+		{
+			return array();
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('c.title'))
+				->from($db->quoteName('#__fields_categories', 'a'))
+				->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+				->where('field_id = ' . $fieldId);
+
+		$db->setQuery($query);
+
+		return $db->loadColumn();
+	}
+
+	/**
 	 * Gets the fields system plugin extension id.
 	 *
 	 * @return  int  The fields system plugin extension id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getFieldsPluginId()
 	{
@@ -579,8 +622,81 @@ class FieldsHelper
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
+			$result = 0;
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Configure the Linkbar.
+	 *
+	 * @param   string  $context  The context the fields are used for
+	 * @param   string  $vName    The view currently active
+	 *
+	 * @return  void
+	 *
+	 * @since    3.7.0
+	 */
+	public static function addSubmenu($context, $vName)
+	{
+		$parts = self::extract($context);
+
+		if (!$parts)
+		{
+			return;
+		}
+
+		$component = $parts[0];
+
+		// Avoid nonsense situation.
+		if ($component == 'com_fields')
+		{
+			return;
+		}
+
+		// Try to find the component helper.
+		$eName = str_replace('com_', '', $component);
+		$file  = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+
+		if (!file_exists($file))
+		{
+			return;
+		}
+
+		require_once $file;
+
+		$cName = ucfirst($eName) . 'Helper';
+
+		if (class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
+		{
+			$lang = JFactory::getLanguage();
+			$lang->load($component, JPATH_ADMINISTRATOR)
+			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+
+			$cName::addSubmenu('fields.' . $vName);
+		}
+	}
+
+	/**
+	 * Loads the fields plugins.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public static function loadPlugins()
+	{
+		foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
+		{
+			if (!JPluginHelper::isEnabled('fields', $folder['name']))
+			{
+				continue;
+			}
+
+			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), JPATH_ADMINISTRATOR);
+			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), $folder['fullname']);
+			JFormHelper::addFieldPath($folder['fullname'] . '/fields');
+		}
 	}
 }

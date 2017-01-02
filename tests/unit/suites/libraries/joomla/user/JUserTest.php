@@ -243,7 +243,7 @@ class JUserTest extends TestCaseDatabase
 	public function testAuthorise($userId, $action, $asset, $expected)
 	{
 		// Set up user 99 to be root_user from configuration
-		$testConfig = $this->getMock('JConfig', array('get'));
+		$testConfig = $this->getMockBuilder('JConfig')->setMethods(array('get'))->getMock();
 		$testConfig->expects(
 			$this->any()
 		)

@@ -21,13 +21,16 @@ abstract class JLogLogger
 {
 	/**
 	 * Options array for the JLog instance.
+	 *
 	 * @var    array
 	 * @since  12.2
 	 */
 	protected $options = array();
 
 	/**
-	 * @var    array  Translation array for JLogEntry priorities to text strings.
+	 * Translation array for JLogEntry priorities to text strings.
+	 *
+	 * @var    array
 	 * @since  12.2
 	 */
 	protected $priorities = array(
@@ -62,6 +65,7 @@ abstract class JLogLogger
 	 * @return  void
 	 *
 	 * @since   12.2
+	 * @throws  RuntimeException
 	 */
 	abstract public function addEntry(JLogEntry $entry);
 }

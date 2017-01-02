@@ -126,7 +126,7 @@ class PluginsModelPlugins extends JModelList
 		// If "Sort Table By:" is not set, set ordering to name
 		if ($ordering == '')
 		{
-			$ordering = "name";
+			$ordering = 'name';
 		}
 
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))

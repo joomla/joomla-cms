@@ -45,13 +45,13 @@ if ($this->params->get('googleFont'))
 // Template color
 if ($this->params->get('templateColor'))
 {
-	$this->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	body.site {
-		border-top: 3px solid " . $this->params->get('templateColor') . ";
-		background-color: " . $this->params->get('templateBackgroundColor') . ";
+		border-top: 3px solid ' . $this->params->get('templateColor') . ';
+		background-color: ' . $this->params->get('templateBackgroundColor') . ';
 	}
 	a {
-		color: " . $this->params->get('templateColor') . ";
+		color: ' . $this->params->get('templateColor') . ';
 	}
 	.nav-list > .active > a,
 	.nav-list > .active > a:hover,
@@ -61,8 +61,8 @@ if ($this->params->get('templateColor'))
 	.nav-pills > .active > a,
 	.nav-pills > .active > a:hover,
 	.btn-primary {
-		background: " . $this->params->get('templateColor') . ";
-	}");
+		background: ' . $this->params->get('templateColor') . ';
+	}');
 }
 
 // Check for a custom CSS file

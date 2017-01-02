@@ -2,8 +2,8 @@
 <extension version="3.6" client="administrator" type="language" method="upgrade">
 	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>3.6.4</version>
-	<creationDate>October 2016</creationDate>
+	<version>3.7.0</version>
+	<creationDate>December 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -33,6 +33,8 @@
 		<filename>en-GB.com_contenthistory.sys.ini</filename>
 		<filename>en-GB.com_cpanel.ini</filename>
 		<filename>en-GB.com_cpanel.sys.ini</filename>
+		<filename>en-GB.com_fields.ini</filename>
+		<filename>en-GB.com_fields.sys.ini</filename>
 		<filename>en-GB.com_finder.ini</filename>
 		<filename>en-GB.com_finder.sys.ini</filename>
 		<filename>en-GB.com_installer.ini</filename>
@@ -153,6 +155,8 @@
 		<filename>en-GB.plg_editors-xtd_readmore.sys.ini</filename>
 		<filename>en-GB.plg_extension_joomla.ini</filename>
 		<filename>en-GB.plg_extension_joomla.sys.ini</filename>
+		<filename>en-GB.plg_fields_gallery.ini</filename>
+		<filename>en-GB.plg_fields_gallery.sys.ini</filename>
 		<filename>en-GB.plg_finder_categories.ini</filename>
 		<filename>en-GB.plg_finder_categories.sys.ini</filename>
 		<filename>en-GB.plg_finder_contacts.ini</filename>
@@ -195,6 +199,8 @@
 		<filename>en-GB.plg_system_cache.sys.ini</filename>
 		<filename>en-GB.plg_system_debug.ini</filename>
 		<filename>en-GB.plg_system_debug.sys.ini</filename>
+		<filename>en-GB.plg_system_fields.ini</filename>
+		<filename>en-GB.plg_system_fields.sys.ini</filename>
 		<filename>en-GB.plg_system_highlight.ini</filename>
 		<filename>en-GB.plg_system_highlight.sys.ini</filename>
 		<filename>en-GB.plg_system_languagecode.ini</filename>

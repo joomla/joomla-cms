@@ -97,7 +97,7 @@ class JFormFieldMenutype extends JFormAbstractlist
 				'modalWidth' => '80',
 				'bodyHeight' => '70',
 				'footer'     => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+						. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 			)
 		);
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'

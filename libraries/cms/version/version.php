@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '0-dev';
+	const DEV_LEVEL = '0-alpha2';
 
 	/**
 	 * Development status.
@@ -46,7 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Development';
+	const DEV_STATUS = 'dev';
 
 	/**
 	 * Build number.
@@ -62,7 +62,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Noether';
+	const CODENAME = 'Amani';
 
 	/**
 	 * Release date.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '18-October-2016';
+	const RELDATE = '20-December-2016';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '16:37';
+	const RELTIME = '23:59';
 
 	/**
 	 * Release timezone.

@@ -89,7 +89,7 @@ else
 	<div id="header">
 		<!-- Site Title and Skip to Content -->
 		<div class="title-ua">
-			<h1 class="title"><?php echo $this->params->get('showSiteName') ? $app->get('sitename') . " " . JText::_('JADMINISTRATION') : JText::_('JADMINISTRATION'); ?></h1>
+			<h1 class="title"><?php echo $this->params->get('showSiteName') ? $app->get('sitename') . ' ' . JText::_('JADMINISTRATION') : JText::_('JADMINISTRATION'); ?></h1>
 			<div id="skiplinkholder"><p><a id="skiplink" href="#skiptarget"><?php echo JText::_('TPL_HATHOR_SKIP_TO_MAIN_CONTENT'); ?></a></p></div>
       	</div>
 	</div><!-- end header -->

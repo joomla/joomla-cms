@@ -104,12 +104,12 @@ JFactory::getDocument()->addScriptDeclaration(
 								<?php echo $field->input; ?>
 							<?php else : ?>
 								<div class="control-group"<?php echo $datashowon; ?>>
-									<?php if ($name != "permissions") : ?>
+									<?php if ($name != 'permissions') : ?>
 										<div class="control-label">
 											<?php echo $field->label; ?>
 										</div>
 									<?php endif; ?>
-									<div class="<?php if ($name != "permissions") : ?>controls<?php endif; ?>">
+									<div class="<?php if ($name != 'permissions') : ?>controls<?php endif; ?>">
 										<?php echo $field->input; ?>
 									</div>
 								</div>

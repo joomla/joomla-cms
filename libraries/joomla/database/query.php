@@ -1796,4 +1796,25 @@ abstract class JDatabaseQuery
 
 		return $this;
 	}
+
+	/**
+	 * Find a value in a varchar used like a set.
+	 *
+	 * Ensure that the value is an integer before passing to the method.
+	 *
+	 * Usage:
+	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
+	 *
+	 * @param   string  $value  The value to search for.
+	 *
+	 * @param   string  $set    The set of values.
+	 *
+	 * @return  string  Returns the find_in_set() Mysql function and must be translated in each driver.
+	 *
+	 * @since   3.7.0
+	 */
+	public function findInSet($value, $set)
+	{
+		return "";
+	}
 }

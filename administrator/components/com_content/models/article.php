@@ -387,7 +387,7 @@ class ContentModelArticle extends JModelAdmin
 		$assoc = JLanguageAssociations::isEnabled();
 
 		// Check if article is associated
-		if ($this->getState('article.id') && $app->isSite() && $assoc)
+		if ($this->getState('article.id') && $app->isClient('site') && $assoc)
 		{
 			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
@@ -652,15 +652,15 @@ class ContentModelArticle extends JModelAdmin
 					->where('content_id IN (' . implode(',', $pks) . ')');
 				$db->setQuery($query);
 
-				$old_featured = $db->loadColumn();
+				$oldFeatured = $db->loadColumn();
 
 				// We diff the arrays to get a list of the articles that are newly featured
-				$new_featured = array_diff($pks, $old_featured);
+				$newFeatured = array_diff($pks, $oldFeatured);
 
 				// Featuring.
 				$tuples = array();
 
-				foreach ($new_featured as $pk)
+				foreach ($newFeatured as $pk)
 				{
 					$tuples[] = $pk . ', 0';
 				}
@@ -801,5 +801,32 @@ class ContentModelArticle extends JModelAdmin
 	private function canCreateCategory()
 	{
 		return JFactory::getUser()->authorise('core.create', 'com_content');
+	}
+
+	/**
+	 * Delete #__content_frontpage items if the deleted articles was featured
+	 *
+	 * @param   object  &$pks  The primary key related to the contents that was deleted.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function delete(&$pks)
+	{
+		$return = parent::delete($pks);
+
+		if ($return)
+		{
+			// Now check to see if this articles was featured if so delete it from the #__content_frontpage table
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__content_frontpage'))
+				->where('content_id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query);
+			$db->execute();
+		}
+
+		return $return;
 	}
 }

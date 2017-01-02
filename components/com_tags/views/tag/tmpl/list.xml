@@ -106,17 +106,6 @@
 			/>
 
 			<field
-				name="show_tag_num_items"
-				type="list"
-				label="COM_TAGS_NUMBER_TAG_ITEMS_LABEL"
-				description="COM_TAGS_NUMBER_TAG_ITEMS_DESC"
-				useglobal="true"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field
 				name="tag_list_orderby"
 				type="list"
 				label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"

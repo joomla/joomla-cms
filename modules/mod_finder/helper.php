@@ -49,7 +49,7 @@ class ModFinderHelper
 		// Add a field for Itemid if we need one.
 		if ($needId)
 		{
-			$id       = $paramItem ? $paramItem : JFactory::getApplication()->input->get('Itemid', '0', 'int');
+			$id       = $paramItem ?: JFactory::getApplication()->input->get('Itemid', '0', 'int');
 			$fields[] = '<input type="hidden" name="Itemid" value="' . $id . '" />';
 		}
 
@@ -74,7 +74,7 @@ class ModFinderHelper
 
 		// Get the static taxonomy filters.
 		$options = array();
-		$options['filter'] = ($request->get('f', 0, 'int') != 0) ? $request->get('f', '', 'int') : $params->get('searchfilter');
+		$options['filter'] = ($request->get('f', 0, 'int') !== 0) ? $request->get('f', '', 'int') : $params->get('searchfilter');
 		$options['filter'] = $filter->clean($options['filter'], 'int');
 
 		// Get the dynamic taxonomy filters.
@@ -83,8 +83,6 @@ class ModFinderHelper
 		$options['filters'] = ArrayHelper::toInteger($options['filters']);
 
 		// Instantiate a query object.
-		$query = new FinderIndexerQuery($options);
-
-		return $query;
+		return new FinderIndexerQuery($options);
 	}
 }
