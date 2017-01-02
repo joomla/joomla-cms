@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $id = '';
 
-if (($tagId = $params->get('tag_id', '')))
+if ($tagId = $params->get('tag_id', ''))
 {
 	$id = ' id="' . $tagId . '"';
 }
@@ -23,7 +23,12 @@ if (($tagId = $params->get('tag_id', '')))
 {
 	$class = 'item-' . $item->id;
 
-	if (($item->id == $active_id) || ($item->type == 'alias' && $item->params->get('aliasoptions') == $active_id))
+	if ($item->id == $default_id)
+	{
+		$class .= ' default';
+	}
+
+	if ($item->id == $active_id || ($item->type === 'alias' && $item->params->get('aliasoptions') == $active_id))
 	{
 		$class .= ' current';
 	}
@@ -32,7 +37,7 @@ if (($tagId = $params->get('tag_id', '')))
 	{
 		$class .= ' active';
 	}
-	elseif ($item->type == 'alias')
+	elseif ($item->type === 'alias')
 	{
 		$aliasToId = $item->params->get('aliasoptions');
 
@@ -46,7 +51,7 @@ if (($tagId = $params->get('tag_id', '')))
 		}
 	}
 
-	if ($item->type == 'separator')
+	if ($item->type === 'separator')
 	{
 		$class .= ' divider';
 	}

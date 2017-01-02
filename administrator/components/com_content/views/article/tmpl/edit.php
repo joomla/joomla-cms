@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
+JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
 JHtml::_('formbehavior.chosen', 'select');
 
 $this->configFieldsets  = array('editorConfig');
@@ -25,6 +26,7 @@ $params = $this->state->get('params');
 
 $app = JFactory::getApplication();
 $input = $app->input;
+
 $assoc = JLanguageAssociations::isEnabled();
 
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
@@ -68,20 +70,30 @@ JFactory::getDocument()->addScriptDeclaration('
 			jQuery("#permissions-sliders select").attr("disabled", "disabled");
 			' . $this->form->getField('articletext')->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
+
+			// @deprecated 4.0  The following js is not needed since 3.7.0.
+			if (task !== "article.apply")
+			{
+				window.parent.jQuery("#articleEdit' . (int) $this->item->id . 'Modal").modal("hide");
+			}
 		}
 	};
 ');
 
+// In case of modal
+$isModal = $input->get('layout') == 'modal' ? true : false;
+$layout  = $isModal ? 'modal' : 'edit';
+$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_CONTENT_ARTICLE_CONTENT', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<fieldset class="adminform">
@@ -94,9 +106,31 @@ JFactory::getDocument()->addScriptDeclaration('
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+		<?php // Do not show the images and links options if the edit form is configured not to. ?>
+		<?php if ($params->show_urls_images_backend == 1) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
+			<div class="row-fluid form-horizontal-desktop">
+				<div class="span6">
+					<?php echo $this->form->renderField('images'); ?>
+					<?php foreach ($this->form->getGroup('images') as $field) : ?>
+						<?php echo $field->renderField(); ?>
+					<?php endforeach; ?>
+				</div>
+				<div class="span6">
+					<?php foreach ($this->form->getGroup('urls') as $field) : ?>
+						<?php echo $field->renderField(); ?>
+					<?php endforeach; ?>
+				</div>
+			</div>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
+
+		<?php $this->show_options = $params->show_article_options; ?>
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php if ($params->show_publishing_options == 1) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CONTENT_FIELDSET_PUBLISHING', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CONTENT_FIELDSET_PUBLISHING')); ?>
 			<div class="row-fluid form-horizontal-desktop">
 				<div class="span6">
 					<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -108,42 +142,23 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php // Do not show the images and links options if the edit form is configured not to. ?>
-		<?php if ($params->show_urls_images_backend == 1) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES', true)); ?>
-			<div class="row-fluid form-horizontal-desktop">
-				<div class="span6">
-					<?php echo $this->form->getControlGroup('images'); ?>
-					<?php foreach ($this->form->getGroup('images') as $field) : ?>
-						<?php echo $field->getControlGroup(); ?>
-					<?php endforeach; ?>
-				</div>
-				<div class="span6">
-					<?php foreach ($this->form->getGroup('urls') as $field) : ?>
-						<?php echo $field->getControlGroup(); ?>
-					<?php endforeach; ?>
-				</div>
-			</div>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php endif; ?>
 
-		<?php if ($assoc) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
-				<?php echo $this->loadTemplate('associations'); ?>
+		<?php if ( ! $isModal && $assoc) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php elseif ($isModal && $assoc) : ?>
+			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
-
-		<?php $this->show_options = $params->show_article_options; ?>
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG')); ?>
 			<?php echo $this->form->renderFieldset('editorConfig'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_CONTENT_FIELDSET_RULES', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_CONTENT_FIELDSET_RULES')); ?>
 				<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
@@ -152,8 +167,7 @@ JFactory::getDocument()->addScriptDeclaration('
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>" />
+		<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
-
-
-		</div>
+	</div>
 </form>

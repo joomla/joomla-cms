@@ -22,9 +22,9 @@ class JoomlaupdateController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached.
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController  This object to support chaining.
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -47,10 +47,7 @@ class JoomlaupdateController extends JControllerLegacy
 			$model = $this->getModel('default');
 
 			// Push the Installer Warnings model into the view, if we can load it
-			if (!class_exists('InstallerModelWarnings'))
-			{
-				@include_once JPATH_ADMINISTRATOR . '/components/com_installer/models/warnings.php';
-			}
+			static::addModelPath(JPATH_ADMINISTRATOR . '/components/com_installer/models', 'InstallerModel');
 
 			$warningsModel = $this->getModel('warnings', 'InstallerModel');
 

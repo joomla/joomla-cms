@@ -25,7 +25,7 @@ class JFormRuleEmail extends JFormRule
 	 * @since  11.1
 	 * @see    http://www.w3.org/TR/html-markup/input.email.html
 	 */
-	protected $regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
+	protected $regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
@@ -57,7 +57,8 @@ class JFormRuleEmail extends JFormRule
 
 		if ($tld)
 		{
-			$this->regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
+			$this->regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])"
+				. '?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$';
 		}
 
 		// Determine if the multiple attribute is present
@@ -65,7 +66,7 @@ class JFormRuleEmail extends JFormRule
 
 		if (!$multiple)
 		{
-			// Handle idn e-mail addresses by converting to punycode.
+			// Handle idn email addresses by converting to punycode.
 			$value = JStringPunycode::emailToPunycode($value);
 
 			// Test the value against the regular expression.
@@ -80,7 +81,7 @@ class JFormRuleEmail extends JFormRule
 
 			foreach ($values as $value)
 			{
-				// Handle idn e-mail addresses by converting to punycode.
+				// Handle idn email addresses by converting to punycode.
 				$value = JStringPunycode::emailToPunycode($value);
 
 				// Test the value against the regular expression.

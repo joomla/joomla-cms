@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.5"
+	version="3.6"
 	client="installation">
-	<name>Svenska (SE)</name>
-	<version>3.5.0</version>
-	<creationDate>2012-09-19</creationDate>
-	<author>Swedish Translation Team</author>
+	<name>Swedish (Sweden)</name>
+	<version>3.6.3</version>
+	<creationDate>September 2016</creationDate>
+	<author>svenskjoomla.se</author>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>sv-SE.ini</filename>
 	</files>
 	<metadata>
-		<name>Svenska (SE)</name>
+		<name>Swedish (Sweden)</name>
 		<tag>sv-SE</tag>
 		<rtl>0</rtl>
 	</metadata>

@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/helpers/mailto.php';
-require_once JPATH_COMPONENT . '/controller.php';
+JLoader::register('MailtoHelper', JPATH_COMPONENT . '/helpers/mailto.php');
 
 $controller = JControllerLegacy::getInstance('Mailto');
 $controller->registerDefaultTask('mailto');

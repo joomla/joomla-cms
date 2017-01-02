@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the feed functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModFeedHelper', __DIR__ . '/helper.php');
 
 $rssurl = $params->get('rssurl', '');
 $rssrtl = $params->get('rssrtl', 0);
@@ -26,6 +26,6 @@ if (empty ($rssurl))
 }
 
 $feed            = ModFeedHelper::getFeed($params);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require JModuleHelper::getLayoutPath('mod_feed', $params->get('layout', 'default'));

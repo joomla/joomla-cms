@@ -63,5 +63,7 @@ JFactory::getDocument()->addStyleDeclaration(
 		.CodeMirror-markergutter-mark:after { content: "\25CF"; }
 		.CodeMirror-activeline-background { background: $activeLineColor; }
 		.CodeMirror-matchingtag { background: $highlightMatchColor; }
+		.cm-matchhighlight {background-color: $highlightMatchColor; }
+		.CodeMirror-selection-highlight-scrollbar {background-color: $highlightMatchColor; }
 CSS
 );

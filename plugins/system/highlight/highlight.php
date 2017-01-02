@@ -30,7 +30,7 @@ class PlgSystemHighlight extends JPlugin
 	public function onAfterDispatch()
 	{
 		// Check that we are in the site application.
-		if (JFactory::getApplication()->isAdmin())
+		if (JFactory::getApplication()->isClient('administrator'))
 		{
 			return true;
 		}
@@ -62,7 +62,7 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Clean the terms array.
-		$filter = JFilterInput::getInstance();
+		$filter     = JFilterInput::getInstance();
 
 		$cleanTerms = array();
 

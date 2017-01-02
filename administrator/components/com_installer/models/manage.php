@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/extension.php';
+JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
 /**
  * Installer Manage Model
@@ -37,6 +37,7 @@ class InstallerModelManage extends InstallerModel
 				'client', 'client_translated',
 				'type', 'type_translated',
 				'folder', 'folder_translated',
+				'package_id',
 				'extension_id',
 			);
 		}
@@ -197,8 +198,6 @@ class InstallerModelManage extends InstallerModel
 			return false;
 		}
 
-		$failed = array();
-
 		/*
 		 * Ensure eid is an array of extension ids in the form id => client_id
 		 * TODO: If it isn't an array do we want to set an error and fail?
@@ -230,7 +229,7 @@ class InstallerModelManage extends InstallerModel
 				$rowtype = $row->type;
 			}
 
-			if ($row->type && $row->type != 'language')
+			if ($row->type)
 			{
 				$result = $installer->uninstall($row->type, $id);
 
@@ -243,17 +242,9 @@ class InstallerModelManage extends InstallerModel
 					continue;
 				}
 
-				// Package uninstalled sucessfully
+				// Package uninstalled successfully
 				$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
 				$result = true;
-
-				continue;
-			}
-
-			if ($row->type == 'language')
-			{
-				// One should always uninstall a language package, not a single language
-				$msgs[] = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
 
 				continue;
 			}
@@ -262,7 +253,7 @@ class InstallerModelManage extends InstallerModel
 			$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
 		}
 
-		$msg = implode("<br />", $msgs);
+		$msg = implode('<br />', $msgs);
 		$app = JFactory::getApplication();
 		$app->enqueueMessage($msg);
 		$this->setState('action', 'remove');

@@ -9,14 +9,18 @@
 
 defined('_JEXEC') or die;
 
-if (JFactory::getApplication()->isSite())
+if (JFactory::getApplication()->isClient('site'))
 {
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
 
 JHtml::_('behavior.core');
-JHtml::_('bootstrap.tooltip');
+JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
+
+// Special case for the search field tooltip.
+$searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
+JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -24,33 +28,17 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 JFactory::getDocument()->addScriptDeclaration('
 moduleIns = function(type, name) {
-	var extraVal ,fieldExtra = jQuery("#extra_class");
-	extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
-	window.parent.jInsertEditorText("{loadmodule " + type + "," + name + extraVal + "}", "' . $editor . '");
+	window.parent.jInsertEditorText("{loadmodule " + type + "," + name + "}", "' . $editor . '");
 	window.parent.jModalClose();
 };
 modulePosIns = function(position) {
-	var extraVal ,fieldExtra = jQuery("#extra_class");
-	extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
-	window.parent.jInsertEditorText("{loadposition " + position +  extraVal  + "}", "' . $editor . '");
+	window.parent.jInsertEditorText("{loadposition " + position + "}", "' . $editor . '");
 	window.parent.jModalClose();
 };');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
-	<div class="container-popup">
+<div class="container-popup">
 
-		<div class="well">
-			<div class="control-group">
-				<div class="control-label">
-					<label for="extra_class" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_MODULES_EXTRA_STYLE_DESC'); ?>" aria-invalid="false">
-						<?php echo JText::_('COM_MODULES_EXTRA_STYLE_TITLE'); ?>
-					</label>
-				</div>
-				<div class="controls">
-					<input type="text" id="extra_class" value="" class="span12" size="45" maxlength="255" aria-invalid="false" />
-				</div>
-			</div>
-		</div>
+	<form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if ($this->total > 0) : ?>
@@ -124,13 +112,7 @@ modulePosIns = function(position) {
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="small hidden-phone">
-						<?php if ($item->language == '') : ?>
-							<?php echo JText::_('JDEFAULT'); ?>
-						<?php elseif ($item->language == '*') : ?>
-							<?php echo JText::alt('JALL', 'language'); ?>
-						<?php else : ?>
-							<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-						<?php endif;?>
+						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
 					<td class="hidden-phone">
 						<?php echo (int) $item->id; ?>
@@ -139,11 +121,11 @@ modulePosIns = function(position) {
 			<?php endforeach; ?>
 			</tbody>
 		</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>
 
-	</div>
-</form>
+	</form>
+</div>

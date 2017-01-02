@@ -51,6 +51,13 @@ class JGoogleDataPicasaPhotoTest extends TestCase
 	protected $object;
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -60,14 +67,17 @@ class JGoogleDataPicasaPhotoTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new JRegistry;
-		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$this->input = new JInput;
 		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
@@ -83,6 +93,29 @@ class JGoogleDataPicasaPhotoTest extends TestCase
 		$token['created'] = time() - 1800;
 		$token['expires_in'] = 3600;
 		$this->oauth->setToken($token);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($this->options);
+		unset($this->http);
+		unset($this->input);
+		unset($this->auth);
+		unset($this->oauth);
+		unset($this->xml);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -292,7 +325,7 @@ class JGoogleDataPicasaPhotoTest extends TestCase
 	 */
 	public function testSetTime()
 	{
-		$time = $this->object->setTime('FIX')->getTime();
+		$time = $this->object->setTime(0)->getTime();
 		$this->assertEquals($time, 0);
 	}
 

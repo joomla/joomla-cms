@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="component">
+	<fieldset 
+		name="user_options"
+		label="COM_USERS_CONFIG_USER_OPTIONS" >
 		<field
 			name="allowUserRegistration"
 			type="radio"
@@ -17,7 +19,10 @@
 			type="usergrouplist"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
-			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC">
+			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC"
+			checksuperusergroup="1"
+			showon="allowUserRegistration:1"
+			>
 		</field>
 
 		<field
@@ -25,7 +30,9 @@
 			type="usergrouplist"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_LABEL"
-			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC">
+			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC"
+			checksuperusergroup="1"
+			>
 		</field>
 
 		<field
@@ -94,7 +101,9 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
-			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC">
+			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC"
+			showon="frontend_userparams:1"
+		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -108,6 +117,12 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+
+	</fieldset>
+
+	<fieldset
+		name="password_options"
+		label="COM_USERS_CONFIG_PASSWORD_OPTIONS" >
 		<field
 			name="reset_count"
 			type="integer"
@@ -118,6 +133,7 @@
 			step="1"
 			default="10">
 			</field>
+
 		<field
 			name="reset_time"
 			type="integer"
@@ -161,6 +177,7 @@
 			step="1"
 			default="0">
 			</field>
+
 		<field
 			name="minimum_uppercase"
 			type="integer"
@@ -196,6 +213,7 @@
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="5"
+			showon="save_history:1"
 		/>
 	</fieldset>
 
@@ -219,6 +237,37 @@
 			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_DESC"
 		/>
+
+	</fieldset>
+
+	<fieldset name="integration"
+		label="JGLOBAL_INTEGRATION_LABEL"
+		description="COM_USERS_CONFIG_INTEGRATION_SETTINGS_DESC"
+	>
+
+		<field
+			name="sef_advanced"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SEF_ADVANCED_LABEL"
+			description="JGLOBAL_SEF_ADVANCED_DESC"
+			filter="integer">
+			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
+			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
+		</field>
+
+		<field
+			name="custom_fields_enable"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
+			default="1"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 
 	</fieldset>
 

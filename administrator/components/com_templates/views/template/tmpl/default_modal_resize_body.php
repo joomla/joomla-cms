@@ -9,14 +9,23 @@
 
 defined('_JEXEC') or die;
 ?>
-<div id="template-manager-css" class="form-horizontal">
+<div id="template-manager-resize" class="form-horizontal">
 	<div class="control-group">
-		<label for="height" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_HEIGHT'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_HEIGHT')?></label>
+		<div class="control-label">
+			<label for="height" class="modalTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_HEIGHT'); ?>">
+				<?php echo JText::_('COM_TEMPLATES_IMAGE_HEIGHT'); ?>
+			</label>
+		</div>
 		<div class="controls">
 			<input class="input-xlarge" type="number" name="height" placeholder="<?php echo $this->image['height']; ?> px" required />
 		</div>
-		<br />
-		<label for="width" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_WIDTH'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_WIDTH')?></label>
+	</div>
+	<div class="control-group">
+		<div class="control-label">
+			<label for="width" class="modalTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_WIDTH'); ?>">
+				<?php echo JText::_('COM_TEMPLATES_IMAGE_WIDTH'); ?>
+			</label>
+		</div>
 		<div class="controls">
 			<input class="input-xlarge" type="number" name="width" placeholder="<?php echo $this->image['width']; ?> px" required />
 		</div>

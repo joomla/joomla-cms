@@ -100,7 +100,7 @@ class JViewCategory extends JViewLegacy
 	/**
 	 * Method with common display elements used in category list displays
 	 *
-	 * @return  void
+	 * @return  boolean|JException|void  Boolean false or JException instance on error, nothing otherwise
 	 *
 	 * @since   3.2
 	 */
@@ -111,20 +111,16 @@ class JViewCategory extends JViewLegacy
 		$params = $app->getParams();
 
 		// Get some data from the models
-		$state      = $this->get('State');
-		$items      = $this->get('Items');
-		$category   = $this->get('Category');
-		$children   = $this->get('Children');
-		$parent     = $this->get('Parent');
-		$pagination = $this->get('Pagination');
+		$model       = $this->getModel();
+		$paramsModel = $model->getState('params');
+		
+		$paramsModel->set('check_access_rights', 0);
+		$model->setState('params', $paramsModel);
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
-		}
+		$state       = $this->get('State');
+		$category    = $this->get('Category');
+		$children    = $this->get('Children');
+		$parent      = $this->get('Parent');
 
 		if ($category == false)
 		{
@@ -135,13 +131,24 @@ class JViewCategory extends JViewLegacy
 		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
-
+		
 		// Check whether category access level allows access.
 		$groups = $user->getAuthorisedViewLevels();
-
+		
 		if (!in_array($category->access, $groups))
 		{
 			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+		}
+
+		$items      = $this->get('Items');
+		$pagination = $this->get('Pagination');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
+
+			return false;
 		}
 
 		// Setup the category parameters.
@@ -156,6 +163,8 @@ class JViewCategory extends JViewLegacy
 
 		if ($this->runPlugins)
 		{
+			JPluginHelper::importPlugin('content');
+
 			foreach ($items as $itemElement)
 			{
 				$itemElement = (object) $itemElement;
@@ -165,9 +174,8 @@ class JViewCategory extends JViewLegacy
 				!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
 
 				$dispatcher = JEventDispatcher::getInstance();
-				JPluginHelper::importPlugin('content');
 
-				$dispatcher->trigger('onContentPrepare', array ($this->extension . '.category', &$itemElement, &$itemElement->params, 0));
+				$dispatcher->trigger('onContentPrepare', array($this->extension . '.category', &$itemElement, &$itemElement->params, 0));
 
 				$results = $dispatcher->trigger('onContentAfterTitle', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
@@ -222,7 +230,7 @@ class JViewCategory extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.2
 	 */

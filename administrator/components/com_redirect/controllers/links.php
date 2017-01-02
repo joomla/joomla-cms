@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Redirect link list controller class.
  *
@@ -41,7 +43,7 @@ class RedirectControllerLinks extends JControllerAdmin
 			// Get the model.
 			$model = $this->getModel();
 
-			JArrayHelper::toInteger($ids);
+			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->activate($ids, $newUrl, $comment))
@@ -62,7 +64,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	 *
 	 * @return  void.
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function duplicateUrls()
 	{
@@ -82,7 +84,7 @@ class RedirectControllerLinks extends JControllerAdmin
 			// Get the model.
 			$model = $this->getModel();
 
-			JArrayHelper::toInteger($ids);
+			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->duplicateUrls($ids, $newUrl, $comment))
@@ -111,9 +113,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	 */
 	public function getModel($name = 'Link', $prefix = 'RedirectModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**

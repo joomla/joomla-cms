@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/controller.php';
+JLoader::register('UsersController', JPATH_COMPONENT . '/controller.php');
 
 /**
  * Registration controller class for Users.
@@ -64,7 +64,7 @@ class UsersControllerRegistration extends UsersController
 		// Check for errors.
 		if ($return === false)
 		{
-			// Redirect back to the homepage.
+			// Redirect back to the home page.
 			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect('index.php');
 
@@ -108,7 +108,7 @@ class UsersControllerRegistration extends UsersController
 	public function register()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// If registration is disabled - Redirect to login page.
 		if (JComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0)

@@ -38,7 +38,7 @@ class FinderModelIndex extends JModelList
 	 * @param   array  $config  An associative array of configuration settings. [optional]
 	 *
 	 * @since   2.5
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
@@ -51,6 +51,7 @@ class FinderModelIndex extends JModelList
 				't.title', 't_title',
 				'url', 'l.url',
 				'indexdate', 'l.indexdate',
+				'content_map',
 			);
 		}
 
@@ -68,9 +69,7 @@ class FinderModelIndex extends JModelList
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.delete', $this->option);
+		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -84,9 +83,7 @@ class FinderModelIndex extends JModelList
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
+		return JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -190,6 +187,15 @@ class FinderModelIndex extends JModelList
 			$query->where($db->quoteName('l.type_id') . ' = ' . (int) $type);
 		}
 
+		// Check the map filter.
+		$contentMapId = $this->getState('filter.content_map');
+
+		if (is_numeric($contentMapId))
+		{
+			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.link_id') . ' = ' . $db->quoteName('l.link_id'))
+				->where($db->quoteName('m.node_id') . ' = ' . (int) $contentMapId);
+		}
+
 		// Check for state filter.
 		$state = $this->getState('filter.state');
 
@@ -234,9 +240,9 @@ class FinderModelIndex extends JModelList
 	}
 
 	/**
-	 * Method to get the state of the Smart Search plug-ins.
+	 * Method to get the state of the Smart Search Plugins.
 	 *
-	 * @return  array   Array of relevant plug-ins and whether they are enabled or not.
+	 * @return  array  Array of relevant plugins and whether they are enabled or not.
 	 *
 	 * @since   2.5
 	 */
@@ -250,10 +256,8 @@ class FinderModelIndex extends JModelList
 			->where($db->quoteName('folder') . ' IN (' . $db->quote('system') . ',' . $db->quote('content') . ')')
 			->where($db->quoteName('element') . ' = ' . $db->quote('finder'));
 		$db->setQuery($query);
-		$db->execute();
-		$plugins = $db->loadObjectList('name');
 
-		return $plugins;
+		return $db->loadObjectList('name');
 	}
 
 	/**
@@ -275,6 +279,7 @@ class FinderModelIndex extends JModelList
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.type');
+		$id .= ':' . $this->getState('filter.content_map');
 
 		return parent::getStoreId($id);
 	}
@@ -284,7 +289,7 @@ class FinderModelIndex extends JModelList
 	 *
 	 * @return  int  The total of indexed items.
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function getTotalIndexed()
 	{
@@ -377,6 +382,7 @@ class FinderModelIndex extends JModelList
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'cmd'));
+		$this->setState('filter.content_map', $this->getUserStateFromRequest($this->context . '.filter.content_map', 'filter_content_map', '', 'cmd'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_finder');

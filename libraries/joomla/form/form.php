@@ -10,9 +10,9 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.filesystem.path');
-jimport('joomla.utilities.arrayhelper');
 
 /**
  * Form Class for the Joomla Platform.
@@ -173,7 +173,7 @@ class JForm
 				// If the field exists set the value.
 				$this->data->set($level, $v);
 			}
-			elseif (is_object($v) || JArrayHelper::isAssociative($v))
+			elseif (is_object($v) || ArrayHelper::isAssociative($v))
 			{
 				// If the value is an object or an associative array, hand it off to the recursive bind level method.
 				$this->bindLevel($level, $v);
@@ -302,7 +302,7 @@ class JForm
 		$element = $this->findField($name, $group);
 
 		// If the element exists and the attribute exists for the field return the attribute value.
-		if (($element instanceof SimpleXMLElement) && ((string) $element[$attribute]))
+		if (($element instanceof SimpleXMLElement) && strlen((string) $element[$attribute]))
 		{
 			return (string) $element[$attribute];
 		}
@@ -401,7 +401,7 @@ class JForm
 		else
 		{
 			// Get an array of <fieldset /> elements and fieldset attributes.
-			$sets = $this->xml->xpath('//fieldset[@name] | //field[@fieldset]/@fieldset');
+			$sets = $this->xml->xpath('//fieldset[@name and not(ancestor::field/form/*)] | //field[@fieldset and not(ancestor::field/form/*)]/@fieldset');
 		}
 
 		// If no fieldsets are found return empty.
@@ -896,7 +896,7 @@ class JForm
 	 *
 	 * @param   string  $group  The dot-separated form group path for the group to remove.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
@@ -916,11 +916,9 @@ class JForm
 		{
 			$dom = dom_import_simplexml($element);
 			$dom->parentNode->removeChild($dom);
-
-			return true;
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -1141,7 +1139,7 @@ class JForm
 	 * @param   string  $group  The optional dot-separated form group path on which to filter the
 	 *                          fields to be validated.
 	 *
-	 * @return  boolean  True on sucess.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
@@ -1194,8 +1192,8 @@ class JForm
 			// Check for an error.
 			if ($valid instanceof Exception)
 			{
-				array_push($this->errors, $valid);
-				$return = false;
+				$this->errors[] = $valid;
+				$return         = false;
 			}
 		}
 
@@ -1266,7 +1264,7 @@ class JForm
 
 				$value = is_array($value) ? $value : array($value);
 
-				JArrayHelper::toInteger($value);
+				$value = ArrayHelper::toInteger($value);
 				$return = $value;
 				break;
 
@@ -1279,6 +1277,23 @@ class JForm
 			case 'SERVER_UTC':
 				if ((int) $value > 0)
 				{
+					// Check if we have a localised date format
+					$translateFormat = (string) $element['translateformat'];
+
+					if ($translateFormat && $translateFormat != 'false')
+					{
+						$showTime = (string) $element['showtime'];
+						$showTime = ($showTime && $showTime != 'false');
+						$format   = ($showTime) ? JText::_('DATE_FORMAT_FILTER_DATETIME') : JText::_('DATE_FORMAT_FILTER_DATE');
+						$date     = date_parse_from_format($format, $value);
+						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
+
+						if ($showTime)
+						{
+							$value .= ' ' . (int) $date['hour'] . ':' . (int) $date['minute'] . ':' . (int) $date['second'];
+						}
+					}
+
 					// Get the server timezone setting.
 					$offset = JFactory::getConfig()->get('offset');
 
@@ -1295,6 +1310,23 @@ class JForm
 			case 'USER_UTC':
 				if ((int) $value > 0)
 				{
+					// Check if we have a localised date format
+					$translateFormat = (string) $element['translateformat'];
+
+					if ($translateFormat && $translateFormat != 'false')
+					{
+						$showTime = (string) $element['showtime'];
+						$showTime = ($showTime && $showTime != 'false');
+						$format   = ($showTime) ? JText::_('DATE_FORMAT_FILTER_DATETIME') : JText::_('DATE_FORMAT_FILTER_DATE');
+						$date     = date_parse_from_format($format, $value);
+						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
+
+						if ($showTime)
+						{
+							$value .= ' ' . (int) $date['hour'] . ':' . (int) $date['minute'] . ':' . (int) $date['second'];
+						}
+					}
+
 					// Get the user timezone setting defaulting to the server timezone setting.
 					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
 
@@ -1505,10 +1537,10 @@ class JForm
 			$elements = &$this->findGroup($group);
 
 			// Get all of the field elements with the correct name for the fields elements.
-			foreach ($elements as $element)
+			foreach ($elements as $el)
 			{
 				// If there are matching field elements add them to the fields array.
-				if ($tmp = $element->xpath('descendant::field[@name="' . $name . '"]'))
+				if ($tmp = $el->xpath('descendant::field[@name="' . $name . '" and not(ancestor::field/form/*)]'))
 				{
 					$fields = array_merge($fields, $tmp);
 				}
@@ -1540,7 +1572,7 @@ class JForm
 		else
 		{
 			// Get an array of fields with the correct name.
-			$fields = $this->xml->xpath('//field[@name="' . $name . '"]');
+			$fields = $this->xml->xpath('//field[@name="' . $name . '" and not(ancestor::field/form/*)]');
 
 			// Make sure something was found.
 			if (!$fields)
@@ -1669,7 +1701,7 @@ class JForm
 		else
 		{
 			// Get an array of all the <field /> elements.
-			$fields = $this->xml->xpath('//field');
+			$fields = $this->xml->xpath('//field[not(ancestor::field/form/*)]');
 		}
 
 		return $fields;
@@ -1702,7 +1734,7 @@ class JForm
 		if (!empty($group))
 		{
 			// Get any fields elements with the correct group name.
-			$elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '"]');
+			$elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '" and not(ancestor::field/form/*)]');
 
 			// Check to make sure that there are no parent groups for each element.
 			foreach ($elements as $element)

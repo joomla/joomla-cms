@@ -73,7 +73,7 @@ class JLayoutFile extends JLayoutBase
 		$this->setOptions($options);
 
 		// Main properties
-		$this->setLayoutId($layoutId);
+		$this->setLayout($layoutId);
 		$this->basePath = $basePath;
 
 		// Init Enviroment
@@ -108,7 +108,7 @@ class JLayoutFile extends JLayoutBase
 
 		if ($this->isDebugEnabled())
 		{
-			echo "<pre>" . $this->renderDebugMessages() . "</pre>";
+			echo '<pre>' . $this->renderDebugMessages() . '</pre>';
 		}
 
 		// Nothing to show
@@ -146,21 +146,21 @@ class JLayoutFile extends JLayoutBase
 		{
 			$this->addDebugMessage('<strong>There is no active layout</strong>');
 
-			return null;
+			return;
 		}
 
 		if (!$includePaths)
 		{
 			$this->addDebugMessage('<strong>There are no folders to search for layouts:</strong> ' . $layoutId);
 
-			return null;
+			return;
 		}
 
 		$hash = md5(
 			json_encode(
 				array(
 					'paths'    => $includePaths,
-					'suffixes' => $suffixes
+					'suffixes' => $suffixes,
 				)
 			)
 		);
@@ -205,7 +205,7 @@ class JLayoutFile extends JLayoutBase
 		{
 			$this->addDebugMessage('<strong>Unable to find layout: </strong> ' . $layoutId);
 
-			return null;
+			return;
 		}
 
 		$this->addDebugMessage('<strong>Found layout:</strong> ' . $foundLayout);
@@ -466,7 +466,7 @@ class JLayoutFile extends JLayoutBase
 		$this->options->set('component', $component);
 
 		// Refresh include paths
-		$this->clearIncludePaths();
+		$this->refreshIncludePaths();
 	}
 
 	/**
@@ -494,14 +494,14 @@ class JLayoutFile extends JLayoutBase
 				break;
 
 			default:
-				$client = (int) JFactory::getApplication()->isAdmin();
+				$client = (int) JFactory::getApplication()->isClient('administrator');
 				break;
 		}
 
 		$this->options->set('client', $client);
 
 		// Refresh include paths
-		$this->clearIncludePaths();
+		$this->refreshIncludePaths();
 	}
 
 	/**
@@ -640,7 +640,7 @@ class JLayoutFile extends JLayoutBase
 	/**
 	 * Render a layout with the same include paths & options
 	 *
-	 * @param   object  $layoutId     Object which properties are used inside the layout file to build displayed output
+	 * @param   string  $layoutId     The identifier for the sublayout to be searched in a subfolder with the name of the current layout
 	 * @param   mixed   $displayData  Data to be rendered
 	 *
 	 * @return  string  The necessary HTML to display the layout

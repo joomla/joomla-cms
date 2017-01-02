@@ -34,10 +34,11 @@ $js               = <<< JS
 
 		$("#loading")
 		.css("top", outerDiv.position().top - $(window).scrollTop())
-		.css("left", outerDiv.position().left - $(window).scrollLeft())
-		.css("width", outerDiv.width())
-		.css("height", outerDiv.height())
+		.css("left", "0")
+		.css("width", "100%")
+		.css("height", "100%")
 		.css("display", "none")
+		.css("margin-top", "-10px");
 	});
 
 JS;
@@ -49,10 +50,9 @@ $css             = <<< CSS
 	#loading {
 		background: rgba(255, 255, 255, .8) url('$ajaxLoaderImage') 50% 15% no-repeat;
 		position: fixed;
-		opacity: 0.8;
+		opacity: 1;
 		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
 		filter: alpha(opacity = 80);
-		margin: -10px -50px 0 -50px;
 		overflow: hidden;
 	}
 CSS;
@@ -62,14 +62,14 @@ JFactory::getDocument()->addStyleDeclaration($css);
 <div class="alert alert-info">
 	<p>
 		<span class="icon icon-info"></span>
-		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://www.joomla.org/download.html') ?>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest'); ?>
 	</p>
 </div>
 
 <?php if (count($this->warnings)) : ?>
 <fieldset>
 	<legend>
-		<?php echo JText::_('COM_INSTALLER_SUBMENU_WARNINGS') ?>
+		<?php echo JText::_('COM_INSTALLER_SUBMENU_WARNINGS'); ?>
 	</legend>
 
 	<?php $i = 0; ?>
@@ -96,7 +96,9 @@ JFactory::getDocument()->addStyleDeclaration($css);
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
 				</td>
 				<td>
-					<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
+					<input class="input_box" id="install_package" name="install_package" type="file" size="57" /><br>
+					<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
+					<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 				</td>
 			</tr>
 			<tr>

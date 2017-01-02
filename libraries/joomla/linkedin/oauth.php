@@ -59,7 +59,7 @@ class JLinkedinOauth extends JOAuth1Client
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		$data['format'] = 'json';

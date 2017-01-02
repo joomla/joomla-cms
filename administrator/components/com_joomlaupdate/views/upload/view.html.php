@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Update's Update View
  *
- * @since  3.5.2
+ * @since  3.6.0
  */
 class JoomlaupdateViewUpload extends JViewLegacy
 {
@@ -23,7 +23,7 @@ class JoomlaupdateViewUpload extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function display($tpl = null)
 	{
@@ -38,10 +38,7 @@ class JoomlaupdateViewUpload extends JViewLegacy
 		$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 
 		// Import com_login's model
-		if (!class_exists('LoginModelLogin'))
-		{
-			@include_once JPATH_ADMINISTRATOR . '/components/com_login/models/login.php';
-		}
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_login/models', 'LoginModel');
 
 		// Render the view.
 		parent::display($tpl);

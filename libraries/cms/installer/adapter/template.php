@@ -42,7 +42,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 				array(
 					'element'   => $this->element,
 					'type'      => $this->type,
-					'client_id' => $this->clientId
+					'client_id' => $this->clientId,
 				)
 			);
 		}
@@ -141,7 +141,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			array(
 				'element'   => $this->element,
 				'type'      => $this->type,
-				'client_id' => $this->clientId
+				'client_id' => $this->clientId,
 			)
 		);
 
@@ -226,17 +226,19 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			$lang  = JFactory::getLanguage();
 			$debug = $lang->setDebug(false);
 
-			$columns = array($db->quoteName('template'),
+			$columns = array(
+				$db->quoteName('template'),
 				$db->quoteName('client_id'),
 				$db->quoteName('home'),
 				$db->quoteName('title'),
-				$db->quoteName('params')
+				$db->quoteName('params'),
 			);
 
 			$values = array(
 				$db->quote($this->extension->element), $this->extension->client_id, $db->quote(0),
 				$db->quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->extension->name))),
-				$db->quote($this->extension->params));
+				$db->quote($this->extension->params),
+			);
 
 			$lang->setDebug($debug);
 
@@ -419,6 +421,17 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		if ($row->protected)
 		{
 			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_WARNCORETEMPLATE', $row->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), JLog::WARNING, 'jerror');
 
 			return false;
 		}

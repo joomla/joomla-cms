@@ -73,7 +73,7 @@ class JFilterInput extends InputFilter
 				// And now we can decide if we should strip USCs
 				$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
 			}
-			catch (Exception $e)
+			catch (RuntimeException $e)
 			{
 				// Could not connect to MySQL. Strip USC to be on the safe side.
 				$this->stripUSC = 1;
@@ -507,7 +507,7 @@ class JFilterInput extends InputFilter
 
 			// Forbidden string in extension (e.g. php matched .php, .xxx.php, .php.xxx and so on)
 			'forbidden_extensions'       => array(
-				'php', 'phps', 'php5', 'php3', 'php4', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py'
+				'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py',
 			),
 
 			// <?php tag in file contents
@@ -518,7 +518,7 @@ class JFilterInput extends InputFilter
 
 			// Which file extensions to scan for short tags
 			'shorttag_extensions'        => array(
-				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'txt', 'dat', 'tpl', 'tmpl'
+				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'txt', 'dat', 'tpl', 'tmpl',
 			),
 
 			// Forbidden extensions anywhere in the content
@@ -541,7 +541,7 @@ class JFilterInput extends InputFilter
 					$file['type'],
 					$file['tmp_name'],
 					$file['error'],
-					$file['size']
+					$file['size'],
 				)
 			);
 		}
@@ -642,7 +642,7 @@ class JFilterInput extends InputFilter
 								if (empty($suspiciousExtensions))
 								{
 									$suspiciousExtensions = array(
-										'inc', 'phps', 'class', 'php3', 'php4', 'txt', 'dat', 'tpl', 'tmpl'
+										'inc', 'phps', 'class', 'php3', 'php4', 'txt', 'dat', 'tpl', 'tmpl',
 									);
 								}
 
@@ -679,7 +679,7 @@ class JFilterInput extends InputFilter
 								if (empty($suspiciousExtensions))
 								{
 									$suspiciousExtensions = array(
-										'zip', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'tbz', 'jpa'
+										'zip', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'tbz', 'jpa',
 									);
 								}
 
@@ -826,7 +826,6 @@ class JFilterInput extends InputFilter
 		// In the beginning we don't really have a tag, so everything is postTag
 		$preTag = null;
 		$postTag = $source;
-		$currentSpace = false;
 
 		// Setting to null to deal with undefined variables
 		$attr = '';

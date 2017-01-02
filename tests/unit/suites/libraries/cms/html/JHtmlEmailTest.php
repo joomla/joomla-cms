@@ -27,26 +27,26 @@ class JHtmlEmailTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org'),
-			$this->StringContains(".innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"),
-			'Cloak e-mail with mailto link'
+			$this->StringContains('<span id="cloak'),
+			'Cloak email with mailto link'
 		);
 
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org', false),
-			$this->StringContains("var path = 'hr' + 'ef' + '=';"),
-			'Cloak e-mail with no mailto link'
+			$this->StringContains('<span id="cloak'),
+			'Cloak email with no mailto link'
 		);
 
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org', true, 'administrator@joomla.org'),
-			$this->StringContains("var addy_text"),
-			'Cloak e-mail with mailto link and separate e-mail address text'
+			$this->StringContains('<span id="cloak'),
+			'Cloak email with mailto link and separate email address text'
 		);
 
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org', true, 'Joomla! Administrator', false),
-			$this->StringContains("var addy_text"),
-			'Cloak e-mail with mailto link and separate non-e-mail address text'
+			$this->StringContains('<span id="cloak'),
+			'Cloak email with mailto link and separate non-email address text'
 		);
 	}
 }

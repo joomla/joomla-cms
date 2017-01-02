@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.4"
+	version="3.6"
 	client="installation">
 	<name>Arabic Unitag (العربية الموحدة)</name>
-	<version>3.4.4</version>
-	<creationDate>August 2015</creationDate>
+    <version>3.6.3</version>
+	<creationDate>August 2016</creationDate>
 	<author>Joomla! Arabic Unitag Translation team</author>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>

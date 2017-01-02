@@ -66,7 +66,7 @@ class ContentModelArticle extends JModelItem
 	 *
 	 * @param   integer  $pk  The id of the article.
 	 *
-	 * @return  mixed  Menu item data object on success, false on failure.
+	 * @return  object|boolean|JException  Menu item data object on success, boolean false or JException instance on error
 	 */
 	public function getItem($pk = null)
 	{
@@ -164,21 +164,18 @@ class ContentModelArticle extends JModelItem
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->state != $published) && ($data->state != $archived)))
+				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
 				{
 					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new Registry;
-				$registry->loadString($data->attribs);
+				$registry = new Registry($data->attribs);
 
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new Registry;
-				$registry->loadString($data->metadata);
-				$data->metadata = $registry;
+				$data->metadata = new Registry($data->metadata);
 
 				// Technically guest could edit an article, but lets not check that to improve performance a little.
 				if (!$user->get('guest'))
@@ -333,7 +330,7 @@ class ContentModelArticle extends JModelItem
 			}
 			else
 			{
-				if ($userIP != ($rating->lastip))
+				if ($userIP != $rating->lastip)
 				{
 					$query = $db->getQuery(true);
 

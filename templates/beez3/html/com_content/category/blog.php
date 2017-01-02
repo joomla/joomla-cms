@@ -66,7 +66,7 @@ $cparams = JComponentHelper::getParams('com_media');
 </div>
 <?php endif; ?>
 <?php
-	$introcount = (count($this->intro_items));
+	$introcount = count($this->intro_items);
 	$counter = 0;
 ?>
 <?php if (!empty($this->intro_items)) : ?>

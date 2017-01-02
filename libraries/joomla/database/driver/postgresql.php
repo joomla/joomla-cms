@@ -79,7 +79,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since	12.1
 	 */
-	public function __construct( $options )
+	public function __construct($options)
 	{
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
 		$options['user'] = (isset($options['user'])) ? $options['user'] : '';
@@ -116,9 +116,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		// Make sure the postgresql extension for PHP is installed and enabled.
-		if (!function_exists('pg_connect'))
+		if (!self::isSupported())
 		{
-			throw new RuntimeException('PHP extension pg_connect is not available.');
+			throw new JDatabaseExceptionUnsupported('PHP extension pg_connect is not available.');
 		}
 
 		// Build the DSN for the connection.
@@ -134,12 +134,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Attempt to connect to the server.
 		if (!($this->connection = @pg_connect($dsn)))
 		{
-			throw new RuntimeException('Error connecting to PGSQL database.');
+			throw new JDatabaseExceptionConnecting('Error connecting to PGSQL database.');
 		}
 
 		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
-		pg_query('SET standard_conforming_strings=off');
-		pg_query('SET escape_string_warning=off');
+		pg_query($this->connection, 'SET standard_conforming_strings=off');
+		pg_query($this->connection, 'SET escape_string_warning=off');
 	}
 
 	/**
@@ -198,7 +198,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public static function test()
 	{
-		return (function_exists('pg_connect'));
+		return function_exists('pg_connect');
 	}
 
 	/**
@@ -287,7 +287,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
 	 * This command is only valid for statements like SELECT or SHOW that return an actual result set.
-	 * To retrieve the number of rows affected by a INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
+	 * To retrieve the number of rows affected by an INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
 	 *
 	 * @param   resource  $cur  An optional database cursor resource to extract the row count from.
 	 *
@@ -320,7 +320,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// Make sure we have a query class for this driver.
 			if (!class_exists('JDatabaseQueryPostgresql'))
 			{
-				throw new RuntimeException('JDatabaseQueryPostgresql Class not found.');
+				throw new JDatabaseExceptionUnsupported('JDatabaseQueryPostgresql Class not found.');
 			}
 
 			$this->queryObject = new JDatabaseQueryPostgresql($this);
@@ -539,7 +539,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			$name = array(
 				's.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type', 'info.minimum_value', 'info.maximum_value',
-				'info.increment', 'info.cycle_option'
+				'info.increment', 'info.cycle_option',
 			);
 			$as = array('sequence', 'schema', 'table', 'column', 'data_type', 'minimum_value', 'maximum_value', 'increment', 'cycle_option');
 
@@ -668,18 +668,18 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		$this->connect();
 
-		if (!is_resource($this->connection))
-		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
-		}
-
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
 		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
+		}
+
+		if (!is_resource($this->connection))
+		{
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 		}
 
 		// Increment the query counter.
@@ -727,7 +727,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
 				$memoryBefore,
 				memory_get_usage(),
-				is_resource($this->cursor) ? $this->getNumRows($this->cursor) : null
+				is_resource($this->cursor) ? $this->getNumRows($this->cursor) : null,
 			);
 		}
 
@@ -736,7 +736,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$errorNum = $this->getErrorNumber();
-			$errorMsg = $this->getErrorMessage($query);
+			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -751,12 +751,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage($query);
+					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new RuntimeException($this->errorMsg, null, $e);
+					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, null, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -772,7 +772,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new RuntimeException($this->errorMsg);
+				throw new JDatabaseExceptionExecuting($query, $this->errorMsg);
 			}
 		}
 
@@ -882,6 +882,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function setUtf()
 	{
 		$this->connect();
+
+		if (!function_exists('pg_set_client_encoding'))
+		{
+			return -1;
+		}
 
 		return pg_set_client_encoding($this->connection, 'UTF8');
 	}
@@ -1181,7 +1186,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public static function isSupported()
 	{
-		return (function_exists('pg_connect'));
+		return function_exists('pg_connect');
 	}
 
 	/**
@@ -1217,7 +1222,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function getStringPositionSql( $substring, $string )
+	public function getStringPositionSql($substring, $string)
 	{
 		$this->connect();
 
@@ -1254,7 +1259,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function getAlterDbCharacterSet( $dbName )
+	public function getAlterDbCharacterSet($dbName)
 	{
 		$query = 'ALTER DATABASE ' . $this->quoteName($dbName) . ' SET CLIENT_ENCODING TO ' . $this->quote('UTF8');
 
@@ -1368,7 +1373,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function releaseTransactionSavepoint( $savepointName )
+	public function releaseTransactionSavepoint($savepointName)
 	{
 		$this->connect();
 		$this->setQuery('RELEASE SAVEPOINT ' . $this->quoteName($this->escape($savepointName)));
@@ -1384,7 +1389,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function transactionSavepoint( $savepointName )
+	public function transactionSavepoint($savepointName)
 	{
 		$this->connect();
 		$this->setQuery('SAVEPOINT ' . $this->quoteName($this->escape($savepointName)));
@@ -1498,22 +1503,29 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @return  integer  The SQL Error number
 	 *
 	 * @since   3.4.6
+	 *
+	 * @throws  \JDatabaseExceptionExecuting  Thrown if the global cursor is false indicating a query failed
 	 */
 	protected function getErrorNumber()
 	{
+		if ($this->cursor === false)
+		{
+			$this->errorMsg = pg_last_error($this->connection);
+
+			throw new JDatabaseExceptionExecuting($this->sql, $this->errorMsg);
+		}
+
 		return (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
 	}
 
 	/**
 	 * Return the actual SQL Error message
 	 *
-	 * @param   string  $query  The SQL Query that fails
-	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage($query)
+	protected function getErrorMessage()
 	{
 		$errorMessage = (string) pg_last_error($this->connection);
 
@@ -1521,10 +1533,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if (!$this->debug)
 		{
 			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			$query        = str_replace($this->tablePrefix, '#__', $query);
 		}
 
-		return $errorMessage . "SQL=" . $query;
+		return $errorMessage;
 	}
 
 	/**

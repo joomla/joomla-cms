@@ -47,6 +47,7 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$user = JFactory::getUser();
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
@@ -55,7 +56,11 @@ class MenusViewItems extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		MenusHelper::addSubmenu('items');
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			MenusHelper::addSubmenu('items');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -184,8 +189,8 @@ class MenusViewItems extends JViewLegacy
 								$titleParts[] = $vars['view'];
 							}
 
-							$value = implode(' » ', $titleParts);
 						}
+						$value = implode(' » ', $titleParts);
 					}
 					else
 					{
@@ -219,8 +224,25 @@ class MenusViewItems extends JViewLegacy
 
 		$this->f_levels = $options;
 
-		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+			$this->sidebar = JHtmlSidebar::render();
+		}
+		else
+		{
+			// In menu items associations modal we need to remove language filter if forcing a language.
+			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			{
+				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
+				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
+				$this->filterForm->setField($languageXml, 'filter', true);
+
+				// Also, unset the active language filter so the search tools is not open by default with this filter.
+				unset($this->activeFilters['language']);
+			}
+		}
 
 		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
 		JEventDispatcher::getInstance()->trigger('onBeforeRenderMenuItems', array($this));
@@ -237,7 +259,9 @@ class MenusViewItems extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_menus');
+		$menutypeId = (int) $this->state->get('menutypeid');
+
+		$canDo = JHelperContent::getActions('com_menus', 'menu', (int) $menutypeId);
 		$user  = JFactory::getUser();
 
 		// Get the menu title
@@ -246,7 +270,14 @@ class MenusViewItems extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
+		if ($menuTypeTitle)
+		{
+			JToolbarHelper::title(JText::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_ALL_TITLE'), 'list menumgr');
+		}
 
 		if ($canDo->get('core.create'))
 		{
@@ -300,6 +331,12 @@ class MenusViewItems extends JViewLegacy
 		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('items.trash');
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::preferences('com_menus');
 		}
 
 		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');

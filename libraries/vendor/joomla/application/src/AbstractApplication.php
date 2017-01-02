@@ -48,12 +48,11 @@ abstract class AbstractApplication implements LoggerAwareInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   Input     $input   An optional argument to provide dependency injection for the application's
-	 *                             input object.  If the argument is a InputCli object that object will become
-	 *                             the application's input object, otherwise a default input object is created.
-	 * @param   Registry  $config  An optional argument to provide dependency injection for the application's
-	 *                             config object.  If the argument is a Registry object that object will become
-	 *                             the application's config object, otherwise a default config object is created.
+	 * @param   Input     $input   An optional argument to provide dependency injection for the application's input object.  If the argument is an
+	 *                             Input object that object will become the application's input object, otherwise a default input object is created.
+	 * @param   Registry  $config  An optional argument to provide dependency injection for the application's config object.  If the argument
+	 *                             is a Registry object that object will become the application's config object, otherwise a default config
+	 *                             object is created.
 	 *
 	 * @since   1.0
 	 */
@@ -61,6 +60,11 @@ abstract class AbstractApplication implements LoggerAwareInterface
 	{
 		$this->input = $input instanceof Input ? $input : new Input;
 		$this->config = $config instanceof Registry ? $config : new Registry;
+
+		// Set the execution datetime and timestamp;
+		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
+		$this->set('execution.timestamp', time());
+		$this->set('execution.microtimestamp', microtime(true));
 
 		$this->initialise();
 	}

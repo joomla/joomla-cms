@@ -35,8 +35,8 @@ class JLanguageMultilang
 		// Get application object.
 		$app = JFactory::getApplication();
 
-		// If being called from the front-end, we can avoid the database query.
-		if ($app->isSite())
+		// If being called from the frontend, we can avoid the database query.
+		if ($app->isClient('site'))
 		{
 			$enabled = $app->getLanguageFilter();
 
@@ -46,7 +46,7 @@ class JLanguageMultilang
 		// If already tested, don't test again.
 		if (!$tested)
 		{
-			// Determine status of language filter plug-in.
+			// Determine status of language filter plugin.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('enabled')
@@ -60,7 +60,7 @@ class JLanguageMultilang
 			$tested = true;
 		}
 
-		return $enabled;
+		return (bool) $enabled;
 	}
 
 	/**
@@ -69,28 +69,13 @@ class JLanguageMultilang
 	 * @return  array of language extension objects.
 	 *
 	 * @since   3.5
+	 * @deprecated   3.7.0  Use JLanguageHelper::getInstalledLanguages(0) instead.
 	 */
 	public static function getSiteLangs()
 	{
-		// To avoid doing duplicate database queries.
-		static $multilangSiteLangs = null;
+		JLog::add(__METHOD__ . ' is deprecated. Use JLanguageHelper::getInstalledLanguages(0) instead.', JLog::WARNING, 'deprecated');
 
-		if (!isset($multilangSiteLangs))
-		{
-			// Check for published Site Languages.
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('element')
-				->from('#__extensions')
-				->where('type = ' . $db->quote('language'))
-				->where('client_id = 0')
-				->where('enabled = 1');
-			$db->setQuery($query);
-
-			$multilangSiteLangs = $db->loadObjectList('element');
-		}
-
-		return $multilangSiteLangs;
+		return JLanguageHelper::getInstalledLanguages(0);
 	}
 
 	/**

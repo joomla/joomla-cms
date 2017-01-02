@@ -2,13 +2,11 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
-
-JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for FOF
@@ -17,7 +15,7 @@ JFormHelper::loadFieldClass('list');
  * @package  FrameworkOnFramework
  * @since    2.1
  */
-class FOFFormFieldComponents extends JFormFieldList implements FOFFormField
+class FOFFormFieldComponents extends JFormAbstractlist implements FOFFormField
 {
 	protected $static;
 

@@ -22,16 +22,16 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-
 				<field
 					name="catid"
 					type="category"
+					label="JCATEGORY"
+					description="MOD_POPULAR_FIELD_CATEGORY_DESC"
 					extension="com_content"
 					multiple="true"
 					size="10"
 					default=""
-					label="JCATEGORY"
-					description="MOD_POPULAR_FIELD_CATEGORY_DESC" >
+					>
 					<option value="">JOPTION_ALL_CATEGORIES</option>
 				</field>
 
@@ -40,70 +40,85 @@
 					type="text"
 					default="5"
 					label="MOD_POPULAR_FIELD_COUNT_LABEL"
-					description="MOD_POPULAR_FIELD_COUNT_DESC" />
+					description="MOD_POPULAR_FIELD_COUNT_DESC"
+				/>
 
 					<field
 					name="show_front"
 					type="radio"
+					label="MOD_POPULAR_FIELD_FEATURED_LABEL"
+					description="MOD_POPULAR_FIELD_FEATURED_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_POPULAR_FIELD_FEATURED_LABEL"
-					description="MOD_POPULAR_FIELD_FEATURED_DESC">
-					<option
-						value="1">JSHOW</option>
-					<option
-						value="0">JHIDE</option>
+					>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
-				
-				<field name="basicspacer1" type="spacer" hr="true" />
-				
-				<field name="date_filtering" type="list" default="off"
+
+				<field
+					name="basicspacer1"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
+					name="date_filtering"
+					type="list"
 					label="MOD_POPULAR_FIELD_DATEFILTERING_LABEL"
 					description="MOD_POPULAR_FIELD_DATEFILTERING_DESC"
-				>
-					<option value="off">MOD_POPULAR_OPTION_OFF_VALUE
-					</option>
-					<option value="range">MOD_POPULAR_OPTION_DATERANGE_VALUE
-					</option>
-					<option value="relative">MOD_POPULAR_OPTION_RELATIVEDAY_VALUE
-					</option>
+					default="off"
+					>
+					<option value="off">MOD_POPULAR_OPTION_OFF_VALUE</option>
+					<option value="range">MOD_POPULAR_OPTION_DATERANGE_VALUE</option>
+					<option value="relative">MOD_POPULAR_OPTION_RELATIVEDAY_VALUE</option>
 				</field>
 
-				<field name="date_field" type="list" default="a.created"
+				<field
+					name="date_field"
+					type="list"
 					label="MOD_POPULAR_FIELD_DATEFIELD_LABEL"
 					description="MOD_POPULAR_FIELD_DATEFIELD_DESC"
-				>
-					<option value="a.created">MOD_POPULAR_OPTION_CREATED_VALUE
-					</option>
-					<option value="a.modified">MOD_POPULAR_OPTION_MODIFIED_VALUE
-					</option>
-					<option value="a.publish_up">MOD_POPULAR_OPTION_STARTPUBLISHING_VALUE
-					</option>
+					default="a.created"
+					showon="date_filtering:range,relative"
+					>
+					<option value="a.created">MOD_POPULAR_OPTION_CREATED_VALUE</option>
+					<option value="a.modified">MOD_POPULAR_OPTION_MODIFIED_VALUE</option>
+					<option value="a.publish_up">MOD_POPULAR_OPTION_STARTPUBLISHING_VALUE</option>
 				</field>
 
-				<field name="start_date_range" type="calendar"
-					format="%Y-%m-%d %H:%M:%S"
+				<field
+					name="start_date_range"
+					type="calendar"
 					label="MOD_POPULAR_FIELD_STARTDATE_LABEL"
 					description="MOD_POPULAR_FIELD_STARTDATE_DESC"
-					size="22"
-					filter="user_utc" />
-
-				<field name="end_date_range" type="calendar"
 					format="%Y-%m-%d %H:%M:%S"
+					size="22"
+					filter="user_utc"
+					showon="date_filtering:range"
+				/>
+
+				<field
+					name="end_date_range"
+					type="calendar"
 					label="MOD_POPULAR_FIELD_ENDDATE_LABEL"
 					description="MOD_POPULAR_FIELD_ENDDATE_DESC"
+					format="%Y-%m-%d %H:%M:%S"
 					size="22"
-					filter="user_utc" />
+					filter="user_utc"
+					showon="date_filtering:range"
+					/>
 
-				<field name="relative_date" type="text" default="30"
+				<field
+					name="relative_date"
+					type="text"
 					label="MOD_POPULAR_FIELD_RELATIVEDATE_LABEL"
-					description="MOD_POPULAR_FIELD_RELATIVEDATE_DESC" />
-
+					description="MOD_POPULAR_FIELD_RELATIVEDATE_DESC"
+					default="30"
+					showon="date_filtering:relative"
+				/>
 			</fieldset>
 
-			<fieldset
-				name="advanced">
-
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
@@ -112,35 +127,37 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
 
 				<field
 					name="cache"
 					type="list"
-					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					default="1"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
 
 				<field
 					name="cachemode"
 					type="hidden"
-					default="static">
-					<option
-						value="static"></option>
+					default="static"
+					>
+					<option value="static"></option>
 				</field>
 
 			</fieldset>

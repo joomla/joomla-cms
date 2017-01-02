@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Remind model class for Users.
  *
@@ -158,13 +160,11 @@ class UsersModelRemind extends JModelForm
 		$config = JFactory::getConfig();
 
 		// Assemble the login link.
-		$itemid = UsersHelperRoute::getLoginRoute();
-		$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-		$link = 'index.php?option=com_users&view=login' . $itemid;
+		$link = 'index.php?option=com_users&view=login';
 		$mode = $config->get('force_ssl', 0) == 2 ? 1 : (-1);
 
 		// Put together the email template data.
-		$data = JArrayHelper::fromObject($user);
+		$data = ArrayHelper::fromObject($user);
 		$data['fromname'] = $config->get('fromname');
 		$data['mailfrom'] = $config->get('mailfrom');
 		$data['sitename'] = $config->get('sitename');

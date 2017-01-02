@@ -103,6 +103,14 @@ class JInstaller extends JAdapter
 	protected $redirect_url = null;
 
 	/**
+	 * Flag if the uninstall process was triggered by uninstalling a package
+	 *
+	 * @var    boolean
+	 * @since  3.7.0
+	 */
+	protected $packageUninstall = false;
+
+	/**
 	 * JInstaller instance container.
 	 *
 	 * @var    JInstaller
@@ -223,6 +231,32 @@ class JInstaller extends JAdapter
 	public function setRedirectUrl($newurl)
 	{
 		$this->redirect_url = $newurl;
+	}
+
+	/**
+	 * Get whether this installer is uninstalling extensions which are part of a package
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function isPackageUninstall()
+	{
+		return $this->packageUninstall;
+	}
+
+	/**
+	 * Set whether this installer is uninstalling extensions which are part of a package
+	 *
+	 * @param   boolean  $uninstall  True if a package triggered the uninstall, false otherwise
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function setPackageUninstall($uninstall)
+	{
+		$this->packageUninstall = $uninstall;
 	}
 
 	/**
@@ -359,9 +393,8 @@ class JInstaller extends JAdapter
 					break;
 
 				case 'query':
-					// Placeholder in case this is necessary in the future
-					// $stepval is always false because if this step was called it invariably failed
-					$stepval = false;
+					// Execute the query.
+					$stepval = $this->parseSQLFiles($step['script']);
 					break;
 
 				case 'extension':
@@ -373,7 +406,20 @@ class JInstaller extends JAdapter
 					$query->delete($db->quoteName('#__extensions'))
 						->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
-					$stepval = $db->execute();
+
+					try
+					{
+						$db->execute();
+
+						$stepval = true;
+					}
+					catch (JDatabaseExceptionExecuting $e)
+					{
+						// The database API will have already logged the error it caught, we just need to alert the user to the issue
+						JLog::add(JText::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), JLog::WARNING, 'jerror');
+
+						$stepval = false;
+					}
 
 					break;
 
@@ -461,7 +507,7 @@ class JInstaller extends JAdapter
 				'method' => 'install',
 				'type' => $this->manifest->attributes()->type,
 				'manifest' => $this->manifest,
-				'extension' => 0
+				'extension' => 0,
 			)
 		);
 
@@ -519,9 +565,7 @@ class JInstaller extends JAdapter
 
 		// Load the adapter(s) for the install manifest
 		$type   = $this->extension->type;
-		$params = array(
-			'extension' => $this->extension, 'route' => 'discover_install'
-		);
+		$params = array('extension' => $this->extension, 'route' => 'discover_install');
 
 		$adapter = $this->getAdapter($type, $params);
 
@@ -567,7 +611,7 @@ class JInstaller extends JAdapter
 				'method' => 'discover_install',
 				'type' => $this->extension->get('type'),
 				'manifest' => null,
-				'extension' => $this->extension->get('extension_id')
+				'extension' => $this->extension->get('extension_id'),
 			)
 		);
 
@@ -854,33 +898,20 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		$dbDriver = strtolower($db->name);
-
-		if ($dbDriver == 'mysql' || $dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
-		{
-			$doUtf8mb4ToUtf8 = !$this->serverClaimsUtf8mb4Support($dbDriver);
-		}
-		else
-		{
-			$doUtf8mb4ToUtf8 = false;
-		}
-
 		$update_count = 0;
 
 		// Process each query in the $queries array (children of $tagName).
 		foreach ($queries as $query)
 		{
-			// If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
-			if ($doUtf8mb4ToUtf8)
+			$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
+
+			try
 			{
-				$query = $this->convertUtf8mb4QueryToUtf8($query);
+				$db->execute();
 			}
-
-			$db->setQuery($query);
-
-			if (!$db->execute())
+			catch (JDatabaseExceptionExecuting $e)
 			{
-				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), JLog::WARNING, 'jerror');
 
 				return false;
 			}
@@ -908,20 +939,12 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		$queries = array();
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
-
-		$doUtf8mb4ToUtf8 = !$this->serverClaimsUtf8mb4Support($dbDriver);
 
 		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 		{
 			$dbDriver = 'mysql';
-		}
-
-		if ($dbDriver != 'mysql')
-		{
-			$doUtf8mb4ToUtf8 = false;
 		}
 
 		$update_count = 0;
@@ -971,17 +994,15 @@ class JInstaller extends JAdapter
 				// Process each query in the $queries array (split out of sql file).
 				foreach ($queries as $query)
 				{
-					// If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
-					if ($doUtf8mb4ToUtf8)
+					$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
+
+					try
 					{
-						$query = $this->convertUtf8mb4QueryToUtf8($query);
+						$db->execute();
 					}
-
-					$db->setQuery($query);
-
-					if (!$db->execute())
+					catch (JDatabaseExceptionExecuting $e)
 					{
-						JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+						JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), JLog::WARNING, 'jerror');
 
 						return false;
 					}
@@ -1087,16 +1108,9 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				$doUtf8mb4ToUtf8 = !$this->serverClaimsUtf8mb4Support($dbDriver);
-
 				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
-				}
-
-				if ($dbDriver != 'mysql')
-				{
-					$doUtf8mb4ToUtf8 = false;
 				}
 
 				$schemapath = '';
@@ -1127,7 +1141,7 @@ class JInstaller extends JAdapter
 
 					if (!count($files))
 					{
-						return false;
+						return $update_count;
 					}
 
 					$query = $db->getQuery(true)
@@ -1169,26 +1183,22 @@ class JInstaller extends JAdapter
 							// Process each query in the $queries array (split out of sql file).
 							foreach ($queries as $query)
 							{
-								// If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
-								if ($doUtf8mb4ToUtf8)
+								$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
+
+								try
 								{
-									$query = $this->convertUtf8mb4QueryToUtf8($query);
+									$db->execute();
 								}
-
-								$db->setQuery($query);
-
-								if (!$db->execute())
+								catch (JDatabaseExceptionExecuting $e)
 								{
-									JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+									JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), JLog::WARNING, 'jerror');
 
 									return false;
 								}
-								else
-								{
-									$queryString = (string) $query;
-									$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
-									JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
-								}
+
+								$queryString = (string) $query;
+								$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+								JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
 
 								$update_count++;
 							}
@@ -1543,12 +1553,12 @@ class JInstaller extends JAdapter
 	}
 
 	/**
-	 * Method to parse the parameters of an extension, build the INI
-	 * string for its default parameters, and return the INI string.
+	 * Method to parse the parameters of an extension, build the JSON string for its default parameters, and return the JSON string.
 	 *
-	 * @return  string   INI string of parameter values
+	 * @return  string  JSON string of parameter values
 	 *
 	 * @since   3.1
+	 * @note    This method must always return a JSON compliant string
 	 */
 	public function getParams()
 	{
@@ -1557,6 +1567,7 @@ class JInstaller extends JAdapter
 		{
 			return '{}';
 		}
+
 		// Getting the fieldset tags
 		$fieldsets = $this->manifest->config->fields->fieldset;
 
@@ -1569,7 +1580,7 @@ class JInstaller extends JAdapter
 			if (!count($fieldset->children()))
 			{
 				// Either the tag does not exist or has no children therefore we return zero files processed.
-				return null;
+				return '{}';
 			}
 
 			// Iterating through the fields and collecting the name/default values:
@@ -1985,13 +1996,13 @@ class JInstaller extends JAdapter
 		// If we cannot load the XML file return null
 		if (!$xml)
 		{
-			return null;
+			return;
 		}
 
 		// Check for a valid XML root tag.
 		if ($xml->getName() != 'extension')
 		{
-			return null;
+			return;
 		}
 
 		// Valid manifest file return the object
@@ -2223,8 +2234,8 @@ class JInstaller extends JAdapter
 		// Check if we're a language. If so use metafile.
 		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('Unknown');
-		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('Unknown');
+		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('JLIB_UNKNOWN');
 
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;
@@ -2311,7 +2322,7 @@ class JInstaller extends JAdapter
 			if (!class_exists($class))
 			{
 				// Try to load the adapter object
-				require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName;
+				JLoader::register($class, $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName);
 
 				if (!class_exists($class))
 				{
@@ -2372,7 +2383,7 @@ class JInstaller extends JAdapter
 			}
 
 			// Try once more to find the class
-			require_once $path;
+			JLoader::register($class, $path);
 
 			if (!class_exists($class))
 			{
@@ -2400,86 +2411,5 @@ class JInstaller extends JAdapter
 	public function loadAllAdapters($options = array())
 	{
 		$this->getAdapters($options);
-	}
-
-	/**
-	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
-	 * 
-	 * This is a modified version of the function in JDatabase::serverClaimsUtf8mb4Support() - it is
-	 * duplicated here for people upgrading from a version lower than 3.5.0 through extension manager
-	 * which will still have the old database driver loaded at this point.
-	 *
-	 * @param   string  $format  The type of database connection.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.5.0
-	 */
-	private function serverClaimsUtf8mb4Support($format)
-	{
-		$db = JFactory::getDbo();
-
-		switch ($format)
-		{
-			case 'mysql':
-				$client_version = mysql_get_client_info();
-				$server_version = $db->getVersion();
-				break;
-			case 'mysqli':
-				$client_version = mysqli_get_client_info();
-				$server_version = $db->getVersion();
-				break;
-			case 'pdomysql':
-				$client_version = $db->getOption(PDO::ATTR_CLIENT_VERSION);
-				$server_version = $db->getOption(PDO::ATTR_SERVER_VERSION);
-				break;
-			default:
-				$client_version = false;
-				$server_version = false;
-		}
-
-		if ($client_version && version_compare($server_version, '5.5.3', '>='))
-		{
-			if (strpos($client_version, 'mysqlnd') !== false)
-			{
-				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
-
-				return version_compare($client_version, '5.0.9', '>=');
-			}
-			else
-			{
-				return version_compare($client_version, '5.5.3', '>=');
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Downgrade a CREATE TABLE or ALTER TABLE query from utf8mb4 (UTF-8 Multibyte) to plain utf8. Used when the server
-	 * doesn't support UTF-8 Multibyte.
-	 *
-	 * This is a modified version of the function in JDatabase::convertUtf8mb4QueryToUtf8() - it is duplicated here for
-	 * people upgrading from a version lower than 3.5.0 through installer which will still have the old database
-	 * driver loaded at this point. This is missing the check for utf8mb4 in JDatabaseDriver we make this check in the
-	 * updater elsewhere.
-	 *
-	 * @param   string  $query  The query to convert
-	 *
-	 * @return  string  The converted query
-	 */
-	private function convertUtf8mb4QueryToUtf8($query)
-	{
-		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
-		$beginningOfQuery = substr($query, 0, 12);
-		$beginningOfQuery = strtoupper($beginningOfQuery);
-
-		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
-		{
-			return $query;
-		}
-
-		// Replace utf8mb4 with utf8
-		return str_replace('utf8mb4', 'utf8', $query);
 	}
 }

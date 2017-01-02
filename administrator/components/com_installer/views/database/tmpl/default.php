@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 ?>
 <div id="installer-database" class="clearfix">
-	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=database');?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=database'); ?>" method="post" name="adminForm" id="adminForm">
 
 	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
@@ -20,22 +20,14 @@ defined('_JEXEC') or die;
 		<div id="j-main-container" class="span10">
 	<?php else : ?>
 		<div id="j-main-container">
-	<?php endif;?>
+	<?php endif; ?>
 		<?php if ($this->errorCount === 0) : ?>
-			<div class="alert alert-info">
-				<a class="close" data-dismiss="alert" href="#">&times;</a>
-				<?php echo JText::_('COM_INSTALLER_MSG_DATABASE_OK'); ?>
-			</div>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?>
 		<?php else : ?>
-			<div class="alert alert-error">
-				<a class="close" data-dismiss="alert" href="#">&times;</a>
-				<?php echo JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'); ?>
-			</div>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'problems')); ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'problems', JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount)); ?>
 				<fieldset class="panelform">
-						<ul>
+					<ul>
 						<?php if (!$this->filterParams) : ?>
 							<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?></li>
 						<?php endif; ?>
@@ -58,12 +50,11 @@ defined('_JEXEC') or die;
 							$message = JText::sprintf($key, $file, $msg0, $msg1, $msg2); ?>
 							<li><?php echo $message; ?></li>
 						<?php endforeach; ?>
-						</ul>
-					</fieldset>
-
+					</ul>
+				</fieldset>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
 				<div class="control-group" >
 					<fieldset class="panelform">
 						<ul>

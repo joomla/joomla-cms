@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Openstreetmap API object class for the Joomla Platform
  *
- * @since  13.1
+ * @since       13.1
+ * @deprecated  4.0  Use the `joomla/openstreetmap` package via Composer instead
  */
 abstract class JOpenstreetmapObject
 {
@@ -119,7 +120,7 @@ abstract class JOpenstreetmapObject
 		// Validate the response code.
 		if ($response->code != 200)
 		{
-			$error = htmlspecialchars($response->body);
+			$error = htmlspecialchars($response->body, ENT_COMPAT, 'UTF-8');
 
 			throw new DomainException($error, $response->code);
 		}

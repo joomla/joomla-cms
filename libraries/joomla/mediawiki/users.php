@@ -243,7 +243,7 @@ class JMediawikiUsers extends JMediawikiObject
 	 * @param   boolean  $anononly       Block anonymous users only.
 	 * @param   boolean  $nocreate       Prevent account creation.
 	 * @param   boolean  $autoblock      Automatically block the last used IP address, and any subsequent IP addresses they try to login from.
-	 * @param   boolean  $noemail        Prevent user from sending e-mail through the wiki.
+	 * @param   boolean  $noemail        Prevent user from sending email through the wiki.
 	 * @param   boolean  $hidename       Hide the username from the block log.
 	 * @param   boolean  $allowusertalk  Allow the user to edit their own talk page.
 	 * @param   boolean  $reblock        If the user is already blocked, overwrite the existing block.
@@ -275,7 +275,7 @@ class JMediawikiUsers extends JMediawikiObject
 			'hidename' => $hidename,
 			'allowusetalk' => $allowusertalk,
 			'reblock' => $reblock,
-			'watchuser' => $watchuser
+			'watchuser' => $watchuser,
 		);
 
 		// Send the request.
@@ -373,7 +373,7 @@ class JMediawikiUsers extends JMediawikiObject
 			'token' => $token,
 			'add' => $add,
 			'remove' => $remove,
-			'reason' => $reason
+			'reason' => $reason,
 		);
 
 		// Send the request.
@@ -408,7 +408,7 @@ class JMediawikiUsers extends JMediawikiObject
 			'token' => $token,
 			'subject' => $subject,
 			'text' => $text,
-			'ccme' => $ccme
+			'ccme' => $ccme,
 		);
 
 		// Send the request.

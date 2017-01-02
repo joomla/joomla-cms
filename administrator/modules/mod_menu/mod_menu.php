@@ -10,20 +10,13 @@
 defined('_JEXEC') or die;
 
 // Include the module helper classes.
-if (!class_exists('ModMenuHelper'))
-{
-	require __DIR__ . '/helper.php';
-}
-
-if (!class_exists('JAdminCssMenu'))
-{
-	require __DIR__ . '/menu.php';
-}
+JLoader::register('ModMenuHelper', __DIR__ . '/helper.php');
+JLoader::register('JAdminCssMenu', __DIR__ . '/menu.php');
 
 $lang    = JFactory::getLanguage();
 $user    = JFactory::getUser();
 $input   = JFactory::getApplication()->input;
-$menu    = new JAdminCSSMenu;
+$menu    = new JAdminCssMenu;
 $enabled = $input->getBool('hidemainmenu') ? false : true;
 
 // Render the module layout

@@ -15,7 +15,6 @@ JHtml::_('bootstrap.tooltip');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-
 ?>
 <div id="installer-languages" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
@@ -37,9 +36,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center">
-							<?php echo JHtml::_('grid.checkall'); ?>
-						</th>
+						<th width="5%"></th>
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 						</th>
@@ -51,9 +48,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</th>
 						<th width="40%" class="nowrap hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
-						</th>
-						<th width="1%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'update_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
@@ -68,14 +62,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php
 				$version = new JVersion;
 				$currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion());
-				foreach ($this->items as $i => $language) :
-					// Get language code and language image.
+				$i = 0;
+				foreach ($this->items as $language) :
 					preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element);
 					$language->code  = $element[1];
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $language->update_id, false, 'cid'); ?>
+						<td>
+							<?php $buttonText = (isset($this->installedLang[0][$language->code]) || isset($this->installedLang[1][$language->code])) ? 'REINSTALL' : 'INSTALL'; ?>
+							<?php $onclick = 'document.getElementById(\'install_url\').value = \'' . $language->detailsurl . '\'; Joomla.submitbutton(\'install.install\');'; ?>
+							<input type="button" class="btn btn-small" value="<?php echo JText::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>" onclick="<?php echo $onclick; ?>" />
 						</td>
 						<td>
 							<label for="cb<?php echo $i; ?>">
@@ -96,15 +92,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="small hidden-phone">
 							<a href="<?php echo $language->detailsurl; ?>" target="_blank"><?php echo $language->detailsurl; ?></a>
 						</td>
-						<td class="hidden-phone">
-							<?php echo $language->update_id; ?>
-						</td>
 					</tr>
+					<?php $i++; ?>
 				<?php endforeach; ?>
 				</tbody>
 			</table>
 			<?php endif; ?>
 			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="return" value="<?php echo base64_encode('index.php?option=com_installer&view=languages') ?>" />
+			<input type="hidden" id="install_url" name="install_url" />
+			<input type="hidden" name="installtype" value="url" />
 			<input type="hidden" name="boxchecked" value="0" />
 			<?php echo JHtml::_('form.token'); ?>
 		</div>

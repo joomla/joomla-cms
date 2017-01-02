@@ -8,20 +8,18 @@
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Language Form Field class.
  *
  * @since  1.6
  */
-class InstallationFormFieldLanguage extends JFormFieldList
+class InstallationFormFieldLanguage extends JFormAbstractlist
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'Language';
 
@@ -69,7 +67,7 @@ class InstallationFormFieldLanguage extends JFormFieldList
 		{
 			foreach ($options as &$option)
 			{
-				$option['text'] = $option['text'] . '&#x200E;';
+				$option['text'] .= '&#x200E;';
 			}
 		}
 

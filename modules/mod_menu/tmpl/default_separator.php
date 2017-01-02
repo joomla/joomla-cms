@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-$title = $item->anchor_title ? ' title="' . $item->anchor_title . '"' : '';
-$anchor_css = $item->anchor_css ? $item->anchor_css : '';
+$title      = $item->anchor_title ? ' title="' . $item->anchor_title . '"' : '';
+$anchor_css = $item->anchor_css ?: '';
 
-$linktype = $item->title;
+$linktype   = $item->title;
 
 if ($item->menu_image)
 {

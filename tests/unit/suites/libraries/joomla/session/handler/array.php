@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for managing HTTP sessions
  *
- * @package     Joomla.Platform
- * @subpackage  Session
- * @since       3.4
+ * @since  3.4
  */
 class JSessionHandlerArray implements JSessionHandlerInterface
 {

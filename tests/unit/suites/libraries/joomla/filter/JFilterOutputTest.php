@@ -68,6 +68,23 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 		$this->safeObjectArrayTest = new FilterTestObject;
 	}
 
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		unset($this->safeObject);
+		unset($this->safeObjectArrayTest);
+		parent::tearDown();
+	}
+
 	/**
 	 * Sends the FilterTestObject to the object filter.
 	 *

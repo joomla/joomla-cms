@@ -21,7 +21,7 @@ class TagsViewTags extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -35,7 +35,7 @@ class TagsViewTags extends JViewLegacy
 		$feedEmail        = $app->get('feed_email', 'none');
 		$document->editor = $fromName;
 
-		if ($feedEmail != "none")
+		if ($feedEmail != 'none')
 		{
 			$document->editorEmail = $siteEmail;
 		}
@@ -51,7 +51,7 @@ class TagsViewTags extends JViewLegacy
 
 			// Strip HTML from feed item description text
 			$description = $item->description;
-			$author      = $item->created_by_alias ? $item->created_by_alias : $item->author;
+			$author      = $item->created_by_alias ?: $item->author;
 			$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 			// Load individual item creator class

@@ -76,6 +76,14 @@ class JTwitterDirectmessagesTest extends TestCase
 			}}}';
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -85,6 +93,7 @@ class JTwitterDirectmessagesTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -98,7 +107,7 @@ class JTwitterDirectmessagesTest extends TestCase
 
 		$this->options = new JRegistry;
 		$this->input = new JInput;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->oauth = new JTwitterOAuth($this->options, $this->client, $this->input);
 		$this->oauth->setToken($access_token);
 
@@ -108,6 +117,26 @@ class JTwitterDirectmessagesTest extends TestCase
 		$this->options->set('consumer_secret', $secret);
 		$this->options->set('callback', $my_url);
 		$this->options->set('sendheaders', true);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($this->options);
+		unset($this->input);
+		unset($this->client);
+		unset($this->oauth);
+		unset($this->object);
 	}
 
 	/**
@@ -173,7 +202,6 @@ class JTwitterDirectmessagesTest extends TestCase
 		$since_id = 12345;
 		$max_id = 54321;
 		$count = 10;
-		$page = 1;
 		$entities = true;
 
 		$returnData = new stdClass;

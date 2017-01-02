@@ -277,7 +277,11 @@ class InstallerModelUpdate extends JModelList
 		// This may or may not mean depending on your database
 		$db->setQuery('TRUNCATE TABLE #__updates');
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			$this->_message = JText::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
 
@@ -311,7 +315,11 @@ class InstallerModelUpdate extends JModelList
 			->where($db->quoteName('enabled') . ' = 0');
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			$this->_message .= JText::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="3.1">
-	<name>Joomla! Platform</name>
+	<name>LIB_JOOMLA</name>
 	<libraryname>joomla</libraryname>
 	<version>13.1</version>
 	<description>LIB_JOOMLA_XML_DESCRIPTION</description>

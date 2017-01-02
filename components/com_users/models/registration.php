@@ -23,6 +23,26 @@ class UsersModelRegistration extends JModelForm
 	protected $data;
 
 	/**
+	 * Constructor
+	 *
+	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 *
+	 * @since   3.6
+	 *
+	 * @throws  Exception
+	 */
+	public function __construct($config = array())
+	{
+		$config = array_merge(
+			array(
+				'events_map' => array('validate' => 'user')
+			), $config
+		);
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to activate a user account.
 	 *
 	 * @param   string  $token  The activation token.
@@ -85,7 +105,7 @@ class UsersModelRegistration extends JModelForm
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
 			// Remove administrator/ from activate url in case this method is called from admin
-			if (JFactory::getApplication()->isAdmin())
+			if (JFactory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
 				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
@@ -222,9 +242,15 @@ class UsersModelRegistration extends JModelForm
 			// Override the base user data with any data in the session.
 			$temp = (array) $app->getUserState('com_users.registration.data', array());
 
+			$form = $this->getForm(array());
+
 			foreach ($temp as $k => $v)
 			{
-				$this->data->$k = $v;
+				// Only merge the field if it exists in the form.
+				if ($form->getField($k) !== false)
+				{
+					$this->data->$k = $v;
+				}
 			}
 
 			// Get the groups the user should be added to after registration.
@@ -236,8 +262,7 @@ class UsersModelRegistration extends JModelForm
 			$this->data->groups[] = $system;
 
 			// Unset the passwords.
-			unset($this->data->password1);
-			unset($this->data->password2);
+			unset($this->data->password1, $this->data->password2);
 
 			// Get the dispatcher and load the users plugins.
 			$dispatcher = JEventDispatcher::getInstance();
@@ -424,7 +449,7 @@ class UsersModelRegistration extends JModelForm
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
 			// Remove administrator/ from activate url in case this method is called from admin
-			if (JFactory::getApplication()->isAdmin())
+			if (JFactory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
 				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
@@ -468,7 +493,7 @@ class UsersModelRegistration extends JModelForm
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
 			// Remove administrator/ from activate url in case this method is called from admin
-			if (JFactory::getApplication()->isAdmin())
+			if (JFactory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
 				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
@@ -650,11 +675,11 @@ class UsersModelRegistration extends JModelForm
 
 		if ($useractivation == 1)
 		{
-			return "useractivate";
+			return 'useractivate';
 		}
 		elseif ($useractivation == 2)
 		{
-			return "adminactivate";
+			return 'adminactivate';
 		}
 		else
 		{

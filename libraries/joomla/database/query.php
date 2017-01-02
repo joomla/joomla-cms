@@ -251,14 +251,19 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->having;
 				}
 
-				if ($this->order)
-				{
-					$query .= (string) $this->order;
-				}
-
 				if ($this->union)
 				{
 					$query .= (string) $this->union;
+				}
+
+				if ($this->unionAll)
+				{
+					$query .= (string) $this->unionAll;
+				}
+
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
 				}
 
 				break;
@@ -1095,7 +1100,7 @@ abstract class JDatabaseQuery
 	}
 
 	/**
-	 * Add a ordering column to the ORDER clause of the query.
+	 * Add an ordering column to the ORDER clause of the query.
 	 *
 	 * Usage:
 	 * $query->order('foo')->order('bar');
@@ -1386,6 +1391,71 @@ abstract class JDatabaseQuery
 	}
 
 	/**
+	 * Extend the WHERE clause with a single condition or an array of conditions, with a potentially
+	 * different logical operator from the one in the current WHERE clause.
+	 *
+	 * Usage:
+	 * $query->where(array('a = 1', 'b = 2'))->extendWhere('XOR', array('c = 3', 'd = 4'));
+	 * will produce: WHERE ((a = 1 AND b = 2) XOR (c = 3 AND d = 4)
+	 *
+	 * @param   string  $outerGlue   The glue by which to join the conditions to the current WHERE conditions.
+	 * @param   mixed   $conditions  A string or array of WHERE conditions.
+	 * @param   string  $innerGlue   The glue by which to join the conditions. Defaults to AND.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.6
+	 */
+	public function extendWhere($outerGlue, $conditions, $innerGlue = 'AND')
+	{
+		// Replace the current WHERE with a new one which has the old one as an unnamed child.
+		$this->where = new JDatabaseQueryElement('WHERE', $this->where->setName('()'), " $outerGlue ");
+
+		// Append the new conditions as a new unnamed child.
+		$this->where->append(new JDatabaseQueryElement('()', $conditions, " $innerGlue "));
+
+		return $this;
+	}
+
+	/**
+	 * Extend the WHERE clause with an OR and a single condition or an array of conditions.
+	 *
+	 * Usage:
+	 * $query->where(array('a = 1', 'b = 2'))->orWhere(array('c = 3', 'd = 4'));
+	 * will produce: WHERE ((a = 1 AND b = 2) OR (c = 3 AND d = 4)
+	 *
+	 * @param   mixed   $conditions  A string or array of WHERE conditions.
+	 * @param   string  $glue        The glue by which to join the conditions. Defaults to AND.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.6
+	 */
+	public function orWhere($conditions, $glue = 'AND')
+	{
+		return $this->extendWhere('OR', $conditions, $glue);
+	}
+
+	/**
+	 * Extend the WHERE clause with an AND and a single condition or an array of conditions.
+	 *
+	 * Usage:
+	 * $query->where(array('a = 1', 'b = 2'))->andWhere(array('c = 3', 'd = 4'));
+	 * will produce: WHERE ((a = 1 AND b = 2) AND (c = 3 OR d = 4)
+	 *
+	 * @param   mixed   $conditions  A string or array of WHERE conditions.
+	 * @param   string  $glue        The glue by which to join the conditions. Defaults to OR.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.6
+	 */
+	public function andWhere($conditions, $glue = 'OR')
+	{
+		return $this->extendWhere('AND', $conditions, $glue);
+	}
+
+	/**
 	 * Method to provide deep copy support to nested objects and
 	 * arrays when cloning.
 	 *
@@ -1424,7 +1494,7 @@ abstract class JDatabaseQuery
 	 * @param   boolean  $distinct  True to only return distinct rows from the union.
 	 * @param   string   $glue      The glue by which to join the conditions.
 	 *
-	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/union.html
 	 *
@@ -1467,7 +1537,7 @@ abstract class JDatabaseQuery
 	 * @param   mixed   $query  The JDatabaseQuery object or string to union.
 	 * @param   string  $glue   The glue by which to join the conditions.
 	 *
-	 * @return  mixed   The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @see     union
 	 *
@@ -1675,9 +1745,9 @@ abstract class JDatabaseQuery
 	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
 	 * Note: Not all drivers support all units.
 	 *
-	 * @param   datetime  $date      The date to add to. May be date or datetime
-	 * @param   string    $interval  The string representation of the appropriate number of units
-	 * @param   string    $datePart  The part of the date to perform the addition on
+	 * @param   mixed   $date      The date to add to. May be date or datetime
+	 * @param   string  $interval  The string representation of the appropriate number of units
+	 * @param   string  $datePart  The part of the date to perform the addition on
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
@@ -1701,7 +1771,7 @@ abstract class JDatabaseQuery
 	 * @param   boolean  $distinct  Not used - ignored.
 	 * @param   string   $glue      Not used - ignored.
 	 *
-	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @see     union
 	 *
@@ -1725,5 +1795,26 @@ abstract class JDatabaseQuery
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Find a value in a varchar used like a set.
+	 *
+	 * Ensure that the value is an integer before passing to the method.
+	 *
+	 * Usage:
+	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
+	 *
+	 * @param   string  $value  The value to search for.
+	 *
+	 * @param   string  $set    The set of values.
+	 *
+	 * @return  string  Returns the find_in_set() Mysql function and must be translated in each driver.
+	 *
+	 * @since   3.7.0
+	 */
+	public function findInSet($value, $set)
+	{
+		return "";
 	}
 }

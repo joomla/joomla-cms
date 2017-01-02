@@ -41,15 +41,16 @@ abstract class JHtmlMenu
 	 */
 	public static function menus()
 	{
-		if (empty(static::$menus))
+		if (is_null(static::$menus))
 		{
 			$db = JFactory::getDbo();
+
 			$query = $db->getQuery(true)
-				->select('menutype AS value, title AS text')
+				->select($db->qn(array('id', 'menutype', 'title'), array('id', 'value', 'text')))
 				->from($db->quoteName('#__menu_types'))
 				->order('title');
-			$db->setQuery($query);
-			static::$menus = $db->loadObjectList();
+
+			static::$menus = $db->setQuery($query)->loadObjectList();
 		}
 
 		return static::$menus;
@@ -112,8 +113,22 @@ abstract class JHtmlMenu
 
 			static::$items = array();
 
+			$user = JFactory::getUser();
+
+			$aclcheck = !empty($config['checkacl']) ? (int) $config['checkacl'] : 0;
+
 			foreach ($menus as &$menu)
 			{
+				if ($aclcheck)
+				{
+					$action = $aclcheck == $menu->id ? 'edit' : 'create';
+
+					if (!$user->authorise('core.' . $action, 'com_menus.menu.' . $menu->id))
+					{
+						continue;
+					}
+				}
+
 				// Start group:
 				static::$items[] = JHtml::_('select.optgroup', $menu->text);
 
@@ -161,7 +176,7 @@ abstract class JHtmlMenu
 				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
 				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="1"' : $attribs),
 				'list.select' => (int) $selected,
-				'list.translate' => false
+				'list.translate' => false,
 			)
 		);
 	}
@@ -237,9 +252,9 @@ abstract class JHtmlMenu
 		// First pass - collect children
 		foreach ($mitems as $v)
 		{
-			$pt = $v->parent_id;
-			$list = @$children[$pt] ? $children[$pt] : array();
-			array_push($list, $v);
+			$pt            = $v->parent_id;
+			$list          = @$children[$pt] ? $children[$pt] : array();
+			$list[]        = $v;
 			$children[$pt] = $list;
 		}
 

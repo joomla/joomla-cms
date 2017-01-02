@@ -39,7 +39,7 @@ class PlgContentPagenavigation extends JPlugin
 			return false;
 		}
 
-		if (($context == 'com_content.article') && ($view == 'article') && $params->get('show_item_navigation'))
+		if (($context === 'com_content.article') && ($view === 'article') && $params->get('show_item_navigation'))
 		{
 			$db       = JFactory::getDbo();
 			$user     = JFactory::getUser();
@@ -70,7 +70,7 @@ class PlgContentPagenavigation extends JPlugin
 			}
 
 			// Additional check for invalid sort ordering.
-			if ($order_method == 'front')
+			if ($order_method === 'front')
 			{
 				$order_method = '';
 			}
@@ -117,9 +117,9 @@ class PlgContentPagenavigation extends JPlugin
 					break;
 			}
 
-			$xwhere = ' AND (a.state = 1 OR a.state = -1)' .
-				' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')' .
-				' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
+			$xwhere = ' AND (a.state = 1 OR a.state = -1)'
+				. ' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')'
+				. ' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
 
 			// Array of articles in same category correctly ordered.
 			$query = $db->getQuery(true);
@@ -139,11 +139,11 @@ class PlgContentPagenavigation extends JPlugin
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 				->where(
 					'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
-						. ($canPublish ? '' : ' AND a.access IN (' . implode(",", JAccess::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
+						. ($canPublish ? '' : ' AND a.access IN (' . implode(',', JAccess::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
 				);
 			$query->order($orderby);
 
-			if ($app->isSite() && $app->getLanguageFilter())
+			if ($app->isClient('site') && $app->getLanguageFilter())
 			{
 				$query->where('a.language in (' . $db->quote($lang->getTag()) . ',' . $db->quote('*') . ')');
 			}

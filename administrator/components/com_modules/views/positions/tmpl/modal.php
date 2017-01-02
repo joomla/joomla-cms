@@ -17,16 +17,16 @@ $function  = JFactory::getApplication()->input->getCmd('function', 'jSelectPosit
 $lang      = JFactory::getLanguage();
 $ordering  = $this->escape($this->state->get('list.ordering'));
 $direction = $this->escape($this->state->get('list.direction'));
-$clientId  = $this->state->get('filter.client_id');
+$clientId  = $this->state->get('client_id');
 $state     = $this->state->get('filter.state');
 $template  = $this->state->get('filter.template');
 $type      = $this->state->get('filter.type');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=' . $function . '&client_id=' . $clientId);?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=' . $function . '&client_id=' . $clientId); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="left">
 			<label for="filter_search">
-				<?php echo JText::_('JSearch_Filter_Label'); ?>
+				<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
 			</label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" size="30" title="<?php echo JText::_('COM_MODULES_FILTER_SEARCH_DESC'); ?>" />
 
@@ -38,18 +38,18 @@ $type      = $this->state->get('filter.type');
 
 		<div class="right">
 			<select name="filter_state" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('modules.templateStates'), 'value', 'text', $state, true);?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('modules.templateStates'), 'value', 'text', $state, true); ?>
 			</select>
 
 			<select name="filter_type" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_TYPE');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('modules.types'), 'value', 'text', $type, true);?>
+				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_TYPE'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('modules.types'), 'value', 'text', $type, true); ?>
 			</select>
 
 			<select name="filter_template" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_TEMPLATE');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('modules.templates', $clientId), 'value', 'text', $template, true);?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_TEMPLATE'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('modules.templates', $clientId), 'value', 'text', $template, true); ?>
 			</select>
 		</div>
 	</fieldset>
@@ -74,20 +74,20 @@ $type      = $this->state->get('filter.type');
 		</tfoot>
 		<tbody>
 		<?php $i = 1; foreach ($this->items as $value => $templates) : ?>
-			<tr class="row<?php echo $i = 1 - $i;?>">
+			<tr class="row<?php echo $i = 1 - $i; ?>">
 				<td>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $value; ?>');"><?php echo $this->escape($value); ?></a>
+					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function; ?>('<?php echo $value; ?>');"><?php echo $this->escape($value); ?></a>
 				</td>
 				<td>
-					<?php if (!empty($templates)):?>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $value; ?>');">
+					<?php if (!empty($templates)) : ?>
+					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function; ?>('<?php echo $value; ?>');">
 						<ul>
-						<?php foreach ($templates as $template => $label):?>
-							<li><?php echo $lang->hasKey($label) ? JText::sprintf('COM_MODULES_MODULE_TEMPLATE_POSITION', JText::_($template), JText::_($label)) : JText::_($template);?></li>
-						<?php endforeach;?>
+						<?php foreach ($templates as $template => $label) : ?>
+							<li><?php echo $lang->hasKey($label) ? JText::sprintf('COM_MODULES_MODULE_TEMPLATE_POSITION', JText::_($template), JText::_($label)) : JText::_($template); ?></li>
+						<?php endforeach; ?>
 						</ul>
 					</a>
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

@@ -27,7 +27,7 @@ class ModulesViewModules extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
 	 */
@@ -60,7 +60,7 @@ class ModulesViewModules extends JViewLegacy
 			$this->filterForm->removeField('client_id', '');
 
 			// If in the frontend state and language should not activate the search tools.
-			if (JFactory::getApplication()->isSite())
+			if (JFactory::getApplication()->isClient('site'))
 			{
 				unset($this->activeFilters['state']);
 				unset($this->activeFilters['language']);
@@ -127,7 +127,7 @@ class ModulesViewModules extends JViewLegacy
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
+			JHtml::_('bootstrap.renderModal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -152,6 +152,11 @@ class ModulesViewModules extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
+
+		if (JHtmlSidebar::getEntries())
+		{
+			$this->sidebar = JHtmlSidebar::render();
+		}
 	}
 
 	/**

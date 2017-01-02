@@ -13,13 +13,13 @@ JFormHelper::loadFieldClass('text');
 
 /**
  * Form Field class for the Joomla Platform.
- * Provides and input field for e-mail addresses
+ * Provides and input field for email addresses
  *
  * @link   http://www.w3.org/TR/html-markup/input.email.html#input.email
  * @see    JFormRuleEmail
  * @since  11.1
  */
-class JFormFieldEMail extends JFormFieldText
+class JFormFieldEMail extends JFormFieldText implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -30,7 +30,15 @@ class JFormFieldEMail extends JFormFieldText
 	protected $type = 'Email';
 
 	/**
-	 * Method to get the field input markup for e-mail addresses.
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.email';
+
+	/**
+	 * Method to get the field input markup for email addresses.
 	 *
 	 * @return  string  The field input markup.
 	 *
@@ -38,32 +46,44 @@ class JFormFieldEMail extends JFormFieldText
 	 */
 	protected function getInput()
 	{
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+	}
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.5
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
-		// Initialize some field attributes.
-		$size         = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$class        = !empty($this->class) ? ' class="validate-email ' . $this->class . '"' : ' class="validate-email"';
-		$readonly     = $this->readonly ? ' readonly' : '';
-		$disabled     = $this->disabled ? ' disabled' : '';
-		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
-		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
-		$autofocus    = $this->autofocus ? ' autofocus' : '';
-		$multiple     = $this->multiple ? ' multiple' : '';
-		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
+		$extraData = array(
+			'maxLength'  => $this->maxLength,
+			'multiple'   => $this->multiple,
+		);
 
-		// Initialize JavaScript field attributes.
-		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
+		return array_merge($data, $extraData);
+	}
 
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('validate', 'email');
 
-		return '<input type="email" name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
-			. htmlspecialchars(JStringPunycode::emailToUTF8($this->value), ENT_COMPAT, 'UTF-8') . '"' . $spellcheck . $size . $disabled . $readonly
-			. $onchange . $autocomplete . $multiple . $maxLength . $hint . $required . $autofocus . ' />';
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

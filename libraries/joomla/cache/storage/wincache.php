@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * WinCache cache storage handler
  *
- * @see    http://php.net/manual/en/book.wincache.php
+ * @see    https://secure.php.net/manual/en/book.wincache.php
  * @since  11.1
  */
 class JCacheStorageWincache extends JCacheStorage

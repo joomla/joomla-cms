@@ -25,7 +25,7 @@ $loggeduser = JFactory::getUser();
 		<div id="j-main-container" class="span10">
 	<?php else : ?>
 		<div id="j-main-container">
-	<?php endif;?>
+	<?php endif; ?>
 		<?php
 		// Search tools bar
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
@@ -115,7 +115,7 @@ $loggeduser = JFactory::getUser();
 							<?php endif; ?>
 							<?php if (JDEBUG) : ?>
 								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-								<?php echo JText::_('COM_USERS_DEBUG_USER');?></a></div>
+								<?php echo JText::_('COM_USERS_DEBUG_USER'); ?></a></div>
 							<?php endif; ?>
 						</td>
 						<td class="break-word">
@@ -148,11 +148,11 @@ $loggeduser = JFactory::getUser();
 							<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
-							<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'):?>
+							<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
 								<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
-							<?php else:?>
+							<?php else : ?>
 								<?php echo JText::_('JNEVER'); ?>
-							<?php endif;?>
+							<?php endif; ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
 							<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
@@ -177,7 +177,7 @@ $loggeduser = JFactory::getUser();
 					),
 					$this->loadTemplate('batch_body')
 				); ?>
-			<?php endif;?>
+			<?php endif; ?>
 		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />

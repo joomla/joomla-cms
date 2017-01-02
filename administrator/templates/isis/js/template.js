@@ -10,23 +10,60 @@
 {
 	$(document).ready(function()
 	{
+		var $w = $(window);
+
 		$('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
+
+		$('fieldset.btn-group').each(function() {
+			// Handle disabled, prevent clicks on the container, and add disabled style to each button
+			if ($(this).prop('disabled')) {
+				$(this).css('pointer-events', 'none').off('click');
+				$(this).find('.btn').addClass('disabled');
+			}
+		});
+
 		$('.btn-group label:not(.active)').click(function()
 		{
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
 
-			if (!input.prop('checked')) {
+			if (!input.prop('checked'))
+			{
 				label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
-				if (input.val() == '') {
-					label.addClass('active btn-primary');
-				} else if (input.val() == 0) {
-					label.addClass('active btn-danger');
-				} else {
-					label.addClass('active btn-success');
+
+				if (label.closest('.btn-group').hasClass('btn-group-reversed'))
+				{
+					if (input.val() == '')
+					{
+						label.addClass('active btn-primary');
+					}
+					else if (input.val() == 0)
+					{
+						label.addClass('active btn-success');
+					}
+					else
+					{
+						label.addClass('active btn-danger');
+					}
+				}
+				else
+				{
+					if (input.val() == '')
+					{
+						label.addClass('active btn-primary');
+					}
+					else if (input.val() == 0)
+					{
+						label.addClass('active btn-danger');
+					}
+					else
+					{
+						label.addClass('active btn-success');
+					}
+
 				}
 				input.prop('checked', true);
 				input.trigger('change');
@@ -34,12 +71,38 @@
 		});
 		$('.btn-group input[checked=checked]').each(function()
 		{
-			if ($(this).val() == '') {
-				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-primary');
-			} else if ($(this).val() == 0) {
-				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-danger');
-			} else {
-				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-success');
+			var $self  = $(this);
+			var attrId = $self.attr('id');
+
+			if ($self.parent().hasClass('btn-group-reversed'))
+			{
+				if ($self.val() == '')
+				{
+					$('label[for=' + attrId + ']').addClass('active btn-primary');
+				}
+				else if ($self.val() == 0)
+				{
+					$('label[for=' + attrId + ']').addClass('active btn-success');
+				}
+				else
+				{
+					$('label[for=' + attrId + ']').addClass('active btn-danger');
+				}
+			}
+			else
+			{
+				if ($self.val() == '')
+				{
+					$('label[for=' + attrId + ']').addClass('active btn-primary');
+				}
+				else if ($self.val() == 0)
+				{
+					$('label[for=' + attrId + ']').addClass('active btn-danger');
+				}
+				else
+				{
+					$('label[for=' + attrId + ']').addClass('active btn-success');
+				}
 			}
 		});
 		// add color classes to chosen field based on value
@@ -58,56 +121,129 @@
 		/**
 		 * Append submenu items to empty UL on hover allowing a scrollable dropdown
 		 */
-		var menuScroll = $('#menu > li > ul')
-		var emptyMenu  = $('#nav-empty');
-		var menuWidth;
+		if ($w.width() > 767)
+		{
+			var menuScroll = $('#menu > li > ul'),
+				emptyMenu  = $('#nav-empty');
 
-		$('#menu > li > a').on('click mouseenter', function() {
+			$('#menu > li').on('click mouseenter', function() {
 
-			menuWidth = $(this).next('ul').outerWidth();
-			emptyMenu.empty().hide();
+				// Set max-height (and width if scroll) for dropdown menu, depending of window height
+				var $dropdownMenu    = $(this).children('ul'),
+					windowHeight     = $w.height(),
+					linkHeight       = $(this).outerHeight(true),
+					statusHeight     = $('#status').outerHeight(true),
+					menuHeight       = $dropdownMenu.height(),
+					menuOuterHeight  = $dropdownMenu.outerHeight(true),
+					scrollMenuWidth  = $dropdownMenu.width() + 15,
+					maxHeight        = windowHeight - (linkHeight + statusHeight + (menuOuterHeight - menuHeight) + 20);
 
-		});
+				if (maxHeight < menuHeight)
+				{
+					$dropdownMenu.css('width', scrollMenuWidth);
+				}
+				else if (maxHeight > menuHeight)
+				{
+					$dropdownMenu.css('width', 'auto');
+				}
 
-		menuScroll.find('.dropdown-submenu > a').on('mouseenter', function() {
+				$dropdownMenu.css('max-height', maxHeight);
 
-			var $self    = $(this);
-			var dropdown = $self.next('.dropdown-menu');
-			var offset   = $self.offset();
-			var scroll   = $(window).scrollTop() + 5;
-			var width    = menuWidth - 13;
+				// Get the submenu position
+				linkWidth        = $(this).outerWidth(true);
+				menuWidth        = $dropdownMenu.width();
+				linkPaddingLeft  = $(this).children('a').css('padding-left');
+				offsetLeft       = Math.round($(this).offset().left) - parseInt(linkPaddingLeft);
 
-			// Set the submenu position
-			if ($('html').attr('dir') == 'rtl')
-			{
-				emptyMenu.css({
-					top : offset.top - scroll,
-					left: offset.left - width
+				emptyMenu.empty().hide();
+
+			});
+
+			menuScroll.find('.dropdown-submenu > a').on('mouseover', function() {
+
+				var $self           = $(this),
+					dropdown        = $self.next('ul'),
+					submenuWidth    = dropdown.outerWidth(),
+					offsetTop       = $self.offset().top,
+					linkPaddingTop  = parseInt(dropdown.css('padding-top')) + parseInt($(this).css('padding-top')),
+					scroll          = $w.scrollTop() + linkPaddingTop;
+
+				// Set the submenu position
+				if ($('html').attr('dir') == 'rtl')
+				{
+					emptyMenu.css({
+						top : offsetTop - scroll,
+						left: offsetLeft - (menuWidth - linkWidth) - submenuWidth
+					});
+				}
+				else
+				{
+					emptyMenu.css({
+						top : offsetTop - scroll,
+						left: offsetLeft + menuWidth
+					});
+				}
+
+				// Append items to empty <ul> and show it
+				dropdown.hide();
+				emptyMenu.show().html(dropdown.html());
+
+				// Check if the full element is visible. If not, adjust the position
+				if (emptyMenu.Jvisible() !== true)
+				{
+					emptyMenu.css({
+						top : ($w.height() - emptyMenu.outerHeight()) - $('#status').height()
+					});
+				}
+
+			});
+
+			menuScroll.find('a.no-dropdown').on('mouseenter', function() {
+
+				emptyMenu.empty().hide();
+
+			});
+
+			// obtain a reference to the original handler
+			var _clearMenus = $._data(document, 'events').click.filter(function (el) {
+				return el.namespace === 'data-api.dropdown' && el.selector === undefined
+			})[0].handler;
+
+			// disable the old listener
+			$(document)
+				.off('click.data-api.dropdown', _clearMenus)
+				.on('click.data-api.dropdown', function(e) {
+					e.button === 2 || _clearMenus();
+
+					if (!$('#menu').find('> li').hasClass('open'))
+					{
+						emptyMenu.empty().hide();
+					}
 				});
-			}
-			else
+
+			$.fn.Jvisible = function(partial,hidden)
 			{
-				emptyMenu.css({
-					top : offset.top - scroll,
-					left: offset.left + width
-				});
-			}
+				if (this.length < 1)
+				{
+					return;
+				}
 
-			// Append items to empty <ul> and show it
-			dropdown.hide();
-			emptyMenu.show().html(dropdown.html());
+				var $t = this.length > 1 ? this.eq(0) : this,
+					t  = $t.get(0)
 
-		});
-		menuScroll.find('a.no-dropdown').on('mouseenter', function() {
+				var viewTop         = $w.scrollTop(),
+					viewBottom      = (viewTop + $w.height()) - $('#status').height(),
+					offset          = $t.offset(),
+					_top            = offset.top,
+					_bottom         = _top + $t.height(),
+					compareTop      = partial === true ? _bottom : _top,
+					compareBottom   = partial === true ? _top : _bottom;
 
-			emptyMenu.empty().hide();
+				return !!t.offsetWidth * t.offsetHeight && ((compareBottom <= viewBottom) && (compareTop >= viewTop));
+			};
 
-		});
-		$(document).on('click', function() {
+		}
 
-			emptyMenu.empty().hide();
-
-		});
 
 		/**
 		 * USED IN: All views with toolbar and sticky bar enabled
@@ -115,7 +251,8 @@
 		var navTop;
 		var isFixed = false;
 
-		if (window.isisStickyToolbar == 1) {
+
+		if (document.getElementById('isisJsData') && document.getElementById('isisJsData').getAttribute('data-tmpl-sticky') == "true") {
 			processScrollInit();
 			processScroll();
 
@@ -125,7 +262,7 @@
 
 		function processScrollInit() {
 			if ($('.subhead').length) {
-				navTop = $('.subhead').length && $('.subhead').offset().top - window.isisOffsetTop;
+				navTop = $('.subhead').length && $('.subhead').offset().top - parseInt(document.getElementById('isisJsData').getAttribute('data-tmpl-offset'));
 
 				// Fix the container top
 				$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());

@@ -65,6 +65,14 @@ abstract class JLoader
 	protected static $namespaces = array();
 
 	/**
+	 * Holds a reference for all deprecated aliases (mainly for use by a logging platform).
+	 *
+	 * @var    array
+	 * @since  3.6.3
+	 */
+	protected static $deprecatedAliases = array();
+
+	/**
 	 * Method to discover classes of a given type in a given path.
 	 *
 	 * @param   string   $classPrefix  The class name prefix to use for discovery.
@@ -127,6 +135,18 @@ abstract class JLoader
 	public static function getClassList()
 	{
 		return self::$classes;
+	}
+
+	/**
+	 * Method to get the list of deprecated class aliases.
+	 *
+	 * @return  array  An associative array with deprecated class alias data.
+	 *
+	 * @since   3.6.3
+	 */
+	public static function getDeprecatedAliases()
+	{
+		return self::$deprecatedAliases;
 	}
 
 	/**
@@ -316,14 +336,15 @@ abstract class JLoader
 	 * Offers the ability for "just in time" usage of `class_alias()`.
 	 * You cannot overwrite an existing alias.
 	 *
-	 * @param   string  $alias     The alias name to register.
-	 * @param   string  $original  The original class to alias.
+	 * @param   string          $alias     The alias name to register.
+	 * @param   string          $original  The original class to alias.
+	 * @param   string|boolean  $version   The version in which the alias will no longer be present.
 	 *
 	 * @return  boolean  True if registration was successful. False if the alias already exists.
 	 *
 	 * @since   3.2
 	 */
-	public static function registerAlias($alias, $original)
+	public static function registerAlias($alias, $original, $version = false)
 	{
 		if (!isset(self::$classAliases[$alias]))
 		{
@@ -342,6 +363,12 @@ abstract class JLoader
 			else
 			{
 				self::$classAliasesInverse[$original][] = $alias;
+			}
+
+			// If given a version, log this alias as deprecated
+			if ($version)
+			{
+				self::$deprecatedAliases[] = array('old' => $alias, 'new' => $original, 'version' => $version);
 			}
 
 			return true;
@@ -557,7 +584,7 @@ abstract class JLoader
 	 *
 	 * @since   11.3
 	 */
-	private static function _autoload($class)
+	public static function _autoload($class)
 	{
 		foreach (self::$prefixes as $prefix => $lookup)
 		{
@@ -586,9 +613,7 @@ abstract class JLoader
 	{
 		// Split the class name into parts separated by camelCase.
 		$parts = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $class);
-
-		// If there is only one part we want to duplicate that part for generating the path.
-		$parts = (count($parts) === 1) ? array($parts[0], $parts[0]) : $parts;
+		$partsCount = count($parts);
 
 		foreach ($lookup as $base)
 		{
@@ -599,6 +624,21 @@ abstract class JLoader
 			if (file_exists($path))
 			{
 				return include $path;
+			}
+
+			// Backwards compatibility patch
+
+			// If there is only one part we want to duplicate that part for generating the path.
+			if ($partsCount === 1)
+			{
+				// Generate the path based on the class name parts.
+				$path = $base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php';
+
+				// Load the file if it exists.
+				if (file_exists($path))
+				{
+					return include $path;
+				}
 			}
 		}
 

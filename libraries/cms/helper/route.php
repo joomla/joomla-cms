@@ -261,7 +261,7 @@ class JHelperRoute
 			$link = 'index.php?option=' . $extension . '&view=category&id=' . $id;
 
 			$needles = array(
-				'category' => array($id)
+				'category' => array($id),
 			);
 
 			if ($language && $language != '*' && JLanguageMultilang::isEnabled())

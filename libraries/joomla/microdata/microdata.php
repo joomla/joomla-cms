@@ -849,11 +849,11 @@ class JMicrodata
 		// Depending on the case, the $scope must precede the $property, or otherwise
 		if ($invert)
 		{
-			$tmp = join(' ', array($property, $scope));
+			$tmp = implode(' ', array($property, $scope));
 		}
 		else
 		{
-			$tmp = join(' ', array($scope, $property));
+			$tmp = implode(' ', array($scope, $property));
 		}
 
 		$tmp = trim($tmp);

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Helper for mod_syndicate
  *
@@ -20,11 +22,11 @@ class ModSyndicateHelper
 {
 	/**
 	 * Gets the link
-	 * 
+	 *
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
-	 * 
+	 *
 	 * @return  array  The link as a string
-	 * 
+	 *
 	 * @since   1.5
 	 */
 	public static function getLink(&$params)
@@ -33,7 +35,7 @@ class ModSyndicateHelper
 
 		foreach ($document->_links as $link => $value)
 		{
-			$value = JArrayHelper::toString($value);
+			$value = ArrayHelper::toString($value);
 
 			if (strpos($value, 'application/' . $params->get('format') . '+xml'))
 			{

@@ -37,6 +37,8 @@ class RedirectViewLinks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		// Set variables
+		$app                        = JFactory::getApplication();
 		$this->enabled              = RedirectHelper::isEnabled();
 		$this->collect_urls_enabled = RedirectHelper::collectUrlsEnabled();
 		$this->items                = $this->get('Items');
@@ -53,20 +55,20 @@ class RedirectViewLinks extends JViewLegacy
 			return false;
 		}
 
-		if ($this->enabled)
+		// Show messages about the enabled plugin and if the plugin should collect URLs
+		if ($this->enabled && $this->collect_urls_enabled)
 		{
-			if ($this->collect_urls_enabled)
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
-			}
-			else
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'), 'warning');
-			}
+			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
+		}
+		elseif ($this->enabled && !$this->collect_urls_enabled)
+		{
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
 		}
 		else
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_DISABLED'), 'error');
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			$app->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'error');
 		}
 
 		$this->addToolbar();
@@ -143,7 +145,7 @@ class RedirectViewLinks extends JViewLegacy
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::custom('links.purge', 'purge', 'purge', 'COM_REDIRECT_TOOLBAR_PURGE', false);
+			JToolbarHelper::custom('links.purge', 'delete', 'delete', 'COM_REDIRECT_TOOLBAR_PURGE', false);
 			JToolbarHelper::trash('links.trash');
 			JToolbarHelper::divider();
 		}

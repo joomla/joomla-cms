@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
+JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 /**
  * View to edit a client.
@@ -51,7 +51,7 @@ class BannersViewClient extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -105,6 +105,7 @@ class BannersViewClient extends JViewLegacy
 		{
 			JToolbarHelper::save2new('client.save2new');
 		}
+
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
@@ -117,7 +118,7 @@ class BannersViewClient extends JViewLegacy
 		}
 		else
 		{
-			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				JToolbarHelper::versions('com_banners.client', $this->item->id);
 			}

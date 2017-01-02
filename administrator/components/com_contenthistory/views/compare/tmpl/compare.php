@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_users
+ * @subpackage  com_contenthistory
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -62,17 +62,17 @@ JFactory::getDocument()->addScriptDeclaration("
 <?php foreach ($object1 as $name => $value) : ?>
 	<?php $rowClass = ($value->value == $object2->$name->value) ? 'items-equal' : 'items-not-equal'; ?>
 	<tr class="<?php echo $rowClass; ?>">
-	<?php if (is_object($value->value)): ?>
+	<?php if (is_object($value->value)) : ?>
 		<td><strong><?php echo $value->label; ?></strong></td>
 		<td /><td /><td />
-		<?php foreach ($value->value as $subName => $subValue): ?>
+		<?php foreach ($value->value as $subName => $subValue) : ?>
 			<?php $newSubValue = isset($object2->$name->value->$subName->value) ? $object2->$name->value->$subName->value : ''; ?>
-			<?php if ($subValue->value || $newSubValue): ?>
+			<?php if ($subValue->value || $newSubValue) : ?>
 				<?php $rowClass = ($subValue->value == $newSubValue) ? 'items-equal' : 'items-not-equal'; ?>
 				<tr class="<?php echo $rowClass; ?>">
 				<td><i>&nbsp;&nbsp;<?php echo $subValue->label; ?></i></td>
-				<td class="originalhtml" style="display:none" ><?php echo htmlspecialchars($subValue->value); ?></td>
-				<td class="changedhtml" style="display:none" ><?php echo htmlspecialchars($newSubValue); ?></td>
+				<td class="originalhtml" style="display:none" ><?php echo htmlspecialchars($subValue->value, ENT_COMPAT, 'UTF-8'); ?></td>
+				<td class="changedhtml" style="display:none" ><?php echo htmlspecialchars($newSubValue, ENT_COMPAT, 'UTF-8'); ?></td>
 				<td class="original"><?php echo $subValue->value; ?></td>
 				<td class="changed"><?php echo $newSubValue; ?></td>
 				<td class="diff" />
@@ -80,11 +80,11 @@ JFactory::getDocument()->addScriptDeclaration("
 				</tr>
 			<?php endif; ?>
 		<?php endforeach; ?>
-	<?php else: ?>
+	<?php else : ?>
 		<td><strong><?php echo $value->label; ?></strong></td>
 		<td class="originalhtml" style="display:none" ><?php echo htmlspecialchars($value->value); ?></td>
 		<?php $object2->$name->value = is_object($object2->$name->value) ? json_encode($object2->$name->value) : $object2->$name->value; ?>
-		<td class="changedhtml" style="display:none" ><?php echo htmlspecialchars($object2->$name->value); ?></td>
+		<td class="changedhtml" style="display:none" ><?php echo htmlspecialchars($object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>
 		<td class="original"><?php echo $value->value; ?></td>
 		<td class="changed"><?php echo $object2->$name->value; ?></td>
 		<td class="diff" />

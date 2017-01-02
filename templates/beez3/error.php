@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentError $this */
+
 $showRightColumn = 0;
 $showleft        = 0;
 $showbottom      = 0;
@@ -19,57 +21,41 @@ $params      = $app->getTemplate(true)->params;
 $logo        = $params->get('logo');
 $color       = $params->get('templatecolor');
 $navposition = $params->get('navposition');
-
-// Get language and direction
-$doc             = JFactory::getDocument();
-$this->language  = $doc->language;
-$this->direction = $doc->direction;
 ?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<!DOCTYPE html>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
-
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/system.css" type="text/css" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" type="text/css" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/position.css" type="text/css" media="screen,projection" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/layout.css" type="text/css" media="screen,projection" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/print.css" type="text/css" media="Print" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" type="text/css" />
-
-	<?php $files = JHtml::_('stylesheet', 'templates/' . $this->template . '/css/general.css', null, false, true); ?>
+	<meta charset="utf-8" />
+	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
+	<link href="<?php echo $this->baseurl; ?>/templates/system/css/system.css" rel="stylesheet" />
+	<link href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" rel="stylesheet" />
+	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/position.css" rel="stylesheet" media="screen" />
+	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/layout.css" rel="stylesheet" media="screen" />
+	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/print.css" rel="stylesheet" media="print" />
+	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" rel="stylesheet" />
+	<?php $files = JHtml::_('stylesheet', 'general.css', array('relative' => true, 'returnPath' => true)); ?>
 	<?php if ($files) : ?>
 		<?php if (!is_array($files)) : ?>
 			<?php $files = array($files); ?>
 		<?php endif; ?>
 	<?php foreach ($files as $file) : ?>
-		<link rel="stylesheet" href="<?php echo $file; ?>" type="text/css" />
+		<link href="<?php echo $file; ?>" rel="stylesheet" />
 	<?php endforeach; ?>
 	<?php endif; ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" type="text/css" />
-	<?php if ($this->direction == 'rtl') : ?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template_rtl.css" type="text/css" />
+	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>.css" rel="stylesheet" />
+	<?php if ($this->direction === 'rtl') : ?>
+		<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template_rtl.css" rel="stylesheet" />
 		<?php if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) : ?>
-			<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo $color ?>_rtl.css" type="text/css" />
+			<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>_rtl.css" rel="stylesheet" />
 		<?php endif; ?>
 	<?php endif; ?>
 	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/cms/css/debug.css" type="text/css" />
+		<link href="<?php echo JUri::root(true); ?>/media/cms/css/debug.css" rel="stylesheet" />
 	<?php endif; ?>
-	<!--[if lte IE 6]>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
-	<![endif]-->
-	<!--[if IE 7]>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
-	<![endif]-->
-	<!--[if lt IE 9]>
-		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-	<![endif]-->
-
-	<style type="text/css">
+	<!--[if lte IE 6]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ieonly.css" rel="stylesheet" /><![endif]-->
+	<!--[if IE 7]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" /><![endif]-->
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
+	<style>
 	<!--
 		#errorboxbody
 		{margin:30px}
@@ -149,11 +135,11 @@ $this->direction = $doc->direction;
 									<?php echo JModuleHelper::renderModule($module); ?>
 								</div><!-- end searchbox -->
 							<?php endif; ?>
-							<div><!-- start gotohomepage -->
+							<div><!-- start goto home page -->
 								<p>
 								<a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?>"><?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a>
 								</p>
-							</div><!-- end gotohomepage -->
+							</div><!-- end goto home page -->
 							<h3>
 								<?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?>
 							</h3>
@@ -163,9 +149,26 @@ $this->direction = $doc->direction;
 						</div><!-- end errorboxbody -->
 					</div><!-- end wrapper2 -->
 				</div><!-- end contentarea2 -->
-				<?php if ($this->debug) :
-					echo $this->renderBacktrace();
-				endif; ?>
+				<?php if ($this->debug) : ?>
+					<div>
+						<?php echo $this->renderBacktrace(); ?>
+						<?php // Check if there are more Exceptions and render their data as well ?>
+						<?php if ($this->error->getPrevious()) : ?>
+							<?php $loop = true; ?>
+							<?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
+							<?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+							<?php $this->setError($this->_error->getPrevious()); ?>
+							<?php while ($loop === true) : ?>
+								<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
+								<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+								<?php echo $this->renderBacktrace(); ?>
+								<?php $loop = $this->setError($this->_error->getPrevious()); ?>
+							<?php endwhile; ?>
+							<?php // Reset the main error object to the base error ?>
+							<?php $this->setError($this->error); ?>
+						<?php endif; ?>
+					</div>
+				<?php endif; ?>
 			</div><!--end back -->
 		</div><!--end all -->
 		<div id="footer-outer">

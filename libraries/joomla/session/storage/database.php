@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Database session storage handler for PHP
  *
- * @see    http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @see    https://secure.php.net/manual/en/function.session-set-save-handler.php
  * @since  11.1
  */
 class JSessionStorageDatabase extends JSessionStorage
@@ -47,7 +47,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			return $result;
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
@@ -80,18 +80,16 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			// Try to update the session data in the database table.
 			$db->setQuery($query);
+			$db->execute();
 
-			if (!$db->execute())
-			{
-				return false;
-			}
-			/* Since $db->execute did not throw an exception, so the query was successful.
-			Either the data changed, or the data was identical.
-			In either case we are done.
-			*/
+			/*
+			 * Since $db->execute did not throw an exception, so the query was successful.
+			 * Either the data changed, or the data was identical.
+			 * In either case we are done.
+			 */
 			return true;
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
@@ -122,7 +120,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			return (boolean) $db->execute();
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
@@ -156,7 +154,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			return (boolean) $db->execute();
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Redirect link model.
  *
@@ -158,7 +160,7 @@ class RedirectModelLink extends JModelAdmin
 
 		// Sanitize the ids.
 		$pks = (array) $pks;
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 
 		// Populate default comment if necessary.
 		$comment = (!empty($comment)) ? $comment : JText::sprintf('COM_REDIRECT_REDIRECTED_ON', JHtml::_('date', time()));
@@ -199,7 +201,7 @@ class RedirectModelLink extends JModelAdmin
 	}
 
 	/**
-	 * Method to duplicate URL links.
+	 * Method to batch update URLs to have new redirect urls and comments. Note will publish any unpublished URLs.
 	 *
 	 * @param   array   &$pks     An array of link ids.
 	 * @param   string  $url      The new URL to set for the redirect.
@@ -207,7 +209,7 @@ class RedirectModelLink extends JModelAdmin
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function duplicateUrls(&$pks, $url, $comment = null)
 	{
@@ -216,7 +218,7 @@ class RedirectModelLink extends JModelAdmin
 
 		// Sanitize the ids.
 		$pks = (array) $pks;
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 
 		// Access checks.
 		if (!$user->authorise('core.edit', 'com_redirect'))
@@ -236,6 +238,7 @@ class RedirectModelLink extends JModelAdmin
 				->update($db->quoteName('#__redirect_links'))
 				->set($db->quoteName('new_url') . ' = ' . $db->quote($url))
 				->set($db->quoteName('modified_date') . ' = ' . $db->quote($date))
+				->set($db->quoteName('published') . ' = ' . 1)
 				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
 
 			if (!empty($comment))

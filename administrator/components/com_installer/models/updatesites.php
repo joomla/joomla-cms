@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/extension.php';
+JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
 /**
  * Installer Update Sites Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       3.4
+ * @since  3.4
  */
 class InstallerModelUpdatesites extends InstallerModel
 {
@@ -86,9 +84,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	 */
 	public function publish(&$eid = array(), $value = 1)
 	{
-		$user = JFactory::getUser();
-
-		if (!$user->authorise('core.edit.state', 'com_installer'))
+		if (!JFactory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
 		}
@@ -118,6 +114,285 @@ class InstallerModelUpdatesites extends InstallerModel
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Deletes an update site.
+	 *
+	 * @param   array  $ids  Extension ids to delete.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 *
+	 * @throws  Exception on ACL error
+	 */
+	public function delete($ids = array())
+	{
+		if (!JFactory::getUser()->authorise('core.delete', 'com_installer'))
+		{
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+		}
+
+		// Ensure eid is an array of extension ids
+		if (!is_array($ids))
+		{
+			$ids = array($ids);
+		}
+
+		$db  = JFactory::getDbo();
+		$app = JFactory::getApplication();
+
+		$count = 0;
+
+		// Gets the update site names.
+		$query = $db->getQuery(true)
+			->select($db->qn(array('update_site_id', 'name')))
+			->from($db->qn('#__update_sites'))
+			->where($db->qn('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
+		$db->setQuery($query);
+		$updateSitesNames = $db->loadObjectList('update_site_id');
+
+		// Gets Joomla core update sites Ids.
+		$joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds(0);
+
+		// Enable the update site in the table and store it in the database
+		foreach ($ids as $i => $id)
+		{
+			// Don't allow to delete Joomla Core update sites.
+			if (in_array((int) $id, $joomlaUpdateSitesIds))
+			{
+				$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_DELETE', $updateSitesNames[$id]->name), 'error');
+				continue;
+			}
+
+			// Delete the update site from all tables.
+			try
+			{
+				$query = $db->getQuery(true)
+					->delete($db->qn('#__update_sites'))
+					->where($db->qn('update_site_id') . ' = ' . (int) $id);
+				$db->setQuery($query);
+				$db->execute();
+
+				$query = $db->getQuery(true)
+					->delete($db->qn('#__update_sites_extensions'))
+					->where($db->qn('update_site_id') . ' = ' . (int) $id);
+				$db->setQuery($query);
+				$db->execute();
+
+				$query = $db->getQuery(true)
+					->delete($db->qn('#__updates'))
+					->where($db->qn('update_site_id') . ' = ' . (int) $id);
+				$db->setQuery($query);
+				$db->execute();
+
+				$count++;
+			}
+			catch (RuntimeException $e)
+			{
+				$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_ERROR', $updateSitesNames[$id]->name, $e->getMessage()), 'error');
+			}
+		}
+
+		if ($count > 0)
+		{
+			$app->enqueueMessage(JText::plural('COM_INSTALLER_MSG_UPDATESITES_N_DELETE_UPDATESITES_DELETED', $count), 'message');
+		}
+	}
+
+	/**
+	 * Rebuild update sites tables.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 *
+	 * @throws  Exception on ACL error
+	 */
+	public function rebuild()
+	{
+		if (!JFactory::getUser()->authorise('core.admin', 'com_installer'))
+		{
+			throw new Exception(JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
+		}
+
+		$db  = JFactory::getDbo();
+		$app = JFactory::getApplication();
+
+		// Check if Joomla Extension plugin is enabled.
+		if (!JPluginHelper::isEnabled('extension', 'joomla'))
+		{
+			$query = $db->getQuery(true)
+				->select($db->quoteName('extension_id'))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+				->where($db->quoteName('element') . ' = ' . $db->quote('joomla'))
+				->where($db->quoteName('folder') . ' = ' . $db->quote('extension'));
+			$db->setQuery($query);
+
+			$pluginId = (int) $db->loadResult();
+
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $pluginId);
+			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_REBUILD_EXTENSION_PLUGIN_NOT_ENABLED', $link), 'error');
+
+			return;
+		}
+
+		$clients               = array(JPATH_SITE, JPATH_ADMINISTRATOR);
+		$extensionGroupFolders = array('components', 'modules', 'plugins', 'templates', 'language', 'manifests');
+
+		$pathsToSearch = array();
+
+		// Identifies which folders to search for manifest files.
+		foreach ($clients as $clientPath)
+		{
+			foreach ($extensionGroupFolders as $extensionGroupFolderName)
+			{
+				// Components, modules, plugins, templates, languages and manifest (files, libraries, etc)
+				if ($extensionGroupFolderName != 'plugins')
+				{
+					foreach (glob($clientPath . '/' . $extensionGroupFolderName . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $extensionFolderPath)
+					{
+						$pathsToSearch[] = $extensionFolderPath;
+					}
+				}
+
+				// Plugins (another directory level is needed)
+				else
+				{
+					foreach (glob($clientPath . '/' . $extensionGroupFolderName . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $pluginGroupFolderPath)
+					{
+						foreach (glob($pluginGroupFolderPath . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $extensionFolderPath)
+						{
+							$pathsToSearch[] = $extensionFolderPath;
+						}
+					}
+				}
+			}
+		}
+
+		// Gets Joomla core update sites Ids.
+		$joomlaUpdateSitesIds = implode(', ', $this->getJoomlaUpdateSitesIds(0));
+
+		// Delete from all tables (except joomla core update sites).
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__update_sites'))
+			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+		$db->setQuery($query);
+		$db->execute();
+
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__update_sites_extensions'))
+			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+		$db->setQuery($query);
+		$db->execute();
+
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__updates'))
+			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+		$db->setQuery($query);
+		$db->execute();
+
+		$count = 0;
+
+		// Gets Joomla core extension Ids.
+		$joomlaCoreExtensionIds = implode(', ', $this->getJoomlaUpdateSitesIds(1));
+
+		// Search for updateservers in manifest files inside the folders to search.
+		foreach ($pathsToSearch as $extensionFolderPath)
+		{
+			$tmpInstaller = new JInstaller;
+
+			$tmpInstaller->setPath('source', $extensionFolderPath);
+
+			// Main folder manifests (higher priority)
+			$parentXmlfiles = JFolder::files($tmpInstaller->getPath('source'), '.xml$', false, true);
+
+			// Search for children manifests (lower priority)
+			$allXmlFiles    = JFolder::files($tmpInstaller->getPath('source'), '.xml$', 1, true);
+
+			// Create an unique array of files ordered by priority
+			$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
+
+			if (!empty($xmlfiles))
+			{
+				foreach ($xmlfiles as $file)
+				{
+					// Is it a valid Joomla installation manifest file?
+					$manifest = $tmpInstaller->isManifest($file);
+
+					if (!is_null($manifest))
+					{
+						// Search if the extension exists in the extensions table. Excluding joomla core extensions (id < 10000) and discovered extensions.
+						$query = $db->getQuery(true)
+							->select($db->quoteName('extension_id'))
+							->from($db->quoteName('#__extensions'))
+							->where($db->quoteName('name') . ' = ' . $db->quote($manifest->name))
+							->where($db->quoteName('type') . ' = ' . $db->quote($manifest['type']))
+							->where($db->quoteName('extension_id') . ' NOT IN (' . $joomlaCoreExtensionIds . ')')
+							->where($db->quoteName('state') . ' != -1');
+						$db->setQuery($query);
+
+						$eid = (int) $db->loadResult();
+
+						if ($eid && $manifest->updateservers)
+						{
+							// Set the manifest object and path
+							$tmpInstaller->manifest = $manifest;
+							$tmpInstaller->setPath('manifest', $file);
+
+							// Load the extension plugin (if not loaded yet).
+							JPluginHelper::importPlugin('extension', 'joomla');
+
+							// Fire the onExtensionAfterUpdate
+							JEventDispatcher::getInstance()->trigger('onExtensionAfterUpdate', array('installer' => $tmpInstaller, 'eid' => $eid));
+
+							$count++;
+						}
+					}
+				}
+			}
+		}
+
+		if ($count > 0)
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_SUCCESS'), 'message');
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_MESSAGE'), 'message');
+		}
+	}
+
+	/**
+	 * Fetch the Joomla update sites ids.
+	 *
+	 * @param   integer  $column  Column to return. 0 for update site ids, 1 for extension ids.
+	 *
+	 * @return  array  Array with joomla core update site ids.
+	 *
+	 * @since   3.6.0
+	 */
+	protected function getJoomlaUpdateSitesIds($column = 0)
+	{
+		$db  = JFactory::getDbo();
+
+		// Fetch the Joomla core update sites ids and their extension ids. We search for all except the core joomla extension with update sites.
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array('use.update_site_id', 'e.extension_id')))
+			->from($db->quoteName('#__update_sites_extensions', 'use'))
+			->join('LEFT', $db->quoteName('#__update_sites', 'us') . ' ON ' . $db->qn('us.update_site_id') . ' = ' . $db->qn('use.update_site_id'))
+			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->qn('e.extension_id') . ' = ' . $db->qn('use.extension_id'))
+			->where('('
+				. '(' . $db->qn('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('joomla') . ')'
+				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('pkg_en-GB') . ')'
+				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('component') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('com_joomlaupdate') . ')'
+				. ')');
+		
+		$db->setQuery($query);
+
+		return $db->loadColumn($column);
 	}
 
 	/**

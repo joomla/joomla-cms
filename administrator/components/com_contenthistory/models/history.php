@@ -40,12 +40,11 @@ class ContenthistoryModelHistory extends JModelList
 	}
 
 	/**
-	 * Method to test whether a history record can be deleted. Note that we check whether we have edit permissions
-	 * for the content item row.
+	 * Method to test whether a record is editable
 	 *
 	 * @param   JTableContenthistory  $record  A JTable object.
 	 *
-	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @return  boolean  True if allowed to edit the record. Defaults to the permission set in the component.
 	 *
 	 * @since   3.2
 	 */
@@ -70,9 +69,32 @@ class ContenthistoryModelHistory extends JModelList
 				$user   = JFactory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
 			}
+
+			// Finally try session (this catches edit.own case too)
+			if (!$result)
+			{
+				$contentTypeTable->load($record->ucm_type_id);
+				$typeEditables = (array) JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+				$result = in_array((int) $record->ucm_item_id, $typeEditables);
+			}
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method to test whether a history record can be deleted. Note that we check whether we have edit permissions
+	 * for the content item row.
+	 *
+	 * @param   JTableContenthistory  $record  A JTable object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.6
+	 */
+	protected function canDelete($record)
+	{
+		return canEdit($record);
 	}
 
 	/**
@@ -147,6 +169,7 @@ class ContenthistoryModelHistory extends JModelList
 	public function getItems()
 	{
 		$items = parent::getItems();
+		$user = JFactory::getUser();
 
 		if ($items === false)
 		{
@@ -171,15 +194,16 @@ class ContenthistoryModelHistory extends JModelList
 		}
 
 		// Access check
-		if (!JFactory::getUser()->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $items[0]->ucm_item_id))
+		if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $items[0]->ucm_item_id) || $this->canEdit($items[0]))
+		{
+			return $items;
+		}
+		else
 		{
 			$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
 
 			return false;
 		}
-
-		// All good, return the items array
-		return $items;
 	}
 
 	/**
@@ -274,7 +298,7 @@ class ContenthistoryModelHistory extends JModelList
 	 *
 	 * @since   3.2
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'h.save_date', $direction = 'DESC')
 	{
 		$input = JFactory::getApplication()->input;
 		$itemId = $input->get('item_id', 0, 'integer');
@@ -291,7 +315,7 @@ class ContenthistoryModelHistory extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('h.save_date', 'DESC');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -315,13 +339,13 @@ class ContenthistoryModelHistory extends JModelList
 				'h.character_count, h.sha1_hash, h.version_data, h.keep_forever'
 			)
 		)
-		->from($db->quoteName('#__ucm_history') . ' AS h')
-		->where($db->quoteName('h.ucm_item_id') . ' = ' . (int) $this->getState('item_id'))
-		->where($db->quoteName('h.ucm_type_id') . ' = ' . (int) $this->getState('type_id'))
+			->from($db->quoteName('#__ucm_history') . ' AS h')
+			->where($db->quoteName('h.ucm_item_id') . ' = ' . (int) $this->getState('item_id'))
+			->where($db->quoteName('h.ucm_type_id') . ' = ' . (int) $this->getState('type_id'))
 
 		// Join over the users for the editor
-		->select('uc.name AS editor')
-		->join('LEFT', '#__users AS uc ON uc.id = h.editor_user_id');
+			->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id = h.editor_user_id');
 
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering');
@@ -345,7 +369,7 @@ class ContenthistoryModelHistory extends JModelList
 		$typeId = JFactory::getApplication()->input->getInteger('type_id', 0);
 		$typeTable->load($typeId);
 		$typeAliasArray = explode('.', $typeTable->type_alias);
-		JTable::addIncludePath(JPATH_ROOT . '/administrator/components/' . $typeAliasArray[0] . '/tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAliasArray[0] . '/tables');
 		$contentTable = $typeTable->getContentTable();
 		$keyValue = JFactory::getApplication()->input->getInteger('item_id', 0);
 

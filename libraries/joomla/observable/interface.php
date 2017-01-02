@@ -30,7 +30,6 @@ defined('JPATH_PLATFORM') or die;
  * 4) in the methods that need to be observed, add, e.g. (name of event, params of event):
  * 		$this->_observers->update('onBeforeLoad', array($keys, $reset));
  *
- * @link   https://docs.joomla.org/JObservableInterface
  * @since  3.1.2
  */
 interface JObservableInterface

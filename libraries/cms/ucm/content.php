@@ -223,7 +223,7 @@ class JUcmContent extends JUcmBase
 			->where(
 				array(
 					$db->quoteName('ucm_item_id') . ' = ' . $db->quote($contentItemId),
-					$db->quoteName('ucm_type_id') . ' = ' . $db->quote($typeId)
+					$db->quoteName('ucm_type_id') . ' = ' . $db->quote($typeId),
 				)
 			);
 		$db->setQuery($queryccid);

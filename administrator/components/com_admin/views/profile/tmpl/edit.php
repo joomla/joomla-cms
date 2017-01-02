@@ -34,7 +34,7 @@ $fieldsets = $this->form->getFieldsets();
 <form action="<?php echo JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->item->id); ?>" method="post" name="adminForm" id="profile-form" class="form-validate form-horizontal" enctype="multipart/form-data">
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'account')); ?>
 
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'account', JText::_('COM_ADMIN_USER_ACCOUNT_DETAILS', true)); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'account', JText::_('COM_ADMIN_USER_ACCOUNT_DETAILS')); ?>
 	<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 		<div class="control-group">
 			<div class="control-label"><?php echo $field->label; ?></div>
@@ -55,13 +55,13 @@ $fieldsets = $this->form->getFieldsets();
 			continue;
 		}
 		?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', $fieldset->name, JText::_($fieldset->label, true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', $fieldset->name, JText::_($fieldset->label)); ?>
 		<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
 			<?php if ($field->hidden) : ?>
 				<div class="control-group">
 					<div class="controls"><?php echo $field->input; ?></div>
 				</div>
-			<?php else: ?>
+			<?php else : ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $field->label; ?></div>
 					<div class="controls"><?php echo $field->input; ?></div>

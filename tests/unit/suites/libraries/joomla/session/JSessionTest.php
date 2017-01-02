@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package     Joomla.UnitTest
+ * @subpackage  Session
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,9 +12,7 @@ include_once __DIR__ . '/handler/array.php';
 /**
  * Test class for JSession.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Session
- * @since       3.4
+ * @since  3.4
  *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
@@ -48,7 +47,7 @@ class JSessionTest extends TestCase
 		$this->object = JSession::getInstance('none', $config, $handler);
 
 		$this->input = new JInput;
-		$this->input->cookie = $this->getMock('JInputCookie', array('set', 'get'));
+		$this->input->cookie = $this->getMockBuilder('JInputCookie')->setMethods(array('set', 'get'))->getMock();
 		$this->object->initialise($this->input);
 
 		$this->input->cookie->expects($this->any())
@@ -69,6 +68,9 @@ class JSessionTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		unset($this->input);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -79,7 +81,7 @@ class JSessionTest extends TestCase
 	 *
 	 * @return array
 	 */
-	Public function casesGetInstance()
+	public function casesGetInstance()
 	{
 		return array(
 			'first_instance' => array(

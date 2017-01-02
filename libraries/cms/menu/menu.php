@@ -21,7 +21,7 @@ class JMenu
 	/**
 	 * Array to hold the menu items
 	 *
-	 * @var    array
+	 * @var    JMenuItem[]
 	 * @since  1.5
 	 * @deprecated  4.0  Will convert to $items
 	 */
@@ -79,11 +79,6 @@ class JMenu
 			{
 				$this->_default[trim($item->language)] = $item->id;
 			}
-
-			// Decode the item params
-			$result = new Registry;
-			$result->loadString($item->params);
-			$item->params = $result;
 		}
 
 		$this->user = isset($options['user']) && $options['user'] instanceof JUser ? $options['user'] : JFactory::getUser();
@@ -117,10 +112,11 @@ class JMenu
 				{
 					$path = $info->path . '/includes/menu.php';
 
-					if (file_exists($path))
+					JLoader::register($classname, $path);
+
+					if (class_exists($classname))
 					{
 						JLog::add('Non-autoloadable JMenu subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-						include_once $path;
 					}
 				}
 			}
@@ -141,7 +137,7 @@ class JMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  mixed    The item object, or null if not found
+	 * @return  JMenuItem|null  The item object if the ID exists or null if not found
 	 *
 	 * @since   1.5
 	 */
@@ -161,9 +157,9 @@ class JMenu
 	 * Set the default item by id and language code.
 	 *
 	 * @param   integer  $id        The menu item id.
-	 * @param   string   $language  The language cod (since 1.6).
+	 * @param   string   $language  The language code (since 1.6).
 	 *
-	 * @return  boolean  True, if successful
+	 * @return  boolean  True if a menu item with the given ID exists
 	 *
 	 * @since   1.5
 	 */
@@ -184,7 +180,7 @@ class JMenu
 	 *
 	 * @param   string  $language  The language code, default value of * means all.
 	 *
-	 * @return  mixed  The item object or null when not found for given language
+	 * @return  JMenuItem|null  The item object or null when not found for given language
 	 *
 	 * @since   1.5
 	 */
@@ -200,7 +196,7 @@ class JMenu
 			return $this->_items[$this->_default['*']];
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -208,7 +204,7 @@ class JMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  mixed  If successful the active item, otherwise null
+	 * @return  JMenuItem|null  The menu item representing the given ID if present or null otherwise
 	 *
 	 * @since   1.5
 	 */
@@ -222,13 +218,13 @@ class JMenu
 			return $result;
 		}
 
-		return null;
+		return;
 	}
 
 	/**
 	 * Get menu item by id.
 	 *
-	 * @return  object  The item object.
+	 * @return  JMenuItem|null  The item object if an active menu item has been set or null
 	 *
 	 * @since   1.5
 	 */
@@ -241,7 +237,7 @@ class JMenu
 			return $item;
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -252,7 +248,7 @@ class JMenu
 	 *                                each attribute may have multiple values to lookup for.
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *
-	 * @return  array
+	 * @return  JMenuItem|JMenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
 	 *
 	 * @since   1.5
 	 */
@@ -311,7 +307,7 @@ class JMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  Registry  A Registry object
+	 * @return  Registry
 	 *
 	 * @since   1.5
 	 */
@@ -328,7 +324,7 @@ class JMenu
 	/**
 	 * Getter for the menu array
 	 *
-	 * @return  array
+	 * @return  JMenuItem[]
 	 *
 	 * @since   1.5
 	 */
@@ -338,12 +334,11 @@ class JMenu
 	}
 
 	/**
-	 * Method to check JMenu object authorization against an access control
-	 * object and optionally an access extension object
+	 * Method to check JMenu object authorization against an access control object and optionally an access extension object
 	 *
 	 * @param   integer  $id  The menu id
 	 *
-	 * @return  boolean  True if authorised
+	 * @return  boolean
 	 *
 	 * @since   1.5
 	 */

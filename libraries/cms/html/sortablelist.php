@@ -58,7 +58,7 @@ abstract class JHtmlSortablelist
 			'sortDir'                => $sortDir,
 			'saveOrderingUrl'        => $saveOrderingUrl,
 			'nestedList'             => $nestedList,
-			'proceedSaveOrderButton' => $proceedSaveOrderButton
+			'proceedSaveOrderButton' => $proceedSaveOrderButton,
 		);
 
 		JLayoutHelper::render('joomla.html.sortablelist', $displayData);

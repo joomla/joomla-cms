@@ -48,7 +48,7 @@ class JOpenstreetmapObjectTest extends TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 
 		$this->object = new JOpenstreetmapObjectMock($this->options, $this->client);
 	}
@@ -63,6 +63,9 @@ class JOpenstreetmapObjectTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		unset($this->options);
+		unset($this->client);
+		unset($this->object);
 	}
 
 	/**

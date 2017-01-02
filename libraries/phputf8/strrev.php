@@ -1,22 +1,15 @@
 <?php
-/**
-* @version $Id$
-* @package utf8
-* @subpackage strings
-*/
-
-//---------------------------------------------------------------
-/**
-* UTF-8 aware alternative to strrev
-* Reverse a string
-* @param string UTF-8 encoded
-* @return string characters in string reverses
-* @see http://www.php.net/strrev
-* @package utf8
-* @subpackage strings
-*/
-function utf8_strrev($str){
-    preg_match_all('/./us', $str, $ar);
-    return join('',array_reverse($ar[0]));
+if (class_exists('JLog'))
+{
+	JLog::add(
+		sprintf(
+			'Using the phputf8 library through files located in %1$s is deprecated, load the files from %2$s instead.',
+			__DIR__,
+			JPATH_LIBRARIES . '/vendor/joomla/string/src/phputf8'
+		),
+		JLog::WARNING,
+		'deprecated'
+	);
 }
 
+require_once JPATH_LIBRARIES . '/vendor/joomla/string/src/phputf8/strrev.php';

@@ -359,13 +359,107 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	}
 
 	/**
+	 * Add a grouping column to the GROUP clause of the query.
+	 *
+	 * Usage:
+	 * $query->group('id');
+	 *
+	 * @param   mixed  $columns  A string or array of ordering columns.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function group($columns)
+	{
+		// Transform $columns into an array for filtering purposes
+		is_string($columns) && $columns = explode(',', str_replace(" ", "", $columns));
+
+		// Get the _formatted_ FROM string and remove everything except `table AS alias`
+		$fromStr = str_replace(array("[", "]"), "", str_replace("#__", $this->db->getPrefix(), str_replace("FROM ", "", (string) $this->from)));
+
+		// Start setting up an array of alias => table
+		list($table, $alias) = preg_split("/\sAS\s/i", $fromStr);
+
+		$tmpCols = $this->db->getTableColumns(trim($table));
+		$cols = array();
+
+		foreach ($tmpCols as $name => $type)
+		{
+			$cols[] = $alias . "." . $name;
+		}
+
+		// Now we need to get all tables from any joins
+		// Go through all joins and add them to the tables array
+		if ($this->join)
+		{
+			foreach ($this->join as $join)
+			{
+				$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string) $join)));
+
+				list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
+
+				$tmpCols = $this->db->getTableColumns(trim($table));
+
+				foreach ($tmpCols as $name => $tmpColType)
+				{
+					$cols[] = $alias . "." . $name;
+				}
+			}
+		}
+
+		$selectStr = str_replace("SELECT ", "", (string) $this->select);
+
+		// Remove any functions (e.g. COUNT(), SUM(), CONCAT())
+		$selectCols = preg_replace("/([^,]*\([^\)]*\)[^,]*,?)/", "", $selectStr);
+
+		// Remove any "as alias" statements
+		$selectCols = preg_replace("/(\sas\s[^,]*)/i", "", $selectCols);
+
+		// Remove any extra commas
+		$selectCols = preg_replace("/,{2,}/", ",", $selectCols);
+
+		// Remove any trailing commas and all whitespaces
+		$selectCols = trim(str_replace(" ", "", preg_replace("/,?$/", "", $selectCols)));
+
+		// Get an array to compare against
+		$selectCols = explode(",", $selectCols);
+
+		// Find all alias.* and fill with proper table column names
+		foreach ($selectCols as $key => $aliasColName)
+		{
+			if (preg_match("/.+\*/", $aliasColName, $match))
+			{
+				// Grab the table alias minus the .*
+				$aliasStar = preg_replace("/(.+)\.\*/", "$1", $aliasColName);
+
+				// Unset the array key
+				unset($selectCols[$key]);
+
+				// Get the table name
+				$tableColumns = preg_grep("/{$aliasStar}\.+/", $cols);
+				$columns = array_merge($columns, $tableColumns);
+			}
+		}
+
+		// Finally, get a unique string of all column names that need to be included in the group statement
+		$columns = array_unique(array_merge($columns, $selectCols));
+		$columns = implode(',', $columns);
+
+		// Recreate it every time, to ensure we have checked _all_ select statements
+		$this->group = new JDatabaseQueryElement('GROUP BY', $columns);
+
+		return $this;
+	}
+
+	/**
 	 * Return correct rand() function for MSSQL.
 	 *
 	 * Ensure that the rand() function is MSSQL compatible.
-	 * 
+	 *
 	 * Usage:
 	 * $query->Rand();
-	 * 
+	 *
 	 * @return  string  The correct rand function.
 	 *
 	 * @since   3.5
@@ -373,5 +467,26 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	public function Rand()
 	{
 		return ' NEWID() ';
+	}
+
+	/**
+	 * Find a value in a varchar used like a set.
+	 *
+	 * Ensure that the value is an integer before passing to the method.
+	 *
+	 * Usage:
+	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
+	 *
+	 * @param   string  $value  The value to search for.
+	 *
+	 * @param   string  $set    The set of values.
+	 *
+	 * @return  string  Returns the find_in_set() Mysql translation.
+	 *
+	 * @since   3.7.0
+	 */
+	public function findInSet($value, $set)
+	{
+		return "CHARINDEX(',$value,', ',' + $set + ',') > 0";
 	}
 }

@@ -66,9 +66,7 @@ abstract class JHtmlFilter
 			// Initialize the filter parameters.
 			if ($filter)
 			{
-				$registry = new Registry;
-				$registry->loadString($filter->params);
-				$filter->params = $registry;
+				$filter->params = new Registry($filter->params);
 			}
 		}
 
@@ -80,8 +78,6 @@ abstract class JHtmlFilter
 			->where('t.parent_id = 1')
 			->where('t.state = 1')
 			->where('t.access IN (' . $groups . ')')
-			->where('c.state = 1')
-			->where('c.access IN (' . $groups . ')')
 			->group('t.id, t.parent_id, t.state, t.access, t.ordering, t.title, c.parent_id')
 			->order('t.ordering, t.title');
 
@@ -113,13 +109,13 @@ abstract class JHtmlFilter
 		$html .= JHtml::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . $branch_keys[0])
 		);
 
-		// Load plug-in language files.
+		// Load plugin language files.
 		FinderHelperLanguage::loadPluginLanguage();
 
 		// Iterate through the branches and build the branch groups.
 		foreach ($branches as $bk => $bv)
 		{
-			// If the multi-lang plug-in is enabled then drop the language branch.
+			// If the multi-lang plugin is enabled then drop the language branch.
 			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
 			{
 				continue;
@@ -133,6 +129,10 @@ abstract class JHtmlFilter
 				->where('t.state = 1')
 				->where('t.access IN (' . $groups . ')')
 				->order('t.ordering, t.title');
+
+			// Self-join to get the parent title.
+			$query->select('e.title AS parent_title')
+				->join('LEFT', $db->quoteName('#__finder_taxonomy', 'e') . ' ON ' . $db->quoteName('e.id') . ' = ' . $db->quoteName('t.parent_id'));
 
 			// Load the branches.
 			$db->setQuery($query);
@@ -150,11 +150,16 @@ abstract class JHtmlFilter
 			$lang = JFactory::getLanguage();
 			foreach ($nodes as $nk => $nv)
 			{
-				$key = FinderHelperLanguage::branchPlural($nv->title);
-				if ($lang->hasKey($key))
+				if (trim($nv->parent_title, '**') == 'Language')
 				{
-					$nodes[$nk]->title = JText::_($key);
+					$title = FinderHelperLanguage::branchLanguageTitle($nv->title);
 				}
+				else
+				{
+					$key = FinderHelperLanguage::branchPlural($nv->title);
+					$title = $lang->hasKey($key) ? JText::_($key) : $nv->title;
+				}
+				$nodes[$nk]->title = $title;
 			}
 
 			// Adding slides
@@ -167,9 +172,9 @@ abstract class JHtmlFilter
 			);
 
 			// Populate the toggle button.
-			$html .= "<button class=\"btn\" type=\"button\" class=\"jform-rightbtn\" onclick=\"jQuery('[id=tax-"
-				. $bk . "]').each(function(){this.click();});\"><span class=\"icon-checkbox-partial\"></span> "
-				. JText::_('JGLOBAL_SELECTION_INVERT') . "</button><hr/>";
+			$html .= '<button class="btn" type="button" class="jform-rightbtn" onclick="jQuery(\'[id="tax-'
+				. $bk . '"]\').each(function(){this.click();});"><span class="icon-checkbox-partial"></span> '
+				. JText::_('JGLOBAL_SELECTION_INVERT') . '</button><hr/>';
 
 			// Populate the group with nodes.
 			foreach ($nodes as $nk => $nv)
@@ -197,7 +202,7 @@ abstract class JHtmlFilter
 	}
 
 	/**
-	 * Method to generate filters using select box drop down controls.
+	 * Method to generate filters using select box dropdown controls.
 	 *
 	 * @param   FinderIndexerQuery  $idxQuery  A FinderIndexerQuery object.
 	 * @param   array               $options   An array of options.
@@ -248,9 +253,7 @@ abstract class JHtmlFilter
 				// Initialize the filter parameters.
 				if ($filter)
 				{
-					$registry = new Registry;
-					$registry->loadString($filter->params);
-					$filter->params = $registry;
+					$filter->params = new Registry($filter->params);
 				}
 			}
 
@@ -294,7 +297,7 @@ abstract class JHtmlFilter
 			// Iterate through the branches and build the branch groups.
 			foreach ($branches as $bk => $bv)
 			{
-				// If the multi-lang plug-in is enabled then drop the language branch.
+				// If the multi-lang plugin is enabled then drop the language branch.
 				if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
 				{
 					continue;
@@ -308,6 +311,10 @@ abstract class JHtmlFilter
 					->where('t.state = 1')
 					->where('t.access IN (' . $groups . ')')
 					->order('t.ordering, t.title');
+
+				// Self-join to get the parent title.
+				$query->select('e.title AS parent_title')
+					->join('LEFT', $db->quoteName('#__finder_taxonomy', 'e') . ' ON ' . $db->quoteName('e.id') . ' = ' . $db->quoteName('t.parent_id'));
 
 				// Limit the nodes to a predefined filter.
 				if (!empty($filter->data))
@@ -331,11 +338,16 @@ abstract class JHtmlFilter
 				$language = JFactory::getLanguage();
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
-					$key = FinderHelperLanguage::branchPlural($node->title);
-					if ($language->hasKey($key))
+					if (trim($node->parent_title, '**') == 'Language')
 					{
-						$branches[$bk]->nodes[$node_id]->title = JText::_($key);
+						$title = FinderHelperLanguage::branchLanguageTitle($node->title);
 					}
+					else
+					{
+						$key = FinderHelperLanguage::branchPlural($node->title);
+						$title = $language->hasKey($key) ? JText::_($key) : $node->title;
+					}
+					$branches[$bk]->nodes[$node_id]->title = $title;
 				}
 
 				// Add the Search All option to the branch.
@@ -358,7 +370,7 @@ abstract class JHtmlFilter
 		// Iterate through all branches and build code.
 		foreach ($branches as $bk => $bv)
 		{
-			// If the multi-lang plug-in is enabled then drop the language branch.
+			// If the multi-lang plugin is enabled then drop the language branch.
 			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
 			{
 				continue;
@@ -425,7 +437,7 @@ abstract class JHtmlFilter
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				JHtml::stylesheet('com_finder/dates.css', false, true, false);
+				JHtml::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
 			}
 
 			// Open the widget.

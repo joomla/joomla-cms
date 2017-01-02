@@ -17,6 +17,34 @@ defined('_JEXEC') or die;
 class FinderViewFilter extends JViewLegacy
 {
 	/**
+	 * The filter object
+	 *
+	 * @var  FinderTableFilter
+	 */
+	protected $filter;
+
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
+	protected $form;
+
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
+	protected $item;
+
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
+	protected $state;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -48,7 +76,7 @@ class FinderViewFilter extends JViewLegacy
 		// Configure the toolbar.
 		$this->addToolbar();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -62,10 +90,8 @@ class FinderViewFilter extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user = JFactory::getUser();
-		$userId = $user->get('id');
 		$isNew = ($this->item->filter_id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == JFactory::getUser()->id);
 		$canDo = JHelperContent::getActions('com_finder');
 
 		// Configure the toolbar.

@@ -40,7 +40,7 @@ class MediaModelManager extends JModelLegacy
 			$fieldid = $input->get('fieldid', '');
 			$this->setState('field.id', $fieldid);
 
-			$parent = str_replace("\\", "/", dirname($folder));
+			$parent = str_replace("\\", '/', dirname($folder));
 			$parent = ($parent == '.') ? null : $parent;
 			$this->setState('parent', $parent);
 			$set = true;
@@ -77,13 +77,13 @@ class MediaModelManager extends JModelLegacy
 		$document->setTitle(JText::_('COM_MEDIA_INSERT_IMAGE'));
 
 		// Build the array of select options for the folder list
-		$options[] = JHtml::_('select.option', "", "/");
+		$options[] = JHtml::_('select.option', '', '/');
 
 		foreach ($folders as $folder)
 		{
-			$folder    = str_replace($com_media_base_uni, "", str_replace(DIRECTORY_SEPARATOR, '/', $folder));
+			$folder    = str_replace($com_media_base_uni, '', str_replace(DIRECTORY_SEPARATOR, '/', $folder));
 			$value     = substr($folder, 1);
-			$text      = str_replace(DIRECTORY_SEPARATOR, "/", $folder);
+			$text      = str_replace(DIRECTORY_SEPARATOR, '/', $folder);
 			$options[] = JHtml::_('select.option', $value, $text);
 		}
 
@@ -101,12 +101,12 @@ class MediaModelManager extends JModelLegacy
 		// so both string and integer are supported.
 		if ($asset == 0)
 		{
-			$asset = htmlspecialchars(json_encode(trim($input->get('asset', 0, 'cmd'))));
+			$asset = htmlspecialchars(json_encode(trim($input->get('asset', 0, 'cmd'))), ENT_COMPAT, 'UTF-8');
 		}
 
 		$author = $input->get('author', 0, 'integer');
 
-		// Create the drop-down folder select list
+		// Create the dropdown folder select list
 		$attribs = 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, ' . $asset . ', ' . $author . ')" ';
 		$list = JHtml::_('select.genericlist', $options, 'folderlist', $attribs, 'value', 'text', $base);
 

@@ -38,6 +38,7 @@ class JHtmlFormbehaviorTest extends TestCase
 		parent::setUp();
 
 		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$config = $this->getMockConfig();
 		JFactory::$document = $this->getMockDocument();
 
 		$this->backupServer = $_SERVER;
@@ -57,7 +58,7 @@ class JHtmlFormbehaviorTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -99,7 +100,7 @@ class JHtmlFormbehaviorTest extends TestCase
 		);
 
 		$this->assertContains(
-			"jQuery('testSelect').chosen",
+			'$(container).find("testSelect").chosen',
 			$document->_script['text/javascript'],
 			'Verify that the Chosen JS is initialised with the supplied selector'
 		);

@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
  * @since  11.1
  */
-class JFormFieldText extends JFormField
+class JFormFieldText extends JFormField implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -49,6 +49,14 @@ class JFormFieldText extends JFormField
 	 * @since  3.2
 	 */
 	protected $dirname;
+
+	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.text';
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -162,63 +170,42 @@ class JFormFieldText extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
-
-		// Initialize some field attributes.
-		$size         = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$class        = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$readonly     = $this->readonly ? ' readonly' : '';
-		$disabled     = $this->disabled ? ' disabled' : '';
-		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
-		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
-		$autofocus    = $this->autofocus ? ' autofocus' : '';
-		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
-		$pattern      = !empty($this->pattern) ? ' pattern="' . $this->pattern . '"' : '';
-		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
-		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
-
-		// Initialize JavaScript field attributes.
-		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
-
-		$datalist = '';
-		$list     = '';
-
-		/* Get the field options for the datalist.
-		Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
-		$options  = (array) $this->getSuggestions();
-
-		if ($options)
+		if ($this->element['useglobal'])
 		{
-			$datalist = '<datalist id="' . $this->id . '_datalist">';
+			$component = JFactory::getApplication()->input->getCmd('option');
 
-			foreach ($options as $option)
+			// Get correct component for menu items
+			if ($component == 'com_menus')
 			{
-				if (!$option->value)
-				{
-					continue;
-				}
-
-				$datalist .= '<option value="' . $option->value . '">' . $option->text . '</option>';
+				$link      = $this->form->getData()->get('link');
+				$uri       = new JUri($link);
+				$component = $uri->getVar('option', 'com_menus');
 			}
 
-			$datalist .= '</datalist>';
-			$list     = ' list="' . $this->id . '_datalist"';
+			$params = JComponentHelper::getParams($component);
+			$value  = $params->get($this->fieldname);
+
+			// Try with global configuration
+			if (is_null($value))
+			{
+				$value = JFactory::getConfig()->get($this->fieldname);
+			}
+
+			// Try with menu configuration
+			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
+			{
+				$value = JComponentHelper::getParams('com_menus')->get($this->fieldname);
+			}
+
+			if (!is_null($value))
+			{
+				$value = (string) $value;
+
+				$this->hint = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
+			}
 		}
 
-		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . $dirname . ' value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $list
-			. $hint . $onchange . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . $inputmode . $pattern . ' />';
-		$html[] = $datalist;
-
-		return implode($html);
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
 
 	/**
@@ -261,5 +248,36 @@ class JFormFieldText extends JFormField
 	protected function getSuggestions()
 	{
 		return $this->getOptions();
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.7
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
+
+		// Initialize some field attributes.
+		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
+		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
+
+		/* Get the field options for the datalist.
+			Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
+		$options  = (array) $this->getSuggestions();
+
+		$extraData = array(
+			'maxLength' => $maxLength,
+			'pattern'   => $this->pattern,
+			'inputmode' => $inputmode,
+			'dirname'   => $dirname,
+			'options'   => $options,
+		);
+
+		return array_merge($data, $extraData);
 	}
 }

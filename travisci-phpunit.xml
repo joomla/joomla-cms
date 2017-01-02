@@ -27,5 +27,8 @@
 		<testsuite name="FinderIndexer">
 			<directory>tests/unit/suites/finderIndexer</directory>
 		</testsuite>
+		<testsuite name="plugins">
+			<directory>tests/unit/suites/plugins</directory>
+		</testsuite>
 	</testsuites>
 </phpunit>

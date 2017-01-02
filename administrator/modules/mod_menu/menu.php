@@ -49,12 +49,12 @@ class JAdminCssMenu extends JObject
 	/**
 	 * Method to add a child
 	 *
-	 * @param   JMenuNode  &$node       The node to process
+	 * @param   JMenuNode  $node        The node to process
 	 * @param   boolean    $setCurrent  True to set as current working node
 	 *
 	 * @return  void
 	 */
-	public function addChild(JMenuNode &$node, $setCurrent = false)
+	public function addChild(JMenuNode $node, $setCurrent = false)
 	{
 		$this->_current->addChild($node);
 
@@ -119,7 +119,7 @@ class JAdminCssMenu extends JObject
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul " . $id . " " . $class . ">\n";
+			echo '<ul ' . $id . ' ' . $class . ">\n";
 
 			foreach ($this->_current->getChildren() as $child)
 			{
@@ -177,7 +177,7 @@ class JAdminCssMenu extends JObject
 		}
 
 		// Print the item
-		echo "<li" . $class . ">";
+		echo '<li' . $class . '>';
 
 		// Print a link if it exists
 		$linkClass = array();
@@ -214,20 +214,20 @@ class JAdminCssMenu extends JObject
 
 		if ($this->_current->link != null && $this->_current->target != null)
 		{
-			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\" >"
-				. $this->_current->title . $dropdownCaret . "</a>";
+			echo '<a' . $linkClass . ' ' . $dataToggle . ' href="' . $this->_current->link . '" target="' . $this->_current->target . '">'
+				. $this->_current->title . $dropdownCaret . '</a>';
 		}
 		elseif ($this->_current->link != null && $this->_current->target == null)
 		{
-			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\">" . $this->_current->title . $dropdownCaret . "</a>";
+			echo '<a' . $linkClass . ' ' . $dataToggle . ' href="' . $this->_current->link . '">' . $this->_current->title . $dropdownCaret . '</a>';
 		}
 		elseif ($this->_current->title != null)
 		{
-			echo "<a" . $linkClass . " " . $dataToggle . ">" . $this->_current->title . $dropdownCaret . "</a>";
+			echo '<a' . $linkClass . ' ' . $dataToggle . '>' . $this->_current->title . $dropdownCaret . '</a>';
 		}
 		else
 		{
-			echo "<span></span>";
+			echo '<span></span>';
 		}
 
 		// Recurse through children if they exist

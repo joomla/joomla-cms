@@ -10,6 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Core content table
@@ -46,36 +48,31 @@ class JTableCorecontent extends JTable
 	{
 		if (isset($array['core_params']) && is_array($array['core_params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['core_params']);
+			$registry = new Registry($array['core_params']);
 			$array['core_params'] = (string) $registry;
 		}
 
 		if (isset($array['core_metadata']) && is_array($array['core_metadata']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['core_metadata']);
+			$registry = new Registry($array['core_metadata']);
 			$array['core_metadata'] = (string) $registry;
 		}
 
 		if (isset($array['core_images']) && is_array($array['core_images']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['core_images']);
+			$registry = new Registry($array['core_images']);
 			$array['core_images'] = (string) $registry;
 		}
 
 		if (isset($array['core_urls']) && is_array($array['core_urls']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['core_urls']);
+			$registry = new Registry($array['core_urls']);
 			$array['core_urls'] = (string) $registry;
 		}
 
 		if (isset($array['core_body']) && is_array($array['core_body']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['core_body']);
+			$registry = new Registry($array['core_body']);
 			$array['core_body'] = (string) $registry;
 		}
 
@@ -94,7 +91,7 @@ class JTableCorecontent extends JTable
 	{
 		if (trim($this->core_title) == '')
 		{
-			$this->setError(JText::_('LIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(JText::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -135,10 +132,10 @@ class JTableCorecontent extends JTable
 			// Only process if not empty
 
 			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", "<", ">");
+			$bad_characters = array("\n", "\r", "\"", '<', '>');
 
 			// Remove bad characters
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->core_metakey);
+			$after_clean = StringHelper::str_ireplace($bad_characters, '', $this->core_metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
@@ -154,7 +151,7 @@ class JTableCorecontent extends JTable
 				}
 			}
 			// Put array back together delimited by ", "
-			$this->core_metakey = implode(", ", $clean_keys);
+			$this->core_metakey = implode(', ', $clean_keys);
 		}
 
 		return true;
@@ -334,7 +331,7 @@ class JTableCorecontent extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state = (int) $state;
 

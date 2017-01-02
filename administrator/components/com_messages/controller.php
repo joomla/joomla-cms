@@ -28,7 +28,7 @@ class MessagesController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT . '/helpers/messages.php';
+		JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR . '/components/com_messages/helpers/messages.php');
 
 		$view   = $this->input->get('view', 'messages');
 		$layout = $this->input->get('layout', 'default');

@@ -6,7 +6,7 @@
 		<field
 			name="search"
 			type="text"
-			label="JSEARCH_FILTER_LABEL"
+			label="COM_MODULES_MODULES_FILTER_SEARCH_LABEL"
 			description="COM_MODULES_MODULES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 			noresults="COM_MODULES_MSG_MANAGE_NO_MODULES"

@@ -161,7 +161,7 @@ abstract class JOAuth1Client
 		if ($this->getOption('callback'))
 		{
 			$parameters = array(
-				'oauth_callback' => $this->getOption('callback')
+				'oauth_callback' => $this->getOption('callback'),
 			);
 		}
 		else
@@ -222,7 +222,7 @@ abstract class JOAuth1Client
 	{
 		// Set the parameters.
 		$parameters = array(
-			'oauth_token' => $this->token['key']
+			'oauth_token' => $this->token['key'],
 		);
 
 		if (strcmp($this->version, '1.0a') === 0)
@@ -261,7 +261,7 @@ abstract class JOAuth1Client
 			'oauth_signature_method' => 'HMAC-SHA1',
 			'oauth_version' => '1.0',
 			'oauth_nonce' => $this->generateNonce(),
-			'oauth_timestamp' => time()
+			'oauth_timestamp' => time(),
 		);
 
 		$parameters = array_merge($parameters, $defaults);
@@ -470,8 +470,8 @@ abstract class JOAuth1Client
 		$base = array(
 			$method,
 			$url,
-			$params
-			);
+			$params,
+		);
 
 		// Return the base string.
 		return implode('&', $this->safeEncode($base));

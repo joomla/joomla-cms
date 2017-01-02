@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $fieldSets = $this->form->getFieldsets('params');
 foreach ($fieldSets as $name => $fieldSet) :
 	$paramstabs = 'params-' . $name;
-	echo JHtml::_('bootstrap.addTab', 'myTab', $paramstabs, JText::_($fieldSet->label, true));
+	echo JHtml::_('bootstrap.addTab', 'myTab', $paramstabs, JText::_($fieldSet->label));
 
 	if (isset($fieldSet->description) && trim($fieldSet->description)) :
 		echo '<p class="alert alert-info">' . $this->escape(JText::_($fieldSet->description)) . '</p>';

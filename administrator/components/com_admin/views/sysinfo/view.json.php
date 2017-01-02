@@ -21,7 +21,7 @@ class AdminViewSysinfo extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.5
 	 */
@@ -34,7 +34,7 @@ class AdminViewSysinfo extends JViewLegacy
 		}
 
 		header('MIME-Version: 1.0');
-		header('Content-Disposition: attachment; filename="systeminfo-' . date("c") . '.json"');
+		header('Content-Disposition: attachment; filename="systeminfo-' . date('c') . '.json"');
 		header('Content-Transfer-Encoding: binary');
 
 		$data = $this->getLayoutData();

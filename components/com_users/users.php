@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/helpers/route.php';
+JLoader::register('UsersHelperRoute', JPATH_COMPONENT . '/helpers/route.php');
 
 $controller = JControllerLegacy::getInstance('Users');
 $controller->execute(JFactory::getApplication()->input->get('task', 'display'));

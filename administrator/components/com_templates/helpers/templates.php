@@ -83,17 +83,20 @@ class TemplatesHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
+		$query->select($db->quoteName('element', 'value'))
+			->select($db->quoteName('name', 'text'))
+			->select($db->quoteName('extension_id', 'e_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('template'))
+			->where($db->quoteName('enabled') . ' = 1')
+			->order($db->quoteName('client_id') . ' ASC')
+			->order($db->quoteName('name') . ' ASC');
+
 		if ($clientId != '*')
 		{
-			$query->where('client_id=' . (int) $clientId);
+			$query->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
 		}
 
-		$query->select('element as value, name as text, extension_id as e_id')
-			->from('#__extensions')
-			->where('type = ' . $db->quote('template'))
-			->where('enabled = 1')
-			->order('client_id')
-			->order('name');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 

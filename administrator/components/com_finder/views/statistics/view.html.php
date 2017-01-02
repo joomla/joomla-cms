@@ -17,6 +17,13 @@ defined('_JEXEC') or die;
 class FinderViewStatistics extends JViewLegacy
 {
 	/**
+	 * The index statistics
+	 *
+	 * @var  JObject
+	 */
+	protected $data;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -38,6 +45,6 @@ class FinderViewStatistics extends JViewLegacy
 			return false;
 		}
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 }

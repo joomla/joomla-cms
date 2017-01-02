@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Plug-in to enable loading modules into content (e.g. articles)
+ * Plugin to enable loading modules into content (e.g. articles)
  * This uses the {loadmodule} syntax
  *
  * @since  1.5
@@ -36,7 +36,7 @@ class PlgContentLoadmodule extends JPlugin
 	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
 		// Don't run this plugin when the content is being indexed
-		if ($context == 'com_finder.indexer')
+		if ($context === 'com_finder.indexer')
 		{
 			return true;
 		}
@@ -113,7 +113,7 @@ class PlgContentLoadmodule extends JPlugin
 				$output = $this->_loadmod($module, $name, $stylemod);
 
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-				$article->text = preg_replace("|$matchmod[0]|", addcslashes($output, '\\$'), $article->text, 1);
+				$article->text = preg_replace(addcslashes("|$matchmod[0]|", '()'), addcslashes($output, '\\$'), $article->text, 1);
 				$stylemod = $this->params->def('style', 'none');
 			}
 		}
@@ -178,7 +178,10 @@ class PlgContentLoadmodule extends JPlugin
 		$params = array('style' => $style);
 		ob_start();
 
-		echo $renderer->render($mod, $params);
+		if ($mod->id)
+		{
+			echo $renderer->render($mod, $params);
+		}
 
 		self::$mods[$module] = ob_get_clean();
 

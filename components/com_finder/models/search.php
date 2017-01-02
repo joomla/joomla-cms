@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
+
 // Register dependent classes.
 define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
 JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
@@ -210,7 +213,7 @@ class FinderModelSearch extends JModelList
 		// Use the cached data if possible.
 		if ($this->retrieve($store, false))
 		{
-			return clone($this->retrieve($store, false));
+			return clone $this->retrieve($store, false);
 		}
 
 		// Set variables
@@ -304,7 +307,7 @@ class FinderModelSearch extends JModelList
 		$this->store($store, $query, false);
 
 		// Return a copy of the query object.
-		return clone($this->retrieve($store, false));
+		return clone $this->retrieve($store, false);
 	}
 
 	/**
@@ -340,7 +343,7 @@ class FinderModelSearch extends JModelList
 		if (empty($this->includedTerms))
 		{
 			// Adjust the query to join on the appropriate mapping table.
-			$query = clone($base);
+			$query = clone $base;
 			$query->clear('select')
 				->select('COUNT(DISTINCT l.link_id)');
 
@@ -374,7 +377,7 @@ class FinderModelSearch extends JModelList
 		foreach ($this->includedTerms as $token => $ids)
 		{
 			// Get the mapping table suffix.
-			$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
+			$suffix = StringHelper::substr(md5(StringHelper::substr($token, 0, 1)), 0, 1);
 
 			// Initialize the mapping group.
 			if (!array_key_exists($suffix, $maps))
@@ -413,7 +416,7 @@ class FinderModelSearch extends JModelList
 				else
 				{
 					// Adjust the query to join on the appropriate mapping table.
-					$query = clone($base);
+					$query = clone $base;
 					$query->join('INNER', '#__finder_links_terms' . $suffix . ' AS m ON m.link_id = l.link_id')
 						->where('m.term_id IN (' . implode(',', $ids) . ')');
 
@@ -521,10 +524,10 @@ class FinderModelSearch extends JModelList
 					do
 					{
 						// Get the map table suffix.
-						$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
+						$suffix = StringHelper::substr(md5(StringHelper::substr($token, 0, 1)), 0, 1);
 
 						// Adjust the query to join on the appropriate mapping table.
-						$query = clone($base);
+						$query = clone $base;
 						$query->join('INNER', '#__finder_links_terms' . $suffix . ' AS m ON m.link_id = l.link_id')
 							->where('m.term_id IN (' . implode(',', $required) . ')');
 
@@ -536,7 +539,7 @@ class FinderModelSearch extends JModelList
 						$reqMore = (count($temp) === $limit) ? true : false;
 
 						// Merge the matching set for this token.
-						$reqTemp = $reqTemp + $temp;
+						$reqTemp += $temp;
 
 						// Increment the term offset.
 						$reqStart += $limit;
@@ -558,14 +561,14 @@ class FinderModelSearch extends JModelList
 				$start += $limit;
 
 				// Merge the found items.
-				$items = $items + $sorted;
+				$items += $sorted;
 
 				continue;
 			}
 			// Otherwise, end the loop.
 			{
 				// Merge the found items.
-				$items = $items + $sorted;
+				$items += $sorted;
 
 				$more = false;
 			}
@@ -652,7 +655,7 @@ class FinderModelSearch extends JModelList
 		foreach ($this->includedTerms as $token => $ids)
 		{
 			// Get the mapping table suffix.
-			$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
+			$suffix = StringHelper::substr(md5(StringHelper::substr($token, 0, 1)), 0, 1);
 
 			// Initialize the mapping group.
 			if (!array_key_exists($suffix, $maps))
@@ -692,7 +695,7 @@ class FinderModelSearch extends JModelList
 				else
 				{
 					// Adjust the query to join on the appropriate mapping table.
-					$query = clone($base);
+					$query = clone $base;
 					$query->join('INNER', $this->_db->quoteName('#__finder_links_terms' . $suffix) . ' AS m ON m.link_id = l.link_id')
 						->where('m.term_id IN (' . implode(',', $ids) . ')');
 
@@ -842,10 +845,10 @@ class FinderModelSearch extends JModelList
 					do
 					{
 						// Get the map table suffix.
-						$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
+						$suffix = StringHelper::substr(md5(StringHelper::substr($token, 0, 1)), 0, 1);
 
 						// Adjust the query to join on the appropriate mapping table.
-						$query = clone($base);
+						$query = clone $base;
 						$query->join('INNER', $this->_db->quoteName('#__finder_links_terms' . $suffix) . ' AS m ON m.link_id = l.link_id')
 							->where('m.term_id IN (' . implode(',', $required) . ')');
 
@@ -857,7 +860,7 @@ class FinderModelSearch extends JModelList
 						$reqMore = (count($temp) === $limit) ? true : false;
 
 						// Merge the matching set for this token.
-						$reqTemp = $reqTemp + $temp;
+						$reqTemp += $temp;
 
 						// Increment the term offset.
 						$reqStart += $limit;
@@ -940,7 +943,7 @@ class FinderModelSearch extends JModelList
 		foreach ($this->excludedTerms as $token => $id)
 		{
 			// Get the mapping table suffix.
-			$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
+			$suffix = StringHelper::substr(md5(StringHelper::substr($token, 0, 1)), 0, 1);
 
 			// Initialize the mapping group.
 			if (!array_key_exists($suffix, $maps))
@@ -979,35 +982,12 @@ class FinderModelSearch extends JModelList
 
 		// Sanitize the link ids.
 		$links = array_unique($links);
-		JArrayHelper::toInteger($links);
+		$links = ArrayHelper::toInteger($links);
 
 		// Push the link ids into cache.
 		$this->store($store, $links);
 
 		return $links;
-	}
-
-	/**
-	 * Method to get a subquery for filtering link ids mapped to specific
-	 * terms ids.
-	 *
-	 * @param   array  $terms  An array of search term ids.
-	 *
-	 * @return  JDatabaseQuery  A database object.
-	 *
-	 * @since   2.5
-	 */
-	protected function getTermsQuery($terms)
-	{
-		// Create the SQL query to get the matching link ids.
-		// TODO: Impact of removing SQL_NO_CACHE?
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('SQL_NO_CACHE link_id')
-			->from('#__finder_links_terms')
-			->where('term_id IN (' . implode(',', $terms) . ')');
-
-		return $query;
 	}
 
 	/**
@@ -1123,7 +1103,7 @@ class FinderModelSearch extends JModelList
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
 		$order = $input->getWord('filter_order', $params->get('sort_order', 'relevance'));
-		$order = JString::strtolower($order);
+		$order = StringHelper::strtolower($order);
 		switch ($order)
 		{
 			case 'date':
@@ -1134,7 +1114,7 @@ class FinderModelSearch extends JModelList
 				$this->setState('list.ordering', 'l.list_price');
 				break;
 
-			case ($order == 'relevance' && !empty($this->includedTerms)):
+			case ($order == 'relevance' && !empty($this->includedTerms)) :
 				$this->setState('list.ordering', 'm.weight');
 				break;
 
@@ -1154,7 +1134,7 @@ class FinderModelSearch extends JModelList
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
 		$dirn = $input->getWord('filter_order_Dir', $params->get('sort_direction', 'desc'));
-		$dirn = JString::strtolower($dirn);
+		$dirn = StringHelper::strtolower($dirn);
 		switch ($dirn)
 		{
 			case 'asc':

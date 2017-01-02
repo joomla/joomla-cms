@@ -9,14 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Field to load a list of posible item count limits
  *
  * @since  3.2
  */
-class JFormFieldLimitbox extends JFormFieldList
+class JFormFieldLimitbox extends JFormAbstractlist
 {
 	/**
 	 * The form field type.
@@ -39,7 +37,7 @@ class JFormFieldLimitbox extends JFormFieldList
 	 *
 	 * @var  array
 	 */
-	protected $defaultLimits = array(5, 10, 15, 20, 25, 30, 50, 100);
+	protected $defaultLimits = array(5, 10, 15, 20, 25, 30, 50, 100, 200, 500);
 
 	/**
 	 * Method to get the options to populate to populate list
@@ -82,7 +80,7 @@ class JFormFieldLimitbox extends JFormFieldList
 			asort($limits);
 
 			// Add an option to show all?
-			$showAll = isset($this->element['showall']) ? ($this->element['showall'] == "true") : true;
+			$showAll = isset($this->element['showall']) ? ($this->element['showall'] == 'true') : true;
 
 			if ($showAll)
 			{
@@ -95,7 +93,7 @@ class JFormFieldLimitbox extends JFormFieldList
 				{
 					$options[] = (object) array(
 						'value' => $value,
-						'text' => ($value != 0) ? JText::_('J' . $value) : JText::_('JALL')
+						'text' => ($value != 0) ? JText::_('J' . $value) : JText::_('JALL'),
 					);
 				}
 

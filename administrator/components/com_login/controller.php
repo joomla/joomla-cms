@@ -36,6 +36,12 @@ class LoginController extends JControllerLegacy
 		$this->input->set('view', 'login');
 		$this->input->set('layout', 'default');
 
+		// For non-html formats we do not have login view, so just display 403 instead
+		if ($this->input->get('format', 'html') !== 'html')
+		{
+			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		parent::display();
 	}
 
@@ -63,7 +69,7 @@ class LoginController extends JControllerLegacy
 			if (JUri::isInternal($return))
 			{
 				// If &tmpl=component - redirect to index.php
-				if (strpos($return, "tmpl=component") === false)
+				if (strpos($return, 'tmpl=component') === false)
 				{
 					$app->redirect($return);
 				}
@@ -90,8 +96,17 @@ class LoginController extends JControllerLegacy
 
 		$userid = $this->input->getInt('uid', null);
 
+		if ($app->get('shared_session', '0'))
+		{
+			$clientid = null;
+		}
+		else
+		{
+			$clientid = $userid ? 0 : 1;
+		}
+
 		$options = array(
-			'clientid' => ($userid) ? 0 : 1
+			'clientid' => $clientid,
 		);
 
 		$result = $app->logout($userid, $options);

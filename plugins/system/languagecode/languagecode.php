@@ -28,7 +28,7 @@ class PlgSystemLanguagecode extends JPlugin
 		$app = JFactory::getApplication();
 
 		// Use this plugin only in site application.
-		if ($app->isSite())
+		if ($app->isClient('site'))
 		{
 			// Get the response body.
 			$body = $app->getBody();
@@ -55,7 +55,7 @@ class PlgSystemLanguagecode extends JPlugin
 			else
 			{
 				$patterns = array();
-				$replace = array();
+				$replace  = array();
 			}
 
 			// Replace codes in <link hreflang="" /> attributes.
@@ -85,6 +85,20 @@ class PlgSystemLanguagecode extends JPlugin
 				}
 			}
 
+			// Replace codes in itemprop content
+			preg_match_all(chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")([0-9A-Za-z\-]*)(".*/>)' . chr(1) . 'i', $body, $matches);
+
+			foreach ($matches[2] as $match)
+			{
+				$new_code = $this->params->get(strtolower($match));
+
+				if ($new_code)
+				{
+					$patterns[] = chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*/>)' . chr(1) . 'i';
+					$replace[] = '${1}' . $new_code . '${3}';
+				}
+			}
+
 			$app->setBody(preg_replace($patterns, $replace, $body));
 		}
 	}
@@ -110,7 +124,7 @@ class PlgSystemLanguagecode extends JPlugin
 		}
 
 		// Check we are manipulating the languagecode plugin.
-		if ($form->getName() != 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
+		if ($form->getName() !== 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
 		{
 			return true;
 		}

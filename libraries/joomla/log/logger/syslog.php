@@ -22,8 +22,10 @@ defined('JPATH_PLATFORM') or die;
 class JLogLoggerSyslog extends JLogLogger
 {
 	/**
-	 * @var array Translation array for JLogEntry priorities to SysLog priority names.
-	 * @since 11.1
+	 * Translation array for JLogEntry priorities to SysLog priority names.
+	 *
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected $priorities = array(
 		JLog::EMERGENCY => 'EMERG',
@@ -33,7 +35,8 @@ class JLogLoggerSyslog extends JLogLogger
 		JLog::WARNING => 'WARNING',
 		JLog::NOTICE => 'NOTICE',
 		JLog::INFO => 'INFO',
-		JLog::DEBUG => 'DEBUG');
+		JLog::DEBUG => 'DEBUG',
+	);
 
 	/**
 	 * Constructor.

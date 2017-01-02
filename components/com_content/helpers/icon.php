@@ -30,32 +30,16 @@ abstract class JHtmlIcon
 	 */
 	public static function create($category, $params, $attribs = array(), $legacy = false)
 	{
-		JHtml::_('bootstrap.tooltip');
-
 		$uri = JUri::getInstance();
 
 		$url = 'index.php?option=com_content&task=article.add&return=' . base64_encode($uri) . '&a_id=0&catid=' . $category->id;
 
-		if ($params->get('show_icons'))
-		{
-			if ($legacy)
-			{
-				$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), null, true);
-			}
-			else
-			{
-				$text = '<span class="icon-plus"></span>' . JText::_('JNEW');
-			}
-		}
-		else
-		{
-			$text = JText::_('JNEW') . '&#160;';
-		}
+		$text = JLayoutHelper::render('joomla.content.icons.create', array('params' => $params, 'legacy' => $legacy));
 
 		// Add the button classes to the attribs array
 		if (isset($attribs['class']))
 		{
-			$attribs['class'] = $attribs['class'] . ' btn btn-primary';
+			$attribs['class'] .= ' btn btn-primary';
 		}
 		else
 		{
@@ -81,39 +65,23 @@ abstract class JHtmlIcon
 	 */
 	public static function email($article, $params, $attribs = array(), $legacy = false)
 	{
-		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
+		JLoader::register('MailtoHelper', JPATH_SITE . '/components/com_mailto/helpers/mailto.php');
 
 		$uri      = JUri::getInstance();
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
 		$template = JFactory::getApplication()->getTemplate();
 		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
-		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailToHelper::addLink($link);
+		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailtoHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
 
-		if ($params->get('show_icons'))
-		{
-			if ($legacy)
-			{
-				$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), null, true);
-			}
-			else
-			{
-				$text = '<span class="icon-envelope"></span>' . JText::_('JGLOBAL_EMAIL');
-			}
-		}
-		else
-		{
-			$text = JText::_('JGLOBAL_EMAIL');
-		}
+		$text = JLayoutHelper::render('joomla.content.icons.email', array('params' => $params, 'legacy' => $legacy));
 
 		$attribs['title']   = JText::_('JGLOBAL_EMAIL_TITLE');
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
 
-		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
-
-		return $output;
+		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}
 
 	/**
@@ -148,8 +116,6 @@ abstract class JHtmlIcon
 			return;
 		}
 
-		JHtml::_('bootstrap.tooltip');
-
 		// Show checked_out icon if the article is checked out by a different user
 		if (property_exists($article, 'checked_out')
 			&& property_exists($article, 'checked_out_time')
@@ -161,16 +127,7 @@ abstract class JHtmlIcon
 			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
 				. ' <br /> ' . $date;
 
-			if ($legacy)
-			{
-				$button = JHtml::_('image', 'system/checked_out.png', null, null, true);
-				$text   = '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">'
-					. $button . '</span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
-			}
-			else
-			{
-				$text = '<span class="hasTooltip icon-lock" title="' . JHtml::tooltipText($tooltip . '', 0) . '"></span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
-			}
+			$text = JLayoutHelper::render('joomla.content.icons.edit_lock', array('tooltip' => $tooltip, 'legacy' => $legacy));
 
 			$output = JHtml::_('link', '#', $text, $attribs);
 
@@ -190,39 +147,14 @@ abstract class JHtmlIcon
 		}
 
 		$date   = JHtml::_('date', $article->created);
-		$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
+		$author = $article->created_by_alias ?: $article->author;
 
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= JText::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 
-		if ($legacy)
-		{
-			$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
-
-			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
-			{
-				$icon = 'edit_unpublished.png';
-			}
-
-			$text = JHtml::_('image', 'system/' . $icon, JText::_('JGLOBAL_EDIT'), null, true);
-		}
-		else
-		{
-			$icon = $article->state ? 'edit' : 'eye-close';
-
-			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
-			{
-				$icon = 'eye-close';
-			}
-
-			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0)
-				. '"></span>'
-				. JText::_('JGLOBAL_EDIT');
-		}
+		$text = JLayoutHelper::render('joomla.content.icons.edit', array('article' => $article, 'overlib' => $overlib, 'legacy' => $legacy));
 
 		$attribs['title']   = JText::_('JGLOBAL_EDIT_TITLE');
 		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
@@ -251,22 +183,7 @@ abstract class JHtmlIcon
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
-		// Checks template image directory for image, if non found default are loaded
-		if ($params->get('show_icons'))
-		{
-			if ($legacy)
-			{
-				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
-			}
-			else
-			{
-				$text = '<span class="icon-print"></span>' . JText::_('JGLOBAL_PRINT');
-			}
-		}
-		else
-		{
-			$text = JText::_('JGLOBAL_PRINT');
-		}
+		$text = JLayoutHelper::render('joomla.content.icons.print_popup', array('params' => $params, 'legacy' => $legacy));
 
 		$attribs['title']   = JText::sprintf('JGLOBAL_PRINT_TITLE', htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8'));
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
@@ -287,22 +204,7 @@ abstract class JHtmlIcon
 	 */
 	public static function print_screen($article, $params, $attribs = array(), $legacy = false)
 	{
-		// Checks template image directory for image, if none found default are loaded
-		if ($params->get('show_icons'))
-		{
-			if ($legacy)
-			{
-				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
-			}
-			else
-			{
-				$text = '<span class="icon-print"></span>' . JText::_('JGLOBAL_PRINT');
-			}
-		}
-		else
-		{
-			$text = JText::_('JGLOBAL_PRINT');
-		}
+		$text = JLayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
 
 		return '<a href="#" onclick="window.print();return false;">' . $text . '</a>';
 	}

@@ -224,7 +224,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$this->parent->pushStep(
 				array(
 					'type' => 'folder',
-					'path' => $this->parent->getPath('extension_site')
+					'path' => $this->parent->getPath('extension_site'),
 				)
 			);
 		}
@@ -255,7 +255,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$this->parent->pushStep(
 				array(
 					'type' => 'folder',
-					'path' => $this->parent->getPath('extension_administrator')
+					'path' => $this->parent->getPath('extension_administrator'),
 				)
 			);
 		}
@@ -279,7 +279,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			array(
 				'element'   => $this->element,
 				'type'      => $this->extension->type,
-				'client_id' => 1
+				'client_id' => 1,
 			)
 		);
 
@@ -661,7 +661,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 *
 	 * @param   integer  $id  The unique extension id of the component to uninstall
 	 *
-	 * @return  mixed  Return value for uninstall method in component uninstall file
+	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
 	 */
@@ -684,6 +684,17 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		if ($this->extension->protected)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_WARNCORECOMPONENT'), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name), JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -804,6 +815,10 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$db->setQuery($query);
 		$db->execute();
 
+		// Rebuild the categories for correct lft/rgt
+		$category = JTable::getInstance('category');
+		$category->rebuild();
+
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
@@ -811,7 +826,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				'element'   => $this->extension->element,
 				'type'      => 'component',
 				'client_id' => 1,
-				'folder'    => ''
+				'folder'    => '',
 			)
 		);
 
@@ -1136,7 +1151,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$query = $db->getQuery(true)
 					->update('#__menu')
 					->set('component_id = ' . $db->quote($component_id))
-					->where("type = " . $db->quote('component'))
+					->where('type = ' . $db->quote('component'))
 					->where('client_id = 0')
 					->where('link LIKE ' . $db->quote('index.php?option=' . $option)
 							. " OR link LIKE '" . $db->escape('index.php?option=' . $option . '&') . "%'");
@@ -1284,7 +1299,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			return false;
 		}
 
-		if ( !$table->bind($data) || !$table->check() || !$table->store())
+		if (!$table->bind($data) || !$table->check() || !$table->store())
 		{
 			// The menu item already exists. Delete it and retry instead of throwing an error.
 			$query = $db->getQuery(true)
@@ -1300,7 +1315,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$db->setQuery($query);
 			$menu_id = $db->loadResult();
 
-			if ( !$menu_id)
+			if (!$menu_id)
 			{
 				// Oops! Could not get the menu ID. Go back and rollback changes.
 				JError::raiseWarning(1, $table->getError());
@@ -1317,7 +1332,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				// Retry creating the menu item
 				$table->setLocation($parentId, 'last-child');
 
-				if ( !$table->bind($data) || !$table->check() || !$table->store())
+				if (!$table->bind($data) || !$table->check() || !$table->store())
 				{
 					// Install failed, warn user and rollback changes
 					JError::raiseWarning(1, $table->getError());

@@ -6,8 +6,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/factory.php';
-
 /**
  * Tests for JDate class.
  *
@@ -225,7 +223,7 @@ class JFactoryTest extends TestCaseDatabase
 		JFactory::$language = $this->getMockLanguage();
 
 		$date = JFactory::getDate('now');
-		sleep(2);
+		usleep(1);
 		$date2 = JFactory::getDate('now');
 
 		$this->assertThat(

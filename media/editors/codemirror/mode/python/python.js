@@ -55,7 +55,7 @@
     if (parserConf.extra_builtins != undefined)
       myBuiltins = myBuiltins.concat(parserConf.extra_builtins);
 
-    var py3 = parserConf.version && parseInt(parserConf.version, 10) == 3
+    var py3 = !(parserConf.version && Number(parserConf.version) < 3)
     if (py3) {
       // since http://legacy.python.org/dev/peps/pep-0465/ @ is also an operator
       var singleOperators = parserConf.singleOperators || /^[\+\-\*\/%&|\^~<>!@]/;
@@ -85,7 +85,7 @@
           var lineOffset = stream.indentation();
           if (lineOffset > scopeOffset)
             pushPyScope(state);
-          else if (lineOffset < scopeOffset && dedent(stream, state))
+          else if (lineOffset < scopeOffset && dedent(stream, state) && stream.peek() != "#")
             state.errorToken = true;
           return null;
         } else {
@@ -185,7 +185,7 @@
     }
 
     function tokenStringFactory(delimiter) {
-      while ("rub".indexOf(delimiter.charAt(0).toLowerCase()) >= 0)
+      while ("rubf".indexOf(delimiter.charAt(0).toLowerCase()) >= 0)
         delimiter = delimiter.substr(1);
 
       var singleline = delimiter.length == 1;
@@ -233,7 +233,7 @@
 
     function dedent(stream, state) {
       var indented = stream.indentation();
-      while (top(state).offset > indented) {
+      while (state.scopes.length > 1 && top(state).offset > indented) {
         if (top(state).type != "py") return true;
         state.scopes.pop();
       }

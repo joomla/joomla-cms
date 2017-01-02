@@ -9,16 +9,14 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
-
-require_once __DIR__ . '/../../helpers/plugins.php';
+JLoader::register('PluginsHelper', JPATH_ADMINISTRATOR . '/components/com_plugins/helpers/plugins.php');
 
 /**
  * Plugin Type Field class for the Joomla Framework.
  *
  * @since  3.5
  */
-class JFormFieldPluginType extends JFormFieldList
+class JFormFieldPluginType extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

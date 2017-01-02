@@ -40,13 +40,13 @@ abstract class ModLatestHelper
 		switch ($params->get('ordering'))
 		{
 			case 'm_dsc':
-				$model->setState('list.ordering', 'modified DESC, created');
+				$model->setState('list.fullordering', 'modified DESC, created');
 				$model->setState('list.direction', 'DESC');
 				break;
 
 			case 'c_dsc':
 			default:
-				$model->setState('list.ordering', 'created');
+				$model->setState('list.fullordering', 'created');
 				$model->setState('list.direction', 'DESC');
 				break;
 		}
@@ -134,6 +134,6 @@ abstract class ModLatestHelper
 			$title = '';
 		}
 
-		return JText::plural('MOD_LATEST_TITLE' . $type . ($catid ? "_CATEGORY" : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
+		return JText::plural('MOD_LATEST_TITLE' . $type . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
 	}
 }

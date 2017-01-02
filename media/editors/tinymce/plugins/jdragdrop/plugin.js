@@ -19,12 +19,13 @@ tinymce.PluginManager.add('jdragdrop', function(editor) {
 
 		xhr.upload.onprogress = function(e) {
 			var percentComplete = (e.loaded / e.total) * 100;
-			jQuery('.bar').width(percentComplete + '%');
+			document.querySelector('.bar').style.width = percentComplete + '%';
 		};
 
 		removeProgessBar = function(){
 			setTimeout(function(){
-				jQuery('#jloader').remove();
+				document.querySelector('#jloader').outerHTML = "";
+				delete document.querySelector('#jloader');
 				editor.contentAreaContainer.style.borderWidth = '';
 			}, 200);
 		};
@@ -92,13 +93,13 @@ tinymce.PluginManager.add('jdragdrop', function(editor) {
 					// Only images allowed
 					if (f.name.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
 
-						// Display a spining Joomla! logo
-						jQuery('.mce-toolbar-grp').append(
+						// Display a progress bar
+						document.querySelector('.mce-toolbar-grp').innerHTML +=
 							'<div id=\"jloader\">' +
 							'   <div class=\"progress progress-success progress-striped active\" style=\"width:100%;height:30px;\">' +
 							'       <div class=\"bar\" style=\"width: 0%\"></div>' +
 							'   </div>' +
-							'</div>');
+							'</div>';
 						editor.contentAreaContainer.style.borderWidth = '';
 
 						// Upload the file(s)

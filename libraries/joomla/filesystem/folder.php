@@ -444,7 +444,7 @@ abstract class JFolder
 				// Use FTP rename to simulate move
 				if (!$ftp->rename($src, $dest))
 				{
-					return JText::_('Rename failed');
+					return JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
 				}
 
 				$ret = true;
@@ -453,7 +453,7 @@ abstract class JFolder
 			{
 				if (!@rename($src, $dest))
 				{
-					return JText::_('Rename failed');
+					return JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
 				}
 
 				$ret = true;
@@ -689,8 +689,13 @@ abstract class JFolder
 			{
 				$id = ++$GLOBALS['_JFolder_folder_tree_index'];
 				$fullName = $pathObject->clean($path . '/' . $name);
-				$dirs[] = array('id' => $id, 'parent' => $parent, 'name' => $name, 'fullname' => $fullName,
-					'relname' => str_replace(JPATH_ROOT, '', $fullName));
+				$dirs[] = array(
+					'id' => $id,
+					'parent' => $parent,
+					'name' => $name,
+					'fullname' => $fullName,
+					'relname' => str_replace(JPATH_ROOT, '', $fullName),
+				);
 				$dirs2 = self::listFolderTree($fullName, $filter, $maxLevel, $level + 1, $id);
 				$dirs = array_merge($dirs, $dirs2);
 			}

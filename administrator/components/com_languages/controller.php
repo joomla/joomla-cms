@@ -28,13 +28,13 @@ class LanguagesController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached.
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  LanguagesController  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
+		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		$view   = $this->input->get('view', 'languages');
 		$layout = $this->input->get('layout', 'default');
@@ -51,8 +51,6 @@ class LanguagesController extends JControllerLegacy
 			return false;
 		}
 
-		parent::display();
-
-		return $this;
+		return parent::display();
 	}
 }

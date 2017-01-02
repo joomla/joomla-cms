@@ -53,7 +53,7 @@ class JCacheStorageCachelite extends JCacheStorage
 			'automaticCleaningFactor' => isset($options['autoclean']) ? $options['autoclean'] : 200,
 			'fileNameProtection'      => false,
 			'hashedDirectoryLevel'    => 0,
-			'caching'                 => $options['caching']
+			'caching'                 => $options['caching'],
 		);
 
 		if (static::$CacheLiteInstance === null)

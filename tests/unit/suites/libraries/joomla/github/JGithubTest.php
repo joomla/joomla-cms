@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/github/github.php';
-
 /**
  * Test class for JGithub.
  *
@@ -50,7 +48,7 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
+		$this->client = $this->getMockBuilder('JGithubHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
 
 		$this->object = new JGithub($this->options, $this->client);
 	}
@@ -65,6 +63,10 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
+		unset($this->options);
+		unset($this->client);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

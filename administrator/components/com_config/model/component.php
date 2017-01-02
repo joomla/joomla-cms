@@ -131,6 +131,25 @@ class ConfigModelComponent extends ConfigModelForm
 		$context    = $this->option . '.' . $this->name;
 		JPluginHelper::importPlugin('extension');
 
+		// Check super user group.
+		if (isset($data['params']) && !JFactory::getUser()->authorise('core.admin'))
+		{
+			$form = $this->getForm(array(), false);
+
+			foreach ($form->getFieldsets() as $fieldset)
+			{
+				foreach ($form->getFieldset($fieldset->name) as $field)
+				{
+					if ($field->type === 'UserGroupList' && isset($data['params'][$field->fieldname])
+						&& (int) $field->getAttribute('checksuperusergroup', 0) === 1
+						&& JAccess::checkGroup($data['params'][$field->fieldname], 'core.admin'))
+					{
+						throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+					}
+				}
+			}
+		}
+
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
 		{
@@ -178,7 +197,7 @@ class ConfigModelComponent extends ConfigModelForm
 			throw new RuntimeException($table->getError());
 		}
 
-		$result = $dispatcher->trigger('onExtensionBeforeSave', array($context, &$table, false));
+		$result = $dispatcher->trigger('onExtensionBeforeSave', array($context, $table, false));
 
 			// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -187,7 +206,7 @@ class ConfigModelComponent extends ConfigModelForm
 		}
 
 		// Trigger the after save event.
-		$dispatcher->trigger('onExtensionAfterSave', array($context, &$table, false));
+		$dispatcher->trigger('onExtensionAfterSave', array($context, $table, false));
 
 		// Clean the component cache.
 		$this->cleanCache('_system', 0);

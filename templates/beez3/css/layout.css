@@ -2,7 +2,7 @@
  * @author  ( Angie Radtke  )
  * @package Joomla
  * @subpackage Accessible-Template-Beez
- * @copyright Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
+ * @copyright Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -20,6 +20,7 @@ body h1,body h2,body h3,body h4,body h5,body h6 {
 	font-weight: normal;
 	color: inherit;
 	text-rendering: optimizelegibility;
+	word-wrap: break-word;
 }
 
 body h1 {
@@ -57,6 +58,7 @@ body p,body ol,body ul,body dl,body address {
 	margin-bottom: 1.5em;
 	font-size: 1.0em;
 	line-height: 1.5em;
+	word-wrap: break-word;
 }
 
 small {
@@ -431,6 +433,15 @@ input[type="radio"]:checked + label:before {
 	padding: 10px 15px 5px 5px
 }
 
+/* Com_search break long titles & text */
+dt.result-title {
+	word-wrap: break-word;
+}
+
+dd.result-text {
+	word-wrap: break-word;
+}
+
 .advanced-search-tip {
 	background: #FEFDE2;
 	border-radius: 3px;
@@ -499,6 +510,11 @@ textarea,.contact-form input[type="text"],.contact-form input[type="email"],.con
 	float: left;
 	margin-right: 10px;
 	border: 0
+}
+
+#jform_captcha {
+	clear:both;
+	padding-bottom:10px;
 }
 
 label#jform_captcha-lbl {

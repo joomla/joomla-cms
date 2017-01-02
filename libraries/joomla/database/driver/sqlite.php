@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQLite database driver
  *
- * @see    http://php.net/pdo
+ * @see    https://secure.php.net/pdo
  * @since  12.1
  */
 class JDatabaseDriverSqlite extends JDatabaseDriverPdo
@@ -52,7 +52,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	public function __destruct()
 	{
 		$this->freeResult();
-		unset($this->connection);
+		$this->connection = null;
 	}
 
 	/**
@@ -65,7 +65,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	public function disconnect()
 	{
 		$this->freeResult();
-		unset($this->connection);
+		$this->connection = null;
 	}
 
 	/**
@@ -206,7 +206,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 					'Type' => $field->TYPE,
 					'Null' => ($field->NOTNULL == '1' ? 'NO' : 'YES'),
 					'Default' => $field->DFLT_VALUE,
-					'Key' => ($field->PK != '0' ? 'PRI' : '')
+					'Key' => ($field->PK != '0' ? 'PRI' : ''),
 				);
 			}
 		}

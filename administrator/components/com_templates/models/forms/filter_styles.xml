@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset addfieldpath="/administrator/components/com_templates/models/fields" />
-
+	<field
+		name="client_id"
+		type="list"
+		onchange="jQuery('#filter_search, select[id^=filter_], #list_fullordering').val('');this.form.submit();"
+		>
+		<option value="0">JSITE</option>
+		<option value="1">JADMINISTRATOR</option>
+	</field>
 	<fields name="filter">
 		<field
 			name="search"
 			type="text"
 			label="JSEARCH_FILTER"
-			description="JSEARCH_FILTER"
+			description="COM_TEMPLATES_STYLES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
-			name="client_id"
-			type="templatelocation"
+			name="menuitem"
+			type="menuitem"
+			label="COM_TEMPLATES_OPTION_SELECT_PAGE"
+			disable="separator,alias,heading,url"
+			showon="client_id:0"
 			onchange="this.form.submit();"
 			>
-			<option value="">JGLOBAL_FILTER_CLIENT</option>
+			<option	value="">COM_TEMPLATES_OPTION_SELECT_PAGE</option>
+			<option	value="-1">COM_TEMPLATES_OPTION_NONE</option>
 		</field>
 		<field
 			name="template"
@@ -39,8 +50,6 @@
 			<option value="a.title DESC">COM_TEMPLATES_HEADING_STYLE_DESC</option>
 			<option value="a.home ASC">COM_TEMPLATES_HEADING_DEFAULT_ASC</option>
 			<option value="a.home DESC">COM_TEMPLATES_HEADING_DEFAULT_DESC</option>
-			<option value="a.client_id ASC">COM_TEMPLATES_HEADING_LOCATION_ASC</option>
-			<option value="a.client_id DESC">COM_TEMPLATES_HEADING_LOCATION_DESC</option>
 			<option value="a.template ASC">COM_TEMPLATES_HEADING_TEMPLATE_ASC</option>
 			<option value="a.template DESC">COM_TEMPLATES_HEADING_TEMPLATE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>

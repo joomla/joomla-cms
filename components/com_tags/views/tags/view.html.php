@@ -33,7 +33,7 @@ class TagsViewTags extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed   A string if successful, otherwise a Error object.
+	 * @return  mixed   A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -68,8 +68,7 @@ class TagsViewTags extends JViewLegacy
 				}
 
 				// Prepare the data.
-				$temp = new Registry;
-				$temp->loadString($itemElement->params);
+				$temp = new Registry($itemElement->params);
 				$itemElement->params = clone $params;
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
@@ -123,7 +122,7 @@ class TagsViewTags extends JViewLegacy
 				}
 			}
 		}
-		elseif(!empty($items[0]))
+		elseif (!empty($items[0]))
 		{
 			// Merge so that tag params take priority
 			$temp->merge($items[0]->params);
@@ -260,6 +259,22 @@ class TagsViewTags extends JViewLegacy
 					}
 				}
 			}
+		}
+
+		// Respect configuration Sitename Before/After for TITLE in views All Tags.
+		if (!$title && ($pos = $app->get('sitename_pagetitles', 0)))
+		{
+			$title = $this->document->getTitle();
+
+			if ($pos == 1)
+			{
+				$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			}
+			else
+			{
+				$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			}
+			$this->document->setTitle($title);
 		}
 
 		// Add alternative feed link

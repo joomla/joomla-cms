@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once __DIR__ . '/../default/view.php';
+JLoader::register('InstallerViewDefault', dirname(__DIR__) . '/default/view.php');
 
 /**
  * Language installer view
@@ -42,16 +42,13 @@ class InstallerViewLanguages extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		// Run findLanguages from the model
-		$this->model = $this->getModel('languages');
-		$this->model->findLanguages();
-
 		// Get data from the model.
 		$this->state         = $this->get('State');
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->installedLang = JLanguageHelper::getInstalledLanguages();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -76,9 +73,6 @@ class InstallerViewLanguages extends InstallerViewDefault
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::custom('languages.install', 'upload', 'upload', 'COM_INSTALLER_TOOLBAR_INSTALL', true);
-			JToolBarHelper::custom('languages.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_LANGUAGES', false);
-			JToolBarHelper::divider();
 			parent::addToolbar();
 
 			// TODO: this help screen will need to be created.

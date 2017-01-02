@@ -7,9 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/mediawiki/http.php';
-require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
-
 /**
  * Test class for JMediawikiHttp.
  *
@@ -61,9 +58,30 @@ class JMediawikiHttpTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport', false);
+				$this->transport = $this->getMockBuilder('JHttpTransportStream')
+				->setMethods(array('request'))
+				->setConstructorArgs(array($this->options))
+				->setMockClassName('CustomTransport')
+				->disableOriginalConstructor()
+				->getMock();
 
 		$this->object = new JMediawikiHttp($this->options, $this->transport);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options);
+		unset($this->transport);
+		unset($this->object);
 	}
 
 	/**

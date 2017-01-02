@@ -37,6 +37,6 @@ class JFormFieldStatus extends JFormFieldPredefinedList
 		'0'  => 'JUNPUBLISHED',
 		'1'  => 'JPUBLISHED',
 		'2'  => 'JARCHIVED',
-		'*'  => 'JALL'
+		'*'  => 'JALL',
 	);
 }

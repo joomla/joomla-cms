@@ -49,7 +49,7 @@ class JRoute
 			// Make sure that we have our router
 			if (!self::$_router)
 			{
-				return null;
+				return;
 			}
 		}
 
@@ -94,7 +94,7 @@ class JRoute
 
 		if ($xhtml)
 		{
-			$url = htmlspecialchars($url);
+			$url = htmlspecialchars($url, ENT_COMPAT, 'UTF-8');
 		}
 
 		return $url;

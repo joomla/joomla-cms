@@ -33,27 +33,6 @@ class PlgTwofactorauthYubikey extends JPlugin
 	protected $methodName = 'yubikey';
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
-	 *
-	 * @since   3.2
-	 */
-	public function __construct(&$subject, $config = array())
-	{
-		parent::__construct($subject, $config);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-	}
-
-	/**
 	 * This method returns the identification object for this two factor
 	 * authentication plugin.
 	 *
@@ -70,11 +49,11 @@ class PlgTwofactorauthYubikey extends JPlugin
 		{
 			$app = JFactory::getApplication();
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				$current_section = 2;
 			}
-			elseif ($app->isSite())
+			elseif ($app->isClient('site'))
 			{
 				$current_section = 1;
 			}
@@ -120,7 +99,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
-		$new_totp = $otpConfig->method != $this->methodName;
+		$new_totp    = $otpConfig->method != $this->methodName;
 
 		// Start output buffering
 		@ob_start();
@@ -208,15 +187,15 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Remove the last 32 digits and store the rest in the user configuration parameters
-		$yubikey = substr($data['securitycode'], 0, -32);
+		$yubikey      = substr($data['securitycode'], 0, -32);
 
 		// Check succeedeed; return an OTP configuration object
-		$otpConfig = (object) array(
+		$otpConfig    = (object) array(
 			'method'  => $this->methodName,
 			'config'  => array(
-				'yubikey'  => $yubikey
+				'yubikey' => $yubikey
 			),
-			'otep'  => array()
+			'otep'    => array()
 		);
 
 		return $otpConfig;
@@ -296,7 +275,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		$http  = JHttpFactory::getHttp();
 		$token = JSession::getFormToken();
-		$nonce = md5($token . uniqid(rand()));
+		$nonce = md5($token . uniqid(mt_rand()));
 
 		while (!$gotResponse && !empty($server_queue))
 		{
@@ -364,7 +343,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Validate the response - We need an OK message reply
-		if ($data['status'] != 'OK')
+		if ($data['status'] !== 'OK')
 		{
 			return false;
 		}

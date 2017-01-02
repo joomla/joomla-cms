@@ -21,7 +21,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var    array
 	 *
-	 * @since  3.5.2
+	 * @since  3.6.0
 	 */
 	protected $updateInfo = null;
 
@@ -30,7 +30,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var    string
 	 *
-	 * @since  3.5.2
+	 * @since  3.6.0
 	 */
 	protected $methodSelect = null;
 
@@ -39,7 +39,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var   string
 	 *
-	 * @since  3.5.2
+	 * @since  3.6.0
 	 */
 	protected $methodSelectUpload = null;
 
@@ -72,7 +72,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
-		JToolbarHelper::custom('update.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false);
+		JToolbarHelper::custom('update.purge', 'loop', 'loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
 
 		// Add toolbar buttons.
 		$user = JFactory::getUser();
@@ -87,7 +87,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 		if (!is_null($this->updateInfo['object']))
 		{
-			// Show the message if a update is found.
+			// Show the message if an update is found.
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
 		}
 
@@ -140,6 +140,8 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			$this->warnings = $warningsModel->getItems();
 		}
 
+		$this->selfUpdate = $this->checkForSelfUpdate();
+
 		// Only Super Users have access to the Update & Install for obvious security reasons
 		$this->showUploadAndUpdate = JFactory::getUser()->authorise('core.admin');
 
@@ -148,5 +150,71 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 		// Render the view.
 		parent::display($tpl);
+	}
+
+	/**
+	 * Makes sure that the Joomla! Update Component Update is in the database and check if there is a new version.
+	 *
+	 * @return  boolean  True if there is an update else false
+	 *
+	 * @since   3.6.3
+	 */
+	private function checkForSelfUpdate()
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'));
+		$db->setQuery($query);
+
+		try
+		{
+			// Get the component extension ID
+			$joomlaUpdateComponentId = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			// Something is wrong here!
+			$joomlaUpdateComponentId = 0;
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		// Try the update only if we have an extension id
+		if ($joomlaUpdateComponentId != 0)
+		{
+			// Allways force to check for an update!
+			$cache_timeout = 0;
+
+			$updater = JUpdater::getInstance();
+			$updater->findUpdates($joomlaUpdateComponentId, $cache_timeout, JUpdater::STABILITY_STABLE);
+
+			// Fetch the update information from the database.
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->quoteName('#__updates'))
+				->where($db->quoteName('extension_id') . ' = ' . $db->quote($joomlaUpdateComponentId));
+			$db->setQuery($query);
+
+			try
+			{
+				$joomlaUpdateComponentObject = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				// Something is wrong here!
+				$joomlaUpdateComponentObject = null;
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			}
+
+			if (is_null($joomlaUpdateComponentObject))
+			{
+				// No Update great!
+				return false;
+			}
+
+			return true;
+		}
 	}
 }

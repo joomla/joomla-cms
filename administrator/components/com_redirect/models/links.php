@@ -36,6 +36,7 @@ class RedirectModelLinks extends JModelList
 				'hits', 'a.hits',
 				'created_date', 'a.created_date',
 				'published', 'a.published',
+				'header', 'a.header', 'http_status',
 			);
 		}
 
@@ -87,6 +88,7 @@ class RedirectModelLinks extends JModelList
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
+		$this->setState('filter.http_status', $this->getUserStateFromRequest($this->context . '.filter.http_status', 'filter_http_status', '', 'cmd'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_redirect');
@@ -114,6 +116,7 @@ class RedirectModelLinks extends JModelList
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.http_status');
 
 		return parent::getStoreId($id);
 	}
@@ -149,7 +152,13 @@ class RedirectModelLinks extends JModelList
 		}
 		elseif ($state === '')
 		{
-			$query->where($db->quoteName('a.published') . ' IN (0,1,2)');
+			$query->where($db->quoteName('a.published') . ' IN (0,1)');
+		}
+
+		// Filter the items over the HTTP status code header.
+		if ($httpStatusCode = $this->getState('filter.http_status'))
+		{
+			$query->where($db->quoteName('a.header') . ' = ' . (int) $httpStatusCode);
 		}
 
 		// Filter the items over the search string if set.

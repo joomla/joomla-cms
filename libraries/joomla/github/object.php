@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * GitHub API object class for the Joomla Platform.
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 abstract class JGithubObject
 {

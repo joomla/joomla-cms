@@ -31,7 +31,7 @@ class ContentViewArticle extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -62,7 +62,7 @@ class ContentViewArticle extends JViewLegacy
 		$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 		// No link for ROOT category
-		if ($item->parent_alias == 'root')
+		if ($item->parent_alias === 'root')
 		{
 			$item->parent_slug = null;
 		}
@@ -82,7 +82,7 @@ class ContentViewArticle extends JViewLegacy
 			$currentLink = $active->link;
 
 			// If the current view is the active item and an article view for this article, then the menu item params take priority
-			if (strpos($currentLink, 'view=article') && (strpos($currentLink, '&id=' . (string) $item->id)))
+			if (strpos($currentLink, 'view=article') && strpos($currentLink, '&id=' . (string) $item->id))
 			{
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))
@@ -155,6 +155,11 @@ class ContentViewArticle extends JViewLegacy
 		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_content.article', $this->item->id);
 
+		if ($item->params->get('show_associations'))
+		{
+			$item->associations = ContentHelperAssociation::displayAssociations($item->id);
+		}
+
 		// Process the content plugins.
 
 		JPluginHelper::importPlugin('content');
@@ -208,18 +213,15 @@ class ContentViewArticle extends JViewLegacy
 		$id = (int) @$menu->query['id'];
 
 		// If the menu item does not concern this article
-		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] != 'article' || $id != $this->item->id))
+		if ($menu && ($menu->query['option'] !== 'com_content' || $menu->query['view'] !== 'article' || $id != $this->item->id))
 		{
-			// If this is not a single article menu item, set the page title to the article title
-			if ($this->item->title)
-			{
-				$title = $this->item->title;
-			}
+			// If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
+			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
 
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
 			$category = JCategories::getInstance('Content')->get($this->item->catid);
 
-			while ($category && ($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $category->id) && $category->id > 1)
+			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
 				$path[]   = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
@@ -279,7 +281,7 @@ class ContentViewArticle extends JViewLegacy
 
 		if ($app->get('MetaAuthor') == '1')
 		{
-			$author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author;
+			$author = $this->item->created_by_alias ?: $this->item->author;
 			$this->document->setMetaData('author', $author);
 		}
 

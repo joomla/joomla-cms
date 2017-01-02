@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://www.w3.org/TR/html-markup/textarea.html#textarea
  * @since  11.1
  */
-class JFormFieldTextarea extends JFormField
+class JFormFieldTextarea extends JFormField implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -49,6 +49,14 @@ class JFormFieldTextarea extends JFormField
 	 * @since  3.4
 	 */
 	protected $maxlength;
+
+	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.textarea';
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -135,33 +143,51 @@ class JFormFieldTextarea extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.7
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
 		// Initialize some field attributes.
-		$class        = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$disabled     = $this->disabled ? ' disabled' : '';
-		$readonly     = $this->readonly ? ' readonly' : '';
 		$columns      = $this->columns ? ' cols="' . $this->columns . '"' : '';
 		$rows         = $this->rows ? ' rows="' . $this->rows . '"' : '';
-		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
-		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
-		$autofocus    = $this->autofocus ? ' autofocus' : '';
-		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
 		$maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';
 
-		// Initialize JavaScript field attributes.
-		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
-		$onclick = $this->onclick ? ' onclick="' . $this->onclick . '"' : '';
+		$extraData = array(
+			'maxlength'    => $maxlength,
+			'rows'         => $rows,
+			'columns'      => $columns
+		);
 
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
+		return array_merge($data, $extraData);
+	}
 
-		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class
-			. $hint . $disabled . $readonly . $onchange . $onclick . $required . $autocomplete . $autofocus . $spellcheck . $maxlength . ' >'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('filter', 'JComponentHelper::filterText');
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

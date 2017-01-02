@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 // Include the archive functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModArchiveHelper', __DIR__ . '/helper.php');
 
 $params->def('count', 10);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 $list            = ModArchiveHelper::getList($params);
 
 require JModuleHelper::getLayoutPath('mod_articles_archive', $params->get('layout', 'default'));

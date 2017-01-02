@@ -82,11 +82,11 @@ elseif ($input->get('module'))
 			$class = 'Mod' . ucfirst($module) . 'Helper';
 		}
 
-		$method = $input->get('method') ? $input->get('method') : 'get';
+		$method = $input->get('method') ?: 'get';
 
 		if (is_file($helperFile))
 		{
-			require_once $helperFile;
+			JLoader::register($class, $helperFile);
 
 			if (method_exists($class, $method . 'Ajax'))
 			{
@@ -155,13 +155,6 @@ switch ($format)
 	// JSONinzed
 	case 'json' :
 		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
-
-		break;
-
-	// Human-readable format
-	case 'debug' :
-		echo '<pre>' . print_r($results, true) . '</pre>';
-		$app->close();
 
 		break;
 

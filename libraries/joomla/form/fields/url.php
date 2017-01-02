@@ -19,7 +19,7 @@ JFormHelper::loadFieldClass('text');
  * @see    JFormRuleUrl for validation of full urls
  * @since  11.1
  */
-class JFormFieldUrl extends JFormFieldText
+class JFormFieldUrl extends JFormFieldText implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -30,6 +30,14 @@ class JFormFieldUrl extends JFormFieldText
 	protected $type = 'Url';
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.url';
+
+	/**
 	 * Method to get the field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -38,35 +46,57 @@ class JFormFieldUrl extends JFormFieldText
 	 */
 	protected function getInput()
 	{
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.7
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
 		// Initialize some field attributes.
-		$size         = !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$class        = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$readonly     = $this->readonly ? ' readonly' : '';
-		$disabled     = $this->disabled ? ' disabled' : '';
-		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
-		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
-		$autofocus    = $this->autofocus ? ' autofocus' : '';
-		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
 
 		// Note that the input type "url" is suitable only for external URLs, so if internal URLs are allowed
 		// we have to use the input type "text" instead.
 		$inputType    = $this->element['relative'] ? 'type="text"' : 'type="url"';
 
-		// Initialize JavaScript field attributes.
-		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
+		$extraData = array(
+			'maxLength' => $maxLength,
+			'inputType' => $inputType,
+		);
 
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
+		return array_merge($data, $extraData);
+	}
 
-		return '<input ' . $inputType . ' name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
-			. htmlspecialchars(JStringPunycode::urlToUTF8($this->value), ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly
-			. $hint . $autocomplete . $autofocus . $spellcheck . $onchange . $maxLength . $required . ' />';
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('validate', 'url');
+
+		if (! $fieldNode->getAttribute('relative'))
+		{
+			$fieldNode->removeAttribute('relative');
+		}
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

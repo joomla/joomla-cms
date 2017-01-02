@@ -12,9 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Repositories Comments class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/repos/comments
+ * @documentation https://developer.github.com/v3/repos/comments
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageRepositoriesComments extends JGithubPackage
 {
@@ -106,7 +107,7 @@ class JGithubPackageRepositoriesComments extends JGithubPackage
 
 		$data = json_encode(
 			array(
-				'body' => $comment
+				'body' => $comment,
 			)
 		);
 
@@ -164,7 +165,7 @@ class JGithubPackageRepositoriesComments extends JGithubPackage
 				'body' => $comment,
 				'path' => $filepath,
 				'position' => (int) $position,
-				'line' => (int) $line
+				'line' => (int) $line,
 			)
 		);
 

@@ -36,7 +36,7 @@ class ContactController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		require_once JPATH_COMPONENT . '/helpers/contact.php';
+		JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contact/helpers/contact.php');
 
 		$view   = $this->input->get('view', 'contacts');
 		$layout = $this->input->get('layout', 'default');

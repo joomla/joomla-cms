@@ -15,15 +15,13 @@ defined('JPATH_BASE') or die;
  * None
  */
 
-JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '#collapseModal'));
-
 JFactory::getDocument()->addScriptDeclaration(
 	'
 		jQuery(document).ready(function($){
 			if ($("#batch-category-id").length){var batchSelector = $("#batch-category-id");}
 			if ($("#batch-menu-id").length){var batchSelector = $("#batch-menu-id");}
 			if ($("#batch-position-id").length){var batchSelector = $("#batch-position-id");}
-			if ($("#batch-copy-move").length) {
+			if ($("#batch-copy-move").length && batchSelector) {
 				$("#batch-copy-move").hide();
 				batchSelector.on("change", function(){
 					if (batchSelector.val() != 0 || batchSelector.val() != "") {

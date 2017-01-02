@@ -25,11 +25,19 @@ class ContentViewForm extends JViewLegacy
 	protected $state;
 
 	/**
+	 * Should we show a captcha form for the submission of the article?
+	 *
+	 * @var   bool
+	 * @since 3.7.0
+	 */
+	protected $captchaEnabled = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -44,7 +52,7 @@ class ContentViewForm extends JViewLegacy
 
 		if (empty($this->item->id))
 		{
-			$authorised = $user->authorise('core.create', 'com_content') || (count($user->getAuthorisedCategories('com_content', 'core.create')));
+			$authorised = $user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create'));
 		}
 		else
 		{
@@ -104,10 +112,21 @@ class ContentViewForm extends JViewLegacy
 		}
 
 		// Propose current language as default when creating new article
-		if (JLanguageMultilang::isEnabled() && empty($this->item->id))
+		if (empty($this->item->id) && JLanguageMultilang::isEnabled())
 		{
 			$lang = JFactory::getLanguage()->getTag();
 			$this->form->setFieldAttribute('language', 'default', $lang);
+		}
+
+		$captchaSet = $params->get('captcha', JFactory::getApplication()->get('captcha', '0'));
+
+		foreach (JPluginHelper::getPlugin('captcha') as $plugin)
+		{
+			if ($captchaSet === $plugin->name)
+			{
+				$this->captchaEnabled = true;
+				break;
+			}
 		}
 
 		$this->_prepareDocument();

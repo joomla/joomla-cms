@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Users class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterUsers extends JTwitterObject
 {
@@ -122,7 +123,7 @@ class JTwitterUsers extends JTwitterObject
 		$data['q'] = rawurlencode($query);
 
 		// Check if page is specified.
-		if ($page > 0 )
+		if ($page > 0)
 		{
 			$data['page'] = $page;
 		}

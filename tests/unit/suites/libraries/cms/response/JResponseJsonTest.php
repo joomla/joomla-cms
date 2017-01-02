@@ -146,12 +146,12 @@ class JResponseJsonTest extends TestCase
 		JFactory::$application->enqueueMessage('This part was successful');
 		JFactory::$application->enqueueMessage('You should not do that', 'warning');
 
-		$output = new JResponseJson(new Exception('A major error occured'));
+		$output = new JResponseJson(new Exception('A major error occurred'));
 
 		$response = json_decode($output);
 
 		$this->assertFalse($response->success);
-		$this->assertSame('A major error occured', $response->message);
+		$this->assertSame('A major error occurred', $response->message);
 		$this->assertSame('This part was successful', $response->messages->message[0]);
 		$this->assertSame('You should not do that', $response->messages->warning[0]);
 	}
@@ -172,12 +172,12 @@ class JResponseJsonTest extends TestCase
 		JFactory::$application->enqueueMessage('This part was successful');
 		JFactory::$application->enqueueMessage('You should not do that', 'warning');
 
-		$output = new JResponseJson(new Exception('A major error occured'), null, false, true);
+		$output = new JResponseJson(new Exception('A major error occurred'), null, false, true);
 
 		$response = json_decode($output);
 
 		$this->assertFalse($response->success);
-		$this->assertSame('A major error occured', $response->message);
+		$this->assertSame('A major error occurred', $response->message);
 		$this->assertNull($response->messages);
 	}
 

@@ -19,9 +19,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 
 	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) :?>
+	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar">
-		<?php if ($this->params->get('filter_field')) :?>
+		<?php if ($this->params->get('filter_field')) : ?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_CONTACT_FILTER_LABEL') . '&#160;'; ?></label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" />
@@ -39,39 +39,34 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	</fieldset>
 	<?php endif; ?>
 
-		<ul class="category list-striped">
+		<ul class="category row-striped">
 			<?php foreach ($this->items as $i => $item) : ?>
 
 				<?php if (in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 					<?php if ($this->items[$i]->published == 0) : ?>
-						<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-					<?php else: ?>
-						<li class="cat-list-row<?php echo $i % 2; ?>" >
+						<li class="row-fluid system-unpublished cat-list-row<?php echo $i % 2; ?>">
+					<?php else : ?>
+						<li class="row-fluid cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 
-						<span class="pull-right">
-							<?php if ($this->params->get('show_telephone_headings') AND !empty($item->telephone)) : ?>
-								<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br />
-							<?php endif; ?>
-
-							<?php if ($this->params->get('show_mobile_headings') AND !empty ($item->mobile)) : ?>
-									<?php echo JText::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br />
-							<?php endif; ?>
-
-							<?php if ($this->params->get('show_fax_headings') AND !empty($item->fax) ) : ?>
-								<?php echo JText::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br />
-							<?php endif; ?>
-					</span>
-
-					<div class="list-item">
-						<div class="list-title">
-							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
-								<?php echo $item->name; ?></a>
-							<?php if ($this->items[$i]->published == 0) : ?>
-								<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+					<?php if ($this->params->get('show_image_heading')) : ?>
+						<?php $contact_width = 7; ?>
+						<div class="span2 col-md-2">
+							<?php if ($this->items[$i]->image) : ?>
+								<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
+									<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
 							<?php endif; ?>
 						</div>
+					<?php else : ?>
+						<?php $contact_width = 9; ?>
+					<?php endif; ?>
 
+					<div class="list-title span<?php echo $contact_width; ?> col-md-<?php echo $contact_width; ?>">
+						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
+							<?php echo $item->name; ?></a>
+						<?php if ($this->items[$i]->published == 0) : ?>
+							<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+						<?php endif; ?>
 						<?php echo $item->event->afterDisplayTitle; ?>
 
 						<?php echo $item->event->beforeDisplayContent; ?>
@@ -80,18 +75,32 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo $item->con_position; ?><br />
 						<?php endif; ?>
 						<?php if ($this->params->get('show_email_headings')) : ?>
-								<?php echo $item->email_to; ?>
+								<?php echo $item->email_to; ?><br />
 						<?php endif; ?>
-						<?php if ($this->params->get('show_suburb_headings') AND !empty($item->suburb)) : ?>
+						<?php if ($this->params->get('show_suburb_headings') && !empty($item->suburb)) : ?>
 							<?php echo $item->suburb . ', '; ?>
 						<?php endif; ?>
 
-						<?php if ($this->params->get('show_state_headings') AND !empty($item->state)) : ?>
+						<?php if ($this->params->get('show_state_headings') && !empty($item->state)) : ?>
 							<?php echo $item->state . ', '; ?>
 						<?php endif; ?>
 
-						<?php if ($this->params->get('show_country_headings') AND !empty($item->country)) : ?>
+						<?php if ($this->params->get('show_country_headings') && !empty($item->country)) : ?>
 							<?php echo $item->country; ?><br />
+						<?php endif; ?>
+					</div>
+
+					<div class="span3 col-md-3">
+						<?php if ($this->params->get('show_telephone_headings') && !empty($item->telephone)) : ?>
+							<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br />
+						<?php endif; ?>
+
+						<?php if ($this->params->get('show_mobile_headings') && !empty ($item->mobile)) : ?>
+								<?php echo JText::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br />
+						<?php endif; ?>
+
+						<?php if ($this->params->get('show_fax_headings') && !empty($item->fax) ) : ?>
+							<?php echo JText::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br />
 						<?php endif; ?>
 					</div>
 

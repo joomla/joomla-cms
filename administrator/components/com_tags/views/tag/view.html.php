@@ -29,7 +29,7 @@ class TagsViewTag extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -90,33 +90,34 @@ class TagsViewTag extends JViewLegacy
 			JToolbarHelper::apply('tag.apply');
 			JToolbarHelper::save('tag.save');
 			JToolbarHelper::save2new('tag.save2new');
+			JToolbarHelper::cancel('tag.cancel');
 		}
 
 		// If not checked out, can save the item.
-		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId)))
-		{
-			JToolbarHelper::apply('tag.apply');
-			JToolbarHelper::save('tag.save');
-
-			if ($canDo->get('core.create'))
-			{
-				JToolbarHelper::save2new('tag.save2new');
-			}
-		}
-
-		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create'))
-		{
-			JToolbarHelper::save2copy('tag.save2copy');
-		}
-
-		if (empty($this->item->id))
-		{
-			JToolbarHelper::cancel('tag.cancel');
-		}
 		else
 		{
-			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
+
+			// Can't save the record if it's checked out and editable
+			if (!$checkedOut && $itemEditable)
+			{
+				JToolbarHelper::apply('tag.apply');
+				JToolbarHelper::save('tag.save');
+	
+				if ($canDo->get('core.create'))
+				{
+					JToolbarHelper::save2new('tag.save2new');
+				}
+			}
+
+			// If an existing item, can save to a copy.
+			if ($canDo->get('core.create'))
+			{
+				JToolbarHelper::save2copy('tag.save2copy');
+			}
+
+			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				JToolbarHelper::versions('com_tags.tag', $this->item->id);
 			}

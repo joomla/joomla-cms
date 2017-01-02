@@ -20,7 +20,7 @@ JFormHelper::loadFieldClass('text');
  * @see    JHtmlTel for rendering of telephone numbers
  * @since  11.1
  */
-class JFormFieldTel extends JFormFieldText
+class JFormFieldTel extends JFormFieldText implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -49,7 +49,7 @@ class JFormFieldTel extends JFormFieldText
 		$readonly     = $this->readonly ? ' readonly' : '';
 		$disabled     = $this->disabled ? ' disabled' : '';
 		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = $hint ? ' placeholder="' . $hint . '"' : '';
+		$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : '';
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
 		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 		$autofocus    = $this->autofocus ? ' autofocus' : '';
@@ -60,10 +60,29 @@ class JFormFieldTel extends JFormFieldText
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
+		JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
 
 		return '<input type="tel" name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly
 			. $hint . $autocomplete . $autofocus . $spellcheck . $onchange . $maxLength . $required . ' />';
+	}
+
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('validate', 'tel');
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

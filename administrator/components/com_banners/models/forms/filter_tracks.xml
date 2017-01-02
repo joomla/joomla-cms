@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="filter">
+	<fields name="filter" addfieldpath="/administrator/components/com_banners/models/fields">
 		<field
 			name="search"
 			type="text"
-			label="JSEARCH_FILTER"
-			description="JSEARCH_FILTER"
+			label="COM_BANNERS_TRACKS_FILTER_SEARCH_LABEL"
+			description="COM_BANNERS_TRACKS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
+
 		<field
 			name="category_id"
 			type="category"
@@ -18,6 +19,7 @@
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
+
 		<field
 			name="client_id"
 			type="bannerclient"
@@ -28,6 +30,7 @@
 			>
 			<option value="">COM_BANNERS_SELECT_CLIENT</option>
 		</field>
+
 		<field
 			name="type"
 			type="list"
@@ -37,6 +40,21 @@
 			<option value="1">COM_BANNERS_TYPE1</option>
 			<option value="2">COM_BANNERS_TYPE2</option>
 		</field>
+
+		<field
+			name="level"
+			type="integer"
+			label="JOPTION_FILTER_LEVEL"
+			description="JOPTION_FILTER_LEVEL_DESC"
+			first="1"
+			last="10"
+			step="1"
+			languages="*"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+		</field>
+
 		<field
 			name="begin"
 			type="calendar"
@@ -48,6 +66,7 @@
 			filter="user_utc"
 			onchange="this.form.submit();"
 		/>
+
 		<field
 			name="end"
 			type="calendar"
@@ -81,6 +100,7 @@
 			<option value="a.track_date ASC">JDATE_ASC</option>
 			<option value="a.track_date DESC">JDATE_DESC</option>
 		</field>
+
 		<field
 			name="limit"
 			type="limitbox"

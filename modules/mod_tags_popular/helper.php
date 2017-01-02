@@ -23,7 +23,9 @@ abstract class ModTagsPopularHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 *
+	 * @since   3.1
 	 */
 	public static function getList(&$params)
 	{
@@ -42,7 +44,8 @@ abstract class ModTagsPopularHelper
 					'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
 					' COUNT(*) AS count', 'MAX(t.title) AS title',
 					'MAX(' . $db->quoteName('t.access') . ') AS access',
-					'MAX(' . $db->quoteName('t.alias') . ') AS alias'
+					'MAX(' . $db->quoteName('t.alias') . ') AS alias',
+					'MAX(' . $db->quoteName('t.params') . ') AS params',
 				)
 			)
 			->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')))
@@ -55,9 +58,9 @@ abstract class ModTagsPopularHelper
 		// Optionally filter on language
 		$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
@@ -65,7 +68,7 @@ abstract class ModTagsPopularHelper
 			$query->where($db->quoteName('t.language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
-		if ($timeframe != 'alltime')
+		if ($timeframe !== 'alltime')
 		{
 			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($nowDate, '-1', strtoupper($timeframe)));
 		}
@@ -83,7 +86,7 @@ abstract class ModTagsPopularHelper
 				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
 
 		// Set query depending on order_value param
-		if ($order_value == 'rand()')
+		if ($order_value === 'rand()')
 		{
 			$query->order($query->Rand());
 		}
@@ -92,7 +95,7 @@ abstract class ModTagsPopularHelper
 			$order_value     = $db->quoteName($order_value);
 			$order_direction = $params->get('order_direction', 1) ? 'DESC' : 'ASC';
 
-			if ($params->get('order_value', 'title') == 'title')
+			if ($params->get('order_value', 'title') === 'title')
 			{
 				$query->setLimit($maximum);
 				$query->order('count DESC');

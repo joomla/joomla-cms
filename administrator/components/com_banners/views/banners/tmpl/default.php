@@ -19,9 +19,6 @@ $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$canOrder  = $user->authorise('core.edit.state', 'com_banners.category');
-$archived  = $this->state->get('filter.state') == 2 ? true : false;
-$trashed   = $this->state->get('filter.state') == -2 ? true : false;
 $saveOrder = $listOrder == 'a.ordering';
 
 if ($saveOrder)
@@ -30,7 +27,6 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 ?>
-
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -100,6 +96,7 @@ if ($saveOrder)
 							<td class="order nowrap center hidden-phone">
 								<?php
 								$iconClass = '';
+
 								if (!$canChange)
 								{
 									$iconClass = ' inactive';
@@ -123,16 +120,13 @@ if ($saveOrder)
 							<td class="center">
 								<div class="btn-group">
 									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-									<?php
-									// Create dropdown items
-									$action = $archived ? 'unarchive' : 'archive';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'banners');
-
-									$action = $trashed ? 'untrash' : 'trash';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'banners');
-
-									// Render dropdown list
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+									<?php // Create dropdown items and render the dropdown list.
+									if ($canChange)
+									{
+										JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'banners');
+										JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'banners');
+										echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+									}
 									?>
 								</div>
 							</td>
@@ -168,13 +162,8 @@ if ($saveOrder)
 								<?php echo $item->clicks; ?> -
 								<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0); ?>
 							</td>
-
 							<td class="small nowrap hidden-phone">
-								<?php if ($item->language == '*'): ?>
-									<?php echo JText::alt('JALL', 'language'); ?>
-								<?php else: ?>
-									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-								<?php endif; ?>
+								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
 							<td class="hidden-phone">
 								<?php echo $item->id; ?>

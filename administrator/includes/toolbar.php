@@ -37,7 +37,7 @@ abstract class JToolbarHelper
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
-		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . strip_tags($title));
+		JFactory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . JText::_('JADMINISTRATION'));
 	}
 
 	/**
@@ -174,7 +174,7 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a media_manager button.
 	 *
-	 * @param   string  $directory  The sub-directory to upload the media to.
+	 * @param   string  $directory  The subdirectory to upload the media to.
 	 * @param   string  $alt        An override for the alt text.
 	 *
 	 * @return  void
@@ -646,8 +646,8 @@ abstract class JToolbarHelper
 	public static function modal($targetModalId, $icon, $alt)
 	{
 		$title = JText::_($alt);
-		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
-			<span class='" . $icon . "' title='" . $title . "'></span> " . $title . "</button>";
+		$dhtml = '<button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-small">
+			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button>';
 
 		$bar = JToolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);

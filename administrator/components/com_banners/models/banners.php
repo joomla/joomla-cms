@@ -45,10 +45,11 @@ class BannersModelBanners extends JModelList
 				'clicks', 'a.clicks',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
-				'state', 'sticky', 'a.sticky',
+				'sticky', 'a.sticky',
 				'client_id',
 				'category_id',
-				'published'
+				'published',
+				'level', 'c.level',
 			);
 		}
 
@@ -95,53 +96,54 @@ class BannersModelBanners extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id AS id,' .
-				'a.name AS name,' .
-				'a.alias AS alias,' .
-				'a.checked_out AS checked_out,' .
-				'a.checked_out_time AS checked_out_time,' .
-				'a.catid AS catid,' .
-				'a.clicks AS clicks,' .
-				'a.metakey AS metakey,' .
-				'a.sticky AS sticky,' .
-				'a.impmade AS impmade,' .
-				'a.imptotal AS imptotal,' .
-				'a.state AS state,' .
-				'a.ordering AS ordering,' .
-				'a.purchase_type AS purchase_type,' .
-				'a.language,' .
-				'a.publish_up,' .
-				'a.publish_down'
+				'a.id AS id,'
+				. 'a.name AS name,'
+				. 'a.alias AS alias,'
+				. 'a.checked_out AS checked_out,'
+				. 'a.checked_out_time AS checked_out_time,'
+				. 'a.catid AS catid,'
+				. 'a.clicks AS clicks,'
+				. 'a.metakey AS metakey,'
+				. 'a.sticky AS sticky,'
+				. 'a.impmade AS impmade,'
+				. 'a.imptotal AS imptotal,'
+				. 'a.state AS state,'
+				. 'a.ordering AS ordering,'
+				. 'a.purchase_type AS purchase_type,'
+				. 'a.language,'
+				. 'a.publish_up,'
+				. 'a.publish_down'
 			)
 		);
-		$query->from($db->quoteName('#__banners') . ' AS a');
+		$query->from($db->quoteName('#__banners', 'a'));
 
 		// Join over the language
 		$query->select('l.title AS language_title, l.image AS language_image')
-			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select($db->quoteName('uc.name', 'editor'))
+			->join('LEFT', $db->quoteName('#__users', 'uc') . ' ON uc.id = a.checked_out');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title')
-			->join('LEFT', '#__categories AS c ON c.id = a.catid');
+		$query->select($db->quoteName('c.title', 'category_title'))
+			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON c.id = a.catid');
 
 		// Join over the clients.
-		$query->select('cl.name AS client_name,cl.purchase_type as client_purchase_type')
-			->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
+		$query->select($db->quoteName('cl.name', 'client_name'))
+			->select($db->quoteName('cl.purchase_type', 'client_purchase_type'))
+			->join('LEFT', $db->quoteName('#__banner_clients', 'cl') . ' ON cl.id = a.cid');
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{
-			$query->where('a.state = ' . (int) $published);
+			$query->where($db->quoteName('a.state') . ' = ' . (int) $published);
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.state IN (0, 1))');
+			$query->where($db->quoteName('a.state') . ' IN (0, 1)');
 		}
 
 		// Filter by category.
@@ -149,7 +151,7 @@ class BannersModelBanners extends JModelList
 
 		if (is_numeric($categoryId))
 		{
-			$query->where('a.catid = ' . (int) $categoryId);
+			$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
 		}
 
 		// Filter by client.
@@ -157,7 +159,7 @@ class BannersModelBanners extends JModelList
 
 		if (is_numeric($clientId))
 		{
-			$query->where('a.cid = ' . (int) $clientId);
+			$query->where($db->quoteName('a.cid') . ' = ' . (int) $clientId);
 		}
 
 		// Filter by search in title
@@ -167,7 +169,7 @@ class BannersModelBanners extends JModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
 			}
 			else
 			{
@@ -179,14 +181,20 @@ class BannersModelBanners extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
+		}
+
+		// Filter on the level.
+		if ($level = $this->getState('filter.level'))
+		{
+			$query->where($db->quoteName('c.level') . ' <= ' . (int) $level);
 		}
 
 		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.ordering', 'ordering');
+		$orderCol  = $this->state->get('list.ordering', 'a.name');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
 
-		if ($orderCol == 'ordering' || $orderCol == 'category_title')
+		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
 		{
 			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
 		}
@@ -218,10 +226,11 @@ class BannersModelBanners extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.category_id');
+		$id .= ':' . $this->getState('filter.client_id');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.level');
 
 		return parent::getStoreId($id);
 	}
@@ -257,11 +266,12 @@ class BannersModelBanners extends JModelList
 	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
 		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
-		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
-		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', ''));
-		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', ''));
-		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', ''));
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
+		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'cmd'));
+		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', '', 'cmd'));
+		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
+		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
 
 		// Load the parameters.
 		$this->setState('params', JComponentHelper::getParams('com_banners'));

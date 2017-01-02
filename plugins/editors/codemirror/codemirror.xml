@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_codemirror</name>
-	<version>5.14</version>
+	<version>5.20.2</version>
 	<creationDate>28 March 2011</creationDate>
 	<author>Marijn Haverbeke</author>
 	<authorEmail>marijnh@gmail.com</authorEmail>
@@ -25,133 +25,170 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="lineNumbers" type="radio"
-					   class="btn-group btn-group-yesno"
-					   default="0"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
-					   label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
+				<field
+					name="lineNumbers"
+					type="radio"
+					label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
+					description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="options"
 					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="codeFolding" type="radio"
-					   class="btn-group btn-group-yesno"
-					   default="0"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_CODEFOLDING_DESC"
-					   label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
-					    >
+				<field
+					name="codeFolding"
+					type="radio"
+					label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
+					description="PLG_CODEMIRROR_FIELD_CODEFOLDING_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="options"
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="markerGutter" type="radio"
-					   class="btn-group btn-group-yesno"
-					   default="1"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
-					   label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
-						>
+				<field
+					name="markerGutter"
+					type="radio"
+					label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
+					description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="options"
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="lineWrapping" type="hidden"
-					   class="btn-group btn-group-yesno"
-					   default="0"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_LINEWRAPPING_DESC"
-					   label="PLG_CODEMIRROR_FIELD_LINEWRAPPING_LABEL"
-						>
+				<field
+					name="lineWrapping"
+					type="hidden"
+					label="PLG_CODEMIRROR_FIELD_LINEWRAPPING_LABEL"
+					description="PLG_CODEMIRROR_FIELD_LINEWRAPPING_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="options"
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="activeLine" type="radio"
-					   class="btn-group btn-group-yesno"
-					   default="0"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_ACTIVELINE_DESC"
-					   label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
-				        >
+				<field
+					name="activeLine"
+					type="radio"
+					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
+					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="options"
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="matchTags" type="radio"
-					   class="btn-group btn-group-yesno"
-					   default="1"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_MATCHTAGS_DESC"
-					   label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
-						>
+				<field
+					name="selectionMatches"
+					type="radio"
+					label="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_LABEL"
+					description="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="options"
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="matchBrackets" type="radio"
-					   class="btn-group btn-group-yesno"
-					   default="1"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_DESC"
-					   label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
-						>
+				<field
+					name="matchTags"
+					type="radio"
+					label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
+					description="PLG_CODEMIRROR_FIELD_MATCHTAGS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="options"
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="autoCloseTags" type="radio"
-					   class="btn-group btn-group-yesno"
-					   default="1"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_DESC"
-					   label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
-						>
+				<field
+					name="matchBrackets"
+					type="radio"
+					label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
+					description="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="options"
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="autoCloseBrackets" type="radio"
-					   class="btn-group btn-group-yesno"
-					   default="1"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
-					   label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
-						>
+				<field
+					name="autoCloseTags"
+					type="radio"
+					label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
+					description="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="options"
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="autoFocus" type="radio"
-					   class="btn-group btn-group-yesno"
-					   default="1"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_AUTOFOCUS_DESC"
-					   label="PLG_CODEMIRROR_FIELD_AUTOFOCUS_LABEL"
-						>
+				<field
+					name="autoCloseBrackets"
+					type="radio"
+					label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
+					description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="options"
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="vimKeyBinding" type="radio"
-					   class="btn-group btn-group-yesno"
-					   default="0"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_DESC"
-					   label="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_LABEL"
-					    >
+				<field
+					name="autoFocus"
+					type="radio"
+					label="PLG_CODEMIRROR_FIELD_AUTOFOCUS_LABEL"
+					description="PLG_CODEMIRROR_FIELD_AUTOFOCUS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="options"
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="fullScreen" type="list"
-					   default="F10"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_FULLSCREEN_DESC"
-					   label="PLG_CODEMIRROR_FIELD_FULLSCREEN_LABEL"
-					    >
+				<field
+					name="vimKeyBinding"
+					type="radio"
+					label="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_LABEL"
+					description="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="options"
+					>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field
+					name="fullScreen"
+					type="list"
+					label="PLG_CODEMIRROR_FIELD_FULLSCREEN_LABEL"
+					description="PLG_CODEMIRROR_FIELD_FULLSCREEN_DESC"
+					default="F10"
+					filter="options"
+					>
 					<option value="F1">F1</option>
 					<option value="F2">F2</option>
 					<option value="F3">F3</option>
@@ -166,72 +203,104 @@
 					<option value="F12">F12</option>
 				</field>
 
-				<field name="fullScreenMod" type="checkboxes"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_FULLSCREEN_MOD_DESC"
-					   label="PLG_CODEMIRROR_FIELD_FULLSCREEN_MOD_LABEL"
-					    >
+				<field
+					name="fullScreenMod"
+					type="checkboxes"
+					label="PLG_CODEMIRROR_FIELD_FULLSCREEN_MOD_LABEL"
+					description="PLG_CODEMIRROR_FIELD_FULLSCREEN_MOD_DESC"
+					filter="options"
+					>
 					<option value="Shift">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_SHIFT</option>
 					<option value="Cmd">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_CMD</option>
 					<option value="Ctrl">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_CTRL</option>
 					<option value="Alt">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_ALT</option>
 				</field>
 
-				<field name="basePath" type="hidden" default="media/editors/codemirror/" />
-				<field name="modePath" type="hidden" default="media/editors/codemirror/mode/%N/%N" />
+				<field
+					name="basePath"
+					type="hidden"
+					default="media/editors/codemirror/"
+				/>
+
+				<field
+					name="modePath"
+					type="hidden"
+					default="media/editors/codemirror/mode/%N/%N"
+				/>
 
 			</fieldset>
 
 
-			<fieldset name="appearance"
-				   label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL"
-				   addfieldpath="plugins/editors/codemirror" >
+			<fieldset
+				name="appearance"
+				label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL"
+				addfieldpath="plugins/editors/codemirror"
+				>
 
-				<field name="theme" type="filelist"
-					   default=""
-					   filter="\.css$"
-					   stripext="true"
-					   hide_none="true"
-					   hide_default="false"
-					   directory="media/editors/codemirror/theme"
-					   description="PLG_CODEMIRROR_FIELD_THEME_DESC"
-					   label="PLG_CODEMIRROR_FIELD_THEME_LABEL"
-					    >
+				<field
+					name="theme"
+					type="filelist"
+					label="PLG_CODEMIRROR_FIELD_THEME_LABEL"
+					description="PLG_CODEMIRROR_FIELD_THEME_DESC"
+					default=""
+					filter="\.css$"
+					stripext="true"
+					hide_none="true"
+					hide_default="false"
+					directory="media/editors/codemirror/theme"
+					>
 					<option value="">JDEFAULT</option>
 				</field>
 
-				<field name="activeLineColor" type="color" default="#a4c2eb" filter="color"
-					   description="PLG_CODEMIRROR_FIELD_ACTIVELINE_COLOR_DESC"
-					   label="PLG_CODEMIRROR_FIELD_ACTIVELINE_COLOR_LABEL" />
+				<field
+					name="activeLineColor"
+					type="color"
+					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_COLOR_LABEL"
+					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_COLOR_DESC"
+					default="#a4c2eb"
+					filter="color"
+				/>
 
-				<field name="highlightMatchColor" type="color" default="#fa542f" filter="color"
-					   description="PLG_CODEMIRROR_FIELD_HIGHLIGHT_MATCH_COLOR_DESC"
-					   label="PLG_CODEMIRROR_FIELD_HIGHLIGHT_MATCH_COLOR_LABEL" />
+				<field
+					name="highlightMatchColor"
+					type="color"
+					label="PLG_CODEMIRROR_FIELD_HIGHLIGHT_MATCH_COLOR_LABEL"
+					description="PLG_CODEMIRROR_FIELD_HIGHLIGHT_MATCH_COLOR_DESC"
+					default="#fa542f"
+					filter="color"
+				/>
 
-				<field name="fontFamily" type="fonts"
-					   default="0"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_FONT_FAMILY_DESC"
-					   label="PLG_CODEMIRROR_FIELD_FONT_FAMILY_LABEL"
-					    >
+				<field
+					name="fontFamily"
+					type="fonts"
+					label="PLG_CODEMIRROR_FIELD_FONT_FAMILY_LABEL"
+					description="PLG_CODEMIRROR_FIELD_FONT_FAMILY_DESC"
+					default="0"
+					filter="options"
+					>
 					<option value="0">PLG_CODEMIRROR_FIELD_VALUE_FONT_FAMILY_DEFAULT</option>
 				</field>
 
-				<field name="fontSize" type="integer"
-					   first="6"
-					   last="16"
-					   step="1"
-					   default="13"
-					   filter="intval"
-					   description="PLG_CODEMIRROR_FIELD_FONT_SIZE_DESC"
-					   label="PLG_CODEMIRROR_FIELD_FONT_SIZE_LABEL" />
+				<field
+					name="fontSize"
+					type="integer"
+					label="PLG_CODEMIRROR_FIELD_FONT_SIZE_LABEL"
+					description="PLG_CODEMIRROR_FIELD_FONT_SIZE_DESC"
+					first="6"
+					last="16"
+					step="1"
+					default="13"
+					filter="intval"
+				/>
 
-				<field name="lineHeight" type="list"
-					   default="1.2"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_LINE_HEIGHT_DESC"
-					   label="PLG_CODEMIRROR_FIELD_LINE_HEIGHT_LABEL"
-					    >
+				<field
+					name="lineHeight"
+					type="list"
+					label="PLG_CODEMIRROR_FIELD_LINE_HEIGHT_LABEL"
+					description="PLG_CODEMIRROR_FIELD_LINE_HEIGHT_DESC"
+					default="1.2"
+					filter="options"
+					>
 					<option value="1.0">1.0</option>
 					<option value="1.1">1.1</option>
 					<option value="1.2">1.2</option>
@@ -245,12 +314,14 @@
 					<option value="2.0">2.0</option>
 				</field>
 
-				<field name="scrollbarStyle" type="radio"
-					   class="btn-group btn-group-yesno"
-					   default="native"
-					   filter="options"
-					   description="PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_DESC"
-					   label="PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_LABEL"
+				<field
+					name="scrollbarStyle"
+					type="radio"
+					label="PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_LABEL"
+					description="PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_DESC"
+					class="btn-group btn-group-yesno"
+					default="native"
+					filter="options"
 					>
 					<option value="native">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_DEFAULT</option>
 					<option value="simple">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_SIMPLE</option>

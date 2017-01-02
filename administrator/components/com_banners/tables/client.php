@@ -86,10 +86,10 @@ class BannersTableClient extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE ' . $this->_db->quoteName($this->_tbl) .
-			' SET ' . $this->_db->quoteName('state') . ' = ' . (int) $state .
-			' WHERE (' . $where . ')' .
-			$checkin
+			'UPDATE ' . $this->_db->quoteName($this->_tbl)
+			. ' SET ' . $this->_db->quoteName('state') . ' = ' . (int) $state
+			. ' WHERE (' . $where . ')'
+			. $checkin
 		);
 
 		try

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Admin Component Help Model
  *
@@ -173,8 +175,7 @@ class AdminModelHelp extends JModelLegacy
 			// Strip the extension
 			$file = preg_replace('#\.xml$|\.html$#', '', $file);
 
-			if ($help_search
-				&& JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) === false)
+			if ($help_search && StringHelper::strpos(StringHelper::strtolower(strip_tags($buffer)), StringHelper::strtolower($help_search)) === false)
 			{
 				continue;
 			}
@@ -198,7 +199,7 @@ class AdminModelHelp extends JModelLegacy
 	{
 		if (!$this->latest_version_check)
 		{
-			$override = 'https://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:'
+			$override = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:'
 				. 'Joomla_Version_{major}_{minor}_{maintenance}/{langcode}&amp;lang={langcode}';
 			$this->latest_version_check = JHelp::createUrl('JVERSION', false, $override);
 		}

@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Module model.
@@ -254,13 +256,6 @@ class ModulesModelModule extends JModelAdmin
 
 				$table->position = $position;
 
-				// Alter the title if necessary
-				$data = $this->generateNewTitle(0, $table->title, $table->position);
-				$table->title = $data['0'];
-
-				// Unpublish the moved module
-				$table->published = 0;
-
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
@@ -382,7 +377,7 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @param   array  &$pks  An array of primary key IDs.
 	 *
-	 * @return  boolean  True if successful.
+	 * @return  boolean|JException  Boolean true on success, JException instance on error
 	 *
 	 * @since   1.6
 	 * @throws  Exception
@@ -489,7 +484,7 @@ class ModulesModelModule extends JModelAdmin
 
 		while ($table->load(array('position' => $position, 'title' => $title)))
 		{
-			$title = JString::increment($title);
+			$title = StringHelper::increment($title);
 		}
 
 		return array($title);
@@ -529,10 +524,14 @@ class ModulesModelModule extends JModelAdmin
 		}
 		else
 		{
-			$clientId = JArrayHelper::getValue($data, 'client_id');
-			$module   = JArrayHelper::getValue($data, 'module');
-			$id       = JArrayHelper::getValue($data, 'id');
+			$clientId = ArrayHelper::getValue($data, 'client_id');
+			$module   = ArrayHelper::getValue($data, 'module');
+			$id       = ArrayHelper::getValue($data, 'id');
 		}
+
+		// Add the default fields directory
+		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		JForm::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
@@ -696,11 +695,10 @@ class ModulesModelModule extends JModelAdmin
 
 			// Convert to the JObject before adding other data.
 			$properties        = $table->getProperties(1);
-			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
-			$registry = new Registry;
-			$registry->loadString($table->params);
+			$registry = new Registry($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Determine the page assignment mode.
@@ -875,7 +873,7 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php';
+		JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 		return parent::validate($form, $data, $group);
 	}

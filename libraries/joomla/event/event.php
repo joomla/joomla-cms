@@ -68,9 +68,5 @@ abstract class JEvent extends JObject
 		{
 			return call_user_func_array(array($this, $event), $args);
 		}
-		else
-		{
-			return null;
-		}
 	}
 }

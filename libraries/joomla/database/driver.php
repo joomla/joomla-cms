@@ -269,7 +269,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			// If neither is supported, then the user cannot use MySQL; throw an exception
 			if (!$mysqliSupported && !$pdoMysqlSupported)
 			{
-				throw new RuntimeException(
+				throw new JDatabaseExceptionUnsupported(
 					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.'
 					. ' Also, this system does not support MySQLi or PDO MySQL.  Cannot instantiate database driver.'
 				);
@@ -310,7 +310,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
 			if (!class_exists($class))
 			{
-				throw new RuntimeException(sprintf('Unable to load Database Driver: %s', $options['driver']));
+				throw new JDatabaseExceptionUnsupported(sprintf('Unable to load Database Driver: %s', $options['driver']));
 			}
 
 			// Create our new JDatabaseDriver connector based on the options given.
@@ -320,7 +320,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()), $e->getCode(), $e);
+				throw new JDatabaseExceptionConnecting(sprintf('Unable to connect to the Database: %s', $e->getMessage()), $e->getCode(), $e);
 			}
 
 			// Set the new connector to the global instances based on signature.
@@ -447,8 +447,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				$query = '';
 				$start = $i + 1;
 			}
-
-			$endComment = false;
 		}
 
 		return $queries;
@@ -703,7 +701,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public abstract function dropTable($table, $ifExists = true);
+	abstract public function dropTable($table, $ifExists = true);
 
 	/**
 	 * Escapes a string for usage in an SQL statement.
@@ -890,16 +888,13 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 
 		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
-		$beginningOfQuery = substr($query, 0, 12);
-		$beginningOfQuery = strtoupper($beginningOfQuery);
-
-		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
+		if (!preg_match('/^(ALTER|CREATE)\s+TABLE\s+/i', $query))
 		{
 			return $query;
 		}
 
-		// Replace utf8mb4 with utf8
-		return str_replace('utf8mb4', 'utf8', $query);
+		// Replace utf8mb4 with utf8 if not within single or double quotes or name quotes
+		return preg_replace('/[`"\'][^`"\']*[`"\'](*SKIP)(*FAIL)|utf8mb4/i', 'utf8', $query);
 	}
 
 	/**
@@ -1096,7 +1091,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException('Database Exporter not found.');
+			throw new JDatabaseExceptionUnsupported('Database Exporter not found.');
 		}
 
 		$o = new $class;
@@ -1122,7 +1117,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException('Database Importer not found');
+			throw new JDatabaseExceptionUnsupported('Database Importer not found');
 		}
 
 		$o = new $class;
@@ -1220,7 +1215,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			if (!class_exists($class))
 			{
 				// If it doesn't exist we are at an impasse so throw an exception.
-				throw new RuntimeException('Database Query Class not found.');
+				throw new JDatabaseExceptionUnsupported('Database Query Class not found.');
 			}
 
 			return new $class($this);
@@ -1251,7 +1246,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		if (!class_exists($iteratorClass))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException(sprintf('class *%s* is not defined', $iteratorClass));
+			throw new JDatabaseExceptionUnsupported(sprintf('class *%s* is not defined', $iteratorClass));
 		}
 
 		// Return a new iterator
@@ -1455,7 +1450,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get the first row from the result set as an associative array.
@@ -1496,7 +1491,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get all of the rows from the result set.
@@ -1540,7 +1535,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get all of the rows from the result set as arrays.
@@ -1574,7 +1569,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		static $cursor = null;
 
 		// Execute the query and get the result set cursor.
-		if ( is_null($cursor) )
+		if (is_null($cursor))
 		{
 			if (!($cursor = $this->execute()))
 			{
@@ -1612,7 +1607,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		static $cursor = null;
 
 		// Execute the query and get the result set cursor.
-		if ( is_null($cursor) )
+		if (is_null($cursor))
 		{
 			if (!($cursor = $this->execute()))
 			{
@@ -1652,7 +1647,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get the first row from the result set as an object of type $class.
@@ -1691,7 +1686,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get all of the rows from the result set as objects of type $class.
@@ -1730,7 +1725,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get the first row from the result set as an array.
@@ -1763,7 +1758,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get the first row from the result set as an array.
@@ -1801,7 +1796,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get all of the rows from the result set as arrays.
@@ -1833,7 +1828,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public abstract function lockTable($tableName);
+	abstract public function lockTable($tableName);
 
 	/**
 	 * Quotes and optionally escapes a string to database requirements for use in database queries.
@@ -2066,7 +2061,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public abstract function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
+	abstract public function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
 
 	/**
 	 * Select a database for use.
@@ -2297,5 +2292,5 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public abstract function unlockTables();
+	abstract public function unlockTables();
 }

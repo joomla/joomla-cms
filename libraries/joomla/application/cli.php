@@ -16,6 +16,7 @@ use Joomla\Registry\Registry;
  * Base class for a Joomla! command line application.
  *
  * @since  11.4
+ * @note   As of 4.0 this class will be abstract
  */
 class JApplicationCli extends JApplicationBase
 {
@@ -58,7 +59,7 @@ class JApplicationCli extends JApplicationBase
 		}
 		// @codeCoverageIgnoreEnd
 
-		// If a input object is given use it.
+		// If an input object is given use it.
 		if ($input instanceof JInput)
 		{
 			$this->input = $input;
@@ -242,7 +243,7 @@ class JApplicationCli extends JApplicationBase
 	 * for your specific application.
 	 *
 	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-	 *                          in JPATH_BASE will be used.
+	 *                          in JPATH_CONFIGURATION will be used.
 	 * @param   string  $class  The class name to instantiate.
 	 *
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
@@ -254,12 +255,11 @@ class JApplicationCli extends JApplicationBase
 		// Instantiate variables.
 		$config = array();
 
-		if (empty($file) && defined('JPATH_BASE'))
+		if (empty($file))
 		{
-			$file = JPATH_BASE . '/configuration.php';
+			$file = JPATH_CONFIGURATION . '/configuration.php';
 
-			// Applications can choose not to have any configuration data
-			// by not implementing this method and not having a config file.
+			// Applications can choose not to have any configuration data by not implementing this method and not having a config file.
 			if (!file_exists($file))
 			{
 				$file = '';
@@ -281,19 +281,5 @@ class JApplicationCli extends JApplicationBase
 		}
 
 		return $config;
-	}
-
-	/**
-	 * Method to run the application routines.  Most likely you will want to instantiate a controller
-	 * and execute it, or perform some sort of task directly.
-	 *
-	 * @return  void
-	 *
-	 * @codeCoverageIgnore
-	 * @since   11.3
-	 */
-	protected function doExecute()
-	{
-		// Your application routines go here.
 	}
 }

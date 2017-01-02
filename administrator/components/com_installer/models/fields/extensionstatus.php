@@ -9,16 +9,14 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
-
-require_once __DIR__ . '/../../helpers/installer.php';
+JLoader::register('InstallerHelper', JPATH_ADMINISTRATOR . '/components/com_installer/helpers/installer.php');
 
 /**
  * Status Field class for the Joomla Framework.
  *
  * @since  3.5
  */
-class JFormFieldExtensionStatus extends JFormFieldList
+class JFormFieldExtensionStatus extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

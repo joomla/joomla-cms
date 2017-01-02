@@ -1,4 +1,9 @@
-/* CSS Document */
+/**
+ * @package    Joomla.Installation
+ *
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
 .container{
 	position: relative;
 	max-width: 900px;
@@ -127,16 +132,94 @@ textarea.noResize {
 	white-space: pre-wrap;
 }
 
-#loading {
-	position: absolute;
-	display: none;
- 	left: 0;
- 	top: 0;
- 	width: 100%;
- 	height: 100%;
- 	z-index: 1000;
- 	opacity: .95;
-	 -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 95);
- 	filter: alpha(opacity = 95);
- 	background: url('../../../media/jui/images/ajax-loader.gif') rgba(255,255,255,0.7) center no-repeat;
- }
+/* Flat Repaint */
+.btn {
+	background-image: none;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #185b91;
+    color: #fff;
+    text-decoration: none;
+}
+.chzn-container-single .chzn-single {
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+    height: auto;
+    line-height: 26px;
+}
+.chzn-container-single .chzn-single div {
+    background-color: #f3f3f3;
+    border-left: 1px solid #cccccc;
+    text-align: center;
+    width: 28px;
+    height: auto;
+    bottom: 0;
+}
+.chzn-container-single .chzn-drop {
+    background-clip: padding-box;
+    border-color: #0088cc;
+}
+.chzn-container-active .chzn-single {
+    color: #0088cc;
+}
+.chzn-container-active.chzn-with-drop .chzn-single div {
+    border-bottom: 1px solid #cccccc;
+    border-bottom-left-radius: 3px;
+    background-color: #f3f3f3;
+    border-left: 1px solid #cccccc;
+}
+.chzn-container-single .chzn-single div b {
+	background-position: 2px 2px;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+}
+.chzn-container-active.chzn-with-drop  .chzn-single div b {
+	background-position: -16px 2px;
+}
+.chzn-container-active.chzn-with-drop .chzn-single {
+	background-image: none;
+    border: 1px solid #0088cc;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.chzn-container .chzn-results {
+    background-color: #fff;
+    border-radius: 0 0 3px 3px;
+    margin: 0;
+    padding: 0;
+}
+.chzn-container-single .chzn-search input[type="text"] {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    box-shadow: none;
+    background: transparent url("../../../media/jui/css/chosen-sprite.png") no-repeat scroll 100% -20px
+}
+.chzn-container .chzn-results li.highlighted {
+  background-color: #0088cc;
+  background-image: none;
+}
+.chzn-container-single .chzn-search input[type="text"]:focus {
+	border-color: #0088cc;
+}
+fieldset {
+	margin-bottom: 10px;
+}
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#jform_activateMultilanguage [class*="btn-"]:active,
+#jform_activateMultilanguage [class*="btn-"].active,
+#jform_installLocalisedContent [class*="btn-"]:active,
+#jform_installLocalisedContent [class*="btn-"].active,
+#jform_activatePluginLanguageCode [class*="btn-"]:active,
+#jform_activatePluginLanguageCode [class*="btn-"].active {
+    background-color: #294f7e;
+}

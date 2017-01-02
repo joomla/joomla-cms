@@ -7,9 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/github/http.php';
-require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
-
 /**
  * Test class for JGithub.
  *
@@ -51,7 +48,12 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport', false);
+		$this->transport = $this->getMockBuilder('JHttpTransportStream')
+						->setMethods(array('request'))
+						->setConstructorArgs(array($this->options))
+						->setMockClassName('CustomTransport')
+						->disableOriginalConstructor()
+						->getMock();
 
 		$this->object = new JGithubHttp($this->options, $this->transport);
 	}
@@ -66,6 +68,10 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
+		unset($this->options);
+		unset($this->transport);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
