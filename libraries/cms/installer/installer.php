@@ -106,7 +106,7 @@ class JInstaller extends JAdapter
 	 * Flag if the uninstall process was triggered by uninstalling a package
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $packageUninstall = false;
 
@@ -238,7 +238,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function isPackageUninstall()
 	{
@@ -252,7 +252,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function setPackageUninstall($uninstall)
 	{
@@ -393,9 +393,8 @@ class JInstaller extends JAdapter
 					break;
 
 				case 'query':
-					// Placeholder in case this is necessary in the future
-					// $stepval is always false because if this step was called it invariably failed
-					$stepval = false;
+					// Execute the query.
+					$stepval = $this->parseSQLFiles($step['script']);
 					break;
 
 				case 'extension':
@@ -940,7 +939,6 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		$queries = array();
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
 

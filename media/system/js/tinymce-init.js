@@ -20,7 +20,7 @@
 		 *
 		 * @param {HTMLElement}  target  Target Element where to search for the editor element
 		 *
-		 * @since __DEPLOY_VERSION__
+		 * @since 3.7.0
 		 */
 		setupEditors: function ( target ) {
 			target = target || document;
@@ -39,7 +39,7 @@
 		 * @param {HTMLElement}  element
 		 * @param {Object}       pluginOptions
 		 *
-		 * @since __DEPLOY_VERSION__
+		 * @since 3.7.0
 		 */
 		setupEditor: function ( element, pluginOptions ) {
 			var name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default', // Get Editor name

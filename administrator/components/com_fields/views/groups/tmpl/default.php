@@ -44,6 +44,11 @@ if ($saveOrder)
 		<?php echo $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10">
+		<div id="filter-bar" class="js-stools-container-bar pull-left">
+			<div class="btn-group pull-left">
+				<?php echo $this->filterForm->getField('context')->input; ?>
+			</div>&nbsp;
+		</div>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">

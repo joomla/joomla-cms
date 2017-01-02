@@ -74,16 +74,14 @@ class JGithubPackageIssuesEventsTest extends PHPUnit_Framework_TestCase
 		$this->response->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		             ->method('get')
-		             ->with('/repos/joomla/joomla-platform/issues/1/events', 0, 0)
-		             ->will($this->returnValue($this->response))
-		;
+			->method('get')
+			->with('/repos/joomla/joomla-platform/issues/1/events', 0, 0)
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->getList('joomla', 'joomla-platform', '1'),
 			$this->equalTo(json_decode($this->response->body))
-		)
-		;
+		);
 	}
 
 	/**
@@ -105,16 +103,14 @@ class JGithubPackageIssuesEventsTest extends PHPUnit_Framework_TestCase
 		$this->response->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		             ->method('get')
-		             ->with('/repos/joomla/joomla-platform/issues/1/comments', 0, 0)
-		             ->will($this->returnValue($this->response))
-		;
+			->method('get')
+			->with('/repos/joomla/joomla-platform/issues/1/comments', 0, 0)
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->getListRepository('joomla', 'joomla-platform', '1'),
 			$this->equalTo(json_decode($this->response->body))
-		)
-		;
+		);
 	}
 
 	/**
@@ -134,15 +130,13 @@ class JGithubPackageIssuesEventsTest extends PHPUnit_Framework_TestCase
 		$this->response->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		             ->method('get')
-		             ->with('/repos/joomla/joomla-platform/issues/events/1', 0, 0)
-		             ->will($this->returnValue($this->response))
-		;
+			->method('get')
+			->with('/repos/joomla/joomla-platform/issues/events/1', 0, 0)
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->get('joomla', 'joomla-platform', '1'),
 			$this->equalTo(json_decode($this->response->body))
-		)
-		;
+		);
 	}
 }

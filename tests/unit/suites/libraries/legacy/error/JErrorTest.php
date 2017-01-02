@@ -165,6 +165,5 @@ class JErrorTest extends TestCase
 	 */
 	public function callbackHandler()
 	{
-		return;
 	}
 }

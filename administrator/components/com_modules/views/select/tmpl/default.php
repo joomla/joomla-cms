@@ -24,7 +24,7 @@ $document = JFactory::getDocument();
 	<?php $desc       = JHtml::_('string.truncate', ($this->escape(strip_tags($item->desc))), 200); ?>
 	<?php $short_desc = JHtml::_('string.truncate', ($this->escape(strip_tags($item->desc))), 90); ?>
 
-	<?php if ($document->direction != "rtl") : ?>
+	<?php if ($document->direction != 'rtl') : ?>
 	<li>
 		<a href="<?php echo JRoute::_($link); ?>">
 			<strong><?php echo $name; ?></strong></a>

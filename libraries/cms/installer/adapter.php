@@ -139,7 +139,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @note    This method defaults to true to emulate the behavior of 3.6 and earlier which did not support this lookup
 	 */
 	protected function canUninstallPackageChild($packageId)
@@ -475,6 +475,12 @@ abstract class JInstallerAdapter extends JAdapterInstance
 				}
 
 				return false;
+			}
+
+			// If installing with success and there is an uninstall script, add a installer rollback step to rollback if needed
+			if ($route === 'install' && isset($this->getManifest()->uninstall->sql))
+			{
+				$this->parent->pushStep(array('type' => 'query', 'script' => $this->getManifest()->uninstall->sql));
 			}
 		}
 

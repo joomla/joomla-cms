@@ -79,6 +79,8 @@ class ContentViewCategory extends JViewCategory
 		$numLinks   = $params->def('num_links', 4);
 		$this->vote = JPluginHelper::isEnabled('content', 'vote');
 
+		JPluginHelper::importPlugin('content');
+
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)
 		{
@@ -103,7 +105,6 @@ class ContentViewCategory extends JViewCategory
 				$item->text = $item->introtext;
 			}
 
-			JPluginHelper::importPlugin('content');
 			$dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext

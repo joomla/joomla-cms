@@ -86,7 +86,7 @@ class JFormFieldUrl extends JFormFieldText implements JFormDomfieldinterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
 	{

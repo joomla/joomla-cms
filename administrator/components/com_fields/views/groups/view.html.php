@@ -11,49 +11,49 @@ defined('_JEXEC') or die;
 /**
  * Groups View
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsViewGroups extends JViewLegacy
 {
 	/**
 	 * @var  JForm
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $filterForm;
 
 	/**
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $activeFilters;
 
 	/**
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $items;
 
 	/**
 	 * @var  JPagination
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $pagination;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $state;
 
 	/**
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $sidebar;
 
@@ -65,7 +65,7 @@ class FieldsViewGroups extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function display($tpl = null)
 	{
@@ -92,7 +92,7 @@ class FieldsViewGroups extends JViewLegacy
 
 		$this->addToolbar();
 
-		FieldsHelperInternal::addSubmenu($this->state->get('filter.context'), 'groups');
+		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'groups');
 		$this->sidebar = JHtmlSidebar::render();
 
 		return parent::display($tpl);
@@ -103,7 +103,7 @@ class FieldsViewGroups extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function addToolbar()
 	{
@@ -194,7 +194,7 @@ class FieldsViewGroups extends JViewLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getSortFields()
 	{
