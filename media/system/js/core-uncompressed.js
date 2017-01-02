@@ -53,129 +53,6 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
-	 * Custom behavior for JavaScript I18N in Joomla! 1.6
-	 *
-	 * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
-	 */
-	//todo: implement eval()
-	Joomla.JText = {
-		strings   : {},
-		pluralData: {
-			'comparisons': {
-				'<'   : function (a, b) { return a < b; },
-				'<='  : function (a, b) { return a <= b; },
-				'>'   : function (a, b) { return a > b; },
-				'>='  : function (a, b) { return a >= b; },
-				'='   : function (a, b) { return a === b; },
-				'=='  : function (a, b) { return a === b; },
-				'!='  : function (a, b) { return a !== b; },
-				'<>'  : function (a, b) { return a !== b; },
-				'eval': function (count, code) {return eval(code.js)}
-			},
-			'suffixes'   : {},
-			'implemented': function () {
-				return Joomla.getOptions('joomla.jtext.pluralData.suffixes') !== false;
-			}
-		},
-
-
-
-		/**
-		 * Translates a string into the current language.
-		 *
-		 * @param {String} key   The string to translate
-		 * @param {String} def   Default string
-		 *
-		 * @returns {String}
-		 */
-		'_': function( key, def ) {
-
-			// Check for new strings in the optionsStorage, and load them
-			var newStrings = Joomla.getOptions('joomla.jtext');
-			if ( newStrings ) {
-				this.load(newStrings);
-
-				// Clean up the optionsStorage from useless data
-				Joomla.loadOptions({'joomla.jtext': null});
-			}
-
-			def = def === undefined ? '' : def;
-			key = key.toUpperCase();
-
-			return this.strings[ key ] !== undefined ? this.strings[ key ] : def;
-		},
-
-		/**
-		 * returns pluralized strings based on the given language strings server-side and the expressed quantity.
-		 *
-		 * @param {String}  string  The string to pluralize
-		 * @param {integer} n       Quantifier
-		 *
-		 * @returns {String}
-		 */
-		'plural': function (string, n) {
-			if (arguments.length < 1) {
-				return '';
-			}
-
-			var suffixes = Joomla.getOptions('joomla.jtext.pluralData.suffixes');
-			if (suffixes) {
-				this.loadPluralDataSuffixes(suffixes);
-
-				// Clean up the optionsStorage from useless data
-				Joomla.loadOptions({'joomla.jtext.pluraldata.suffixes': null});
-			}
-
-			if (suffixes===false){
-				return false;
-			}
-			if (jQuery.isArray(suffixes)) {
-				var pluralizedString = '';
-				jQuery.each(this.pluralData.suffixes, function (index, data) {
-					if (data[0] === 'eval') {
-						pluralizedString = string + '_' + Joomla.JText.pluralData.comparisons[(data[0])](n, (data[1]));
-						return false;
-					} else if (Joomla.JText.pluralData.comparisons[(data[0])](n, (data[1]))) {
-						pluralizedString = string + '_' + data[2];
-						return false;
-					}
-				});
-				return this._(pluralizedString, pluralizedString);
-			}
-		},
-
-		/**
-		 * Load new strings in to Joomla.JText
-		 *
-		 * @param {Object} object  Object with new strings
-		 * @returns {Joomla.JText}
-		 */
-		load: function( object ) {
-			for ( var key in object ) {
-				if (!object.hasOwnProperty(key)) continue;
-				this.strings[ key.toUpperCase() ] = object[ key ];
-			}
-
-			return this;
-		},
-
-		/**
-		 * Load suffixes in to Joomla.JText.pluralData.suffixes
-		 *
-		 * @param {Object} object  Object with suffixes
-		 * @returns {Joomla.JText}
-		 */
-		loadPluralDataSuffixes: function (object) {
-			for (var key in object) {
-				if (!object.hasOwnProperty(key)) continue;
-				this.pluralData.suffixes[key.toUpperCase()] = object[key];
-			}
-
-			return this;
-		}
-	};
-
-	/**
 	 * Joomla options storage
 	 *
 	 * @type {{}}
@@ -240,6 +117,109 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 					Joomla.optionsStorage[p] = options[p];
 				}
 			}
+		}
+	};
+
+	/**
+	 * Custom behavior for JavaScript I18N in Joomla! 1.6
+	 *
+	 * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
+	 */
+	Joomla.JText = {
+		strings: {},
+		Pluralizer: {
+			suffixes: {},
+			pluralize: function (count) {
+				var func = Joomla.getOptions('joomla.jtext.pluralizer.pluralize', false);
+				if (func !== false) {
+					var suffixes = Joomla.getOptions('joomla.jtext.pluralizer.suffixes', false);
+				}
+
+				if (func !== false && suffixes !== false) {
+					this.pluralize = new Function('count', func);
+					return this.pluralize(count);
+				} else {
+					this.pluralize = function () {
+						return 'PLURALIZER_NOT_DEFINED';
+					};
+					return this.pluralize();
+				}
+			},
+
+			/**
+			 * Load suffixes in to Joomla.JText.Pluralizer.suffixes
+			 *
+			 * @param {Object} object  Object with suffixes
+			 * @returns {Joomla.JText}
+			 */
+			loadPluralDataSuffixes: function (object) {
+				for (var key in object) {
+					if (!object.hasOwnProperty(key)) continue;
+					this.suffixes[key.toUpperCase()] = object[key];
+				}
+
+				return this;
+			}
+		},
+
+
+
+		/**
+		 * Translates a string into the current language.
+		 *
+		 * @param {String} key   The string to translate
+		 * @param {String} def   Default string
+		 *
+		 * @returns {String}
+		 */
+		'_': function( key, def ) {
+
+			// Check for new strings in the optionsStorage, and load them
+			var newStrings = Joomla.getOptions('joomla.jtext');
+			if ( newStrings ) {
+				this.load(newStrings);
+
+				// Clean up the optionsStorage from useless data
+				Joomla.loadOptions({'joomla.jtext': null});
+			}
+
+			def = def === undefined ? '' : def;
+			key = key.toUpperCase();
+
+			return this.strings[ key ] !== undefined ? this.strings[ key ] : def;
+		},
+
+		/**
+		 * returns pluralized strings based on the given language strings server-side and the expressed quantity.
+		 *
+		 * @param {String}  string  The string to pluralize
+		 * @param {integer} n       Quantifier
+		 *
+		 * @returns {String}
+		 */
+		plural: function (string, n) {
+			if (arguments.length < 1) {
+				return '';
+			}
+
+				var pluralizedString = string + '_' + this.Pluralizer.pluralize(n);
+
+				return this._(pluralizedString, pluralizedString);
+		},
+
+		/**
+		 * Load new strings in to Joomla.JText
+		 *
+		 * @param {Object} object  Object with new strings
+		 * @returns {Joomla.JText}
+		 */
+		load: function( object ) {
+			for ( var key in object ) {
+				if (!object.hasOwnProperty(key)) continue;
+				this.strings[ key.toUpperCase() ] = object[ key ];
+			}
+
+			return this;
 		}
 	};
 

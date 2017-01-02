@@ -22,7 +22,7 @@ jQuery(document).ready(function() {
 					// No updates
 					link.html(Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE'));
 				} else {
-					if (Joomla.JText.pluralData.implemented() === false) {
+					if (Joomla.JText.Pluralizer.pluralize() === 'PLURALIZER_NOT_DEFINED') {
 						updateString = plg_quickicon_extensionupdate_text.UPDATEFOUND_MESSAGE.replace("%s", updateInfoList.length);
 						jQuery('#system-message-container').prepend(
 							'<div class="alert alert-error alert-joomlaupdate">'

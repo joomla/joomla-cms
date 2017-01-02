@@ -144,12 +144,12 @@ class JLanguage
 	protected $pluralSuffixesCallback = null;
 
 	/**
-	 * Name of the allPluralSuffixesCallback function for this language.
+	 * Name of the getJSPluralizerCallback function for this language.
 	 *
 	 * @var    callable
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $allPluralSuffixesCallback = null;
+	protected $getJSPluralizerCallback = null;
 
 	/**
 	 * Name of the ignoredSearchWordsCallback function for this language.
@@ -251,7 +251,7 @@ class JLanguage
 			/* Class exists. Try to find
 			 * -a transliterate method,
 			 * -a getPluralSuffixes method,
-			 * -a getAllPluralSuffixes method,
+			 * -a getJSPluralizer method,
 			 * -a getIgnoredSearchWords method
 			 * -a getLowerLimitSearchWord method
 			 * -a getUpperLimitSearchWord method
@@ -267,9 +267,9 @@ class JLanguage
 				$this->pluralSuffixesCallback = array($class, 'getPluralSuffixes');
 			}
 
-			if (method_exists($class, 'getAllPluralSuffixes'))
+			if (method_exists($class, 'getJSPluralizer'))
 			{
-				$this->allPluralSuffixesCallback = array($class, 'getAllPluralSuffixes');
+				$this->getJSPluralizerCallback = array($class, 'getJSPluralizer');
 			}
 
 			if (method_exists($class, 'getIgnoredSearchWords'))
@@ -469,20 +469,20 @@ class JLanguage
 	/**
 	 * Returns an array of all suffixes for plural rules.
 	 *
-	 * @return  array|bool  The translated strings or an false in case of a failure (eg. language file not supporting the
-	 *                      getAllPluralSuffixes() callback)
+	 * @return  stdClass|bool  The translated strings or an false in case of a failure (eg. language file not supporting the
+	 *                      getJSPluralizer() callback)
 	 *
 	 * @since   __DEPLOY_VERSION_
 	 */
-	public function getAllPluralSuffixes()
+	public function getJSPluralizer()
 	{
-		if ($this->allPluralSuffixesCallback !== null)
+		if ($this->getJSPluralizerCallback !== null)
 		{
-			return call_user_func($this->allPluralSuffixesCallback);
+			return call_user_func($this->getJSPluralizerCallback);
 		}
 		else
 		{
-			JLog::add('The language file in use, has no getAllPluralSuffixes() method, in addition to an updated 
+			JLog::add('The language file in use, has no getJSPluralizer() method, in addition to an updated 
             getPluralSuffixes() method. This method is needed for client-side pluralization.', JLog::WARNING, 'missing-method');
 
 			return false;

@@ -271,27 +271,28 @@ class JText
 	 * @param   bool   $merge        Whether to merge with existing (true) or replace (false)
 	 *
 	 * @return  array|bool  The translated strings or an false in case of a failure (eg. language file not supporting the
-	 *                      getAllPluralSuffixes() callback)
+	 *                      getJSPluralizer() callback)
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function pluralJS(array $baseStrings, $merge = true)
 	{
-		$lang     = JFactory::getLanguage();
-		$args     = func_get_args();
-		$count    = count($args);
-		$suffixes = method_exists($lang, 'getAllPluralSuffixes') ? $lang->getAllPluralSuffixes() : false;
+		$lang       = JFactory::getLanguage();
+		$args       = func_get_args();
+		$count      = count($args);
+		$pluralData = method_exists($lang, 'getJSPluralizer') ? $lang->getJSPluralizer() : false;
 
-		if ($suffixes === false)
+		if ($pluralData === false)
 		{
-			JFactory::getDocument()->addScriptOptions('joomla.jtext.pluralData.suffixes', false, false);
+			JFactory::getDocument()->addScriptOptions('joomla.jtext.pluralizer.pluralizer', false, false);
 
 			return false;
 		}
 
+		$suffixes             = $pluralData['suffixes'];
 		$interpretBackslashes = array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true;
 		$lastParameterIsArray = count($args) > 1 && is_array($args[$count - 1]);
-		$strings = array();
+		$strings              = array();
 
 		foreach ($baseStrings as $baseString)
 		{
@@ -304,7 +305,7 @@ class JText
 
 			foreach ($suffixes as $suffix)
 			{
-				$key = $baseString . '_' . $suffix[2];
+				$key = $baseString . '_' . $suffix;
 
 				if ($lang->hasKey($key) && !in_array($key, $strings, true))
 				{
@@ -322,7 +323,8 @@ class JText
 		JFactory::getDocument()->addScriptOptions('joomla.jtext', $strings, $merge);
 		if (count($strings) > 0)
 		{
-			JFactory::getDocument()->addScriptOptions('joomla.jtext.pluralData.suffixes', $suffixes, $merge);
+			JFactory::getDocument()->addScriptOptions('joomla.jtext.pluralizer.suffixes', $suffixes, $merge);
+			JFactory::getDocument()->addScriptOptions('joomla.jtext.pluralizer.pluralize', $pluralData['pluralize'], $merge);
 		}
 
 		return $strings;

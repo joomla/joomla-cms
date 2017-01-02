@@ -62,6 +62,13 @@ class PlgQuickiconExtensionupdate extends JPlugin
 				)
 			) === false)
 		{
+			$jTextJSStrings = array(
+				'PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE' => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE'),
+				'PLG_QUICKICON_EXTENSIONUPDATE_ERROR'    => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR'),
+			);
+
+			JFactory::getDocument()->addScriptOptions('joomla.jtext', $jTextJSStrings, true);
+
 			$script[] = 'var plg_quickicon_extensionupdate_text = {'
 				. '"UPTODATE" : "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true) . '",'
 				. '"UPDATEFOUND": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true) . '",'
