@@ -2,8 +2,8 @@
 <extension type="package" version="3.6" method="upgrade">
 	<name>English (en-GB) Language Pack</name>
 	<packagename>en-GB</packagename>
-	<version>3.6.3.1</version>
-	<creationDate>September 2016</creationDate>
+	<version>3.7.0.1</version>
+	<creationDate>December 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,6 +13,7 @@
 	<packager>Joomla! Project</packager>
 	<packagerurl>www.joomla.org</packagerurl>
 	<description><![CDATA[en-GB language pack]]></description>
+	<blockChildUninstall>true</blockChildUninstall>
 	<files>
 		<folder type="language" client="site" id="en-GB">site_en-GB</folder>
 		<folder type="language" client="administrator" id="en-GB">admin_en-GB</folder>

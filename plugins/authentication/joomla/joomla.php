@@ -61,7 +61,7 @@ class PlgAuthenticationJoomla extends JPlugin
 				$response->email    = $user->email;
 				$response->fullname = $user->name;
 
-				if (JFactory::getApplication()->isAdmin())
+				if (JFactory::getApplication()->isClient('administrator'))
 				{
 					$response->language = $user->getParam('admin_language');
 				}
@@ -82,6 +82,10 @@ class PlgAuthenticationJoomla extends JPlugin
 		}
 		else
 		{
+			// Let's hash the entered password even if we don't have a matching user for some extra response time
+			// By doing so, we mitigate side channel user enumeration attacks
+			JUserHelper::hashPassword($credentials['password']);
+
 			// Invalid user
 			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
@@ -115,10 +119,10 @@ class PlgAuthenticationJoomla extends JPlugin
 			}
 
 			// Check if the user has enabled two factor authentication
-			if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
+			if (empty($otpConfig->method) || ($otpConfig->method === 'none'))
 			{
 				// Warn the user if they are using a secret code but they have not
-				// enabed two factor auth in their account.
+				// enabled two factor auth in their account.
 				if (!empty($credentials['secretkey']))
 				{
 					try
@@ -166,7 +170,7 @@ class PlgAuthenticationJoomla extends JPlugin
 				// Did the user use an OTEP instead?
 				if (empty($otpConfig->otep))
 				{
-					if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
+					if (empty($otpConfig->method) || ($otpConfig->method === 'none'))
 					{
 						// Two factor authentication is not enabled on this account.
 						// Any string is assumed to be a valid OTEP.

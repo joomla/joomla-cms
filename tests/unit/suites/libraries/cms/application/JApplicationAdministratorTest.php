@@ -255,6 +255,19 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests the JApplicationCms::isClient method.
+	 *
+	 * @return  void
+	 *
+	 * @since  3.7.0
+	 */
+	public function testIsClient()
+	{
+		$this->assertTrue($this->class->isClient('administrator'));
+		$this->assertFalse($this->class->isClient('site'));
+	}
+
+	/**
 	 * Tests the JApplicationCms::render method.
 	 *
 	 * @return  void

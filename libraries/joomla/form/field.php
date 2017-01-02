@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\Normalise;
+use Joomla\String\StringHelper;
+
 /**
  * Abstract Form Field class for the Joomla Platform.
  *
@@ -343,15 +346,15 @@ abstract class JFormField
 		// Detect the field type if not set
 		if (!isset($this->type))
 		{
-			$parts = JStringNormalise::fromCamelCase(get_called_class(), true);
+			$parts = Normalise::fromCamelCase(get_called_class(), true);
 
 			if ($parts[0] == 'J')
 			{
-				$this->type = JString::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[count($parts) - 1], '_');
 			}
 			else
 			{
-				$this->type = JString::ucfirst($parts[0], '_') . JString::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[0], '_') . StringHelper::ucfirst($parts[count($parts) - 1], '_');
 			}
 		}
 	}
@@ -758,8 +761,7 @@ abstract class JFormField
 	protected function getName($fieldName)
 	{
 		// To support repeated element, extensions can set this in plugin->onRenderSettings
-		$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
-
+		
 		$name = '';
 
 		// If there is a form control set for the attached form add it first.
@@ -1059,5 +1061,111 @@ abstract class JFormField
 	protected function isDebugEnabled()
 	{
 		return $this->getAttribute('debug', 'false') === 'true';
+	}
+
+	/**
+	 * Transforms the field into an XML element and appends it as child on the given parent. This
+	 * is the default implementation of a field. Form fields which do support to be transformed into
+	 * an XML Element mut implemet the JFormDomfieldinterface.
+	 *
+	 * @param   stdClass    $field   The field.
+	 * @param   DOMElement  $parent  The field node parent.
+	 * @param   JForm       $form    The form.
+	 *
+	 * @return  DOMElement
+	 *
+	 * @since   3.7.0
+	 * @see     JFormDomfieldinterface::appendXMLFieldTag
+	 */
+	public function appendXMLFieldTag($field, DOMElement $parent, JForm $form)
+	{
+		$app = JFactory::getApplication();
+
+		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
+		{
+			return;
+		}
+		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
+		{
+			return;
+		}
+
+		$node = $parent->appendChild(new DOMElement('field'));
+
+		$node->setAttribute('name', $field->alias);
+		$node->setAttribute('type', $field->type);
+		$node->setAttribute('default', $field->default_value);
+		$node->setAttribute('label', $field->label);
+		$node->setAttribute('description', $field->description);
+		$node->setAttribute('class', $field->params->get('class'));
+		$node->setAttribute('hint', $field->params->get('hint'));
+		$node->setAttribute('required', $field->required ? 'true' : 'false');
+		$node->setAttribute('readonly', $field->params->get('readonly', 0) ? 'true' : 'false');
+
+		// Set the disabled state based on the parameter and the permission
+		if ($field->params->get('disabled', 0))
+		{
+			$node->setAttribute('disabled', 'true');
+		}
+
+		foreach ($field->fieldparams->toArray() as $key => $param)
+		{
+			if (is_array($param))
+			{
+				// Multidimensional arrays (eg. list options) can't be transformed properly
+				$param = count($param) == count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
+			}
+
+			if (!$param)
+			{
+				continue;
+			}
+
+			$node->setAttribute($key, $param);
+		}
+
+		$this->postProcessDomNode($field, $node, $form);
+
+		return $node;
+	}
+
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
+	{
+	}
+
+	/**
+	 * Returns the attributes of the field as an XML string which can be loaded
+	 * into JForm.
+	 *
+	 * @return  string
+	 *
+	 * @since   3.7.0
+	 */
+	public function getFormParameters()
+	{
+		JLoader::import('joomla.filesystem.file');
+
+		$reflectionClass = new ReflectionClass($this);
+		$fileName        = dirname($reflectionClass->getFileName()) . '/../parameters/';
+		$fileName       .= str_replace('.php', '.xml', basename($reflectionClass->getFileName()));
+
+		if (JFile::exists($fileName))
+		{
+			return file_get_contents($fileName);
+		}
+
+		return '';
 	}
 }

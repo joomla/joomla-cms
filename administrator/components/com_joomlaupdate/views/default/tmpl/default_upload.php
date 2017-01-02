@@ -62,14 +62,14 @@ JFactory::getDocument()->addStyleDeclaration($css);
 <div class="alert alert-info">
 	<p>
 		<span class="icon icon-info"></span>
-		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://www.joomla.org/download.html') ?>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest'); ?>
 	</p>
 </div>
 
 <?php if (count($this->warnings)) : ?>
 <fieldset>
 	<legend>
-		<?php echo JText::_('COM_INSTALLER_SUBMENU_WARNINGS') ?>
+		<?php echo JText::_('COM_INSTALLER_SUBMENU_WARNINGS'); ?>
 	</legend>
 
 	<?php $i = 0; ?>
@@ -96,7 +96,9 @@ JFactory::getDocument()->addStyleDeclaration($css);
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
 				</td>
 				<td>
-					<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
+					<input class="input_box" id="install_package" name="install_package" type="file" size="57" /><br>
+					<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
+					<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 				</td>
 			</tr>
 			<tr>

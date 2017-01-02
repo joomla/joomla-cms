@@ -60,13 +60,13 @@ class PlgSystemCache extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		if ($this->app->isAdmin() || count($this->app->getMessageQueue()) || $this->app->get('offline', '0'))
+		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || count($this->app->getMessageQueue()))
 		{
 			return;
 		}
 
 		// If user is guest and method is equal to GET enable caching.
-		if (JFactory::getUser()->get('guest') && $this->app->input->getMethod() == 'GET')
+		if (JFactory::getUser()->get('guest') && $this->app->input->getMethod() === 'GET')
 		{
 			$this->_cache->setCaching(true);
 
@@ -106,7 +106,7 @@ class PlgSystemCache extends JPlugin
 	 */
 	public function onAfterRoute()
 	{
-		if ($this->app->isAdmin() || count($this->app->getMessageQueue()) || $this->app->get('offline', '0'))
+		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || count($this->app->getMessageQueue()))
 		{
 			return;
 		}
@@ -128,7 +128,7 @@ class PlgSystemCache extends JPlugin
 	 */
 	public function onAfterRespond()
 	{
-		if ($this->app->isAdmin() || count($this->app->getMessageQueue()) || $this->app->get('offline', '0'))
+		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || count($this->app->getMessageQueue()))
 		{
 			return;
 		}

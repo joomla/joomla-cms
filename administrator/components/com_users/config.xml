@@ -20,7 +20,9 @@
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
 			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC"
-			showon="allowUserRegistration:1">
+			checksuperusergroup="1"
+			showon="allowUserRegistration:1"
+			>
 		</field>
 
 		<field
@@ -28,7 +30,9 @@
 			type="usergrouplist"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_LABEL"
-			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC">
+			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC"
+			checksuperusergroup="1"
+			>
 		</field>
 
 		<field
@@ -233,6 +237,37 @@
 			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_DESC"
 		/>
+
+	</fieldset>
+
+	<fieldset name="integration"
+		label="JGLOBAL_INTEGRATION_LABEL"
+		description="COM_USERS_CONFIG_INTEGRATION_SETTINGS_DESC"
+	>
+
+		<field
+			name="sef_advanced"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SEF_ADVANCED_LABEL"
+			description="JGLOBAL_SEF_ADVANCED_DESC"
+			filter="integer">
+			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
+			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
+		</field>
+
+		<field
+			name="custom_fields_enable"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
+			default="1"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 
 	</fieldset>
 

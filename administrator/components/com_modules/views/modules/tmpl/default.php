@@ -33,7 +33,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php
 		// Search tools bar and filters
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
@@ -141,7 +141,9 @@ $colSpan = $clientId === 1 ? 9 : 10;
 								?>
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
-								<button class="btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
+								<button class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>">
+									<i class="icon-ban-circle"></i>
+								</button>
 							<?php endif; ?>
 							</div>
 						</td>
@@ -176,7 +178,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 							<?php endif; ?>
 						</td>
 						<td class="small hidden-phone hidden-tablet">
-							<?php echo $item->name;?>
+							<?php echo $item->name; ?>
 						</td>
 						<?php if ($clientId === 0) : ?>
 						<td class="small hidden-phone hidden-tablet">
@@ -187,13 +189,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="small hidden-phone">
-							<?php if ($item->language == '') : ?>
-								<?php echo JText::_('JDEFAULT'); ?>
-							<?php elseif ($item->language == '*'):?>
-								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else:?>
-								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif;?>
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
@@ -202,7 +198,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<?php // Load the batch processing form. ?>
 		<?php if ($user->authorise('core.create', 'com_modules')

@@ -26,7 +26,7 @@ foreach ($this->items as $i => $item)
 {
 	if ($item->user_count > 0)
 	{
-		array_push($groupsWithUsers, $i);
+		$groupsWithUsers[] = $i;
 	}
 }
 JFactory::getDocument()->addScriptDeclaration('

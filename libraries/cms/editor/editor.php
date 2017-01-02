@@ -261,7 +261,7 @@ class JEditor extends JObject
 
 		$document = JFactory::getDocument();
 
-		if (method_exists($document, "addCustomTag") && !empty($return))
+		if (method_exists($document, 'addCustomTag') && !empty($return))
 		{
 			$document->addCustomTag($return);
 		}
@@ -536,8 +536,7 @@ class JEditor extends JObject
 			return false;
 		}
 
-		$params = new Registry;
-		$params->loadString($plugin->params);
+		$params = new Registry($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;
 

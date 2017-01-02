@@ -80,7 +80,7 @@ class JFormFieldHelpsiteTest extends TestCase
 		);
 
 		$this->assertContains(
-			'<option value="https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}">',
+			'<option value="https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&amp;lang={langcode}">',
 			$field->input,
 			'The getInput method should return an option with a link to the help site.'
 		);
