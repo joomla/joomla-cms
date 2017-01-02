@@ -23,7 +23,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
 
 $script = array();
-$script[] = "jQuery(document).ready(function() {";
+$script[] = 'jQuery(document).ready(function() {';
 
 foreach ($this->items as $item) :
 	if ($user->authorise('core.edit', 'com_menus')) :
@@ -39,7 +39,7 @@ $script[] = '		setTimeout(function(){';
 $script[] = '			window.parent.location.reload();';
 $script[] = '		},1000);';
 $script[] = '	});';
-$script[] = "});";
+$script[] = '});';
 
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
@@ -162,10 +162,10 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 										'height' => '300px',
 										'width' => '800px',
 										'footer' => '<a class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
-											. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+											. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 											. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module'
 											. $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-											. JText::_("JSAVE") . '</button>'
+											. JText::_('JSAVE') . '</button>'
 									)
 								); ?>
 						<?php endif; ?>
@@ -182,7 +182,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 								'height' => '500px',
 								'width' => '800px',
 								'footer' => '<a class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
-									. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+									. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 								)
 						); ?>
 					<?php endif; ?>

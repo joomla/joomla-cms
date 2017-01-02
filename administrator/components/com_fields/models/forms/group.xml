@@ -18,7 +18,7 @@
 		/>
 
 		<field
-			name="extension"
+			name="context"
 			type="hidden"
 			class="readonly"
 			readonly="true"
@@ -32,15 +32,6 @@
 			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
-		/>
-
-		<field
-			name="alias"
-			type="text"
-			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER"
-			size="45"
 		/>
 
 		<field

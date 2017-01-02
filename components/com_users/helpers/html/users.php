@@ -92,7 +92,7 @@ abstract class JHtmlUsers
 
 			$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
 
-			if (substr($value, 0, 4) == "http")
+			if (substr($value, 0, 4) == 'http')
 			{
 				return '<a href="' . $value . '">' . $text . '</a>';
 			}

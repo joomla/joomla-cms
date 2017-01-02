@@ -396,7 +396,7 @@ class JRouterTest extends TestCase
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = $this->getMockBuilder('JUri')->getMock();
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -459,7 +459,7 @@ class JRouterTest extends TestCase
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = $this->getMockBuilder('JUri')->getMock();
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -534,7 +534,7 @@ class JRouterTest extends TestCase
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = $this->getMockBuilder('JUri')->getMock();
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -653,7 +653,7 @@ class JRouterTest extends TestCase
 			$this->object->attachBuildRule($function, $stage);
 		}
 
-		$this->assertEquals($expected, (string)$this->object->build($url));
+		$this->assertEquals($expected, (string) $this->object->build($url));
 	}
 
 	/**
@@ -728,7 +728,7 @@ class JRouterTest extends TestCase
 			JRouter::PROCESS_AFTER
 		);
 
-		$this->assertEquals($expected, (string)$this->object->build($url));
+		$this->assertEquals($expected, (string) $this->object->build($url));
 	}
 
 	/**
@@ -811,7 +811,7 @@ class JRouterTest extends TestCase
 
 		$createUriMethod = new ReflectionMethod('JRouter', 'createUri');
 		$createUriMethod->setAccessible(true);
-		$this->assertEquals($expected, (string)($createUriMethod->invoke($this->object, $url)));
+		$this->assertEquals($expected, (string) ($createUriMethod->invoke($this->object, $url)));
 	}
 
 	/**

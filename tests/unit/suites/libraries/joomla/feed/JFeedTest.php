@@ -450,6 +450,6 @@ class JFeedTest extends TestCase
 	{
 		unset($this->_instance);
 
-		parent::teardown();
+		parent::tearDown();
 	}
 }

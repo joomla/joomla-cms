@@ -39,7 +39,7 @@ class MediaModelList extends JModelLegacy
 			$folder = $input->get('folder', '', 'path');
 			$this->setState('folder', $folder);
 
-			$parent = str_replace("\\", "/", dirname($folder));
+			$parent = str_replace("\\", '/', dirname($folder));
 			$parent = ($parent == '.') ? null : $parent;
 			$this->setState('parent', $parent);
 			$set = true;
@@ -190,15 +190,15 @@ class MediaModelList extends JModelLegacy
 
 						// Video
 						case 'mp4':
-							$tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
-							$tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
+							$tmp->icon_32 = 'media/mime-icon-32/' . $ext . '.png';
+							$tmp->icon_16 = 'media/mime-icon-16/' . $ext . '.png';
 							$videos[] = $tmp;
 							break;
 
 						// Non-image document
 						default:
-							$tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
-							$tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
+							$tmp->icon_32 = 'media/mime-icon-32/' . $ext . '.png';
+							$tmp->icon_16 = 'media/mime-icon-16/' . $ext . '.png';
 							$docs[] = $tmp;
 							break;
 					}
