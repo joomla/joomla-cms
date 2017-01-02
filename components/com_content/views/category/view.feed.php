@@ -39,9 +39,9 @@ class ContentViewCategory extends JViewCategoryfeed
 		$params            = $app->getParams();
 		$item->description = '';
 		$obj = json_decode($item->images);
-		$introImage = ( isset( $obj->{'image_intro'} ) ) ? $obj->{'image_intro'} : '';
+		$introImage = isset($obj->{'image_intro'}) ? $obj->{'image_intro'} : '';
 
-		if (isset($introImage) && ($introImage != "")) 
+		if (isset($introImage) && ($introImage != ''))
 		{
 			$image = preg_match('/http/', $introImage)? $introImage : JURI::root() . $introImage;
 			$item->description = '<p><img src="' . $image . '" /></p>';
@@ -61,6 +61,6 @@ class ContentViewCategory extends JViewCategoryfeed
 			$item->description .= '<p class="feed-readmore"><a target="_blank" href ="' . $link . '">' . JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 		}
 
-		$item->author = $item->created_by_alias ? $item->created_by_alias : $item->author;
+		$item->author = $item->created_by_alias ?: $item->author;
 	}
 }
