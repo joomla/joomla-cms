@@ -191,7 +191,7 @@ class JLanguage
 		$this->metadata = $this->getMetadata($this->lang);
 		$this->setDebug($debug);
 
-		$this->override = $this->parse(JPATH_BASE . '/language/overrides/' . $lang . '.override.ini', $this->debug);
+		$this->override = $this->parse(JPATH_BASE . '/language/overrides/' . $lang . '.override.ini');
 
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
@@ -774,7 +774,7 @@ class JLanguage
 		$this->counter++;
 
 		$result  = false;
-		$strings = $this->parse($filename, $this->debug);
+		$strings = $this->parse($filename);
 
 		if ($strings !== array())
 		{
