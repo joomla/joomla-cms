@@ -18,7 +18,7 @@ class JDatabaseExporterMysqliTest extends TestCase
 	/**
 	 * @var    JDatabaseDriverMysqli  The mocked database object for use by test methods.
 	 */
-	protected $dbo = null;
+	protected $dbo;
 
 	/**
 	 * Sets up the testing conditions
