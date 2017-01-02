@@ -22,9 +22,9 @@ extract($displayData);
 ?>
 
 <tr class="subform-repeatable-group" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">
-	<?php foreach($form->getFieldsets() as $fieldset): ?>
+	<?php foreach ($form->getFieldsets() as $fieldset): ?>
 	<td class="<?php if (!empty($fieldset->class)){ echo $fieldset->class; } ?>">
-		<?php foreach($form->getFieldset($fieldset->name) as $field): ?>
+		<?php foreach ($form->getFieldset($fieldset->name) as $field): ?>
 			<?php echo $field->renderField(); ?>
 		<?php endforeach; ?>
 	</td>

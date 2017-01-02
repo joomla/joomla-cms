@@ -354,6 +354,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $tab . $custom . $lnEnd;
 		}
 
-		return $buffer;
+		return ltrim($buffer, $tab);
 	}
 }

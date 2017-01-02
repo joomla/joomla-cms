@@ -73,7 +73,7 @@ class FinderViewSearch extends JViewLegacy
 		if (strpos($this->query->input, '"'))
 		{
 			// Get the application router.
-			$router =& $app::getRouter();
+			$router = &$app::getRouter();
 
 			// Fix the q variable in the URL.
 			if ($router->getVar('q') !== $this->query->input)

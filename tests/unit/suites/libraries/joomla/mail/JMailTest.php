@@ -277,8 +277,10 @@ class JMailTest extends TestCase
 	 */
 	public function testUseSmtp($auth, $host, $user, $pass, $secure, $port, $expected)
 	{
-		$mail = $this->getMock('JMail', array('SetLanguage', 'IsSMTP', 'IsMail'));
-
+		// Build the mock object.
+		$mail  = $this->getMockBuilder('JMail')
+					->setMethods(array('SetLanguage', 'IsSMTP', 'IsMail'))
+					->getMock();
 		$mail->expects(
 			$this->once()
 		)

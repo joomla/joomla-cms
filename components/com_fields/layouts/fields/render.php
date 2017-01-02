@@ -70,8 +70,8 @@ echo '<' . $container . ' class="fields-container ' . $class . '">';
 // Loop through the fields and print them
 foreach ($fields as $field)
 {
-	// If the value is empty dp nothing
-	if (!isset($field->value) || !$field->value)
+	// If the value is empty do nothing
+	if (!isset($field->value) || $field->value == '')
 	{
 		continue;
 	}

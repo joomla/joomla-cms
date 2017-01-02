@@ -587,7 +587,7 @@ abstract class JInstallerAdapter
 	/**
 	 * Generic install method for extensions
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean|integer  The extension ID on success, boolean false on failure
 	 *
 	 * @since   3.4
 	 */
@@ -1051,7 +1051,7 @@ abstract class JInstallerAdapter
 	/**
 	 * Generic update method for extensions
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean|integer  The extension ID on success, boolean false on failure
 	 *
 	 * @since   3.4
 	 */

@@ -391,17 +391,20 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 		// Now we need to get all tables from any joins
 		// Go through all joins and add them to the tables array
-		foreach ($this->join as $join)
+		if ($this->join)
 		{
-			$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string) $join)));
-
-			list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
-
-			$tmpCols = $this->db->getTableColumns(trim($table));
-
-			foreach ($tmpCols as $name => $tmpColType)
+			foreach ($this->join as $join)
 			{
-				array_push($cols, $alias . "." . $name);
+				$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string) $join)));
+
+				list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
+
+				$tmpCols = $this->db->getTableColumns(trim($table));
+
+				foreach ($tmpCols as $name => $tmpColType)
+				{
+					array_push($cols, $alias . "." . $name);
+				}
 			}
 		}
 

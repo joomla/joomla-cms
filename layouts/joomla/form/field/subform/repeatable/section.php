@@ -32,7 +32,7 @@ extract($displayData);
 	</div>
 	<?php endif; ?>
 
-<?php foreach($form->getGroup('') as $field): ?>
+<?php foreach ($form->getGroup('') as $field): ?>
 	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </div>

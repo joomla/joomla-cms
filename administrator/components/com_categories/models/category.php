@@ -271,9 +271,11 @@ class CategoriesModelCategory extends JModelAdmin
 			$data['extension'] = $extension;
 		}
 
-		$user = JFactory::getUser();
+		$categoryId = $jinput->get('id');
+		$parts      = explode('.', $extension);
+		$assetKey   = $categoryId ? $extension . '.category.' . $categoryId : $parts[0];
 
-		if (!$user->authorise('core.edit.state', $extension . '.category.' . $jinput->get('id')))
+		if (!JFactory::getUser()->authorise('core.edit.state', $assetKey))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');

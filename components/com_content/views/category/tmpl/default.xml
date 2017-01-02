@@ -12,7 +12,7 @@
 	<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
 		<fieldset name="request"
-			addfieldpath="/administrator/components/com_categories/models/fields">
+			addfieldpath="/administrator/components/com_categories/models/fields"
 		>
 			<field
 				name="id"

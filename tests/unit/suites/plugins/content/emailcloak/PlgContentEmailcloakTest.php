@@ -155,7 +155,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 				var path = 'hr' + 'ef' + '=';
 				var addy__HASH__ = 'joe' + '@';
 				addy__HASH__ = addy__HASH__ + 'nowhere13' + '.' + 'com?subject= A text';
-				var addy_text__HASH__ = '<span style=\"font-size: 14pt;\">Joe_subject_ fontsize13</span>';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'?subject= A text>'+addy_text__HASH__+'<\/a>';				
+				var addy_text__HASH__ = '<span style=\"font-size: 14pt;\">Joe_subject_ fontsize13</span>';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'?subject= A text>'+addy_text__HASH__+'<\/a>';
 		</script></p>
                 "
             ),
@@ -257,7 +257,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
                 // assert the render is as the expected render with injected hash
                 $this->assertEquals(trim(str_replace('__HASH__', $hash, $expected)), $result);
 
-                if (NULL !== $expectedHTML) {
+                if (null !== $expectedHTML) {
                     $html = $this->convertJStoHTML($result, $hash);
                     $this->assertEquals($html, $expectedHTML);
                 }
@@ -283,8 +283,8 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
      */
     private function convertJStoHTML($js, $hash)
     {
-        $resultantHTML = NULL;
-        $debug = FALSE;
+        $resultantHTML = null;
+        $debug = false;
 
         $js = html_entity_decode($js);
         $js = str_replace(sprintf('document.getElementById(\'cloak%s\').innerHTML = \'\';', $hash), '', $js);
@@ -304,7 +304,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
             $js);
 
         // because with all those replaces, you and I will need this a lot :)
-        if (TRUE === $debug) {
+        if (true === $debug) {
             echo "\n\n" . trim($js) . "\n\n";
             eval($js);
             echo "\n\n";

@@ -14,7 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
-JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
 $input = $app->input;
@@ -30,8 +31,8 @@ JFactory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function() {
 		jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
 		jQuery("#jform_title").change(function(data, handler) {
-			if(jQuery("#jform_title").data("dp-old-value") == jQuery("#jform_params_label").val()) {
-				jQuery("#jform_params_label").val(jQuery("#jform_title").val());
+			if(jQuery("#jform_title").data("dp-old-value") == jQuery("#jform_label").val()) {
+				jQuery("#jform_label").val(jQuery("#jform_title").val());
 			}
 
 			jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
@@ -69,7 +70,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								'state',
 								'enabled',
 							),
-							'catid',
+							'group_id',
 							'assigned_cat_ids',
 							'access',
 							'language',
@@ -81,7 +82,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_PUBLISHING', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -93,7 +94,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_RULES', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
 			<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>

@@ -224,7 +224,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							</span>
 						</td>
 					</tr>
-					<?php if($this->options['ftp_enable']) : ?>
+					<?php if ($this->options['ftp_enable']) : ?>
 					<tr>
 						<td class="item">
 							<?php echo JText::_('INSTL_FTP_USER_LABEL'); ?>
@@ -365,6 +365,7 @@ $prev = $useftp ? 'ftp' : 'database';
 	</div>
 
 	<input type="hidden" name="task" value="summary" />
+	<input type="hidden" name="format" value="json" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 

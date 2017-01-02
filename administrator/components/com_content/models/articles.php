@@ -201,14 +201,39 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join on voting table
-		$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name';
+		$associationsGroupBy = array(
+			'a.id',
+			'a.title',
+			'a.alias',
+			'a.checked_out',
+			'a.checked_out_time',
+			'a.state',
+			'a.access',
+			'a.created',
+			'a.created_by',
+			'a.created_by_alias',
+			'a.ordering',
+			'a.featured',
+			'a.language',
+			'a.hits',
+			'a.publish_up',
+			'a.publish_down',
+			'a.catid',
+			'l.title',
+			'l.image',
+			'uc.name',
+			'ag.title',
+			'c.title',
+			'ua.name',
+		);
 
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
-			$assogroup .= ', v.rating_sum, v.rating_count';
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
 					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+
+			array_push($associationsGroupBy, 'v.rating_sum', 'v.rating_count');
 		}
 
 		// Join over the associations.
@@ -217,7 +242,7 @@ class ContentModelArticles extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group($assogroup);
+				->group($db->quoteName($associationsGroupBy));
 		}
 
 		// Filter by access level.
@@ -226,11 +251,12 @@ class ContentModelArticles extends JModelList
 			$query->where('a.access = ' . (int) $access);
 		}
 
-		// Implement View Level Access
+		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
+			$query->where('c.access IN (' . $groups . ')');
 		}
 
 		// Filter by published state
@@ -321,16 +347,16 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'a.id');
-		$orderDirn = $this->state->get('list.direction', 'desc');
+		$orderCol  = $this->state->get('list.fullordering', 'a.id');
+		$orderDirn = '';
 
-		if (JPluginHelper::isEnabled('content', 'vote'))
+		if (empty($orderCol))
 		{
-			$orderCol  = $this->state->get('list.fullordering', 'a.id');
-			$orderDirn = '';
+			$orderCol  = $this->state->get('list.ordering', 'a.id');
+			$orderDirn = $this->state->get('list.direction', 'DESC');
 		}
 
-		$query->order($db->escape($orderCol) . ' ' . $orderDirn);
+		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}

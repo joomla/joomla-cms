@@ -46,6 +46,5 @@
 
 	<updateservers>
 		<server name="Joomla! Core" type="collection">https://update.joomla.org/core/list.xml</server>
-		<server name="Joomla! Extension Directory" type="collection">https://update.joomla.org/jed/list.xml</server>
 	</updateservers>
 </extension>

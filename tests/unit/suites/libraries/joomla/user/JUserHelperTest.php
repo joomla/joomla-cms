@@ -366,9 +366,14 @@ class JUserHelperTest extends TestCaseDatabase
 			'Joomla 1.0' => [
 				'test',
 				'098f6bcd4621d373cade4e832627b4f6:'
+			],
+			'Pre PHPass' => [
+				'mySuperSecretPassword',
+				'fb7b0a16d7e0e6706c0f962832e1fdd8:vQnUrofbvGRcBR6l502Bt8nioKj8MObh'
 			]
 		];
 	}
+
 	/**
 	 * Testing verifyPassword().
 	 *

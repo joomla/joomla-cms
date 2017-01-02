@@ -73,7 +73,7 @@ abstract class ModLanguagesHelper
 		}
 
 		$levels    = $user->getAuthorisedViewLevels();
-		$sitelangs = JLanguageMultilang::getSiteLangs();
+		$sitelangs = JLanguageHelper::getInstalledLanguages(0);
 		$multilang = JLanguageMultilang::isEnabled();
 
 		// Filter allowed languages

@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.calendar');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -64,7 +63,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php endif; ?>
 			<?php echo JHtml::_("bootstrap.endTab"); ?>
 
-			<?php if ($params->get('show_urls_images_frontend')): ?>
+			<?php if ($params->get('show_urls_images_frontend')) : ?>
 			<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "images", JText::_("COM_CONTENT_IMAGES_AND_URLS")); ?>
 				<?php echo $this->form->renderField('image_intro', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
@@ -100,7 +99,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 			<?php foreach ($this->form->getFieldsets('params') as $name => $fieldSet) : ?>
 				<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "params-" . $name, JText::_($fieldSet->label)); ?>
-					<?php if (isset($fieldSet->description) && trim($fieldSet->description)): ?>
+					<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 						<?php echo '<p class="alert alert-info">' . $this->escape(JText::_($fieldSet->description)) . '</p>'; ?>
 					<?php endif; ?>
 					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
@@ -123,7 +122,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php echo $this->form->renderField('publish_down'); ?>
 				<?php endif; ?>
 				<?php echo $this->form->renderField('access'); ?>
-				<?php if (is_null($this->item->id)):?>
+				<?php if (is_null($this->item->id)) : ?>
 					<div class="control-group">
 						<div class="control-label">
 						</div>

@@ -69,7 +69,7 @@ abstract class JArchiveTestCase extends TestCase
 		if (is_dir($this->outputPath))
 		{
 			// delete files in output directory
-			foreach(glob("{$this->outputPath}/*") as $file)
+			foreach (glob("{$this->outputPath}/*") as $file)
 			{
 				unlink($file);
 			}

@@ -22,7 +22,7 @@ extract($displayData);
 ?>
 
 <tr class="subform-repeatable-group" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">
-	<?php foreach($form->getGroup('') as $field): ?>
+	<?php foreach ($form->getGroup('') as $field): ?>
 	<td>
 		<?php echo $field->renderField(); ?>
 	</td>

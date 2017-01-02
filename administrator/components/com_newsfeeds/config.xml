@@ -430,25 +430,12 @@
 	>
 
 		<field
-			name="sef_advanced"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
-			label="JGLOBAL_SEF_ADVANCED_LABEL"
-			description="JGLOBAL_SEF_ADVANCED_DESC"
-			filter="integer">
-			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
-			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
-		</field>
-
-		<field
 			name="sef_ids"
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="0"
 			label="JGLOBAL_SEF_NOIDS_LABEL"
 			description="JGLOBAL_SEF_NOIDS_DESC"
-			showon="sef_advanced:1"
 			filter="integer">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>

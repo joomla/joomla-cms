@@ -39,8 +39,8 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function test__constructDependencyInjection()
 	{
-		$mockInput  = $this->getMock('JInput');
-		$mockConfig = $this->getMock('Joomla\Registry\Registry');
+		$mockInput  = $this->getMockBuilder('JInput')->getMock();
+		$mockConfig = $this->getMockBuilder('Joomla\Registry\Registry')->getMock();
 		$object     = $this->getMockForAbstractClass('JApplicationBase', array($mockInput, $mockConfig));
 
 		$this->assertAttributeSame($mockInput, 'input', $object);
@@ -67,7 +67,14 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testGet()
 	{
-		$mockConfig = $this->getMock('Joomla\Registry\Registry', array('get'), array(array('foo' => 'bar')), '', true, true, true, false, true);
+		// Build the mock object.
+		$mockConfig  = $this->getMockBuilder('Joomla\Registry\Registry')
+					->setMethods(array('get'))
+					->setConstructorArgs(array(array('foo' => 'bar')))
+					->setMockClassName('')
+					->disableOriginalClone()
+					->enableProxyingToOriginalMethods()
+					->getMock();
 
 		// Inject the mock config
 		$this->class->setConfiguration($mockConfig);
@@ -112,7 +119,7 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testLoadIdentityWithInjectedUser()
 	{
-		$mockUser = $this->getMock('JUser');
+		$mockUser = $this->getMockBuilder('JUser')->getMock();
 
 		// Validate method chaining
 		$this->assertSame($this->class, $this->class->loadIdentity($mockUser));

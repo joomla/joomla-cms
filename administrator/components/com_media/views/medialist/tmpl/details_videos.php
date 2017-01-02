@@ -27,6 +27,12 @@ jQuery(document).ready(function($){
 <?php foreach ($this->videos as $i => $video) : ?>
 	<?php JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_media.file', &$video, &$params)); ?>
 	<tr>
+		<?php if ($this->canDelete):?>
+			<td>
+				<?php echo JHtml::_('grid.id', $i, $video->name, false, 'rm', 'cb-video'); ?>
+			</td>
+		<?php endif;?>
+
 		<td>
 			<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL, '/', $video->name; ?>" title="<?php echo $video->title; ?>">
 				<?php JHtml::_('image', $video->icon_16, $video->title, null, true); ?>
@@ -52,7 +58,6 @@ jQuery(document).ready(function($){
 				<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $video->name; ?>" rel="<?php echo $video->name; ?>">
 					<span class="icon-remove hasTooltip" title="<?php echo JHtml::tooltipText('JACTION_DELETE'); ?>"></span>
 				</a>
-				<?php echo JHtml::_('grid.id', $i, $video->name, false, 'rm', 'cb-video'); ?>
 			</td>
 		<?php endif;?>
 	</tr>

@@ -290,7 +290,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	/**
 	 * Custom update method
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean|integer  The extension ID on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */

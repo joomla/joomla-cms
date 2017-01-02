@@ -25,6 +25,7 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 	<input type="hidden" name="task" value="setlanguage" />
+	<input type="hidden" name="format" value="json" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
@@ -119,5 +120,6 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 	<input type="hidden" name="task" value="site" />
+	<input type="hidden" name="format" value="json" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

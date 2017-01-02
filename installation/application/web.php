@@ -161,56 +161,33 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	public function dispatch()
 	{
-		try
+		// Load the document to the API.
+		$this->loadDocument();
+
+		// Set up the params
+		$document = $this->getDocument();
+
+		// Register the document object with JFactory.
+		JFactory::$document = $document;
+
+		// Define component path.
+		define('JPATH_COMPONENT', JPATH_BASE);
+		define('JPATH_COMPONENT_SITE', JPATH_SITE);
+		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
+
+		// Execute the task.
+		$this->fetchController($this->input->getCmd('task'))->execute();
+
+		// If debug language is set, append its output to the contents.
+		if ($this->config->get('debug_lang'))
 		{
-			// Load the document to the API.
-			$this->loadDocument();
-
-			// Set up the params
-			$document = $this->getDocument();
-
-			// Register the document object with JFactory.
-			JFactory::$document = $document;
-
-			if ($document->getType() == 'html')
-			{
-				// Set metadata
-				$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
-			}
-
-			// Define component path.
-			define('JPATH_COMPONENT', JPATH_BASE);
-			define('JPATH_COMPONENT_SITE', JPATH_SITE);
-			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
-
-			// Execute the task.
-			try
-			{
-				$controller = $this->fetchController($this->input->getCmd('task'));
-				$contents   = $controller->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				echo $e->getMessage();
-				$this->close($e->getCode());
-			}
-
-			// If debug language is set, append its output to the contents.
-			if ($this->config->get('debug_lang'))
-			{
-				$contents .= $this->debugLanguage();
-			}
+			$contents = $document->getBuffer('component');
+			$contents .= $this->debugLanguage();
 
 			$document->setBuffer($contents, 'component');
-			$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
 		}
 
-		// Mop up any uncaught exceptions.
-		catch (Exception $e)
-		{
-			echo $e->getMessage();
-			$this->close($e->getCode());
-		}
+		$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
 	}
 
 	/**
@@ -352,51 +329,26 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	public function getLocaliseAdmin($db = false)
 	{
-		// Read the files in the admin area.
-		$path               = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
-		$langfiles['admin'] = JFolder::folders($path);
+		$langfiles = array();
 
-		// Read the files in the site area.
-		$path              = JLanguage::getLanguagePath(JPATH_SITE);
-		$langfiles['site'] = JFolder::folders($path);
-
+		// If db connection, fetch them from the database.
 		if ($db)
 		{
-			$langfiles_disk     = $langfiles;
-			$langfiles          = array();
-			$langfiles['admin'] = array();
-			$langfiles['site']  = array();
-
-			$query = $db->getQuery(true)
-				->select($db->quoteName(array('element','client_id')))
-				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('language'));
-			$db->setQuery($query);
-			$langs = $db->loadObjectList();
-
-			foreach ($langs as $lang)
+			foreach (JLanguageHelper::getInstalledLanguages() as $clientId => $language)
 			{
-				switch ($lang->client_id)
+				$clientName = $clientId === 0 ? 'site' : 'admin';
+
+				foreach ($language as $languageCode => $lang)
 				{
-					// Site.
-					case 0:
-						if (in_array($lang->element, $langfiles_disk['site']))
-						{
-							$langfiles['site'][] = $lang->element;
-						}
-
-						break;
-
-					// Administrator.
-					case 1:
-						if (in_array($lang->element, $langfiles_disk['admin']))
-						{
-							$langfiles['admin'][] = $lang->element;
-						}
-
-						break;
+					$langfiles[$clientName][] = $lang->element;
 				}
 			}
+		}
+		// Read the folder names in the site and admin area.
+		else
+		{
+			$langfiles['site']  = JFolder::folders(JLanguage::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = JFolder::folders(JLanguage::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
 		return $langfiles;
