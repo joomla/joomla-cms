@@ -11,69 +11,18 @@ defined('_JEXEC') or die;
 /**
  * Fields list controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsControllerFields extends JControllerAdmin
 {
 	/**
-	 * Check in of one or more records.
+	 * The prefix to use with controller messages.
 	 *
-	 * @return  boolean  True on success
+	 * @var    string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
-	public function checkin()
-	{
-		$return = parent::checkin();
-
-		$this->setRedirect(
-			JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list .
-				'&context=' . $this->input->getCmd('context', 'com_content.article'), false
-			)
-		);
-
-		return $return;
-	}
-
-	/**
-	 * Removes an item
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function delete()
-	{
-		$return = parent::delete();
-
-		$this->setRedirect(
-			JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list .
-				'&context=' . $this->input->getCmd('context', 'com_content.article'), false
-			)
-		);
-
-		return $return;
-	}
-
-	/**
-	 * Method to publish a list of items
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function publish()
-	{
-		$return = parent::publish();
-
-		$this->setRedirect(
-			JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list .
-					'&context=' . $this->input->getCmd('context', 'com_content.article'), false
-			)
-		);
-
-		return $return;
-	}
+	protected $text_prefix = 'COM_FIELDS_FIELD';
 
 	/**
 	 * Proxy for getModel.
@@ -82,9 +31,9 @@ class FieldsControllerFields extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  JModel
+	 * @return  FieldsModelField|boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getModel($name = 'Field', $prefix = 'FieldsModel', $config = array('ignore_request' => true))
 	{

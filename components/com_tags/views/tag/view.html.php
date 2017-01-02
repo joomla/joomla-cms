@@ -85,6 +85,8 @@ class TagsViewTag extends JViewLegacy
 
 		if ($items !== false)
 		{
+			JPluginHelper::importPlugin('content');
+
 			foreach ($items as $itemElement)
 			{
 				$itemElement->event = new stdClass;
@@ -94,7 +96,6 @@ class TagsViewTag extends JViewLegacy
 
 				$dispatcher = JEventDispatcher::getInstance();
 
-				JPluginHelper::importPlugin('content');
 				$dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 
 				$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
@@ -137,7 +138,7 @@ class TagsViewTag extends JViewLegacy
 			$currentLink = $active->link;
 
 			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
-			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id[0]=' . (string) $item[0]->id)))
+			if (strpos($currentLink, 'view=tag') && strpos($currentLink, '&id[0]=' . (string) $item[0]->id))
 			{
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority

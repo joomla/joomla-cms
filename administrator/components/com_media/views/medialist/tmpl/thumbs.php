@@ -100,7 +100,7 @@ $doc->addScriptDeclaration(
 		</label>
 	</div>
 
-	<ul class="manager thumbnails">
+	<ul class="manager thumbnails thumbnails-media">
 		<?php
 			echo $this->loadTemplate('up'),
 				$this->loadTemplate('folders'),

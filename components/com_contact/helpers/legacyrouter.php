@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,8 +70,8 @@ class ContactRouterRulesLegacy implements JComponentRouterRulesInterface
 			$menuItem = $this->router->menu->getItem($query['Itemid']);
 		}
 
-		$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-		$mId = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+		$mView = empty($menuItem->query['view']) ? null : $menuItem->query['view'];
+		$mId = empty($menuItem->query['id']) ? null : $menuItem->query['id'];
 
 		if (isset($query['view']))
 		{
@@ -86,11 +86,10 @@ class ContactRouterRulesLegacy implements JComponentRouterRulesInterface
 		}
 
 		// Are we dealing with a contact that is attached to a menu item?
-		if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == (int) $query['id']))
+		if (isset($view) && ($mView == $view) and isset($query['id']) and ($mId == (int) $query['id']))
 		{
-			unset($query['view']);
-			unset($query['catid']);
-			unset($query['id']);
+			unset($query['view'], $query['catid'], $query['id']);
+
 			return;
 		}
 
@@ -151,8 +150,7 @@ class ContactRouterRulesLegacy implements JComponentRouterRulesInterface
 				}
 			}
 
-			unset($query['id']);
-			unset($query['catid']);
+			unset($query['id'], $query['catid']);
 		}
 
 		if (isset($query['layout']))
@@ -223,7 +221,7 @@ class ContactRouterRulesLegacy implements JComponentRouterRulesInterface
 
 		$contactCategory = JCategories::getInstance('Contact')->get($id);
 
-		$categories = ($contactCategory) ? $contactCategory->getChildren() : array();
+		$categories = $contactCategory ? $contactCategory->getChildren() : array();
 		$vars['catid'] = $id;
 		$vars['id'] = $id;
 		$found = 0;

@@ -391,17 +391,20 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 		// Now we need to get all tables from any joins
 		// Go through all joins and add them to the tables array
-		foreach ($this->join as $join)
+		if ($this->join)
 		{
-			$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string) $join)));
-
-			list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
-
-			$tmpCols = $this->db->getTableColumns(trim($table));
-
-			foreach ($tmpCols as $name => $tmpColType)
+			foreach ($this->join as $join)
 			{
-				array_push($cols, $alias . "." . $name);
+				$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string) $join)));
+
+				list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
+
+				$tmpCols = $this->db->getTableColumns(trim($table));
+
+				foreach ($tmpCols as $name => $tmpColType)
+				{
+					$cols[] = $alias . "." . $name;
+				}
 			}
 		}
 
@@ -464,5 +467,26 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	public function Rand()
 	{
 		return ' NEWID() ';
+	}
+
+	/**
+	 * Find a value in a varchar used like a set.
+	 *
+	 * Ensure that the value is an integer before passing to the method.
+	 *
+	 * Usage:
+	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
+	 *
+	 * @param   string  $value  The value to search for.
+	 *
+	 * @param   string  $set    The set of values.
+	 *
+	 * @return  string  Returns the find_in_set() Mysql translation.
+	 *
+	 * @since   3.7.0
+	 */
+	public function findInSet($value, $set)
+	{
+		return "CHARINDEX(',$value,', ',' + $set + ',') > 0";
 	}
 }

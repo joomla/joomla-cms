@@ -59,21 +59,21 @@ $cparams = JComponentHelper::getParams('com_media');
 		<?php if ($this->contact->state && $this->params->get('show_state')) : ?>
 			<p class="contact-state"><?php echo $this->contact->state; ?></p>
 		<?php endif; ?>
-		<?php // Let's use contry to list the main countries it grows in. '?>
+		<?php // Let's use country to list the main countries it grows in. ?>
 		<?php if ($this->contact->country && $this->params->get('show_country')) : ?>
 			<p class="contact-country"><?php echo $this->contact->country; ?></p>
 		<?php endif; ?>
 	</div>
 
 <div class="clr"> </div>
-	<?php  if ($this->params->get('presentation_style') != 'plain'):?>
+	<?php  if ($this->params->get('presentation_style') !== 'plain'):?>
 		<?php  echo  JHtml::_($this->params->get('presentation_style').'.start', 'contact-slider'); ?>
 	<?php endif ?>
 <div class="encyclopedia_links">
 <?php echo $this->loadTemplate('links'); ?>
 
 </div>
-	<?php if ($this->params->get('presentation_style') != 'plain'):?>
+	<?php if ($this->params->get('presentation_style') !== 'plain'):?>
 			<?php echo JHtml::_($this->params->get('presentation_style').'.end'); ?>
 			<?php endif; ?>
 </div>

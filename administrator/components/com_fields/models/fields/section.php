@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Fields Section
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormFieldSection extends JFormAbstractlist
 {
@@ -28,7 +28,7 @@ class JFormFieldSection extends JFormAbstractlist
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
@@ -46,7 +46,7 @@ class JFormFieldSection extends JFormAbstractlist
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getInput ()
 	{
