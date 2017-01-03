@@ -51,7 +51,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	 *
 	 * @var  int
 	 */
-	private static $closed = null;
+	private static $closed;
 
 	/**
 	 * Backup of the SERVER superglobal

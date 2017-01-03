@@ -417,7 +417,7 @@ class FieldsModelField extends JModelAdmin
 	 */
 	private function loadTypeForms(JForm &$form, $type)
 	{
-		FieldsHelperInternal::loadPlugins();
+		FieldsHelper::loadPlugins();
 
 		$type = JFormHelper::loadFieldType($type);
 
@@ -454,7 +454,7 @@ class FieldsModelField extends JModelAdmin
 
 		// Don't save the value when the field is disabled or the user is
 		// not authorized to change it
-		if (!$field || $params->get('disabled', 0) || !FieldsHelperInternal::canEditFieldValue($field))
+		if (!$field || $params->get('disabled', 0) || !FieldsHelper::canEditFieldValue($field))
 		{
 			return false;
 		}

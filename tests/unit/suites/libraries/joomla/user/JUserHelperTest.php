@@ -362,7 +362,7 @@ class JUserHelperTest extends TestCaseDatabase
 		// Generate the old style password hash used before phpass was implemented.
 		$salt		= JUserHelper::genRandomPassword(32);
 		$crypted	= JUserHelper::getCryptedPassword($password, $salt);
-		$hashed	        = $crypted.':'.$salt;
+		$hashed	        = $crypted . ':' . $salt;
 		$this->assertTrue(
 			JUserHelper::verifyPassword('mySuperSecretPassword', $hashed),
 			'Properly verifies a password which was hashed before phpass was implemented'
