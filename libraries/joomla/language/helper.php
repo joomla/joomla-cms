@@ -313,8 +313,8 @@ class JLanguageHelper
 	/**
 	 * Get a list of content languages.
 	 *
-	 * @param   integer  $checkPublished  Check if the content language is published.
-	 * @param   integer  $checkInstalled  Check if the content language is installed.
+	 * @param   boolean  $checkPublished  Check if the content language is published.
+	 * @param   boolean  $checkInstalled  Check if the content language is installed.
 	 * @param   string   $pivot           The pivot of the returning array.
 	 * @param   string   $orderField      Field to order the results.
 	 * @param   string   $orderDirection  Direction to order the results.
