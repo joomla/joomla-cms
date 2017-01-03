@@ -78,8 +78,8 @@ class JFormTest extends TestCaseDatabase
 		$dom = new DOMDocument('1.0');
 		$dom->preserveWhiteSpace = false;
 		$dom->formatOutput = true;
-		$dom->loadXml($form->getXml()->asXml());
-		echo $dom->saveXml();
+		$dom->loadXML($form->getXml()->asXml());
+		echo $dom->saveXML();
 	}
 
 	/**
@@ -1467,15 +1467,15 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' The show_title in the params group has been replaced by show_abstract.'
 		);
 
-		$originalform = new JFormInspector('form1');
-		$originalform->load(JFormDataHelper::$loadDocument);
-		$originalset = $originalform->getXml()->xpath('/form/fields/field');
+		$originalForm = new JFormInspector('form1');
+		$originalForm->load(JFormDataHelper::$loadDocument);
+		$originalSet = $originalForm->getXml()->xpath('/form/fields/field');
 		$set = $form->getXml()->xpath('/form/fields/field');
 
-		for ($i = 0; $i < count($originalset); $i++)
+		for ($i = 0, $iMax = count($originalSet); $i < $iMax; ++$i)
 		{
 			$this->assertThat(
-				(string) ($originalset[$i]->attributes()->name) == (string) ($set[$i]->attributes()->name),
+				(string) $originalSet[$i]->attributes()->name === (string) $set[$i]->attributes()->name,
 				$this->isTrue(),
 				'Line:' . __LINE__ . ' Replace should leave fields in the original order.'
 			);

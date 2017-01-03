@@ -1610,6 +1610,14 @@ class JoomlaInstallerScript
 			'/components/com_users/views/remind/metadata.xml',
 			'/components/com_users/views/reset/metadata.xml',
 			'/components/com_wrapper/metadata.xml',
+			'/administrator/components/com_cache/layouts/joomla/searchtools/default/bar.php',
+			'/administrator/components/com_cache/layouts/joomla/searchtools/default.php',
+			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
+			'/administrator/components/com_languages/layouts/joomla/searchtools/default.php',
+			'/administrator/components/com_menus/layouts/joomla/searchtools/default/bar.php',
+			'/administrator/components/com_menus/layouts/joomla/searchtools/default.php',
+			'/administrator/components/com_modules/layouts/joomla/searchtools/default/bar.php',
+			'/administrator/components/com_modules/layouts/joomla/searchtools/default.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1721,6 +1729,19 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/mode/jade',
 			// Joomla! 3.7.0
 			'/libraries/joomla/data',
+			'/administrator/components/com_cache/layouts/joomla/searchtools/default',
+			'/administrator/components/com_cache/layouts/joomla/searchtools',
+			'/administrator/components/com_cache/layouts/joomla',
+			'/administrator/components/com_cache/layouts',
+			'/administrator/components/com_languages/layouts/joomla/searchtools/default',
+			'/administrator/components/com_languages/layouts/joomla/searchtools',
+			'/administrator/components/com_languages/layouts/joomla',
+			'/administrator/components/com_languages/layouts',
+			'/administrator/components/com_menus/layouts/joomla/searchtools/default',
+			'/administrator/components/com_menus/layouts/joomla/searchtools',
+			'/administrator/components/com_modules/layouts/joomla/searchtools/default',
+			'/administrator/components/com_modules/layouts/joomla/searchtools',
+			'/administrator/components/com_modules/layouts/joomla',
 		);
 
 		jimport('joomla.filesystem.file');

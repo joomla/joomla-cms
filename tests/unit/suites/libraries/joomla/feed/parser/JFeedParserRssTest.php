@@ -453,7 +453,7 @@ class JFeedParserRssTest extends TestCase
 	public function testInitialise($expected, $xml)
 	{
 		// Set the XML for the internal reader.
-		$this->_reader->Xml($xml);
+		$this->_reader->XML($xml);
 
 		// Advance the reader to the first element.
 		do
@@ -576,6 +576,6 @@ class JFeedParserRssTest extends TestCase
 		unset($this->_instance);
 		unset($this->_reader);
 
-		parent::teardown();
+		parent::tearDown();
 	}
 }
