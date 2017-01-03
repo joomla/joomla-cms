@@ -58,12 +58,7 @@ class JMediawikiHttpTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-				$this->transport = $this->getMockBuilder('JHttpTransportStream')
-				->setMethods(array('request'))
-				->setConstructorArgs(array($this->options))
-				->setMockClassName('CustomTransport')
-				->disableOriginalConstructor()
-				->getMock();
+		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport', false);
 
 		$this->object = new JMediawikiHttp($this->options, $this->transport);
 	}
