@@ -14,27 +14,78 @@ $data = $displayData;
 // Receive overridable options
 $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
-// Set some basic options
+$noResultsText     = '';
+$hideActiveFilters = false;
+$showFilterButton  = false;
+$showSelector      = false;
+$selectorFieldName = isset($data['options']['selectorFieldName']) ? $data['options']['selectorFieldName'] : 'client_id';
+
+// If a filter form exists.
+if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
+{
+	// Checks if a selector (e.g. client_id) exists.
+	if ($selectorField = $data['view']->filterForm->getField($selectorFieldName))
+	{
+		$showSelector = $selectorField->getAttribute('filtermode', '') == 'selector' ? true : $showSelector;
+
+		// Checks if a selector shoudl be shown in the current layout.
+		if (isset($data['view']->layout))
+		{
+			$showSelector = $selectorField->getAttribute('layout', 'default') != $data['view']->layout ? false : $showSelector;
+		}
+
+		// Unset the selector field from active filters group.
+		unset($data['view']->activeFilters[$selectorFieldName]);
+	}
+
+	// Checks if the filters button should exist.
+	$filters = $data['view']->filterForm->getGroup('filter');
+	$showFilterButton = isset($filters['filter_search']) && count($filters) === 1 ? false : true;
+
+	// Checks if it should show the be hidden.
+	$hideActiveFilters = empty($data['view']->activeFilters);
+
+	// Check if the no results message should appear.
+	if (isset($data['view']->total) && (int) $data['view']->total === 0)
+	{
+		$noResults = $data['view']->filterForm->getFieldAttribute('search', 'noresults', '', 'filter');
+		if (!empty($noResults))
+		{
+			$noResultsText = JText::_($noResults);
+		}
+	}
+}
+
+// Set some basic options.
 $customOptions = array(
-	'filtersHidden'       => isset($data['options']['filtersHidden']) ? $data['options']['filtersHidden'] : empty($data['view']->activeFilters),
+	'filtersHidden'       => isset($data['options']['filtersHidden']) && $data['options']['filtersHidden'] ? $data['options']['filtersHidden'] : $hideActiveFilters,
+	'filterButton'        => isset($data['options']['filterButton']) && $data['options']['filterButton'] ? $data['options']['filterButton'] : $showFilterButton,
 	'defaultLimit'        => isset($data['options']['defaultLimit']) ? $data['options']['defaultLimit'] : JFactory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
+	'selectorFieldName'   => $selectorFieldName,
+	'showSelector'        => $showSelector,
 	'orderFieldSelector'  => '#list_fullordering',
-	'totalResults'        => isset($data['options']['totalResults']) ? $data['options']['totalResults'] : -1,
-	'noResultsText'       => isset($data['options']['noResultsText']) ? $data['options']['noResultsText'] : JText::_('JGLOBAL_NO_MATCHING_RESULTS'),
+	'showNoResults'       => !empty($noResultsText) ? true : false,
+	'noResultsText'       => !empty($noResultsText) ? $noResultsText : '',
+	'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',
 );
 
+// Merge custom options in the options array.
 $data['options'] = array_merge($customOptions, $data['options']);
 
-$formSelector = !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm';
+// Add class to hide the active filters if needed.
+$filtersActiveClass = $hideActiveFilters ? '' : ' js-stools-container-filters-visible';
 
 // Load search tools
-JHtml::_('searchtools.form', $formSelector, $data['options']);
-
-$filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilters ? ' js-stools-container-filters-visible' : '';
+JHtml::_('searchtools.form', $data['options']['formSelector'], $data['options']);
 ?>
 <div class="js-stools clearfix">
 	<div class="clearfix">
+		<?php if ($data['options']['showSelector']) : ?>
+		<div class="js-stools-container-selector">
+			<?php echo JLayoutHelper::render('joomla.searchtools.default.selector', $data); ?>
+		</div>
+		<?php endif; ?>
 		<div class="js-stools-container-bar">
 			<?php echo $this->sublayout('bar', $data); ?>
 		</div>
@@ -43,10 +94,12 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 		</div>
 	</div>
 	<!-- Filters div -->
-	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersClass; ?>">
+	<?php if ($data['options']['filterButton']) : ?>
+	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersActiveClass; ?>">
 		<?php echo $this->sublayout('filters', $data); ?>
 	</div>
+	<?php endif; ?>
 </div>
-<?php if ($data['options']['totalResults'] === 0) : ?>
+<?php if ($data['options']['showNoResults']) : ?>
 	<?php echo $this->sublayout('noitems', $data); ?>
 <?php endif; ?>

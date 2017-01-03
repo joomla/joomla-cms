@@ -207,8 +207,8 @@ class JComponentRouterViewconfiguration
 	 */
 	public function addLayout($layout)
 	{
-		array_push($this->layouts, $layout);
-		$this->layouts = array_unique($this->layouts);
+		$this->layouts[] = $layout;
+		$this->layouts   = array_unique($this->layouts);
 
 		return $this;
 	}

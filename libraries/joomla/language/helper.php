@@ -34,7 +34,7 @@ class JLanguageHelper
 	{
 		$list      = array();
 		$clientId  = $basePath === JPATH_ADMINISTRATOR ? 1 : 0;
-		$languages = $installed ? static::getInstalledLanguages($clientId, true) : JLanguage::getKnownLanguages($basePath);
+		$languages = $installed ? static::getInstalledLanguages($clientId, true) : self::getKnownLanguages($basePath);
 
 		foreach ($languages as $languageCode => $language)
 		{
@@ -117,7 +117,7 @@ class JLanguageHelper
 			if (JFactory::getApplication()->getClientId() == 2)
 			{
 				$languages[$key] = array();
-				$knownLangs = JLanguage::getKnownLanguages(JPATH_BASE);
+				$knownLangs = self::getKnownLanguages(JPATH_BASE);
 
 				foreach ($knownLangs as $metadata)
 				{
@@ -174,7 +174,7 @@ class JLanguageHelper
 	 *
 	 * @return  array  Array with the installed languages.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getInstalledLanguages($clientId = null, $processMetaData = false, $processManifest = false, $pivot = 'element',
 		$orderField = null, $orderDirection = null)
@@ -221,16 +221,28 @@ class JLanguageHelper
 			if ($processMetaData || $processManifest)
 			{
 				$clientPath = (int) $language->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
-				$metafile   = JLanguage::getLanguagePath($clientPath, $language->element) . '/' . $language->element . '.xml';
+				$metafile   = self::getLanguagePath($clientPath, $language->element) . '/' . $language->element . '.xml';
 
 				// Process the language metadata.
 				if ($processMetaData)
 				{
-					$lang->metadata = JLanguage::parseXMLLanguageFile($metafile);
+					try
+					{
+						$lang->metadata = self::parseXMLLanguageFile($metafile);
+					}
+					// Not able to process xml language file. Fail silently.
+					catch (Exception $e)
+					{
+						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), JLog::WARNING, 'language');
 
-					// No metadata found, not a valid language.
+						continue;
+					}
+
+					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->metadata))
 					{
+						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), JLog::WARNING, 'language');
+
 						continue;
 					}
 				}
@@ -238,11 +250,23 @@ class JLanguageHelper
 				// Process the language manifest.
 				if ($processManifest)
 				{
-					$lang->manifest = JInstaller::parseXMLInstallFile($metafile);
+					try
+					{
+						$lang->manifest = JInstaller::parseXMLInstallFile($metafile);
+					}
+					// Not able to process xml language file. Fail silently.
+					catch (Exception $e)
+					{
+						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), JLog::WARNING, 'language');
 
-					// No metadata found, not a valid language.
+						continue;
+					}
+
+					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->manifest))
 					{
+						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), JLog::WARNING, 'language');
+
 						continue;
 					}
 				}
@@ -289,15 +313,15 @@ class JLanguageHelper
 	/**
 	 * Get a list of content languages.
 	 *
-	 * @param   integer  $checkPublished  Check if the content language is published.
-	 * @param   integer  $checkInstalled  Check if the content language is installed.
+	 * @param   boolean  $checkPublished  Check if the content language is published.
+	 * @param   boolean  $checkInstalled  Check if the content language is installed.
 	 * @param   string   $pivot           The pivot of the returning array.
 	 * @param   string   $orderField      Field to order the results.
 	 * @param   string   $orderDirection  Direction to order the results.
 	 *
 	 * @return  array  Array of the content languages.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getContentLanguages($checkPublished = true, $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
 		$orderDirection = null)
@@ -355,5 +379,182 @@ class JLanguageHelper
 		}
 
 		return $languages;
+	}
+
+	/**
+	 * Checks if a language exists.
+	 *
+	 * This is a simple, quick check for the directory that should contain language files for the given user.
+	 *
+	 * @param   string  $lang      Language to check.
+	 * @param   string  $basePath  Optional path to check.
+	 *
+	 * @return  boolean  True if the language exists.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function exists($lang, $basePath = JPATH_BASE)
+	{
+		static $paths = array();
+
+		// Return false if no language was specified
+		if (!$lang)
+		{
+			return false;
+		}
+
+		$path = $basePath . '/language/' . $lang;
+
+		// Return previous check results if it exists
+		if (isset($paths[$path]))
+		{
+			return $paths[$path];
+		}
+
+		// Check if the language exists
+		$paths[$path] = is_dir($path);
+
+		return $paths[$path];
+	}
+
+	/**
+	 * Returns an associative array holding the metadata.
+	 *
+	 * @param   string  $lang  The name of the language.
+	 *
+	 * @return  mixed  If $lang exists return key/value pair with the language metadata, otherwise return NULL.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getMetadata($lang)
+	{
+		$file   = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+		$result = null;
+
+		if (is_file($file))
+		{
+			$result = self::parseXMLLanguageFile($file);
+		}
+
+		if (empty($result))
+		{
+			return;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns a list of known languages for an area
+	 *
+	 * @param   string  $basePath  The basepath to use
+	 *
+	 * @return  array  key/value pair with the language file and real name.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getKnownLanguages($basePath = JPATH_BASE)
+	{
+		return self::parseLanguageFiles(self::getLanguagePath($basePath));
+	}
+
+	/**
+	 * Get the path to a language
+	 *
+	 * @param   string  $basePath  The basepath to use.
+	 * @param   string  $language  The language tag.
+	 *
+	 * @return  string  language related path or null.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
+	{
+		return $basePath . '/language' . (!empty($language) ? '/' . $language : '');
+	}
+
+	/**
+	 * Searches for language directories within a certain base dir.
+	 *
+	 * @param   string  $dir  directory of files.
+	 *
+	 * @return  array  Array holding the found languages as filename => real name pairs.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function parseLanguageFiles($dir = null)
+	{
+		$languages = array();
+
+		// Search main language directory for subdirectories
+		foreach (glob($dir . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $directory)
+		{
+			// But only directories with lang code format
+			if (preg_match('#/[a-z]{2,3}-[A-Z]{2}$#', $directory))
+			{
+				$dirPathParts = pathinfo($directory);
+				$file         = $directory . '/' . $dirPathParts['filename'] . '.xml';
+
+				if (!is_file($file))
+				{
+					continue;
+				}
+
+				try
+				{
+					// Get installed language metadata from xml file and merge it with lang array
+					if ($metadata = self::parseXMLLanguageFile($file))
+					{
+						$languages = array_replace($languages, array($dirPathParts['filename'] => $metadata));
+					}
+				}
+				catch (RuntimeException $e)
+				{
+				}
+			}
+		}
+
+		return $languages;
+	}
+
+	/**
+	 * Parse XML file for language information.
+	 *
+	 * @param   string  $path  Path to the XML files.
+	 *
+	 * @return  array  Array holding the found metadata as a key => value pair.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  RuntimeException
+	 */
+	public static function parseXMLLanguageFile($path)
+	{
+		if (!is_readable($path))
+		{
+			throw new RuntimeException('File not found or not readable');
+		}
+
+		// Try to load the file
+		$xml = simplexml_load_file($path);
+
+		if (!$xml)
+		{
+			return;
+		}
+
+		// Check that it's a metadata file
+		if ((string) $xml->getName() != 'metafile')
+		{
+			return;
+		}
+
+		$metadata = array();
+
+		foreach ($xml->metadata->children() as $child)
+		{
+			$metadata[$child->getName()] = (string) $child;
+		}
+
+		return $metadata;
 	}
 }
