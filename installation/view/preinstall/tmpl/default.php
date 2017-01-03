@@ -42,8 +42,8 @@ defined('_JEXEC') or die;
 							<?php echo $option->label; ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
-								<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
+							<span class="label label-<?php echo $option->state ? 'success' : 'important'; ?>">
+								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice) : ?>
 									<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
 								<?php endif;?>
@@ -85,12 +85,12 @@ defined('_JEXEC') or die;
 						</td>
 						<td>
 							<span class="label label-success disabled">
-								<?php echo JText::_(($setting->recommended) ? 'JON' : 'JOFF'); ?>
+								<?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
 						<td>
 							<span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-								<?php echo JText::_(($setting->state) ? 'JON' : 'JOFF'); ?>
+								<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
 					</tr>

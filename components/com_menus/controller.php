@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Menus manager master display controller.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class MenusController extends JControllerLegacy
 {
@@ -23,7 +23,7 @@ class MenusController extends JControllerLegacy
 	 *                          Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                          'view_path' (this list is not meant to be comprehensive).
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($config = array())
 	{

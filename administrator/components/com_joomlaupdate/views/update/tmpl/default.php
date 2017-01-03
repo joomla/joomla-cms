@@ -36,7 +36,7 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 ?>
 
-<p class="nowarning"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_INPROGRESS') ?></p>
+<p class="nowarning"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_INPROGRESS'); ?></p>
 
 <div id="update-progress">
 	<div id="extprogress">

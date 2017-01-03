@@ -132,7 +132,7 @@ class UsersModelMail extends JModelAdmin
 
 		if ($disabled == 0)
 		{
-			$query->where("block = 0");
+			$query->where('block = 0');
 		}
 
 		$db->setQuery($query);
