@@ -682,29 +682,14 @@ class JLanguage
 	 * @return  boolean  True if the language exists.
 	 *
 	 * @since   11.1
+	 *
+	 * @deprecated  4.0 Use JLanguageHelper::exists instead.
 	 */
 	public static function exists($lang, $basePath = JPATH_BASE)
 	{
-		static $paths = array();
+		JLog::add(__METHOD__ . '() is deprecated. Use JLanguageHelper::exists() instead.', JLog::WARNING, 'deprecated');
 
-		// Return false if no language was specified
-		if (!$lang)
-		{
-			return false;
-		}
-
-		$path = $basePath . '/language/' . $lang;
-
-		// Return previous check results if it exists
-		if (isset($paths[$path]))
-		{
-			return $paths[$path];
-		}
-
-		// Check if the language exists
-		$paths[$path] = is_dir($path);
-
-		return $paths[$path];
+		return JLanguageHelper::exists($lang, $basePath);
 	}
 
 	/**
