@@ -15,6 +15,12 @@ if (!key_exists('field', $displayData))
 
 $field = $displayData['field'];
 $value = $field->value;
+$class = $field->fieldparams->get('image_class');
+
+if ($class)
+{
+	$class = 'class="' . $class . '"';
+}
 
 if ($value == '')
 {
@@ -30,8 +36,10 @@ foreach ($value as $path)
 	{
 		continue;
 	}
+	
+	if
 
-	$buffer .= '<img src="' . $path . '" class="' . $field->fieldparams->get('image_class') . '"/>';
+	$buffer .= '<img src="' . $path . '"' . $class . '"/>';
 }
 
 echo $buffer;
