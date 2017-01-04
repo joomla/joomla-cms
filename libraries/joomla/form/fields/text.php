@@ -203,10 +203,6 @@ class JFormFieldText extends JFormField implements JFormDomfieldinterface
 
 				$this->hint = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
 			}
-			else
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('JGLOBAL_USE_GLOBAL_VALUE_NOT_FOUND'), 'notice');
-			}
 		}
 
 		return $this->getRenderer($this->layout)->render($this->getLayoutData());

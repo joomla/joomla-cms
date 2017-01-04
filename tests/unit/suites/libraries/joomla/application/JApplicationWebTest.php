@@ -181,18 +181,33 @@ class JApplicationWebTest extends TestCase
 			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
-		$mockInput = $this->getMock('JInput', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockInput = $this->getMockBuilder('JInput')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockInput->expects($this->any())
 			->method('test')
 			->willReturn('ok');
 
-		$mockConfig = $this->getMock('\\Joomla\\Registry\\Registry', array('test'), array(null), '', true);
+		$mockConfig = $this->getMockBuilder('\\Joomla\\Registry\\Registry')
+					->setMethods(array('test'))
+					->setConstructorArgs(array(null))
+					->setMockClassName('')
+					->getMock();
 		$mockConfig
 			->expects($this->any())
 			->method('test')
 			->willReturn('ok');
 
-		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
+		$mockClient = $this->getMockBuilder('JApplicationWebClient')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockClient->expects($this->any())
 			->method('test')
 			->willReturn('ok');
@@ -274,7 +289,7 @@ class JApplicationWebTest extends TestCase
 	public function testClose()
 	{
 		// Make sure the application is not already closed.
-		$this->assertSame($this->class->closed, null);
+		$this->assertNull($this->class->closed);
 
 		$this->class->close(3);
 
@@ -829,25 +844,46 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testInitialiseWithInjection()
 	{
-		$mockSession = $this->getMock('JSession', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockSession = $this->getMockBuilder('JSession')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockSession
 			->expects($this->any())
 			->method('test')
 			->willReturnSelf();
 
-		$mockDocument = $this->getMock('JDocument', array('test'), array(), '', false);
+		$mockDocument = $this->getMockBuilder('JDocument')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockDocument
 			->expects($this->any())
 			->method('test')
 			->willReturnSelf();
 
-		$mockLanguage = $this->getMock('JLanguage', array('test'), array(), '', false);
+		$mockLanguage = $this->getMockBuilder('JLanguage')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockLanguage
 			->expects($this->any())
 			->method('test')
 			->willReturnSelf();
 
-		$mockDispatcher = $this->getMock('JEventDispatcher', array('test'), array(), '', false);
+		$mockDispatcher = $this->getMockBuilder('JEventDispatcher')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockDispatcher
 			->expects($this->any())
 			->method('test')

@@ -20,29 +20,29 @@ $userFieldGroups    = array();
 	<?php return; ?>
 <?php endif; ?>
 
-<?php foreach ($this->contactUser->fields as $field) :?>
-	<?php if (!in_array('-1', $displayGroups) && !in_array($field->catid, $displayGroups)) : ?>
+<?php foreach ($this->contactUser->fields as $field) : ?>
+	<?php if (!in_array('-1', $displayGroups) && (!$field->group_id || !in_array($field->group_id, $displayGroups))) : ?>
 		<?php continue; ?>
 	<?php endif; ?>
-	<?php if (!key_exists($field->category_title, $userFieldGroups)) : ?>
-		<?php $userFieldGroups[$field->category_title] = array();?>
+	<?php if (!key_exists($field->group_title, $userFieldGroups)) : ?>
+		<?php $userFieldGroups[$field->group_title] = array(); ?>
 	<?php endif; ?>
-	<?php $userFieldGroups[$field->category_title][] = $field;?>
+	<?php $userFieldGroups[$field->group_title][] = $field; ?>
 <?php endforeach; ?>
 
-<?php foreach ($userFieldGroups as $categoryTitle => $fields) :?>
-	<?php $id = JApplicationHelper::stringURLSafe($categoryTitle); ?>
+<?php foreach ($userFieldGroups as $groupTitle => $fields) : ?>
+	<?php $id = JApplicationHelper::stringURLSafe($groupTitle); ?>
 	<?php if ($presentation_style == 'sliders') : ?>
-		<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', $categoryTitle ? $categoryTitle : JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
+		<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', $groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
 	<?php elseif ($presentation_style == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-profile', $categoryTitle ? $categoryTitle : JText::_('COM_CONTACT_USER_FIELDS')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-profile', $groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS')); ?>
 	<?php elseif ($presentation_style == 'plain') : ?>
-		<?php echo '<h3>' . ($categoryTitle ? $categoryTitle : JText::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
+		<?php echo '<h3>' . ($groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
 	<?php endif; ?>
 
 	<div class="contact-profile" id="user-custom-fields-<?php echo $id; ?>">
 		<dl class="dl-horizontal">
-		<?php foreach ($fields as $field) :?>
+		<?php foreach ($fields as $field) : ?>
 			<?php if (!$field->value) : ?>
 				<?php continue; ?>
 			<?php endif; ?>

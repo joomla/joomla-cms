@@ -284,6 +284,12 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 					continue;
 				}
 
+				// B/C: If defer and async is false or empty don't render the attribute.
+				if (in_array($attrib, array('defer', 'async')) && !$value)
+				{
+					continue;
+				}
+
 				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
 				if ($attrib === 'mime')
 				{
@@ -353,6 +359,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $tab . $custom . $lnEnd;
 		}
 
-		return $buffer;
+		return ltrim($buffer, $tab);
 	}
 }

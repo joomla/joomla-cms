@@ -34,7 +34,7 @@ abstract class ModLoginHelper
 			$languages,
 			function ($a, $b)
 			{
-				return strcmp($a["value"], $b["value"]);
+				return strcmp($a['value'], $b['value']);
 			}
 		);
 

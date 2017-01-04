@@ -119,9 +119,12 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						?>
 							<li>
 								<div class="treeselect-item pull-left">
-									<input type="checkbox" class="pull-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; ?> />
+									<?php
+									$uselessMenuItem = (in_array($link->type, array('separator', 'heading', 'alias', 'url')));
+									?>
+									<input type="checkbox" class="pull-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
 									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
-										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span>
+										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias)); ?></span>
 										<?php if ($link->params->get('menu_show') === 0) : ?>
 											<?php echo '<span class="label">' . JText::_('COM_MODULES_LABEL_HIDDEN') . '</span>'; ?>
 										<?php endif; ?>
@@ -134,6 +137,9 @@ JFactory::getDocument()->addScriptDeclaration($script);
 										<?php endif; ?>
 										<?php if ($link->published == 0) : ?>
 											<?php echo ' <span class="label">' . JText::_('JUNPUBLISHED') . '</span>'; ?>
+										<?php endif; ?>
+										<?php if ($uselessMenuItem) : ?>
+											<?php echo ' <span class="label">' . JText::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
 										<?php endif; ?>
 									</label>
 								</div>

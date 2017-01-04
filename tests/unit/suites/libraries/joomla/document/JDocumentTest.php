@@ -69,7 +69,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 					'tab' => "\11",
 					'link' => '',
 					'base' => '',
-				    'mediaversion' => '1a2b3c4d'
+					'mediaversion' => '1a2b3c4d'
 				)
 			),
 			array(

@@ -75,6 +75,6 @@ $value = ((float) ($value - $min) * 100) / ($max - $min);
 ?>
 <div <?php echo implode(' ', $attributes); ?> >
 	<div class="bar" style="width: <?php
-	echo strval($value); ?>%;<?php
+	echo (string) $value; ?>%;<?php
 	echo !empty($color) ? ' background-color:' . $color . ';' : ''; ?>"></div>
 </div>

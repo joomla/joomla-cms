@@ -271,9 +271,11 @@ class CategoriesModelCategory extends JModelAdmin
 			$data['extension'] = $extension;
 		}
 
-		$user = JFactory::getUser();
+		$categoryId = $jinput->get('id');
+		$parts      = explode('.', $extension);
+		$assetKey   = $categoryId ? $extension . '.category.' . $categoryId : $parts[0];
 
-		if (!$user->authorise('core.edit.state', $extension . '.category.' . $jinput->get('id')))
+		if (!JFactory::getUser()->authorise('core.edit.state', $assetKey))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -583,9 +585,9 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Detecting all item menus
-			$all_language = $table->language == '*';
+			$allLanguage = $table->language == '*';
 
-			if ($all_language && !empty($associations))
+			if ($allLanguage && !empty($associations))
 			{
 				JError::raiseNotice(403, JText::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'));
 			}
@@ -598,7 +600,7 @@ class CategoriesModelCategory extends JModelAdmin
 				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
 				->where($db->quoteName('id') . ' = ' . (int) $table->id);
 			$db->setQuery($query);
-			$old_key = $db->loadResult();
+			$oldKey = $db->loadResult();
 
 			// Deleting old associations for the associated items
 			$query = $db->getQuery(true)
@@ -608,11 +610,11 @@ class CategoriesModelCategory extends JModelAdmin
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
+					. $db->quoteName('key') . ' = ' . $db->quote($oldKey) . ')');
 			}
 			else
 			{
-				$query->where($db->quoteName('key') . ' = ' . $db->quote($old_key));
+				$query->where($db->quoteName('key') . ' = ' . $db->quote($oldKey));
 			}
 
 			$db->setQuery($query);
@@ -629,7 +631,7 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Adding self to the association
-			if (!$all_language)
+			if (!$allLanguage)
 			{
 				$associations[$table->language] = (int) $table->id;
 			}
@@ -959,7 +961,7 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				if (!in_array($childId, $pks))
 				{
-					array_push($pks, $childId);
+					$pks[] = $childId;
 				}
 			}
 

@@ -98,7 +98,7 @@ class InstallationModelDatabase extends JModelBase
 		$currentLang = $lang->getTag();
 
 		// Load the selected language
-		if (JLanguage::exists($currentLang, JPATH_ADMINISTRATOR))
+		if (JLanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
 		{
 			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
 		}
@@ -302,7 +302,7 @@ class InstallationModelDatabase extends JModelBase
 		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
 		{
 			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
-			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>=')))
+			if (preg_match('#[\\\/\.\0]#', $options->db_name) && (!version_compare($db_version, '5.1.6', '>=')))
 			{
 				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version), 'error');
 
@@ -346,7 +346,7 @@ class InstallationModelDatabase extends JModelBase
 
 			if ($column != 't')
 			{
-				$db->setQuery("CREATE LANGUAGE plpgsql");
+				$db->setQuery('CREATE LANGUAGE plpgsql');
 
 				try
 				{
@@ -747,7 +747,7 @@ class InstallationModelDatabase extends JModelBase
 				return false;
 			}
 
-			$this->postInstallSampleData($db);
+			$this->postInstallSampleData($db, $options->sample_file);
 		}
 
 		return true;
@@ -756,16 +756,23 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Sample data tables and data post install process.
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   JDatabaseDriver  $db              Database connector object $db*.
+	 * @param   string           $sampleFileName  The sample dats filename.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postInstallSampleData($db)
+	protected function postInstallSampleData($db, $sampleFileName = '')
 	{
 		// Update the sample data user ids.
 		$this->updateUserIds($db);
+
+		// If not joomla sample data for testing, update the sample data dates.
+		if ($sampleFileName !== 'sample_testing.sql')
+		{
+			$this->updateDates($db);
+		}
 	}
 
 	/**
@@ -805,8 +812,11 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected function postInstallCmsData($db)
 	{
-		// Update the sample data user ids.
+		// Update the cms data user ids.
 		$this->updateUserIds($db);
+
+		// Update the cms data dates.
+		$this->updateDates($db);
 	}
 
 	/**
@@ -823,33 +833,101 @@ class InstallationModelDatabase extends JModelBase
 		// Create the ID for the root user.
 		$userId = self::getUserId();
 
-		// Update all created_by field of the tables with the random user id
-		// categories (created_user_id), contact_details, content, newsfeeds.
-		$updates_array = array(
-			'categories'      => 'created_user_id',
-			'contact_details' => 'created_by',
-			'content'         => 'created_by',
-			'newsfeeds'       => 'created_by',
-			'tags'            => 'created_user_id',
-			'ucm_content'     => 'core_created_user_id',
-			'ucm_history'     => 'editor_user_id',
+		// Update all core tables created_by fields of the tables with the random user id.
+		$updatesArray = array(
+			'#__banners'         => array('created_by', 'modified_by'),
+			'#__categories'      => array('created_user_id', 'modified_user_id'),
+			'#__contact_details' => array('created_by', 'modified_by'),
+			'#__content'         => array('created_by', 'modified_by'),
+			'#__fields'          => array('created_user_id', 'modified_by'),
+			'#__finder_filters'  => array('created_by', 'modified_by'),
+			'#__newsfeeds'       => array('created_by', 'modified_by'),
+			'#__tags'            => array('created_user_id', 'modified_user_id'),
+			'#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
+			'#__ucm_history'     => array('editor_user_id'),
+			'#__user_notes'      => array('created_user_id', 'modified_user_id'),
 		);
 
-		foreach ($updates_array as $table => $field)
+		foreach ($updatesArray as $table => $fields)
 		{
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__' . $table))
-				->set($db->quoteName($field) . ' = ' . $db->quote($userId));
-
-			$db->setQuery($query);
-
-			try
+			foreach ($fields as $field)
 			{
-				$db->execute();
+				$query = $db->getQuery(true)
+					->update($db->quoteName($table))
+					->set($db->quoteName($field) . ' = ' . $db->quote($userId))
+					->where($db->quoteName($field) . ' != 0')
+					->where($db->quoteName($field) . ' IS NOT NULL');
+
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
 			}
-			catch (RuntimeException $e)
+		}
+	}
+
+	/**
+	 * Method to update the dates of sql data content to the current date.
+	 *
+	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.7.0
+	 */
+	protected function updateDates($db)
+	{
+		// Get the current date.
+		$currentDate = JFactory::getDate()->toSql();
+		$nullDate    = $db->getNullDate();
+
+		// Update all core tables date fields of the tables with the current date.
+		$updatesArray = array(
+			'#__banners'             => array('publish_up', 'publish_down', 'reset', 'created', 'modified'),
+			'#__banner_tracks'       => array('track_date'),
+			'#__categories'          => array('created_time', 'modified_time'),
+			'#__contact_details'     => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__content'             => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__contentitem_tag_map' => array('tag_date'),
+			'#__fields'              => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
+			'#__finder_filters'      => array('created', 'modified'),
+			'#__finder_links'        => array('indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'),
+			'#__messages'            => array('date_time'),
+			'#__modules'             => array('publish_up', 'publish_down'),
+			'#__newsfeeds'           => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__redirect_links'      => array('created_date', 'modified_date'),
+			'#__tags'                => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
+			'#__ucm_content'         => array('core_created_time', 'core_modified_time', 'core_publish_up', 'core_publish_down'),
+			'#__ucm_history'         => array('save_date'),
+			'#__users'               => array('registerDate', 'lastvisitDate', 'lastResetTime'),
+			'#__user_notes'          => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
+		);
+
+		foreach ($updatesArray as $table => $fields)
+		{
+			foreach ($fields as $field)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				$query = $db->getQuery(true)
+					->update($db->quoteName($table))
+					->set($db->quoteName($field) . ' = ' . $db->quote($currentDate))
+					->where($db->quoteName($field) . ' != ' . $db->quote($nullDate));
+
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
 			}
 		}
 	}
@@ -1112,7 +1190,7 @@ class InstallationModelDatabase extends JModelBase
 		// Parse the schema file to break up queries.
 		for ($i = 0; $i < strlen($query) - 1; $i++)
 		{
-			if ($query[$i] == ";" && !$in_string)
+			if ($query[$i] == ';' && !$in_string)
 			{
 				$queries[] = substr($query, 0, $i);
 				$query     = substr($query, $i + 1);
@@ -1143,7 +1221,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Add function part as is.
-		for ($f = 1; $f < count($funct); $f++)
+		for ($f = 1, $fMax = count($funct); $f < $fMax; $f++)
 		{
 			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
 		}
