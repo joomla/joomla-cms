@@ -39,10 +39,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="15%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="15%" class="nowrap">
+					<th width="15%" class="nowrap hidden-phone hidden-tablet">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap">
+					<th class="nowrap center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'language', $listDirn, $listOrder); ?>
 					</th>
 					<th class="nowrap center">
@@ -93,7 +93,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td class="hidden-phone hidden-tablet">
 						<?php echo $this->escape($row->nativeName); ?>
 					</td>
-					<td>
+					<td class="center">
 						<?php echo $this->escape($row->language); ?>
 					</td>
 					<td class="center">
