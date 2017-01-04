@@ -55,7 +55,7 @@ class JFeedParserTest extends TestCase
 
 		// Set the XML for the internal reader and move the stream to the <root> element.
 		$xml = '<root xmlns="http://bar.foo" xmlns:namespace="http://foo.bar"><tag1>foobar</tag1><namespace:tag2 attr="value" /></root>';
-		$this->_reader->Xml($xml);
+		$this->_reader->XML($xml);
 
 		// Advance the reader to the first <tag1> element.
 		do
@@ -207,7 +207,7 @@ class JFeedParserTest extends TestCase
 	public function testMoveToNextElement()
 	{
 		// Set the XML for the internal reader and move the stream to the <root> element.
-		$this->_reader->Xml('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
+		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
 		$this->_reader->next('root');
 
 		// Ensure that the current node is "root".
@@ -243,7 +243,7 @@ class JFeedParserTest extends TestCase
 	public function testMoveToNextElementByName()
 	{
 		// Set the XML for the internal reader and move the stream to the <root> element.
-		$this->_reader->Xml('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
+		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
 
 		// Move to the next <node> element, which should be <node test="first">.
 		TestReflection::invoke($this->_instance, 'moveToNextElement', 'node');
@@ -266,7 +266,7 @@ class JFeedParserTest extends TestCase
 	public function testMoveToClosingElement()
 	{
 		// Set the XML for the internal reader and move the stream to the <root> element.
-		$this->_reader->Xml('<root><child>foobar</child></root>');
+		$this->_reader->XML('<root><child>foobar</child></root>');
 		$this->_reader->next('root');
 
 		// Ensure that the current node is "root".
@@ -288,7 +288,7 @@ class JFeedParserTest extends TestCase
 	public function testMoveToClosingElementWithInternalElements()
 	{
 		// Set the XML for the internal reader and move the stream to the first <node> element.
-		$this->_reader->Xml('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
+		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
 
 		// Advance the reader to the first <node> element.
 		do
@@ -335,7 +335,7 @@ class JFeedParserTest extends TestCase
 	public function testMoveToClosingElementWithSelfClosingTag()
 	{
 		// Set the XML for the internal reader and move the stream to the first <node> element.
-		$this->_reader->Xml('<root><node test="first" /><node test="second"></node></root>');
+		$this->_reader->XML('<root><node test="first" /><node test="second"></node></root>');
 
 		// Advance the reader to the first <node> element.
 		do
@@ -399,6 +399,6 @@ class JFeedParserTest extends TestCase
 		unset($this->_instance);
 		unset($this->_reader);
 
-		parent::teardown();
+		parent::tearDown();
 	}
 }

@@ -457,7 +457,7 @@ class JCacheTest extends TestCase
 		// Collect Garbage
 		$this->object->gc();
 
-		$this->assertFalse(file_exists($path), "Cache file should not exist.");
+		$this->assertFileNotExists($path, "Cache file should not exist.");
 
 		$this->assertFalse($this->object->get(42, ''));
 
