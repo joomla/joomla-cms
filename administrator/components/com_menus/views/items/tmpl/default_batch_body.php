@@ -15,8 +15,8 @@ $options = array(
 $published = $this->state->get('filter.published');
 $menuType = JFactory::getApplication()->getUserState('com_menus.items.menutype');
 ?>
-<?php if (strlen($menuType) && $menuType != '*') : ?>
 <div class="container-fluid">
+	<?php if (strlen($menuType) && $menuType != '*') : ?>
 	<div class="row-fluid">
 		<div class="control-group span6">
 			<div class="controls">
