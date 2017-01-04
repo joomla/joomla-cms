@@ -82,7 +82,7 @@ class JTableNestedTest extends TestCaseDatabase
 
 		$ids = self::$driver->setQuery('SELECT id FROM #__categories')->loadColumn();
 
-		$this->assertEquals(4, count($ids), 'Checks 3 nodes were deleted.');
+		$this->assertCount(4, $ids, 'Checks 3 nodes were deleted.');
 		$this->assertArrayNotHasKey(103, $ids, 'Checks node 103 was deleted.');
 		$this->assertArrayNotHasKey(203, $ids, 'Checks node 203 was deleted.');
 		$this->assertArrayNotHasKey(204, $ids, 'Checks node 204 was deleted.');
