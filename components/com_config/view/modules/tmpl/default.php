@@ -24,7 +24,7 @@ if (JLanguageMultilang::isEnabled())
 }
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="js-submit-button form-validate"   data-cancel="config.cancel.modules">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="js-submit-button form-validate"   data-cancel-task="config.cancel.modules">
 
 	<div class="row-fluid">
 
