@@ -382,6 +382,32 @@ class JLanguageHelper
 	}
 
 	/**
+	 * Save strings to a language file.
+	 *
+	 * @param   string  $filename  The language ini file path.
+	 * @param   array   $strings   The array of strings.
+	 *
+	 * @return  boolean  True if saved, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function saveToIniFile($filename, array $strings)
+	{
+		JLoader::register('JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
+
+		// Escape double quotes.
+		foreach ($strings as $key => $string)
+		{
+			$strings[$key] = addcslashes($string, '"');
+		}
+
+		// Write override.ini file with the strings.
+		$registry = new Joomla\Registry\Registry($strings);
+
+		return JFile::write($filename, $registry->toString('INI'));
+	}
+
+	/**
 	 * Checks if a language exists.
 	 *
 	 * This is a simple, quick check for the directory that should contain language files for the given user.
