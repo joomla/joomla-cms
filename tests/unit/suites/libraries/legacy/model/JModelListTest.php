@@ -438,7 +438,7 @@ class JModelListTest extends TestCaseDatabase
 
 		TestReflection::setValue($object, '__state_set', true);
 
-		$this->assertSame(false, $object->getItems());
+		$this->assertFalse($object->getItems());
 	}
 
 	/**

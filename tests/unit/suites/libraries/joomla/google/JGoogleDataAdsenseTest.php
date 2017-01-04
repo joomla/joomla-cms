@@ -261,7 +261,7 @@ class JGoogleDataAdsenseTest extends TestCase
 		$timezone = new DateTimeZone('Europe/London');
 		$start = new DateTime('now');
 		$end = new DateTime;
-		$end->setTimestamp(time() + 3600)->setTimeZone($timezone);
+		$end->setTimestamp(time() + 3600)->setTimezone($timezone);
 
 		$result = $this->object->generateReport('accountID', time(), time() + 100000, array('option' => 'value'));
 		$this->assertEquals($result, array('rows' => array(1, 2), 'totalMatchedRows' => 1));

@@ -244,8 +244,8 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 
 		$baseElement->testArray[] = 'a';
 
-		$this->assertFalse($baseElement === $cloneElement);
-		$this->assertEquals(count($cloneElement->testArray), 0);
+		$this->assertNotSame($baseElement, $cloneElement);
+		$this->assertCount(0, $cloneElement->testArray);
 	}
 
 	/**
@@ -263,7 +263,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 
 		$cloneElement = clone($baseElement);
 
-		$this->assertFalse($baseElement === $cloneElement);
-		$this->assertFalse($baseElement->testObject === $cloneElement->testObject);
+		$this->assertNotSame($baseElement, $cloneElement);
+		$this->assertNotSame($baseElement->testObject, $cloneElement->testObject);
 	}
 }

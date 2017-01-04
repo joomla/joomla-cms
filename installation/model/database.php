@@ -98,7 +98,7 @@ class InstallationModelDatabase extends JModelBase
 		$currentLang = $lang->getTag();
 
 		// Load the selected language
-		if (JLanguage::exists($currentLang, JPATH_ADMINISTRATOR))
+		if (JLanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
 		{
 			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
 		}
