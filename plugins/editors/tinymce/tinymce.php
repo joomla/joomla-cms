@@ -1244,7 +1244,7 @@ class PlgEditorTinymce extends JPlugin
 
 		// Set the selected skin
 		$skin = 'lightgray';
-		$side = $app->isAdmin() ? 'skin_admin' : 'skin';
+		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
 
 		if ((int) $this->params->get($side, 0) < count($skindirs))
 		{
@@ -1821,7 +1821,7 @@ class PlgEditorTinymce extends JPlugin
 								. '&' . JSession::getFormToken() . '=1'
 								. '&asset=image&format=json';
 
-			if ($app->isSite())
+			if ($app->isClient('site'))
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}

@@ -29,10 +29,14 @@ class ContenthistoryModelHistory extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-					'version_id', 'h.version_id',
-					'version_note', 'h.version_note',
-					'save_date', 'h.save_date',
-					'editor_user_id', 'h.editor_user_id',
+				'version_id',
+				'h.version_id',
+				'version_note',
+				'h.version_note',
+				'save_date',
+				'h.save_date',
+				'editor_user_id',
+				'h.editor_user_id',
 			);
 		}
 
@@ -339,13 +343,13 @@ class ContenthistoryModelHistory extends JModelList
 				'h.character_count, h.sha1_hash, h.version_data, h.keep_forever'
 			)
 		)
-		->from($db->quoteName('#__ucm_history') . ' AS h')
-		->where($db->quoteName('h.ucm_item_id') . ' = ' . (int) $this->getState('item_id'))
-		->where($db->quoteName('h.ucm_type_id') . ' = ' . (int) $this->getState('type_id'))
+			->from($db->quoteName('#__ucm_history') . ' AS h')
+			->where($db->quoteName('h.ucm_item_id') . ' = ' . (int) $this->getState('item_id'))
+			->where($db->quoteName('h.ucm_type_id') . ' = ' . (int) $this->getState('type_id'))
 
 		// Join over the users for the editor
-		->select('uc.name AS editor')
-		->join('LEFT', '#__users AS uc ON uc.id = h.editor_user_id');
+			->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id = h.editor_user_id');
 
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering');
@@ -369,7 +373,7 @@ class ContenthistoryModelHistory extends JModelList
 		$typeId = JFactory::getApplication()->input->getInteger('type_id', 0);
 		$typeTable->load($typeId);
 		$typeAliasArray = explode('.', $typeTable->type_alias);
-		JTable::addIncludePath(JPATH_ROOT . '/administrator/components/' . $typeAliasArray[0] . '/tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAliasArray[0] . '/tables');
 		$contentTable = $typeTable->getContentTable();
 		$keyValue = JFactory::getApplication()->input->getInteger('item_id', 0);
 
