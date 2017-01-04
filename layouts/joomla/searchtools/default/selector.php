@@ -9,5 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
-JLog::add('The layout joomla.content.info_block.block is deprecated, use joomla.content.info_block instead.', JLog::WARNING, 'deprecated');
-echo JLayoutHelper::render('joomla.content.info_block', $displayData);
+$data = $displayData;
+?>
+<div class="js-stools-field-selector">
+	<?php echo $data['view']->filterForm->getField($data['options']['selectorFieldName'])->input; ?>
+</div>
