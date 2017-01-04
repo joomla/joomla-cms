@@ -149,21 +149,18 @@ class JDatabaseIteratorMysqlTest extends TestCaseDatabaseMysql
 	public function testCount()
 	{
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'));
-		$this->assertEquals(
-			4,
-			count(self::$driver->getIterator())
+		$this->assertCount(
+			4, self::$driver->getIterator()
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 0, 2);
-		$this->assertEquals(
-			2,
-			count(self::$driver->getIterator())
+		$this->assertCount(
+			2, self::$driver->getIterator()
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 3, 2);
-		$this->assertEquals(
-			1,
-			count(self::$driver->getIterator())
+		$this->assertCount(
+			1, self::$driver->getIterator()
 		);
 	}
 }
