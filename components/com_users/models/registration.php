@@ -304,7 +304,7 @@ class UsersModelRegistration extends JModelForm
 		{
 			return false;
 		}
-		
+
 		// When multilanguage is set, a user's default site language should also be a Content Language
 		if (JLanguageMultilang::isEnabled())
 		{
