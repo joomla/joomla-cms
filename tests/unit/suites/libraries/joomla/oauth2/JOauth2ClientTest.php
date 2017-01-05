@@ -48,7 +48,7 @@ class JOAuth2ClientTest extends TestCase
 	 *
 	 * @var  int
 	 */
-	private static $closed = null;
+	private static $closed;
 
 	/**
 	 * Backup of the SERVER superglobal

@@ -20,7 +20,7 @@ class JFeedParserMock extends JFeedParser
 	 * @var    mixed  The value to return when the parse method is called.
 	 * @since  12.3
 	 */
-	public static $parseReturn = null;
+	public static $parseReturn;
 
 	/**
 	 * Do Nothing.

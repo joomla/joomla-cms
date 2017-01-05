@@ -29,7 +29,7 @@ class JDatabaseExporterMysqlTest extends TestCase
 	/**
 	 * @var    JDatabaseDriverMysql  The mocked database object for use by test methods.
 	 */
-	protected $dbo = null;
+	protected $dbo;
 
 	/**
 	 * This method is called before the first test of this test class is run.
