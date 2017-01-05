@@ -40,6 +40,7 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 
 		// Set up the temp root folder
 		$this->root = JPath::clean(JPATH_TESTS . '/tmp/test/');
+		JFolder::create($this->root);
 	}
 
 	/**
@@ -165,6 +166,66 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 
 		// Check if the array is empty
 		$this->assertEmpty($files);
+	}
+
+	/**
+	 * Test MediaFileAdapterLocal::createFolder
+	 *
+	 * @return  void
+	 */
+	public function testCreateFolder()
+	{
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Fetch the files from the root folder
+		$adapter->createFolder('unit', '/');
+
+		// Check if the file exists
+		$this->assertTrue(JFolder::exists($this->root . 'unit'));
+	}
+
+	/**
+	 * Test MediaFileAdapterLocal::createFile
+	 *
+	 * @return  void
+	 */
+	public function testCreateFile()
+	{
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Fetch the files from the root folder
+		$adapter->createFile('unit.txt', '/', 'test');
+
+		// Check if the file exists
+		$this->assertTrue(file_exists($this->root . 'unit.txt'));
+
+		// Check if the contents is correct
+		$this->assertEquals('test', file_get_contents($this->root . 'unit.txt'));
+	}
+
+	/**
+	 * Test MediaFileAdapterLocal::updateFile
+	 *
+	 * @return  void
+	 */
+	public function testUpdateFile()
+	{
+		// Make some test files
+		JFile::write($this->root . 'test.txt', 'test');
+
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Fetch the files from the root folder
+		$adapter->updateFile('unit.txt', '/', 'test 2');
+
+		// Check if the file exists
+		$this->assertTrue(file_exists($this->root . 'unit.txt'));
+
+		// Check if the contents is correct
+		$this->assertEquals('test 2', file_get_contents($this->root . 'unit.txt'));
 	}
 
 	/**

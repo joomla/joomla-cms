@@ -73,9 +73,25 @@ class MediaControllerApi extends JControllerLegacy
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
 	 * 		/api/files/sampledata/fruitshop
 	 *
+	 * 		New file body:
+	 * 		{
+	 * 			"name": "test.jpg",
+	 * 			"content":"base64 encoded image"
+	 * 		}
+	 * 		New folder body:
+	 * 		{
+	 * 			"name": "test",
+	 * 		}
+	 *
 	 * - PUT a media file:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 *
+	 * 		Update file body:
+	 * 		{
+	 * 			"content":"base64 encoded image"
+	 * 		}
+	 *
 	 * - PUT process a media file:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&action=process
 	 * 		/api/files/sampledata/fruitshop/test.jpg/process
@@ -113,7 +129,28 @@ class MediaControllerApi extends JControllerLegacy
 					$data = $this->adapter->delete($path);
 					break;
 				case 'post':
+					$content      = $this->input->json;
+					$name         = $content->get('name');
+					$mediaContent = base64_decode($content->get('content'));
+
+					if ($mediaContent)
+					{
+						// A file needs to be created
+						$data = $this->adapter->createFile($name, $path, $mediaContent);
+					}
+					else
+					{
+						// A file needs to be created
+						$data = $this->adapter->createFolder($name, $path);
+					}
+					break;
 				case 'put':
+					$content      = $this->input->json;
+					$name         = basename($path);
+					$mediaContent = base64_decode($content->get('content'));
+
+					$data = $this->adapter->updateFile($name, str_replace($name, '', $path), $mediaContent);
+					break;
 				default:
 					throw new BadMethodCallException('Method not supported yet!');
 			}

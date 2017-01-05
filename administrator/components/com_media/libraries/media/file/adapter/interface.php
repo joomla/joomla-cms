@@ -33,6 +33,47 @@ interface MediaFileAdapterInterface
 	public function getFiles($path = '/');
 
 	/**
+	 * Creates a folder with the given name in the given path.
+	 *
+	 * @param   string  $name  The name
+	 * @param   string  $path  The folder
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function createFolder($name, $path);
+
+	/**
+	 * Creates a file with the given name in the given path with the data.
+	 *
+	 * @param   string  $name  The name
+	 * @param   string  $path  The folder
+	 * @param   binary  $data  The data
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function createFile($name, $path, $data);
+
+	/**
+	 * Updates the file with the given name in the given path with the data.
+	 *
+	 * @param   string  $name  The name
+	 * @param   string  $path  The folder
+	 * @param   binary  $data  The data
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function updateFile($name, $path, $data);
+
+	/**
 	 * Deletes the folder or file of the given path.
 	 *
 	 * @param   string  $path  The path to the file or folder
