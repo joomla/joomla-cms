@@ -51,20 +51,6 @@ class TagsModelTag extends JModelAdmin
 	}
 
 	/**
-	 * Method to test whether a record can have its state changed.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 *
-	 * @since   3.1
-	 */
-	protected function canEditState($record)
-	{
-		return parent::canEditState($record);
-	}
-
-	/**
 	 * Method to get a table object, load it if necessary.
 	 *
 	 * @param   string  $type    The table name. Optional.

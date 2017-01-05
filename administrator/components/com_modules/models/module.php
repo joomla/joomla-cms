@@ -298,7 +298,7 @@ class ModulesModelModule extends JModelAdmin
 		// Default to component settings if module not known.
 		else
 		{
-			return parent::canEditState('com_modules');
+			return parent::canEditState($record);
 		}
 	}
 

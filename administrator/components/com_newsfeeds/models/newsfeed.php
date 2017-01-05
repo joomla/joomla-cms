@@ -178,10 +178,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		{
 			return $user->authorise('core.edit.state', 'com_newsfeeds.category.' . (int) $record->catid);
 		}
-		else
-		{
-			return parent::canEditState($record);
-		}
+
+		return parent::canEditState($record);
 	}
 
 	/**
