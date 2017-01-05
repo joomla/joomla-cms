@@ -29,7 +29,7 @@ if ($langs)
 							<?php echo JText::_('JGLOBAL_USERNAME'); ?>
 						</label>
 					</span>
-					<input name="username" tabindex="1" id="mod-login-username" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true" />
+					<input name="username" tabindex="1" id="mod-login-username" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true" data-tests="username" />
 					<a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=remind" class="btn width-auto hasTooltip" title="<?php echo JText::_('MOD_LOGIN_REMIND'); ?>">
 						<span class="icon-help"></span>
 					</a>
@@ -45,7 +45,7 @@ if ($langs)
 							<?php echo JText::_('JGLOBAL_PASSWORD'); ?>
 						</label>
 					</span>
-					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" size="15"/>
+					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" size="15" data-tests="password"/>
 					<a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=reset" class="btn width-auto hasTooltip" title="<?php echo JText::_('MOD_LOGIN_RESET'); ?>">
 						<span class="icon-help"></span>
 					</a>
@@ -88,7 +88,7 @@ if ($langs)
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">
-					<button tabindex="3" class="btn btn-primary btn-block btn-large">
+					<button tabindex="3" class="btn btn-primary btn-block btn-large" data-tests="log in">
 						<span class="icon-lock icon-white"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 					</button>
 				</div>
