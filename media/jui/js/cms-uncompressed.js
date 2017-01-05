@@ -94,9 +94,15 @@ if (!Array.prototype.indexOf)
 					// Test if any of the values of the field exists in showon conditions
 					for (var i in itemval)
 					{
-						if (condition['values'].indexOf(itemval[i]) !== -1)
+						// ":" Equal to one or more of the values condition
+						if (jsondata[j]['sign'] == '=' && jsondata[j]['values'].indexOf(itemval[i]) !== -1)
 						{
-							condition['valid'] = 1;
+							jsondata[j]['valid'] = 1;
+						}
+						// "!:" Not equal to one or more of the values condition
+						if (jsondata[j]['sign'] == '!=' && jsondata[j]['values'].indexOf(itemval[i]) === -1)
+						{
+							jsondata[j]['valid'] = 1;
 						}
 					}
 				});

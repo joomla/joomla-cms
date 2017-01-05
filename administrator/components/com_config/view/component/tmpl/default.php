@@ -85,25 +85,16 @@ JFactory::getDocument()->addScriptDeclaration(
 							</div>
 						<?php endif; ?>
 						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-							<?php $datashowon = ''; ?>
-							<?php if ($showonstring = $field->getAttribute('showon')) : ?>
+							<?php $dataShowOn = ''; ?>
+							<?php if ($field->showon) : ?>
 								<?php JHtml::_('jquery.framework'); ?>
 								<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
-								<?php $showonarr = array(); ?>
-								<?php foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield) : ?>
-									<?php $showon = explode(':', $showonfield, 2); ?>
-									<?php $showonarr[] = array(
-										'field'  => $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name') . ']',
-										'values' => explode(',', $showon[1]),
-										'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
-									); ?>
-								<?php endforeach; ?>
-								<?php $datashowon = ' data-showon=\'' . json_encode($showonarr) . '\''; ?>
+								<?php $dataShowOn = ' data-showon=\'' . json_encode($field->showOnData) . '\''; ?>
 							<?php endif; ?>
 							<?php if ($field->hidden) : ?>
 								<?php echo $field->input; ?>
 							<?php else : ?>
-								<div class="control-group"<?php echo $datashowon; ?>>
+								<div class="control-group"<?php echo $dataShowOn; ?>>
 									<?php if ($name != 'permissions') : ?>
 										<div class="control-label">
 											<?php echo $field->label; ?>
