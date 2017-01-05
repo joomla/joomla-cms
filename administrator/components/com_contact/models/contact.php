@@ -207,15 +207,12 @@ class ContactModelContact extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (!empty($record->id) || $record->published != -2)
 		{
-			if ($record->published != -2)
-			{
-				return;
-			}
-
-			return JFactory::getUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
+			return false;
 		}
+
+		return JFactory::getUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
 	}
 
 	/**

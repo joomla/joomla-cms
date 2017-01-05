@@ -42,15 +42,12 @@ class TagsModelTag extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (!empty($record->id) || $record->published != -2)
 		{
-			if ($record->published != -2)
-			{
-				return;
-			}
-
-			return parent::canDelete($record);
+			return false;
 		}
+
+		return parent::canDelete($record);
 	}
 
 	/**

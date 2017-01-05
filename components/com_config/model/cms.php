@@ -256,17 +256,12 @@ abstract class ConfigModelCms extends JModelDatabase
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (!empty($record->id) || $record->published != -2)
 		{
-			if ($record->published != -2)
-			{
-				return;
-			}
-
-			$user = JFactory::getUser();
-
-			return $user->authorise('core.delete', $this->option);
+			return false;
 		}
+
+		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**

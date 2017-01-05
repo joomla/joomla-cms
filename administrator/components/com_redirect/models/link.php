@@ -40,9 +40,7 @@ class RedirectModelLink extends JModelAdmin
 			return false;
 		}
 
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.delete', 'com_redirect');
+		return parent::canDelete($record);
 	}
 
 	/**

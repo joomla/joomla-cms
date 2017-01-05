@@ -94,22 +94,19 @@ class MenusModelItem extends JModelAdmin
 	{
 		$user = JFactory::getUser();
 
-		if (!empty($record->id))
+		if (!empty($record->id) || $record->published != -2)
 		{
-			if ($record->published != -2)
-			{
-				return;
-			}
-
-			$menuTypeId = 0;
-
-			if (!empty($record->menutype))
-			{
-				$menuTypeId = $this->getMenuTypeId($record->menutype);
-			}
-
-			return $user->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
+			return false;
 		}
+
+		$menuTypeId = 0;
+
+		if (!empty($record->menutype))
+		{
+			$menuTypeId = $this->getMenuTypeId($record->menutype);
+		}
+
+		return $user->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
 	}
 
 	/**
