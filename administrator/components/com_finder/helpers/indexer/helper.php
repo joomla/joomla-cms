@@ -31,6 +31,7 @@ class FinderIndexerHelper
 	 * @since	2.5
 	 */
 	public static $stemmer;
+	protected static $stemmerOK;
 
 	/**
 	 * Method to parse input into plain text.
@@ -216,20 +217,23 @@ class FinderIndexerHelper
 	public static function stem($token, $lang)
 	{
 		// Trim apostrophes at either end of the token.
-		$token = StringHelper::trim($token, '\'');
+		$token = trim($token, '\'');
 
 		// Trim everything after any apostrophe in the token.
-		if (($pos = StringHelper::strpos($token, '\'')) !== false)
-		{
-			$token = StringHelper::substr($token, 0, $pos);
+		if ($res = explode('\'', $token)) {
+			$token = $res[0];
 		}
 
-		// Stem the token if we have a valid stemmer to use.
-		if (static::$stemmer instanceof FinderIndexerStemmer)
-		{
+		if (static::$stemmerOK === true) {
 			return static::$stemmer->stem($token, $lang);
-		}
+		} else {
+			// Stem the token if we have a valid stemmer to use.
+			if (static::$stemmer instanceof FinderIndexerStemmer) {
+				static::$stemmerOK = true;
 
+				return static::$stemmer->stem($token, $lang);
+			}
+		}
 		return $token;
 	}
 
@@ -302,7 +306,7 @@ class FinderIndexerHelper
 		}
 
 		// Check if the token is in the common array.
-		return in_array($token, $data[$lang]);
+		return in_array($token, $data[$lang], true);
 	}
 
 	/**
