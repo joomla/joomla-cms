@@ -177,6 +177,33 @@ class ContactHelper extends JHelperContent
 	}
 
 	/**
+	 * Returns a valid section for contacts. If it is not valid then null
+	 * is returned.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 *
+	 * @return  string|null  The new section
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function validateSection($section)
+	{
+		if (JFactory::getApplication()->isClient('site') && $section == 'contact')
+		{
+			// The contact form needs to be the mail section
+			$section = 'mail';
+		}
+
+		if ($section != 'mail' && $section != 'contact')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
+	}
+
+	/**
 	 * Returns valid contexts
 	 *
 	 * @return  array
