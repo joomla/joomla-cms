@@ -23,8 +23,6 @@
 			<option value="name DESC">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="element ASC">COM_INSTALLER_HEADING_LANGUAGE_TAG_ASC</option>
 			<option value="element DESC">COM_INSTALLER_HEADING_LANGUAGE_TAG_DESC</option>
-			<option value="update_id ASC">JGRID_HEADING_ID_ASC</option>
-			<option value="update_id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
 		<field
 			name="limit"
