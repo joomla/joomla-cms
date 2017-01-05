@@ -336,7 +336,7 @@ class JFormHelper
 		}
 
 		$showOnData  = array();
-		$showOnParts = preg_split('#\[AND|OR\]#', $showOn);
+		$showOnParts = preg_split('#\[AND\]|\[OR\]#', $showOn);
 
 		foreach ($showOnParts as $showOnPart)
 		{
