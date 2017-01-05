@@ -1054,7 +1054,7 @@ SET IDENTITY_INSERT [#__extensions] OFF;
 
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__fields](
+CREATE TABLE [#__fields] (
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[asset_id] [int] NOT NULL DEFAULT 0,
 	[context] [nvarchar](255) NOT NULL DEFAULT '',
@@ -1113,7 +1113,7 @@ WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, O
 
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__fields_categories]( 
+CREATE TABLE [#__fields_categories] ( 
 	[field_id] [int] NOT NULL DEFAULT 0,
 	[category_id] [int] NOT NULL DEFAULT 0,
 CONSTRAINT [PK_#__fields_categories_id] PRIMARY KEY CLUSTERED(
@@ -1126,7 +1126,7 @@ WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW
 
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__fields_groups](
+CREATE TABLE [#__fields_groups] (
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[asset_id] [int] NOT NULL DEFAULT 0,
 	[context] [nvarchar](255) NOT NULL DEFAULT '',
@@ -1176,7 +1176,7 @@ WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, O
 
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__fields_values](
+CREATE TABLE [#__fields_values] (
 	[field_id] [bigint] NOT NULL DEFAULT 1,
 	[context] [nvarchar](255) NOT NULL DEFAULT '',
 	[item_id] [nvarchar](255) NOT NULL DEFAULT '',
