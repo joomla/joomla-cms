@@ -298,14 +298,6 @@ abstract class JFormField
 	protected $showon;
 
 	/**
-	 * The processed data with the conditions to show/hide the field.
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $showOnData = array();
-
-	/**
 	 * The count value for generated name field
 	 *
 	 * @var    integer
@@ -413,7 +405,6 @@ abstract class JFormField
 			case 'autocomplete':
 			case 'spellcheck':
 			case 'showon':
-			case 'showOnData':
 				return $this->$name;
 
 			case 'input':
@@ -470,7 +461,6 @@ abstract class JFormField
 			case 'pattern':
 			case 'group':
 			case 'showon':
-			case 'showOnData':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
@@ -614,12 +604,6 @@ abstract class JFormField
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
-		// Process the showon data.
-		if ($this->showon)
-		{
-			$this->parseShowOnData();
-		}
-
 		// Add required to class list if field is required.
 		if ($this->required)
 		{
@@ -627,39 +611,6 @@ abstract class JFormField
 		}
 
 		return true;
-	}
-
-	/**
-	 * Parse the show on conditions
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function parseShowOnData()
-	{
-		// Process the showon data.
-		if (!$this->showon)
-		{
-			return;
-		}
-
-		$this->showOnData = array();
-		$showOnParts      = preg_split('%\[AND\]|\[OR\]%', $this->showon);
-
-		foreach ($showOnParts as $showOnPart)
-		{
-			$compareEqual     = strpos($showOnPart, '!:') === false;
-			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
-			$fieldName        = $this->form->getFieldAttribute($showOnPartBlocks[0], 'name');
-
-			$this->showOnData[] = array(
-				'field'  => $this->formControl ? $this->formControl . '[' . $fieldName . ']' : $fieldName,
-				'values' => explode(',', $showOnPartBlocks[1]),
-				'sign'   => $compareEqual === true ? '=' : '!=',
-				'op'     => preg_match('#^\[(AND|OR)\]#', $showOnPart, $matches) ? $matches[1] : '',
-			);
-		}
 	}
 
 	/**
@@ -1001,7 +952,7 @@ abstract class JFormField
 
 		if ($this->showon)
 		{
-			$options['rel']           = ' data-showon=\'' . json_encode($this->showOnData) . '\'';
+			$options['rel']           = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($this->formControl, $this->showon)) . '\'';
 			$options['showonEnabled'] = true;
 		}
 
