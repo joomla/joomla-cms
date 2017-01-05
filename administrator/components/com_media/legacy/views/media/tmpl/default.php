@@ -6,41 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
-
-$user  = JFactory::getUser();
-$input = JFactory::getApplication()->input;
-$lang  = JFactory::getLanguage();
-$style = JFactory::getApplication()->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
-
-if (DIRECTORY_SEPARATOR == '\\')
-{
-	$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
-}
-else
-{
-	$base = COM_MEDIA_BASE;
-}
-
-JFactory::getDocument()->addScriptDeclaration(
-	"
-		var basepath = '" . $base . "';
-		var viewstyle = '" . $style . "';
-	"
-);
-
-JHtml::_('behavior.keepalive');
-JHtml::_('bootstrap.framework');
-JHtml::_('script', 'media/mediamanager.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'media/mediaelement-and-player.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'media/mediaelementplayer.css', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'system/mootree.css', array('version' => 'auto', 'relative' => true));
-
-if ($lang->isRtl())
-{
-	JHtml::_('stylesheet', 'system/mootree_rtl.css', array('version' => 'auto', 'relative' => true));
-}
 ?>
 <div class="row-fluid">
 	<!-- Begin Sidebar -->
@@ -129,7 +95,7 @@ echo JHtml::_(
 	array(
 		'title' => JText::_('COM_MEDIA_PREVIEW'),
 		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 	),
 	'<div id="image" style="text-align:center;"><img id="imagePreviewSrc" src="../media/jui/img/alpha.png" alt="preview" style="max-width:100%; max-height:300px;"/></div>'
 );
@@ -140,7 +106,7 @@ echo JHtml::_(
 	array(
 		'title' => JText::_('COM_MEDIA_PREVIEW'),
 		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 	),
 	'<div id="videoPlayer" style="z-index: -100;"><video id="mejsPlayer" style="height: 250px;"/></div>'
 );

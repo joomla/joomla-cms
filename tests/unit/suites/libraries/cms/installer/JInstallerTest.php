@@ -192,22 +192,6 @@ class JInstallerTest extends TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function testAbortQuery()
-	{
-		$this->object->pushStep(array('type' => 'query'));
-
-		$this->assertFalse(
-			$this->object->abort()
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @covers  JInstaller::abort
-	 *
-	 * @return void
-	 */
 	public function testAbortDefault()
 	{
 		// Build the mock object.

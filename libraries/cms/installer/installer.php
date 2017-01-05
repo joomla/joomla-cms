@@ -393,9 +393,8 @@ class JInstaller extends JAdapter
 					break;
 
 				case 'query':
-					// Placeholder in case this is necessary in the future
-					// $stepval is always false because if this step was called it invariably failed
-					$stepval = false;
+					// Execute the query.
+					$stepval = $this->parseSQLFiles($step['script']);
 					break;
 
 				case 'extension':

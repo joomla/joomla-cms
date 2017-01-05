@@ -120,7 +120,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				</td>
 				<td class="center btns">
 				<?php if ((int) $item->num_children === 0) : ?>
-					<span class="badge <?php if ($item->num_nodes > 0) echo "badge-info"; ?>"><?php echo $item->num_nodes; ?></span>
+					<span class="badge <?php if ($item->num_nodes > 0) echo 'badge-info'; ?>"><?php echo $item->num_nodes; ?></span>
 				<?php else : ?>
 					&nbsp;
 				<?php endif; ?>

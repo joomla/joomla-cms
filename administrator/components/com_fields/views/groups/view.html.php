@@ -92,7 +92,7 @@ class FieldsViewGroups extends JViewLegacy
 
 		$this->addToolbar();
 
-		FieldsHelperInternal::addSubmenu($this->state->get('filter.context'), 'groups');
+		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'groups');
 		$this->sidebar = JHtmlSidebar::render();
 
 		return parent::display($tpl);

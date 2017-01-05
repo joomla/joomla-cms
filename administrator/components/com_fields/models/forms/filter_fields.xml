@@ -34,6 +34,14 @@
 		</field>
 
 		<field
+			name="assigned_cat_ids"
+			type="category"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_FIELDS_VIEW_FIELDS_SELECT_CATEGORY</option>
+		</field>
+
+		<field
 			name="access"
 			type="accesslevel"
 			onchange="this.form.submit();"

@@ -300,15 +300,15 @@ class UsersModelRegistration extends JModelForm
 		// Get the form.
 		$form = $this->loadForm('com_users.registration', 'registration', array('control' => 'jform', 'load_data' => $loadData));
 
+		if (empty($form))
+		{
+			return false;
+		}
+
 		// When multilanguage is set, a user's default site language should also be a Content Language
 		if (JLanguageMultilang::isEnabled())
 		{
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
-		}
-
-		if (empty($form))
-		{
-			return false;
 		}
 
 		return $form;

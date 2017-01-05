@@ -417,7 +417,7 @@ class FieldsModelField extends JModelAdmin
 	 */
 	private function loadTypeForms(JForm &$form, $type)
 	{
-		FieldsHelperInternal::loadPlugins();
+		FieldsHelper::loadPlugins();
 
 		$type = JFormHelper::loadFieldType($type);
 
@@ -454,7 +454,7 @@ class FieldsModelField extends JModelAdmin
 
 		// Don't save the value when the field is disabled or the user is
 		// not authorized to change it
-		if (!$field || $params->get('disabled', 0) || !FieldsHelperInternal::canEditFieldValue($field))
+		if (!$field || $params->get('disabled', 0) || !FieldsHelper::canEditFieldValue($field))
 		{
 			return false;
 		}
@@ -724,14 +724,11 @@ class FieldsModelField extends JModelAdmin
 			{
 				// Check for which context the Category Manager is used and
 				// get selected fields
-				$context   = substr($app->getUserState('com_fields.fields.filter.context'), 4);
-				$component = FieldsHelper::extract($context);
-				$component = $component ? $component[0] : null;
+				$filters = (array) $app->getUserState('com_fields.fields.filter');
 
-				$filters = (array) $app->getUserState('com_fields.fields.' . $component . '.filter');
-
-				$data->set('published', $app->input->getInt('published', (!empty($filters['published']) ? $filters['published'] : null)));
+				$data->set('state', $app->input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				$data->set('group_id', $app->input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
 				$data->set(
 					'access',
 					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access')))

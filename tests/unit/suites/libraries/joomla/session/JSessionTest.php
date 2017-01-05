@@ -81,7 +81,7 @@ class JSessionTest extends TestCase
 	 *
 	 * @return array
 	 */
-	Public function casesGetInstance()
+	public function casesGetInstance()
 	{
 		return array(
 			'first_instance' => array(
