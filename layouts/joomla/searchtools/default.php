@@ -87,18 +87,19 @@ JHtml::_('searchtools.form', $data['options']['formSelector'], $data['options'])
 		</div>
 		<?php endif; ?>
 		<div class="js-stools-container-bar">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
+			<?php echo $this->sublayout('bar', $data); ?>
 		</div>
 		<div class="js-stools-container-list hidden-phone hidden-tablet">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
+			<?php echo $this->sublayout('list', $data); ?>
 		</div>
 	</div>
+	<!-- Filters div -->
 	<?php if ($data['options']['filterButton']) : ?>
 	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersActiveClass; ?>">
-		<?php echo JLayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
+		<?php echo $this->sublayout('filters', $data); ?>
 	</div>
 	<?php endif; ?>
 </div>
 <?php if ($data['options']['showNoResults']) : ?>
-	<?php echo JLayoutHelper::render('joomla.searchtools.default.noitems', $data); ?>
+	<?php echo $this->sublayout('noitems', $data); ?>
 <?php endif; ?>
