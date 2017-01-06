@@ -478,7 +478,7 @@ class JMail extends PHPMailer
 				}
 
 				// Check for boolean false return if exception handling is disabled
-				if ($result === false)
+				if (!isset($result) || $result === false)
 				{
 					return false;
 				}
