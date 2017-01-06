@@ -96,25 +96,9 @@ abstract class JFormAbstractlist extends JFormField
 		foreach ($this->element->xpath('option') as $option)
 		{
 			// Filter requirements
-			if ($requires = explode(',', (string) $option['requires']))
+			if (isset($option['requires']) && !JFormHelper::fulfillsRequirements($option['requires']))
 			{
-				// Requires multilanguage
-				if (in_array('multilanguage', $requires) && !JLanguageMultilang::isEnabled())
-				{
-					continue;
-				}
-
-				// Requires associations
-				if (in_array('associations', $requires) && !JLanguageAssociations::isEnabled())
-				{
-					continue;
-				}
-
-				// Requires vote plugin enabled
-				if (in_array('vote', $requires) && !JPluginHelper::isEnabled('content', 'vote'))
-				{
-					continue;
-				}
+				continue;
 			}
 
 			$value = (string) $option['value'];

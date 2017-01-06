@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\String\StringHelper;
+use Joomla\Registry\Registry;
 
 jimport('joomla.filesystem.path');
 
@@ -315,5 +316,77 @@ class JFormHelper
 		}
 
 		return $paths;
+	}
+
+	/**
+	 * Method to check if form fulfils requirements.
+	 *
+	 * @param   string  $requires  The requires attribute string.
+	 *
+	 * @return  boolean  True if yes, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function fulfillsRequirements($requires = '')
+	{
+		if ($requires === '')
+		{
+			return true;
+		}
+
+		// B/C part. Will be removed in 4.0
+		$requires = str_replace(
+			array('multilanguage', 'associations', 'vote'),
+			array('plg_system_languagefilter', 'plg_system_languagefilter{item_associations:1}', 'plg_content_vote'),
+			$requires
+		);
+
+		// Filter requirements
+		$requirements = explode(',', $requires);
+
+		foreach ($requirements as $requirement)
+		{
+			if (preg_match('#(config|(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+)))($|\{([a-z0-9_:\[\]\-]+)\})#i', $requirement, $m))
+			{
+				// Check config params, or, for components and plugins, if they are installed and enabled and their params, if required.
+				if (($m[1] === 'config' && isset($m[7]) && !static::fulfillsRequirementsParams(JFactory::getConfig(), $m[7]))
+					|| ($m[2] === 'com' && (!JComponentHelper::isEnabled($m[2] . '_' . $m[3])
+					|| (isset($m[7]) && !static::fulfillsRequirementsParams(JComponentHelper::getComponent($m[2] . '_' . $m[3])->params, $m[7]))))
+					|| ($m[2] === 'plg' && (!JPluginHelper::isEnabled($m[4], $m[5])
+					|| (isset($m[7]) && !static::fulfillsRequirementsParams(new Registry(JPluginHelper::getPlugin($m[4], $m[5])->params), $m[7])))))
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to check a component/plugin fulfills required parameters.
+	 *
+	 * @param   Registry  $params          The config/component/plugin params.
+	 * @param   string    $requiredParams  The required params.
+	 *
+	 * @return  boolean  True if yes, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function fulfillsRequirementsParams(Registry $params, $requiredParams = '')
+	{
+		$requireParams = explode('[AND]', $requiredParams);
+
+		foreach ($requireParams as $requireParam)
+		{
+			$parts = explode(':', $requireParam);
+
+			if ($params->get($parts[0]) != $parts[1])
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
