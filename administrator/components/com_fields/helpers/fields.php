@@ -478,6 +478,12 @@ class FieldsHelper
 					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
 			}
+
+			// When he field set is empty, then remove it
+			if (!$fieldset->hasChildNodes())
+			{
+				$fieldsNode->removeChild($fieldset);
+			}
 		}
 
 		// Loading the XML fields string into the form
