@@ -31,6 +31,13 @@ class FinderIndexerHelper
 	 * @since	2.5
 	 */
 	public static $stemmer;
+
+	/**
+	 * A state flag, in order to not constantly check if the stemmer is an instance of FinderIndexerStemmer
+	 *
+	 * @var		boolean
+	 * @since	__DEPLOY_VERSION__
+	 */
 	protected static $stemmerOK;
 
 	/**
@@ -220,20 +227,26 @@ class FinderIndexerHelper
 		$token = trim($token, '\'');
 
 		// Trim everything after any apostrophe in the token.
-		if ($res = explode('\'', $token)) {
+		if ($res = explode('\'', $token))
+		{
 			$token = $res[0];
 		}
 
-		if (static::$stemmerOK === true) {
+		if (static::$stemmerOK === true)
+		{
 			return static::$stemmer->stem($token, $lang);
-		} else {
+		}
+		else
+		{
 			// Stem the token if we have a valid stemmer to use.
-			if (static::$stemmer instanceof FinderIndexerStemmer) {
+			if (static::$stemmer instanceof FinderIndexerStemmer)
+			{
 				static::$stemmerOK = true;
 
 				return static::$stemmer->stem($token, $lang);
 			}
 		}
+
 		return $token;
 	}
 
