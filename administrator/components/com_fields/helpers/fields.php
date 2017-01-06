@@ -40,6 +40,28 @@ class FieldsHelper
 			return null;
 		}
 
+		$component = $parts[0];
+		$eName = str_replace('com_', '', $component);
+
+		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $component . '.php');
+
+		if (file_exists($path))
+		{
+			$cName = ucfirst($eName) . 'Helper';
+
+			JLoader::register($cName, $path);
+
+			if (class_exists($cName) && is_callable(array($cName, 'validateSection')))
+			{
+				$section = call_user_func_array(array($cName, 'validateSection'), array($parts[1]));
+
+				if ($section)
+				{
+					$parts[1] = $section;
+				}
+			}
+		}
+
 		return $parts;
 	}
 
@@ -437,6 +459,12 @@ class FieldsHelper
 				{
 					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
+			}
+
+			// When he field set is empty, then remove it
+			if (!$fieldset->hasChildNodes())
+			{
+				$fieldsNode->removeChild($fieldset);
 			}
 		}
 
