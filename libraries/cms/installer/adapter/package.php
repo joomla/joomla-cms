@@ -20,7 +20,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	 * Flag if the internal event callback has been registered
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	private static $eventRegistered = false;
 
@@ -28,7 +28,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	 * An array of extension IDs for each installed extension
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $installedIds = array();
 
@@ -334,7 +334,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onExtensionAfterInstall(JInstaller $installer, $eid)
 	{

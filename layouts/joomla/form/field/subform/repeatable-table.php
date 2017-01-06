@@ -60,12 +60,16 @@ else
 	}
 
 	$sublayout = 'section';
-}
 
+	// Label will not be shown for sections layout, so reset the margin left
+	JFactory::getDocument()->addStyleDeclaration(
+		'.subform-table-sublayout-section .controls { margin-left: 0px }'
+	);
+}
 ?>
 
 <div class="row-fluid">
-	<div class="subform-repeatable-wrapper subform-table-layout">
+	<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
 		<div class="subform-repeatable"
 			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
 			data-repeatable-element="tr.subform-repeatable-group"
@@ -75,30 +79,30 @@ else
 			<thead>
 				<tr>
 					<?php echo $table_head; ?>
-					<?php if (!empty($buttons)):?>
+					<?php if (!empty($buttons)) : ?>
 					<th style="width:8%;">
-					<?php if (!empty($buttons['add'])):?>
+					<?php if (!empty($buttons['add'])) : ?>
 						<div class="btn-group">
 							<a class="group-add btn btn-mini button btn-success"><span class="icon-plus"></span> </a>
 						</div>
-					<?php endif;?>
+					<?php endif; ?>
 					</th>
 					<?php endif; ?>
 				</tr>
 			</thead>
 			<tbody>
 			<?php
-			foreach ($forms as $k => $form):
+			foreach ($forms as $k => $form) :
 				echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
 			endforeach;
 			?>
 			</tbody>
 		</table>
-		<?php if ($multiple):?>
+		<?php if ($multiple) : ?>
 		<script type="text/subform-repeatable-template-section" class="subform-repeatable-template-section">
-		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons));?>
+		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons)); ?>
 		</script>
-		<?php endif;?>
+		<?php endif; ?>
 		</div>
 	</div>
 </div>

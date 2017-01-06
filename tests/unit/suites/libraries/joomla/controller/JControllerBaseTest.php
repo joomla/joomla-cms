@@ -172,6 +172,6 @@ class JControllerBaseTest extends TestCase
 	{
 		$this->restoreFactoryState();
 		unset($this->_instance);
-		parent::teardown();
+		parent::tearDown();
 	}
 }

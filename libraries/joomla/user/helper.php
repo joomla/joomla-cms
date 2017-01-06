@@ -327,9 +327,6 @@ abstract class JUserHelper
 	 */
 	public static function verifyPassword($password, $hash, $user_id = 0)
 	{
-		$rehash = false;
-		$match = false;
-
 		// If we are using phpass
 		if (strpos($hash, '$P$') === 0)
 		{
@@ -353,7 +350,6 @@ abstract class JUserHelper
 		{
 			// Check the password
 			$parts     = explode(':', $hash);
-			$crypt     = $parts[0];
 			$salt      = @$parts[1];
 			$testcrypt = static::getCryptedPassword($password, $salt, 'sha256', true);
 
@@ -365,7 +361,6 @@ abstract class JUserHelper
 		{
 			// Check the password
 			$parts = explode(':', $hash);
-			$crypt = $parts[0];
 			$salt  = @$parts[1];
 
 			$rehash = true;
@@ -810,5 +805,30 @@ abstract class JUserHelper
 		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
 
 		return md5(JUri::base() . $uaShort);
+	}
+
+	/**
+	 * Check if there is a super user in the user ids.
+	 *
+	 * @param   array  $userIds  An array of user IDs on which to operate
+	 *
+	 * @return  boolean  True on success, false on failure
+	 *
+	 * @since   3.6.5
+	 */
+	public static function checkSuperUserInUsers(array $userIds)
+	{
+		foreach ($userIds as $userId)
+		{
+			foreach (static::getUserGroups($userId) as $userGroupId)
+			{
+				if (JAccess::checkGroup($userGroupId, 'core.admin'))
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

@@ -88,7 +88,7 @@ if ($this->type == 'image')
 				onChange:   showCoords,
 				onSelect:   showCoords,
 				onRelease:  clearCoords,
-				trueSize:   [" . $this->image['width'] . "," . $this->image['height'] . "]
+				trueSize:   [" . $this->image['width'] . ',' . $this->image['height'] . "]
 			},function(){
 				jcrop_api = this;
 			});
@@ -110,7 +110,7 @@ if ($this->type == 'image')
 		});");
 }
 
-JFactory::getDocument()->addStyleDeclaration("
+JFactory::getDocument()->addStyleDeclaration('
 	/* Styles for modals */
 	.selected{
 		background: #08c;
@@ -148,7 +148,7 @@ JFactory::getDocument()->addStyleDeclaration("
 	.tree-holder{
 		overflow-x: auto;
 	}
-");
+');
 
 if ($this->type == 'font')
 {
@@ -170,23 +170,23 @@ if ($this->type == 'font')
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 <div class="row-fluid">
 	<div class="span12">
-		<?php if ($this->type == 'file'): ?>
+		<?php if ($this->type == 'file') : ?>
 			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
 		<?php endif; ?>
-		<?php if ($this->type == 'image'): ?>
+		<?php if ($this->type == 'image') : ?>
 			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
 		<?php endif; ?>
-		<?php if ($this->type == 'font'): ?>
+		<?php if ($this->type == 'font') : ?>
 			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
 		<?php endif; ?>
 	</div>
 </div>
 <div class="row-fluid">
 	<div class="span3 tree-holder">
-		<?php echo $this->loadTemplate('tree');?>
+		<?php echo $this->loadTemplate('tree'); ?>
 	</div>
 	<div class="span9">
-		<?php if ($this->type == 'home'): ?>
+		<?php if ($this->type == 'home') : ?>
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
@@ -201,7 +201,7 @@ if ($this->type == 'font')
 				</div>
 			</form>
 		<?php endif; ?>
-		<?php if ($this->type == 'file'): ?>
+		<?php if ($this->type == 'file') : ?>
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 
 				<div class="editor-border">
@@ -214,16 +214,16 @@ if ($this->type == 'font')
 
 			</form>
 		<?php endif; ?>
-		<?php if ($this->type == 'archive'): ?>
+		<?php if ($this->type == 'archive') : ?>
 			<legend><?php echo JText::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 				<ul class="nav nav-stacked nav-list well">
-					<?php foreach ($this->archive as $file): ?>
+					<?php foreach ($this->archive as $file) : ?>
 						<li>
-							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
+							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
 								<span class="icon-folder"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
-							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
+							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
 								<span class="icon-file"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
@@ -234,7 +234,7 @@ if ($this->type == 'font')
 
 			</form>
 		<?php endif; ?>
-		<?php if ($this->type == 'image'): ?>
+		<?php if ($this->type == 'image') : ?>
 			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 				<fieldset class="adminform">
@@ -247,7 +247,7 @@ if ($this->type == 'font')
 				</fieldset>
 			</form>
 		<?php endif; ?>
-		<?php if ($this->type == 'font'): ?>
+		<?php if ($this->type == 'font') : ?>
 			<div class="font-preview">
 				<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 					<fieldset class="adminform">
@@ -308,10 +308,10 @@ if ($this->type == 'font')
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row-fluid">
 	<div class="span4">
-		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES');?></legend>
+		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
-			<?php foreach ($this->overridesList['modules'] as $module): ?>
+			<?php foreach ($this->overridesList['modules'] as $module) : ?>
 				<li>
 					<?php
 					$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path
@@ -325,16 +325,16 @@ if ($this->type == 'font')
 		</ul>
 	</div>
 	<div class="span4">
-		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS');?></legend>
+		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
-			<?php foreach ($this->overridesList['components'] as $key => $value): ?>
+			<?php foreach ($this->overridesList['components'] as $key => $value) : ?>
 				<li class="component-folder">
 					<a href="#" class="component-folder-url">
 						<span class="icon-folder"></span>&nbsp;<?php echo $key; ?>
 					</a>
 					<ul class="nav nav-list">
-						<?php foreach ($value as $view): ?>
+						<?php foreach ($value as $view) : ?>
 							<li>
 								<?php
 								$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path
@@ -351,10 +351,10 @@ if ($this->type == 'font')
 		</ul>
 	</div>
 	<div class="span4">
-		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS');?></legend>
+		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
-			<?php foreach ($this->overridesList['layouts'] as $layout): ?>
+			<?php foreach ($this->overridesList['layouts'] as $layout) : ?>
 				<li>
 					<?php
 					$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path
@@ -371,7 +371,7 @@ if ($this->type == 'font')
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
-<?php echo $this->loadTemplate('description');?>
+<?php echo $this->loadTemplate('description'); ?>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
@@ -389,7 +389,7 @@ $copyModalData = array(
 	<?php echo JLayoutHelper::render('joomla.modal.main', $copyModalData); ?>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-<?php if ($this->type != 'home'): ?>
+<?php if ($this->type != 'home') : ?>
 	<?php // Rename Modal
 	$renameModalData = array(
 		'selector'	=> 'renameModal',
@@ -405,7 +405,7 @@ $copyModalData = array(
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 <?php endif; ?>
-<?php if ($this->type != 'home'): ?>
+<?php if ($this->type != 'home') : ?>
 	<?php // Delete Modal
 	$deleteModalData = array(
 		'selector'	=> 'deleteModal',
@@ -440,7 +440,7 @@ $folderModalData = array(
 );
 ?>
 <?php echo JLayoutHelper::render('joomla.modal.main', $folderModalData); ?>
-<?php if ($this->type != 'home'): ?>
+<?php if ($this->type != 'home') : ?>
 	<?php // Resize Modal
 	$resizeModalData = array(
 		'selector'	=> 'resizeModal',

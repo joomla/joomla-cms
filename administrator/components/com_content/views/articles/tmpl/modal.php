@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
-if ($app->isSite())
+if ($app->isClient('site'))
 {
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
@@ -98,12 +98,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							$lang = substr($item->language, 0, 3);
 						}
 						else {
-							$lang = "";
+							$lang = '';
 						}
 					}
 					elseif (!JLanguageMultilang::isEnabled())
 					{
-						$lang = "";
+						$lang = '';
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
@@ -114,7 +114,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<a href="javascript:void(0);" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
 								<?php echo $this->escape($item->title); ?></a>
 							<div class="small">
-								<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
+								<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 							</div>
 						</td>
 						<td class="small hidden-phone">

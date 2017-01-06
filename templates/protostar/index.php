@@ -28,7 +28,7 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
-if ($task == "edit" || $layout == "form" )
+if ($task === 'edit' || $layout === 'form')
 {
 	$fullWidth = 1;
 }
@@ -62,13 +62,13 @@ if ($this->params->get('googleFont'))
 // Template color
 if ($this->params->get('templateColor'))
 {
-	$this->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	body.site {
-		border-top: 3px solid " . $this->params->get('templateColor') . ";
-		background-color: " . $this->params->get('templateBackgroundColor') . ";
+		border-top: 3px solid ' . $this->params->get('templateColor') . ';
+		background-color: ' . $this->params->get('templateBackgroundColor') . ';
 	}
 	a {
-		color: " . $this->params->get('templateColor') . ";
+		color: ' . $this->params->get('templateColor') . ';
 	}
 	.nav-list > .active > a,
 	.nav-list > .active > a:hover,
@@ -78,8 +78,8 @@ if ($this->params->get('templateColor'))
 	.nav-pills > .active > a,
 	.nav-pills > .active > a:hover,
 	.btn-primary {
-		background: " . $this->params->get('templateColor') . ";
-	}");
+		background: ' . $this->params->get('templateColor') . ';
+	}');
 }
 
 // Check for a custom CSS file
@@ -94,19 +94,19 @@ JHtml::_('bootstrap.loadCss', false, $this->direction);
 // Adjusting content width
 if ($this->countModules('position-7') && $this->countModules('position-8'))
 {
-	$span = "span6";
+	$span = 'span6';
 }
 elseif ($this->countModules('position-7') && !$this->countModules('position-8'))
 {
-	$span = "span9";
+	$span = 'span9';
 }
 elseif (!$this->countModules('position-7') && $this->countModules('position-8'))
 {
-	$span = "span9";
+	$span = 'span9';
 }
 else
 {
-	$span = "span12";
+	$span = 'span12';
 }
 
 // Logo file or site title param
@@ -135,7 +135,7 @@ else
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
 	. ($params->get('fluidContainer') ? ' fluid' : '');
-	echo ($this->direction == 'rtl' ? ' rtl' : '');
+	echo ($this->direction === 'rtl' ? ' rtl' : '');
 ?>">
 	<!-- Body -->
 	<div class="body" id="top">

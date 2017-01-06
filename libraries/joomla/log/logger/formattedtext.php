@@ -23,20 +23,27 @@ jimport('joomla.filesystem.folder');
 class JLogLoggerFormattedtext extends JLogLogger
 {
 	/**
-	 * @var    string  The format for which each entry follows in the log file.  All fields must be named
-	 * in all caps and be within curly brackets eg. {FOOBAR}.
+	 * The format which each entry follows in the log file.
+	 *
+	 * All fields must be named in all caps and be within curly brackets eg. {FOOBAR}.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $format = '{DATETIME}	{PRIORITY} {CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
 	/**
-	 * @var    array  The parsed fields from the format string.
+	 * The parsed fields from the format string.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $fields = array();
 
 	/**
-	 * @var    string  The full filesystem path for the log file.
+	 * The full filesystem path for the log file.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $path;
@@ -89,7 +96,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 	 *
 	 * @param   JLogEntry  $entry  The log entry object to add to the log.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException

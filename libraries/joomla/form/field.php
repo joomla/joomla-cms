@@ -290,6 +290,14 @@ abstract class JFormField
 	protected $onclick;
 
 	/**
+	 * The conditions to show/hide the field.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $showon;
+
+	/**
 	 * The count value for generated name field
 	 *
 	 * @var    integer
@@ -396,6 +404,7 @@ abstract class JFormField
 			case 'autofocus':
 			case 'autocomplete':
 			case 'spellcheck':
+			case 'showon':
 				return $this->$name;
 
 			case 'input':
@@ -451,6 +460,7 @@ abstract class JFormField
 			case 'validate':
 			case 'pattern':
 			case 'group':
+			case 'showon':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
@@ -573,7 +583,7 @@ abstract class JFormField
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'default',
 			'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -761,8 +771,7 @@ abstract class JFormField
 	protected function getName($fieldName)
 	{
 		// To support repeated element, extensions can set this in plugin->onRenderSettings
-		$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
-
+		
 		$name = '';
 
 		// If there is a form control set for the attached form add it first.
@@ -941,21 +950,9 @@ abstract class JFormField
 			$options['hiddenLabel'] = true;
 		}
 
-		if ($showonstring = $this->getAttribute('showon'))
+		if ($this->showon)
 		{
-			$showonarr = array();
-
-			foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield)
-			{
-				$showon   = explode(':', $showonfield, 2);
-				$showonarr[] = array(
-					'field'  => str_replace('[]', '', $this->getName($showon[0])),
-					'values' => explode(',', $showon[1]),
-					'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : '',
-				);
-			}
-
-			$options['rel'] = ' data-showon=\'' . json_encode($showonarr) . '\'';
+			$options['rel']           = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($this->formControl, $this->showon)) . '\'';
 			$options['showonEnabled'] = true;
 		}
 
@@ -1075,18 +1072,18 @@ abstract class JFormField
 	 *
 	 * @return  DOMElement
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @see     JFormDomfieldinterface::appendXMLFieldTag
 	 */
 	public function appendXMLFieldTag($field, DOMElement $parent, JForm $form)
 	{
 		$app = JFactory::getApplication();
 
-		if ($field->params->get('show_on') == 1 && $app->isAdmin())
+		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
 		{
 			return;
 		}
-		elseif ($field->params->get('show_on') == 2 && $app->isSite())
+		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
 		{
 			return;
 		}
@@ -1113,7 +1110,13 @@ abstract class JFormField
 		{
 			if (is_array($param))
 			{
-				$param = implode(',', $param);
+				// Multidimensional arrays (eg. list options) can't be transformed properly
+				$param = count($param) == count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
+			}
+
+			if (!$param)
+			{
+				continue;
 			}
 
 			$node->setAttribute($key, $param);
@@ -1134,9 +1137,9 @@ abstract class JFormField
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
-	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
 	{
 	}
 
@@ -1146,7 +1149,7 @@ abstract class JFormField
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getFormParameters()
 	{
