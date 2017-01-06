@@ -16,6 +16,22 @@
  *
  * Called with --purge:      php finder_indexer.php --purge
  *                           Purges and rebuilds the index (search filters are preserved).
+ *
+ * Called with --pause           `php finder_indexer.php --pause`
+ *          or --pause=x:        or `php finder_indexer.php --pause=x` where x = seconds.
+ *          or --pause=division  or `php finder_indexer.php --pause=division` The default divisor is 5.
+ *                               If another divisor is required, it can be set with --divisor=y, where
+ *                               y is the integer divisor
+ *
+ *                               This will pause for x seconds between batches,
+ *                               in order to give the server some time to catch up
+ *                               if --pause is called without an assignment, it defaults to dynamic pausing
+ *                               using the division method with a divisor of 5
+ *                               (eg. 1 second pause for every 5 seconds of batch processing time)
+ *                               if --pause is omitted, the process will not pause between batches.
+ *
+ * Called with --minproctime=x   Will set the miminum processing time of batches for a pause to occur. Defaults to 1
+ *
  */
 
 // Make sure we're being called from the command line, not a web interface
@@ -66,6 +82,7 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
 // Fallback to the finder_cli file in the default language
 || $lang->load('finder_cli', JPATH_SITE, null, true);
 
+
 /**
  * A command line cron job to run the Smart Search indexer.
  *
@@ -79,7 +96,7 @@ class FinderCli extends JApplicationCli
 	 * @var    string
 	 * @since  2.5
 	 */
-	private $time = null;
+	private $time;
 
 	/**
 	 * Start time for each batch
@@ -87,7 +104,7 @@ class FinderCli extends JApplicationCli
 	 * @var    string
 	 * @since  2.5
 	 */
-	private $qtime = null;
+	private $qtime;
 
 	/**
 	 * Static filters information.
@@ -96,6 +113,33 @@ class FinderCli extends JApplicationCli
 	 * @since  3.3
 	 */
 	private $filters = array();
+
+	/**
+	 * Pause time in seconds.
+	 *
+	 * @var    integer|string
+	 * @since  3.3
+	 */
+	private $pause = 0;
+
+	/**
+	 * The divisor of the division: batch-processing time / divisor.
+	 * This is used together with --pause=division in order to pause dynamically
+	 * in relation to the processing time
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $divisor;
+
+	/**
+	 * Minimum processing  time in seconds, in order to apply a pause
+	 * Defaults to 1
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $minimumBatchProcessingTime = 1;
 
 	/**
 	 * Entry point for Smart Search CLI script
@@ -119,6 +163,23 @@ class FinderCli extends JApplicationCli
 		// Fool the system into thinking we are running as JSite with Smart Search as the active component.
 		$_SERVER['HTTP_HOST'] = 'domain.com';
 		JFactory::getApplication('site');
+
+		// Pause between batches, to let the server catch a breath. The default, if not set by the user, is 5 seconds.
+		$this->minimumBatchProcessingTime = $this->input->getInt('minproctime', 1, 'raw');
+
+		// Pause between batches, to let the server catch a breath. The default, if not set by the user, is 5 seconds.
+		if (($pauseArg = $this->input->get('pause', 'division', 'raw')) !== false)
+		{
+			if ($pauseArg === 'division')
+			{
+				$this->pause   = 'division';
+				$this->divisor = $this->input->get('divisor', 5, 'raw');
+			}
+			else
+			{
+				$this->pause = (int) $pauseArg;
+			}
+		}
 
 		// Purge before indexing if --purge on the command line.
 		if ($this->input->getString('purge', false))
@@ -213,7 +274,41 @@ class FinderCli extends JApplicationCli
 				JEventDispatcher::getInstance()->trigger('onBuildIndex');
 
 				// Batch reporting.
-				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i + 1), round(microtime(true) - $this->qtime, 3)), true);
+				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', $i + 1, $processingTime = round(microtime(true) - $this->qtime, 3)), true);
+
+				// Pausing Section
+				$skip  = !($processingTime >= $this->minimumBatchProcessingTime);
+				$pause = 0;
+
+				if ($this->pause === 'division' && $this->divisor > 0)
+				{
+					if (!$skip)
+					{
+						$pause = round($processingTime / $this->divisor);
+					}
+					else
+					{
+						$pause = 1;
+					}
+				}
+				elseif (is_int($this->pause) && $this->pause > 0)
+				{
+					$pause = $this->pause;
+				}
+
+
+				if ($pause > 0 && !$skip)
+				{
+					$this->out(JText::sprintf('FINDER_CLI_BATCH_PAUSING', $pause), true);
+					sleep($pause);
+					$this->out(JText::sprintf('FINDER_CLI_BATCH_CONTINUING'), true);
+				}
+
+				if ($skip)
+				{
+					$this->out(JText::sprintf('FINDER_CLI_SKIPPING_PAUSE_LOW_BATCH_PROCESSING_TIME', $processingTime, $this->minimumBatchProcessingTime), true);
+				}
+				// End of Pausing Section
 			}
 		}
 		catch (Exception $e)
@@ -337,7 +432,7 @@ class FinderCli extends JApplicationCli
 		$this->out(JText::_('FINDER_CLI_SAVE_FILTERS'));
 
 		// Get the taxonomy ids used by the filters.
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query
 			->select('filter_id, title, data')
@@ -376,6 +471,7 @@ class FinderCli extends JApplicationCli
 		$this->out(JText::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
 	}
 }
+
 
 // Instantiate the application object, passing the class name to JCli::getInstance
 // and use chaining to execute the application.
