@@ -13,9 +13,9 @@ $user = JFactory::getUser();
 ?>
 <?php if ($this->state->folder != '') : ?>
 <tr>
-	<?php if ($this->canDelete):?>
+	<?php if ($this->canDelete) : ?>
 		<td>&#160;</td>
-	<?php endif;?>
+	<?php endif; ?>
 	<td class="imgTotal">
 		<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->parent; ?>" target="folderframe">
 			<span class="icon-arrow-up"></span></a>
@@ -25,8 +25,8 @@ $user = JFactory::getUser();
 	</td>
 	<td>&#160;</td>
 	<td>&#160;</td>
-	<?php if ($user->authorise('core.delete', 'com_media')):?>
+	<?php if ($user->authorise('core.delete', 'com_media')) : ?>
 		<td>&#160;</td>
-	<?php endif;?>
+	<?php endif; ?>
 </tr>
 <?php endif; ?>

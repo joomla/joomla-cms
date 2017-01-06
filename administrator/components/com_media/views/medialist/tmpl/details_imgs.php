@@ -21,11 +21,11 @@ $dispatcher = JEventDispatcher::getInstance();
 <?php foreach ($this->images as $i => $image) : ?>
 	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$image, &$params)); ?>
 	<tr>
-		<?php if ($this->canDelete):?>
+		<?php if ($this->canDelete) : ?>
 			<td>
 				<?php echo JHtml::_('grid.id', $i, $image->name, false, 'rm', 'cb-image'); ?>
 			</td>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<td>
 			<a class="img-preview" href="<?php echo COM_MEDIA_BASEURL, '/', $image->path_relative; ?>" title="<?php echo $image->name; ?>">
@@ -50,10 +50,10 @@ $dispatcher = JEventDispatcher::getInstance();
 		<?php if ($this->canDelete) : ?>
 			<td>
 				<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $image->name; ?>" rel="<?php echo $image->name; ?>">
-					<span class="icon-remove hasTooltip" title="<?php echo JHtml::tooltipText('JACTION_DELETE');?>"></span>
+					<span class="icon-remove hasTooltip" title="<?php echo JHtml::tooltipText('JACTION_DELETE'); ?>"></span>
 				</a>
 			</td>
-		<?php endif;?>
+		<?php endif; ?>
 	</tr>
 	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$image, &$params)); ?>
 <?php endforeach; ?>

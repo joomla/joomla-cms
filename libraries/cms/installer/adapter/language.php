@@ -304,7 +304,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		if ((int) $clientId === 0)
 		{
 			// Load the site language manifest.
-			$siteLanguageManifest = JLanguage::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
+			$siteLanguageManifest = JLanguageHelper::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
 
 			// Set the content language title as the language metadata name.
 			$contentLanguageTitle = $siteLanguageManifest['name'];
@@ -400,7 +400,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getSefString($itemLanguageTag)
 	{

@@ -539,7 +539,7 @@ class FinderModelSearch extends JModelList
 						$reqMore = (count($temp) === $limit);
 
 						// Merge the matching set for this token.
-						$reqTemp = $reqTemp + $temp;
+						$reqTemp += $temp;
 
 						// Increment the term offset.
 						$reqStart += $limit;
@@ -561,14 +561,14 @@ class FinderModelSearch extends JModelList
 				$start += $limit;
 
 				// Merge the found items.
-				$items = $items + $sorted;
+				$items += $sorted;
 
 				continue;
 			}
 			// Otherwise, end the loop.
 			{
 				// Merge the found items.
-				$items = $items + $sorted;
+				$items += $sorted;
 
 				$more = false;
 			}
@@ -860,7 +860,7 @@ class FinderModelSearch extends JModelList
 						$reqMore = (count($temp) === $limit);
 
 						// Merge the matching set for this token.
-						$reqTemp = $reqTemp + $temp;
+						$reqTemp += $temp;
 
 						// Increment the term offset.
 						$reqStart += $limit;

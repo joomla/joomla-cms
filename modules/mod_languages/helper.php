@@ -45,7 +45,7 @@ abstract class ModLanguagesHelper
 		{
 			$default = $menu->getDefault($item->lang_code);
 
-			if ($default && $default->language == $item->lang_code)
+			if ($default && $default->language === $item->lang_code)
 			{
 				$homes[$item->lang_code] = $default;
 			}
@@ -95,7 +95,7 @@ abstract class ModLanguagesHelper
 			}
 			else
 			{
-				$language->active = ($language->lang_code == $lang->getTag());
+				$language->active = ($language->lang_code === $lang->getTag());
 
 				// Fetch language rtl
 				// If loaded language get from current JLanguage metadata
@@ -106,7 +106,7 @@ abstract class ModLanguagesHelper
 				// If not loaded language fetch metadata directly for performance
 				else
 				{
-					$languageMetadata = JLanguage::getMetadata($language->lang_code);
+					$languageMetadata = JLanguageHelper::getMetadata($language->lang_code);
 					$language->rtl    = $languageMetadata['rtl'];
 				}
 

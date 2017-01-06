@@ -50,7 +50,7 @@ if ($saveOrder)
 	<div id="j-main-container" class="span10">
 		<?php else : ?>
 		<div id="j-main-container">
-			<?php endif;?>
+			<?php endif; ?>
 			<?php
 			// Search tools bar
 			echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
@@ -99,7 +99,7 @@ if ($saveOrder)
 							<th width="1%" class="nowrap hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 							</th>
-						<?php endif;?>
+						<?php endif; ?>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -181,7 +181,7 @@ if ($saveOrder)
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 								</span>
 									<div class="small">
-										<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
+										<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 									</div>
 								</div>
 							</td>

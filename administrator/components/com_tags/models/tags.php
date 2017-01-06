@@ -365,8 +365,6 @@ class TagsModelTags extends JModelList
 			return;
 		}
 
-		$section = $parts[1];
-
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
 		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');

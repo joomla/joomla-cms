@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Interface which marks a JFormField as available for com_fields.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 interface JFormDomfieldinterface
 {
@@ -25,7 +25,7 @@ interface JFormDomfieldinterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function appendXMLFieldTag($field, DOMElement $parent, JForm $form);
 
@@ -35,7 +35,7 @@ interface JFormDomfieldinterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getFormParameters();
 }

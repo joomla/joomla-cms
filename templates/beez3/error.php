@@ -43,7 +43,7 @@ $navposition = $params->get('navposition');
 	<?php endforeach; ?>
 	<?php endif; ?>
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>.css" rel="stylesheet" />
-	<?php if ($this->direction == 'rtl') : ?>
+	<?php if ($this->direction === 'rtl') : ?>
 		<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template_rtl.css" rel="stylesheet" />
 		<?php if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) : ?>
 			<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>_rtl.css" rel="stylesheet" />
