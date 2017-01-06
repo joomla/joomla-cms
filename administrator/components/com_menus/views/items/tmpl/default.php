@@ -49,15 +49,8 @@ if ($menuType == '')
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
-		<?php
-		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this), null, array('debug' => false));
-		?>
-		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
-				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-			</div>
-		<?php else : ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
+		<?php if ($this->total > 0) : ?>
 			<table class="table table-striped" id="itemList">
 				<thead>
 					<tr>
@@ -88,7 +81,7 @@ if ($menuType == '')
 							<th width="5%" class="nowrap hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 							</th>
-						<?php endif;?>
+						<?php endif; ?>
 						<th width="15%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
@@ -107,7 +100,7 @@ if ($menuType == '')
 
 				<tbody>
 				<?php
-				
+
 				foreach ($this->items as $i => $item) :
 					$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
 					$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $item->menutype_id);
@@ -118,20 +111,20 @@ if ($menuType == '')
 					// Get the parents of item for sorting
 					if ($item->level > 1)
 					{
-						$parentsStr = "";
+						$parentsStr = '';
 						$_currentParentId = $item->parent_id;
-						$parentsStr = " " . $_currentParentId;
+						$parentsStr = ' ' . $_currentParentId;
 
 						for ($j = 0; $j < $item->level; $j++)
 						{
 							foreach ($this->ordering as $k => $v)
 							{
-								$v = implode("-", $v);
-								$v = "-" . $v . "-";
+								$v = implode('-', $v);
+								$v = '-' . $v . '-';
 
-								if (strpos($v, "-" . $_currentParentId . "-") !== false)
+								if (strpos($v, '-' . $_currentParentId . '-') !== false)
 								{
-									$parentsStr .= " " . $k;
+									$parentsStr .= ' ' . $k;
 									$_currentParentId = $k;
 									break;
 								}
@@ -140,10 +133,10 @@ if ($menuType == '')
 					}
 					else
 					{
-						$parentsStr = "";
+						$parentsStr = '';
 					}
 					?>
-					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
+					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $item->level; ?>">
 						<?php if ($menuType) : ?>
 							<td class="order nowrap center hidden-phone">
 								<?php
@@ -162,7 +155,7 @@ if ($menuType == '')
 									<span class="icon-menu"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
-									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" />
+									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>" />
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
@@ -179,7 +172,7 @@ if ($menuType == '')
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
-								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
+								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 									<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
@@ -187,12 +180,12 @@ if ($menuType == '')
 							<span class="small">
 							<?php if ($item->type != 'url') : ?>
 								<?php if (empty($item->note)) : ?>
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 								<?php else : ?>
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note));?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 								<?php endif; ?>
 							<?php elseif ($item->type == 'url' && $item->note) : ?>
-								<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
+								<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 							<?php endif; ?>
 							</span>
 							<?php echo JHtml::_('MenusHtml.Menus.visibility', $item->params); ?>

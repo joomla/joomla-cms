@@ -20,7 +20,7 @@ extract($displayData);
 
 ?>
 <div class="setoptions-form-wrapper">
-<?php foreach ($form->getGroup(null) as $field):?>
+<?php foreach ($form->getGroup(null) as $field) : ?>
 	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </div>

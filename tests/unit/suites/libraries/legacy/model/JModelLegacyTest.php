@@ -65,6 +65,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	{
 		// Reset JTable::$_includePaths
 		TestReflection::setValue('JTable', '_includePaths', array());
+		parent::tearDownAfterClass();
 	}
 
 	/**
@@ -209,7 +210,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	 */
 	public function testReturningAnInstanceOfAnExistingClassWorks()
 	{
-		$this->assertTrue($this->fixture instanceof TestModelLead);
+		$this->assertInstanceOf('\\TestModelLead', $this->fixture);
 	}
 
 	/**
@@ -287,7 +288,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	{
 		$this->fixture->getState();
 		$stateSet = TestReflection::getValue($this->fixture, '__state_set');
-		$this->assertTrue($stateSet === true);
+		$this->assertTrue($stateSet);
 	}
 
 	/**
@@ -347,7 +348,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	public function testSetDbo()
 	{
 		$this->fixture->setDbo(new stdClass);
-		$this->assertTrue($this->fixture->getDbo() instanceof stdClass);
+		$this->assertInstanceOf('\\stdClass', $this->fixture->getDbo());
 	}
 
 	/**

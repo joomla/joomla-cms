@@ -133,6 +133,41 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
+	 * Check if a package extension allows its child extensions to be uninstalled individually
+	 *
+	 * @param   integer  $packageId  The extension ID of the package to check
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 * @note    This method defaults to true to emulate the behavior of 3.6 and earlier which did not support this lookup
+	 */
+	protected function canUninstallPackageChild($packageId)
+	{
+		$package = JTable::getInstance('extension');
+
+		// If we can't load this package ID, we have a corrupt database
+		if (!$package->load((int) $packageId))
+		{
+			return true;
+		}
+
+		$manifestFile = JPATH_MANIFESTS . '/packages/' . $package->element . '.xml';
+
+		$xml = $this->parent->isManifest($manifestFile);
+
+		// If the manifest doesn't exist, we've got some major issues
+		if (!$xml)
+		{
+			return true;
+		}
+
+		$manifest = new JInstallerManifestPackage($manifestFile);
+
+		return $manifest->blockChildUninstall === false;
+	}
+
+	/**
 	 * Method to check if the extension is already present in the database
 	 *
 	 * @return  void
@@ -440,6 +475,12 @@ abstract class JInstallerAdapter extends JAdapterInstance
 				}
 
 				return false;
+			}
+
+			// If installing with success and there is an uninstall script, add a installer rollback step to rollback if needed
+			if ($route === 'install' && isset($this->getManifest()->uninstall->sql))
+			{
+				$this->parent->pushStep(array('type' => 'query', 'script' => $this->getManifest()->uninstall->sql));
 			}
 		}
 

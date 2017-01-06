@@ -46,6 +46,7 @@ extract($displayData);
  * @var   int     $setsAmount      Amount of sets
  * @var   array   $setsNames       List of Sets names
  * @var   JForm[] $setsForms       Form with extra options for an each set
+ * @var   string   $languageFile   TinyMCE language file to translate the buttons
  *
  * @var   JLayoutFile  $this       Context
  */
@@ -54,6 +55,12 @@ JHtml::_('behavior.core');
 JHtml::_('stylesheet', 'media/editors/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
 JHtml::_('jquery.ui', array('core', 'sortable'));
 JHtml::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
+
+if ($languageFile)
+{
+	JHtml::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
+}
+
 
 $doc = JFactory::getDocument();
 $doc->addScriptOptions('plg_editors_tinymce_builder', array(
@@ -93,6 +100,9 @@ $doc->addStyleDeclaration('
 
 ?>
 <div id="joomla-tinymce-builder">
+
+	<p><?php echo JText::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
+
 	<div class="mce-tinymce mce-container mce-panel">
 		<div class="mce-container-body mce-stack-layout">
 
@@ -110,10 +120,13 @@ $doc->addStyleDeclaration('
 		</div>
 	</div>
 
+	<hr />
+	<p><?php echo JText::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
+
 	<!-- Render tabs for each set -->
 	<ul class="nav nav-tabs" id="set-tabs">
-		<?php foreach ( $setsNames as $num => $title ): ?>
-		<li class="<?php echo $num === $setsAmount - 1 ? 'active' : '' ?>">
+		<?php foreach ( $setsNames as $num => $title ) : ?>
+		<li class="<?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>">
 			<a href="#set-<?php echo $num; ?>"><?php echo $title; ?></a>
 		</li>
 		<?php endforeach; ?>
@@ -127,7 +140,7 @@ $doc->addStyleDeclaration('
 			'medium'   => 'btn-info',
 			'advanced' => 'btn-warning',
 		);
-		foreach ( $setsNames as $num => $title ):
+		foreach ( $setsNames as $num => $title ) :
 
 			// Check whether the values exists, and if empty then use from preset
 			if (empty($value['toolbars'][$num]['menu'])
@@ -154,12 +167,12 @@ $doc->addStyleDeclaration('
 			$valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? array() : $value['toolbars'][$num]['toolbar1'];
 			$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
 		?>
-			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : '' ?>" id="set-<?php echo $num; ?>">
+			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" id="set-<?php echo $num; ?>">
 				<div class="btn-toolbar clearfix">
 					<div class="btn-group pull-right">
 
-					<?php foreach(array_keys($toolbarPreset) as $presetName):
-						$btnClass = empty($presetButtonClases[$presetName])	? 'btn-primary' : $presetButtonClases[$presetName];
+					<?php foreach(array_keys($toolbarPreset) as $presetName) :
+						$btnClass = empty($presetButtonClases[$presetName]) ? 'btn-primary' : $presetButtonClases[$presetName];
 						?>
 						<button type="button" class="btn btn-mini <?php echo $btnClass; ?> button-action"
 						    data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">

@@ -20,7 +20,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	 * Flag if the internal event callback has been registered
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	private static $eventRegistered = false;
 
@@ -28,7 +28,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	 * An array of extension IDs for each installed extension
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $installedIds = array();
 
@@ -334,7 +334,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onExtensionAfterInstall(JInstaller $installer, $eid)
 	{
@@ -543,6 +543,17 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			return false;
 		}
 
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
 		$manifestFile = JPATH_MANIFESTS . '/packages/' . $row->get('element') . '.xml';
 		$manifest = new JInstallerManifestPackage($manifestFile);
 
@@ -620,6 +631,8 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		foreach ($manifest->filelist as $extension)
 		{
 			$tmpInstaller = new JInstaller;
+			$tmpInstaller->setPackageUninstall(true);
+
 			$id = $this->_getExtensionId($extension->type, $extension->id, $extension->client, $extension->group);
 			$client = JApplicationHelper::getClientInfo($extension->client, true);
 

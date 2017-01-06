@@ -28,7 +28,7 @@ function admin_postinstall_languageaccess340_condition()
 	$query = $db->getQuery(true)
 		->select($db->quoteName('access'))
 		->from($db->quoteName('#__languages'))
-		->where($db->quoteName('access') . " = " . $db->quote('0'));
+		->where($db->quoteName('access') . ' = ' . $db->quote('0'));
 	$db->setQuery($query);
 	$db->execute();
 	$numRows = $db->getNumRows();
