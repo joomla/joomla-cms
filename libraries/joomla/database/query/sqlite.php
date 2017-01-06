@@ -356,6 +356,13 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 					foreach ($elements as $nameValue)
 					{
 						$setArray = explode(' = ', $nameValue, 2);
+
+						if ($setArray[0][0] === '`')
+						{
+							// Unquote column name
+							$setArray[0] = substr($setArray[0], 1, -1);
+						}
+
 						$fields[$setArray[0]] = $setArray[1];
 					}
 
