@@ -369,7 +369,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_('filter.dates', $idxQuery, $options);
 		}
 
-		$html .= '<div class="filter-branch' . $classSuffix . ' control-group">';
+		$html .= '<div class="filter-branch' . $classSuffix . ' control-group clearfix">';
 
 		// Iterate through all branches and build code.
 		foreach ($branches as $bk => $bv)
