@@ -466,7 +466,13 @@ final class JApplicationSite extends JApplicationCms
 			$tag = '';
 		}
 
-		if (!$templates = $cache->get('templates0' . $tag))
+		$cacheId = 'templates0' . $tag;
+
+		if ($cache->contains($cacheId))
+		{
+			$templates = $cache->get($cacheId);
+		}
+		else
 		{
 			// Load styles
 			$db = JFactory::getDbo();
@@ -498,7 +504,7 @@ final class JApplicationSite extends JApplicationCms
 				$templates[0] = $template_home;
 			}
 
-			$cache->store($templates, 'templates0' . $tag);
+			$cache->store($templates, $cacheId);
 		}
 
 		if (isset($templates[$id]))

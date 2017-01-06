@@ -147,9 +147,11 @@ class BannersModelBanner extends JModelLegacy
 
 			$id = $this->getState('banner.id');
 
-			$this->_item = $cache->get($id);
-
-			if ($this->_item === false)
+			if ($cache->contains($id))
+			{
+				$this->_item = $cache->get($id);
+			}
+			else
 			{
 				// Redirect to banner url
 				$db = $this->getDbo();
