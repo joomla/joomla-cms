@@ -225,8 +225,8 @@
 			<field
 				name="hint"
 				type="text"
-				label="COM_FIELDS_FIELD_HINT_LABEL"
-				description="COM_FIELDS_FIELD_HINT_DESC"
+				label="COM_FIELDS_FIELD_PLACEHOLDER_LABEL"
+				description="COM_FIELDS_FIELD_PLACEHOLDER_DESC"
 				class="input-xxlarge"
 				size="40"
 			/>

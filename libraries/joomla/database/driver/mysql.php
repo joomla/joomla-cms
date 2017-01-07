@@ -177,7 +177,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	public static function isSupported()
 	{
-		return function_exists('mysql_connect');
+		return PHP_MAJOR_VERSION < 7 && function_exists('mysql_connect');
 	}
 
 	/**

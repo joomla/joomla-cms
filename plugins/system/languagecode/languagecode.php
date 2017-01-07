@@ -128,7 +128,7 @@ class PlgSystemLanguagecode extends JPlugin
 		}
 
 		// Get site languages.
-		if ($languages = JLanguage::getKnownLanguages(JPATH_SITE))
+		if ($languages = JLanguageHelper::getKnownLanguages(JPATH_SITE))
 		{
 			// Inject fields into the form.
 			foreach ($languages as $tag => $language)

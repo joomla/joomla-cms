@@ -283,6 +283,37 @@ class UsersHelper
 	}
 
 	/**
+	 * Returns a valid section for users. If it is not valid then null
+	 * is returned.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 *
+	 * @return  string|null  The new section
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function validateSection($section)
+	{
+		if (JFactory::getApplication()->isClient('site'))
+		{
+			switch ($section)
+			{
+				case 'registration':
+				case 'profile':
+					$section = 'user';
+			}
+		}
+
+		if ($section != 'user')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
+	}
+
+	/**
 	 * Returns valid contexts
 	 *
 	 * @return  array

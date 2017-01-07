@@ -39,6 +39,7 @@ class CacheViewCache extends JViewLegacy
 	{
 		$this->data          = $this->get('Data');
 		$this->pagination    = $this->get('Pagination');
+		$this->total         = $this->get('Total');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');

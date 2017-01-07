@@ -52,7 +52,7 @@ class JComponentRouterBaseTest extends TestCase
 		$object = new JComponentRouterBaseInspector($app2);
 		$this->assertEquals($app2, $object->app);
 		//The original $app is not the same object as $app2, thus we did not use JFactory
-		$this->assertFalse($app === $object->app);
+		$this->assertNotSame($app, $object->app);
 
 		/**
 		 * Test if the setup works when both an app and menu object is handed over

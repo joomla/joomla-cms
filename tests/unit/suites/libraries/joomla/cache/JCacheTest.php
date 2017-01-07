@@ -346,7 +346,7 @@ class JCacheTest extends TestCase
 	}
 
 	/**
-	 * Testing store() and get()
+	 * Testing store(), contains(), and get()
 	 *
 	 * @param   string  $handler   cache handler
 	 * @param   array   $options   options for cache handler
@@ -359,13 +359,17 @@ class JCacheTest extends TestCase
 	 *
 	 * @dataProvider casesStore
 	 */
-	public function testStoreAndGet($handler, $options, $id, $group, $data, $expected)
+	public function testStoreContainsAndGet($handler, $options, $id, $group, $data, $expected)
 	{
 		$this->object = JCache::getInstance($handler, $options);
 		$this->object->setCaching(true);
 
 		$this->assertTrue(
 			$this->object->store($data, $id, $group)
+		);
+
+		$this->assertTrue(
+			$this->object->contains($id, $group)
 		);
 
 		$this->assertEquals(
@@ -457,7 +461,7 @@ class JCacheTest extends TestCase
 		// Collect Garbage
 		$this->object->gc();
 
-		$this->assertFalse(file_exists($path), "Cache file should not exist.");
+		$this->assertFileNotExists($path, "Cache file should not exist.");
 
 		$this->assertFalse($this->object->get(42, ''));
 

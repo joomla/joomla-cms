@@ -6,7 +6,7 @@
             multiple="true"
             class="access-select"
             label="PLG_TINY_FIELD_SETACCESS_LABEL"
-            description="JFIELD_ACCESS_DESC"
+            description="PLG_TINY_FIELD_SETACCESS_DESC"
             labelclass="label label-success"
     />
 
