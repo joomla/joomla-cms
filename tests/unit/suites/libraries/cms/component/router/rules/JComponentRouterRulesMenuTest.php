@@ -97,7 +97,8 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 				'featured' => '47',
 				'categories' => array(14 => '48'),
 				'category' => array (20 => '49'))
-			), $this->object->get('lookup'));
+			), $this->object->get('lookup')
+		);
 	}
 
 	/**
@@ -110,7 +111,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 	public function casesPreprocess()
 	{
 		$cases   = array();
-		
+
 		// Check direct link to a simple view
 		$cases[] = array(array('option' => 'com_content', 'view' => 'featured'),
 			array('option' => 'com_content', 'view' => 'featured', 'Itemid' => '47'));
@@ -225,8 +226,9 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 				'featured' => '47',
 				'categories' => array(14 => '48'),
 				'category' => array (20 => '49'))
-			), $this->object->get('lookup'));
-		
+			), $this->object->get('lookup')
+		);
+
 		$this->object->runBuildLookUp('en-GB');
 		$this->assertEquals(array(
 			'*' => array(
@@ -237,6 +239,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 				'featured' => '51',
 				'categories' => array(14 => '50'),
 				'category' => array (20 => '49'))
-			), $this->object->get('lookup'));
+			), $this->object->get('lookup')
+		);
 	}
 }
