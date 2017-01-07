@@ -336,16 +336,9 @@ class PlgSystemDebug extends JPlugin
 	 * @return  boolean
 	 *
 	 * @since   3.7.0
-	 * @throws  InvalidArgumentException
 	 */
-	public static function addDisplayCallback($name, $callable)
+	public static function addDisplayCallback($name, callable $callable)
 	{
-		// TODO - When PHP 5.4 is the minimum the parameter should be typehinted "callable" and this check removed
-		if (!is_callable($callable))
-		{
-			throw new InvalidArgumentException('A valid callback function must be given.');
-		}
-
 		self::$displayCallbacks[$name] = $callable;
 
 		return true;
