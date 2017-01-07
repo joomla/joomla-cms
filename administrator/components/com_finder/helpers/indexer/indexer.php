@@ -103,12 +103,6 @@ abstract class FinderIndexer
 		// Setup the adapter for the indexer.
 		$serverType = JFactory::getDbo()->getServerType();
 
-		// For `mssql` server types, convert the type to `sqlsrv`
-		if ($serverType === 'mssql')
-		{
-			$format = 'mysql';
-		}
-
 		$path = __DIR__ . '/driver/' . $serverType . '.php';
 		$class = 'FinderIndexerDriver' . ucfirst($serverType);
 
