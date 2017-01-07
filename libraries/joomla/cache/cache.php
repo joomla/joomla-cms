@@ -173,6 +173,37 @@ class JCache
 	}
 
 	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function contains($id, $group = null)
+	{
+		if (!$this->getCaching())
+		{
+			return false;
+		}
+
+		// Get the default group
+		$group = $group ?: $this->_options['defaultgroup'];
+
+		// Get the storage
+		$handler = $this->_getStorage();
+
+		if (!($handler instanceof Exception))
+		{
+			return $handler->contains($id, $group);
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get cached data by ID and group
 	 *
 	 * @param   string  $id     The cache data ID

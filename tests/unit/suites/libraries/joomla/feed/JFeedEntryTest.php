@@ -83,7 +83,7 @@ class JFeedEntryTest extends TestCase
 		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$this->assertInstanceOf('JDate', $properties['updatedDate']);
-		$this->assertTrue($date === $properties['updatedDate']);
+		$this->assertSame($date, $properties['updatedDate']);
 	}
 
 	/**
@@ -102,7 +102,7 @@ class JFeedEntryTest extends TestCase
 		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$this->assertInstanceOf('JFeedPerson', $properties['author']);
-		$this->assertTrue($person === $properties['author']);
+		$this->assertSame($person, $properties['author']);
 	}
 
 	/**
@@ -202,7 +202,7 @@ class JFeedEntryTest extends TestCase
 		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		// Make sure we aren't adding the same contributor more than once.
-		$this->assertTrue(count($properties['contributors']) == 1);
+		$this->assertCount(1, $properties['contributors']);
 	}
 
 	/**
@@ -232,7 +232,7 @@ class JFeedEntryTest extends TestCase
 		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		// Make sure we aren't adding the same link more than once.
-		$this->assertTrue(count($properties['links']) == 1);
+		$this->assertCount(1, $properties['links']);
 	}
 
 	/**
