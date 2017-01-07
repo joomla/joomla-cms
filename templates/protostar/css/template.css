@@ -7642,7 +7642,7 @@ code {
 .search span.highlight {
 	background-color: #FFFFCC;
 	font-weight: bold;
-	padding: 1px 4px;
+	padding: 1px 0;
 }
 dt.result-title {
 	word-wrap: break-word;
