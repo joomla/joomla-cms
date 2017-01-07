@@ -928,13 +928,7 @@ class JInstaller extends JAdapter
 
 		$db = & $this->_db;
 
-		// TODO - At 4.0 we can change this to use `getServerType()` since SQL Server will not be supported
-		$dbDriver = strtolower($db->name);
-
-		if ($db->getServerType() === 'mysql')
-		{
-			$dbDriver = 'mysql';
-		}
+		$dbDriver = $db->getServerType();
 
 		$update_count = 0;
 
@@ -1095,13 +1089,7 @@ class JInstaller extends JAdapter
 
 			if (count($schemapaths))
 			{
-				// TODO - At 4.0 we can change this to use `getServerType()` since SQL Server will not be supported
-				$dbDriver = strtolower($db->name);
-
-				if ($db->getServerType() === 'mysql')
-				{
-					$dbDriver = 'mysql';
-				}
+				$dbDriver = $db->getServerType();
 
 				$schemapath = '';
 
