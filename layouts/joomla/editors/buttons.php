@@ -15,7 +15,7 @@ $buttons = $displayData;
 <div id="editor-xtd-buttons" class="btn-toolbar pull-left">
 	<?php if ($buttons) : ?>
 		<?php foreach ($buttons as $button) : ?>
-			<?php echo JLayoutHelper::render('joomla.editors.buttons.button', $button); ?>
+			<?php echo $this->sublayout('button', $button); ?>
 		<?php endforeach; ?>
 	<?php endif; ?>
 </div>
