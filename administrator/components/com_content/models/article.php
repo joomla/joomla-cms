@@ -48,8 +48,10 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Function that can be overriden to do any data cleanup after batch copying data
 	 *
-	 * @param  JTableInterface  $table  The table object containing the newly created item
-	 * @param  integer          $newId  The id of the new item
+	 * @param   JTableInterface  $table  The table object containing the newly created item
+	 * @param   integer          $newId  The id of the new item
+	 *
+	 * @return  void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
