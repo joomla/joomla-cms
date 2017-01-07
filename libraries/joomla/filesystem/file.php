@@ -690,7 +690,7 @@ class JFile
 	{
 
 		// Create a new sanitizer instance
-		$sanitizer = new Sanitizer();
+		$sanitizer = new Sanitizer;
 
 		// Load the dirty svg
 		$dirtySvg = file_get_contents($file);
