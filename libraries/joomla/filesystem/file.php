@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use enshrined\svgSanitize\Sanitizer;
+
 /**
  * A File handling class
  *
@@ -520,6 +522,8 @@ class JFile
 	 */
 	public static function upload($src, $dest, $use_streams = false, $allow_unsafe = false, $safeFileOptions = array())
 	{
+		$destParts = pathinfo($dest);
+
 		if (!$allow_unsafe)
 		{
 			$descriptor = array(
@@ -564,6 +568,11 @@ class JFile
 				return false;
 			}
 
+			if (strtolower($destParts['extension']) === 'svg')
+			{
+				self::cleanSvg($dest);
+			}
+
 			return true;
 		}
 		else
@@ -582,6 +591,11 @@ class JFile
 				// Copy the file to the destination directory
 				if (is_uploaded_file($src) && $ftp->store($src, $dest))
 				{
+					if (strtolower($destParts['extension']) === 'svg')
+					{
+						self::cleanSvg($dest);
+					}
+
 					unlink($src);
 					$ret = true;
 				}
@@ -602,6 +616,11 @@ class JFile
 					else
 					{
 						JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR01'), JLog::WARNING, 'jerror');
+					}
+
+					if (strtolower($destParts['extension']) === 'svg')
+					{
+						self::cleanSvg($dest);
 					}
 				}
 				else
@@ -656,5 +675,30 @@ class JFile
 		{
 			return $file;
 		}
+	}
+
+	/**
+	 * Cleans the SVG file.
+	 *
+	 * @param   string  $file  File path
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function cleanSvg($file)
+	{
+
+		// Create a new sanitizer instance
+		$sanitizer = new Sanitizer();
+
+		// Load the dirty svg
+		$dirtySvg = file_get_contents($file);
+
+		// Pass it to the sanitizer and get it back clean
+		$cleanSVG = $sanitizer->sanitize($dirtySvg);
+
+		// Save the clean SVG/XML data
+		file_put_contents($file, $cleanSVG);
 	}
 }

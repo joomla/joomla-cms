@@ -4,8 +4,46 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "126eeca3e1a2354c350bd5ad6fdb4f47",
+    "hash": "382697384d67b4ce257cb7021a19fabe",
+    "content-hash": "15491a9bf8ea2a60b3463df805024d52",
     "packages": [
+        {
+            "name": "enshrined/svg-sanitize",
+            "version": "0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/darylldoyle/svg-sanitizer.git",
+                "reference": "7a1e99504b54698607f039b4384f626d13222aeb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/7a1e99504b54698607f039b4384f626d13222aeb",
+                "reference": "7a1e99504b54698607f039b4384f626d13222aeb",
+                "shasum": ""
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "^0.1.2",
+                "phpunit/phpunit": "^4.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "enshrined\\svgSanitize\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Daryll Doyle",
+                    "email": "daryll@enshrined.co.uk"
+                }
+            ],
+            "description": "An SVG sanitizer for PHP",
+            "time": "2016-12-01 23:15:52"
+        },
         {
             "name": "ircmaxell/password-compat",
             "version": "v1.0.4",
@@ -46,7 +84,7 @@
                 "hashing",
                 "password"
             ],
-            "time": "2014-11-20T16:49:30+00:00"
+            "time": "2014-11-20 16:49:30"
         },
         {
             "name": "joomla/application",
@@ -101,7 +139,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2016-12-10T17:26:50+00:00"
+            "time": "2016-12-10 17:26:50"
         },
         {
             "name": "joomla/compat",
@@ -138,7 +176,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2015-02-24T00:21:06+00:00"
+            "time": "2015-02-24 00:21:06"
         },
         {
             "name": "joomla/data",
@@ -187,7 +225,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2016-04-02T22:20:43+00:00"
+            "time": "2016-04-02 22:20:43"
         },
         {
             "name": "joomla/di",
@@ -236,7 +274,7 @@
                 "ioc",
                 "joomla"
             ],
-            "time": "2015-04-02T16:30:40+00:00"
+            "time": "2015-04-02 16:30:40"
         },
         {
             "name": "joomla/event",
@@ -282,7 +320,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2016-03-13T19:41:09+00:00"
+            "time": "2016-03-13 19:41:09"
         },
         {
             "name": "joomla/filter",
@@ -332,7 +370,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2016-10-16T18:10:33+00:00"
+            "time": "2016-10-16 18:10:33"
         },
         {
             "name": "joomla/input",
@@ -380,7 +418,7 @@
                 "input",
                 "joomla"
             ],
-            "time": "2014-10-12T18:01:36+00:00"
+            "time": "2014-10-12 18:01:36"
         },
         {
             "name": "joomla/registry",
@@ -433,7 +471,7 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2016-05-14T20:42:05+00:00"
+            "time": "2016-05-14 20:42:05"
         },
         {
             "name": "joomla/session",
@@ -483,7 +521,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2016-12-21T21:08:20+00:00"
+            "time": "2016-12-21 21:08:20"
         },
         {
             "name": "joomla/string",
@@ -549,7 +587,7 @@
                 "joomla",
                 "string"
             ],
-            "time": "2016-12-10T18:13:42+00:00"
+            "time": "2016-12-10 18:13:42"
         },
         {
             "name": "joomla/uri",
@@ -586,7 +624,7 @@
                 "joomla",
                 "uri"
             ],
-            "time": "2014-02-09T02:57:17+00:00"
+            "time": "2014-02-09 02:57:17"
         },
         {
             "name": "joomla/utilities",
@@ -632,7 +670,7 @@
                 "joomla",
                 "utilities"
             ],
-            "time": "2016-12-10T17:09:33+00:00"
+            "time": "2016-12-10 17:09:33"
         },
         {
             "name": "leafo/lessphp",
@@ -673,7 +711,7 @@
             ],
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
-            "time": "2014-11-24T18:39:20+00:00"
+            "time": "2014-11-24 18:39:20"
         },
         {
             "name": "paragonie/random_compat",
@@ -721,7 +759,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-03-18T20:34:03+00:00"
+            "time": "2016-03-18 20:34:03"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -781,7 +819,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2016-12-28T15:35:48+00:00"
+            "time": "2016-12-28 15:35:48"
         },
         {
             "name": "psr/log",
@@ -828,7 +866,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2016-10-10 12:19:37"
         },
         {
             "name": "simplepie/simplepie",
@@ -882,7 +920,7 @@
                 "feeds",
                 "rss"
             ],
-            "time": "2012-10-30T17:54:03+00:00"
+            "time": "2012-10-30 17:54:03"
         },
         {
             "name": "symfony/polyfill-php55",
@@ -938,7 +976,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-11-14T01:06:16+00:00"
+            "time": "2016-11-14 01:06:16"
         },
         {
             "name": "symfony/polyfill-php56",
@@ -994,7 +1032,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-11-14T01:06:16+00:00"
+            "time": "2016-11-14 01:06:16"
         },
         {
             "name": "symfony/polyfill-util",
@@ -1046,7 +1084,7 @@
                 "polyfill",
                 "shim"
             ],
-            "time": "2016-11-14T01:06:16+00:00"
+            "time": "2016-11-14 01:06:16"
         },
         {
             "name": "symfony/yaml",
@@ -1095,7 +1133,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-14T16:15:57+00:00"
+            "time": "2016-11-14 16:15:57"
         }
     ],
     "packages-dev": [
@@ -1151,7 +1189,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2015-06-14T21:17:01+00:00"
+            "time": "2015-06-14 21:17:01"
         },
         {
             "name": "friendsofphp/php-cs-fixer",
@@ -1209,7 +1247,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2016-07-22T06:46:28+00:00"
+            "time": "2016-07-22 06:46:28"
         },
         {
             "name": "pear/cache_lite",
@@ -1259,7 +1297,7 @@
             "keywords": [
                 "cache"
             ],
-            "time": "2014-05-11T15:02:19+00:00"
+            "time": "2014-05-11 15:02:19"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -1308,7 +1346,7 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "time": "2015-02-03T12:10:50+00:00"
+            "time": "2015-02-03 12:10:50"
         },
         {
             "name": "phpspec/prophecy",
@@ -1371,7 +1409,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2016-11-21T14:58:47+00:00"
+            "time": "2016-11-21 14:58:47"
         },
         {
             "name": "phpunit/dbunit",
@@ -1430,7 +1468,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-08-07T04:57:38+00:00"
+            "time": "2015-08-07 04:57:38"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1492,7 +1530,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-10-06T15:47:00+00:00"
+            "time": "2015-10-06 15:47:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1539,7 +1577,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2016-10-03T07:40:28+00:00"
+            "time": "2016-10-03 07:40:28"
         },
         {
             "name": "phpunit/php-text-template",
@@ -1580,7 +1618,7 @@
             "keywords": [
                 "template"
             ],
-            "time": "2015-06-21T13:50:34+00:00"
+            "time": "2015-06-21 13:50:34"
         },
         {
             "name": "phpunit/php-timer",
@@ -1624,7 +1662,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2016-05-12T18:03:57+00:00"
+            "time": "2016-05-12 18:03:57"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -1673,7 +1711,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2016-11-15T14:06:22+00:00"
+            "time": "2016-11-15 14:06:22"
         },
         {
             "name": "phpunit/phpunit",
@@ -1745,7 +1783,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-12-09T02:45:31+00:00"
+            "time": "2016-12-09 02:45:31"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1801,7 +1839,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-10-02T06:51:40+00:00"
+            "time": "2015-10-02 06:51:40"
         },
         {
             "name": "sebastian/comparator",
@@ -1865,7 +1903,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2016-11-19T09:18:40+00:00"
+            "time": "2016-11-19 09:18:40"
         },
         {
             "name": "sebastian/diff",
@@ -1917,7 +1955,7 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2015-12-08T07:14:41+00:00"
+            "time": "2015-12-08 07:14:41"
         },
         {
             "name": "sebastian/environment",
@@ -1967,7 +2005,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2016-08-18T05:49:44+00:00"
+            "time": "2016-08-18 05:49:44"
         },
         {
             "name": "sebastian/exporter",
@@ -2034,7 +2072,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2016-06-17T09:04:28+00:00"
+            "time": "2016-06-17 09:04:28"
         },
         {
             "name": "sebastian/global-state",
@@ -2085,7 +2123,7 @@
             "keywords": [
                 "global state"
             ],
-            "time": "2015-10-12T03:26:01+00:00"
+            "time": "2015-10-12 03:26:01"
         },
         {
             "name": "sebastian/recursion-context",
@@ -2138,7 +2176,7 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2015-11-11T19:50:13+00:00"
+            "time": "2015-11-11 19:50:13"
         },
         {
             "name": "sebastian/version",
@@ -2173,7 +2211,7 @@
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
-            "time": "2015-06-21T13:59:46+00:00"
+            "time": "2015-06-21 13:59:46"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -2248,7 +2286,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2014-12-04T22:32:15+00:00"
+            "time": "2014-12-04 22:32:15"
         },
         {
             "name": "symfony/console",
@@ -2309,7 +2347,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2016-12-06T11:59:35+00:00"
+            "time": "2016-12-06 11:59:35"
         },
         {
             "name": "symfony/debug",
@@ -2366,7 +2404,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-15T12:53:17+00:00"
+            "time": "2016-11-15 12:53:17"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -2426,7 +2464,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2016-10-13T01:43:15+00:00"
+            "time": "2016-10-13 01:43:15"
         },
         {
             "name": "symfony/filesystem",
@@ -2475,7 +2513,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2016-10-18T04:28:30+00:00"
+            "time": "2016-10-18 04:28:30"
         },
         {
             "name": "symfony/finder",
@@ -2524,7 +2562,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2016-12-13T09:38:12+00:00"
+            "time": "2016-12-13 09:38:12"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -2583,7 +2621,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-11-14T01:06:16+00:00"
+            "time": "2016-11-14 01:06:16"
         },
         {
             "name": "symfony/process",
@@ -2632,7 +2670,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-24T00:43:03+00:00"
+            "time": "2016-11-24 00:43:03"
         },
         {
             "name": "symfony/stopwatch",
@@ -2681,7 +2719,7 @@
             ],
             "description": "Symfony Stopwatch Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29T05:29:29+00:00"
+            "time": "2016-06-29 05:29:29"
         }
     ],
     "aliases": [],

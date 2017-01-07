@@ -17,7 +17,7 @@
         "require": {
             "php": ">=5.3.10"
         },
-        "time": "2014-02-09T02:57:17+00:00",
+        "time": "2014-02-09 02:57:17",
         "type": "joomla-package",
         "installation-source": "dist",
         "autoload": {
@@ -62,7 +62,7 @@
             "phpunit/phpunit": "4.*",
             "squizlabs/php_codesniffer": "1.*"
         },
-        "time": "2014-10-12T18:01:36+00:00",
+        "time": "2014-10-12 18:01:36",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -106,7 +106,7 @@
         "require-dev": {
             "phpunit/phpunit": "4.*"
         },
-        "time": "2014-11-20T16:49:30+00:00",
+        "time": "2014-11-20 16:49:30",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -150,7 +150,7 @@
         "require": {
             "php": ">=5.3.10"
         },
-        "time": "2015-02-24T00:21:06+00:00",
+        "time": "2015-02-24 00:21:06",
         "type": "joomla-package",
         "installation-source": "dist",
         "autoload": {
@@ -193,7 +193,7 @@
             "phpunit/phpunit": "4.*",
             "squizlabs/php_codesniffer": "1.*"
         },
-        "time": "2015-04-02T16:30:40+00:00",
+        "time": "2015-04-02 16:30:40",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -237,7 +237,7 @@
             "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
             "shasum": ""
         },
-        "time": "2014-11-24T18:39:20+00:00",
+        "time": "2014-11-24 18:39:20",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -287,7 +287,7 @@
             "phpunit/phpunit": "~4.8|~5.0",
             "squizlabs/php_codesniffer": "1.*"
         },
-        "time": "2016-03-13T19:41:09+00:00",
+        "time": "2016-03-13 19:41:09",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -337,7 +337,7 @@
         "suggest": {
             "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
         },
-        "time": "2016-03-18T20:34:03+00:00",
+        "time": "2016-03-18 20:34:03",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -381,7 +381,7 @@
         "require": {
             "php": ">=5.2.0"
         },
-        "time": "2012-10-30T17:54:03+00:00",
+        "time": "2012-10-30 17:54:03",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -444,7 +444,7 @@
             "phpunit/phpunit": "~4.8|~5.0",
             "squizlabs/php_codesniffer": "1.*"
         },
-        "time": "2016-04-02T22:20:43+00:00",
+        "time": "2016-04-02 22:20:43",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -500,7 +500,7 @@
         "suggest": {
             "symfony/yaml": "Install symfony/yaml if you require YAML support."
         },
-        "time": "2016-05-14T20:42:05+00:00",
+        "time": "2016-05-14 20:42:05",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -543,7 +543,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-10-10T12:19:37+00:00",
+        "time": "2016-10-10 12:19:37",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -600,7 +600,7 @@
         "suggest": {
             "ext-mbstring": "For improved processing"
         },
-        "time": "2016-12-10T18:13:42+00:00",
+        "time": "2016-12-10 18:13:42",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -665,7 +665,7 @@
             "phpunit/phpunit": "~4.8|~5.0",
             "squizlabs/php_codesniffer": "1.*"
         },
-        "time": "2016-12-10T17:09:33+00:00",
+        "time": "2016-12-10 17:09:33",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -717,7 +717,7 @@
         "suggest": {
             "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
         },
-        "time": "2016-10-16T18:10:33+00:00",
+        "time": "2016-10-16 18:10:33",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -774,7 +774,7 @@
             "joomla/session": "To use AbstractWebApplication with session support, install joomla/session",
             "joomla/uri": "To use AbstractWebApplication, install joomla/uri"
         },
-        "time": "2016-12-10T17:26:50+00:00",
+        "time": "2016-12-10 17:26:50",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -818,7 +818,7 @@
             "ircmaxell/password-compat": "~1.0",
             "php": ">=5.3.3"
         },
-        "time": "2016-11-14T01:06:16+00:00",
+        "time": "2016-11-14 01:06:16",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -875,7 +875,7 @@
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2016-11-14T01:06:16+00:00",
+        "time": "2016-11-14 01:06:16",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -930,7 +930,7 @@
             "php": ">=5.3.3",
             "symfony/polyfill-util": "~1.0"
         },
-        "time": "2016-11-14T01:06:16+00:00",
+        "time": "2016-11-14 01:06:16",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -987,7 +987,7 @@
         "require": {
             "php": ">=5.3.9"
         },
-        "time": "2016-11-14T16:15:57+00:00",
+        "time": "2016-11-14 16:15:57",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1052,7 +1052,7 @@
         "suggest": {
             "joomla/database": "Install joomla/database if you want to use Database session storage."
         },
-        "time": "2016-12-21T21:08:20+00:00",
+        "time": "2016-12-21 21:08:20",
         "type": "joomla-package",
         "installation-source": "dist",
         "autoload": {
@@ -1097,7 +1097,7 @@
         "suggest": {
             "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
         },
-        "time": "2016-12-28T15:35:48+00:00",
+        "time": "2016-12-28 15:35:48",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1133,5 +1133,44 @@
             }
         ],
         "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "enshrined/svg-sanitize",
+        "version": "0.4.1",
+        "version_normalized": "0.4.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/darylldoyle/svg-sanitizer.git",
+            "reference": "7a1e99504b54698607f039b4384f626d13222aeb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/7a1e99504b54698607f039b4384f626d13222aeb",
+            "reference": "7a1e99504b54698607f039b4384f626d13222aeb",
+            "shasum": ""
+        },
+        "require-dev": {
+            "codeclimate/php-test-reporter": "^0.1.2",
+            "phpunit/phpunit": "^4.7"
+        },
+        "time": "2016-12-01 23:15:52",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "enshrined\\svgSanitize\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Daryll Doyle",
+                "email": "daryll@enshrined.co.uk"
+            }
+        ],
+        "description": "An SVG sanitizer for PHP"
     }
 ]

@@ -1,0 +1,22 @@
+{
+    "name": "enshrined/svg-sanitize",
+    "description": "An SVG sanitizer for PHP",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Daryll Doyle",
+            "email": "daryll@enshrined.co.uk"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "enshrined\\svgSanitize\\": "src"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^4.7",
+        "codeclimate/php-test-reporter": "^0.1.2"
+    }
+}
