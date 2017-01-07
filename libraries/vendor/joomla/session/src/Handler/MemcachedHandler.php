@@ -49,7 +49,7 @@ class MemcachedHandler implements HandlerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(\Memcached $memcached, array $options = array())
+	public function __construct(\Memcached $memcached, array $options = [])
 	{
 		$this->memcached = $memcached;
 

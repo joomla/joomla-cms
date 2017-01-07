@@ -32,7 +32,7 @@ class ApcHandler implements HandlerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(array $options = array())
+	public function __construct(array $options = [])
 	{
 		// Namespace our session IDs to avoid potential conflicts
 		$this->prefix = isset($options['prefix']) ? $options['prefix'] : 'jfw';

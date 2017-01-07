@@ -14,9 +14,9 @@ final class Encoding
      * Converts a byte string to a hexadecimal string without leaking
      * information through side channels.
      *
-     * @param string $binary_string
+     * @param string $byte_string
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
      */
@@ -42,8 +42,8 @@ final class Encoding
      *
      * @param string $hex_string
      *
-     * @throws Defuse\Crypto\Exception\BadFormatException
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\BadFormatException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
      */
@@ -114,7 +114,7 @@ final class Encoding
      * @param string $header
      * @param string $bytes
      *
-     * @throws \Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
      */
@@ -146,8 +146,8 @@ final class Encoding
      * @param string $expected_header
      * @param string $string
      *
-     * @throws \Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws \Defuse\Crypto\Exception\BadFormatException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\BadFormatException
      *
      * @return string
      */

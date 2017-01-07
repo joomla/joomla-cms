@@ -11,9 +11,6 @@ namespace Joomla\Session;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Session\Exception\InvalidSessionException;
-use Joomla\Session\Handler\FilesystemHandler;
-use Joomla\Session\Storage\NativeStorage;
 
 /**
  * Class for managing HTTP sessions
@@ -59,7 +56,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 * @var    ValidatorInterface[]
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $sessionValidators = array();
+	protected $sessionValidators = [];
 
 	/**
 	 * Constructor
@@ -70,9 +67,9 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(StorageInterface $store = null, DispatcherInterface $dispatcher = null, array $options = array())
+	public function __construct(StorageInterface $store = null, DispatcherInterface $dispatcher = null, array $options = [])
 	{
-		$this->store = $store ?: new NativeStorage(new FilesystemHandler);
+		$this->store = $store ?: new Storage\NativeStorage(new Handler\FilesystemHandler);
 
 		if ($dispatcher)
 		{
@@ -254,7 +251,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 */
 	public static function getHandlers()
 	{
-		$connectors = array();
+		$connectors = [];
 
 		// Get an iterator and loop trough the handler classes.
 		$iterator = new \DirectoryIterator(__DIR__ . '/Handler');
@@ -270,7 +267,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 			}
 
 			// Derive the class name from the type.
-			$class = str_ireplace('.php', '', '\\Joomla\\Session\\Handler\\' . ucfirst(trim($fileName)));
+			$class = str_ireplace('.php', '', __NAMESPACE__ . '\\Handler\\' . ucfirst(trim($fileName)));
 
 			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
 			if (!class_exists($class))
@@ -761,7 +758,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 				$validator->validate($restart);
 			}
 		}
-		catch (InvalidSessionException $e)
+		catch (Exception\InvalidSessionException $e)
 		{
 			$this->setState('error');
 
