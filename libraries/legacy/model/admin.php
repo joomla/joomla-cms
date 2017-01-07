@@ -439,6 +439,8 @@ abstract class JModelAdmin extends JModelForm
 			// Get the new item ID
 			$newId = $this->table->get('id');
 
+			$this->cleanupPostBatchCopy($this->table, $newId);
+
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
 		}
@@ -447,6 +449,18 @@ abstract class JModelAdmin extends JModelForm
 		$this->cleanCache();
 
 		return $newIds;
+	}
+
+	/**
+	 * Function that can be overriden to do any data cleanup after batch copying data
+	 *
+	 * @param  JTableInterface  $table  The table object containing the newly created item
+	 * @param  integer          $newId  The id of the new item
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function cleanupPostBatchCopy(JTableInterface $table, $newId)
+	{
 	}
 
 	/**
