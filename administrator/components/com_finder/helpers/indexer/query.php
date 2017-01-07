@@ -373,9 +373,9 @@ class FinderIndexerQuery
 		$results = array();
 
 		// Iterate through the excluded tokens and compile the matching terms.
-		for ($i = 0, $c = count($this->excluded); $i < $c; $i++)
+		foreach ($this->excluded as $excludedToken)
 		{
-			$results = array_merge($results, $this->excluded[$i]->matches);
+			$results = array_merge($results, $excludedToken->matches);
 		}
 
 		// Sanitize the terms.
@@ -396,16 +396,16 @@ class FinderIndexerQuery
 		$results = array();
 
 		// Iterate through the included tokens and compile the matching terms.
-		for ($i = 0, $c = count($this->included); $i < $c; $i++)
+		foreach ($this->included as $token)
 		{
 			// Check if we have any terms.
-			if (empty($this->included[$i]->matches))
+			if (empty($token->matches))
 			{
 				continue;
 			}
 
 			// Get the term.
-			$term = $this->included[$i]->term;
+			$term = $token->term;
 
 			// Prepare the container for the term if necessary.
 			if (!array_key_exists($term, $results))
@@ -414,7 +414,7 @@ class FinderIndexerQuery
 			}
 
 			// Add the matches to the stack.
-			$results[$term] = array_merge($results[$term], $this->included[$i]->matches);
+			$results[$term] = array_merge($results[$term], $token->matches);
 		}
 
 		// Sanitize the terms.
@@ -439,13 +439,13 @@ class FinderIndexerQuery
 		$results = array();
 
 		// Iterate through the included tokens and compile the matching terms.
-		for ($i = 0, $c = count($this->included); $i < $c; $i++)
+		foreach ($this->included as $token)
 		{
 			// Check if the token is required.
-			if ($this->included[$i]->required)
+			if ($token->required)
 			{
 				// Get the term.
-				$term = $this->included[$i]->term;
+				$term = $token->term;
 
 				// Prepare the container for the term if necessary.
 				if (!array_key_exists($term, $results))
@@ -454,7 +454,7 @@ class FinderIndexerQuery
 				}
 
 				// Add the matches to the stack.
-				$results[$term] = array_merge($results[$term], $this->included[$i]->matches);
+				$results[$term] = array_merge($results[$term], $token->matches);
 			}
 		}
 
@@ -1181,10 +1181,10 @@ class FinderIndexerQuery
 		 * phrases as autonomous units and do not break them down into two and
 		 * three word combinations.
 		 */
-		for ($i = 0, $c = count($phrases); $i < $c; $i++)
+		foreach ($phrases as $i => $phrase)
 		{
 			// Tokenize the phrase.
-			$token = FinderIndexerHelper::tokenize($phrases[$i], $lang, true);
+			$token = FinderIndexerHelper::tokenize($phrase, $lang, true);
 			$token = $this->getTokenData($token);
 
 			// Set the required flag.
@@ -1195,7 +1195,7 @@ class FinderIndexerQuery
 			$this->highlight = array_merge($this->highlight, array_keys($token->matches));
 
 			// Remove the processed term if possible.
-			if (($pk = array_search($phrases[$i], $terms)) !== false)
+			if (($pk = array_search($phrase, $terms)) !== false)
 			{
 				unset($terms[$pk]);
 			}
@@ -1306,9 +1306,9 @@ class FinderIndexerQuery
 		if (!empty($matches))
 		{
 			// Add the matches to the token.
-			for ($i = 0, $c = count($matches); $i < $c; $i++)
+			foreach ($matches as $match)
 			{
-				$token->matches[$matches[$i]->term] = (int) $matches[$i]->term_id;
+				$token->matches[$match->term] = (int) $match->term_id;
 			}
 		}
 

@@ -276,18 +276,18 @@ class ModulesControllerModule extends JControllerForm
 
 		if ($n > 0)
 		{
-			for ($i = 0, $n; $i < $n; $i++)
+			foreach ($orders as $order)
 			{
-				if (!isset($orders2[$orders[$i]->position]))
+				if (!isset($orders2[$order->position]))
 				{
-					$orders2[$orders[$i]->position] = 0;
+					$orders2[$order->position] = 0;
 				}
 
-				$orders2[$orders[$i]->position]++;
-				$ord = $orders2[$orders[$i]->position];
-				$title = JText::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
+				$orders2[$order->position]++;
+				$ord = $orders2[$order->position];
+				$title = JText::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($order->title, ENT_QUOTES, 'UTF-8'));
 
-				$html[] = $orders[$i]->position . ',' . $ord . ',' . $title;
+				$html[] = $order->position . ',' . $ord . ',' . $title;
 			}
 		}
 		else

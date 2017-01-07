@@ -81,9 +81,9 @@ class JFormFieldMenuParent extends JFormAbstractlist
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i = 0, $n = count($options); $i < $n; $i++)
+		foreach ($options as &$option)
 		{
-			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+			$option->text = str_repeat('- ', $option->level) . $option->text;
 		}
 
 		// Merge any additional options in the XML definition.

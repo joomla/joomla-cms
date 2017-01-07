@@ -73,14 +73,13 @@ class LoginModelLogin extends JModelLegacy
 	{
 		$result = null;
 		$modules = self::_load($name);
-		$total = count($modules);
 
-		for ($i = 0; $i < $total; $i++)
+		foreach ($modules as $module)
 		{
 			// Match the title if we're looking for a specific instance of the module.
-			if (!$title || $modules[$i]->title == $title)
+			if (!$title || $module->title == $title)
 			{
-				$result = $modules[$i];
+				$result = $module;
 				break;
 			}
 		}

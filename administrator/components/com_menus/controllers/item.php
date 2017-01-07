@@ -544,9 +544,9 @@ class MenusControllerItem extends JControllerForm
 		$results = $model->getItems();
 
 		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i = 0, $n = count($results); $i < $n; $i++)
+		foreach ($results as &$result)
 		{
-			$results[$i]->title = str_repeat('- ', $results[$i]->level) . $results[$i]->title;
+			$result->title = str_repeat('- ', $result->level) . $result->title;
 		}
 
 		// Output a JSON object
