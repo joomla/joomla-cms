@@ -152,6 +152,7 @@ class JFormFieldType extends JFormAbstractlist
 				Joomla.loadingLayer('load');
 			});
 			function typeHasChanged(element){
+				Joomla.loadingLayer('show');
 				var cat = jQuery(element);
 				jQuery('input[name=task]').val('field.storeform');
 				element.form.action='" . $uri . "';
