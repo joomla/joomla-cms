@@ -238,12 +238,14 @@ class SearchViewSearch extends JViewLegacy
 							if ($mbString)
 							{
 								$highlightWordLen = mb_strlen($highlightWord);
-								$row              = mb_substr($row, 0, $pos) . $hl1 . mb_substr($row, $pos, $highlightWordLen) . $hl2 . mb_substr($row, $pos + $highlightWordLen);
+								$row              = mb_substr($row, 0, $pos) . $hl1 . mb_substr($row, $pos, $highlightWordLen)
+									. $hl2 . mb_substr($row, $pos + $highlightWordLen);
 							}
 							else
 							{
 								$highlightWordLen = StringHelper::strlen($highlightWord);
-								$row              = StringHelper::substr($row, 0, $pos) . $hl1 . StringHelper::substr($row, $pos, StringHelper::strlen($highlightWord))
+								$row              = StringHelper::substr($row, 0, $pos)
+									. $hl1 . StringHelper::substr($row, $pos, StringHelper::strlen($highlightWord))
 									. $hl2 . StringHelper::substr($row, $pos + StringHelper::strlen($highlightWord));
 							}
 
