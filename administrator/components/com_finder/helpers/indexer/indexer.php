@@ -91,19 +91,17 @@ abstract class FinderIndexer
 	public static $profiler;
 
 	/**
-	 * @var  $db  JDatabaseDriver  Database driver cache. This is immediately available to the object. No need to call JFactory::getDbo();
+	 * Database driver cache.
 	 *
-	 * @example  $db = $this->db;
-	 *
+	 * @var    JDatabaseDriver
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
 
 	/**
-	 * @var  $addTokensToDbQueryTemplate  JDatabaseQuery  Reusable Query Template. To be used with clone.
-	 *                                                    This helps to avoid multiple instantiation and configuration of the same object.
-	 * @example  $query = clone $this->addTokensToDbColumnsQueryTemplate
+	 * Reusable Query Template. To be used with clone.
 	 *
+	 * @var    JDatabaseQuery
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $addTokensToDbQueryTemplate;
