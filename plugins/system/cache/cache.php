@@ -16,9 +16,29 @@ defined('_JEXEC') or die;
  */
 class PlgSystemCache extends JPlugin
 {
-	var $_cache = null;
+	/**
+	 * Cache instance.
+	 *
+	 * @var    JCache
+	 * @since  1.5
+	 */
+	public $_cache;
 
-	var $_cache_key = null;
+	/**
+	 * Cache key
+	 *
+	 * @var    string
+	 * @since  3.0
+	 */
+	public $_cache_key;
+
+	/**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
 
 	/**
 	 * Constructor.
@@ -52,7 +72,7 @@ class PlgSystemCache extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		$app  = JFactory::getApplication();
+		$app  = $this->app;
 		$user = JFactory::getUser();
 
 		if ($app->isClient('administrator'))
@@ -97,7 +117,7 @@ class PlgSystemCache extends JPlugin
 	 */
 	public function onAfterRespond()
 	{
-		$app = JFactory::getApplication();
+		$app = $this->app;
 
 		if ($app->isClient('administrator'))
 		{
@@ -131,9 +151,9 @@ class PlgSystemCache extends JPlugin
 		if ($exclusions = $this->params->get('exclude_menu_items', array()))
 		{
 			// Get the current menu item
-			$active = JFactory::getApplication()->getMenu()->getActive();
+			$active = $this->app->getMenu()->getActive();
 
-			if ($active && $active->id && in_array($active->id, (array) $exclusions))
+			if ($active && $active->id && in_array($active->id, (array) $exclusions, true))
 			{
 				return true;
 			}
@@ -157,7 +177,7 @@ class PlgSystemCache extends JPlugin
 				foreach ($exclusions as $exclusion)
 				{
 					// Make sure the exclusion has some content
-					if (strlen($exclusion))
+					if ($exclusion!=='')
 					{
 						if (preg_match('/' . $exclusion . '/is', $path, $match))
 						{
