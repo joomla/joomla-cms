@@ -44,6 +44,7 @@ ALTER TABLE "#__finder_tokens" ALTER COLUMN "term" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "stem" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" SET DEFAULT '';
 -- finder_tokens_aggregate table
+ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "term_id" SET DEFAULT 0;
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "map_suffix" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "term" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "stem" SET DEFAULT '';

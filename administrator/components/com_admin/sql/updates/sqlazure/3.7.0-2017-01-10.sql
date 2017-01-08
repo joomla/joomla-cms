@@ -47,6 +47,7 @@ ALTER TABLE [#__finder_tokens] ALTER COLUMN [term] [nvarchar](75) NOT NULL DEFAU
 ALTER TABLE [#__finder_tokens] ALTER COLUMN [stem] [nvarchar](75) NOT NULL DEFAULT '';
 ALTER TABLE [#__finder_tokens] ALTER COLUMN [weight] [real] NOT NULL DEFAULT 1;
 -- finder_tokens_aggregate table
+ALTER TABLE [#__finder_tokens_aggregate] ALTER COLUMN [term_id] [bigint] NOT NULL DEFAULT 0;
 ALTER TABLE [#__finder_tokens_aggregate] ALTER COLUMN [map_suffix] [nchar](1) NOT NULL DEFAULT '';
 ALTER TABLE [#__finder_tokens_aggregate] ALTER COLUMN [term] [nvarchar](75) NOT NULL DEFAULT '';
 ALTER TABLE [#__finder_tokens_aggregate] ALTER COLUMN [stem] [nvarchar](75) NOT NULL DEFAULT '';

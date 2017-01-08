@@ -2092,7 +2092,7 @@ CREATE NONCLUSTERED INDEX [idx_word] ON [#__finder_tokens]
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__finder_tokens_aggregate](
-	[term_id] [bigint] NOT NULL,
+	[term_id] [bigint] NOT NULL  DEFAULT 0,
 	[map_suffix] [nchar](1) NOT NULL DEFAULT '',
 	[term] [nvarchar](75) NOT NULL DEFAULT '',
 	[stem] [nvarchar](75) NOT NULL DEFAULT '',

@@ -1192,7 +1192,7 @@ CREATE INDEX "#__finder_tokens_idx_context" on "#__finder_tokens" ("context");
 -- Table: #__finder_tokens_aggregate
 --
 CREATE TABLE "#__finder_tokens_aggregate" (
-  "term_id" integer NOT NULL,
+  "term_id" integer  DEFAULT 0 NOT NULL,
   "map_suffix" varchar(1) DEFAULT '' NOT NULL,
   "term" varchar(75) DEFAULT '' NOT NULL,
   "stem" varchar(75) DEFAULT '' NOT NULL,
