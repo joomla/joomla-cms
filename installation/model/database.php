@@ -299,7 +299,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		if ($db->getServerType() === 'mysql')
 		{
 			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
 			if (preg_match('#[\\\/\.\0]#', $options->db_name) && (!version_compare($db_version, '5.1.6', '>=')))
@@ -327,7 +327,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
-		if (($options->db_type == 'postgresql') && (!version_compare($db_version, '9.0.0', '>=')))
+		if ($db->getServerType() === 'postgresql' && !version_compare($db_version, '9.0.0', '>='))
 		{
 			$db->setQuery("select lanpltrusted from pg_language where lanname='plpgsql'");
 
@@ -487,11 +487,11 @@ class InstallationModelDatabase extends JModelBase
 		$this->setDatabaseCharset($db, $options->db_name);
 
 		// Set the appropriate schema script based on UTF-8 support.
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		if ($db->getServerType() === 'mysql')
 		{
 			$schema = 'sql/mysql/joomla.sql';
 		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+		elseif ($db->getServerType() === 'mssql')
 		{
 			$schema = 'sql/sqlazure/joomla.sql';
 		}
@@ -542,11 +542,11 @@ class InstallationModelDatabase extends JModelBase
 		// Attempt to update the table #__schema.
 		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		if ($serverType === 'mysql')
 		{
 			$pathPart .= 'mysql/';
 		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+		elseif ($serverType === 'mssql')
 		{
 			$pathPart .= 'sqlazure/';
 		}
@@ -628,11 +628,11 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Load the localise.sql for translating the data in joomla.sql.
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		if ($serverType === 'mysql')
 		{
 			$dblocalise = 'sql/mysql/localise.sql';
 		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+		elseif ($serverType === 'mssql')
 		{
 			$dblocalise = 'sql/sqlazure/localise.sql';
 		}
@@ -722,11 +722,11 @@ class InstallationModelDatabase extends JModelBase
 		// Build the path to the sample data file.
 		$type = $options->db_type;
 
-		if ($type == 'mysqli' || $type == 'pdomysql')
+		if ($db->getServerType() === 'mysql')
 		{
 			$type = 'mysql';
 		}
-		elseif ($type == 'sqlsrv')
+		elseif ($db->getServerType() === 'mssql')
 		{
 			$type = 'sqlazure';
 		}

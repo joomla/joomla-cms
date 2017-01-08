@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Languages Overrides Model
  *
@@ -264,18 +262,8 @@ class LanguagesModelOverrides extends JModelList
 			}
 		}
 
-		foreach ($strings as $key => $string)
-		{
-			$strings[$key] = str_replace('"', '"_QQ_"', $string);
-		}
-
-		// Write override.ini file with the left strings.
-		$registry = new Registry($strings);
-		$reg = $registry->toString('INI');
-
-		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
-
-		if (!JFile::write($fileName, $reg))
+		// Write override.ini file with the strings.
+		if (JLanguageHelper::saveToIniFile($fileName, $strings) === false)
 		{
 			return false;
 		}

@@ -131,7 +131,11 @@ class JLanguageHelper
 			{
 				$cache = JFactory::getCache('com_languages', '');
 
-				if (!$languages = $cache->get('languages'))
+				if ($cache->contains('languages'))
+				{
+					$languages = $cache->get('languages');
+				}
+				else
 				{
 					$db = JFactory::getDbo();
 					$query = $db->getQuery(true)
@@ -185,7 +189,11 @@ class JLanguageHelper
 		{
 			$cache = JFactory::getCache('com_languages', '');
 
-			if (!$installedLanguages = $cache->get('installedlanguages'))
+			if ($cache->contains('installedlanguages'))
+			{
+				$installedLanguages = $cache->get('installedlanguages');
+			}
+			else
 			{
 				$db = JFactory::getDbo();
 
@@ -332,7 +340,11 @@ class JLanguageHelper
 		{
 			$cache = JFactory::getCache('com_languages', '');
 
-			if (!$contentLanguages = $cache->get('contentlanguages'))
+			if ($cache->contains('contentlanguages'))
+			{
+				$contentLanguages = $cache->get('contentlanguages');
+			}
+			else
 			{
 				$db = JFactory::getDbo();
 
@@ -424,6 +436,32 @@ class JLanguageHelper
 		}
 
 		return is_array($strings) ? $strings : array();
+	}
+
+	/**
+	 * Save strings to a language file.
+	 *
+	 * @param   string  $fileName  The language ini file path.
+	 * @param   array   $strings   The array of strings.
+	 *
+	 * @return  boolean  True if saved, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function saveToIniFile($fileName, array $strings)
+	{
+		JLoader::register('JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
+
+		// Escape double quotes.
+		foreach ($strings as $key => $string)
+		{
+			$strings[$key] = addcslashes($string, '"');
+		}
+
+		// Write override.ini file with the strings.
+		$registry = new Joomla\Registry\Registry($strings);
+
+		return JFile::write($fileName, $registry->toString('INI'));
 	}
 
 	/**
