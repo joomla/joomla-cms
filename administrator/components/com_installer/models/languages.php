@@ -62,7 +62,7 @@ class InstallerModelLanguages extends JModelList
 			->where($db->qn('e.type') . ' = ' . $db->q('package'))
 			->where($db->qn('e.element') . ' = ' . $db->q('pkg_en-GB'))
 			->where($db->qn('e.client_id') . ' = 0')
-			->join('LEFT', $db->qn('#__update_sites_extensions', 'use') . ' ON ' . $db->qn('use.extension_id') . ' = ' . $db->qn('e.extension_id'));
+			->join('LEFT', $db->qn('#__update_sites_extensions', 'use') . ' ON ' . $db->qn('use.extension_id') . ' = ' . $db->qn('e.extension_id'))
 			->join('LEFT', $db->qn('#__update_sites', 'us') . ' ON ' . $db->qn('us.update_site_id') . ' = ' . $db->qn('use.update_site_id'));
 
 		return $db->setQuery($query)->loadResult();
