@@ -26,6 +26,7 @@ jimport('joomla.filesystem.file');
  */
 class FinderIndexerDriverMysql extends FinderIndexer
 {
+
 	/**
 	 * Method to index a content item.
 	 *
@@ -41,7 +42,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 	{
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-		$db = JFactory::getDbo();
+		$db = $this->dbCache;
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
@@ -125,24 +126,24 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				->insert($db->quoteName('#__finder_links'))
 				->columns($columnsArray)
 				->values(
-				$db->quote($item->url) . ', '
-				. $db->quote($item->route) . ', '
-				. $db->quote($item->title) . ', '
-				. $db->quote($item->description) . ', '
-				. $query->currentTimestamp() . ', '
-				. '1, '
-				. (int) $item->state . ', '
-				. (int) $item->access . ', '
-				. $db->quote($item->language) . ', '
-				. (int) $item->type_id . ', '
-				. $db->quote(serialize($item)) . ', '
-				. $db->quote($item->publish_start_date) . ', '
-				. $db->quote($item->publish_end_date) . ', '
-				. $db->quote($item->start_date) . ', '
-				. $db->quote($item->end_date) . ', '
-				. (double) ($item->list_price ? $item->list_price : 0) . ', '
-				. (double) ($item->sale_price ? $item->sale_price : 0)
-			);
+					$db->quote($item->url) . ', '
+					. $db->quote($item->route) . ', '
+					. $db->quote($item->title) . ', '
+					. $db->quote($item->description) . ', '
+					. $query->currentTimestamp() . ', '
+					. '1, '
+					. (int) $item->state . ', '
+					. (int) $item->access . ', '
+					. $db->quote($item->language) . ', '
+					. (int) $item->type_id . ', '
+					. $db->quote(serialize($item)) . ', '
+					. $db->quote($item->publish_start_date) . ', '
+					. $db->quote($item->publish_end_date) . ', '
+					. $db->quote($item->start_date) . ', '
+					. $db->quote($item->end_date) . ', '
+					. (double) ($item->list_price ? $item->list_price : 0) . ', '
+					. (double) ($item->sale_price ? $item->sale_price : 0)
+				);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -287,28 +288,28 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		 * table.
 		 */
 		$query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
-				' (' . $db->quoteName('term_id') .
-				', ' . $db->quoteName('term') .
-				', ' . $db->quoteName('stem') .
-				', ' . $db->quoteName('common') .
-				', ' . $db->quoteName('phrase') .
-				', ' . $db->quoteName('term_weight') .
-				', ' . $db->quoteName('context') .
-				', ' . $db->quoteName('context_weight') .
-				', ' . $db->quoteName('language') . ')' .
-				' SELECT' .
-				' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, ' .
-				' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language' .
-				' FROM (' .
-				'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
-				'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
-				'   WHERE t1.context = %d' .
-				' ) AS t1' .
-				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
-				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
-				' WHERE t2.context = %d' .
-				' GROUP BY t1.term' .
-				' ORDER BY t1.term DESC';
+			' (' . $db->quoteName('term_id') .
+			', ' . $db->quoteName('term') .
+			', ' . $db->quoteName('stem') .
+			', ' . $db->quoteName('common') .
+			', ' . $db->quoteName('phrase') .
+			', ' . $db->quoteName('term_weight') .
+			', ' . $db->quoteName('context') .
+			', ' . $db->quoteName('context_weight') .
+			', ' . $db->quoteName('language') . ')' .
+			' SELECT' .
+			' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, ' .
+			' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language' .
+			' FROM (' .
+			'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
+			'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
+			'   WHERE t1.context = %d' .
+			' ) AS t1' .
+			' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
+			' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
+			' WHERE t2.context = %d' .
+			' GROUP BY t1.term' .
+			' ORDER BY t1.term DESC';
 
 		// Iterate through the contexts and aggregate the tokens per context.
 		foreach ($state->weights as $context => $multiplier)
@@ -450,63 +451,6 @@ class FinderIndexerDriverMysql extends FinderIndexer
 	}
 
 	/**
-	 * Method to remove a link from the index.
-	 *
-	 * @param   integer  $linkId  The id of the link.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 * @throws  Exception on database error.
-	 */
-	public function remove($linkId)
-	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Update the link counts and remove the mapping records.
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Update the link counts for the terms.
-			$query->update($db->quoteName('#__finder_terms') . ' AS t')
-				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id')
-				->set('t.links = t.links - 1')
-				->where('m.link_id = ' . $db->quote((int) $linkId));
-			$db->setQuery($query);
-			$db->execute();
-
-			// Remove all records from the mapping tables.
-			$query->clear()
-				->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
-				->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
-			$db->setQuery($query);
-			$db->execute();
-		}
-
-		// Delete all orphaned terms.
-		$query->clear()
-			->delete($db->quoteName('#__finder_terms'))
-			->where($db->quoteName('links') . ' <= 0');
-		$db->setQuery($query);
-		$db->execute();
-
-		// Delete the link from the index.
-		$query->clear()
-			->delete($db->quoteName('#__finder_links'))
-			->where($db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
-		$db->setQuery($query);
-		$db->execute();
-
-		// Remove the taxonomy maps.
-		FinderIndexerTaxonomy::removeMaps($linkId);
-
-		// Remove the orphaned taxonomy nodes.
-		FinderIndexerTaxonomy::removeOrphanNodes();
-
-		return true;
-	}
-
-	/**
 	 * Method to optimize the index. We use this method to remove unused terms
 	 * and any other optimizations that might be necessary.
 	 *
@@ -518,7 +462,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 	public function optimize()
 	{
 		// Get the database object.
-		$db = JFactory::getDbo();
+		$db = $this->dbCache;
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.
@@ -564,63 +508,6 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		return true;
 	}
 
-	/**
-	 * Method to add a set of tokens to the database.
-	 *
-	 * @param   mixed  $tokens   An array or single FinderIndexerToken object.
-	 * @param   mixed  $context  The context of the tokens. See context constants. [optional]
-	 *
-	 * @return  integer  The number of tokens inserted into the database.
-	 *
-	 * @since   3.0
-	 * @throws  Exception on database error.
-	 */
-	protected function addTokensToDb($tokens, $context = '')
-	{
-		// Get the database object.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Force tokens to an array.
-		$tokens = is_array($tokens) ? $tokens : array($tokens);
-
-		// Count the number of token values.
-		$values = 0;
-
-		// Insert the tokens into the database.
-		$query->insert($db->quoteName('#__finder_tokens'))
-			->columns(
-				array(
-					$db->quoteName('term'),
-					$db->quoteName('stem'),
-					$db->quoteName('common'),
-					$db->quoteName('phrase'),
-					$db->quoteName('weight'),
-					$db->quoteName('context'),
-					$db->quoteName('language')
-				)
-			);
-
-		// Iterate through the tokens to create SQL value sets.
-		foreach ($tokens as $token)
-		{
-			$query->values(
-				$db->quote($token->term) . ', '
-					. $db->quote($token->stem) . ', '
-					. (int) $token->common . ', '
-					. (int) $token->phrase . ', '
-					. (float) $token->weight . ', '
-					. (int) $context . ', '
-					. $db->quote($token->language)
-			);
-			$values++;
-		}
-
-		$db->setQuery($query);
-		$db->execute();
-
-		return $values;
-	}
 
 	/**
 	 * Method to switch the token tables from Memory tables to MyISAM tables
@@ -638,7 +525,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		static $state;
 
 		// Get the database adapter.
-		$db = JFactory::getDbo();
+		$db = $this->dbCache;
 
 		// Check if we are setting the tables to the Memory engine.
 		if ($memory === true && $state !== true)
