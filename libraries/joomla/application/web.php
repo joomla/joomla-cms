@@ -550,7 +550,7 @@ class JApplicationWeb extends JApplicationBase
 			}
 			else
 			{
-				// Check if we have a boolean for the status variable for compatability with old $move parameter
+				// Check if we have a boolean for the status variable for compatibility with old $move parameter
 				// @deprecated 4.0
 				if (is_bool($status))
 				{
@@ -564,12 +564,28 @@ class JApplicationWeb extends JApplicationBase
 					$status = 303;
 				}
 
+				// Prevent browser / proxy caching for the case of 303 redirect
+				if ($status == 303)
+				{
+					// HTTP 1.1
+					$this->header('Cache-Control: no-cache, no-store, must-revalidate');
+
+					// HTTP 1.0
+					$this->header('Pragma: no-cache');
+
+					// Proxies
+					$this->header('Expires: 0');
+				}
+
 				// All other cases use the more efficient HTTP header for redirection.
 				$this->header($this->responseMap[$status]);
 				$this->header('Location: ' . $url);
 				$this->header('Content-Type: text/html; charset=' . $this->charSet);
 			}
 		}
+
+		// Close the session after the redirect to prevent session issues on slow handlers
+		$this->session->close();
 
 		// Close the application after the redirect.
 		$this->close();

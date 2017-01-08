@@ -1082,11 +1082,15 @@ class JApplicationWebTest extends TestCase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
 			array(
+				array('Cache-Control: no-cache, no-store, must-revalidate', true, null),
+				array('Pragma: no-cache', true, null),
+				array('Expires: 0', true, null),
 				array('HTTP/1.1 303 See other', true, null),
 				array('Location: ' . $base . $url, true, null),
 				array('Content-Type: text/html; charset=utf-8', true, null),
@@ -1115,6 +1119,7 @@ class JApplicationWebTest extends TestCase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		// Capture the output for this test.
 		ob_start();
@@ -1143,6 +1148,8 @@ class JApplicationWebTest extends TestCase
 				'engine' => JApplicationWebClient::TRIDENT,
 			)
 		);
+
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		// Capture the output for this test.
 		ob_start();
@@ -1174,6 +1181,8 @@ class JApplicationWebTest extends TestCase
 				'engine' => JApplicationWebClient::GECKO,
 			)
 		);
+
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, true);
 
@@ -1217,10 +1226,11 @@ class JApplicationWebTest extends TestCase
 		$config->set('uri.request', $request);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, false);
 
-		$this->assertEquals('Location: ' . $expected, $this->class->headers[1][0]);
+		$this->assertEquals('Location: ' . $expected, $this->class->headers[4][0]);
 	}
 
 	/**
@@ -1302,6 +1312,7 @@ class JApplicationWebTest extends TestCase
 		$config = new Registry(array('foo' => 'bar'));
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->assertEquals('bar', $this->class->set('foo', 'car'));
 

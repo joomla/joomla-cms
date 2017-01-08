@@ -217,7 +217,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// Register all the methods so that we can track if they have been fired.
 		$this->class->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
-			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
+					->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
 
 		$this->class->execute();
 
@@ -246,9 +246,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// Register all the methods so that we can track if they have been fired.
 		$this->class->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
-			->registerEvent('onBeforeRender', 'JWebTestExecute-onBeforeRender')
-			->registerEvent('onAfterRender', 'JWebTestExecute-onAfterRender')
-			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
+					->registerEvent('onBeforeRender', 'JWebTestExecute-onBeforeRender')
+					->registerEvent('onAfterRender', 'JWebTestExecute-onAfterRender')
+					->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
 
 		// Buffer the execution.
 		ob_start();
@@ -428,11 +428,15 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
 			array(
+				array('Cache-Control: no-cache, no-store, must-revalidate', true, null),
+				array('Pragma: no-cache', true, null),
+				array('Expires: 0', true, null),
 				array('HTTP/1.1 303 See other', true, null),
 				array('Location: ' . $base . $url, true, null),
 				array('Content-Type: text/html; charset=utf-8', true, null),
@@ -467,6 +471,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, 'Test Message', 'message', false);
 
@@ -482,6 +487,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$this->assertEquals(
 			array(
+				array('Cache-Control: no-cache, no-store, must-revalidate', true, null),
+				array('Pragma: no-cache', true, null),
+				array('Expires: 0', true, null),
 				array('HTTP/1.1 303 See other', true, null),
 				array('Location: ' . $base . $url, true, null),
 				array('Content-Type: text/html; charset=utf-8', true, null),
@@ -516,6 +524,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, '', 'message');
 
@@ -527,6 +536,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 		// The redirect gives a 303 error code
 		$this->assertEquals(
 			array(
+				array('Cache-Control: no-cache, no-store, must-revalidate', true, null),
+				array('Pragma: no-cache', true, null),
+				array('Expires: 0', true, null),
 				array('HTTP/1.1 303 See other', true, null),
 				array('Location: ' . $base . $url, true, null),
 				array('Content-Type: text/html; charset=utf-8', true, null),
@@ -555,6 +567,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		// Capture the output for this test.
 		ob_start();
@@ -584,6 +597,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 				'engine' => JApplicationWebClient::TRIDENT,
 			)
 		);
+
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		// Capture the output for this test.
 		ob_start();
@@ -617,6 +632,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 				'engine' => JApplicationWebClient::GECKO,
 			)
 		);
+
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, true);
 
@@ -660,10 +677,11 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.request', $request);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, false);
 
-		$this->assertEquals('Location: ' . $expected, $this->class->headers[1][0]);
+		$this->assertEquals('Location: ' . $expected, $this->class->headers[4][0]);
 	}
 
 	/**
