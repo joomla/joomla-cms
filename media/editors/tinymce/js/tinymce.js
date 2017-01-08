@@ -45,9 +45,9 @@
 		 */
 		setupEditor: function ( element, pluginOptions ) {
 			var name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default', // Get Editor name
-				tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
-				defaultOptions = tinyMCEOptions['default'] || {},
-				options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
+			    tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
+			    defaultOptions = tinyMCEOptions['default'] || {},
+			    options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
 
 			// Avoid unexpected changes
 			options = Joomla.extend({}, options);
@@ -89,14 +89,14 @@
 	Joomla.JoomlaTinyMCE = JoomlaTinyMCE;
 
 	// Init on DOMContentLoaded
-	document.addEventListener('DOMContentLoaded', function(){
+	document.addEventListener('DOMContentLoaded', function () {
 		Joomla.JoomlaTinyMCE.setupEditors();
 
 		// Init in subform field
 		if(window.jQuery) {
-			jQuery(document).on('subform-row-add', function(event, row){
+			jQuery(document).on('subform-row-add', function (event, row) {
 				Joomla.JoomlaTinyMCE.setupEditors(row);
-			})
+			});
 		}
 	});
 
