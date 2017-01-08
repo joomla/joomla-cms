@@ -91,13 +91,13 @@ abstract class FinderIndexer
 	public static $profiler;
 
 	/**
-	 * @var  $dbCache  JDatabaseDriver  Database driver cache. This is immediately available to the object. No need to call JFactory::getDbo();
+	 * @var  $db  JDatabaseDriver  Database driver cache. This is immediately available to the object. No need to call JFactory::getDbo();
 	 *
-	 * @example  $db = $this->dbCache;
+	 * @example  $db = $this->db;
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $dbCache;
+	protected $db;
 
 	/**
 	 * @var  $addTokensToDbQueryTemplate  JDatabaseQuery  Reusable Query Template. To be used with clone.
@@ -115,9 +115,9 @@ abstract class FinderIndexer
 	 */
 	public function __construct()
 	{
-		$this->dbCache = JFactory::getDbo();
+		$this->db = JFactory::getDbo();
 
-		$db = $this->dbCache;
+		$db = $this->db;
 
 		// Set up query template for addTokensToDb
 		$this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
@@ -300,7 +300,7 @@ abstract class FinderIndexer
 	 */
 	public function remove($linkId)
 	{
-		$db = $this->dbCache;
+		$db = $this->db;
 		$query = $db->getQuery(true);
 
 		// Update the link counts and remove the mapping records.
@@ -513,7 +513,7 @@ abstract class FinderIndexer
 	protected function addTokensToDb($tokens, $context = '')
 	{
 		// Get the database object.
-		$db = $this->dbCache;
+		$db = $this->db;
 
 		$query = clone $this->addTokensToDbQueryTemplate;
 

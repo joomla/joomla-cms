@@ -41,7 +41,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	{
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-		$db = $this->dbCache;
+		$db = $this->db;
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
@@ -458,7 +458,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	 */
 	public function remove($linkId)
 	{
-		$db = $this->dbCache;
+		$db = $this->db;
 		$query = $db->getQuery(true);
 
 		// Update the link counts and remove the mapping records.
@@ -514,7 +514,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	public function optimize()
 	{
 		// Get the database object.
-		$db = $this->dbCache;
+		$db = $this->db;
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.
@@ -543,7 +543,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	protected function addTokensToDb($tokens, $context = '')
 	{
 		// Get the database object.
-		$db = $this->dbCache;
+		$db = $this->db;
 
 		$query = clone $this->addTokensToDbQueryTemplate;
 

@@ -33,7 +33,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	{
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-		$db = $this->dbCache;
+		$db = $this->db;
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
@@ -464,7 +464,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	public function optimize()
 	{
 		// Get the database object.
-		$db = $this->dbCache;
+		$db = $this->db;
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.

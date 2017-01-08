@@ -42,7 +42,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 	{
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-		$db = $this->dbCache;
+		$db = $this->db;
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
@@ -462,7 +462,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 	public function optimize()
 	{
 		// Get the database object.
-		$db = $this->dbCache;
+		$db = $this->db;
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.
@@ -525,7 +525,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		static $state;
 
 		// Get the database adapter.
-		$db = $this->dbCache;
+		$db = $this->db;
 
 		// Check if we are setting the tables to the Memory engine.
 		if ($memory === true && $state !== true)
