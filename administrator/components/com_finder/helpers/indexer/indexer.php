@@ -108,6 +108,11 @@ abstract class FinderIndexer
 	 */
 	protected $addTokensToDbQueryTemplate;
 
+	/**
+	 * FinderIndexer constructor.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function __construct()
 	{
 		$this->dbCache = JFactory::getDbo();
