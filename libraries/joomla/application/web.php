@@ -570,7 +570,11 @@ class JApplicationWeb extends JApplicationBase
 			}
 		}
 
+		// Set appropriate headers
 		$this->respond();
+
+		//  Close the application after the redirect.
+		$this->close();
 	}
 
 	/**
