@@ -1201,19 +1201,19 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__finder_filters](
 	[filter_id] [bigint] IDENTITY(1,1) NOT NULL,
-	[title] [nvarchar](255) NOT NULL,
-	[alias] [nvarchar](255) NOT NULL,
+	[title] [nvarchar](255) NOT NULL DEFAULT '',
+	[alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[state] [smallint] NOT NULL DEFAULT 1,
 	[created] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[created_by] [bigint] NOT NULL,
-	[created_by_alias] [nvarchar](255) NOT NULL,
+	[created_by] [bigint] NOT NULL DEFAULT 0,
+	[created_by_alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[modified] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[modified_by] [bigint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
 	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[map_count] [bigint] NOT NULL DEFAULT 0,
-	[data] [nvarchar](max) NOT NULL,
-	[params] [nvarchar](max) NULL,
+	[data] [nvarchar](max) NOT NULL DEFAULT '',
+	[params] [nvarchar](max) NOT NULL DEFAULT '',
  CONSTRAINT [PK_#__finder_filters_filter_id] PRIMARY KEY CLUSTERED
 (
 	[filter_id] ASC
@@ -1226,24 +1226,24 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__finder_links](
 	[link_id] [bigint] IDENTITY(1,1) NOT NULL,
-	[url] [nvarchar](255) NOT NULL,
-	[route] [nvarchar](255) NOT NULL,
-	[title] [nvarchar](255) NULL,
-	[description] [nvarchar](max) NULL,
+	[url] [nvarchar](255) NOT NULL DEFAULT '',
+	[route] [nvarchar](255) NOT NULL DEFAULT '',
+	[title] [nvarchar](255) DEFAULT NULL,
+	[description] [nvarchar](max) DEFAULT NULL,
 	[indexdate] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[md5sum] [nvarchar](32) NULL,
+	[md5sum] [nvarchar](32) DEFAULT NULL,
 	[published] [smallint] NOT NULL DEFAULT 1,
 	[state] [int] NULL DEFAULT 1,
 	[access] [int] NULL DEFAULT 0,
-	[language] [nvarchar](8) NOT NULL,
+	[language] [nvarchar](8) NOT NULL DEFAULT '',
 	[publish_start_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[publish_end_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[start_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[end_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[list_price] [float] NOT NULL DEFAULT 0,
 	[sale_price] [float] NOT NULL DEFAULT 0,
-	[type_id] [int] NOT NULL,
-	[object] [nvarchar](max) NOT NULL,
+	[type_id] [int] NOT NULL DEFAULT 0,
+	[object] [nvarchar](max) NOT NULL DEFAULT '',
  CONSTRAINT [PK_#__finder_links_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC
@@ -1271,7 +1271,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms0](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_terms0_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1298,7 +1298,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms1](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_terms1_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1325,7 +1325,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms2](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_terms2_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1352,7 +1352,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms3](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_terms3_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1379,7 +1379,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms4](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_terms4_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1406,7 +1406,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms5](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_terms5_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1433,7 +1433,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms6](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_terms6_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1460,7 +1460,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms7](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_terms7_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1487,7 +1487,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms8](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_terms8_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1514,7 +1514,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms9](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_terms9_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1541,7 +1541,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_termsa](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_termsa_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1568,7 +1568,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_termsb](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_termsb_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1595,7 +1595,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_termsc](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_termsc_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1622,7 +1622,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_termsd](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_termsd_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1649,7 +1649,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_termse](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_termse_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1676,7 +1676,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_termsf](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL,
+	[weight] [real] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_links_termsf_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1703,7 +1703,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_taxonomy](
 	[id] [bigint] IDENTITY(2,1) NOT NULL,
 	[parent_id] [bigint] NOT NULL DEFAULT 0,
-	[title] [nvarchar](255) NOT NULL,
+	[title] [nvarchar](255) NOT NULL DEFAULT '',
 	[state] [tinyint] NOT NULL DEFAULT 1,
 	[access] [tinyint] NOT NULL DEFAULT 0,
 	[ordering] [tinyint] NOT NULL DEFAULT 0,
@@ -1775,12 +1775,12 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__finder_terms](
 	[term_id] [bigint] IDENTITY(1,1) NOT NULL,
-	[term] [nvarchar](75) NOT NULL,
-	[stem] [nvarchar](75) NOT NULL,
+	[term] [nvarchar](75) NOT NULL DEFAULT '',
+	[stem] [nvarchar](75) NOT NULL DEFAULT '',
 	[common] [tinyint] NOT NULL DEFAULT 0,
 	[phrase] [tinyint] NOT NULL DEFAULT 0,
 	[weight] [real] NOT NULL DEFAULT 0,
-	[soundex] [nvarchar](75) NOT NULL,
+	[soundex] [nvarchar](75) NOT NULL DEFAULT '',
 	[links] [int] NOT NULL DEFAULT 0,
 	[language] [nvarchar](3) NOT NULL DEFAULT ''
  CONSTRAINT [PK_#__finder_terms_term_id] PRIMARY KEY CLUSTERED
@@ -1815,8 +1815,8 @@ CREATE NONCLUSTERED INDEX [idx_term_phrase] ON [#__finder_terms]
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__finder_terms_common](
-	[term] [nvarchar](75) NOT NULL,
-	[language] [nvarchar](3) NOT NULL,
+	[term] [nvarchar](75) NOT NULL DEFAULT '',
+	[language] [nvarchar](3) NOT NULL DEFAULT '',
  CONSTRAINT [PK_#__finder_terms_common] PRIMARY KEY CLUSTERED
 (
 	[term] ASC
@@ -2069,11 +2069,11 @@ SELECT 'yours', 'en';
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__finder_tokens](
-	[term] [nvarchar](75) NOT NULL,
-	[stem] [nvarchar](75) NOT NULL,
+	[term] [nvarchar](75) NOT NULL DEFAULT '',
+	[stem] [nvarchar](75) NOT NULL DEFAULT '',
 	[common] [tinyint] NOT NULL DEFAULT 0,
 	[phrase] [tinyint] NOT NULL DEFAULT 0,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
 	[context] [tinyint] NOT NULL DEFAULT 2,
 	[language] [nvarchar](3) NOT NULL DEFAULT ''
 ) ON [PRIMARY];
@@ -2093,15 +2093,15 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__finder_tokens_aggregate](
 	[term_id] [bigint] NOT NULL,
-	[map_suffix] [nchar](1) NULL,
-	[term] [nvarchar](75) NOT NULL,
-	[stem] [nvarchar](75) NOT NULL,
+	[map_suffix] [nchar](1) NOT NULL DEFAULT '',
+	[term] [nvarchar](75) NOT NULL DEFAULT '',
+	[stem] [nvarchar](75) NOT NULL DEFAULT '',
 	[common] [tinyint] NOT NULL DEFAULT 0,
 	[phrase] [tinyint] NOT NULL DEFAULT 0,
-	[term_weight] [real] NOT NULL,
+	[term_weight] [real] NOT NULL DEFAULT 0,
 	[context] [tinyint] NOT NULL DEFAULT 2,
-	[context_weight] [real] NOT NULL,
-	[total_weight] [real] NOT NULL,
+	[context_weight] [real] NOT NULL DEFAULT 0,
+	[total_weight] [real] NOT NULL DEFAULT 0,
 	[language] [nvarchar](3) NOT NULL DEFAULT ''
 ) ON [PRIMARY];
 
