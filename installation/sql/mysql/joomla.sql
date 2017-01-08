@@ -747,7 +747,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
   `alias` varchar(255) NOT NULL DEFAULT '',
   `state` tinyint(1) NOT NULL DEFAULT 1,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL DEFAULT '',
+  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
@@ -755,7 +755,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `map_count` int(10) unsigned NOT NULL DEFAULT 0,
   `data` text NOT NULL DEFAULT '',
-  `params` mediumtext DEFAULT '',
+  `params` mediumtext NOT NULL DEFAULT '',
   PRIMARY KEY (`filter_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
 
@@ -803,7 +803,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms0` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -818,7 +818,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms0` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms1` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -833,7 +833,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms1` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms2` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -848,7 +848,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms2` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms3` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -863,7 +863,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms3` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms4` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -878,7 +878,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms4` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms5` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -893,7 +893,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms5` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms6` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -908,7 +908,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms6` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms7` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -923,7 +923,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms7` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms8` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -938,7 +938,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms8` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms9` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -953,7 +953,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms9` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_termsa` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -968,7 +968,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsa` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_termsb` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -983,7 +983,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsb` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_termsc` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -998,7 +998,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsc` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_termsd` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -1013,7 +1013,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsd` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_termse` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -1028,7 +1028,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termse` (
 CREATE TABLE IF NOT EXISTS `#__finder_links_termsf` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -1088,7 +1088,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
   `stem` varchar(75) NOT NULL DEFAULT '',
   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   `soundex` varchar(75) NOT NULL DEFAULT '',
   `links` int(10) NOT NULL DEFAULT 0,
   `language` char(3) NOT NULL DEFAULT '',
@@ -1106,8 +1106,8 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
-  `term` varchar(75) NOT NULL,
-  `language` varchar(3) NOT NULL,
+  `term` varchar(75) NOT NULL DEFAULT '',
+  `language` varchar(3) NOT NULL DEFAULT '',
   KEY `idx_word_lang` (`term`,`language`),
   KEY `idx_lang` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;

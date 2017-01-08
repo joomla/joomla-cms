@@ -799,7 +799,7 @@ CREATE INDEX "#__finder_links_idx_published_sale" on "#__finder_links" ("publish
 CREATE TABLE "#__finder_links_terms0" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_terms0_idx_term_weight" on "#__finder_links_terms0" ("term_id", "weight");
@@ -811,7 +811,7 @@ CREATE INDEX "#__finder_links_terms0_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_terms1" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_terms1_idx_term_weight" on "#__finder_links_terms1" ("term_id", "weight");
@@ -823,7 +823,7 @@ CREATE INDEX "#__finder_links_terms1_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_terms2" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_terms2_idx_term_weight" on "#__finder_links_terms2" ("term_id", "weight");
@@ -835,7 +835,7 @@ CREATE INDEX "#__finder_links_terms2_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_terms3" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_terms3_idx_term_weight" on "#__finder_links_terms3" ("term_id", "weight");
@@ -847,7 +847,7 @@ CREATE INDEX "#__finder_links_terms3_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_terms4" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_terms4_idx_term_weight" on "#__finder_links_terms4" ("term_id", "weight");
@@ -859,7 +859,7 @@ CREATE INDEX "#__finder_links_terms4_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_terms5" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_terms5_idx_term_weight" on "#__finder_links_terms5" ("term_id", "weight");
@@ -871,7 +871,7 @@ CREATE INDEX "#__finder_links_terms5_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_terms6" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_terms6_idx_term_weight" on "#__finder_links_terms6" ("term_id", "weight");
@@ -883,7 +883,7 @@ CREATE INDEX "#__finder_links_terms6_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_terms7" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_terms7_idx_term_weight" on "#__finder_links_terms7" ("term_id", "weight");
@@ -895,7 +895,7 @@ CREATE INDEX "#__finder_links_terms7_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_terms8" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_terms8_idx_term_weight" on "#__finder_links_terms8" ("term_id", "weight");
@@ -907,7 +907,7 @@ CREATE INDEX "#__finder_links_terms8_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_terms9" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_terms9_idx_term_weight" on "#__finder_links_terms9" ("term_id", "weight");
@@ -919,7 +919,7 @@ CREATE INDEX "#__finder_links_terms9_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_termsa" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_termsa_idx_term_weight" on "#__finder_links_termsa" ("term_id", "weight");
@@ -931,7 +931,7 @@ CREATE INDEX "#__finder_links_termsa_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_termsb" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_termsb_idx_term_weight" on "#__finder_links_termsb" ("term_id", "weight");
@@ -943,7 +943,7 @@ CREATE INDEX "#__finder_links_termsb_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_termsc" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_termsc_idx_term_weight" on "#__finder_links_termsc" ("term_id", "weight");
@@ -955,7 +955,7 @@ CREATE INDEX "#__finder_links_termsc_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_termsd" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_termsd_idx_term_weight" on "#__finder_links_termsd" ("term_id", "weight");
@@ -967,7 +967,7 @@ CREATE INDEX "#__finder_links_termsd_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_termse" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_termse_idx_term_weight" on "#__finder_links_termse" ("term_id", "weight");
@@ -979,7 +979,7 @@ CREATE INDEX "#__finder_links_termse_idx_link_term_weight" on "#__finder_links_t
 CREATE TABLE "#__finder_links_termsf" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_termsf_idx_term_weight" on "#__finder_links_termsf" ("term_id", "weight");
@@ -1031,7 +1031,7 @@ CREATE TABLE "#__finder_terms" (
   "stem" varchar(75) DEFAULT '' NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
   "phrase" smallint DEFAULT 0 NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   "soundex" varchar(75) DEFAULT '' NOT NULL,
   "links" integer DEFAULT 0 NOT NULL,
   "language" varchar(3) DEFAULT '' NOT NULL,
@@ -1198,10 +1198,10 @@ CREATE TABLE "#__finder_tokens_aggregate" (
   "stem" varchar(75) DEFAULT '' NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
   "phrase" smallint DEFAULT 0 NOT NULL,
-  "term_weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "term_weight" numeric(8,2) DEFAULT 1 NOT NULL,
   "context" smallint DEFAULT 2 NOT NULL,
-  "context_weight" numeric(8,2) DEFAULT 0 NOT NULL,
-  "total_weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "context_weight" numeric(8,2) DEFAULT 1 NOT NULL,
+  "total_weight" numeric(8,2) DEFAULT 1 NOT NULL,
   "language" varchar(3) DEFAULT '' NOT NULL
 );
 CREATE INDEX "#__finder_tokens_aggregate_token" on "#__finder_tokens_aggregate" ("term");

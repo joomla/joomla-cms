@@ -1271,7 +1271,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms0](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_terms0_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1298,7 +1298,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms1](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_terms1_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1325,7 +1325,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms2](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_terms2_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1352,7 +1352,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms3](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_terms3_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1379,7 +1379,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms4](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_terms4_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1406,7 +1406,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms5](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_terms5_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1433,7 +1433,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms6](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_terms6_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1460,7 +1460,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms7](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_terms7_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1487,7 +1487,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms8](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_terms8_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1514,7 +1514,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_terms9](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_terms9_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1541,7 +1541,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_termsa](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_termsa_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1568,7 +1568,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_termsb](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_termsb_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1595,7 +1595,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_termsc](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_termsc_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1622,7 +1622,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_termsd](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_termsd_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1649,7 +1649,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_termse](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_termse_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1676,7 +1676,7 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__finder_links_termsf](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__finder_links_termsf_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
@@ -1779,7 +1779,7 @@ CREATE TABLE [#__finder_terms](
 	[stem] [nvarchar](75) NOT NULL DEFAULT '',
 	[common] [tinyint] NOT NULL DEFAULT 0,
 	[phrase] [tinyint] NOT NULL DEFAULT 0,
-	[weight] [real] NOT NULL DEFAULT 0,
+	[weight] [real] NOT NULL DEFAULT 1,
 	[soundex] [nvarchar](75) NOT NULL DEFAULT '',
 	[links] [int] NOT NULL DEFAULT 0,
 	[language] [nvarchar](3) NOT NULL DEFAULT ''
@@ -2098,10 +2098,10 @@ CREATE TABLE [#__finder_tokens_aggregate](
 	[stem] [nvarchar](75) NOT NULL DEFAULT '',
 	[common] [tinyint] NOT NULL DEFAULT 0,
 	[phrase] [tinyint] NOT NULL DEFAULT 0,
-	[term_weight] [real] NOT NULL DEFAULT 0,
+	[term_weight] [real] NOT NULL DEFAULT 1,
 	[context] [tinyint] NOT NULL DEFAULT 2,
-	[context_weight] [real] NOT NULL DEFAULT 0,
-	[total_weight] [real] NOT NULL DEFAULT 0,
+	[context_weight] [real] NOT NULL DEFAULT 1,
+	[total_weight] [real] NOT NULL DEFAULT 1,
 	[language] [nvarchar](3) NOT NULL DEFAULT ''
 ) ON [PRIMARY];
 
@@ -2120,8 +2120,8 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__finder_types](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
-	[title] [nvarchar](100) NOT NULL,
-	[mime] [nvarchar](100) NOT NULL,
+	[title] [nvarchar](100) NOT NULL DEFAULT '',
+	[mime] [nvarchar](100) NOT NULL DEFAULT '',
  CONSTRAINT [PK_#__finder_types_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
