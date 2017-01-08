@@ -1791,7 +1791,7 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `core_type_alias` varchar(400) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
   `core_title` varchar(400) NOT NULL DEFAULT '',
-  `core_alias` varchar(400) NOT NULL DEFAULT '' CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `core_alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `core_body` mediumtext NOT NULL DEFAULT '',
   `core_state` tinyint(1) NOT NULL DEFAULT 0,
   `core_checked_out_time` varchar(255) NOT NULL DEFAULT '0000-00-00 00:00:00',
