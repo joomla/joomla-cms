@@ -571,8 +571,7 @@ class JApplicationWeb extends JApplicationBase
 			}
 		}
 
-		// Close the application after the redirect.
-		$this->close();
+		$this->respond();
 	}
 
 	/**

@@ -359,6 +359,9 @@ class JControllerForm extends JControllerLegacy
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
+		// Do not cache the response to this, its a redirect, and mod_expires and google chrome browser bugs cache it forever!
+		JFactory::getApplication()->allowCache(FALSE);
+
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$cid   = $this->input->post->get('cid', array(), 'array');
