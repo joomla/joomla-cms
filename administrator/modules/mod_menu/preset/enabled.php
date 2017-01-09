@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /* @var  $this    JAdminCSSMenu */
 /* @var  $params  Joomla\Registry\Registry */
 
-$recovery = (boolean) $params->get('recovery', 1);
+$recovery = (boolean) $params->get('recovery', 0);
 $shownew  = (boolean) $params->get('shownew', 1);
 $showhelp = (boolean) $params->get('showhelp', 1);
 $user     = JFactory::getUser();
