@@ -119,6 +119,57 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	}
 
 	/**
+	 * Creates a folder with the given name in the given path.
+	 *
+	 * @param   string  $name  The name
+	 * @param   string  $path  The folder
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function createFolder($name, $path)
+	{
+		JFolder::create($this->rootPath . $path . '/' . $name);
+	}
+
+	/**
+	 * Creates a file with the given name in the given path with the data.
+	 *
+	 * @param   string  $name  The name
+	 * @param   string  $path  The folder
+	 * @param   string  $data  The data
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function createFile($name, $path, $data)
+	{
+		JFile::write($this->rootPath . $path . '/' . $name, $data);
+	}
+
+	/**
+	 * Updates the file with the given name in the given path with the data.
+	 *
+	 * @param   string  $name  The name
+	 * @param   string  $path  The folder
+	 * @param   binary  $data  The data
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function updateFile($name, $path, $data)
+	{
+		JFile::write($this->rootPath . $path . '/' . $name, $data);
+	}
+
+
+	/**
 	 * Deletes the folder or file of the given path.
 	 *
 	 * @param   string  $path  The path to the file or folder
