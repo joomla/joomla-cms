@@ -9,12 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field to load a list of content authors
  *
  * @since  3.2
  */
-class JFormFieldAuthor extends JFormAbstractlist
+class JFormFieldAuthor extends JFormFieldList
 {
 	/**
 	 * The form field type.

@@ -12,12 +12,14 @@ defined('_JEXEC') or die;
 // Load the base adapter.
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Renders a list of directories.
  *
  * @since  2.5
  */
-class JFormFieldDirectories extends JFormAbstractlist
+class JFormFieldDirectories extends JFormFieldList
 {
 	/**
 	 * The form field type.

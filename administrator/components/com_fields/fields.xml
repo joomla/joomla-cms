@@ -24,7 +24,6 @@
 			<folder>helpers</folder>
 			<folder>libraries</folder>
 			<folder>models</folder>
-			<folder>sql</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
 		</files>
