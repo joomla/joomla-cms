@@ -446,30 +446,8 @@ class JApplicationWeb extends JApplicationBase
 		// Send the content-type header.
 		$this->setHeader('Content-Type', $this->mimeType . '; charset=' . $this->charSet);
 
-		// If the response is set to uncachable, we need to set some appropriate headers so browsers don't cache the response.
-		if (!$this->response->cachable)
-		{
-			// Expires in the past.
-			$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
-
-			// Always modified.
-			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-			$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-
-			// HTTP 1.0
-			$this->setHeader('Pragma', 'no-cache');
-		}
-		else
-		{
-			// Expires.
-			$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
-
-			// Last modified.
-			if ($this->modifiedDate instanceof JDate)
-			{
-				$this->setHeader('Last-Modified', $this->modifiedDate->format('D, d M Y H:i:s'));
-			}
-		}
+		// Set cache related headers
+		$this->setCacheHeaders();
 
 		$this->sendHeaders();
 
@@ -566,8 +544,12 @@ class JApplicationWeb extends JApplicationBase
 
 				// All other cases use the more efficient HTTP header for redirection.
 				$this->header($this->responseMap[$status]);
-				$this->header('Location: ' . $url);
-				$this->header('Content-Type: text/html; charset=' . $this->charSet);
+				$this->setHeader('Location', $url);
+				$this->setHeader('Content-Type', $this->mimeType . '; charset=' . $this->charSet);
+
+				// Set cache related headers
+				$this->setCacheHeaders();
+				$this->sendHeaders();
 			}
 		}
 
@@ -617,6 +599,43 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		return $this->response->cachable;
+	}
+
+
+	/**
+	 * Set all the necessary cache-related headers, based on the current value of $this->response->cachable,
+	 * which in turn can be set by the components controllers, in case of need, with JApplicationWeb::allowCache()
+	 *
+	 * @return  void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function setCacheHeaders()
+	{
+		// If the response is set to uncachable, we need to set some appropriate headers so browsers don't cache the response.
+		if (!$this->response->cachable)
+		{
+			// Expires in the past.
+			$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+
+			// Always modified.
+			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+			$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+
+			// HTTP 1.0
+			$this->setHeader('Pragma', 'no-cache');
+		}
+		else
+		{
+			// Expires.
+			$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
+
+			// Last modified.
+			if ($this->modifiedDate instanceof JDate)
+			{
+				$this->setHeader('Last-Modified', $this->modifiedDate->format('D, d M Y H:i:s'));
+			}
+		}
 	}
 
 	/**

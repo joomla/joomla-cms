@@ -1083,6 +1083,9 @@ class JApplicationWebTest extends TestCase
 
 		TestReflection::setValue($this->class, 'config', $config);
 
+		// Ensure that the response is not cachable. A cachable one would have different headers.
+		$this->class->allowCache(false);
+		// Run the redirect
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
@@ -1090,6 +1093,10 @@ class JApplicationWebTest extends TestCase
 				array('HTTP/1.1 303 See other', true, null),
 				array('Location: ' . $base . $url, true, null),
 				array('Content-Type: text/html; charset=utf-8', true, null),
+				array('Expires: Wed, 17 Aug 2005 00:00:00 GMT', true, null),
+				array('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT', true, null),
+				array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+				array('Pragma: no-cache', true, null)
 			),
 			$this->class->headers
 		);
@@ -1175,6 +1182,9 @@ class JApplicationWebTest extends TestCase
 			)
 		);
 
+		// Ensure that the response is not cachable. A cachable one would have different headers.
+		$this->class->allowCache(false);
+		// Run the redirect
 		$this->class->redirect($url, true);
 
 		$this->assertEquals(
@@ -1182,6 +1192,10 @@ class JApplicationWebTest extends TestCase
 				array('HTTP/1.1 301 Moved Permanently', true, null),
 				array('Location: ' . $url, true, null),
 				array('Content-Type: text/html; charset=utf-8', true, null),
+				array('Expires: Wed, 17 Aug 2005 00:00:00 GMT', true, null),
+				array('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT', true, null),
+				array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+				array('Pragma: no-cache', true, null)
 			),
 			$this->class->headers
 		);
