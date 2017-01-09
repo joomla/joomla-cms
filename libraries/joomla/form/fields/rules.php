@@ -424,11 +424,11 @@ class JFormFieldRules extends JFormField
 
 		if ($section === 'component' || !$section)
 		{
-			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
+			$html[] = JText::alt('JLIB_RULES_SETTING_NOTES', $component);
 		}
 		else
 		{
-			$html[] = JText::_('JLIB_RULES_SETTING_NOTES_ITEM');
+			$html[] = JText::alt('JLIB_RULES_SETTING_NOTES_ITEM', $component . '_' . $section);
 		}
 
 		$html[] = '</div>';
