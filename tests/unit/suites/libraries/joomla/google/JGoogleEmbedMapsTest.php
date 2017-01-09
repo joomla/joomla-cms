@@ -439,7 +439,7 @@ class JGoogleEmbedMapsTest extends TestCase
 	 */
 	public function testDeleteMarkersException()
 	{
-		$marker = $this->object->deleteMarker();
+		$this->object->deleteMarker();
 	}
 
 	/**

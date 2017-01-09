@@ -24,7 +24,7 @@ class PlgSystemFields extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -37,11 +37,12 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentBeforeSave($context, $item, $isNew)
 	{
-		$parts = $this->getParts($context);
+
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -108,11 +109,11 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterSave($context, $item, $isNew)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -182,7 +183,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onUserAfterSave($userData, $isNew, $success, $msg)
 	{
@@ -219,11 +220,11 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterDelete($context, $item)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -250,7 +251,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onUserAfterDelete($user, $succes, $msg)
 	{
@@ -268,12 +269,13 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentPrepareForm(JForm $form, $data)
 	{
 		$context = $form->getName();
-		$parts = $this->getParts($context);
+
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -308,11 +310,11 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -335,7 +337,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterTitle($context, $item, $params, $limitstart = 0)
 	{
@@ -352,7 +354,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentBeforeDisplay($context, $item, $params, $limitstart = 0)
 	{
@@ -369,7 +371,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterDisplay($context, $item, $params, $limitstart = 0)
 	{
@@ -386,11 +388,11 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function display($context, $item, $params, $displayType)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -452,11 +454,11 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentPrepare($context, $item)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -483,7 +485,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onPrepareFinderContent($item)
 	{
@@ -503,7 +505,7 @@ class PlgSystemFields extends JPlugin
 				}
 
 				// Transofrm com_article to com_content
-				if ($component == 'com_article')
+				if ($component === 'com_article')
 				{
 					$component = 'com_content';
 				}
@@ -535,62 +537,5 @@ class PlgSystemFields extends JPlugin
 		}
 
 		return true;
-	}
-
-	/**
-	 * Returns the parts for the context.
-	 *
-	 * @param   string  $context  The context
-	 *
-	 * @return  array
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getParts($context)
-	{
-		// Some context mapping
-		// @todo needs to be done in a general lookup table on some point
-		$mapping = array(
-				'com_users.registration' => 'com_users.user',
-				'com_content.category'   => 'com_content.article',
-		);
-
-		if (key_exists($context, $mapping))
-		{
-			$context = $mapping[$context];
-		}
-
-		$parts = FieldsHelper::extract($context);
-
-		if (!$parts)
-		{
-			return null;
-		}
-
-		if ($parts[1] == 'form')
-		{
-			// The context is not from a known one, we need to do a lookup
-			// @todo use the api here.
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('context')
-				->from('#__fields')
-				->where('context like ' . $db->quote($parts[0] . '.%'))
-				->group(array('context'));
-			$db->setQuery($query);
-			$tmp = $db->loadObjectList();
-
-			if (count($tmp) == 1)
-			{
-				$parts = FieldsHelper::extract($tmp[0]->context);
-
-				if (count($parts) < 2)
-				{
-					return null;
-				}
-			}
-		}
-
-		return $parts;
 	}
 }

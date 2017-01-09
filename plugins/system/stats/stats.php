@@ -76,7 +76,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		if (!$this->app->isAdmin() || !$this->isAllowedUser())
+		if (!$this->app->isClient('administrator') || !$this->isAllowedUser())
 		{
 			return;
 		}
@@ -402,7 +402,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function isAjaxRequest()
 	{
-		return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) == 'xmlhttprequest';
+		return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
 	}
 
 	/**

@@ -90,7 +90,7 @@ class ConfigControllerHelper
 		// Some special handling for com_config administrator
 		$option = $app->input->get('option');
 
-		if ($option === 'com_config' && $app->isAdmin())
+		if ($option === 'com_config' && $app->isClient('administrator'))
 		{
 			$component = $app->input->get('component');
 

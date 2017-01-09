@@ -21,7 +21,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		// do field validation
 		if (form.mailto.value == '' || form.from.value == '')
 		{
-			alert('" . JText::_('COM_MAILTO_EMAIL_ERR_NOINFO') . "');
+			alert('" . JText::_('COM_MAILTO_EMAIL_ERR_NOINFO', true) . "');
 			return false;
 		}
 		form.submit();

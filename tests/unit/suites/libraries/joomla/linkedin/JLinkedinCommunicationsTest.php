@@ -320,9 +320,6 @@ class JLinkedinCommunicationsTest extends TestCase
 		$body = 'body';
 		$connection = 'friend';
 
-		$name = 'NAME_SEARCH';
-		$value = 'mwjY';
-
 		$path = '/v1/people-search:(people:(api-standard-profile-request))';
 
 		$returnData = new stdClass;

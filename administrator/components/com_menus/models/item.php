@@ -1169,7 +1169,7 @@ class MenusModelItem extends JModelAdmin
 		else
 		{
 			// We don't have a component. Load the form XML to get the help path
-			$xmlFile = JPath::find(JPATH_ROOT . '/administrator/components/com_menus/models/forms', $typeFile . '.xml');
+			$xmlFile = JPath::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', $typeFile . '.xml');
 
 			if ($xmlFile)
 			{
@@ -1326,7 +1326,6 @@ class MenusModelItem extends JModelAdmin
 		$dispatcher = JEventDispatcher::getInstance();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew      = true;
-
 		$table   = $this->getTable();
 		$context = $this->option . '.' . $this->name;
 

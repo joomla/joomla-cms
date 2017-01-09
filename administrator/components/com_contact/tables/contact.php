@@ -182,10 +182,10 @@ class ContactTableContact extends JTable
 		if (!empty($this->metakey))
 		{
 			// Array of characters to remove.
-			$badCharacters = array("\n", "\r", "\"", "<", ">");
+			$badCharacters = array("\n", "\r", "\"", '<', '>');
 
 			// Remove bad characters.
-			$afterClean = StringHelper::str_ireplace($badCharacters, "", $this->metakey);
+			$afterClean = StringHelper::str_ireplace($badCharacters, '', $this->metakey);
 
 			// Create array using commas as delimiter.
 			$keys = explode(',', $afterClean);
@@ -201,15 +201,15 @@ class ContactTableContact extends JTable
 			}
 
 			// Put array back together delimited by ", "
-			$this->metakey = implode(", ", $cleanKeys);
+			$this->metakey = implode(', ', $cleanKeys);
 		}
 
 		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
 		{
 			// Only process if not empty
-			$badCharacters = array("\"", "<", ">");
-			$this->metadesc = StringHelper::str_ireplace($badCharacters, "", $this->metadesc);
+			$badCharacters = array("\"", '<', '>');
+			$this->metadesc = StringHelper::str_ireplace($badCharacters, '', $this->metadesc);
 		}
 
 		return true;
@@ -232,7 +232,7 @@ class ContactTableContact extends JTable
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		return $this->alias;

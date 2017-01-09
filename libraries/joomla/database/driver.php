@@ -209,12 +209,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				continue;
 			}
 
-			// Block the ext/mysql driver for PHP 7
-			if ($fileName === 'mysql.php' && PHP_MAJOR_VERSION >= 7)
-			{
-				continue;
-			}
-
 			// Derive the class name from the type.
 			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($fileName)));
 
@@ -447,8 +441,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				$query = '';
 				$start = $i + 1;
 			}
-
-			$endComment = false;
 		}
 
 		return $queries;
