@@ -19,7 +19,7 @@ JFormHelper::loadFieldClass('text');
  * @see    JFormRuleEmail
  * @since  11.1
  */
-class JFormFieldEMail extends JFormFieldText implements JFormDomfieldinterface
+class JFormFieldEMail extends JFormFieldText
 {
 	/**
 	 * The form field type.
@@ -66,24 +66,5 @@ class JFormFieldEMail extends JFormFieldText implements JFormDomfieldinterface
 		);
 
 		return array_merge($data, $extraData);
-	}
-
-	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
-	 *
-	 * @param   stdClass    $field      The field.
-	 * @param   DOMElement  $fieldNode  The field node.
-	 * @param   JForm       $form       The form.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
-	{
-		$fieldNode->setAttribute('validate', 'email');
-
-		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

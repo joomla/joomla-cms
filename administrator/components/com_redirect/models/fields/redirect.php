@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * A dropdown containing all valid HTTP 1.1 response codes.
  *
@@ -16,7 +18,7 @@ defined('JPATH_BASE') or die;
  * @subpackage  com_redirect
  * @since       3.4
  */
-class JFormFieldRedirect extends JFormAbstractlist
+class JFormFieldRedirect extends JFormFieldList
 {
 	/**
 	 * The form field type.

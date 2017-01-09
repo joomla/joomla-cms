@@ -23,7 +23,7 @@ if ($fieldValue == '')
 
 $fieldValue = (array) $fieldValue;
 $texts      = array();
-$options    = JFormAbstractlist::getOptionsFromField($field);
+$options    = JFormFieldList::getOptionsFromField($field);
 
 foreach ($options as $value => $name)
 {
