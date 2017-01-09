@@ -67,7 +67,7 @@ class JFormFieldType extends JFormAbstractlist
 		if ($parts)
 		{
 			$component = $parts[0];
-			$paths[] = JPATH_ADMINISTRATOR . '/components/' . $component . '/models/fields';
+			$paths = JFormHelper::addFieldPath(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/fields');
 			JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
 			JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 		}
