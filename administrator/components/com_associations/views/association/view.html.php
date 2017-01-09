@@ -82,6 +82,9 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		list($extensionName, $typeName) = explode('.', $input->get('itemtype'));
 
+		$this->extensionName = $extensionName;
+		$this->typeName      = $typeName;
+
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
 
 		$types = $extension->get('types');
@@ -176,7 +179,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		// Hide main menu.
 		JFactory::getApplication()->input->set('hidemainmenu', 1);
 
-		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', 'componentTitle', 'title'), 'contract');
+		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', JText::_($this->extensionName), JText::_($this->typeName)), 'contract');
 
 		$bar = JToolbar::getInstance('toolbar');
 
