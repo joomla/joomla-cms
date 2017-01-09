@@ -14,15 +14,17 @@ use Joomla\Utilities\ArrayHelper;
 /* @var  $this    JAdminCSSMenu */
 /* @var  $params  Joomla\Registry\Registry */
 
+$recovery = (boolean) $params->get('recovery', 1);
 $shownew  = (boolean) $params->get('shownew', 1);
 $showhelp = (boolean) $params->get('showhelp', 1);
 $user     = JFactory::getUser();
 $lang     = JFactory::getLanguage();
 
+$rootClass = $recovery ? 'class:' : null;
 /**
  * Site Submenu
  */
-$this->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), '#'), true);
+$this->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), '#', $rootClass), true);
 $this->addChild(new JMenuNode(JText::_('MOD_MENU_CONTROL_PANEL'), 'index.php', 'class:cpanel'));
 
 if ($user->authorise('core.admin'))
@@ -56,7 +58,7 @@ $this->getParent();
  */
 if ($user->authorise('core.manage', 'com_users'))
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS_USERS'), '#'), true);
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS_USERS'), '#', $rootClass), true);
 	$createUser = $shownew && $user->authorise('core.create', 'com_users');
 	$createGrp  = $user->authorise('core.admin', 'com_users');
 
@@ -140,7 +142,7 @@ if ($user->authorise('core.manage', 'com_users'))
  */
 if ($user->authorise('core.manage', 'com_menus'))
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), '#'), true);
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), '#', $rootClass), true);
 	$createMenu = $shownew && $user->authorise('core.create', 'com_menus');
 
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER'), 'index.php?option=com_menus&view=menus', 'class:menumgr'), $createMenu);
@@ -228,7 +230,7 @@ if ($user->authorise('core.manage', 'com_menus'))
  */
 if ($user->authorise('core.manage', 'com_content'))
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), '#'), true);
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), '#', $rootClass), true);
 	$createContent = $shownew && $user->authorise('core.create', 'com_content');
 
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_ARTICLE_MANAGER'), 'index.php?option=com_content', 'class:article'), $createContent);
@@ -293,7 +295,7 @@ $components = ModMenuHelper::getComponents(true);
 // Check if there are any components, otherwise, don't render the menu
 if ($components)
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), '#'), true);
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), '#', $rootClass), true);
 
 	foreach ($components as &$component)
 	{
@@ -329,7 +331,7 @@ $lm = $user->authorise('core.manage', 'com_languages');
 
 if ($im || $mm || $pm || $tm || $lm)
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), '#'), true);
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), '#', $rootClass), true);
 
 	if ($im)
 	{
@@ -400,7 +402,7 @@ if ($im || $mm || $pm || $tm || $lm)
  */
 if ($showhelp == 1)
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), '#'), true);
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), '#', $rootClass), true);
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_JOOMLA'), 'index.php?option=com_admin&view=help', 'class:help'));
 	$this->addSeparator();
 

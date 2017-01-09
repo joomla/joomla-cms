@@ -34,6 +34,15 @@
 					<option value="*">MOD_MENU_FIELD_MENUTYPE_OPTION_PREDEFINED</option>
 				</field>
 				<field
+					name="check"
+					type="radio"
+					label="MOD_MENU_FIELD_CHECK_LABEL"
+					description="MOD_MENU_FIELD_CHECK_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Tree based class to render the admin menu
@@ -342,11 +343,44 @@ class JAdminCssMenu
 
 		if ($menutype == '*')
 		{
-			require_once __DIR__ . '/preset/' . ($enabled ? 'enabled' : 'disabled') . '.php';
+			require_once __DIR__ . '/preset/' . ($enabled ? 'enabled.php' : 'disabled.php');
 		}
 		else
 		{
 			$items = ModMenuHelper::getMenuItems($menutype);
+			$app   = JFactory::getApplication();
+			$me    = JFactory::getUser();
+
+			$authMenus   = $me->authorise('core.manage', 'com_menus');
+			$authModules = $me->authorise('core.manage', 'com_modules');
+
+			if ($enabled && $params->get('check') && ($authMenus || $authModules))
+			{
+				$elements = ArrayHelper::getColumn($items, 'element');
+
+				if (($authMenus && !in_array('com_menus', $elements)) || ($authModules && !in_array('com_modules', $elements)))
+				{
+					$recovery = $app->getUserStateFromRequest('mod_menu.recovery', 'recover_menu', 0, 'int');
+
+					if ($recovery)
+					{
+						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE_RECOVERY'), 'info');
+
+						$params->set('recovery', true);
+
+						// In recovery mode, load the preset inside a special root node.
+						$this->addChild(new JMenuNode(JText::_('MOD_MENU_RECOVERY_MENU_ROOT'), '#'), true);
+
+						require_once __DIR__ . '/preset/enabled.php';
+
+						$this->getParent();
+					}
+					else
+					{
+						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE'), 'warning');
+					}
+				}
+			}
 
 			// Menu items for dynamic db driven setup to load here
 			$this->loadItems($items, $enabled);
