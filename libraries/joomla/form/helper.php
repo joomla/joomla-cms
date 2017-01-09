@@ -337,7 +337,7 @@ class JFormHelper
 
 		$showOnData  = array();
 		$showOnParts = preg_split('#(\[AND\]|\[OR\])#', $showOn, -1, PREG_SPLIT_DELIM_CAPTURE);
-		$op = '';
+		$op          = '';
 		foreach ($showOnParts as $showOnPart)
 		{
 			if (($showOnPart === '[AND]') || $showOnPart === '[OR]')
@@ -355,10 +355,13 @@ class JFormHelper
 				'sign'   => $compareEqual === true ? '=' : '!=',
 				'op'     => $op,
 			);
-			if ($op !== '') {
+
+			if ($op !== '')
+			{
 				$op = '';
 			}
 		}
 
 		return $showOnData;
-	}}
+	}
+}
