@@ -4,6 +4,7 @@
 		name="client_id"
 		type="list"
 		label=""
+		filtermode="selector"
 		onchange="this.form.submit();"
 	>
 		<option value="0">JSITE</option>
