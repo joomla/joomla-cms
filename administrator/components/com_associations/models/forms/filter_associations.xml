@@ -5,6 +5,7 @@
 		type="itemtype"
 		label="COM_ASSOCIATIONS_COMPONENT_SELECTOR_LABEL"
 		description="COM_ASSOCIATIONS_COMPONENT_SELECTOR_DESC"
+		filtermode="selector"
 		onchange="jQuery('select[id^=\'filter_\']').val('');jQuery('select[id^=\'list_\']').val('');this.form.submit();"
 		>
 		<option value="">COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE</option>
@@ -13,6 +14,7 @@
 		name="language"
 		type="contentlanguage"
 		label="JOPTION_FILTER_LANGUAGE"
+		filtermode="selector"
 		description="JOPTION_FILTER_LANGUAGE_DESC"
 		onchange="this.form.submit();"
 		>
