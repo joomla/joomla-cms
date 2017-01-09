@@ -336,10 +336,16 @@ class JFormHelper
 		}
 
 		$showOnData  = array();
-		$showOnParts = preg_split('#\[AND\]|\[OR\]#', $showOn);
-
-		foreach ($showOnParts as $showOnPart)
+		$showOnParts = preg_split('#(\[AND\]|\[OR\])#', $showOn, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$op = '';
+		foreach ($showOnParts as $key => $showOnPart)
 		{
+			if (($showOnPart === '[AND]') || $showOnPart === '[OR]')
+			{
+				$op = trim($showOnPart, '[]');
+				continue;
+			}
+
 			$compareEqual     = strpos($showOnPart, '!:') === false;
 			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
 
@@ -347,10 +353,12 @@ class JFormHelper
 				'field'  => $formControl ? $formControl . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0],
 				'values' => explode(',', $showOnPartBlocks[1]),
 				'sign'   => $compareEqual === true ? '=' : '!=',
-				'op'     => preg_match('#^\[(AND|OR)\]#', $showOnPart, $matches) ? $matches[1] : '',
+				'op'     => $op,
 			);
+			if ($op !== '') {
+				$op = '';
+			}
 		}
 
 		return $showOnData;
-	}
-}
+	}}
