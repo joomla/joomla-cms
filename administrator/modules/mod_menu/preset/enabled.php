@@ -160,9 +160,9 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 	// Menu Types
 	$menuTypes = ModMenuHelper::getMenus();
-	$menuTypes = ArrayHelper::sortObjects($menuTypes, 'title', 1, false);
+	$menuTypes = ArrayHelper::sortObjects($menuTypes, array('client_id', 'title'), 1, false);
 
-	foreach ($menuTypes as $menuType)
+	foreach ($menuTypes as $mti => $menuType)
 	{
 		if (!$user->authorise('core.manage', 'com_menus.menu.' . (int) $menuType->id))
 		{
@@ -193,6 +193,11 @@ if ($user->authorise('core.manage', 'com_menus'))
 		else
 		{
 			$titleicon = ' <span class="label" title="' . $menuType->title_native . '">' . $menuType->sef . '</span>';
+		}
+
+		if (isset($menuTypes[$mti - 1]) && $menuTypes[$mti - 1]->client_id != $menuType->client_id)
+		{
+			$this->addSeparator();
 		}
 
 		$this->addChild(

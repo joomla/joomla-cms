@@ -156,14 +156,14 @@ $clientId = $this->state->get('item.client_id', 0);
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 
-		<?php if (!$isModal && $assoc) : ?>
+		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<?php if ($this->item->type !== 'alias' && $this->item->type !== 'url'
 				&& $this->item->type !== 'separator' && $this->item->type !== 'heading') : ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 				<?php echo $this->loadTemplate('associations'); ?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
-		<?php elseif ($isModal && $assoc) : ?>
+		<?php elseif ($isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 

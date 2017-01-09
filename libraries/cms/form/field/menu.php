@@ -12,12 +12,14 @@ defined('JPATH_PLATFORM') or die;
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
+JFormHelper::loadFieldClass('GroupedList');
+
 /**
  * Supports an HTML select list of menus
  *
  * @since  1.6
  */
-class JFormFieldMenu extends JFormAbstractlist
+class JFormFieldMenu extends JFormFieldGroupedList
 {
 	/**
 	 * The form field type.
@@ -28,13 +30,14 @@ class JFormFieldMenu extends JFormAbstractlist
 	public $type = 'Menu';
 
 	/**
-	 * Method to get the list of menus for the field options.
+	 * Method to get the field option groups.
 	 *
-	 * @return  array  The field option objects.
+	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since   1.6
+	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
-	protected function getOptions()
+	protected function getGroups()
 	{
 		$clientId   = (string) $this->element['clientid'];
 		$accessType = (string) $this->element['accesstype'];
@@ -42,9 +45,9 @@ class JFormFieldMenu extends JFormAbstractlist
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'menutype', 'title'), array('id', 'value', 'text')))
+			->select($db->qn(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
 			->from($db->quoteName('#__menu_types'))
-			->order('title');
+			->order('client_id, title');
 
 		if (strlen($clientId))
 		{
@@ -82,25 +85,45 @@ class JFormFieldMenu extends JFormAbstractlist
 			}
 		}
 
-		// Merge any additional options in the XML definition.
-		$opts = parent::getOptions();
+		$opts = array();
 
 		// Protected menutypes can be shown if requested
 		if ($clientId == 1 && $showAll)
 		{
 			$opts[] = (object) array(
-				'value' => 'main',
-				'text'  => JText::_('COM_MENUS_MENU_TYPE_PROTECTED_MAIN_LABEL'),
+				'value'     => 'main',
+				'text'      => JText::_('COM_MENUS_MENU_TYPE_PROTECTED_MAIN_LABEL'),
+				'client_id' => 1,
 			);
 
 			$opts[] = (object) array(
-				'value' => 'menu',
-				'text'  => JText::_('COM_MENUS_MENU_TYPE_PROTECTED_MENU_LABEL'),
+				'value'     => 'menu',
+				'text'      => JText::_('COM_MENUS_MENU_TYPE_PROTECTED_MENU_LABEL'),
+				'client_id' => 1,
 			);
 		}
 
 		$options = array_merge($opts, $menus);
+		$groups  = array();
 
-		return $options;
+		if (strlen($clientId))
+		{
+			$groups[0] = $options;
+		}
+		else
+		{
+			foreach ($options as $option)
+			{
+				// If client id is not specified we group the items.
+				$label = ($option->client_id == 1 ? JText::_('JADMINISTRATOR') : JText::_('JSITE'));
+
+				$groups[$label][] = $option;
+			}
+		}
+
+		// Merge any additional options in the XML definition.
+		$groups = array_merge(parent::getGroups(), $groups);
+
+		return $groups;
 	}
 }

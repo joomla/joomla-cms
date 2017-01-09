@@ -433,7 +433,7 @@ class MenusModelItems extends JModelList
 			$clientId = $this->getState('filter.client_id');
 			$form->setFieldAttribute('menutype', 'clientid', $clientId);
 		}
-		elseif ($name == 'com_menus.items.modal.filter')
+		elseif (false !== strpos($name, 'com_menus.items.modal.'))
 		{
 			$form->removeField('client_id');
 
