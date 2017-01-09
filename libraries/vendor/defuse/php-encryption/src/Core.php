@@ -42,7 +42,7 @@ final class Core
      * @param string $ctr
      * @param int    $inc
      *
-     * @throws \Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
      */
@@ -97,7 +97,7 @@ final class Core
      *
      * @param int $octets
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
      */
@@ -106,7 +106,7 @@ final class Core
         self::ensureFunctionExists('random_bytes');
         try {
             return \random_bytes($octets);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             throw new Ex\EnvironmentIsBrokenException(
                 'Your system does not have a secure random number generator.'
             );
@@ -123,7 +123,7 @@ final class Core
      * @param string $info   What sort of key are we deriving?
      * @param string $salt
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
      */
@@ -186,7 +186,7 @@ final class Core
      * @param string $expected
      * @param string $given
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return bool
      */
@@ -223,7 +223,7 @@ final class Core
      *
      * @param string $name
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      */
     public static function ensureConstantExists($name)
     {
@@ -237,7 +237,7 @@ final class Core
      *
      * @param string $name
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      */
     public static function ensureFunctionExists($name)
     {
@@ -257,7 +257,7 @@ final class Core
      *
      * @param string $str
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return int
      */
@@ -285,7 +285,7 @@ final class Core
      * @param int    $start
      * @param int    $length
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
      */
@@ -320,7 +320,7 @@ final class Core
 
             $substr = \mb_substr($str, $start, $length, '8bit');
             if (Core::ourStrlen($substr) !== $length) {
-                throw new EnvironmentIsBrokenException(
+                throw new Ex\EnvironmentIsBrokenException(
                     'Your version of PHP has bug #66797. Its implementation of
                     mb_substr() is incorrect. See the details here:
                     https://bugs.php.net/bug.php?id=66797'
@@ -351,7 +351,7 @@ final class Core
      * @param int    $key_length The length of the derived key in bytes.
      * @param bool   $raw_output If true, the key is returned in raw binary format. Hex encoded otherwise.
      *
-     * @throws \Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string A $key_length-byte key derived from the password and salt.
      */

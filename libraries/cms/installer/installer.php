@@ -927,12 +927,8 @@ class JInstaller extends JAdapter
 		}
 
 		$db = & $this->_db;
-		$dbDriver = strtolower($db->name);
 
-		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
-		{
-			$dbDriver = 'mysql';
-		}
+		$dbDriver = $db->getServerType();
 
 		$update_count = 0;
 
@@ -1028,7 +1024,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
+				if ($db->getServerType() === 'mysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1093,12 +1089,7 @@ class JInstaller extends JAdapter
 
 			if (count($schemapaths))
 			{
-				$dbDriver = strtolower($db->name);
-
-				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
-				{
-					$dbDriver = 'mysql';
-				}
+				$dbDriver = $db->getServerType();
 
 				$schemapath = '';
 

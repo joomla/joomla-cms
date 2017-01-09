@@ -579,7 +579,10 @@ class JRouterSiteTest extends TestCaseDatabase
 		$uri = new JUri('index.php');
 		$this->object->buildRewrite($this->object, $uri);
 		$this->assertEquals('', $uri->getPath());
-		$this->assertEquals($expected, (string) $uri);
+
+		$uri = new JUri('index.php/test/path/');
+		$this->object->buildRewrite($this->object, $uri);
+		$this->assertEquals('test/path/', $uri->getPath());
 	}
 
 	/**

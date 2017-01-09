@@ -101,15 +101,10 @@ abstract class FinderIndexer
 	public static function getInstance()
 	{
 		// Setup the adapter for the indexer.
-		$format = JFactory::getDbo()->name;
+		$serverType = JFactory::getDbo()->getServerType();
 
-		if ($format == 'mysqli' || $format == 'pdomysql')
-		{
-			$format = 'mysql';
-		}
-
-		$path = __DIR__ . '/driver/' . $format . '.php';
-		$class = 'FinderIndexerDriver' . ucfirst($format);
+		$path = __DIR__ . '/driver/' . $serverType . '.php';
+		$class = 'FinderIndexerDriver' . ucfirst($serverType);
 
 		// Check if a parser exists for the format.
 		if (file_exists($path))
@@ -121,7 +116,7 @@ abstract class FinderIndexer
 		}
 
 		// Throw invalid format exception.
-		throw new RuntimeException(JText::sprintf('COM_FINDER_INDEXER_INVALID_DRIVER', $format));
+		throw new RuntimeException(JText::sprintf('COM_FINDER_INDEXER_INVALID_DRIVER', $serverType));
 	}
 
 	/**

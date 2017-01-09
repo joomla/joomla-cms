@@ -43,7 +43,7 @@ final class KeyOrPassword
      *
      * @param string $salt
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return DerivedKeys
      */

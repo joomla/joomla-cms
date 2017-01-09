@@ -51,7 +51,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 *
 	 * @since   1.0
 	 */
-	public function __construct($name, array $arguments = array())
+	public function __construct($name, array $arguments = [])
 	{
 		$this->name = $name;
 		$this->arguments = $arguments;
@@ -160,7 +160,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 */
 	public function serialize()
 	{
-		return serialize(array($this->name, $this->arguments, $this->stopped));
+		return serialize([$this->name, $this->arguments, $this->stopped]);
 	}
 
 	/**

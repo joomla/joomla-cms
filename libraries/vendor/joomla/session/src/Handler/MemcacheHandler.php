@@ -49,7 +49,7 @@ class MemcacheHandler implements HandlerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(\Memcache $memcache, array $options = array())
+	public function __construct(\Memcache $memcache, array $options = [])
 	{
 		$this->memcache = $memcache;
 
@@ -110,7 +110,7 @@ class MemcacheHandler implements HandlerInterface
 	 */
 	public static function isSupported()
 	{
-		return (extension_loaded('memcache') && class_exists('Memcache'));
+		return extension_loaded('memcache') && class_exists('Memcache');
 	}
 
 	/**

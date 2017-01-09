@@ -1082,7 +1082,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			'en-GB' => $option1,
 		);
 
-		$list = JLanguage::getKnownLanguages($basePath);
+		$list = JLanguageHelper::getKnownLanguages($basePath);
 		$this->assertEquals(
 			$listCompareEqual1,
 			$list,
@@ -1102,21 +1102,21 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// $language = null, returns language directory
 		$this->assertEquals(
 			'test/language',
-			JLanguage::getLanguagePath($basePath, null),
+			JLanguageHelper::getLanguagePath($basePath, null),
 			'Line: ' . __LINE__
 		);
 
 		// $language = value (en-GB, for example), returns en-GB language directory
 		$this->assertEquals(
 			'test/language/en-GB',
-			JLanguage::getLanguagePath($basePath, 'en-GB'),
+			JLanguageHelper::getLanguagePath($basePath, 'en-GB'),
 			'Line: ' . __LINE__
 		);
 
 		// With no argument JPATH_BASE should be returned
 		$this->assertEquals(
 			JPATH_BASE . '/language',
-			JLanguage::getLanguagePath(),
+			JLanguageHelper::getLanguagePath(),
 			'Line: ' . __LINE__
 		);
 	}
@@ -1165,7 +1165,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			'en-GB' => $option
 		);
 
-		$result = JLanguage::parseLanguageFiles($dir);
+		$result = JLanguageHelper::parseLanguageFiles($dir);
 
 		$this->assertEquals(
 			$expected,
@@ -1197,7 +1197,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$option,
-			JLanguage::parseXMLLanguageFile($path),
+			JLanguageHelper::parseXMLLanguageFile($path),
 			'Line: ' . __LINE__
 		);
 	}
@@ -1213,6 +1213,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	{
 		$path = __DIR__ . '/data/language/es-ES/es-ES.xml';
 
-		JLanguage::parseXMLLanguageFile($path);
+		JLanguageHelper::parseXMLLanguageFile($path);
 	}
 }

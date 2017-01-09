@@ -292,15 +292,15 @@ class UsersModelRegistration extends JModelForm
 		// Get the form.
 		$form = $this->loadForm('com_users.registration', 'registration', array('control' => 'jform', 'load_data' => $loadData));
 
+		if (empty($form))
+		{
+			return false;
+		}
+
 		// When multilanguage is set, a user's default site language should also be a Content Language
 		if (JLanguageMultilang::isEnabled())
 		{
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
-		}
-
-		if (empty($form))
-		{
-			return false;
 		}
 
 		return $form;
@@ -612,7 +612,7 @@ class UsersModelRegistration extends JModelForm
 			// Send a system message to administrators receiving system mails
 			$db = $this->getDbo();
 			$query->clear()
-				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('block') . ' = ' . (int) 0)
 				->where($db->quoteName('sendEmail') . ' = ' . (int) 1);
@@ -620,7 +620,7 @@ class UsersModelRegistration extends JModelForm
 
 			try
 			{
-				$sendEmail = $db->loadColumn();
+				$userids = $db->loadColumn();
 			}
 			catch (RuntimeException $e)
 			{
@@ -629,12 +629,12 @@ class UsersModelRegistration extends JModelForm
 				return false;
 			}
 
-			if (count($sendEmail) > 0)
+			if (count($userids) > 0)
 			{
 				$jdate = new JDate;
 
 				// Build the query to add the messages
-				foreach ($sendEmail as $userid)
+				foreach ($userids as $userid)
 				{
 					$values = array(
 						$db->quote($userid),

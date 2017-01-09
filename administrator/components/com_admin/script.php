@@ -112,9 +112,7 @@ class JoomlaInstallerScript
 	 */
 	protected function updateDatabase()
 	{
-		$db = JFactory::getDbo();
-
-		if (strpos($db->name, 'mysql') !== false)
+		if (JFactory::getDbo()->getServerType() === 'mysql')
 		{
 			$this->updateDatabaseMysql();
 		}
@@ -1585,6 +1583,16 @@ class JoomlaInstallerScript
 			'/components/com_users/views/remind/metadata.xml',
 			'/components/com_users/views/reset/metadata.xml',
 			'/components/com_wrapper/metadata.xml',
+			'/administrator/components/com_cache/layouts/joomla/searchtools/default/bar.php',
+			'/administrator/components/com_cache/layouts/joomla/searchtools/default.php',
+			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
+			'/administrator/components/com_languages/layouts/joomla/searchtools/default.php',
+			'/administrator/components/com_menus/layouts/joomla/searchtools/default/bar.php',
+			'/administrator/components/com_menus/layouts/joomla/searchtools/default.php',
+			'/administrator/components/com_modules/layouts/joomla/searchtools/default/bar.php',
+			'/administrator/components/com_modules/layouts/joomla/searchtools/default.php',
+			'/administrator/components/com_templates/layouts/joomla/searchtools/default/bar.php',
+			'/administrator/components/com_templates/layouts/joomla/searchtools/default.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1693,6 +1701,23 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/mode/jade',
 			// Joomla! 3.7.0
 			'/libraries/joomla/data',
+			'/administrator/components/com_cache/layouts/joomla/searchtools/default',
+			'/administrator/components/com_cache/layouts/joomla/searchtools',
+			'/administrator/components/com_cache/layouts/joomla',
+			'/administrator/components/com_cache/layouts',
+			'/administrator/components/com_languages/layouts/joomla/searchtools/default',
+			'/administrator/components/com_languages/layouts/joomla/searchtools',
+			'/administrator/components/com_languages/layouts/joomla',
+			'/administrator/components/com_languages/layouts',
+			'/administrator/components/com_menus/layouts/joomla/searchtools/default',
+			'/administrator/components/com_menus/layouts/joomla/searchtools',
+			'/administrator/components/com_modules/layouts/joomla/searchtools/default',
+			'/administrator/components/com_modules/layouts/joomla/searchtools',
+			'/administrator/components/com_modules/layouts/joomla',
+			'/administrator/components/com_templates/layouts/joomla/searchtools/default',
+			'/administrator/components/com_templates/layouts/joomla/searchtools',
+			'/administrator/components/com_templates/layouts/joomla',
+			'/administrator/components/com_templates/layouts',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1828,12 +1853,10 @@ class JoomlaInstallerScript
 
 		try
 		{
-			switch ($db->name)
+			switch ($db->getServerType())
 			{
 				// MySQL database, use TRUNCATE (faster, more resilient)
-				case 'pdomysql':
 				case 'mysql':
-				case 'mysqli':
 					$db->truncateTable('#__session');
 					break;
 

@@ -112,9 +112,11 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/composer.json
 /libraries/vendor/phpmailer/phpmailer/composer.lock
 /libraries/vendor/phpmailer/phpmailer/get_oauth_token.php
+/libraries/vendor/phpmailer/phpmailer/ISSUE_TEMPLATE.md
 /libraries/vendor/phpmailer/phpmailer/phpdoc.dist.xml
 /libraries/vendor/phpmailer/phpmailer/README.md
 /libraries/vendor/phpmailer/phpmailer/travis.phpunit.xml.dist
+/libraries/vendor/phpmailer/phpmailer/UPGRADING.md
 /libraries/vendor/psr/log/Psr/Log/Test
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json

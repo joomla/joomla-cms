@@ -13,7 +13,7 @@ class Crypto
      * @param Key    $key
      * @param bool   $raw_binary
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
      */
@@ -34,7 +34,7 @@ class Crypto
      * @param string $password
      * @param bool   $raw_binary
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
      */
@@ -54,8 +54,8 @@ class Crypto
      * @param Key    $key
      * @param bool   $raw_binary
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\WrongKeyOrModifiedCiphertextException
      *
      * @return string
      */
@@ -76,8 +76,8 @@ class Crypto
      * @param string $password
      * @param bool   $raw_binary
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\WrongKeyOrModifiedCiphertextException
      *
      * @return string
      */
@@ -200,8 +200,8 @@ class Crypto
      * @param KeyOrPassword $secret
      * @param bool          $raw_binary
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\WrongKeyOrModifiedCiphertextException
      *
      * @return string
      */

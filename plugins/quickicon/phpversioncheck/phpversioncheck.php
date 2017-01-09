@@ -107,14 +107,6 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	private function getPhpSupport()
 	{
 		$phpSupportData = array(
-			'5.3' => array(
-				'security' => '2013-07-11',
-				'eos'      => '2014-08-14',
-			),
-			'5.4' => array(
-				'security' => '2014-09-14',
-				'eos'      => '2015-09-14',
-			),
 			'5.5' => array(
 				'security' => '2015-07-10',
 				'eos'      => '2016-07-21'

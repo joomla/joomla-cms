@@ -38,22 +38,20 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'J' => 
         array (
-            'Joomla\\Utilities\\Tests\\' => 23,
             'Joomla\\Utilities\\' => 17,
             'Joomla\\Uri\\Tests\\' => 17,
             'Joomla\\Uri\\' => 11,
-            'Joomla\\String\\Tests\\' => 20,
             'Joomla\\String\\' => 14,
             'Joomla\\Session\\' => 15,
             'Joomla\\Registry\\' => 16,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
             'Joomla\\Image\\' => 13,
-            'Joomla\\Filter\\Tests\\' => 20,
             'Joomla\\Filter\\' => 14,
             'Joomla\\Event\\' => 13,
             'Joomla\\Data\\Tests\\' => 18,
@@ -83,13 +81,13 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
-        ),
-        'Joomla\\Utilities\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/utilities/Tests',
         ),
         'Joomla\\Utilities\\' => 
         array (
@@ -102,10 +100,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Uri\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/uri/src',
-        ),
-        'Joomla\\String\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/string/Tests',
         ),
         'Joomla\\String\\' => 
         array (
@@ -130,10 +124,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Image\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/image/src',
-        ),
-        'Joomla\\Filter\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/filter/Tests',
         ),
         'Joomla\\Filter\\' => 
         array (
@@ -173,16 +163,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'P' => 
-        array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
-        ),
-    );
-
     public static $classMap = array (
         'CallbackFilterIterator' => __DIR__ . '/..' . '/joomla/compat/src/CallbackFilterIterator.php',
         'Defuse\\Crypto\\Core' => __DIR__ . '/..' . '/defuse/php-encryption/src/Core.php',
@@ -212,7 +192,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$classMap;
 
         }, null, ClassLoader::class);

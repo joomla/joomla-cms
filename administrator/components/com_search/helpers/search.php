@@ -48,7 +48,7 @@ class SearchHelper
 		$ignored       = false;
 
 		// Deprecated in 1.6 use $lang->getIgnoredSearchWords instead.
-		$ignoreFile = $lang->getLanguagePath() . '/' . $tag . '/' . $tag . '.ignore.php';
+		$ignoreFile = JLanguageHelper::getLanguagePath() . '/' . $tag . '/' . $tag . '.ignore.php';
 
 		if (file_exists($ignoreFile))
 		{

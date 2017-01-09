@@ -42,7 +42,7 @@ final class EventImmutable extends AbstractEvent
 	 *
 	 * @since   1.0
 	 */
-	public function __construct($name, array $arguments = array())
+	public function __construct($name, array $arguments = [])
 	{
 		if ($this->constructed)
 		{

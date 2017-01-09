@@ -347,8 +347,8 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Read the folder names in the site and admin area.
 		else
 		{
-			$langfiles['site']  = JFolder::folders(JLanguage::getLanguagePath(JPATH_SITE));
-			$langfiles['admin'] = JFolder::folders(JLanguage::getLanguagePath(JPATH_ADMINISTRATOR));
+			$langfiles['site']  = JFolder::folders(JLanguageHelper::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = JFolder::folders(JLanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
 		return $langfiles;
