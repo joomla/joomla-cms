@@ -10,10 +10,10 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Exception class defining an unsupported cache storage object
+ * Exception interface defining a cache storage error
  *
- * @since  3.6.3
+ * @since  __DEPLOY_VERSION__
  */
-class JCacheExceptionUnsupported extends RuntimeException implements JCacheException
+interface JCacheException
 {
 }

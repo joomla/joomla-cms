@@ -95,20 +95,7 @@ class JMenuSite extends JMenu
 
 			$this->_items = $cache->get($loader, array(), md5(get_class($this)), false);
 		}
-		catch (JCacheExceptionConnecting $e)
-		{
-			try
-			{
-				$this->_items = $loader();
-			}
-			catch (JDatabaseExceptionExecuting $databaseException)
-			{
-				JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()));
-
-				return false;
-			}
-		}
-		catch (JCacheExceptionUnsupported $e)
+		catch (JCacheException $e)
 		{
 			try
 			{
