@@ -138,7 +138,7 @@ abstract class FieldsPlugin extends JPlugin
 		$node = $parent->appendChild(new DOMElement('field'));
 
 		// Set the attributes
-		$node->setAttribute('name', $field->alias);
+		$node->setAttribute('name', $field->id);
 		$node->setAttribute('type', $field->type);
 		$node->setAttribute('default', $field->default_value);
 		$node->setAttribute('label', $field->label);
