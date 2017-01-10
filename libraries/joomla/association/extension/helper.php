@@ -213,6 +213,36 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	}
 
 	/**
+	 * Get a table field name for a type
+	 *
+	 * @param   string  $typeName       The item type
+	 * @param   string  $fieldName      The item type
+	 *
+	 * @return  string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getTypeFieldName($typeName, $fieldName)
+	{
+		$fields = $this->getTypeFields($typeName);
+
+		if (! array_key_exists($fieldName, $fields))
+		{
+			return '';
+		}
+
+		$tmp = $fields[$fieldName];
+		$pos = strpos($tmp, '.');
+
+		if ($pos === false)
+		{
+			return $tmp;
+		}
+
+		return substr($tmp, $pos + 1);
+	}
+
+	/**
 	 * Get default values for support array
 	 *
 	 * @return  array

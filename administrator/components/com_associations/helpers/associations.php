@@ -173,10 +173,7 @@ class AssociationsHelper extends JHelperContent
 		// Get the associations list for this item.
 		$items = self::getAssociationList($extensionName, $typeName, $itemId);
 
-		// Todo: move to a helper function
-		$helper         = self::getExtensionHelper($extensionName);
-		$typeFields     = $helper->getTypeFields($typeName);
-		$titleFieldName = substr($typeFields['title'], 2);
+		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Get all content languages.
 		$languages = self::getContentLanguages();
@@ -361,7 +358,7 @@ class AssociationsHelper extends JHelperContent
 				$languageKey = strtoupper($extensionName . '_' . $title . 'S');
 			}
 
-			$title = $lang->hasKey($languageKey) ? JText::_($languageKey) : JText::_('ITEMS');
+			$title = $lang->hasKey($languageKey) ? JText::_($languageKey) : JText::_('COM_ASSOCIATIONS_ITEMS');
 
 			$rType = new Registry;
 
@@ -506,5 +503,29 @@ class AssociationsHelper extends JHelperContent
 		$support = $helper->getTypeSupport($typeName);
 
 		return ! empty($support['checkout']);
+	}
+
+	/**
+	 * Get a table field name for a type
+	 *
+	 * @param   string  $extensionName  The extension name with com_
+	 * @param   string  $typeName       The item type
+	 * @param   string  $fieldName      The item type
+	 *
+	 * @return  boolean  True on allowed.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function getTypeFieldName($extensionName, $typeName, $fieldName)
+	{
+		if (! self::hasSupport($extensionName))
+		{
+			return false;
+		}
+
+		// Get the extension specific helper method
+		$helper = self::getExtensionHelper($extensionName);
+
+		return $helper->getTypeFieldName($typeName, $fieldName);
 	}
 }
