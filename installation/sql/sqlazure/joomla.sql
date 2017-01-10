@@ -2378,7 +2378,7 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__modules](
 	[id] [int] IDENTITY(87,1) NOT NULL,
-  [asset_id] [bigint] NOT NULL DEFAULT 0,
+	[asset_id] [bigint] NOT NULL DEFAULT 0,
 	[title] [nvarchar](100) NOT NULL DEFAULT '',
 	[note] [nvarchar](255) NOT NULL DEFAULT '',
 	[content] [nvarchar](max) NOT NULL DEFAULT '',
@@ -2871,7 +2871,7 @@ CREATE TABLE [#__ucm_content](
 	[core_publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[core_publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[core_content_item_id] [bigint] NULL,
-	[asset_id] [bigint] NULL,
+	[asset_id] [bigint] NOT NULL DEFAULT 0,
 	[core_images] [nvarchar](max) NOT NULL,
 	[core_urls] [nvarchar](max) NOT NULL,
 	[core_hits] [bigint] NOT NULL DEFAULT 0,

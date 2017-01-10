@@ -703,6 +703,8 @@ CREATE INDEX "#__fields_idx_access" ON "#__fields" ("access");
 CREATE INDEX "#__fields_idx_context" ON "#__fields" ("context");
 CREATE INDEX "#__fields_idx_language" ON "#__fields" ("language");
 
+COMMENT ON COLUMN "#__fields"."asset_id" IS 'FK to the #__assets table.';
+
 --
 -- Table: #__fields_categories
 --
@@ -1258,6 +1260,8 @@ CREATE TABLE "#__languages" (
 CREATE INDEX "#__languages_idx_ordering" ON "#__languages" ("ordering");
 CREATE INDEX "#__languages_idx_access" ON "#__languages" ("access");
 
+COMMENT ON COLUMN "#__languages"."asset_id" IS 'FK to the #__assets table.';
+
 --
 -- Dumping data for table #__languages
 --
@@ -1364,6 +1368,8 @@ CREATE TABLE "#__menu_types" (
   PRIMARY KEY ("id"),
   CONSTRAINT "#__menu_types_idx_menutype" UNIQUE ("menutype")
 );
+
+COMMENT ON COLUMN "#__menu_types"."asset_id" IS 'FK to the #__assets table.';
 
 --
 -- Dumping data for table #__menu_types
