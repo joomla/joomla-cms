@@ -193,11 +193,22 @@ class AssociationsViewAssociations extends JViewLegacy
 	{
 		$user = JFactory::getUser();
 
-		if (isset($this->itemType))
+		if (isset($this->typeName) && isset($this->extensionName))
 		{
+
+			$helper = AssociationsHelper::getExtensionHelper($this->extensionName);
+			$title  = $helper->getTypeTitle($this->typeName);
+
+			$languageKey = strtoupper($this->extensionName . '_' . $title . 'S');
+
+			if ($this->typeName === 'category')
+			{
+				$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
+			}
+
 			JToolbarHelper::title(
 				JText::sprintf(
-					'COM_ASSOCIATIONS_TITLE_LIST', JText::_($this->extensionName), JText::_($this->typeName)
+					'COM_ASSOCIATIONS_TITLE_LIST', JText::_($this->extensionName), JText::_($languageKey)
 				), 'contract'
 			);
 		}
