@@ -215,8 +215,8 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	/**
 	 * Get a table field name for a type
 	 *
-	 * @param   string  $typeName       The item type
-	 * @param   string  $fieldName      The item type
+	 * @param   string  $typeName   The item type
+	 * @param   string  $fieldName  The item type
 	 *
 	 * @return  string
 	 *
