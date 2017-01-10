@@ -195,7 +195,6 @@ class AssociationsViewAssociations extends JViewLegacy
 
 		if (isset($this->typeName) && isset($this->extensionName))
 		{
-
 			$helper = AssociationsHelper::getExtensionHelper($this->extensionName);
 			$title  = $helper->getTypeTitle($this->typeName);
 
