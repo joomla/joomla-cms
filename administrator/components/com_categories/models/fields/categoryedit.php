@@ -142,6 +142,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 
 		$db = JFactory::getDbo();
+		$user = JFactory::getUser();
+		$groups = implode(',', $user->getAuthorisedViewLevels());
+
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published, a.lft');
 		$subQuery = $db->getQuery(true)
@@ -161,7 +164,15 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// Filter language
 		if (!empty($this->element['language']))
 		{
-			$subQuery->where('language = ' . $db->quote($this->element['language']));
+			if (strpos($this->element['language'], ',') !== false)
+			{
+				$language = implode(',', $db->quote(explode(',', $this->element['language'])));
+			}
+			else
+			{
+				$language = $db->quote($this->element['language']);
+			}
+			$subQuery->where($db->quoteName('language') . ' IN (' . $language . ')');
 		}
 
 		// Filter on the published state
@@ -173,6 +184,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		{
 			$subQuery->where('published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
 		}
+
+		// Filter categories on User Access Level
+		$subQuery->where('access IN (' . $groups . ')');
 
 		$query->from('(' . (string) $subQuery . ') AS a')
 			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');

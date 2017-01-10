@@ -280,7 +280,9 @@ class JDatabaseQueryTest extends TestCase
 			->where('b.id = 1')
 			->group('a.id')
 			->having('COUNT(a.id) > 3')
-			->order('a.id');
+			->union('SELECT c.id FROM c')
+			->unionAll('SELECT d.id FROM d')
+			->order('id');
 
 		$this->assertThat(
 			(string) $this->_instance,
@@ -291,7 +293,9 @@ class JDatabaseQueryTest extends TestCase
 					PHP_EOL . "WHERE b.id = 1" .
 					PHP_EOL . "GROUP BY a.id" .
 					PHP_EOL . "HAVING COUNT(a.id) > 3" .
-					PHP_EOL . "ORDER BY a.id"
+					PHP_EOL . "UNION (SELECT c.id FROM c)" .
+					PHP_EOL . "UNION ALL (SELECT d.id FROM d)" .
+					PHP_EOL . "ORDER BY id"
 			),
 			'Tests for correct rendering.'
 		);
@@ -1638,8 +1642,8 @@ class JDatabaseQueryTest extends TestCase
 
 		$baseElement->testArray[] = 'test';
 
-		$this->assertFalse($baseElement === $cloneElement);
-		$this->assertTrue(count($cloneElement->testArray) == 0);
+		$this->assertNotSame($baseElement, $cloneElement);
+		$this->assertCount(0, $cloneElement->testArray);
 	}
 
 	/**
@@ -1657,9 +1661,9 @@ class JDatabaseQueryTest extends TestCase
 
 		$cloneElement = clone($baseElement);
 
-		$this->assertFalse($baseElement === $cloneElement);
+		$this->assertNotSame($baseElement, $cloneElement);
 
-		$this->assertFalse($baseElement->testObject === $cloneElement->testObject);
+		$this->assertNotSame($baseElement->testObject, $cloneElement->testObject);
 	}
 
 	/**

@@ -114,7 +114,7 @@ class JCacheStorage
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
-	 * @throws  RuntimeException
+	 * @throws  JCacheExceptionUnsupported
 	 */
 	public static function getInstance($handler = null, $options = array())
 	{
@@ -155,25 +155,40 @@ class JCacheStorage
 
 			if ($path === false)
 			{
-				throw new RuntimeException(sprintf('Unable to load Cache Storage: %s', $handler));
+				throw new JCacheExceptionUnsupported(sprintf('Unable to load Cache Storage: %s', $handler));
 			}
 
-			include_once $path;
+			JLoader::register($class, $path);
 
 			// The class should now be loaded
 			if (!class_exists($class))
 			{
-				throw new RuntimeException(sprintf('Unable to load Cache Storage: %s', $handler));
+				throw new JCacheExceptionUnsupported(sprintf('Unable to load Cache Storage: %s', $handler));
 			}
 		}
 
 		// Validate the cache storage is supported on this platform
 		if (!$class::isSupported())
 		{
-			throw new RuntimeException(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
+			throw new JCacheExceptionUnsupported(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
 		}
 
 		return new $class($options);
+	}
+
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function contains($id, $group)
+	{
+		return false;
 	}
 
 	/**
@@ -258,7 +273,7 @@ class JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function flush()
 	{

@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Category table
  *
- * @since  11.1
+ * @since  1.5
  */
 class JTableCategory extends JTableNested
 {
@@ -23,7 +23,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -42,7 +42,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function _getAssetName()
 	{
@@ -56,7 +56,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function _getAssetTitle()
 	{
@@ -71,7 +71,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  integer  The id of the asset's parent
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
@@ -129,7 +129,7 @@ class JTableCategory extends JTableNested
 	 * @return  boolean
 	 *
 	 * @see     JTable::check()
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function check()
 	{
@@ -168,21 +168,19 @@ class JTableCategory extends JTableNested
 	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     JTable::bind()
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['metadata']);
+			$registry = new Registry($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
 
@@ -203,7 +201,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
 	{

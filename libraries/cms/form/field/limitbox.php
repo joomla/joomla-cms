@@ -82,7 +82,7 @@ class JFormFieldLimitbox extends JFormFieldList
 			asort($limits);
 
 			// Add an option to show all?
-			$showAll = isset($this->element['showall']) ? ($this->element['showall'] == "true") : true;
+			$showAll = isset($this->element['showall']) ? ($this->element['showall'] == 'true') : true;
 
 			if ($showAll)
 			{

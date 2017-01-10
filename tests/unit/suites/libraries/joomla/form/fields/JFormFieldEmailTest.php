@@ -86,14 +86,32 @@ class JFormFieldEMailTest extends TestCaseDatabase
 	{
 		$formField = new JFormFieldEmail;
 
+		$xml = '<field ';
+		$curvalue = null;
 		foreach ($data as $attr => $value)
 		{
-			TestReflection::setValue($formField, $attr, $value);
+			if ($attr == 'value')
+			{
+				$curvalue = $value;
+			}
+			else
+			{
+				if ($value === false)
+				{
+					$value = 'false';
+				}
+				$xml .= $attr . '="' . $value . '" ';
+			}
 		}
+		$xml .= '/>';
+
+		$formField->setup(simplexml_load_string($xml), $curvalue);
+
+		$replaces = array("\n", "\r"," ", "\t");
 
 		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formField, 'getInput'),
+			str_replace($replaces, '', $expected),
+			str_replace($replaces, '', TestReflection::invoke($formField, 'getInput')),
 			'Line:' . __LINE__ . ' The field with no value and no checked attribute did not produce the right html'
 		);
 	}

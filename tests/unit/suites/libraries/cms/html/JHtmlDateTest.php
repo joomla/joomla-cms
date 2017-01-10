@@ -25,6 +25,10 @@ class JHtmlDateTest extends PHPUnit_Framework_TestCase
 	 */
 	public function dataTestRelative()
 	{
+		$now1 = new JDate('now');
+		usleep(1);
+		$now2 = new JDate('now');
+
 		return array(
 			// Element order: result, date, unit, time
 			// result - 1 hour ago
@@ -58,7 +62,9 @@ class JHtmlDateTest extends PHPUnit_Framework_TestCase
 			// Result - Less than a minute ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE',
-				new JDate('now'),
+				$now1,
+				null,
+				$now2
 			)
 		);
 	}

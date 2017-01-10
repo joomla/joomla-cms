@@ -33,7 +33,7 @@ class PlgContentJoomla extends JPlugin
 	public function onContentAfterSave($context, $article, $isNew)
 	{
 		// Check we are handling the frontend edit form.
-		if ($context != 'com_content.form')
+		if ($context !== 'com_content.form')
 		{
 			return true;
 		}
@@ -108,7 +108,7 @@ class PlgContentJoomla extends JPlugin
 	public function onContentBeforeDelete($context, $data)
 	{
 		// Skip plugin if we are deleting something other than categories
-		if ($context != 'com_categories.category')
+		if ($context !== 'com_categories.category')
 		{
 			return true;
 		}

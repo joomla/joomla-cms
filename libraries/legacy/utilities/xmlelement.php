@@ -14,8 +14,8 @@ JLog::add('JXMLElement is deprecated. Use SimpleXMLElement.', JLog::WARNING, 'de
 /**
  * Wrapper class for php SimpleXMLElement.
  *
- * @since       11.1
- * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXMLElement instead.
+ * @since       1.6
+ * @deprecated  3.0  Use SimpleXMLElement instead.
  */
 class JXMLElement extends SimpleXMLElement
 {
@@ -24,8 +24,8 @@ class JXMLElement extends SimpleXMLElement
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
-	 * @deprecated 13.3  Use SimpleXMLElement::getName() instead.
+	 * @since   1.6
+	 * @deprecated  3.0  Use SimpleXMLElement::getName() instead.
 	 */
 	public function name()
 	{
@@ -43,8 +43,8 @@ class JXMLElement extends SimpleXMLElement
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
-	 * @deprecated 13.3  Use SimpleXMLElement::asXml() instead.
+	 * @since   1.6
+	 * @deprecated  3.0  Use SimpleXMLElement::asXml() instead.
 	 */
 	public function asFormattedXml($compressed = false, $indent = "\t", $level = 0)
 	{
@@ -66,7 +66,7 @@ class JXMLElement extends SimpleXMLElement
 		// If there are no children and it contains no data, end it off with a />
 		if (!count($this->children()) && !(string) $this)
 		{
-			$out .= " />";
+			$out .= ' />';
 		}
 		else
 		{

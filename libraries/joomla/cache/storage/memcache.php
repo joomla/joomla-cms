@@ -86,9 +86,10 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		if (!$result)
 		{
+			// Null out the connection to inform the constructor it will need to attempt to connect if this class is instantiated again
 			static::$_db = null;
 
-			throw new RuntimeException('Could not connect to memcache server');
+			throw new JCacheExceptionConnecting('Could not connect to memcache server');
 		}
 	}
 
@@ -115,6 +116,21 @@ class JCacheStorageMemcache extends JCacheStorage
 		}
 
 		return $cache_id;
+	}
+
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function contains($id, $group)
+	{
+		return $this->get($id, $group) !== false;
 	}
 
 	/**
@@ -308,7 +324,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function flush()
 	{

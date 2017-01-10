@@ -9,9 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
-
 JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR . '/components/com_messages/helpers/messages.php');
+
+JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Framework.

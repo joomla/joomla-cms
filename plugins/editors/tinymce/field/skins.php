@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.form.helper');
+
 JFormHelper::loadFieldClass('list');
 
 /**

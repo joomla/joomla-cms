@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 			</tr>
 		</tfoot>
 		<tbody>
-			<?php foreach ($this->config as $key => $value): ?>
+			<?php foreach ($this->config as $key => $value) : ?>
 				<tr>
 					<td>
 						<?php echo $key; ?>

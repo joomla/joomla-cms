@@ -76,8 +76,7 @@ class TagsViewTag extends JViewLegacy
 			// Prepare the data.
 			if (!empty($itemElement))
 			{
-				$temp = new Registry;
-				$temp->loadString($itemElement->params);
+				$temp = new Registry($itemElement->params);
 				$itemElement->params = clone $params;
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
@@ -86,6 +85,8 @@ class TagsViewTag extends JViewLegacy
 
 		if ($items !== false)
 		{
+			JPluginHelper::importPlugin('content');
+
 			foreach ($items as $itemElement)
 			{
 				$itemElement->event = new stdClass;
@@ -95,7 +96,6 @@ class TagsViewTag extends JViewLegacy
 
 				$dispatcher = JEventDispatcher::getInstance();
 
-				JPluginHelper::importPlugin('content');
 				$dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 
 				$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
@@ -138,7 +138,7 @@ class TagsViewTag extends JViewLegacy
 			$currentLink = $active->link;
 
 			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
-			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id[0]=' . (string) $item[0]->id)))
+			if (strpos($currentLink, 'view=tag') && strpos($currentLink, '&id[0]=' . (string) $item[0]->id))
 			{
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
@@ -206,7 +206,12 @@ class TagsViewTag extends JViewLegacy
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
 
-		if ($menu)
+		if ($this->tags_title)
+		{
+			$this->params->def('page_heading', $this->tags_title);
+			$title = $this->tags_title;
+		}
+		elseif ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 			$title = $this->params->get('page_title', $menu->title);
@@ -215,11 +220,6 @@ class TagsViewTag extends JViewLegacy
 			{
 				$this->params->set('page_subheading', $menu->title);
 			}
-		}
-		else
-		{
-			$this->params->def('page_heading', $this->tags_title);
-			$title = $this->tags_title;
 		}
 
 		if (empty($title))

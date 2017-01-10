@@ -351,9 +351,7 @@ final class JApplicationSite extends JApplicationCms
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
 
-				$temp = new Registry;
-				$temp->loadString($menu->params);
-				$params[$hash]->merge($temp);
+				$params[$hash]->merge($menu->params);
 				$title = $menu->title;
 			}
 			else
@@ -401,8 +399,7 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$config = JFactory::getConfig();
-		$options['mode'] = $config->get('sef');
+		$options['mode'] = JFactory::getConfig()->get('sef');
 
 		return parent::getRouter($name, $options);
 	}
@@ -469,7 +466,13 @@ final class JApplicationSite extends JApplicationCms
 			$tag = '';
 		}
 
-		if (!$templates = $cache->get('templates0' . $tag))
+		$cacheId = 'templates0' . $tag;
+
+		if ($cache->contains($cacheId))
+		{
+			$templates = $cache->get($cacheId);
+		}
+		else
 		{
 			// Load styles
 			$db = JFactory::getDbo();
@@ -485,18 +488,23 @@ final class JApplicationSite extends JApplicationCms
 
 			foreach ($templates as &$template)
 			{
-				$registry = new Registry;
-				$registry->loadString($template->params);
-				$template->params = $registry;
-
 				// Create home element
-				if ($template->home == 1 && !isset($templates[0]) || $this->_language_filter && $template->home == $tag)
+				if ($template->home == 1 && !isset($template_home) || $this->_language_filter && $template->home == $tag)
 				{
-					$templates[0] = clone $template;
+					$template_home = clone $template;
 				}
+
+				$template->params = new Registry($template->params);
 			}
 
-			$cache->store($templates, 'templates0' . $tag);
+			// Add home element, after loop to avoid double execution
+			if (isset($template_home))
+			{
+				$template_home->params = new Registry($template_home->params);
+				$templates[0] = $template_home;
+			}
+
+			$cache->store($templates, $cacheId);
 		}
 
 		if (isset($templates[$id]))
@@ -521,11 +529,6 @@ final class JApplicationSite extends JApplicationCms
 					if ($tmpl->template == $template_override)
 					{
 						$template = $tmpl;
-
-						$registry = new Registry;
-						$registry->loadString($template->params);
-						$template->params = $registry;
-
 						break;
 					}
 				}
@@ -612,7 +615,7 @@ final class JApplicationSite extends JApplicationCms
 			$lang = $this->input->getString('language', null);
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($lang && JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -624,7 +627,7 @@ final class JApplicationSite extends JApplicationCms
 			$lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($lang && JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -636,7 +639,7 @@ final class JApplicationSite extends JApplicationCms
 			$lang = $user->getParam('language');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($lang && JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -648,7 +651,7 @@ final class JApplicationSite extends JApplicationCms
 			$lang = JLanguageHelper::detectLanguage();
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($lang && JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -662,11 +665,11 @@ final class JApplicationSite extends JApplicationCms
 		}
 
 		// One last check to make sure we have something
-		if (!JLanguage::exists($options['language']))
+		if (!JLanguageHelper::exists($options['language']))
 		{
 			$lang = $this->config->get('language', 'en-GB');
 
-			if (JLanguage::exists($lang))
+			if (JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -686,7 +689,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	protected function loadLibraryLanguage()
 	{

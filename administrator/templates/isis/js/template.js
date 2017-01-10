@@ -30,14 +30,40 @@
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
 
-			if (!input.prop('checked')) {
+			if (!input.prop('checked'))
+			{
 				label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
-				if (input.val() == '') {
-					label.addClass('active btn-primary');
-				} else if (input.val() == 0) {
-					label.addClass('active btn-danger');
-				} else {
-					label.addClass('active btn-success');
+
+				if (label.closest('.btn-group').hasClass('btn-group-reversed'))
+				{
+					if (input.val() == '')
+					{
+						label.addClass('active btn-primary');
+					}
+					else if (input.val() == 0)
+					{
+						label.addClass('active btn-success');
+					}
+					else
+					{
+						label.addClass('active btn-danger');
+					}
+				}
+				else
+				{
+					if (input.val() == '')
+					{
+						label.addClass('active btn-primary');
+					}
+					else if (input.val() == 0)
+					{
+						label.addClass('active btn-danger');
+					}
+					else
+					{
+						label.addClass('active btn-success');
+					}
+
 				}
 				input.prop('checked', true);
 				input.trigger('change');
@@ -45,12 +71,38 @@
 		});
 		$('.btn-group input[checked=checked]').each(function()
 		{
-			if ($(this).val() == '') {
-				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-primary');
-			} else if ($(this).val() == 0) {
-				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-danger');
-			} else {
-				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-success');
+			var $self  = $(this);
+			var attrId = $self.attr('id');
+
+			if ($self.parent().hasClass('btn-group-reversed'))
+			{
+				if ($self.val() == '')
+				{
+					$('label[for=' + attrId + ']').addClass('active btn-primary');
+				}
+				else if ($self.val() == 0)
+				{
+					$('label[for=' + attrId + ']').addClass('active btn-success');
+				}
+				else
+				{
+					$('label[for=' + attrId + ']').addClass('active btn-danger');
+				}
+			}
+			else
+			{
+				if ($self.val() == '')
+				{
+					$('label[for=' + attrId + ']').addClass('active btn-primary');
+				}
+				else if ($self.val() == 0)
+				{
+					$('label[for=' + attrId + ']').addClass('active btn-danger');
+				}
+				else
+				{
+					$('label[for=' + attrId + ']').addClass('active btn-success');
+				}
 			}
 		});
 		// add color classes to chosen field based on value
@@ -69,8 +121,8 @@
 		/**
 		 * Append submenu items to empty UL on hover allowing a scrollable dropdown
 		 */
-		if ($w.width() > 767) {
-
+		if ($w.width() > 767)
+		{
 			var menuScroll = $('#menu > li > ul'),
 				emptyMenu  = $('#nav-empty');
 
@@ -86,9 +138,12 @@
 					scrollMenuWidth  = $dropdownMenu.width() + 15,
 					maxHeight        = windowHeight - (linkHeight + statusHeight + (menuOuterHeight - menuHeight) + 20);
 
-				if (maxHeight < menuHeight) {
+				if (maxHeight < menuHeight)
+				{
 					$dropdownMenu.css('width', scrollMenuWidth);
-				} else if (maxHeight > menuHeight) {
+				}
+				else if (maxHeight > menuHeight)
+				{
 					$dropdownMenu.css('width', 'auto');
 				}
 
@@ -149,11 +204,22 @@
 
 			});
 
-			$(document).on('click', function() {
+			// obtain a reference to the original handler
+			var _clearMenus = $._data(document, 'events').click.filter(function (el) {
+				return el.namespace === 'data-api.dropdown' && el.selector === undefined
+			})[0].handler;
 
-				emptyMenu.empty().hide();
+			// disable the old listener
+			$(document)
+				.off('click.data-api.dropdown', _clearMenus)
+				.on('click.data-api.dropdown', function(e) {
+					e.button === 2 || _clearMenus();
 
-			});
+					if (!$('#menu').find('> li').hasClass('open'))
+					{
+						emptyMenu.empty().hide();
+					}
+				});
 
 			$.fn.Jvisible = function(partial,hidden)
 			{

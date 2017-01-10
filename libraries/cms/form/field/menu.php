@@ -9,10 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+
+JFormHelper::loadFieldClass('list');
 
 /**
  * Supports an HTML select list of menus

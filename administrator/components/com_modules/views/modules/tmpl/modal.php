@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-if (JFactory::getApplication()->isSite())
+if (JFactory::getApplication()->isClient('site'))
 {
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
@@ -41,14 +41,7 @@ modulePosIns = function(position) {
 	<form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-
-		<div class="clearfix"></div>
-
-		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
-			<?php echo JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
-		</div>
-		<?php else : ?>
+		<?php if ($this->total > 0) : ?>
 		<table class="table table-striped" id="moduleList">
 			<thead>
 				<tr>
@@ -119,13 +112,7 @@ modulePosIns = function(position) {
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="small hidden-phone">
-						<?php if ($item->language == '') : ?>
-							<?php echo JText::_('JDEFAULT'); ?>
-						<?php elseif ($item->language == '*') : ?>
-							<?php echo JText::alt('JALL', 'language'); ?>
-						<?php else : ?>
-							<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-						<?php endif;?>
+						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
 					<td class="hidden-phone">
 						<?php echo (int) $item->id; ?>
@@ -134,7 +121,7 @@ modulePosIns = function(position) {
 			<?php endforeach; ?>
 			</tbody>
 		</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.7.0" group="fields" method="upgrade">
+	<name>plg_fields_gallery</name>
+	<author>Joomla! Project</author>
+	<creationDate>March 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.7.0</version>
+	<description>PLG_FIELDS_GALLERY_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="gallery">gallery.php</filename>
+		<folder>params</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_fields_gallery.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_gallery.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="thumbnail_width"
+					type="text"
+					default="64"
+					label="PLG_FIELDS_GALLERY_PARAMS_THUMBNAIL_WIDTH_LABEL"
+					description="PLG_FIELDS_GALLERY_PARAMS_THUMBNAIL_WIDTH_DESC"
+					size="5"
+				/>
+	
+				<field
+					name="max_width"
+					type="text"
+					label="PLG_FIELDS_GALLERY_PARAMS_MAX_WIDTH_LABEL"
+					description="PLG_FIELDS_GALLERY_PARAMS_MAX_WIDTH_DESC"
+					size="5"
+				/>
+	
+				<field
+					name="max_height"
+					type="text"
+					label="PLG_FIELDS_GALLERY_PARAMS_MAX_HEIGHT_LABEL"
+					description="PLG_FIELDS_GALLERY_PARAMS_MAX_HEIGHT_DESC"
+					size="5"
+				/>
+	
+				<field
+					name="recursive"
+					type="radio"
+					class="btn-group btn-group-yesno" default="1"
+					label="PLG_FIELDS_GALLERY_PARAMS_RECURSIVE_LABEL"
+					description="PLG_FIELDS_GALLERY_PARAMS_RECURSIVE_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+	
+				<field
+					name="multiple"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_FIELDS_GALLERY_PARAMS_MULTIPLE_LABEL"
+					description="PLG_FIELDS_GALLERY_PARAMS_MULTIPLE_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+	
+				<field
+					name="directory"
+					type="text"
+					default="images"
+					label="PLG_FIELDS_GALLERY_PARAMS_DIRECTORY_LABEL"
+					description="PLG_FIELDS_GALLERY_PARAMS_DIRECTORY_DESC"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

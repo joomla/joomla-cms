@@ -69,7 +69,7 @@ class InstallationFormFieldLanguage extends JFormFieldList
 		{
 			foreach ($options as &$option)
 			{
-				$option['text'] = $option['text'] . '&#x200E;';
+				$option['text'] .= '&#x200E;';
 			}
 		}
 

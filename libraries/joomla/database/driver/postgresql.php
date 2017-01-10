@@ -736,7 +736,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$errorNum = $this->getErrorNumber();
-			$errorMsg = $this->getErrorMessage($query);
+			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -751,7 +751,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage($query);
+					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
@@ -1503,22 +1503,29 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @return  integer  The SQL Error number
 	 *
 	 * @since   3.4.6
+	 *
+	 * @throws  \JDatabaseExceptionExecuting  Thrown if the global cursor is false indicating a query failed
 	 */
 	protected function getErrorNumber()
 	{
+		if ($this->cursor === false)
+		{
+			$this->errorMsg = pg_last_error($this->connection);
+
+			throw new JDatabaseExceptionExecuting($this->sql, $this->errorMsg);
+		}
+
 		return (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
 	}
 
 	/**
 	 * Return the actual SQL Error message
 	 *
-	 * @param   string  $query  The SQL Query that fails
-	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage($query)
+	protected function getErrorMessage()
 	{
 		$errorMessage = (string) pg_last_error($this->connection);
 
@@ -1526,10 +1533,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if (!$this->debug)
 		{
 			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			$query        = str_replace($this->tablePrefix, '#__', $query);
 		}
 
-		return $errorMessage . "SQL=" . $query;
+		return $errorMessage;
 	}
 
 	/**

@@ -69,7 +69,10 @@ class JGoogleDataPicasaTest extends TestCase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new JRegistry;
-		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$this->input = new JInput;
 		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
@@ -141,7 +144,7 @@ class JGoogleDataPicasaTest extends TestCase
 		$this->http->expects($this->once())->method('get')->will($this->returnCallback('picasaAlbumlistCallback'));
 		$results = $this->object->listAlbums('userID');
 
-		$this->assertEquals(count($results), 2);
+		$this->assertCount(2, $results);
 		$i = 1;
 
 		foreach ($results as $result)

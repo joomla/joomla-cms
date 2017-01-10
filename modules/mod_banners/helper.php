@@ -42,7 +42,11 @@ class ModBannersHelper
 		$model->setState('filter.language', $app->getLanguageFilter());
 
 		$banners = $model->getItems();
-		$model->impress();
+
+		if ($banners)
+		{
+			$model->impress();
+		}
 
 		return $banners;
 	}

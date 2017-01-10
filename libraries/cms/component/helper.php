@@ -58,9 +58,7 @@ class JComponentHelper
 
 		if (is_string($result->params))
 		{
-			$temp = new Registry;
-			$temp->loadString(static::$components[$option]->params);
-			static::$components[$option]->params = $temp;
+			static::$components[$option]->params = new Registry(static::$components[$option]->params);
 		}
 
 		return $result;
@@ -77,9 +75,7 @@ class JComponentHelper
 	 */
 	public static function isEnabled($option)
 	{
-		$result = static::getComponent($option, true);
-
-		return $result->enabled;
+		return (bool) static::getComponent($option, true)->enabled;
 	}
 
 	/**
@@ -97,10 +93,10 @@ class JComponentHelper
 
 		return (int) $db->setQuery(
 			$db->getQuery(true)
-				->select('COUNT(extension_id)')
-				->from('#__extensions')
-				->where('element = ' . $db->quote($option))
-				->where('type = ' . $db->quote('component'))
+				->select('COUNT(' . $db->quoteName('extension_id') . ')')
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('element') . ' = ' . $db->quote($option))
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
 		)->loadResult();
 	}
 
@@ -436,8 +432,8 @@ class JComponentHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('extension_id AS id, element AS "option", params, enabled')
-			->from('#__extensions')
+			->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 		$db->setQuery($query);
 
@@ -514,7 +510,7 @@ class JComponentHelper
 	 *
 	 * @return  array  The components property
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public static function getComponents()
 	{

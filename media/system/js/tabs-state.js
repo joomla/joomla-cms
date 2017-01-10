@@ -11,15 +11,20 @@
 jQuery(function($) {
     var loadTabs = function() {
         function saveActiveTab(href) {
-            if (activeTabsHrefs === null) {
-                activeTabsHrefs = [];
+            // Remove the old entry if exists, key is always dependant on the url
+            // This should be removed in the future
+            if (localStorage.getItem('active-tab')) {
+                localStorage.removeItem('active-tab');
             }
+
+            // Reset the array
+            activeTabsHrefs = [];
 
             // Save clicked tab href to the array
             activeTabsHrefs.push(href);
 
-            // Store the selected tabs hrefs in localstorage
-            localStorage.setItem('active-tabs', JSON.stringify(activeTabsHrefs));
+            // Store the selected tabs hrefs in localStorage
+            localStorage.setItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, ''), JSON.stringify(activeTabsHrefs));
         }
 
         function activateTab(href) {
@@ -31,7 +36,7 @@ jQuery(function($) {
         }
 
         // Array with active tabs hrefs
-        var activeTabsHrefs = JSON.parse(localStorage.getItem('active-tabs'));
+        var activeTabsHrefs = JSON.parse(localStorage.getItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, '')));
 
         // jQuery object with all tabs links
         var $tabs = $('a[data-toggle="tab"]');
@@ -47,7 +52,7 @@ jQuery(function($) {
             // When moving from tab area to a different view
             $.each(activeTabsHrefs, function(index, tabHref) {
                 if (!hasTab(tabHref)) {
-                    localStorage.removeItem('active-tabs');
+                    localStorage.removeItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, ''));
 
                     return true;
                 }

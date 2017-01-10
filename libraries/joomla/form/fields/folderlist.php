@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
+
 JFormHelper::loadFieldClass('list');
 
 /**

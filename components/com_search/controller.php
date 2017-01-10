@@ -98,8 +98,7 @@ class SearchController extends JControllerLegacy
 			}
 		}
 
-		unset($post['task']);
-		unset($post['submit']);
+		unset($post['task'], $post['submit']);
 
 		$uri = JUri::getInstance();
 		$uri->setQuery($post);
