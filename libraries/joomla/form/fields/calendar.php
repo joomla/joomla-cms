@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
+class JFormFieldCalendar extends JFormField
 {
 	/**
 	 * The form field type.

@@ -10,12 +10,15 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
+
+JFormHelper::loadFieldClass('list');
+
 /**
  * Supports an HTML select list of folder
  *
  * @since  11.1
  */
-class JFormFieldFolderList extends JFormAbstractlist
+class JFormFieldFolderList extends JFormFieldList
 {
 	/**
 	 * The form field type.

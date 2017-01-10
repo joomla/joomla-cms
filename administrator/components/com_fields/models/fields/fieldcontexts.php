@@ -8,12 +8,14 @@
  */
 defined('_JEXEC') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Fields Contexts
  *
  * @since  3.7.0
  */
-class JFormFieldFieldcontexts extends JFormAbstractlist
+class JFormFieldFieldcontexts extends JFormFieldList
 {
 	public $type = 'Fieldcontexts';
 
