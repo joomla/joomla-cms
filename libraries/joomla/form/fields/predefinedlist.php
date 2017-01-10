@@ -9,12 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field to load a list of predefined values
  *
  * @since  3.2
  */
-abstract class JFormFieldPredefinedList extends JFormAbstractlist
+abstract class JFormFieldPredefinedList extends JFormFieldList
 {
 	/**
 	 * The form field type.

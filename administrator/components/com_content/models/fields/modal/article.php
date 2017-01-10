@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
  *
  * @since  1.6
  */
-class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterface
+class JFormFieldModal_Article extends JFormField
 {
 	/**
 	 * The form field type.
