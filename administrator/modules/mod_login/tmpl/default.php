@@ -88,7 +88,7 @@ if ($langs)
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">
-					<button tabindex="3" class="btn btn-primary btn-block btn-large">
+					<button id="mod-login-button" tabindex="3" class="btn btn-primary btn-block btn-large">
 						<span class="icon-lock icon-white"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 					</button>
 				</div>
