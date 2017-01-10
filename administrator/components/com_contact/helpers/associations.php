@@ -101,11 +101,11 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 		switch ($typeName)
 		{
 			case 'contact':
-				$table = JTable::getInstance('contact', 'ContactTable');
+				$table = JTable::getInstance('Contact', 'ContactTable');
 				break;
 
 			case 'category':
-				$table = JTable::getInstance('category');
+				$table = JTable::getInstance('Category');
 				break;
 		}
 

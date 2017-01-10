@@ -105,7 +105,7 @@ class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 				break;
 
 			case 'category':
-				$table = JTable::getInstance('category');
+				$table = JTable::getInstance('Category');
 				break;
 		}
 

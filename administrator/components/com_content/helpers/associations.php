@@ -99,11 +99,11 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 		switch ($typeName)
 		{
 			case 'article':
-				$table = JTable::getInstance('content');
+				$table = JTable::getInstance('Content');
 				break;
 
 			case 'category':
-				$table = JTable::getInstance('category');
+				$table = JTable::getInstance('Category');
 				break;
 		}
 
