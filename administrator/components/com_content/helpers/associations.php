@@ -19,23 +19,29 @@ use Joomla\Utilities\ArrayHelper;
 class ContentAssociationsHelper extends JAssociationExtensionHelper
 {
 	/**
-	 * var       array   $extension  The extension name
+	 * The extension name
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @var     array   $extension
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $extension = 'com_content';
 
 	/**
-	 * var       array   $itemTypes  Array of item types
+	 * Array of item types
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @var     array   $itemTypes
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $itemTypes = array('article', 'category');
 
 	/**
-	 * var       boolean   $associationsSupport  Has the extension association support
+	 * Has the extension association support
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @var     boolean   $associationsSupport
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $associationsSupport = true;
 
@@ -47,7 +53,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 
 	public function getAssociations($typeName, $id)
@@ -85,7 +91,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  JTable|null
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItem($typeName, $id)
 	{
@@ -124,7 +130,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array  Array of item types
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getType($typeName = '')
 	{
@@ -148,6 +154,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 					$tables = array(
 						'a' => '#__content'
 					);
+
 					$title = 'article';
 					break;
 
@@ -165,6 +172,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 					$tables = array(
 						'a' => '#__categories'
 					);
+
 					$title = 'category';
 					break;
 			}
