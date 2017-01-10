@@ -1,344 +1,344 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<fieldset
-			name="articles"
-			label="JGLOBAL_ARTICLES"
-			description="COM_CONTENT_CONFIG_ARTICLE_SETTINGS_DESC">
+		name="articles"
+		label="JGLOBAL_ARTICLES"
+		description="COM_CONTENT_CONFIG_ARTICLE_SETTINGS_DESC">
 
 		<field
-				name="article_layout" type="componentlayout"
-				label="JGLOBAL_FIELD_LAYOUT_LABEL"
-				description="JGLOBAL_FIELD_LAYOUT_DESC"
-				menuitems="true"
-				extension="com_content"
-				view="article"
+			name="article_layout" type="componentlayout"
+			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			description="JGLOBAL_FIELD_LAYOUT_DESC"
+			menuitems="true"
+			extension="com_content"
+			view="article"
 		/>
 
 		<field
-				name="show_title"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="JGLOBAL_SHOW_TITLE_LABEL"
-				description="JGLOBAL_SHOW_TITLE_DESC">
+			name="show_title"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="JGLOBAL_SHOW_TITLE_LABEL"
+			description="JGLOBAL_SHOW_TITLE_DESC">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="link_titles"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="JGLOBAL_LINKED_TITLES_LABEL"
-				description="JGLOBAL_LINKED_TITLES_DESC"
-				showon="show_title:1">
+			name="link_titles"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="JGLOBAL_LINKED_TITLES_LABEL"
+			description="JGLOBAL_LINKED_TITLES_DESC"
+			showon="show_title:1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
 		<field
-				name="show_intro"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="JGLOBAL_SHOW_INTRO_LABEL"
-				description="JGLOBAL_SHOW_INTRO_DESC">
+			name="show_intro"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="JGLOBAL_SHOW_INTRO_LABEL"
+			description="JGLOBAL_SHOW_INTRO_DESC">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="info_block_position"
-				type="list"
-				default="0"
-				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
-				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
+			name="info_block_position"
+			type="list"
+			default="0"
+			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
+			description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 			<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
 		</field>
 
 		<field
-				name="info_block_show_title"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
-				description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC"
-				default="1">
+			name="info_block_show_title"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
+			description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="show_category"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_CATEGORY_LABEL"
-				description="JGLOBAL_SHOW_CATEGORY_DESC"
-				default="1">
+			name="show_category"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_CATEGORY_LABEL"
+			description="JGLOBAL_SHOW_CATEGORY_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="link_category"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_LINK_CATEGORY_LABEL"
-				description="JGLOBAL_LINK_CATEGORY_DESC"
-				default="1"
-				showon="show_category:1">
+			name="link_category"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_LINK_CATEGORY_LABEL"
+			description="JGLOBAL_LINK_CATEGORY_DESC"
+			default="1"
+			showon="show_category:1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
 		<field
-				name="show_parent_category"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
-				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
-				default="1">
+			name="show_parent_category"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
+			description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="link_parent_category"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
-				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
-				default="1"
-				showon="show_parent_category:1">
+			name="link_parent_category"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
+			description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
+			default="1"
+			showon="show_parent_category:1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
 		<field
-				name="spacer1"
-				type="spacer"
-				hr="true"
+			name="spacer1"
+			type="spacer"
+			hr="true"
 		/>
 
 		<field
-				name="show_associations"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
-				description="JGLOBAL_SHOW_ASSOCIATIONS_DESC"
-				default="0"
+			name="show_associations"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
+			description="JGLOBAL_SHOW_ASSOCIATIONS_DESC"
+			default="0"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="flags"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_FLAG_LABEL"
-				description="JGLOBAL_SHOW_FLAG_DESC"
-				default="1"
-				showon="show_associations:1"
+			name="flags"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_FLAG_LABEL"
+			description="JGLOBAL_SHOW_FLAG_DESC"
+			default="1"
+			showon="show_associations:1"
 		>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
 		<field
-				name="spacer3"
-				type="spacer"
-				hr="true"
+			name="spacer3"
+			type="spacer"
+			hr="true"
 		/>
 
 		<field
-				name="show_author"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_AUTHOR_LABEL"
-				description="JGLOBAL_SHOW_AUTHOR_DESC"
-				default="1">
+			name="show_author"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_AUTHOR_LABEL"
+			description="JGLOBAL_SHOW_AUTHOR_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="link_author"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_LINK_AUTHOR_LABEL"
-				description="JGLOBAL_LINK_AUTHOR_DESC"
-				default="0"
-				showon="show_author:1">
+			name="link_author"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_LINK_AUTHOR_LABEL"
+			description="JGLOBAL_LINK_AUTHOR_DESC"
+			default="0"
+			showon="show_author:1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
 		<field
-				name="show_create_date"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
-				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
-				default="1">
+			name="show_create_date"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
+			description="JGLOBAL_SHOW_CREATE_DATE_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="show_modify_date"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
-				description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
-				default="1">
+			name="show_modify_date"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
+			description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="show_publish_date"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
-				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
-				default="1">
+			name="show_publish_date"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
+			description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="show_item_navigation"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-				description="JGLOBAL_SHOW_NAVIGATION_DESC"
-				default="1">
+			name="show_item_navigation"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_NAVIGATION_LABEL"
+			description="JGLOBAL_SHOW_NAVIGATION_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="show_vote"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_VOTE_LABEL"
-				description="JGLOBAL_SHOW_VOTE_DESC"
-				default="0">
+			name="show_vote"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_VOTE_LABEL"
+			description="JGLOBAL_SHOW_VOTE_DESC"
+			default="0">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 		<field
-				name="show_readmore"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_READMORE_LABEL"
-				description="JGLOBAL_SHOW_READMORE_DESC"
-				default="1">
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
-
-		<field
-				name="show_readmore_title"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
-				description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
-				default="1"
-				showon="show_readmore:1">
+			name="show_readmore"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_READMORE_LABEL"
+			description="JGLOBAL_SHOW_READMORE_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="readmore_limit"
-				type="text"
-				label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
-				description="JGLOBAL_SHOW_READMORE_LIMIT_DESC"
-				default="100"
-				showon="show_readmore:1[AND]show_readmore_title:1"
+			name="show_readmore_title"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
+			description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
+			default="1"
+			showon="show_readmore:1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+
+		<field
+			name="readmore_limit"
+			type="text"
+			label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
+			description="JGLOBAL_SHOW_READMORE_LIMIT_DESC"
+			default="100"
+			showon="show_readmore:1[AND]show_readmore_title:1"
 		/>
 
 		<field
-				id="show_tags"
-				name="show_tags"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
-				description="COM_CONTENT_FIELD_SHOW_TAGS_DESC">
+			id="show_tags"
+			name="show_tags"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
+			description="COM_CONTENT_FIELD_SHOW_TAGS_DESC">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="spacer2"
-				type="spacer"
-				hr="true"
+			name="spacer2"
+			type="spacer"
+			hr="true"
 		/>
 		<field
-				name="show_icons"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_ICONS_LABEL"
-				description="JGLOBAL_SHOW_ICONS_DESC"
-				default="1">
+			name="show_icons"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_ICONS_LABEL"
+			description="JGLOBAL_SHOW_ICONS_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="show_print_icon"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
-				description="JGLOBAL_SHOW_PRINT_ICON_DESC"
-				default="1">
+			name="show_print_icon"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
+			description="JGLOBAL_SHOW_PRINT_ICON_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="show_email_icon"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
-				description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
-				default="1">
+			name="show_email_icon"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
+			description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="show_hits"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_HITS_LABEL"
-				description="JGLOBAL_SHOW_HITS_DESC"
-				default="1">
+			name="show_hits"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_HITS_LABEL"
+			description="JGLOBAL_SHOW_HITS_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="show_noauth"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
-				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
+			name="show_noauth"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
+			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 		<field
-				name="urls_position"
-				type="list"
-				default="0"
-				label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
-				description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
+			name="urls_position"
+			type="list"
+			default="0"
+			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
+			description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 		</field>
@@ -346,95 +346,95 @@
 	<fieldset name="editinglayout" label="COM_CONTENT_EDITING_LAYOUT"
 			  description="COM_CONTENT_CONFIG_EDITOR_LAYOUT">
 		<field
-				name="captcha"
-				type="plugins"
-				label="COM_CONTENT_FIELD_CAPTCHA_LABEL"
-				description="COM_CONTENT_FIELD_CAPTCHA_DESC"
-				default="0"
-				folder="captcha"
-				filter="cmd"
+			name="captcha"
+			type="plugins"
+			label="COM_CONTENT_FIELD_CAPTCHA_LABEL"
+			description="COM_CONTENT_FIELD_CAPTCHA_DESC"
+			default="0"
+			folder="captcha"
+			filter="cmd"
 		>
 			<option value="">JOPTION_USE_DEFAULT</option>
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 		<field
-				name="show_publishing_options"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
-				description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC"
+			name="show_publishing_options"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
+			description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 		<field
-				name="show_article_options"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
-				description="COM_CONTENT_SHOW_ARTICLE_OPTIONS_DESC"
+			name="show_article_options"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
+			description="COM_CONTENT_SHOW_ARTICLE_OPTIONS_DESC"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 		<field
-				name="save_history"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-				description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
+			name="save_history"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
+			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 		>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 		<field
-				name="history_limit"
-				type="text"
-				filter="integer"
-				label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
-				description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
-				default="10"
-				showon="save_history:1"
+			name="history_limit"
+			type="text"
+			filter="integer"
+			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
+			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
+			default="10"
+			showon="save_history:1"
 		/>
 		<field
-				name="show_urls_images_frontend"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
-				description="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_DESC"
+			name="show_urls_images_frontend"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
+			description="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_DESC"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 		<field
-				name="show_urls_images_backend"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
-				description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
+			name="show_urls_images_backend"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
+			description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 		<field
-				name="spacer3"
-				type="spacer"
-				hr="true"
-				showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			name="spacer3"
+			type="spacer"
+			hr="true"
+			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
 		<field
-				name="targeta"
-				type="list"
-				label="COM_CONTENT_URL_FIELD_A_BROWSERNAV_LABEL"
-				description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
-				default="Parent"
-				filter="int"
-				showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			name="targeta"
+			type="list"
+			label="COM_CONTENT_URL_FIELD_A_BROWSERNAV_LABEL"
+			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
+			default="Parent"
+			filter="int"
+			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		>
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
@@ -442,13 +442,13 @@
 			<option value="3">JBROWSERTARGET_MODAL</option>
 		</field>
 		<field
-				name="targetb"
-				type="list"
-				label="COM_CONTENT_URL_FIELD_B_BROWSERNAV_LABEL"
-				description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
-				default="Parent"
-				filter="int"
-				showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			name="targetb"
+			type="list"
+			label="COM_CONTENT_URL_FIELD_B_BROWSERNAV_LABEL"
+			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
+			default="Parent"
+			filter="int"
+			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		>
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
@@ -456,13 +456,13 @@
 			<option value="3">JBROWSERTARGET_MODAL</option>
 		</field>
 		<field
-				name="targetc"
-				type="list"
-				label="COM_CONTENT_URL_FIELD_C_BROWSERNAV_LABEL"
-				description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
-				default="Parent"
-				filter="int"
-				showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			name="targetc"
+			type="list"
+			label="COM_CONTENT_URL_FIELD_C_BROWSERNAV_LABEL"
+			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
+			default="Parent"
+			filter="int"
+			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		>
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
@@ -470,29 +470,29 @@
 			<option value="3">JBROWSERTARGET_MODAL</option>
 		</field>
 		<field
-				name="spacer4"
-				type="spacer"
-				hr="true"
-				showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			name="spacer4"
+			type="spacer"
+			hr="true"
+			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
 
 		<field
-				name="float_intro"
-				type="list"
-				label="COM_CONTENT_FLOAT_INTRO_LABEL"
-				description="COM_CONTENT_FLOAT_DESC"
-				showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			name="float_intro"
+			type="list"
+			label="COM_CONTENT_FLOAT_INTRO_LABEL"
+			description="COM_CONTENT_FLOAT_DESC"
+			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		>
 			<option value="right">COM_CONTENT_RIGHT</option>
 			<option value="left">COM_CONTENT_LEFT</option>
 			<option value="none">COM_CONTENT_NONE</option>
 		</field>
 		<field
-				name="float_fulltext"
-				type="list"
-				label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
-				description="COM_CONTENT_FLOAT_DESC"
-				showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			name="float_fulltext"
+			type="list"
+			label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
+			description="COM_CONTENT_FLOAT_DESC"
+			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		>
 			<option value="right">COM_CONTENT_RIGHT</option>
 			<option value="left">COM_CONTENT_LEFT</option>
@@ -507,20 +507,20 @@
 	>
 
 		<field
-				name="category_layout" type="componentlayout"
-				label="JGLOBAL_FIELD_LAYOUT_LABEL"
-				description="JGLOBAL_FIELD_LAYOUT_DESC"
-				menuitems="true"
-				extension="com_content"
-				view="category"
+			name="category_layout" type="componentlayout"
+			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			description="JGLOBAL_FIELD_LAYOUT_DESC"
+			menuitems="true"
+			extension="com_content"
+			view="category"
 		/>
 		<field
-				name="show_category_heading_title_text"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
-				description="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_DESC"
-				default="1">
+			name="show_category_heading_title_text"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
+			description="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_DESC"
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -730,9 +730,11 @@
 			   label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
 			   description="JGLOBAL_MULTI_COLUMN_ORDER_DESC">
 			<option
-					value="0">JGLOBAL_DOWN</option>
+				value="0">JGLOBAL_DOWN
+			</option>
 			<option
-					value="1">JGLOBAL_ACROSS</option>
+				value="1">JGLOBAL_ACROSS
+			</option>
 		</field>
 
 		<field name="spacer1"
@@ -861,13 +863,17 @@
 			   label="JGLOBAL_CATEGORY_ORDER_LABEL"
 			   description="JGLOBAL_CATEGORY_ORDER_DESC">
 			<option
-					value="none">JGLOBAL_NO_ORDER</option>
+				value="none">JGLOBAL_NO_ORDER
+			</option>
 			<option
-					value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+				value="alpha">JGLOBAL_TITLE_ALPHABETICAL
+			</option>
 			<option
-					value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+				value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL
+			</option>
 			<option
-					value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+				value="order">JGLOBAL_CATEGORY_MANAGER_ORDER
+			</option>
 		</field>
 
 		<field name="orderby_sec"
@@ -876,31 +882,44 @@
 			   label="JGLOBAL_ARTICLE_ORDER_LABEL"
 			   description="JGLOBAL_ARTICLE_ORDER_DESC">
 			<option
-					value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
+				value="rdate">JGLOBAL_MOST_RECENT_FIRST
+			</option>
 			<option
-					value="date">JGLOBAL_OLDEST_FIRST</option>
+				value="date">JGLOBAL_OLDEST_FIRST
+			</option>
 			<option
-					value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+				value="alpha">JGLOBAL_TITLE_ALPHABETICAL
+			</option>
 			<option
-					value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+				value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL
+			</option>
 			<option
-					value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
+				value="author">JGLOBAL_AUTHOR_ALPHABETICAL
+			</option>
 			<option
-					value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
+				value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL
+			</option>
 			<option
-					value="hits">JGLOBAL_MOST_HITS</option>
+				value="hits">JGLOBAL_MOST_HITS
+			</option>
 			<option
-					value="rhits">JGLOBAL_LEAST_HITS</option>
+				value="rhits">JGLOBAL_LEAST_HITS
+			</option>
 			<option
-					value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
+				value="order">JGLOBAL_ARTICLE_MANAGER_ORDER
+			</option>
 			<option
-					value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+				value="vote" requires="vote">JGLOBAL_VOTES_DESC
+			</option>
 			<option
-					value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+				value="rvote" requires="vote">JGLOBAL_VOTES_ASC
+			</option>
 			<option
-					value="rank" requires="vote"> JGLOBAL_RATINGS_DESC</option>
+				value="rank" requires="vote">JGLOBAL_RATINGS_DESC
+			</option>
 			<option
-					value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
+				value="rrank" requires="vote">JGLOBAL_RATINGS_ASC
+			</option>
 		</field>
 
 		<field name="order_date" type="list"
@@ -953,75 +972,77 @@
 	>
 
 		<field
-				name="show_feed_link"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-				description="JGLOBAL_SHOW_FEED_LINK_DESC">
+			name="show_feed_link"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+			description="JGLOBAL_SHOW_FEED_LINK_DESC">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="feed_summary"
-				type="list"
-				label="JGLOBAL_FEED_SUMMARY_LABEL"
-				description="JGLOBAL_FEED_SUMMARY_DESC"
-				default="0"
-				showon="show_feed_link:1"
+			name="feed_summary"
+			type="list"
+			label="JGLOBAL_FEED_SUMMARY_LABEL"
+			description="JGLOBAL_FEED_SUMMARY_DESC"
+			default="0"
+			showon="show_feed_link:1"
 		>
 			<option
-					value="0">JGLOBAL_INTRO_TEXT</option>
+				value="0">JGLOBAL_INTRO_TEXT
+			</option>
 			<option
-					value="1">JGLOBAL_FULL_TEXT</option>
+				value="1">JGLOBAL_FULL_TEXT
+			</option>
 		</field>
 
 		<field
-				name="feed_show_readmore"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_FEED_SHOW_READMORE_LABEL"
-				description="JGLOBAL_FEED_SHOW_READMORE_DESC"
-				default="0"
-				showon="show_feed_link:1[AND]feed_summary:0"
+			name="feed_show_readmore"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_FEED_SHOW_READMORE_LABEL"
+			description="JGLOBAL_FEED_SHOW_READMORE_DESC"
+			default="0"
+			showon="show_feed_link:1[AND]feed_summary:0"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
 		<field
-				name="sef_advanced"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="JGLOBAL_SEF_ADVANCED_LABEL"
-				description="JGLOBAL_SEF_ADVANCED_DESC"
-				filter="integer">
+			name="sef_advanced"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SEF_ADVANCED_LABEL"
+			description="JGLOBAL_SEF_ADVANCED_DESC"
+			filter="integer">
 			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
 			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
 		</field>
 
 		<field
-				name="sef_ids"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="JGLOBAL_SEF_NOIDS_LABEL"
-				description="JGLOBAL_SEF_NOIDS_DESC"
-				showon="sef_advanced:1"
-				filter="integer">
+			name="sef_ids"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SEF_NOIDS_LABEL"
+			description="JGLOBAL_SEF_NOIDS_DESC"
+			showon="sef_advanced:1"
+			filter="integer">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
 		<field
-				name="custom_fields_enable"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
-				description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
-				default="1"
+			name="custom_fields_enable"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
+			default="1"
 		>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -1030,18 +1051,18 @@
 	</fieldset>
 
 	<fieldset
-			name="permissions"
-			label="JCONFIG_PERMISSIONS_LABEL"
-			description="JCONFIG_PERMISSIONS_DESC"
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
 	>
 
 		<field
-				name="rules"
-				type="rules"
-				label="JCONFIG_PERMISSIONS_LABEL"
-				validate="rules"
-				filter="rules"
-				component="com_content"
-				section="component" />
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			validate="rules"
+			filter="rules"
+			component="com_content"
+			section="component"/>
 	</fieldset>
 </config>
