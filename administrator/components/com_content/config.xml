@@ -725,10 +725,12 @@
 		</field>
 
 		<field name="multi_column_order"
-			   type="list"
-			   default="0"
-			   label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
-			   description="JGLOBAL_MULTI_COLUMN_ORDER_DESC">
+			type="list"
+			default="0"
+			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
+			description="JGLOBAL_MULTI_COLUMN_ORDER_DESC"
+			showon="num_columns!:,0,1"
+			>
 			<option
 				value="0">JGLOBAL_DOWN
 			</option>

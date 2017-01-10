@@ -56,19 +56,16 @@ class InstallerModelLanguages extends JModelList
 	private function getUpdateSite()
 	{
 		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
+		$query = $db->getQuery(true)
+			->select($db->qn('us.location'))
+			->from($db->qn('#__extensions', 'e'))
+			->where($db->qn('e.type') . ' = ' . $db->q('package'))
+			->where($db->qn('e.element') . ' = ' . $db->q('pkg_en-GB'))
+			->where($db->qn('e.client_id') . ' = 0')
+			->join('LEFT', $db->qn('#__update_sites_extensions', 'use') . ' ON ' . $db->qn('use.extension_id') . ' = ' . $db->qn('e.extension_id'))
+			->join('LEFT', $db->qn('#__update_sites', 'us') . ' ON ' . $db->qn('us.update_site_id') . ' = ' . $db->qn('use.update_site_id'));
 
-		$query->select($db->quoteName('us.location'));
-		$query->from($db->quoteName('#__extensions', 'e'))
-			->where($db->quoteName('e.type') . ' = ' . $db->quote('package'))
-			->where($db->quoteName('e.element') . ' = ' . $db->quote('pkg_en-GB'))
-			->where($db->quoteName('e.client_id') . ' = 0');
-		$query->join('LEFT', $db->quoteName('#__update_sites_extensions', 'use') . ' ON use.extension_id = e.extension_id');
-		$query->join('LEFT', $db->quoteName('#__update_sites', 'us') . ' ON us.update_site_id = use.update_site_id');
-
-		$db->setQuery($query);
-
-		return $db->loadResult();
+		return $db->setQuery($query)->loadResult();
 	}
 
 	/**
