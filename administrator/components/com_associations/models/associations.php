@@ -325,10 +325,11 @@ class AssociationsModelAssociations extends JModelList
 			$query->where($db->qn($fields['id']) . ' > 1')
 				->where($db->qn('a.client_id') . ' = 0');
 		}
-		// If component item type is categories we need to remove all other component categories.
-		elseif ($extension === 'com_categories')
+
+		// If component item type is category we need to remove all other component categories.
+		if ($typeName === 'category')
 		{
-			$query->where($db->qn('a.extension') . ' = ' . $db->quote('X'));
+			$query->where($db->qn('a.extension') . ' = ' . $db->quote($extensionName));
 		}
 
 		// Filter on the language.
