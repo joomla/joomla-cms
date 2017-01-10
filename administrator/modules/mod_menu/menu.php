@@ -358,7 +358,10 @@ class JAdminCssMenu
 			{
 				$elements = ArrayHelper::getColumn($items, 'element');
 
-				if (($authMenus && !in_array('com_menus', $elements)) || ($authModules && !in_array('com_modules', $elements)))
+				$rMenu   = $authMenus && !in_array('com_menus', $elements);
+				$rModule = $authModules && !in_array('com_modules', $elements);
+
+				if ($rMenu || $rModule)
 				{
 					$recovery = $app->getUserStateFromRequest('mod_menu.recovery', 'recover_menu', 0, 'int');
 
@@ -375,9 +378,13 @@ class JAdminCssMenu
 
 						$this->getParent();
 					}
-					else
+					elseif ($rMenu && $rModule)
 					{
 						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE'), 'warning');
+					}
+					else
+					{
+						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE_' . ($rMenu ? 'MENUS' : 'MODULES')), 'warning');
 					}
 				}
 			}

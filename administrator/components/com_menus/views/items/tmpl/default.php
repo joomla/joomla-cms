@@ -31,8 +31,8 @@ if ($saveOrder && $menuType)
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 
-$assoc = JLanguageAssociations::isEnabled();
-$colSpan = ($assoc) ? 10 : 9;
+$assoc   = JLanguageAssociations::isEnabled() && $this->state->get('filter.client_id') == 0;
+$colSpan = $assoc ? 10 : 9;
 
 if ($menuType == '')
 {

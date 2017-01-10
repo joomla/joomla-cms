@@ -38,6 +38,8 @@
 					type="radio"
 					label="MOD_MENU_FIELD_CHECK_LABEL"
 					description="MOD_MENU_FIELD_CHECK_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
