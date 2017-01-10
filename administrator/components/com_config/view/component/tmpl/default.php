@@ -60,7 +60,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					<?php if (!empty($fieldSet->showon)) : ?>
 						<?php JHtml::_('jquery.framework'); ?>
 						<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
-						<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($this->formControl, $fieldSet->showon)) . '\''; ?>
+						<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
 					<?php endif; ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
 					<li<?php echo $dataShowOn; ?>><a data-toggle="tab" href="#<?php echo $name; ?>"><?php echo JText::_($label); ?></a></li>
@@ -80,7 +80,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							<?php if ($field->showon) : ?>
 								<?php JHtml::_('jquery.framework'); ?>
 								<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
-								<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->formControl, $field->showon)) . '\''; ?>
+								<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
 							<?php endif; ?>
 							<?php if ($field->hidden) : ?>
 								<?php echo $field->input; ?>
