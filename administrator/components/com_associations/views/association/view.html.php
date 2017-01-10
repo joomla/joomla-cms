@@ -21,36 +21,36 @@ class AssociationsViewAssociation extends JViewLegacy
 	/**
 	 * An array of items
 	 *
-	 * @var  array
+	 * @var    array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $items;
 
 	/**
 	 * The pagination object
 	 *
-	 * @var  JPagination
+	 * @var    JPagination
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var    object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
 
 	/**
 	 * Selected item type properties.
 	 *
-	 * @var  Registry
+	 * @var    Registry
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $itemType = null;
 
@@ -73,10 +73,9 @@ class AssociationsViewAssociation extends JViewLegacy
 			return false;
 		}
 
-		$this->app   = JFactory::getApplication();
-
-		$this->form  = $this->get('Form');
-		$input       = $this->app->input;
+		$this->app  = JFactory::getApplication();
+		$this->form = $this->get('Form');
+		$input      = $this->app->input;
 
 		$this->referenceId = $input->get('id', 0, 'int');
 
@@ -86,8 +85,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		$this->typeName      = $typeName;
 
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
-
-		$types = $extension->get('types');
+		$types     = $extension->get('types');
 
 		if (array_key_exists($typeName, $types))
 		{
@@ -95,8 +93,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		}
 
 		$this->itemtype = $extensionName . '.' . $typeName;
-
-		$details = $this->type->get('details');
+		$details        = $this->type->get('details');
 
 		if (array_key_exists('fields', $details))
 		{

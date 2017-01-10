@@ -6,7 +6,7 @@
 			type="itemlanguage"
 			label="COM_ASSOCIATIONS_ITEM_FIELD_LANGUAGE_LABEL"
 			description="COM_ASSOCIATIONS_ITEM_FIELD_LANGUAGE_DESC"
-			>
+		>
 			<option value="">COM_ASSOCIATIONS_SELECT_TARGET_LANGUAGE</option>
 		</field>
 

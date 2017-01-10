@@ -9,7 +9,6 @@
 defined('JPATH_BASE') or die;
 
 JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
-
 JFormHelper::loadFieldClass('groupedlist');
 
 /**
@@ -34,11 +33,12 @@ class JFormFieldItemType extends JFormFieldGroupedList
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
 	 * @throws  UnexpectedValueException
 	 */
 	protected function getGroups()
 	{
-		$options   = array();
+		$options    = array();
 		$extensions = AssociationsHelper::getSupportedExtensions();
 
 		foreach ($extensions as $extension)
@@ -47,7 +47,7 @@ class JFormFieldItemType extends JFormFieldGroupedList
 			{
 				foreach ($extension->get('types') as $type)
 				{
-					$context =  $extension->get('component') . '.' . $type->get('name');
+					$context = $extension->get('component') . '.' . $type->get('name');
 					$options[$extension->get('title')][] = JHtml::_('select.option', $context, $type->get('title'));
 				}
 			}

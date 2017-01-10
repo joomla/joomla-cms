@@ -19,16 +19,20 @@ use Joomla\Registry\Registry;
 class AssociationsHelper extends JHelperContent
 {
 	/**
-	 * var       array   $extensionsSupport  Array of Registry objects of extensions
+	 * Array of Registry objects of extensions
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * var      array   $extensionsSupport
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static $extensionsSupport = null;
 
 	/**
-	 * var       array   $supportedExtensionsList  List of extensions name with support
+	 * List of extensions name with support
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * var      array   $supportedExtensionsList
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static $supportedExtensionsList = array();
 
@@ -41,11 +45,11 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  array
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getAssociationList($extensionName, $typeName, $itemId)
 	{
-		if (! self::hasSupport($extensionName))
+		if (!self::hasSupport($extensionName))
 		{
 			return array();
 		}
@@ -53,9 +57,8 @@ class AssociationsHelper extends JHelperContent
 		// Get the extension specific helper method
 		$helper = self::getExtensionHelper($extensionName);
 
-		$items = $helper->getAssociationList($typeName, $itemId);
+		return $helper->getAssociationList($typeName, $itemId);
 
-		return $items;
 	}
 
 	/**
@@ -65,11 +68,11 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  HelperClass|null
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getExtensionHelper($extensionName)
 	{
-		if (! self::hasSupport($extensionName))
+		if (!self::hasSupport($extensionName))
 		{
 			return null;
 		}
@@ -88,11 +91,11 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  JTable|null
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getItem($extensionName, $typeName, $itemId)
 	{
-		if (! self::hasSupport($extensionName))
+		if (!self::hasSupport($extensionName))
 		{
 			return array();
 		}
@@ -100,9 +103,7 @@ class AssociationsHelper extends JHelperContent
 		// Get the extension specific helper method
 		$helper = self::getExtensionHelper($extensionName);
 
-		$item = $helper->getItem($typeName, $itemId);
-
-		return $item;
+		return $helper->getItem($typeName, $itemId);
 	}
 
 	/**
@@ -110,9 +111,9 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return bool
+	 * @return  bool
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function hasSupport($extensionName)
 	{
@@ -129,9 +130,9 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return bool
+	 * @return  bool
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private static function getExtensionHelperClassName($extensionName)
 	{
@@ -145,9 +146,9 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private static function getExtensionRealName($extensionName)
 	{
@@ -164,9 +165,9 @@ class AssociationsHelper extends JHelperContent
 	 * @param   boolean  $addLink        True for adding edit links. False for just text.
 	 * @param   boolean  $allLanguages   True for showing all content languages. False only languages with associations.
 	 *
-	 * @return string The language HTML
+	 * @return  string   The language HTML
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $allLanguages = true)
 	{
@@ -237,6 +238,7 @@ class AssociationsHelper extends JHelperContent
 				'id'       => $itemId,
 				'target'   => $target,
 			);
+
 			$url       = JRoute::_('index.php?' . http_build_query($options));
 			$text      = strtoupper($language->sef);
 			$langImage = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title, array('title' => $language->title), true);
@@ -253,11 +255,11 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  array  The extensions.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getSupportedExtensions()
 	{
-		if (! is_null(self::$extensionsSupport))
+		if (!is_null(self::$extensionsSupport))
 		{
 			return self::$extensionsSupport;
 		}
@@ -288,7 +290,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  Joomla\Registry\Registry  The item properties.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getSupportedExtension($extensionName)
 	{
@@ -299,7 +301,7 @@ class AssociationsHelper extends JHelperContent
 		$result->def('helper', null);
 
 		// Check if associations helper exists
-		if (! file_exists(JPATH_ADMINISTRATOR . '/components/' . $extensionName . '/helpers/associations.php'))
+		if (!file_exists(JPATH_ADMINISTRATOR . '/components/' . $extensionName . '/helpers/associations.php'))
 		{
 			return $result;
 		}
@@ -308,7 +310,7 @@ class AssociationsHelper extends JHelperContent
 
 		$componentAssociationsHelperClassName = self::getExtensionHelperClassName($extensionName);
 
-		if (! class_exists($componentAssociationsHelperClassName, false))
+		if (!class_exists($componentAssociationsHelperClassName, false))
 		{
 			return $result;
 		}
@@ -336,8 +338,7 @@ class AssociationsHelper extends JHelperContent
 		$result->def('title', JText::_(strtoupper($extensionName)));
 
 		// Get the supported types
-		$types = $helper->getItemTypes();
-
+		$types  = $helper->getItemTypes();
 		$rTypes = array();
 
 		foreach ($types as $typeName)
@@ -380,7 +381,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private static function getEnabledExtensions()
 	{
@@ -402,7 +403,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  array  Array of objects all content languages by language code.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getContentLanguages()
 	{
@@ -428,11 +429,11 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  bool
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function allowEdit($extensionName, $typeName, $itemId)
 	{
-		if (! self::hasSupport($extensionName))
+		if (!self::hasSupport($extensionName))
 		{
 			return false;
 		}
@@ -445,9 +446,7 @@ class AssociationsHelper extends JHelperContent
 			return $helper->allowEdit($typeName, $itemId);
 		}
 
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit', $extensionName);
+		return JFactory::getUser()->authorise('core.edit', $extensionName);
 	}
 
 	/**
@@ -458,11 +457,11 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  boolean  True on allowed.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function allowAdd($extensionName, $typeName)
 	{
-		if (! self::hasSupport($extensionName))
+		if (!self::hasSupport($extensionName))
 		{
 			return false;
 		}
@@ -475,9 +474,7 @@ class AssociationsHelper extends JHelperContent
 			return $helper->allowAdd($typeName);
 		}
 
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.create', $extensionName);
+		return JFactory::getUser()->authorise('core.create', $extensionName);
 	}
 
 	/**
@@ -488,11 +485,11 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  boolean  True on allowed.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function typeSupportsCheckout($extensionName, $typeName)
 	{
-		if (! self::hasSupport($extensionName))
+		if (!self::hasSupport($extensionName))
 		{
 			return false;
 		}
@@ -502,7 +499,7 @@ class AssociationsHelper extends JHelperContent
 
 		$support = $helper->getTypeSupport($typeName);
 
-		return ! empty($support['checkout']);
+		return !empty($support['checkout']);
 	}
 
 	/**
@@ -514,11 +511,11 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  boolean  True on allowed.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getTypeFieldName($extensionName, $typeName, $fieldName)
 	{
-		if (! self::hasSupport($extensionName))
+		if (!self::hasSupport($extensionName))
 		{
 			return false;
 		}

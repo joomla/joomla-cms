@@ -31,11 +31,9 @@ class AssociationsControllerAssociation extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		$input = JFactory::getApplication()->input;
+		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype'));
 
-		list($extensionName, $typeName) = explode('.', $input->get('itemtype'));
-
-		$id = $input->get('id', 0);
+		$id = $this->input->get('id', 0);
 
 		// Check if reference item can be edited.
 		if (!AssociationsHelper::allowEdit($extensionName, $typeName, $id))
@@ -62,11 +60,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$input = JFactory::getApplication()->input;
-
-		list($extensionName, $typeName) = explode('.', $input->get('itemtype'));
-
-		$id = $input->get('id', 0);
+		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype'));
 
 		// Only check in, if component item type allows to check out.
 		if (AssociationsHelper::typeSupportsCheckout($extensionName, $typeName))
@@ -79,7 +73,7 @@ class AssociationsControllerAssociation extends JControllerForm
 				$ids = array_unique(explode(',', $targetId));
 			}
 
-			$ids[] = $id;
+			$ids[] = $this->input->get('id', 0);
 
 			foreach ($ids as $key => $id)
 			{

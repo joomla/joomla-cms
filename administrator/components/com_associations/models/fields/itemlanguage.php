@@ -12,7 +12,6 @@ defined('JPATH_BASE') or die;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
-
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -25,8 +24,8 @@ class JFormFieldItemLanguage extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var        string
-	 * @since   __DEPLOY_VERSION__
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'ItemLanguage';
 
@@ -104,7 +103,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 			else
 			{
 				// New item, id = 0 and disabled if user is not allowed to create new items.
-				$options[$langCode]->value   = $language->lang_code . ':0:add';
+				$options[$langCode]->value = $language->lang_code . ':0:add';
 
 				// Disable language if user is not allowed to create items.
 				$options[$langCode]->disable = !$canCreate;

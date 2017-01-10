@@ -21,7 +21,8 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
+	 *
 	 * @see     JController
 	 */
 	public function __construct($config = array())
@@ -35,11 +36,14 @@ class AssociationsModelAssociations extends JModelList
 				'itemtype',
 				'language',
 				'association',
-				'menutype', 'menutype_title',
+				'menutype',
+				'menutype_title',
 				'level',
 				'state',
-				'category_id', 'category_title',
-				'access', 'access_level',
+				'category_id',
+				'category_title',
+				'access',
+				'access_level',
 			);
 		}
 
@@ -60,13 +64,11 @@ class AssociationsModelAssociations extends JModelList
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'asc')
 	{
-		$app = JFactory::getApplication();
-
-		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
-		$forcedItemType = $app->input->get('forcedItemType', '', 'string');
+		$forcedLanguage = $this->app->input->get('forcedLanguage', '', 'cmd');
+		$forcedItemType = $this->app->input->get('forcedItemType', '', 'string');
 
 		// Adjust the context to support modal layouts.
-		if ($layout = $app->input->get('layout'))
+		if ($layout = $this->app->input->get('layout'))
 		{
 			$this->context .= '.' . $layout;
 		}
@@ -120,7 +122,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -142,17 +144,16 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getListQuery()
 	{
-		$type     = null;
+		$type = null;
 
 		list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'));
 
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
-
-		$types = $extension->get('types');
+		$types     = $extension->get('types');
 
 		if (array_key_exists($typeName, $types))
 		{
@@ -171,14 +172,14 @@ class AssociationsModelAssociations extends JModelList
 
 		$details = $type->get('details');
 
-		if (! array_key_exists('support', $details))
+		if (!array_key_exists('support', $details))
 		{
 			return false;
 		}
 
 		$support = $details['support'];
 
-		if (! array_key_exists('fields', $details))
+		if (!array_key_exists('fields', $details))
 		{
 			return false;
 		}
@@ -190,7 +191,7 @@ class AssociationsModelAssociations extends JModelList
 			->select($db->qn($fields['title'], 'title'))
 			->select($db->qn($fields['alias'], 'alias'));
 
-		if (! array_key_exists('tables', $details))
+		if (!array_key_exists('tables', $details))
 		{
 			return false;
 		}
@@ -202,7 +203,7 @@ class AssociationsModelAssociations extends JModelList
 			$query->from($db->qn($table, $key));
 		}
 
-		if (! array_key_exists('joins', $details))
+		if (!array_key_exists('joins', $details))
 		{
 			return false;
 		}
@@ -239,13 +240,13 @@ class AssociationsModelAssociations extends JModelList
 		);
 
 		// Select author for ACL checks.
-		if (! empty($fields['created_user_id']))
+		if (!empty($fields['created_user_id']))
 		{
 			$query->select($db->qn($fields['created_user_id'], 'created_user_id'));
 		}
 
 		// Select checked out data for check in checkins.
-		if (! empty($fields['checked_out']) && ! empty($fields['checked_out_time']))
+		if (!empty($fields['checked_out']) && !empty($fields['checked_out_time']))
 		{
 			$query->select($db->qn($fields['checked_out'], 'checked_out'))
 				->select($db->qn($fields['checked_out_time'], 'checked_out_time'));
@@ -258,25 +259,25 @@ class AssociationsModelAssociations extends JModelList
 		}
 
 		// If component item type supports ordering, select the ordering also.
-		if (! empty($fields['ordering']))
+		if (!empty($fields['ordering']))
 		{
 			$query->select($db->qn($fields['ordering'], 'ordering'));
 		}
 
 		// If component item type supports state, select the item state also.
-		if (! empty($fields['state']))
+		if (!empty($fields['state']))
 		{
 			$query->select($db->qn($fields['state'], 'state'));
 		}
 
 		// If component item type supports level, select the level also.
-		if (! empty($fields['level']))
+		if (!empty($fields['level']))
 		{
 			$query->select($db->qn($fields['level'], 'level'));
 		}
 
 		// If component item type supports categories, select the category also.
-		if (! empty($fields['catid']))
+		if (!empty($fields['catid']))
 		{
 			$query->select($db->qn($fields['catid'], 'catid'));
 
@@ -302,7 +303,7 @@ class AssociationsModelAssociations extends JModelList
 		}
 
 		// If component item type supports access level, select the access level also.
-		if (array_key_exists('acl', $support) && $support['acl'] == true && ! empty($fields['access']))
+		if (array_key_exists('acl', $support) && $support['acl'] == true && !empty($fields['access']))
 		{
 			$query->select($db->qn($fields['access'], 'access'));
 
@@ -313,14 +314,14 @@ class AssociationsModelAssociations extends JModelList
 			$groupby[] = 'ag.title';
 
 			// Implement View Level Access.
-			if (!$user->authorise('core.admin', $extension))
+			if (!$user->authorise('core.admin', $extensionName))
 			{
 				$query->where($fields['access'] . ' IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
 			}
 		}
 
 		// If component item type is menus we need to remove the root item and the administrator menu.
-		if ($extension === 'com_menus')
+		if ($extensionName === 'com_menus')
 		{
 			$query->where($db->qn($fields['id']) . ' > 1')
 				->where($db->qn('a.client_id') . ' = 0');
@@ -366,7 +367,7 @@ class AssociationsModelAssociations extends JModelList
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
-			$tableAlias = in_array($extension, array('com_menus', 'com_categories')) ? 'a' : 'c';
+			$tableAlias = in_array($extensionName, array('com_menus', 'com_categories')) ? 'a' : 'c';
 			$query->where($db->qn($tableAlias . '.level') . ' <= ' . ((int) $level + (int) $baselevel - 1));
 		}
 
@@ -418,9 +419,7 @@ class AssociationsModelAssociations extends JModelList
 	 */
 	public function purge($context = '', $key = '')
 	{
-		$db  = $this->getDbo();
-		$app = JFactory::getApplication();
-
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)->delete($db->qn('#__associations'));
 
 		// Filter by associations context.
@@ -443,12 +442,12 @@ class AssociationsModelAssociations extends JModelList
 		}
 		catch (JDatabaseExceptionExecuting $e)
 		{
-			$app->enqueueMessage(JText::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
+			$this->app->enqueueMessage(JText::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
 
 			return false;
 		}
 
-		$app->enqueueMessage(JText::_((int) $db->getAffectedRows() > 0 ? 'COM_ASSOCIATIONS_PURGE_SUCCESS' : 'COM_ASSOCIATIONS_PURGE_NONE'), 'message');
+		$this->app->enqueueMessage(JText::_((int) $db->getAffectedRows() > 0 ? 'COM_ASSOCIATIONS_PURGE_SUCCESS' : 'COM_ASSOCIATIONS_PURGE_NONE'), 'message');
 
 		return true;
 	}
@@ -466,7 +465,6 @@ class AssociationsModelAssociations extends JModelList
 	public function clean($context = '', $key = '')
 	{
 		$db  = $this->getDbo();
-		$app = JFactory::getApplication();
 
 		$query = $db->getQuery(true)
 			->select($db->qn('key') . ', COUNT(*)')
@@ -507,7 +505,7 @@ class AssociationsModelAssociations extends JModelList
 			}
 			catch (JDatabaseExceptionExecuting $e)
 			{
-				$app->enqueueMessage(JText::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
+				$this->app->enqueueMessage(JText::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
 
 				return false;
 			}
@@ -515,7 +513,7 @@ class AssociationsModelAssociations extends JModelList
 			$count += (int) $db->getAffectedRows();
 		}
 
-		$app->enqueueMessage(JText::_($count > 0 ? 'COM_ASSOCIATIONS_DELETE_ORPHANS_SUCCESS' : 'COM_ASSOCIATIONS_DELETE_ORPHANS_NONE'), 'message');
+		$this->app->enqueueMessage(JText::_($count > 0 ? 'COM_ASSOCIATIONS_DELETE_ORPHANS_SUCCESS' : 'COM_ASSOCIATIONS_DELETE_ORPHANS_NONE'), 'message');
 
 		return true;
 	}

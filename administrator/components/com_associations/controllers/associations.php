@@ -52,8 +52,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 */
 	public function purge()
 	{
-		$model = $this->getModel('associations');
-		$model->purge();
+		$this->getModel('associations')->purge();
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
@@ -66,8 +65,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 */
 	public function clean()
 	{
-		$model = $this->getModel('associations');
-		$model->clean();
+		$this->getModel('associations')->clean();
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 }

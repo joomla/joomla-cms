@@ -20,7 +20,8 @@ $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = JFactory::getUser()->authorise('core.manage', 'com_checkin');
 $colSpan          = 5;
-$iconStates       = array(
+
+$iconStates = array(
 	-2 => 'icon-trash',
 	0  => 'icon-unpublish',
 	1  => 'icon-publish',
@@ -51,7 +52,6 @@ JFactory::getDocument()->addScriptDeclaration('
 ');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
-
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -60,7 +60,6 @@ JFactory::getDocument()->addScriptDeclaration('
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
-
 <?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 	<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">
@@ -70,7 +69,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		<table class="table table-striped" id="associationsList">
 			<thead>
 				<tr>
-					<?php if (! empty($this->typeSupports['state'])) : ?>
+					<?php if (!empty($this->typeSupports['state'])) : ?>
 						<th width="1%" class="center nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); $colSpan++; ?>
 						</th>
@@ -84,12 +83,12 @@ JFactory::getDocument()->addScriptDeclaration('
 					<th width="5%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 					</th>
-					<?php if (! empty($this->typeFields['menutype'])) : ?>
+					<?php if (!empty($this->typeFields['menutype'])) : ?>
 						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); $colSpan++; ?>
 						</th>
 					<?php endif; ?>
-					<?php if (! empty($this->typeFields['access'])) : ?>
+					<?php if (!empty($this->typeFields['access'])) : ?>
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); $colSpan++; ?>
 						</th>
@@ -113,7 +112,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				$canCheckin = $canManageCheckin || AssociationsHelper::typeSupportsCheckout($this->extensionName, $this->typeName);
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<?php if (! empty($this->typeSupports['state'])) : ?>
+					<?php if (!empty($this->typeSupports['state'])) : ?>
 						<td class="center">
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
 						</td>
@@ -131,12 +130,12 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php else : ?>
 							<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 						<?php endif; ?>
-						<?php if (! empty($this->typeFields['alias'])) : ?>
+						<?php if (!empty($this->typeFields['alias'])) : ?>
 							<span class="small">
 								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 							</span>
 						<?php endif; ?>
-						<?php if (! empty($this->typeFields['catid'])) : ?>
+						<?php if (!empty($this->typeFields['catid'])) : ?>
 							<div class="small">
 								<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
 							</div>
@@ -148,12 +147,12 @@ JFactory::getDocument()->addScriptDeclaration('
 					<td>
 						<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language); ?>
 					</td>
-					<?php if (! empty($this->typeFields['menutype'])) : ?>
+					<?php if (!empty($this->typeFields['menutype'])) : ?>
 						<td class="small">
 							<?php echo $this->escape($item->menutype_title); ?>
 						</td>
 					<?php endif; ?>
-					<?php if (! empty($this->typeFields['access'])) : ?>
+					<?php if (!empty($this->typeFields['access'])) : ?>
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
@@ -165,10 +164,8 @@ JFactory::getDocument()->addScriptDeclaration('
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-
 	<?php endif; ?>
-
-		<input type="hidden" name="task" value=""/>
-		<?php echo JHtml::_('form.token'); ?>
+	<input type="hidden" name="task" value=""/>
+	<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

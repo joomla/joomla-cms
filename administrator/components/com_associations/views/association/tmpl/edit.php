@@ -16,11 +16,10 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('script', 'com_associations/sidebyside.js', false, true);
 JHtml::_('stylesheet', 'com_associations/sidebyside.css', array(), true);
 
-$input   = $this->app->input;
 $options = array(
-			'layout'            => $input->get('layout', '', 'string'),
-			'itemtype'          => $this->itemtype,
-			'id'                => $this->referenceId,
+			'layout'   => $this->app->input->get('layout', '', 'string'),
+			'itemtype' => $this->itemtype,
+			'id'       => $this->referenceId,
 		);
 ?>
 <button id="toogle-left-panel" class="btn btn-small" 
@@ -29,9 +28,7 @@ $options = array(
 </button>
 
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=association&' . http_build_query($options)); ?>" method="post" name="adminForm" id="adminForm" data-associatedview="<?php echo $this->type->get('name'); ?>">
-
 	<div class="sidebyside">
-
 		<div class="outer-panel" id="left-panel">
 			<div class="inner-panel">
 				<h3><?php echo JText::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
@@ -67,7 +64,7 @@ $options = array(
 
 	</div>
 
-	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="target-id" id="target-id" value=""/>
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="target-id" id="target-id" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
