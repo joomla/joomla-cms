@@ -173,6 +173,11 @@ class AssociationsHelper extends JHelperContent
 		// Get the associations list for this item.
 		$items = self::getAssociationList($extensionName, $typeName, $itemId);
 
+		// Todo: move to a helper function
+		$helper         = self::getExtensionHelper($extensionName);
+		$typeFields     = $helper->getTypeFields($typeName);
+		$titleFieldName = substr($typeFields['title'], 2);
+
 		// Get all content languages.
 		$languages = self::getContentLanguages();
 
@@ -197,7 +202,7 @@ class AssociationsHelper extends JHelperContent
 			// Get html parameters.
 			if (isset($items[$langCode]))
 			{
-				$title       = '<br/><br/>' . $items[$langCode]['title'];
+				$title       = '<br/><br/>' . $items[$langCode][$titleFieldName];
 				$additional  = '';
 
 				if (isset($items[$langCode]['category_title']))
