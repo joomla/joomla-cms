@@ -11,9 +11,6 @@ defined('JPATH_BASE') or die;
 
 $data = $displayData;
 
-// Check for show on fields.
-$filters = $data['view']->filterForm->getGroup('filter');
-
 // Load the form filters
 $filters = $data['view']->filterForm->getGroup('filter');
 ?>
