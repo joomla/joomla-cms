@@ -83,24 +83,9 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		$this->extensionName = $extensionName;
 		$this->typeName      = $typeName;
+		$this->itemtype      = $extensionName . '.' . $typeName;
 
-		$extension = AssociationsHelper::getSupportedExtension($extensionName);
-		$types     = $extension->get('types');
-
-		if (array_key_exists($typeName, $types))
-		{
-			$this->type = $types[$typeName];
-		}
-
-		$this->itemtype = $extensionName . '.' . $typeName;
-		$details        = $this->type->get('details');
-
-		if (array_key_exists('fields', $details))
-		{
-			$fields = $details['fields'];
-		}
-
-		$languageField = substr($fields['language'], 2);
+		$languageField = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'language');
 		$referenceId   = $input->get('id', 0, 'int');
 		$reference     = ArrayHelper::fromObject(AssociationsHelper::getItem($extensionName, $typeName, $referenceId));
 
