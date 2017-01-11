@@ -447,7 +447,10 @@ class AssociationsModelAssociations extends JModelList
 			return false;
 		}
 
-		$this->app->enqueueMessage(JText::_((int) $db->getAffectedRows() > 0 ? 'COM_ASSOCIATIONS_PURGE_SUCCESS' : 'COM_ASSOCIATIONS_PURGE_NONE'), 'message');
+		$this->app->enqueueMessage(
+			JText::_((int) $db->getAffectedRows() > 0 ? 'COM_ASSOCIATIONS_PURGE_SUCCESS' : 'COM_ASSOCIATIONS_PURGE_NONE'),
+			'message'
+		);
 
 		return true;
 	}
@@ -464,8 +467,7 @@ class AssociationsModelAssociations extends JModelList
 	 */
 	public function clean($context = '', $key = '')
 	{
-		$db  = $this->getDbo();
-
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('key') . ', COUNT(*)')
 			->from($db->qn('#__associations'))
