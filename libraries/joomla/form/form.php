@@ -1967,24 +1967,21 @@ class JForm
 		// Check if the field is required.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
 
-		if ($required)
-		{
-			// If the field is required and the value is empty return an error message.
-			if (($value === '') || ($value === null))
+		// If the field is required and the value is empty return an error message.
+		if ($required && !$value)
+		{			
+			if ($element['label'])
 			{
-				if ($element['label'])
-				{
-					$message = JText::_($element['label']);
-				}
-				else
-				{
-					$message = JText::_($element['name']);
-				}
-
-				$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
-
-				return new RuntimeException($message);
+				$message = JText::_($element['label']);
 			}
+			else
+			{
+				$message = JText::_($element['name']);
+			}
+
+			$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
+
+			return new RuntimeException($message);
 		}
 
 		// Get the field validation rule.
