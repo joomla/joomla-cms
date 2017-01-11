@@ -515,7 +515,10 @@ class AssociationsModelAssociations extends JModelList
 			$count += (int) $db->getAffectedRows();
 		}
 
-		$this->app->enqueueMessage(JText::_($count > 0 ? 'COM_ASSOCIATIONS_DELETE_ORPHANS_SUCCESS' : 'COM_ASSOCIATIONS_DELETE_ORPHANS_NONE'), 'message');
+		$this->app->enqueueMessage(
+			JText::_($count > 0 ? 'COM_ASSOCIATIONS_DELETE_ORPHANS_SUCCESS' : 'COM_ASSOCIATIONS_DELETE_ORPHANS_NONE'),
+			'message'
+		);
 
 		return true;
 	}
