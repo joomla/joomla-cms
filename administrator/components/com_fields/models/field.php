@@ -50,6 +50,25 @@ class FieldsModelField extends JModelAdmin
 	private $valueCache = array();
 
 	/**
+	 * Batch copy/move command. If set to false,
+	 * the batch copy/move command is not supported
+	 *
+	 * @var string
+	 */
+	protected $batch_copymove = 'category_id';
+
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected $batch_commands = array(
+			'assetgroup_id' => 'batchAccess',
+			'language_id' => 'batchLanguage',
+	);
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
