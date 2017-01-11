@@ -10,6 +10,8 @@
 // No direct access
 defined('_JEXEC') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Supports an HTML select list of fonts
  *
@@ -17,7 +19,7 @@ defined('_JEXEC') or die;
  * @subpackage  Editors.codemirror
  * @since       3.4
  */
-class JFormFieldFonts extends JFormAbstractlist
+class JFormFieldFonts extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -36,7 +38,7 @@ class JFormFieldFonts extends JFormAbstractlist
 	 */
 	protected function getOptions()
 	{
-		$fonts = json_decode(JFile::read(__DIR__ . '/fonts.json'));
+		$fonts = json_decode(file_get_contents(__DIR__ . '/fonts.json'));
 		$options = array();
 
 		foreach ($fonts as $key => $info)

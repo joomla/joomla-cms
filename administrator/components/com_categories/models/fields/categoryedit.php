@@ -11,12 +11,14 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  1.6
  */
-class JFormFieldCategoryEdit extends JFormAbstractlist
+class JFormFieldCategoryEdit extends JFormFieldList
 {
 	/**
 	 * To allow creation of new categories.
@@ -140,6 +142,9 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 		}
 
 		$db = JFactory::getDbo();
+		$user = JFactory::getUser();
+		$groups = implode(',', $user->getAuthorisedViewLevels());
+
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published, a.lft');
 		$subQuery = $db->getQuery(true)
@@ -179,6 +184,9 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 		{
 			$subQuery->where('published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
 		}
+
+		// Filter categories on User Access Level
+		$subQuery->where('access IN (' . $groups . ')');
 
 		$query->from('(' . (string) $subQuery . ') AS a')
 			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');

@@ -639,7 +639,7 @@ abstract class JError
 
 			if ($info != null)
 			{
-				echo "&#160;&#160;&#160;" . $info . "<br />\n";
+				echo '&#160;&#160;&#160;' . $info . "<br />\n";
 			}
 
 			echo $error->getBacktrace(true);

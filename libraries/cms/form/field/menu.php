@@ -12,12 +12,14 @@ defined('JPATH_PLATFORM') or die;
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Supports an HTML select list of menus
  *
  * @since  1.6
  */
-class JFormFieldMenu extends JFormAbstractlist
+class JFormFieldMenu extends JFormFieldList
 {
 	/**
 	 * The form field type.

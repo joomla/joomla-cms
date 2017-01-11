@@ -13,6 +13,9 @@ if [[ ( $TRAVIS_PHP_VERSION = 5.* ) || ( $TRAVIS_PHP_VERSION = 7.0 ) ]]; then ph
 # Disable xdebug in hhvm.
 if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo 'xdebug.enable = 0' >> /etc/hhvm/php.ini; fi
 
+# Disable JIT compilation in hhvm.
+if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo 'hhvm.jit = 0' >> /etc/hhvm/php.ini; fi
+
 # Make sure all dev dependencies are installed
 composer install
 

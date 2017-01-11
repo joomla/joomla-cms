@@ -45,7 +45,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 		else
 		{
 			parent::setUp();
-			$this->options = $this->getMock('\\Joomla\\Registry\\Registry', array('get', 'set'));
+			$this->options = $this->getMockBuilder('\\Joomla\\Registry\\Registry')->setMethods(array('get', 'set'))->getMock();
 			$this->stubUrl = defined('JTEST_HTTP_STUB') ? JTEST_HTTP_STUB : getenv('JTEST_HTTP_STUB');
 		}
 	}
@@ -141,7 +141,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	public function testRequestGet404($transportClass)
 	{
 		$transport = new $transportClass($this->options);
-		$response = $transport->request('get', new JUri($this->stubUrl . ':80'));
+		$transport->request('get', new JUri($this->stubUrl . ':80'));
 	}
 
 	/**

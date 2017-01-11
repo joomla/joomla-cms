@@ -401,7 +401,7 @@ class JForm
 		else
 		{
 			// Get an array of <fieldset /> elements and fieldset attributes.
-			$sets = $this->xml->xpath('//fieldset[@name] | //field[@fieldset]/@fieldset');
+			$sets = $this->xml->xpath('//fieldset[@name and not(ancestor::field/form/*)] | //field[@fieldset and not(ancestor::field/form/*)]/@fieldset');
 		}
 
 		// If no fieldsets are found return empty.
@@ -1192,8 +1192,8 @@ class JForm
 			// Check for an error.
 			if ($valid instanceof Exception)
 			{
-				array_push($this->errors, $valid);
-				$return = false;
+				$this->errors[] = $valid;
+				$return         = false;
 			}
 		}
 
@@ -1540,7 +1540,7 @@ class JForm
 			foreach ($elements as $el)
 			{
 				// If there are matching field elements add them to the fields array.
-				if ($tmp = $el->xpath('descendant::field[@name="' . $name . '"]'))
+				if ($tmp = $el->xpath('descendant::field[@name="' . $name . '" and not(ancestor::field/form/*)]'))
 				{
 					$fields = array_merge($fields, $tmp);
 				}
@@ -1572,7 +1572,7 @@ class JForm
 		else
 		{
 			// Get an array of fields with the correct name.
-			$fields = $this->xml->xpath('//field[@name="' . $name . '"]');
+			$fields = $this->xml->xpath('//field[@name="' . $name . '" and not(ancestor::field/form/*)]');
 
 			// Make sure something was found.
 			if (!$fields)
@@ -1701,7 +1701,7 @@ class JForm
 		else
 		{
 			// Get an array of all the <field /> elements.
-			$fields = $this->xml->xpath('//field');
+			$fields = $this->xml->xpath('//field[not(ancestor::field/form/*)]');
 		}
 
 		return $fields;
@@ -1734,7 +1734,7 @@ class JForm
 		if (!empty($group))
 		{
 			// Get any fields elements with the correct group name.
-			$elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '"]');
+			$elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '" and not(ancestor::field/form/*)]');
 
 			// Check to make sure that there are no parent groups for each element.
 			foreach ($elements as $element)
