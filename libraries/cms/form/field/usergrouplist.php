@@ -9,12 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Field to load a dropdown list of available user groups
  *
  * @since  3.2
  */
-class JFormFieldUserGroupList extends JFormAbstractlist implements JFormDomfieldinterface
+class JFormFieldUserGroupList extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -48,12 +50,19 @@ class JFormFieldUserGroupList extends JFormAbstractlist implements JFormDomfield
 		{
 			static::$options[$hash] = parent::getOptions();
 
-			$groups = JHelperUsergroups::getInstance()->getAll();
-
-			$options = array();
+			$groups         = JHelperUsergroups::getInstance()->getAll();
+			$checkSuperUser = (int) $this->getAttribute('checksuperusergroup', 0);
+			$isSuperUser    = JFactory::getUser()->authorise('core.admin');
+			$options        = array();
 
 			foreach ($groups as $group)
 			{
+				// Don't show super user groups to non super users.
+				if ($checkSuperUser && !$isSuperUser && JAccess::checkGroup($group->id, 'core.admin'))
+				{
+					continue;
+				}
+
 				$options[] = (object) array(
 					'text'  => str_repeat('- ', $group->level) . $group->title,
 					'value' => $group->id,

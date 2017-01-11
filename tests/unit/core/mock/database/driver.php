@@ -20,7 +20,7 @@ class TestMockDatabaseDriver
 	 * @var    mixed
 	 * @since  11.3
 	 */
-	public static $lastQuery = null;
+	public static $lastQuery;
 
 	/**
 	 * Creates and instance of the mock JDatabaseDriver object.

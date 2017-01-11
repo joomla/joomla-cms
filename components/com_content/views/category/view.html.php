@@ -79,6 +79,8 @@ class ContentViewCategory extends JViewCategory
 		$numLinks   = $params->def('num_links', 4);
 		$this->vote = JPluginHelper::isEnabled('content', 'vote');
 
+		JPluginHelper::importPlugin('content');
+
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)
 		{
@@ -87,7 +89,7 @@ class ContentViewCategory extends JViewCategory
 			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 			// No link for ROOT category
-			if ($item->parent_alias == 'root')
+			if ($item->parent_alias === 'root')
 			{
 				$item->parent_slug = null;
 			}
@@ -103,7 +105,6 @@ class ContentViewCategory extends JViewCategory
 				$item->text = $item->introtext;
 			}
 
-			JPluginHelper::importPlugin('content');
 			$dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
@@ -144,7 +145,7 @@ class ContentViewCategory extends JViewCategory
 
 		// For blog layouts, preprocess the breakdown of leading, intro and linked articles.
 		// This makes it much easier for the designer to just interrogate the arrays.
-		if (($params->get('layout_type') == 'blog') || ($this->getLayout() == 'blog'))
+		if ($params->get('layout_type') === 'blog' || $this->getLayout() === 'blog')
 		{
 			foreach ($this->items as $i => $item)
 			{
@@ -270,12 +271,12 @@ class ContentViewCategory extends JViewCategory
 		$menu = $this->menu;
 		$id = (int) @$menu->query['id'];
 
-		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $this->category->id))
+		if ($menu && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $this->category->id))
 		{
 			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
 
-			while (($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $category->id) && $category->id > 1)
+			while (($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();

@@ -12,12 +12,10 @@ defined('JPATH_BASE') or die;
 JHtml::_('behavior.core');
 
 $title = $displayData['title'];
-$message = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
-$message = addslashes($message);
+JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+$message = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
 ?>
-<button data-toggle="modal" onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $message; ?>');  }else{jQuery( '#collapseModal' ).modal('show'); return true;}" class="btn btn-small">
+<button data-toggle="modal" onclick="if (document.adminForm.boxchecked.value==0){<?php echo $message; ?>}else{jQuery( '#collapseModal' ).modal('show'); return true;}" class="btn btn-small">
 	<span class="icon-checkbox-partial" title="<?php echo $title; ?>"></span>
 	<?php echo $title; ?>
 </button>
-
-

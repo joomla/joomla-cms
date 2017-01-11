@@ -53,8 +53,8 @@ $autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $auto
 $autocomplete = $autocomplete == 'autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
-	$columns ? $columns : '',
-	$rows ? $rows : '',
+	$columns ?: '',
+	$rows ?: '',
 	!empty($class) ? 'class="' . $class . '"' : '',
 	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
 	$disabled ? 'disabled' : '',

@@ -49,6 +49,8 @@
       this.diffOutOfDate = this.dealigned = false;
 
       this.showDifferences = options.showDifferences !== false;
+    },
+    registerEvents: function() {
       this.forceUpdate = registerUpdate(this);
       setScrollLock(this, true, false);
       registerScroll(this);
@@ -91,10 +93,11 @@
         updateMarks(dv.edit, dv.diff, edit, DIFF_INSERT, dv.classes);
         updateMarks(dv.orig, dv.diff, orig, DIFF_DELETE, dv.classes);
       }
-      makeConnections(dv);
 
       if (dv.mv.options.connect == "align")
         alignChunks(dv);
+      makeConnections(dv);
+
       updating = false;
     }
     function setDealign(fast) {
@@ -116,8 +119,14 @@
       // Update faster when a line was added/removed
       setDealign(change.text.length - 1 != change.to.line - change.from.line);
     }
+    function swapDoc() {
+      dv.diffOutOfDate = true;
+      update("full");
+    }
     dv.edit.on("change", change);
     dv.orig.on("change", change);
+    dv.edit.on("swapDoc", swapDoc);
+    dv.orig.on("swapDoc", swapDoc);
     dv.edit.on("markerAdded", setDealign);
     dv.edit.on("markerCleared", setDealign);
     dv.orig.on("markerAdded", setDealign);
@@ -199,7 +208,7 @@
     for (var i = 0; i < locs.length; i++) {
       editor.removeLineClass(line, locs[i], classes.chunk);
       editor.removeLineClass(line, locs[i], classes.start);
-      editor.removeLineClass(line, locs[i], classes.chunk);
+      editor.removeLineClass(line, locs[i], classes.end);
     }
   }
 
@@ -329,19 +338,14 @@
       linesToAlign.push([chunk.origTo, chunk.editTo, other ? getMatchingOrigLine(chunk.editTo, other.chunks) : null]);
     }
     if (other) {
-      for (var i = 0; i < other.chunks.length; i++) {
+      chunkLoop: for (var i = 0; i < other.chunks.length; i++) {
         var chunk = other.chunks[i];
         for (var j = 0; j < linesToAlign.length; j++) {
-          var align = linesToAlign[j];
-          if (align[1] == chunk.editTo) {
-            j = -1;
-            break;
-          } else if (align[1] > chunk.editTo) {
-            break;
-          }
+          var diff = linesToAlign[j][1] - chunk.editTo;
+          if (diff == 0) continue chunkLoop
+          if (diff > 0) break;
         }
-        if (j > -1)
-          linesToAlign.splice(j - 1, 0, [getMatchingOrigLine(chunk.editTo, dv.chunks), chunk.editTo, chunk.origTo]);
+        linesToAlign.splice(j, 0, [getMatchingOrigLine(chunk.editTo, dv.chunks), chunk.editTo, chunk.origTo]);
       }
     }
     return linesToAlign;
@@ -407,13 +411,13 @@
 
   function drawConnectorsForChunk(dv, chunk, sTopOrig, sTopEdit, w) {
     var flip = dv.type == "left";
-    var top = dv.orig.heightAtLine(chunk.origFrom, "local") - sTopOrig;
+    var top = dv.orig.heightAtLine(chunk.origFrom, "local", true) - sTopOrig;
     if (dv.svg) {
       var topLpx = top;
-      var topRpx = dv.edit.heightAtLine(chunk.editFrom, "local") - sTopEdit;
+      var topRpx = dv.edit.heightAtLine(chunk.editFrom, "local", true) - sTopEdit;
       if (flip) { var tmp = topLpx; topLpx = topRpx; topRpx = tmp; }
-      var botLpx = dv.orig.heightAtLine(chunk.origTo, "local") - sTopOrig;
-      var botRpx = dv.edit.heightAtLine(chunk.editTo, "local") - sTopEdit;
+      var botLpx = dv.orig.heightAtLine(chunk.origTo, "local", true) - sTopOrig;
+      var botRpx = dv.edit.heightAtLine(chunk.editTo, "local", true) - sTopEdit;
       if (flip) { var tmp = botLpx; botLpx = botRpx; botRpx = tmp; }
       var curveTop = " C " + w/2 + " " + topRpx + " " + w/2 + " " + topLpx + " " + (w + 2) + " " + topLpx;
       var curveBot = " C " + w/2 + " " + botLpx + " " + w/2 + " " + botRpx + " -1 " + botRpx;
@@ -464,18 +468,18 @@
 
     if (hasLeft) {
       left = this.left = new DiffView(this, "left");
-      var leftPane = elt("div", null, "CodeMirror-merge-pane");
+      var leftPane = elt("div", null, "CodeMirror-merge-pane CodeMirror-merge-left");
       wrap.push(leftPane);
       wrap.push(buildGap(left));
     }
 
-    var editPane = elt("div", null, "CodeMirror-merge-pane");
+    var editPane = elt("div", null, "CodeMirror-merge-pane CodeMirror-merge-editor");
     wrap.push(editPane);
 
     if (hasRight) {
       right = this.right = new DiffView(this, "right");
       wrap.push(buildGap(right));
-      var rightPane = elt("div", null, "CodeMirror-merge-pane");
+      var rightPane = elt("div", null, "CodeMirror-merge-pane CodeMirror-merge-right");
       wrap.push(rightPane);
     }
 
@@ -488,7 +492,6 @@
 
     if (left) left.init(leftPane, origLeft, options);
     if (right) right.init(rightPane, origRight, options);
-
     if (options.collapseIdentical)
       this.editor().operation(function() {
         collapseIdenticalStretches(self, options.collapseIdentical);
@@ -497,6 +500,9 @@
       this.aligners = [];
       alignChunks(this.left || this.right, true);
     }
+    if (left) left.registerEvents()
+    if (right) right.registerEvents()
+
 
     var onResize = function() {
       if (left) makeConnections(left);
@@ -539,7 +545,7 @@
   }
 
   MergeView.prototype = {
-    constuctor: MergeView,
+    constructor: MergeView,
     editor: function() { return this.edit; },
     rightOriginal: function() { return this.right && this.right.orig; },
     leftOriginal: function() { return this.left && this.left.orig; },
@@ -565,7 +571,6 @@
   var dmp = new diff_match_patch();
   function getDiff(a, b) {
     var diff = dmp.diff_main(a, b);
-    dmp.diff_cleanupSemantic(diff);
     // The library sometimes leaves in empty parts, which confuse the algorithm
     for (var i = 0; i < diff.length; ++i) {
       var part = diff[i];

@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
+class JFormFieldCalendar extends JFormField
 {
 	/**
 	 * The form field type.
@@ -55,7 +55,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 * The minimum year number to subtract/add from the current year
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $minyear;
 
@@ -63,7 +63,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 * The maximum year number to subtract/add from the current year
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $maxyear;
 
@@ -71,7 +71,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $layout = 'joomla.form.field.calendar';
 
@@ -185,44 +185,8 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 */
 	protected function getInput()
 	{
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
-	}
-
-	/**
-	 * Method to get the data to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected function getLayoutData()
-	{
-		$data      = parent::getLayoutData();
-		$tag       = JFactory::getLanguage()->getTag();
-		$calendar  = JFactory::getLanguage()->getCalendar();
 		$config    = JFactory::getConfig();
 		$user      = JFactory::getUser();
-		$direction = strtolower(JFactory::getDocument()->getDirection());
-
-		// Get the appropriate file for the current language date helper
-		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
-
-		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
-		{
-			$helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
-		}
-
-		// Get the appropriate locale file for the current language
-		$localesPath = 'system/fields/calendar-locales/en.js';
-
-		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
-		}
 
 		// Translate the format if requested
 		$translateFormat = (string) $this->element['translateformat'];
@@ -239,10 +203,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			{
 				$this->format = JText::_('DATE_FORMAT_CALENDAR_DATE');
 			}
-		}
-		else
-		{
-			$this->format = $this->format;
 		}
 
 		// If a known filter is given use it.
@@ -285,6 +245,43 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 		else
 		{
 			$this->value = '';
+		}
+
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since  3.7.0
+	 */
+	protected function getLayoutData()
+	{
+		$data      = parent::getLayoutData();
+		$tag       = JFactory::getLanguage()->getTag();
+		$calendar  = JFactory::getLanguage()->getCalendar();
+		$direction = strtolower(JFactory::getDocument()->getDirection());
+
+		// Get the appropriate file for the current language date helper
+		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
+
+		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
+		{
+			$helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
+		}
+
+		// Get the appropriate locale file for the current language
+		$localesPath = 'system/fields/calendar-locales/en.js';
+
+		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
+		{
+			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
+		}
+		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
+		{
+			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
 		$extraData = array(

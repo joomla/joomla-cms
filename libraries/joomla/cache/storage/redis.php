@@ -106,7 +106,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				JError::raiseWarning(500, 'Redis connection failed');
 			}
@@ -116,7 +116,7 @@ class JCacheStorageRedis extends JCacheStorage
 
 		if ($auth == false)
 		{
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				JError::raiseWarning(500, 'Redis authentication failed');
 			}
@@ -130,7 +130,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				JError::raiseWarning(500, 'Redis failed to select database');
 			}
@@ -146,7 +146,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				JError::raiseWarning(500, 'Redis ping failed');
 			}
@@ -155,6 +155,26 @@ class JCacheStorageRedis extends JCacheStorage
 		}
 
 		return static::$_redis;
+	}
+
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function contains($id, $group)
+	{
+		if (static::isConnected() == false)
+		{
+			return false;
+		}
+
+		return static::$_redis->exists($this->_getCacheId($id, $group));
 	}
 
 	/**

@@ -11,12 +11,14 @@ defined('_JEXEC') or die;
 
 JLoader::register('InstallerHelper', JPATH_ADMINISTRATOR . '/components/com_installer/helpers/installer.php');
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Location Field class for the Joomla Framework.
  *
  * @since  3.5
  */
-class JFormFieldLocation extends JFormAbstractlist
+class JFormFieldLocation extends JFormFieldList
 {
 	/**
 	 * The form field type.

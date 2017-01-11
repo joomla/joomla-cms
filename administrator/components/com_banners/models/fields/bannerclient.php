@@ -11,12 +11,14 @@ defined('JPATH_BASE') or die;
 
 JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Bannerclient Field class for the Joomla Framework.
  *
  * @since  1.6
  */
-class JFormFieldBannerClient extends JFormAbstractlist
+class JFormFieldBannerClient extends JFormFieldList
 {
 	/**
 	 * The form field type.

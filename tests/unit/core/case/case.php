@@ -371,7 +371,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected function restoreErrorHandlers()
 	{
-		$this->setErrorhandlers($this->_stashedErrorState);
+		$this->setErrorHandlers($this->_stashedErrorState);
 	}
 
 	/**

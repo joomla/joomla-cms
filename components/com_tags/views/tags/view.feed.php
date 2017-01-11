@@ -51,7 +51,7 @@ class TagsViewTags extends JViewLegacy
 
 			// Strip HTML from feed item description text
 			$description = $item->description;
-			$author      = $item->created_by_alias ? $item->created_by_alias : $item->author;
+			$author      = $item->created_by_alias ?: $item->author;
 			$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 			// Load individual item creator class

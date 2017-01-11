@@ -11,28 +11,28 @@ defined('_JEXEC') or die;
 /**
  * Field View
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsViewField extends JViewLegacy
 {
 	/**
 	 * @var  JForm
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $form;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $item;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $state;
 
@@ -44,7 +44,7 @@ class FieldsViewField extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function display($tpl = null)
 	{
@@ -74,7 +74,7 @@ class FieldsViewField extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function addToolbar()
 	{
@@ -92,7 +92,7 @@ class FieldsViewField extends JViewLegacy
 			return;
 		}
 
-		// Load extension language file
+		// Load component language file
 		JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
 
 		$title = JText::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', JText::_(strtoupper($component)));
