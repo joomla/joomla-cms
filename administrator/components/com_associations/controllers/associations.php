@@ -34,7 +34,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  JModel
+	 * @return  JModel|bool
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
