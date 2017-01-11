@@ -192,15 +192,7 @@ class JCache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		// Get the storage
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
-		{
-			return $handler->contains($id, $group);
-		}
-
-		return false;
+		return $this->_getStorage()->contains($id, $group);
 	}
 
 	/**
