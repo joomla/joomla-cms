@@ -40,7 +40,7 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		$agent = $version->getUserAgent('Installer');
 		ini_set('user_agent', $agent);
-		// agent to supply to transport
+		// Agent to supply to transport
 		$xport_opts = new JRegistry(array('userAgent'=>$agent));
 
 		// Load installer plugins, and allow url and headers modification
