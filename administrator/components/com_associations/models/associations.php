@@ -64,11 +64,13 @@ class AssociationsModelAssociations extends JModelList
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'asc')
 	{
-		$forcedLanguage = $this->app->input->get('forcedLanguage', '', 'cmd');
-		$forcedItemType = $this->app->input->get('forcedItemType', '', 'string');
+		$app = JFactory::getApplication();
+
+		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+		$forcedItemType = $app->input->get('forcedItemType', '', 'string');
 
 		// Adjust the context to support modal layouts.
-		if ($layout = $this->app->input->get('layout'))
+		if ($layout = $app->input->get('layout'))
 		{
 			$this->context .= '.' . $layout;
 		}
@@ -142,7 +144,7 @@ class AssociationsModelAssociations extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  JDatabaseQuery|bool
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -419,6 +421,7 @@ class AssociationsModelAssociations extends JModelList
 	 */
 	public function purge($context = '', $key = '')
 	{
+		$app   = JFactory::getApplication();
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)->delete($db->qn('#__associations'));
 
@@ -442,12 +445,12 @@ class AssociationsModelAssociations extends JModelList
 		}
 		catch (JDatabaseExceptionExecuting $e)
 		{
-			$this->app->enqueueMessage(JText::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
+			$app->enqueueMessage(JText::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
 
 			return false;
 		}
 
-		$this->app->enqueueMessage(
+		$app->enqueueMessage(
 			JText::_((int) $db->getAffectedRows() > 0 ? 'COM_ASSOCIATIONS_PURGE_SUCCESS' : 'COM_ASSOCIATIONS_PURGE_NONE'),
 			'message'
 		);
@@ -467,6 +470,7 @@ class AssociationsModelAssociations extends JModelList
 	 */
 	public function clean($context = '', $key = '')
 	{
+		$app   = JFactory::getApplication();
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('key') . ', COUNT(*)')
@@ -507,7 +511,7 @@ class AssociationsModelAssociations extends JModelList
 			}
 			catch (JDatabaseExceptionExecuting $e)
 			{
-				$this->app->enqueueMessage(JText::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
+				$app->enqueueMessage(JText::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
 
 				return false;
 			}
@@ -515,7 +519,7 @@ class AssociationsModelAssociations extends JModelList
 			$count += (int) $db->getAffectedRows();
 		}
 
-		$this->app->enqueueMessage(
+		$app->enqueueMessage(
 			JText::_($count > 0 ? 'COM_ASSOCIATIONS_DELETE_ORPHANS_SUCCESS' : 'COM_ASSOCIATIONS_DELETE_ORPHANS_NONE'),
 			'message'
 		);
