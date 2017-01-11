@@ -51,11 +51,16 @@ class MenusViewItems extends JViewLegacy
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
+		$this->total         = $this->get('Total');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		MenusHelper::addSubmenu('items');
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			MenusHelper::addSubmenu('items');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

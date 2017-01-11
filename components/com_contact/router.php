@@ -16,14 +16,18 @@ defined('_JEXEC') or die;
  */
 class ContactRouter extends JComponentRouterView
 {
+	protected $noIDs = false;
+
 	/**
 	 * Search Component router constructor
-	 * 
+	 *
 	 * @param   JApplicationCms  $app   The application object
 	 * @param   JMenu            $menu  The menu object to work with
 	 */
 	public function __construct($app = null, $menu = null)
 	{
+		$params = JComponentHelper::getParams('com_contact');
+		$this->noIDs = (bool) $params->get('sef_ids');
 		$categories = new JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
@@ -44,17 +48,18 @@ class ContactRouter extends JComponentRouterView
 		if ($params->get('sef_advanced', 0))
 		{
 			$this->attachRule(new JComponentRouterRulesStandard($this));
+			$this->attachRule(new JComponentRouterRulesNomenu($this));
 		}
 		else
 		{
-			require_once JPATH_SITE . '/components/com_contact/helpers/legacyrouter.php';
+			JLoader::register('ContactRouterRulesLegacy', __DIR__ . '/helpers/legacyrouter.php');
 			$this->attachRule(new ContactRouterRulesLegacy($this));
 		}
 	}
 
 	/**
 	 * Method to get the segment(s) for a category
-	 * 
+	 *
 	 * @param   string  $id     ID of the category to retrieve the segments for
 	 * @param   array   $query  The request that is build right now
 	 *
@@ -66,7 +71,20 @@ class ContactRouter extends JComponentRouterView
 
 		if ($category)
 		{
-			return array_reverse($category->getPath());
+			if ($this->noIDs)
+			{
+				$path = array_reverse($category->getPath(), true);
+				foreach ($path as &$segment)
+				{
+					list($id, $segment) = explode(':', $segment, 2);
+				}
+
+				return $path;
+			}
+			else
+			{
+				return array_reverse($category->getPath(), true);
+			}
 		}
 
 		return array();
@@ -74,7 +92,7 @@ class ContactRouter extends JComponentRouterView
 
 	/**
 	 * Method to get the segment(s) for a category
-	 * 
+	 *
 	 * @param   string  $id     ID of the category to retrieve the segments for
 	 * @param   array   $query  The request that is build right now
 	 *
@@ -87,7 +105,7 @@ class ContactRouter extends JComponentRouterView
 
 	/**
 	 * Method to get the segment(s) for a contact
-	 * 
+	 *
 	 * @param   string  $id     ID of the contact to retrieve the segments for
 	 * @param   array   $query  The request that is build right now
 	 *
@@ -95,12 +113,33 @@ class ContactRouter extends JComponentRouterView
 	 */
 	public function getContactSegment($id, $query)
 	{
-		return array($id);
+		if ($this->noIDs)
+		{
+			if (strpos($id, ':'))
+			{
+				list($void, $segment) = explode(':', $id, 2);
+
+				return array($void => $segment);
+			}
+			else
+			{
+				$db = JFactory::getDbo();
+				$dbquery = $db->getQuery(true);
+				$dbquery->select($dbquery->qn('alias'))
+					->from($dbquery->qn('#__contact_details'))
+					->where('id = ' . $dbquery->q((int) $id));
+				$db->setQuery($dbquery);
+
+				return array($id => $id . ':' . $db->loadResult());
+			}
+		}
+
+		return array((int) $id => $id);
 	}
 
 	/**
 	 * Method to get the id for a category
-	 * 
+	 *
 	 * @param   string  $segment  Segment to retrieve the ID for
 	 * @param   array   $query    The request that is parsed right now
 	 *
@@ -114,9 +153,19 @@ class ContactRouter extends JComponentRouterView
 
 			foreach ($category->getChildren() as $child)
 			{
-				if ($child->id == (int) $segment)
+				if ($this->noIDs)
 				{
-					return $child->id;
+					if ($child->alias == $segment)
+					{
+						return $child->id;
+					}
+				}
+				else
+				{
+					if ($child->id == (int) $segment)
+					{
+						return $child->id;
+					}
 				}
 			}
 		}
@@ -126,10 +175,10 @@ class ContactRouter extends JComponentRouterView
 
 	/**
 	 * Method to get the segment(s) for a category
-	 * 
+	 *
 	 * @param   string  $segment  Segment to retrieve the ID for
 	 * @param   array   $query    The request that is parsed right now
-	 * 
+	 *
 	 * @return  mixed   The id of this item or false
 	 */
 	public function getCategoriesId($segment, $query)
@@ -139,14 +188,27 @@ class ContactRouter extends JComponentRouterView
 
 	/**
 	 * Method to get the segment(s) for a contact
-	 * 
+	 *
 	 * @param   string  $segment  Segment of the contact to retrieve the ID for
 	 * @param   array   $query    The request that is parsed right now
-	 * 
+	 *
 	 * @return  mixed   The id of this item or false
 	 */
 	public function getContactId($segment, $query)
 	{
+		if ($this->noIDs)
+		{
+			$db = JFactory::getDbo();
+			$dbquery = $db->getQuery(true);
+			$dbquery->select($dbquery->qn('id'))
+				->from($dbquery->qn('#__contact_details'))
+				->where('alias = ' . $dbquery->q($segment))
+				->where('catid = ' . $dbquery->q($query['id']));
+			$db->setQuery($dbquery);
+
+			return (int) $db->loadResult();
+		}
+
 		return (int) $segment;
 	}
 }

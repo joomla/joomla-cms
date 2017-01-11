@@ -292,10 +292,11 @@ class JDocument
 				// @deprecated 4.0 - JDocument objects should be autoloaded instead
 				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 
-				if (file_exists($path))
+				JLoader::register($class, $path);
+
+				if (class_exists($class))
 				{
 					JLog::add('Non-autoloadable JDocument subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-					require_once $path;
 				}
 				// Default to the raw format
 				else
@@ -447,20 +448,53 @@ class JDocument
 	/**
 	 * Adds a linked script to the page
 	 *
-	 * @param   string   $url    URL to the linked script
-	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer  Adds the defer attribute.
-	 * @param   boolean  $async  Adds the async attribute.
+	 * @param   string  $url      URL to the linked script.
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
+	 * @deprecated 4.0  The (url, mime, defer, async) method signature is deprecated, use (url, options, attributes) instead.
 	 */
-	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
+	public function addScript($url, $options = array(), $attribs = array())
 	{
-		$this->_scripts[$url]['mime'] = $type;
-		$this->_scripts[$url]['defer'] = $defer;
-		$this->_scripts[$url]['async'] = $async;
+		// B/C before 3.7.0
+		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
+		{
+			JLog::add('The addScript method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
+
+			$argList = func_get_args();
+			$options = array();
+			$attribs = array();
+
+			// Old mime type parameter.
+			if (!empty($argList[1]))
+			{
+				$attribs['mime'] = $argList[1];
+			}
+
+			// Old defer parameter.
+			if (isset($argList[2]) && $argList[2])
+			{
+				$attribs['defer'] = true;
+			}
+
+			// Old async parameter.
+			if (isset($argList[3]) && $argList[3])
+			{
+				$attribs['async'] = true;
+			}
+		}
+
+		// Default value for type.
+		if (!isset($attribs['type']) && !isset($attribs['mime']))
+		{
+			$attribs['type'] = 'text/javascript';
+		}
+
+		$this->_scripts[$url]            = isset($this->_scripts[$url]) ? array_replace($this->_scripts[$url], $attribs) : $attribs;
+		$this->_scripts[$url]['options'] = isset($this->_scripts[$url]['options']) ? array_replace($this->_scripts[$url]['options'], $options) : $options;
 
 		return $this;
 	}
@@ -469,30 +503,54 @@ class JDocument
 	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js?54771616b5bceae9df03c6173babf11d
 	 * If not specified Joomla! automatically handles versioning
 	 *
-	 * @param   string   $url      URL to the linked script
-	 * @param   string   $version  Version of the script
-	 * @param   string   $type     Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer    Adds the defer attribute.
-	 * @param   boolean  $async    [description]
+	 * @param   string  $url      URL to the linked script.
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   3.2
+	 * @deprecated 4.0  This method is deprecated, use addScript(url, options, attributes) instead.
 	 */
-	public function addScriptVersion($url, $version = null, $type = "text/javascript", $defer = false, $async = false)
+	public function addScriptVersion($url, $options = array(), $attribs = array())
 	{
-		// Automatic version
-		if ($version === null)
+		JLog::add('The method is deprecated, use addScript(url, attributes, options) instead.', JLog::WARNING, 'deprecated');
+
+		// B/C before 3.7.0
+		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
-			$version = $this->getMediaVersion();
+			$argList = func_get_args();
+			$options = array();
+			$attribs = array();
+
+			// Old version parameter.
+			$options['version'] = isset($argList[1]) && !is_null($argList[1]) ? $argList[1] : 'auto';
+
+			// Old mime type parameter.
+			if (!empty($argList[2]))
+			{
+				$attribs['mime'] = $argList[2];
+			}
+
+			// Old defer parameter.
+			if (isset($argList[3]) && $argList[3])
+			{
+				$attribs['defer'] = true;
+			}
+
+			// Old async parameter.
+			if (isset($argList[4]) && $argList[4])
+			{
+				$attribs['async'] = true;
+			}
+		}
+		// Default value for version.
+		else
+		{
+			$options['version'] = 'auto';
 		}
 
-		if (!empty($version) && strpos($url, '?') === false)
-		{
-			$url .= '?' . $version;
-		}
-
-		return $this->addScript($url, $type, $defer, $async);
+		return $this->addScript($url, $options, $attribs);
 	}
 
 	/**
@@ -574,19 +632,60 @@ class JDocument
 	 * Adds a linked stylesheet to the page
 	 *
 	 * @param   string  $url      URL to the linked style sheet
-	 * @param   string  $type     Mime encoding type
-	 * @param   string  $media    Media type that this stylesheet applies to
-	 * @param   array   $attribs  Array of attributes
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'stylesheet', 'data-test' => 1)
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
+	 * @deprecated 4.0  The (url, mime, media, attribs) method signature is deprecated, use (url, options, attributes) instead.
 	 */
-	public function addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array())
+	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
-		$this->_styleSheets[$url]['mime'] = $type;
-		$this->_styleSheets[$url]['media'] = $media;
-		$this->_styleSheets[$url]['attribs'] = $attribs;
+		// B/C before 3.7.0
+		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
+		{
+			JLog::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
+
+			$argList = func_get_args();
+			$options = array();
+			$attribs = array();
+
+			// Old mime type parameter.
+			if (!empty($argList[1]))
+			{
+				$attribs['mime'] = $argList[1];
+			}
+
+			// Old media parameter.
+			if (isset($argList[2]) && $argList[2])
+			{
+				$attribs['media'] = $argList[2];
+			}
+
+			// Old attribs parameter.
+			if (isset($argList[3]) && $argList[3])
+			{
+				$attribs = array_replace($attribs, $argList[3]);
+			}
+		}
+
+		// Default value for type.
+		if (!isset($attribs['type']) && !isset($attribs['mime']))
+		{
+			$attribs['type'] = 'text/css';
+		}
+
+		$this->_styleSheets[$url] = isset($this->_styleSheets[$url]) ? array_replace($this->_styleSheets[$url], $attribs) : $attribs;
+
+		if (isset($this->_styleSheets[$url]['options']))
+		{
+			$this->_styleSheets[$url]['options'] = array_replace($this->_styleSheets[$url]['options'], $options);
+		}
+		else
+		{
+			$this->_styleSheets[$url]['options'] = $options;
+		}
 
 		return $this;
 	}
@@ -596,29 +695,53 @@ class JDocument
 	 * If not specified Joomla! automatically handles versioning
 	 *
 	 * @param   string  $url      URL to the linked style sheet
-	 * @param   string  $version  Version of the stylesheet
-	 * @param   string  $type     Mime encoding type
-	 * @param   string  $media    Media type that this stylesheet applies to
-	 * @param   array   $attribs  Array of attributes
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'stylesheet', 'data-test' => 1)
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   3.2
+	 * @deprecated 4.0  This method is deprecated, use addStyleSheet(url, options, attributes) instead.
 	 */
-	public function addStyleSheetVersion($url, $version = null, $type = "text/css", $media = null, $attribs = array())
+	public function addStyleSheetVersion($url, $options = array(), $attribs = array())
 	{
-		// Automatic version
-		if ($version === null)
+		JLog::add('The method is deprecated, use addStyleSheet(url, attributes, options) instead.', JLog::WARNING, 'deprecated');
+
+		// B/C before 3.7.0
+		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
-			$version = $this->getMediaVersion();
+			$argList = func_get_args();
+			$options = array();
+			$attribs = array();
+
+			// Old version parameter.
+			$options['version'] = isset($argList[1]) && !is_null($argList[1]) ? $argList[1] : 'auto';
+
+			// Old mime type parameter.
+			if (!empty($argList[2]))
+			{
+				$attribs['mime'] = $argList[2];
+			}
+
+			// Old media parameter.
+			if (isset($argList[3]) && $argList[3])
+			{
+				$attribs['media'] = $argList[3];
+			}
+
+			// Old attribs parameter.
+			if (isset($argList[4]) && $argList[4])
+			{
+				$attribs = array_replace($attribs, $argList[4]);
+			}
+		}
+		// Default value for version.
+		else
+		{
+			$options['version'] = 'auto';
 		}
 
-		if (!empty($version) && strpos($url, '?') === false)
-		{
-			$url .= '?' . $version;
-		}
-
-		return $this->addStyleSheet($url, $type, $media, $attribs);
+		return $this->addStyleSheet($url, $options, $attribs);
 	}
 
 	/**
@@ -1067,8 +1190,9 @@ class JDocument
 					throw new RuntimeException('Unable to load renderer class', 500);
 				}
 
+				JLoader::register($class, $path);
+
 				JLog::add('Non-autoloadable JDocumentRenderer subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-				require_once $path;
 
 				// If the class still doesn't exist after including the path, we've got issues
 				if (!class_exists($class))

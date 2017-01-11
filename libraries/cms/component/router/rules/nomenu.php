@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -90,17 +90,37 @@ class JComponentRouterRulesNomenu implements JComponentRouterRulesInterface
 	 */
 	public function build(&$query, &$segments)
 	{
-		if (!isset($query['Itemid']) && isset($query['view']))
+		$menu_found = false;
+
+		if (isset($query['Itemid']))
+		{
+			$item = $this->router->menu->getItem($query['Itemid']);
+
+			if (!isset($query['option']) || ($item && $item->query['option'] == $query['option']))
+			{
+				$menu_found = true;
+			}
+		}
+
+		if (!$menu_found && isset($query['view']))
 		{
 			$views = $this->router->getViews();
 			if (isset($views[$query['view']]))
 			{
+				$view = $views[$query['view']];
 				$segments[] = $query['view'];
 
-				if ($views[$query['view']]->key)
+				if ($view->key && isset($query[$view->key]))
 				{
-					$key = $views[$query['view']]->key;
-					$segments[] = str_replace(':', '-', $query[$key]);
+					if (is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Segment')))
+					{
+						$result = call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
+						$segments[] = str_replace(':', '-', array_shift($result));
+					}
+					else
+					{
+						$segments[] = str_replace(':', '-', $query[$view->key]);
+					}
 					unset($query[$views[$query['view']]->key]);
 				}
 				unset($query['view']);

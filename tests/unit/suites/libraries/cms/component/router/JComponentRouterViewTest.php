@@ -41,6 +41,10 @@ class JComponentRouterViewTest extends TestCaseDatabase
 		parent::setUp();
 
 		$app = $this->getMockCmsApp();
+
+		JFactory::$application = $app;
+		JFactory::$session = $this->getMockSession();
+
 		$this->object = new JComponentRouterViewInspector($app, $app->getMenu());
 	}
 
@@ -135,28 +139,28 @@ class JComponentRouterViewTest extends TestCaseDatabase
 		$cases[] = array(array('view' => 'categories'), array('categories' => array()));
 
 		// View with parent and children
-		$cases[] = array(array('view' => 'category', 'id' => '9'), array('category' => array('9:uncategorised'), 'categories' => array('9:uncategorised')));
+		$cases[] = array(array('view' => 'category', 'id' => '9'), array('category' => array(9 => '9:uncategorised'), 'categories' => array(9 => '9:uncategorised')));
 
 		//View with parent, no children
 		$cases[] = array(array('view' => 'article', 'id' => '42:question-for-everything', 'catid' => '9'),
 			array(
-				'article' => array('42:question-for-everything'),
-				'category' => array('9:uncategorised'),
-				'categories' => array('9:uncategorised')
+				'article' => array(42 => '42:question-for-everything'),
+				'category' => array(9 => '9:uncategorised'),
+				'categories' => array(9 => '9:uncategorised')
 			)
 		);
 
 		//View with parent, no children and nested view
 		$cases[] = array(array('view' => 'article', 'id' => '42:question-for-everything', 'catid' => '20'),
 			array(
-				'article' => array('42:question-for-everything'),
-				'category' => array('20:extensions',
-					'19:joomla',
-					'14:sample-data-articles'
+				'article' => array(42 => '42:question-for-everything'),
+				'category' => array(20 => '20:extensions',
+					19 => '19:joomla',
+					14 => '14:sample-data-articles'
 				),
-				'categories' => array('20:extensions',
-					'19:joomla',
-					'14:sample-data-articles'
+				'categories' => array(20 => '20:extensions',
+					19 => '19:joomla',
+					14 => '14:sample-data-articles'
 				)
 			)
 		);

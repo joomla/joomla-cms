@@ -117,7 +117,6 @@ class ModulesControllerModule extends JControllerForm
 		// Initialise variables.
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
-		$userId = $user->get('id');
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', 'com_modules.module.' . $recordId))
@@ -229,7 +228,7 @@ class ModulesControllerModule extends JControllerForm
 	 *
 	 * @return  string  The data for the Ajax request.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function orderPosition()
 	{

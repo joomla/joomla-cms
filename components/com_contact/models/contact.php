@@ -199,19 +199,17 @@ class ContactModelContact extends JModelForm
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->published != $published) && ($data->published != $archived)))
+				if ((is_numeric($published) || is_numeric($archived)) && (($data->published != $published) && ($data->published != $archived)))
 				{
 					JError::raiseError(404, JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'));
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new Registry;
-				$registry->loadString($data->params);
+				$registry = new Registry($data->params);
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new Registry;
-				$registry->loadString($data->metadata);
+				$registry = new Registry($data->metadata);
 				$data->metadata = $registry;
 
 				$data->tags = new JHelperTags;
@@ -273,14 +271,11 @@ class ContactModelContact extends JModelForm
 		$groups    = implode(',', $user->getAuthorisedViewLevels());
 		$published = $this->getState('filter.published');
 
-		$contactParams = new Registry;
-		$contactParams->loadString($contact->params);
-
 		// If we are showing a contact list, then the contact parameters take priority
 		// So merge the contact parameters with the merged parameters
 		if ($this->getState('params')->get('show_contact_list'))
 		{
-			$this->getState('params')->merge($contactParams);
+			$this->getState('params')->merge($contact->params);
 		}
 
 		// Get the com_content articles by the linked user
@@ -340,7 +335,7 @@ class ContactModelContact extends JModelForm
 			// Use contact setting?
 			if ($articles_display_num === 'use_contact')
 			{
-				$articles_display_num = $contactParams->get('articles_display_num', 10);
+				$articles_display_num = $contact->params->get('articles_display_num', 10);
 
 				// Use global?
 				if ((string) $articles_display_num === '')
@@ -459,8 +454,7 @@ class ContactModelContact extends JModelForm
 			if ($result)
 			{
 
-				$contactParams = new Registry;
-				$contactParams->loadString($result->params);
+				$contactParams = new Registry($result->params);
 
 				// If we are showing a contact list, then the contact parameters take priority
 				// So merge the contact parameters with the merged parameters

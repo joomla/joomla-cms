@@ -354,8 +354,7 @@ class TemplatesModelStyle extends JModelAdmin
 			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
-			$registry = new Registry;
-			$registry->loadString($table->params);
+			$registry = new Registry($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the template XML.

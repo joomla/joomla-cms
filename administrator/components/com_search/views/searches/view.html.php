@@ -42,16 +42,6 @@ class SearchViewSearches extends JViewLegacy
 		$this->enabled       = $this->state->params->get('enabled');
 		$this->canDo         = JHelperContent::getActions('com_search');
 
-		// Check if plugin is enabled
-		if ($this->enabled)
-		{
-			$app->enqueueMessage(JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
-		}
-		else
-		{
-			$app->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'error');
-		}
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -60,13 +50,14 @@ class SearchViewSearches extends JViewLegacy
 			return false;
 		}
 
+		// Check if plugin is enabled
 		if ($this->enabled)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
+			$app->enqueueMessage(JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
 		}
 		else
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
+			$app->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
 		}
 
 		$this->addToolbar();

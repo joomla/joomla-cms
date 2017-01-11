@@ -1,17 +1,16 @@
 /**
- * Polyfill service v3.9.2
+ * Polyfill service v3.13.0
  * For detailed credits and licence information see http://github.com/financial-times/polyfill-service.
  * 
- * Features requested: Event,Event.DOMContentLoaded
+ * Features requested: Event
  * 
- * - Window, License: CC0 (required by "Event", "Event.DOMContentLoaded")
- * - Document, License: CC0 (required by "Element", "Event", "Event.DOMContentLoaded")
- * - Element, License: CC0 (required by "Event", "Event.DOMContentLoaded")
- * - Object.defineProperty, License: CC0 (required by "Event", "Event.DOMContentLoaded")
- * - Event, License: CC0 (required by "Event.DOMContentLoaded")
- * - Event.DOMContentLoaded, License: CC0
+ * - Window, License: CC0 (required by "Event")
+ * - Document, License: CC0 (required by "Element", "Event")
+ * - Element, License: CC0 (required by "Event")
+ * - Object.defineProperty, License: CC0 (required by "Event")
+ * - Event, License: CC0
  *
- * @build      https://cdn.polyfill.io/v2/polyfill.js?features=Event,Event.DOMContentLoaded&flags=always,gated
+ * @build      https://cdn.polyfill.io/v2/polyfill.js?features=Event&flags=always,gated
  * 
  * @copyright  Copyright (c) 2016 Financial Times
  * @license    MIT License, https://github.com/Financial-Times/polyfill-service/blob/master/LICENSE.md
@@ -34,7 +33,6 @@ if (!('Window' in this)) {
 if (!("Document" in this)) {
 
 // Document
-
 if (this.HTMLDocument) { // IE8
 
 	// HTMLDocument is an extension of Document.  If the browser has HTMLDocument but not Document, the former will suffice as an alias for the latter.
@@ -130,7 +128,7 @@ if (!('Element' in this && 'HTMLElement' in this)) {
 	}
 
 	// Apply Element prototype to the pre-existing DOM as soon as the body element appears.
-	function bodyCheck(e) {
+	function bodyCheck() {
 		if (!(loopLimit--)) clearTimeout(interval);
 		if (document.body && !document.body.prototype && /(complete|interactive)/.test(document.readyState)) {
 			shiv(document, true);
@@ -152,7 +150,7 @@ if (!('Element' in this && 'HTMLElement' in this)) {
 
 	// remove sandboxed iframe
 	document.removeChild(vbody);
-})();
+}());
 
 }
 
@@ -182,11 +180,6 @@ if (!(// In IE8, defineProperty could only act on DOM elements, so full support
 			return nativeDefineProperty(object, property, descriptor);
 		}
 
-		var propertyString = String(property);
-		var hasValueOrWritable = 'value' in descriptor || 'writable' in descriptor;
-		var getterType = 'get' in descriptor && typeof descriptor.get;
-		var setterType = 'set' in descriptor && typeof descriptor.set;
-
 		if (object === null || !(object instanceof Object || typeof object === 'object')) {
 			throw new TypeError('Object must be an object (Object.defineProperty polyfill)');
 		}
@@ -194,6 +187,11 @@ if (!(// In IE8, defineProperty could only act on DOM elements, so full support
 		if (!(descriptor instanceof Object)) {
 			throw new TypeError('Descriptor must be an object (Object.defineProperty polyfill)');
 		}
+
+		var propertyString = String(property);
+		var hasValueOrWritable = 'value' in descriptor || 'writable' in descriptor;
+		var getterType = 'get' in descriptor && typeof descriptor.get;
+		var setterType = 'set' in descriptor && typeof descriptor.set;
 
 		// handle descriptor.get
 		if (getterType) {
@@ -457,21 +455,17 @@ if (!((function(global) {
 
 			return true;
 		};
+
+		// Add the DOMContentLoaded Event
+		document.attachEvent('onreadystatechange', function() {
+			if (document.readyState === 'complete') {
+				document.dispatchEvent(new Event('DOMContentLoaded', {
+					bubbles: true
+				}));
+			}
+		});
 	}
-})();
-
-}
-
-if (!('createEvent' in document)) {
-
-// Event.DOMContentLoaded
-document.attachEvent('onreadystatechange', function() {
-	if (document.readyState === 'complete') {
-		document.dispatchEvent(new Event('DOMContentLoaded', {
-			bubbles: true
-		}));
-	}
-});
+}());
 
 }
 

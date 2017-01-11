@@ -726,7 +726,9 @@
 			type="list"
 			default="0"
 			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
-			description="JGLOBAL_MULTI_COLUMN_ORDER_DESC">
+			description="JGLOBAL_MULTI_COLUMN_ORDER_DESC"
+			showon="num_columns!:,0,1"
+			>
 			<option
 				value="0">JGLOBAL_DOWN</option>
 			<option
@@ -998,6 +1000,31 @@
 			filter="integer">
 			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
 			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
+		</field>
+
+		<field
+			name="sef_ids"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SEF_NOIDS_LABEL"
+			description="JGLOBAL_SEF_NOIDS_DESC"
+			showon="sef_advanced:1"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="custom_fields_enable"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 	</fieldset>

@@ -31,7 +31,7 @@ class JFormFieldList extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   3.7.0
 	 */
 	protected function getInput()
 	{
@@ -94,12 +94,12 @@ class JFormFieldList extends JFormField
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   3.7.0
 	 */
 	protected function getOptions()
 	{
 		$fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-		$options = array();
+		$options   = array();
 
 		foreach ($this->element->xpath('option') as $option)
 		{
@@ -126,7 +126,7 @@ class JFormFieldList extends JFormField
 			}
 
 			$value = (string) $option['value'];
-			$text = trim((string) $option) ? trim((string) $option) : $value;
+			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
@@ -145,18 +145,93 @@ class JFormFieldList extends JFormField
 					'class'    => (string) $option['class'],
 					'selected' => ($checked || $selected),
 					'checked'  => ($checked || $selected),
-				);
+			);
 
 			// Set some event handler attributes. But really, should be using unobtrusive js.
 			$tmp['onclick']  = (string) $option['onclick'];
-			$tmp['onchange']  = (string) $option['onchange'];
+			$tmp['onchange'] = (string) $option['onchange'];
 
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
 		}
 
+		if ($this->element['useglobal'])
+		{
+			$tmp        = new stdClass;
+			$tmp->value = '';
+			$tmp->text  = JText::_('JGLOBAL_USE_GLOBAL');
+			$component  = JFactory::getApplication()->input->getCmd('option');
+
+			// Get correct component for menu items
+			if ($component == 'com_menus')
+			{
+				$link      = $this->form->getData()->get('link');
+				$uri       = new JUri($link);
+				$component = $uri->getVar('option', 'com_menus');
+			}
+
+			$params = JComponentHelper::getParams($component);
+			$value  = $params->get($this->fieldname);
+
+			// Try with global configuration
+			if (is_null($value))
+			{
+				$value = JFactory::getConfig()->get($this->fieldname);
+			}
+
+			// Try with menu configuration
+			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
+			{
+				$value = JComponentHelper::getParams('com_menus')->get($this->fieldname);
+			}
+
+			if (!is_null($value))
+			{
+				$value = (string) $value;
+
+				foreach ($options as $option)
+				{
+					if ($option->value === $value)
+					{
+						$value = $option->text;
+
+						break;
+					}
+				}
+
+				$tmp->text = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
+			}
+
+			array_unshift($options, $tmp);
+		}
+
 		reset($options);
 
 		return $options;
+	}
+	
+	/**
+	 * Method to add an option to the list field.
+	 *
+	 * @param   string  $text        Text/Language variable of the option.
+	 * @param   array   $attributes  Array of attributes ('name' => 'value' format)
+	 *
+	 * @return  JFormFieldList  For chaining.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addOption($text, $attributes = array())
+	{
+		if ($text && $this->element instanceof SimpleXMLElement)
+		{
+			$child = $this->element->addChild('option', $text);
+	
+			foreach ($attributes as $name => $value)
+			{
+				$child->addAttribute($name, $value);
+			}
+		}
+	
+		return $this;
 	}
 }

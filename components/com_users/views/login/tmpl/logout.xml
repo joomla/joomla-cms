@@ -27,6 +27,8 @@
 				disable="separator,alias,heading,url"
 				label="JFIELD_LOGOUT_REDIRECT_PAGE_LABEL"
 				description="JFIELD_LOGOUT_REDIRECT_PAGE_DESC"
+				select="true"
+				new="true"
 				edit="true"
 				clear="true"
 			>

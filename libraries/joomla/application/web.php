@@ -94,6 +94,33 @@ class JApplicationWeb extends JApplicationBase
 	);
 
 	/**
+         * A map of HTTP Response headers which may only send a single value, all others
+         * are considered to allow multiple
+         * 
+         * @var    object
+         * @since  3.5.2
+         * @see    https://tools.ietf.org/html/rfc7230
+         */
+	private $singleValueResponseHeaders = array(
+		'status', // This is not a valid header name, but the representation used by Joomla to identify the HTTP Response Code
+		'Content-Length',
+		'Host',
+		'Content-Type',
+		'Content-Location',
+		'Date',
+		'Location',
+		'Retry-After',
+		'Server',
+		'Mime-Version',
+		'Last-Modified',
+		'ETag',
+		'Accept-Ranges',
+		'Content-Range',
+		'Age',
+		'Expires'
+	);
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
@@ -540,11 +567,13 @@ class JApplicationWeb extends JApplicationBase
 				// All other cases use the more efficient HTTP header for redirection.
 				$this->header($this->responseMap[$status]);
 				$this->header('Location: ' . $url);
-				$this->header('Content-Type: text/html; charset=' . $this->charSet);
 			}
 		}
 
-		// Close the application after the redirect.
+		// Set appropriate headers
+		$this->respond();
+
+		//  Close the application after the redirect.
 		$this->close();
 	}
 
@@ -611,23 +640,36 @@ class JApplicationWeb extends JApplicationBase
 		$name = (string) $name;
 		$value = (string) $value;
 
-		// If the replace flag is set, unset all known headers with the given name.
-		if ($replace)
+		// Create an array of duplicate header names
+		$keys = false;
+		if ($this->response->headers)
 		{
+			$names = array();
 			foreach ($this->response->headers as $key => $header)
 			{
-				if ($name == $header['name'])
-				{
-					unset($this->response->headers[$key]);
-				}
+				$names[$key] = $header['name'];
 			}
-
-			// Clean up the array as unsetting nested arrays leaves some junk.
-			$this->response->headers = array_values($this->response->headers);
+			// Find existing headers by name
+			$keys = array_keys($names, $name);
 		}
 
-		// Add the header to the internal array.
-		$this->response->headers[] = array('name' => $name, 'value' => $value);
+		// Remove if $replace is true and there are duplicate names
+		if ($replace && $keys)
+		{
+			$this->response->headers = array_diff_key($this->response->headers, array_flip($keys));
+		}
+
+		/**
+                 * If no keys found, safe to insert (!$keys)
+                 * If ($keys && $replace) it's a replacement and previous have been deleted
+                 * if($keys && !in_array...) it's a multiple value header
+                 */
+		$single = in_array($name, $this->singleValueResponseHeaders);
+		if ($value && (!$keys || ($keys && ($replace || !$single))))
+		{
+			// Add the header to the internal array.
+			$this->response->headers[] = array('name' => $name, 'value' => $value);
+		}
 
 		return $this;
 	}
@@ -636,8 +678,8 @@ class JApplicationWeb extends JApplicationBase
 	 * Method to get the array of response headers to be sent when the response is sent
 	 * to the client.
 	 *
-	 * @return  array
-	 *
+	 * @return  array	 *
+	 * 
 	 * @since   11.3
 	 */
 	public function getHeaders()
@@ -670,6 +712,8 @@ class JApplicationWeb extends JApplicationBase
 	{
 		if (!$this->checkHeadersSent())
 		{
+			// Creating an array of headers, making arrays of headers with multiple values
+			$val = array();
 			foreach ($this->response->headers as $header)
 			{
 				if ('status' == strtolower($header['name']))
@@ -679,7 +723,8 @@ class JApplicationWeb extends JApplicationBase
 				}
 				else
 				{
-					$this->header($header['name'] . ': ' . $header['value']);
+					$val[$header['name']] = !isset($val[$header['name']])?$header['value']:implode(', ', array($val[$header['name']], $header['value']));
+					$this->header($header['name'] . ': ' . $val[$header['name']], true);
 				}
 			}
 		}
@@ -730,7 +775,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function appendBody($content)
 	{
-		array_push($this->response->body, (string) $content);
+		$this->response->body[] = (string) $content;
 
 		return $this;
 	}
@@ -1071,7 +1116,7 @@ class JApplicationWeb extends JApplicationBase
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new Registry('session'));
+			$session->set('registry', new Registry);
 			$session->set('user', new JUser);
 		}
 	}

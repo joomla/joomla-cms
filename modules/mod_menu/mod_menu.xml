@@ -22,7 +22,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic"
-				addfieldpath="/administrator/components/com_menus/models/fields">
+				addfieldpath="/administrator/components/com_menus/models/fields"
 			>
 				<field
 					name="menutype"
@@ -36,6 +36,8 @@
 					type="modal_menu"
 					label="MOD_MENU_FIELD_ACTIVE_LABEL"
 					description="MOD_MENU_FIELD_ACTIVE_DESC"
+					select="true"
+					new="true"
 					edit="true"
 					clear="true"
 					>

@@ -28,6 +28,9 @@ class LanguagesControllerOverride extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
+		// Do not cache the response to this, its a redirect
+		JFactory::getApplication()->allowCache(false);
+
 		$app     = JFactory::getApplication();
 		$cid     = $this->input->post->get('cid', array(), 'array');
 		$context = "$this->option.edit.$this->context";

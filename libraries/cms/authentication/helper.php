@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Authentication helper class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.6.3
  */
 abstract class JAuthenticationHelper
 {
@@ -23,7 +23,7 @@ abstract class JAuthenticationHelper
 	 *
 	 * @return  array  Two factor authentication methods.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public static function getTwoFactorMethods()
 	{

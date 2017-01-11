@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields" >
+		<field
+			name="id"
+			type="text"
+			default="0"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
+			class="readonly"
+			readonly="true"
+		/>
+
+		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="context"
+			type="hidden"
+		/>
+
+		<field
+			name="group_id"
+			type="fieldgroups"
+			label="COM_FIELDS_FIELD_GROUP_LABEL"
+			description="COM_FIELDS_FIELD_GROUP_DESC"
+		>
+			<option value="0">JNONE</option>
+		</field>
+
+		<field
+			name="assigned_cat_ids"
+			type="category"
+			label="JCATEGORY"
+			extension="com_content"
+			description="JFIELD_CATEGORY_DESC"
+			multiple="true"
+		>
+			<option value="">JALL</option>
+		</field>
+
+		<field
+			name="title"
+			type="text"
+			label="JGLOBAL_TITLE"
+			description="JFIELD_TITLE_DESC"
+			class="input-xxlarge input-large-text"
+			size="40"
+			required="true"
+		/>
+		
+		<field
+			name="alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+			size="45"
+		/>
+	
+		<field
+			name="type"
+			type="type"
+			label="COM_FIELDS_FIELD_TYPE_LABEL"
+			default="text"
+			description="COM_FIELDS_FIELD_TYPE_DESC"
+			required="true"
+		/>
+
+		<field
+			name="required"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_FIELDS_FIELD_REQUIRED_LABEL"
+			description="COM_FIELDS_FIELD_REQUIRED_DESC"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="default_value"
+			type="textarea"
+			filter="raw"
+			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
+			description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
+		/>
+	
+		<field
+			name="state"
+			type="list"
+			class="chzn-color-state"
+			default="1"
+			size="1"
+			label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+		>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field
+			name="buttonspacer"
+			label="JGLOBAL_ACTION_PERMISSIONS_LABEL"
+			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
+			type="spacer"
+		/>
+	
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"
+		/>
+	
+		<field
+			name="created_user_id"
+			type="user"
+			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			desc="JGLOBAL_FIELD_CREATED_BY_DESC"
+		/>
+
+		<field
+			name="created_time"
+			type="text"
+			label="JGLOBAL_CREATED_DATE"
+			class="readonly"
+			filter="unset"
+			readonly="true"
+		/>
+
+		<field
+			name="modified_by"
+			type="user"
+			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+			class="readonly"
+			readonly="true"
+			filter="unset"
+		/>
+
+		<field
+			name="modified_time"
+			type="text"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL"
+			class="readonly"
+			filter="unset"
+			readonly="true"
+		/>
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="COM_FIELDS_FIELD_LANGUAGE_DESC"
+		>
+			<option value="*">JALL</option>
+		</field>
+
+		<field
+			name="note"
+			type="text"
+			label="COM_FIELDS_FIELD_NOTE_LABEL"
+			description="COM_FIELDS_FIELD_NOTE_DESC"
+			class="span12"
+			size="40"
+		/>
+
+		<field
+			name="label"
+			type="text"
+			label="COM_FIELDS_FIELD_LABEL_LABEL"
+			description="COM_FIELDS_FIELD_LABEL_DESC"
+			size="40"
+			required="true"
+		/>
+
+		<field
+			name="description"
+			type="textarea"
+			label="JGLOBAL_DESCRIPTION"
+			size="40"
+			description="COM_FIELDS_FIELD_DESCRIPTION_DESC"
+			filter="HTML"
+		/>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
+		/>
+
+		<field
+			id="rules"
+			name="rules"
+			type="rules"
+			label="JFIELD_RULES_LABEL"
+			translate_label="false"
+			filter="rules"
+			validate="rules"
+			section="field"
+		/>
+
+		<field
+			name="ordering"
+			type="text"
+			class="inputbox"
+			label="JFIELD_ORDERING_LABEL"
+			description="JFIELD_ORDERING_DESC"
+		/>
+	</fieldset>
+	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
+		<fieldset name="basic">
+			<field
+				name="hint"
+				type="text"
+				label="COM_FIELDS_FIELD_PLACEHOLDER_LABEL"
+				description="COM_FIELDS_FIELD_PLACEHOLDER_DESC"
+				class="input-xxlarge"
+				size="40"
+			/>
+
+			<field
+				name="image"
+				type="media"
+				label="COM_FIELDS_FIELD_IMAGE_LABEL"
+				description="COM_FIELDS_FIELD_IMAGE_DESC"
+			/>
+
+			<field
+				name="image_alt"
+				type="text"
+				label="COM_FIELDS_FIELD_IMAGE_ALT_LABEL"
+				description="COM_FIELDS_FIELD_IMAGE_ALT_DESC"
+				size="20"
+			/>
+
+			<field
+				name="render_class"
+				type="textarea"
+				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
+				description="COM_FIELDS_FIELD_RENDER_CLASS_DESC"
+				class="input-xxlarge"
+				size="40"
+			/>
+
+			<field
+				name="class"
+				type="textarea"
+				label="COM_FIELDS_FIELD_CLASS_LABEL"
+				description="COM_FIELDS_FIELD_CLASS_DESC"
+				class="input-xxlarge"
+				size="40"
+			/>
+
+			<field
+				name="disabled"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="COM_FIELDS_FIELD_DISABLED_LABEL"
+				description="COM_FIELDS_FIELD_DISABLED_DESC"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="readonly"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="COM_FIELDS_FIELD_READONLY_LABEL"
+				description="COM_FIELDS_FIELD_READONLY_DESC"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="show_on"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default=""
+				label="COM_FIELDS_FIELD_SHOW_ON_LABEL"
+				description="COM_FIELDS_FIELD_SHOW_ON_DESC"
+			>
+				<option value="1">COM_FIELDS_FIELD_SHOW_ON_SITE</option>
+				<option value="2">COM_FIELDS_FIELD_SHOW_ON_ADMIN</option>
+				<option value="">COM_FIELDS_FIELD_SHOW_ON_BOTH</option>
+			</field>
+
+			<field
+				name="display"
+				type="list"
+				label="COM_FIELDS_FIELD_DISPLAY_LABEL"
+				description="COM_FIELDS_FIELD_DISPLAY_DESC"
+				default="-1"
+			>
+				<option value="1">COM_FIELDS_FIELD_DISPLAY_AFTER_TITLE</option>
+				<option value="2">COM_FIELDS_FIELD_DISPLAY_BEFORE_DISPLAY</option>
+				<option value="3">COM_FIELDS_FIELD_DISPLAY_AFTER_DISPLAY</option>
+				<option value="0">JNO</option>
+				<option value="-1">JGLOBAL_USE_GLOBAL</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

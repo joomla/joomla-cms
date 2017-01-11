@@ -492,12 +492,11 @@ class JRouterSite extends JRouter
 
 		// Build the component route
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-		$tmp       = '';
 		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
 		$crouter   = $this->getComponentRouter($component);
 		$parts     = $crouter->build($query);
 		$result    = implode('/', $parts);
-		$tmp       = ($result != "") ? $result : '';
+		$tmp       = ($result != '') ? $result : '';
 
 		// Build the application route
 		$built = false;
@@ -731,14 +730,8 @@ class JRouterSite extends JRouter
 
 			if (!class_exists($class))
 			{
-				// Use the component routing handler if it exists
-				$path = JPATH_SITE . '/components/' . $component . '/router.php';
-
-				// Use the custom routing handler if it exists
-				if (file_exists($path))
-				{
-					require_once $path;
-				}
+				// Add the custom routing handler to the autoloader if it exists
+				JLoader::register($class, JPATH_SITE . '/components/' . $component . '/router.php');
 			}
 
 			if (class_exists($class))

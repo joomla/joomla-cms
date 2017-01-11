@@ -49,7 +49,7 @@ class JFormFieldModal_Contact extends JFormField
 
 		// Add the modal field script to the document head.
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/modal-fields.js', false, true);
+		JHtml::_('script', 'system/modal-fields.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($allowSelect)
@@ -183,7 +183,7 @@ class JFormFieldModal_Contact extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
+					'footer'      => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
 				)
 			);
 		}
@@ -207,15 +207,15 @@ class JFormFieldModal_Contact extends JFormField
 					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'contact\', \'save\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_("JSAVE") . '</a>'
+							. JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_("JAPPLY") . '</a>',
+							. JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}
@@ -239,15 +239,15 @@ class JFormFieldModal_Contact extends JFormField
 					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id
 							. '\', \'edit\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'edit\', \'contact\', \'save\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_("JSAVE") . '</a>'
+							. JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'edit\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_("JAPPLY") . '</a>',
+							. JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}

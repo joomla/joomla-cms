@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @see    JForm
  * @see    JFormField
  * @see    JFormRule
- * @since  12.2
+ * @since  1.6
  */
 abstract class JModelForm extends JModelLegacy
 {
@@ -23,14 +23,15 @@ abstract class JModelForm extends JModelLegacy
 	 * Array of form objects.
 	 *
 	 * @var    JForm[]
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $_forms = array();
 
 	/**
 	 * Maps events to plugin groups.
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $events_map = null;
 
@@ -63,7 +64,7 @@ abstract class JModelForm extends JModelLegacy
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function checkin($pk = null)
 	{
@@ -115,7 +116,7 @@ abstract class JModelForm extends JModelLegacy
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function checkout($pk = null)
 	{
@@ -168,7 +169,7 @@ abstract class JModelForm extends JModelLegacy
 	 *
 	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	abstract public function getForm($data = array(), $loadData = true);
 
@@ -184,7 +185,7 @@ abstract class JModelForm extends JModelLegacy
 	 * @return  JForm|boolean  JForm object on success, false on error.
 	 *
 	 * @see     JForm
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
@@ -245,7 +246,7 @@ abstract class JModelForm extends JModelLegacy
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
@@ -289,7 +290,7 @@ abstract class JModelForm extends JModelLegacy
 	 * @return  void
 	 *
 	 * @see     JFormField
-	 * @since   12.2
+	 * @since   1.6
 	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
@@ -327,7 +328,7 @@ abstract class JModelForm extends JModelLegacy
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function validate($form, $data, $group = null)
 	{

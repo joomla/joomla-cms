@@ -14,7 +14,7 @@
     "support": {
         "issues":"https://issues.joomla.org",
         "irc":"http://irc.lc/freenode/joomla/",
-        "forum":"http://forum.joomla.org/",
+        "forum":"https://forum.joomla.org/",
         "docs":"https://docs.joomla.org"
     },
     "require": {
@@ -23,15 +23,15 @@
         "joomla/data": "~1.2",
         "joomla/di": "~1.2",
         "joomla/event": "~1.1",
-        "joomla/registry": "~1.4 >=1.4.5",
+        "joomla/registry": "^1.4.5",
         "joomla/session": "~1.3",
         "joomla/string": "~1.3",
         "joomla/uri": "~1.1",
-        "joomla/utilities": "~1.3 >=1.3.3",
+        "joomla/utilities": "^1.3.3",
         "ircmaxell/password-compat": "1.*",
         "leafo/lessphp": "0.5.0",
         "paragonie/random_compat": "~1.0",
-        "phpmailer/phpmailer": "5.2.16",
+        "phpmailer/phpmailer": "^5.2.20",
         "symfony/polyfill-php55": "~1.2",
         "symfony/polyfill-php56": "~1.0",
         "symfony/yaml": "2.*",

@@ -22,7 +22,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic"
-				addfieldpath="/administrator/components/com_menus/models/fields">
+				addfieldpath="/administrator/components/com_menus/models/fields"
 			>
 				<field
 					name="pretext"
@@ -50,6 +50,8 @@
 					label="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
 					description="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC"
 					disable="separator,alias,heading,url"
+					select="true"
+					new="true"
 					edit="true"
 					clear="true"
 					>
@@ -62,6 +64,8 @@
 					label="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
 					description="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC"
 					disable="separator,alias,heading,url"
+					select="true"
+					new="true"
 					edit="true"
 					clear="true"
 					>
@@ -79,7 +83,17 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-
+				<field
+					name="profilelink"
+					type="radio"
+					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
+					description="MOD_LOGIN_FIELD_PROFILE_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 				<field
 					name="name"
 					type="list"

@@ -172,7 +172,7 @@ class TagsModelTag extends JModelList
 		$app = JFactory::getApplication();
 
 		// Load the parameters.
-		$params = $app->isAdmin() ? JComponentHelper::getParams('com_tags') : $app->getParams();
+		$params = $app->isClient('administrator') ? JComponentHelper::getParams('com_tags') : $app->getParams();
 
 		$this->setState('params', $params);
 

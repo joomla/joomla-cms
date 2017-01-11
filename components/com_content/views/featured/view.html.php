@@ -71,15 +71,17 @@ class ContentViewFeatured extends JViewLegacy
 		$numLeading = (int) $params->def('num_leading_articles', 1);
 		$numIntro   = (int) $params->def('num_intro_articles', 4);
 
+		JPluginHelper::importPlugin('content');
+
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($items as &$item)
 		{
 			$item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$item->catslug     = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 			// No link for ROOT category
-			if ($item->parent_alias == 'root')
+			if ($item->parent_alias === 'root')
 			{
 				$item->parent_slug = null;
 			}
@@ -93,7 +95,6 @@ class ContentViewFeatured extends JViewLegacy
 				$item->text = $item->introtext;
 			}
 
-			JPluginHelper::importPlugin('content');
 			$dispatcher->trigger('onContentPrepare', array ('com_content.featured', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext

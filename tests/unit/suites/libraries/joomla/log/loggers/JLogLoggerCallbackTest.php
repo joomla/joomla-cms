@@ -56,7 +56,6 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 		// Create a callback function (since php 5.3)
 		$callback = function ($entry)
 		{
-			return;
 		};
 
 		// Setup the basic configuration.

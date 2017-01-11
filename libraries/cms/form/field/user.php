@@ -27,21 +27,24 @@ class JFormFieldUser extends JFormField
 	/**
 	 * Filtering groups
 	 *
-	 * @var  array
+	 * @var   array
+	 * @since 3.5
 	 */
 	protected $groups = null;
 
 	/**
 	 * Users to exclude from the list of users
 	 *
-	 * @var  array
+	 * @var   array
+	 * @since 3.5
 	 */
 	protected $excluded = null;
 
 	/**
 	 * Layout to render
 	 *
-	 * @var  string
+	 * @var   string
+	 * @since 3.5
 	 */
 	protected $layout = 'joomla.form.field.user';
 
@@ -67,6 +70,8 @@ class JFormFieldUser extends JFormField
 	 * Get the data that is going to be passed to the layout
 	 *
 	 * @return  array
+	 *
+	 * @since   3.5
 	 */
 	public function getLayoutData()
 	{
@@ -74,7 +79,7 @@ class JFormFieldUser extends JFormField
 		$data = parent::getLayoutData();
 
 		// Initialize value
-		$name = '';
+		$name = JText::_('JLIB_FORM_SELECT_USER');
 
 		if (is_numeric($this->value))
 		{
@@ -85,19 +90,24 @@ class JFormFieldUser extends JFormField
 		{
 			// 'CURRENT' is not a reasonable value to be placed in the html
 			$current = JFactory::getUser();
+
 			$this->value = $current->id;
+
 			$data['value'] = $this->value;
+
 			$name = $current->name;
 		}
-		else
+
+		// User lookup went wrong, we assign the value instead.
+		if ($name === null && $this->value)
 		{
-			$name = JText::_('JLIB_FORM_SELECT_USER');
+			$name = $this->value;
 		}
 
 		$extraData = array(
-				'userName'  => $name,
-				'groups'    => $this->getGroups(),
-				'excluded'  => $this->getExcluded(),
+			'userName'  => $name,
+			'groups'    => $this->getGroups(),
+			'excluded'  => $this->getExcluded(),
 		);
 
 		return array_merge($data, $extraData);
@@ -106,7 +116,7 @@ class JFormFieldUser extends JFormField
 	/**
 	 * Method to get the filtering groups (null means no filtering)
 	 *
-	 * @return  mixed  array of filtering groups or null.
+	 * @return  mixed  Array of filtering groups or null.
 	 *
 	 * @since   1.6
 	 */
@@ -129,6 +139,11 @@ class JFormFieldUser extends JFormField
 	 */
 	protected function getExcluded()
 	{
-		return explode(',', $this->element['exclude']);
+		if (isset($this->element['exclude']))
+		{
+			return explode(',', $this->element['exclude']);
+		}
+
+		return;
 	}
 }

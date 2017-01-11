@@ -142,6 +142,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 
 		$db = JFactory::getDbo();
+		$user = JFactory::getUser();
+		$groups = implode(',', $user->getAuthorisedViewLevels());
+
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published, a.lft');
 		$subQuery = $db->getQuery(true)
@@ -181,6 +184,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		{
 			$subQuery->where('published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
 		}
+
+		// Filter categories on User Access Level
+		$subQuery->where('access IN (' . $groups . ')');
 
 		$query->from('(' . (string) $subQuery . ') AS a')
 			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');

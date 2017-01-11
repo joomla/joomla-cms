@@ -110,7 +110,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 		try
 		{
-			$dbc = JDatabaseDriver::getInstance($options)->getVersion();
+			JDatabaseDriver::getInstance($options)->getVersion();
 		}
 		catch (Exception $e)
 		{
@@ -143,7 +143,7 @@ class ConfigModelApplication extends ConfigModelForm
 				// If available in HTTPS check also the status code.
 				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))
 				{
-					throw new RuntimeException('HTTPS version of the site returned an invalid HTTP status code.');
+					throw new RuntimeException(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
 				}
 			}
 			catch (RuntimeException $e)
@@ -154,7 +154,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$app->setUserState('com_config.config.global.data.force_ssl', 0);
 
 				// Inform the user
-				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE'), 'warning');
+				$app->enqueueMessage(JText::sprintf('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE', $e->getMessage()), 'warning');
 			}
 		}
 
@@ -202,15 +202,14 @@ class ConfigModelApplication extends ConfigModelForm
 		// Save the text filters
 		if (isset($data['filters']))
 		{
-			$registry = new Registry;
-			$registry->loadArray(array('filters' => $data['filters']));
+			$registry = new Registry(array('filters' => $data['filters']));
 
 			$extension = JTable::getInstance('extension');
 
 			// Get extension_id
-			$extension_id = $extension->find(array('name' => 'com_config'));
+			$extensionId = $extension->find(array('name' => 'com_config'));
 
-			if ($extension->load((int) $extension_id))
+			if ($extension->load((int) $extensionId))
 			{
 				$extension->params = (string) $registry;
 
@@ -255,30 +254,124 @@ class ConfigModelApplication extends ConfigModelForm
 			$table->purge(-1);
 		}
 
+		// Set the shared session configuration
+		if (isset($data['shared_session']))
+		{
+			$currentShared = isset($prev['shared_session']) ? $prev['shared_session'] : '0';
+
+			// Has the user enabled shared sessions?
+			if ($data['shared_session'] == 1 && $currentShared == 0)
+			{
+				// Generate a random shared session name
+				$data['session_name'] = JUserHelper::genRandomPassword(16);
+			}
+
+			// Has the user disabled shared sessions?
+			if ($data['shared_session'] == 0 && $currentShared == 1)
+			{
+				// Remove the session name value
+				unset($data['session_name']);
+			}
+		}
+
 		if (empty($data['cache_handler']))
 		{
 			$data['caching'] = 0;
 		}
 
-		$path = JPATH_SITE . '/cache';
+		/*
+		 * Look for a custom cache_path
+		 * First check if a path is given in the submitted data, then check if a path exists in the previous data, otherwise use the default
+		 */
+		if ($data['cache_path'])
+		{
+			$path = $data['cache_path'];
+		}
+		elseif (!$data['cache_path'] && $prev['cache_path'])
+		{
+			$path = $prev['cache_path'];
+		}
+		else
+		{
+			$path = JPATH_SITE . '/cache';
+		}
 
 		// Give a warning if the cache-folder can not be opened
 		if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) == false)
 		{
-			JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
-			$data['caching'] = 0;
+			$error = true;
+
+			// If a custom path is in use, try using the system default instead of disabling cache
+			if ($path !== JPATH_SITE . '/cache' && @opendir(JPATH_SITE . '/cache') != false)
+			{
+				try
+				{
+					JLog::add(
+						JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
+						JLog::WARNING,
+						'jerror'
+					);
+				}
+				catch (RuntimeException $logException)
+				{
+					$app->enqueueMessage(
+						JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
+						'warning'
+					);
+				}
+
+				$path  = JPATH_SITE . '/cache';
+				$error = false;
+
+				$data['cache_path'] = '';
+			}
+
+			if ($error)
+			{
+				JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
+				$data['caching'] = 0;
+			}
 		}
 
-		// Clean the cache if disabled but previously enabled.
-		if (!$data['caching'] && $prev['caching'])
+		// Did the user remove their custom cache path?  Don't save the variable to the config
+		if (empty($data['cache_path']))
 		{
-			$cache = JFactory::getCache();
-			$cache->clean();
+			unset($data['cache_path']);
+		}
+
+		// Clean the cache if disabled but previously enabled or changing cache handlers; these operations use the `$prev` data already in memory
+		if ((!$data['caching'] && $prev['caching']) || $data['cache_handler'] !== $prev['cache_handler'])
+		{
+			try
+			{
+				JFactory::getCache()->clean();
+			}
+			catch (JCacheExceptionConnecting $exception)
+			{
+				try
+				{
+					JLog::add(JText::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), JLog::WARNING, 'jerror');
+				}
+				catch (RuntimeException $logException)
+				{
+					$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), 'warning');
+				}
+			}
+			catch (JCacheExceptionUnsupported $exception)
+			{
+				try
+				{
+					JLog::add(JText::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), JLog::WARNING, 'jerror');
+				}
+				catch (RuntimeException $logException)
+				{
+					$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), 'warning');
+				}
+			}
 		}
 
 		// Create the new configuration object.
-		$config = new Registry('config');
-		$config->loadArray($data);
+		$config = new Registry($data);
 
 		// Overwrite the old FTP credentials with the new ones.
 		$temp = JFactory::getConfig();
@@ -314,9 +407,8 @@ class ConfigModelApplication extends ConfigModelForm
 		$prev = ArrayHelper::fromObject($prev);
 
 		// Create the new configuration object, and unset the root_user property
-		$config = new Registry('config');
 		unset($prev['root_user']);
-		$config->loadArray($prev);
+		$config = new Registry($prev);
 
 		// Write the configuration file.
 		return $this->writeConfigFile($config);

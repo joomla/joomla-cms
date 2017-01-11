@@ -136,6 +136,23 @@ class JCacheStorageMemcached extends JCacheStorage
 	}
 
 	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function contains($id, $group)
+	{
+		static::$_db->get($this->_getCacheId($id, $group));
+
+		return static::$_db->getResultCode() !== Memcached::RES_NOTFOUND;
+	}
+
+	/**
 	 * Get cached data by ID and group
 	 *
 	 * @param   string   $id         The cache data ID
@@ -326,7 +343,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function flush()
 	{

@@ -269,23 +269,19 @@ class ContentModelArticle extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			// Convert the params field to an array.
-			$registry = new Registry;
-			$registry->loadString($item->attribs);
+			$registry = new Registry($item->attribs);
 			$item->attribs = $registry->toArray();
 
 			// Convert the metadata field to an array.
-			$registry = new Registry;
-			$registry->loadString($item->metadata);
+			$registry = new Registry($item->metadata);
 			$item->metadata = $registry->toArray();
 
 			// Convert the images field to an array.
-			$registry = new Registry;
-			$registry->loadString($item->images);
+			$registry = new Registry($item->images);
 			$item->images = $registry->toArray();
 
 			// Convert the urls field to an array.
-			$registry = new Registry;
-			$registry->loadString($item->urls);
+			$registry = new Registry($item->urls);
 			$item->urls = $registry->toArray();
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
@@ -391,7 +387,7 @@ class ContentModelArticle extends JModelAdmin
 		$assoc = JLanguageAssociations::isEnabled();
 
 		// Check if article is associated
-		if ($this->getState('article.id') && $app->isSite() && $assoc)
+		if ($this->getState('article.id') && $app->isClient('site') && $assoc)
 		{
 			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
@@ -481,8 +477,7 @@ class ContentModelArticle extends JModelAdmin
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($data['images']);
+			$registry = new Registry($data['images']);
 
 			$data['images'] = (string) $registry;
 		}
@@ -533,8 +528,7 @@ class ContentModelArticle extends JModelAdmin
 
 			unset($check);
 
-			$registry = new Registry;
-			$registry->loadArray($data['urls']);
+			$registry = new Registry($data['urls']);
 
 			$data['urls'] = (string) $registry;
 		}
@@ -658,15 +652,15 @@ class ContentModelArticle extends JModelAdmin
 					->where('content_id IN (' . implode(',', $pks) . ')');
 				$db->setQuery($query);
 
-				$old_featured = $db->loadColumn();
+				$oldFeatured = $db->loadColumn();
 
 				// We diff the arrays to get a list of the articles that are newly featured
-				$new_featured = array_diff($pks, $old_featured);
+				$newFeatured = array_diff($pks, $oldFeatured);
 
 				// Featuring.
 				$tuples = array();
 
-				foreach ($new_featured as $pk)
+				foreach ($newFeatured as $pk)
 				{
 					$tuples[] = $pk . ', 0';
 				}
@@ -730,28 +724,25 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Association content items
-		$assoc = JLanguageAssociations::isEnabled();
-
-		if ($assoc)
+		if (JLanguageAssociations::isEnabled())
 		{
-			$languages = JLanguageHelper::getLanguages('lang_code');
-			$addform = new SimpleXMLElement('<form />');
-			$fields = $addform->addChild('fields');
-			$fields->addAttribute('name', 'associations');
-			$fieldset = $fields->addChild('fieldset');
-			$fieldset->addAttribute('name', 'item_associations');
-			$fieldset->addAttribute('description', 'COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_DESC');
-			$add = false;
+			$languages = JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
-			foreach ($languages as $tag => $language)
+			if (count($languages) > 1)
 			{
-				if (empty($data->language) || $tag != $data->language)
+				$addform = new SimpleXMLElement('<form />');
+				$fields = $addform->addChild('fields');
+				$fields->addAttribute('name', 'associations');
+				$fieldset = $fields->addChild('fieldset');
+				$fieldset->addAttribute('name', 'item_associations');
+				$fieldset->addAttribute('description', 'COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_DESC');
+
+				foreach ($languages as $language)
 				{
-					$add = true;
 					$field = $fieldset->addChild('field');
-					$field->addAttribute('name', $tag);
+					$field->addAttribute('name', $language->lang_code);
 					$field->addAttribute('type', 'modal_article');
-					$field->addAttribute('language', $tag);
+					$field->addAttribute('language', $language->lang_code);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
 					$field->addAttribute('select', 'true');
@@ -759,10 +750,7 @@ class ContentModelArticle extends JModelAdmin
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
 				}
-			}
 
-			if ($add)
-			{
 				$form->load($addform, false);
 			}
 		}
@@ -813,5 +801,32 @@ class ContentModelArticle extends JModelAdmin
 	private function canCreateCategory()
 	{
 		return JFactory::getUser()->authorise('core.create', 'com_content');
+	}
+
+	/**
+	 * Delete #__content_frontpage items if the deleted articles was featured
+	 *
+	 * @param   object  &$pks  The primary key related to the contents that was deleted.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function delete(&$pks)
+	{
+		$return = parent::delete($pks);
+
+		if ($return)
+		{
+			// Now check to see if this articles was featured if so delete it from the #__content_frontpage table
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__content_frontpage'))
+				->where('content_id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query);
+			$db->execute();
+		}
+
+		return $return;
 	}
 }

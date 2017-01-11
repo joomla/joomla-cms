@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -133,10 +133,10 @@ class JComponentRouterRulesNomenuTest extends TestCase {
 	public function testBuild()
 	{
 		// Test if the rule is properly skipped if an Itemid is set
-		$query = array('option' => 'com_content', 'view' => 'article', 'id' => '42:the-answer', 'Itemid' => '23');
+		$query = array('option' => 'com_test', 'view' => 'article', 'id' => '42:the-answer', 'Itemid' => '42');
 		$segments = array();
 		$this->object->build($query, $segments);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'article', 'id' => '42:the-answer', 'Itemid' => '23'), $query);
+		$this->assertEquals(array('option' => 'com_test', 'view' => 'article', 'id' => '42:the-answer', 'Itemid' => '42'), $query);
 		$this->assertEquals(array(), $segments);
 
 		// Test if a false view is properly not treated

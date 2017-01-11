@@ -479,7 +479,7 @@ class BannersModelTracks extends JModelList
 
 			foreach ($this->getItems() as $item)
 			{
-				$this->content .= '"' . str_replace('"', '""', $item->name) . '","'
+				$this->content .= '"' . str_replace('"', '""', $item->banner_name) . '","'
 					. str_replace('"', '""', $item->client_name) . '","'
 					. str_replace('"', '""', $item->category_title) . '","'
 					. str_replace('"', '""', ($item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK'))) . '","'

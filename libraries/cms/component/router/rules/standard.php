@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -235,11 +235,11 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 				$ids = array_shift($path);
 				if ($views[$view]->nestable)
 				{
-					foreach (array_reverse($ids, true) as $id)
+					foreach (array_reverse($ids, true) as $id => $segment)
 					{
 						if ($found2)
 						{
-							$segments[] = str_replace(':', '-', $id);
+							$segments[] = str_replace(':', '-', $segment);
 						}
 						else
 						{
@@ -258,7 +258,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 					}
 					else
 					{
-						$segments[] = str_replace(':', '-', $ids[0]);
+						$segments[] = str_replace(':', '-', array_shift($ids));
 					}
 				}
 			}
@@ -284,8 +284,12 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 			}
 			unset($query[$views[$view]->parent_key]);
 		}
-		unset($query['layout']);
-		unset($query[$views[$query['view']]->key]);
-		unset($query['view']);
+
+		if ($found)
+		{
+			unset($query['layout']);
+			unset($query[$views[$query['view']]->key]);
+			unset($query['view']);
+		}
 	}
 }

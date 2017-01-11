@@ -271,7 +271,9 @@
       if (opening && !range.empty()) {
         curType = "surround";
       } else if ((identical || !opening) && next == ch) {
-        if (triples.indexOf(ch) >= 0 && cm.getRange(cur, Pos(cur.line, cur.ch + 3)) == ch + ch + ch)
+        if (identical && stringStartsAfter(cm, cur))
+          curType = "both";
+        else if (triples.indexOf(ch) >= 0 && cm.getRange(cur, Pos(cur.line, cur.ch + 3)) == ch + ch + ch)
           curType = "skipThree";
         else
           curType = "skip";
@@ -346,6 +348,11 @@
       if (stream.pos >= pos.ch + 1) return /\bstring2?\b/.test(type1);
       stream.start = stream.pos;
     }
+  }
+
+  function stringStartsAfter(cm, pos) {
+    var token = cm.getTokenAt(Pos(pos.line, pos.ch + 1))
+    return /\bstring/.test(token.type) && token.start == pos.ch
   }
 });
 
@@ -1136,8 +1143,8 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
   function Iter(cm, line, ch, range) {
     this.line = line; this.ch = ch;
     this.cm = cm; this.text = cm.getLine(line);
-    this.min = range ? range.from : cm.firstLine();
-    this.max = range ? range.to - 1 : cm.lastLine();
+    this.min = range ? Math.max(range.from, cm.firstLine()) : cm.firstLine();
+    this.max = range ? Math.min(range.to - 1, cm.lastLine()) : cm.lastLine();
   }
 
   function tagAt(iter, ch) {
@@ -2214,12 +2221,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
-// Because sometimes you need to style the cursor's line.
-//
-// Adds an option 'styleActiveLine' which, when enabled, gives the
-// active line's wrapping <div> the CSS class "CodeMirror-activeline",
-// and gives its background <div> the class "CodeMirror-activeline-background".
-
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"));
@@ -2234,15 +2235,17 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   var GUTT_CLASS = "CodeMirror-activeline-gutter";
 
   CodeMirror.defineOption("styleActiveLine", false, function(cm, val, old) {
-    var prev = old && old != CodeMirror.Init;
-    if (val && !prev) {
-      cm.state.activeLines = [];
-      updateActiveLines(cm, cm.listSelections());
-      cm.on("beforeSelectionChange", selectionChange);
-    } else if (!val && prev) {
+    var prev = old == CodeMirror.Init ? false : old;
+    if (val == prev) return
+    if (prev) {
       cm.off("beforeSelectionChange", selectionChange);
       clearActiveLines(cm);
       delete cm.state.activeLines;
+    }
+    if (val) {
+      cm.state.activeLines = [];
+      updateActiveLines(cm, cm.listSelections());
+      cm.on("beforeSelectionChange", selectionChange);
     }
   });
 
@@ -2265,7 +2268,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     var active = [];
     for (var i = 0; i < ranges.length; i++) {
       var range = ranges[i];
-      if (!range.empty()) continue;
+      var option = cm.getOption("styleActiveLine");
+      if (typeof option == "object" && option.nonEmpty ? range.anchor.line != range.head.line : !range.empty())
+        continue
       var line = cm.getLineHandleVisualStart(range.head.line);
       if (active[active.length - 1] != line) active.push(line);
     }
@@ -2478,6 +2483,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     { keys: '.', type: 'action', action: 'repeatLastEdit' },
     { keys: '<C-a>', type: 'action', action: 'incrementNumberToken', isEdit: true, actionArgs: {increase: true, backtrack: false}},
     { keys: '<C-x>', type: 'action', action: 'incrementNumberToken', isEdit: true, actionArgs: {increase: false, backtrack: false}},
+    { keys: '<C-t>', type: 'action', action: 'indent', actionArgs: { indentRight: true }, context: 'insert' },
+    { keys: '<C-d>', type: 'action', action: 'indent', actionArgs: { indentRight: false }, context: 'insert' },
     // Text object motions
     { keys: 'a<character>', type: 'motion', motion: 'textObjectManipulation' },
     { keys: 'i<character>', type: 'motion', motion: 'textObjectManipulation', motionArgs: { textObjectInner: true }},
@@ -3068,8 +3075,12 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 
           if (lastInsertModeKeyTimer) { window.clearTimeout(lastInsertModeKeyTimer); }
           if (keysAreChars) {
-            var here = cm.getCursor();
-            cm.replaceRange('', offsetCursor(here, 0, -(keys.length - 1)), here, '+input');
+            var selections = cm.listSelections();
+            for (var i = 0; i < selections.length; i++) {
+              var here = selections[i].head;
+              cm.replaceRange('', offsetCursor(here, 0, -(keys.length - 1)), here, '+input');
+            }
+            vimGlobalState.macroModeState.lastInsertModeChanges.changes.pop();
           }
           clearInputState(cm);
           return match.command;
@@ -3106,7 +3117,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           // TODO: Look into using CodeMirror's multi-key handling.
           // Return no-op since we are caching the key. Counts as handled, but
           // don't want act on it just yet.
-          return function() {};
+          return function() { return true; };
         } else {
           return function() {
             return cm.operation(function() {
@@ -4899,6 +4910,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           repeat = vim.lastEditInputState.repeatOverride || repeat;
         }
         repeatLastEdit(cm, vim, repeat, false /** repeatForInsert */);
+      },
+      indent: function(cm, actionArgs) {
+        cm.indentLine(cm.getCursor().line, actionArgs.indentRight);
       },
       exitInsertMode: exitInsertMode
     };
@@ -7162,6 +7176,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           if (changeObj.origin == '+input' || changeObj.origin == 'paste'
               || changeObj.origin === undefined /* only in testing */) {
             var text = changeObj.text.join('\n');
+            if (lastChange.maybeReset) {
+              lastChange.changes = [];
+              lastChange.maybeReset = false;
+            }
             lastChange.changes.push(text);
           }
           // Change objects may be chained with next.
@@ -7184,7 +7202,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           lastChange.expectCursorActivityForChange = false;
         } else {
           // Cursor moved outside the context of an edit. Reset the change.
-          lastChange.changes = [];
+          lastChange.maybeReset = true;
         }
       } else if (!cm.curOp.isVimOp) {
         handleExternalSelection(cm, vim);
@@ -7248,6 +7266,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       var keyName = CodeMirror.keyName(e);
       if (!keyName) { return; }
       function onKeyFound() {
+        if (lastChange.maybeReset) {
+          lastChange.changes = [];
+          lastChange.maybeReset = false;
+        }
         lastChange.changes.push(new InsertModeKey(keyName));
         return true;
       }

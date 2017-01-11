@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Editor Readmore buton
+ * Editor Readmore button
  *
  * @since  1.5
  */
@@ -29,16 +29,15 @@ class PlgButtonReadmore extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return array A two element array of (imageName, textToInsert)
+	 * @return  JObject  The button options as JObject
+	 *
+	 * @since   1.5
 	 */
 	public function onDisplay($name)
 	{
-		$doc = JFactory::getDocument();
-
-		// Button is not active in specific content components
-
 		$getContent = $this->_subject->getContent($name);
-		$present = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
+		$present    = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
+
 		$js = "
 			function insertReadmore(editor)
 			{
@@ -53,17 +52,14 @@ class PlgButtonReadmore extends JPlugin
 			}
 			";
 
-		$doc->addScriptDeclaration($js);
+		JFactory::getDocument()->addScriptDeclaration($js);
 
-		$button          = new JObject;
+		$button = new JObject;
 		$button->modal   = false;
 		$button->class   = 'btn';
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
 		$button->text    = JText::_('PLG_READMORE_BUTTON_READMORE');
 		$button->name    = 'arrow-down';
-
-		// @TODO: The button writer needs to take into account the javascript directive
-		// $button->link', 'javascript:void(0)');
 		$button->link    = '#';
 
 		return $button;

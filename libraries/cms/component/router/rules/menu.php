@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -97,7 +97,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 						$query['Itemid'] = $this->lookup[$language][$view . $layout];
 						return;
 					}
-					foreach ($ids as $id)
+					foreach ($ids as $id => $segment)
 					{
 						if (isset($this->lookup[$language][$view . $layout][(int) $id]))
 						{

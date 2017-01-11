@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Helper to deal with user groups.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.6.3
  */
 final class JHelperUsergroups
 {
 	/**
 	 * @const  integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.6.3
 	 */
 	const MODE_SINGLETON = 1;
 
 	/**
 	 * @const  integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.6.3
 	 */
 	const MODE_INSTANCE = 2;
 
@@ -32,7 +32,7 @@ final class JHelperUsergroups
 	 * Singleton instance.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.6.3
 	 */
 	private static $instance;
 
@@ -40,7 +40,7 @@ final class JHelperUsergroups
 	 * Available user groups
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.6.3
 	 */
 	private $groups = array();
 
@@ -48,7 +48,7 @@ final class JHelperUsergroups
 	 * Mode this class is working: singleton or std instance
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.6.3
 	 */
 	private $mode;
 
@@ -56,7 +56,7 @@ final class JHelperUsergroups
 	 * Total available groups
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.6.3
 	 */
 	private $total;
 
@@ -66,7 +66,7 @@ final class JHelperUsergroups
 	 * @param   array    $groups  Array of groups
 	 * @param   integer  $mode    Working mode for this class
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function __construct(array $groups = array(), $mode = self::MODE_INSTANCE)
 	{
@@ -83,7 +83,7 @@ final class JHelperUsergroups
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function count()
 	{
@@ -95,7 +95,7 @@ final class JHelperUsergroups
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public static function getInstance()
 	{
@@ -117,7 +117,7 @@ final class JHelperUsergroups
 	 *
 	 * @return  mixed  stdClass on success. False otherwise
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function get($id)
 	{
@@ -142,7 +142,7 @@ final class JHelperUsergroups
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function getAll()
 	{
@@ -161,7 +161,7 @@ final class JHelperUsergroups
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function has($id)
 	{
@@ -173,7 +173,7 @@ final class JHelperUsergroups
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	private function isSingleton()
 	{
@@ -185,7 +185,7 @@ final class JHelperUsergroups
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function total()
 	{
@@ -197,7 +197,7 @@ final class JHelperUsergroups
 				->select('count(id)')
 				->from('#__usergroups');
 
-			$db->setQuery($query, 0, 1);
+			$db->setQuery($query);
 
 			$this->total = (int) $db->loadResult();
 		}
@@ -212,7 +212,7 @@ final class JHelperUsergroups
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function load($id)
 	{
@@ -240,7 +240,7 @@ final class JHelperUsergroups
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function loadAll()
 	{
@@ -268,7 +268,7 @@ final class JHelperUsergroups
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	private function populateGroupsData()
 	{
@@ -287,7 +287,7 @@ final class JHelperUsergroups
 	 *
 	 * @return  stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function populateGroupData($group)
 	{
@@ -308,6 +308,11 @@ final class JHelperUsergroups
 
 		$parentGroup = $this->has($parentId) ? $this->get($parentId) : $this->load($parentId);
 
+		if (!property_exists($parentGroup, 'path'))
+		{
+			$parentGroup = $this->populateGroupData($parentGroup);
+		}
+
 		$group->path = array_merge($parentGroup->path, array($group->id));
 		$group->level = count($group->path) - 1;
 
@@ -321,7 +326,7 @@ final class JHelperUsergroups
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function setGroups(array $groups)
 	{
