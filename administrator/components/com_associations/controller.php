@@ -17,10 +17,11 @@ defined('_JEXEC') or die;
 class AssociationsController extends JControllerLegacy
 {
 	/**
-	 * @var     string  The default view.
+	 * The default view.
+	 *
+	 * @var     string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $default_view = 'associations';
-
 }

@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 JHtml::_('behavior.tabstate');
 
 if (!JFactory::getUser()->authorise('core.manage', 'com_associations'))
@@ -24,7 +25,7 @@ if ($itemtype !== '')
 {
 	list($extensionName, $typeName) = explode('.', $itemtype);
 
-	if (! AssociationsHelper::hasSupport($extensionName))
+	if (!AssociationsHelper::hasSupport($extensionName))
 	{
 		throw new Exception(JText::_('COM_ASSOCIATIONS_COMPONENT_NOT_SUPPORTED') . ' ' . $itemType->realcomponent, 404);
 	}

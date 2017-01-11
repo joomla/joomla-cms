@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://www.w3.org/TR/html-markup/input.color.html
  * @since  11.3
  */
-class JFormFieldColor extends JFormField implements JFormDomfieldinterface
+class JFormFieldColor extends JFormField
 {
 	/**
 	 * The form field type.

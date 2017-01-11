@@ -21,21 +21,27 @@ JTable::addIncludePath(__DIR__ . '/../tables');
 class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 {
 	/**
-	 * var       array   $extension  The extension name
+	 * The extension name
+	 *
+	 * @var       array   $extension
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
 	protected $extension = 'com_newsfeeds';
 
 	/**
-	 * var       array   $itemTypes  Array of item types
+	 * Array of item types
+	 *
+	 * @var       array   $itemTypes
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
 	protected $itemTypes = array('newsfeed', 'category');
 
 	/**
-	 * var       boolean   $associationsSupport  Has the extension association support
+	 * Has the extension association support
+	 *
+	 * @var       boolean   $associationsSupport
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
@@ -49,7 +55,7 @@ class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 
 	public function getAssociations($typeName, $id)
@@ -87,7 +93,7 @@ class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  JTable|null
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItem($typeName, $id)
 	{
@@ -126,7 +132,7 @@ class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array  Array of item types
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getType($typeName = '')
 	{
@@ -169,6 +175,7 @@ class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 					$tables = array(
 						'a' => '#__categories'
 					);
+
 					$title = 'category';
 					break;
 			}

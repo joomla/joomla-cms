@@ -11,6 +11,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_associations"
-			section="component" />
+			section="component"
+		/>
 	</fieldset>
 </config>

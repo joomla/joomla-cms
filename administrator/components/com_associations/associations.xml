@@ -2,7 +2,7 @@
 <extension type="component" version="3.7" method="upgrade">
 	<name>com_associations</name>
 	<author>Joomla! Project</author>
-	<creationDate>September 2016</creationDate>
+	<creationDate>Januar 2017</creationDate>
 	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

@@ -19,23 +19,29 @@ defined('JPATH_PLATFORM') or die;
 abstract class JAssociationExtensionHelper  implements JAssociationExtensionInterface
 {
 	/**
-	 * var       array   $extension  The extension name
+	 * The extension name
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @var     array  $extension
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $extension = 'com_??';
 
 	/**
-	 * var       array   $itemTypes  Array of item types
+	 * Array of item types
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @var     array  $itemTypes
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $itemTypes = array();
 
 	/**
-	 * var       boolean   $associationsSupport  Has the extension association support
+	 * Has the extension association support
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @var     boolean  $associationsSupport
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $associationsSupport = false;
 
@@ -44,7 +50,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  boolean  Supports the extension associations
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function hasAssociationsSupport()
 	{
@@ -69,7 +75,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 * @param   string  $typeName  The item type
 	 * @param   int     $itemId    The id of item for which we need the associated items
 	 *
-	 * @return  array
+	 * @return   array
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
@@ -94,7 +100,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of item types
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getType($typeName = '')
 	{
@@ -120,7 +126,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of support information
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTypeFields($typeName)
 	{
@@ -134,7 +140,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of support information
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTypeSupport($typeName)
 	{
@@ -148,7 +154,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of support information
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTypeTables($typeName)
 	{
@@ -162,7 +168,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of support information
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTypeJoins($typeName)
 	{
@@ -176,13 +182,13 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of support information
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTypeTitle($typeName)
 	{
 		$type = $this->getType($typeName);
 
-		if (! array_key_exists('title', $type))
+		if (!array_key_exists('title', $type))
 		{
 			return '';
 		}
@@ -196,15 +202,15 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 * @param   string  $typeName  The item type
 	 * @param   string  $part      part of the information
 	 *
-	 * @return array Array of support information
+	 * @return  array Array of support information
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getTypeInformation($typeName, $part = 'support')
 	{
 		$type = $this->getType($typeName);
 
-		if (! array_key_exists($part, $type))
+		if (!array_key_exists($part, $type))
 		{
 			return array();
 		}
@@ -220,13 +226,13 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTypeFieldName($typeName, $fieldName)
 	{
 		$fields = $this->getTypeFields($typeName);
 
-		if (! array_key_exists($fieldName, $fields))
+		if (!array_key_exists($fieldName, $fields))
 		{
 			return '';
 		}
@@ -247,7 +253,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getSupportTemplate()
 	{
@@ -263,7 +269,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getFieldsTemplate()
 	{

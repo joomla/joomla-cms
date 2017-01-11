@@ -10,12 +10,14 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Fields Groups
  *
  * @since  3.7.0
  */
-class JFormFieldFieldgroups extends JFormAbstractlist
+class JFormFieldFieldgroups extends JFormFieldList
 {
 	public $type = 'Fieldgroups';
 

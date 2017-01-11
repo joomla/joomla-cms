@@ -173,29 +173,25 @@ class FieldsHelper
 
 				if ($prepareValue)
 				{
-					$value = null;
+					JPluginHelper::importPlugin('fields');
 
-					/*
-					 * On before field prepare
-					 * Event allow plugins to modfify the output of the field before it is prepared
-					 */
 					$dispatcher = JEventDispatcher::getInstance();
-					$dispatcher->trigger('onFieldBeforePrepare', array($context, $item, &$field));
 
-					// Prepare the value from the type layout
-					$value = self::render($context, 'field.prepare.' . $field->type, array('field' => $field));
+					// Event allow plugins to modfify the output of the field before it is prepared
+					$dispatcher->trigger('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
-					// If the value is empty, render the base layout
-					if (! $value)
+					// Gathering the value for the field
+					$value = $dispatcher->trigger('onCustomFieldsPrepareField', array($context, $item, &$field));
+
+					if (is_array($value))
 					{
-						$value = self::render($context, 'field.prepare.base', array('field' => $field));
+						$value = implode($value, ' ');
 					}
 
-					/*
-					 * On after field render
-					 * Event allow plugins to modfify the output of the prepared field
-					 */
-					$dispatcher->trigger('onFieldAfterPrepare', array($context, $item, $field, &$value));
+					// Event allow plugins to modfify the output of the prepared field
+					$dispatcher->trigger('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
+
+					// Assign the value
 					$field->value = $value;
 				}
 
@@ -241,15 +237,6 @@ class FieldsHelper
 		{
 			// Trying to render the layout on Fields itself
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
-		}
-
-		if ($value == '')
-		{
-			// Trying to render the layout of the plugins
-			foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
-			{
-				$value = JLayoutHelper::render($layoutFile, $displayData, $folder['fullname'] . '/layouts');
-			}
 		}
 
 		return $value;
@@ -355,7 +342,7 @@ class FieldsHelper
 			return true;
 		}
 
-		self::loadPlugins();
+		$fieldTypes = self::getFieldTypes();
 
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');
@@ -364,21 +351,32 @@ class FieldsHelper
 
 		// Organizing the fields according to their group
 		$fieldsPerGroup = array(
-				0 => array()
+			0 => array()
 		);
 
 		foreach ($fields as $field)
 		{
+			if (!array_key_exists($field->type, $fieldTypes))
+			{
+				// Field type is not available
+				continue;
+			}
+
 			if (!array_key_exists($field->group_id, $fieldsPerGroup))
 			{
 				$fieldsPerGroup[$field->group_id] = array();
+			}
+
+			if ($path = $fieldTypes[$field->type]['path'])
+			{
+				// Add the lookup path for the field
+				JFormHelper::addFieldPath($path);
 			}
 
 			$fieldsPerGroup[$field->group_id][] = $field;
 		}
 
 		// On the front, sometimes the admin fields path is not included
-		JFormHelper::addFieldPath(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/fields');
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
 		// Looping trough the groups
@@ -444,33 +442,17 @@ class FieldsHelper
 			// Looping trough the fields for that context
 			foreach ($groupFields as $field)
 			{
-				// Creating the XML form data
-				$type = JFormHelper::loadFieldType($field->type);
-
-				if (!$type)
-				{
-					continue;
-				}
-
 				try
 				{
-					// Rendering the type
-					$node = $type->appendXMLFieldTag($field, $fieldset, $form);
-
-					if (!self::canEditFieldValue($field))
-					{
-						$node->setAttribute('disabled', 'true');
-					}
+					JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
 
 					/*
-					 *If the field belongs to a assigned_cat_ids but the
-					 * assigned_cat_ids in the data is not known, set the
-					 * required
-					 * flag to false on any circumstance
+					 * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
+					 * is not known, set the required flag to false on any circumstance.
 					 */
-					if (! $assignedCatids && $field->assigned_cat_ids)
+					if (! $assignedCatids && $field->assigned_cat_ids && $form->getField($field->alias))
 					{
-						$node->setAttribute('required', 'false');
+						$form->setFieldAttribute($field->alias, 'required', 'false');
 					}
 				}
 				catch (Exception $e)
@@ -707,24 +689,36 @@ class FieldsHelper
 	}
 
 	/**
-	 * Loads the fields plugins.
+	 * Loads the fields plugins and returns an array of field types from the plugins.
 	 *
-	 * @return  void
+	 * The returned array contains arrays with the following keys:
+	 * - label: The label of the field
+	 * - type:  The type of the field
+	 * - path:  The path of the folder where the field can be found
+	 *
+	 * @return  array
 	 *
 	 * @since   3.7.0
 	 */
-	public static function loadPlugins()
+	public static function getFieldTypes()
 	{
-		foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
-		{
-			if (!JPluginHelper::isEnabled('fields', $folder['name']))
-			{
-				continue;
-			}
+		JPluginHelper::importPlugin('fields');
+		$eventData = JEventDispatcher::getInstance()->trigger('onCustomFieldsGetTypes');
 
-			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), JPATH_ADMINISTRATOR);
-			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), $folder['fullname']);
-			JFormHelper::addFieldPath($folder['fullname'] . '/fields');
+		$data = array();
+
+		foreach ($eventData as $fields)
+		{
+			foreach ($fields as $fieldDescription)
+			{
+				if (!array_key_exists('path', $fieldDescription))
+				{
+					$fieldDescription['path'] = null;
+				}
+				$data[$fieldDescription['type']] = $fieldDescription;
+			}
 		}
+
+		return $data;
 	}
 }

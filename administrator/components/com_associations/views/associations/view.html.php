@@ -19,36 +19,36 @@ class AssociationsViewAssociations extends JViewLegacy
 	/**
 	 * An array of items
 	 *
-	 * @var  array
+	 * @var   array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $items;
 
 	/**
 	 * The pagination object
 	 *
-	 * @var  JPagination
+	 * @var    JPagination
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var    object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
 
 	/**
 	 * Selected item type properties.
 	 *
-	 * @var  Registry
+	 * @var    Registry
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $itemType = null;
 
@@ -133,12 +133,12 @@ class AssociationsViewAssociations extends JViewLegacy
 					unset($this->activeFilters['category_id']);
 					$this->filterForm->removeField('category_id', 'filter');
 				}
-				if ($extension !== 'com_menu')
+				if ($extensionName !== 'com_menu')
 				{
 					unset($this->activeFilters['menutype']);
 					$this->filterForm->removeField('menutype', 'filter');
 				}
-				if (! in_array($extension, array('com_categories', 'com_menus')))
+				if (!in_array($extensionName, array('com_categories', 'com_menus')))
 				{
 					unset($this->activeFilters['level']);
 					$this->filterForm->removeField('level', 'filter');
@@ -152,7 +152,7 @@ class AssociationsViewAssociations extends JViewLegacy
 				// Add extension attribute to category filter.
 				if (empty($support['catid']))
 				{
-					$this->filterForm->setFieldAttribute('category_id', 'extension', $extension, 'filter');
+					$this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
 				}
 
 				$this->items      = $this->get('Items');

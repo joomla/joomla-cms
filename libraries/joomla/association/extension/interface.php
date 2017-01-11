@@ -21,7 +21,7 @@ interface JAssociationExtensionInterface
 	 *
 	 * @return  boolean  Supports the extension associations
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function hasAssociationsSupport();
 }

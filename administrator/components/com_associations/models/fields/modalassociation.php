@@ -40,12 +40,12 @@ class JFormFieldModalAssociation extends JFormField
 		$script = array();
 
 		// Select button script
-		$script[] = '	function jSelectAssociation_' . $this->id . '(id) {';
-		$script[] = '       target = document.getElementById("target-association");';
-		$script[] = '		document.getElementById("target-association").src = target.getAttribute("data-editurl") + '
-								. '"&task=" + target.getAttribute("data-item") + ".edit" + "&id=" + id';
-		$script[] = '		jQuery("#associationSelect' . $this->id . 'Modal").modal("hide");';
-		$script[] = '	}';
+		$script[] = 'function jSelectAssociation_' . $this->id . '(id) {';
+		$script[] = '   target = document.getElementById("target-association");';
+		$script[] = '   document.getElementById("target-association").src = target.getAttribute("data-editurl") + '
+						. '"&task=" + target.getAttribute("data-item") + ".edit" + "&id=" + id';
+		$script[] = '	jQuery("#associationSelect' . $this->id . 'Modal").modal("hide");';
+		$script[] = '}';
 
 		// Add the script to the document head.
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));

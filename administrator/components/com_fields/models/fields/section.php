@@ -8,12 +8,14 @@
  */
 defined('_JEXEC') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Fields Section
  *
  * @since  3.7.0
  */
-class JFormFieldSection extends JFormAbstractlist
+class JFormFieldSection extends JFormFieldList
 {
 	public $type = 'Section';
 

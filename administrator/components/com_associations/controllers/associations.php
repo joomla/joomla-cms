@@ -1,13 +1,13 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_associations
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined("_JEXEC") or die("Restricted access");
+defined('_JEXEC') or die;
 
 JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
 
@@ -52,8 +52,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 */
 	public function purge()
 	{
-		$model = $this->getModel('associations');
-		$model->purge();
+		$this->getModel('associations')->purge();
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
@@ -66,8 +65,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 */
 	public function clean()
 	{
-		$model = $this->getModel('associations');
-		$model->clean();
+		$this->getModel('associations')->clean();
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 }

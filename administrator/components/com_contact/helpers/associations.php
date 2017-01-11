@@ -21,23 +21,29 @@ JTable::addIncludePath(__DIR__ . '/../tables');
 class ContactAssociationsHelper extends JAssociationExtensionHelper
 {
 	/**
-	 * var       array   $extension  The extension name
+	 * The extension name
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @var     array   $extension
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $extension = 'com_contact';
 
 	/**
-	 * var       array   $itemTypes  Array of item types
+	 * Array of item types
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @var     array   $itemTypes
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $itemTypes = array('contact', 'category');
 
 	/**
-	 * var       boolean   $associationsSupport  Has the extension association support
+	 * Has the extension association support
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @var     boolean   $associationsSupport
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $associationsSupport = true;
 
@@ -49,9 +55,8 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
-
 	public function getAssociations($typeName, $id)
 	{
 		$type = $this->getType($typeName);
@@ -87,7 +92,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  JTable|null
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItem($typeName, $id)
 	{
@@ -126,7 +131,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array  Array of item types
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getType($typeName = '')
 	{
@@ -138,7 +143,6 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 
 		if (in_array($typeName, $this->itemTypes))
 		{
-
 			switch ($typeName)
 			{
 				case 'contact':
@@ -152,6 +156,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 					$tables = array(
 						'a' => '#__contact_details'
 					);
+
 					$title = 'contact';
 					break;
 
@@ -169,6 +174,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 					$tables = array(
 						'a' => '#__categories'
 					);
+
 					$title = 'category';
 					break;
 			}
