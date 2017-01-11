@@ -8821,6 +8821,20 @@ textarea.noResize {
 	border-radius: 3px;
 	padding: 15px;
 }
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+	padding-top: 0;
+}
+.form-horizontal .controls > .radio:first-child,
+.form-horizontal .controls > .checkbox:first-child {
+	padding-top: 5px;
+}
+.form-horizontal .controls > .radio.btn-group:first-child {
+	padding-top: 0;
+}
+.form-horizontal .controls > .radio.btn-group-yesno:first-child {
+	padding-top: 2px;
+}
 .pull-right {
 	float: left;
 }
