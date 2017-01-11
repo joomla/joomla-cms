@@ -157,7 +157,8 @@ abstract class FieldsPlugin extends JPlugin
 		// Set the specific field parameters
 		foreach ($field->fieldparams->toArray() as $key => $param)
 		{
-			if ($param === '')
+			// Must be type safe as 0 and false should be allowed
+			if ($param === '' || $param === null)
 			{
 				// If the param is empty get it from the plugin parameters
 				$param = $this->params->get($key);
@@ -169,7 +170,7 @@ abstract class FieldsPlugin extends JPlugin
 				$param = count($param) == count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
 			}
 
-			if ($param === '')
+			if ($param === '' || $param === null)
 			{
 				continue;
 			}
