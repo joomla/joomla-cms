@@ -518,7 +518,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($admin_langs as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -531,7 +531,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($manifests as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -551,7 +551,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($image_folders as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -566,7 +566,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($site_langs as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -584,7 +584,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($plugin_groups as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
