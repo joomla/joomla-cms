@@ -223,15 +223,17 @@ class JCache
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
-		// Get the storage
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
+		try
 		{
-			return $handler->get($id, $group, $this->_options['checkTime']);
+			$handler = $this->_getStorage();
+		}
+		catch (RuntimeException $e)
+		{
+			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+			return false;
 		}
 
-		return false;
+		return $handler->get($id, $group, $this->_options['checkTime']);
 	}
 
 	/**
@@ -248,15 +250,17 @@ class JCache
 			return false;
 		}
 
-		// Get the storage
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
+		try
 		{
-			return $handler->getAll();
+			$handler = $this->_getStorage();
+		}
+		catch (RuntimeException $e)
+		{
+			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+			return false;
 		}
 
-		return false;
+		return $handler->getAll();
 	}
 
 	/**
@@ -280,15 +284,18 @@ class JCache
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
-		// Get the storage and store the cached data
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
+		try
 		{
-			return $handler->store($id, $group, $data);
+			// Get the storage
+			$handler = $this->_getStorage();
+		}
+		catch (RuntimeException $e)
+		{
+			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+			return false;
 		}
 
-		return false;
+		return $handler->store($id, $group, $data);
 	}
 
 	/**
@@ -306,15 +313,17 @@ class JCache
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
-		// Get the storage
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
+		try
 		{
-			return $handler->remove($id, $group);
+			$handler = $this->_getStorage();
+		}
+		catch (RuntimeException $e)
+		{
+			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+			return false;
 		}
 
-		return false;
+		return $handler->remove($id, $group);
 	}
 
 	/**
@@ -335,15 +344,17 @@ class JCache
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
-		// Get the storage handler
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
+		try
 		{
-			return $handler->clean($group, $mode);
+			$handler = $this->_getStorage();
+		}
+		catch (RuntimeException $e)
+		{
+			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+			return false;
 		}
 
-		return false;
+		return $handler->clean($group, $mode);
 	}
 
 	/**
@@ -355,15 +366,17 @@ class JCache
 	 */
 	public function gc()
 	{
-		// Get the storage handler
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
+		try
 		{
-			return $handler->gc();
+			$handler = $this->_getStorage();
+		}
+		catch (RuntimeException $e)
+		{
+			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+			return false;
 		}
 
-		return false;
+		return $handler->gc();
 	}
 
 	/**
@@ -382,7 +395,7 @@ class JCache
 		$returning = new stdClass;
 		$returning->locklooped = false;
 
-		if (!$this->getCaching())
+		if (!$this->getCaching() || $this->_options['locking'] !== true)
 		{
 			$returning->locked = false;
 
@@ -399,19 +412,26 @@ class JCache
 		 * Allow storage handlers to perform locking on their own
 		 * NOTE drivers with lock need also unlock or unlocking will fail because of false $id
 		 */
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception) && $this->_options['locking'] == true)
+		try
 		{
-			$locked = $handler->lock($id, $group, $locktime);
+			$handler = $this->_getStorage();
+		}
+		catch (RuntimeException $e)
+		{
+			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+			$returning->locked = false;
 
-			if ($locked !== false)
-			{
-				return $locked;
-			}
+			return $returning;
 		}
 
-		// Fallback
+		$locked = $handler->lock($id, $group, $locktime);
+
+		if ($locked !== false)
+		{
+			return $locked;
+		}
+
+		// Fallback, current storage does not have implemented own lock method
 		$curentlifetime = $this->_options['lifetime'];
 
 		// Set lifetime to locktime for storing in children
@@ -420,28 +440,24 @@ class JCache
 		$looptime = $locktime * 10;
 		$id2      = $id . '_lock';
 
-		if ($this->_options['locking'] == true)
-		{
-			$data_lock = $this->get($id2, $group);
-		}
-		else
-		{
-			$data_lock         = false;
-			$returning->locked = false;
-		}
+		$data_lock = $this->get($id2, $group);
 
 		if ($data_lock !== false)
 		{
 			$lock_counter = 0;
 
-			// Loop until you find that the lock has been released. That implies that data get from other thread has finished
+			$returning->locklooped = true;
+
+			// Loop until you find that the lock has been released.
+			// That implies that data get from other thread has finished.
 			while ($data_lock !== false)
 			{
 				if ($lock_counter > $looptime)
 				{
+					// Timeout
 					$returning->locked = false;
-					$returning->locklooped = true;
-					break;
+
+					return $returning;
 				}
 
 				usleep(100);
@@ -450,10 +466,7 @@ class JCache
 			}
 		}
 
-		if ($this->_options['locking'] == true)
-		{
-			$returning->locked = $this->store(1, $id2, $group);
-		}
+		$returning->locked = $this->store(1, $id2, $group);
 
 		// Revert lifetime to previous one
 		$this->_options['lifetime'] = $curentlifetime;
@@ -483,26 +496,26 @@ class JCache
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
-		// Allow handlers to perform unlocking on their own
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
+		try
 		{
-			$unlocked = $handler->unlock($id, $group);
+			$handler = $this->_getStorage();
+		}
+		catch (RuntimeException $e)
+		{
+			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+			return false;
+		}
 
-			if ($unlocked !== false)
-			{
-				return $unlocked;
-			}
+		// Allow handlers to perform unlocking on their own
+		$unlocked = $handler->unlock($id, $group);
+
+		if ($unlocked !== false)
+		{
+			return $unlocked;
 		}
 
 		// Fallback
-		if ($this->getCaching())
-		{
-			$unlock = $this->remove($id . '_lock', $group);
-		}
-
-		return $unlock;
+		return $this->remove($id . '_lock', $group);
 	}
 
 	/**
@@ -511,6 +524,7 @@ class JCache
 	 * @return  JCacheStorage
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function &_getStorage()
 	{
