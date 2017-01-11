@@ -31,7 +31,7 @@ foreach ($value as $path)
 		continue;
 	}
 
-	$buffer .= '<img src="images/' . $field->fieldparams->get('directory', '/')
+	$buffer .= '<img src="images/' . $fieldParams->get('directory', '/')
 				. '/' . $path . '"' . $class . '"/>';
 }
 
