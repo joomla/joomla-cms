@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 $value = $field->value;
-$class = $field->fieldparams->get('image_class');
+$class = $fieldParams->get('image_class');
 
 if ($class)
 {
