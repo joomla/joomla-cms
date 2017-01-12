@@ -91,19 +91,19 @@ class FieldsTableField extends JTable
 			return false;
 		}
 
-		if (empty($this->alias))
+		if (empty($this->unique_name))
 		{
-			$this->alias = $this->title;
+			$this->unique_name = $this->title . '-' . uniqid();;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->unique_name = JApplicationHelper::stringURLSafe($this->unique_name);
 
-		if (trim(str_replace('-', '', $this->alias)) == '')
+		if (trim(str_replace('-', '', $this->unique_name)) == '')
 		{
-			$this->alias = Joomla\String\StringHelper::increment($this->alias, 'dash');
+			$this->unique_name = Joomla\String\StringHelper::increment($this->unique_name, 'dash');
 		}
 
-		$this->alias = str_replace(',', '-', $this->alias);
+		$this->unique_name = str_replace(',', '-', $this->unique_name);
 
 		if (empty($this->type))
 		{
@@ -135,7 +135,7 @@ class FieldsTableField extends JTable
 		if (empty($this->group_id))
 		{
 			$this->group_id = 0;
-		}	
+		}
 
 		return true;
 	}
