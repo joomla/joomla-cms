@@ -450,7 +450,7 @@ class FieldsHelper
 					 * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
 					 * is not known, set the required flag to false on any circumstance.
 					 */
-					if (! $assignedCatids && $field->assigned_cat_ids && $form->getField($field->alias))
+					if (!$assignedCatids && !empty($field->assigned_cat_ids) && $form->getField($field->alias))
 					{
 						$form->setFieldAttribute($field->alias, 'required', 'false');
 					}
