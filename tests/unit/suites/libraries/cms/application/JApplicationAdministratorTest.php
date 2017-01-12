@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -209,7 +209,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testGetRouter()
 	{
-		$this->assertInstanceOf('JRouterAdministrator', $this->class->getRouter());
+		$this->assertInstanceOf('JRouterAdministrator', JApplicationAdministrator::getRouter());
 	}
 
 	/**
@@ -259,7 +259,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function testIsClient()
 	{

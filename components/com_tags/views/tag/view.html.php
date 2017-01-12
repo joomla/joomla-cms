@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,6 +85,8 @@ class TagsViewTag extends JViewLegacy
 
 		if ($items !== false)
 		{
+			JPluginHelper::importPlugin('content');
+
 			foreach ($items as $itemElement)
 			{
 				$itemElement->event = new stdClass;
@@ -94,7 +96,6 @@ class TagsViewTag extends JViewLegacy
 
 				$dispatcher = JEventDispatcher::getInstance();
 
-				JPluginHelper::importPlugin('content');
 				$dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 
 				$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1296,9 +1296,11 @@ class JTableNested extends JTable
 				->where('parent_id = %d');
 
 			// If the table has an ordering field, use that for ordering.
-			if (property_exists($this, 'ordering'))
+			$orderingField = $this->getColumnAlias('ordering');
+
+			if (property_exists($this, $orderingField))
 			{
-				$query->order('parent_id, ordering, lft');
+				$query->order('parent_id, ' . $this->_db->quoteName($orderingField) . ', lft');
 			}
 			else
 			{

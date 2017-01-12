@@ -3,25 +3,28 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla! W3c Logging class
+ * Joomla! W3C Logging class
  *
- * This class is designed to build log files based on the W3c specification
- * at: http://www.w3.org/TR/WD-logfile.html
+ * This class is designed to build log files based on the W3C specification.
  *
+ * @see    https://www.w3.org/TR/WD-logfile.html
  * @since  11.1
  */
 class JLogLoggerW3c extends JLogLoggerFormattedtext
 {
 	/**
-	 * @var    string  The format which each entry follows in the log file.  All fields must be
-	 * named in all caps and be within curly brackets eg. {FOOBAR}.
+	 * The format which each entry follows in the log file.
+	 *
+	 * All fields must be named in all caps and be within curly brackets eg. {FOOBAR}.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $format = '{DATE}	{TIME}	{PRIORITY}	{CLIENTIP}	{CATEGORY}	{MESSAGE}';

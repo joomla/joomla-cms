@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -18,7 +18,15 @@ JHtml::_('formbehavior.chosen', 'select');
 $app       = JFactory::getApplication();
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
-$extension = $this->escape($this->state->get('filter.extension'));
+
+$component = '';
+$parts     = FieldsHelper::extract($this->state->get('filter.context'));
+
+if ($parts)
+{
+	$component = $this->escape($parts[0]);
+}
+
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
@@ -36,6 +44,11 @@ if ($saveOrder)
 		<?php echo $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10">
+		<div id="filter-bar" class="js-stools-container-bar pull-left">
+			<div class="btn-group pull-left">
+				<?php echo $this->filterForm->getField('context')->input; ?>
+			</div>&nbsp;
+		</div>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
@@ -78,10 +91,10 @@ if ($saveOrder)
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<?php $ordering   = ($listOrder == 'a.ordering'); ?>
-						<?php $canEdit    = $user->authorise('core.edit', $extension . '.fieldgroup.' . $item->id); ?>
+						<?php $canEdit    = $user->authorise('core.edit', $component . '.fieldgroup.' . $item->id); ?>
 						<?php $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0; ?>
-						<?php $canEditOwn = $user->authorise('core.edit.own', $extension . '.fieldgroup.' . $item->id) && $item->created_by == $userId; ?>
-						<?php $canChange  = $user->authorise('core.edit.state', $extension . '.fieldgroup.' . $item->id) && $canCheckin; ?>
+						<?php $canEditOwn = $user->authorise('core.edit.own', $component . '.fieldgroup.' . $item->id) && $item->created_by == $userId; ?>
+						<?php $canChange  = $user->authorise('core.edit.state', $component . '.fieldgroup.' . $item->id) && $canCheckin; ?>
 						<tr class="row<?php echo $i % 2; ?>" item-id="<?php echo $item->id ?>">
 							<td class="order nowrap center hidden-phone">
 								<?php $iconClass = ''; ?>
@@ -143,9 +156,9 @@ if ($saveOrder)
 				</tbody>
 			</table>
 			<?php //Load the batch processing form. ?>
-			<?php if ($user->authorise('core.create', $extension)
-				&& $user->authorise('core.edit', $extension)
-				&& $user->authorise('core.edit.state', $extension)) : ?>
+			<?php if ($user->authorise('core.create', $component)
+				&& $user->authorise('core.edit', $component)
+				&& $user->authorise('core.edit.state', $component)) : ?>
 				<?php echo JHtml::_(
 						'bootstrap.renderModal',
 						'collapseModal',

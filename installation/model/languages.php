@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,31 +22,31 @@ class InstallationModelLanguages extends JModelBase
 	 * @var    object  Client object.
 	 * @since  3.1
 	 */
-	protected $client = null;
+	protected $client;
 
 	/**
 	 * @var    array  Languages description.
 	 * @since  3.1
 	 */
-	protected $data = null;
+	protected $data;
 
 	/**
 	 * @var    string  Language path.
 	 * @since  3.1
 	 */
-	protected $path = null;
+	protected $path;
 
 	/**
 	 * @var    integer  Total number of languages installed.
 	 * @since  3.1
 	 */
-	protected $langlist = null;
+	protected $langlist;
 
 	/**
 	 * @var    Admin Id, author of all generated content.
 	 * @since  3.1
 	 */
-	protected $adminId = null;
+	protected $adminId;
 
 	/**
 	 * Constructor: Deletes the default installation config file and recreates it with the good config file.
@@ -216,9 +216,8 @@ class InstallationModelLanguages extends JModelBase
 	{
 		$instance = JTable::getInstance('update');
 		$instance->load($uid);
-		$detailurl = trim($instance->detailsurl);
 
-		return $detailurl;
+		return trim($instance->detailsurl);
 	}
 
 	/**
@@ -234,9 +233,8 @@ class InstallationModelLanguages extends JModelBase
 	{
 		$update = new JUpdate;
 		$update->loadFromXml($remote_manifest);
-		$package_url = trim($update->get('downloadurl', false)->_data);
 
-		return $package_url;
+		return trim($update->get('downloadurl', false)->_data);
 	}
 
 	/**
@@ -265,9 +263,7 @@ class InstallationModelLanguages extends JModelBase
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file.
-		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
-
-		return $package;
+		return JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 	}
 
 	/**
@@ -408,7 +404,7 @@ class InstallationModelLanguages extends JModelBase
 		if (is_null($this->path))
 		{
 			$client     = $this->getClient();
-			$this->path = JLanguage::getLanguagePath($client->path);
+			$this->path = JLanguageHelper::getLanguagePath($client->path);
 		}
 
 		return $this->path;
@@ -692,7 +688,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function publishContentLanguages()
 	{

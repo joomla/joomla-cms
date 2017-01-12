@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for the checks if the installation is
@@ -28,7 +28,7 @@ function admin_postinstall_languageaccess340_condition()
 	$query = $db->getQuery(true)
 		->select($db->quoteName('access'))
 		->from($db->quoteName('#__languages'))
-		->where($db->quoteName('access') . " = " . $db->quote('0'));
+		->where($db->quoteName('access') . ' = ' . $db->quote('0'));
 	$db->setQuery($query);
 	$db->execute();
 	$numRows = $db->getNumRows();

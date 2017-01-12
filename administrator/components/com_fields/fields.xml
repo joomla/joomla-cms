@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="__DEPLOY_VERSION__" method="upgrade">
+<extension type="component" version="3.7.0" method="upgrade">
 	<name>com_fields</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>__DEPLOY_VERSION__</version>
+	<version>3.7.0</version>
 	<description>COM_FIELDS_XML_DESCRIPTION</description>
 	<files folder="site">
 		<filename>controller.php</filename>
@@ -24,7 +24,6 @@
 			<folder>helpers</folder>
 			<folder>libraries</folder>
 			<folder>models</folder>
-			<folder>sql</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
 		</files>
