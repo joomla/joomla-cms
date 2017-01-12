@@ -43,7 +43,7 @@ JFactory::getDocument()->addScriptDeclaration('
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	<?php echo JLayoutHelper::render('joomla.edit.title_unique_name', $this); ?>
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
