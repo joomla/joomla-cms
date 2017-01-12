@@ -172,8 +172,6 @@ class AssociationsViewAssociations extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors), 500);
-
-			return false;
 		}
 
 		$this->addToolbar();
