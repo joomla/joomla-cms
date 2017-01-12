@@ -207,7 +207,7 @@ class JFormFieldModal_Category extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
+					'footer'      => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
 				)
 			);
 		}
@@ -230,13 +230,13 @@ class JFormFieldModal_Category extends JFormField
 					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'cancel\', \'item-form\'); return false;">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'save\', \'item-form\'); return false;">'
-							. JText::_("JSAVE") . '</a>'
+							. JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'apply\', \'item-form\'); return false;">'
-							. JText::_("JAPPLY") . '</a>',
+							. JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}
@@ -259,13 +259,13 @@ class JFormFieldModal_Category extends JFormField
 					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'cancel\', \'item-form\'); return false;">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'save\', \'item-form\'); return false;">'
-							. JText::_("JSAVE") . '</a>'
+							. JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'apply\', \'item-form\'); return false;">'
-							. JText::_("JAPPLY") . '</a>',
+							. JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}
@@ -284,7 +284,7 @@ class JFormFieldModal_Category extends JFormField
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getLabel()
 	{

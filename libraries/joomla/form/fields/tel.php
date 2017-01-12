@@ -20,7 +20,7 @@ JFormHelper::loadFieldClass('text');
  * @see    JHtmlTel for rendering of telephone numbers
  * @since  11.1
  */
-class JFormFieldTel extends JFormFieldText implements JFormDomfieldinterface
+class JFormFieldTel extends JFormFieldText
 {
 	/**
 	 * The form field type.
@@ -31,6 +31,14 @@ class JFormFieldTel extends JFormFieldText implements JFormDomfieldinterface
 	protected $type = 'Tel';
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $layout = 'joomla.form.field.tel';
+
+	/**
 	 * Method to get the field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -39,46 +47,28 @@ class JFormFieldTel extends JFormFieldText implements JFormDomfieldinterface
 	 */
 	protected function getInput()
 	{
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
-
-		// Initialize some field attributes.
-		$size         = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$class        = !empty($this->class) ? ' class="form-control ' . $this->class . '"' : ' class="form-control"';
-		$readonly     = $this->readonly ? ' readonly' : '';
-		$disabled     = $this->disabled ? ' disabled' : '';
-		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
-		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
-		$autofocus    = $this->autofocus ? ' autofocus' : '';
-		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
-
-		// Initialize JavaScript field attributes.
-		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
-
-		return '<input type="tel" name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly
-			. $hint . $autocomplete . $autofocus . $spellcheck . $onchange . $maxLength . $required . ' />';
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
 	}
 
 	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
+	 * Method to get the data to be passed to the layout for rendering.
 	 *
-	 * @param   stdClass    $field      The field.
-	 * @param   DOMElement  $fieldNode  The field node.
-	 * @param   JForm       $form       The form.
+	 * @return  array
 	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since __DEPLOY_VERSION__
 	 */
-	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
+	protected function getLayoutData()
 	{
-		$fieldNode->setAttribute('validate', 'tel');
+		$data = parent::getLayoutData();
 
-		return parent::postProcessDomNode($field, $fieldNode, $form);
+		// Initialize some field attributes.
+		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+
+		$extraData = array(
+			'maxLength' => $maxLength,
+		);
+
+		return array_merge($data, $extraData);
 	}
 }

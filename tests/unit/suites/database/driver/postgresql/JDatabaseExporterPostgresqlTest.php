@@ -18,7 +18,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 	/**
 	 * @var    JDatabaseDriverPostgresql  The mocked database object for use by test methods.
 	 */
-	protected $dbo = null;
+	protected $dbo;
 
 	/**
 	 * @var    string  A query string or object.

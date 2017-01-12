@@ -226,7 +226,11 @@ abstract class JHtmlFilter
 		$cacheId = 'filter_select_' . serialize(array($idxQuery->filter, $options, $groups, JFactory::getLanguage()->getTag()));
 
 		// Check the cached results.
-		if (!($branches = $cache->get($cacheId)))
+		if ($cache->contains($cacheId))
+		{
+			$branches = $cache->get($cacheId);
+		}
+		else
 		{
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -365,7 +369,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_('filter.dates', $idxQuery, $options);
 		}
 
-		$html .= '<div class="filter-branch' . $classSuffix . ' control-group">';
+		$html .= '<div class="filter-branch' . $classSuffix . ' control-group clearfix">';
 
 		// Iterate through all branches and build code.
 		foreach ($branches as $bk => $bv)

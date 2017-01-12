@@ -114,20 +114,20 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 							<td class="small hidden-sm-down text-xs-center">
 								<?php echo $item->contact; ?>
 							</td>
-							<td class="text-xs-center btns hidden-sm-down">
-								<a class="tag <?php if ($item->count_published > 0) echo "tag-success"; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=1'); ?>">
+							<td class="center btns hidden-md-down">
+								<a class="tag <?php if ($item->count_published > 0) echo 'tag-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=1'); ?>">
 									<?php echo $item->count_published; ?></a>
 							</td>
-							<td class="text-xs-center btns hidden-sm-down">
-								<a class="tag <?php if ($item->count_unpublished > 0) echo "tag-danger"; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
+							<td class="center btns hidden-md-down">
+								<a class="tag <?php if ($item->count_unpublished > 0) echo 'tag-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
 									<?php echo $item->count_unpublished; ?></a>
 							</td>
-							<td class="text-xs-center btns hidden-sm-down">
-								<a class="tag <?php if ($item->count_archived > 0) echo "tag-info"; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>">
+							<td class="center btns hidden-md-down">
+								<a class="tag <?php if ($item->count_archived > 0) echo 'tag-info'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>">
 									<?php echo $item->count_archived; ?></a>
 							</td>
-							<td class="text-xs-center btns hidden-sm-down">
-								<a class="tag <?php if ($item->count_trashed > 0) echo "tag-inverse"; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=-2'); ?>">
+							<td class="center btns hidden-md-down">
+								<a class="tag <?php if ($item->count_trashed > 0) echo 'tag-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=-2'); ?>">
 									<?php echo $item->count_trashed; ?></a>
 							</td>
 							<td class="small hidden-sm-down text-xs-center">

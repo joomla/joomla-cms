@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $title = JText::_('JTOOLBAR_DELETE');
-JText::script("JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST");
+JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 ?>
 <script type="text/javascript">
 (function($){

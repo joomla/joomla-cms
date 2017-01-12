@@ -64,6 +64,7 @@ Desktop.ini
 /libraries/vendor/ircmaxell/password-compat/phpunit.xml.dist
 /libraries/vendor/ircmaxell/password-compat/README.md
 /libraries/vendor/ircmaxell/password-compat/version-test.php
+/libraries/vendor/joomla/*/.github
 /libraries/vendor/joomla/*/.gitignore
 /libraries/vendor/joomla/*/.gitmodules
 /libraries/vendor/joomla/*/docs
@@ -74,6 +75,7 @@ Desktop.ini
 /libraries/vendor/joomla/*/composer.json
 /libraries/vendor/joomla/*/phpunit.xml.dist
 /libraries/vendor/joomla/*/README.md
+/libraries/vendor/joomla/session/Joomla/Session/.github
 /libraries/vendor/joomla/session/Joomla/Session/_Tests
 /libraries/vendor/joomla/session/Joomla/Session/build
 /libraries/vendor/joomla/session/Joomla/Session/Tests

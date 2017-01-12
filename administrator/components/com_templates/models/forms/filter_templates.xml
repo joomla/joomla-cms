@@ -4,6 +4,7 @@
 	<field
 		name="client_id"
 		type="list"
+		filtermode="selector"
 		onchange="jQuery('#filter_search, select[id^=filter_], #list_fullordering').val('');this.form.submit();"
 		>
 		<option value="0">JSITE</option>
@@ -16,6 +17,7 @@
 			label="JSEARCH_FILTER"
 			description="COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
+			noresults="COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES"
 		/>
 	</fields>
 	<fields name="list">

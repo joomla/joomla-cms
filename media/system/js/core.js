@@ -106,7 +106,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * @type {{}}
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	Joomla.optionsStorage = Joomla.optionsStorage || null;
 
@@ -118,7 +118,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * @return mixed
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	Joomla.getOptions = function( key, def ) {
 		// Load options if they not exists
@@ -134,7 +134,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * @param {Object|undefined} options   The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	Joomla.loadOptions = function( options ) {
 		// Load form the script container
@@ -186,6 +186,20 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				el.name = newToken;
 			}
 		}
+	};
+	
+	/**
+	 * USED IN: administrator/components/com_banners/views/client/tmpl/default.php
+	 * Actually, probably not used anywhere. Can we deprecate in favor of <input type="email">?
+	 *
+	 * Verifies if the string is in a valid email format
+	 *
+	 * @param string
+	 * @return boolean
+	 */
+	Joomla.isEmail = function( text ) {
+		var regex = /^[\w.!#$%&‚Äô*+\/=?^`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]{2,})+$/i;
+		return regex.test( text );
 	};
 
 	/**
@@ -423,6 +437,25 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
+	 * USED IN: libraries/joomla/html/toolbar/button/help.php
+	 *
+	 * Pops up a new window in the middle of the screen
+	 */
+	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
+		var winl = ( screen.width - w ) / 2,
+			wint = ( screen.height - h ) / 2,
+			winprops = 'height=' + h +
+				',width=' + w +
+				',top=' + wint +
+				',left=' + winl +
+				',scrollbars=' + scroll +
+				',resizable';
+
+		window.open( mypage, myname, winprops )
+			.window.focus();
+	};
+
+	/**
 	 * USED IN: libraries/joomla/html/html/grid.php
 	 * In other words, on any reorderable table
 	 */
@@ -434,6 +467,104 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		form.filter_order.value = order;
 		form.filter_order_Dir.value = dir;
 		Joomla.submitform( task, form );
+	};
+
+	/**
+	 * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
+	 *
+	 * Writes a dynamically generated list
+	 *
+	 * @param string
+	 *          The parameters to insert into the <select> tag
+	 * @param array
+	 *          A javascript array of list options in the form [key,value,text]
+	 * @param string
+	 *          The key to display for the initial state of the list
+	 * @param string
+	 *          The original key that was selected
+	 * @param string
+	 *          The original item value that was selected
+	 * @param string
+	 *          The elem where the list will be written
+	 */
+	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
+		var html = '<select ' + selectParams + '>',
+			hasSelection = key == orig_key,
+			i = 0,
+			selected, x, item;
+
+		for ( x in source ) {
+			if (!source.hasOwnProperty(x)) { continue; }
+
+			item = source[ x ];
+
+			if ( item[ 0 ] != key ) { continue; }
+
+			selected = '';
+
+			if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
+				selected = 'selected="selected"';
+			}
+
+			html += '<option value="' + item[ 1 ] + '" ' + selected + '>' + item[ 2 ] + '</option>';
+
+			i++;
+		}
+		html += '</select>';
+
+		if (element) {
+			element.innerHTML = html;
+		} else {
+			document.writeln( html );
+		}
+	};
+
+	/**
+	 * USED IN: administrator/components/com_content/views/article/view.html.php
+	 * actually, probably not used anywhere.
+	 *
+	 * Changes a dynamically generated list
+	 *
+	 * @param string
+	 *          The name of the list to change
+	 * @param array
+	 *          A javascript array of list options in the form [key,value,text]
+	 * @param string
+	 *          The key to display
+	 * @param string
+	 *          The original key that was selected
+	 * @param string
+	 *          The original item value that was selected
+	 */
+	window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
+		var list = document.adminForm[ listname ],
+			hasSelection = key == orig_key,
+			i, x, item, opt;
+
+		// empty the list
+		while ( list.firstChild ) list.removeChild( list.firstChild );
+
+		i = 0;
+
+		for ( x in source ) {
+			if (!source.hasOwnProperty(x)) { continue; }
+
+			item = source[x];
+
+			if ( item[ 0 ] != key ) { continue; }
+
+			opt = new Option();
+			opt.value = item[ 1 ];
+			opt.text = item[ 2 ];
+
+			if ( ( hasSelection && orig_val == opt.value ) || (!hasSelection && i === 0) ) {
+				opt.selected = true;
+			}
+
+			list.options[ i++ ] = opt;
+		}
+
+		list.length = i;
 	};
 
 	/**
@@ -466,6 +597,25 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
+	 * USED IN: administrator/components/com_users/views/mail/tmpl/default.php
+	 * Let's get rid of this and kill it
+	 *
+	 * @param frmName
+	 * @param srcListName
+	 * @return
+	 */
+	window.getSelectedValue = function ( frmName, srcListName ) {
+		var srcList = document[ frmName ][ srcListName ],
+			i = srcList.selectedIndex;
+
+		if ( i !== null && i > -1 ) {
+			return srcList.options[ i ].value;
+		} else {
+			return null;
+		}
+	};
+
+	/**
 	 * USED IN: all over :)
 	 *
 	 * @param id
@@ -494,6 +644,23 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		window.submitform( task );
 
 		return false;
+	};
+	/**
+	 * Default function. Usually would be overriden by the component
+	 *
+	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
+	 */
+	window.submitbutton = function ( pressbutton ) {
+		Joomla.submitbutton( pressbutton );
+	};
+
+	/**
+	 * Submit the admin form
+	 *
+	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
+	 */
+	window.submitform = function ( pressbutton ) {
+		Joomla.submitform(pressbutton);
 	};
 
 	// needed for Table Column ordering

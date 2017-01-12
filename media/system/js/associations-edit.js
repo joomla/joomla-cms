@@ -9,7 +9,7 @@
  * Used for editing associations in the backend.
  *
  * @package  Joomla
- * @since    __DEPLOY_VERSION__
+ * @since    3.7.0
  */
 
 window.hideAssociation = function(formControl, languageCode)

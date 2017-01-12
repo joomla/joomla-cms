@@ -70,7 +70,7 @@ if (is_numeric($value))
 else
 {
 	$value = '';
-	$value = (isset($min)) ? $min : $value;
+	$value = isset($min) ? $min : $value;
 }
 ?>
 <input

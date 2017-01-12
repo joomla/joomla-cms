@@ -74,7 +74,7 @@ class BannersTableBanner extends JTable
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.

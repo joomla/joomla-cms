@@ -19,7 +19,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		// do field validation 
 		if (form.install_package.value == "")
 		{
-			alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE') . '");
+			alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE', true) . '");
 		}
 		else
 		{

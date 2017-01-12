@@ -62,7 +62,7 @@ $attributes = array(
 );
 
 ?>
-<progress <?php echo implode(' ', $attributes); ?> >
+<progress <?php echo implode(' ', $attributes); ?>>
 	<div class="progress">
 		<span class="progress-bar" style="width: <?php echo (float) $value; ?>%;"></span>
 	</div>

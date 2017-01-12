@@ -21,7 +21,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed'); ?>" method="post" id="adminForm" name="adminForm">
 	<div id="j-main-container" class="j-main-container">
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"></div>
 		<?php if (empty($this->rows)) : ?>
 		<div class="alert alert-warning alert-no-items">
@@ -37,7 +37,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="15%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="15%" class="nowrap">
+					<th width="15%" class="hidden-phone">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 					</th>
 					<th class="nowrap text-xs-center">

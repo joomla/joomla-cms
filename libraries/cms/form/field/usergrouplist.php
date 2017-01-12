@@ -9,12 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Field to load a dropdown list of available user groups
  *
  * @since  3.2
  */
-class JFormFieldUserGroupList extends JFormAbstractlist implements JFormDomfieldinterface
+class JFormFieldUserGroupList extends JFormFieldList
 {
 	/**
 	 * The form field type.

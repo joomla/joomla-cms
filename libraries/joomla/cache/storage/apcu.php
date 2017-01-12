@@ -18,6 +18,21 @@ defined('JPATH_PLATFORM') or die;
 class JCacheStorageApcu extends JCacheStorage
 {
 	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function contains($id, $group)
+	{
+		return apcu_exists($this->_getCacheId($id, $group));
+	}
+
+	/**
 	 * Get cached data by ID and group
 	 *
 	 * @param   string   $id         The cache data ID

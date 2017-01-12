@@ -90,15 +90,15 @@ abstract class AbstractWebApplication extends AbstractApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   Input          $input   An optional argument to provide dependency injection for the application's
-	 *                                  input object.  If the argument is an Input object that object will become
-	 *                                  the application's input object, otherwise a default input object is created.
-	 * @param   Registry       $config  An optional argument to provide dependency injection for the application's
-	 *                                  config object.  If the argument is a Registry object that object will become
-	 *                                  the application's config object, otherwise a default config object is created.
-	 * @param   Web\WebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                  client object.  If the argument is a Web\WebClient object that object will become
-	 *                                  the application's client object, otherwise a default client object is created.
+	 * @param   Input          $input   An optional argument to provide dependency injection for the application's input object.  If the argument
+	 *                                  is an Input object that object will become the application's input object, otherwise a default input
+	 *                                  object is created.
+	 * @param   Registry       $config  An optional argument to provide dependency injection for the application's config object.  If the argument
+	 *                                  is a Registry object that object will become the application's config object, otherwise a default config
+	 *                                  object is created.
+	 * @param   Web\WebClient  $client  An optional argument to provide dependency injection for the application's client object.  If the argument
+	 *                                  is a Web\WebClient object that object will become the application's client object, otherwise a default client
+	 *                                  object is created.
 	 *
 	 * @since   1.0
 	 */
@@ -238,7 +238,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 		if (!$this->allowCache())
 		{
 			// Expires in the past.
-			$this->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
+			$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 
 			// Always modified.
 			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
@@ -658,7 +658,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 */
 	protected function header($string, $replace = true, $code = null)
 	{
-		header($string, $replace, $code);
+		header(str_replace(chr(0), '', $string), $replace, $code);
 	}
 
 	/**

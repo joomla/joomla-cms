@@ -42,7 +42,7 @@ var_dump('TEST');
 						</td>
 						<td>
 							<span class="tag tag-<?php echo ($option->state) ? 'success' : 'important'; ?>">
-								<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
+								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice) : ?>
 									<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
 								<?php endif;?>
@@ -84,12 +84,12 @@ var_dump('TEST');
 						</td>
 						<td>
 							<span class="tag tag-success disabled">
-								<?php echo JText::_(($setting->recommended) ? 'JON' : 'JOFF'); ?>
+								<?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
 						<td>
 							<span class="tag tag-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-								<?php echo JText::_(($setting->state) ? 'JON' : 'JOFF'); ?>
+								<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
 					</tr>

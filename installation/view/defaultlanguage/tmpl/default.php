@@ -57,12 +57,12 @@ JS
 		<p class="form-text text-muted small"><?php echo JText::_('INSTL_DEFAULTLANGUAGE_ACTIVATE_MULTILANGUAGE_DESC'); ?></p>
 	</div>
 	<div id="multilanguageOptions">
-		<div class="form-group" id="installLocalisedContent" style="display:auto;">
+		<div class="form-group" id="installLocalisedContent" style="display:none;">
 			<?php echo $this->form->getLabel('installLocalisedContent'); ?>
 			<?php echo $this->form->getInput('installLocalisedContent'); ?>
 			<p class="form-text text-muted small"><?php echo JText::_('INSTL_DEFAULTLANGUAGE_INSTALL_LOCALISED_CONTENT_DESC'); ?></p>
 		</div>
-		<div class="form-group" id="activatePluginLanguageCode" style="display:auto;">
+		<div class="form-group" id="activatePluginLanguageCode" style="display:none;">
 			<?php echo $this->form->getLabel('activatePluginLanguageCode'); ?>
 			<?php echo $this->form->getInput('activatePluginLanguageCode'); ?>
 			<p class="form-text text-muted small"><?php echo JText::_('INSTL_DEFAULTLANGUAGE_ACTIVATE_LANGUAGE_CODE_PLUGIN_DESC'); ?></p>
@@ -178,3 +178,14 @@ JS
 	<input type="hidden" name="task" value="setdefaultlanguage" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+
+<script type="text/javascript">
+	jQuery('input[name="jform[activateMultilanguage]"]').each(function(index, el) {
+		jQuery(el).on('click', function() {
+			Install.toggle('installLocalisedContent', 'activateMultilanguage', 1);
+			Install.toggle('activatePluginLanguageCode', 'activateMultilanguage', 1);
+		});
+		Install.toggle('installLocalisedContent', 'activateMultilanguage', 1);
+		Install.toggle('activatePluginLanguageCode', 'activateMultilanguage', 1);
+	});
+</script>
