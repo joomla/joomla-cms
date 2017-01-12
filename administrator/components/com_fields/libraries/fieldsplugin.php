@@ -169,7 +169,7 @@ abstract class FieldsPlugin extends JPlugin
 				$param = count($param) == count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
 			}
 
-			if ($param === '')
+			if ($param === '' || !is_string($param))
 			{
 				continue;
 			}
