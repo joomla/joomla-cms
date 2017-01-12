@@ -209,7 +209,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testGetRouter()
 	{
-		$this->assertInstanceOf('JRouterAdministrator', $this->class->getRouter());
+		$this->assertInstanceOf('JRouterAdministrator', JApplicationAdministrator::getRouter());
 	}
 
 	/**

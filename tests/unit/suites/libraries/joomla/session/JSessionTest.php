@@ -210,7 +210,10 @@ class JSessionTest extends TestCase
 		$user = JFactory::getUser();
 
 		$expected = md5($user->get('id', 0) . $this->object->getToken(false));
-		$this->assertEquals($expected, $this->object->getFormToken(false), 'Form token should be calculated as above.');
+
+		$object = $this->object;
+
+		$this->assertEquals($expected, $object::getFormToken(false), 'Form token should be calculated as above.');
 	}
 
 	/**
