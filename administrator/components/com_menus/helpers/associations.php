@@ -140,6 +140,7 @@ class MenusAssociationsHelper extends JAssociationExtensionHelper
 					$fields['catid'] = '';
 					$fields['state'] = 'a.published';
 					$fields['created_user_id'] = '';
+					$fields['menutype'] = 'a.menutype';
 
 					$support['state'] = true;
 					$support['acl'] = true;
