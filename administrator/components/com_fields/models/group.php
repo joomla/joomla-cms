@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Group Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsModelGroup extends JModelAdmin
 {
@@ -22,7 +22,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function save($data)
 	{
@@ -47,7 +47,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  Exception
 	 */
 	public function getTable($name = 'Group', $prefix = 'FieldsTable', $options = array())
@@ -63,7 +63,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -117,7 +117,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function canDelete($record)
 	{
@@ -137,7 +137,7 @@ class FieldsModelGroup extends JModelAdmin
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the
 	 *                   component.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function canEditState($record)
 	{
@@ -160,7 +160,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function populateState()
 	{
@@ -177,7 +177,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getReorderConditions($table)
 	{
@@ -194,7 +194,7 @@ class FieldsModelGroup extends JModelAdmin
 	 * @return  void
 	 *
 	 * @see     JFormField
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
@@ -215,7 +215,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  array    The default data is an empty array.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function loadFormData()
 	{
@@ -261,7 +261,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  mixed    Object on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getItem($pk = null)
 	{
@@ -310,7 +310,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 			throw new Exception(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		if ($this->params->get('version', '1.0') == '1.0')
+		if ($this->params->get('version', '1.0') === '1.0')
 		{
 			JHtml::_('jquery.framework');
 
@@ -82,7 +82,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	public function onDisplay($name = null, $id = 'dynamic_recaptcha_1', $class = '')
 	{
-		if ($this->params->get('version', '1.0') == '1.0')
+		if ($this->params->get('version', '1.0') === '1.0')
 		{
 			return '<div id="' . $id . '" ' . $class . '></div>';
 		}

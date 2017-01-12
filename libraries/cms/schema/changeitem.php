@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -139,18 +139,15 @@ abstract class JSchemaChangeitem
 	public static function getInstance($db, $file, $query)
 	{
 		// Get the class name
-		$dbname = $db->name;
+		$serverType = $db->getServerType();
 
-		if ($dbname === 'mysqli' || $dbname === 'pdomysql')
+		// For `mssql` server types, convert the type to `sqlsrv`
+		if ($serverType === 'mssql')
 		{
-			$dbname = 'mysql';
-		}
-		elseif ($dbname === 'sqlazure')
-		{
-			$dbname = 'sqlsrv';
+			$serverType = 'sqlsrv';
 		}
 
-		$class = 'JSchemaChangeitem' . ucfirst($dbname);
+		$class = 'JSchemaChangeitem' . ucfirst($serverType);
 
 		// If the class exists, return it.
 		if (class_exists($class))
@@ -158,7 +155,7 @@ abstract class JSchemaChangeitem
 			return new $class($db, $file, $query);
 		}
 
-		throw new RuntimeException(sprintf('JSchemaChangeitem child class not found for the %s database driver', $dbname), 500);
+		throw new RuntimeException(sprintf('JSchemaChangeitem child class not found for the %s database driver', $serverType), 500);
 	}
 
 	/**

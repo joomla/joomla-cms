@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,6 +52,7 @@ require_once JPATH_CONFIGURATION . '/configuration.php';
 
 // System configuration.
 $config = new JConfig;
+define('JDEBUG', $config->debug);
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
@@ -167,7 +168,8 @@ class FinderCli extends JApplicationCli
 		// Reset the indexer state.
 		FinderIndexer::resetState();
 
-		// Import the finder plugins.
+		// Import the plugins.
+		JPluginHelper::importPlugin('system');
 		JPluginHelper::importPlugin('finder');
 
 		// Starting Indexer.

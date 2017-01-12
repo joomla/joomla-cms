@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -529,7 +529,6 @@ class JHelperTags extends JHelper
 		// We do not search child tags when the match all option is selected.
 		if ($includeChildren)
 		{
-			$tagTreeList = '';
 			$tagTreeArray = array();
 
 			foreach ($tagIds as $tag)
@@ -809,8 +808,6 @@ class JHelperTags extends JHelper
 		// If existing row, check to see if tags have changed.
 		$newTable = clone $table;
 		$newTable->reset();
-		$key = $newTable->getKeyName();
-		$typeAlias = $this->typeAlias;
 
 		$result = true;
 

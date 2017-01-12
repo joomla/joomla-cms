@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.cookie
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ class PlgAuthenticationCookie extends JPlugin
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
 		// No remember me for admin
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return false;
 		}
@@ -219,12 +219,12 @@ class PlgAuthenticationCookie extends JPlugin
 	public function onUserAfterLogin($options)
 	{
 		// No remember me for admin
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return false;
 		}
 
-		if (isset($options['responseType']) && $options['responseType'] == 'Cookie')
+		if (isset($options['responseType']) && $options['responseType'] === 'Cookie')
 		{
 			// Logged in using a cookie
 			$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
@@ -359,7 +359,7 @@ class PlgAuthenticationCookie extends JPlugin
 	public function onUserAfterLogout($options)
 	{
 		// No remember me for admin
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return false;
 		}
