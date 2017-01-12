@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@
 		 *
 		 * @param {HTMLElement}  target  Target Element where to search for the editor element
 		 *
-		 * @since __DEPLOY_VERSION__
+		 * @since 3.7.0
 		 */
 		setupEditors: function ( target ) {
 			target = target || document;
@@ -39,7 +39,7 @@
 		 * @param {HTMLElement}  element
 		 * @param {Object}       pluginOptions
 		 *
-		 * @since __DEPLOY_VERSION__
+		 * @since 3.7.0
 		 */
 		setupEditor: function ( element, pluginOptions ) {
 			var name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default', // Get Editor name
@@ -56,8 +56,8 @@
 				options.target   = element;
 			}
 
-			if (options.setupCallbacString && !options.setup) {
-				options.setup = new Function('editor', options.setupCallbacString);
+			if (options.setupCallbackString && !options.setup) {
+				options.setup = new Function('editor', options.setupCallbackString);
 			}
 
 			tinyMCE.init(options);

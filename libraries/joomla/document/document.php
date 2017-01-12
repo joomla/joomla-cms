@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -459,8 +459,8 @@ class JDocument
 	 */
 	public function addScript($url, $options = array(), $attribs = array())
 	{
-		// B/C before __DEPLOY_VERSION__
-		if (!is_array($options) && !is_array($attribs))
+		// B/C before 3.7.0
+		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
 			JLog::add('The addScript method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
@@ -516,8 +516,8 @@ class JDocument
 	{
 		JLog::add('The method is deprecated, use addScript(url, attributes, options) instead.', JLog::WARNING, 'deprecated');
 
-		// B/C before __DEPLOY_VERSION__
-		if (!is_array($options) && !is_array($attribs))
+		// B/C before 3.7.0
+		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
 			$argList = func_get_args();
 			$options = array();
@@ -642,8 +642,8 @@ class JDocument
 	 */
 	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
-		// B/C before __DEPLOY_VERSION__
-		if (!is_array($options) && !is_array($attribs))
+		// B/C before 3.7.0
+		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
 			JLog::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
@@ -707,8 +707,8 @@ class JDocument
 	{
 		JLog::add('The method is deprecated, use addStyleSheet(url, attributes, options) instead.', JLog::WARNING, 'deprecated');
 
-		// B/C before __DEPLOY_VERSION__
-		if (!is_array($options) && !is_array($attribs))
+		// B/C before 3.7.0
+		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
 			$argList = func_get_args();
 			$options = array();
@@ -805,7 +805,7 @@ class JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function setLanguage($lang = "en-gb")
+	public function setLanguage($lang = 'en-gb')
 	{
 		$this->language = strtolower($lang);
 
@@ -833,7 +833,7 @@ class JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function setDirection($dir = "ltr")
+	public function setDirection($dir = 'ltr')
 	{
 		$this->direction = strtolower($dir);
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,13 +79,13 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  array of language extension objects.
 	 *
-	 * @deprecated  4.0  Use JLanguageMultilang::getSiteLangs() instead.
+	 * @deprecated  4.0  Use JLanguageHelper::getInstalledLanguages(0) instead.
 	 */
 	public static function getSitelangs()
 	{
-		JLog::add(__METHOD__ . ' is deprecated, use JLanguageMultilang::getSiteLangs() instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . ' is deprecated, use JLanguageHelper::getInstalledLanguages(0) instead.', JLog::WARNING, 'deprecated');
 
-		return JLanguageMultilang::getSiteLangs();
+		return JLanguageHelper::getInstalledLanguages(0);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -97,12 +97,6 @@ class JTableMenu extends JTableNested
 			return false;
 		}
 
-		// Set correct component id to ensure proper 404 messages with separator items
-		if ($this->type == "separator")
-		{
-			$this->component_id = 0;
-		}
-
 		// Check for a path.
 		if (trim($this->path) == '')
 		{
@@ -122,25 +116,7 @@ class JTableMenu extends JTableNested
 		// Cast the home property to an int for checking.
 		$this->home = (int) $this->home;
 
-		// Verify that a first level menu item alias is not 'component'.
-		if ($this->parent_id == 1 && $this->alias == 'component')
-		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
-
-			return false;
-		}
-
-		// Verify that a first level menu item alias is not the name of a folder.
-		jimport('joomla.filesystem.folder');
-
-		if ($this->parent_id == 1 && in_array($this->alias, JFolder::folders(JPATH_ROOT)))
-		{
-			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
-
-			return false;
-		}
-
-		// Verify that the home item a component.
+		// Verify that the home item is a component.
 		if ($this->home && $this->type != 'component')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
@@ -172,6 +148,24 @@ class JTableMenu extends JTableNested
 		$this->alias   = !$originalAlias ? $this->title : $originalAlias;
 		$this->alias   = JApplicationHelper::stringURLSafe(trim($this->alias), $this->language);
 
+		// Verify that a first level menu item alias is not 'component'.
+		if ($this->parent_id == 1 && $this->alias == 'component')
+		{
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
+
+			return false;
+		}
+
+		// Verify that a first level menu item alias is not the name of a folder.
+		jimport('joomla.filesystem.folder');
+
+		if ($this->parent_id == 1 && in_array($this->alias, JFolder::folders(JPATH_ROOT)))
+		{
+			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
+
+			return false;
+		}
+
 		// If alias still empty (for instance, new menu item with chinese characters with no unicode alias setting).
 		if (empty($this->alias))
 		{
@@ -185,18 +179,37 @@ class JTableMenu extends JTableNested
 			// Check if the alias already exists. For multilingual site.
 			if (JLanguageMultilang::isEnabled())
 			{
-				// If not exists a menu item at the same level with the same alias (in the All or the same language).
+				// If there is a menu item at the same level with the same alias (in the All or the same language).
 				if (($table->load(array_replace($itemSearch, array('language' => '*'))) && ($table->id != $this->id || $this->id == 0))
 					|| ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0))
-					|| ($this->language == '*' && $table->load($itemSearch) && ($table->id != $this->id || $this->id == 0)))
+					|| ($this->language === '*' && $this->id == 0 && $table->load($itemSearch)))
 				{
 					$error = true;
+				}
+				// When editing an item with All language check if there are more menu items with the same alias in any language.
+				elseif ($this->language === '*' && $this->id != 0)
+				{
+					$query = $db->getQuery(true)
+						->select('id')
+						->from($db->quoteName('#__menu'))
+						->where($db->quoteName('parent_id') . ' = 1')
+						->where($db->quoteName('client_id') . ' = 0')
+						->where($db->quoteName('id') . ' != ' . (int) $this->id)
+						->where($db->quoteName('alias') . ' = ' . $db->quote($this->alias));
+
+					$otherMenuItemId = (int) $db->setQuery($query)->loadResult();
+
+					if ($otherMenuItemId)
+					{
+						$table->load(array('id' => $otherMenuItemId));
+						$error = true;
+					}
 				}
 			}
 			// Check if the alias already exists. For monolingual site.
 			else
 			{
-				// If not exists a menu item at the same level with the same alias (in any language).
+				// If there is a menu item at the same level with the same alias (in any language).
 				if ($table->load($itemSearch) && ($table->id != $this->id || $this->id == 0))
 				{
 					$error = true;

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 		// Toggle HTML5 validation
 		form.noValidate = !validate;
-		form.setAttribute('novalidate', !validate);
+		form.setAttribute('novalidate', !validate)
 
 		// Submit the form.
 		// Create the input type="submit"
@@ -106,7 +106,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * @type {{}}
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	Joomla.optionsStorage = Joomla.optionsStorage || null;
 
@@ -118,7 +118,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * @return mixed
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	Joomla.getOptions = function( key, def ) {
 		// Load options if they not exists
@@ -134,7 +134,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * @param {Object|undefined} options   The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	Joomla.loadOptions = function( options ) {
 		// Load form the script container

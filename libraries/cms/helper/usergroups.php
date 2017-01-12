@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -197,7 +197,7 @@ final class JHelperUsergroups
 				->select('count(id)')
 				->from('#__usergroups');
 
-			$db->setQuery($query, 0, 1);
+			$db->setQuery($query);
 
 			$this->total = (int) $db->loadResult();
 		}
@@ -307,6 +307,11 @@ final class JHelperUsergroups
 		}
 
 		$parentGroup = $this->has($parentId) ? $this->get($parentId) : $this->load($parentId);
+
+		if (!property_exists($parentGroup, 'path'))
+		{
+			$parentGroup = $this->populateGroupData($parentGroup);
+		}
 
 		$group->path = array_merge($parentGroup->path, array($group->id));
 		$group->level = count($group->path) - 1;

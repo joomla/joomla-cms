@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,26 +33,26 @@ if (!empty($this->items))
 }
 
 // For B/C we also add the css classes inline. This will be removed in 4.0.
-JFactory::getDocument()->addStyleDeclaration("
+JFactory::getDocument()->addStyleDeclaration('
 .hide { display: none; }
 .table-noheader { border-collapse: collapse; }
 .table-noheader thead { display: none; }
-");
+');
 
 $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 ?>
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
-<?php if ($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) : ?>
+<?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar clearfix">
 		<legend class="hide"><?php echo JText::_('COM_CONTENT_FORM_FILTER_LEGEND'); ?></legend>
-		<?php if ($this->params->get('filter_field') != 'hide') :?>
+		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 			<div class="btn-group">
-				<?php if ($this->params->get('filter_field') != 'tag') :?>
+				<?php if ($this->params->get('filter_field') !== 'tag') : ?>
 					<label class="filter-search-lbl element-invisible" for="filter-search">
 						<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL') . '&#160;'; ?>
 					</label>
 					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>" />
-				<?php else :?>
+				<?php else : ?>
 					<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
 						<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
@@ -97,11 +97,11 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 				</th>
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 					<th scope="col" id="categorylist_header_date">
-						<?php if ($date == "created") : ?>
+						<?php if ($date === 'created') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
-						<?php elseif ($date == "modified") : ?>
+						<?php elseif ($date === 'modified') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.modified', $listDirn, $listOrder); ?>
-						<?php elseif ($date == "published") : ?>
+						<?php elseif ($date === 'published') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
 						<?php endif; ?>
 					</th>
@@ -116,12 +116,12 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
-				<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
+				<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
 					<th scope="col" id="categorylist_header_votes">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
-				<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 					<th scope="col" id="categorylist_header_ratings">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
 					</th>
@@ -135,7 +135,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<?php foreach ($this->items as $i => $article) : ?>
 			<?php if ($this->items[$i]->state == 0) : ?>
 				<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-			<?php else: ?>
+			<?php else : ?>
 				<tr class="cat-list-row<?php echo $i % 2; ?>" >
 			<?php endif; ?>
 			<td headers="categorylist_header_title" class="list-title">
@@ -155,7 +155,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>
-				<?php else: ?>
+				<?php else : ?>
 					<?php
 					echo $this->escape($article->title) . ' : ';
 					$menu   = JFactory::getApplication()->getMenu();
@@ -209,10 +209,10 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 				<td headers="categorylist_header_author" class="list-author">
 					<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 						<?php $author = $article->author ?>
-						<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author); ?>
+						<?php $author = $article->created_by_alias ?: $author; ?>
 						<?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
-						<?php else: ?>
+						<?php else : ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 						<?php endif; ?>
 					<?php endif; ?>
@@ -225,14 +225,14 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 							</span>
 						</td>
 			<?php endif; ?>
-			<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
+			<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
 				<td headers="categorylist_header_votes" class="list-votes">
 					<span class="badge badge-success">
 						<?php echo JText::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
 					</span>
 				</td>
 			<?php endif; ?>
-			<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+			<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 				<td headers="categorylist_header_ratings" class="list-ratings">
 					<span class="badge badge-warning">
 						<?php echo JText::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
@@ -255,7 +255,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 <?php // Code to add a link to submit an article. ?>
 <?php if ($this->category->getParams()->get('access-create')) : ?>
 	<?php echo JHtml::_('icon.create', $this->category, $this->category->params); ?>
-<?php  endif; ?>
+<?php endif; ?>
 
 <?php // Add pagination links ?>
 <?php if (!empty($this->items)) : ?>

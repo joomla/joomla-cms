@@ -92,7 +92,7 @@ SELECT 29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'
 UNION ALL
 SELECT 30, 19, 74, 75, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'
 UNION ALL
-SELECT 32, 24, 86, 87, 1, 'com_users.category.7', 'Uncategorised', '{}'
+SELECT 32, 24, 86, 87, 2, 'com_users.category.7', 'Uncategorised', '{}'
 UNION ALL
 SELECT 33, 1, 91, 92, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
@@ -305,24 +305,24 @@ CREATE TABLE [#__categories](
 	[level] [bigint] NOT NULL DEFAULT 0,
 	[path] [nvarchar](255) NOT NULL DEFAULT '',
 	[extension] [nvarchar](50) NOT NULL DEFAULT '',
-	[title] [nvarchar](255) NOT NULL,
+	[title] [nvarchar](255) NOT NULL DEFAULT '',
 	[alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[note] [nvarchar](255) NOT NULL DEFAULT '',
-	[description] [nvarchar](max) NOT NULL,
+	[description] [nvarchar](max) NOT NULL DEFAULT '',
 	[published] [smallint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
 	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[access] [int] NOT NULL DEFAULT 0,
-	[params] [nvarchar](max) NOT NULL,
-	[metadesc] [nvarchar](1024) NOT NULL,
-	[metakey] [nvarchar](1024) NOT NULL,
-	[metadata] [nvarchar](2048) NOT NULL,
+	[params] [nvarchar](max) NOT NULL DEFAULT '',
+	[metadesc] [nvarchar](1024) NOT NULL DEFAULT '',
+	[metakey] [nvarchar](1024) NOT NULL DEFAULT '',
+	[metadata] [nvarchar](2048) NOT NULL DEFAULT '',
 	[created_user_id] [bigint] NOT NULL DEFAULT 0,
 	[created_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[modified_user_id] [bigint] NOT NULL DEFAULT 0,
 	[modified_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[hits] [bigint] NOT NULL DEFAULT 0,
-	[language] [nvarchar](7) NOT NULL,
+	[language] [nvarchar](7) NOT NULL DEFAULT '',
 	[version] [bigint] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__categories_id] PRIMARY KEY CLUSTERED
 (
@@ -697,12 +697,13 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__extensions](
 	[extension_id] [int] IDENTITY(10000,1) NOT NULL,
+	[package_id] [bigint] NOT NULL DEFAULT 0,
 	[name] [nvarchar](100) NOT NULL,
 	[type] [nvarchar](20) NOT NULL,
 	[element] [nvarchar](100) NOT NULL,
 	[folder] [nvarchar](100) NOT NULL,
 	[client_id] [smallint] NOT NULL,
-	[enabled] [smallint] NOT NULL DEFAULT 1,
+	[enabled] [smallint] NOT NULL DEFAULT 0,
 	[access] [int] NOT NULL DEFAULT 1,
 	[protected] [smallint] NOT NULL DEFAULT 0,
 	[manifest_cache] [nvarchar](max) NOT NULL,
@@ -750,7 +751,7 @@ SELECT 2, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 1, '', '', '',
 UNION ALL
 SELECT 3, 'com_admin', 'component', 'com_admin', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 4, 'com_banners', 'component', 'com_banners', '', 1, 1, 1, 0, '', '{"purchase_type":"3","track_impressions":"0","track_clicks":"0","metakey_prefix":"","save_history":"1","history_limit":5}', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 4, 'com_banners', 'component', 'com_banners', '', 1, 1, 1, 0, '', '{"purchase_type":"3","track_impressions":"0","track_clicks":"0","metakey_prefix":"","save_history":"1","history_limit":10}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 5, 'com_cache', 'component', 'com_cache', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -762,7 +763,7 @@ SELECT 8, 'com_contact', 'component', 'com_contact', '', 1, 1, 1, 0, '', '{"show
 UNION ALL
 SELECT 9, 'com_cpanel', 'component', 'com_cpanel', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 10, 'com_installer', 'component', 'com_installer', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 10, 'com_installer', 'component', 'com_installer', '', 1, 1, 1, 1, '', '{"show_jed_info":"1","cachetimeout":"6","minimum_stability":"4"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 11, 'com_languages', 'component', 'com_languages', '', 1, 1, 1, 1, '', '{"administrator":"en-GB","site":"en-GB"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -770,7 +771,7 @@ SELECT 12, 'com_login', 'component', 'com_login', '', 1, 1, 1, 1, '', '', '', ''
 UNION ALL
 SELECT 13, 'com_media', 'component', 'com_media', '', 1, 1, 0, 1, '', '{"upload_extensions":"bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS","upload_maxsize":"10","file_path":"images","image_path":"images","restrict_uploads":"1","allowed_media_usergroup":"3","check_mime":"1","image_extensions":"bmp,gif,jpg,png","ignore_extensions":"","upload_mime":"image\/jpeg,image\/gif,image\/png,image\/bmp,application\/x-shockwave-flash,application\/msword,application\/excel,application\/pdf,application\/powerpoint,text\/plain,application\/x-zip","upload_mime_illegal":"text\/html"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 14, 'com_menus', 'component', 'com_menus', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 14, 'com_menus', 'component', 'com_menus', '', 1, 1, 1, 1, '', '{"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":""}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 15, 'com_messages', 'component', 'com_messages', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -780,7 +781,7 @@ SELECT 17, 'com_newsfeeds', 'component', 'com_newsfeeds', '', 1, 1, 1, 0, '', '{
 UNION ALL
 SELECT 18, 'com_plugins', 'component', 'com_plugins', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 19, 'com_search', 'component', 'com_search', '', 1, 1, 1, 0, '', '{"enabled":"0","show_date":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 19, 'com_search', 'component', 'com_search', '', 1, 1, 1, 0, '', '{"enabled":"0","search_phrases":"1","search_areas":"1","show_date":"1","opensearch_name":"","opensearch_description":""}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 20, 'com_templates', 'component', 'com_templates', '', 1, 1, 1, 1, '', '{"template_positions_display":"0","upload_limit":"10","image_formats":"gif,bmp,jpg,jpeg,png","source_formats":"txt,less,ini,xml,js,php,css,scss,sass","font_formats":"woff,ttf,otf","compressed_formats":"zip"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -794,15 +795,17 @@ SELECT 25, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUs
 UNION ALL
 SELECT 27, 'com_finder', 'component', 'com_finder', '', 1, 1, 0, 0, '', '{"show_description":"1","description_length":255,"allow_empty_query":"0","show_url":"1","show_advanced":"1","expand_advanced":"0","show_date_filters":"0","highlight_terms":"1","opensearch_name":"","opensearch_description":"","batch_size":"50","memory_table_limit":30000,"title_multiplier":"1.7","text_multiplier":"0.7","meta_multiplier":"1.2","path_multiplier":"2.0","misc_multiplier":"0.3","stemmer":"snowball"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 28, 'com_joomlaupdate', 'component', 'com_joomlaupdate', '', 1, 1, 0, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 28, 'com_joomlaupdate', 'component', 'com_joomlaupdate', '', 1, 1, 0, 1, '', '{"updatesource":"default","customurl":""}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 29, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, '', '{"tag_layout":"_:default","save_history":"1","history_limit":5,"show_tag_title":"0","tag_list_show_tag_image":"0","tag_list_show_tag_description":"0","tag_list_image":"","show_tag_num_items":"0","tag_list_orderby":"title","tag_list_orderby_direction":"ASC","show_headings":"0","tag_list_show_date":"0","tag_list_show_item_image":"0","tag_list_show_item_description":"0","tag_list_item_maximum_characters":0,"return_any_or_all":"1","include_children":"0","maximum":200,"tag_list_language_filter":"all","tags_layout":"_:default","all_tags_orderby":"title","all_tags_orderby_direction":"ASC","all_tags_show_tag_image":"0","all_tags_show_tag_descripion":"0","all_tags_tag_maximum_characters":20,"all_tags_show_tag_hits":"0","filter_field":"1","show_pagination_limit":"1","show_pagination":"2","show_pagination_results":"1","tag_field_ajax_mode":"1","show_feed_link":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 29, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, '', '{"tag_layout":"_:default","save_history":"1","history_limit":5,"show_tag_title":"0","tag_list_show_tag_image":"0","tag_list_show_tag_description":"0","tag_list_image":"","tag_list_orderby":"title","tag_list_orderby_direction":"ASC","show_headings":"0","tag_list_show_date":"0","tag_list_show_item_image":"0","tag_list_show_item_description":"0","tag_list_item_maximum_characters":0,"return_any_or_all":"1","include_children":"0","maximum":200,"tag_list_language_filter":"all","tags_layout":"_:default","all_tags_orderby":"title","all_tags_orderby_direction":"ASC","all_tags_show_tag_image":"0","all_tags_show_tag_descripion":"0","all_tags_tag_maximum_characters":20,"all_tags_show_tag_hits":"0","filter_field":"1","show_pagination_limit":"1","show_pagination":"2","show_pagination_results":"1","tag_field_ajax_mode":"1","show_feed_link":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 30, 'com_contenthistory', 'component', 'com_contenthistory', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 31, 'com_ajax', 'component', 'com_ajax', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 32, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 32, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 33, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 -- Libraries
 INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
@@ -924,7 +927,7 @@ SELECT 410, 'plg_editors_codemirror', 'plugin', 'codemirror', 'editors', 0, 1, 1
 UNION ALL
 SELECT 411, 'plg_editors_none', 'plugin', 'none', 'editors', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 2, 0
 UNION ALL
-SELECT 412, 'plg_editors_tinymce', 'plugin', 'tinymce', 'editors', 0, 1, 1, 0, '', '{"mode":"1","skin":"0","mobile":"0","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","invalid_elements":"script,applet,iframe","extended_elements":"","html_height":"550","html_width":"750","resizing":"1","element_path":"1","fonts":"1","paste":"1","searchreplace":"1","insertdate":"1","colors":"1","table":"1","smilies":"1","hr":"1","link":"1","media":"1","print":"1","directionality":"1","fullscreen":"1","alignment":"1","visualchars":"1","visualblocks":"1","nonbreaking":"1","template":"1","blockquote":"1","wordcount":"1","advlist":"1","autosave":"1","contextmenu":"1","inlinepopups":"1","custom_plugin":"","custom_button":""}', '', '', 0, '1900-01-01 00:00:00', 3, 0
+SELECT 412, 'plg_editors_tinymce', 'plugin', 'tinymce', 'editors', 0, 1, 1, 0, '', '{"configuration":{"toolbars":{"2":{"toolbar1":["bold","underline","strikethrough","|","undo","redo","|","bullist","numlist","|","pastetext"]},"1":{"menu":["edit","insert","view","format","table","tools"],"toolbar1":["bold","italic","underline","strikethrough","|","alignleft","aligncenter","alignright","alignjustify","|","formatselect","|","bullist","numlist","|","outdent","indent","|","undo","redo","|","link","unlink","anchor","code","|","hr","table","|","subscript","superscript","|","charmap","pastetext","preview"]},"0":{"menu":["edit","insert","view","format","table","tools"],"toolbar1":["bold","italic","underline","strikethrough","|","alignleft","aligncenter","alignright","alignjustify","|","styleselect","|","formatselect","fontselect","fontsizeselect","|","searchreplace","|","bullist","numlist","|","outdent","indent","|","undo","redo","|","link","unlink","anchor","image","|","code","|","forecolor","backcolor","|","fullscreen","|","table","|","subscript","superscript","|","charmap","emoticons","media","hr","ltr","rtl","|","cut","copy","paste","pastetext","|","visualchars","visualblocks","nonbreaking","blockquote","template","|","print","preview","codesample","insertdatetime","removeformat"]}},"setoptions":{"2":{"access":["1"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""},"1":{"access":["6","2"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""},"0":{"access":["7","4","8"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""}}},"sets_amount":3,"html_height":"550","html_width":"750"}', '', '', 0, '1900-01-01 00:00:00', 3, 0
 UNION ALL
 SELECT 413, 'plg_editors-xtd_article', 'plugin', 'article', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 1, 0
 UNION ALL
@@ -1016,7 +1019,11 @@ SELECT 458, 'plg_quickicon_phpversioncheck', 'plugin', 'phpversioncheck', 'quick
 UNION ALL
 SELECT 459, 'plg_editors-xtd_menu', 'plugin', 'menu', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 460, 'plg_editors-xtd_contact', 'plugin', 'contact', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 460, 'plg_editors-xtd_contact', 'plugin', 'contact', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 461, 'plg_system_fields', 'plugin', 'fields', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 462, 'plg_fields_gallery', 'plugin', 'gallery', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 -- Templates
 INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
@@ -1029,10 +1036,10 @@ UNION ALL
 SELECT 507, 'isis', 'template', 'isis', '', 1, 1, 1, 0, '', '{"templateColor":"","logoFile":""}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 -- Languages
-INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
-SELECT 600, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+INSERT INTO [#__extensions] ([extension_id], [package_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
+SELECT 600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 601, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 -- Files Extensions
 INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
@@ -1043,6 +1050,151 @@ INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder]
 SELECT 802, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 SET IDENTITY_INSERT [#__extensions] OFF;
+
+/****** Object:  Table [#__fields] ******/
+
+SET QUOTED_IDENTIFIER ON;
+
+CREATE TABLE [#__fields] (
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[asset_id] [int] NOT NULL DEFAULT 0,
+	[context] [nvarchar](255) NOT NULL DEFAULT '',
+	[group_id] [int] NOT NULL DEFAULT 0,
+	[title] [nvarchar](255) NOT NULL DEFAULT '',
+	[alias] [nvarchar](255) NOT NULL DEFAULT '',
+	[label] [nvarchar](255) NOT NULL DEFAULT '',
+	[default_value] [nvarchar](max) NOT NULL DEFAULT '',
+	[type] [nvarchar](255) NOT NULL DEFAULT '',
+	[options] [nvarchar](255) NOT NULL DEFAULT '',
+	[note] [nvarchar](255) NOT NULL DEFAULT '',
+	[description] [nvarchar](max) NOT NULL DEFAULT '',
+	[state] [smallint] NOT NULL DEFAULT 0,
+	[required] [smallint] NOT NULL DEFAULT 0,
+	[checked_out] [bigint] NOT NULL DEFAULT 0,
+	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[ordering] [int] NOT NULL DEFAULT 0,
+	[params] [nvarchar](max) NOT NULL DEFAULT '',
+	[fieldparams] [nvarchar](max) NOT NULL DEFAULT '',
+	[attributes] [nvarchar](max) NOT NULL DEFAULT '',
+	[language] [nvarchar](7) NOT NULL DEFAULT '',
+	[created_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created_user_id] [bigint] NOT NULL DEFAULT 0,
+	[created_by_alias] [nvarchar](255) NOT NULL DEFAULT '',
+	[modified_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[modified_by] [bigint] NOT NULL DEFAULT 0,
+	[publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[access] [int] NOT NULL DEFAULT 1,
+CONSTRAINT [PK_#__fields_id] PRIMARY KEY CLUSTERED(
+	[id] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON
+) ON [PRIMARY]) ON [PRIMARY];
+
+CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__fields](
+	[checked_out] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_state] ON [#__fields](
+	[state] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_access] ON [#__fields](
+	[access] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_context] ON [#__fields](
+	[context] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_language] ON [#__fields](
+	[language] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+/****** Object:  Table [#__fields_categories] ******/
+
+SET QUOTED_IDENTIFIER ON;
+
+CREATE TABLE [#__fields_categories] ( 
+	[field_id] [int] NOT NULL DEFAULT 0,
+	[category_id] [int] NOT NULL DEFAULT 0,
+CONSTRAINT [PK_#__fields_categories_id] PRIMARY KEY CLUSTERED(
+	[field_id] ASC,
+	[category_id] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON
+) ON [PRIMARY]) ON [PRIMARY];
+
+/****** Object:  Table [#__fields_groups] ******/
+
+SET QUOTED_IDENTIFIER ON;
+
+CREATE TABLE [#__fields_groups] (
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[asset_id] [int] NOT NULL DEFAULT 0,
+	[context] [nvarchar](255) NOT NULL DEFAULT '',
+	[title] [nvarchar](255) NOT NULL DEFAULT '',
+	[note] [nvarchar](255) NOT NULL DEFAULT '',
+	[description] [nvarchar](max) NOT NULL DEFAULT '',
+	[state] [smallint] NOT NULL DEFAULT 0,
+	[checked_out] [bigint] NOT NULL DEFAULT 0,
+	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[ordering] [int] NOT NULL DEFAULT 0,
+	[language] [nvarchar](7) NOT NULL DEFAULT '',
+	[created] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created_by] [bigint] NOT NULL DEFAULT 0,
+	[modified] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[modified_by] [bigint] NOT NULL DEFAULT 0,
+	[access] [int] NOT NULL DEFAULT 1,
+CONSTRAINT [PK_#__fields_groups_id] PRIMARY KEY CLUSTERED(
+	[id] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON
+ ) ON [PRIMARY]) ON [PRIMARY];
+
+CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__fields_groups](
+	[checked_out] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_state] ON [#__fields_groups](
+	[state] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_created_by] ON [#__fields_groups](
+	[created_by] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_access] ON [#__fields_groups](
+	[access] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_context] ON [#__fields_groups](
+	[context] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_language] ON [#__fields_groups](
+	[language] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+/****** Object:  Table [#__fields_values] ******/
+
+SET QUOTED_IDENTIFIER ON;
+
+CREATE TABLE [#__fields_values] (
+	[field_id] [bigint] NOT NULL DEFAULT 1,
+	[context] [nvarchar](255) NOT NULL DEFAULT '',
+	[item_id] [nvarchar](255) NOT NULL DEFAULT '',
+	[value] [nvarchar](max) NOT NULL DEFAULT '',
+) ON [PRIMARY];
+
+CREATE NONCLUSTERED INDEX [idx_field_id] ON [#__fields_values](
+	[field_id] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_context] ON [#__fields_values](
+	[context] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_item_id] ON [#__fields_values](
+	[item_id] ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_filters] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2699,37 +2851,37 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__ucm_content](
 	[core_content_id] [bigint] IDENTITY(1,1) NOT NULL,
-	[core_type_alias] [nvarchar](255) NOT NULL,
+	[core_type_alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[core_title] [nvarchar](255) NOT NULL DEFAULT '',
 	[core_alias] [nvarchar](255) NOT NULL DEFAULT '',
-	[core_body] [nvarchar](max) NOT NULL,
+	[core_body] [nvarchar](max) NOT NULL DEFAULT '',
 	[core_state] [smallint] NOT NULL DEFAULT 0,
 	[core_checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[core_checked_out_user_id] [bigint] NOT NULL DEFAULT 0,
 	[core_access] [bigint] NOT NULL DEFAULT 0,
-	[core_params] [nvarchar](max) NOT NULL,
+	[core_params] [nvarchar](max) NOT NULL DEFAULT '',
 	[core_featured] [tinyint] NOT NULL DEFAULT 0,
-	[core_metadata] [nvarchar](2048) NOT NULL,
+	[core_metadata] [nvarchar](2048) NOT NULL DEFAULT '',
 	[core_created_user_id] [bigint] NOT NULL DEFAULT 0,
 	[core_created_by_alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[core_created_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[core_modified_user_id] [bigint] NOT NULL DEFAULT 0,
 	[core_modified_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[core_language] [nvarchar](7) NOT NULL,
+	[core_language] [nvarchar](7) NOT NULL DEFAULT '',
 	[core_publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[core_publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[core_content_item_id] [bigint] NULL,
-	[asset_id] [bigint] NULL,
-	[core_images] [nvarchar](max) NOT NULL,
-	[core_urls] [nvarchar](max) NOT NULL,
+	[core_content_item_id] [bigint] NOT NULL DEFAULT 0,
+	[asset_id] [bigint] NOT NULL DEFAULT 0,
+	[core_images] [nvarchar](max) NOT NULL DEFAULT '',
+	[core_urls] [nvarchar](max) NOT NULL DEFAULT '',
 	[core_hits] [bigint] NOT NULL DEFAULT 0,
 	[core_version] [bigint] NOT NULL DEFAULT 1,
 	[core_ordering] [int] NOT NULL DEFAULT 0,
-	[core_metakey] [nvarchar](max) NOT NULL,
-	[core_metadesc] [nvarchar](max) NOT NULL,
+	[core_metakey] [nvarchar](max) NOT NULL DEFAULT '',
+	[core_metadesc] [nvarchar](max) NOT NULL DEFAULT '',
 	[core_catid] [bigint] NOT NULL DEFAULT 0,
-	[core_xreference] [nvarchar](50) NOT NULL,
-	[core_type_id] [bigint] NULL,
+	[core_xreference] [nvarchar](50) NOT NULL DEFAULT '',
+	[core_type_id] [bigint] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__ucm_content_core_content_id] PRIMARY KEY CLUSTERED
 (
 	[core_content_id] ASC
@@ -2855,11 +3007,9 @@ SET IDENTITY_INSERT [#__update_sites] ON;
 INSERT INTO [#__update_sites] ([update_site_id], [name], [type], [location], [enabled], [last_check_timestamp])
 SELECT 1, 'Joomla! Core', 'collection', 'https://update.joomla.org/core/list.xml', 1, 0
 UNION ALL
-SELECT 2, 'Joomla! Extension Directory', 'collection', 'https://update.joomla.org/jed/list.xml', 1, 0
+SELECT 2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_3.xml', 1, 0
 UNION ALL
-SELECT 3, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_3.xml', 1, 0
-UNION ALL
-SELECT 4, 'Joomla! Update Component Update Site', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0;
+SELECT 3, 'Joomla! Update Component Update Site', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0;
 
 SET IDENTITY_INSERT [#__update_sites] OFF;
 
@@ -2879,11 +3029,9 @@ CREATE TABLE [#__update_sites_extensions](
 INSERT INTO [#__update_sites_extensions] ([update_site_id], [extension_id])
 SELECT 1, 700
 UNION ALL
-SELECT 2, 700
+SELECT 2, 802
 UNION ALL
-SELECT 3, 802
-UNION ALL
-SELECT 4, 28;
+SELECT 3, 28;
 
 /****** Object:  Table [#__updates] ******/
 SET QUOTED_IDENTIFIER ON;

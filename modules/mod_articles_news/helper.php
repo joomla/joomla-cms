@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,11 +55,25 @@ abstract class ModArticlesNewsHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
+		//  Featured switch
+		switch ($params->get('show_featured'))
+		{
+			case '1' :
+				$model->setState('filter.featured', 'only');
+				break;
+			case '0' :
+				$model->setState('filter.featured', 'hide');
+				break;
+			default :
+				$model->setState('filter.featured', 'show');
+				break;
+		}
+		
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
 
-		if (trim($ordering) == 'rand()')
+		if (trim($ordering) === 'rand()')
 		{
 			$model->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @since  12.3
  */
-class JFeed implements ArrayAccess
+class JFeed implements ArrayAccess, Countable
 {
 	/**
 	 * @var    array  The entry properties.
@@ -166,6 +166,19 @@ class JFeed implements ArrayAccess
 		$this->entries[] = $entry;
 
 		return $this;
+	}
+
+	/**
+	 * Returns a count of the number of entries in the feed.
+	 * 
+	 * This method is here to implement the Countable interface.
+	 * You can call it by doing count($feed) rather than $feed->count();
+	 * 
+	 * @return  integer number of entries in the feed.
+	 */
+	public function count()
+	{
+		return count($this->entries);
 	}
 
 	/**
