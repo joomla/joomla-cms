@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,14 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  1.6
  */
-class JFormFieldCategoryEdit extends JFormAbstractlist
+class JFormFieldCategoryEdit extends JFormFieldList
 {
 	/**
 	 * To allow creation of new categories.

@@ -407,7 +407,7 @@ body .navbar-fixed-top {
 	color: #0C192E;
 	text-shadow: 0 1px 0 #FFF;
 	margin-bottom: 10px;
-	min-height: 43px;
+	min-height: 51px;
 }
 
 .subhead-collapse {
@@ -1520,7 +1520,7 @@ textarea.noResize {
 		margin-bottom: 5px;
 	}
 }
-.thumbnails {
+.thumbnails-media {
 	@thumbSize:100px;
 	margin-left: 0;
 	.thumbnail {
@@ -1866,4 +1866,24 @@ textarea.noResize {
 	    border-radius: 3px;
 	    padding: 15px;
 	}
+}
+
+/* Remove unneeded space between label and field in vertical forms */
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+	padding-top: 0;
+
+	.form-horizontal & {
+		padding-top: 5px;
+	}
+}
+
+/* Align btn-group to label */
+.form-horizontal .controls > .radio.btn-group:first-child {
+	padding-top: 0;
+}
+
+/* Align btn-group-yesno to label */
+.form-horizontal .controls > .radio.btn-group-yesno:first-child {
+	padding-top: 2px;
 }

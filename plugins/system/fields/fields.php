@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,8 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentBeforeSave($context, $item, $isNew)
 	{
-		$parts = $this->getParts($context);
+
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -112,7 +113,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterSave($context, $item, $isNew)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -223,7 +224,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterDelete($context, $item)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -273,7 +274,8 @@ class PlgSystemFields extends JPlugin
 	public function onContentPrepareForm(JForm $form, $data)
 	{
 		$context = $form->getName();
-		$parts = $this->getParts($context);
+
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -312,7 +314,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -390,7 +392,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	private function display($context, $item, $params, $displayType)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -456,7 +458,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentPrepare($context, $item)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -535,62 +537,5 @@ class PlgSystemFields extends JPlugin
 		}
 
 		return true;
-	}
-
-	/**
-	 * Returns the parts for the context.
-	 *
-	 * @param   string  $context  The context
-	 *
-	 * @return  array
-	 *
-	 * @since   3.7.0
-	 */
-	private function getParts($context)
-	{
-		// Some context mapping
-		// @todo needs to be done in a general lookup table on some point
-		$mapping = array(
-				'com_users.registration' => 'com_users.user',
-				'com_content.category'   => 'com_content.article',
-		);
-
-		if (key_exists($context, $mapping))
-		{
-			$context = $mapping[$context];
-		}
-
-		$parts = FieldsHelper::extract($context);
-
-		if (!$parts)
-		{
-			return null;
-		}
-
-		if ($parts[1] === 'form')
-		{
-			// The context is not from a known one, we need to do a lookup
-			// @todo use the api here.
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('context')
-				->from('#__fields')
-				->where('context like ' . $db->quote($parts[0] . '.%'))
-				->group(array('context'));
-			$db->setQuery($query);
-			$tmp = $db->loadObjectList();
-
-			if (count($tmp) == 1)
-			{
-				$parts = FieldsHelper::extract($tmp[0]->context);
-
-				if (count($parts) < 2)
-				{
-					return null;
-				}
-			}
-		}
-
-		return $parts;
 	}
 }

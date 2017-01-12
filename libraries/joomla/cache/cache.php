@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -170,6 +170,37 @@ class JCache
 	public function setLifeTime($lt)
 	{
 		$this->_options['lifetime'] = $lt;
+	}
+
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function contains($id, $group = null)
+	{
+		if (!$this->getCaching())
+		{
+			return false;
+		}
+
+		// Get the default group
+		$group = $group ?: $this->_options['defaultgroup'];
+
+		// Get the storage
+		$handler = $this->_getStorage();
+
+		if (!($handler instanceof Exception))
+		{
+			return $handler->contains($id, $group);
+		}
+
+		return false;
 	}
 
 	/**

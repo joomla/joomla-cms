@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,7 +67,7 @@ class SearchHelper
 		$search_ignore = $lang->getIgnoredSearchWords();
 
 		// Deprecated in 1.6 use $lang->getIgnoredSearchWords instead.
-		$ignoreFile = $lang->getLanguagePath() . '/' . $tag . '/' . $tag . '.ignore.php';
+		$ignoreFile = JLanguageHelper::getLanguagePath() . '/' . $tag . '/' . $tag . '.ignore.php';
 
 		if (file_exists($ignoreFile))
 		{

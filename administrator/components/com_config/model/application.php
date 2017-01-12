@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -279,20 +279,95 @@ class ConfigModelApplication extends ConfigModelForm
 			$data['caching'] = 0;
 		}
 
-		$path = JPATH_SITE . '/cache';
+		/*
+		 * Look for a custom cache_path
+		 * First check if a path is given in the submitted data, then check if a path exists in the previous data, otherwise use the default
+		 */
+		if ($data['cache_path'])
+		{
+			$path = $data['cache_path'];
+		}
+		elseif (!$data['cache_path'] && $prev['cache_path'])
+		{
+			$path = $prev['cache_path'];
+		}
+		else
+		{
+			$path = JPATH_SITE . '/cache';
+		}
 
 		// Give a warning if the cache-folder can not be opened
 		if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) == false)
 		{
-			JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
-			$data['caching'] = 0;
+			$error = true;
+
+			// If a custom path is in use, try using the system default instead of disabling cache
+			if ($path !== JPATH_SITE . '/cache' && @opendir(JPATH_SITE . '/cache') != false)
+			{
+				try
+				{
+					JLog::add(
+						JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
+						JLog::WARNING,
+						'jerror'
+					);
+				}
+				catch (RuntimeException $logException)
+				{
+					$app->enqueueMessage(
+						JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
+						'warning'
+					);
+				}
+
+				$path  = JPATH_SITE . '/cache';
+				$error = false;
+
+				$data['cache_path'] = '';
+			}
+
+			if ($error)
+			{
+				JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
+				$data['caching'] = 0;
+			}
 		}
 
-		// Clean the cache if disabled but previously enabled.
-		if (!$data['caching'] && $prev['caching'])
+		// Did the user remove their custom cache path?  Don't save the variable to the config
+		if (empty($data['cache_path']))
 		{
-			$cache = JFactory::getCache();
-			$cache->clean();
+			unset($data['cache_path']);
+		}
+
+		// Clean the cache if disabled but previously enabled or changing cache handlers; these operations use the `$prev` data already in memory
+		if ((!$data['caching'] && $prev['caching']) || $data['cache_handler'] !== $prev['cache_handler'])
+		{
+			try
+			{
+				JFactory::getCache()->clean();
+			}
+			catch (JCacheExceptionConnecting $exception)
+			{
+				try
+				{
+					JLog::add(JText::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), JLog::WARNING, 'jerror');
+				}
+				catch (RuntimeException $logException)
+				{
+					$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), 'warning');
+				}
+			}
+			catch (JCacheExceptionUnsupported $exception)
+			{
+				try
+				{
+					JLog::add(JText::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), JLog::WARNING, 'jerror');
+				}
+				catch (RuntimeException $logException)
+				{
+					$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), 'warning');
+				}
+			}
 		}
 
 		// Create the new configuration object.
