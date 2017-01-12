@@ -9,13 +9,15 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field class for the Joomla Platform.
  * Implements a combo box field.
  *
  * @since  11.1
  */
-class JFormFieldCombo extends JFormAbstractlist
+class JFormFieldCombo extends JFormFieldList
 {
 	/**
 	 * The form field type.

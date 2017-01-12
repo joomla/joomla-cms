@@ -10,29 +10,27 @@ defined('_JEXEC') or die;
 $published = $this->state->get('filter.published');
 ?>
 
-<div class="row">
-	<div class="form-group col-md-6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.language'); ?>
-		</div>
-	</div>
-	<div class="form-group col-md-6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.access'); ?>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<?php if ($published >= 0) : ?>
+<div class="container-fluid">
+	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JHtml::_('batch.item', 'com_newsfeeds'); ?>
+				<?php echo JHtml::_('batch.language'); ?>
 			</div>
 		</div>
-	<?php endif; ?>
-	<div class="form-group col-md-6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.tag'); ?>
+		<div class="form-group col-md-6">
+			<div class="controls">
+				<?php echo JHtml::_('batch.access'); ?>
+			</div>
 		</div>
+	</div>
+	<div class="row">
+		<?php if ($published >= 0) : ?>
+			<div class="form-group col-md-6">
+				<div class="controls">
+					<?php echo JHtml::_('batch.tag'); ?>
+				</div>
+			</div>
+		</div>
+		<?php endif; ?>
 	</div>
 </div>

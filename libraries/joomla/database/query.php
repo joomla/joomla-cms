@@ -1811,7 +1811,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns the find_in_set() Mysql function and must be translated in each driver.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function findInSet($value, $set)
 	{

@@ -154,13 +154,13 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 						'modalWidth'  => 80,
 						'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
 								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-								. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+								. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 								. '<button type="button" class="btn btn-primary" aria-hidden="true"'
 								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-								. JText::_("JSAVE") . '</button>'
+								. JText::_('JSAVE') . '</button>'
 								. '<button type="button" class="btn btn-success" aria-hidden="true"'
 								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
-								. JText::_("JAPPLY") . '</button>',
+								. JText::_('JAPPLY') . '</button>',
 					)
 				); ?>
 			</tr>

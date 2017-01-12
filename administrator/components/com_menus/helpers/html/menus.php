@@ -234,7 +234,7 @@ abstract class MenusHtmlMenus
 	 *
 	 * @return  string  The Html code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function visibility($params)
 	{

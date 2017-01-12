@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
+
 /**
  * Fields Gallery Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
-class PlgFieldsGallery extends JPlugin
+class PlgFieldsGallery extends FieldsPlugin
 {
 }

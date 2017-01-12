@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides a list of available cache handlers
@@ -16,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @see    JCache
  * @since  11.1
  */
-class JFormFieldCacheHandler extends JFormAbstractlist
+class JFormFieldCacheHandler extends JFormFieldList
 {
 	/**
 	 * The form field type.

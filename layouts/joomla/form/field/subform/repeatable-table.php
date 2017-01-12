@@ -60,12 +60,16 @@ else
 	}
 
 	$sublayout = 'section';
-}
 
+	// Label will not be shown for sections layout, so reset the margin left
+	JFactory::getDocument()->addStyleDeclaration(
+		'.subform-table-sublayout-section .controls { margin-left: 0px }'
+	);
+}
 ?>
 
-<div class="row">
-	<div class="subform-repeatable-wrapper subform-table-layout">
+<div class="row-fluid">
+	<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
 		<div class="subform-repeatable"
 			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
 			data-repeatable-element="tr.subform-repeatable-group"

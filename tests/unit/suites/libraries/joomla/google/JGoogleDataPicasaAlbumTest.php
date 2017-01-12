@@ -324,7 +324,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 		$this->http->expects($this->once())->method('get')->will($this->returnCallback('picasaPhotolistCallback'));
 		$results = $this->object->listPhotos();
 
-		$this->assertEquals(count($results), 2);
+		$this->assertCount(2, $results);
 		$i = 1;
 
 		foreach ($results as $result)
@@ -379,7 +379,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 	 */
 	public function testUploadUnknown()
 	{
-		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt');
+		$this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt');
 	}
 
 	/**
@@ -391,7 +391,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 	 */
 	public function testUploadFake()
 	{
-		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'fakephoto.png');
+		$this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'fakephoto.png');
 	}
 
 	/**

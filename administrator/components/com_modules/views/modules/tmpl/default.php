@@ -26,16 +26,10 @@ if ($saveOrder)
 $colSpan = $clientId === 1 ? 9 : 10;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
+<<<<<<< HEAD
 	<div id="j-main-container" class="j-main-container">
-		<?php
-		// Search tools bar and filters
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
-		?>
-		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-warning alert-no-items">
-				<?php echo JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
-			</div>
-		<?php else : ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php if ($this->total > 0) : ?>
 			<table class="table table-striped" id="moduleList">
 				<thead>
 					<tr>

@@ -194,9 +194,9 @@ class JFormFieldModal_Newsfeed extends JFormField
 					'url'         => $urlSelect,
 					'height'      => '400px',
 					'width'       => '800px',
-					'bodyHeight'  => '70',
-					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
+					'bodyHeight'  => 70,
+					'modalWidth'  => 80,
+					'footer'      => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
 				)
 			);
 		}
@@ -215,20 +215,20 @@ class JFormFieldModal_Newsfeed extends JFormField
 					'url'         => $urlNew,
 					'height'      => '400px',
 					'width'       => '800px',
-					'bodyHeight'  => '70',
-					'modalWidth'  => '80',
+					'bodyHeight'  => 70,
+					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'newsfeed\', \'cancel\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'newsfeed\', \'save\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_("JSAVE") . '</a>'
+							. JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'newsfeed\', \'apply\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_("JAPPLY") . '</a>',
+							. JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}
@@ -247,20 +247,20 @@ class JFormFieldModal_Newsfeed extends JFormField
 					'url'         => $urlEdit,
 					'height'      => '400px',
 					'width'       => '800px',
-					'bodyHeight'  => '70',
-					'modalWidth'  => '80',
+					'bodyHeight'  => 70,
+					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id
 							. '\', \'edit\', \'newsfeed\', \'cancel\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'edit\', \'newsfeed\', \'save\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_("JSAVE") . '</a>'
+							. JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'edit\', \'newsfeed\', \'apply\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_("JAPPLY") . '</a>',
+							. JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}

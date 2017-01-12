@@ -26,10 +26,10 @@ JFactory::getDocument()->addScriptDeclaration('
 	{
 		if (task == "contact.cancel" || document.formvalidator.isValid(document.getElementById("contact-form")))
 		{
-			' . $this->form->getField("misc")->save() . '
+			' . $this->form->getField('misc')->save() . '
 			Joomla.submitform(task, document.getElementById("contact-form"));
 
-			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
+			// @deprecated 4.0  The following js is not needed since 3.7.0.
 			if (task !== "contact.apply")
 			{
 				window.parent.jQuery("#contactEdit' . $this->item->id . 'Modal").modal("hide");

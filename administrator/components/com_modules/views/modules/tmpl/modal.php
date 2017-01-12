@@ -41,13 +41,7 @@ modulePosIns = function(position) {
 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
-		<div class="clearfix"></div>
-
-		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-warning alert-no-items">
-			<?php echo JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
-		</div>
-		<?php else : ?>
+		<?php if ($this->total > 0) : ?>
 		<table class="table table-striped" id="moduleList">
 			<thead>
 				<tr>

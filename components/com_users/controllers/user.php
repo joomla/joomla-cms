@@ -146,8 +146,13 @@ class UsersControllerUser extends UsersController
 
 		$app = JFactory::getApplication();
 
+		// Prepare the logout options.
+		$options = array(
+			'clientid' => $app->get('shared_session', '0') ? null : 0,
+		);
+
 		// Perform the log out.
-		$error  = $app->logout();
+		$error  = $app->logout(null, $options);
 		$input  = $app->input;
 		$method = $input->getMethod();
 
@@ -166,7 +171,6 @@ class UsersControllerUser extends UsersController
 		{
 			if (JLanguageMultilang::isEnabled())
 			{
-
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')

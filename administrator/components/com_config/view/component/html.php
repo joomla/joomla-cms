@@ -54,7 +54,8 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 			$form->bind($component->params);
 		}
 
-		$this->fieldsets = $form->getFieldsets();
+		$this->fieldsets   = $form->getFieldsets();
+		$this->formControl = $form->getFormControl();
 
 		// Don't show permissions fieldset if not authorised.
 		if (!$user->authorise('core.admin', $component->option) && isset($this->fieldsets['permissions']))

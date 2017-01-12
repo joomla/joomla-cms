@@ -11,12 +11,14 @@ defined('_JEXEC') or die;
 
 JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Template Style Field class for the Joomla Framework.
  *
  * @since  3.5
  */
-class JFormFieldTemplateLocation extends JFormAbstractlist
+class JFormFieldTemplateLocation extends JFormFieldList
 {
 	/**
 	 * The form field type.

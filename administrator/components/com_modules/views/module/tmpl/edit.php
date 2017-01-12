@@ -17,12 +17,12 @@ JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0 ));
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
-$hasContentFieldName = "content";
+$hasContentFieldName = 'content';
 
 // For a later improvement
 if ($hasContent)
 {
-	$hasContentFieldName = "content";
+	$hasContentFieldName = 'content';
 }
 
 // Get Params Fieldsets
@@ -74,11 +74,11 @@ $script .= "
 							}
 						});
 						if (updMenus == 0) {
-							tmpMenu.html('<span class=\"tag tag-info\">" . JText::_("JALL") . "</span>');
+							tmpMenu.html('<span class=\"tag tag-info\">" . JText::_('JALL') . "</span>');
 							if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
 						}
 						if (updMenus == '-') {
-							tmpMenu.html('<span class=\"tag tag-danger\">" . JText::_("JNO") . "</span>');
+							tmpMenu.html('<span class=\"tag tag-danger\">" . JText::_('JNO') . "</span>');
 							if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no '); }
 						}
 						if (updMenus > 0) {
@@ -86,18 +86,18 @@ $script .= "
 							{
 								if (window.parent.numMenus == window.parent.inMenus.length)
 								{
-									tmpMenu.html('<span class=\"tag tag-info\">" . JText::_("JALL") . "</span>');
+									tmpMenu.html('<span class=\"tag tag-info\">" . JText::_('JALL') . "</span>');
 									if (tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.removeClass('no'); }
 								}
 								else
 								{
-									tmpMenu.html('<span class=\"tag tag-success\">" . JText::_("JYES") . "</span>');
+									tmpMenu.html('<span class=\"tag tag-success\">" . JText::_('JYES') . "</span>');
 									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 							}
 							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 							{
-								tmpMenu.html('<span class=\"tag tag-danger\">" . JText::_("JNO") . "</span>');
+								tmpMenu.html('<span class=\"tag tag-danger\">" . JText::_('JNO') . "</span>');
 								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no'); }
 							}
 						}
@@ -106,31 +106,31 @@ $script .= "
 							{
 								if (window.parent.numMenus == window.parent.inMenus.length)
 								{
-									tmpMenu.html('<span class=\"tag tag-info\">" . JText::_("JALL") . "</span>');
+									tmpMenu.html('<span class=\"tag tag-info\">" . JText::_('JALL') . "</span>');
 									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 								else
 								{
-									tmpMenu.html('<span class=\"tag tag-success\">" . JText::_("JYES") . "</span>');
+									tmpMenu.html('<span class=\"tag tag-success\">" . JText::_('JYES') . "</span>');
 									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 							}
 							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 							{
-								tmpMenu.html('<span class=\"tag tag-danger\">" . JText::_("JNO") . "</span>');
+								tmpMenu.html('<span class=\"tag tag-danger\">" . JText::_('JNO') . "</span>');
 								if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no'); }
 							}
 						}
 						if (updStatus == 1) {
-							tmpStatus.html('<span class=\"tag tag-success\">" . JText::_("JYES") . "</span>');
+							tmpStatus.html('<span class=\"tag tag-success\">" . JText::_('JYES') . "</span>');
 							if (tmpRow.hasClass('unpublished')) { tmpRow.removeClass('unpublished '); }
 						}
 						if (updStatus == 0) {
-							tmpStatus.html('<span class=\"tag tag-danger\">" . JText::_("JNO") . "</span>');
+							tmpStatus.html('<span class=\"tag tag-danger\">" . JText::_('JNO') . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (updStatus == -2) {
-							tmpStatus.html('<span class=\"tag tag-default\">" . JText::_("JTRASHED") . "</span>');
+							tmpStatus.html('<span class=\"tag tag-default\">" . JText::_('JTRASHED') . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (document.formvalidator.isValid(document.getElementById('module-form'))) {

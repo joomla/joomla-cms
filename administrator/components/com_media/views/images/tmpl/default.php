@@ -53,7 +53,7 @@ if (!empty($fieldInput)) // Media Form Field
 }
 else // XTD Image plugin
 {
-	$onClick = "ImageManager.onok();window.parent.jModalClose();";
+	$onClick = 'ImageManager.onok();window.parent.jModalClose();';
 }
 ?>
 <div class="container-popup">

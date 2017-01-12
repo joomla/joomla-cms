@@ -20,7 +20,6 @@
 			class="btn-group btn-group-reverse"
 			label="INSTL_DEFAULTLANGUAGE_INSTALL_LOCALISED_CONTENT"
 			filter="integer"
-			showon="activateMultilanguage:1"
 			default="1"
 		>
 			<option value="1">JYES</option>
@@ -33,7 +32,6 @@
 			class="btn-group btn-group-reverse"
 			label="INSTL_DEFAULTLANGUAGE_ACTIVATE_LANGUAGE_CODE_PLUGIN"
 			filter="integer"
-			showon="activateMultilanguage:1"
 			default="0"
 		>
 			<option value="1">JYES</option>

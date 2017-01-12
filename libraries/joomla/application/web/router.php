@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Class to define an abstract Web application router.
  *
  * @since       12.2
- * @deprecated  __DEPLOY_VERSION__  Use the `joomla/router` package via Composer instead
+ * @deprecated  3.7.0  Use the `joomla/router` package via Composer instead
  */
 abstract class JApplicationWebRouter
 {

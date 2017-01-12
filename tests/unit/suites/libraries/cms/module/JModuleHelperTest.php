@@ -126,11 +126,7 @@ class JModuleHelperTest extends TestCaseDatabase
 	{
 		$modules = JModuleHelper::getModules('position-0');
 
-		$this->assertEquals(
-			count($modules),
-			1,
-			'There is 1 module in position-0'
-		);
+		$this->assertCount(1, $modules, 'There is 1 module in position-0');
 
 		$this->assertEquals(
 			$modules[0]->id,

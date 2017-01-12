@@ -137,18 +137,18 @@ if ($saveOrder)
 					// Get the parents of item for sorting
 					if ($item->level > 1)
 					{
-						$parentsStr = "";
+						$parentsStr = '';
 						$_currentParentId = $item->parent_id;
-						$parentsStr = " " . $_currentParentId;
+						$parentsStr = ' ' . $_currentParentId;
 						for ($j = 0; $j < $item->level; $j++)
 						{
 							foreach ($this->ordering as $k => $v)
 							{
-								$v = implode("-", $v);
-								$v = "-" . $v . "-";
-								if (strpos($v, "-" . $_currentParentId . "-") !== false)
+								$v = implode('-', $v);
+								$v = '-' . $v . '-';
+								if (strpos($v, '-' . $_currentParentId . '-') !== false)
 								{
-									$parentsStr .= " " . $k;
+									$parentsStr .= ' ' . $k;
 									$_currentParentId = $k;
 									break;
 								}
@@ -157,7 +157,7 @@ if ($saveOrder)
 					}
 					else
 					{
-						$parentsStr = "";
+						$parentsStr = '';
 					}
 					?>
 						<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $item->level; ?>">

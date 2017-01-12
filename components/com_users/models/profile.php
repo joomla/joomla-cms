@@ -323,7 +323,6 @@ class UsersModelProfile extends JModelForm
 		$data['password'] = $data['password1'];
 
 		// Unset the username if it should not be overwritten
-		$username            = $data['username'];
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
 		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
@@ -370,7 +369,7 @@ class UsersModelProfile extends JModelForm
 				// Generate one time emergency passwords if required (depleted or not set)
 				if (empty($otpConfig->otep))
 				{
-					$oteps = $model->generateOteps($userId);
+					$model->generateOteps($userId);
 				}
 			}
 			else

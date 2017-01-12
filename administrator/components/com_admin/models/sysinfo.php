@@ -313,7 +313,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'sapi_name'             => php_sapi_name(),
 			'version'               => $version->getLongVersion(),
 			'platform'              => $platform->getLongVersion(),
-			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "",
+			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
 		);
 
 		return $this->info;

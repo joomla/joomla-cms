@@ -166,8 +166,6 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 	 */
 	protected function _createFileName($type, $parts = array())
 	{
-		$filename = '';
-
 		switch ($type)
 		{
 			case 'template':

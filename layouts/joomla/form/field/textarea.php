@@ -49,8 +49,8 @@ $autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $auto
 $autocomplete = $autocomplete == 'autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
-	$columns ? $columns : '',
-	$rows ? $rows : '',
+	$columns ?: '',
+	$rows ?: '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
 	$disabled ? 'disabled' : '',
@@ -69,4 +69,3 @@ $attributes = array(
 echo $name; ?>" id="<?php
 echo $id; ?>" <?php
 echo implode(' ', $attributes); ?> ><?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?></textarea>
-

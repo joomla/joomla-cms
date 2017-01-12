@@ -41,15 +41,8 @@ if ($menuType == '')
 <?php // Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
-		<?php
-		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this), null, array('debug' => false));
-		?>
-		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-warning alert-no-items">
-				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-			</div>
-		<?php else : ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
+		<?php if ($this->total > 0) : ?>
 			<table class="table table-striped" id="itemList">
 				<thead>
 					<tr>
@@ -110,20 +103,20 @@ if ($menuType == '')
 					// Get the parents of item for sorting
 					if ($item->level > 1)
 					{
-						$parentsStr = "";
+						$parentsStr = '';
 						$_currentParentId = $item->parent_id;
-						$parentsStr = " " . $_currentParentId;
+						$parentsStr = ' ' . $_currentParentId;
 
 						for ($j = 0; $j < $item->level; $j++)
 						{
 							foreach ($this->ordering as $k => $v)
 							{
-								$v = implode("-", $v);
-								$v = "-" . $v . "-";
+								$v = implode('-', $v);
+								$v = '-' . $v . '-';
 
-								if (strpos($v, "-" . $_currentParentId . "-") !== false)
+								if (strpos($v, '-' . $_currentParentId . '-') !== false)
 								{
-									$parentsStr .= " " . $k;
+									$parentsStr .= ' ' . $k;
 									$_currentParentId = $k;
 									break;
 								}
@@ -132,7 +125,7 @@ if ($menuType == '')
 					}
 					else
 					{
-						$parentsStr = "";
+						$parentsStr = '';
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $item->level; ?>">

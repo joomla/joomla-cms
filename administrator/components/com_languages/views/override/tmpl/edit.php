@@ -15,7 +15,7 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 
 
-$expired = ($this->state->get("cache_expired") == 1 ) ? '1' : '';
+$expired = ($this->state->get('cache_expired') == 1 ) ? '1' : '';
 
 JHtml::_('stylesheet', 'overrider/overrider.css', array('version' => 'auto', 'relative' => true));
 

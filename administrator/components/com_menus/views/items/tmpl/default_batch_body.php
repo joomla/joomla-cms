@@ -15,40 +15,42 @@ $options = array(
 $published = $this->state->get('filter.published');
 $menuType = JFactory::getApplication()->getUserState('com_menus.items.menutype');
 ?>
-<?php if (strlen($menuType) && $menuType != '*') : ?>
-<div class="row">
-	<div class="form-group col-md-6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.language'); ?>
-		</div>
-	</div>
-	<div class="form-group col-md-6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.access'); ?>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<?php if ($published >= 0) : ?>
-		<div id="batch-choose-action" class="combo control-group">
-			<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
-				<?php echo JText::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
-			</label>
+<div class="container">
+	<?php if (strlen($menuType) && $menuType != '*') : ?>
+	<div class="row">
+		<div class="form-group col-md-6">
 			<div class="controls">
-				<select class="custom-select" name="batch[menu_id]" id="batch-menu-id">
-					<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
-					<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published, 'checkacl' => (int) $this->state->get('menutypeid')))); ?>
-				</select>
+				<?php echo JHtml::_('batch.language'); ?>
 			</div>
 		</div>
-		<div id="batch-copy-move" class="control-group radio">
-			<?php echo JText::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
-			<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+		<div class="form-group col-md-6">
+			<div class="controls">
+				<?php echo JHtml::_('batch.access'); ?>
+			</div>
 		</div>
+	</div>
+	<div class="row">
+		<?php if ($published >= 0) : ?>
+			<div id="batch-choose-action" class="combo control-group">
+				<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
+					<?php echo JText::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
+				</label>
+				<div class="controls">
+					<select class="custom-select" name="batch[menu_id]" id="batch-menu-id">
+						<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
+						<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published, 'checkacl' => (int) $this->state->get('menutypeid')))); ?>
+					</select>
+				</div>
+			</div>
+			<div id="batch-copy-move" class="control-group radio">
+				<?php echo JText::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
+				<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+			</div>
+		<?php endif; ?>
+	</div>
+	<?php else : ?>
+	<div class="row">
+		<p><?php echo JText::_('COM_MENUS_SELECT_MENU_FIRST'); ?></p>
+	</div>
 	<?php endif; ?>
 </div>
-<?php else : ?>
-<div class="row">
-	<p><?php echo JText::_('COM_MENUS_SELECT_MENU_FIRST'); ?></p>
-</div>
-<?php endif; ?>

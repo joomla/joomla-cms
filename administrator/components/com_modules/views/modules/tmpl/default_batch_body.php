@@ -33,32 +33,34 @@ JHtml::_('formbehavior.chosen', '.chzn-custom-value');
 ?>
 
 <p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
-<div class="row">
-	<div class="form-group col-md-6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.language'); ?>
-		</div>
-	</div>
-	<div class="form-group col-md-6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.access'); ?>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<?php if ($published >= 0) : ?>
-		<div class="col-md-6">
+<div class="container">
+	<div class="row">
+		<div class="form-group col-md-6">
 			<div class="controls">
-				<label id="batch-choose-action-lbl" for="batch-choose-action">
-					<?php echo JText::_('COM_MODULES_BATCH_POSITION_LABEL'); ?>
-				</label>
-				<div id="batch-choose-action" class="control-group">
-					<?php echo JHtml::_('select.groupedlist', $positions, 'batch[position_id]', $attr); ?>
-					<div id="batch-copy-move" class="control-group radio">
-						<?php echo JHtml::_('modules.batchOptions'); ?>
-					</div>
-				</div>
+				<?php echo JHtml::_('batch.language'); ?>
 			</div>
 		</div>
-	<?php endif; ?>
+		<div class="form-group col-md-6">
+			<div class="controls">
+				<?php echo JHtml::_('batch.access'); ?>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<?php if ($published >= 0) : ?>
+			<div class="col-md-6">
+				<div class="controls">
+					<label id="batch-choose-action-lbl" for="batch-choose-action">
+						<?php echo JText::_('COM_MODULES_BATCH_POSITION_LABEL'); ?>
+					</label>
+					<div id="batch-choose-action" class="control-group">
+						<?php echo JHtml::_('select.groupedlist', $positions, 'batch[position_id]', $attr); ?>
+						<div id="batch-copy-move" class="control-group radio">
+							<?php echo JHtml::_('modules.batchOptions'); ?>
+						</div>
+					</div>
+				</div>
+			<?php endif; ?>
+		</div>
+	</div>
 </div>
