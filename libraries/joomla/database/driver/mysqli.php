@@ -201,8 +201,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
 		{
-			mysqli_query($this->connection, "SET profiling_history_size = 100;");
-			mysqli_query($this->connection, "SET profiling = 1;");
+			mysqli_query($this->connection, 'SET profiling_history_size = 100;');
+			mysqli_query($this->connection, 'SET profiling = 1;');
 		}
 	}
 
@@ -444,7 +444,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		// If we want the whole field data object add that to the list.

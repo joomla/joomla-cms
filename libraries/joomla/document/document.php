@@ -805,7 +805,7 @@ class JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function setLanguage($lang = "en-gb")
+	public function setLanguage($lang = 'en-gb')
 	{
 		$this->language = strtolower($lang);
 
@@ -833,7 +833,7 @@ class JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function setDirection($dir = "ltr")
+	public function setDirection($dir = 'ltr')
 	{
 		$this->direction = strtolower($dir);
 

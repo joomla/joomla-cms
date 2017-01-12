@@ -120,7 +120,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 		$key->public = mcrypt_create_iv(mcrypt_get_iv_size($this->type, $this->mode), MCRYPT_DEV_URANDOM);
 
 		// Get the salt and password setup.
-		$salt = (isset($options['salt'])) ? $options['salt'] : substr(pack("h*", md5(JCrypt::genRandomBytes())), 0, 16);
+		$salt = (isset($options['salt'])) ? $options['salt'] : substr(pack('h*', md5(JCrypt::genRandomBytes())), 0, 16);
 
 		if (!isset($options['password']))
 		{

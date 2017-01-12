@@ -66,7 +66,7 @@ class JSessionStorageApc extends JSessionStorage
 	{
 		$sess_id = 'sess_' . $id;
 
-		return apc_store($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
+		return apc_store($sess_id, $session_data, ini_get('session.gc_maxlifetime'));
 	}
 
 	/**

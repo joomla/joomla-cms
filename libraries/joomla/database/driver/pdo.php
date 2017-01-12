@@ -1060,7 +1060,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	protected function getErrorMessage()
 	{
 		// The SQL Error Information
-		$errorInfo = implode(", ", $this->connection->errorInfo());
+		$errorInfo = implode(', ', $this->connection->errorInfo());
 
 		// Replace the Databaseprefix with `#__` if we are not in Debug
 		if (!$this->debug)

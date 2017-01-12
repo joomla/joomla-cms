@@ -1815,6 +1815,6 @@ abstract class JDatabaseQuery
 	 */
 	public function findInSet($value, $set)
 	{
-		return "";
+		return '';
 	}
 }

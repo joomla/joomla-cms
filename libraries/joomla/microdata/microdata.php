@@ -865,7 +865,7 @@ class JMicrodata
 			return "<meta$tmp content='$content'/>";
 		}
 
-		return "<" . $tag . $tmp . ">" . $content . "</" . $tag . ">";
+		return '<' . $tag . $tmp . '>' . $content . '</' . $tag . '>';
 	}
 
 	/**

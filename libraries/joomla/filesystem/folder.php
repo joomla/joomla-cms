@@ -231,11 +231,11 @@ abstract class JFolder
 			{
 				if (IS_WIN)
 				{
-					$obdSeparator = ";";
+					$obdSeparator = ';';
 				}
 				else
 				{
-					$obdSeparator = ":";
+					$obdSeparator = ':';
 				}
 
 				// Create the array of open_basedir paths

@@ -35,7 +35,7 @@ class JTwitterStatuses extends JTwitterObject
 	public function getTweetById($id, $trim_user = null, $entities = null, $my_retweet = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit("statuses", "show/:id");
+		$this->checkRateLimit('statuses', 'show/:id');
 
 		// Set the API base
 		$path = '/statuses/show/' . $id . '.json';

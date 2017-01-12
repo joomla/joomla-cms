@@ -393,7 +393,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 
 			if (!($type = $this->getMime($file)))
 			{
-				throw new RuntimeException("Inappropriate file type.");
+				throw new RuntimeException('Inappropriate file type.');
 			}
 
 			if (!($data = file_get_contents($file)))
