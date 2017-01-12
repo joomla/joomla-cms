@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,7 +49,7 @@ class JAccess
 	 *
 	 * @var    array
 	 * @since  11.1
-	 * @deprecated  __DEPLOY_VERSION__  No replacement. Will be removed in 4.0.
+	 * @deprecated  3.7.0  No replacement. Will be removed in 4.0.
 	 */
 	protected static $assetPermissionsById = array();
 
@@ -59,7 +59,7 @@ class JAccess
 	 *
 	 * @var    array
 	 * @since  11.1
-	 * @deprecated  __DEPLOY_VERSION__  No replacement. Will be removed in 4.0.
+	 * @deprecated  3.7.0  No replacement. Will be removed in 4.0.
 	 */
 	protected static $assetPermissionsByName = array();
 
@@ -115,7 +115,7 @@ class JAccess
 	 * Array of preloaded asset names and ids (key is the asset id).
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected static $preloadedAssets = array();
 
@@ -123,7 +123,7 @@ class JAccess
 	 * The root asset id.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected static $rootAssetId = null;
 
@@ -148,7 +148,7 @@ class JAccess
 		self::$preloadedAssets                 = array();
 		self::$rootAssetId                     = null;
 
-		// The following properties are deprecated since __DEPLOY_VERSION__ and will be removed in 4.0.
+		// The following properties are deprecated since 3.7.0 and will be removed in 4.0.
 		self::$assetPermissionsById   = array();
 		self::$assetPermissionsByName = array();
 	}
@@ -285,7 +285,7 @@ class JAccess
 	 * @return  array  List of asset ids (includes parent asset id information).
 	 *
 	 * @since   1.6
-	 * @deprecated  __DEPLOY_VERSION__  No replacement. Will be removed in 4.0.
+	 * @deprecated  3.7.0  No replacement. Will be removed in 4.0.
 	 */
 	protected static function &preloadPermissionsParentIdMapping($assetType)
 	{
@@ -358,7 +358,7 @@ class JAccess
 
 		self::$assetPermissionsParentIdMapping[$extensionName] = array();
 
-		// B/C Populate the old class properties. They are deprecated since __DEPLOY_VERSION__ and will be removed in 4.0.
+		// B/C Populate the old class properties. They are deprecated since 3.7.0 and will be removed in 4.0.
 		self::$assetPermissionsById[$assetType]   = array();
 		self::$assetPermissionsByName[$assetType] = array();
 
@@ -367,7 +367,7 @@ class JAccess
 			self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $asset;
 			self::$preloadedAssets[$asset->id]                                 = $asset->name;
 
-			// B/C Populate the old class properties. They are deprecated since __DEPLOY_VERSION__ and will be removed in 4.0.
+			// B/C Populate the old class properties. They are deprecated since 3.7.0 and will be removed in 4.0.
 			self::$assetPermissionsById[$assetType][$asset->id]     = $asset;
 			self::$assetPermissionsByName[$assetType][$asset->name] = $asset;
 		}
@@ -718,7 +718,7 @@ class JAccess
 	 *
 	 * @return  integer|string  Asset id or asset name.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected static function cleanAssetKey($assetKey = null)
 	{
@@ -747,7 +747,7 @@ class JAccess
 	 *
 	 * @return  integer  The asset id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected static function getAssetId($assetKey)
 	{
@@ -795,7 +795,7 @@ class JAccess
 	 *
 	 * @return  string  The asset name (ex: com_content.article.8).
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected static function getAssetName($assetKey)
 	{

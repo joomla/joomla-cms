@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -124,7 +124,7 @@ class JToolbarButtonTest extends TestCaseDatabase
 		$type = array('Standard', 'test');
 
 		$expected = "<div class=\"btn-wrapper\"  id=\"toolbar-test\">" . PHP_EOL
-			. "\t<button onclick=\"if (document.adminForm.boxchecked.value==0){alert('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');}else{ Joomla.submitbutton('')}\" class=\"btn btn-small\">" . PHP_EOL
+			. "\t<button onclick=\"if (document.adminForm.boxchecked.value == 0) { alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')); } else { Joomla.submitbutton(''); }\" class=\"btn btn-small\">" . PHP_EOL
 			. "\t<span class=\"icon-test\"></span>" . PHP_EOL
 			. "\t</button>" . PHP_EOL
 			. "</div>" . PHP_EOL;

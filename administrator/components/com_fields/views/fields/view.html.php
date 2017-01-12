@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -11,49 +11,49 @@ defined('_JEXEC') or die;
 /**
  * Fields View
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsViewFields extends JViewLegacy
 {
 	/**
 	 * @var  JForm
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $filterForm;
 
 	/**
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $activeFilters;
 
 	/**
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $items;
 
 	/**
 	 * @var  JPagination
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $pagination;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $state;
 
 	/**
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $sidebar;
 
@@ -65,7 +65,7 @@ class FieldsViewFields extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function display($tpl = null)
 	{
@@ -92,7 +92,7 @@ class FieldsViewFields extends JViewLegacy
 
 		$this->addToolbar();
 
-		FieldsHelperInternal::addSubmenu($this->state->get('filter.context'), 'fields');
+		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
 		$this->sidebar = JHtmlSidebar::render();
 
 		return parent::display($tpl);
@@ -103,7 +103,7 @@ class FieldsViewFields extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function addToolbar()
 	{
@@ -188,7 +188,7 @@ class FieldsViewFields extends JViewLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getSortFields()
 	{

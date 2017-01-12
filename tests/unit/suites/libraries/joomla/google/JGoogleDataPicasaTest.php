@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -144,7 +144,7 @@ class JGoogleDataPicasaTest extends TestCase
 		$this->http->expects($this->once())->method('get')->will($this->returnCallback('picasaAlbumlistCallback'));
 		$results = $this->object->listAlbums('userID');
 
-		$this->assertEquals(count($results), 2);
+		$this->assertCount(2, $results);
 		$i = 1;
 
 		foreach ($results as $result)

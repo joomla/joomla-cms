@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ class JDatabaseExporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 * @var    object  The mocked database object for use by test methods.
 	 * @since  3.4
 	 */
-	protected $dbo = null;
+	protected $dbo;
 
 	/**
 	 * Sets up the testing conditions

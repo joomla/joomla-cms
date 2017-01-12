@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Gallery
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Fields Gallery form field
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormFieldGallery extends JFormFieldList
 {
@@ -27,7 +27,7 @@ class JFormFieldGallery extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getOptions()
 	{
@@ -53,7 +53,8 @@ class JFormFieldGallery extends JFormFieldList
 		{
 			foreach ($folders as $folder)
 			{
-				$relativePath = str_replace($path . '/', '', $folder);
+				// Relative path, in order to use str_replace you need same directory separators, so "clean" the paths
+				$relativePath = str_replace(JPath::clean($path . '/'), '', JPath::clean($folder));
 
 				$options[] = JHtml::_('select.option', $relativePath, $relativePath);
 			}
