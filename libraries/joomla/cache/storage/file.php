@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -137,7 +137,7 @@ class JCacheStorageFile extends JCacheStorage
 		// Prepend a die string
 		$data = $die . $data;
 
-		$_fileopen = @fopen($path, "wb");
+		$_fileopen = @fopen($path, 'wb');
 
 		if ($_fileopen)
 		{
@@ -280,7 +280,7 @@ class JCacheStorageFile extends JCacheStorage
 
 		$looptime  = $locktime * 10;
 		$path      = $this->_getFilePath($id, $group);
-		$_fileopen = @fopen($path, "r+b");
+		$_fileopen = @fopen($path, 'r+b');
 
 		if ($_fileopen)
 		{
@@ -330,7 +330,7 @@ class JCacheStorageFile extends JCacheStorage
 	public function unlock($id, $group = null)
 	{
 		$path      = $this->_getFilePath($id, $group);
-		$_fileopen = @fopen($path, "r+b");
+		$_fileopen = @fopen($path, 'r+b');
 
 		if ($_fileopen)
 		{
