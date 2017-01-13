@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 $buttons = $displayData;
 ?>
-<div id="editor-xtd-buttons" class="btn-toolbar float-xs-left">
+<div id="editor-xtd-buttons" class="btn-toolbar float-left">
 	<?php if ($buttons) : ?>
 		<?php foreach ($buttons as $button) : ?>
 			<?php echo $this->sublayout('button', $button); ?>

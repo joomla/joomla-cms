@@ -75,7 +75,7 @@ else // XTD Image plugin
 						<button class="btn" type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP'); ?>"><?php echo JText::_('COM_MEDIA_UP'); ?></button>
 					</div>
 				</div>
-				<div class="float-xs-right">
+				<div class="float-right">
 					<button class="btn btn-success button-save-selected" type="button" <?php if (!empty($onClick)) :
 					// This is for Mootools compatibility ?>onclick="<?php echo $onClick; ?>"<?php endif; ?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT'); ?></button>
 					<button class="btn btn-outline-danger button-cancel" type="button" onclick="window.parent.jQuery('.modal.in').modal('hide');<?php if (!empty($onClick)) :
@@ -96,44 +96,25 @@ else // XTD Image plugin
 						<input type="text" id="f_url" value="" />
 					</div>
 				</div>
-<<<<<<< HEAD
-				<?php if (!$this->state->get('field.id')):?>
+				<?php if (!$this->state->get('field.id')): ?>
 					<div class="col-md-6 control-group">
-=======
-				<?php if (!$this->state->get('field.id')) : ?>
-					<div class="span6 control-group">
->>>>>>> joomla/master
 						<div class="control-label">
 							<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN'); ?></label>
 						</div>
 						<div class="controls">
-<<<<<<< HEAD
 							<select class="custom-select" size="1" id="f_align">
-								<option value="" selected="selected"><?php echo JText::_('COM_MEDIA_NOT_SET') ?></option>
-								<option value="left"><?php echo JText::_('JGLOBAL_LEFT') ?></option>
-								<option value="text-xs-center"><?php echo JText::_('JGLOBAL_CENTER') ?></option>
-								<option value="right"><?php echo JText::_('JGLOBAL_RIGHT') ?></option>
-=======
-							<select size="1" id="f_align">
 								<option value="" selected="selected"><?php echo JText::_('COM_MEDIA_NOT_SET'); ?></option>
-								<option value="left"><?php echo JText::_('JGLOBAL_LEFT'); ?></option>
-								<option value="center"><?php echo JText::_('JGLOBAL_CENTER'); ?></option>
-								<option value="right"><?php echo JText::_('JGLOBAL_RIGHT'); ?></option>
->>>>>>> joomla/master
+								<option value="left"><?php echo JText::_('JGLOBAL_LEFT') ?></option>
+								<option value="text-center"><?php echo JText::_('JGLOBAL_CENTER') ?></option>
+								<option value="right"><?php echo JText::_('JGLOBAL_RIGHT') ?></option>
 							</select>
 						</div>
 					</div>
 				<?php endif; ?>
 			</div>
-<<<<<<< HEAD
-			<?php if (!$this->state->get('field.id')):?>
+			<?php if (!$this->state->get('field.id')): ?>
 				<div class="row">
 					<div class="col-md-6 control-group">
-=======
-			<?php if (!$this->state->get('field.id')) : ?>
-				<div class="row-fluid">
-					<div class="span6 control-group">
->>>>>>> joomla/master
 						<div class="control-label">
 							<label for="f_alt"><?php echo JText::_('COM_MEDIA_IMAGE_DESCRIPTION'); ?></label>
 						</div>
@@ -183,11 +164,7 @@ else // XTD Image plugin
 	</form>
 
 	<?php if ($user->authorise('core.create', 'com_media')) : ?>
-<<<<<<< HEAD
-		<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>&amp;view=images" id="uploadForm" name="uploadForm" method="post" enctype="multipart/form-data">
-=======
-		<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
->>>>>>> joomla/master
+		<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>&amp;view=images" id="uploadForm" name="uploadForm" method="post" enctype="multipart/form-data">
 			<div id="uploadform" class="well">
 				<fieldset id="upload-noflash" class="actions">
 					<div class="control-group">

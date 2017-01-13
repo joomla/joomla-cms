@@ -27,7 +27,7 @@ jQuery(document).ready(function($){
 	<li class="imgOutline thumbnail height-80 width-80 center">
 		<?php if ($this->canDelete) : ?>
 			<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $video->name; ?>" rel="<?php echo $video->name; ?>" title="<?php echo JText::_('JACTION_DELETE'); ?>">&#215;</a>
-			<div class="float-xs-left">
+			<div class="float-left">
 				<?php echo JHtml::_('grid.id', $i, $video->name, false, 'rm', 'cb-video'); ?>
 			</div>
 			<div class="clearfix"></div>

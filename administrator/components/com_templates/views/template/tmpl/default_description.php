@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ?>
 
 <div class="clearfix">
-	<div class="float-xs-left mr-1">
+	<div class="float-left mr-1">
 		<?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
 		<?php echo JHtml::_('templates.thumbModal', $this->template->element, $this->template->client_id); ?>
 	</div>

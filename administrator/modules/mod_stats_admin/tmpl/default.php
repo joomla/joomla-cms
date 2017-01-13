@@ -11,6 +11,6 @@ defined('_JEXEC') or die;
 ?>
 <ul class="list-group list-group-flush stats-module<?php echo $moduleclass_sfx ?>">
 	<?php foreach ($list as $item) : ?>
-		<li class="list-group-item"><span class="icon-<?php echo $item->icon; ?>" title="<?php echo $item->title; ?>"></span> <?php echo $item->title; ?> <?php echo $item->data; ?></li>
+		<li class="list-group-item"><span class="mr-2 icon-<?php echo $item->icon; ?>" title="<?php echo $item->title; ?>"></span> <?php echo $item->title; ?> <?php echo $item->data; ?></li>
 	<?php endforeach; ?>
 </ul>

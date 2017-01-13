@@ -555,17 +555,17 @@ class FOFFormFieldRules extends JFormFieldRules implements FOFFormField
                     {
                         if ($inheritedRule === null)
                         {
-                            $html[] = '<span class="tag tag-danger">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
+                            $html[] = '<span class="badge badge-danger">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
                         }
                         elseif ($inheritedRule === true)
                         {
-                            $html[] = '<span class="tag tag-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
+                            $html[] = '<span class="badge badge-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
                         }
                         elseif ($inheritedRule === false)
                         {
                             if ($assetRule === false)
                             {
-                                $html[] = '<span class="tag tag-danger">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
+                                $html[] = '<span class="badge badge-danger">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
                             }
                             else
                             {
@@ -576,7 +576,7 @@ class FOFFormFieldRules extends JFormFieldRules implements FOFFormField
                     }
                     elseif (!empty($component))
                     {
-                        $html[] = '<span class="tag tag-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
+                        $html[] = '<span class="badge badge-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
                             . '</span>';
                     }
                     else
@@ -585,17 +585,17 @@ class FOFFormFieldRules extends JFormFieldRules implements FOFFormField
                         // The admin rights can be changed.
                         if ($action->name === 'core.admin')
                         {
-                            $html[] = '<span class="tag tag-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
+                            $html[] = '<span class="badge badge-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
                         }
                         elseif ($inheritedRule === false)
                         {
                             // Other actions cannot be changed.
-                            $html[] = '<span class="tag tag-danger"><i class="icon-lock icon-white"></i> '
+                            $html[] = '<span class="badge badge-danger"><i class="icon-lock icon-white"></i> '
                                 . JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT') . '</span>';
                         }
                         else
                         {
-                            $html[] = '<span class="tag tag-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
+                            $html[] = '<span class="badge badge-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
                                 . '</span>';
                         }
                     }

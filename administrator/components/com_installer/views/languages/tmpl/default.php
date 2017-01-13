@@ -32,10 +32,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap text-xs-center">
+						<th width="10%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 						</th>
-						<th width="15%" class="text-xs-center">
+						<th width="15%" class="text-center">
 							<?php echo JText::_('JVERSION'); ?>
 						</th>
 						<th width="35%" class="nowrap hidden-sm-down">
@@ -70,15 +70,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo $language->name; ?>
 							</label>
 						</td>
-						<td class="text-xs-center">
+						<td class="text-center">
 							<?php echo $language->code; ?>
 						</td>
-						<td class="text-xs-center">
+						<td class="text-center">
 								<?php // Display a Note if language pack version is not equal to Joomla version ?>
 								<?php if (substr($language->version, 0, 3) != $version::RELEASE || substr($language->version, 0, 5) != $currentShortVersion) : ?>
-									<span class="tag tag-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
+									<span class="badge badge-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
 								<?php else : ?>
-									<span class="tag tag-success"><?php echo $language->version; ?></span>
+									<span class="badge badge-success"><?php echo $language->version; ?></span>
 								<?php endif; ?>
 						</td>
 						<td class="small hidden-sm-down">

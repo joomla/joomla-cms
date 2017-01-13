@@ -15,11 +15,11 @@ JHtml::_('bootstrap.tooltip');
 <ul class="list-group list-group-flush">
 	<?php if (count($list)) : ?>
 		<?php foreach ($list as $i => $item) : ?>
-			<li class="list-group-item <?php echo $item->state == 1 ? 'published' : 'unpublished'; ?>">
+			<li class="d-flex justify-content-start list-group-item <?php echo $item->state == 1 ? 'published' : 'unpublished'; ?>">
 				<?php if ($item->checked_out) : ?>
 					<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 				<?php endif; ?>
-				<strong class="row-title break-word">
+				<strong class="row-title break-word mr-2">
 					<?php if ($item->link) : ?>
 						<a href="<?php echo $item->link; ?>">
 							<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></a>
@@ -30,7 +30,7 @@ JHtml::_('bootstrap.tooltip');
 				<small class="hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LATEST_CREATED_BY'); ?>">
 					<?php echo $item->author_name; ?>
 				</small>
-				<span class="tag tag-default tag-pill float-xs-right">
+				<span class="badge badge-default badge-pill ml-auto">
 					<span class="small">
 						<span class="icon-calendar"></span>
 						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
@@ -39,7 +39,7 @@ JHtml::_('bootstrap.tooltip');
 			</li>
 		<?php endforeach; ?>
 	<?php else : ?>
-		<li class="list-group-item">
+		<li class="d-flex justify-content-start list-group-item">
 			<div class="col-md-12">
 				<div class="alert alert-info"><?php echo JText::_('MOD_LATEST_NO_MATCHING_RESULTS');?></div>
 			</div>

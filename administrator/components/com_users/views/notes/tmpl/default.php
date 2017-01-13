@@ -29,10 +29,10 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="1%" class="nowrap text-xs-center">
+					<th width="1%" class="nowrap text-center">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th width="1%" class="nowrap text-xs-center">
+					<th width="1%" class="nowrap text-center">
 						<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 					</th>
 					<th class="nowrap">
@@ -64,10 +64,10 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				$subject    = $item->subject ? $item->subject : JText::_('COM_USERS_EMPTY_SUBJECT');
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="text-xs-center checklist">
+					<td class="text-center checklist">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
-					<td class="text-xs-center">
+					<td class="text-center">
 						<div class="btn-group">
 							<?php echo JHtml::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 						</div>

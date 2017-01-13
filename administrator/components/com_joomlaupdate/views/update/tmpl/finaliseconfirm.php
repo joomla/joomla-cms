@@ -27,7 +27,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 
 <hr/>
 
-<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login" class="form-inline text-xs-center">
+<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login" class="form-inline text-center">
 	<fieldset class="loginform">
 		<div class="control-group">
 			<div class="controls">

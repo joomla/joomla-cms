@@ -94,7 +94,7 @@ class InstallationHtmlHelper
 		$input  = JFactory::getApplication()->input;
 		$num    = static::getTabNumber($id, $tabs);
 		$view   = static::getTabNumber($input->getWord('view'), $tabs);
-		$tab    = '<span class="tag tag-default">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
+		$tab    = '<span class="badge badge-default">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
 		$active = $num == $view ? ' active' : '';
 
 		if ($view + 1 == $num)

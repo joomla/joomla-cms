@@ -53,7 +53,7 @@ jQuery(document).ready(function($) {
 			<table class="table table-striped table-sm">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap text-xs-center">
+						<th width="1%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
@@ -62,7 +62,7 @@ jQuery(document).ready(function($) {
 						<th class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="text-xs-center nowrap hidden-sm-down">
+						<th width="5%" class="text-center nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-sm-down">
@@ -103,7 +103,7 @@ jQuery(document).ready(function($) {
 						}
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<td class="text-xs-center">
+							<td class="text-center">
 								<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, 0); ?>
 							</td>
 							<td>
@@ -132,7 +132,7 @@ jQuery(document).ready(function($) {
 							<td class="small hidden-sm-down">
 								<?php echo $this->escape($item->menutype_title); ?>
 							</td>
-							<td class="text-xs-center hidden-sm-down">
+							<td class="text-center hidden-sm-down">
 								<?php if ($item->type == 'component') : ?>
 									<?php if ($item->language == '*' || $item->home == '0') : ?>
 										<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && 0); ?>

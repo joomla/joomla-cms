@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 var_dump('TEST');
 ?>
 <form action="index.php" method="post" id="languageForm">
-	<div class="btn-toolbar">
-		<div class="btn-group float-xs-right">
+	<div class="btn-toolbar justify-content-end">
+		<div class="btn-group">
 			<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
 		</div>
 	</div>
@@ -41,7 +41,7 @@ var_dump('TEST');
 							<?php echo $option->label; ?>
 						</td>
 						<td>
-							<span class="tag tag-<?php echo ($option->state) ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo ($option->state) ? 'success' : 'important'; ?>">
 								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice) : ?>
 									<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
@@ -83,12 +83,12 @@ var_dump('TEST');
 							<?php echo $setting->label; ?>
 						</td>
 						<td>
-							<span class="tag tag-success disabled">
+							<span class="badge badge-success disabled">
 								<?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
 						<td>
-							<span class="tag tag-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+							<span class="badge badge-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
 								<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
@@ -103,8 +103,8 @@ var_dump('TEST');
 			</table>
 		</div>
 	</div>
-	<div class="btn-toolbar">
-		<div class="btn-group float-xs-right">
+	<div class="btn-toolbar justify-content-end">
+		<div class="btn-group">
 			<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
 		</div>
 	</div>

@@ -86,3 +86,14 @@
 .chzn-container-single {
   width: auto !important;
 }
+
+// Bootstrap (TEMPORARY)
+// This fixes odd stacking when 2 buttons are used in an input group
+.input-group-btn {
+  flex-direction: row;
+}
+// This adds the correct cursor on hover for buttons
+.btn:hover,
+.btn:focus {
+  cursor: pointer;
+}

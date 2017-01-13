@@ -34,13 +34,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="30%">
 						<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="hidden-sm-down text-xs-center">
+					<th width="10%" class="hidden-sm-down text-center">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
-					<th width="10%" class="hidden-sm-down text-xs-center">
+					<th width="10%" class="hidden-sm-down text-center">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
-					<th width="25%" class="hidden-sm-down text-xs-center" >
+					<th width="25%" class="hidden-sm-down text-center" >
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
 				</tr>
@@ -55,7 +55,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<tbody>
 			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="text-xs-center hidden-sm-down">
+					<td class="text-center hidden-sm-down">
 						<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
 					</td>
 					<td class="template-name">
@@ -73,13 +73,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 						</div>
 					</td>
-					<td class="small hidden-sm-down text-xs-center">
+					<td class="small hidden-sm-down text-center">
 						<?php echo $this->escape($item->xmldata->get('version')); ?>
 					</td>
-					<td class="small hidden-sm-down text-xs-center">
+					<td class="small hidden-sm-down text-center">
 						<?php echo $this->escape($item->xmldata->get('creationDate')); ?>
 					</td>
-					<td class="hidden-sm-down text-xs-center">
+					<td class="hidden-sm-down text-center">
 						<?php if ($author = $item->xmldata->get('author')) : ?>
 							<div><?php echo $this->escape($author); ?></div>
 						<?php else : ?>

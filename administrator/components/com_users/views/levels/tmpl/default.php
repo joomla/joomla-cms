@@ -40,7 +40,7 @@ if ($saveOrder)
 			<table class="table table-striped" id="levelList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
+						<th width="1%" class="nowrap text-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th width="1%">
@@ -73,7 +73,7 @@ if ($saveOrder)
 					$canChange = $user->authorise('core.edit.state', 'com_users');
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="order nowrap text-xs-center hidden-sm-down">
+						<td class="order nowrap text-center hidden-sm-down">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -92,7 +92,7 @@ if ($saveOrder)
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 							<?php endif; ?>
 						</td>
-						<td class="text-xs-center">
+						<td class="text-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td>

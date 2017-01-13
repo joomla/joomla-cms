@@ -40,34 +40,34 @@ if ($saveOrder)
 			<table class="table table-striped" id="articleList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
+						<th width="1%" class="nowrap text-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="text-xs-center">
+						<th width="1%" class="text-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap text-xs-center">
+						<th width="1%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap text-xs-center hidden-sm-down">
+						<th width="10%" class="nowrap text-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_STICKY', 'a.sticky', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'client_name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_IMPRESSIONS', 'impmade', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLICKS', 'clicks', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="5%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -89,7 +89,7 @@ if ($saveOrder)
 						$canChange  = $user->authorise('core.edit.state', 'com_banners.category.' . $item->catid) && $canCheckin;
 						?>
 						<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
-							<td class="order nowrap text-xs-center hidden-sm-down">
+							<td class="order nowrap text-center hidden-sm-down">
 								<?php
 								$iconClass = '';
 
@@ -110,16 +110,16 @@ if ($saveOrder)
 										value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 								<?php endif; ?>
 							</td>
-							<td class="text-xs-center">
+							<td class="text-center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
-							<td class="text-xs-center">
+							<td class="text-center">
 								<div class="btn-group">
 									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								</div>
 							</td>
 							<td class="nowrap has-context">
-								<div class="float-xs-left">
+								<div class="float-left">
 									<?php if ($item->checked_out) : ?>
 										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'banners.', $canCheckin); ?>
 									<?php endif; ?>
@@ -137,23 +137,23 @@ if ($saveOrder)
 									</div>
 								</div>
 							</td>
-							<td class="text-xs-center hidden-sm-down text-xs-center">
+							<td class="text-center hidden-sm-down text-center">
 								<?php echo JHtml::_('banner.pinned', $item->sticky, $i, $canChange); ?>
 							</td>
-							<td class="small hidden-sm-down text-xs-center">
+							<td class="small hidden-sm-down text-center">
 								<?php echo $item->client_name; ?>
 							</td>
-							<td class="small hidden-sm-down text-xs-center">
+							<td class="small hidden-sm-down text-center">
 								<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ? $item->imptotal : JText::_('COM_BANNERS_UNLIMITED')); ?>
 							</td>
-							<td class="small hidden-sm-down text-xs-center">
+							<td class="small hidden-sm-down text-center">
 								<?php echo $item->clicks; ?> -
 								<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0); ?>
 							</td>
-							<td class="small nowrap hidden-sm-down text-xs-center">
+							<td class="small nowrap hidden-sm-down text-center">
 								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
-							<td class="hidden-sm-down text-xs-center">
+							<td class="hidden-sm-down text-center">
 								<?php echo $item->id; ?>
 							</td>
 						</tr>

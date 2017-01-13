@@ -19,7 +19,7 @@ $user = JFactory::getUser();
 	<?php $iconmodules = JModuleHelper::getModules('icon');
 	if ($iconmodules) : ?>
 		<div class="col-md-12">
-			<div class="cpanel-links">
+			<div class="cpanel-links mb-3">
 				<?php
 				// Display the submenu position modules
 				foreach ($iconmodules as $iconmodule)

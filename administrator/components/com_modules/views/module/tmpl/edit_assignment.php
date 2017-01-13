@@ -66,7 +66,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					<a id="treeExpandAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
 					<a id="treeCollapseAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
 				</span>
-				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-xs-right" size="16"
+				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-right" size="16"
 					autocomplete="off" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
 			</div>
 
@@ -109,8 +109,8 @@ JFactory::getDocument()->addScriptDeclaration($script);
 									<?php
 									$uselessMenuItem = (in_array($link->type, array('separator', 'heading', 'alias', 'url')));
 									?>
-									<input type="checkbox" class="float-xs-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
-									<label for="<?php echo $id . $link->value; ?>" class="float-xs-left">
+									<input type="checkbox" class="float-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
+									<label for="<?php echo $id . $link->value; ?>" class="float-left">
 										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias)); ?></span>
 										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*') : ?>
 											<?php if ($link->language_image) : ?>

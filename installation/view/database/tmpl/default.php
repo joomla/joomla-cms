@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 ?>
 <?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
-	<div class="btn-toolbar">
-		<div class="btn-group float-xs-right">
+	<div class="btn-toolbar justify-content-end">
+		<div class="btn-group">
 			<a class="btn btn-secondary" href="#" onclick="return Install.goToPage('site');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="fa fa-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
 			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 		</div>
@@ -63,8 +63,8 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 	</div>
-	<div class="btn-toolbar">
-		<div class="btn-group float-xs-right">
+	<div class="btn-toolbar justify-content-end">
+		<div class="btn-group">
 			<a class="btn btn-secondary" href="#" onclick="return Install.goToPage('site');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="fa fa-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
 			<a  class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 		</div>

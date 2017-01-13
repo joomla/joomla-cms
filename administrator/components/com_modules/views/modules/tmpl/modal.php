@@ -45,7 +45,7 @@ modulePosIns = function(position) {
 		<table class="table table-striped" id="moduleList">
 			<thead>
 				<tr>
-					<th width="1%" class="nowrap text-xs-center">
+					<th width="1%" class="nowrap text-center">
 						<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 					</th>
 					<th class="title">
@@ -89,7 +89,7 @@ modulePosIns = function(position) {
 				foreach ($this->items as $i => $item) :
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="text-xs-center">
+					<td class="text-center">
 						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
 					</td>
 					<td class="has-context">

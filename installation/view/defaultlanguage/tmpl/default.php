@@ -23,8 +23,8 @@ JS
 ?>
 <?php echo JHtml::_('InstallationHtml.helper.stepbarlanguages'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
-	<div class="btn-toolbar">
-		<div class="btn-group float-xs-right">
+	<div class="btn-toolbar justify-content-end">
+		<div class="btn-group">
 			<a
 				class="btn btn-secondary"
 				href="#"
@@ -97,12 +97,12 @@ JS
 						<?php if ($lang->published) echo 'checked="checked"'; ?>
 					/>
 				</td>
-				<td align="text-xs-center">
+				<td align="text-center">
 					<label for="admin-language-cb<?php echo $i; ?>">
 						<?php echo $lang->name; ?>
 					</label>
 				</td>
-				<td align="text-xs-center">
+				<td align="text-center">
 					<?php echo $lang->language; ?>
 				</td>
 			</tr>
@@ -138,20 +138,20 @@ JS
 						<?php if ($lang->published) echo 'checked="checked"'; ?>
 					/>
 				</td>
-				<td align="text-xs-center">
+				<td align="text-center">
 					<label for="site-language-cb<?php echo $i; ?>">
 						<?php echo $lang->name; ?>
 					</label>
 				</td>
-				<td align="text-xs-center">
+				<td align="text-center">
 					<?php echo $lang->language; ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-	<div class="btn-toolbar">
-		<div class="btn-group float-xs-right">
+	<div class="btn-toolbar justify-content-end">
+		<div class="btn-group">
 			<a
 				class="btn btn-secondary"
 				href="#"

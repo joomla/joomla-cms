@@ -43,34 +43,34 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="text-xs-center">
+						<th width="1%" class="text-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap text-xs-center">
+						<th width="1%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="15%" class="hidden-sm-down text-xs-center">
+						<th width="15%" class="hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
 						</th>
-						<th width="3%" class="nowrap text-xs-center hidden-sm-down">
+						<th width="3%" class="nowrap text-center hidden-sm-down">
 							<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>"></i>
 						</th>
-						<th width="3%" class="nowrap text-xs-center hidden-sm-down">
+						<th width="3%" class="nowrap text-center hidden-sm-down">
 							<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
 						</th>
-						<th width="3%" class="nowrap text-xs-center hidden-sm-down">
+						<th width="3%" class="nowrap text-center hidden-sm-down">
 							<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>"></i>
 						</th>
-						<th width="3%" class="nowrap text-xs-center hidden-sm-down">
+						<th width="3%" class="nowrap text-center hidden-sm-down">
 							<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>"></i>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>
 						</th>
-						<th width="3%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="3%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -90,16 +90,16 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 						$canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<td class="text-xs-center">
+							<td class="text-center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
-							<td class="text-xs-center">
+							<td class="text-center">
 								<div class="btn-group">
 									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
 								</div>
 							</td>
 							<td class="nowrap has-context">
-								<div class="float-xs-left">
+								<div class="float-left">
 									<?php if ($item->checked_out) : ?>
 										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'clients.', $canCheckin); ?>
 									<?php endif; ?>
@@ -111,33 +111,33 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 									<?php endif; ?>
 								</div>
 							</td>
-							<td class="small hidden-sm-down text-xs-center">
+							<td class="small hidden-sm-down text-center">
 								<?php echo $item->contact; ?>
 							</td>
 							<td class="center btns hidden-md-down">
-								<a class="tag <?php if ($item->count_published > 0) echo 'tag-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=1'); ?>">
+								<a class="badge <?php if ($item->count_published > 0) echo 'badge-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=1'); ?>">
 									<?php echo $item->count_published; ?></a>
 							</td>
 							<td class="center btns hidden-md-down">
-								<a class="tag <?php if ($item->count_unpublished > 0) echo 'tag-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
+								<a class="badge <?php if ($item->count_unpublished > 0) echo 'badge-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
 									<?php echo $item->count_unpublished; ?></a>
 							</td>
 							<td class="center btns hidden-md-down">
-								<a class="tag <?php if ($item->count_archived > 0) echo 'tag-info'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>">
+								<a class="badge <?php if ($item->count_archived > 0) echo 'badge-info'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>">
 									<?php echo $item->count_archived; ?></a>
 							</td>
 							<td class="center btns hidden-md-down">
-								<a class="tag <?php if ($item->count_trashed > 0) echo 'tag-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=-2'); ?>">
+								<a class="badge <?php if ($item->count_trashed > 0) echo 'badge-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=-2'); ?>">
 									<?php echo $item->count_trashed; ?></a>
 							</td>
-							<td class="small hidden-sm-down text-xs-center">
+							<td class="small hidden-sm-down text-center">
 								<?php if ($item->purchase_type < 0) : ?>
 									<?php echo JText::sprintf('COM_BANNERS_DEFAULT', JText::_('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$params->get('purchase_type')])); ?>
 								<?php else : ?>
 									<?php echo JText::_('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$item->purchase_type]); ?>
 								<?php endif; ?>
 							</td>
-							<td class="hidden-sm-down text-xs-center">
+							<td class="hidden-sm-down text-center">
 								<?php echo $item->id; ?>
 							</td>
 						</tr>

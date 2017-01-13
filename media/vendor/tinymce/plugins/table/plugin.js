@@ -80,7 +80,7 @@
 
 			target[fragments[fragments.length - 1]] = modules[id];
 		}
-		
+
 		// Expose private modules for unit tests
 		if (exports.AMDLC_TESTS) {
 			privateModules = exports.privateModules || {};
@@ -474,6 +474,23 @@ define("tinymce/tableplugin/TableGrid", [
 			return rows;
 		}
 
+		function countSelectedCols() {
+			var cols = 0;
+
+			each(grid, function(row) {
+				each(row, function(cell) {
+					if (isCellSelected(cell)) {
+						cols++;
+					}
+				});
+				if (cols) {
+					return false;
+				}
+			});
+
+			return cols;
+		}
+
 		function deleteTable() {
 			var rng = dom.createRng();
 
@@ -844,7 +861,7 @@ define("tinymce/tableplugin/TableGrid", [
 				});
 
 				if (before) {
-					return !posY;
+					return posY === undefined;
 				}
 			});
 
@@ -900,6 +917,13 @@ define("tinymce/tableplugin/TableGrid", [
 			}
 		}
 
+		function insertRows(before, num) {
+			num = num || getSelectedRows().length || 1;
+			for (var i = 0; i < num; i++) {
+				insertRow(before);
+			}
+		}
+
 		function insertCol(before) {
 			var posX, lastCell;
 
@@ -916,7 +940,7 @@ define("tinymce/tableplugin/TableGrid", [
 				});
 
 				if (before) {
-					return !posX;
+					return posX === undefined;
 				}
 			});
 
@@ -947,6 +971,13 @@ define("tinymce/tableplugin/TableGrid", [
 					lastCell = cell;
 				}
 			});
+		}
+
+		function insertCols(before, num) {
+			num = num || countSelectedCols() || 1;
+			for (var i = 0; i < num; i++) {
+				insertCol(before);
+			}
 		}
 
 		function getSelectedCells(grid) {
@@ -1327,7 +1358,9 @@ define("tinymce/tableplugin/TableGrid", [
 			split: split,
 			merge: merge,
 			insertRow: insertRow,
+			insertRows: insertRows,
 			insertCol: insertCol,
+			insertCols: insertCols,
 			splitCols: splitCols,
 			deleteCols: deleteCols,
 			deleteRows: deleteRows,
@@ -4219,19 +4252,19 @@ define("tinymce/tableplugin/Plugin", [
 			},
 
 			mceTableInsertRowBefore: function(grid) {
-				grid.insertRow(true);
+				grid.insertRows(true);
 			},
 
 			mceTableInsertRowAfter: function(grid) {
-				grid.insertRow();
+				grid.insertRows();
 			},
 
 			mceTableInsertColBefore: function(grid) {
-				grid.insertCol(true);
+				grid.insertCols(true);
 			},
 
 			mceTableInsertColAfter: function(grid) {
-				grid.insertCol();
+				grid.insertCols();
 			},
 
 			mceTableDeleteCol: function(grid) {
@@ -4452,4 +4485,4 @@ define("tinymce/tableplugin/Plugin", [
 
 	PluginManager.add('table', Plugin);
 });
-})(this);
+})(window);

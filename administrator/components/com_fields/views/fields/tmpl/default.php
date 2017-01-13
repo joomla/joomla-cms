@@ -62,19 +62,19 @@ if ($saveOrder)
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th class="text-xs-center">
+						<th class="text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
 						</th>
-						<th class="text-xs-center">
+						<th class="text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'group_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="5%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -150,7 +150,7 @@ if ($saveOrder)
 									</div>
 								</div>
 							</td>
-							<td class="small text-xs-center">
+							<td class="small text-center">
 								<?php $label = 'COM_FIELDS_TYPE_' . strtoupper($item->type); ?>
 								<?php if (!JFactory::getLanguage()->hasKey($label)) : ?>
 									<?php $label = Joomla\String\StringHelper::ucfirst($item->type); ?>
@@ -160,13 +160,13 @@ if ($saveOrder)
 							<td>
 								<?php echo $this->escape($item->group_title); ?>
 							</td>
-							<td class="small hidden-sm-down text-xs-center">
+							<td class="small hidden-sm-down text-center">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
-							<td class="small nowrap hidden-sm-down text-xs-center">
+							<td class="small nowrap hidden-sm-down text-center">
 								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
-							<td class="center hidden-sm-down text-xs-center">
+							<td class="center hidden-sm-down text-center">
 								<span><?php echo (int) $item->id; ?></span>
 							</td>
 						</tr>

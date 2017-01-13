@@ -79,10 +79,10 @@ class TagsViewTag extends JViewLegacy
 
 		/**
 		 * Prepare the toolbar.
-		 * If it is new we get: `tag tag-add add`
-		 * else we get `tag tag-edit edit`
+		 * If it is new we get: `badge badge-add add`
+		 * else we get `badge badge-edit edit`
 		 */
-		JToolbarHelper::title($title, 'tag tag-' . ($isNew ? 'add add' : 'edit edit'));
+		JToolbarHelper::title($title, 'badge badge-' . ($isNew ? 'add add' : 'edit edit'));
 
 		// For new records, check the create permission.
 		if ($isNew)

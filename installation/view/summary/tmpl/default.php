@@ -18,8 +18,8 @@ $prev = $useftp ? 'ftp' : 'database';
 ?>
 <?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
-	<div class="btn-toolbar">
-		<div class="btn-group float-xs-right">
+	<div class="btn-toolbar justify-content-end">
+		<div class="btn-group">
 			<a class="btn btn-secondary" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="fa fa-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
 			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
 		</div>
@@ -43,7 +43,7 @@ $prev = $useftp ? 'ftp' : 'database';
 		<?php echo $this->form->getLabel('summary_email'); ?>
 		<?php echo $this->form->getInput('summary_email'); ?>
 		<p class="form-text text-muted small">
-			<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="tag tag-default">' . $this->options['admin_email'] . '</span>'); ?>
+			<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="badge badge-default">' . $this->options['admin_email'] . '</span>'); ?>
 		</p>
 	</div>
 
@@ -82,7 +82,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_SITE_OFFLINE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="tag tag-<?php echo $this->options['site_offline'] ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $this->options['site_offline'] ? 'success' : 'important'; ?>">
 								<?php echo JText::_($this->options['site_offline'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -92,7 +92,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_ADMIN_EMAIL_LABEL'); ?>
 						</td>
 						<td>
-							<span class="tag tag-default"><?php echo $this->options['admin_email']; ?></span>
+							<span class="badge badge-default"><?php echo $this->options['admin_email']; ?></span>
 						</td>
 					</tr>
 					<tr>
@@ -100,7 +100,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_ADMIN_USER_LABEL'); ?>
 						</td>
 						<td>
-							<span class="tag tag-default"><?php echo $this->options['admin_user']; ?></span>
+							<span class="badge badge-default"><?php echo $this->options['admin_user']; ?></span>
 						</td>
 					</tr>
 					<tr>
@@ -177,7 +177,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_DATABASE_OLD_PROCESS_LABEL'); ?>
 						</td>
 						<td>
-							<span class="tag tag-<?php echo ($this->options['db_old'] == 'remove') ? 'important' : 'success'; ?>">
+							<span class="badge badge-<?php echo ($this->options['db_old'] == 'remove') ? 'important' : 'success'; ?>">
 								<?php echo JText::_(($this->options['db_old'] == 'remove') ? 'INSTL_DATABASE_FIELD_VALUE_REMOVE' : 'INSTL_DATABASE_FIELD_VALUE_BACKUP'); ?>
 							</span>
 						</td>
@@ -203,7 +203,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_FTP_ENABLE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="tag tag-<?php echo $this->options['ftp_enable'] ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $this->options['ftp_enable'] ? 'success' : 'important'; ?>">
 								<?php echo JText::_($this->options['ftp_enable'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -246,7 +246,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_FTP_SAVE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="tag tag-<?php echo $this->options['ftp_save'] ? 'important' : 'success'; ?>">
+							<span class="badge badge-<?php echo $this->options['ftp_save'] ? 'important' : 'success'; ?>">
 								<?php echo JText::_($this->options['ftp_save'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -277,7 +277,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo $option->label; ?>
 						</td>
 						<td>
-							<span class="tag tag-<?php echo $option->state ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $option->state ? 'success' : 'important'; ?>">
 								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice): ?>
 									<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
@@ -319,23 +319,13 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo $setting->label; ?>
 						</td>
 						<td>
-<<<<<<< HEAD
-							<span class="tag tag-success disabled">
-								<?php echo JText::_(($setting->recommended) ? 'JON' : 'JOFF'); ?>
-							</span>
-						</td>
-						<td>
-							<span class="tag tag-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-								<?php echo JText::_(($setting->state) ? 'JON' : 'JOFF'); ?>
-=======
-							<span class="label label-success disabled">
+							<span class="badge badge-success disabled">
 								<?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+							<span class="badge badge-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
 								<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
->>>>>>> joomla/master
 							</span>
 						</td>
 					</tr>
@@ -349,8 +339,8 @@ $prev = $useftp ? 'ftp' : 'database';
 			</table>
 		</div>
 	</div>
-	<div class="btn-toolbar">
-		<div class="btn-group float-xs-right">
+	<div class="btn-toolbar justify-content-end">
+		<div class="btn-group">
 			<a class="btn btn-secondary" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="fa fa-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
 			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
 		</div>

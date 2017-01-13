@@ -14,7 +14,7 @@ JHtml::_('behavior.core');
 $doTask = $displayData['doTask'];
 $text   = $displayData['text'];
 ?>
-<button onclick="<?php echo $doTask; ?>" rel="help" class="btn btn-outline-info btn-sm float-sm-right">
+<button onclick="<?php echo $doTask; ?>" rel="help" class="btn btn-outline-info btn-sm">
 	<span class="icon-question-sign"></span>
 	<?php echo $text; ?>
 </button>

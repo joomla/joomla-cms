@@ -274,7 +274,7 @@ abstract class JHtmlGrid
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
 		return '<a href="javascript:saveorder('
-			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-xs btn-secondary float-xs-right" title="'
+			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-xs btn-secondary float-right" title="'
 			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-menu-2"></span></a>';
 	}
 

@@ -49,25 +49,25 @@ JFactory::getDocument()->addScriptDeclaration('
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="1%" class="text-xs-center nowrap">
+					<th width="1%" class="text-center nowrap">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th width="1%" class="text-xs-center nowrap">
+					<th width="1%" class="text-center nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 					</th>
 					<th class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'd.branch_title', $listDirn, $listOrder); ?>
 					</th>
 					<?php if (!$branchFilter) : ?>
-					<th width="1%" class="nowrap text-xs-center">
+					<th width="1%" class="nowrap text-center">
 						<?php echo JText::_('COM_FINDER_HEADING_CHILDREN'); ?>
 					</th>
 					<?php endif; ?>
-					<th width="1%" class="nowrap text-xs-center">
+					<th width="1%" class="nowrap text-center">
 						<i class="icon-publish"></i>
 						<span class="hidden-sm-down"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 					</th>
-					<th width="1%" class="nowrap text-xs-center">
+					<th width="1%" class="nowrap text-center">
 						<i class="icon-unpublish"></i>
 						<span class="hidden-sm-down"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 					</th>
@@ -84,10 +84,10 @@ JFactory::getDocument()->addScriptDeclaration('
 				<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
 				<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="text-xs-center">
+					<td class="text-center">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
-					<td class="text-xs-center nowrap">
+					<td class="text-center nowrap">
 						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'maps.', $canChange, 'cb'); ?>
 					</td>
 					<td>
@@ -113,26 +113,26 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php endif; ?>
 					</td>
 					<?php if (!$branchFilter) : ?>
-					<td class="text-xs-center btns">
+					<td class="text-center btns">
 					<?php if ((int) $item->num_children !== 0) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>">
-							<span class="tag <?php if ($item->num_children > 0) echo 'tag-info'; ?>"><?php echo $item->num_children; ?></span></a>
+							<span class="badge <?php if ($item->num_children > 0) echo 'badge-info'; ?>"><?php echo $item->num_children; ?></span></a>
 					<?php else : ?>
 						-
 					<?php endif; ?>
 					</td>
 					<?php endif; ?>
-					<td class="text-xs-center btns">
+					<td class="text-center btns">
 					<?php if ((int) $item->num_children === 0) : ?>
-						<a class="tag <?php if ((int) $item->count_published > 0) echo 'tag-success'; ?>" title="<?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
+						<a class="badge <?php if ((int) $item->count_published > 0) echo 'badge-success'; ?>" title="<?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
 						<?php echo (int) $item->count_published; ?></a>
 					<?php else : ?>
 						-
 					<?php endif; ?>
 					</td>
-					<td class="text-xs-center btns">
+					<td class="text-center btns">
 					<?php if ((int) $item->num_children === 0) : ?>
-						<a class="tag <?php if ((int) $item->count_unpublished > 0) echo 'tag-danger'; ?>" title="<?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
+						<a class="badge <?php if ((int) $item->count_unpublished > 0) echo 'badge-danger'; ?>" title="<?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
 						<?php echo (int) $item->count_unpublished; ?></a>
 					<?php else : ?>
 						-

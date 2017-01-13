@@ -2783,10 +2783,6 @@ define("tinymce/imagetoolsplugin/Plugin", [
 				if (editor.settings.images_reuse_filename) {
 					filename = blobInfo ? blobInfo.filename() : extractFilename(selectedImage.src);
 				}
-
-				if (blobInfo) {
-					blobCache.removeByUri(blobInfo.blobUri());
-				}
 				blobInfo = blobCache.create(id, blob, base64, filename);
 				blobCache.add(blobInfo);
 

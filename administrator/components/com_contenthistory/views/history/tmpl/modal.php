@@ -90,7 +90,7 @@ JFactory::getDocument()->addScriptDeclaration("
 ?>
 <div class="container-popup">
 
-	<div class="btn-group float-xs-right">
+	<div class="btn-group float-right">
 		<button id="toolbar-load" type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo JRoute::_($loadUrl); ?>">
 			<span class="icon-upload"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span></button>
 		<button id="toolbar-preview" type="button" class="btn btn-secondary hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1'); ?>">
@@ -110,7 +110,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		<table class="table table-striped table-sm">
 			<thead>
 				<tr>
-					<th width="1%" class="text-xs-center">
+					<th width="1%" class="text-center">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 					</th>
 					<th width="15%">
@@ -125,7 +125,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<th width="15%" class="nowrap hidden-sm-down">
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
-					<th width="10%" class="nowrap text-xs-center">
+					<th width="10%" class="nowrap text-center">
 						<?php echo JText::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>
@@ -141,7 +141,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php $i = 0; ?>
 			<?php foreach ($this->items as $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="text-xs-center">
+					<td class="text-center">
 						<?php echo JHtml::_('grid.id', $i, $item->version_id); ?>
 					</td>
 					<td>
@@ -174,7 +174,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<td class="hidden-sm-down">
 						<?php echo htmlspecialchars($item->editor); ?>
 					</td>
-					<td class="text-xs-center">
+					<td class="text-center">
 						<?php echo number_format((int) $item->character_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?>
 					</td>
 				</tr>

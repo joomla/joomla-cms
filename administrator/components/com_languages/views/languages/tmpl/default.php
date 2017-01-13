@@ -38,13 +38,13 @@ if ($saveOrder)
 			<table class="table table-striped" id="contentList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
+						<th width="1%" class="nowrap text-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%"  class="nowrap text-xs-center">
+						<th width="1%"  class="nowrap text-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap text-xs-center">
+						<th width="1%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title nowrap">
@@ -53,22 +53,22 @@ if ($saveOrder)
 						<th class="title nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'a.title_native', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap text-xs-center">
+						<th width="10%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'a.lang_code', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap text-xs-center">
+						<th width="10%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_CODE', 'a.sef', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.image', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_HOMEPAGE', 'l.home', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="5%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.lang_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -88,7 +88,7 @@ if ($saveOrder)
 					$canChange = $user->authorise('core.edit.state', 'com_languages');
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="order nowrap text-xs-center hidden-sm-down">
+						<td class="order nowrap text-center hidden-sm-down">
 							<?php if ($canChange) :
 								$disableClassName = '';
 								$disabledLabel	  = '';
@@ -110,7 +110,7 @@ if ($saveOrder)
 						<td>
 							<?php echo JHtml::_('grid.id', $i, $item->lang_id); ?>
 						</td>
-						<td class="text-xs-center">
+						<td class="text-center">
 							<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
 						</td>
 						<td>
@@ -125,26 +125,26 @@ if ($saveOrder)
 						<td class="hidden-sm-down">
 							<?php echo $this->escape($item->title_native); ?>
 						</td>
-						<td class="text-xs-center">
+						<td class="text-center">
 							<?php echo $this->escape($item->lang_code); ?>
 						</td>
-						<td class="text-xs-center">
+						<td class="text-center">
 							<?php echo $this->escape($item->sef); ?>
 						</td>
-						<td class="hidden-sm-down text-xs-center">
+						<td class="hidden-sm-down text-center">
 							<?php if ($item->image) : ?>
 								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, null, true); ?>&nbsp;<?php echo $this->escape($item->image); ?>
 							<?php else : ?>
 								<?php echo JText::_('JNONE'); ?>
 							<?php endif; ?>
 						</td>
-						<td class="hidden-sm-down text-xs-center">
+						<td class="hidden-sm-down text-center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="hidden-sm-down text-xs-center">
+						<td class="hidden-sm-down text-center">
 							<?php echo ($item->home == '1') ? JText::_('JYES') : JText::_('JNO'); ?>
 						</td>
-						<td class="hidden-sm-down text-xs-center">
+						<td class="hidden-sm-down text-center">
 							<?php echo $this->escape($item->lang_id); ?>
 						</td>
 					</tr>

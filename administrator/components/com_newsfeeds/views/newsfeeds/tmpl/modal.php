@@ -40,7 +40,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped table-sm">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap text-xs-center">
+						<th width="1%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap title">
@@ -95,7 +95,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="text-xs-center">
+						<td class="text-center">
 							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
 						</td>
 						<td>

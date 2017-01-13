@@ -29,7 +29,7 @@ JFactory::getDocument()->addScriptDeclaration("
 <fieldset>
 <legend>
 <?php echo JText::sprintf('COM_CONTENTHISTORY_COMPARE_TITLE'); ?>
-<div class="btn-group float-xs-right">
+<div class="btn-group float-right">
 &nbsp;<button id="toolbar-all-rows" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_ALL_ROWS_DESC'); ?>"
 	onclick="jQuery('.items-equal').show(); jQuery('#toolbar-all-rows').hide(); jQuery('#toolbar-changed-rows').show()"
 	style="display:none" >

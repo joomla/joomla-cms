@@ -18,15 +18,15 @@ defined('_JEXEC') or die;
 	<td>
 		<?php echo $this->item->type ?>
 	</td>
-	<td class="text-xs-center">
+	<td class="text-center">
 		<?php if (!$this->item->element) : ?>
 		<strong>X</strong>
 		<?php else : ?>
 		<a href="index.php?option=com_installer&amp;type=manage&amp;task=<?php echo $this->item->task; ?>&amp;eid[]=<?php echo $this->item->extension_id; ?>&amp;limitstart=<?php echo $this->pagination->limitstart; ?>&amp;<?php echo JSession::getFormToken(); ?>=1"><?php echo JHtml::_('image', 'images/' . $this->item->img, $this->item->alt, array('title' => $this->item->action)); ?></a>
 		<?php endif; ?>
 	</td>
-	<td class="text-xs-center"><?php echo @$this->item->folder != '' ? $this->item->folder : 'N/A'; ?></td>
-	<td class="text-xs-center"><?php echo @$this->item->client != '' ? $this->item->client : 'N/A'; ?></td>
+	<td class="text-center"><?php echo @$this->item->folder != '' ? $this->item->folder : 'N/A'; ?></td>
+	<td class="text-center"><?php echo @$this->item->client != '' ? $this->item->client : 'N/A'; ?></td>
 	<td>
 		<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $this->item->author_info, 0); ?>">
 			<?php echo @$this->item->author != '' ? $this->item->author : '&#160;'; ?>

@@ -48,7 +48,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped table-sm">
 				<thead>
 					<tr>
-						<th width="1%" class="text-xs-center nowrap">
+						<th width="1%" class="text-center nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
@@ -106,7 +106,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="text-xs-center">
+						<td class="text-center">
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
 						</td>
 						<td>

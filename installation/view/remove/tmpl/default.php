@@ -22,12 +22,12 @@ defined('_JEXEC') or die;
 		<p><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>
 		<input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>" />
 	</div>
-	<div class="btn-toolbar">
+	<div>
 		<div class="btn-group">
-			<a class="btn btn-secondary" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="icon-eye-open"></span> <?php echo JText::_('JSITE'); ?></a>
+			<a class="btn btn-secondary" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="fa fa-eye"></span> <?php echo JText::_('JSITE'); ?></a>
 		</div>
 		<div class="btn-group">
-			<a class="btn btn-primary" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><span class="icon-lock icon-white"></span> <?php echo JText::_('JADMINISTRATOR'); ?></a>
+			<a class="btn btn-primary" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><span class="fa fa-lock"></span> <?php echo JText::_('JADMINISTRATOR'); ?></a>
 		</div>
 	</div>
 	<?php echo JHtml::_('form.token'); ?>

@@ -50,9 +50,8 @@ $sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $cpanel      = ($option === 'com_cpanel');
 $hidden      = JFactory::getApplication()->input->get('hidemainmenu');
 $showSubmenu = false;
-$logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
-$logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon-only.png';
-
+$logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
+$logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
 ?>
 <!DOCTYPE html>
@@ -89,14 +88,14 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 				</a>
 			</div>
 			<jdoc:include type="modules" name="menu" style="none" />
-			<div class="sidebar-brand"></div>
 		</div>
 		<?php endif; ?>
 
 		<?php // Header ?>
 		<header id="header" class="header">
 			<div class="container-fluid">
-				<div class="text-xs-center">
+				<div class="text-center">
+
 					<?php if (!$hidden) : ?>
 					<div class="menu-collapse">
 						<a id="menu-collapse" class="menu-toggle" href="#">
@@ -104,23 +103,23 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 						</a>
 					</div>
 					<?php endif; ?>
+
 					<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
 						<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
 						<span class="icon-out-2 small"></span>
 					</a>
-					<nav>
-						<ul class="nav navbar-nav">
 
+					<nav>
+						<ul class="nav">
 							<li class="nav-item">
 								<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?>">
 									<i class="fa fa-envelope"></i>
 									<?php $countUnread = JFactory::getSession()->get('messages.unread'); ?>
 									<?php if ($countUnread > 0) : ?>
-										<span class="tag tag-pill tag-success"><?php echo $countUnread; ?></span>
+										<span class="badge badge-pill badge-success"><?php echo $countUnread; ?></span>
 									<?php endif; ?>
 								</a>
 							</li>
-
 							<?php
 								/*
 								 * @TODO: Remove FOF call as it's being removed in core
@@ -144,13 +143,13 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('TPL_ATUM_POST_INSTALLATION_MESSAGES'); ?>">
 									<i class="fa fa-bell"></i>
 									<?php if (count($messages) > 0) : ?>
-										<span class="tag tag-pill tag-success"><?php echo count($messages); ?></span>
+										<span class="badge badge-pill badge-success"><?php echo count($messages); ?></span>
 									<?php endif; ?>
 								</a>
 								<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
 									<div class="list-group">
 										<?php if (empty($messages)) : ?>
-										<p class="list-group-item text-xs-center">
+										<p class="list-group-item text-center">
 											<b><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></b>
 										</p>
 										<?php endif; ?>
@@ -166,7 +165,6 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 								</div>
 							</li>
 							<?php endif; ?>
-
 							<li class="nav-item dropdown header-profile">
 								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
 									<i class="fa fa-user"></i>
@@ -182,9 +180,9 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 										. JSession::getFormToken() . '=1') ?>"><?php echo JText::_('TPL_ATUM_LOGOUT'); ?></a>
 								</div>
 							</li>
-
 						</ul>
 					</nav>
+
 				</div>
 			</div>
 		</header>
@@ -241,7 +239,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 
 			<?php if (!$this->countModules('status')) : ?>
 				<footer class="footer">
-					<p align="center">
+					<p class="text-center">
 						<jdoc:include type="modules" name="footer" style="no" />
 						&copy; <?php echo $sitename; ?> <?php echo date('Y'); ?></p>
 				</footer>
@@ -249,15 +247,15 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 
 			<?php if ($this->countModules('status')) : ?>
 				<?php // Begin Status Module ?>
-				<div id="status" class="status navbar navbar-fixed-bottom hidden-sm-down">
-					<div class="btn-group details float-sm-right">
-						<p>
+				<nav id="status" class="status navbar fixed-bottom hidden-sm-down">
+					<ul class="nav d-flex justify-content-start">
+						<jdoc:include type="modules" name="status" style="no" />
+						<li class="ml-auto">
 							<jdoc:include type="modules" name="footer" style="no" />
 							&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
-						</p>
-					</div>
-					<jdoc:include type="modules" name="status" style="no" />
-				</div>
+						</li>
+					</ul>
+				</nav>
 				<?php // End Status Module ?>
 			<?php endif; ?>
 

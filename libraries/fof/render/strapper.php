@@ -671,7 +671,7 @@ HTML;
 					// Joomla! 3.0 or later
 					if (!empty($filter))
 					{
-						$filter_html .= '<div class="filter-search btn-group float-xs-left">' . "\n";
+						$filter_html .= '<div class="filter-search btn-group float-left">' . "\n";
 						$filter_html .= "\t" . '<label for="title" class="element-invisible">';
 						$filter_html .= JText::_($headerField->label);
 						$filter_html .= "</label>\n";
@@ -680,7 +680,7 @@ HTML;
 
 						if (!empty($buttons))
 						{
-							$filter_html .= '<div class="btn-group float-xs-left hidden-phone">' . "\n";
+							$filter_html .= '<div class="btn-group float-left hidden-phone">' . "\n";
 							$filter_html .= "\t$buttons\n";
 							$filter_html .= '</div>' . "\n";
 						}
@@ -782,7 +782,7 @@ HTML;
 				if ($show_pagination)
 				{
 					// Render the pagination rows per page selection box, if the pagination is enabled
-					$html .= "\t" . '<div class="btn-group float-xs-right hidden-phone">' . "\n";
+					$html .= "\t" . '<div class="btn-group float-right hidden-phone">' . "\n";
 					$html .= "\t\t" . '<label for="limit" class="element-invisible">' . JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC') . '</label>' . "\n";
 					$html .= "\t\t" . $model->getPagination()->getLimitBox() . "\n";
 					$html .= "\t" . '</div>' . "\n";
@@ -793,7 +793,7 @@ HTML;
 					// Display the field sort order
 					$asc_sel	 = ($view->getLists()->order_Dir == 'asc') ? 'selected="selected"' : '';
 					$desc_sel	 = ($view->getLists()->order_Dir == 'desc') ? 'selected="selected"' : '';
-					$html .= "\t" . '<div class="btn-group float-xs-right hidden-phone">' . "\n";
+					$html .= "\t" . '<div class="btn-group float-right hidden-phone">' . "\n";
 					$html .= "\t\t" . '<label for="directionTable" class="element-invisible">' . JText::_('JFIELD_ORDERING_DESC') . '</label>' . "\n";
 					$html .= "\t\t" . '<select name="directionTable" id="directionTable" class="custom-select" onchange="Joomla.orderTable()">' . "\n";
 					$html .= "\t\t\t" . '<option value="">' . JText::_('JFIELD_ORDERING_DESC') . '</option>' . "\n";
@@ -803,7 +803,7 @@ HTML;
 					$html .= "\t" . '</div>' . "\n\n";
 
 					// Display the sort fields
-					$html .= "\t" . '<div class="btn-group float-xs-right">' . "\n";
+					$html .= "\t" . '<div class="btn-group float-right">' . "\n";
 					$html .= "\t\t" . '<label for="sortTable" class="element-invisible">' . JText::_('JGLOBAL_SORT_BY') . '</label>' . "\n";
 					$html .= "\t\t" . '<select name="sortTable" id="sortTable" class="custom-select" onchange="Joomla.orderTable()">' . "\n";
 					$html .= "\t\t\t" . '<option value="">' . JText::_('JGLOBAL_SORT_BY') . '</option>' . "\n";

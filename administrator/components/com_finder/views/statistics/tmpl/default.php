@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
 						?>
 					</td>
 					<td>
-						<span class="tag tag-info"><?php echo number_format($type->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?></span>
+						<span class="badge badge-info"><?php echo number_format($type->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?></span>
 					</td>
 				</tr>
 				<?php endforeach; ?>
@@ -47,7 +47,7 @@ defined('_JEXEC') or die;
 						<strong><?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_TOTAL'); ?></strong>
 					</td>
 					<td>
-						<span class="tag tag-info"><?php echo number_format($this->data->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?></span>
+						<span class="badge badge-info"><?php echo number_format($this->data->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?></span>
 					</td>
 				</tr>
 			</tbody>

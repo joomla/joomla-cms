@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$direction = JFactory::getDocument()->direction == 'rtl' ? 'float-xs-right' : '';
+$direction = JFactory::getDocument()->direction == 'rtl' ? 'float-right' : '';
 
 require JModuleHelper::getLayoutPath('mod_menu', $enabled ? 'default_enabled' : 'default_disabled');
 

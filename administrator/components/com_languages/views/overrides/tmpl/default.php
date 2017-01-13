@@ -27,7 +27,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
 		<div id="filter-bar" class="btn-toolbar clearfix">
-			<div class="filter-search btn-group float-xs-left">
+			<div class="filter-search btn-group float-left">
 				<div class="input-group">
 					<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" />
 					<div class="input-group-btn">
@@ -36,7 +36,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 					</div>
 				</div>
 			</div>
-			<div class="btn-group float-xs-right hidden-sm-down">
+			<div class="btn-group float-right hidden-sm-down">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
@@ -49,7 +49,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 			<table class="table table-striped" id="overrideList">
 				<thead>
 					<tr>
-						<th width="1%" class="text-xs-center">
+						<th width="1%" class="text-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="30%">
@@ -78,7 +78,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 				<?php $i = 0; ?>
 				<?php foreach ($this->items as $key => $text) : ?>
 					<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
-						<td class="text-xs-center">
+						<td class="text-center">
 							<?php echo JHtml::_('grid.id', $i, $key); ?>
 						</td>
 						<td>

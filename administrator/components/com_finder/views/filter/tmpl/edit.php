@@ -73,7 +73,7 @@ JFactory::getDocument()->addStyleDeclaration('
 					<button class="btn btn-secondary" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.click(); });">
 						<span class="icon-checkbox-partial"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
-					<button class="btn btn-secondary float-xs-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
+					<button class="btn btn-secondary float-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 					<hr>
 				<?php endif; ?>
 

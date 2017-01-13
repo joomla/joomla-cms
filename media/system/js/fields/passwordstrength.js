@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			$minSymbols = element.getAttribute('data-min-symbols'),
 			$minUppercase = element.getAttribute('data-min-uppercase'),
 			$minLowercase = element.getAttribute('data-min-lowercase'),
-			meter = element.parentNode.querySelector('progress');
+			meter = document.querySelector('.progress-bar');
 
 		var strength = new PasswordStrength({
 			lowercase: $minLowercase ? $minLowercase : 0,
@@ -85,32 +85,32 @@ document.addEventListener('DOMContentLoaded', function(){
 			label = element.parentNode.querySelector('#password-' + i);
 
 		if (score > 79){
-			meter.setAttribute('class', 'progress progress-warning');
+			meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
 			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_COMPLETE');
 		}
 		if (score > 64 && score < 80){
-			meter.setAttribute('class', 'progress progress-warning');
+			meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
 			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 		}
 		if (score > 50 && score < 65){
-			meter.setAttribute('class', 'progress progress-warning');
+			meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
 			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 		}
 		if (score > 40 && score < 51){
-			meter.setAttribute('class', 'progress progress-warning');
+			meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
 			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 		}
 		if (score < 41){
-			meter.setAttribute('class', 'progress progress-danger');
+			meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-danger');
 			label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 		}
 		if (score === 100){
-			meter.setAttribute('class', 'progress progress-success');
+			meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-success');
 		}
-		meter.value = score;
+		meter.style.width = score + '%';
 
 		if (!element.value.length) {
-			meter.setAttribute('class', 'progress');
+			meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated');
 			label.innerHTML = '';
 			element.setAttribute('required', '');
 		}
@@ -119,21 +119,25 @@ document.addEventListener('DOMContentLoaded', function(){
 	var fields = document.querySelectorAll('.js-password-strength');
 
 	/** Loop  through the fields **/
-	for(var i = 0, l = fields.length; i<l; i++) {
+	for (var i = 0, l = fields.length; i<l; i++) {
 		var startClass = '',
 			initialVal = '';
 
 		if (!fields[i].value.length) {
-			startClass =' progress-danger';
+			startClass =' bg-danger';
 			initialVal = 0;
 		}
 
 		/** Create a progress meter and the label **/
-		var meter = document.createElement('progress');
-		meter.setAttribute('class', 'progress' + startClass);
-		meter.value = 0 + initialVal;
-		meter.max = 100;
-		meter.setAttribute('aria-describedby', 'password-' + i);
+		var meter = document.createElement('div');
+		meter.setAttribute('class', 'progress');
+
+		var meter2 = document.createElement('div');
+		meter2.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated' + startClass);
+		meter2.style.width = 0 + initialVal;
+		meter2.max = 100;
+		meter2.setAttribute('aria-describedby', 'password-' + i);
+		meter.appendChild(meter2);
 
 		var label = document.createElement('div');
 		label.setAttribute('class', 'text-xs-center');

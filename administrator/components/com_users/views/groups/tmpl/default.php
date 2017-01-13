@@ -59,15 +59,15 @@ JFactory::getDocument()->addScriptDeclaration('
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap text-xs-center">
+						<th width="10%" class="nowrap text-center">
 							<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></i>
 							<span class="hidden-sm-down"><?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 						</th>
-						<th width="10%" class="nowrap text-xs-center">
+						<th width="10%" class="nowrap text-center">
 							<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></i>
 							<span class="hidden-sm-down"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -92,7 +92,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					$canChange = $user->authorise('core.edit.state', 'com_users');
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="text-xs-center" data-usercount="<?php echo $item->user_count; ?>">
+						<td class="text-center" data-usercount="<?php echo $item->user_count; ?>">
 							<?php if ($canEdit) : ?>
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
@@ -110,15 +110,15 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo JText::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
 							<?php endif; ?>
 						</td>
-						<td class="text-xs-center btns">
-							<a class="tag<?php echo $item->count_enabled > 0 ? ' tag-success' : ' tag-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
+						<td class="text-center btns">
+							<a class="badge <?php echo $item->count_enabled > 0 ? 'badge-success' : 'badge-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
 								<?php echo $item->count_enabled; ?></a>
 						</td>
-						<td class="text-xs-center btns">
-							<a class="tag<?php echo $item->count_disabled > 0 ? ' tag-danger' : ' tag-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
+						<td class="text-center btns">
+							<a class="badge <?php echo $item->count_disabled > 0 ? 'badge-danger' : 'badge-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
 								<?php echo $item->count_disabled; ?></a>
 						</td>
-						<td class="hidden-sm-down text-xs-center">
+						<td class="hidden-sm-down text-center">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

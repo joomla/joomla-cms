@@ -27,7 +27,7 @@ JFactory::getDocument()->addScriptDeclaration('
 ');
 ?>
 
-<p class="tag tag-default"><?php echo JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $params->get('fullScreen', 'F10')); ?></p>
+<p class="badge badge-default"><?php echo JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $params->get('fullScreen', 'F10')); ?></p>
 
 <?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
 

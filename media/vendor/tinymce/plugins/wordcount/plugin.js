@@ -126,7 +126,8 @@ define("tinymce.wordcount.text.UnicodeData", [], function() {
 		FORMAT: 9,
 		KATAKANA: 10,
 		EXTENDNUMLET: 11,
-		OTHER: 12
+		AT: 12,
+		OTHER: 13
 	};
 
 	// RegExp objects generated from code point data. Each regex matches a single
@@ -145,7 +146,8 @@ define("tinymce.wordcount.text.UnicodeData", [], function() {
 		new RegExp(regExps.extend),
 		new RegExp(regExps.format),
 		new RegExp(regExps.katakana),
-		new RegExp(regExps.extendnumlet)
+		new RegExp(regExps.extendnumlet),
+		new RegExp('@')
 	];
 
 	var EMPTY_STRING = '';
@@ -305,7 +307,7 @@ define("tinymce.wordcount.text.WordBoundary", [
 
 		// WB6. Don't break letters across certain punctuation.
 		if (type === ci.ALETTER &&
-						(nextType === ci.MIDLETTER || nextType === ci.MIDNUMLET) &&
+						(nextType === ci.MIDLETTER || nextType === ci.MIDNUMLET || nextType === ci.AT) &&
 						nextNextType === ci.ALETTER) {
 			return false;
 		}
@@ -313,7 +315,7 @@ define("tinymce.wordcount.text.WordBoundary", [
 		prevType = map[index - 1];
 
 		// WB7. Don't break letters across certain punctuation.
-		if ((type === ci.MIDLETTER || type === ci.MIDNUMLET) &&
+		if ((type === ci.MIDLETTER || type === ci.MIDNUMLET || nextType === ci.AT) &&
 						nextType === ci.ALETTER &&
 						prevType === ci.ALETTER) {
 			return false;
@@ -383,6 +385,10 @@ define("tinymce.wordcount.text.WordBoundary", [
 			return false;
 		}
 
+		if (type === ci.AT) {
+			return false;
+		}
+
 		// Break after any character not covered by the rules above.
 		return true;
 	};
@@ -409,6 +415,39 @@ define("tinymce.wordcount.text.WordGetter", [
 	var EMPTY_STRING = UnicodeData.EMPTY_STRING;
 	var WHITESPACE = UnicodeData.WHITESPACE;
 	var PUNCTUATION = UnicodeData.PUNCTUATION;
+
+	var isProtocol = function (word) {
+		return word === 'http' || word === 'https';
+	};
+
+	var findWordEnd = function (string, index) {
+		var i;
+		for (i = index; i < string.length; ++i) {
+			var chr = string.charAt(i);
+
+			if (WHITESPACE.test(chr)) {
+				break;
+			}
+		}
+		return i;
+	};
+
+	var extractUrl = function (word, string, index) {
+		var endIndex = findWordEnd(string, index + 1);
+		var peakedWord = string.substring(index + 1, endIndex);
+		if (peakedWord.substr(0, 3) === '://') {
+			return {
+				word: word + peakedWord,
+				index: endIndex
+			};
+		}
+
+		return {
+			word: word,
+			index: index
+		};
+	};
+
 	var getWords = function (string, options) {
 		var i = 0;
 		var map = StringMapper.classify(string);
@@ -448,7 +487,13 @@ define("tinymce.wordcount.text.WordGetter", [
 				if (word &&
 								(includeWhitespace || !WHITESPACE.test(word)) &&
 								(includePunctuation || !PUNCTUATION.test(word))) {
-					words.push(word);
+					if (isProtocol(word)) {
+						var obj = extractUrl(word, string, i);
+						words.push(obj.word);
+						i = obj.index;
+					} else {
+						words.push(word);
+					}
 				}
 
 				word = [];

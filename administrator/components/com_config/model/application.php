@@ -769,7 +769,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
 		{
-			$result['class'] = 'tag tag-success';
+			$result['class'] = 'badge badge-success';
 			$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Not super user.
@@ -780,13 +780,13 @@ class ConfigModelApplication extends ConfigModelForm
 			// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
 			if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 			{
-				$result['class'] = 'tag tag-danger';
+				$result['class'] = 'badge badge-danger';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 			}
 			// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 			else
 			{
-				$result['class'] = 'tag tag-success';
+				$result['class'] = 'badge badge-success';
 				$result['text']  = JText::_('JLIB_RULES_ALLOWED_INHERITED');
 			}
 
@@ -801,13 +801,13 @@ class ConfigModelApplication extends ConfigModelForm
 			// If there is an explicity permission "Not Allowed". Calculated permission is "Not Allowed".
 			if ($assetRule === false)
 			{
-				$result['class'] = 'tag tag-danger';
+				$result['class'] = 'badge badge-danger';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
 			}
 			// If there is an explicity permission is "Allowed". Calculated permission is "Allowed".
 			elseif ($assetRule === true)
 			{
-				$result['class'] = 'tag tag-success';
+				$result['class'] = 'badge badge-success';
 				$result['text']  = JText::_('JLIB_RULES_ALLOWED');
 			}
 
@@ -816,7 +816,7 @@ class ConfigModelApplication extends ConfigModelForm
 			// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 			if (empty($parentGroupId) && $isGlobalConfig === true && $assetRule === null)
 			{
-				$result['class'] = 'tag tag-danger';
+				$result['class'] = 'badge badge-danger';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
 
@@ -827,7 +827,7 @@ class ConfigModelApplication extends ConfigModelForm
 			 */
 			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
-				$result['class'] = 'tag tag-danger';
+				$result['class'] = 'badge badge-danger';
 				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}

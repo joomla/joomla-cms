@@ -30,10 +30,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="text-xs-center nowrap">
+						<th width="1%" class="text-center nowrap">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="text-xs-center nowrap">
+						<th width="1%" class="text-center nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap title">
@@ -72,10 +72,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					$canChange = $user->authorise('core.edit.state', 'com_redirect');
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="text-xs-center">
+						<td class="text-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td class="text-xs-center">
+						<td class="text-center">
 							<div class="btn-group">
 								<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
 							</div>

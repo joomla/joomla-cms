@@ -35,7 +35,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap text-xs-center">
+						<th width="1%" class="nowrap text-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th class="nowrap">
@@ -72,7 +72,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="text-xs-center">
+						<td class="text-center">
 							<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 						</td>
 						<td>

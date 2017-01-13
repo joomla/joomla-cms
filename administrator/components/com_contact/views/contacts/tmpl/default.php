@@ -39,33 +39,33 @@ if ($saveOrder)
 			<table class="table table-striped" id="contactList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
+						<th width="1%" class="nowrap text-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="nowrap text-xs-center">
+						<th width="1%" class="nowrap text-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" style="min-width:85px" class="nowrap text-xs-center">
+						<th width="1%" style="min-width:85px" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap text-xs-center">
+						<th width="10%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($assoc) : ?>
-						<th width="10%" class="nowrap text-xs-center">
+						<th width="10%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
 						<?php endif; ?>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="5%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -90,7 +90,7 @@ if ($saveOrder)
 					$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id=' . $item->catid);
 					?>
 					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
-						<td class="order nowrap text-xs-center hidden-sm-down">
+						<td class="order nowrap text-center hidden-sm-down">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -110,17 +110,17 @@ if ($saveOrder)
 									value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 							<?php endif; ?>
 						</td>
-						<td class="text-xs-center">
+						<td class="text-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td class="text-xs-center">
+						<td class="text-center">
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
 							</div>
 						</td>
 						<td class="nowrap has-context">
-							<div class="float-xs-left">
+							<div class="float-left">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'contacts.', $canCheckin); ?>
 								<?php endif; ?>
@@ -137,26 +137,26 @@ if ($saveOrder)
 								</div>
 							</div>
 						</td>
-						<td class="small text-xs-center">
+						<td class="small text-center">
 							<?php if (!empty($item->linked_user)) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $item->linked_user; ?></a>
 								<div class="small"><?php echo $item->email; ?></div>
 							<?php endif; ?>
 						</td>
-						<td class="small hidden-sm-down text-xs-center">
+						<td class="small hidden-sm-down text-center">
 							<?php echo $item->access_level; ?>
 						</td>
 						<?php if ($assoc) : ?>
-						<td class="hidden-sm-down text-xs-center">
+						<td class="hidden-sm-down text-center">
 							<?php if ($item->association) : ?>
 								<?php echo JHtml::_('contact.association', $item->id); ?>
 							<?php endif; ?>
 						</td>
 						<?php endif; ?>
-						<td class="small hidden-sm-down text-xs-center">
+						<td class="small hidden-sm-down text-center">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<td class="hidden-sm-down text-xs-center">
+						<td class="hidden-sm-down text-center">
 							<?php echo $item->id; ?>
 						</td>
 					</tr>

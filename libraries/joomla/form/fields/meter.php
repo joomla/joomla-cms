@@ -80,6 +80,9 @@ class JFormFieldMeter extends JFormField
 		switch ($name)
 		{
 			case 'active':
+			case 'width':
+			case 'animated':
+			case 'color':
 				return $this->$name;
 		}
 
@@ -100,9 +103,19 @@ class JFormFieldMeter extends JFormField
 	{
 		switch ($name)
 		{
+			case 'width':
+			case 'color':
+				$this->$name = (string) $value;
+				break;
+
 			case 'active':
 				$value = (string) $value;
 				$this->active = ($value === 'true' || $value === $name || $value === '1');
+				break;
+
+			case 'animated':
+				$value = (string) $value;
+				$this->animated = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			default:
@@ -130,8 +143,14 @@ class JFormFieldMeter extends JFormField
 
 		if ($return)
 		{
+			$this->width = isset($this->element['width']) ? (string) $this->element['width'] : '';
+			$this->color = isset($this->element['color']) ? (string) $this->element['color'] : '';
+
 			$active       = (string) $this->element['active'];
 			$this->active = ($active == 'true' || $active == 'on' || $active == '1');
+
+			$animated       = (string) $this->element['animated'];
+			$this->animated = !($animated == 'false' || $animated == 'off' || $animated == '0');
 		}
 
 		return $return;
@@ -163,8 +182,12 @@ class JFormFieldMeter extends JFormField
 
 		// Initialize some field attributes.
 		$extraData = array(
+			'width'    => $this->width,
+			'color'    => $this->color,
+			'animated' => $this->animated,
 			'active'   => $this->active,
 			'max'      => $this->max,
+			'min'      => $this->min,
 		);
 
 		return array_merge($data, $extraData);

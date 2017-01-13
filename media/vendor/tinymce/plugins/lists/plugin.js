@@ -676,16 +676,27 @@ tinymce.PluginManager.add('lists', function(editor) {
 
 		function removeList() {
 			var bookmark = createBookmark(selection.getRng(true)), root = editor.getBody();
+			var listItems = getSelectedListItems();
+			var emptyListItems = tinymce.util.Tools.grep(listItems, function (li) {
+				return isEmpty(li);
+			});
 
-			tinymce.each(getSelectedListItems(), function(li) {
+			listItems = tinymce.util.Tools.grep(listItems, function (li) {
+				return !isEmpty(li);
+			});
+
+
+			tinymce.each(emptyListItems, function(li) {
+				if (isEmpty(li)) {
+					outdent(li);
+					return;
+				}
+			});
+
+			tinymce.each(listItems, function(li) {
 				var node, rootList;
 
 				if (isEditorBody(li.parentNode)) {
-					return;
-				}
-
-				if (isEmpty(li)) {
-					outdent(li);
 					return;
 				}
 
@@ -940,7 +951,12 @@ tinymce.PluginManager.add('lists', function(editor) {
 		};
 	};
 
-	if (!tinymce.PluginManager.get("advlist")) {
+	var hasPlugin = function (editor, plugin) {
+		var plugins = editor.settings.plugins ? editor.settings.plugins : '';
+		return tinymce.util.Tools.inArray(plugins.split(/[ ,]/), plugin) !== -1;
+	};
+
+	if (!hasPlugin(editor, 'advlist')) {
 		editor.addButton('numlist', {
 			title: 'Numbered list',
 			cmd: 'InsertOrderedList',

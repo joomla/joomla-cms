@@ -47,23 +47,33 @@ extract($displayData);
  * @var   string   $max             The maximum value.
  */
 
+
 // Initialize some field attributes.
-$class = 'progress ' . $class;
+$class = 'progress-bar ' . $class;
+$class .= $animated ? ' progress-bar-striped progress-bar-animated' : '';
 $class .= $active ? ' active' : '';
 $class = 'class="' . $class . '"';
 
+$value = (float) $value;
+$value = $value < $min ? $min : $value;
+$value = $value > $max ? $max : $value;
+
 $data = '';
-$data .= 'max="' . $max . '"';
-$data .= ' value="' . (float) $value . '"';
+$data .= 'aria-valuemax="' . $max . '"';
+$data .= ' aria-valuemin="' . $min . '"';
+$data .= ' aria-valuenow="' . $value . '"';
 
 $attributes = array(
 	$class,
+	!empty($width) ? ' style="width:' . $width . ';"' : '',
 	$data
 );
 
+$value = ((float) ($value - $min) * 100) / ($max - $min);
 ?>
-<progress <?php echo implode(' ', $attributes); ?>>
-	<div class="progress">
-		<span class="progress-bar" style="width: <?php echo (float) $value; ?>%;"></span>
-	</div>
-</progress>
+<div class="progress">
+	<div
+		role="progressbar"
+		<?php echo implode(' ', $attributes); ?>
+		style="width:<?php echo (string) $value; ?>%;<?php echo !empty($color) ? ' background-color:' . $color . ';' : ''; ?>"></div>
+</div>

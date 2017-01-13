@@ -3229,7 +3229,7 @@ tbody.collapse.show {
     .card-deck .card {
       display: -ms-flexbox;
       display: flex;
-      -ms-flex: 1 0 0;
+      -ms-flex: 1 0 0px;
           flex: 1 0 0;
       -ms-flex-direction: column;
           flex-direction: column; }
@@ -3245,7 +3245,7 @@ tbody.collapse.show {
     -ms-flex-flow: row wrap;
         flex-flow: row wrap; }
     .card-group .card {
-      -ms-flex: 1 0 0;
+      -ms-flex: 1 0 0px;
           flex: 1 0 0; }
       .card-group .card + .card {
         margin-left: 0;
@@ -8942,7 +8942,7 @@ legend {
       color: #fcfcfc;
       background-color: #353d4c;
       border-radius: 2px; }
-    .header .nav-link .tag {
+    .header .nav-link .badge {
       position: absolute;
       top: 2px;
       right: -5px; }
@@ -9123,6 +9123,7 @@ iframe {
     text-align: center; }
   .view-login .login-joomla {
     position: absolute;
+    bottom: 10px;
     left: 50%;
     width: 24px;
     height: 24px;
@@ -9527,33 +9528,17 @@ iframe {
       text-indent: 10px; }
 
 .status {
-  padding: 2px 10px 4px;
+  padding: 5px 10px;
   margin-left: 250px;
   color: #626262;
   background: #ebebeb;
   border-top: 1px solid #d4d4d4;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
   transition: all .5s ease; }
-  .status .btn-group {
-    margin-top: 5px; }
-    .status .btn-group .tag,
-    .status .btn-group [class*="fa-"] {
-      margin-right: 5px; }
-  .status .btn-group::after {
-    margin: 0 10px;
-    content: "";
-    border-left: 1px solid #999; }
-  .status .btn-group.logout::after,
-  .status .btn-group.details::after {
-    margin: 0;
-    content: "";
-    border-left: 0; }
   .status p {
     margin: 0; }
-  .status p,
-  .status .btn-group,
-  .status .btn-group > a {
-    font-size: .9rem;
+  .status li, .status a {
+    font-size: 14px;
     color: #555; }
 
 .sidebar-wrapper[data-hidden="1"] ~ .status {
@@ -10229,3 +10214,11 @@ iframe {
 
 .chzn-container-single {
   width: auto !important; }
+
+.input-group-btn {
+  -ms-flex-direction: row;
+      flex-direction: row; }
+
+.btn:hover,
+.btn:focus {
+  cursor: pointer; }

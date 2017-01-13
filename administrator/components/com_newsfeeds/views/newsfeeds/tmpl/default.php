@@ -40,36 +40,36 @@ if ($saveOrder)
 			<table class="table table-striped" id="newsfeedList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
+						<th width="1%" class="nowrap text-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th width="1%">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="5%" style="min-width:85px" class="nowrap text-xs-center">
+						<th width="5%" style="min-width:85px" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_NEWSFEEDS_NUM_ARTICLES_HEADING', 'numarticles', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_NEWSFEEDS_CACHE_TIME_HEADING', 'a.cache_time', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($assoc) : ?>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_NEWSFEEDS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
 						<?php endif; ?>
-						<th width="10%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-sm-down text-xs-center">
+						<th width="5%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -91,7 +91,7 @@ if ($saveOrder)
 					$canChange  = $user->authorise('core.edit.state', 'com_newsfeeds.category.' . $item->catid) && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
-						<td class="order nowrap text-xs-center hidden-sm-down">
+						<td class="order nowrap text-center hidden-sm-down">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -110,16 +110,16 @@ if ($saveOrder)
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 							<?php endif; ?>
 						</td>
-						<td class="text-xs-center">
+						<td class="text-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td class="text-xs-center">
+						<td class="text-center">
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'newsfeeds.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 							</div>
 						</td>
 						<td class="nowrap has-context">
-							<div class="float-xs-left">
+							<div class="float-left">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'newsfeeds.', $canCheckin); ?>
 								<?php endif; ?>
@@ -137,26 +137,26 @@ if ($saveOrder)
 								</div>
 							</div>
 						</td>
-						<td class="small hidden-sm-down text-xs-center">
+						<td class="small hidden-sm-down text-center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="hidden-sm-down text-xs-center">
+						<td class="hidden-sm-down text-center">
 							<?php echo (int) $item->numarticles; ?>
 						</td>
-						<td class="hidden-sm-down text-xs-center">
+						<td class="hidden-sm-down text-center">
 							<?php echo (int) $item->cache_time; ?>
 						</td>
 						<?php if ($assoc) : ?>
-						<td class="hidden-sm-down text-xs-center">
+						<td class="hidden-sm-down text-center">
 							<?php if ($item->association) : ?>
 								<?php echo JHtml::_('newsfeed.association', $item->id); ?>
 							<?php endif; ?>
 						</td>
 						<?php endif; ?>
-						<td class="small hidden-sm-down text-xs-center">
+						<td class="small hidden-sm-down text-center">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<td class="hidden-sm-down text-xs-center">
+						<td class="hidden-sm-down text-center">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
