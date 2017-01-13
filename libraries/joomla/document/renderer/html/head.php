@@ -249,7 +249,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$conditional = null;
 			$attr = array('rel="stylesheet"');
 
-			if (!is_null($attribs['mime']) && (!$isHtml5 || !in_array($attribs['mime'], $defaultCssMimes)))
+			if (isset($attribs['mime']) && (!$isHtml5 || !in_array($attribs['mime'], $defaultCssMimes)))
 			{
 				$attr[] = 'type="' . $attribs['mime'] . '"';
 			}
@@ -277,7 +277,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 				$attr[] = 'media="' . $attribs['media'] . '"';
 			}
 
-			if (is_array($attribs['attribs']) && !empty($attribs['attribs']))
+			if (isset($attribs['attribs']) && is_array($attribs['attribs']) && !empty($attribs['attribs']))
 			{
 				$attr[] = ArrayHelper::toString($attribs['attribs']);
 			}
