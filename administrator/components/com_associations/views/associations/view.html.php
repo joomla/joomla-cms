@@ -133,7 +133,7 @@ class AssociationsViewAssociations extends JViewLegacy
 					unset($this->activeFilters['category_id']);
 					$this->filterForm->removeField('category_id', 'filter');
 				}
-				if ($extensionName !== 'com_menu')
+				if ($extensionName !== 'com_menus')
 				{
 					unset($this->activeFilters['menutype']);
 					$this->filterForm->removeField('menutype', 'filter');
