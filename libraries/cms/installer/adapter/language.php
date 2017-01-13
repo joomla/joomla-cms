@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -304,7 +304,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		if ((int) $clientId === 0)
 		{
 			// Load the site language manifest.
-			$siteLanguageManifest = JLanguage::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
+			$siteLanguageManifest = JLanguageHelper::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
 
 			// Set the content language title as the language metadata name.
 			$contentLanguageTitle = $siteLanguageManifest['name'];

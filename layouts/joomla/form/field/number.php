@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,7 +70,7 @@ if (is_numeric($value))
 else
 {
 	$value = "";
-	$value = (isset($min)) ? $min : $value;
+	$value = isset($min) ? $min : $value;
 }
 
 // Including fallback code for HTML5 non supported browsers.

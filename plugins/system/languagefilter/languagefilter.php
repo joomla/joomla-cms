@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -266,7 +266,6 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		// Did we find the current and existing language yet?
 		$found = false;
-		$lang_code = false;
 
 		// Are we in SEF mode or not?
 		if ($this->mode_sef)
@@ -637,7 +636,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						// If any association set to the user preferred site language, redirect to that page.
 						if ($assoc)
 						{
-							$associations = MenusHelper::getAssociations($itemid);
+							$associations = MenusHelper::getAssociations($uri->getVar('Itemid'));
 						}
 
 						if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))

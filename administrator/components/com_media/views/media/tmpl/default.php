@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -129,7 +129,7 @@ echo JHtml::_(
 	array(
 		'title' => JText::_('COM_MEDIA_PREVIEW'),
 		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 	),
 	'<div id="image" style="text-align:center;"><img id="imagePreviewSrc" src="../media/jui/img/alpha.png" alt="preview" style="max-width:100%; max-height:300px;"/></div>'
 );
@@ -140,7 +140,7 @@ echo JHtml::_(
 	array(
 		'title' => JText::_('COM_MEDIA_PREVIEW'),
 		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 	),
 	'<div id="videoPlayer" style="z-index: -100;"><video id="mejsPlayer" style="height: 250px;"/></div>'
 );

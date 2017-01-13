@@ -3,12 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
-JLoader::register('FieldsHelperInternal', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/internal.php');
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
 /**
@@ -39,6 +38,28 @@ class FieldsHelper
 		if (count($parts) < 2)
 		{
 			return null;
+		}
+
+		$component = $parts[0];
+		$eName = str_replace('com_', '', $component);
+
+		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+
+		if (file_exists($path))
+		{
+			$cName = ucfirst($eName) . 'Helper';
+
+			JLoader::register($cName, $path);
+
+			if (class_exists($cName) && is_callable(array($cName, 'validateSection')))
+			{
+				$section = call_user_func_array(array($cName, 'validateSection'), array($parts[1]));
+
+				if ($section)
+				{
+					$parts[1] = $section;
+				}
+			}
 		}
 
 		return $parts;
@@ -97,7 +118,16 @@ class FieldsHelper
 		if ($item && (isset($item->catid) || isset($item->fieldscatid)))
 		{
 			$assignedCatIds = isset($item->catid) ? $item->catid : $item->fieldscatid;
-			self::$fieldsCache->setState('filter.assigned_cat_ids', is_array($assignedCatIds) ? $assignedCatIds : explode(',', $assignedCatIds));
+
+			if (!is_array($assignedCatIds))
+			{
+				$assignedCatIds = explode(',', $assignedCatIds);
+			}
+
+			// Fields without any category assigned should show as well
+			$assignedCatIds[] = 0;
+
+			self::$fieldsCache->setState('filter.assigned_cat_ids', $assignedCatIds);
 		}
 
 		$fields = self::$fieldsCache->getItems();
@@ -143,29 +173,25 @@ class FieldsHelper
 
 				if ($prepareValue)
 				{
-					$value = null;
+					JPluginHelper::importPlugin('fields');
 
-					/*
-					 * On before field prepare
-					 * Event allow plugins to modfify the output of the field before it is prepared
-					 */
 					$dispatcher = JEventDispatcher::getInstance();
-					$dispatcher->trigger('onFieldBeforePrepare', array($context, $item, &$field));
 
-					// Prepare the value from the type layout
-					$value = self::render($context, 'field.prepare.' . $field->type, array('field' => $field));
+					// Event allow plugins to modfify the output of the field before it is prepared
+					$dispatcher->trigger('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
-					// If the value is empty, render the base layout
-					if (! $value)
+					// Gathering the value for the field
+					$value = $dispatcher->trigger('onCustomFieldsPrepareField', array($context, $item, &$field));
+
+					if (is_array($value))
 					{
-						$value = self::render($context, 'field.prepare.base', array('field' => $field));
+						$value = implode($value, ' ');
 					}
 
-					/*
-					 * On after field render
-					 * Event allow plugins to modfify the output of the prepared field
-					 */
-					$dispatcher->trigger('onFieldAfterPrepare', array($context, $item, $field, &$value));
+					// Event allow plugins to modfify the output of the prepared field
+					$dispatcher->trigger('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
+
+					// Assign the value
 					$field->value = $value;
 				}
 
@@ -211,15 +237,6 @@ class FieldsHelper
 		{
 			// Trying to render the layout on Fields itself
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
-		}
-
-		if ($value == '')
-		{
-			// Trying to render the layout of the plugins
-			foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
-			{
-				$value = JLayoutHelper::render($layoutFile, $displayData, $folder['fullname'] . '/layouts');
-			}
 		}
 
 		return $value;
@@ -325,7 +342,7 @@ class FieldsHelper
 			return true;
 		}
 
-		FieldsHelperInternal::loadPlugins();
+		$fieldTypes = self::getFieldTypes();
 
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');
@@ -334,21 +351,32 @@ class FieldsHelper
 
 		// Organizing the fields according to their group
 		$fieldsPerGroup = array(
-				0 => array()
+			0 => array()
 		);
 
 		foreach ($fields as $field)
 		{
+			if (!array_key_exists($field->type, $fieldTypes))
+			{
+				// Field type is not available
+				continue;
+			}
+
 			if (!array_key_exists($field->group_id, $fieldsPerGroup))
 			{
 				$fieldsPerGroup[$field->group_id] = array();
+			}
+
+			if ($path = $fieldTypes[$field->type]['path'])
+			{
+				// Add the lookup path for the field
+				JFormHelper::addFieldPath($path);
 			}
 
 			$fieldsPerGroup[$field->group_id][] = $field;
 		}
 
 		// On the front, sometimes the admin fields path is not included
-		JFormHelper::addFieldPath(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/fields');
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
 		// Looping trough the groups
@@ -414,39 +442,29 @@ class FieldsHelper
 			// Looping trough the fields for that context
 			foreach ($groupFields as $field)
 			{
-				// Creating the XML form data
-				$type = JFormHelper::loadFieldType($field->type);
-
-				if (!$type)
-				{
-					continue;
-				}
-
 				try
 				{
-					// Rendering the type
-					$node = $type->appendXMLFieldTag($field, $fieldset, $form);
-
-					if (!FieldsHelperInternal::canEditFieldValue($field))
-					{
-						$node->setAttribute('disabled', 'true');
-					}
+					JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
 
 					/*
-					 *If the field belongs to a assigned_cat_ids but the
-					 * assigned_cat_ids in the data is not known, set the
-					 * required
-					 * flag to false on any circumstance
+					 * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
+					 * is not known, set the required flag to false on any circumstance.
 					 */
-					if (! $assignedCatids && $field->assigned_cat_ids)
+					if (! $assignedCatids && $field->assigned_cat_ids && $form->getField($field->alias))
 					{
-						$node->setAttribute('required', 'false');
+						$form->setFieldAttribute($field->alias, 'required', 'false');
 					}
 				}
 				catch (Exception $e)
 				{
 					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
+			}
+
+			// When he field set is empty, then remove it
+			if (!$fieldset->hasChildNodes())
+			{
+				$fieldsNode->removeChild($fieldset);
 			}
 		}
 
@@ -560,6 +578,37 @@ class FieldsHelper
 	}
 
 	/**
+	 * Gets assigned categories titles for a field
+	 *
+	 * @param   stdClass[]  $fieldId  The field ID
+	 *
+	 * @return  array  Array with the assigned categories
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getAssignedCategoriesTitles($fieldId)
+	{
+		$fieldId = (int) $fieldId;
+
+		if (!$fieldId)
+		{
+			return array();
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('c.title'))
+				->from($db->quoteName('#__fields_categories', 'a'))
+				->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+				->where('field_id = ' . $fieldId);
+
+		$db->setQuery($query);
+
+		return $db->loadColumn();
+	}
+
+	/**
 	 * Gets the fields system plugin extension id.
 	 *
 	 * @return  int  The fields system plugin extension id.
@@ -587,5 +636,89 @@ class FieldsHelper
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Configure the Linkbar.
+	 *
+	 * @param   string  $context  The context the fields are used for
+	 * @param   string  $vName    The view currently active
+	 *
+	 * @return  void
+	 *
+	 * @since    3.7.0
+	 */
+	public static function addSubmenu($context, $vName)
+	{
+		$parts = self::extract($context);
+
+		if (!$parts)
+		{
+			return;
+		}
+
+		$component = $parts[0];
+
+		// Avoid nonsense situation.
+		if ($component == 'com_fields')
+		{
+			return;
+		}
+
+		// Try to find the component helper.
+		$eName = str_replace('com_', '', $component);
+		$file  = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+
+		if (!file_exists($file))
+		{
+			return;
+		}
+
+		require_once $file;
+
+		$cName = ucfirst($eName) . 'Helper';
+
+		if (class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
+		{
+			$lang = JFactory::getLanguage();
+			$lang->load($component, JPATH_ADMINISTRATOR)
+			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+
+			$cName::addSubmenu('fields.' . $vName);
+		}
+	}
+
+	/**
+	 * Loads the fields plugins and returns an array of field types from the plugins.
+	 *
+	 * The returned array contains arrays with the following keys:
+	 * - label: The label of the field
+	 * - type:  The type of the field
+	 * - path:  The path of the folder where the field can be found
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public static function getFieldTypes()
+	{
+		JPluginHelper::importPlugin('fields');
+		$eventData = JEventDispatcher::getInstance()->trigger('onCustomFieldsGetTypes');
+
+		$data = array();
+
+		foreach ($eventData as $fields)
+		{
+			foreach ($fields as $fieldDescription)
+			{
+				if (!array_key_exists('path', $fieldDescription))
+				{
+					$fieldDescription['path'] = null;
+				}
+				$data[$fieldDescription['type']] = $fieldDescription;
+			}
+		}
+
+		return $data;
 	}
 }

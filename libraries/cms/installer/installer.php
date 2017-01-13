@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -393,9 +393,8 @@ class JInstaller extends JAdapter
 					break;
 
 				case 'query':
-					// Placeholder in case this is necessary in the future
-					// $stepval is always false because if this step was called it invariably failed
-					$stepval = false;
+					// Execute the query.
+					$stepval = $this->parseSQLFiles($step['script']);
 					break;
 
 				case 'extension':
@@ -940,11 +939,12 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		$queries = array();
 		$db = & $this->_db;
+
+		// TODO - At 4.0 we can change this to use `getServerType()` since SQL Server will not be supported
 		$dbDriver = strtolower($db->name);
 
-		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
+		if ($db->getServerType() === 'mysql')
 		{
 			$dbDriver = 'mysql';
 		}
@@ -1043,7 +1043,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
+				if ($db->getServerType() === 'mysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1108,9 +1108,10 @@ class JInstaller extends JAdapter
 
 			if (count($schemapaths))
 			{
+				// TODO - At 4.0 we can change this to use `getServerType()` since SQL Server will not be supported
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
+				if ($db->getServerType() === 'mysql')
 				{
 					$dbDriver = 'mysql';
 				}

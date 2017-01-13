@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -108,11 +108,6 @@ class FieldsTableField extends JTable
 		if (empty($this->type))
 		{
 			$this->type = 'text';
-		}
-
-		if (is_array($this->assigned_cat_ids))
-		{
-			$this->assigned_cat_ids = implode(',', $this->assigned_cat_ids);
 		}
 
 		$date = JFactory::getDate();

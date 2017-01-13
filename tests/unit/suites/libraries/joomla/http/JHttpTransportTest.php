@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Http
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -141,7 +141,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	public function testRequestGet404($transportClass)
 	{
 		$transport = new $transportClass($this->options);
-		$response = $transport->request('get', new JUri($this->stubUrl . ':80'));
+		$transport->request('get', new JUri($this->stubUrl . ':80'));
 	}
 
 	/**
