@@ -285,7 +285,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 			'access'              => 'a.access',
 			'state'               => 'a.state',
 			'created_user_id'     => 'a.created_by',
-			'checked_out_user_id' => 'a.checked_out',
+			'checked_out'         => 'a.checked_out',
 			'checked_out_time'    => 'a.checked_out_time'
 		);
 	}
