@@ -299,8 +299,8 @@ abstract class JHtmlGrid
 			$date = JHtml::_('date', $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
 			$time = JHtml::_('date', $row->checked_out_time, 'H:i');
 
-			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::_('tooltipText', 'JLIB_HTML_CHECKED_OUT', $row->editor) . '<br />' . $date . '<br />'
-				. $time . '">';
+			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::_('tooltipText', 'JLIB_HTML_CHECKED_OUT', $row->editor)
+				. '<br />' . $date . '<br />' . $time . '">';
 		}
 
 		return $hover . JHtml::_('image', 'admin/checked_out.png', null, null, true) . '</span>';
