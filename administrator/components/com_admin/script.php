@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,9 +112,7 @@ class JoomlaInstallerScript
 	 */
 	protected function updateDatabase()
 	{
-		$db = JFactory::getDbo();
-
-		if (strpos($db->name, 'mysql') !== false)
+		if (JFactory::getDbo()->getServerType() === 'mysql')
 		{
 			$this->updateDatabaseMysql();
 		}
@@ -395,7 +393,22 @@ class JoomlaInstallerScript
 			array('plugin', 'menu', 'editors-xtd', 0),
 			array('plugin', 'contact', 'editors-xtd', 0),
 			array('plugin', 'fields', 'system', 0),
+			array('plugin', 'calendar', 'fields', 0),
+			array('plugin', 'checkboxes', 'fields', 0),
+			array('plugin', 'color', 'fields', 0),
+			array('plugin', 'editor', 'fields', 0),
 			array('plugin', 'gallery', 'fields', 0),
+			array('plugin', 'imagelist', 'fields', 0),
+			array('plugin', 'integer', 'fields', 0),
+			array('plugin', 'list', 'fields', 0),
+			array('plugin', 'media', 'fields', 0),
+			array('plugin', 'radio', 'fields', 0),
+			array('plugin', 'sql', 'fields', 0),
+			array('plugin', 'text', 'fields', 0),
+			array('plugin', 'textarea', 'fields', 0),
+			array('plugin', 'url', 'fields', 0),
+			array('plugin', 'user', 'fields', 0),
+			array('plugin', 'usergrouplist', 'fields', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -1868,12 +1881,10 @@ class JoomlaInstallerScript
 
 		try
 		{
-			switch ($db->name)
+			switch ($db->getServerType())
 			{
 				// MySQL database, use TRUNCATE (faster, more resilient)
-				case 'pdomysql':
 				case 'mysql':
-				case 'mysqli':
 					$db->truncateTable('#__session');
 					break;
 

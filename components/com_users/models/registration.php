@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -620,7 +620,7 @@ class UsersModelRegistration extends JModelForm
 			// Send a system message to administrators receiving system mails
 			$db = $this->getDbo();
 			$query->clear()
-				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('block') . ' = ' . (int) 0)
 				->where($db->quoteName('sendEmail') . ' = ' . (int) 1);
@@ -628,7 +628,7 @@ class UsersModelRegistration extends JModelForm
 
 			try
 			{
-				$sendEmail = $db->loadColumn();
+				$userids = $db->loadColumn();
 			}
 			catch (RuntimeException $e)
 			{
@@ -637,12 +637,12 @@ class UsersModelRegistration extends JModelForm
 				return false;
 			}
 
-			if (count($sendEmail) > 0)
+			if (count($userids) > 0)
 			{
 				$jdate = new JDate;
 
 				// Build the query to add the messages
-				foreach ($sendEmail as $userid)
+				foreach ($userids as $userid)
 				{
 					$values = array(
 						$db->quote($userid),

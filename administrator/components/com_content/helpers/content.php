@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -202,6 +202,41 @@ class ContentHelper extends JHelperContent
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Returns a valid section for articles. If it is not valid then null
+	 * is returned.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 *
+	 * @return  string|null  The new section
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function validateSection($section)
+	{
+		if (JFactory::getApplication()->isClient('site'))
+		{
+			// On the front end we need to map some sections
+			switch ($section)
+			{
+				// Editing an article
+				case 'form':
+
+				// Category list view
+				case 'category':
+					$section = 'article';
+			}
+		}
+
+		if ($section != 'article')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
 	}
 
 	/**

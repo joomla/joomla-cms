@@ -11,7 +11,7 @@ This is the official New Media Manager repository. Please have a look on the [wi
 
 Copyright
 ---------------------
-* Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+* Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
 * [Special Thanks](https://docs.joomla.org/Joomla!_Credits_and_Thanks)
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Joomla_Licenses)

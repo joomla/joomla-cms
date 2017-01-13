@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -131,7 +131,11 @@ class JLanguageHelper
 			{
 				$cache = JFactory::getCache('com_languages', '');
 
-				if (!$languages = $cache->get('languages'))
+				if ($cache->contains('languages'))
+				{
+					$languages = $cache->get('languages');
+				}
+				else
 				{
 					$db = JFactory::getDbo();
 					$query = $db->getQuery(true)
@@ -185,7 +189,11 @@ class JLanguageHelper
 		{
 			$cache = JFactory::getCache('com_languages', '');
 
-			if (!$installedLanguages = $cache->get('installedlanguages'))
+			if ($cache->contains('installedlanguages'))
+			{
+				$installedLanguages = $cache->get('installedlanguages');
+			}
+			else
 			{
 				$db = JFactory::getDbo();
 
@@ -332,7 +340,11 @@ class JLanguageHelper
 		{
 			$cache = JFactory::getCache('com_languages', '');
 
-			if (!$contentLanguages = $cache->get('contentlanguages'))
+			if ($cache->contains('contentlanguages'))
+			{
+				$contentLanguages = $cache->get('contentlanguages');
+			}
+			else
 			{
 				$db = JFactory::getDbo();
 

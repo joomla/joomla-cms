@@ -4,7 +4,7 @@
 	<version>3.6.4.1</version>
 	<creationDate>2016-11-08</creationDate>
 	<author>Irish translation team</author>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>Irish installation language</description>
 	<files><filename>ga-IE.ini</filename></files>
