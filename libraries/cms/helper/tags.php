@@ -374,8 +374,9 @@ class JHelperTags extends JHelper
 		$contentItemId = (array) $contentItemId;
 
 		// Set default values
-		$result = false;
-		$delete = false;
+		$result  = false;
+		$outcome = false;
+		$delete  = array();
 
 		foreach ($contentItemId as $itemId)
 		{
@@ -386,10 +387,18 @@ class JHelperTags extends JHelper
 			 */
 			$ucmContentTable = JTable::getInstance('Corecontent');
 
-			$delete = $ucmContentTable->deleteByContentId($itemId, $this->typeAlias);
+			$delete[] = $ucmContentTable->deleteByContentId($itemId, $this->typeAlias);
 		}
 
-		return $result && $delete;
+		foreach ($delete as $outcome)
+		{
+			if ($outcome === false)
+			{
+				return false;
+			}
+		}
+
+		return $result && $outcome;
 	}
 
 	/**
