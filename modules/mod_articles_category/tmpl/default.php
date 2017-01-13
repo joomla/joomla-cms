@@ -19,7 +19,6 @@ defined('_JEXEC') or die;
 				<?php foreach ($group as $item) : ?>
 					<li>
 						<?php if ($params->get('link_titles') == 1) : ?>
-							<?php echo JHtml::link($item->link, $item->title, array("class" => "mod-articles-category-title " . $item->active)); ?>
 							<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
 								<?php echo $item->title; ?>
 							</a>
@@ -84,7 +83,6 @@ defined('_JEXEC') or die;
 		<?php foreach ($list as $item) : ?>
 			<li>
 				<?php if ($params->get('link_titles') == 1) : ?>
-					<?php echo JHtml::link($item->link, $item->title, array("class" => "mod-articles-category-title " . $item->active)); ?>
 					<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
 						<?php echo $item->title; ?>
 					</a>
