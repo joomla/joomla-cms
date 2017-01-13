@@ -273,4 +273,132 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	{
 		return 'CURRENT_TIMESTAMP';
 	}
+
+	/**
+	 * Magic function to convert the query to a string.
+	 *
+	 * @return  string  The completed query.
+	 *
+	 * @since   11.1
+	 */
+	public function __toString()
+	{
+		switch ($this->type)
+		{
+			case 'select':
+				if ($this->selectRowNumber)
+				{
+					$orderBy              = $this->selectRowNumber['orderBy'];
+					$orderColumnAlias     = $this->selectRowNumber['orderColumnAlias'];
+					$partitionBy          = $this->selectRowNumber['partitionBy'];
+					$partitionColumnAlias = $this->selectRowNumber['partitionColumnAlias'];
+
+					if ($partitionBy !== null && $partitionColumnAlias !== null)
+					{
+						$orderBy = $partitionColumnAlias . ',' . $orderBy;
+						$column  = "ROW_NUMBER(NULL,$partitionColumnAlias) AS $orderColumnAlias";
+					}
+					else
+					{
+						$column = "ROW_NUMBER() AS $orderColumnAlias";
+					}
+
+					if ($this->select === null)
+					{
+						$query = PHP_EOL . "SELECT 1"
+							. PHP_EOL . (string) $this->from . ','
+							. PHP_EOL . "( SELECT ROW_NUMBER(0) ) AS r"
+							. PHP_EOL . (string) $this->where
+							. PHP_EOL . "ORDER BY $orderBy";
+					}
+					else
+					{
+						$tmpOrder    = $this->order;
+						$this->order = null;
+						$query       = parent::__toString() . PHP_EOL . "ORDER BY $orderBy";
+						$column      = "w.*, $column";
+						$this->order = $tmpOrder;
+					}
+
+					// Special sqlite query to count ROW_NUMBER
+					$query = PHP_EOL . "SELECT $column"
+						. PHP_EOL . "FROM ( $query ) AS w,"
+						. PHP_EOL . "( SELECT ROW_NUMBER(0) ) AS r"
+						// Forbid to flatten subqueries.
+						. ((string) $this->order ?: PHP_EOL . 'ORDER BY NULL');
+
+					return $this->processLimit($query, $this->limit, $this->offset);
+				}
+
+				break;
+
+			case 'update':
+				if ($this->join)
+				{
+					$table = $this->update->getElements();
+					$table = $table[0];
+
+					if ($this->columns === null)
+					{
+						$fields = $this->db->getTableColumns($table);
+
+						foreach ($fields as $key => $value)
+						{
+							$fields[$key] = $key;
+						}
+
+						$this->columns = new JDatabaseQueryElement('()', $fields);
+					}
+
+					$fields   = $this->columns->getElements();
+					$elements = $this->set->getElements();
+
+					foreach ($elements as $nameValue)
+					{
+						$setArray = explode(' = ', $nameValue, 2);
+
+						if ($setArray[0][0] === '`')
+						{
+							// Unquote column name
+							$setArray[0] = substr($setArray[0], 1, -1);
+						}
+
+						$fields[$setArray[0]] = $setArray[1];
+					}
+
+					$select = new JDatabaseQuerySqlite($this->db);
+					$select->select(array_values($fields))
+						->from($table);
+
+					$select->join  = $this->join;
+					$select->where = $this->where;
+
+					return 'INSERT OR REPLACE INTO ' . $table
+						. ' (' . implode(',', array_keys($fields)) . ')'
+						. (string) $select;
+				}
+		}
+
+		return parent::__toString();
+	}
+
+	/**
+	 * Return the number of the current row, support for partition, starting from 1
+	 *
+	 * @param   string  $orderBy               An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias      An alias for new ordering column.
+	 * @param   string  $partitionBy           An expression of grouping for window function.
+	 * @param   string  $partitionColumnAlias  An alias for calculated grouping column.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  RuntimeException
+	 */
+	public function selectRowNumber($orderBy, $orderColumnAlias, $partitionBy = null, $partitionColumnAlias = null)
+	{
+		$this->validateRowNumber($orderBy, $orderColumnAlias, $partitionBy, $partitionColumnAlias);
+
+		return $this;
+	}
 }

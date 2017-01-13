@@ -54,7 +54,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @var    string
 	 * @since  12.1
 	 */
-	protected static $dbMinimum = '8.3.18';
+	protected static $dbMinimum = '8.4.2';
 
 	/**
 	 * Operator used for concatenation

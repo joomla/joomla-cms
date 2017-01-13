@@ -182,6 +182,55 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	}
 
 	/**
+	 * Test for the JDatabaseQueryPostgresql::__string method for a 'selectRowNumber' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function test__toStringSelectRowNumber()
+	{
+		$this->_instance
+			->select('id')
+			->selectRowNumber('ordering', 'new_ordering')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT id,ROW_NUMBER() OVER (ORDER BY ordering) AS new_ordering" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->select('id')
+			->selectRowNumber('ordering', 'row_number', 'catid', 'catid');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT id,catid AS catid,ROW_NUMBER() OVER (PARTITION BY catid ORDER BY ordering) AS row_number" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->select('id')
+			->select('ordering')
+			->order('id');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT id,ordering" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY id",
+			(string) $this->_instance
+		);
+	}
+
+	/**
 	 * Test for the JDatabaseQuery::__string method for a 'update' case.
 	 *
 	 * @return  void
@@ -190,19 +239,26 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function test__toStringUpdate()
 	{
-		$q = new JDatabaseQueryPostgresql($this->dbo);
-
-		$q->update('#__foo AS a')
+		$this->_instance
+			->update('#__foo AS a')
 			->join('INNER', 'b ON b.id = a.id')
 			->set('a.id = 2')
 			->where('b.id = 1');
+
+		$string = (string) $this->_instance;
 
 		$this->assertEquals(
 			PHP_EOL . "UPDATE #__foo AS a" .
 			PHP_EOL . "SET a.id = 2" .
 			PHP_EOL . "FROM b" .
 			PHP_EOL . "WHERE b.id = 1 AND b.id = a.id",
-			(string) $q
+			$string
+		);
+
+		// Run method __toString() again on the same query
+		$this->assertEquals(
+			$string,
+			(string) $this->_instance
 		);
 	}
 

@@ -118,4 +118,63 @@ class JDatabaseQuerySqliteTest extends TestCase
 			$this->_instance->currentTimestamp()
 		);
 	}
+
+	/**
+	 * Test for the JDatabaseQuerySqlite::__string method for a 'selectRowNumber' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function test__toStringSelectRowNumber()
+	{
+		$this->_instance
+			->select('id')
+			->selectRowNumber('ordering', 'new_ordering')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT w.*, ROW_NUMBER() AS new_ordering" .
+			PHP_EOL . "FROM ( " .
+			PHP_EOL . "SELECT id" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY ordering ) AS w," .
+			PHP_EOL . "( SELECT ROW_NUMBER(0) ) AS r" .
+			PHP_EOL . "ORDER BY NULL",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->select('id')
+			->selectRowNumber('ordering', 'row_number', 'catid', 'catid');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT w.*, ROW_NUMBER(NULL,catid) AS row_number" .
+			PHP_EOL . "FROM ( " .
+			PHP_EOL . "SELECT id,catid AS catid" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY catid,ordering ) AS w," .
+			PHP_EOL . "( SELECT ROW_NUMBER(0) ) AS r" .
+			PHP_EOL . "ORDER BY NULL",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->select('id')
+			->select('ordering')
+			->order('id');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT id,ordering" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY id",
+			(string) $this->_instance
+		);
+	}
 }

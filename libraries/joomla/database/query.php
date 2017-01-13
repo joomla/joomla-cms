@@ -157,6 +157,12 @@ abstract class JDatabaseQuery
 	protected $unionAll = null;
 
 	/**
+	 * @var    array  Details of window function.
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $selectRowNumber = null;
+
+	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
@@ -241,24 +247,27 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->where;
 				}
 
-				if ($this->group)
+				if ($this->selectRowNumber === null)
 				{
-					$query .= (string) $this->group;
-				}
+					if ($this->group)
+					{
+						$query .= (string) $this->group;
+					}
 
-				if ($this->having)
-				{
-					$query .= (string) $this->having;
-				}
+					if ($this->having)
+					{
+						$query .= (string) $this->having;
+					}
 
-				if ($this->union)
-				{
-					$query .= (string) $this->union;
-				}
+					if ($this->union)
+					{
+						$query .= (string) $this->union;
+					}
 
-				if ($this->unionAll)
-				{
-					$query .= (string) $this->unionAll;
+					if ($this->unionAll)
+					{
+						$query .= (string) $this->unionAll;
+					}
 				}
 
 				if ($this->order)
@@ -468,6 +477,7 @@ abstract class JDatabaseQuery
 			case 'select':
 				$this->select = null;
 				$this->type = null;
+				$this->selectRowNumber = null;
 				break;
 
 			case 'delete':
@@ -552,6 +562,7 @@ abstract class JDatabaseQuery
 			default:
 				$this->type = null;
 				$this->select = null;
+				$this->selectRowNumber = null;
 				$this->delete = null;
 				$this->update = null;
 				$this->insert = null;
@@ -1816,5 +1827,87 @@ abstract class JDatabaseQuery
 	public function findInSet($value, $set)
 	{
 		return '';
+	}
+
+	/**
+	 * Validate arguments which are passed to selectRowNumber method and set up common variables.
+	 *
+	 * @param   string  $orderBy               An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias      An alias for new ordering column.
+	 * @param   string  $partitionBy           An expression of grouping for window function.
+	 * @param   string  $partitionColumnAlias  An alias for calculated grouping column.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  RuntimeException
+	 */
+	protected function validateRowNumber($orderBy, $orderColumnAlias, $partitionBy = null, $partitionColumnAlias = null)
+	{
+		if ($this->selectRowNumber)
+		{
+			throw new RuntimeException("Method 'selectRowNumber' can be called only once per instance.");
+		}
+
+		// Required by sqlite
+		if ($partitionBy !== null && $partitionColumnAlias !== null)
+		{
+			if (strpos($partitionBy, ',') !== false)
+			{
+				$this->select($this->concatenate(explode(',', $partitionBy), ',') . ' AS ' . $partitionColumnAlias);
+			}
+			else
+			{
+				$this->select($partitionBy . ' AS ' . $partitionColumnAlias);
+			}
+
+		}
+		else
+		{
+			$this->type = 'select';
+		}
+
+		$this->selectRowNumber = array(
+			'orderBy' => $orderBy,
+			'orderColumnAlias' => $orderColumnAlias,
+			'partitionBy' => $partitionBy,
+			'partitionColumnAlias' => $partitionColumnAlias,
+		);
+	}
+
+	/**
+	 * Return the number of the current row, support for partition, starting from 1
+	 *
+	 * Usage:
+	 * $query->select('id');
+	 * $query->selectRowNumber('ordering,publish_up DESC', 'new_ordering');
+	 * $query->from('#__content');
+	 *
+	 * @param   string  $orderBy               An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias      An alias for new ordering column.
+	 * @param   string  $partitionBy           An expression of grouping for window function.
+	 * @param   string  $partitionColumnAlias  An alias for calculated grouping column.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  RuntimeException
+	 */
+	public function selectRowNumber($orderBy, $orderColumnAlias, $partitionBy = null, $partitionColumnAlias = null)
+	{
+		$this->validateRowNumber($orderBy, $orderColumnAlias, $partitionBy, $partitionColumnAlias);
+
+		$column = "ROW_NUMBER() OVER (";
+
+		if ($partitionBy !== null)
+		{
+			$column .= "PARTITION BY $partitionBy ";
+		}
+
+		$column .= "ORDER BY $orderBy) AS $orderColumnAlias";
+
+		$this->select($column);
+
+		return $this;
 	}
 }
