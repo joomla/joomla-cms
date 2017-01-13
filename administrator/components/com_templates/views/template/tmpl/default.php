@@ -212,7 +212,7 @@ if ($this->type == 'font')
 		<?php if ($this->type == 'archive') : ?>
 			<legend><?php echo JText::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
-				<ul class="nav nav-stacked nav-list well">
+				<ul class="nav flex-column well">
 					<?php foreach ($this->archive as $file) : ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
@@ -346,7 +346,7 @@ if ($this->type == 'font')
 	</div>
 	<div class="col-md-4">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
-		<ul class="nav nav-list">
+		<ul class="nav flex-column">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['layouts'] as $layout) : ?>
 				<li>
