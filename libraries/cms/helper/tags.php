@@ -370,14 +370,26 @@ class JHelperTags extends JHelper
 	 */
 	public function deleteTagData(JTableInterface $table, $contentItemId)
 	{
-		$result = $this->unTagItem($contentItemId, $table);
+		// Make sure it is an array
+		$contentItemId = (array) $contentItemId;
 
-		/**
-		 * @var JTableCorecontent $ucmContentTable
-		 */
-		$ucmContentTable = JTable::getInstance('Corecontent');
+		// Set default values
+		$result = false;
+		$delete = false;
 
-		return $result && $ucmContentTable->deleteByContentId($contentItemId, $this->typeAlias);
+		foreach ($contentItemId as $itemId)
+		{
+			$result = $this->unTagItem($itemId, $table);
+
+			/**
+			 * @var JTableCorecontent $ucmContentTable
+			 */
+			$ucmContentTable = JTable::getInstance('Corecontent');
+
+			$delete = $ucmContentTable->deleteByContentId($itemId, $this->typeAlias);
+		}
+
+		return $result && $delete;
 	}
 
 	/**
