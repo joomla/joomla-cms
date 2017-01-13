@@ -1620,6 +1620,20 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	}
 
 	/**
+	 * Set if assets should be tracked.
+	 *
+	 * @param   boolean  $trackAssets  Set if the assets should be tracked.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setTrackAssets($trackAssets)
+	{
+		$this->_trackAssets = $trackAssets;
+	}
+
+	/**
 	 * Method to lock the database table for writing.
 	 *
 	 * @return  boolean  True on success.

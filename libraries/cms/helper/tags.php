@@ -827,7 +827,15 @@ class JHelperTags extends JHelper
 			{
 				// Process the tags
 				$data = $this->getRowData($table);
+
+				// Remove the asset ID as it is not ours
+				if (array_key_exists('asset_id', $data))
+				{
+					$data['asset_id'] = null;
+				}
+
 				$ucmContentTable = JTable::getInstance('Corecontent');
+				$ucmContentTable->setTrackAssets(false);
 
 				$ucm = new JUcmContent($table, $this->typeAlias);
 				$ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
