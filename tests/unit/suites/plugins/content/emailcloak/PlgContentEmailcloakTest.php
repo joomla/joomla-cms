@@ -364,7 +364,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 	 * @dataProvider  dataTestOnContentPrepare
 	 * @since         3.6.2
 	 */
-	public function testOnContentPrepareWithRowNoFinder($input, $expectedHTML = NULL, $expectedJs)
+	public function testOnContentPrepareWithRowNoFinder($input, $expectedHTML = null, $expectedJs)
 	{
 		$row = new \stdClass;
 		$row->text = $input;
