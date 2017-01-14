@@ -83,10 +83,10 @@ class PlgSystemFields extends JPlugin
 		foreach ($fieldsObjects as $field)
 		{
 			// Set the param on the fields variable
-			$fields[$field->unique_name] = key_exists($field->unique_name, $params) ? $params[$field->unique_name] : array();
+			$fields[$field->name] = key_exists($field->name, $params) ? $params[$field->name] : array();
 
 			// Remove it from the params array
-			unset($params[$field->unique_name]);
+			unset($params[$field->name]);
 		}
 
 		$item->_fields = $fields;
@@ -148,8 +148,8 @@ class PlgSystemFields extends JPlugin
 
 		foreach ($fieldsObjects as $field)
 		{
-			// Only save the fields with the unique_name from the data
-			if (!key_exists($field->unique_name, $fields))
+			// Only save the fields with the name from the data
+			if (!key_exists($field->name, $fields))
 			{
 				continue;
 			}
@@ -167,7 +167,7 @@ class PlgSystemFields extends JPlugin
 			}
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $fields[$field->unique_name]);
+			$model->setFieldValue($field->id, $context, $id, $fields[$field->name]);
 		}
 
 		return true;
@@ -527,10 +527,10 @@ class PlgSystemFields extends JPlugin
 					foreach ($fields as $field)
 					{
 						// Adding the instructions how to handle the text
-						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->unique_name);
+						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->name);
 
 						// Adding the field value as a field
-						$item->{$field->unique_name} = $field->value;
+						$item->{$field->name} = $field->value;
 					}
 				}
 			}

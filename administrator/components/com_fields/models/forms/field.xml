@@ -53,13 +53,12 @@
 		/>
 
 		<field
-			name="unique_name"
+			name="name"
 			type="text"
-			label="JFIELD_UNIQUE_NAME_LABEL"
-			description="JFIELD_UNIQUE_NAME_DESC"
-			hint="JFIELD_UNIQUE_NAME_PLACEHOLDER"
+			label="JFIELD_NAME_LABEL"
+			description="JFIELD_NAME_DESC"
+			hint="JFIELD_NAME_PLACEHOLDER"
 			size="60"
-			readonly="true"
 		/>
 
 		<field

@@ -99,16 +99,16 @@ class FieldsModelField extends JModelAdmin
 
 			if ($data['title'] == $origTable->title)
 			{
-				list($title, $unique_name) = $this->generateNewTitle($data['group_id'], $data['unique_name'], $data['title']);
+				list($title, $name) = $this->generateNewTitle($data['group_id'], $data['name'], $data['title']);
 				$data['title'] = $title;
 				$data['label'] = $title;
-				$data['unique_name'] = $unique_name;
+				$data['name'] = $name;
 			}
 			else
 			{
-				if ($data['unique_name'] == $origTable->unique_name)
+				if ($data['name'] == $origTable->name)
 				{
-					$data['unique_name'] = '';
+					$data['name'] = '';
 				}
 			}
 
@@ -268,30 +268,30 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Method to change the title & unique_name.
+	 * Method to change the title & name.
 	 *
 	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $unique_name  The unique_name.
+	 * @param   string   $name         The name.
 	 * @param   string   $title        The title.
 	 *
-	 * @return  array  Contains the modified title and unique_name.
+	 * @return  array  Contains the modified title and name.
 	 *
 	 * @since    3.7.0
 	 */
-	protected function generateNewTitle($category_id, $unique_name, $title)
+	protected function generateNewTitle($category_id, $name, $title)
 	{
-		// Alter the title & unique_name
+		// Alter the title & name
 		$table = $this->getTable();
 
-		while ($table->load(array('unique_name' => $unique_name)))
+		while ($table->load(array('name' => $name)))
 		{
 			$title = StringHelper::increment($title);
-			$unique_name = StringHelper::increment($unique_name, 'dash');
+			$name = StringHelper::increment($name, 'dash');
 		}
 
 		return array(
 			$title,
-			$unique_name,
+			$name,
 		);
 	}
 
