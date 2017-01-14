@@ -3,11 +3,13 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Prototype form model.
@@ -83,14 +85,17 @@ abstract class JModelForm extends JModelLegacy
 				return false;
 			}
 
+			$checkedOutField = $table->getColumnAlias('checked_out');
+			$checkedOutTimeField = $table->getColumnAlias('checked_out_time');
+
 			// If there is no checked_out or checked_out_time field, just return true.
-			if (!property_exists($table, 'checked_out') || !property_exists($table, 'checked_out_time'))
+			if (!property_exists($table, $checkedOutField) || !property_exists($table, $checkedOutTimeField))
 			{
 				return true;
 			}
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
@@ -98,7 +103,7 @@ abstract class JModelForm extends JModelLegacy
 			}
 
 			// Attempt to check the row in.
-			if (!$table->checkin($pk))
+			if (!$table->checkIn($pk))
 			{
 				$this->setError($table->getError());
 
@@ -133,8 +138,11 @@ abstract class JModelForm extends JModelLegacy
 				return false;
 			}
 
+			$checkedOutField = $table->getColumnAlias('checked_out');
+			$checkedOutTimeField = $table->getColumnAlias('checked_out_time');
+
 			// If there is no checked_out or checked_out_time field, just return true.
-			if (!property_exists($table, 'checked_out') || !property_exists($table, 'checked_out_time'))
+			if (!property_exists($table, $checkedOutField) || !property_exists($table, $checkedOutTimeField))
 			{
 				return true;
 			}
@@ -142,7 +150,7 @@ abstract class JModelForm extends JModelLegacy
 			$user = JFactory::getUser();
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
+			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id'))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 
@@ -150,7 +158,7 @@ abstract class JModelForm extends JModelLegacy
 			}
 
 			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $pk))
+			if (!$table->checkOut($user->get('id'), $pk))
 			{
 				$this->setError($table->getError());
 
@@ -190,7 +198,7 @@ abstract class JModelForm extends JModelLegacy
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
 		// Handle the optional arguments.
-		$options['control'] = JArrayHelper::getValue($options, 'control', false);
+		$options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
 
 		// Create a signature hash.
 		$hash = md5($source . serialize($options));

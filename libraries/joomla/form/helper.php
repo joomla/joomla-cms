@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -320,14 +320,15 @@ class JFormHelper
 	/**
 	 * Parse the show on conditions
 	 *
-	 * @param   string  $formControl  Form name.
 	 * @param   string  $showOn       Show on conditions.
+	 * @param   string  $formControl  Form name.
+	 * @param   string  $group        The dot-separated form group path.
 	 *
 	 * @return  array   Array with show on conditions.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function parseShowOnConditions($formControl, $showOn)
+	public static function parseShowOnConditions($showOn, $formControl = null, $group = null)
 	{
 		// Process the showon data.
 		if (!$showOn)
