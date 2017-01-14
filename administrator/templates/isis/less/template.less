@@ -706,11 +706,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 #assignment.tab-pane {
 	min-height: 500px;
 }
-/* Chosen Max Width */
-.chzn-container,
-.chzn-drop {
-	max-width: 100% !important;
-}
+
 @media (max-width: 979px) {
 	.navbar {
 		.nav {
@@ -812,12 +808,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	.btn-subhead {
 		display: block;
 		margin: 10px 0;
-	}
-
-	.chzn-container,
-	.chzn-container .chzn-results,
-	.chzn-container-single .chzn-drop {
-		width: 99% !important;
 	}
 
 	.subhead-collapse.collapse {
@@ -1214,9 +1204,14 @@ th .tooltip-inner {
 	margin-left: -1px;
 }
 
-.controls .btn-group.btn-group-yesno > .btn {
-	min-width: 84px;
-	padding: 2px 12px;
+.controls .btn-group.btn-group-yesno {
+	width: 100%;
+	max-width: 220px;
+	> .btn {
+		width: 50%;
+		min-width: 20px;
+		padding: 2px 0;
+	}
 }
 .img-preview > img {
 	max-height: 100%;
