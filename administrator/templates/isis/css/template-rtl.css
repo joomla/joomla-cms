@@ -8305,9 +8305,9 @@ a.grid_true {
 	display: block;
 	left: -16.5%;
 	width: 16.5%;
-	margin: -10px 0 36px -1px;
+	margin: -10px 0 0 -1px;
 	padding-top: 28px;
-	padding-bottom: 10px;
+	padding-bottom: 40px;
 	clear: both;
 	background-color: #F0F0F0;
 	border-bottom: 1px solid #dedede;
