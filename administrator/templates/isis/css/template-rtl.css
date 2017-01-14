@@ -7732,9 +7732,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	body {
 		padding-top: 30px;
 	}
-	.row-fluid [class*="span"] {
-		margin-left: 15px;
-	}
 	.row-fluid .modal-batch [class*="span"] {
 		margin-left: 0;
 	}
