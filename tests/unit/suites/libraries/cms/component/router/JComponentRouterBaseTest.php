@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,7 +53,7 @@ class JComponentRouterBaseTest extends TestCase
 		$this->assertEquals($app2, $object->app);
 
 		// The original $app is not the same object as $app2, thus we did not use JFactory
-		$this->assertFalse($app === $object->app);
+		$this->assertNotSame($app, $object->app);
 
 		/**
 		 * Test if the setup works when both an app and menu object is handed over

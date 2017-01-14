@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,6 +47,7 @@ class PlgEditorTinymce extends JPlugin
 	public function onInit()
 	{
 		JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
+		JHtml::_('behavior.core');
 		JHtml::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
 		JHtml::_('script', 'system/tinymce-init.min.js', array('version' => 'auto', 'relative' => true));
 	}
@@ -1244,7 +1245,7 @@ class PlgEditorTinymce extends JPlugin
 
 		// Set the selected skin
 		$skin = 'lightgray';
-		$side = $app->isAdmin() ? 'skin_admin' : 'skin';
+		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
 
 		if ((int) $this->params->get($side, 0) < count($skindirs))
 		{
@@ -1821,7 +1822,7 @@ class PlgEditorTinymce extends JPlugin
 								. '&' . JSession::getFormToken() . '=1'
 								. '&asset=image&format=json';
 
-			if ($app->isSite())
+			if ($app->isClient('site'))
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}

@@ -1867,3 +1867,23 @@ textarea.noResize {
 	    padding: 15px;
 	}
 }
+
+/* Remove unneeded space between label and field in vertical forms */
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+	padding-top: 0;
+
+	.form-horizontal & {
+		padding-top: 5px;
+	}
+}
+
+/* Align btn-group to label */
+.form-horizontal .controls > .radio.btn-group:first-child {
+	padding-top: 0;
+}
+
+/* Align btn-group-yesno to label */
+.form-horizontal .controls > .radio.btn-group-yesno:first-child {
+	padding-top: 2px;
+}

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -296,7 +296,7 @@
 
             // Disable already selected options
             $accessSelects.each(function () {
-                var $select = $(this), val = $select.val(), query = [],
+                var $select = $(this), val = $select.val() || [], query = [],
                     $options = $accessSelects.not(this).find('option');
 
                 for (var i = 0, l = val.length; i < l; i++ ) {

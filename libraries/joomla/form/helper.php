@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -315,5 +315,42 @@ class JFormHelper
 		}
 
 		return $paths;
+	}
+
+	/**
+	 * Parse the show on conditions
+	 *
+	 * @param   string  $formControl  Form name.
+	 * @param   string  $showOn       Show on conditions.
+	 *
+	 * @return  array   Array with show on conditions.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function parseShowOnConditions($formControl, $showOn)
+	{
+		// Process the showon data.
+		if (!$showOn)
+		{
+			return array();
+		}
+
+		$showOnData  = array();
+		$showOnParts = preg_split('#\[AND\]|\[OR\]#', $showOn);
+
+		foreach ($showOnParts as $showOnPart)
+		{
+			$compareEqual     = strpos($showOnPart, '!:') === false;
+			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
+
+			$showOnData[] = array(
+				'field'  => $formControl ? $formControl . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0],
+				'values' => explode(',', $showOnPartBlocks[1]),
+				'sign'   => $compareEqual === true ? '=' : '!=',
+				'op'     => preg_match('#^\[(AND|OR)\]#', $showOnPart, $matches) ? $matches[1] : '',
+			);
+		}
+
+		return $showOnData;
 	}
 }

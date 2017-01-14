@@ -7113,11 +7113,10 @@ div.modal.jviewport-width100 {
 	max-height: 800px;
 }
 body.modal-open {
-	overflow: hidden;
 	-ms-overflow-style: none;
 }
 .modal-header {
-	padding: 0 15px;
+	padding: 0 20px;
 	text-align: left;
 }
 .modal-header h3 {
@@ -7136,7 +7135,10 @@ body.modal-open {
 	padding: 0;
 	width: 100%;
 	height: auto;
-	overflow: hidden;
+}
+.modal-body .container-fluid {
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 .modal-footer {
 	clear: both;
@@ -8818,6 +8820,20 @@ textarea.noResize {
 	border: 1px solid #ddd;
 	border-radius: 3px;
 	padding: 15px;
+}
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+	padding-top: 0;
+}
+.form-horizontal .controls > .radio:first-child,
+.form-horizontal .controls > .checkbox:first-child {
+	padding-top: 5px;
+}
+.form-horizontal .controls > .radio.btn-group:first-child {
+	padding-top: 0;
+}
+.form-horizontal .controls > .radio.btn-group-yesno:first-child {
+	padding-top: 2px;
 }
 .pull-right {
 	float: left;

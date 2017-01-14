@@ -5,8 +5,9 @@
             type="usergrouplist"
             multiple="true"
             class="access-select"
-            label="JFIELD_ACCESS_LABEL"
-            description="JFIELD_ACCESS_DESC"
+            label="PLG_TINY_FIELD_SETACCESS_LABEL"
+            description="PLG_TINY_FIELD_SETACCESS_DESC"
+            labelclass="label label-success"
     />
 
     <field
