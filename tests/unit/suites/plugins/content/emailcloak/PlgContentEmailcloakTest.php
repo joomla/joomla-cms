@@ -356,15 +356,16 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 	/**
 	 * Tests PlgContentEmailcloakTest::_cloak()
 	 *
-	 * @param   string $input The text to test.
-	 * @param   string $expected The expectation of the filtering.
+	 * @param   string  $input         The text to test.
+	 * @param   string  $expectedHTML  The expectation of the filtering.
+	 * @param   string  $expectedJs    The expected javascript
 	 *
 	 * @return  void
 	 *
 	 * @dataProvider  dataTestOnContentPrepare
 	 * @since         3.6.2
 	 */
-	public function testOnContentPrepareWithRowNoFinder($input, $expectedHTML = null, $expectedJs)
+	public function testOnContentPrepareWithRowNoFinder($input, $expectedHTML, $expectedJs)
 	{
 		$row = new \stdClass;
 		$row->text = $input;
@@ -376,7 +377,6 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 		// Assert that we are getting a clean process
 		$res = $this->class->onContentPrepare('com_content.article', $row, $params);
 		$this->assertEquals(1, $res);
-
 
 		// Get the md5 hash
 		preg_match("/addy_text([0-9a-z]{32})/", $row->text, $output_array);
@@ -391,27 +391,18 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 			$cloakHTML = '<span id="cloak' . $hash . '">JLIB_HTML_CLOAKING</span>';
 			$this->assertContains($cloakHTML, $row->text);
 
+			// Need to do this to overcome whitespace comparison issue in phpunit for some reason...
+			preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $row->text, $innerJS);
+			$result = trim($innerJS[1][0]);
 
-			if ($expectedJs)
-			{
-				// Need to do this to overcome whitespace comparison issue in phpunit for some reason...
-				preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $row->text, $innerJS);
-				$result = trim($innerJS[1][0]);
+			preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $expectedJs, $innerJS);
+			$expected = trim($innerJS[1][0]);
 
-				preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $expectedJs, $innerJS);
-				$expected = trim($innerJS[1][0]);
+			// Assert the render is as the expected render with injected hash
+			$this->assertEquals(trim(str_replace('__HASH__', $hash, $expected)), $result);
 
-				// Assert the render is as the expected render with injected hash
-				$this->assertEquals(trim(str_replace('__HASH__', $hash, $expected)), $result);
-
-				if (null !== $expectedHTML)
-				{
-					$html = $this->convertJStoHTML($result, $hash);
-					$this->assertEquals($html, $expectedHTML);
-				}
-			}
-
-
+			$html = $this->convertJStoHTML($result, $hash);
+			$this->assertEquals($html, $expectedHTML);
 		}
 		else
 		{
