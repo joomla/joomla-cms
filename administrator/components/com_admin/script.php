@@ -1818,10 +1818,14 @@ class JoomlaInstallerScript
 			'com_fields',
 		);
 
+		$oldComponents = array(
+			'com_massmail',
+		);
+
+		$asset = JTable::getInstance('Asset')
+
 		foreach ($newComponents as $component)
 		{
-			/** @var JTableAsset $asset */
-			$asset = JTable::getInstance('Asset');
 
 			if ($asset->loadByName($component))
 			{
@@ -1843,6 +1847,22 @@ class JoomlaInstallerScript
 			}
 		}
 
+		foreach ($oldComponents as $component)
+		{
+		
+			if (!$asset->loadByName($component))
+			{
+				continue;
+			}
+
+			if (!$asset->delete($asset->id))
+			{
+				// Install failed, roll back changes
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
+
+				return false;
+			}
+		}
 		return true;
 	}
 
