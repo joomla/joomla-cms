@@ -320,8 +320,11 @@ class FieldsHelper
 			 * has changed
 			*/
 			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
-			JFactory::getDocument()->addScriptDeclaration(
-					"function categoryHasChanged(element){
+
+			// Preload spindle-wheel when we need to submit form due to category selector changed
+			JFactory::getDocument()->addScriptDeclaration("
+			function categoryHasChanged(element) {
+				Joomla.loadingLayer('show');
 				var cat = jQuery(element);
 				if (cat.val() == '" . $assignedCatids . "')return;
 				jQuery('input[name=task]').val('field.storeform');
@@ -329,6 +332,7 @@ class FieldsHelper
 				element.form.submit();
 			}
 			jQuery( document ).ready(function() {
+				Joomla.loadingLayer('load');
 				var formControl = '#" . $form->getFormControl() . "_catid';
 				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
 			});");
