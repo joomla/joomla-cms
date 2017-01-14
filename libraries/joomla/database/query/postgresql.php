@@ -123,23 +123,36 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 
 				if ($this->join)
 				{
-					$onWord = ' ON ';
+					$tmpFrom     = $this->from;
+					$tmpWhere    = $this->where ? clone $this->where : null;
+					$this->from  = null;
 
 					// Workaround for special case of JOIN with UPDATE
 					foreach ($this->join as $join)
 					{
 						$joinElem = $join->getElements();
 
-						$joinArray = explode($onWord, $joinElem[0]);
+						$joinArray = preg_split('/\sON\s/i', $joinElem[0], 2);
 
 						$this->from($joinArray[0]);
-						$this->where($joinArray[1]);
+
+						if (isset($joinArray[1]))
+						{
+							$this->where($joinArray[1]);
+						}
 					}
 
 					$query .= (string) $this->from;
-				}
 
-				if ($this->where)
+					if ($this->where)
+					{
+						$query .= (string) $this->where;
+					}
+
+					$this->from  = $tmpFrom;
+					$this->where = $tmpWhere;
+				}
+				elseif ($this->where)
 				{
 					$query .= (string) $this->where;
 				}
