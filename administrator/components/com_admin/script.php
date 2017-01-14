@@ -1822,7 +1822,7 @@ class JoomlaInstallerScript
 			'com_massmail',
 		);
 
-		$asset = JTable::getInstance('Asset')
+		$asset = JTable::getInstance('Asset');
 
 		foreach ($newComponents as $component)
 		{
