@@ -105,6 +105,16 @@ class FieldsTableField extends JTable
 
 		$this->name = str_replace(',', '-', $this->name);
 
+		// Verify that the name is unique
+		$table = JTable::getInstance('Field', 'FieldsTable', array('dbo' => $this->_db));
+
+		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
+		{
+			$this->setError(JText::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
+
+			return false;
+		}
+
 		if (empty($this->type))
 		{
 			$this->type = 'text';
