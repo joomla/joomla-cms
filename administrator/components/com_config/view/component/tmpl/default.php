@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,23 +56,14 @@ JFactory::getDocument()->addScriptDeclaration(
 
 			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
-					<?php $rel = ''; ?>
+					<?php $dataShowOn = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>
 						<?php JHtml::_('jquery.framework'); ?>
 						<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
-						<?php $showonarr = array(); ?>
-						<?php foreach (preg_split('%\[AND\]|\[OR\]%', $fieldSet->showon) as $showonfield) : ?>
-							<?php $showon = explode(':', $showonfield, 2); ?>
-							<?php $showonarr[] = array(
-								'field'  => $this->form->getFormControl() . '[' . $showon[0] . ']',
-								'values' => explode(',', $showon[1]),
-								'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $fieldSet->showon, $matches)) ? $matches[1] : ''
-							); ?>
-						<?php endforeach; ?>
-						<?php $rel = ' data-showon=\'' . json_encode($showonarr) . '\''; ?>
+						<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($this->formControl, $fieldSet->showon)) . '\''; ?>
 					<?php endif; ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
-					<li<?php echo $rel; ?>><a data-toggle="tab" href="#<?php echo $name; ?>"><?php echo JText::_($label); ?></a></li>
+					<li<?php echo $dataShowOn; ?>><a data-toggle="tab" href="#<?php echo $name; ?>"><?php echo JText::_($label); ?></a></li>
 				<?php endforeach; ?>
 			</ul><!-- /configTabs -->
 
@@ -85,25 +76,16 @@ JFactory::getDocument()->addScriptDeclaration(
 							</div>
 						<?php endif; ?>
 						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-							<?php $datashowon = ''; ?>
-							<?php if ($showonstring = $field->getAttribute('showon')) : ?>
+							<?php $dataShowOn = ''; ?>
+							<?php if ($field->showon) : ?>
 								<?php JHtml::_('jquery.framework'); ?>
 								<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
-								<?php $showonarr = array(); ?>
-								<?php foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield) : ?>
-									<?php $showon = explode(':', $showonfield, 2); ?>
-									<?php $showonarr[] = array(
-										'field'  => $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name') . ']',
-										'values' => explode(',', $showon[1]),
-										'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
-									); ?>
-								<?php endforeach; ?>
-								<?php $datashowon = ' data-showon=\'' . json_encode($showonarr) . '\''; ?>
+								<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->formControl, $field->showon)) . '\''; ?>
 							<?php endif; ?>
 							<?php if ($field->hidden) : ?>
 								<?php echo $field->input; ?>
 							<?php else : ?>
-								<div class="control-group"<?php echo $datashowon; ?>>
+								<div class="control-group"<?php echo $dataShowOn; ?>>
 									<?php if ($name != 'permissions') : ?>
 										<div class="control-label">
 											<?php echo $field->label; ?>

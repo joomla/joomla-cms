@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.6
  */
-class JFormFieldMedia extends JFormField implements JFormDomfieldinterface
+class JFormFieldMedia extends JFormField
 {
 	/**
 	 * The form field type.
@@ -266,44 +266,5 @@ class JFormFieldMedia extends JFormField implements JFormDomfieldinterface
 		);
 
 		return array_merge($data, $extraData);
-	}
-
-	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
-	 *
-	 * @param   stdClass    $field      The field.
-	 * @param   DOMElement  $fieldNode  The field node.
-	 * @param   JForm       $form       The form.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
-	{
-		$fieldNode->setAttribute('hide_default', 'true');
-
-		if ($field->fieldparams->get('home'))
-		{
-			$userName = JFactory::getUser()->username;
-			$root     = $field->fieldparams->get('directory');
-
-			if (!$root)
-			{
-				$root = 'images';
-			}
-
-			$directory = JPATH_ROOT . '/images/' . $root . '/' . $userName;
-
-			if (!JFolder::exists($directory))
-			{
-				JFolder::create($directory);
-			}
-
-			$fieldNode->setAttribute('directory', str_replace(JPATH_ROOT . '/images', '', $directory));
-		}
-
-		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }
