@@ -24,6 +24,15 @@
 	<exclude-pattern type="relative">configuration.php</exclude-pattern>
 	<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	<exclude-pattern type="relative">plugins/captcha/recaptcha/recaptchalib.php</exclude-pattern>
+	<!-- Exclude some test related files that don't actually include PHP code -->
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/model/stubs/barbaz.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts1/fringe/division.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts1/olivia.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts1/peter.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts2/fauxlivia.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts2/olivia.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/legacy/controller/stubs/component1/controller.json.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/legacy/controller/stubs/component2/controller.php</exclude-pattern>
 
 	<!-- Include all sniffs in an external standard directory -->
 	<rule ref="Generic.Files.EndFileNewline">
