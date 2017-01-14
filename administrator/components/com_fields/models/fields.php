@@ -241,6 +241,7 @@ class FieldsModelFields extends JModelList
 		$includeGroupState = !$app->isClient('administrator') ||
 			$app->input->get('option') != 'com_fields' ||
 			$app->input->get('view') != 'fields';
+
 		if (is_numeric($state))
 		{
 			$query->where('a.state = ' . (int) $state);

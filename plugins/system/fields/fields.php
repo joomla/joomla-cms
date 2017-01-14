@@ -41,7 +41,6 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentBeforeSave($context, $item, $isNew)
 	{
-
 		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
