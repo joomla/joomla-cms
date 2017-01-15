@@ -285,6 +285,7 @@ class JoomlaInstallerScript
 			array('component', 'com_postinstall', '', 1),
 			array('component', 'com_joomlaupdate', '', 1),
 			array('component', 'com_fields', '', 1),
+            array('component', 'com_associations', '', 1),
 
 			// Libraries
 			array('library', 'phputf8', '', 0),
@@ -1816,6 +1817,7 @@ class JoomlaInstallerScript
 			'com_ajax',
 			'com_postinstall',
 			'com_fields',
+			'com_associations',
 		);
 
 		foreach ($newComponents as $component)
