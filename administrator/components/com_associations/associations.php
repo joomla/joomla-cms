@@ -27,7 +27,7 @@ if ($itemtype !== '')
 
 	if (!AssociationsHelper::hasSupport($extensionName))
 	{
-		throw new Exception(JText::_('COM_ASSOCIATIONS_COMPONENT_NOT_SUPPORTED') . ' ' . $itemType->realcomponent, 404);
+		throw new Exception(JText::sprintf('COM_ASSOCIATIONS_COMPONENT_NOT_SUPPORTED', JText::_($extensionName)), 404);
 	}
 
 	if (!JFactory::getUser()->authorise('core.manage', $extensionName))
