@@ -1061,7 +1061,7 @@ CREATE TABLE [#__fields] (
 	[context] [nvarchar](255) NOT NULL DEFAULT '',
 	[group_id] [int] NOT NULL DEFAULT 0,
 	[title] [nvarchar](255) NOT NULL DEFAULT '',
-	[alias] [nvarchar](255) NOT NULL DEFAULT '',
+	[name] [nvarchar](255) NOT NULL DEFAULT '',
 	[label] [nvarchar](255) NOT NULL DEFAULT '',
 	[default_value] [nvarchar](max) NOT NULL DEFAULT '',
 	[type] [nvarchar](255) NOT NULL DEFAULT '',
@@ -1114,7 +1114,7 @@ WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, O
 
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__fields_categories] ( 
+CREATE TABLE [#__fields_categories] (
 	[field_id] [int] NOT NULL DEFAULT 0,
 	[category_id] [int] NOT NULL DEFAULT 0,
 CONSTRAINT [PK_#__fields_categories_id] PRIMARY KEY CLUSTERED(
