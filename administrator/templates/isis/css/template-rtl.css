@@ -6955,6 +6955,10 @@ div.modal.jviewport-width100 {
 .chzn-container .chzn-drop {
 	border-radius: 0 0 3px 3px;
 }
+.control-group .chzn-container {
+	width: 100% !important;
+	max-width: 220px;
+}
 .chzn-container-single .chzn-single {
 	background-color: #fff;
 	background-clip: inherit;
@@ -7106,6 +7110,9 @@ div.modal.jviewport-width100 {
 .js-stools .js-stools-container-bar .js-stools-field-filter .chzn-container {
 	margin: 1px 0;
 	padding: 0 !important;
+}
+#jform_tags_chzn.chzn-container {
+	max-width: 440px;
 }
 .CodeMirror {
 	height: calc(100vh - 400px);
@@ -7708,10 +7715,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 #assignment.tab-pane {
 	min-height: 500px;
 }
-.chzn-container,
-.chzn-drop {
-	max-width: 100% !important;
-}
 @media (max-width: 979px) {
 	.navbar .nav {
 		font-size: 13px;
@@ -7728,9 +7731,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 @media (min-width: 768px) {
 	body {
 		padding-top: 30px;
-	}
-	.row-fluid [class*="span"] {
-		margin-left: 15px;
 	}
 	.row-fluid .modal-batch [class*="span"] {
 		margin-left: 0;
@@ -7789,11 +7789,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	.btn-subhead {
 		display: block;
 		margin: 10px 0;
-	}
-	.chzn-container,
-	.chzn-container .chzn-results,
-	.chzn-container-single .chzn-drop {
-		width: 99% !important;
 	}
 	.subhead-collapse.collapse {
 		height: 0;
@@ -8115,9 +8110,14 @@ th .tooltip-inner {
 	min-width: 50px;
 	margin-left: -1px;
 }
+.controls .btn-group.btn-group-yesno {
+	width: 100%;
+	max-width: 220px;
+}
 .controls .btn-group.btn-group-yesno > .btn {
-	min-width: 84px;
-	padding: 2px 12px;
+	width: 50%;
+	min-width: 20px;
+	padding: 2px 0;
 }
 .img-preview > img {
 	max-height: 100%;
@@ -8307,7 +8307,7 @@ a.grid_true {
 	width: 16.5%;
 	margin: -10px 0 0 -1px;
 	padding-top: 28px;
-	padding-bottom: 10px;
+	padding-bottom: 40px;
 	clear: both;
 	background-color: #F0F0F0;
 	border-bottom: 1px solid #dedede;
@@ -9623,8 +9623,13 @@ a.grid_true {
 	border-right: 0px;
 }
 .j-sidebar-container {
+	position: absolute;
+	display: block;
 	left: auto;
 	right: -16.5%;
+	padding-top: 28px;
+	padding-bottom: 40px;
+	clear: both;
 	margin: -10px -1px 0 0;
 	border-right: 0;
 	border-left: 1px solid #d3d3d3;
@@ -9650,6 +9655,10 @@ a.grid_true {
 .j-toggle-button-wrapper.j-toggle-visible {
 	right: auto;
 	left: 10px;
+}
+.j-sidebar-container .icon-folder-2 {
+	line-height: 15px;
+	padding-left: 0;
 }
 #system-message-container,
 #j-main-container {
