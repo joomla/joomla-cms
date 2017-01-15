@@ -138,6 +138,8 @@ class TagsRouter extends JComponentRouterBase
 		{
 			$vars['view'] = $segments[0];
 			$vars['id']   = $segments[$count - 1];
+			unset($segments[0]);
+			unset($segments[$count - 1]);
 
 			return $vars;
 		}
