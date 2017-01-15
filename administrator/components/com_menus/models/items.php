@@ -273,7 +273,46 @@ class MenusModelItems extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.id, mt.title, l.sef');
+				->group(
+					$db->quoteName(
+						array(
+							'a.id',
+							'a.menutype',
+							'a.title',
+							'a.alias',
+							'a.note',
+							'a.path',
+							'a.link',
+							'a.type',
+							'a.parent_id',
+							'a.level',
+							'a.published',
+							'a.component_id',
+							'a.checked_out',
+							'a.checked_out_time',
+							'a.browserNav',
+							'a.access',
+							'a.img',
+							'a.template_style_id',
+							'a.params',
+							'a.lft',
+							'a.rgt',
+							'a.home',
+							'a.language',
+							'a.client_id',
+							'l.title',
+							'l.image',
+							'l.sef',
+							'u.name',
+							'c.element',
+							'ag.title',
+							'e.enabled',
+							'e.name',
+							'mt.id',
+							'mt.title',
+						)
+					)
+				);
 		}
 
 		// Join over the extensions
