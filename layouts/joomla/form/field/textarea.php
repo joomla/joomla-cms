@@ -57,13 +57,13 @@ $attributes = array(
 	$rows ?: '',
 	!empty($class) ? 'class="' . $class . '"' : '',
 	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
-	$disabled ? 'disabled' : '',
+	$disabled ? 'disabled="disabled"' : '',
 	$readonly ? 'readonly' : '',
-	$onchange ? 'onchange="' . $onchange . '"' : '',
+	$onchange ? 'onchange="readonly"="' . $onchange . '"' : '',
 	$onclick ? 'onclick="' . $onclick . '"' : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required="required" aria-required="true"' : '',
 	$autocomplete,
-	$autofocus ? 'autofocus' : '',
+	$autofocus ? 'autofocus="autofocus"' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
 	$maxlength ? 'maxlength="' . $maxlength . '"' : ''
 

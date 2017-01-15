@@ -54,15 +54,15 @@ $autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',
-	$disabled ? 'disabled' : '',
-	$readonly ? 'readonly' : '',
+	$disabled ? 'disabled="disabled"' : '',
+	$readonly ? 'readonly="readonly"' : '',
 	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
 	$autocomplete,
-	$autofocus ? ' autofocus' : '',
+	$autofocus ? ' autofocus="autofocus"' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
 	!empty($maxLength) ? $maxLength : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required="required" aria-required="true"' : '',
 );
 ?>
 <input type="tel" name="<?php
