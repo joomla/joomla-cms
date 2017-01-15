@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 $params     = new Registry;
-$dispatcher = JEventDispatcher::getInstance();
-$dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_img, &$params));
+JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_img, &$params));
 ?>
 
 <li class="imgOutline thumbnail height-80 width-80 center">
@@ -29,4 +28,4 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 	</a>
 </li>
 <?php
-$dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_img, &$params));
+JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_media.file', &$this->_tmp_img, &$params));

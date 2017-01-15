@@ -14,6 +14,15 @@
 		/>
 
 		<field
+			name="cache_path"
+			type="text"
+			label="COM_CONFIG_FIELD_CACHE_PATH_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_PATH_DESC"
+			showon="cache_handler:file"
+			filter="string"
+			size="50" />
+
+		<field
 			name="memcache_persist"
 			type="radio"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,10 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 $params     = new Registry;
-$dispatcher = JEventDispatcher::getInstance();
 ?>
 
 <?php foreach ($this->images as $i => $img) : ?>
-	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$img, &$params)); ?>
+	<?php JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_media.file', &$img, &$params)); ?>
 	<li class="imgOutline thumbnail center">
 
 		<?php if ($this->canDelete):?>
@@ -42,5 +41,5 @@ $dispatcher = JEventDispatcher::getInstance();
 			</a>
 		</div>
 	</li>
-	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$img, &$params)); ?>
+	<?php JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_media.file', &$img, &$params)); ?>
 <?php endforeach; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -357,6 +357,9 @@ class JControllerForm extends JControllerLegacy
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
+		// Do not cache the response to this, its a redirect, and mod_expires and google chrome browser bugs cache it forever!
+		JFactory::getApplication()->allowCache(false);
+
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$cid   = $this->input->post->get('cid', array(), 'array');

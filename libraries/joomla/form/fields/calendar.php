@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
+class JFormFieldCalendar extends JFormField
 {
 	/**
 	 * The form field type.
@@ -163,12 +163,12 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$this->maxlength    = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
 			$this->format       = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
 			$this->filter       = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
-			$this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : "true";
-			$this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : "false";
-			$this->showtime     = (string) $this->element['showtime'] ? (string) $this->element['showtime'] : "true";
-			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : "true";
+			$this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : 'true';
+			$this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : 'false';
+			$this->showtime     = (string) $this->element['showtime'] ? (string) $this->element['showtime'] : 'true';
+			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : 'true';
 			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
-			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : "false";
+			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
 			$this->minyear      = (string) $this->element['minyear'] ? (string) $this->element['minyear'] : null;
 			$this->maxyear      = (string) $this->element['maxyear'] ? (string) $this->element['maxyear'] : null;
 		}
@@ -289,12 +289,12 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			'maxLength'    => $this->maxlength,
 			'format'       => $this->format,
 			'filter'       => $this->filter,
-			'todaybutton'  => ($this->todaybutton === "true") ? 1 : 0,
-			'weeknumbers'  => ($this->weeknumbers === "true") ? 1 : 0,
-			'showtime'     => ($this->showtime === "true") ? 1 : 0,
-			'filltable'    => ($this->filltable === "true") ? 1 : 0,
+			'todaybutton'  => ($this->todaybutton === 'true') ? 1 : 0,
+			'weeknumbers'  => ($this->weeknumbers === 'true') ? 1 : 0,
+			'showtime'     => ($this->showtime === 'true') ? 1 : 0,
+			'filltable'    => ($this->filltable === 'true') ? 1 : 0,
 			'timeformat'   => $this->timeformat,
-			'singleheader' => ($this->singleheader === "true") ? 1 : 0,
+			'singleheader' => ($this->singleheader === 'true') ? 1 : 0,
 			'helperPath'   => $helperPath,
 			'localesPath'  => $localesPath,
 			'minYear'      => $this->minyear,

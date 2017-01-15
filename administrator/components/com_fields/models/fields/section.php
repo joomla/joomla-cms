@@ -3,17 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
+JFormHelper::loadFieldClass('list');
 
 /**
  * Fields Section
  *
  * @since  3.7.0
  */
-class JFormFieldSection extends JFormAbstractlist
+class JFormFieldSection extends JFormFieldList
 {
 	public $type = 'Section';
 

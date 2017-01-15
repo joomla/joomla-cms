@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -386,7 +386,7 @@ class FieldsModelFields extends JModelList
 		$query->select('title AS text, id AS value, state');
 		$query->from('#__fields_groups');
 		$query->where('state IN (0,1)');
-		$query->where('context = ' . $db->quote($this->state->get('filter.component')));
+		$query->where('context = ' . $db->quote($this->state->get('filter.context')));
 		$query->where('access IN (' . implode(',', $viewlevels) . ')');
 
 		$db->setQuery($query);

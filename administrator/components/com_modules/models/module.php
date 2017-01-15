@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -425,8 +425,8 @@ class ModulesModelModule extends JModelAdmin
 					->from($db->quoteName('#__modules_menu'))
 					->where($db->quoteName('moduleid') . ' = ' . (int) $pk);
 
-				$this->_db->setQuery($query);
-				$rows = $this->_db->loadColumn();
+				$db->setQuery($query);
+				$rows = $db->loadColumn();
 
 				foreach ($rows as $menuid)
 				{
@@ -447,11 +447,11 @@ class ModulesModelModule extends JModelAdmin
 				->columns($db->quoteName(array('moduleid', 'menuid')))
 				->values($tuples);
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
 			try
 			{
-				$this->_db->execute();
+				$db->execute();
 			}
 			catch (RuntimeException $e)
 			{
@@ -685,8 +685,7 @@ class ModulesModelModule extends JModelAdmin
 				}
 				else
 				{
-					$app = JFactory::getApplication();
-					$app->redirect(JRoute::_('index.php?option=com_modules&view=modules', false));
+					JFactory::getApplication()->redirect(JRoute::_('index.php?option=com_modules&view=modules', false));
 
 					return false;
 				}
@@ -1014,18 +1013,16 @@ class ModulesModelModule extends JModelAdmin
 				// Get the sign of the number.
 				$sign = $assignment < 0 ? -1 : 1;
 
-				// Preprocess the assigned array.
-				$tuples = array();
+				$query->clear()
+					->insert($db->quoteName('#__modules_menu'))
+					->columns($db->quoteName(array('moduleid', 'menuid')));
 
 				foreach ($data['assigned'] as &$pk)
 				{
-					$tuples[] = '(' . (int) $table->id . ',' . (int) $pk * $sign . ')';
+					$query->values((int) $table->id . ',' . (int) $pk * $sign);
 				}
 
-				$this->_db->setQuery(
-					'INSERT INTO #__modules_menu (moduleid, menuid) VALUES ' .
-					implode(',', $tuples)
-				);
+				$db->setQuery($query);
 
 				try
 				{
@@ -1044,7 +1041,7 @@ class ModulesModelModule extends JModelAdmin
 		JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
 
 		// Compute the extension id of this module in case the controller wants it.
-		$query = $db->getQuery(true)
+		$query->clear()
 			->select('extension_id')
 			->from('#__extensions AS e')
 			->join('LEFT', '#__modules AS m ON e.element = m.module')

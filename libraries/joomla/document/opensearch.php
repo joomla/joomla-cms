@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ class JDocumentOpensearch extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
-	private $_shortName = "";
+	private $_shortName = '';
 
 	/**
 	 * Images collection
@@ -82,13 +82,13 @@ class JDocumentOpensearch extends JDocument
 				$path = str_replace('\\', '/', $path);
 				$favicon = new JOpenSearchImage;
 
-				if ($path == "")
+				if ($path == '')
 				{
 					$favicon->data = JUri::base() . 'favicon.ico';
 				}
 				else
 				{
-					if ($path[0] == "/")
+					if ($path[0] == '/')
 					{
 						$path = substr($path, 1);
 					}
@@ -278,7 +278,7 @@ class JOpenSearchImage
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = "";
+	public $type = '';
 
 	/**
 	 * URL of the image or the image as base64 encoded value
@@ -288,7 +288,7 @@ class JOpenSearchImage
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $data = "";
+	public $data = '';
 
 	/**
 	 * The image's width
