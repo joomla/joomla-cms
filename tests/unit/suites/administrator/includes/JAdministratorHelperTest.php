@@ -29,7 +29,6 @@ class JAdministratorHelperTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		// $this->object = new JErrorPage;
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
