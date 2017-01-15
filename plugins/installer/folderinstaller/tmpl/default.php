@@ -21,7 +21,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		// do field validation 
 		if (form.install_directory.value == "")
 		{
-			alert("' . JText::_('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH') . '");
+			alert("' . JText::_('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH', true) . '");
 		}
 		else
 		{

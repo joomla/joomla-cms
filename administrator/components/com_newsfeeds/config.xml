@@ -424,6 +424,25 @@
 		</field>
 	</fieldset>
 
+	<fieldset name="integration"
+		label="JGLOBAL_INTEGRATION_LABEL"
+		description="COM_NEWSFEEDS_CONFIG_INTEGRATION_SETTINGS_DESC"
+	>
+
+		<field
+			name="sef_ids"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SEF_NOIDS_LABEL"
+			description="JGLOBAL_SEF_NOIDS_DESC"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+	</fieldset>
+
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"

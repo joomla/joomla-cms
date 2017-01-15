@@ -25,6 +25,7 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 	<input type="hidden" name="task" value="setlanguage" />
+	<input type="hidden" name="format" value="json" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
@@ -54,6 +55,9 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 		<div class="span6">
+			<div class="center">
+				<h4><?php echo JText::_('INSTL_SUPER_USER_TITLE'); ?></h4>
+			</div>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('admin_email'); ?>
@@ -116,5 +120,6 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 	<input type="hidden" name="task" value="site" />
+	<input type="hidden" name="format" value="json" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

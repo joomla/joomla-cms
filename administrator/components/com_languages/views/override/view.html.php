@@ -58,7 +58,7 @@ class LanguagesViewOverride extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors));
+			throw new JViewGenericdataexception(implode("\n", $errors));
 		}
 
 		// Check whether the cache has to be refreshed.

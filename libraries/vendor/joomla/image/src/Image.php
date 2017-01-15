@@ -138,6 +138,25 @@ class Image implements LoggerAwareInterface
 	}
 
 	/**
+	 * Get the image resource handle
+	 *
+	 * @return  resource
+	 *
+	 * @since   1.3.0
+	 * @throws  \LogicException if an image has not been loaded into the instance
+	 */
+	public function getHandle()
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new \LogicException('No valid image was loaded.');
+		}
+
+		return $this->handle;
+	}
+
+	/**
 	 * Get the logger.
 	 *
 	 * @return  LoggerInterface
@@ -418,12 +437,6 @@ class Image implements LoggerAwareInterface
 	 */
 	public function crop($width, $height, $left = null, $top = null, $createNew = true)
 	{
-		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
-			throw new \LogicException('No valid image was loaded.');
-		}
-
 		// Sanitize width.
 		$width = $this->sanitizeWidth($width, $height);
 
@@ -457,18 +470,18 @@ class Image implements LoggerAwareInterface
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			$rgba = imagecolorsforindex($this->handle, imagecolortransparent($this->handle));
+			$rgba = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
 			$color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
 
-			imagecopyresized($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
+			imagecopyresized($handle, $this->getHandle(), 0, 0, $left, $top, $width, $height, $width, $height);
 		}
 		else
 		{
-			imagecopyresampled($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
+			imagecopyresampled($handle, $this->getHandle(), 0, 0, $left, $top, $width, $height, $width, $height);
 		}
 
 		// If we are cropping to a new image, create a new Image object.
@@ -527,13 +540,7 @@ class Image implements LoggerAwareInterface
 	 */
 	public function getHeight()
 	{
-		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
-			throw new \LogicException('No valid image was loaded.');
-		}
-
-		return imagesy($this->handle);
+		return imagesy($this->getHandle());
 	}
 
 	/**
@@ -546,13 +553,7 @@ class Image implements LoggerAwareInterface
 	 */
 	public function getWidth()
 	{
-		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
-			throw new \LogicException('No valid image was loaded.');
-		}
-
-		return imagesx($this->handle);
+		return imagesx($this->getHandle());
 	}
 
 	/**
@@ -595,13 +596,7 @@ class Image implements LoggerAwareInterface
 	 */
 	public function isTransparent()
 	{
-		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
-			throw new \LogicException('No valid image was loaded.');
-		}
-
-		return (imagecolortransparent($this->handle) >= 0);
+		return imagecolortransparent($this->getHandle()) >= 0;
 	}
 
 	/**
@@ -737,12 +732,6 @@ class Image implements LoggerAwareInterface
 	 */
 	public function resize($width, $height, $createNew = true, $scaleMethod = self::SCALE_INSIDE)
 	{
-		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
-			throw new \LogicException('No valid image was loaded.');
-		}
-
 		// Sanitize width.
 		$width = $this->sanitizeWidth($width, $height);
 
@@ -768,8 +757,8 @@ class Image implements LoggerAwareInterface
 			// Make image transparent, otherwise canvas outside initial image would default to black
 			if (!$this->isTransparent())
 			{
-				$transparency = imagecolorallocatealpha($this->handle, 0, 0, 0, 127);
-				imagecolortransparent($this->handle, $transparency);
+				$transparency = imagecolorallocatealpha($this->getHandle(), 0, 0, 0, 127);
+				imagecolortransparent($this->getHandle(), $transparency);
 			}
 		}
 		else
@@ -784,7 +773,7 @@ class Image implements LoggerAwareInterface
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			$rgba = imagecolorsforindex($this->handle, imagecolortransparent($this->handle));
+			$rgba = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
 			$color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
@@ -794,7 +783,7 @@ class Image implements LoggerAwareInterface
 
 		// Use resampling for better quality
 		imagecopyresampled(
-			$handle, $this->handle,
+			$handle, $this->getHandle(),
 			$offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight()
 		);
 
@@ -862,12 +851,6 @@ class Image implements LoggerAwareInterface
 	 */
 	public function rotate($angle, $background = -1, $createNew = true)
 	{
-		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
-			throw new \LogicException('No valid image was loaded.');
-		}
-
 		// Sanitize input
 		$angle = (float) $angle;
 
@@ -885,7 +868,7 @@ class Image implements LoggerAwareInterface
 		}
 
 		// Copy the image
-		imagecopy($handle, $this->handle, 0, 0, 0, 0, $this->getWidth(), $this->getHeight());
+		imagecopy($handle, $this->getHandle(), 0, 0, 0, 0, $this->getWidth(), $this->getHeight());
 
 		// Rotate the image
 		$handle = imagerotate($handle, $angle, $background);
@@ -921,17 +904,11 @@ class Image implements LoggerAwareInterface
 	 */
 	public function flip($mode, $createNew = true)
 	{
-		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
-			throw new \LogicException('No valid image was loaded.');
-		}
-
 		// Create the new truecolor image handle.
 		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
 
 		// Copy the image
-		imagecopy($handle, $this->handle, 0, 0, 0, 0, $this->getWidth(), $this->getHeight());
+		imagecopy($handle, $this->getHandle(), 0, 0, 0, 0, $this->getWidth(), $this->getHeight());
 
 		// Flip the image
 		if (!imageflip($handle, $mode))
@@ -958,6 +935,36 @@ class Image implements LoggerAwareInterface
 	}
 
 	/**
+	 * Watermark the image
+	 *
+	 * @param   Image    $watermark     The Image object containing the watermark graphic
+	 * @param   integer  $transparency  The transparency to use for the watermark graphic
+	 * @param   integer  $bottomMargin  The margin from the bottom of this image
+	 * @param   integer  $rightMargin   The margin from the right side of this image
+	 *
+	 * @return  Image
+	 *
+	 * @since   1.3.0
+	 * @see     https://secure.php.net/manual/en/image.examples-watermark.php
+	 */
+	public function watermark(Image $watermark, $transparency = 50, $bottomMargin = 0, $rightMargin = 0)
+	{
+		imagecopymerge(
+			$this->getHandle(),
+			$watermark->getHandle(),
+			$this->getWidth() - $watermark->getWidth() - $rightMargin,
+			$this->getHeight() - $watermark->getHeight() - $bottomMargin,
+			0,
+			0,
+			$watermark->getWidth(),
+			$watermark->getHeight(),
+			$transparency
+		);
+
+		return $this;
+	}
+
+	/**
 	 * Method to write the current image out to a file or output directly.
 	 *
 	 * @param   mixed    $path     The filesystem path to save the image.
@@ -974,25 +981,19 @@ class Image implements LoggerAwareInterface
 	 */
 	public function toFile($path, $type = IMAGETYPE_JPEG, array $options = array())
 	{
-		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
-			throw new \LogicException('No valid image was loaded.');
-		}
-
 		switch ($type)
 		{
 			case IMAGETYPE_GIF:
-				return imagegif($this->handle, $path);
+				return imagegif($this->getHandle(), $path);
 				break;
 
 			case IMAGETYPE_PNG:
-				return imagepng($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
+				return imagepng($this->getHandle(), $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
 				break;
 		}
 
 		// Case IMAGETYPE_JPEG & default
-		return imagejpeg($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
+		return imagejpeg($this->getHandle(), $path, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
 	}
 
 	/**
@@ -1021,7 +1022,7 @@ class Image implements LoggerAwareInterface
 		}
 
 		// Instantiate the filter object.
-		$instance = new $className($this->handle);
+		$instance = new $className($this->getHandle());
 
 		// Verify that the filter type is valid.
 		if (!($instance instanceof ImageFilter))
@@ -1172,7 +1173,7 @@ class Image implements LoggerAwareInterface
 	{
 		if ($this->isLoaded())
 		{
-			return imagedestroy($this->handle);
+			return imagedestroy($this->getHandle());
 		}
 
 		return false;

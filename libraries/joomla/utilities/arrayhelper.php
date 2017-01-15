@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -395,11 +396,11 @@ abstract class JArrayHelper
 			}
 			elseif ($caseSensitive)
 			{
-				$cmp = JString::strcmp($va, $vb, $locale);
+				$cmp = StringHelper::strcmp($va, $vb, $locale);
 			}
 			else
 			{
-				$cmp = JString::strcasecmp($va, $vb, $locale);
+				$cmp = StringHelper::strcasecmp($va, $vb, $locale);
 			}
 
 			if ($cmp > 0)

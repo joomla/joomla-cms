@@ -82,11 +82,11 @@ elseif ($input->get('module'))
 			$class = 'Mod' . ucfirst($module) . 'Helper';
 		}
 
-		$method = $input->get('method') ? $input->get('method') : 'get';
+		$method = $input->get('method') ?: 'get';
 
 		if (is_file($helperFile))
 		{
-			require_once $helperFile;
+			JLoader::register($class, $helperFile);
 
 			if (method_exists($class, $method . 'Ajax'))
 			{

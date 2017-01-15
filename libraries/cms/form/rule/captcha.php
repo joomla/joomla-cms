@@ -35,11 +35,12 @@ class JFormRuleCaptcha extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
-		$plugin = JFactory::getConfig()->get('captcha');
+		$app    = JFactory::getApplication();
+		$plugin = $app->get('captcha');
 
-		if (JFactory::getApplication()->isSite())
+		if ($app->isClient('site'))
 		{
-			$plugin = JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+			$plugin = $app->getParams()->get('captcha', $plugin);
 		}
 
 		$namespace = $element['namespace'] ?: $form->getName();

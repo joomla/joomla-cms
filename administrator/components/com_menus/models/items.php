@@ -76,6 +76,20 @@ class MenusModelItems extends JModelList
 		$app = JFactory::getApplication('administrator');
 		$user = JFactory::getUser();
 
+		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+
+		// Adjust the context to support modal layouts.
+		if ($layout = $app->input->get('layout'))
+		{
+			$this->context .= '.' . $layout;
+		}
+
+		// Adjust the context to support forced languages.
+		if ($forcedLanguage)
+		{
+			$this->context .= '.' . $forcedLanguage;
+		}
+
 		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
 		$this->setState('filter.parent_id', $parentId);
 
@@ -149,6 +163,12 @@ class MenusModelItems extends JModelList
 
 		// List state information.
 		parent::populateState($ordering, $direction);
+
+		// Force a language.
+		if (!empty($forcedLanguage))
+		{
+			$this->setState('filter.language', $forcedLanguage);
+		}
 	}
 
 	/**
@@ -213,20 +233,20 @@ class MenusModelItems extends JModelList
 		$query->select(
 			'CASE ' .
 				' WHEN a.type = ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
-				' WHEN a.type = ' . $db->quote('url') . 'AND a.published != -2 THEN a.published+2 ' .
-				' WHEN a.type = ' . $db->quote('url') . 'AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('alias') . 'AND a.published != -2 THEN a.published+4 ' .
-				' WHEN a.type = ' . $db->quote('alias') . 'AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('separator') . 'AND a.published != -2 THEN a.published+6 ' .
-				' WHEN a.type = ' . $db->quote('separator') . 'AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('heading') . 'AND a.published != -2 THEN a.published+8 ' .
-				' WHEN a.type = ' . $db->quote('heading') . 'AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('url') . ' AND a.published != -2 THEN a.published+2 ' .
+				' WHEN a.type = ' . $db->quote('url') . ' AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('alias') . ' AND a.published != -2 THEN a.published+4 ' .
+				' WHEN a.type = ' . $db->quote('alias') . ' AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('separator') . ' AND a.published != -2 THEN a.published+6 ' .
+				' WHEN a.type = ' . $db->quote('separator') . ' AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published != -2 THEN a.published+8 ' .
+				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published = -2 THEN a.published-1 ' .
 			' END AS published '
 		);
 		$query->from($db->quoteName('#__menu') . ' AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
+		$query->select('l.title AS language_title, l.image AS language_image, l.sef AS language_sef')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users.
@@ -242,7 +262,7 @@ class MenusModelItems extends JModelList
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the menu types.
-		$query->select($db->quoteName('mt.title', 'menutype_title'))
+		$query->select($db->quoteName(array('mt.id', 'mt.title'), array('menutype_id', 'menutype_title')))
 			->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->qn('mt.menutype') . ' = ' . $db->qn('a.menutype'));
 
 		// Join over the associations.
@@ -253,7 +273,7 @@ class MenusModelItems extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.title');
+				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.id, mt.title, l.sef');
 		}
 
 		// Join over the extensions
@@ -330,7 +350,10 @@ class MenusModelItems extends JModelList
 				}
 			}
 
-			$query->where('a.menutype IN(' . implode(',', $types) . ')');
+			if (!empty($types))
+			{
+				$query->where('a.menutype IN(' . implode(',', $types) . ')');
+			}
 		}
 		// Default behavior => load all items from a specific menu
 		elseif (strlen($menuType))
@@ -352,8 +375,12 @@ class MenusModelItems extends JModelList
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+
+			if (!empty($groups))
+			{
+				$query->where('a.access IN (' . implode(',', $groups) . ')');
+			}
 		}
 
 		// Filter on the level.

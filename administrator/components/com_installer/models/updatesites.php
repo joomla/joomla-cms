@@ -254,7 +254,7 @@ class InstallerModelUpdatesites extends InstallerModel
 				{
 					foreach (glob($clientPath . '/' . $extensionGroupFolderName . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $extensionFolderPath)
 					{
-						array_push($pathsToSearch, $extensionFolderPath);
+						$pathsToSearch[] = $extensionFolderPath;
 					}
 				}
 
@@ -265,7 +265,7 @@ class InstallerModelUpdatesites extends InstallerModel
 					{
 						foreach (glob($pluginGroupFolderPath . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $extensionFolderPath)
 						{
-							array_push($pathsToSearch, $extensionFolderPath);
+							$pathsToSearch[] = $extensionFolderPath;
 						}
 					}
 				}

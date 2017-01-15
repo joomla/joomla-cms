@@ -3,17 +3,7 @@
 	<fieldset
 		name="cache"
 		label="COM_CONFIG_CACHE_SETTINGS_LABEL">
-		<field
-			name="caching"
-			type="list"
-			default="2"
-			label="COM_CONFIG_FIELD_CACHE_LABEL"
-			description="COM_CONFIG_FIELD_CACHE_DESC"
-			filter="integer">
-			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
-			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
-			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
-		</field>
+
 		<field
 			name="cache_handler"
 			type="cachehandler"
@@ -21,44 +11,18 @@
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
 			filter="word"
-			showon="caching:1,2">
-		</field>
-
-		<field
-			name="cache_platformprefix"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
-			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
-			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
-			filter="integer"
-			showon="caching:1,2">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
-
-		<field
-			name="cachetime"
-			type="number"
-			min="1"
-			default="15"
-			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
-			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
-			required="true"
-			filter="integer"
-			validate="number"
-			showon="caching:1,2"
-			size="6" />
+		/>
 
 		<field
 			name="memcache_persist"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
-			showon="caching:1,2[AND]cache_handler:memcache"
-			filter="integer">
+			class="btn-group btn-group-yesno"
+			default="1"
+			showon="cache_handler:memcache"
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -66,12 +30,13 @@
 		<field
 			name="memcache_compress"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
-			showon="caching:1,2[AND]cache_handler:memcache"
-			filter="integer">
+			class="btn-group btn-group-yesno"
+			default="0"
+			showon="cache_handler:memcache"
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -79,32 +44,35 @@
 		<field
 			name="memcache_server_host"
 			type="text"
-			default="localhost"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
-			showon="caching:1,2[AND]cache_handler:memcache"
+			default="localhost"
+			showon="cache_handler:memcache"
 			filter="string"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="memcache_server_port"
 			type="text"
-			default="11211"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
-			showon="caching:1,2[AND]cache_handler:memcache"
+			default="11211"
+			showon="cache_handler:memcache"
 			filter="integer"
-			size="5" />
+			size="5"
+		/>
 
 		<field
 			name="memcached_persist"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
-			showon="caching:1,2[AND]cache_handler:memcached"
-			filter="integer">
+			class="btn-group btn-group-yesno"
+			default="1"
+			showon="cache_handler:memcached"
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -112,12 +80,13 @@
 		<field
 			name="memcached_compress"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
-			showon="caching:1,2[AND]cache_handler:memcached"
-			filter="integer">
+			class="btn-group btn-group-yesno"
+			default="0"
+			showon="cache_handler:memcached"
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -125,32 +94,35 @@
 		<field
 			name="memcached_server_host"
 			type="text"
-			default="localhost"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
-			showon="caching:1,2[AND]cache_handler:memcached"
+			default="localhost"
+			showon="cache_handler:memcached"
 			filter="string"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="memcached_server_port"
 			type="text"
-			default="11211"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
-			showon="caching:1,2[AND]cache_handler:memcached"
+			default="11211"
+			showon="cache_handler:memcached"
 			filter="integer"
-			size="5" />
+			size="5"
+		/>
 
 		<field
 			name="redis_persist"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
 			filter="integer"
-			showon="caching:1,2[AND]cache_handler:redis">
+			showon="cache_handler:redis"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -158,22 +130,24 @@
 		<field
 			name="redis_server_host"
 			type="text"
-			default="localhost"
 			label="COM_CONFIG_FIELD_REDIS_HOST_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_HOST_DESC"
+			default="localhost"
 			filter="string"
-			showon="caching:1,2[AND]cache_handler:redis"
-			size="25" />
+			showon="cache_handler:redis"
+			size="25"
+		/>
 
 		<field
 			name="redis_server_port"
 			type="text"
-			default="6379"
 			label="COM_CONFIG_FIELD_REDIS_PORT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PORT_DESC"
+			default="6379"
 			filter="integer"
-			showon="caching:1,2[AND]cache_handler:redis"
-			size="5" />
+			showon="cache_handler:redis"
+			size="5"
+		/>
 
 		<field
 			name="redis_server_auth"
@@ -181,19 +155,61 @@
 			label="COM_CONFIG_FIELD_REDIS_AUTH_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_AUTH_DESC"
 			filter="raw"
-			showon="caching:1,2[AND]cache_handler:redis"
+			showon="cache_handler:redis"
 			autocomplete="off"
-			size="30" />
+			size="30"
+		/>
 
 		<field
 			name="redis_server_db"
 			type="text"
-			default="0"
 			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_DB_DESC"
+			default="0"
 			filter="integer"
-			showon="caching:1,2[AND]cache_handler:redis"
-			size="4" />
+			showon="cache_handler:redis"
+			size="4"
+		/>
+
+		<field
+			name="cachetime"
+			type="number"
+			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
+			min="1"
+			default="15"
+			required="true"
+			filter="integer"
+			validate="number"
+			size="6"
+		/>
+
+		<field
+			name="cache_platformprefix"
+			type="radio"
+			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
+			filter="integer"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="caching"
+			type="list"
+			label="COM_CONFIG_FIELD_CACHE_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_DESC"
+			default="2"
+			filter="integer"
+			>
+			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
+			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
+			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset
@@ -454,6 +470,27 @@
 			type="text"
 			label="COM_CONFIG_FIELD_MAIL_FROM_NAME_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_FROM_NAME_DESC"
+			filter="string"
+			size="30"
+			showon="mailonline:1"
+		/>
+
+		<field
+			name="replyto"
+			type="email"
+			label="COM_CONFIG_FIELD_MAIL_REPLY_TO_EMAIL_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_REPLY_TO_EMAIL_DESC"
+			filter="string"
+			size="30"
+			validate="email"
+			showon="mailonline:1"
+		/>
+
+		<field
+			name="replytoname"
+			type="text"
+			label="COM_CONFIG_FIELD_MAIL_REPLY_TO_NAME_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_REPLY_TO_NAME_DESC"
 			filter="string"
 			size="30"
 			showon="mailonline:1"
@@ -746,17 +783,18 @@
 	<fieldset
 		name="session"
 		label="CONFIG_SESSION_SETTINGS_LABEL">
+
 		<field
-			name="lifetime"
-			type="number"
-			min="1"
-			default="15"
-			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
-			description="COM_CONFIG_FIELD_SESSION_TIME_DESC"
-			required="true"
-			filter="integer"
-			validate="number"
-			size="6" />
+			name="shared_session"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
+			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 
 		<field
 			name="session_handler"
@@ -764,7 +802,8 @@
 			default="filesystem"
 			label="COM_CONFIG_FIELD_SESSION_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_HANDLER_DESC"
-			filter="word" />
+			filter="word"
+		/>
 
 		<field
 			name="session_filesystem_path"
@@ -778,42 +817,73 @@
 		<field
 			name="session_memcache_server_host"
 			type="text"
-			default="localhost"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
+			default="localhost"
 			filter="string"
 			showon="session_handler:memcache"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="session_memcache_server_port"
 			type="text"
-			default="11211"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
+			default="11211"
 			filter="integer"
 			showon="session_handler:memcache"
-			size="5" />
+			size="5"
+		/>
 
 		<field
 			name="session_memcached_server_host"
 			type="text"
-			default="localhost"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
+			default="localhost"
 			filter="string"
 			showon="session_handler:memcached"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="session_memcached_server_port"
 			type="text"
-			default="11211"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
+			default="11211"
 			filter="integer"
 			showon="session_handler:memcached"
-			size="5" />
+			size="5"
+		/>
+
+		<field
+			name="lifetime"
+			type="number"
+			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
+			description="COM_CONFIG_FIELD_SESSION_TIME_DESC"
+			min="1"
+			default="15"
+			required="true"
+			filter="integer"
+			validate="number"
+			size="6"
+		/>
+
+		<field
+			name="shared_session"
+			type="radio"
+			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
+			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
+			filter="integer"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset
@@ -832,7 +902,7 @@
 		<field
 			name="offline"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="btn-group btn-group-yesno btn-group-reversed"
 			default="0"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_OFFLINE_DESC"
@@ -1053,6 +1123,10 @@
 				name="core.edit.own"
 				title="JACTION_EDITOWN"
 				description="COM_CONFIG_ACTION_EDITOWN_DESC" />
+			<action
+				name="core.edit.value"
+				title="JACTION_EDITVALUE"
+				description="COM_CONFIG_ACTION_EDITVALUE_DESC" />
 		</field>
 
 	</fieldset>

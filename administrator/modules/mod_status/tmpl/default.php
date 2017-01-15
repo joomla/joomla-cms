@@ -39,24 +39,40 @@ if ($params->get('show_viewadmin', 0))
 		. '</div>';
 }
 
-// Print the frontend logged in  users.
-if ($params->get('show_loggedin_users', 1))
+// Print logged in user count based on the shared session state
+if (JFactory::getConfig()->get('shared_session', '0'))
 {
-	$output[] = '<div class="btn-group loggedin-users">'
-		. '<span class="badge">' . $online_num . '</span>'
-		. JText::plural('MOD_STATUS_USERS', $online_num)
-		. '<span class="btn-group separator"></span>'
-		. '</div>';
+	// Print the frontend logged in  users.
+	if ($params->get('show_loggedin_users', 1))
+	{
+		$output[] = '<div class="btn-group loggedin-users">'
+			. '<span class="badge">' . $total_users . '</span>'
+			. JText::plural('MOD_STATUS_TOTAL_USERS', $total_users)
+			. '<span class="btn-group separator"></span>'
+			. '</div>';
+	}
 }
-
-// Print the backend logged in users.
-if ($params->get('show_loggedin_users_admin', 1))
+else
 {
-	$output[] = '<div class="btn-group backloggedin-users">'
-		. '<span class="badge">' . $count . '</span>'
-		. JText::plural('MOD_STATUS_BACKEND_USERS', $count)
-		. '<span class="btn-group separator"></span>'
-		. '</div>';
+	// Print the frontend logged in  users.
+	if ($params->get('show_loggedin_users', 1))
+	{
+		$output[] = '<div class="btn-group loggedin-users">'
+			. '<span class="badge">' . $online_num . '</span>'
+			. JText::plural('MOD_STATUS_USERS', $online_num)
+			. '<span class="btn-group separator"></span>'
+			. '</div>';
+	}
+
+	// Print the backend logged in users.
+	if ($params->get('show_loggedin_users_admin', 1))
+	{
+		$output[] = '<div class="btn-group backloggedin-users">'
+			. '<span class="badge">' . $count . '</span>'
+			. JText::plural('MOD_STATUS_BACKEND_USERS', $count)
+			. '<span class="btn-group separator"></span>'
+			. '</div>';
+	}
 }
 
 //  Print the inbox message.

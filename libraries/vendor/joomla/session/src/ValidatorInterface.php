@@ -8,8 +8,6 @@
 
 namespace Joomla\Session;
 
-use Joomla\Session\Exception\InvalidSessionException;
-
 /**
  * Interface for validating a part of the session
  *
@@ -18,14 +16,14 @@ use Joomla\Session\Exception\InvalidSessionException;
 interface ValidatorInterface
 {
 	/**
-	 * Validates the session throwing a SessionValidationException if there is an invalid property in the exception
+	 * Validates the session
 	 *
-	 * @param   boolean  $restart  Reactivate session
+	 * @param   boolean  $restart  Flag if the session should be restarted
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  InvalidSessionException
+	 * @throws  Exception\InvalidSessionException
 	 */
 	public function validate($restart = false);
 }

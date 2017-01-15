@@ -204,7 +204,7 @@ class DatabaseHandler implements HandlerInterface
 	 */
 	public static function isSupported()
 	{
-		return interface_exists('Joomla\\Database\\DatabaseInterface');
+		return interface_exists(DatabaseInterface::class);
 	}
 
 	/**

@@ -33,6 +33,11 @@ class JDocumentHtmlTest extends TestCase
 				'relation' => 'Start',
 				'relType' => 'rel',
 				'attribs' => array()
+			),
+			'index.php?option=com_test' => array(
+				'relation' => 'End',
+				'relType' => 'rel',
+				'attribs' => array()
 			)
 		),
 		'styleSheets' => array(
@@ -58,9 +63,9 @@ class JDocumentHtmlTest extends TestCase
 		'custom' => array(
 			"<script>var html5 = true;</script>"
 		),
-	    'scriptText' => array(
-		    'JYES'
-	    )
+		'scriptText' => array(
+			'JYES'
+		)
 	);
 
 	/**
@@ -163,7 +168,7 @@ class JDocumentHtmlTest extends TestCase
 	 */
 	public function testTheDefaultReturnForIsHtml5()
 	{
-		$this->assertNull($this->object->isHtml5());
+		$this->assertTrue($this->object->isHtml5());
 	}
 
 	/**

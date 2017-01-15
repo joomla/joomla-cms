@@ -30,10 +30,12 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'getTemplate',
 			'getLanguageFilter',
 			'initialiseApp',
+			'isClient',
 			'isAdmin',
 			'isSite',
 			'getUserState',
-			'getUserStateFromRequest'
+			'getUserStateFromRequest',
+			'setUserState',
 		);
 
 		return array_merge($methods, parent::getMethods());
@@ -85,23 +87,24 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			$_SERVER['HTTP_HOST'] = 'localhost';
 		}
 
-		$methods = self::getMethods();
-
-		if (isset($options))
 		// Create the mock.
-		$mockObject = $test->getMock(
+		$mockObject = $test->getMockForAbstractClass(
+			// Original class name.
 			'JApplicationCms',
-			$methods,
 			// Constructor arguments.
 			$constructor,
 			// Mock class name.
 			'',
 			// Call original constructor.
-			true
+			true,
+			// Call original clone.
+			true,
+			// Call autoload.
+			true,
+			// Mocked methods.
+			self::getMethods()
 		);
 
-		$mockObject = self::addBehaviours($test, $mockObject, $options);
-
-		return $mockObject;
+		return self::addBehaviours($test, $mockObject, $options);
 	}
 }

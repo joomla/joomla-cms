@@ -123,6 +123,37 @@
 			/>
 
 		<field
+			name="show_associations"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
+			description="JGLOBAL_SHOW_ASSOCIATIONS_DESC"
+			default="0"
+		>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+
+		<field
+			name="flags"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_FLAG_LABEL"
+			description="JGLOBAL_SHOW_FLAG_DESC"
+			default="1"
+			showon="show_associations:1"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="spacer3"
+			type="spacer"
+			hr="true"
+			/>
+
+		<field
 			name="show_author"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -314,6 +345,18 @@
 	</fieldset>
 	<fieldset name="editinglayout" label="COM_CONTENT_EDITING_LAYOUT"
 				description="COM_CONTENT_CONFIG_EDITOR_LAYOUT">
+		<field
+			name="captcha"
+			type="plugins"
+			label="COM_CONTENT_FIELD_CAPTCHA_LABEL"
+			description="COM_CONTENT_FIELD_CAPTCHA_DESC"
+			default="0"
+			folder="captcha"
+			filter="cmd"
+			>
+			<option value="">JOPTION_USE_DEFAULT</option>
+			<option value="0">JOPTION_DO_NOT_USE</option>
+		</field>
 		<field
 			name="show_publishing_options"
 			type="radio"
@@ -762,7 +805,7 @@
 			type="text"
 			size="15"
 			label="JGLOBAL_DATE_FORMAT_LABEL"
-			description="JGLOBAL_DATE_FORMAT_DESC" 
+			description="JGLOBAL_DATE_FORMAT_DESC"
 			showon="list_show_date:created,modified,published"
 		/>
 
@@ -784,6 +827,24 @@
 			description="JGLOBAL_LIST_AUTHOR_DESC">
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
+		</field>
+
+		<field name="list_show_votes"
+			type="list"
+			default="0"
+			label="JGLOBAL_LIST_VOTES_LABEL"
+			description="JGLOBAL_LIST_VOTES_DESC">
+				<option value="1" requires="vote">JSHOW</option>
+				<option value="0" requires="vote">JHIDE</option>
+		</field>
+
+		<field name="list_show_ratings"
+			type="list"
+			default="0"
+			label="JGLOBAL_LIST_RATINGS_LABEL"
+			description="JGLOBAL_LIST_RATINGS_DESC">
+				<option value="1" requires="vote">JSHOW</option>
+				<option value="0" requires="vote">JHIDE</option>
 		</field>
 
 	</fieldset>
@@ -830,6 +891,14 @@
 				value="rhits">JGLOBAL_LEAST_HITS</option>
 			<option
 				value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
+			<option
+				value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+			<option
+				value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+			<option
+				value="rank" requires="vote"> JGLOBAL_RATINGS_DESC</option>
+			<option
+				value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
 		</field>
 
 		<field name="order_date" type="list"
@@ -917,6 +986,30 @@
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+		</field>
+
+		<field
+			name="sef_ids"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SEF_NOIDS_LABEL"
+			description="JGLOBAL_SEF_NOIDS_DESC"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="custom_fields_enable"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 	</fieldset>

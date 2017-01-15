@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Helper for mod_menu
  *
@@ -38,7 +40,7 @@ abstract class ModMenuHelper
 			->where('(b.client_id = 0 OR b.client_id IS NULL)');
 
 		// Sqlsrv change
-		$query->group('a.id, a.menutype, a.description, a.title, b.menutype,b.language,l.image,l.sef,l.title_native');
+		$query->group('a.id, a.menutype, a.description, a.title, a.asset_id, b.menutype,b.language,l.image,l.sef,l.title_native');
 
 		$db->setQuery($query);
 
@@ -49,7 +51,7 @@ abstract class ModMenuHelper
 		catch (RuntimeException $e)
 		{
 			$result = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED') . ' ' . $e->getMessage(), 'error');
 		}
 
 		return $result;
@@ -149,8 +151,6 @@ abstract class ModMenuHelper
 			}
 		}
 
-		$result = JArrayHelper::sortObjects($result, 'text', 1, false, true);
-
-		return $result;
+		return ArrayHelper::sortObjects($result, 'text', 1, false, true);
 	}
 }

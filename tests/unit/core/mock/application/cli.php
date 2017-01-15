@@ -48,23 +48,24 @@ class TestMockApplicationCli extends TestMockApplicationBase
 	 */
 	public static function create($test, $options = array())
 	{
-		// Collect all the relevant methods in JApplicationCli.
-		$methods = self::getMethods();
-
 		// Create the mock.
-		$mockObject = $test->getMock(
+		$mockObject = $test->getMockForAbstractClass(
+			// Original class name.
 			'JApplicationCli',
-			$methods,
 			// Constructor arguments.
-			array(),
+			$constructor,
 			// Mock class name.
 			'',
 			// Call original constructor.
-			true
+			true,
+			// Call original clone.
+			true,
+			// Call autoload.
+			true,
+			// Mocked methods.
+			self::getMethods()
 		);
 
-		$mockObject = self::addBehaviours($test, $mockObject, $options);
-
-		return $mockObject;
+		return self::addBehaviours($test, $mockObject, $options);
 	}
 }

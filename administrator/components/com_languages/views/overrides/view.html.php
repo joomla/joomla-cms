@@ -77,7 +77,7 @@ class LanguagesViewOverrides extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors));
+			throw new JViewGenericdataexception(implode("\n", $errors));
 		}
 
 		$this->addToolbar();

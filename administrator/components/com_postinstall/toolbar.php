@@ -25,7 +25,7 @@ class PostinstallToolbar extends FOFToolbar
 	 */
 	public function onMessages()
 	{
-		JToolBarHelper::preferences($this->config['option'], 550, 875);
+		JToolbarHelper::preferences($this->config['option'], 550, 875);
 		JToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
 	}
 }

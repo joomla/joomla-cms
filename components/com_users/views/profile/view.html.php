@@ -95,9 +95,11 @@ class UsersViewProfile extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$user = JFactory::getUser();
+
 		// Get the view data.
 		$this->data	            = $this->get('Data');
-		$this->form	            = $this->get('Form');
+		$this->form	            = $this->getModel()->getForm(new JObject(array('id' => $user->id)));
 		$this->state            = $this->get('State');
 		$this->params           = $this->state->get('params');
 		$this->twofactorform    = $this->get('Twofactorform');
@@ -108,13 +110,10 @@ class UsersViewProfile extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// View also takes responsibility for checking if the user logged in with remember me.
-		$user = JFactory::getUser();
 		$cookieLogin = $user->get('cookieLogin');
 
 		if (!empty($cookieLogin))
@@ -131,13 +130,16 @@ class UsersViewProfile extends JViewLegacy
 		// Check if a user was found.
 		if (!$this->data->id)
 		{
-			JError::raiseError(404, JText::_('JERROR_USERS_PROFILE_NOT_FOUND'));
-
-			return false;
+			throw new Exception(JText::_('JERROR_USERS_PROFILE_NOT_FOUND'), 404);
 		}
 
 		$this->data->tags = new JHelperTags;
 		$this->data->tags->getItemTags('com_users.user.', $this->data->id);
+
+		JPluginHelper::importPlugin('content');
+		$this->data->text = '';
+		JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
+		unset($this->data->text);
 
 		// Check for layout override
 		$active = JFactory::getApplication()->getMenu()->getActive();

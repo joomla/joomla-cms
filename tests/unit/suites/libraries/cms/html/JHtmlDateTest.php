@@ -26,7 +26,7 @@ class JHtmlDateTest extends PHPUnit_Framework_TestCase
 	public function dataTestRelative()
 	{
 		$now1 = new JDate('now');
-		sleep(1);
+		usleep(1);
 		$now2 = new JDate('now');
 
 		return array(

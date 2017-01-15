@@ -40,8 +40,7 @@ class BannersController extends JControllerLegacy
 		if ($view == 'banner' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.banner', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_banners&view=banners', false));
 
 			return false;
@@ -49,8 +48,7 @@ class BannersController extends JControllerLegacy
 		elseif ($view == 'client' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.client', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_banners&view=clients', false));
 
 			return false;

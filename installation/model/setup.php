@@ -106,7 +106,7 @@ class InstallationModelSetup extends JModelBase
 	 *
 	 * @param   string  $page  The view being checked.
 	 *
-	 * @return  array  Validated form data.
+	 * @return  array|boolean  Array with the validated form data or boolean false on a validation failure.
 	 *
 	 * @since   3.1
 	 */
@@ -127,18 +127,13 @@ class InstallationModelSetup extends JModelBase
 		// Check for validation errors.
 		if ($return === false)
 		{
-			// Redirect back to the previous page.
-			$r = new stdClass;
-			$r->view = $page;
-			JFactory::getApplication()->sendJsonResponse($r);
+			return false;
 		}
 
 		unset($return['admin_password2']);
 
 		// Store the options in the session.
-		$vars = $this->storeOptions($return);
-
-		return $vars;
+		return $this->storeOptions($return);
 	}
 
 	/**
@@ -273,14 +268,14 @@ class InstallationModelSetup extends JModelBase
 			$option = new stdClass;
 			$option->label  = JText::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
 			$option->state  = (strtolower(ini_get('mbstring.language')) == 'neutral');
-			$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEMBLANGNOTDEFAULT');
+			$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMBLANGNOTDEFAULT');
 			$options[] = $option;
 
 			// Check for MB function overload.
 			$option = new stdClass;
 			$option->label  = JText::_('INSTL_MB_STRING_OVERLOAD_OFF');
 			$option->state  = (ini_get('mbstring.func_overload') == 0);
-			$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEMBSTRINGOVERLOAD');
+			$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMBSTRINGOVERLOAD');
 			$options[] = $option;
 		}
 
@@ -312,7 +307,7 @@ class InstallationModelSetup extends JModelBase
 		$option = new stdClass;
 		$option->label  = JText::sprintf('INSTL_WRITABLE', 'configuration.php');
 		$option->state  = $writable;
-		$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
+		$option->notice = $option->state ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;
 
 		return $options;

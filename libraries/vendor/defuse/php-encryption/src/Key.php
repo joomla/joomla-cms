@@ -14,9 +14,9 @@ final class Key
     /**
      * Creates new random key.
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
-     * @return Defuse\Crypto\Key
+     * @return Key
      */
     public static function createNewRandomKey()
     {
@@ -26,12 +26,12 @@ final class Key
     /**
      * Loads a Key from its encoded form.
      *
-     * @param string $savedKeyString
+     * @param string $saved_key_string
      *
-     * @throws \Defuse\Crypto\Exception\BadFormatException
-     * @throws \Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\BadFormatException
+     * @throws Ex\EnvironmentIsBrokenException
      *
-     * @return \Defuse\Crypto\Key
+     * @return Key
      */
     public static function loadFromAsciiSafeString($saved_key_string)
     {
@@ -42,7 +42,7 @@ final class Key
     /**
      * Encodes the Key into a string of printable ASCII characters.
      *
-     * @throws \Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
      */
@@ -69,7 +69,7 @@ final class Key
      *
      * @param string $bytes
      *
-     * @throws \Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      */
     private function __construct($bytes)
     {
@@ -81,17 +81,4 @@ final class Key
         $this->key_bytes = $bytes;
     }
 
-    /**
-     * INTERNAL USE ONLY: Constructs a Key object from a string of raw bytes.
-     *
-     * @param $bytes
-     *
-     * @return \Defuse\Crypto\Key
-     *
-     * @internal
-     */
-    public static function loadFromRawBytesForTestingPurposesOnlyInsecure($bytes)
-    {
-        return new Key($bytes);
-    }
 }

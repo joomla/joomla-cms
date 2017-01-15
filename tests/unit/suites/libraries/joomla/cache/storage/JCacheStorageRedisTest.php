@@ -27,6 +27,11 @@ class JCacheStorageRedisTest extends TestCaseCache
 
 		parent::setUp();
 
+		// Mock the returns on JApplicationCms::get() to use the default values
+		JFactory::$application->expects($this->any())
+			->method('get')
+			->willReturnArgument(1);
+
 		$this->handler = new JCacheStorageRedis;
 
 		// This adapter doesn't throw an Exception on a connection failure so we'll have to use Reflection to get into the class to check it

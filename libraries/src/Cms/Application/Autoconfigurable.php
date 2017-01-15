@@ -8,6 +8,8 @@
 
 namespace Joomla\Cms\Application;
 
+use Joomla\Registry\Registry;
+
 /**
  * Trait for application classes which can automatically retrieve the global configuration
  *
@@ -59,6 +61,18 @@ trait Autoconfigurable
 	}
 
 	/**
+	 * Retrieve the application configuration object.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   4.0
+	 */
+	public function getConfig()
+	{
+		return $this->config;
+	}
+
+	/**
 	 * Load an object or array into the application configuration object.
 	 *
 	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
@@ -72,11 +86,11 @@ trait Autoconfigurable
 		// Load the data into the configuration object.
 		if (is_array($data))
 		{
-			$this->config->loadArray($data);
+			$this->getConfig()->loadArray($data);
 		}
 		elseif (is_object($data))
 		{
-			$this->config->loadObject($data);
+			$this->getConfig()->loadObject($data);
 		}
 
 		return $this;

@@ -91,8 +91,7 @@ abstract class JPlugin implements DispatcherAwareInterface
 			}
 			else
 			{
-				$this->params = new Registry;
-				$this->params->loadString($config['params']);
+				$this->params = new Registry($config['params']);
 			}
 		}
 
@@ -258,9 +257,6 @@ abstract class JPlugin implements DispatcherAwareInterface
 				// Get the event arguments
 				$arguments = $event->getArguments();
 
-				// Map the associative argument array to a numeric indexed array for efficiency (see the switch statement below).
-				$arguments = array_values($arguments);
-
 				// Extract any old results; they must not be part of the method call.
 				$allResults = [];
 
@@ -270,6 +266,9 @@ abstract class JPlugin implements DispatcherAwareInterface
 
 					unset($arguments['result']);
 				}
+
+				// Map the associative argument array to a numeric indexed array for efficiency (see the switch statement below).
+				$arguments = array_values($arguments);
 
 				/**
 				 * Calling the method directly is faster than using call_user_func_array, hence this argument

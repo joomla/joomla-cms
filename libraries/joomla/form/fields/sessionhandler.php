@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 use Joomla\Session\Session;
 
 /**
@@ -19,7 +17,7 @@ use Joomla\Session\Session;
  *
  * @since  11.1
  */
-class JFormFieldSessionHandler extends JFormFieldList
+class JFormFieldSessionHandler extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

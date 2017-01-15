@@ -103,7 +103,7 @@ defined('_JEXEC') or die;
 		</span>
 	</dd>
 <?php endif; ?>
-<?php if ($this->contact->mobile && $this->params->get('show_mobile')) :?>
+<?php if ($this->contact->mobile && $this->params->get('show_mobile')) : ?>
 	<dt>
 		<span class="<?php echo $this->params->get('marker_class'); ?>">
 			<?php echo $this->params->get('marker_mobile'); ?>

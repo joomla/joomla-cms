@@ -30,11 +30,11 @@ class AdminViewSysinfo extends JViewLegacy
 		// Access check.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new JUserAuthorizationexception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		header('MIME-Version: 1.0');
-		header('Content-Disposition: attachment; filename="systeminfo-' . date("c") . '.json"');
+		header('Content-Disposition: attachment; filename="systeminfo-' . date('c') . '.json"');
 		header('Content-Transfer-Encoding: binary');
 
 		$data = $this->getLayoutData();

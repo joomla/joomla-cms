@@ -44,7 +44,6 @@ matrix:
         - redis-server
       env: INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" # Disabled items that currently do not work in travis-ci hhvm
   allow_failures:
-    - php: 7.1
     - php: hhvm
     - node_js: 6.1
 

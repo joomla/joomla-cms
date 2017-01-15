@@ -39,6 +39,7 @@ defined('_JEXEC') or die;
 			</tr>
 		</tfoot>
 	</table>
+	<input type="hidden" name="format" value="json" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 

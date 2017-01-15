@@ -15,7 +15,7 @@ final class KeyProtectedByPassword
      *
      * @param string $password
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return KeyProtectedByPassword
      */
@@ -40,7 +40,7 @@ final class KeyProtectedByPassword
      *
      * @param string $saved_key_string
      *
-     * @throws Defuse\Crypto\Exception\BadFormatException
+     * @throws Ex\BadFormatException
      *
      * @return KeyProtectedByPassword
      */
@@ -57,7 +57,7 @@ final class KeyProtectedByPassword
      * Encodes the KeyProtectedByPassword into a string of printable ASCII
      * characters.
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
      */
@@ -73,8 +73,8 @@ final class KeyProtectedByPassword
      * Decrypts the protected key, returning an unprotected Key object that can
      * be used for encryption and decryption.
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\WrongKeyOrModifiedCiphertextException
      *
      * @return Key
      */

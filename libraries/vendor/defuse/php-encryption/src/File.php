@@ -13,8 +13,8 @@ final class File
      * @param string $outputFilename
      * @param Key    $key
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\IOException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\IOException
      */
     public static function encryptFile($inputFilename, $outputFilename, Key $key)
     {
@@ -33,8 +33,8 @@ final class File
      * @param string $outputFilename
      * @param string $password
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\IOException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\IOException
      */
     public static function encryptFileWithPassword($inputFilename, $outputFilename, $password)
     {
@@ -52,9 +52,9 @@ final class File
      * @param string $outputFilename
      * @param Key    $key
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\IOException
-     * @throws Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\IOException
+     * @throws Ex\WrongKeyOrModifiedCiphertextException
      */
     public static function decryptFile($inputFilename, $outputFilename, Key $key)
     {
@@ -73,9 +73,9 @@ final class File
      * @param string $outputFilename
      * @param string $password
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\IOException
-     * @throws Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\IOException
+     * @throws Ex\WrongKeyOrModifiedCiphertextException
      */
     public static function decryptFileWithPassword($inputFilename, $outputFilename, $password)
     {
@@ -94,8 +94,8 @@ final class File
      * @param resource $outputHandle
      * @param Key      $key
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\WrongKeyOrModifiedCiphertextException
      */
     public static function encryptResource($inputHandle, $outputHandle, Key $key)
     {
@@ -115,9 +115,9 @@ final class File
      * @param resource $outputHandle
      * @param string   $password
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\IOException
-     * @throws Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\IOException
+     * @throws Ex\WrongKeyOrModifiedCiphertextException
      */
     public static function encryptResourceWithPassword($inputHandle, $outputHandle, $password)
     {
@@ -136,9 +136,9 @@ final class File
      * @param resource $outputHandle
      * @param Key      $key
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\IOException
-     * @throws Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\IOException
+     * @throws Ex\WrongKeyOrModifiedCiphertextException
      */
     public static function decryptResource($inputHandle, $outputHandle, Key $key)
     {
@@ -157,9 +157,9 @@ final class File
      * @param resource $outputHandle
      * @param string   $password
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\IOException
-     * @throws Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\IOException
+     * @throws Ex\WrongKeyOrModifiedCiphertextException
      */
     public static function decryptResourceWithPassword($inputHandle, $outputHandle, $password)
     {
@@ -177,8 +177,8 @@ final class File
      * @param string        $outputFilename
      * @param KeyOrPassword $secret
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\IOException
+     * @throws Ex\CryptoException
+     * @throws Ex\IOException
      */
     private static function encryptFileInternal($inputFilename, $outputFilename, KeyOrPassword $secret)
     {
@@ -190,8 +190,10 @@ final class File
                 self::getLastErrorMessage()
             );
         }
-        /* This call can fail, but the only consequence is performance. */
-        \stream_set_read_buffer($if, 0);
+        if (\is_callable('\\stream_set_read_buffer')) {
+            /* This call can fail, but the only consequence is performance. */
+            \stream_set_read_buffer($if, 0);
+        }
 
         /* Open the output file. */
         $of = @\fopen($outputFilename, 'wb');
@@ -202,8 +204,10 @@ final class File
                 self::getLastErrorMessage()
             );
         }
-        /* This call can fail, but the only consequence is performance. */
-        \stream_set_write_buffer($of, 0);
+        if (\is_callable('\\stream_set_write_buffer')) {
+            /* This call can fail, but the only consequence is performance. */
+            \stream_set_write_buffer($of, 0);
+        }
 
         /* Perform the encryption. */
         try {
@@ -237,9 +241,8 @@ final class File
      * @param string        $outputFilename
      * @param KeyOrPassword $secret
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\IOException
-     * @throws Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
+     * @throws Ex\CryptoException
+     * @throws Ex\IOException
      */
     private static function decryptFileInternal($inputFilename, $outputFilename, KeyOrPassword $secret)
     {
@@ -251,8 +254,11 @@ final class File
                 self::getLastErrorMessage()
             );
         }
-        /* This call can fail, but the only consequence is performance. */
-        \stream_set_read_buffer($if, 0);
+        
+        if (\is_callable('\\stream_set_read_buffer')) {
+            /* This call can fail, but the only consequence is performance. */
+            \stream_set_read_buffer($if, 0);
+        }
 
         /* Open the output file. */
         $of = @\fopen($outputFilename, 'wb');
@@ -263,8 +269,11 @@ final class File
                 self::getLastErrorMessage()
             );
         }
-        /* This call can fail, but the only consequence is performance. */
-        \stream_set_write_buffer($of, 0);
+        
+        if (\is_callable('\\stream_set_write_buffer')) {
+            /* This call can fail, but the only consequence is performance. */
+            \stream_set_write_buffer($of, 0);
+        }
 
         /* Perform the decryption. */
         try {
@@ -298,8 +307,8 @@ final class File
      * @param resource      $outputHandle
      * @param KeyOrPassword $secret
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\IOException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\IOException
      */
     private static function encryptResourceInternal($inputHandle, $outputHandle, KeyOrPassword $secret)
     {
@@ -404,7 +413,7 @@ final class File
 
         /* Get the HMAC and append it to the ciphertext. */
         $final_mac = \hash_final($hmac, true);
-        self::writeBytes($outputHandle, $final_mac, CORE::MAC_BYTE_SIZE);
+        self::writeBytes($outputHandle, $final_mac, Core::MAC_BYTE_SIZE);
     }
 
     /**
@@ -414,9 +423,9 @@ final class File
      * @param resource      $outputHandle
      * @param KeyOrPassword $secret
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws Defuse\Crypto\Exception\IOException
-     * @throws Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
+     * @throws Ex\EnvironmentIsBrokenException
+     * @throws Ex\IOException
+     * @throws Ex\WrongKeyOrModifiedCiphertextException
      */
     public static function decryptResourceInternal($inputHandle, $outputHandle, KeyOrPassword $secret)
     {
@@ -653,8 +662,8 @@ final class File
      * @param resource $stream
      * @param int      $num_bytes
      *
-     * @throws Defuse\Crypto\Exception\IOException
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\IOException
+     * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
      */
@@ -695,7 +704,7 @@ final class File
      * @param string   $buf
      * @param int      $num_bytes
      *
-     * @throws Defuse\Crypto\Exception\IOException
+     * @throws Ex\IOException
      *
      * @return string
      */

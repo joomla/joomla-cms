@@ -17,6 +17,14 @@ defined('_JEXEC') or die;
 class ContentViewArticles extends JViewLegacy
 {
 	/**
+	 * List of authors. Each stdClass has two properties - value and text, containing the user id and user's name
+	 * respectively
+	 *
+	 * @var  stdClass
+	 */
+	protected $authors;
+
+	/**
 	 * An array of items
 	 *
 	 * @var  array
@@ -40,35 +48,23 @@ class ContentViewArticles extends JViewLegacy
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @var  JForm
 	 */
 	public $filterForm;
 
 	/**
 	 * The active search filters
 	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @var  array
 	 */
 	public $activeFilters;
 
 	/**
 	 * The sidebar markup
 	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @var  string
 	 */
 	protected $sidebar;
-
-	/**
-	 * List of authors. Each stdClass has two properties - value and text, containing the user id and user's name
-	 * respectively
-	 *
-	 * @return  stdClass[]
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $authors;
 
 	/**
 	 * Array used for displaying the levels filter
@@ -83,7 +79,7 @@ class ContentViewArticles extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -98,29 +94,27 @@ class ContentViewArticles extends JViewLegacy
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->vote          = JPluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		// Levels filter.
-		$options   = array();
-		$options[] = JHtml::_('select.option', '1', JText::_('J1'));
-		$options[] = JHtml::_('select.option', '2', JText::_('J2'));
-		$options[] = JHtml::_('select.option', '3', JText::_('J3'));
-		$options[] = JHtml::_('select.option', '4', JText::_('J4'));
-		$options[] = JHtml::_('select.option', '5', JText::_('J5'));
-		$options[] = JHtml::_('select.option', '6', JText::_('J6'));
-		$options[] = JHtml::_('select.option', '7', JText::_('J7'));
-		$options[] = JHtml::_('select.option', '8', JText::_('J8'));
-		$options[] = JHtml::_('select.option', '9', JText::_('J9'));
-		$options[] = JHtml::_('select.option', '10', JText::_('J10'));
-
-		$this->f_levels = $options;
+		// Levels filter - Used in Hathor.
+		$this->f_levels = array(
+			JHtml::_('select.option', '1', JText::_('J1')),
+			JHtml::_('select.option', '2', JText::_('J2')),
+			JHtml::_('select.option', '3', JText::_('J3')),
+			JHtml::_('select.option', '4', JText::_('J4')),
+			JHtml::_('select.option', '5', JText::_('J5')),
+			JHtml::_('select.option', '6', JText::_('J6')),
+			JHtml::_('select.option', '7', JText::_('J7')),
+			JHtml::_('select.option', '8', JText::_('J8')),
+			JHtml::_('select.option', '9', JText::_('J9')),
+			JHtml::_('select.option', '10', JText::_('J10')),
+		);
 
 		// We don't need toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
@@ -146,7 +140,7 @@ class ContentViewArticles extends JViewLegacy
 			}
 		}
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**

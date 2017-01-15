@@ -59,7 +59,7 @@ class UsersViewNote extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Get the component HTML helpers
@@ -114,7 +114,7 @@ class UsersViewNote extends JViewLegacy
 		}
 		else
 		{
-			if ($this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				JToolbarHelper::versions('com_users.note', $this->item->id);
 			}

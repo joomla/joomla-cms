@@ -21,7 +21,7 @@ class PlgSystemJoomla extends JPlugin
 	/**
 	 * Application object
 	 *
-	 * @var    JApplicationBase
+	 * @var    \Joomla\Application\AbstractApplication
 	 * @since  3.1
 	 */
 	protected $app;

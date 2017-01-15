@@ -43,21 +43,36 @@ class JHelperContent
 	 */
 	public static function getActions($component = '', $section = '', $id = 0)
 	{
-		$user   = JFactory::getUser();
-		$result = new JObject;
-
-		$path = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
+		$assetName = $component;
 
 		if ($section && $id)
 		{
-			$assetName = $component . '.' . $section . '.' . (int) $id;
-		}
-		else
-		{
-			$assetName = $component;
+			$assetName .=  '.' . $section . '.' . (int) $id;
 		}
 
-		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='component']/");
+		$assetName = $component;
+
+		if ($section && $id)
+		{
+			$assetName .=  '.' . $section . '.' . (int) $id;
+		}
+
+		$result = new JObject;
+
+		$user = JFactory::getUser();
+
+		$actions = JAccess::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', '/access/section[@name="component"]/'
+		);
+
+		if ($actions === false)
+		{
+			JLog::add(
+				JText::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), JLog::ERROR, 'jerror'
+			);
+
+			return $result;
+		}
 
 		foreach ($actions as $action)
 		{

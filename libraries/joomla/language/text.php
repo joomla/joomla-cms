@@ -67,7 +67,7 @@ class JText
 
 		if ($script)
 		{
-			self::$strings[$string] = $lang->_($string, $jsSafe, $interpretBackSlashes);
+			static::$strings[$string] = $lang->_($string, $jsSafe, $interpretBackSlashes);
 
 			return $string;
 		}
@@ -129,7 +129,7 @@ class JText
 		{
 			foreach ($string_parts as $i => $str)
 			{
-				self::$strings[$str] = $string_parts[$i];
+				static::$strings[$str] = $string_parts[$i];
 			}
 		}
 
@@ -155,14 +155,12 @@ class JText
 	 */
 	public static function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		$lang = JFactory::getLanguage();
-
-		if ($lang->hasKey($string . '_' . $alt))
+		if (JFactory::getLanguage()->hasKey($string . '_' . $alt))
 		{
 			$string .= '_' . $alt;
 		}
 
-		return self::_($string, $jsSafe, $interpretBackSlashes, $script);
+		return static::_($string, $jsSafe, $interpretBackSlashes, $script);
 	}
 
 	/**
@@ -242,7 +240,7 @@ class JText
 
 			if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script'])
 			{
-				self::$strings[$key] = call_user_func_array('sprintf', $args);
+				static::$strings[$key] = call_user_func_array('sprintf', $args);
 
 				return $key;
 			}
@@ -296,7 +294,7 @@ class JText
 
 			if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script'])
 			{
-				self::$strings[$string] = call_user_func_array('sprintf', $args);
+				static::$strings[$string] = call_user_func_array('sprintf', $args);
 
 				return $string;
 			}
@@ -362,6 +360,20 @@ class JText
 	 */
 	public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
 	{
+		if ($string === null)
+		{
+			JLog::add(
+				sprintf(
+					'As of 3.7.0, passing a null value for the first argument of %1$s() is deprecated and will not be supported in 4.0.'
+					. ' Use the %2$s::getScriptStrings() method to get the strings from the JavaScript language store instead.',
+					__METHOD__,
+					__CLASS__
+				),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+
 		if (is_array($jsSafe))
 		{
 			if (array_key_exists('interpretBackSlashes', $jsSafe))
@@ -383,12 +395,27 @@ class JText
 		if ($string !== null)
 		{
 			// Normalize the key and translate the string.
-			self::$strings[strtoupper($string)] = JFactory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+			static::$strings[strtoupper($string)] = JFactory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
 
 			// Load core.js dependency
 			JHtml::_('behavior.core');
+
+			// Update Joomla.JText script options
+			JFactory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
 		}
 
-		return self::$strings;
+		return static::getScriptStrings();
+	}
+
+	/**
+	 * Get the strings that have been loaded to the JavaScript language store.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public static function getScriptStrings()
+	{
+		return static::$strings;
 	}
 }

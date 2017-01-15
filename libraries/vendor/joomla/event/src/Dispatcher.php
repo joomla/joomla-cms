@@ -188,7 +188,7 @@ class Dispatcher implements DispatcherInterface
 
 		$this->listeners[$eventName]->add($callback, $priority);
 
-		return $this;
+		return true;
 	}
 
 	/**

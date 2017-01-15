@@ -73,9 +73,7 @@ class FinderViewFilter extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');

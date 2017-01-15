@@ -32,27 +32,18 @@ class InstallationControllerDatabase extends JControllerBase
 		// Check for request forgeries.
 		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
-		// Get the setup model.
-		$model = new InstallationModelSetup;
-
 		// Check the form
-		$vars = $model->checkForm('database');
+		$vars = (new InstallationModelSetup)->checkForm('database');
 
 		// Determine if the configuration file path is writable.
 		$path   = JPATH_CONFIGURATION . '/configuration.php';
-		$useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
+		$useftp = file_exists($path) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
 
 		$r = new stdClass;
 		$r->view = $useftp ? 'ftp' : 'summary';
 
-		// Get the database model.
-		$db = new InstallationModelDatabase;
-
 		// Attempt to initialise the database.
-		$return = $db->createDatabase($vars);
-
-		// Check if the database was initialised
-		if (!$return)
+		if (!(new InstallationModelDatabase)->createDatabase($vars))
 		{
 			$r->view = 'database';
 		}

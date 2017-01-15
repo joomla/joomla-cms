@@ -40,6 +40,7 @@ abstract class JFactory
 	 *
 	 * @var    JConfig
 	 * @since  11.1
+	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	public static $config = null;
 
@@ -155,9 +156,25 @@ abstract class JFactory
 	 *
 	 * @see     Registry
 	 * @since   11.1
+	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
 	{
+		JLog::add(
+			sprintf(
+				'%s() is deprecated. The configuration object should be read from the application.',
+				__METHOD__
+			),
+			JLog::WARNING,
+			'deprecated'
+		);
+
+		// If there is an application object, fetch the configuration from there
+		if (self::$application)
+		{
+			return self::$application->getConfig();
+		}
+
 		if (!self::$config)
 		{
 			if ($file === null)
@@ -542,9 +559,19 @@ abstract class JFactory
 	 *
 	 * @see     Registry
 	 * @since   11.1
+	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	protected static function createConfig($file, $type = 'PHP', $namespace = '')
 	{
+		JLog::add(
+			sprintf(
+				'%s() is deprecated. The configuration object should be read from the application.',
+				__METHOD__
+			),
+			JLog::WARNING,
+			'deprecated'
+		);
+
 		if (is_file($file))
 		{
 			include_once $file;

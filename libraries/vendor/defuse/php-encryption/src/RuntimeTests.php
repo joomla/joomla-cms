@@ -16,7 +16,7 @@ class RuntimeTests extends Crypto
     /**
      * Runs the runtime tests.
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      */
     public static function runtimeTest()
     {
@@ -45,7 +45,12 @@ class RuntimeTests extends Crypto
 
             Core::ensureFunctionExists('openssl_get_cipher_methods');
             if (\in_array(Core::CIPHER_METHOD, \openssl_get_cipher_methods()) === false) {
-                throw new Ex\EnvironmentIsBrokenException('Cipher method not supported.');
+                throw new Ex\EnvironmentIsBrokenException(
+                    'Cipher method not supported. This is normally caused by an outdated ' .
+                    'version of OpenSSL (and/or OpenSSL compiled for FIPS compliance). ' .
+                    'Please upgrade to a newer version of OpenSSL that supports ' .
+                    Core::CIPHER_METHOD . ' to use this library.'
+                );
             }
 
             RuntimeTests::AESTestVector();
@@ -73,7 +78,7 @@ class RuntimeTests extends Crypto
     /**
      * High-level tests of Crypto operations.
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      */
     private static function testEncryptDecrypt()
     {
@@ -142,7 +147,7 @@ class RuntimeTests extends Crypto
     /**
      * Test HKDF against test vectors.
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      */
     private static function HKDFTestVector()
     {
@@ -180,7 +185,7 @@ class RuntimeTests extends Crypto
     /**
      * Test HMAC against test vectors.
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      */
     private static function HMACTestVector()
     {
@@ -196,7 +201,7 @@ class RuntimeTests extends Crypto
     /**
      * Test AES against test vectors.
      *
-     * @throws Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws Ex\EnvironmentIsBrokenException
      */
     private static function AESTestVector()
     {

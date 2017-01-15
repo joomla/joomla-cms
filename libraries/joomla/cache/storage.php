@@ -158,7 +158,7 @@ class JCacheStorage
 				throw new JCacheExceptionUnsupported(sprintf('Unable to load Cache Storage: %s', $handler));
 			}
 
-			include_once $path;
+			JLoader::register($class, $path);
 
 			// The class should now be loaded
 			if (!class_exists($class))
@@ -174,6 +174,21 @@ class JCacheStorage
 		}
 
 		return new $class($options);
+	}
+
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function contains($id, $group)
+	{
+		return false;
 	}
 
 	/**

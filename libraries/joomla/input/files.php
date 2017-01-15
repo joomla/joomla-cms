@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Input Files Class
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  5.0  Use Joomla\Input\Files instead
  */
 class JInputFiles extends JInput
 {
@@ -21,6 +22,7 @@ class JInputFiles extends JInput
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
 	protected $decodedData = array();
 
@@ -32,6 +34,7 @@ class JInputFiles extends JInput
 	 *                           filter : a custom JFilterInput object.
 	 *
 	 * @since   12.1
+	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
 	public function __construct(array $source = null, array $options = array())
 	{
@@ -62,6 +65,7 @@ class JInputFiles extends JInput
 	 *
 	 * @see     JFilterInput::clean()
 	 * @since   11.1
+	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
 	public function get($name, $default = null, $filter = 'cmd')
 	{
@@ -102,6 +106,7 @@ class JInputFiles extends JInput
 	 * @return  array
 	 *
 	 * @since   11.1
+	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
 	protected function decodeData(array $data)
 	{
@@ -129,6 +134,7 @@ class JInputFiles extends JInput
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
 	public function set($name, $value)
 	{

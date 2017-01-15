@@ -17,6 +17,14 @@ defined('_JEXEC') or die;
 class PlgSystemLogout extends JPlugin
 {
 	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe -- event dispatcher.
@@ -28,15 +36,15 @@ class PlgSystemLogout extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		$input = JFactory::getApplication()->input;
+		$app   = JFactory::getApplication();
+		$input = $app->input;
 		$hash  = JApplicationHelper::getHash('PlgSystemLogout');
 
-		if (JFactory::getApplication()->isSite() && $input->cookie->getString($hash))
+		if ($app->isClient('site') && $input->cookie->getString($hash))
 		{
 			// Destroy the cookie.
-			$conf = JFactory::getConfig();
-			$cookie_domain = $conf->get('cookie_domain', '');
-			$cookie_path   = $conf->get('cookie_path', '/');
+			$cookie_domain = $app->get('cookie_domain', '');
+			$cookie_path   = $app->get('cookie_path', '/');
 			setcookie($hash, false, time() - 86400, $cookie_path, $cookie_domain);
 
 			// Set the error handler for E_ALL to be the class handleError method.
@@ -56,13 +64,15 @@ class PlgSystemLogout extends JPlugin
 	 */
 	public function onUserLogout($user, $options = array())
 	{
-		if (JFactory::getApplication()->isSite())
+		$app = JFactory::getApplication();
+
+		if ($app->isClient('site'))
 		{
 			// Create the cookie.
 			$hash = JApplicationHelper::getHash('PlgSystemLogout');
-			$conf = JFactory::getConfig();
-			$cookie_domain = $conf->get('cookie_domain', '');
-			$cookie_path   = $conf->get('cookie_path', '/');
+
+			$cookie_domain = $app->get('cookie_domain', '');
+			$cookie_path   = $app->get('cookie_path', '/');
 			setcookie($hash, true, time() + 86400, $cookie_path, $cookie_domain);
 		}
 
@@ -72,26 +82,23 @@ class PlgSystemLogout extends JPlugin
 	/**
 	 * Method to handle an error condition.
 	 *
-	 * @param   Exception  $error  The Exception object to be handled.
+	 * @param   Exception  &$error  The Exception object to be handled.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public static function handleError($error)
+	public static function handleError(&$error)
 	{
 		// Get the application object.
 		$app = JFactory::getApplication();
 
 		// Make sure the error is a 403 and we are in the frontend.
-		if ($error->getCode() == 403 && $app->isSite())
+		if ($error->getCode() == 403 && $app->isClient('site'))
 		{
-			// Load language file.
-			parent::loadLanguage();
-
 			// Redirect to the home page.
-			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'), 'message');
-			$app->redirect(JRoute::_('index.php'));
+			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'));
+			$app->redirect('index.php');
 		}
 		else
 		{

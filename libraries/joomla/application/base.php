@@ -21,7 +21,8 @@ use Joomla\Registry\Registry;
  *
  * @property-read  JInput  $input  The application input object
  *
- * @since  12.1
+ * @since       12.1
+ * @deprecated  5.0  Application classes should be based on \Joomla\Application\AbstractApplication
  */
 abstract class JApplicationBase extends AbstractApplication implements DispatcherAwareInterface
 {
@@ -45,19 +46,5 @@ abstract class JApplicationBase extends AbstractApplication implements Dispatche
 		$this->config = $config instanceof Registry ? $config : new Registry;
 
 		$this->initialise();
-	}
-
-	/**
-	 * Method to run the application routines.  Most likely you will want to instantiate a controller
-	 * and execute it, or perform some sort of task directly.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4 (CMS)
-	 * @deprecated  4.0  The default concrete implementation of doExecute() will be removed, subclasses will need to provide their own implementation.
-	 */
-	protected function doExecute()
-	{
-		return;
 	}
 }

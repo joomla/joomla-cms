@@ -44,8 +44,8 @@ class TagsRouter extends JComponentRouterBase
 			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
-		$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-		$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+		$mView = empty($menuItem->query['view']) ? null : $menuItem->query['view'];
+		$mId   = empty($menuItem->query['id']) ? null : $menuItem->query['id'];
 
 		if (is_array($mId))
 		{
@@ -150,36 +150,4 @@ class TagsRouter extends JComponentRouterBase
 
 		return $vars;
 	}
-}
-
-/**
- * Tags router functions. These functions are proxys for the new router interface or old SEF extensions.
- *
- * @param   array  &$query  An array of URL arguments.
- *
- * @return array
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function tagsBuildRoute(&$query)
-{
-	$router = new TagsRouter;
-
-	return $router->build($query);
-}
-
-/**
- * Parse the segments of a URL. These functions are proxys for the new router interface or old SEF extensions.
- *
- * @param   array  $segments  The segments of the URL to parse.
- *
- * @return  array  The URL attributes to be used by the application.
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function tagsParseRoute($segments)
-{
-	$router = new TagsRouter;
-
-	return $router->parse($segments);
 }

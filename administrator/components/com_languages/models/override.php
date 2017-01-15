@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Languages Override Model
  *
@@ -107,6 +105,11 @@ class LanguagesModelOverride extends JModelAdmin
 			$result->override = $strings[$pk];
 		}
 
+		$opposite_filename = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site')) 
+			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
+		$opposite_strings = LanguagesHelper::parseFile($opposite_filename);
+		$result->both = isset($opposite_strings[$pk]) && ($opposite_strings[$pk] == $strings[$pk]);
+
 		return $result;
 	}
 
@@ -174,17 +177,8 @@ class LanguagesModelOverride extends JModelAdmin
 			$strings = array($data['key'] => $data['override']) + $strings;
 		}
 
-		foreach ($strings as $key => $string)
-		{
-			$strings[$key] = str_replace('"', '"_QQ_"', $string);
-		}
-
 		// Write override.ini file with the strings.
-		$registry = new Registry;
-		$registry->loadObject($strings);
-		$reg = $registry->toString('INI');
-
-		if (!JFile::write($filename, $reg))
+		if (JLanguageHelper::saveToIniFile($filename, $strings) === false)
 		{
 			return false;
 		}

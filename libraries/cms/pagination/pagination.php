@@ -330,13 +330,27 @@ class JPagination
 		{
 			include_once $chromePath;
 
+			/*
+			 * @deprecated Item rendering should use a layout
+			 */
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 			{
+				JLog::add(
+					'pagination_item_active and pagination_item_inactive are deprecated. Use the layout joomla.pagination.link instead.',
+					JLog::WARNING,
+					'deprecated'
+				);
+
 				$itemOverride = true;
 			}
 
+			/*
+			 * @deprecated The list rendering is now a layout.
+			 * @see JPagination::_list_render()
+			 */
 			if (function_exists('pagination_list_render'))
 			{
+				JLog::add('pagination_list_render is deprecated. Use the layout joomla.pagination.list instead.', JLog::WARNING, 'deprecated');
 				$listOverride = true;
 			}
 		}
@@ -447,6 +461,7 @@ class JPagination
 			'limitfield'   => $this->getLimitBox(),
 			'pagescounter' => $this->getPagesCounter(),
 			'pages'        => $this->getPaginationPages(),
+			'pagesTotal'   => $this->pagesTotal,
 		);
 
 		return JLayoutHelper::render($layoutId, array('list' => $list, 'options' => $options));
@@ -517,6 +532,8 @@ class JPagination
 
 			if (function_exists('pagination_list_footer'))
 			{
+				JLog::add('pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.', JLog::WARNING, 'deprecated');
+
 				$list = array(
 					'prefix'       => $this->prefix,
 					'limit'        => $this->limit,
@@ -558,7 +575,7 @@ class JPagination
 		$selected = $this->viewall ? 0 : $this->limit;
 
 		// Build the select list.
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			$html = JHtml::_(
 				'select.genericlist',
@@ -673,21 +690,7 @@ class JPagination
 	 */
 	protected function _list_render($list)
 	{
-		// Reverse output rendering for right-to-left display.
-		$html = '<ul>';
-		$html .= '<li class="pagination-start">' . $list['start']['data'] . '</li>';
-		$html .= '<li class="pagination-prev">' . $list['previous']['data'] . '</li>';
-
-		foreach ($list['pages'] as $page)
-		{
-			$html .= '<li>' . $page['data'] . '</li>';
-		}
-
-		$html .= '<li class="pagination-next">' . $list['next']['data'] . '</li>';
-		$html .= '<li class="pagination-end">' . $list['end']['data'] . '</li>';
-		$html .= '</ul>';
-
-		return $html;
+		return JLayoutHelper::render('joomla.pagination.list', array('list' => $list));
 	}
 
 	/**
@@ -698,6 +701,7 @@ class JPagination
 	 * @return  string  HTML link
 	 *
 	 * @since   1.5
+	 * @note    As of 4.0 this method will proxy to `JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => true])`
 	 */
 	protected function _item_active(JPaginationObject $item)
 	{
@@ -711,7 +715,7 @@ class JPagination
 			$class = 'hasTooltip ';
 		}
 
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return '<a' . $title . ' href="#" onclick="document.adminForm.' . $this->prefix
 			. 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;">' . $item->text . '</a>';
@@ -730,10 +734,11 @@ class JPagination
 	 * @return  string
 	 *
 	 * @since   1.5
+	 * @note    As of 4.0 this method will proxy to `JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => false])`
 	 */
 	protected function _item_inactive(JPaginationObject $item)
 	{
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return '<span>' . $item->text . '</span>';
 		}

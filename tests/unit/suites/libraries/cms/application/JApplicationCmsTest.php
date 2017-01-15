@@ -191,7 +191,13 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config = new Registry;
 		$config->set('session', false);
 
-		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockClient = $this->getMockBuilder('JApplicationWebClient')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$inspector = new JApplicationCmsInspector($mockInput, $config, $mockClient);
 
@@ -236,6 +242,23 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$this->assertEquals('JWeb Body', $this->class->getBody());
 		$this->assertEquals('JWeb Body', $buffer);
+	}
+
+	/**
+	 * Tests the JApplicationCms::getCfg method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function testGetCfg()
+	{
+		$config = new Registry(array('foo' => 'bar'));
+
+		TestReflection::setValue($this->class, 'config', $config);
+
+		$this->assertEquals('bar', $this->class->getCfg('foo', 'car'));
+		$this->assertEquals('car', $this->class->getCfg('goo', 'car'));
 	}
 
 	/**
@@ -330,6 +353,19 @@ class JApplicationCmsTest extends TestCaseDatabase
 	public function testIsSite()
 	{
 		$this->assertFalse($this->class->isSite());
+	}
+
+	/**
+	 * Tests the JApplicationCms::isClient method.
+	 *
+	 * @return  void
+	 *
+	 * @since  3.7.0
+	 */
+	public function testIsClient()
+	{
+		$this->assertFalse($this->class->isClient('administrator'));
+		$this->assertFalse($this->class->isClient('site'));
 	}
 
 	/**

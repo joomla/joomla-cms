@@ -22,7 +22,7 @@ use Joomla\Session\SessionEvent;
  *
  * @since  3.2
  */
-class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
+abstract class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 {
 	use ContainerAwareTrait;
 
@@ -147,7 +147,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new Registry('session'));
+			$session->set('registry', new Registry);
 			$session->set('user', new JUser);
 		}
 
@@ -224,7 +224,6 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 			// Default column/value set
 			$columns = array(
 				$db->quoteName('session_id'),
-				$db->quoteName('client_id'),
 				$db->quoteName('guest'),
 				$db->quoteName('userid'),
 				$db->quoteName('username')
@@ -232,7 +231,6 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 
 			$values = array(
 				$db->quote($session->getId()),
-				(int) $this->getClientId(),
 				(int) $user->guest,
 				(int) $user->id,
 				$db->quote($user->username)
@@ -244,6 +242,12 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 				$columns[] = $db->quoteName('time');
 				$time = $session->isNew() ? time() : $session->get('session.timer.start');
 				$values[]  = (int) $time;
+			}
+
+			if (!$this->get('shared_session', '0'))
+			{
+				$columns[] = $db->quoteName('client_id');
+				$values[] = (int) $this->getClientId();
 			}
 
 			// If the insert failed, exit the application.
@@ -672,6 +676,9 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	 */
 	protected function initialiseApp($options = array())
 	{
+		// Set the configuration in the API.
+		$this->config = JFactory::getConfig();
+
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))
 		{
@@ -720,10 +727,11 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	 * @return  boolean  True if this application is administrator.
 	 *
 	 * @since   3.2
+	 * @deprecated  Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
-		return $this->getClientId() === 1;
+		return $this->isClient('administrator');
 	}
 
 	/**
@@ -732,10 +740,25 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	 * @return  boolean  True if this application is site.
 	 *
 	 * @since   3.2
+	 * @deprecated  Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
-		return $this->getClientId() === 0;
+		return $this->isClient('site');
+	}
+
+	/**
+	 * Check the client interface by name.
+	 *
+	 * @param   string  $identifier  String identifier for the application interface
+	 *
+	 * @return  boolean  True if this application is of the given type client interface.
+	 *
+	 * @since   3.7.0
+	 */
+	public function isClient($identifier)
+	{
+		return $this->getName() === $identifier;
 	}
 
 	/**
@@ -772,8 +795,6 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	public function login($credentials, $options = array())
 	{
 		// Get the global JAuthentication object.
-		jimport('joomla.user.authentication');
-
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
@@ -890,8 +911,8 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 		$parameters['username'] = $user->get('username');
 		$parameters['id'] = $user->get('id');
 
-		// Set clientid in the options array if it hasn't been set already.
-		if (!isset($options['clientid']))
+		// Set clientid in the options array if it hasn't been set already and shared sessions are not enabled.
+		if (!$this->get('shared_session', '0') && !isset($options['clientid']))
 		{
 			$options['clientid'] = $this->getClientId();
 		}
@@ -1021,7 +1042,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 
 		$caching = false;
 
-		if ($this->isSite() && $this->get('caching') && $this->get('caching', 2) == 2 && !JFactory::getUser()->get('id'))
+		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !JFactory::getUser()->get('id'))
 		{
 			$caching = true;
 		}
@@ -1057,7 +1078,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 		$uri = clone JUri::getInstance();
 
 		$router = static::getRouter();
-		$result = $router->parse($uri);
+		$result = $router->parse($uri, true);
 
 		foreach ($result as $key => $value)
 		{
@@ -1073,7 +1094,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	 * Sets the value of a user state variable.
 	 *
 	 * @param   string  $key    The path of the state.
-	 * @param   string  $value  The value of the variable.
+	 * @param   mixed   $value  The value of the variable.
 	 *
 	 * @return  mixed  The previous state, if one existed.
 	 *

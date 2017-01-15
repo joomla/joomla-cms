@@ -75,15 +75,14 @@ class ModulesViewModules extends JViewLegacy
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
+		$this->total         = $this->get('Total');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// We don't need the toolbar in the modal window.
@@ -98,7 +97,7 @@ class ModulesViewModules extends JViewLegacy
 			$this->filterForm->removeField('client_id', '');
 
 			// If in the frontend state and language should not activate the search tools.
-			if (JFactory::getApplication()->isSite())
+			if (JFactory::getApplication()->isClient('site'))
 			{
 				unset($this->activeFilters['state']);
 				unset($this->activeFilters['language']);

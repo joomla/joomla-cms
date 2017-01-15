@@ -51,6 +51,8 @@ class JApplicationCliTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		TestReflection::setValue('JApplicationCli', 'instance', null);
+
 		unset($this->class);
 		parent::tearDown();
 	}
@@ -88,12 +90,23 @@ class JApplicationCliTest extends TestCase
 			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
-		$mockInput = $this->getMock('JInputCli', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockInput = $this->getMockBuilder('JInputCli')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
+
 		$mockInput->expects($this->any())
 			->method('test')
 			->willReturn('ok');
 
-		$mockConfig = $this->getMock('\\Joomla\\Registry\\Registry', array('test'), array(null), '', true);
+		$mockConfig = $this->getMockBuilder('\\Joomla\\Registry\\Registry')
+					->setMethods(array('test'))
+					->setConstructorArgs(array(null))
+					->setMockClassName('')
+					->getMock();
 		$mockConfig
 			->expects($this->any())
 			->method('test')
@@ -211,7 +224,7 @@ class JApplicationCliTest extends TestCase
 		$this->assertInstanceOf(
 			'JApplicationCliInspector',
 			JApplicationCli::getInstance('JApplicationCliInspector'),
-			'Tests that getInstance will instantiate a valid child class of JCli.'
+			'Tests that getInstance will instantiate a valid child class of JApplicationCli.'
 		);
 
 		TestReflection::setValue('JApplicationCli', 'instance', 'foo');
@@ -229,8 +242,6 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function testGetInstanceForUnexistingClass()
 	{
-		TestReflection::setValue('JApplicationCli', 'instance', null);
-
 		JApplicationCli::getInstance('Foo');
 	}
 

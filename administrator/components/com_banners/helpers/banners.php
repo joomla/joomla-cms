@@ -89,41 +89,41 @@ class BannersHelper extends JHelperContent
 
 		foreach ($rows as $row)
 		{
-			$purchase_type = $row->purchase_type;
+			$purchaseType = $row->purchase_type;
 
-			if ($purchase_type < 0 && $row->cid)
+			if ($purchaseType < 0 && $row->cid)
 			{
 				/** @var BannersTableClient $client */
 				$client = JTable::getInstance('Client', 'BannersTable');
 				$client->load($row->cid);
-				$purchase_type = $client->purchase_type;
+				$purchaseType = $client->purchase_type;
 			}
 
-			if ($purchase_type < 0)
+			if ($purchaseType < 0)
 			{
 				$params = JComponentHelper::getParams('com_banners');
-				$purchase_type = $params->get('purchase_type');
+				$purchaseType = $params->get('purchase_type');
 			}
 
-			switch ($purchase_type)
+			switch ($purchaseType)
 			{
 				case 1:
 					$reset = $nullDate;
 					break;
 				case 2:
-					$date = JFactory::getDate('+1 year ' . date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 year ' . date('Y-m-d'));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 3:
-					$date = JFactory::getDate('+1 month ' . date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 month ' . date('Y-m-d'));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 4:
-					$date = JFactory::getDate('+7 day ' . date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+7 day ' . date('Y-m-d'));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 5:
-					$date = JFactory::getDate('+1 day ' . date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 day ' . date('Y-m-d'));
 					$reset = $db->quote($date->toSql());
 					break;
 			}
@@ -209,6 +209,64 @@ class BannersHelper extends JHelperContent
 				->from($db->qn('#__banners'))
 				->where('catid = ' . (int) $item->id)
 				->group('state');
+			$db->setQuery($query);
+			$banners = $db->loadObjectList();
+
+			foreach ($banners as $banner)
+			{
+				if ($banner->state == 1)
+				{
+					$item->count_published = $banner->count;
+				}
+
+				if ($banner->state == 0)
+				{
+					$item->count_unpublished = $banner->count;
+				}
+
+				if ($banner->state == 2)
+				{
+					$item->count_archived = $banner->count;
+				}
+
+				if ($banner->state == -2)
+				{
+					$item->count_trashed = $banner->count;
+				}
+			}
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Adds Count Items for Tag Manager.
+	 *
+	 * @param   stdClass[]  &$items     The banner tag objects
+	 * @param   string      $extension  The name of the active view.
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6
+	 */
+	public static function countTagItems(&$items, $extension)
+	{
+		$db = JFactory::getDbo();
+
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('published as state, count(*) AS count')
+				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->where('ct.tag_id = ' . (int) $item->id)
+				->where('ct.type_alias =' . $db->q($extension))
+				->join('LEFT', $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id')
+				->group('state');
+
 			$db->setQuery($query);
 			$banners = $db->loadObjectList();
 

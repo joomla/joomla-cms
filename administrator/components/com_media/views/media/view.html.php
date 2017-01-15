@@ -30,7 +30,7 @@ class MediaViewMedia extends JViewLegacy
 		$app    = JFactory::getApplication();
 		$config = JComponentHelper::getParams('com_media');
 
-		if (!$app->isAdmin())
+		if (!$app->isClient('administrator'))
 		{
 			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
@@ -92,7 +92,7 @@ class MediaViewMedia extends JViewLegacy
 			// Instantiate a new JLayoutFile instance and render the layout
 			$layout = new JLayoutFile('toolbar.newfolder');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			$bar->appendButton('Custom', $layout->render(array()), 'create');
 			JToolbarHelper::divider();
 		}
 
@@ -102,7 +102,7 @@ class MediaViewMedia extends JViewLegacy
 			// Instantiate a new JLayoutFile instance and render the layout
 			$layout = new JLayoutFile('toolbar.deletemedia');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			$bar->appendButton('Custom', $layout->render(array()), 'delete');
 			JToolbarHelper::divider();
 		}
 

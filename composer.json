@@ -17,7 +17,7 @@
     "support": {
         "issues":"https://issues.joomla.org",
         "irc":"http://irc.lc/freenode/joomla/",
-        "forum":"http://forum.joomla.org/",
+        "forum":"https://forum.joomla.org/",
         "docs":"https://docs.joomla.org"
     },
     "autoload": {
@@ -29,6 +29,7 @@
         "php": ">=5.5.9",
         "joomla/application": "~1.5",
         "joomla/crypt": "~2.0@dev",
+        "joomla/data": "~1.2",
         "joomla/di": "~1.2",
         "joomla/event": "~2.0@dev",
         "joomla/image": "~1.2",
@@ -43,8 +44,7 @@
         "phpmailer/phpmailer": "~6.0@rc",
         "symfony/polyfill-php55": "~1.2",
         "symfony/polyfill-php56": "~1.0",
-        "symfony/yaml": "2.*",
-        "simplepie/simplepie": "1.3.1"
+        "symfony/yaml": "2.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*",

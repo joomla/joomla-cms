@@ -116,7 +116,7 @@ class TemplatesModelTemplate extends JModelForm
 
 		foreach ($dirFiles as $key => $value)
 		{
-			if (!in_array($value, array(".", "..")))
+			if (!in_array($value, array('.', '..')))
 			{
 				if (is_dir($dir . $value))
 				{

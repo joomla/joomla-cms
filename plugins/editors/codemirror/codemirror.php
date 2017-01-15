@@ -59,7 +59,7 @@ class PlgEditorCodemirror extends JPlugin
 		$doc = JFactory::getDocument();
 
 		// Codemirror shall have its own group of plugins to modify and extend its behavior
-		$result = JPluginHelper::importPlugin('editors_codemirror');
+		JPluginHelper::importPlugin('editors_codemirror');
 
 		// At this point, params can be modified by a plugin before going to the layout renderer.
 		JFactory::getApplication()->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params));
@@ -149,9 +149,9 @@ class PlgEditorCodemirror extends JPlugin
 
 		$done = true;
 
-		JFactory::getDocument()->addScriptDeclaration("
+		JFactory::getDocument()->addScriptDeclaration('
 		;function jInsertEditorText(text, editor) { Joomla.editors.instances[editor].replaceSelection(text); }
-		");
+		');
 
 		return true;
 	}
@@ -232,7 +232,7 @@ class PlgEditorCodemirror extends JPlugin
 		if ($theme = $this->params->get('theme'))
 		{
 			$options->theme = $theme;
-			JHtml::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css');
+			JHtml::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css', array('version' => 'auto'));
 		}
 
 		// Special options for tagged modes (xml/html).
@@ -349,7 +349,7 @@ class PlgEditorCodemirror extends JPlugin
 
 		if (!$fonts)
 		{
-			$fonts = json_decode(JFile::read(__DIR__ . '/fonts.json'), true);
+			$fonts = json_decode(file_get_contents(__DIR__ . '/fonts.json'), true);
 		}
 
 		return isset($fonts[$font]) ? (object) $fonts[$font] : null;

@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-if ($this->params->get('presentation_style') == 'sliders') : ?>
+if ($this->params->get('presentation_style') === 'sliders') : ?>
 	<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
 <?php endif; ?>
-<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
+<?php if ($this->params->get('presentation_style') === 'tabs') : ?>
 	<?php echo JHtmlTabs::panel(JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
 <?php endif; ?>
-<?php if  ($this->params->get('presentation_style') == 'plain'):?>
+<?php if  ($this->params->get('presentation_style') === 'plain'):?>
 	<?php echo '<h3>'. JText::_('COM_CONTACT_LINKS').'</h3>'; ?>
 <?php endif; ?>
 
@@ -33,7 +33,7 @@ if ($this->params->get('presentation_style') == 'sliders') : ?>
 			$link = (0 === strpos($link, 'http')) ? $link : 'http://'.$link;
 
 			// If no label is present, take the link
-			$label = ($label) ? $label : $link;
+			$label = $label ?: $link;
 			?>
 			<li>
 				<a href="<?php echo $link; ?>">

@@ -14,7 +14,7 @@ $form      = $displayData->getForm();
 $input     = $app->input;
 $component = $input->getCmd('option', 'com_content');
 
-if ($component == 'com_categories')
+if ($component === 'com_categories')
 {
 	$extension = $input->getCmd('extension', 'com_content');
 	$parts     = explode('.', $extension);
@@ -48,9 +48,7 @@ $html[] = '<fieldset class="form-vertical">';
 
 foreach ($fields as $field)
 {
-	$field = is_array($field) ? $field : array($field);
-
-	foreach ($field as $f)
+	foreach ((array) $field as $f)
 	{
 		if ($form->getField($f))
 		{

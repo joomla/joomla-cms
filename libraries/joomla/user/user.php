@@ -363,8 +363,7 @@ class JUser extends JObject
 			$this->isRoot = false;
 
 			// Check for the configuration file failsafe.
-			$config = JFactory::getConfig();
-			$rootUser = $config->get('root_user');
+			$rootUser = JFactory::getConfig()->get('root_user');
 
 			// The root_user variable can be a numeric user ID or a username.
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser)
@@ -375,7 +374,7 @@ class JUser extends JObject
 			{
 				$this->isRoot = true;
 			}
-			else
+			elseif ($this->id > 0)
 			{
 				// Get all groups against which the user is mapped.
 				$identities = $this->getAuthorisedGroups();
@@ -390,7 +389,7 @@ class JUser extends JObject
 			}
 		}
 
-		return $this->isRoot ? true : JAccess::check($this->id, $action, $assetname);
+		return $this->isRoot ? true : (bool) JAccess::check($this->id, $action, $assetname);
 	}
 
 	/**
@@ -509,26 +508,6 @@ class JUser extends JObject
 		$table->load($this->id);
 
 		return $table->setLastVisit($timestamp);
-	}
-
-	/**
-	 * Method to get the user parameters
-	 *
-	 * This method used to load the user parameters from a file.
-	 *
-	 * @return  object   The user parameters object.
-	 *
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Instead use JUser::getParam()
-	 */
-	public function getParameters()
-	{
-		// @codeCoverageIgnoreStart
-		JLog::add('JUser::getParameters() is deprecated. JUser::getParam().', JLog::WARNING, 'deprecated');
-
-		return $this->_params;
-
-		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -797,8 +776,7 @@ class JUser extends JObject
 
 			if ($my->id == $table->id)
 			{
-				$registry = new Registry;
-				$registry->loadString($table->params);
+				$registry = new Registry($table->params);
 				$my->setParameters($registry);
 			}
 

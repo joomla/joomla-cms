@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Controller class to install additional languages for the Joomla Installer.
  *
@@ -25,9 +27,11 @@ class InstallationControllerInstallLanguages extends JControllerBase
 	{
 		parent::__construct();
 
+		/** @var InstallationApplicationWeb $app */
+		$app = $this->getApplication();
+
 		// Overrides application config and set the configuration.php file so tokens and database works
-		JFactory::$config = null;
-		JFactory::getConfig(JPATH_SITE . '/configuration.php');
+		$app->loadConfiguration(new JConfig);
 	}
 
 	/**
@@ -47,11 +51,8 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get array of selected languages
-		$lids = $this->input->get('cid', array(), 'array');
-		JArrayHelper::toInteger($lids, array());
-
-		// Get the languages model.
-		$model = new InstallationModelLanguages;
+		$lids = $this->input->get('cid', [], 'array');
+		$lids = ArrayHelper::toInteger($lids, []);
 
 		if (!$lids)
 		{
@@ -60,8 +61,15 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		}
 		else
 		{
+			// Get the languages model.
+			$model = new InstallationModelLanguages;
+
 			// Install selected languages
 			$model->install($lids);
+
+			// Publish the Content Languages.
+			$model->publishContentLanguages();
+
 			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'), 'notice');
 		}
 

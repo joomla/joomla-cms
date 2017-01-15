@@ -447,7 +447,7 @@ class JPaginationTest extends TestCase
 
 		$result = $pagination->getPagesLinks();
 
-		$this->assertEquals($result, $expected, 'The expected output of the pagination is incorrect');
+		$this->assertXmlStringEqualsXmlString($result, $expected, 'The expected output of the pagination is incorrect');
 
 		unset($pagination);
 	}
@@ -510,7 +510,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 
@@ -651,7 +651,7 @@ class JPaginationTest extends TestCase
 
 		$string = TestReflection::invoke($pagination, '_list_render', $list);
 
-		$this->assertEquals($string, $expected, 'The list render method is not outputting the expected results');
+		$this->assertXmlStringEqualsXmlString($string, $expected, 'The list render method is not outputting the expected results');
 
 		unset($pagination);
 	}
@@ -692,7 +692,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 		$paginationObject = new JPaginationObject($text, 0);
@@ -739,7 +739,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 		$paginationObject = new JPaginationObject($text, 0);

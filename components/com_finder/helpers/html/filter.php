@@ -66,9 +66,7 @@ abstract class JHtmlFilter
 			// Initialize the filter parameters.
 			if ($filter)
 			{
-				$registry = new Registry;
-				$registry->loadString($filter->params);
-				$filter->params = $registry;
+				$filter->params = new Registry($filter->params);
 			}
 		}
 
@@ -174,9 +172,9 @@ abstract class JHtmlFilter
 			);
 
 			// Populate the toggle button.
-			$html .= "<button class=\"btn\" type=\"button\" class=\"jform-rightbtn\" onclick=\"jQuery('[id=tax-"
-				. $bk . "]').each(function(){this.click();});\"><span class=\"icon-checkbox-partial\"></span> "
-				. JText::_('JGLOBAL_SELECTION_INVERT') . "</button><hr/>";
+			$html .= '<button class="btn" type="button" class="jform-rightbtn" onclick="jQuery(\'[id="tax-'
+				. $bk . '"]\').each(function(){this.click();});"><span class="icon-checkbox-partial"></span> '
+				. JText::_('JGLOBAL_SELECTION_INVERT') . '</button><hr/>';
 
 			// Populate the group with nodes.
 			foreach ($nodes as $nk => $nv)
@@ -228,7 +226,11 @@ abstract class JHtmlFilter
 		$cacheId = 'filter_select_' . serialize(array($idxQuery->filter, $options, $groups, JFactory::getLanguage()->getTag()));
 
 		// Check the cached results.
-		if (!($branches = $cache->get($cacheId)))
+		if ($cache->contains($cacheId))
+		{
+			$branches = $cache->get($cacheId);
+		}
+		else
 		{
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -255,9 +257,7 @@ abstract class JHtmlFilter
 				// Initialize the filter parameters.
 				if ($filter)
 				{
-					$registry = new Registry;
-					$registry->loadString($filter->params);
-					$filter->params = $registry;
+					$filter->params = new Registry($filter->params);
 				}
 			}
 
@@ -369,7 +369,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_('filter.dates', $idxQuery, $options);
 		}
 
-		$html .= '<div class="filter-branch' . $classSuffix . ' control-group">';
+		$html .= '<div class="filter-branch' . $classSuffix . ' control-group clearfix">';
 
 		// Iterate through all branches and build code.
 		foreach ($branches as $bk => $bv)
@@ -441,7 +441,7 @@ abstract class JHtmlFilter
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				JHtml::stylesheet('com_finder/dates.css', false, true, false);
+				JHtml::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
 			}
 
 			// Open the widget.

@@ -78,9 +78,7 @@ class CategoriesViewCategory extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Check if we have a content type for this alias
@@ -91,10 +89,18 @@ class CategoriesViewCategory extends JViewLegacy
 
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		if ($this->getLayout() == 'modal')
+		// If we are forcing a language in modal (used for associations).
+		if ($this->getLayout() === 'modal' && $forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
+			// Set the language field to the forcedLanguage and disable changing it.
+			$this->form->setValue('language', null, $forcedLanguage);
 			$this->form->setFieldAttribute('language', 'readonly', 'true');
-			$this->form->setFieldAttribute('parent_id', 'readonly', 'true');
+
+			// Only allow to select categories with All language or with the forced language.
+			$this->form->setFieldAttribute('parent_id', 'language', '*,' . $forcedLanguage);
+
+			// Only allow to select tags with All language or with the forced language.
+			$this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
 		}
 
 		$this->addToolbar();
@@ -160,7 +166,7 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 
 		// Load specific css component
-		JHtml::_('stylesheet', $component . '/administrator/categories.css', array(), true);
+		JHtml::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
 
 		// Prepare the toolbar.
 		JToolbarHelper::title(
@@ -202,7 +208,7 @@ class CategoriesViewCategory extends JViewLegacy
 				JToolbarHelper::save2copy('category.save2copy');
 			}
 
-			if ($componentParams->get('save_history', 0) && $itemEditable)
+			if (JComponentHelper::isEnabled('com_contenthistory') && $componentParams->get('save_history', 0) && $itemEditable)
 			{
 				$typeAlias = $extension . '.category';
 				JToolbarHelper::versions($typeAlias, $this->item->id);

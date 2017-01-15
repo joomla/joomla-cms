@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '0-dev';
+	const DEV_LEVEL = '0-alpha2';
 
 	/**
 	 * Development status.
@@ -46,7 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Development';
+	const DEV_STATUS = 'dev';
 
 	/**
 	 * Build number.
@@ -62,7 +62,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Noether';
+	const CODENAME = 'Amani';
 
 	/**
 	 * Release date.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '4-July-2016';
+	const RELDATE = '20-December-2016';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '15:28';
+	const RELTIME = '23:59';
 
 	/**
 	 * Release timezone.
@@ -172,35 +172,28 @@ final class JVersion
 	/**
 	 * Returns the user agent.
 	 *
-	 * @param   string  $component    Name of the component.
-	 * @param   bool    $mask         Mask as Mozilla/5.0 or not.
-	 * @param   bool    $add_version  Add version afterwards to component.
+	 * @param   string  $component   Name of the component.
+	 * @param   bool    $mask        Mask as Mozilla/5.0 or not.
+	 * @param   bool    $addVersion  Add version afterwards to component.
 	 *
 	 * @return  string  User Agent.
 	 *
 	 * @since   1.0
 	 */
-	public function getUserAgent($component = null, $mask = false, $add_version = true)
+	public function getUserAgent($component = null, $mask = false, $addVersion = true)
 	{
 		if ($component === null)
 		{
 			$component = 'Framework';
 		}
 
-		if ($add_version)
+		if ($addVersion)
 		{
 			$component .= '/' . self::RELEASE;
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
-		if ($mask)
-		{
-			return 'Mozilla/5.0 ' . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
-		}
-		else
-		{
-			return self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
-		}
+		return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
 	}
 
 	/**
@@ -213,10 +206,7 @@ final class JVersion
 	 */
 	public function generateMediaVersion()
 	{
-		$date   = new JDate;
-		$config = JFactory::getConfig();
-
-		return md5($this->getLongVersion() . $config->get('secret') . $date->toSql());
+		return md5($this->getLongVersion() . JFactory::getConfig()->get('secret') . (new JDate)->toSql());
 	}
 
 	/**
@@ -237,17 +227,11 @@ final class JVersion
 
 		if ($mediaVersion === null)
 		{
-			$config = JFactory::getConfig();
-			$debugEnabled = $config->get('debug', 0);
-
-			// Get the joomla library params
-			$params = JLibraryHelper::getParams('joomla');
-
-			// Get the media version
-			$mediaVersion = $params->get('mediaversion', '');
+			// Get the joomla library params and the media version
+			$mediaVersion = JLibraryHelper::getParams('joomla')->get('mediaversion', '');
 
 			// Refresh assets in debug mode or when the media version is not set
-			if ($debugEnabled || empty($mediaVersion))
+			if (JDEBUG || empty($mediaVersion))
 			{
 				$mediaVersion = $this->generateMediaVersion();
 
@@ -267,9 +251,7 @@ final class JVersion
 	 */
 	public function refreshMediaVersion()
 	{
-		$newMediaVersion = $this->generateMediaVersion();
-
-		return $this->setMediaVersion($newMediaVersion);
+		return $this->setMediaVersion($this->generateMediaVersion());
 	}
 
 	/**
@@ -286,12 +268,13 @@ final class JVersion
 		// Do not allow empty media versions
 		if (!empty($mediaVersion))
 		{
-			// Get library parameters
+			// Get the params ...
 			$params = JLibraryHelper::getParams('joomla');
 
+			// ... set the media version ...
 			$params->set('mediaversion', $mediaVersion);
 
-			// Save modified params
+			// ... and save the modified params
 			JLibraryHelper::saveParams('joomla', $params);
 		}
 

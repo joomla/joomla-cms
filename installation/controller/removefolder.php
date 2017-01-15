@@ -26,7 +26,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 	public function execute()
 	{
 		// Get the application.
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
@@ -43,7 +43,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 		// Check whether we need to use FTP.
 		$useFTP = false;
 
-		if ((file_exists($path) && !is_writable($path)))
+		if (file_exists($path) && !is_writable($path))
 		{
 			$useFTP = true;
 		}
@@ -144,13 +144,16 @@ class InstallationControllerRemovefolder extends JControllerBase
 	 */
 	public function sendJsonResponse($response)
 	{
+		/** @var InstallationApplicationWeb $app */
+		$app = $this->getApplication();
+
 		// Check if we need to send an error code.
 		if ($response instanceof Exception)
 		{
 			// Send the appropriate error code response.
-			$this->setHeader('status', $response->getCode());
-			$this->setHeader('Content-Type', 'application/json; charset=utf-8');
-			$this->sendHeaders();
+			$app->setHeader('status', $response->getCode());
+			$app->setHeader('Content-Type', 'application/json; charset=utf-8');
+			$app->sendHeaders();
 		}
 
 		// Send the JSON response.
@@ -159,7 +162,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 		echo json_encode(new InstallationResponseJson($response));
 
 		// Close the application.
-		exit;
+		$app->close();
 	}
 }
 
@@ -182,13 +185,13 @@ class InstallationResponseJson
 		// The old token is invalid so send a new one.
 		$this->token = JSession::getFormToken(true);
 
-		// Get the language and send it's tag along.
+		// Get the language and send it's tag along
 		$this->lang = JFactory::getLanguage()->getTag();
 
 		// Get the message queue
 		$messages = JFactory::getApplication()->getMessageQueue();
 
-		// Build the sorted message list.
+		// Build the sorted message list
 		if (is_array($messages) && count($messages))
 		{
 			foreach ($messages as $msg)
@@ -200,14 +203,14 @@ class InstallationResponseJson
 			}
 		}
 
-		// If messages exist add them to the output.
+		// If messages exist add them to the output
 		if (isset($lists) && is_array($lists))
 		{
 			$this->messages = $lists;
 		}
 
 		// Check if we are dealing with an error.
-		if ($data instanceof Exception)
+		if ($data instanceof Exception || $data instanceof Throwable)
 		{
 			// Prepare the error response.
 			$this->error   = true;

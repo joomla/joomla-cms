@@ -3,8 +3,8 @@
 	<field
 		name="client_id"
 		type="list"
-		label=""
 		onchange="jQuery('#filter_search, select[id^=filter_], #list_fullordering').val('');this.form.submit();"
+		filtermode="selector"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
@@ -16,6 +16,7 @@
 			label="COM_CACHE_FILTER_SEARCH_LABEL"
 			description="COM_CACHE_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
+			noresults="JGLOBAL_NO_MATCHING_RESULTS"
 		/>
 	</fields>
 	<fields name="list">

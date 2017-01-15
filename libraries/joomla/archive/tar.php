@@ -67,10 +67,10 @@ class JArchiveTar implements JArchiveExtractable
 	 * @param   string  $destination  Path to extract archive into
 	 * @param   array   $options      Extraction options [unused]
 	 *
-	 * @return  boolean|JException  True on success, JException instance on failure if JError class exists
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException if JError class does not exist
+	 * @throws  RuntimeException
 	 */
 	public function extract($archive, $destination, array $options = array())
 	{
@@ -128,10 +128,10 @@ class JArchiveTar implements JArchiveExtractable
 	 *
 	 * @param   string  &$data  The Tar archive buffer.
 	 *
-	 * @return  boolean|JException  True on success, JException instance on failure if JError class exists
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException if JError class does not exist
+	 * @throws  RuntimeException
 	 */
 	protected function _getTarInfo(& $data)
 	{
