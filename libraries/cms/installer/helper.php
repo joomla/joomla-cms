@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.path');
@@ -42,7 +44,7 @@ abstract class JInstallerHelper
 		ini_set('user_agent', $agent);
 
 		// Create option with userAgent to supply to transport
-		$xport_opts = new JRegistry(array('userAgent'=>$agent));
+		$httpTransportOpts = new Registry(array('userAgent'=>$agent));
 
 		// Load installer plugins, and allow url and headers modification
 		$headers = array();
@@ -52,7 +54,7 @@ abstract class JInstallerHelper
 
 		try
 		{
-			$response = JHttpFactory::getHttp($xport_opts)->get($url, $headers);
+			$response = JHttpFactory::getHttp($httpTransportOpts)->get($url, $headers);
 		}
 		catch (RuntimeException $exception)
 		{
