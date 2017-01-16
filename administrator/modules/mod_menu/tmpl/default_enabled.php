@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,7 +121,7 @@ if ($user->authorise('core.manage', 'com_users'))
 
 		$menu->addChild(
 				new JMenuNode(
-						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&extension=com_users', 'class:category')
+						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&context=com_users.user', 'class:category')
 				);
 	}
 
@@ -254,7 +254,7 @@ if ($user->authorise('core.manage', 'com_content'))
 
 		$menu->addChild(
 			new JMenuNode(
-				JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&extension=com_content', 'class:category')
+				JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&context=com_content.article', 'class:category')
 		);
 	}
 

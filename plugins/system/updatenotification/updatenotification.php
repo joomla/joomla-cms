@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -154,7 +154,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		// If we're here, we have updates. First, get a link to the Joomla! Update component.
 		$baseURL  = JUri::base();
 		$baseURL  = rtrim($baseURL, '/');
-		$baseURL .= (substr($baseURL, -13) != 'administrator') ? '/administrator/' : '/';
+		$baseURL .= (substr($baseURL, -13) !== 'administrator') ? '/administrator/' : '/';
 		$baseURL .= 'index.php?option=com_joomlaupdate';
 		$uri      = new JUri($baseURL);
 
@@ -400,7 +400,7 @@ class PlgSystemUpdatenotification extends JPlugin
 				{
 					$options = array(
 						'defaultgroup' => $group,
-						'cachebase'    => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' :
+						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
 							$conf->get('cache_path', JPATH_SITE . '/cache')
 					);
 

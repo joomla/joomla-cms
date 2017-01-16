@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,11 @@ class ModMenuHelper
 		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
 		$cache = JFactory::getCache('mod_menu', '');
 
-		if (!($items = $cache->get($key)))
+		if ($cache->contains($key))
+		{
+			$items = $cache->get($key);
+		}
+		else
 		{
 			$path           = $base->tree;
 			$start          = (int) $params->get('startLevel');
@@ -97,9 +101,11 @@ class ModMenuHelper
 					switch ($item->type)
 					{
 						case 'separator':
+							break;
+
 						case 'heading':
 							// No further action needed.
-							continue;
+							break;
 
 						case 'url':
 							if ((strpos($item->link, 'index.php?') === 0) && (strpos($item->link, 'Itemid=') === false))
@@ -118,7 +124,7 @@ class ModMenuHelper
 							break;
 					}
 
-					if (strcasecmp(substr($item->flink, 0, 4), 'http') && (strpos($item->flink, 'index.php?') !== false))
+					if ((strpos($item->flink, 'index.php?') !== false) && strcasecmp(substr($item->flink, 0, 4), 'http'))
 					{
 						$item->flink = JRoute::_($item->flink, true, $item->params->get('secure'));
 					}

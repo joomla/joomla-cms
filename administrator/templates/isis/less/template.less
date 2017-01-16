@@ -76,6 +76,12 @@
 @import "icomoon.less";
 // Chosen.css Flat Override 
 @import "chzn-override.less";
+
+// Blocks
+@import "blocks/_editors.less";
+@import "blocks/_modals.less";
+
+
 /* Body */
 html {
 	height: 100%;
@@ -85,6 +91,7 @@ body {
 	height: 100%;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	box-sizing: border-box;
 }
 
 a:hover,
@@ -400,7 +407,7 @@ body .navbar-fixed-top {
 	color: #0C192E;
 	text-shadow: 0 1px 0 #FFF;
 	margin-bottom: 10px;
-	min-height: 43px;
+	min-height: 51px;
 }
 
 .subhead-collapse {
@@ -699,11 +706,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 #assignment.tab-pane {
 	min-height: 500px;
 }
-/* Chosen Max Width */
-.chzn-container,
-.chzn-drop {
-	max-width: 100% !important;
-}
+
 @media (max-width: 979px) {
 	.navbar {
 		.nav {
@@ -726,14 +729,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 @media (min-width: 768px) {
 	body {
 		padding-top: 30px;
-	}
-
-	body.component {
-		padding-top: 0;
-	}
-
-	.row-fluid [class*="span"] {
-		margin-left: 15px;
 	}
 
 	.row-fluid .modal-batch [class*="span"] {
@@ -759,12 +754,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	.container-fluid {
 		padding-left: 0;
 		padding-right: 0;
-	}
-}
-
-@media (min-width: 738px) {
-	body.component {
-		padding-top: 0;
 	}
 }
 
@@ -815,12 +804,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	.btn-subhead {
 		display: block;
 		margin: 10px 0;
-	}
-
-	.chzn-container,
-	.chzn-container .chzn-results,
-	.chzn-container-single .chzn-drop {
-		width: 99% !important;
 	}
 
 	.subhead-collapse.collapse {
@@ -1217,9 +1200,14 @@ th .tooltip-inner {
 	margin-left: -1px;
 }
 
-.controls .btn-group.btn-group-yesno > .btn {
-	min-width: 84px;
-	padding: 2px 12px;
+.controls .btn-group.btn-group-yesno {
+	width: 100%;
+	max-width: 220px;
+	> .btn {
+		width: 50%;
+		min-width: 20px;
+		padding: 2px 0;
+	}
 }
 .img-preview > img {
 	max-height: 100%;
@@ -1320,7 +1308,7 @@ a.grid_true {
 	width: 16.5%;
 	margin: -10px 0 0 -1px;
 	padding-top: 28px;
-	padding-bottom: 10px;
+	padding-bottom: 40px;
 	clear: both;
 	background-color: @wellBackground;
 	border-bottom: 1px solid darken(@wellBackground, 7%);
@@ -1457,18 +1445,6 @@ textarea.noResize {
 	resize: none;
 }
 
-/* Prevent scrolling on the parent window of a modal */
-body.modal-open {
-	overflow: hidden;
-	-ms-overflow-style: none;
-}
-
-/* Corrects the modals padding */
-.field-media-wrapper .modal .modal-body {
-	padding: 5px 10px;
-	overflow: hidden;
-}
-
 /* Stats plugin */
 .js-pstats-data-details dd {
 	margin-left: 240px;
@@ -1477,15 +1453,6 @@ body.modal-open {
 	width: 220px;
 }
 
-/* Clear div after modal-body rendering */
-.modal-footer {
-	clear: both;
-}
-
-/* Modal Header text align left even if parent container centered */
-.modal-header {
-	text-align: left;
-}
 
 /* ACL Permission page */
 #permissions,
@@ -1544,7 +1511,7 @@ body.modal-open {
 		margin-bottom: 5px;
 	}
 }
-.thumbnails {
+.thumbnails-media {
 	@thumbSize:100px;
 	margin-left: 0;
 	.thumbnail {
@@ -1773,8 +1740,6 @@ body.modal-open {
 
 }
 
-// Media XTD Button
-=======
 /* Repeatable SubForm */
 .subform-repeatable {
 	padding-right: 10px;
@@ -1879,4 +1844,37 @@ body.modal-open {
 /* Overrid font-weight 200 */
 .lead, .navbar .brand, .hero-unit, .hero-unit .lead {
 	font-weight: 400;
+}
+
+/* Template Menu Assignment */
+#menu-assignment {
+	.menu-links {
+		margin-left: 0;
+	}
+	.menu-links-block {
+		background-color: #fafafa;
+	    border: 1px solid #ddd;
+	    border-radius: 3px;
+	    padding: 15px;
+	}
+}
+
+/* Remove unneeded space between label and field in vertical forms */
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+	padding-top: 0;
+
+	.form-horizontal & {
+		padding-top: 5px;
+	}
+}
+
+/* Align btn-group to label */
+.form-horizontal .controls > .radio.btn-group:first-child {
+	padding-top: 0;
+}
+
+/* Align btn-group-yesno to label */
+.form-horizontal .controls > .radio.btn-group-yesno:first-child {
+	padding-top: 2px;
 }

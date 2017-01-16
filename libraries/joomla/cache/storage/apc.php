@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,6 +17,21 @@ defined('JPATH_PLATFORM') or die;
  */
 class JCacheStorageApc extends JCacheStorage
 {
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function contains($id, $group)
+	{
+		return apc_exists($this->_getCacheId($id, $group));
+	}
+
 	/**
 	 * Get cached data by ID and group
 	 *

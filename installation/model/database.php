@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,7 @@ class InstallationModelDatabase extends JModelBase
 		$currentLang = $lang->getTag();
 
 		// Load the selected language
-		if (JLanguage::exists($currentLang, JPATH_ADMINISTRATOR))
+		if (JLanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
 		{
 			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
 		}
@@ -299,10 +299,10 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		if ($db->getServerType() === 'mysql')
 		{
 			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
-			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>=')))
+			if (preg_match('#[\\\/\.\0]#', $options->db_name) && (!version_compare($db_version, '5.1.6', '>=')))
 			{
 				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version), 'error');
 
@@ -327,7 +327,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
-		if (($options->db_type == 'postgresql') && (!version_compare($db_version, '9.0.0', '>=')))
+		if ($db->getServerType() === 'postgresql' && !version_compare($db_version, '9.0.0', '>='))
 		{
 			$db->setQuery("select lanpltrusted from pg_language where lanname='plpgsql'");
 
@@ -346,7 +346,7 @@ class InstallationModelDatabase extends JModelBase
 
 			if ($column != 't')
 			{
-				$db->setQuery("CREATE LANGUAGE plpgsql");
+				$db->setQuery('CREATE LANGUAGE plpgsql');
 
 				try
 				{
@@ -487,11 +487,11 @@ class InstallationModelDatabase extends JModelBase
 		$this->setDatabaseCharset($db, $options->db_name);
 
 		// Set the appropriate schema script based on UTF-8 support.
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		if ($db->getServerType() === 'mysql')
 		{
 			$schema = 'sql/mysql/joomla.sql';
 		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+		elseif ($db->getServerType() === 'mssql')
 		{
 			$schema = 'sql/sqlazure/joomla.sql';
 		}
@@ -542,11 +542,11 @@ class InstallationModelDatabase extends JModelBase
 		// Attempt to update the table #__schema.
 		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		if ($serverType === 'mysql')
 		{
 			$pathPart .= 'mysql/';
 		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+		elseif ($serverType === 'mssql')
 		{
 			$pathPart .= 'sqlazure/';
 		}
@@ -628,11 +628,11 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Load the localise.sql for translating the data in joomla.sql.
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		if ($serverType === 'mysql')
 		{
 			$dblocalise = 'sql/mysql/localise.sql';
 		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+		elseif ($serverType === 'mssql')
 		{
 			$dblocalise = 'sql/sqlazure/localise.sql';
 		}
@@ -722,11 +722,11 @@ class InstallationModelDatabase extends JModelBase
 		// Build the path to the sample data file.
 		$type = $options->db_type;
 
-		if ($type == 'mysqli' || $type == 'pdomysql')
+		if ($db->getServerType() === 'mysql')
 		{
 			$type = 'mysql';
 		}
-		elseif ($type == 'sqlsrv')
+		elseif ($db->getServerType() === 'mssql')
 		{
 			$type = 'sqlazure';
 		}
@@ -835,32 +835,39 @@ class InstallationModelDatabase extends JModelBase
 
 		// Update all core tables created_by fields of the tables with the random user id.
 		$updatesArray = array(
-			'#__banners'         => 'created_by',
-			'#__categories'      => 'created_user_id',
-			'#__contact_details' => 'created_by',
-			'#__content'         => 'created_by',
-			'#__newsfeeds'       => 'created_by',
-			'#__tags'            => 'created_user_id',
-			'#__ucm_content'     => 'core_created_user_id',
-			'#__ucm_history'     => 'editor_user_id',
-			'#__user_notes'      => 'created_user_id',
+			'#__banners'         => array('created_by', 'modified_by'),
+			'#__categories'      => array('created_user_id', 'modified_user_id'),
+			'#__contact_details' => array('created_by', 'modified_by'),
+			'#__content'         => array('created_by', 'modified_by'),
+			'#__fields'          => array('created_user_id', 'modified_by'),
+			'#__finder_filters'  => array('created_by', 'modified_by'),
+			'#__newsfeeds'       => array('created_by', 'modified_by'),
+			'#__tags'            => array('created_user_id', 'modified_user_id'),
+			'#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
+			'#__ucm_history'     => array('editor_user_id'),
+			'#__user_notes'      => array('created_user_id', 'modified_user_id'),
 		);
 
-		foreach ($updatesArray as $table => $field)
+		foreach ($updatesArray as $table => $fields)
 		{
-			$query = $db->getQuery(true)
-				->update($db->quoteName($table))
-				->set($db->quoteName($field) . ' = ' . $db->quote($userId));
-
-			$db->setQuery($query);
-
-			try
+			foreach ($fields as $field)
 			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				$query = $db->getQuery(true)
+					->update($db->quoteName($table))
+					->set($db->quoteName($field) . ' = ' . $db->quote($userId))
+					->where($db->quoteName($field) . ' != 0')
+					->where($db->quoteName($field) . ' IS NOT NULL');
+
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
 			}
 		}
 	}
@@ -872,7 +879,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function updateDates($db)
 	{
@@ -888,6 +895,7 @@ class InstallationModelDatabase extends JModelBase
 			'#__contact_details'     => array('publish_up', 'publish_down', 'created', 'modified'),
 			'#__content'             => array('publish_up', 'publish_down', 'created', 'modified'),
 			'#__contentitem_tag_map' => array('tag_date'),
+			'#__fields'              => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
 			'#__finder_filters'      => array('created', 'modified'),
 			'#__finder_links'        => array('indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'),
 			'#__messages'            => array('date_time'),
@@ -1182,7 +1190,7 @@ class InstallationModelDatabase extends JModelBase
 		// Parse the schema file to break up queries.
 		for ($i = 0; $i < strlen($query) - 1; $i++)
 		{
-			if ($query[$i] == ";" && !$in_string)
+			if ($query[$i] == ';' && !$in_string)
 			{
 				$queries[] = substr($query, 0, $i);
 				$query     = substr($query, $i + 1);
@@ -1213,7 +1221,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Add function part as is.
-		for ($f = 1; $f < count($funct); $f++)
+		for ($f = 1, $fMax = count($funct); $f < $fMax; $f++)
 		{
 			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
 		}
