@@ -29,7 +29,7 @@ class PlgFieldsCalendar extends FieldsPlugin
 	 *
 	 * @return  DOMElement
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
 	{
