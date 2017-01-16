@@ -216,38 +216,36 @@ class FieldsModelFields extends JModelList
 			// Join over the assigned categories
 			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
 				->group(
-					$db->quote(
-						array(
-							'a.id',
-							'a.title',
-							'a.alias',
-							'a.checked_out',
-							'a.checked_out_time',
-							'a.note',
-							'a.state',
-							'a.access',
-							'a.created_time',
-							'a.created_user_id',
-							'a.ordering',
-							'a.language',
-							'a.fieldparams',
-							'a.params',
-							'a.type',
-							'a.default_value',
-							'a.context',
-							'a.group_id',
-							'a.label',
-							'a.description',
-							'a.required',
-							'l.title',
-							'l.image',
-							'uc.name',
-							'ag.title',
-							'ua.name',
-							'g.title',
-							'g.access',
-							'g.state'
-						)
+					array(
+						'a.id',
+						'a.title',
+						'a.alias',
+						'a.checked_out',
+						'a.checked_out_time',
+						'a.note',
+						'a.state',
+						'a.access',
+						'a.created_time',
+						'a.created_user_id',
+						'a.ordering',
+						'a.language',
+						'a.fieldparams',
+						'a.params',
+						'a.type',
+						'a.default_value',
+						'a.context',
+						'a.group_id',
+						'a.label',
+						'a.description',
+						'a.required',
+						'l.title',
+						'l.image',
+						'uc.name',
+						'ag.title',
+						'ua.name',
+						'g.title',
+						'g.access',
+						'g.state'
 					)
 				);
 
