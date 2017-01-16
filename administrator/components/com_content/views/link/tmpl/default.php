@@ -19,7 +19,7 @@ $link = json_decode($linkraw, true);
 JHtml::_('formbehavior.chosen', 'select');
 
 // Load tooltip instance without HTML support because we have a HTML tag in the tip
-JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
+JHtml::_('bootstrap.tooltip');
 
 // Include jQuery
 JHtml::_('jquery.framework');
@@ -39,7 +39,7 @@ JHtml::_('script', 'com_content/popup-linkmanager.min.js', false, true, false, f
 			<div class="row">
 				<div class="span6 control-group">
 					<div class="control-label">
-						<label for="f_url"><?php echo JText::_('COM_Content_LINK_URL') ?></label>
+						<label class="hasTooltip" title="<?php echo JText::_('COM_Content_LINK_URL_DESC'); ?>" for="f_url"><?php echo JText::_('COM_Content_LINK_URL') ?></label>
 					</div>
 					<div class="controls">
 						<input type="text" id="f_url" value="<?php echo htmlspecialchars($link['url']); ?>" />
@@ -47,7 +47,7 @@ JHtml::_('script', 'com_content/popup-linkmanager.min.js', false, true, false, f
 				</div>
 				<div class="span6 control-group">
 					<div class="control-label">
-						<label for="f_title"><?php echo JText::_('COM_Content_LINK_TITLE') ?></label>
+						<label class="hasTooltip" title="<?php echo JText::_('COM_Content_LINK_TITLE_DESC'); ?>" for="f_title"><?php echo JText::_('COM_Content_LINK_TITLE') ?></label>
 					</div>
 					<div class="controls">
 						<input type="text" id="f_title" value="<?php echo htmlspecialchars($link['title']); ?>" />
@@ -57,7 +57,7 @@ JHtml::_('script', 'com_content/popup-linkmanager.min.js', false, true, false, f
 			<div class="row">
 				<div class="span6 control-group">
 					<div class="control-label">
-						<label for="f_rel"><?php echo JText::_('COM_Content_LINK_REL') ?></label>
+						<label class="hasTooltip" title="<?php echo JText::_('COM_Content_LINK_REL_DESC'); ?>" for="f_rel"><?php echo JText::_('COM_Content_LINK_REL') ?></label>
 					</div>
 					<div class="controls">
 						<input type="text" id="f_rel" value="<?php echo htmlspecialchars($link['rel']); ?>" />

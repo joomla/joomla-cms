@@ -56,15 +56,22 @@ $attr = !empty($class) ? ' class="' . $class . '"' : '';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 
 // The hidden text field.
-$jsonvalue = $value ? htmlspecialchars($value, ENT_COMPAT, 'UTF-8') : '';
+$jsonvalue = '';
+$linkUrl = '';
+if ($value)
+{
+	$jsonvalue = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+	$linkUrl = json_decode($value, true)['url'];
+}
 $linkoriginal = ($link ? $link : 'index.php?option=com_content&amp;view=link&amp;tmpl=component&amp;asset=' . $asset . '&amp;author=' . $authorField);
 ?>
 <div class="input-prepend input-append">
+	<input type="text" id="<?php echo $id; ?>-preview" class="input-small" value="<?php echo $linkUrl; ?>" readonly="readonly" />
 	<input type="hidden" name="<?php echo $name . '" id="' . $id . '" value="' . $jsonvalue . '" readonly="readonly"' . $attr; ?> />
 	<a class="modal btn" title="<?php echo JText::_('JLIB_FORM_BUTTON_SELECT'); ?>" id="<?php echo $id; ?>-btn" href="
 	<?php echo ($readonly ? '' : $linkoriginal . '&amp;fieldid=' . $id . '&amp;link=' . $jsonvalue) . '"'
 		. ' rel="{handler: \'iframe\', size: {x: 800, y: 260}}"'; ?>><?php echo JText::_('JLIB_FORM_BUTTON_SELECT'); ?></a>
-	<a class="btn hasTooltip" title="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>" href="#" onclick="jInsertFieldValue('', '<?php echo $id; ?>');var btn = document.getElementById('<?php echo $id; ?>-btn');btn.href = '<?php echo $linkoriginal . '&amp;fieldid=' . $id . "&amp;link="; ?>'; return false;">
+	<a class="btn hasTooltip" title="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>" href="#" onclick="jInsertFieldValue('', '<?php echo $id; ?>');var btn = document.getElementById('<?php echo $id; ?>-btn');btn.href = '<?php echo $linkoriginal . '&amp;fieldid=' . $id . "&amp;link="; ?>';jInsertFieldValue('', '<?php echo $id; ?>-preview'); return false;">
 		<i class="icon-remove"></i>
 	</a>
 </div>

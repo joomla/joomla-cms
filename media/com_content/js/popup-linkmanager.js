@@ -32,10 +32,12 @@
 				f_rel = document.getElementById('f_rel').value,
 				link = {url: f_url, title: f_title, rel: f_rel},
 				linkjson = JSON.stringify(link),
-				btn = window.parent.document.getElementById(fieldid + '-btn');
+				btn = window.parent.document.getElementById(fieldid + '-btn'),
+				preview = window.parent.document.getElementById(fieldid + '-preview');
 			// Update the iframe link such that the new data will be shown
 			// if the the modal window is opened again.
 			btn.href = btn.href.replace(oldvalue, 'link=' + linkjson);
+			preview.value = f_url;
 			window.parent.jInsertFieldValue(linkjson, fieldid);
 		},
 		/**
