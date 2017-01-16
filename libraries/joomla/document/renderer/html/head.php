@@ -258,12 +258,12 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			{
 				$options = $attribs['options'];
 
- 				$conditional = isset($options['conditional']) ? $options['conditional'] : null;
+				$conditional = isset($options['conditional']) ? $options['conditional'] : null;
 
 				if (isset($options['version']) && $options['version'] && strpos($src, '?') === false
 					&& ($mediaVersion || $options['version'] !== 'auto'))
-  				{
-  					$src .= '?' . ($options['version'] === 'auto' ? $mediaVersion : $options['version']);
+				{
+					$src .= '?' . ($options['version'] === 'auto' ? $mediaVersion : $options['version']);
 				}
 			}
 
