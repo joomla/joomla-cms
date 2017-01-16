@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('fields.list.list', JPATH_PLUGINS);
+JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINISTRATOR);
 
 /**
  * Fields Checkboxes Plugin
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgFieldsCheckboxes extends PlgFieldsList
+class PlgFieldsCheckboxes extends FieldsListPlugin
 {
 }
