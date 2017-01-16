@@ -1618,6 +1618,15 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default.php',
+			'/administrator/components/com_installer/controllers/languages.php',
+			'/administrator/components/com_media/views/medialist/tmpl/details_doc.php',
+			'/administrator/components/com_media/views/medialist/tmpl/details_folder.php',
+			'/administrator/components/com_media/views/medialist/tmpl/details_img.php',
+			'/administrator/components/com_media/views/medialist/tmpl/details_video.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_doc.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_folder.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_img.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_video.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
