@@ -283,11 +283,11 @@ class ConfigModelApplication extends ConfigModelForm
 		 * Look for a custom cache_path
 		 * First check if a path is given in the submitted data, then check if a path exists in the previous data, otherwise use the default
 		 */
-		if ($data['cache_path'])
+		if (!empty($data['cache_path']))
 		{
 			$path = $data['cache_path'];
 		}
-		elseif (!$data['cache_path'] && $prev['cache_path'])
+		elseif (empty($data['cache_path']) && !empty($prev['cache_path']))
 		{
 			$path = $prev['cache_path'];
 		}
