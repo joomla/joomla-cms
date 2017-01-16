@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -661,7 +661,14 @@ class JSession implements IteratorAggregate
 		// Temporary, PARTIAL, data migration of existing session data to avoid logout on update from J < 3.4.7
 		if (isset($_SESSION['__default']) && !empty($_SESSION['__default']))
 		{
-			$migratableKeys = array("user", "session.token", "session.counter", "session.timer.start", "session.timer.last", "session.timer.now");
+			$migratableKeys = array(
+				'user',
+				'session.token',
+				'session.counter',
+				'session.timer.start',
+				'session.timer.last',
+				'session.timer.now'
+			);
 
 			foreach ($migratableKeys as $migratableKey)
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -86,13 +86,19 @@ class JFormFieldType extends JFormFieldList
 		$uri->setVar('view', null);
 		$uri->setVar('layout', null);
 
-		JFactory::getDocument()->addScriptDeclaration(
-				"function typeHasChanged(element){
+
+		JFactory::getDocument()->addScriptDeclaration("
+			jQuery( document ).ready(function() {
+				Joomla.loadingLayer('load');
+			});
+			function typeHasChanged(element){
+				Joomla.loadingLayer('show');
 				var cat = jQuery(element);
 				jQuery('input[name=task]').val('field.storeform');
 				element.form.action='" . $uri . "';
 				element.form.submit();
-			}");
+			}
+		");
 
 		return $options;
 	}

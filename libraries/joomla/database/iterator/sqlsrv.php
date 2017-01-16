@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,22 @@ class JDatabaseIteratorSqlsrv extends JDatabaseIterator
 	 */
 	protected function fetchObject()
 	{
-		return sqlsrv_fetch_object($this->cursor, $this->class);
+		$row = sqlsrv_fetch_object($this->cursor, $this->class);
+
+		if (is_object($row))
+		{
+			// For SQLServer - we need to strip slashes
+			foreach (get_object_vars($row) as $key => $value)
+			{
+				// Check public variable from object including those from $class, ex. JMenuItem
+				if (is_string($value))
+				{
+					$row->$key = stripslashes($value);
+				}
+			}
+		}
+
+		return $row;
 	}
 
 	/**
