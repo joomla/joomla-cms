@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `#__fields_categories` (
+CREATE TABLE IF NOT EXISTS `#__fields_categories` (
   `field_id` int(11) NOT NULL DEFAULT 0,
   `category_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`field_id`,`category_id`)

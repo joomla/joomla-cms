@@ -46,6 +46,33 @@ class JoomlaInstallerScript
 		$this->flushSessions();
 	}
 
+    /**
+     * Called after any type of action
+     *
+     * @param   string  $route  Which action is happening (install|uninstall|discover_install|update)
+     * @param   JAdapterInstance  $adapter  The object responsible for running this script
+     *
+     * @return  boolean  True on success
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function postflight($route, JAdapterInstance $adapter)
+    {
+        if ($route === 'update')
+        {
+            if (version_compare(JVERSION, '3.7.0', 'lt'))
+            {
+                // Add a menu item for com_associations
+                $newMenuItem = JTable::getInstance('Menu');
+                
+
+
+            }
+        }
+
+        return true;
+    }
+
 	/**
 	 * Method to clear our stats plugin cache to ensure we get fresh data on Joomla Update
 	 *
