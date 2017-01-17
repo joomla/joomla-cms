@@ -285,6 +285,7 @@ class JoomlaInstallerScript
 			array('component', 'com_postinstall', '', 1),
 			array('component', 'com_joomlaupdate', '', 1),
 			array('component', 'com_fields', '', 1),
+			array('component', 'com_associations', '', 1),
 
 			// Libraries
 			array('library', 'phputf8', '', 0),
@@ -1618,6 +1619,10 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default.php',
+			// Joomla __DEPLOY_VERSION__
+			'/administrator/modules/mod_menu/tmpl/default_enabled.php',
+			'/administrator/modules/mod_menu/tmpl/default_disabled.php',
+			'/administrator/templates/hathor/html/mod_menu/default_enabled.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1746,6 +1751,8 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/layouts/joomla/searchtools',
 			'/administrator/components/com_templates/layouts/joomla',
 			'/administrator/components/com_templates/layouts',
+			// Joomla! __DEPLOY_VERSION__
+			'/administrator/templates/hathor/html/mod_menu',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1816,6 +1823,7 @@ class JoomlaInstallerScript
 			'com_ajax',
 			'com_postinstall',
 			'com_fields',
+			'com_associations',
 		);
 
 		foreach ($newComponents as $component)

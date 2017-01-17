@@ -706,11 +706,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 #assignment.tab-pane {
 	min-height: 500px;
 }
-/* Chosen Max Width */
-.chzn-container,
-.chzn-drop {
-	max-width: 100% !important;
-}
+
 @media (max-width: 979px) {
 	.navbar {
 		.nav {
@@ -733,10 +729,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 @media (min-width: 768px) {
 	body {
 		padding-top: 30px;
-	}
-
-	.row-fluid [class*="span"] {
-		margin-left: 15px;
 	}
 
 	.row-fluid .modal-batch [class*="span"] {
@@ -812,12 +804,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	.btn-subhead {
 		display: block;
 		margin: 10px 0;
-	}
-
-	.chzn-container,
-	.chzn-container .chzn-results,
-	.chzn-container-single .chzn-drop {
-		width: 99% !important;
 	}
 
 	.subhead-collapse.collapse {
@@ -1214,9 +1200,14 @@ th .tooltip-inner {
 	margin-left: -1px;
 }
 
-.controls .btn-group.btn-group-yesno > .btn {
-	min-width: 84px;
-	padding: 2px 12px;
+.controls .btn-group.btn-group-yesno {
+	width: 100%;
+	max-width: 220px;
+	> .btn {
+		width: 50%;
+		min-width: 20px;
+		padding: 2px 0;
+	}
 }
 .img-preview > img {
 	max-height: 100%;
@@ -1317,7 +1308,7 @@ a.grid_true {
 	width: 16.5%;
 	margin: -10px 0 0 -1px;
 	padding-top: 28px;
-	padding-bottom: 10px;
+	padding-bottom: 40px;
 	clear: both;
 	background-color: @wellBackground;
 	border-bottom: 1px solid darken(@wellBackground, 7%);
