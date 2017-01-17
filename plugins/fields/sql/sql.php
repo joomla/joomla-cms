@@ -3,20 +3,20 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Sql
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('fields.list.list', JPATH_PLUGINS);
+JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINISTRATOR);
 
 /**
  * Fields Sql Plugin
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgFieldsSql extends PlgFieldsList
+class PlgFieldsSql extends FieldsListPlugin
 {
 	/**
 	 * Transforms the field into an XML element and appends it as child on the given parent. This

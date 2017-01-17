@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -134,7 +134,8 @@ class UsersModelRegistration extends JModelForm
 			$query->clear()
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('sendEmail') . ' = ' . 1);
+				->where($db->quoteName('sendEmail') . ' = 1')
+				->where($db->quoteName('block') . ' = 0');
 
 			$db->setQuery($query);
 
@@ -582,7 +583,8 @@ class UsersModelRegistration extends JModelForm
 			$query->clear()
 				->select($db->quoteName(array('name', 'email', 'sendEmail')))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('sendEmail') . ' = ' . 1);
+				->where($db->quoteName('sendEmail') . ' = 1')
+				->where($db->quoteName('block') . ' = 0');
 
 			$db->setQuery($query);
 
