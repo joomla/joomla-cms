@@ -41,7 +41,7 @@ abstract class ModMenuHelper
 			->where('(b.client_id = 0 OR b.client_id IS NULL)');
 
 		// Sqlsrv change
-		$query->group('a.id, a.menutype, a.description, a.title, a.asset_id, b.menutype,b.language,l.image,l.sef,l.title_native');
+		$query->group('a.id, a.client_id, a.menutype, a.description, a.title, a.asset_id, b.menutype,b.language,l.image,l.sef,l.title_native');
 
 		$db->setQuery($query);
 
