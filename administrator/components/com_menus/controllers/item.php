@@ -331,7 +331,7 @@ class MenusControllerItem extends JControllerForm
 				$segments = explode(':', $data['link']);
 				$protocol = strtolower($segments[0]);
 				$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais', 'url',
-					'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
+					'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git', 'sms');
 
 				if (!in_array($protocol, $scheme))
 				{
