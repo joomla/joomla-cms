@@ -13,7 +13,7 @@ $class = $fieldParams->get('image_class');
 
 if ($class)
 {
-	$class = 'class="' . $class . '"';
+	$class = ' class="' . $class . '"';
 }
 
 if ($value == '')
