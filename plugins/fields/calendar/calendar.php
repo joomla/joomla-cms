@@ -54,15 +54,16 @@ class PlgFieldsCalendar extends FieldsPlugin
 	 * Unsupported date formats : S, n, t, L, B, G, u, e, I, P, Z, c, r
 	 * Unsupported strftime formats : %U, %W, %C, %g, %r, %R, %T, %X, %c, %D, %F, %x
 	 *
+	 * Example:
+	 * Convert `%A, %B %e, %Y, %l:%M %P` to `l, F j, Y, g:i a`, and vice versa for "Saturday, March 10, 2001, 5:16 pm".
+	 *
 	 * @param   string  $format  The format to parse.
 	 * @param   string  $syntax  The format's syntax. Either 'strftime' for `strtime()` or 'date' for `date()`.
 	 *
-	 * @example Convert `%A, %B %e, %Y, %l:%M %P` to `l, F j, Y, g:i a`, and vice versa for "Saturday, March 10, 2001, 5:16 pm".
-	 *
-	 * @link Http://php.net/manual/en/function.strftime.php#96424
-	 * @link Https://gist.github.com/mcaskill/02636e5970be1bb22270
-	 *
 	 * @return  bool|string  Returns a string formatted according $syntax using the given $format or `false`.
+	 *
+	 * @link http://php.net/manual/en/function.strftime.php#96424
+	 * @link https://gist.github.com/mcaskill/02636e5970be1bb22270
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
