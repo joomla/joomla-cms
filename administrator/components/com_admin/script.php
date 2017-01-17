@@ -285,7 +285,7 @@ class JoomlaInstallerScript
 			array('component', 'com_postinstall', '', 1),
 			array('component', 'com_joomlaupdate', '', 1),
 			array('component', 'com_fields', '', 1),
-            array('component', 'com_associations', '', 1),
+			array('component', 'com_associations', '', 1),
 
 			// Libraries
 			array('library', 'phputf8', '', 0),
