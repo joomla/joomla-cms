@@ -61,15 +61,13 @@ class PlgSystemFields extends JPlugin
 
 		$params = new Registry;
 
-		// Load the item params from the request
-		$data = JFactory::getApplication()->input->post->get('jform', array(), 'array');
-
-		if (key_exists('params', $data))
+		// Load the params from the item when it doesn't have such a field
+		if (isset($item->_params))
 		{
-			$params->loadArray($data['params']);
+			$params->loadArray($item->_params);
 		}
 
-		// Load the params from the item itself
+		// Load the params from the item when it has a params field
 		if (isset($item->params))
 		{
 			$params->loadString($item->params);

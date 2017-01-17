@@ -40,8 +40,8 @@ class PlgFieldsCalendar extends FieldsPlugin
 			return $fieldNode;
 		}
 
-		// Disable filter, otherwise the dates are moved in none UTC timezones
-		$fieldNode->setAttribute('filter', 'none');
+		// Set filter to user UTC
+		$fieldNode->setAttribute('filter', 'USER_UTC');
 
 		return $fieldNode;
 	}
