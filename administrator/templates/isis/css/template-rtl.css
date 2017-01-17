@@ -8307,7 +8307,7 @@ a.grid_true {
 	width: 16.5%;
 	margin: -10px 0 0 -1px;
 	padding-top: 28px;
-	padding-bottom: 10px;
+	padding-bottom: 40px;
 	clear: both;
 	background-color: #F0F0F0;
 	border-bottom: 1px solid #dedede;
@@ -9623,8 +9623,13 @@ a.grid_true {
 	border-right: 0px;
 }
 .j-sidebar-container {
+	position: absolute;
+	display: block;
 	left: auto;
 	right: -16.5%;
+	padding-top: 28px;
+	padding-bottom: 40px;
+	clear: both;
 	margin: -10px -1px 0 0;
 	border-right: 0;
 	border-left: 1px solid #d3d3d3;
@@ -9650,6 +9655,10 @@ a.grid_true {
 .j-toggle-button-wrapper.j-toggle-visible {
 	right: auto;
 	left: 10px;
+}
+.j-sidebar-container .icon-folder-2 {
+	line-height: 15px;
+	padding-left: 0;
 }
 #system-message-container,
 #j-main-container {

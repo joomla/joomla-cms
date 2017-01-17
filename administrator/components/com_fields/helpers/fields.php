@@ -132,6 +132,11 @@ class FieldsHelper
 
 		$fields = self::$fieldsCache->getItems();
 
+		if ($fields === false)
+		{
+			return array();
+		}
+
 		if ($item && isset($item->id))
 		{
 			if (self::$fieldCache === null)
