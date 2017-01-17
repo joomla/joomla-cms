@@ -16,10 +16,30 @@ defined('_JEXEC') or die;
  */
 class JoomlaInstallerScript
 {
+	protected $fromVersion = null;
+	protected $toVersion = null;
+
+	/**
+	 * Function to act prior to installation process begins
+	 *
+	 * @param   string      $type       The action being performed
+	 * @param   JInstaller  $installer  The class calling this method
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   2.0
+	 */
+	public function preflight($type, $parent)
+	{
+		$this->fromVersion = JVERSION;
+
+		return true;
+	}
+
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerAdapterFile  $installer  The class calling this method
+	 * @param   JInstaller  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
