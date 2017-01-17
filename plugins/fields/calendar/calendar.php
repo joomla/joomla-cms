@@ -69,7 +69,7 @@ class PlgFieldsCalendar extends FieldsPlugin
 	 */
 	public function changeFormat($format, $syntax = 'strftime')
 	{
-		// http://php.net/manual/en/function.strftime.php
+		// Syntax from http://php.net/manual/en/function.strftime.php
 		$strfSyntax = array(
 			// Day - no strf eq : S (created one called %O)
 			'%O', '%d', '%a', '%e', '%A', '%u', '%w', '%j',
@@ -86,7 +86,8 @@ class PlgFieldsCalendar extends FieldsPlugin
 			// Full Date / Time - no strf eq : c, r; no date eq : %c, %D, %F, %x
 			'%s'
 		);
-		// http://php.net/manual/en/function.date.php
+
+		// Syntax from http://php.net/manual/en/function.date.php
 		$dateSyntax = array(
 			'S', 'd', 'D', 'j', 'l', 'N', 'w', 'z',
 			'W',
