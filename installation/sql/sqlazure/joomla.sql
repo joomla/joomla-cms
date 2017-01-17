@@ -1067,7 +1067,6 @@ CREATE TABLE [#__fields] (
 	[label] [nvarchar](255) NOT NULL DEFAULT '',
 	[default_value] [nvarchar](max) NOT NULL DEFAULT '',
 	[type] [nvarchar](255) NOT NULL DEFAULT '',
-	[options] [nvarchar](255) NOT NULL DEFAULT '',
 	[note] [nvarchar](255) NOT NULL DEFAULT '',
 	[description] [nvarchar](max) NOT NULL DEFAULT '',
 	[state] [smallint] NOT NULL DEFAULT 0,
@@ -1077,15 +1076,11 @@ CREATE TABLE [#__fields] (
 	[ordering] [int] NOT NULL DEFAULT 0,
 	[params] [nvarchar](max) NOT NULL DEFAULT '',
 	[fieldparams] [nvarchar](max) NOT NULL DEFAULT '',
-	[attributes] [nvarchar](max) NOT NULL DEFAULT '',
 	[language] [nvarchar](7) NOT NULL DEFAULT '',
 	[created_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[created_user_id] [bigint] NOT NULL DEFAULT 0,
-	[created_by_alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[modified_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[modified_by] [bigint] NOT NULL DEFAULT 0,
-	[publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[access] [int] NOT NULL DEFAULT 1,
 CONSTRAINT [PK_#__fields_id] PRIMARY KEY CLUSTERED(
 	[id] ASC)
