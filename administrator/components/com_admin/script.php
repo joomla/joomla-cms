@@ -54,9 +54,9 @@ class JoomlaInstallerScript
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.7.0
      */
-    public function postflight($route, JAdapterInstance $adapter)
+    public function postflight($route, $installer)
     {
         if ($route === 'update')
         {
@@ -1646,7 +1646,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default.php',
-			// Joomla __DEPLOY_VERSION__
+			// Joomla 3.7.0
 			'/administrator/modules/mod_menu/tmpl/default_enabled.php',
 			'/administrator/modules/mod_menu/tmpl/default_disabled.php',
 			'/administrator/templates/hathor/html/mod_menu/default_enabled.php',
@@ -1778,7 +1778,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/layouts/joomla/searchtools',
 			'/administrator/components/com_templates/layouts/joomla',
 			'/administrator/components/com_templates/layouts',
-			// Joomla! __DEPLOY_VERSION__
+			// Joomla! 3.7.0
 			'/administrator/templates/hathor/html/mod_menu',
 		);
 
