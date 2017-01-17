@@ -32,7 +32,7 @@ foreach ($value as $path)
 	}
 
 	$buffer .= '<img src="images/' . $fieldParams->get('directory', '/')
-				. '/' . $path . '"' . $class . '"/>';
+				. '/' . $path . '"' . $class . '/>';
 }
 
 echo $buffer;
