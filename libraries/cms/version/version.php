@@ -46,7 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'dev';
+	const DEV_STATUS = 'Alpha';
 
 	/**
 	 * Build number.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '20-December-2016';
+	const RELDATE = '18-January-2017';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '23:59';
+	const RELTIME = '19:23';
 
 	/**
 	 * Release timezone.

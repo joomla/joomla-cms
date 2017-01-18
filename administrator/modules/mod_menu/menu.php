@@ -333,7 +333,7 @@ class JAdminCssMenu
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function load($params, $enabled)
 	{
@@ -402,7 +402,7 @@ class JAdminCssMenu
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function loadItems($items, $enabled = true)
 	{

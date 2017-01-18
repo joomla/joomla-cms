@@ -293,7 +293,7 @@ abstract class JFormField
 	 * The conditions to show/hide the field.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $showon;
 
