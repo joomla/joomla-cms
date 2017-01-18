@@ -27,8 +27,8 @@ class JoomlaInstallerScript
 	/**
 	 * Function to act prior to installation process begins
 	 *
-	 * @param   string      $action     Which action is happening (install|uninstall|discover_install|update)
-	 * @param   JInstaller  $installer  The class calling this method
+	 * @param   string     $action    Which action is happening (install|uninstall|discover_install|update)
+	 * @param   JInstaller $installer The class calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -39,7 +39,7 @@ class JoomlaInstallerScript
 		if ($action === 'update')
 		{
 			// Get the version we are updating from
-			if (! empty($installer->extension->manifest_cache))
+			if (!empty($installer->extension->manifest_cache))
 			{
 				$manifestValues = json_decode($installer->extension->manifest_cache, true);
 
@@ -60,7 +60,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstaller  $installer  The class calling this method
+	 * @param   JInstaller $installer The class calling this method
 	 *
 	 * @return  void
 	 */
@@ -90,8 +90,8 @@ class JoomlaInstallerScript
 	/**
 	 * Called after any type of action
 	 *
-	 * @param   string      $action     Which action is happening (install|uninstall|discover_install|update)
-	 * @param   JInstaller  $installer  The class calling this method
+	 * @param   string     $action    Which action is happening (install|uninstall|discover_install|update)
+	 * @param   JInstaller $installer The class calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -101,7 +101,7 @@ class JoomlaInstallerScript
 	{
 		if ($action === 'update')
 		{
-			if (! empty($this->fromVersion) && version_compare($this->fromVersion, '3.7.0', 'lt'))
+			if (!empty($this->fromVersion) && version_compare($this->fromVersion, '3.7.0', 'lt'))
 			{
 				/*
 				 * Add a menu item for com_associations, we need to do that here because with a plain sql statement we
@@ -109,25 +109,25 @@ class JoomlaInstallerScript
 				 */
 				$newMenuItem = JTable::getInstance('Menu');
 
-				$data = array();
-				$data['menutype'] = 'main';
-				$data['title'] = 'com_associations';
-				$data['alias'] = 'Multilingual Associations';
-				$data['path'] = 'Multilingual Associations';
-				$data['link'] = 'index.php?option=com_associations';
-				$data['type'] = 'component';
+				$data              = array();
+				$data['menutype']  = 'main';
+				$data['title']     = 'com_associations';
+				$data['alias']     = 'Multilingual Associations';
+				$data['path']      = 'Multilingual Associations';
+				$data['link']      = 'index.php?option=com_associations';
+				$data['type']      = 'component';
 				$data['published'] = 1;
 				$data['parent_id'] = 1;
 
 				// We have used a SQL Statement to add the extension so using 34 is safe (fingers crossed)
 				$data['component_id'] = 34;
-				$data['img'] = 'class:associations';
-				$data['language'] = '*';
-				$data['client_id'] = 1;
+				$data['img']          = 'class:associations';
+				$data['language']     = '*';
+				$data['client_id']    = 1;
 
 				$newMenuItem->setLocation($data['parent_id'], 'last-child');
 
-				if (! $newMenuItem->save($data))
+				if (!$newMenuItem->save($data))
 				{
 					// Install failed, roll back changes
 					$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $newMenuItem->getError()));
@@ -523,7 +523,7 @@ class JoomlaInstallerScript
 		);
 
 		// Attempt to refresh manifest caches
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__extensions');
@@ -1874,7 +1874,8 @@ class JoomlaInstallerScript
 		 * If com_weblinks doesn't exist then assume we can delete the weblinks package manifest (included in the update packages)
 		 */
 		if (!JFile::exists(JPATH_ROOT . '/administrator/components/com_weblinks/weblinks.php')
-			&& JFile::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml'))
+			&& JFile::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml')
+		)
 		{
 			JFile::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml');
 		}
@@ -1902,7 +1903,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to create assets for newly installed components
 	 *
-	 * @param   JInstaller  $installer  The class calling this method
+	 * @param   JInstaller $installer The class calling this method
 	 *
 	 * @return  boolean
 	 *
@@ -1932,16 +1933,16 @@ class JoomlaInstallerScript
 				continue;
 			}
 
-			$asset->name = $component;
+			$asset->name      = $component;
 			$asset->parent_id = 1;
-			$asset->rules = '{}';
-			$asset->title = $component;
+			$asset->rules     = '{}';
+			$asset->title     = $component;
 			$asset->setLocation(1, 'last-child');
 
 			if (!$asset->store())
 			{
 				// Install failed, roll back changes
-                $installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
+				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
 
 				return false;
 			}
@@ -2013,7 +2014,7 @@ class JoomlaInstallerScript
 	/**
 	 * Converts the site's database tables to support UTF-8 Multibyte.
 	 *
-	 * @param   boolean  $doDbFixMsg  Flag if message to be shown to check db fix
+	 * @param   boolean $doDbFixMsg Flag if message to be shown to check db fix
 	 *
 	 * @return  void
 	 *
@@ -2044,7 +2045,7 @@ class JoomlaInstallerScript
 		// Check conversion status in database
 		$db->setQuery('SELECT ' . $db->quoteName('converted')
 			. ' FROM ' . $db->quoteName('#__utf8_conversion')
-			);
+		);
 
 		try
 		{
@@ -2076,7 +2077,7 @@ class JoomlaInstallerScript
 		if (is_file($fileName1))
 		{
 			$fileContents1 = @file_get_contents($fileName1);
-			$queries1 = $db->splitSql($fileContents1);
+			$queries1      = $db->splitSql($fileContents1);
 
 			if (!empty($queries1))
 			{
@@ -2100,7 +2101,7 @@ class JoomlaInstallerScript
 		if (is_file($fileName2))
 		{
 			$fileContents2 = @file_get_contents($fileName2);
-			$queries2 = $db->splitSql($fileContents2);
+			$queries2      = $db->splitSql($fileContents2);
 
 			if (!empty($queries2))
 			{
