@@ -27,8 +27,8 @@ class JoomlaInstallerScript
 	/**
 	 * Function to act prior to installation process begins
 	 *
-	 * @param   string     $action    Which action is happening (install|uninstall|discover_install|update)
-	 * @param   JInstaller $installer The class calling this method
+	 * @param   string      $action     Which action is happening (install|uninstall|discover_install|update)
+	 * @param   JInstaller  $installer  The class calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -60,7 +60,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstaller $installer The class calling this method
+	 * @param   JInstaller  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
@@ -90,8 +90,8 @@ class JoomlaInstallerScript
 	/**
 	 * Called after any type of action
 	 *
-	 * @param   string     $action    Which action is happening (install|uninstall|discover_install|update)
-	 * @param   JInstaller $installer The class calling this method
+	 * @param   string      $action     Which action is happening (install|uninstall|discover_install|update)
+	 * @param   JInstaller  $installer  The class calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -1874,8 +1874,7 @@ class JoomlaInstallerScript
 		 * If com_weblinks doesn't exist then assume we can delete the weblinks package manifest (included in the update packages)
 		 */
 		if (!JFile::exists(JPATH_ROOT . '/administrator/components/com_weblinks/weblinks.php')
-			&& JFile::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml')
-		)
+			&& JFile::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml'))
 		{
 			JFile::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml');
 		}
@@ -1903,7 +1902,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to create assets for newly installed components
 	 *
-	 * @param   JInstaller $installer The class calling this method
+	 * @param   JInstaller  $installer  The class calling this method
 	 *
 	 * @return  boolean
 	 *
@@ -2014,7 +2013,7 @@ class JoomlaInstallerScript
 	/**
 	 * Converts the site's database tables to support UTF-8 Multibyte.
 	 *
-	 * @param   boolean $doDbFixMsg Flag if message to be shown to check db fix
+	 * @param   boolean  $doDbFixMsg  Flag if message to be shown to check db fix
 	 *
 	 * @return  void
 	 *
