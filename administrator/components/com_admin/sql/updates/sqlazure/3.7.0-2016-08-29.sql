@@ -149,7 +149,6 @@ INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder]
 SELECT 33, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 461, 'plg_system_fields', 'plugin', 'fields', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
-UNION ALL
-SELECT 462, 'plg_fields_gallery', 'plugin', 'gallery', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+
 
 SET IDENTITY_INSERT [#__extensions] OFF; 
