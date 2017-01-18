@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,12 +86,12 @@ $input = JFactory::getApplication()->input;
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);
 // In case of modal
-$isModal = $input->get('layout') == 'modal' ? true : false;
-$layout  = $isModal ? 'modal' : 'edit';
-$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$isModal  = $input->get('layout') == 'modal' ? true : false;
+$layout   = $isModal ? 'modal' : 'edit';
+$tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$clientId = $this->state->get('item.client_id', 0);
 ?>
-
-<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -129,6 +129,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					// Set main fields.
 					$this->fields = array(
 						'id',
+						'client_id',
 						'menutype',
 						'parent_id',
 						'menuordering',
@@ -143,8 +144,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					{
 						$this->fields = array_diff($this->fields, array('home'));
 					}
-					?>
-					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+
+					echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 				</div>
 			</div>
 		</div>
@@ -156,14 +157,14 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 
-		<?php if (!$isModal && $assoc) : ?>
+		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<?php if ($this->item->type !== 'alias' && $this->item->type !== 'url'
 				&& $this->item->type !== 'separator' && $this->item->type !== 'heading') : ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 				<?php echo $this->loadTemplate('associations'); ?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
-		<?php elseif ($isModal && $assoc) : ?>
+		<?php elseif ($isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 

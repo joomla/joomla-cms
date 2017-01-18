@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,8 +30,8 @@ if ($saveOrder && $menuType)
 	JHtml::_('draggablelist.draggable');
 }
 
-$assoc = JLanguageAssociations::isEnabled();
-$colSpan = ($assoc) ? 10 : 9;
+$assoc   = JLanguageAssociations::isEnabled() && $this->state->get('filter.client_id') == 0;
+$colSpan = $assoc ? 10 : 9;
 
 if ($menuType == '')
 {
@@ -63,9 +63,11 @@ if ($menuType == '')
 						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
+						<?php if ($this->state->get('filter.client_id') == 0): ?>
 						<th width="10%" class="text-center nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
+						<?php endif; ?>
 						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
@@ -163,7 +165,7 @@ if ($menuType == '')
 							<?php if ($item->checked_out) : ?>
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 							<?php endif; ?>
-							<?php if ($canEdit) : ?>
+							<?php if ($canEdit && !$item->protected) : ?>
 								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 									<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
@@ -190,10 +192,11 @@ if ($menuType == '')
 						<td class="small hidden-sm-down text-center">
 							<?php echo $this->escape($item->menutype_title); ?>
 						</td>
+						<?php if ($this->state->get('filter.client_id') == 0): ?>
 						<td class="text-center hidden-sm-down">
 							<?php if ($item->type == 'component') : ?>
 								<?php if ($item->language == '*' || $item->home == '0') : ?>
-									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange); ?>
+									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected); ?>
 								<?php elseif ($canChange) : ?>
 									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
 										<?php if ($item->language_image) : ?>
@@ -211,6 +214,7 @@ if ($menuType == '')
 								<?php endif; ?>
 							<?php endif; ?>
 						</td>
+						<?php endif; ?>
 						<td class="small hidden-sm-down text-center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>

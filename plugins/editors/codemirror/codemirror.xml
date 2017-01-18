@@ -247,7 +247,7 @@
 					stripext="true"
 					hide_none="true"
 					hide_default="false"
-					directory="media/editors/codemirror/theme"
+					directory="media/vendor/codemirror/theme"
 					>
 					<option value="">JDEFAULT</option>
 				</field>

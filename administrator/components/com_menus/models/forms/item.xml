@@ -52,7 +52,8 @@
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ASSIGNED_DESC"
 			required="true"
-			size="1" 
+			clientid="0"
+			size="1"
 			>
 			<option value="">COM_MENUS_SELECT_MENU</option>
 		</field>
@@ -120,7 +121,7 @@
 			type="list"
 			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
 			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
-			default="Parent"
+			default="0"
 			filter="int"
 			>
 				<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
@@ -142,6 +143,7 @@
 			type="templatestyle"
 			label="COM_MENUS_ITEM_FIELD_TEMPLATE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TEMPLATE_DESC"
+			client="site"
 			filter="int"
 			>
 			<option value="0">JOPTION_USE_DEFAULT</option>

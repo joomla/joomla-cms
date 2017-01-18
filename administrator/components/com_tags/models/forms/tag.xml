@@ -172,9 +172,10 @@
 		type="calendar"
 		class="readonly"
 		label="JGLOBAL_CREATED_DATE"
-		format="%Y-%m-%d %H:%M:%S"
-		filter="user_utc"
 		description="COM_TAGS_FIELD_CREATED_DATE_DESC"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
 		readonly="true"
 	/>
 
@@ -192,9 +193,10 @@
 		type="calendar"
 		class="readonly"
 		label="JGLOBAL_FIELD_MODIFIED_LABEL"
-		format="%Y-%m-%d %H:%M:%S"
-		filter="user_utc"
 		description="COM_TAGS_FIELD_MODIFIED_DESC"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
 		readonly="true"
 	/>
 

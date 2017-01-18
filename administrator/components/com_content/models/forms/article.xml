@@ -107,8 +107,10 @@
 			size="22"
 			filter="user_utc" />
 
-		<field name="publish_down" type="calendar"
-			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL" description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
+		<field name="publish_down"
+			type="calendar"
+			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL"
+			description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
 			translateformat="true"
 			showtime="true"
 			size="22"

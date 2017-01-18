@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.7" method="upgrade">
+	<name>com_associations</name>
+	<author>Joomla! Project</author>
+	<creationDate>Januar 2017</creationDate>
+	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>COM_ASSOCIATIONS_XML_DESCRIPTION</description>
+	<administration>
+		<menu img="class:associations">COM_ASSOCIATIONS</menu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>associations.php</filename>
+			<filename>controller.php</filename>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>layouts</folder>
+			<folder>models</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_associations.ini</language>
+			<language tag="en-GB">language/en-GB.com_associations.sys.ini</language>
+		</languages>
+	</administration>
+</extension>

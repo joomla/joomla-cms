@@ -3,7 +3,7 @@
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -25,6 +25,7 @@
 				<field
 					name="menutype"
 					type="menu"
+					clientid="0"
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
 					description="MOD_MENU_FIELD_MENUTYPE_DESC"
 				/>

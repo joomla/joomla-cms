@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,14 +39,12 @@ class JFormFieldMenutype extends JFormFieldList
 	{
 		$html     = array();
 		$recordId = (int) $this->form->getValue('id');
-		$size     = ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
-		$class    = ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : ' class="form-control"';
-		$required = ($v = $this->element['required']) ? ' required="required"' : '';
+		$size     = (string) ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
+		$class    = (string) ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : 'class="form-control"';
+		$required = (string) $this->element['required'] ? ' required="required"' : '';
+		$clientId = (int) $this->element['clientid'] ?: 0;
 
 		// Get a reverse lookup of the base link URL to Title
-		$model = JModelLegacy::getInstance('menutypes', 'menusModel');
-		$rlu   = $model->getReverseLookup();
-
 		switch ($this->value)
 		{
 			case 'url':
@@ -68,10 +66,17 @@ class JFormFieldMenutype extends JFormFieldList
 			default:
 				$link = $this->form->getValue('link');
 
+				/** @var  MenusModelMenutypes $model */
+				$model = JModelLegacy::getInstance('Menutypes', 'MenusModel', array('ignore_request' => true));
+				$model->setState('client_id', $clientId);
+
+				$rlu   = $model->getReverseLookup();
+
 				// Clean the link back to the option, view and layout
 				$value = JText::_(ArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
 				break;
 		}
+
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
@@ -82,7 +87,7 @@ class JFormFieldMenutype extends JFormFieldList
 			}
 		');
 
-		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&recordId=' . $recordId);
+		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '"' . $size . $class . ' />';
 		$html[] = '<span class="input-group-btn"><a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '">'

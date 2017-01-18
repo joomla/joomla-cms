@@ -74,7 +74,7 @@
 			label="COM_USERS_FIELD_REVIEW_TIME_LABEL"
 			description="COM_USERS_FIELD_REVIEW_TIME_DESC"
 			default="NOW"
-			format="%Y-%m-%d"
+			translateformat="true"
 			/>
 
 		<field
@@ -116,18 +116,30 @@
 			type="hidden"
 			filter="unset"
 			/>
-			
-		<field name="publish_up" type="calendar"
-			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL" description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />
 
-		<field name="publish_down" type="calendar"
-			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />	
-			
-		<field 
+		<field
+			name="publish_up"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
+			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
@@ -135,7 +147,6 @@
 			maxlength="255"
 			size="45"
 			labelclass="control-label"
-			/>	
-	
+			/>
 	</fieldset>
 </form>

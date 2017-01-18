@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1060,7 +1060,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	protected function getErrorMessage()
 	{
 		// The SQL Error Information
-		$errorInfo = implode(", ", $this->connection->errorInfo());
+		$errorInfo = implode(', ', $this->connection->errorInfo());
 
 		// Replace the Databaseprefix with `#__` if we are not in Debug
 		if (!$this->debug)
