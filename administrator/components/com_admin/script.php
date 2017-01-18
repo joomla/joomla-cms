@@ -121,6 +121,8 @@ class JoomlaInstallerScript
 	            $data['language'] = '*';
 	            $data['client_id'] = 1;
 
+	            $newMenuItem->setLocation($data['parent_id'], 'last-child');
+
 	            if (! $newMenuItem->save($data))
 	            {
 		            // Install failed, roll back changes
