@@ -119,7 +119,7 @@ class JoomlaInstallerScript
 				$data['published'] = 1;
 				$data['parent_id'] = 1;
 
-				// We have used a SQL Statement to add the extension so using 34 is save (fingers crossed)
+				// We have used a SQL Statement to add the extension so using 34 is safe (fingers crossed)
 				$data['component_id'] = 34;
 				$data['img'] = 'class:associations';
 				$data['language'] = '*';
