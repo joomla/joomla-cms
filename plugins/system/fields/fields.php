@@ -29,75 +29,30 @@ class PlgSystemFields extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * The save event.
+	 * Validated fields data is stored here.
 	 *
-	 * @param   string    $context  The context
-	 * @param   stdClass  $item     The item
-	 * @param   boolean   $isNew    Is new
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.7.0
+	 * @var    array
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onContentBeforeSave($context, $item, $isNew)
+	private $validFieldData = array();
+
+	/**
+	 * The onAfterDataValidation event.
+	 *
+	 * @param   JForm  $form   The form
+	 * @param   array  $data   The validated data
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onAfterDataValidation($form, $data)
 	{
-
-		$parts = FieldsHelper::extract($context);
-
-		if (!$parts)
+		if (!empty($data['params']))
 		{
-			return true;
+			// Store the validated data in the plugin for use after the save was successful
+			$this->validFieldData = $data['params'];
 		}
-
-		$context = $parts[0] . '.' . $parts[1];
-
-		// Loading the fields
-		$fieldsObjects = FieldsHelper::getFields($context, $item);
-
-		if (!$fieldsObjects)
-		{
-			return true;
-		}
-
-		$params = new Registry;
-
-		// Load the item params from the request
-		$data = JFactory::getApplication()->input->post->get('jform', array(), 'array');
-
-		if (key_exists('params', $data))
-		{
-			$params->loadArray($data['params']);
-		}
-
-		// Load the params from the item itself
-		if (isset($item->params))
-		{
-			$params->loadString($item->params);
-		}
-
-		$params = $params->toArray();
-
-		// Create the new internal fields field
-		$fields = array();
-
-		foreach ($fieldsObjects as $field)
-		{
-			// Set the param on the fields variable
-			$fields[$field->alias] = key_exists($field->alias, $params) ? $params[$field->alias] : array();
-
-			// Remove it from the params array
-			unset($params[$field->alias]);
-		}
-
-		$item->_fields = $fields;
-
-		// Update the cleaned up params
-		if (isset($item->params))
-		{
-			$item->params = json_encode($params);
-		}
-
-		return true;
 	}
 
 	/**
@@ -113,6 +68,11 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterSave($context, $item, $isNew)
 	{
+		if (!$this->validFieldData)
+		{
+			return true;
+		}
+
 		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
@@ -121,19 +81,6 @@ class PlgSystemFields extends JPlugin
 		}
 
 		$context = $parts[0] . '.' . $parts[1];
-
-		// Return if the item has no valid state
-		$fields = null;
-
-		if (isset($item->_fields))
-		{
-			$fields = $item->_fields;
-		}
-
-		if (!$fields)
-		{
-			return true;
-		}
 
 		// Loading the fields
 		$fieldsObjects = FieldsHelper::getFields($context, $item);
@@ -149,7 +96,7 @@ class PlgSystemFields extends JPlugin
 		foreach ($fieldsObjects as $field)
 		{
 			// Only save the fields with the alias from the data
-			if (!key_exists($field->alias, $fields))
+			if (!key_exists($field->alias, $this->validFieldData))
 			{
 				continue;
 			}
@@ -167,7 +114,7 @@ class PlgSystemFields extends JPlugin
 			}
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $fields[$field->alias]);
+			$model->setFieldValue($field->id, $context, $id, $this->validFieldData[$field->alias]);
 		}
 
 		return true;
@@ -198,7 +145,6 @@ class PlgSystemFields extends JPlugin
 		$user->params = (string) $user->getParameters();
 
 		// Trigger the events with a real user
-		$this->onContentBeforeSave('com_users.user', $user, false);
 		$this->onContentAfterSave('com_users.user', $user, false);
 
 		// Save the user with the modified params
