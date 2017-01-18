@@ -114,7 +114,7 @@ class JoomlaInstallerScript
 	            $data['type'] = 'component';
 	            $data['published'] = 1;
 	            $data['parent_id'] = 1;
-	            $data['level'] = 1;
+
 	            // We have used a SQL Statement to add the extension so using 34 is save
 	            $data['component_id'] = 34;
 	            $data['img'] = 'class:associations';
@@ -126,7 +126,7 @@ class JoomlaInstallerScript
 	            if (! $newMenuItem->save($data))
 	            {
 		            // Install failed, roll back changes
-		            $installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $newMenuItem->stderr(true)));
+		            $installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $newMenuItem->getError()));
 
 		            return false;
 	            }
