@@ -1,3 +1,7 @@
+-- Sync menutype for admin menu and set client_id correct
+UPDATE [#__menu] SET [client_id] = 1 WHERE [menutype] = 'main' OR [menutype] = 'menu';
+UPDATE [#__menu] SET [menutype] = 'main' WHERE [menutype] = 'main' OR [menutype] = 'menu';
+
 INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state]) VALUES
 SELECT 462, 'plg_fields_calendar', 'plugin', 'calendar', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 UNION ALL
