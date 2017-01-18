@@ -684,36 +684,6 @@ abstract class FOFUtilsInstallscript
 				}
 			}
 		}
-
-		// Fix broken #__menu records
-		$query = $db->getQuery(true);
-		$query->select('id')
-			->from('#__menu')
-			->where($db->qn('type') . ' = ' . $db->q('component'))
-			->where($db->qn('menutype') . ' = ' . $db->q('main'))
-			->where($db->qn('link') . ' LIKE ' . $db->q('index.php?option=' . $this->componentName));
-		$db->setQuery($query);
-		$ids = $db->loadColumn();
-
-		if (!empty($ids))
-		{
-			foreach ($ids as $id)
-			{
-				$query = $db->getQuery(true);
-				$query->delete('#__menu')
-					->where($db->qn('id') . ' = ' . $db->q($id));
-				$db->setQuery($query);
-
-				try
-				{
-					$db->execute();
-				}
-				catch (Exception $exc)
-				{
-					// Nothing
-				}
-			}
-		}
 	}
 
 	/**
