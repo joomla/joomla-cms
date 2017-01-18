@@ -740,7 +740,7 @@
 					}, false);
 				} else {
 					cell.innerHTML = "&#160;";
-					cell.colSpan = self.params.weekNumbers ? 4 : 3;
+					cell.colSpan = self.params.weekNumbers ? 3 : 2;
 				}
 
 				H.addEventListener("change", function (event) {
@@ -776,7 +776,7 @@
 		if (this.params.showsTodayBtn) {                                                                    // Head - today
 
 			this._nav_now = hh('<a class="js-btn btn btn-primary btn-today" data-action="today" style="display:block;padding:2px 6px;">'
-				+ JoomlaCalLocale.today + '</a>', this.params.weekNumbers ? 4 : 3, 0, 'td', {'textAlign': 'center'});
+				+ JoomlaCalLocale.today + '</a>', this.params.weekNumbers ? 3 : 2, 0, 'td', {'textAlign': 'center'});
 			var todaya = row.querySelector('a[data-action="today"]');
 			todaya.addEventListener('click', function (e) {
 				var el = todaya.parentNode.parentNode;
@@ -785,7 +785,7 @@
 		} else {
 			cell = createElement("td", row);
 			cell.innerHTML = "&#160;";
-			cell.colSpan = this.params.weekNumbers ? 4 : 3;
+			cell.colSpan = this.params.weekNumbers ? 3 : 2;
 		}
 
 		this._nav_exit = hh('<a class="js-btn btn btn-danger btn-exit" data-action="exit" style="display:block;padding:2px 6px;">'
