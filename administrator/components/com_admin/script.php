@@ -16,22 +16,39 @@ defined('_JEXEC') or die;
  */
 class JoomlaInstallerScript
 {
+	/**
+	 * The Joomla Version we are updating from
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
 	protected $fromVersion = null;
-	protected $toVersion = null;
 
 	/**
 	 * Function to act prior to installation process begins
 	 *
-	 * @param   string      $type       The action being performed
+	 * @param   string      $action     Which action is happening (install|uninstall|discover_install|update)
 	 * @param   JInstaller  $installer  The class calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   2.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function preflight($type, $parent)
+	public function preflight($action, $installer)
 	{
-		$this->fromVersion = JVERSION;
+		if ($action === 'update')
+        {
+            // Get the version we are updating from
+            if (! empty($installer->extension->manifest_cache))
+            {
+                $manifestValues = json_decode($installer->extension->manifest_cache, true);
+
+                if ((array_key_exists('version', $manifestValues)))
+                {
+                    $this->fromVersion = $manifestValues['version'];
+                }
+            }
+        }
 
 		return true;
 	}
@@ -56,7 +73,7 @@ class JoomlaInstallerScript
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
-		$this->updateAssets();
+		$this->updateAssets($installer);
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
 		$this->cleanJoomlaCache();
@@ -69,24 +86,48 @@ class JoomlaInstallerScript
     /**
      * Called after any type of action
      *
-     * @param   string  $route  Which action is happening (install|uninstall|discover_install|update)
-     * @param   JAdapterInstance  $adapter  The object responsible for running this script
+     * @param   string      $action     Which action is happening (install|uninstall|discover_install|update)
+     * @param   JInstaller  $installer  The class calling this method
      *
      * @return  boolean  True on success
      *
      * @since   3.7.0
      */
-    public function postflight($route, $installer)
+    public function postflight($action, $installer)
     {
-        if ($route === 'update')
+        if ($action === 'update')
         {
-            if (version_compare(JVERSION, '3.7.0', 'lt'))
+            if (! empty($this->fromVersion) && version_compare($this->fromVersion, '3.7.0', 'lt'))
             {
-                // Add a menu item for com_associations
+                /*
+                 * Add a menu item for com_associations, we need to do that here because with a plain sql statement we
+                 * damage the nested set for the menu table
+                 */
                 $newMenuItem = JTable::getInstance('Menu');
-                
 
+                $data = array();
+                $data['menutype'] = 'main';
+	            $data['title'] = 'com_associations';
+	            $data['alias'] = 'Multilingual Associations';
+	            $data['path'] = 'Multilingual Associations';
+	            $data['link'] = 'index.php?option=com_associations';
+	            $data['type'] = 'component';
+	            $data['published'] = 1;
+	            $data['parent_id'] = 1;
+	            $data['level'] = 1;
+	            // We have used a SQL Statement to add the extension so using 34 is save
+	            $data['component_id'] = 34;
+	            $data['img'] = 'class:associations';
+	            $data['language'] = '*';
+	            $data['client_id'] = 1;
 
+	            if (! $newMenuItem->save($data))
+	            {
+		            // Install failed, roll back changes
+		            $installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $newMenuItem->stderr(true)));
+
+		            return false;
+	            }
             }
         }
 
@@ -1855,11 +1896,13 @@ class JoomlaInstallerScript
 	/**
 	 * Method to create assets for newly installed components
 	 *
+	 * @param   JInstaller  $installer  The class calling this method
+	 *
 	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
-	public function updateAssets()
+	public function updateAssets($installer)
 	{
 		// List all components added since 1.6
 		$newComponents = array(
@@ -1892,7 +1935,7 @@ class JoomlaInstallerScript
 			if (!$asset->store())
 			{
 				// Install failed, roll back changes
-				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
+				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
 
 				return false;
 			}
