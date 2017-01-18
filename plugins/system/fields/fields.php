@@ -39,8 +39,8 @@ class PlgSystemFields extends JPlugin
 	/**
 	 * The onAfterDataValidation event.
 	 *
-	 * @param   JForm  $form   The form
-	 * @param   array  $data   The validated data
+	 * @param   JForm  $form  The form
+	 * @param   array  $data  The validated data
 	 *
 	 * @return  void
 	 *
