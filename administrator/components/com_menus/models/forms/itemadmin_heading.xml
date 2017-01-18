@@ -17,6 +17,13 @@
 	<fields name="params">
 		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
 			<field
+				name="components_container_note"
+				type="note"
+				class="alert alert-info"
+				description="COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_NOTE"
+			    showon="components_container:1"
+			/>
+			<field
 				name="components_container"
 				type="radio"
 				class="btn-group btn-group-yesno"
