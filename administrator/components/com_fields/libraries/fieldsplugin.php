@@ -154,15 +154,13 @@ abstract class FieldsPlugin extends JPlugin
 			$node->setAttribute('disabled', 'true');
 		}
 
-		// Set the specific field parameters
-		foreach ($field->fieldparams->toArray() as $key => $param)
-		{
-			if ($param === '')
-			{
-				// If the param is empty get it from the plugin parameters
-				$param = $this->params->get($key);
-			}
+		// Combine the two params
+		$params = clone $this->params;
+		$params->merge($field->fieldparams);
 
+		// Set the specific field parameters
+		foreach ($params->toArray() as $key => $param)
+		{
 			if (is_array($param))
 			{
 				// Multidimensional arrays (eg. list options) can't be transformed properly
