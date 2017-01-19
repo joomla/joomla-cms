@@ -9,34 +9,34 @@
 
 defined('_JEXEC') or die;
 
-$sections = $displayData['sections'];
+$sections  = $displayData['sections'];
 $callbacks = $displayData['callbacks'];
-$i = 0;
+$i         = 0;
 
 ?>
 
-<script>function toggleContainer(name)
+<script>
+function toggleContainer(name)
 {
-    var e = document.getElementById(name);// MooTools might not be available ;)
-    e.style.display = (e.style.display == 'none') ? 'block' : 'none';
-}</script>
+	var e = document.getElementById(name);
+	e.style.display = (e.style.display == 'none') ? 'block' : 'none';
+}
+</script>
 
 <div id="system-debug" class="profiler">
-    <h1><?php echo JText::_('PLG_DEBUG_TITLE'); ?></h1>
-
-    <?php foreach ($sections as $name => $section) : ?>
-        <?php echo JLayoutHelper::render('plugins.system.debug.section', array('section' => $name, 'data' => $section)); ?>
-    <?php endforeach; ?>
-
-    <?php foreach ($callbacks as $name => $result) : ?>
-        <?php
-            $displayData = array(
-                'section' => 'callback',
-                'suffix' => $i++,
-                'title' => $name,
-                'data' => array('content' => $result)
-            );
-            echo JLayoutHelper::render('plugins.system.debug.section', $displayData);
-        ?>
-    <?php endforeach; ?>
+	<h1><?php echo JText::_('PLG_DEBUG_TITLE'); ?></h1>
+	<?php foreach ($sections as $name => $section) : ?>
+		<?php echo JLayoutHelper::render('plugins.system.debug.section', array('section' => $name, 'data' => $section)); ?>
+	<?php endforeach; ?>
+	<?php foreach ($callbacks as $name => $result) : ?>
+		<?php
+			$displayData = array(
+				'section' => 'callback',
+				'suffix' => $i++,
+				'title' => $name,
+				'data' => array('content' => $result)
+			);
+			echo JLayoutHelper::render('plugins.system.debug.section', $displayData);
+		?>
+	<?php endforeach; ?>
 </div>
