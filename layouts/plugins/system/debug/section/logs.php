@@ -9,19 +9,19 @@
 
 defined('_JEXEC') or die;
 
-$entries = $displayData['entries'];
+$entries         = $displayData['entries'];
 $deprecatedCount = $displayData['deprecatedCount'];
 $logEntriesTotal = count($entries);
 
 $priorities = array(
-    JLog::EMERGENCY => '<span class="badge badge-important">EMERGENCY</span>',
-    JLog::ALERT     => '<span class="badge badge-important">ALERT</span>',
-    JLog::CRITICAL  => '<span class="badge badge-important">CRITICAL</span>',
-    JLog::ERROR     => '<span class="badge badge-important">ERROR</span>',
-    JLog::WARNING   => '<span class="badge badge-warning">WARNING</span>',
-    JLog::NOTICE    => '<span class="badge badge-info">NOTICE</span>',
-    JLog::INFO      => '<span class="badge badge-info">INFO</span>',
-    JLog::DEBUG     => '<span class="badge">DEBUG</span>'
+	JLog::EMERGENCY => '<span class="badge badge-important">EMERGENCY</span>',
+	JLog::ALERT     => '<span class="badge badge-important">ALERT</span>',
+	JLog::CRITICAL  => '<span class="badge badge-important">CRITICAL</span>',
+	JLog::ERROR     => '<span class="badge badge-important">ERROR</span>',
+	JLog::WARNING   => '<span class="badge badge-warning">WARNING</span>',
+	JLog::NOTICE    => '<span class="badge badge-info">NOTICE</span>',
+	JLog::INFO      => '<span class="badge badge-info">INFO</span>',
+	JLog::DEBUG     => '<span class="badge">DEBUG</span>'
 );
 
 ?>
@@ -38,22 +38,19 @@ $priorities = array(
 <?php endif; ?>
 
 <ol>
-    <?php foreach ($entries as $i => $entry) : ?>
-        <li id="dbg_logs_<?php echo $i; ?>">
-            <h5><?php echo $priorities[$entry->priority], ' ', $entry->category; ?></h5>
-            <br />
-            <pre><?php echo $entry->message; ?></pre>
-
-            <?php if ($entry->callStack) : ?>
-                <?php
-                echo JHtml::_('bootstrap.startAccordion', 'dbg_logs_' . $i, array('active' => '')),
-                    JHtml::_('bootstrap.addSlide', 'dbg_logs_' . $i, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_logs_backtrace_' . $i),
-                    JLayoutHelper::render('plugins.system.debug.callstack', array('callStack' => $entry->callStack)),
-                    JHtml::_('bootstrap.endSlide'),
-                    JHtml::_('bootstrap.endAccordion');
-                ?>
-            <?php endif; ?>
-            <hr />
-        </li>
-    <?php endforeach; ?>
+	<?php foreach ($entries as $i => $entry) : ?>
+		<li id="dbg_logs_<?php echo $i; ?>">
+			<h5><?php echo $priorities[$entry->priority], ' ', $entry->category; ?></h5>
+			<br />
+			<pre><?php echo $entry->message; ?></pre>
+			<?php if ($entry->callStack) : ?>
+				<?php echo JHtml::_('bootstrap.startAccordion', 'dbg_logs_' . $i, array('active' => '')); ?>
+				<?php echo JHtml::_('bootstrap.addSlide', 'dbg_logs_' . $i, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_logs_backtrace_' . $i); ?>
+				<?php echo JLayoutHelper::render('plugins.system.debug.callstack', array('callStack' => $entry->callStack)); ?>
+				<?php echo JHtml::_('bootstrap.endSlide'); ?>
+				<?php echo JHtml::_('bootstrap.endAccordion'); ?>
+			<?php endif; ?>
+			<hr />
+		</li>
+	<?php endforeach; ?>
 </ol>
