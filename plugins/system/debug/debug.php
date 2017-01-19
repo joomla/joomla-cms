@@ -45,7 +45,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * If true, deprecated logs will be counted but not displayed.
 	 *
-	 * @var    bolean
+	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $logEntriesDeprecatedCountOnly = false;
@@ -77,7 +77,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Holds total amount of executed queries.
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.2
 	 */
 	private $totalQueries = 0;
@@ -102,7 +102,7 @@ class PlgSystemDebug extends JPlugin
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   array   $config	An optional associative array of configuration settings.
 	 *
 	 * @since   1.5
 	 */
@@ -110,11 +110,11 @@ class PlgSystemDebug extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-        // Setup logging to files if configured.
-        if ($this->params->get('log-deprecated') || $this->params->get('log-everything'))
-        {
-            $this->initLogFiles();
-        }
+		// Setup logging to files if configured.
+		if ($this->params->get('log-deprecated') || $this->params->get('log-everything'))
+		{
+			$this->initLogFiles();
+		}
 
 		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
 		if (!$this->app)
@@ -138,22 +138,22 @@ class PlgSystemDebug extends JPlugin
 			ob_implicit_flush(false);
 		}
 
-        // Setup logging to display in debug console
+		// Setup logging to display in debug console
 		if ($this->params->get('logs', 1))
 		{
-            $this->initLogging();
+			$this->initLogging();
 		}
 	}
 
-    /**
-     * Initialize text file loggers for 'deprecated' and/or 'everying' logs.
-     *
-     * @return  void
-     *
+	/**
+	 * Initialize text file loggers for 'deprecated' and/or 'everying' logs.
+	 *
+	 * @return  void
+	 *
 	 * @since   __DEPLOY_VERSION__
-     */
-    protected function initLogFiles()
-    {
+	 */
+	protected function initLogFiles()
+	{
 		// Log the deprecated API.
 		if ($this->params->get('log-deprecated'))
 		{
@@ -180,17 +180,17 @@ class PlgSystemDebug extends JPlugin
 		{
 			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
 		}
-    }
+	}
 
-    /**
-     * Initialize a logger to receive logs that should be displayed in the debug console.
-     *
-     * @return  void
-     *
+	/**
+	 * Initialize a logger to receive logs that should be displayed in the debug console.
+	 *
+	 * @return  void
+	 *
 	 * @since   __DEPLOY_VERSION__
-     */
-    protected function initLogging()
-    {
+	 */
+	protected function initLogging()
+	{
 		$priority = 0;
 
 		foreach ($this->params->get('log_priorities', array()) as $p)
@@ -209,20 +209,20 @@ class PlgSystemDebug extends JPlugin
 		$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
 		$mode = $this->params->get('log_category_mode', 0);
 
-        // True if deprecated is in the array and mode is exclude or not in the array and mode is include.
-        $this->logEntriesDeprecatedCountOnly = in_array('deprecated', $categories) === !!$mode;
+		// True if deprecated is in the array and mode is exclude or not in the array and mode is include.
+		$this->logEntriesDeprecatedCountOnly = in_array('deprecated', $categories) === !!$mode;
 
-        // Now, in any case we need deprecated to go to the logger so remove it from the array if it exists.
-        $categories = array_diff($categories, array('deprecated'));
+		// Now, in any case we need deprecated to go to the logger so remove it from the array if it exists.
+		$categories = array_diff($categories, array('deprecated'));
 
-        // And add it to the array if we are in inclusion mode.
-        if (!$mode)
-        {
-            $categories[] = 'deprecated';
-        }
+		// And add it to the array if we are in inclusion mode.
+		if (!$mode)
+		{
+			$categories[] = 'deprecated';
+		}
 
 		JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
-    }
+	}
 
 	/**
 	 * Add the CSS for debug.
@@ -314,12 +314,12 @@ class PlgSystemDebug extends JPlugin
 
 			if ($this->params->get('session', 1))
 			{
-    			$sections['session'] = array(
-    				'id' => 0,
-    				'key' => '',
-    				'session' => JFactory::getSession()->getData(),
-    			);
-            }
+				$sections['session'] = array(
+					'id' => 0,
+					'key' => '',
+					'session' => JFactory::getSession()->getData(),
+				);
+			}
 
 			if ($this->params->get('profile', 1))
 			{
@@ -364,7 +364,7 @@ class PlgSystemDebug extends JPlugin
 			{
 				$sections['logs'] = array(
 					'entries' => $this->logEntries,
-                    'deprecatedCount' => $this->logEntriesDeprecated,
+					'deprecatedCount' => $this->logEntriesDeprecated,
 				);
 			}
 		}
@@ -385,26 +385,26 @@ class PlgSystemDebug extends JPlugin
 
 			if ($this->params->get('language_files', 1))
 			{
-                $paths = JFactory::getLanguage()->getPaths();
+				$paths = JFactory::getLanguage()->getPaths();
 
-                if (!empty($paths))
-                {
-                    $sections['language_files_loaded'] = array(
-                        'paths' => $paths,
-                    );
-                }
+				if (!empty($paths))
+				{
+					$sections['language_files_loaded'] = array(
+						'paths' => $paths,
+					);
+				}
 			}
 
 			if ($this->params->get('language_strings'))
 			{
-                $guesses = $this->getUntranslatedStringGuesses();
+				$guesses = $this->getUntranslatedStringGuesses();
 
-                if (!empty($guesses))
-                {
-                    $sections['untranslated_strings'] = array(
-                        'guesses' => $guesses,
-                    );
-                }
+				if (!empty($guesses))
+				{
+					$sections['untranslated_strings'] = array(
+						'guesses' => $guesses,
+					);
+				}
 			}
 		}
 
@@ -415,13 +415,13 @@ class PlgSystemDebug extends JPlugin
 		$html = JLayoutHelper::render('plugins.system.debug.console', $displayData);
 		ob_end_clean();
 
-        echo substr_replace($contents, $html, strrpos($contents, '</body>'), 0);
+		echo substr_replace($contents, $html, strrpos($contents, '</body>'), 0);
 	}
 
 	/**
 	 * Add a display callback to be rendered with the debug console.
 	 *
-	 * @param   string    $name      The name of the callable, this is used to generate the section title.
+	 * @param   string	$name	  The name of the callable, this is used to generate the section title.
 	 * @param   callable  $callable  The callback function to be added.
 	 *
 	 * @return  boolean
@@ -582,15 +582,15 @@ class PlgSystemDebug extends JPlugin
 	 */
 	public function logger(JLogEntry $entry)
 	{
-        if ($entry->category == 'deprecated')
-        {
-            $this->logEntriesDeprecated++;
+		if ($entry->category == 'deprecated')
+		{
+			$this->logEntriesDeprecated++;
 
-            if ($this->logEntriesDeprecatedCountOnly)
-            {
-                return;
-            }
-        }
+			if ($this->logEntriesDeprecatedCountOnly)
+			{
+				return;
+			}
+		}
 
 		$this->logEntries[] = $entry;
 	}
@@ -608,12 +608,12 @@ class PlgSystemDebug extends JPlugin
 
 		// Get the queries from log.
 		$queries = array();
-		$db      = JFactory::getDbo();
-		$log     = $db->getLog();
+		$db	  = JFactory::getDbo();
+		$log	 = $db->getLog();
 		$timings = $db->getTimings();
 
-        $search = array('`', "\t", "\r\n", "\n");
-        $replace = array('', ' ', ' ', ' ');
+		$search = array('`', "\t", "\r\n", "\n");
+		$replace = array('', ' ', ' ', ' ');
 
 		foreach ($log as $id => $query)
 		{
@@ -633,29 +633,29 @@ class PlgSystemDebug extends JPlugin
 		JFile::write($file, $log);
 	}
 
-    /**
-     * Builds a name for a log file based on the current site, option, view, layout and log category
-     *
-     * @param   string  $category  Log category or other description of logs
-     *
-     * @return  string
-     *
+	/**
+	 * Builds a name for a log file based on the current site, option, view, layout and log category
+	 *
+	 * @param   string  $category  Log category or other description of logs
+	 *
+	 * @return  string
+	 *
 	 * @since   __DEPLOY_VERSION__
-     */
-    protected function getLogFileName($category)
-    {
+	 */
+	protected function getLogFileName($category)
+	{
 		$app   = JFactory::getApplication();
-        $input = $app->input;
-        $parts = array(
-            $category,
-            ($app->isSite()) ? 'site' : 'admin',
-            $input->get('option'),
-            $input->get('view'),
-            $input->get('layout'),
-        );
+		$input = $app->input;
+		$parts = array(
+			$category,
+			($app->isSite()) ? 'site' : 'admin',
+			$input->get('option'),
+			$input->get('view'),
+			$input->get('layout'),
+		);
 
-        return implode('_', $parts) . '.php';
-    }
+		return implode('_', $parts) . '.php';
+	}
 
 	/**
 	 * Method to get guesses about untranslated strings.
@@ -664,82 +664,82 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-    protected function getUntranslatedStringGuesses()
-    {
-        $stripFirst = $this->params->get('strip-first');
-        $stripPref = $this->params->get('strip-prefix');
-        $stripSuff = $this->params->get('strip-suffix');
+	protected function getUntranslatedStringGuesses()
+	{
+		$stripFirst = $this->params->get('strip-first');
+		$stripPref = $this->params->get('strip-prefix');
+		$stripSuff = $this->params->get('strip-suffix');
 
-        $orphans = JFactory::getLanguage()->getOrphans();
-        $guesses = array();
+		$orphans = JFactory::getLanguage()->getOrphans();
+		$guesses = array();
 
-        if (empty($orphans))
-        {
-            return $guesses;
-        }
+		if (empty($orphans))
+		{
+			return $guesses;
+		}
 
-        ksort($orphans, SORT_STRING);
+		ksort($orphans, SORT_STRING);
 
-        foreach ($orphans as $key => $occurance)
-        {
-        	if (!is_array($occurance) || !isset($occurance[0]))
-        	{
-                continue;
-            }
+		foreach ($orphans as $key => $occurance)
+		{
+			if (!is_array($occurance) || !isset($occurance[0]))
+			{
+				continue;
+			}
 
-    		$info = $occurance[0];
-    		$file = ($info['file']) ? $info['file'] : '';
+			$info = $occurance[0];
+			$file = ($info['file']) ? $info['file'] : '';
 
-    		if (!isset($guesses[$file]))
-    		{
-    			$guesses[$file] = array();
-    		}
+			if (!isset($guesses[$file]))
+			{
+				$guesses[$file] = array();
+			}
 
-    		// Prepare the key.
-    		if (($pos = strpos($info['string'], '=')) > 0)
-    		{
-                // Should we not limit this explode to 2 parts?
-    			$parts = explode('=', $info['string']);
-    			$key = $parts[0];
-    			$guess = $parts[1];
-    		}
-    		else
-    		{
-    			$guess = str_replace('_', ' ', $info['string']);
+			// Prepare the key.
+			if (($pos = strpos($info['string'], '=')) > 0)
+			{
+				// Should we not limit this explode to 2 parts?
+				$parts = explode('=', $info['string']);
+				$key = $parts[0];
+				$guess = $parts[1];
+			}
+			else
+			{
+				$guess = str_replace('_', ' ', $info['string']);
 
-    			if ($stripFirst)
-    			{
-    				$parts = explode(' ', $guess);
+				if ($stripFirst)
+				{
+					$parts = explode(' ', $guess);
 
-    				if (count($parts) > 1)
-    				{
-    					array_shift($parts);
-    					$guess = implode(' ', $parts);
-    				}
-    			}
+					if (count($parts) > 1)
+					{
+						array_shift($parts);
+						$guess = implode(' ', $parts);
+					}
+				}
 
-    			$guess = trim($guess);
+				$guess = trim($guess);
 
-    			if ($stripPref)
-    			{
-    				$guess = trim(preg_replace(chr(1) . '^' . $stripPref . chr(1) . 'i', '', $guess));
-    			}
+				if ($stripPref)
+				{
+					$guess = trim(preg_replace(chr(1) . '^' . $stripPref . chr(1) . 'i', '', $guess));
+				}
 
-    			if ($stripSuff)
-    			{
-    				$guess = trim(preg_replace(chr(1) . $stripSuff . '$' . chr(1) . 'i', '', $guess));
-    			}
-    		}
+				if ($stripSuff)
+				{
+					$guess = trim(preg_replace(chr(1) . $stripSuff . '$' . chr(1) . 'i', '', $guess));
+				}
+			}
 
-    		$key = trim(strtoupper($key));
-    		$key = preg_replace('#\s+#', '_', $key);
-    		$key = preg_replace('#\W#', '', $key);
+			$key = trim(strtoupper($key));
+			$key = preg_replace('#\s+#', '_', $key);
+			$key = preg_replace('#\W#', '', $key);
 
-    		// Prepare the text.
-    		$guesses[$file][] = $key . '="' . $guess . '"';
+			// Prepare the text.
+			$guesses[$file][] = $key . '="' . $guess . '"';
 
-        }
+		}
 
-        return $guesses;
-    }
+		return $guesses;
+	}
 }
