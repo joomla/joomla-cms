@@ -11,15 +11,15 @@ defined('_JEXEC') or die;
 
 JLoader::register('JDebugHelper', JPATH_PLUGINS . '/system/debug/helper.php');
 
-$name = $displayData['name'];
-$log = $displayData['log'];
-$timings = $displayData['timings'];
-$callStacks = $displayData['callStacks'];
-$totalQueries = $displayData['totalQueries'];
-$sqlShowProfiles = $displayData['sqlShowProfiles'];
+$name               = $displayData['name'];
+$log                = $displayData['log'];
+$timings            = $displayData['timings'];
+$callStacks         = $displayData['callStacks'];
+$totalQueries       = $displayData['totalQueries'];
+$sqlShowProfiles    = $displayData['sqlShowProfiles'];
 $sqlShowProfileEach = $displayData['sqlShowProfileEach'];
-$explains = $displayData['explains'];
-$queryTypes = $displayData['queryTypes'];
+$explains           = $displayData['explains'];
+$queryTypes         = $displayData['queryTypes'];
 
 if (!$log)
 {
@@ -27,15 +27,15 @@ if (!$log)
 }
 
 $selectQueryTypeTicker = array();
-$otherQueryTypeTicker = array();
+$otherQueryTypeTicker  = array();
 
-$timing = array();
+$timing  = array();
 $maxtime = 0;
 
 if (isset($timings[0]))
 {
 	$startTime = $timings[0];
-	$endTime = $timings[count($timings) - 1];
+	$endTime   = $timings[count($timings) - 1];
 	$totalBargraphTime = $endTime - $startTime;
 
 	if ($totalBargraphTime > 0)
@@ -57,10 +57,10 @@ else
 	$totalBargraphTime = 1;
 }
 
-$bars = array();
-$info = array();
+$bars           = array();
+$info           = array();
 $totalQueryTime = 0;
-$duplicates = array();
+$duplicates     = array();
 
 foreach ($log as $id => $query)
 {
@@ -85,8 +85,8 @@ foreach ($log as $id => $query)
 
 		if (isset($explains[$id]))
 		{
-            $data = array('table' => $explains[$id], 'hasWarnings' => &$hasWarnings);
-            $explain = JLayoutHelper::render('plugins.system.debug.tabletohtml', $data);
+			$data = array('table' => $explains[$id], 'hasWarnings' => &$hasWarnings);
+			$explain = JLayoutHelper::render('plugins.system.debug.tabletohtml', $data);
 		}
 		else
 		{
