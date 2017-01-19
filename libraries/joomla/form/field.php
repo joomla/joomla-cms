@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -293,7 +293,7 @@ abstract class JFormField
 	 * The conditions to show/hide the field.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $showon;
 
@@ -952,7 +952,8 @@ abstract class JFormField
 
 		if ($this->showon)
 		{
-			$options['rel']           = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($this->formControl, $this->showon)) . '\'';
+			$options['rel']           = ' data-showon=\'' .
+				json_encode(JFormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
 			$options['showonEnabled'] = true;
 		}
 

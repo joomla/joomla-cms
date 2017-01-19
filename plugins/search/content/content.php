@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -183,7 +183,7 @@ class PlgSearchContent extends JPlugin
 				->order($order);
 
 			// Join over Fields.
-			$query->join('LEFT', '#__fields_values AS fv ON CAST(fv.item_id AS INTEGER) = a.id')
+			$query->join('LEFT', '#__fields_values AS fv ON fv.item_id = ' . $query->castAsChar('a.id'))
 				->join('LEFT', '#__fields AS f ON f.id = fv.field_id')
 				->where('(fv.context IS NULL OR fv.context = ' . $db->q('com_content.article') . ')')
 				->where('(f.state IS NULL OR f.state = 1)')
@@ -262,7 +262,7 @@ class PlgSearchContent extends JPlugin
 				->order($order);
 
 			// Join over Fields.
-			$query->join('LEFT', '#__fields_values AS fv ON CAST(fv.item_id AS INTEGER) = a.id')
+			$query->join('LEFT', '#__fields_values AS fv ON fv.item_id = ' . $query->castAsChar('a.id'))
 				->join('LEFT', '#__fields AS f ON f.id = fv.field_id')
 				->where('(fv.context IS NULL OR fv.context = ' . $db->q('com_content.article') . ')')
 				->where('(f.state IS NULL OR f.state = 1)')

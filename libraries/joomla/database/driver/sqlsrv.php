@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -375,7 +375,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		// If we want the whole field data object add that to the list.
@@ -1013,8 +1013,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$this->connect();
 
 		$table = $this->replacePrefix((string) $table);
-		$query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'" .
-			" ORDER BY ORDINAL_POSITION";
+		$query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field' ORDER BY ORDINAL_POSITION";
 		$this->setQuery($query);
 
 		if ($this->loadResult())

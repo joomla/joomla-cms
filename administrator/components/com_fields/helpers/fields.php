@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -131,6 +131,11 @@ class FieldsHelper
 		}
 
 		$fields = self::$fieldsCache->getItems();
+
+		if ($fields === false)
+		{
+			return array();
+		}
 
 		if ($item && isset($item->id))
 		{
@@ -320,8 +325,11 @@ class FieldsHelper
 			 * has changed
 			*/
 			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
-			JFactory::getDocument()->addScriptDeclaration(
-					"function categoryHasChanged(element){
+
+			// Preload spindle-wheel when we need to submit form due to category selector changed
+			JFactory::getDocument()->addScriptDeclaration("
+			function categoryHasChanged(element) {
+				Joomla.loadingLayer('show');
 				var cat = jQuery(element);
 				if (cat.val() == '" . $assignedCatids . "')return;
 				jQuery('input[name=task]').val('field.storeform');
@@ -329,6 +337,7 @@ class FieldsHelper
 				element.form.submit();
 			}
 			jQuery( document ).ready(function() {
+				Joomla.loadingLayer('load');
 				var formControl = '#" . $form->getFormControl() . "_catid';
 				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
 			});");
@@ -450,7 +459,7 @@ class FieldsHelper
 					 * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
 					 * is not known, set the required flag to false on any circumstance.
 					 */
-					if (! $assignedCatids && $field->assigned_cat_ids && $form->getField($field->alias))
+					if (!$assignedCatids && !empty($field->assigned_cat_ids) && $form->getField($field->alias))
 					{
 						$form->setFieldAttribute($field->alias, 'required', 'false');
 					}
@@ -584,7 +593,7 @@ class FieldsHelper
 	 *
 	 * @return  array  Array with the assigned categories
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getAssignedCategoriesTitles($fieldId)
 	{

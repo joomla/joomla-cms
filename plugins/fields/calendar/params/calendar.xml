@@ -5,7 +5,6 @@
 			<field
 				name="format"
 				type="text"
-				default="%Y-%m-%d"
 				class="input-xxlarge"
 				label="PLG_FIELDS_CALENDAR_PARAMS_FORMAT_LABEL"
 				description="PLG_FIELDS_CALENDAR_PARAMS_FORMAT_DESC"

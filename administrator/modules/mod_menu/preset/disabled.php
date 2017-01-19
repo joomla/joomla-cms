@@ -3,23 +3,27 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+/* @var  $this    JAdminCSSMenu */
+/* @var  $params  Joomla\Registry\Registry */
+$user = JFactory::getUser();
+
 /**
  * Site SubMenu
  */
-$menu->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), null, 'disabled'));
+$this->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), null, 'disabled'));
 
 /**
  * Users Submenu
  */
 if ($user->authorise('core.manage', 'com_users'))
 {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS'), null, 'disabled'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS'), null, 'disabled'));
 }
 
 /**
@@ -27,7 +31,7 @@ if ($user->authorise('core.manage', 'com_users'))
  */
 if ($user->authorise('core.manage', 'com_menus'))
 {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), null, 'disabled'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), null, 'disabled'));
 }
 
 /**
@@ -35,7 +39,7 @@ if ($user->authorise('core.manage', 'com_menus'))
  */
 if ($user->authorise('core.manage', 'com_content'))
 {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), null, 'disabled'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), null, 'disabled'));
 }
 
 /**
@@ -48,7 +52,7 @@ $components = ModMenuHelper::getComponents(true);
 // Check if there are any components, otherwise, don't display the components menu item
 if ($components)
 {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), null, 'disabled'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), null, 'disabled'));
 }
 
 /**
@@ -62,7 +66,7 @@ $lm = $user->authorise('core.manage', 'com_languages');
 
 if ($im || $mm || $pm || $tm || $lm)
 {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), null, 'disabled'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), null, 'disabled'));
 }
 
 /**
@@ -70,5 +74,5 @@ if ($im || $mm || $pm || $tm || $lm)
  */
 if ($params->get('showhelp', 1))
 {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), null, 'disabled'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), null, 'disabled'));
 }
