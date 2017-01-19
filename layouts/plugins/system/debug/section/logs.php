@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $entries = $displayData['entries'];
 $deprecatedCount = $displayData['deprecatedCount'];
-$logEntriesTotal = count($this->logEntries);
+$logEntriesTotal = count($entries);
 
 $priorities = array(
     JLog::EMERGENCY => '<span class="badge badge-important">EMERGENCY</span>',

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 $sections = $displayData['sections'];
 $callbacks = $displayData['callbacks'];
+$i = 0;
 
 ?>
 
@@ -29,7 +30,12 @@ $callbacks = $displayData['callbacks'];
 
     <?php foreach ($callbacks as $name => $result) : ?>
         <?php
-            $displayData = array('section' => 'callback', 'title' => $name, 'data' => $result);
+            $displayData = array(
+                'section' => 'callback',
+                'suffix' => $i++,
+                'title' => $name,
+                'data' => array('content' => $result)
+            );
             echo JLayoutHelper::render('plugins.system.debug.section', $displayData);
         ?>
     <?php endforeach; ?>

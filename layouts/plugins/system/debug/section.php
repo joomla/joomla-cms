@@ -9,20 +9,18 @@
 
 defined('_JEXEC') or die;
 
-static $id = 0;
-$id++;
-
 $section = $displayData['section'];
+$suffix = isset($displayData['suffix']) ? $displayData['suffix'] : '';
 $data = $displayData['data'];
 $title = isset($displayData['title']) ? $displayData['title'] : JText::_('PLG_DEBUG_' . strtoupper($section));
 
 ?>
 
-<div class="dbg-header" onclick="toggleContainer('dbg_container_<?php echo $id; ?>');">
+<div class="dbg-header" onclick="toggleContainer('dbg_container_<?php echo $section, $suffix; ?>');">
     <a href="javascript:void(0);"><h3><?php echo $title; ?></h3></a>
 </div>
 
 
-<div style="display: none;" class="dbg-container" id="dbg_container_<?php echo $id; ?>">
+<div style="display: none;" class="dbg-container" id="dbg_container_<?php echo $section, $suffix; ?>">
     <?php echo $this->sublayout($section, $data); ?>
 </div>

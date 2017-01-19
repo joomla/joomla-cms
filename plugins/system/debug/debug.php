@@ -312,11 +312,14 @@ class PlgSystemDebug extends JPlugin
 				);
 			}
 
-			$sections['session'] = array(
-				'id' => 0,
-				'key' => '',
-				'session' => JFactory::getSession()->getData(),
-			);
+			if ($this->params->get('session', 1))
+			{
+    			$sections['session'] = array(
+    				'id' => 0,
+    				'key' => '',
+    				'session' => JFactory::getSession()->getData(),
+    			);
+            }
 
 			if ($this->params->get('profile', 1))
 			{
