@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for the Joomla! Debug plugin.
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 abstract class JDebugHelper
 {
@@ -23,7 +23,7 @@ abstract class JDebugHelper
 	 *
 	 * @return  string  The json string pretty printed.
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function prettyPrintJSON($json = '')
 	{
@@ -33,16 +33,16 @@ abstract class JDebugHelper
 			$json = json_encode($json, JSON_PRETTY_PRINT);
 		}
 
-        // Add some colors
-        return preg_replace(
-            array('#"([^"]+)":#', '#"(|[^"]+)"(\n|\r\n|,)#', '#null,#'),
-            array(
-                '<span class="black">"</span><span class="green">$1</span><span class="black">"</span>:',
-                '<span class="grey">"$1"</span>$2',
-                '<span class="blue">null</span>,'
-            ),
-            $json
-        );
+		// Add some colors
+		return preg_replace(
+			array('#"([^"]+)":#', '#"(|[^"]+)"(\n|\r\n|,)#', '#null,#'),
+			array(
+				'<span class="black">"</span><span class="green">$1</span><span class="black">"</span>:',
+				'<span class="grey">"$1"</span>$2',
+				'<span class="blue">null</span>,'
+			),
+			$json
+		);
 	}
 
 	/**
@@ -55,7 +55,7 @@ abstract class JDebugHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   2.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function formatLink($file, $line = '')
 	{
@@ -84,31 +84,25 @@ abstract class JDebugHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   2.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function highlightQuery($query)
 	{
 		$newlineKeywords = '#\b(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND|CASE)\b#i';
 
 		$query = htmlspecialchars($query, ENT_QUOTES);
-
 		$query = preg_replace($newlineKeywords, '<br />&#160;&#160;\\0', $query);
 
 		$regex = array(
-
 			// Tables are identified by the prefix.
 			'/(=)/' => '<b class="dbg-operator">$1</b>',
-
 			// All uppercase words have a special meaning.
 			'/(?<!\w|>)([A-Z_]{2,})(?!\w)/x' => '<span class="dbg-command">$1</span>',
-
 			// Tables are identified by the prefix.
 			'/(' . JFactory::getDbo()->getPrefix() . '[a-z_0-9]+)/' => '<span class="dbg-table">$1</span>'
-
 		);
 
 		$query = preg_replace(array_keys($regex), array_values($regex), $query);
-
 		$query = str_replace('*', '<b style="color: red;">*</b>', $query);
 
 		return $query;
