@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 $sections = $displayData['sections'];
+$callbacks = $displayData['callbacks'];
 
 ?>
 
@@ -24,5 +25,12 @@ $sections = $displayData['sections'];
 
     <?php foreach ($sections as $name => $section) : ?>
         <?php echo JLayoutHelper::render('plugins.system.debug.section', array('section' => $name, 'data' => $section)); ?>
+    <?php endforeach; ?>
+
+    <?php foreach ($callbacks as $name => $result) : ?>
+        <?php
+            $displayData = array('section' => 'callback', 'title' => $name, 'data' => $result);
+            echo JLayoutHelper::render('plugins.system.debug.section', $displayData);
+        ?>
     <?php endforeach; ?>
 </div>
