@@ -28,7 +28,7 @@ class PlgSystemLanguagecode extends JPlugin
 		$app = JFactory::getApplication();
 
 		// Use this plugin only in site application.
-		if ($app->isSite())
+		if ($app->isClient('site'))
 		{
 			// Get the response body.
 			$body = $app->getBody();
@@ -130,7 +130,7 @@ class PlgSystemLanguagecode extends JPlugin
 		}
 
 		// Get site languages.
-		if ($languages = JLanguage::getKnownLanguages(JPATH_SITE))
+		if ($languages = JLanguageHelper::getKnownLanguages(JPATH_SITE))
 		{
 			// Inject fields into the form.
 			foreach ($languages as $tag => $language)

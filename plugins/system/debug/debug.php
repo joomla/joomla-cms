@@ -86,7 +86,7 @@ class PlgSystemDebug extends JPlugin
 	 * Container for callback functions to be triggered when rendering the console.
 	 *
 	 * @var    callable[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	private static $displayCallbacks = array();
 
@@ -335,7 +335,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  InvalidArgumentException
 	 */
 	public static function addDisplayCallback($name, $callable)
@@ -358,7 +358,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function removeDisplayCallback($name)
 	{
@@ -457,7 +457,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function displayCallback($name, $callable)
 	{
@@ -873,7 +873,7 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql')))
+				if ($db->getServerType() === 'mysql')
 				{
 					if (isset($this->sqlShowProfileEach[$id]))
 					{
@@ -904,6 +904,7 @@ class PlgSystemDebug extends JPlugin
 				}
 
 				// Computes bargraph as follows: Position begin and end of the bar relatively to whole execution time.
+				// TODO: $prevBar is not used anywhere. Remove?
 				$prevBar = ($id && isset($bars[$id - 1])) ? $bars[$id - 1] : 0;
 
 				$barPre = round($timing[$id][1] / ($totalBargraphTime * 10), 4);
@@ -1463,7 +1464,7 @@ class PlgSystemDebug extends JPlugin
 
 		$this->totalQueries = $db->getCount();
 
-		$dbVersion5037 = (strpos($db->name, 'mysql') !== false) && version_compare($db->getVersion(), '5.0.37', '>=');
+		$dbVersion5037 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.0.37', '>=');
 
 		if ($dbVersion5037)
 		{
@@ -1500,13 +1501,13 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql', 'postgresql')))
+		if (in_array($db->getServerType(), array('mysql', 'postgresql')))
 		{
 			$log = $db->getLog();
 
 			foreach ($log as $k => $query)
 			{
-				$dbVersion56 = (strpos($db->name, 'mysql') !== false) && version_compare($db->getVersion(), '5.6', '>=');
+				$dbVersion56 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.6', '>=');
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))
 				{
@@ -2079,7 +2080,7 @@ class PlgSystemDebug extends JPlugin
 	protected function writeToFile()
 	{
 		$app    = JFactory::getApplication();
-		$domain = $app->isSite() ? 'site' : 'admin';
+		$domain = $app->isClient('site') ? 'site' : 'admin';
 		$input  = $app->input;
 		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
 

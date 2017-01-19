@@ -87,7 +87,7 @@ if ($params->get('show_title')) : ?>
  <dl class="article-info">
  <dt class="article-info-term"><?php  echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
-<?php if ($params->get('show_parent_category') && $this->item->parent_slug != '1:root') : ?>
+<?php if ($params->get('show_parent_category') && $this->item->parent_slug !== '1:root') : ?>
 		<dd class="parent-category-name">
 			<?php 	$title = $this->escape($this->item->parent_title);
 					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>';?>
@@ -177,30 +177,29 @@ endif;
 	<?php echo JHtml::_('content.prepare', $this->item->introtext); ?>
 	<?php // Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
-	<?php $menu = JFactory::getApplication()->getMenu(); ?>
-	<?php $active = $menu->getActive(); ?>
-	<?php $itemId = $active->id; ?>
-	<?php $link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>
-	<?php $link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language))); ?>
-	<p class="readmore">
-		<a href="<?php echo $link; ?>" class="register">
-		<?php $attribs = json_decode($this->item->attribs); ?>
-		<?php
-		if ($attribs->alternative_readmore == null) :
-			echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-		elseif ($readmore = $attribs->alternative_readmore) :
-			echo $readmore;
-			if ($params->get('show_readmore_title', 0) != 0) :
-				echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
-			endif;
-		elseif ($params->get('show_readmore_title', 0) == 0) :
-			echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
-		else :
-			echo JText::_('COM_CONTENT_READ_MORE');
-			echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
-		endif; ?>
-		</a>
-	</p>
+		<?php $menu = JFactory::getApplication()->getMenu(); ?>
+		<?php $active = $menu->getActive(); ?>
+		<?php $itemId = $active->id; ?>
+		<?php $link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>
+		<?php $link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language))); ?>
+		<p class="readmore">
+			<a href="<?php echo $link; ?>" class="register">
+			<?php $attribs = json_decode($this->item->attribs); ?>
+			<?php if ($attribs->alternative_readmore == null) : ?>
+				<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
+			<?php elseif ($readmore = $attribs->alternative_readmore) : ?>
+				<?php echo $readmore; ?>
+				<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
+					<?php echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit')); ?>
+				<?php endif; ?>
+			<?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
+				<?php echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE'); ?>
+			<?php else : ?>
+				<?php echo JText::_('COM_CONTENT_READ_MORE'); ?>
+				<?php echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit')); ?>
+			<?php endif; ?>
+			</a>
+		</p>
 	<?php endif; ?>
 <?php endif; ?>
 <?php // TAGS ?>
@@ -208,19 +207,14 @@ endif;
 	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 	<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 <?php endif; ?>
-
-<?php
-if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
-	echo $this->item->pagination;?>
+<?php if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative) : ?>
+	<?php echo $this->item->pagination; ?>
 <?php endif; ?>
-
 	<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '1')) OR ( $params->get('urls_position') == '1'))) : ?>
-
-	<?php echo $this->loadTemplate('links'); ?>
+		<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
-<?php
-if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative):
-	echo $this->item->pagination;?>
+<?php if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative) : ?>
+	<?php echo $this->item->pagination; ?>
 <?php endif; ?>
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </article>

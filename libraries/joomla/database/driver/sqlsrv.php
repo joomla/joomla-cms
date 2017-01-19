@@ -544,39 +544,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	}
 
 	/**
-	 * Method to get the first field of the first row of the result set from the database query.
-	 *
-	 * @return  mixed  The return value or null if the query failed.
-	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
-	 */
-	public function loadResult()
-	{
-		$ret = null;
-
-		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
-		{
-			return;
-		}
-
-		// Get the first row from the result set as an array.
-		if ($row = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_NUMERIC))
-		{
-			$ret = $row[0];
-		}
-
-		// Free up system resources and return.
-		$this->freeResult($cursor);
-
-		// For SQLServer - we need to strip slashes
-		$ret = stripslashes($ret);
-
-		return $ret;
-	}
-
-	/**
 	 * Execute the SQL statement.
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
@@ -653,7 +620,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$errorNum = $this->getErrorNumber();
-			$errorMsg = $this->getErrorMessage($query);
+			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -669,7 +636,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				{
 					// Get the error number and message.
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage($query);
+					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
@@ -942,7 +909,21 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function fetchArray($cursor = null)
 	{
-		return sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_NUMERIC);
+		$row = sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_NUMERIC);
+
+		if (is_array($row))
+		{
+			// For SQLServer - we need to strip slashes
+			foreach ($row as &$value)
+			{
+				if ($value !== null)
+				{
+					$value = stripslashes($value);
+				}
+			}
+		}
+
+		return $row;
 	}
 
 	/**
@@ -956,7 +937,21 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
-		return sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_ASSOC);
+		$row = sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_ASSOC);
+
+		if (is_array($row))
+		{
+			// For SQLServer - we need to strip slashes
+			foreach ($row as &$value)
+			{
+				if ($value !== null)
+				{
+					$value = stripslashes($value);
+				}
+			}
+		}
+
+		return $row;
 	}
 
 	/**
@@ -971,7 +966,22 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
-		return sqlsrv_fetch_object($cursor ? $cursor : $this->cursor, $class);
+		$row = sqlsrv_fetch_object($cursor ? $cursor : $this->cursor, $class);
+
+		if (is_object($row))
+		{
+			// For SQLServer - we need to strip slashes
+			foreach (get_object_vars($row) as $key => $value)
+			{
+				// Check public variable from object including those from $class, ex. JMenuItem
+				if (is_string($value))
+				{
+					$row->$key = stripslashes($value);
+				}
+			}
+		}
+
+		return $row;
 	}
 
 	/**
@@ -1131,13 +1141,11 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Return the actual SQL Error message
 	 *
-	 * @param   string  $query  The SQL Query that fails
-	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage($query)
+	protected function getErrorMessage()
 	{
 		$errors       = sqlsrv_errors();
 		$errorMessage = (string) $errors[0]['message'];
@@ -1146,10 +1154,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if (!$this->debug)
 		{
 			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			$query        = str_replace($this->tablePrefix, '#__', $query);
 		}
 
-		return $errorMessage . ' SQL=' . $query;
+		return $errorMessage;
 	}
 
 	/**

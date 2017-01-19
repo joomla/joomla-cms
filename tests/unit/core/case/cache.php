@@ -71,6 +71,17 @@ abstract class TestCaseCache extends TestCase
 	}
 
 	/**
+	 * @testdox  Data is correctly stored to the cache store and reported as existing
+	 */
+	public function testCacheContains()
+	{
+		$data = 'testData';
+
+		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
+		$this->assertTrue($this->handler->contains($this->id, $this->group), 'Failed validating data exists in the cache store');
+	}
+
+	/**
 	 * @testdox  Data is correctly stored to and retrieved from the cache storage handler
 	 */
 	public function testCacheHit()

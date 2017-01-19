@@ -156,7 +156,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string  Returns the find_in_set() Mysql translation.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function findInSet($value, $set)
 	{

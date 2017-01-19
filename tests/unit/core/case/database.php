@@ -485,7 +485,6 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	protected function setErrorHandlers($errorHandlers)
 	{
 		$mode = null;
-		$options = null;
 
 		foreach ($errorHandlers as $type => $params)
 		{
