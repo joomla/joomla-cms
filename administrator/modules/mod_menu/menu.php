@@ -389,6 +389,9 @@ class JAdminCssMenu
 				}
 			}
 
+			// Create levels
+			$items = ModMenuHelper::parseItems($items);
+
 			// Menu items for dynamic db driven setup to load here
 			$this->loadItems($items, $enabled);
 		}
