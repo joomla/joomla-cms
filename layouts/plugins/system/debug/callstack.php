@@ -42,7 +42,7 @@ $count = count($callStack);
 						<?php if (isset($call['class'])) : ?>
 							<?php // If entry has Class/Method print it. ?>
 							<?php echo htmlspecialchars($call['class'] . $call['type'] . $call['function']) . '()'; ?>
-						<?php else if (isset($call['args'])) :
+						<?php elseif (isset($call['args'])) : ?>
 							<?php // If entry has args is a require/include. ?>
 							<?php echo htmlspecialchars($call['function']) . ' ' . JDebugHelper::formatLink($call['args'][0]); ?>
 						<?php else : ?>
