@@ -11,67 +11,53 @@ defined('_JEXEC') or die;
 
 JLoader::register('JDebugHelper', JPATH_PLUGINS . '/system/debug/helper.php');
 
-$id = $displayData['id'] ? $displayData['id'] : 0;
-$key = $displayData['key'] ? $displayData['key'] : '';
+$id      = $displayData['id'] ? $displayData['id'] : 0;
+$key     = $displayData['key'] ? $displayData['key'] : '';
 $session = $displayData['session'] ? $displayData['session'] : JFactory::getSession()->getData();
 
 if (!is_array($session))
 {
-    echo $key, '<pre>', JDebugHelper::prettyPrintJSON($session), '</pre>';
-
-    return;
+	echo $key, '<pre>', JDebugHelper::prettyPrintJSON($session), '</pre>';
+	return;
 }
 
-foreach ($session as $sKey => $entries)
-{
-    $display = true;
+foreach ($session as $sKey => $entries) :
+	$display = true;
 
-    if (is_array($entries) && $entries)
-    {
-        $display = false;
-    }
+	if (is_array($entries) && $entries)
+	{
+		$display = false;
+	}
 
-    if (is_object($entries))
-    {
-        $o = ArrayHelper::fromObject($entries);
+	if (is_object($entries))
+	{
+		$o = ArrayHelper::fromObject($entries);
 
-        if ($o)
-        {
-            $entries = $o;
-            $display = false;
-        }
-    }
+		if ($o)
+		{
+			$entries = $o;
+			$display = false;
+		}
+	}
+?>
+	<?php if (!$display) : ?>
+		<?php $elementId = 'dbg_container_session' . $id . '_' . $sKey; ?>
+		<div class="dbg-header" onclick="toggleContainer('<?php echo $elementId; ?>');">
+			<a href="javascript:void(0);"><h3><?php echo $sKey; ?></h3></a>
+		</div>
+		<div style="display: none;" class="dbg-container" id="<?php echo $elementId; ?>">
+			<?php $id++; ?>
+			<?php $data = array('key' => $sKey, 'session' => $entries, 'id' => $id); ?>
+			<?php echo JLayoutHelper::render('plugins.system.debug.section.session', $data); ?>
+		</div>
+		<?php continue; ?>
+	<?php endif; ?>
 
-    if (!$display)
-    {
-        $elementId = 'dbg_container_session' . $id . '_' . $sKey;
+	<?php if (is_array($entries)) : ?>
+		<?php $entries = implode($entries); ?>
+	<?php endif; ?>
 
-        ?>
-        <div class="dbg-header" onclick="toggleContainer('<?php echo $elementId; ?>');">
-            <a href="javascript:void(0);"><h3><?php echo $sKey; ?></h3></a>
-        </div>
-
-        <div style="display: none;" class="dbg-container" id="<?php echo $elementId; ?>">
-            <?php
-
-            $id++;
-            $data = array('key' => $sKey, 'session' => $entries, 'id' => $id);
-            echo JLayoutHelper::render('plugins.system.debug.section.session', $data);
-
-            ?>
-        </div>
-        <?php
-
-        continue;
-    }
-
-    if (is_array($entries))
-    {
-        $entries = implode($entries);
-    }
-
-    if (is_string($entries))
-    {
-        echo $sKey, '<pre>', JDebugHelper::prettyPrintJSON($entries), '</pre>';
-    }
-}
+	<?php if (is_string($entries)) : ?>
+		<?php echo $sKey, '<pre>', JDebugHelper::prettyPrintJSON($entries), '</pre>'; ?>
+	<?php endif; ?>
+<?php endforeach; ?>
