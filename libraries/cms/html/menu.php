@@ -35,7 +35,7 @@ abstract class JHtmlMenu
 	/**
 	 * Get a list of the available menus.
 	 *
-	 * @return  string
+	 * @return  stdClass[]
 	 *
 	 * @since   1.6
 	 */
@@ -46,7 +46,7 @@ abstract class JHtmlMenu
 			$db = JFactory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->qn(array('id', 'menutype', 'title'), array('id', 'value', 'text')))
+				->select($db->qn(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
 				->from($db->quoteName('#__menu_types'))
 				->order('title');
 
@@ -75,8 +75,7 @@ abstract class JHtmlMenu
 			$query = $db->getQuery(true)
 				->select('a.id AS value, a.title AS text, a.level, a.menutype')
 				->from('#__menu AS a')
-				->where('a.parent_id > 0')
-				->where('a.client_id = 0');
+				->where('a.parent_id > 0');
 
 			// Filter on the published state
 			if (isset($config['published']))
@@ -91,6 +90,14 @@ abstract class JHtmlMenu
 				}
 			}
 
+			// Filter on the published state
+			if (!isset($config['client_id']))
+			{
+				// B/C, no client_id was being passed.
+				$config['client_id'] = 0;
+			}
+
+			$query->where('a.client_id = ' . (int) $config['client_id']);
 			$query->order('a.lft');
 
 			$db->setQuery($query);
@@ -119,6 +126,11 @@ abstract class JHtmlMenu
 
 			foreach ($menus as &$menu)
 			{
+				if ($menu->client_id != $config['client_id'])
+				{
+					continue;
+				}
+
 				if ($aclcheck)
 				{
 					$action = $aclcheck == $menu->id ? 'edit' : 'create';
