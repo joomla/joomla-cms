@@ -13,25 +13,17 @@ $paths = $displayData['paths'];
 
 ?>
 <?php if (empty($paths)) : ?>
-
-    <p><?php echo JText::_('JNONE'); ?></p>
-
+	<p><?php echo JText::_('JNONE'); ?></p>
 <?php else : ?>
-
-    <ul>
-        <?php foreach ($paths as /* $extension => */ $files) : ?>
+	<ul>
+		<?php foreach ($paths as $files) : ?>
 			<?php foreach ($files as $file => $status) : ?>
 				<li>
-
-                <?php
-                echo JText::_($status ? 'PLG_DEBUG_LANG_LOADED' : 'PLG_DEBUG_LANG_NOT_LOADED'),
-                    ' : ',
-                    JDebugHelper::formatLink($file);
-                ?>
-
-                </li>
-            <?php endforeach; ?>
-        <?php endforeach; ?>
+				<?php echo JText::_($status ? 'PLG_DEBUG_LANG_LOADED' : 'PLG_DEBUG_LANG_NOT_LOADED'); ?>
+				<?php echo ' : '; ?>
+				<?php echo JDebugHelper::formatLink($file); ?>
+			</li>
+			<?php endforeach; ?>
+		<?php endforeach; ?>
 	</ul>
-    
-<?php endif;
+<?php endif; ?>
