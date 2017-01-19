@@ -13,16 +13,11 @@ $errorfiles = $displayData['errorfiles'];
 
 ?>
 <?php if (empty($errorfiles)) : ?>
-
-    <p><?php echo JText::_('JNONE'); ?></p>
-
+	<p><?php echo JText::_('JNONE'); ?></p>
 <?php else : ?>
-
-    <ul>
-        <?php foreach ($errorfiles as $file => $error) : ?>
-
+	<ul>
+		<?php foreach ($errorfiles as $file => $error) : ?>
 			<li><?php echo JDebugHelper::formatLink($file), str_replace($file, '', $error); ?></li>
-
-        <?php endforeach; ?>
+		<?php endforeach; ?>
 	</ul>
-<?php endif;
+<?php endif; ?>
