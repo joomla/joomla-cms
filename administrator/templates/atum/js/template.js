@@ -113,21 +113,25 @@
 			/**
 			 * Sidebar Accordion
 			 */
-			jQuery('.main-nav li.parent > a').on('click', function(){
-				jQuery(this).removeAttr('href');
-				var element = jQuery(this).parent('li');
-				if (element.hasClass('open')) {
-					element.removeClass('open');
-					element.find('li').removeClass('open');
-					element.find('ul').slideUp();
+			jQuery('.main-nav li.parent > a').on('click', function() {
+				var $self  = jQuery(this),
+				    parent = $self.parent('li');
+
+				$self.removeAttr('href');
+
+				if (parent.hasClass('open')) {
+					parent.removeClass('open');
+					parent.find('li').removeClass('open');
+					parent.find('ul').stop(true, false).slideUp();
 				}
 				else {
-					element.addClass('open');
-					element.children('ul').slideDown();
-					element.siblings('li').children('ul').slideUp();
-					element.siblings('li').removeClass('open');
-					element.siblings('li').find('li').removeClass('open');
-					element.siblings('li').find('ul').slideUp();
+					var siblings = parent.siblings('li');
+					parent.addClass('open');
+					parent.children('ul').stop(true, false).slideDown();
+					siblings.children('ul').stop(true, false).slideUp();
+					siblings.removeClass('open');
+					siblings.find('li').removeClass('open');
+					siblings.find('ul').stop(true, false).slideUp();
 				}
 			});
 
