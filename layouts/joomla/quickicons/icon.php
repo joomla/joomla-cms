@@ -17,7 +17,8 @@ $text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $
 
 ?>
 <div class="col-md-3"<?php echo $id; ?>>
-	<a href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-		<span class="icon-<?php echo $displayData['image']; ?>"></span> <?php echo $text; ?>
+	<a href="<?php echo $displayData['link']; ?>" class="d-flex align-items-center justify-content-center"<?php echo $target . $onclick . $title; ?>>
+		<span class="mr-1 icon-<?php echo $displayData['image']; ?>"></span>
+		<?php echo $text; ?>
 	</a>
 </div>

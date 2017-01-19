@@ -9171,12 +9171,12 @@ iframe {
   .quick-icons a {
     position: relative;
     display: block;
-    padding: 25px 0;
+    height: 4.7rem;
+    padding: 0 5px;
     margin-bottom: 15px;
     overflow: hidden;
     color: #fcfcfc;
-    text-align: center;
-    text-transform: uppercase;
+    text-align: left;
     background-color: #20252e;
     border-radius: 0.25rem; }
     .quick-icons a:hover, .quick-icons a:focus {
@@ -9188,11 +9188,11 @@ iframe {
     .quick-icons a span {
       position: relative;
       display: inline;
-      font-size: .85rem;
+      font-size: 1rem;
       font-weight: bold;
-      line-height: 2rem;
-      letter-spacing: .4px; }
+      line-height: 1.2rem; }
       .quick-icons a span[class*=" icon-"], .quick-icons a span[class^="icon-"] {
+        width: 2.5rem;
         margin-right: .1rem;
         font-size: 2.5rem;
         font-weight: normal; }
@@ -9228,7 +9228,8 @@ iframe {
       background: #48b848; }
     .quick-icons .success a::before {
       color: #62c262; }
-  .quick-icons [id*="plg_quickicon"] a, .quick-icons [id*="plg_quickicon"] a::before {
+  .quick-icons [id*="plg_quickicon"] a,
+  .quick-icons [id*="plg_quickicon"] a::before {
     transition-delay: .4s; }
 
 .js-stools {

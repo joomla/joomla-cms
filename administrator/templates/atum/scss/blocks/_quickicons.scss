@@ -2,43 +2,52 @@
 
 .quick-icons {
   margin-bottom: -15px;
+
   *, *::before, *::after {
     transition: all .25s ease;
   }
+
   a {
     position: relative;
     display: block;
-    padding: 25px 0;
+    height: 4.7rem;
+    padding: 0 5px;
     margin-bottom: 15px;
     overflow: hidden;
     color: $white-offset;
-    text-align: center;
-    text-transform: uppercase;
+    text-align: left;
     background-color: $atum-template-color;
     border-radius: $border-radius;
+
     &:hover,
     &:focus {
       text-decoration: none;
+
       &::before {
         color: lighten($atum-template-color, 14%);
       }
     }
+
     > * {
       vertical-align: middle;
     }
+
     span {
       position: relative;
       display: inline;
-      font-size: .85rem;
+      font-size: 1rem;
       font-weight: bold;
-      line-height: 2rem;
-      letter-spacing: .4px;
-      &[class*=" icon-"], &[class^="icon-"] {
+      line-height: 1.2rem;
+
+      &[class*=" icon-"],
+	  &[class^="icon-"] {
+        width: 2.5rem;
         margin-right: .1rem;
         font-size: 2.5rem;
         font-weight: normal;
       }
     }
+
     &::before {
       position: absolute;
       top: -100px;
@@ -49,6 +58,7 @@
       content: "\f1aa";
       transform: rotate(20deg);
     }
+
     &::after {
       position: absolute;
       right: 100%;
@@ -60,27 +70,35 @@
       transition-duration: .7s;
     }
   }
+
   .danger a {
     background: $brand-danger;
+
     &::after {
       right: 0;
       background: $brand-danger;
     }
+
     &::before {
       color: lighten($brand-danger, 7%);
     }
   }
+
   .success a {
     background: $brand-success;
+
     &::after {
       right: 0;
       background: $brand-success;
     }
+
     &::before {
       color: lighten($brand-success, 7%);
     }
   }
-  [id*="plg_quickicon"] a, [id*="plg_quickicon"] a::before {
+
+  [id*="plg_quickicon"] a,
+  [id*="plg_quickicon"] a::before {
     transition-delay: .4s;
   }
 }
