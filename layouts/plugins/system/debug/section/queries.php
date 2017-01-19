@@ -23,7 +23,7 @@ $queryTypes         = $displayData['queryTypes'];
 
 if (!$log)
 {
-    return;
+	return;
 }
 
 $selectQueryTypeTicker = array();
@@ -100,8 +100,8 @@ foreach ($log as $id => $query)
 		{
 			if (isset($sqlShowProfileEach[$id]))
 			{
-                $data = array('table' => $sqlShowProfileEach[$id], 'hasWarnings' => &$hasWarningsInProfile);
-                $profile = JLayoutHelper::render('plugins.system.debug.tabletohtml', $data);
+				$data = array('table' => $sqlShowProfileEach[$id], 'hasWarnings' => &$hasWarningsInProfile);
+				$profile = JLayoutHelper::render('plugins.system.debug.tabletohtml', $data);
 			}
 		}
 
@@ -443,7 +443,7 @@ if (!$queryTypes)
 {
 	echo implode('', $html);
 
-    return;
+	return;
 }
 
 // Get the totals for the query types.
