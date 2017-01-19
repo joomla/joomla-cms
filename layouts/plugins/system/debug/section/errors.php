@@ -14,14 +14,14 @@ $errors = $displayData['errors'];
 ?>
 
 <ol>
-    <?php foreach ($errors as $error) : ?>
-        <?php $col = (E_WARNING == $error->get('level')) ? 'red' : 'orange'; ?>
-        <li>
-            <b style="color: <?php echo $col; ?>"><?php echo $error->getMessage(); ?></b><br>
-            <?php if ($info = $error->get('info')) : ?>
-    			<pre><?php print_r($info); ?></pre><br>
-            <?php endif; ?>
-            <?php echo JLayoutHelper::render('plugins.system.debug.backtrace', array('backtrace' => $error->getTrace())); ?>
+	<?php foreach ($errors as $error) : ?>
+		<?php $col = (E_WARNING == $error->get('level')) ? 'red' : 'orange'; ?>
+		<li>
+			<b style="color: <?php echo $col; ?>"><?php echo $error->getMessage(); ?></b><br>
+			<?php if ($info = $error->get('info')) : ?>
+				<pre><?php print_r($info); ?></pre><br>
+			<?php endif; ?>
+			<?php echo JLayoutHelper::render('plugins.system.debug.backtrace', array('backtrace' => $error->getTrace())); ?>
 		</li>
-    <?php endforeach; ?>
+	<?php endforeach; ?>
 </ol>
