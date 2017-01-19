@@ -102,7 +102,7 @@ class PlgSystemDebug extends JPlugin
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
-	 * @param   array   $config	An optional associative array of configuration settings.
+	 * @param   array   $config    An optional associative array of configuration settings.
 	 *
 	 * @since   1.5
 	 */
@@ -421,7 +421,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Add a display callback to be rendered with the debug console.
 	 *
-	 * @param   string	$name	  The name of the callable, this is used to generate the section title.
+	 * @param   string    $name      The name of the callable, this is used to generate the section title.
 	 * @param   callable  $callable  The callback function to be added.
 	 *
 	 * @return  boolean
