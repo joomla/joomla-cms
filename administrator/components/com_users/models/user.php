@@ -221,6 +221,14 @@ class UsersModelUser extends JModelAdmin
 			return false;
 		}
 
+		// Make sure user groups is selected when add/edit an account
+		if (empty($data['groups']) && ((int) $user->id != (int) $my->id || $iAmSuperAdmin))
+		{
+			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_SAVE_ACCOUNT_WITHOUT_GROUPS'));
+
+			return false;
+		}
+
 		// Make sure that we are not removing ourself from Super Admin group
 		if ($iAmSuperAdmin && $my->get('id') == $pk)
 		{
