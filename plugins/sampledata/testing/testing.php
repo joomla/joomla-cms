@@ -27,7 +27,7 @@ class PlgSampledataTesting extends JPlugin
 	/**
 	 * Application object
 	 *
-	 * @var    JApplication
+	 * @var    JApplicationCms
 	 * @since  3.5
 	 */
 	protected $app;
