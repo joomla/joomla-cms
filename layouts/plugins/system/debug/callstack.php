@@ -34,6 +34,7 @@ $count = count($callStack);
 				<?php // Dont' back trace log classes. ?>
 				<?php if (isset($call['class']) && strpos($call['class'], 'JLog') !== false) : ?>
 					<?php $count--; ?>
+					<?php continue; ?>
 				<?php endif; ?>
 				<tr>
 					<td><?php echo $count; ?></td>
