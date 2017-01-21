@@ -153,7 +153,10 @@ abstract class JHtmlBehavior
 		static::core();
 
 		// Add validate.js language strings
-		JText::script('JLIB_FORM_FIELD_INVALID');
+		JText::script('JLIB_FORM_CONTAINS_INVALID_FIELDS');
+		JText::script('JLIB_FORM_FIELD_REQUIRED_VALUE');
+		JText::script('JLIB_FORM_FIELD_REQUIRED_CHECK');
+		JText::script('JLIB_FORM_FIELD_INVALID_VALUE');
 
 		JHtml::_('script', 'vendor/punycode/punycode.js', array('version' => 'auto', 'relative' => true));
 		JHtml::_('script', 'system/fields/validate.min.js', array('version' => 'auto', 'relative' => true));
