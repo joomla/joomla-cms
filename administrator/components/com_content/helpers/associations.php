@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Content associations helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class ContentAssociationsHelper extends JAssociationExtensionHelper
 {
@@ -23,7 +23,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @var     array   $extension
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $extension = 'com_content';
 
@@ -32,7 +32,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @var     array   $itemTypes
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $itemTypes = array('article', 'category');
 
@@ -41,7 +41,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @var     boolean   $associationsSupport
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $associationsSupport = true;
 
@@ -53,7 +53,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 
 	public function getAssociations($typeName, $id)
@@ -91,7 +91,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  JTable|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getItem($typeName, $id)
 	{
@@ -130,7 +130,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array  Array of item types
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getType($typeName = '')
 	{

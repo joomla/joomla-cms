@@ -147,7 +147,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function contains($id, $group)
 	{

@@ -310,7 +310,7 @@ class ConfigModelApplication extends ConfigModelForm
 		{
 			$path = $data['cache_path'];
 		}
-		elseif (!$data['cache_path'] && $prev['cache_path'])
+		elseif (!empty($prev['cache_path']))
 		{
 			$path = $prev['cache_path'];
 		}

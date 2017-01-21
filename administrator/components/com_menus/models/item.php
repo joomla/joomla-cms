@@ -1007,7 +1007,7 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @return  stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getMenuType($menutype)
 	{

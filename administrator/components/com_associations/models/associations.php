@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of article records.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class AssociationsModelAssociations extends JModelList
 {
@@ -21,7 +21,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 *
 	 * @see     JController
 	 */
@@ -60,7 +60,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'asc')
 	{
@@ -124,7 +124,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -146,7 +146,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  JDatabaseQuery|bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getListQuery()
 	{
@@ -417,7 +417,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function purge($context = '', $key = '')
 	{
@@ -466,7 +466,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function clean($context = '', $key = '')
 	{
