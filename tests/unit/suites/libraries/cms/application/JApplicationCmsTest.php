@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -312,7 +312,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testGetRouter()
 	{
-		$this->assertInstanceOf('JRouter', $this->class->getRouter(''));
+		$this->assertInstanceOf('JRouter', JApplicationCmsInspector::getRouter(''));
 	}
 
 	/**
@@ -398,12 +398,32 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
-			array(
-				array('HTTP/1.1 303 See other', true, null),
-				array('Location: ' . $base . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
+			array('HTTP/1.1 303 See other', true, null),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 
@@ -447,12 +467,32 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		$this->assertEquals(
-			array(
-				array('HTTP/1.1 303 See other', true, null),
-				array('Location: ' . $base . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
+			array('HTTP/1.1 303 See other', true, null),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 
@@ -492,12 +532,32 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// The redirect gives a 303 error code
 		$this->assertEquals(
-			array(
-				array('HTTP/1.1 303 See other', true, null),
-				array('Location: ' . $base . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
+			array('HTTP/1.1 303 See other', true, null),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 
@@ -587,12 +647,32 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, true);
 
 		$this->assertEquals(
-			array(
-				array('HTTP/1.1 301 Moved Permanently', true, null),
-				array('Location: ' . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
+			array('HTTP/1.1 301 Moved Permanently', true, null),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: '  . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 

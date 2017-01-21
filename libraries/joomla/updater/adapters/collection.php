@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -97,7 +97,7 @@ class JUpdaterCollection extends JUpdateAdapter
 		// Reset the data
 		if (isset($this->$tag))
 		{
-			$this->$tag->_data = "";
+			$this->$tag->_data = '';
 		}
 
 		switch ($name)
@@ -214,7 +214,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	 *
 	 * @param   array  $options  Options to use: update_site_id: the unique ID of the update site to look at
 	 *
-	 * @return  array  Update_sites and updates discovered
+	 * @return  array|boolean  Update_sites and updates discovered. False on failure
 	 *
 	 * @since   11.1
 	 */

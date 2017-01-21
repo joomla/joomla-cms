@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -643,7 +643,13 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 		// Check if the source value is an array or object
 		if (!is_object($src) && !is_array($src))
 		{
-			throw new InvalidArgumentException(sprintf('%s::bind(*%s*)', get_class($this), gettype($src)));
+			throw new InvalidArgumentException(
+				sprintf(
+					'Could not bind the data source in %1$s::bind(), the source must be an array or object but a "%2$s" was given.',
+					get_class($this),
+					gettype($src)
+				)
+			);
 		}
 
 		// If the source value is an object, get its accessible properties.

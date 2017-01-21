@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,7 +37,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		// Reset the data
 		if (isset($this->$tag))
 		{
-			$this->$tag->_data = "";
+			$this->$tag->_data = '';
 		}
 
 		switch ($name)
@@ -46,7 +46,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				$this->currentUpdate = JTable::getInstance('update');
 				$this->currentUpdate->update_site_id = $this->updateSiteId;
 				$this->currentUpdate->detailsurl = $this->_url;
-				$this->currentUpdate->folder = "";
+				$this->currentUpdate->folder = '';
 				$this->currentUpdate->client_id = 1;
 				break;
 
@@ -281,7 +281,7 @@ class JUpdaterExtension extends JUpdateAdapter
 	 *
 	 * @param   array  $options  Update options.
 	 *
-	 * @return  array  Array containing the array of update sites and array of updates
+	 * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
 	 *
 	 * @since   11.1
 	 */

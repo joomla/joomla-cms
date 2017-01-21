@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -375,7 +375,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		// If we want the whole field data object add that to the list.
@@ -541,39 +541,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$this->setQuery('SELECT @@IDENTITY');
 
 		return (int) $this->loadResult();
-	}
-
-	/**
-	 * Method to get the first field of the first row of the result set from the database query.
-	 *
-	 * @return  mixed  The return value or null if the query failed.
-	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
-	 */
-	public function loadResult()
-	{
-		$ret = null;
-
-		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
-		{
-			return;
-		}
-
-		// Get the first row from the result set as an array.
-		if ($row = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_NUMERIC))
-		{
-			$ret = $row[0];
-		}
-
-		// Free up system resources and return.
-		$this->freeResult($cursor);
-
-		// For SQLServer - we need to strip slashes
-		$ret = stripslashes($ret);
-
-		return $ret;
 	}
 
 	/**
@@ -942,7 +909,21 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function fetchArray($cursor = null)
 	{
-		return sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_NUMERIC);
+		$row = sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_NUMERIC);
+
+		if (is_array($row))
+		{
+			// For SQLServer - we need to strip slashes
+			foreach ($row as &$value)
+			{
+				if ($value !== null)
+				{
+					$value = stripslashes($value);
+				}
+			}
+		}
+
+		return $row;
 	}
 
 	/**
@@ -956,7 +937,21 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
-		return sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_ASSOC);
+		$row = sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_ASSOC);
+
+		if (is_array($row))
+		{
+			// For SQLServer - we need to strip slashes
+			foreach ($row as &$value)
+			{
+				if ($value !== null)
+				{
+					$value = stripslashes($value);
+				}
+			}
+		}
+
+		return $row;
 	}
 
 	/**
@@ -971,7 +966,22 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
-		return sqlsrv_fetch_object($cursor ? $cursor : $this->cursor, $class);
+		$row = sqlsrv_fetch_object($cursor ? $cursor : $this->cursor, $class);
+
+		if (is_object($row))
+		{
+			// For SQLServer - we need to strip slashes
+			foreach (get_object_vars($row) as $key => $value)
+			{
+				// Check public variable from object including those from $class, ex. JMenuItem
+				if (is_string($value))
+				{
+					$row->$key = stripslashes($value);
+				}
+			}
+		}
+
+		return $row;
 	}
 
 	/**
@@ -1003,8 +1013,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$this->connect();
 
 		$table = $this->replacePrefix((string) $table);
-		$query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'" .
-			" ORDER BY ORDINAL_POSITION";
+		$query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field' ORDER BY ORDINAL_POSITION";
 		$this->setQuery($query);
 
 		if ($this->loadResult())

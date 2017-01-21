@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -206,7 +206,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		if (($filterInput->clean($this->email, 'TRIM') == "") || !JMailHelper::isEmailAddress($this->email))
+		if (($filterInput->clean($this->email, 'TRIM') == '') || !JMailHelper::isEmailAddress($this->email))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 

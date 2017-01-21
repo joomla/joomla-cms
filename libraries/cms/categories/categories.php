@@ -12,31 +12,31 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCategories Class.
  *
- * @since  11.1
+ * @since  1.6
  */
 class JCategories
 {
 	/**
 	 * Array to hold the object instances
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var    JCategories[]
+	 * @since  1.6
 	 */
 	public static $instances = array();
 
 	/**
 	 * Array of category nodes
 	 *
-	 * @var    mixed
-	 * @since  11.1
+	 * @var    JCategoryNode[]
+	 * @since  1.6
 	 */
 	protected $_nodes;
 
 	/**
 	 * Array of checked categories -- used to save values when _nodes are null
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var    boolean[]
+	 * @since  1.6
 	 */
 	protected $_checkedCategories;
 
@@ -44,7 +44,7 @@ class JCategories
 	 * Name of the extension the categories belong to
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $_extension = null;
 
@@ -52,7 +52,7 @@ class JCategories
 	 * Name of the linked content table to get category content count
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $_table = null;
 
@@ -60,7 +60,7 @@ class JCategories
 	 * Name of the category field
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $_field = null;
 
@@ -68,7 +68,7 @@ class JCategories
 	 * Name of the key field
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $_key = null;
 
@@ -76,7 +76,7 @@ class JCategories
 	 * Name of the items state field
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $_statefield = null;
 
@@ -84,7 +84,7 @@ class JCategories
 	 * Array of options
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $_options = null;
 
@@ -93,7 +93,7 @@ class JCategories
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function __construct($options)
 	{
@@ -119,7 +119,7 @@ class JCategories
 	 *
 	 * @return  JCategories|false  JCategories object
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public static function getInstance($extension, $options = array())
 	{
@@ -166,9 +166,9 @@ class JCategories
 	 * @param   mixed    $id         an optional id integer or equal to 'root'
 	 * @param   boolean  $forceload  True to force  the _load method to execute
 	 *
-	 * @return  mixed    JCategoryNode object or null if $id is not valid
+	 * @return  JCategoryNode|null|boolean  JCategoryNode object or null if $id is not valid
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function get($id = 'root', $forceload = false)
 	{
@@ -209,7 +209,7 @@ class JCategories
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function _load($id)
 	{

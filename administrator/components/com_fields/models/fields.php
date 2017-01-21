@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -215,7 +215,39 @@ class FieldsModelFields extends JModelList
 
 			// Join over the assigned categories
 			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
-				->group('a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.note, a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language, a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id, a.label, a.description, a.required, l.title, l.image, uc.name, ag.title, ua.name, g.title, g.access, g.state');
+				->group(
+					array(
+						'a.id',
+						'a.title',
+						'a.alias',
+						'a.checked_out',
+						'a.checked_out_time',
+						'a.note',
+						'a.state',
+						'a.access',
+						'a.created_time',
+						'a.created_user_id',
+						'a.ordering',
+						'a.language',
+						'a.fieldparams',
+						'a.params',
+						'a.type',
+						'a.default_value',
+						'a.context',
+						'a.group_id',
+						'a.label',
+						'a.description',
+						'a.required',
+						'l.title',
+						'l.image',
+						'uc.name',
+						'ag.title',
+						'ua.name',
+						'g.title',
+						'g.access',
+						'g.state'
+					)
+				);
 
 			if (in_array('0', $categories))
 			{
@@ -386,7 +418,7 @@ class FieldsModelFields extends JModelList
 		$query->select('title AS text, id AS value, state');
 		$query->from('#__fields_groups');
 		$query->where('state IN (0,1)');
-		$query->where('context = ' . $db->quote($this->state->get('filter.component')));
+		$query->where('context = ' . $db->quote($this->state->get('filter.context')));
 		$query->where('access IN (' . implode(',', $viewlevels) . ')');
 
 		$db->setQuery($query);

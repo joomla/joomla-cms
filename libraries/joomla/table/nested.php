@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -64,10 +64,9 @@ class JTableNested extends JTable
 	/**
 	 * Object property to hold the location type to use when storing the row.
 	 *
-	 * Possible values are: ['before', 'after', 'first-child', 'last-child'].
-	 *
 	 * @var    string
 	 * @since  11.1
+	 * @see    JTableNested::$_validLocations
 	 */
 	protected $_location;
 
@@ -104,6 +103,14 @@ class JTableNested extends JTable
 	 * @since  3.3
 	 */
 	protected static $root_id = 0;
+
+	/**
+	 * Array declaring the valid location values for moving a node
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $_validLocations = array('before', 'after', 'first-child', 'last-child');
 
 	/**
 	 * Sets the debug level on or off
@@ -211,20 +218,23 @@ class JTableNested extends JTable
 	 * that when the node is stored it will be stored in the new location.
 	 *
 	 * @param   integer  $referenceId  The primary key of the node to reference new location by.
-	 * @param   string   $position     Location type string. ['before', 'after', 'first-child', 'last-child']
+	 * @param   string   $position     Location type string.
 	 *
 	 * @return  void
 	 *
 	 * @note    Since 12.1 this method returns void and throws an InvalidArgumentException when an invalid position is passed.
+	 * @see     JTableNested::$_validLocations
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
 	 */
 	public function setLocation($referenceId, $position = 'after')
 	{
 		// Make sure the location is valid.
-		if (($position != 'before') && ($position != 'after') && ($position != 'first-child') && ($position != 'last-child'))
+		if (!in_array($position, $this->_validLocations))
 		{
-			throw new InvalidArgumentException(sprintf('%s::setLocation(%d, *%s*)', get_class($this), $referenceId, $position));
+			throw new InvalidArgumentException(
+				sprintf('Invalid location "%1$s" given, valid values are %2$s', $position, implode(', ', $this->_validLocations))
+			);
 		}
 
 		// Set the location properties.
@@ -334,10 +344,11 @@ class JTableNested extends JTable
 		// Cannot move the node to be a child of itself.
 		if (in_array($referenceId, $children))
 		{
-			$e = new UnexpectedValueException(
-				sprintf('%s::moveByReference(%d, %s, %d) parenting to child.', get_class($this), $referenceId, $position, $pk)
+			$this->setError(
+				new UnexpectedValueException(
+					sprintf('%1%ss::moveByReference() is trying to make record ID %2$d a child of itself.', get_class($this), $pk)
+				)
 			);
-			$this->setError($e);
 
 			return false;
 		}
@@ -696,7 +707,7 @@ class JTableNested extends JTable
 			// Check that the parent_id field is valid.
 			if ($this->parent_id == 0)
 			{
-				throw new UnexpectedValueException(sprintf('Invalid `parent_id` [%d] in %s', $this->parent_id, get_class($this)));
+				throw new UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, get_class($this)));
 			}
 
 			$query = $this->_db->getQuery(true)
@@ -706,7 +717,7 @@ class JTableNested extends JTable
 
 			if (!$this->_db->setQuery($query)->loadResult())
 			{
-				throw new UnexpectedValueException(sprintf('Invalid `parent_id` [%d] in %s', $this->parent_id, get_class($this)));
+				throw new UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, get_class($this)));
 			}
 		}
 		catch (UnexpectedValueException $e)
