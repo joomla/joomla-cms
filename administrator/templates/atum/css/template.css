@@ -8821,6 +8821,9 @@ small, .small {
 .closed + .notify-alerts.fullWidth {
   left: 70px; }
 
+.wrapper0 .notify-alerts {
+  margin-left: 0; }
+
 .form-control {
   max-width: 240px;
   background-color: #fcfcfc; }
@@ -8879,9 +8882,23 @@ legend {
 .modal label {
   width: 100%; }
 
+.invalid {
+  border-color: #bc6564;
+  color: #bc6564; }
+
+.valid {
+  border-color: #64bd63; }
+
 .custom-select[multiple] {
   height: auto;
   background: none; }
+
+.invalid {
+  border-color: #bc6564;
+  color: #bc6564; }
+
+.valid {
+  border-color: #64bd63; }
 
 .header {
   position: relative;
