@@ -386,7 +386,6 @@ abstract class JLoader
 	/**
 	 * Register a namespace to the autoloader. When loaded, namespace paths are searched in a "last in, first out" order.
 	 *
-	 *
 	 * @param   string   $namespace  A case sensitive Namespace to register.
 	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
 	 * @param   boolean  $reset      True to reset the namespace with only the given lookup path.
