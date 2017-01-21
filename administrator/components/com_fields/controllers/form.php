@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 /**
- * The Group controller
+ * The Form controller
  *
  * @since  3.7.0
  */
-class FieldsControllerGroup extends JControllerForm
+class FieldsControllerForm extends JControllerForm
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -24,10 +24,10 @@ class FieldsControllerGroup extends JControllerForm
 
 	 * @since   3.7.0
 	 */
-	protected $text_prefix = 'COM_FIELDS_GROUP';
+	protected $text_prefix = 'COM_FIELDS_FORM';
 
 	/**
-	 * The component for which the group applies.
+	 * The component for which the form applies.
 	 *
 	 * @var    string
 	 * @since   3.7.0
@@ -67,10 +67,10 @@ class FieldsControllerGroup extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set the model
-		$model = $this->getModel('Group');
+		$model = $this->getModel('Form');
 
 		// Preset the redirect
-		$this->setRedirect('index.php?option=com_fields&view=groups');
+		$this->setRedirect('index.php?option=com_fields&view=forms');
 
 		return parent::batch($model);
 	}
@@ -111,13 +111,13 @@ class FieldsControllerGroup extends JControllerForm
 		}
 
 		// Check edit on the record asset (explicit or inherited)
-		if ($user->authorise('core.edit', $this->component . '.fieldgroup.' . $recordId))
+		if ($user->authorise('core.edit', $this->component . '.fieldform.' . $recordId))
 		{
 			return true;
 		}
 
 		// Check edit own on the record asset (explicit or inherited)
-		if ($user->authorise('core.edit.own', $this->component . '.fieldgroup.' . $recordId) || $user->authorise('core.edit.own', $this->component))
+		if ($user->authorise('core.edit.own', $this->component . '.fieldform.' . $recordId) || $user->authorise('core.edit.own', $this->component))
 		{
 			// Existing record already has an owner, get it
 			$record = $this->getModel()->getItem($recordId);

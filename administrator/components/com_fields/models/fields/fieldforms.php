@@ -13,13 +13,13 @@ use Joomla\Utilities\ArrayHelper;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Fields Groups
+ * Fields Forms
  *
  * @since  3.7.0
  */
-class JFormFieldFieldgroups extends JFormFieldList
+class JFormFieldFieldforms extends JFormFieldList
 {
-	public $type = 'Fieldgroups';
+	public $type = 'Fieldforms';
 
 	/**
 	 * Method to get the field options.
@@ -40,16 +40,12 @@ class JFormFieldFieldgroups extends JFormFieldList
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('title AS text, id AS value, state');
-		$query->from('#__fields_groups');
+		$query->from('#__fields_forms');
 		$query->where('state IN (' . implode(',', $states) . ')');
 		$query->where('context = ' . $db->quote($context));
 		$query->where('access IN (' . implode(',', $viewLevels) . ')');
 
-		if ($formId = $this->form->getValue('form_id', 'filter')){
-            $query->where('form_id = ' . $formId);
-        }
-        
-        $db->setQuery($query);
+		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
 		foreach ($options AS $option)

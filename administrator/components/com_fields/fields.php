@@ -12,7 +12,7 @@ JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/
 
 $app       = JFactory::getApplication();
 $context   = $app->getUserStateFromRequest(
-	'com_fields.groups.context',
+    'com_fields.forms.context',
 	'context',
 	$app->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD'),
 	'CMD'

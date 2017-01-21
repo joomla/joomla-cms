@@ -30,17 +30,17 @@ if ($parts)
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.ordering');
-$saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
+$ordering  = ($listOrder === 'a.ordering');
+$saveOrder = ($listOrder === 'a.ordering' && strtolower($listDirn) === 'asc');
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_fields&task=groups.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'groupList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
+	$saveOrderingUrl = 'index.php?option=com_fields&task=forms.saveOrderAjax&tmpl=component';
+	JHtml::_('sortablelist.sortable', 'formList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_fields&view=groups'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_fields&view=forms'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -56,7 +56,7 @@ if ($saveOrder)
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
-			<table class="table table-striped" id="groupList">
+			<table class="table table-striped" id="formList">
 				<thead>
 					<tr>
 						<th width="1%" class="nowrap center hidden-phone">
@@ -71,10 +71,7 @@ if ($saveOrder)
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-                        <th>
-                            <?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_FORM_LABEL', 'form_title', $listDirn, $listOrder); ?>
-                        </th>
-                        <th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="nowrap hidden-phone">
@@ -95,10 +92,10 @@ if ($saveOrder)
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<?php $ordering   = ($listOrder == 'a.ordering'); ?>
-						<?php $canEdit    = $user->authorise('core.edit', $component . '.fieldgroup.' . $item->id); ?>
+						<?php $canEdit    = $user->authorise('core.edit', $component . '.fieldform.' . $item->id); ?>
 						<?php $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0; ?>
-						<?php $canEditOwn = $user->authorise('core.edit.own', $component . '.fieldgroup.' . $item->id) && $item->created_by == $userId; ?>
-						<?php $canChange  = $user->authorise('core.edit.state', $component . '.fieldgroup.' . $item->id) && $canCheckin; ?>
+						<?php $canEditOwn = $user->authorise('core.edit.own', $component . '.fieldform.' . $item->id) && $item->created_by == $userId; ?>
+						<?php $canChange  = $user->authorise('core.edit.state', $component . '.fieldform.' . $item->id) && $canCheckin; ?>
 						<tr class="row<?php echo $i % 2; ?>" item-id="<?php echo $item->id ?>">
 							<td class="order nowrap center hidden-phone">
 								<?php $iconClass = ''; ?>
@@ -119,11 +116,11 @@ if ($saveOrder)
 							</td>
 							<td class="center">
 								<div class="btn-group">
-									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'groups.', $canChange, 'cb'); ?>
+									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'forms.', $canChange, 'cb'); ?>
 									<?php // Create dropdown items and render the dropdown list. ?>
 									<?php if ($canChange) : ?>
-										<?php JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'groups'); ?>
-										<?php JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'groups'); ?>
+										<?php JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'forms'); ?>
+										<?php JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'forms'); ?>
 										<?php echo JHtml::_('actionsdropdown.render', $this->escape($item->title)); ?>
 									<?php endif; ?>
 								</div>
@@ -131,30 +128,38 @@ if ($saveOrder)
 							<td>
 								<div class="pull-left break-word">
 									<?php if ($item->checked_out) : ?>
-										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'groups.', $canCheckin); ?>
+										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'forms.', $canCheckin); ?>
 									<?php endif; ?>
 									<?php if ($canEdit || $canEditOwn) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_fields&task=group.edit&id=' . $item->id. '&context=' . $context); ?>">
+										<a href="<?php echo JRoute::_('index.php?option=com_fields&task=form.edit&id=' . $item->id. '&context=' . $context); ?>">
 											<?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
 									<span class="small break-word">
-										<?php if ($item->note) : ?>
-											<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
-										<?php endif; ?>
+                                        <?php if ($item->note) : ?>
+                                            <?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
+                                        <?php endif; ?>
 									</span>
                                     <div class="small">
-                                        <a href="<?php echo JRoute::_('index.php?option=com_fields&view=fields&context='.$this->state->get('filter.context').
-                                            '&filter[form_id]='.$item->form_id.'&filter[group_id]='.$item->id.''); ?>">
-                                            <?php echo JText::_('COM_FIELDS_VIEW_FORMS_FIELDS_LINK_TITLE'); ?></a>
+                                    <a href="<?php echo JRoute::_('index.php?option=com_fields&view=fields&context='.$this->state->get('filter.context').'&filter[form_id]='.$item->id); ?>">
+                                    <?php echo JText::_('COM_FIELDS_VIEW_FORMS_FIELDS_LINK_TITLE'); ?></a>
+                                        / <span class="small">
+                                            <a href="<?php echo JRoute::_('index.php?option=com_fields&view=groups&context=' . $this->state->get('filter.context') . '&filter[form_id]=' . $item->id); ?>">
+                                                <?php echo JText::_('COM_FIELDS_VIEW_FORMS_GROUPS_LINK_TITLE'); ?></a>
+                                        </span>
                                     </div>
-                                </div>
+                                    <div class="small">
+                                        <?php echo JText::_('JCATEGORY') . ': '; ?>
+                                        <?php if ($categories = FieldsHelper::getAssignedCategoriesTitles($item->id)) : ?>
+                                            <?php echo implode(', ', $categories); ?>
+                                        <?php else: ?>
+                                            <?php echo JText::_('JALL'); ?>
+                                        <?php endif; ?>
+                                    </div>
+								</div>
 							</td>
-                            <td>
-                                <?php echo $this->escape($item->form_title); ?>
-                            </td>
-                            <td class="small hidden-phone">
+							<td class="small hidden-phone">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
 							<td class="small nowrap hidden-phone">
@@ -175,7 +180,7 @@ if ($saveOrder)
 						'bootstrap.renderModal',
 						'collapseModal',
 						array(
-							'title' => JText::_('COM_FIELDS_VIEW_GROUPS_BATCH_OPTIONS'),
+							'title' => JText::_('COM_FIELDS_VIEW_FORMS_BATCH_OPTIONS'),
 							'footer' => $this->loadTemplate('batch_footer')
 						),
 						$this->loadTemplate('batch_body')

@@ -115,43 +115,6 @@ class FieldsModelField extends JModelAdmin
 			$data['state'] = 0;
 		}
 
-		if (!parent::save($data))
-		{
-			return false;
-		}
-
-		// Save the assigned categories into #__fields_categories
-		$db = $this->getDbo();
-		$id = (int) $this->getState('field.id');
-		$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
-		$cats = ArrayHelper::toInteger($cats);
-
-		$assignedCatIds = array();
-
-		foreach ($cats as $cat)
-		{
-			if ($cat)
-			{
-				$assignedCatIds[] = $cat;
-			}
-		}
-
-		// First delete all assigned categories
-		$query = $db->getQuery(true);
-		$query->delete('#__fields_categories')
-			->where('field_id = ' . $id);
-		$db->setQuery($query);
-		$db->execute();
-
-		// Inset new assigned categories
-		$tupel = new stdClass;
-		$tupel->field_id = $id;
-
-		foreach ($assignedCatIds as $catId)
-		{
-			$tupel->category_id = $catId;
-			$db->insertObject('#__fields_categories', $tupel);
-		}
 
 		// If the options have changed delete the values
 		if ($field && isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
@@ -169,7 +132,7 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
-		return true;
+		return parent::save($data);
 	}
 
 	/**
@@ -199,15 +162,6 @@ class FieldsModelField extends JModelAdmin
 				$registry->loadString($result->fieldparams);
 				$result->fieldparams = $registry->toArray();
 			}
-
-			$db = $this->getDbo();
-			$query = $db->getQuery(true);
-			$query->select('category_id')
-				->from('#__fields_categories')
-				->where('field_id = ' . (int) $result->id);
-
-			$db->setQuery($query);
-			$result->assigned_cat_ids = $db->loadColumn() ?: array(0);
 
 			// Convert the created and modified dates to local user time for
 			// display in the form.
@@ -323,14 +277,6 @@ class FieldsModelField extends JModelAdmin
 					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();
-
-				// Delete Assigned Categories
-				$query = $this->getDbo()->getQuery(true);
-
-				$query->delete($query->qn('#__fields_categories'))
-					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
-
-				$this->getDbo()->setQuery($query)->execute();
 			}
 		}
 
@@ -416,18 +362,21 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Setting the value for the gven field id, context and item id.
 	 *
-	 * @param   string  $fieldId  The field ID.
-	 * @param   string  $context  The context.
-	 * @param   string  $itemId   The ID of the item.
-	 * @param   string  $value    The value.
+	 * @param   stdClass  $field    The field .
+	 * @param   string    $context  The context.
+	 * @param   string    $itemId   The ID of the item.
+	 * @param   array     $fields   The value.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.7.0
 	 */
-	public function setFieldValue($fieldId, $context, $itemId, $value)
+	public function setFieldValue($field, $context, $itemId, $fields)
 	{
-		$field  = $this->getItem($fieldId);
+	    $fieldId = $field->id;
+        $formId = $field->form_id;
+        $value = $fields[$field->alias];
+        $field  = $this->getItem($fieldId);
 		$params = $field->params;
 
 		if (is_array($params))
@@ -493,7 +442,8 @@ class FieldsModelField extends JModelAdmin
 
 			$newObj->field_id = (int) $fieldId;
 			$newObj->context  = $context;
-			$newObj->item_id  = $itemId;
+            $newObj->form_id  = $formId;
+            $newObj->item_id  = $itemId;
 
 			foreach ($value as $v)
 			{
@@ -509,10 +459,11 @@ class FieldsModelField extends JModelAdmin
 
 			$updateObj->field_id = (int) $fieldId;
 			$updateObj->context  = $context;
+			$updateObj->form_id  = $formId;
 			$updateObj->item_id  = $itemId;
 			$updateObj->value    = reset($value);
 
-			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'context', 'item_id'));
+			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'context', 'item_id', 'form_id'));
 		}
 
 		$this->valueCache = array();
@@ -675,7 +626,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @param   JTable  $table  A JTable object.
 	 *
-	 * @return  array  An array of conditions to add to ordering queries.
+	 * @return  string  A string of conditions to add to ordering queries.
 	 *
 	 * @since   3.7.0
 	 */
@@ -711,6 +662,7 @@ class FieldsModelField extends JModelAdmin
 
 				$data->set('state', $app->input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				$data->set('form_id', $app->input->getString('form_id', (!empty($filters['form_id']) ? $filters['form_id'] : null)));
 				$data->set('group_id', $app->input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
 				$data->set(
 					'access',
@@ -767,18 +719,19 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		// Setting the context for the category field
-		$cat = JCategories::getInstance(str_replace('com_', '', $component));
+//		$cat = JCategories::getInstance(str_replace('com_', '', $component));
 
-		if ($cat && $cat->get('root')->hasChildren())
-		{
-			$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
-		}
-		else
-		{
-			$form->removeField('assigned_cat_ids');
-		}
+//		if ($cat && $cat->get('root')->hasChildren())
+//		{
+//			$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
+//		}
+//		else
+//		{
+//			$form->removeField('assigned_cat_ids');
+//		}
 
 		$form->setFieldAttribute('type', 'component', $component);
+		$form->setFieldAttribute('form_id', 'context', $this->state->get('field.context'));
 		$form->setFieldAttribute('group_id', 'context', $this->state->get('field.context'));
 		$form->setFieldAttribute('rules', 'component', $component);
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+	<fieldset addfieldpath="/administrator/components/com_fields/models/fields">
 		<field
 			name="id"
 			type="text"
@@ -25,6 +25,16 @@
 		/>
 
 		<field
+				name="assigned_cat_ids"
+				type="category"
+				label="JCATEGORY"
+				description="JFIELD_CATEGORY_DESC"
+				multiple="true"
+		>
+			<option value="">JALL</option>
+		</field>
+
+		<field
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
@@ -46,16 +56,6 @@
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
 			<option value="-2">JTRASHED</option>
-		</field>
-
-		<field
-				name="form_id"
-				type="fieldgroupforms"
-				label="COM_FIELDS_FIELD_FORM_LABEL"
-				description="COM_FIELDS_FIELD_FORM_DESC"
-				required="required"
-		>
-			<option value=""></option>
 		</field>
 
 		<field
@@ -110,7 +110,7 @@
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
-			description="COM_FIELDS_FIELD_LANGUAGE_DESC"
+			description="COM_FIELDS_FORM_LANGUAGE_DESC"
 			>
 			<option value="*">JALL</option>
 		</field>
@@ -118,8 +118,8 @@
 		<field
 			name="note"
 			type="text"
-			label="COM_FIELDS_FIELD_NOTE_LABEL"
-			description="COM_FIELDS_FIELD_NOTE_DESC"
+			label="COM_FIELDS_FORM_NOTE_LABEL"
+			description="COM_FIELDS_FORM_NOTE_DESC"
 			class="span12"
 			size="40"
 		/>
@@ -131,6 +131,13 @@
 			size="40"
 			filter="HTML"
 		/>
+
+		<!--<field-->
+			<!--name="fieldfields"-->
+			<!--type="fieldfields"-->
+			<!--label="fieldfields"-->
+
+		<!--/>-->
 
 		<field
 			name="access"
@@ -147,7 +154,7 @@
 			translate_label="false"
 			filter="rules"
 			validate="rules"
-			section="fieldgroup"
+			section="fieldform"
 		/>
 
 		<field
@@ -157,5 +164,19 @@
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC"
 		/>
+
+		<field
+				name="excluded_except_as_subform"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="COM_FIELDS_FORM_EXCLUDED_EXCEPT_AS_SUBFORM_LABEL"
+				description="COM_FIELDS_FORM_EXCLUDED_EXCEPT_AS_SUBFORM_DESC"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+
 	</fieldset>
 </form>

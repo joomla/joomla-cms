@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-class FieldsTableGroup extends JTable
+class FieldsTableForm extends JTable
 {
 	/**
 	 * Class constructor.
@@ -26,7 +26,7 @@ class FieldsTableGroup extends JTable
 	 */
 	public function __construct($db = null)
 	{
-		parent::__construct('#__fields_groups', 'id', $db);
+		parent::__construct('#__fields_forms', 'id', $db);
 
 		$this->setColumnAlias('published', 'state');
 	}
@@ -79,7 +79,7 @@ class FieldsTableGroup extends JTable
 		// Check for a title.
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
+			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FORM'));
 
 			return false;
 		}
@@ -119,7 +119,7 @@ class FieldsTableGroup extends JTable
 	 */
 	protected function _getAssetName()
 	{
-		return $this->context . '.fieldgroup.' . (int) $this->id;
+		return $this->context . '.fieldform.' . (int) $this->id;
 	}
 
 	/**

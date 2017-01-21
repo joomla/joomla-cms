@@ -279,9 +279,9 @@ class FieldsHelper
 		$component = $parts[0];
 		$section   = $parts[1];
 
-		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : null);
+		$assignedCatIds = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : null);
 
-		if (!$assignedCatids && $form->getField('catid'))
+		if (!$assignedCatIds && $form->getField('catid'))
 		{
 			// Choose the first category available
 			$xml = new DOMDocument;
@@ -290,8 +290,8 @@ class FieldsHelper
 
 			if ($firstChoice = $options->item(0))
 			{
-				$assignedCatids = $firstChoice->getAttribute('value');
-				$data->fieldscatid = $assignedCatids;
+				$assignedCatIds = $firstChoice->getAttribute('value');
+				$data->fieldscatid = $assignedCatIds;
 			}
 		}
 
@@ -299,7 +299,7 @@ class FieldsHelper
 		 * If there is a catid field we need to reload the page when the catid
 		 * is changed
 		 */
-		if ($form->getField('catid') && $parts[0] != 'com_fields')
+		if ($parts[0] !== 'com_fields' && $form->getField('catid'))
 		{
 			// The uri to submit to
 			$uri = clone JUri::getInstance('index.php');
@@ -331,7 +331,7 @@ class FieldsHelper
 			function categoryHasChanged(element) {
 				Joomla.loadingLayer('show');
 				var cat = jQuery(element);
-				if (cat.val() == '" . $assignedCatids . "')return;
+				if (cat.val() == '" . $assignedCatIds . "')return;
 				jQuery('input[name=task]').val('field.storeform');
 				element.form.action='" . $uri . "';
 				element.form.submit();
@@ -339,7 +339,7 @@ class FieldsHelper
 			jQuery( document ).ready(function() {
 				Joomla.loadingLayer('load');
 				var formControl = '#" . $form->getFormControl() . "_catid';
-				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
+				if (!jQuery(formControl).val() != '" . $assignedCatIds . "'){jQuery(formControl).val('" . $assignedCatIds . "');}
 			});");
 		}
 
@@ -360,9 +360,12 @@ class FieldsHelper
 
 		// Organizing the fields according to their group
 		$fieldsPerGroup = array(
-			0 => array()
+//			0 => array()
 		);
-
+		$groupsPerForm = array(
+//			0 => array()
+		);
+        $formData = array();
 		foreach ($fields as $field)
 		{
 			if (!array_key_exists($field->type, $fieldTypes))
@@ -371,9 +374,13 @@ class FieldsHelper
 				continue;
 			}
 
-			if (!array_key_exists($field->group_id, $fieldsPerGroup))
+			if (!array_key_exists($field->form_id, $fieldsPerGroup))
 			{
-				$fieldsPerGroup[$field->group_id] = array();
+				$fieldsPerGroup[$field->form_id]= array();
+			}
+			if (!array_key_exists($field->group_id, $fieldsPerGroup[$field->form_id]))
+			{
+				$fieldsPerGroup[$field->form_id][$field->group_id] = array();
 			}
 
 			if ($path = $fieldTypes[$field->type]['path'])
@@ -381,102 +388,117 @@ class FieldsHelper
 				// Add the lookup path for the field
 				JFormHelper::addFieldPath($path);
 			}
+            if (!array_key_exists($field->form_id, $formData)) {
+                $formData[$field->form_id]['title']    = $field->form_title;
+                $formData[$field->form_id]['ordering'] = $field->form_ordering;
+            }
 
-			$fieldsPerGroup[$field->group_id][] = $field;
+			$fieldsPerGroup[$field->form_id][$field->group_id][] = $field;
 		}
 
 		// On the front, sometimes the admin fields path is not included
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
-		// Looping trough the groups
-		foreach ($fieldsPerGroup as $group_id => $groupFields)
-		{
-			if (!$groupFields)
-			{
-				continue;
-			}
+        uasort($fieldsPerGroup, function($a, $b) {
+            return $a[0][0]->form_ordering - $b[0][0]->form_ordering;
+        });
 
-			// Defining the field set
-			/** @var DOMElement $fieldset */
-			$fieldset = $fieldsNode->appendChild(new DOMElement('fieldset'));
-			$fieldset->setAttribute('name', 'fields-' . $group_id);
-			$fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
-			$fieldset->setAttribute('addrulepath', '/administrator/components/' . $component . '/models/rules');
+        foreach ($fieldsPerGroup as &$groups) {
+            ksort($groups);
+            foreach ($groups as &$group){
 
-			$label       = '';
-			$description = '';
+                uasort($group, function($a, $b) {
+//                    $groupA = $a->group_id;
+//                    $groupB = $b->group_id;
+//                    $res = ($a->ordering + ($a->group_id * 1000)) - ($b->group_id + ($b->group_id * 1000)) ;
+                    return $a->ordering - $b->ordering;
+                });
+            }
+            unset ($group);
+        }
+        unset ($groups);
 
-			if ($group_id)
-			{
-				$group = JTable::getInstance('Group', 'FieldsTable');
-				$group->load($group_id);
 
-				if ($group->id)
-				{
-					$label       = $group->title;
-					$description = $group->description;
-				}
-			}
 
-			if (!$label || !$description)
-			{
-				$lang = JFactory::getLanguage();
+//       foreach ($groupsPerForm as &$groups) {
+//            $groups = array_unique($groups);
+//            asort($groups);
+//        }
 
-				if (!$label)
-				{
-					$key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
+        // Looping trough the groups
+        foreach ($fieldsPerGroup as $form_id => $groups) {
+            foreach ($groups as $group_id => $groupFields) {
+                if (!$groupFields) {
+                    continue;
+                }
 
-					if (!$lang->hasKey($key))
-					{
-						$key = 'JGLOBAL_FIELDS';
-					}
+            // Defining the field set
+            /** @var DOMElement $fieldset */
+            $fieldset = $fieldsNode->appendChild(new DOMElement('fieldset'));
+            $fieldset->setAttribute('name', 'fields-' . $form_id . '-' . $group_id);
+            $fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
+            $fieldset->setAttribute('addrulepath', '/administrator/components/' . $component . '/models/rules');
 
-					$label = JText::_($key);
-				}
+            $label       = '';
+            $description = '';
+            if ($group_id) {
+                $group = JTable::getInstance('Group', 'FieldsTable');
+                $group->load($group_id);
 
-				if (!$description)
-				{
-					$key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
+                if ($group->id) {
+                    $label       = $group->title;
+                    $description = $group->description;
+                }
+            }
 
-					if ($lang->hasKey($key))
-					{
-						$description = JText::_($key);
-					}
-				}
-			}
+            if (!$label || !$description) {
+                $lang = JFactory::getLanguage();
 
-			$fieldset->setAttribute('label', $label);
-			$fieldset->setAttribute('description', strip_tags($description));
+                if (!$label) {
+                    $key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
 
-			// Looping trough the fields for that context
-			foreach ($groupFields as $field)
-			{
-				try
-				{
-					JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
+                    if (!$lang->hasKey($key)) {
+                        $key = $formData[$form_id]['title'];
+                    }
 
-					/*
-					 * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
-					 * is not known, set the required flag to false on any circumstance.
-					 */
-					if (!$assignedCatids && !empty($field->assigned_cat_ids) && $form->getField($field->alias))
-					{
-						$form->setFieldAttribute($field->alias, 'required', 'false');
-					}
-				}
-				catch (Exception $e)
-				{
-					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-				}
-			}
+                    $label = JText::_($key);
+                }
 
-			// When he field set is empty, then remove it
-			if (!$fieldset->hasChildNodes())
-			{
-				$fieldsNode->removeChild($fieldset);
-			}
-		}
+                if (!$description) {
+                    $key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
 
+                    if ($lang->hasKey($key)) {
+                        $description = JText::_($key);
+                    }
+                }
+            }
+
+            $fieldset->setAttribute('label', $label);
+            $fieldset->setAttribute('description', strip_tags($description));
+
+            // Looping trough the fields for that context
+            foreach ($groupFields as $field) {
+                try {
+                    JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
+
+                    /*
+                     * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
+                     * is not known, set the required flag to false on any circumstance.
+                     */
+                    if (!$assignedCatIds && !empty($field->assigned_cat_ids) && $form->getField($field->alias)) {
+                        $form->setFieldAttribute($field->alias, 'required', 'false');
+                    }
+                } catch (Exception $e) {
+                    JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+                }
+            }
+
+            // When he field set is empty, then remove it
+            if (!$fieldset->hasChildNodes()) {
+                $fieldsNode->removeChild($fieldset);
+            }
+        }
+        }
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
@@ -484,7 +506,7 @@ class FieldsHelper
 				'ignore_request' => true)
 		);
 
-		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
+		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') === 'config.display.modules'
 			&& JFactory::getApplication()->isClient('site'))
 		{
 			// Modules on front end editing don't have data and an id set
@@ -593,7 +615,7 @@ class FieldsHelper
 	 *
 	 * @return  array  Array with the assigned categories
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getAssignedCategoriesTitles($fieldId)
 	{
@@ -608,9 +630,9 @@ class FieldsHelper
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('c.title'))
-				->from($db->quoteName('#__fields_categories', 'a'))
+				->from($db->quoteName('#__fields_forms_categories', 'a'))
 				->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
-				->where('field_id = ' . $fieldId);
+				->where('form_id = ' . $fieldId);
 
 		$db->setQuery($query);
 
@@ -669,7 +691,7 @@ class FieldsHelper
 		$component = $parts[0];
 
 		// Avoid nonsense situation.
-		if ($component == 'com_fields')
+		if ($component === 'com_fields')
 		{
 			return;
 		}

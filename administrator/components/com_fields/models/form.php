@@ -8,12 +8,14 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
- * Group Model
+ * Form Model
  *
  * @since  3.7.0
  */
-class FieldsModelGroup extends JModelAdmin
+class FieldsModelForm extends JModelAdmin
 {
 	/**
 	 * Method to save the form data.
@@ -29,14 +31,52 @@ class FieldsModelGroup extends JModelAdmin
 		// Alter the title for save as copy
 		$input = JFactory::getApplication()->input;
 
-		// Save new group as unpublished
+		// Save new form as unpublished
 		if ($input->get('task') == 'save2copy')
 		{
 			$data['state'] = 0;
 		}
 
-		return parent::save($data);
-	}
+        if (!parent::save($data))
+        {
+            return false;
+        }
+
+        // Save the assigned categories into #__fields_categories
+        $db = $this->getDbo();
+        $id = (int) $this->getState('form.id');
+        $cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
+        $cats = ArrayHelper::toInteger($cats);
+
+        $assignedCatIds = array();
+
+        foreach ($cats as $cat)
+        {
+            if ($cat)
+            {
+                $assignedCatIds[] = $cat;
+            }
+        }
+
+        // First delete all assigned categories
+        $query = $db->getQuery(true);
+        $query->delete('#__fields_forms_categories')
+            ->where('form_id = ' . $id);
+        $db->setQuery($query);
+        $db->execute();
+
+        // Inset new assigned categories
+        $tupel = new stdClass;
+        $tupel->form_id = $id;
+
+        foreach ($assignedCatIds as $catId)
+        {
+            $tupel->category_id = $catId;
+            $db->insertObject('#__fields_forms_categories', $tupel);
+        }
+
+        return true;
+    }
 
 	/**
 	 * Method to get a table object, load it if necessary.
@@ -50,7 +90,7 @@ class FieldsModelGroup extends JModelAdmin
 	 * @since   3.7.0
 	 * @throws  Exception
 	 */
-	public function getTable($name = 'Group', $prefix = 'FieldsTable', $options = array())
+	public function getTable($name = 'Form', $prefix = 'FieldsTable', $options = array())
 	{
 		return JTable::getInstance($name, $prefix, $options);
 	}
@@ -78,7 +118,7 @@ class FieldsModelGroup extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm(
-			'com_fields.group.' . $context, 'group',
+			'com_fields.form.' . $context, 'form',
 			array(
 				'control'   => 'jform',
 				'load_data' => $loadData,
@@ -96,7 +136,7 @@ class FieldsModelGroup extends JModelAdmin
 			$data['context'] = $context;
 		}
 
-		if (!JFactory::getUser()->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
+		if (!JFactory::getUser()->authorise('core.edit.state', $context . '.fieldform.' . $jinput->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -126,7 +166,7 @@ class FieldsModelGroup extends JModelAdmin
 			return false;
 		}
 
-		return JFactory::getUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
+		return JFactory::getUser()->authorise('core.delete', $record->context . '.fieldform.' . (int) $record->id);
 	}
 
 	/**
@@ -143,10 +183,10 @@ class FieldsModelGroup extends JModelAdmin
 	{
 		$user = JFactory::getUser();
 
-		// Check for existing fieldgroup.
+		// Check for existing fieldform.
 		if (!empty($record->id))
 		{
-			return $user->authorise('core.edit.state', $record->context . '.fieldgroup.' . (int) $record->id);
+			return $user->authorise('core.edit.state', $record->context . '.fieldform.' . (int) $record->id);
 		}
 
 		// Default to component settings.
@@ -166,7 +206,7 @@ class FieldsModelGroup extends JModelAdmin
 	{
 		parent::populateState();
 
-		$context = JFactory::getApplication()->getUserStateFromRequest('com_fields.groups.context', 'context', 'com_fields', 'CMD');
+		$context = JFactory::getApplication()->getUserStateFromRequest('com_fields.forms.context', 'context', 'com_fields', 'CMD');
 		$this->setState('filter.context', $context);
 	}
 
@@ -189,7 +229,7 @@ class FieldsModelGroup extends JModelAdmin
 	 *
 	 * @param   JForm   $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 * @param   string  $group  The name of the plugin form to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
@@ -199,16 +239,18 @@ class FieldsModelGroup extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-        $form->setFieldAttribute('form_id', 'context', $data->context);
+        $parts = FieldsHelper::extract($this->state->get('filter.context'));
+
+        $form->setFieldAttribute('assigned_cat_ids', 'extension', $parts[0]);
+
 
         parent::preprocessForm($form, $data, $group);
 
-		$parts = FieldsHelper::extract($this->state->get('filter.context'));
 
 		if ($parts)
 		{
 			// Set the access control rules field component value.
-			$form->setFieldAttribute('rules', 'component', $parts[0]);
+            $form->setFieldAttribute('rules', 'component', $parts[0]);
 		}
 	}
 
@@ -223,18 +265,18 @@ class FieldsModelGroup extends JModelAdmin
 	{
 		// Check the session for previously entered form data.
 		$app = JFactory::getApplication();
-		$data = $app->getUserState('com_fields.edit.group.data', array());
+		$data = $app->getUserState('com_fields.edit.form.data', array());
 
 		if (empty($data))
 		{
 			$data = $this->getItem();
 
-			// Pre-select some filters (Status, Language, Access) in edit form if those have been selected in Field Group Manager
+			// Pre-select some filters (Status, Language, Access) in edit form if those have been selected in Field Form Manager
 			if (!$data->id)
 			{
-				// Check for which context the Field Group Manager is used and get selected fields
-				$context = substr($app->getUserState('com_fields.groups.filter.context'), 4);
-				$filters = (array) $app->getUserState('com_fields.groups.' . $context . '.filter');
+				// Check for which context the Field Form Manager is used and get selected fields
+				$context = substr($app->getUserState('com_fields.forms.filter.context'), 4);
+				$filters = (array) $app->getUserState('com_fields.forms.' . $context . '.filter');
 
 				$data->set(
 					'state',
@@ -251,7 +293,7 @@ class FieldsModelGroup extends JModelAdmin
 			}
 		}
 
-		$this->preprocessData('com_fields.group', $data);
+		$this->preprocessData('com_fields.form', $data);
 
 		return $data;
 	}
@@ -275,7 +317,17 @@ class FieldsModelGroup extends JModelAdmin
 				$item->context = $this->getState('filter.context');
 			}
 
-			// Convert the created and modified dates to local user time for display in the form.
+            $db = $this->getDbo();
+            $query = $db->getQuery(true);
+            $query->select('category_id')
+                ->from('#__fields_forms_categories')
+                ->where('form_id = ' . (int) $item->id);
+
+            $db->setQuery($query);
+            $item->assigned_cat_ids = $db->loadColumn() ?: array(0);
+
+
+            // Convert the created and modified dates to local user time for display in the form.
 			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
 
 			if ((int) $item->created)
@@ -307,17 +359,75 @@ class FieldsModelGroup extends JModelAdmin
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
+	 * @param   string   $form      The cache form
 	 * @param   integer  $client_id  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($form = null, $client_id = 0)
 	{
 		$context = JFactory::getApplication()->input->get('context');
 
 		parent::cleanCache($context);
 	}
+
+    /**
+     * Method to delete one or more records.
+     *
+     * @param   array  &$pks  An array of record primary keys.
+     *
+     * @return  boolean  True if successful, false if an error occurs.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function delete(&$pks)
+    {
+        $success = parent::delete($pks);
+
+        if ($success)
+        {
+            $pks = (array) $pks;
+            $pks = ArrayHelper::toInteger($pks);
+            $pks = array_filter($pks);
+
+            if (!empty($pks))
+            {
+                // Delete Values
+                $query = $this->getDbo()->getQuery(true);
+
+                $query->delete($query->qn('#__fields_values'))
+                    ->where($query->qn('form_id') . ' IN(' . implode(',', $pks) . ')');
+
+                $this->getDbo()->setQuery($query)->execute();
+
+                // Delete Assigned Categories
+                $query = $this->getDbo()->getQuery(true);
+
+                $query->delete($query->qn('#__fields_forms_categories'))
+                    ->where($query->qn('form_id') . ' IN(' . implode(',', $pks) . ')');
+
+                $this->getDbo()->setQuery($query)->execute();
+
+                // Delete Assigned Field Groups
+                $query = $this->getDbo()->getQuery(true);
+
+                $query->delete($query->qn('#__fields_groups'))
+                    ->where($query->qn('form_id') . ' IN(' . implode(',', $pks) . ')');
+
+                $this->getDbo()->setQuery($query)->execute();
+
+                // Delete Assigned Fields
+                $query = $this->getDbo()->getQuery(true);
+
+                $query->delete($query->qn('#__fields'))
+                    ->where($query->qn('form_id') . ' IN(' . implode(',', $pks) . ')');
+
+                $this->getDbo()->setQuery($query)->execute();
+            }
+        }
+
+        return $success;
+    }
 }

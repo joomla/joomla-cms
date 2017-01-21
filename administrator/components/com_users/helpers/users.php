@@ -78,7 +78,13 @@ class UsersHelper
 				'index.php?option=com_fields&view=groups&context=com_users.user',
 				$vName == 'fields.groups'
 			);
-		}
+            JHtmlSidebar::addEntry(
+                JText::_('JGLOBAL_FIELD_FORMS'),
+                'index.php?option=com_fields&view=forms&context=com_users.user',
+                $vName == 'fields.forms'
+            );
+
+        }
 	}
 
 	/**
@@ -308,7 +314,7 @@ class UsersHelper
 	 *
 	 * @return  string|null  The new section
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function validateSection($section)
 	{

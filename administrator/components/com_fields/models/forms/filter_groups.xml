@@ -24,6 +24,15 @@
 		</field>
 
 		<field
+				name="form_id"
+				type="fieldforms"
+				state="0,1,2"
+				onchange="this.form.submit();"
+		>
+			<option value="">COM_FIELDS_VIEW_FIELDS_SELECT_FORM</option>
+		</field>
+
+		<field
 			name="access"
 			type="accesslevel"
 			onchange="this.form.submit();"

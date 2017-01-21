@@ -8,16 +8,16 @@
  */
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('sql');
 
 /**
  * Fields Contexts
  *
- * @since  3.7.0
+ * @since  __DEPLOY_VERSION__
  */
-class JFormFieldFieldcontexts extends JFormFieldList
+class JFormFieldFields extends JFormFieldSQL
 {
-	public $type = 'Fieldcontexts';
+	public $type = 'Fieldfields';
 
 	/**
 	 * Method to get the field input markup for a generic list.

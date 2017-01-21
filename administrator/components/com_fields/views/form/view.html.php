@@ -9,11 +9,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Group View
+ * Form View
  *
  * @since  3.7.0
  */
-class FieldsViewGroup extends JViewLegacy
+class FieldsViewForm extends JViewLegacy
 {
 	/**
 	 * @var  JForm
@@ -70,7 +70,7 @@ class FieldsViewGroup extends JViewLegacy
 			$component = $parts[0];
 		}
 
-		$this->canDo = JHelperContent::getActions($component, 'fieldgroup', $this->item->id);
+		$this->canDo = JHelperContent::getActions($component, 'fieldform', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -119,48 +119,48 @@ class FieldsViewGroup extends JViewLegacy
 		// Load component language file
 		JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
 
-		$title = JText::sprintf('COM_FIELDS_VIEW_GROUP_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', JText::_(strtoupper($component)));
+		$title = JText::sprintf('COM_FIELDS_VIEW_FORM_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', JText::_(strtoupper($component)));
 
 		// Prepare the toolbar.
 		JToolbarHelper::title(
 			$title,
-			'puzzle field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . '-group-' .
+			'puzzle field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . '-form-' .
 			($isNew ? 'add' : 'edit')
 		);
 
 		// For new records, check the create permission.
 		if ($isNew)
 		{
-			JToolbarHelper::apply('group.apply');
-			JToolbarHelper::save('group.save');
-			JToolbarHelper::save2new('group.save2new');
+			JToolbarHelper::apply('form.apply');
+			JToolbarHelper::save('form.save');
+			JToolbarHelper::save2new('form.save2new');
 		}
 
 		// If not checked out, can save the item.
 		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId)))
 		{
-			JToolbarHelper::apply('group.apply');
-			JToolbarHelper::save('group.save');
+			JToolbarHelper::apply('form.apply');
+			JToolbarHelper::save('form.save');
 
 			if ($canDo->get('core.create'))
 			{
-				JToolbarHelper::save2new('group.save2new');
+				JToolbarHelper::save2new('form.save2new');
 			}
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2copy('group.save2copy');
+			JToolbarHelper::save2copy('form.save2copy');
 		}
 
 		if (empty($this->item->id))
 		{
-			JToolbarHelper::cancel('group.cancel');
+			JToolbarHelper::cancel('form.cancel');
 		}
 		else
 		{
-			JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('form.cancel', 'JTOOLBAR_CLOSE');
 		}
 	}
 }

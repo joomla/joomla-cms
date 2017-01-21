@@ -46,8 +46,8 @@ class FieldsModelFields extends JModelList
 				'created_user_id', 'a.created_user_id',
 				'category_title',
 				'category_id', 'a.category_id',
+				'form_id', 'a.form_id',
 				'group_id', 'a.group_id',
-				'assigned_cat_ids'
 			);
 		}
 
@@ -106,8 +106,8 @@ class FieldsModelFields extends JModelList
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.context');
-		$id .= ':' . serialize($this->getState('filter.assigned_cat_ids'));
 		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.form_id');
 		$id .= ':' . $this->getState('filter.group_id');
 		$id .= ':' . print_r($this->getState('filter.language'), true);
 
@@ -122,196 +122,168 @@ class FieldsModelFields extends JModelList
 	 * @since   3.7.0
 	 */
 	protected function getListQuery()
-	{
-		// Create a new query object.
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-		$user  = JFactory::getUser();
-		$app   = JFactory::getApplication();
+    {
+        // Create a new query object.
+        $db    = $this->getDbo();
+        $query = $db->getQuery(true);
+        $user  = JFactory::getUser();
+        $app   = JFactory::getApplication();
 
-		// Select the required fields from the table.
-		$query->select(
-			$this->getState(
-				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.note' .
-				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
-				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
-				', a.label, a.description, a.required'
-			)
-		);
-		$query->from('#__fields AS a');
+        // Select the required fields from the table.
+        $query->select(
+            $this->getState(
+                'list.select',
+                'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.note' .
+                ', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
+                ', a.fieldparams, a.params, a.type, a.default_value, a.context, a.form_id, a.group_id' .
+                ', a.label, a.description, a.required'
+            )
+        );
+        $query->from('#__fields AS a');
 
-		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
-			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+        // Join over the language
+        $query->select('l.title AS language_title, l.image AS language_image')
+            ->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
-		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+        // Join over the users for the checked out user.
+        $query->select('uc.name AS editor')->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
-		// Join over the asset groups.
-		$query->select('ag.title AS access_level')->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+        // Join over the asset groups.
+        $query->select('ag.title AS access_level')->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
-		// Join over the users for the author.
-		$query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
+        // Join over the users for the author.
+        $query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
-		// Join over the field groups.
-		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state');
-		$query->join('LEFT', '#__fields_groups AS g ON g.id = a.group_id');
+        // Join over the field forms.
 
-		// Filter by context
-		if ($context = $this->getState('filter.context'))
-		{
-			$query->where('a.context = ' . $db->quote($context));
-		}
+        $query->select('f.title AS form_title, f.access as form_access, f.state AS form_state, f.ordering as form_ordering');
+        $query->join('LEFT', '#__fields_forms AS f ON f.id = a.form_id');
 
-		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
-		{
-			if (is_array($access))
-			{
-				$access = ArrayHelper::toInteger($access);
-				$query->where('a.access in (' . implode(',', $access) . ')');
-			}
-			else
-			{
-				$query->where('a.access = ' . (int) $access);
-			}
-		}
+        // Join over the field groups.
+        $query->select('g.title AS group_title, g.access as group_access, g.state AS group_state');
+        $query->join('LEFT', '#__fields_groups AS g ON g.id = a.group_id');
 
-		if (($categories = $this->getState('filter.assigned_cat_ids')) && $context)
-		{
-			$categories = (array) $categories;
-			$categories = ArrayHelper::toInteger($categories);
-			$parts = FieldsHelper::extract($context);
+        // Filter by context
+        if ($context = $this->getState('filter.context')) {
+            $query->where('a.context = ' . $db->quote($context));
+        }
 
-			if ($parts)
-			{
-				// Get the category
-				$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]));
+        // Filter by access level.
+        if ($access = $this->getState('filter.access')) {
+            if (is_array($access)) {
+                $access = ArrayHelper::toInteger($access);
+                $query->where('a.access in (' . implode(',', $access) . ')');
+            } else {
+                $query->where('a.access = ' . (int) $access);
+            }
+        }
 
-				if ($cat)
-				{
-					foreach ($categories as $assignedCatIds)
-					{
-						// Check if we have the actual category
-						$parent = $cat->get($assignedCatIds);
+        // Implement View Level Access
+        if (!$user->authorise('core.admin')) {
+            $groups = implode(',', $user->getAuthorisedViewLevels());
+            $query->where('a.access IN (' . $groups . ') AND (a.group_id = 0 OR g.access IN (' . $groups . '))');
+        }
 
-						if ($parent)
-						{
-							$categories[] = (int) $parent->id;
+        // Filter by state
+        $state = $this->getState('filter.state');
 
-							// Traverse the tree up to get all the fields which are attached to a parent
-							while ($parent->getParent() && $parent->getParent()->id != 'root')
-							{
-								$parent = $parent->getParent();
-								$categories[] = (int) $parent->id;
-							}
-						}
-					}
-				}
-			}
+        // Include form state only when not on on back end list
+        $includeState = !$app->isClient('administrator') ||
+            $app->input->get('option') !== 'com_fields' ||
+            $app->input->get('view') !== 'fields';
+        if (is_numeric($state)) {
+            $query->where('a.state = ' . (int) $state);
 
-			$categories = array_unique($categories);
+            if ($includeState) {
+                $query->where('(a.group_id = 0 OR g.state = ' . (int) $state . ')');
+            }
+        } elseif (!$state) {
+            $query->where('a.state IN (0, 1)');
 
-			// Join over the assigned categories
-			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
-			->group('a.id, l.title, l.image, uc.name, ag.title, ua.name, g.title, g.access, g.state');
+            if ($includeState) {
+                $query->where('(a.group_id = 0 OR g.state IN (0, 1))');
+            }
+        }
 
-			if (in_array('0', $categories))
-			{
-				$query->where('(fc.category_id IS NULL OR fc.category_id IN (' . implode(',', $categories) . '))');
-			}
-			else
-			{
-				$query->where('fc.category_id IN (' . implode(',', $categories) . ')');
-			}
-		}
+        $formId = $this->getState('filter.form_id');
 
-		// Implement View Level Access
-		if (!$user->authorise('core.admin'))
-		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ') AND (a.group_id = 0 OR g.access IN (' . $groups . '))');
-		}
+        if (is_numeric($formId)) {
+            $query->where('a.form_id = ' . (int) $formId);
+        }
 
-		// Filter by state
-		$state = $this->getState('filter.state');
+        $groupId = $this->getState('filter.group_id');
 
-		// Include group state only when not on on back end list
-		$includeGroupState = !$app->isClient('administrator') ||
-			$app->input->get('option') != 'com_fields' ||
-			$app->input->get('view') != 'fields';
-		if (is_numeric($state))
-		{
-			$query->where('a.state = ' . (int) $state);
+        if (is_numeric($groupId)) {
+            $query->where('a.group_id = ' . (int) $groupId);
+        }
 
-			if ($includeGroupState)
-			{
-				$query->where('(a.group_id = 0 OR g.state = ' . (int) $state . ')');
-			}
-		}
-		elseif (!$state)
-		{
-			$query->where('a.state IN (0, 1)');
+        // Filter by search in title
+        $search = $this->getState('filter.search');
 
-			if ($includeGroupState)
-			{
-				$query->where('(a.group_id = 0 OR g.state IN (0, 1))');
-			}
-		}
+        if (!empty($search)) {
+            if (stripos($search, 'id:') === 0) {
+                $query->where('a.id = ' . (int) substr($search, 3));
+            } elseif (stripos($search, 'author:') === 0) {
+                $search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
+                $query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
+            } else {
+                $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+                $query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+            }
+        }
 
-		$groupId = $this->getState('filter.group_id');
+        // Filter on the language.
+        if ($language = $this->getState('filter.language')) {
+            $language = (array) $language;
 
-		if (is_numeric($groupId))
-		{
-			$query->where('a.group_id = ' . (int) $groupId);
-		}
+            foreach ($language as $key => $l) {
+                $language[$key] = $db->quote($l);
+            }
 
-		// Filter by search in title
-		$search = $this->getState('filter.search');
+            $query->where('a.language in (' . implode(',', $language) . ')');
+        }
 
-		if (! empty($search))
-		{
-			if (stripos($search, 'id:') === 0)
-			{
-				$query->where('a.id = ' . (int) substr($search, 3));
-			}
-			elseif (stripos($search, 'author:') === 0)
-			{
-				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
-				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
-			}
-			else
-			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
-			}
-		}
+        // Filter on the form's category (and sub-categories)
 
-		// Filter on the language.
-		if ($language = $this->getState('filter.language'))
-		{
-			$language = (array) $language;
+        if ($assignedCatIds = $this->getState('filter.assigned_cat_ids'))
+        {
+            $categories = array();
 
-			foreach ($language as $key => $l)
-			{
-				$language[$key] = $db->quote($l);
-			}
+            $context         = $this->getState('filter.context');
+            // Split context into component and optional section
+            $parts = FieldsHelper::extract($context);
 
-			$query->where('a.language in (' . implode(',', $language) . ')');
-		}
+            foreach ($assignedCatIds as $assignedCatId) {
+                $categories[] = $assignedCatId;
+                if ($parts)
+                {
+                    $categoryNodes = JCategories::getInstance(substr($parts[0], 4));
+                    $a = $categoryNodes->get($assignedCatId);
+
+                    $children = $a->getChildren(true);
+                    foreach ($children as $category){
+                    $categories[] = $category->id;
+                    }
+                }
+            }
+            $categories = array_unique($categories);
+
+            $query->select('fc.form_id');
+            $query->join('LEFT', '#__fields_forms_categories AS fc ON fc.form_id = a.form_id');
+            $query->where('fc.category_id in('. implode(',', $categories) . ') OR fc.category_id IS NULL');
+        }
 
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.ordering', 'a.ordering');
-		$listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
+		$listDirection     = $db->escape($this->getState('list.direction', 'ASC'));
 
-		if ($listOrdering == 'a.access')
+		if ($listOrdering === 'a.access')
 		{
-			$query->order('a.access ' . $listDirn);
+			$query->order('a.access ' . $listDirection);
 		}
 		else
 		{
-			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
+			$query->order($db->escape($listOrdering) . ' ' . $listDirection);
 		}
 
 		return $query;
@@ -320,18 +292,18 @@ class FieldsModelFields extends JModelList
 	/**
 	 * Gets an array of objects from the results of database query.
 	 *
-	 * @param   string   $query       The query.
-	 * @param   integer  $limitstart  Offset.
-	 * @param   integer  $limit       The number of records.
+	 * @param   string  $query      The query.
+	 * @param   integer $limitStart Offset.
+	 * @param   integer $limit      The number of records.
 	 *
 	 * @return  array  An array of results.
 	 *
 	 * @since   3.7.0
 	 * @throws  RuntimeException
 	 */
-	protected function _getList($query, $limitstart = 0, $limit = 0)
+	protected function _getList($query, $limitStart = 0, $limit = 0)
 	{
-		$result = parent::_getList($query, $limitstart, $limit);
+		$result = parent::_getList($query, $limitStart, $limit);
 
 		if (is_array($result))
 		{
@@ -361,14 +333,41 @@ class FieldsModelFields extends JModelList
 
 		if ($form)
 		{
-			$form->setValue('context', null, $this->getState('filter.context'));
-			$form->setFieldAttribute('group_id', 'context', $this->getState('filter.context'), 'filter');
-			$form->setFieldAttribute('assigned_cat_ids', 'extension', $this->state->get('filter.component'), 'filter');
+            $filterContext = $this->getState('filter.context');
+            $form->setValue('context', null, $filterContext);
+			$form->setFieldAttribute('form_id', 'context', $filterContext, 'filter');
+			$form->setFieldAttribute('group_id', 'context', $filterContext, 'filter');
+//			$form->setFieldAttribute('assigned_cat_ids', 'extension', $this->state->get('filter.component'), 'filter');
 		}
 
 		return $form;
 	}
 
+	/**
+	 * Get the forms for the batch method
+	 *
+	 * @return  array  An array of forms
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getForms()
+	{
+		$user       = JFactory::getUser();
+		$viewLevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->select('title AS text, id AS value, state');
+		$query->from('#__fields_forms');
+		$query->where('state IN (0,1)');
+		$query->where('context = ' . $db->quote($this->state->get('filter.context')));
+		$query->where('access IN (' . implode(',', $viewLevels) . ')');
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+	
 	/**
 	 * Get the groups for the batch method
 	 *
@@ -379,7 +378,7 @@ class FieldsModelFields extends JModelList
 	public function getGroups()
 	{
 		$user       = JFactory::getUser();
-		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
+		$viewLevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -387,7 +386,7 @@ class FieldsModelFields extends JModelList
 		$query->from('#__fields_groups');
 		$query->where('state IN (0,1)');
 		$query->where('context = ' . $db->quote($this->state->get('filter.context')));
-		$query->where('access IN (' . implode(',', $viewlevels) . ')');
+		$query->where('access IN (' . implode(',', $viewLevels) . ')');
 
 		$db->setQuery($query);
 

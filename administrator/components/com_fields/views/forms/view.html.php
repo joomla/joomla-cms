@@ -9,11 +9,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Groups View
+ * Forms View
  *
  * @since  3.7.0
  */
-class FieldsViewGroups extends JViewLegacy
+class FieldsViewForms extends JViewLegacy
 {
 	/**
 	 * @var  JForm
@@ -92,7 +92,7 @@ class FieldsViewGroups extends JViewLegacy
 
 		$this->addToolbar();
 
-		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'groups');
+		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'forms');
 		$this->sidebar = JHtmlSidebar::render();
 
 		return parent::display($tpl);
@@ -107,7 +107,7 @@ class FieldsViewGroups extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$groupId   = $this->state->get('filter.group_id');
+		$formId   = $this->state->get('filter.form_id');
 		$component = '';
 		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
 
@@ -116,7 +116,7 @@ class FieldsViewGroups extends JViewLegacy
 			$component = $parts[0];
 		}
 
-		$canDo     = JHelperContent::getActions($component, 'fieldgroup', $groupId);
+		$canDo     = JHelperContent::getActions($component, 'fieldform', $formId);
 
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
@@ -130,31 +130,31 @@ class FieldsViewGroups extends JViewLegacy
 		// Load component language file
 		JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
 
-		$title = JText::sprintf('COM_FIELDS_VIEW_GROUPS_TITLE', JText::_(strtoupper($component)));
+		$title = JText::sprintf('COM_FIELDS_VIEW_FORMS_TITLE', JText::_(strtoupper($component)));
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'puzzle fields ' . substr($component, 4) . '-groups');
+		JToolbarHelper::title($title, 'puzzle fields ' . substr($component, 4) . '-forms');
 
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::addNew('group.add');
+			JToolbarHelper::addNew('form.add');
 		}
 
 		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
 		{
-			JToolbarHelper::editList('group.edit');
+			JToolbarHelper::editList('form.edit');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::publish('groups.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolbarHelper::unpublish('groups.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::archiveList('groups.archive');
+			JToolbarHelper::publish('forms.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish('forms.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::archiveList('forms.archive');
 		}
 
 		if (JFactory::getUser()->authorise('core.admin'))
 		{
-			JToolbarHelper::checkin('groups.checkin');
+			JToolbarHelper::checkin('forms.checkin');
 		}
 
 		// Add a batch button
@@ -181,11 +181,11 @@ class FieldsViewGroups extends JViewLegacy
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component))
 		{
-			JToolbarHelper::deleteList('', 'groups.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('', 'forms.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::trash('groups.trash');
+			JToolbarHelper::trash('forms.trash');
 		}
 	}
 

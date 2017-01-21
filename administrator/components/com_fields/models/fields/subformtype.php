@@ -15,9 +15,9 @@ JFormHelper::loadFieldClass('list');
  *
  * @since  3.7.0
  */
-class JFormFieldType extends JFormFieldList
+class JFormFieldSubFormType extends JFormFieldList
 {
-	public $type = 'Type';
+	public $type = 'SubFormType';
 
 	/**
 	 * Method to attach a JForm object to the field.
@@ -32,14 +32,14 @@ class JFormFieldType extends JFormFieldList
 	 *
 	 * @since   3.7.0
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
-	{
-		$return = parent::setup($element, $value, $group);
-
-		$this->onchange = 'typeHasChanged(this);';
-
-		return $return;
-	}
+//	public function setup(SimpleXMLElement $element, $value, $group = null)
+//	{
+//		$return = parent::setup($element, $value, $group);
+//
+//		$this->onchange = 'typeHasChanged(this);';
+//
+//		return $return;
+//	}
 
 	/**
 	 * Method to get the field options.
@@ -87,18 +87,18 @@ class JFormFieldType extends JFormFieldList
 		$uri->setVar('layout', null);
 
 
-		JFactory::getDocument()->addScriptDeclaration("
-			jQuery( document ).ready(function() {
-				Joomla.loadingLayer('load');
-			});
-			function typeHasChanged(element){
-				Joomla.loadingLayer('show');
-				var cat = jQuery(element);
-				jQuery('input[name=task]').val('field.storeform');
-				element.form.action='" . $uri . "';
-				element.form.submit();
-			}
-		");
+//		JFactory::getDocument()->addScriptDeclaration("
+//			jQuery( document ).ready(function() {
+//				Joomla.loadingLayer('load');
+//			});
+//			function typeHasChanged(element){
+//				Joomla.loadingLayer('show');
+//				var cat = jQuery(element);
+//				jQuery('input[name=task]').val('field.storeform');
+//				element.form.action='" . $uri . "';
+//				element.form.submit();
+//			}
+//		");
 
 		return $options;
 	}

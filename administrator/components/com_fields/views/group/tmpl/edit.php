@@ -49,7 +49,8 @@ JFactory::getDocument()->addScriptDeclaration('
 								'state',
 								'enabled',
 							),
-							'access',
+                            'form_id',
+                            'access',
 							'language',
 							'note',
 						)
