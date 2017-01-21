@@ -8821,6 +8821,9 @@ small, .small {
 .closed + .notify-alerts.fullWidth {
   left: 70px; }
 
+.wrapper0 .notify-alerts {
+  margin-left: 0; }
+
 .form-control {
   max-width: 240px;
   background-color: #fcfcfc; }
