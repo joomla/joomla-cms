@@ -10,326 +10,166 @@ TRUNCATE TABLE [#__viewlevels];
 
 SET IDENTITY_INSERT [#__assets] ON;
 
-INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules])
-SELECT 1, 0, 1, 430, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
-UNION ALL
-SELECT 2, 1, 2, 3, 1, 'com_admin', 'com_admin', '{}'
-UNION ALL
-SELECT 3, 1, 4, 11, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
-UNION ALL
-SELECT 4, 1, 12, 13, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'
-UNION ALL
-SELECT 5, 1, 14, 15, 1, 'com_checkin', 'com_checkin', '{"core.admin":{"7":1},"core.manage":{"7":1}}'
-UNION ALL
-SELECT 6, 1, 16, 17, 1, 'com_config', 'com_config', '{}'
-UNION ALL
-SELECT 7, 1, 18, 87, 1, 'com_contact', 'com_contact', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
-UNION ALL
-SELECT 8, 1, 88, 297, 1, 'com_content', 'com_content', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.edit":{"4":1},"core.edit.state":{"5":1}}'
-UNION ALL
-SELECT 9, 1, 298, 299, 1, 'com_cpanel', 'com_cpanel', '{}'
-UNION ALL
-SELECT 10, 1, 300, 301, 1, 'com_installer', 'com_installer', '{"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'
-UNION ALL
-SELECT 11, 1, 302, 303, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1}}'
-UNION ALL
-SELECT 12, 1, 304, 305, 1, 'com_login', 'com_login', '{}'
-UNION ALL
-SELECT 13, 1, 306, 307, 1, 'com_mailto', 'com_mailto', '{}'
-UNION ALL
-SELECT 14, 1, 308, 309, 1, 'com_massmail', 'com_massmail', '{}'
-UNION ALL
-SELECT 15, 1, 310, 311, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'
-UNION ALL
-SELECT 16, 1, 312, 313, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'
-UNION ALL
-SELECT 17, 1, 37, 38, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'
-UNION ALL
-SELECT 18, 1, 316, 317, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'
-UNION ALL
-SELECT 19, 1, 318, 325, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
-UNION ALL
-SELECT 20, 1, 326, 327, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'
-UNION ALL
-SELECT 21, 1, 328, 329, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'
-UNION ALL
-SELECT 22, 1, 330, 331, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
-UNION ALL
-SELECT 23, 1, 332, 333, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'
-UNION ALL
-SELECT 24, 1, 334, 337, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'
-UNION ALL
-SELECT 26, 1, 356, 357, 1, 'com_wrapper', 'com_wrapper', '{}'
-UNION ALL
-SELECT 33, 1, 418, 419, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
-UNION ALL
-SELECT 34, 8, 105, 108, 2, 'com_content.category.9', 'Uncategorised', '{"core.create":{"10":0,"12":0}}'
-UNION ALL
-SELECT 35, 3, 7, 8, 2, 'com_banners.category.10', 'Uncategorised', '{}'
-UNION ALL
-SELECT 36, 7, 23, 24, 2, 'com_contact.category.11', 'Uncategorised', '{}'
-UNION ALL
-SELECT 37, 19, 321, 322, 2, 'com_newsfeeds.category.12', 'Uncategorised', '{}'
-UNION ALL
-SELECT 39, 8, 109, 296, 2, 'com_content.category.14', 'Sample Data-Articles', '{}'
-UNION ALL
-SELECT 40, 3, 9, 10, 2, 'com_banners.category.15', 'Sample Data-Banners', '{}'
-UNION ALL
-SELECT 41, 7, 25, 86, 2, 'com_contact.category.16', 'Sample Data-Contact', '{}'
-UNION ALL
-SELECT 42, 19, 323, 324, 2, 'com_newsfeeds.category.17', 'Sample Data-Newsfeeds', '{}'
-UNION ALL
-SELECT 44, 39, 110, 245, 3, 'com_content.category.19', 'Joomla!', '{"core.create":{"10":0,"12":0}}'
-UNION ALL
-SELECT 45, 44, 111, 222, 4, 'com_content.category.20', 'Extensions', '{}'
-UNION ALL
-SELECT 46, 45, 112, 127, 5, 'com_content.category.21', 'Components', '{}'
-UNION ALL
-SELECT 47, 45, 128, 189, 5, 'com_content.category.22', 'Modules', '{}'
-UNION ALL
-SELECT 48, 45, 190, 199, 5, 'com_content.category.23', 'Templates', '{}'
-UNION ALL
-SELECT 49, 45, 200, 201, 5, 'com_content.category.24', 'Languages', '{}'
-UNION ALL
-SELECT 50, 45, 202, 221, 5, 'com_content.category.25', 'Plugins', '{}'
-UNION ALL
-SELECT 51, 39, 246, 277, 3, 'com_content.category.26', 'Park Site', '{"core.create":{"10":0,"12":0}}'
-UNION ALL
-SELECT 52, 51, 247, 252, 4, 'com_content.category.27', 'Park Blog', '{}'
-UNION ALL
-SELECT 53, 51, 253, 274, 4, 'com_content.category.28', 'Photo Gallery', '{}'
-UNION ALL
-SELECT 54, 39, 278, 291, 3, 'com_content.category.29', 'Fruit Shop Site', '{}'
-UNION ALL
-SELECT 55, 54, 279, 284, 4, 'com_content.category.30', 'Growers', '{"core.create":{"12":0},"core.edit.own":{"10":1}}'
-UNION ALL
-SELECT 59, 41, 26, 27, 3, 'com_contact.category.34', 'Park Site', '{}'
-UNION ALL
-SELECT 60, 41, 28, 85, 3, 'com_contact.category.35', 'Shop Site', '{}'
-UNION ALL
-SELECT 61, 60, 29, 30, 4, 'com_contact.category.36', 'Staff', '{}'
-UNION ALL
-SELECT 62, 60, 31, 84, 4, 'com_contact.category.37', 'Fruit Encyclopedia', '{}'
-UNION ALL
-SELECT 63, 62, 32, 33, 5, 'com_contact.category.38', 'A', '{}'
-UNION ALL
-SELECT 64, 62, 34, 35, 5, 'com_contact.category.39', 'B', '{}'
-UNION ALL
-SELECT 65, 62, 36, 37, 5, 'com_contact.category.40', 'C', '{}'
-UNION ALL
-SELECT 66, 62, 38, 39, 5, 'com_contact.category.41', 'D', '{}'
-UNION ALL
-SELECT 67, 62, 40, 41, 5, 'com_contact.category.42', 'E', '{}'
-UNION ALL
-SELECT 68, 62, 42, 43, 5, 'com_contact.category.43', 'F', '{}'
-UNION ALL
-SELECT 69, 62, 44, 45, 5, 'com_contact.category.44', 'G', '{}'
-UNION ALL
-SELECT 70, 62, 46, 47, 5, 'com_contact.category.45', 'H', '{}'
-UNION ALL
-SELECT 71, 62, 48, 49, 5, 'com_contact.category.46', 'I', '{}'
-UNION ALL
-SELECT 72, 62, 50, 51, 5, 'com_contact.category.47', 'J', '{}'
-UNION ALL
-SELECT 73, 62, 52, 53, 5, 'com_contact.category.48', 'K', '{}'
-UNION ALL
-SELECT 74, 62, 54, 55, 5, 'com_contact.category.49', 'L', '{}'
-UNION ALL
-SELECT 75, 62, 56, 57, 5, 'com_contact.category.50', 'M', '{}'
-UNION ALL
-SELECT 76, 62, 58, 59, 5, 'com_contact.category.51', 'N', '{}'
-UNION ALL
-SELECT 77, 62, 60, 61, 5, 'com_contact.category.52', 'O', '{}'
-UNION ALL
-SELECT 78, 62, 62, 63, 5, 'com_contact.category.53', 'P', '{}'
-UNION ALL
-SELECT 79, 62, 64, 65, 5, 'com_contact.category.54', 'Q', '{}'
-UNION ALL
-SELECT 80, 62, 66, 67, 5, 'com_contact.category.55', 'R', '{}'
-UNION ALL
-SELECT 81, 62, 68, 69, 5, 'com_contact.category.56', 'S', '{}'
-UNION ALL
-SELECT 82, 62, 70, 71, 5, 'com_contact.category.57', 'T', '{}'
-UNION ALL
-SELECT 83, 62, 72, 73, 5, 'com_contact.category.58', 'U', '{}'
-UNION ALL
-SELECT 84, 62, 74, 75, 5, 'com_contact.category.59', 'V', '{}'
-UNION ALL
-SELECT 85, 62, 76, 77, 5, 'com_contact.category.60', 'W', '{}'
-UNION ALL
-SELECT 86, 62, 78, 79, 5, 'com_contact.category.61', 'X', '{}'
-UNION ALL
-SELECT 87, 62, 80, 81, 5, 'com_contact.category.62', 'Y', '{}'
-UNION ALL
-SELECT 88, 62, 82, 83, 5, 'com_contact.category.63', 'Z', '{}'
-UNION ALL
-SELECT 89, 46, 113, 114, 6, 'com_content.article.1', 'Administrator Components', '{}'
-UNION ALL
-SELECT 90, 93, 130, 131, 7, 'com_content.article.2', 'Archive Module', '{}'
-UNION ALL
-SELECT 91, 93, 132, 133, 7, 'com_content.article.3', 'Article Categories Module', '{}'
-UNION ALL
-SELECT 92, 93, 134, 135, 7, 'com_content.article.4', 'Articles Category Module', '{}'
-UNION ALL
-SELECT 93, 47, 129, 144, 6, 'com_content.category.64', 'Content Modules', '{}'
-UNION ALL
-SELECT 94, 47, 145, 152, 6, 'com_content.category.65', 'User Modules', '{}'
-UNION ALL
-SELECT 95, 47, 153, 166, 6, 'com_content.category.66', 'Display Modules', '{}'
-UNION ALL
-SELECT 96, 47, 167, 180, 6, 'com_content.category.67', 'Utility Modules', '{}'
-UNION ALL
-SELECT 98, 48, 191, 192, 6, 'com_content.category.69', 'Beez3', '{}'
-UNION ALL
-SELECT 100, 48, 193, 194, 6, 'com_content.category.71', 'Milky Way', '{}'
-UNION ALL
-SELECT 101, 50, 203, 204, 6, 'com_content.article.5', 'Authentication', '{}'
-UNION ALL
-SELECT 102, 51, 275, 276, 4, 'com_content.article.6', 'Australian Parks ', '{"core.edit":{"2":1}}'
-UNION ALL
-SELECT 103, 95, 154, 155, 7, 'com_content.article.7', 'Banner Module', '{}'
-UNION ALL
-SELECT 104, 44, 223, 224, 4, 'com_content.article.8', 'Beginners', '{}'
-UNION ALL
-SELECT 105, 46, 115, 116, 6, 'com_content.article.9', 'Contact', '{}'
-UNION ALL
-SELECT 106, 46, 117, 118, 6, 'com_content.article.10', 'Content', '{}'
-UNION ALL
-SELECT 107, 109, 265, 266, 6, 'com_content.article.11', 'Cradle Mountain', '{}'
-UNION ALL
-SELECT 108, 53, 254, 263, 5, 'com_content.category.72', 'Animals', '{}'
-UNION ALL
-SELECT 109, 53, 264, 273, 5, 'com_content.category.73', 'Scenery', '{}'
-UNION ALL
-SELECT 110, 95, 156, 157, 7, 'com_content.article.12', 'Custom Module', '{}'
-UNION ALL
-SELECT 111, 54, 285, 286, 4, 'com_content.article.13', 'Directions', '{}'
-UNION ALL
-SELECT 112, 50, 205, 206, 6, 'com_content.article.14', 'Editors', '{}'
-UNION ALL
-SELECT 113, 50, 207, 208, 6, 'com_content.article.15', 'Editors-xtd', '{}'
-UNION ALL
-SELECT 114, 95, 158, 159, 7, 'com_content.article.16', 'Feed Display', '{}'
-UNION ALL
-SELECT 115, 52, 248, 249, 5, 'com_content.article.17', 'First Blog Post', '{}'
-UNION ALL
-SELECT 116, 52, 250, 251, 5, 'com_content.article.18', 'Second Blog Post', '{}'
-UNION ALL
-SELECT 117, 95, 160, 161, 7, 'com_content.article.19', 'Footer Module', '{}'
-UNION ALL
-SELECT 118, 54, 287, 288, 4, 'com_content.article.20', 'Fruit Shop', '{}'
-UNION ALL
-SELECT 119, 44, 225, 226, 4, 'com_content.article.21', 'Getting Help', '{}'
-UNION ALL
-SELECT 120, 44, 227, 228, 4, 'com_content.article.22', 'Getting Started', '{}'
-UNION ALL
-SELECT 121, 55, 280, 281, 5, 'com_content.article.23', 'Happy Orange Orchard', '{}'
-UNION ALL
-SELECT 122, 44, 229, 230, 4, 'com_content.article.24', 'Joomla!', '{}'
-UNION ALL
-SELECT 123, 108, 255, 256, 6, 'com_content.article.25', 'Koala', '{}'
-UNION ALL
-SELECT 124, 96, 168, 169, 7, 'com_content.article.26', 'Language Switcher', '{}'
-UNION ALL
-SELECT 125, 93, 136, 137, 7, 'com_content.article.27', 'Latest Articles Module', '{}'
-UNION ALL
-SELECT 126, 94, 146, 147, 7, 'com_content.article.28', 'Login Module', '{}'
-UNION ALL
-SELECT 127, 166, 184, 185, 7, 'com_content.article.29', 'Menu Module', '{}'
-UNION ALL
-SELECT 128, 93, 138, 139, 7, 'com_content.article.30', 'Most Read Content', '{}'
-UNION ALL
-SELECT 129, 93, 140, 141, 7, 'com_content.article.31', 'News Flash', '{}'
-UNION ALL
-SELECT 130, 44, 231, 232, 4, 'com_content.article.32', 'Parameters', '{}'
-UNION ALL
-SELECT 131, 108, 257, 258, 6, 'com_content.article.33', 'Phyllopteryx', '{}'
-UNION ALL
-SELECT 132, 109, 267, 268, 6, 'com_content.article.34', 'Pinnacles', '{}'
-UNION ALL
-SELECT 133, 44, 233, 234, 4, 'com_content.article.35', 'Professionals', '{}'
-UNION ALL
-SELECT 134, 95, 162, 163, 7, 'com_content.article.36', 'Random Image Module', '{}'
-UNION ALL
-SELECT 135, 93, 142, 143, 7, 'com_content.article.37', 'Related Items Module', '{}'
-UNION ALL
-SELECT 136, 44, 235, 236, 4, 'com_content.article.38', 'Sample Sites', '{}'
-UNION ALL
-SELECT 137, 46, 119, 120, 6, 'com_content.article.39', 'Search', '{}'
-UNION ALL
-SELECT 138, 96, 170, 171, 7, 'com_content.article.40', 'Search Module', '{}'
-UNION ALL
-SELECT 139, 50, 209, 210, 6, 'com_content.article.41', 'Search ', '{}'
-UNION ALL
-SELECT 140, 39, 292, 293, 3, 'com_content.article.42', 'Site Map', '{}'
-UNION ALL
-SELECT 141, 108, 259, 260, 6, 'com_content.article.43', 'Spotted Quoll', '{}'
-UNION ALL
-SELECT 142, 96, 172, 173, 7, 'com_content.article.44', 'Statistics Module', '{}'
-UNION ALL
-SELECT 143, 96, 174, 175, 7, 'com_content.article.45', 'Syndicate Module', '{}'
-UNION ALL
-SELECT 144, 50, 211, 212, 6, 'com_content.article.46', 'System', '{}'
-UNION ALL
-SELECT 145, 44, 237, 238, 4, 'com_content.article.47', 'The Joomla! Community', '{}'
-UNION ALL
-SELECT 146, 44, 239, 240, 4, 'com_content.article.48', 'The Joomla! Project', '{}'
-UNION ALL
-SELECT 147, 48, 195, 196, 6, 'com_content.article.49', 'Typography', '{}'
-UNION ALL
-SELECT 148, 44, 241, 242, 4, 'com_content.article.50', 'Upgraders', '{}'
-UNION ALL
-SELECT 149, 50, 213, 214, 6, 'com_content.article.51', 'User', '{}'
-UNION ALL
-SELECT 150, 46, 121, 122, 6, 'com_content.article.52', 'Users', '{}'
-UNION ALL
-SELECT 151, 44, 243, 244, 4, 'com_content.article.53', 'Using Joomla!', '{}'
-UNION ALL
-SELECT 154, 94, 148, 149, 7, 'com_content.article.56', 'Who''s Online', '{}'
-UNION ALL
-SELECT 155, 108, 261, 262, 6, 'com_content.article.57', 'Wobbegone', '{}'
-UNION ALL
-SELECT 156, 55, 282, 283, 5, 'com_content.article.58', 'Wonderful Watermelon', '{}'
-UNION ALL
-SELECT 157, 96, 176, 177, 7, 'com_content.article.59', 'Wrapper Module', '{}'
-UNION ALL
-SELECT 158, 46, 125, 126, 6, 'com_content.article.60', 'News Feeds', '{}'
-UNION ALL
-SELECT 159, 166, 186, 187, 7, 'com_content.article.61', 'Breadcrumbs Module', '{}'
-UNION ALL
-SELECT 160, 50, 215, 216, 6, 'com_content.article.62', 'Content', '{}'
-UNION ALL
-SELECT 162, 109, 269, 270, 6, 'com_content.article.64', 'Blue Mountain Rain Forest', '{}'
-UNION ALL
-SELECT 163, 109, 271, 272, 6, 'com_content.article.65', 'Ormiston Pound', '{}'
-UNION ALL
-SELECT 165, 94, 150, 151, 7, 'com_content.article.66', 'Latest Users Module', '{}'
-UNION ALL
-SELECT 166, 47, 183, 188, 6, 'com_content.category.75', 'Navigation Modules', '{}'
-UNION ALL
-SELECT 167, 54, 289, 290, 4, 'com_content.category.76', 'Recipes', '{"core.create":{"12":1,"10":1},"core.edit.own":{"12":1,"10":1}}'
-UNION ALL
-SELECT 168, 34, 106, 107, 3, 'com_content.article.67', 'What''s New in 1.5?', '{}'
-UNION ALL
-SELECT 169, 24, 335, 336, 2, 'com_users.category.77', 'Uncategorised', '{}'
-UNION ALL
-SELECT 170, 50, 217, 218, 6, 'com_content.article.68', 'Captcha', '{}'
-UNION ALL
-SELECT 171, 50, 219, 220, 6, 'com_content.article.69', 'Quick Icons', '{}'
-UNION ALL
-SELECT 172, 96, 178, 179, 7, 'com_content.article.70', 'Smart Search', '{}'
-UNION ALL
-SELECT 173, 1, 420, 421, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'
-UNION ALL
-SELECT 174, 48, 197, 198, 6, 'com_content.category.78', 'Protostar', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
-UNION ALL
-SELECT 175, 1, 422, 423, 1, 'com_tags', 'com_tags', '{"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'
-UNION ALL
-SELECT 176, 1, 424, 425, 1, 'com_contenthistory', 'com_contenthistory', '{}'
-UNION ALL
-SELECT 177, 1, 426, 427, 1, 'com_ajax', 'com_ajax', '{}'
-UNION ALL
-SELECT 178, 1, 428, 429, 1, 'com_postinstall', 'com_postinstall', '{}';
+INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES
+(1, 0, 0, 317, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
+(3, 1, 3, 8, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(4, 1, 9, 10, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
+(5, 1, 11, 12, 1, 'com_checkin', 'com_checkin', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
+(6, 1, 13, 14, 1, 'com_config', 'com_config', '{}'),
+(7, 1, 15, 80, 1, 'com_contact', 'com_contact', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(8, 1, 83, 268, 1, 'com_content', 'com_content', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(9, 1, 269, 270, 1, 'com_cpanel', 'com_cpanel', '{}'),
+(10, 1, 271, 272, 1, 'com_installer', 'com_installer', '{"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'),
+(11, 1, 273, 274, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1}}'),
+(12, 1, 275, 276, 1, 'com_login', 'com_login', '{}'),
+(13, 1, 277, 278, 1, 'com_mailto', 'com_mailto', '{}'),
+(15, 1, 279, 280, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
+(16, 1, 281, 282, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'),
+(17, 1, 81, 82, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
+(18, 1, 283, 284, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
+(19, 1, 285, 290, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(20, 1, 291, 292, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
+(21, 1, 293, 294, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
+(22, 1, 295, 296, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(23, 1, 297, 298, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
+(24, 1, 299, 302, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
+(26, 1, 303, 304, 1, 'com_wrapper', 'com_wrapper', '{}'),
+(33, 1, 305, 306, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(34, 8, 84, 87, 2, 'com_content.category.9', 'Uncategorised', '{"core.create":{"10":0,"12":0}}'),
+(35, 3, 4, 5, 2, 'com_banners.category.10', 'Uncategorised', '{}'),
+(36, 7, 16, 17, 2, 'com_contact.category.11', 'Uncategorised', '{}'),
+(37, 19, 286, 287, 2, 'com_newsfeeds.category.12', 'Uncategorised', '{}'),
+(39, 8, 88, 267, 2, 'com_content.category.14', 'Sample Data-Articles', '{}'),
+(40, 3, 6, 7, 2, 'com_banners.category.15', 'Sample Data-Banners', '{}'),
+(41, 7, 18, 79, 2, 'com_contact.category.16', 'Sample Data-Contact', '{}'),
+(42, 19, 288, 289, 2, 'com_newsfeeds.category.17', 'Sample Data-Newsfeeds', '{}'),
+(44, 39, 89, 218, 3, 'com_content.category.19', 'Joomla!', '{"core.create":{"10":0,"12":0}}'),
+(45, 44, 90, 195, 4, 'com_content.category.20', 'Extensions', '{}'),
+(46, 45, 91, 104, 5, 'com_content.category.21', 'Components', '{}'),
+(47, 45, 105, 162, 5, 'com_content.category.22', 'Modules', '{}'),
+(48, 45, 163, 172, 5, 'com_content.category.23', 'Templates', '{}'),
+(49, 45, 173, 174, 5, 'com_content.category.24', 'Languages', '{}'),
+(50, 45, 175, 194, 5, 'com_content.category.25', 'Plugins', '{}'),
+(51, 39, 219, 250, 3, 'com_content.category.26', 'Park Site', '{"core.create":{"10":0,"12":0}}'),
+(52, 51, 220, 225, 4, 'com_content.category.27', 'Park Blog', '{}'),
+(53, 51, 226, 247, 4, 'com_content.category.28', 'Photo Gallery', '{}'),
+(54, 39, 251, 264, 3, 'com_content.category.29', 'Fruit Shop Site', '{}'),
+(55, 54, 252, 257, 4, 'com_content.category.30', 'Growers', '{"core.create":{"12":0},"core.edit.own":{"10":1}}'),
+(59, 41, 19, 20, 3, 'com_contact.category.34', 'Park Site', '{}'),
+(60, 41, 21, 78, 3, 'com_contact.category.35', 'Shop Site', '{}'),
+(61, 60, 22, 23, 4, 'com_contact.category.36', 'Staff', '{}'),
+(62, 60, 24, 77, 4, 'com_contact.category.37', 'Fruit Encyclopedia', '{}'),
+(63, 62, 25, 26, 5, 'com_contact.category.38', 'A', '{}'),
+(64, 62, 27, 28, 5, 'com_contact.category.39', 'B', '{}'),
+(65, 62, 29, 30, 5, 'com_contact.category.40', 'C', '{}'),
+(66, 62, 31, 32, 5, 'com_contact.category.41', 'D', '{}'),
+(67, 62, 33, 34, 5, 'com_contact.category.42', 'E', '{}'),
+(68, 62, 35, 36, 5, 'com_contact.category.43', 'F', '{}'),
+(69, 62, 37, 38, 5, 'com_contact.category.44', 'G', '{}'),
+(70, 62, 39, 40, 5, 'com_contact.category.45', 'H', '{}'),
+(71, 62, 41, 42, 5, 'com_contact.category.46', 'I', '{}'),
+(72, 62, 43, 44, 5, 'com_contact.category.47', 'J', '{}'),
+(73, 62, 45, 46, 5, 'com_contact.category.48', 'K', '{}'),
+(74, 62, 47, 48, 5, 'com_contact.category.49', 'L', '{}'),
+(75, 62, 49, 50, 5, 'com_contact.category.50', 'M', '{}'),
+(76, 62, 51, 52, 5, 'com_contact.category.51', 'N', '{}'),
+(77, 62, 53, 54, 5, 'com_contact.category.52', 'O', '{}'),
+(78, 62, 55, 56, 5, 'com_contact.category.53', 'P', '{}'),
+(79, 62, 57, 58, 5, 'com_contact.category.54', 'Q', '{}'),
+(80, 62, 59, 60, 5, 'com_contact.category.55', 'R', '{}'),
+(81, 62, 61, 62, 5, 'com_contact.category.56', 'S', '{}'),
+(82, 62, 63, 64, 5, 'com_contact.category.57', 'T', '{}'),
+(83, 62, 65, 66, 5, 'com_contact.category.58', 'U', '{}'),
+(84, 62, 67, 68, 5, 'com_contact.category.59', 'V', '{}'),
+(85, 62, 69, 70, 5, 'com_contact.category.60', 'W', '{}'),
+(86, 62, 71, 72, 5, 'com_contact.category.61', 'X', '{}'),
+(87, 62, 73, 74, 5, 'com_contact.category.62', 'Y', '{}'),
+(88, 62, 75, 76, 5, 'com_contact.category.63', 'Z', '{}'),
+(89, 46, 92, 93, 6, 'com_content.article.1', 'Administrator Components', '{}'),
+(90, 93, 107, 108, 7, 'com_content.article.2', 'Archive Module', '{}'),
+(91, 93, 109, 110, 7, 'com_content.article.3', 'Article Categories Module', '{}'),
+(92, 93, 111, 112, 7, 'com_content.article.4', 'Articles Category Module', '{}'),
+(93, 47, 106, 121, 6, 'com_content.category.64', 'Content Modules', '{}'),
+(94, 47, 122, 129, 6, 'com_content.category.65', 'User Modules', '{}'),
+(95, 47, 130, 141, 6, 'com_content.category.66', 'Display Modules', '{}'),
+(96, 47, 142, 155, 6, 'com_content.category.67', 'Utility Modules', '{}'),
+(98, 48, 164, 165, 6, 'com_content.category.69', 'Beez3', '{}'),
+(100, 48, 166, 167, 6, 'com_content.category.71', 'Milky Way', '{}'),
+(101, 50, 176, 177, 6, 'com_content.article.5', 'Authentication', '{}'),
+(102, 51, 248, 249, 4, 'com_content.article.6', 'Australian Parks ', '{"core.edit":{"2":1}}'),
+(103, 95, 131, 132, 7, 'com_content.article.7', 'Banner Module', '{}'),
+(104, 44, 196, 197, 4, 'com_content.article.8', 'Beginners', '{}'),
+(105, 46, 94, 95, 6, 'com_content.article.9', 'Contact', '{}'),
+(106, 46, 96, 97, 6, 'com_content.article.10', 'Content', '{}'),
+(107, 109, 238, 239, 6, 'com_content.article.11', 'Cradle Mountain', '{}'),
+(108, 53, 227, 236, 5, 'com_content.category.72', 'Animals', '{}'),
+(109, 53, 237, 246, 5, 'com_content.category.73', 'Scenery', '{}'),
+(110, 95, 133, 134, 7, 'com_content.article.12', 'Custom Module', '{}'),
+(111, 54, 258, 259, 4, 'com_content.article.13', 'Directions', '{}'),
+(112, 50, 178, 179, 6, 'com_content.article.14', 'Editors', '{}'),
+(113, 50, 180, 181, 6, 'com_content.article.15', 'Editors-xtd', '{}'),
+(114, 95, 135, 136, 7, 'com_content.article.16', 'Feed Display', '{}'),
+(115, 52, 221, 222, 5, 'com_content.article.17', 'First Blog Post', '{}'),
+(116, 52, 223, 224, 5, 'com_content.article.18', 'Second Blog Post', '{}'),
+(117, 95, 137, 138, 7, 'com_content.article.19', 'Footer Module', '{}'),
+(118, 54, 260, 261, 4, 'com_content.article.20', 'Fruit Shop', '{}'),
+(119, 44, 198, 199, 4, 'com_content.article.21', 'Getting Help', '{}'),
+(120, 44, 200, 201, 4, 'com_content.article.22', 'Getting Started', '{}'),
+(121, 55, 253, 254, 5, 'com_content.article.23', 'Happy Orange Orchard', '{}'),
+(122, 44, 202, 203, 4, 'com_content.article.24', 'Joomla!', '{}'),
+(123, 108, 228, 229, 6, 'com_content.article.25', 'Koala', '{}'),
+(124, 96, 143, 144, 7, 'com_content.article.26', 'Language Switcher', '{}'),
+(125, 93, 113, 114, 7, 'com_content.article.27', 'Latest Articles Module', '{}'),
+(126, 94, 123, 124, 7, 'com_content.article.28', 'Login Module', '{}'),
+(127, 166, 157, 158, 7, 'com_content.article.29', 'Menu Module', '{}'),
+(128, 93, 115, 116, 7, 'com_content.article.30', 'Most Read Content', '{}'),
+(129, 93, 117, 118, 7, 'com_content.article.31', 'News Flash', '{}'),
+(130, 44, 204, 205, 4, 'com_content.article.32', 'Parameters', '{}'),
+(131, 108, 230, 231, 6, 'com_content.article.33', 'Phyllopteryx', '{}'),
+(132, 109, 240, 241, 6, 'com_content.article.34', 'Pinnacles', '{}'),
+(133, 44, 206, 207, 4, 'com_content.article.35', 'Professionals', '{}'),
+(134, 95, 139, 140, 7, 'com_content.article.36', 'Random Image Module', '{}'),
+(135, 93, 119, 120, 7, 'com_content.article.37', 'Related Items Module', '{}'),
+(136, 44, 208, 209, 4, 'com_content.article.38', 'Sample Sites', '{}'),
+(137, 46, 98, 99, 6, 'com_content.article.39', 'Search', '{}'),
+(138, 96, 145, 146, 7, 'com_content.article.40', 'Search Module', '{}'),
+(139, 50, 182, 183, 6, 'com_content.article.41', 'Search ', '{}'),
+(140, 39, 265, 266, 3, 'com_content.article.42', 'Site Map', '{}'),
+(141, 108, 232, 233, 6, 'com_content.article.43', 'Spotted Quoll', '{}'),
+(142, 96, 147, 148, 7, 'com_content.article.44', 'Statistics Module', '{}'),
+(143, 96, 149, 150, 7, 'com_content.article.45', 'Syndicate Module', '{}'),
+(144, 50, 184, 185, 6, 'com_content.article.46', 'System', '{}'),
+(145, 44, 210, 211, 4, 'com_content.article.47', 'The Joomla! Community', '{}'),
+(146, 44, 212, 213, 4, 'com_content.article.48', 'The Joomla! Project', '{}'),
+(147, 48, 168, 169, 6, 'com_content.article.49', 'Typography', '{}'),
+(148, 44, 214, 215, 4, 'com_content.article.50', 'Upgraders', '{}'),
+(149, 50, 186, 187, 6, 'com_content.article.51', 'User', '{}'),
+(150, 46, 100, 101, 6, 'com_content.article.52', 'Users', '{}'),
+(151, 44, 216, 217, 4, 'com_content.article.53', 'Using Joomla!', '{}'),
+(154, 94, 125, 126, 7, 'com_content.article.56', 'Who\'s Online', '{}'),
+(155, 108, 234, 235, 6, 'com_content.article.57', 'Wobbegone', '{}'),
+(156, 55, 255, 256, 5, 'com_content.article.58', 'Wonderful Watermelon', '{}'),
+(157, 96, 151, 152, 7, 'com_content.article.59', 'Wrapper Module', '{}'),
+(158, 46, 102, 103, 6, 'com_content.article.60', 'News Feeds', '{}'),
+(159, 166, 159, 160, 7, 'com_content.article.61', 'Breadcrumbs Module', '{}'),
+(160, 50, 188, 189, 6, 'com_content.article.62', 'Content', '{}'),
+(162, 109, 242, 243, 6, 'com_content.article.64', 'Blue Mountain Rain Forest', '{}'),
+(163, 109, 244, 245, 6, 'com_content.article.65', 'Ormiston Pound', '{}'),
+(165, 94, 127, 128, 7, 'com_content.article.66', 'Latest Users Module', '{}'),
+(166, 47, 156, 161, 6, 'com_content.category.75', 'Navigation Modules', '{}'),
+(167, 54, 262, 263, 4, 'com_content.category.76', 'Recipes', '{"core.create":{"12":1,"10":1},"core.edit.own":{"12":1,"10":1}}'),
+(168, 34, 85, 86, 3, 'com_content.article.67', 'What\'s New in 1.5?', '{}'),
+(169, 24, 300, 301, 2, 'com_users.category.77', 'Uncategorised', '{}'),
+(170, 50, 190, 191, 6, 'com_content.article.68', 'Captcha', '{}'),
+(171, 50, 192, 193, 6, 'com_content.article.69', 'Quick Icons', '{}'),
+(172, 96, 153, 154, 7, 'com_content.article.70', 'Smart Search', '{}'),
+(173, 1, 307, 308, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
+(174, 48, 170, 171, 6, 'com_content.category.78', 'Protostar', '{"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(175, 1, 309, 310, 1, 'com_tags', 'com_tags', '{"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
+(176, 1, 311, 312, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
+(177, 1, 313, 314, 1, 'com_ajax', 'com_ajax', '{}'),
+(178, 1, 315, 316, 1, 'com_postinstall', 'com_postinstall', '{}');
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
