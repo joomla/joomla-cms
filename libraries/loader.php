@@ -380,7 +380,7 @@ abstract class JLoader
 	/**
 	 * Register a namespace to the autoloader. When loaded, namespace paths are searched in a "last in, first out" order.
 	 *
-	 * This function will be changed in J4 to support PRS-4 namespace registering.
+	 * This function will be changed in J4 to support PSR-4 namespace registering.
 	 *
 	 * @param   string   $namespace  A case sensitive Namespace to register.
 	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
