@@ -76,13 +76,13 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 		<?php // Sidebar ?>
 		<?php if (!$hidden) : ?>
 			<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
-			<div id="main-brand-sm" class="main-brand  hidden-xs-up">
+			<div id="main-brand-sm" class="main-brand hidden-xs-up align-items-center">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 					<img src="<?php echo $logoSm; ?>" class="logo" alt="<?php echo $sitename;?>" />
 				</a>
 			</div>
 
-			<div id="main-brand" class="main-brand">
+			<div id="main-brand" class="main-brand align-items-center">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename;?>" />
 				</a>
