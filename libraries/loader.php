@@ -474,7 +474,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function loadByPsr4($class)
 	{
