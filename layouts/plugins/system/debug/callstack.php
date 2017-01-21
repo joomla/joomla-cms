@@ -34,7 +34,6 @@ $count = count($callStack);
 				<?php // Dont' back trace log classes. ?>
 				<?php if (isset($call['class']) && strpos($call['class'], 'JLog') !== false) : ?>
 					<?php $count--; ?>
-					<?php continue; ?>
 				<?php endif; ?>
 				<tr>
 					<td><?php echo $count; ?></td>
@@ -48,7 +47,7 @@ $count = count($callStack);
 						<?php else : ?>
 							<?php // It's a function. ?>
 							<?php echo htmlspecialchars($call['function']) . '()'; ?>
-					<?php endif; ?>
+						<?php endif; ?>
 					</td>
 					<td>
 						<?php // If entry doesn't have line and number the next is a call_user_func. ?>
