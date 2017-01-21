@@ -203,15 +203,12 @@ class UsersModelUser extends JModelAdmin
 		$iAmSuperAdmin = $my->authorise('core.admin');
 
 		// User cannot modify own user groups
-		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin)
+		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin && isset($data['groups']))
 		{
-			if (isset($data['groups']))
-			{
-				// Form was probably tampered with
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
+			// Form was probably tampered with
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
 
-				$data['groups'] = null;
-			}
+			$data['groups'] = null;
 		}
 
 		if ($data['block'] && $pk == $my->id && !$my->block)
