@@ -164,7 +164,7 @@ abstract class JLoader
 		{
 			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
 		}
-		return self::$namespaces;
+		return self::$namespaces[$type];
 	}
 
 	/**
