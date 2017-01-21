@@ -9341,8 +9341,8 @@ iframe {
     .sidebar-wrapper {
       z-index: 1; } }
   .sidebar-wrapper .main-brand {
-    padding: 25px 0;
     font-size: 30px;
+    line-height: 96px;
     text-align: center;
     text-indent: 0;
     border: 0;
@@ -9367,6 +9367,7 @@ iframe {
 .main-nav {
   width: 250px;
   height: 100%;
+  max-height: calc(100vh - 96px);
   padding: 0;
   margin: 0;
   overflow-y: auto;
