@@ -706,7 +706,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			if (is_array($loader) && $loader[0] === 'JLoader'
 				&& ($loader[1] === 'load'
 				|| $loader[1] === '_autoload'
-				|| $loader[1] === 'loadByPsr'
+				|| $loader[1] === 'loadByPsr4'
 				|| $loader[1] === 'loadByAlias'))
 			{
 				spl_autoload_unregister($loader);
