@@ -213,6 +213,7 @@ class ContactControllerContact extends JControllerForm
 			}
 
 			$mail = JFactory::getMailer();
+			$mailer->isHTML(true);
 			$mail->addRecipient($contact->email_to);
 			$mail->addReplyTo($email, $name);
 			$mail->setSender(array($mailfrom, $fromname));
@@ -230,6 +231,7 @@ class ContactControllerContact extends JControllerForm
 				$copysubject = JText::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
 
 				$mail = JFactory::getMailer();
+				$mail->isHTML(true);
 				$mail->addRecipient($email);
 				$mail->addReplyTo($email, $name);
 				$mail->setSender(array($mailfrom, $fromname));
