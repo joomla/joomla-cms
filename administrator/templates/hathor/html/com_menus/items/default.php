@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,9 +114,11 @@ $assoc     = JLanguageAssociations::isEnabled();
 				<th width="10%">
 					<?php echo JText::_('JGRID_HEADING_MENU_ITEM_TYPE'); ?>
 				</th>
+				<?php if ($this->state->get('filter.client_id') == 0): ?>
 				<th class="home-col">
 					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 				</th>
+				<?php endif; ?>
 				<?php if ($assoc) : ?>
 				<th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
@@ -189,6 +191,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 					<span title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 						<?php echo $this->escape($item->item_type); ?></span>
 				</td>
+				<?php if ($this->state->get('filter.client_id') == 0): ?>
 				<td class="center">
 					<?php if ($item->type == 'component') : ?>
 						<?php if ($item->language == '*' || $item->home == '0'):?>
@@ -210,6 +213,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 						<?php endif;?>
 					<?php endif; ?>
 				</td>
+				<?php endif; ?>
 				<?php
 				if ($assoc):
 				?>
