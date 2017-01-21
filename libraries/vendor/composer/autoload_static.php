@@ -22,9 +22,9 @@ class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
         '05d739a990f75f0c44ebe1f032b33148' => __DIR__ . '/..' . '/joomla/string/src/phputf8/ucwords.php',
         '4292e2fa66516089e6006723267587b4' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/ascii.php',
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
-        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
         'edc6464955a37aa4d5fbf39d40fb6ee7' => __DIR__ . '/..' . '/symfony/polyfill-php55/bootstrap.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
 
@@ -47,13 +47,11 @@ class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
             'Joomla\\Uri\\Tests\\' => 17,
             'Joomla\\Uri\\' => 11,
             'Joomla\\String\\' => 14,
-            'Joomla\\Session\\' => 15,
             'Joomla\\Registry\\' => 16,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
             'Joomla\\Image\\' => 13,
             'Joomla\\Filter\\' => 14,
-            'Joomla\\Event\\' => 13,
             'Joomla\\Data\\Tests\\' => 18,
             'Joomla\\Data\\' => 12,
             'Joomla\\DI\\Tests\\' => 16,
@@ -105,10 +103,6 @@ class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
         array (
             0 => __DIR__ . '/..' . '/joomla/string/src',
         ),
-        'Joomla\\Session\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/session/src',
-        ),
         'Joomla\\Registry\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/registry/src',
@@ -128,10 +122,6 @@ class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
         'Joomla\\Filter\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/filter/src',
-        ),
-        'Joomla\\Event\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/event/src',
         ),
         'Joomla\\Data\\Tests\\' => 
         array (
