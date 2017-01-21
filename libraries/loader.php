@@ -416,9 +416,9 @@ abstract class JLoader
 		}
 
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
-		if (!isset(self::$namespaces[$namespace][$type]) || $reset)
+		if (!isset(self::$namespaces[$type][$namespace]) || $reset)
 		{
-			self::$namespaces[$namespace][$type] = array($path);
+			self::$namespaces[$type][$namespace] = array($path);
 		}
 
 		// Otherwise we want to simply add the path to the namespace.
@@ -426,11 +426,11 @@ abstract class JLoader
 		{
 			if ($prepend)
 			{
-				array_unshift(self::$namespaces[$namespace][$type], $path);
+				array_unshift(self::$namespaces[$type][$namespace], $path);
 			}
 			else
 			{
-				self::$namespaces[$namespace][$type][] = $path;
+				self::$namespaces[$type][$namespace][] = $path;
 			}
 		}
 	}
