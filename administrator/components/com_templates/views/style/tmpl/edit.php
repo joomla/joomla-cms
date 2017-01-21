@@ -13,6 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
+JHtml::_('behavior.tabstate');
 
 $user = JFactory::getUser();
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-
+JHtml::_('behavior.tabstate');
 
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)

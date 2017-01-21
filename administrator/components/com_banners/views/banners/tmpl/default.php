@@ -13,6 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
+JHtml::_('behavior.tabstate');
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');

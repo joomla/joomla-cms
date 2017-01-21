@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
-
+JHtml::_('behavior.tabstate');
 
 JFactory::getDocument()->addScriptDeclaration(
 	'

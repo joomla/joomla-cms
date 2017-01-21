@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 // Add specific helper files for html generation
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+JHtml::_('behavior.tabstate');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_admin&view=sysinfo'); ?>" method="post" name="adminForm" id="adminForm">
