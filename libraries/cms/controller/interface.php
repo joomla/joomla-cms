@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.CMS
+ * @package     Joomla.Libraries
  * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
