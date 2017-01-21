@@ -154,6 +154,10 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>dragula/dist', src: ['*.js'], dest: 'media/vendor/dragula/js/', filter: 'isFile'},
 					// Dragula css files
 					{ cwd: '<%= folder.node_module %>dragula/dist', src: ['*.css'], dest: 'media/vendor/dragula/css/', expand: true, filter: 'isFile'},
+					// perfect-scrollbar js files
+					{ expand: true, cwd: '<%= folder.node_module %>perfect-scrollbar/dist/js', src: ['*.js'], dest: 'media/vendor/perfect-scrollbar/js/', filter: 'isFile'},
+					// perfect-scrollbar css files
+					{ cwd: '<%= folder.node_module %>perfect-scrollbar/dist/css', src: ['*.css'], dest: 'media/vendor/perfect-scrollbar/css/', expand: true, filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
@@ -163,6 +167,7 @@ module.exports = function(grunt) {
 					{ src: ['<%= folder.node_module %>jcrop/jcrop-MIT-LICENSE.txt'], dest: 'media/vendor/jcrop/jcrop-MIT-LICENSE.txt'},
 					{ src: ['<%= folder.node_module %>dragula/license'], dest: 'media/vendor/dragula/license'},
 					{ src: ['<%= folder.node_module %>awesomplete/LICENSE'], dest: 'media/vendor/awesomplete/LICENSE'},
+					{ src: ['<%= folder.node_module %>perfect-scrollbar/LICENSE'], dest: 'media/vendor/perfect-scrollbar/LICENSE'},
 				]
 			}
 		},
