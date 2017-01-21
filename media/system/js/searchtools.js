@@ -48,7 +48,7 @@
 
 		// Filters
 		this.filterButton    = document.querySelector(this.options.formSelector + ' ' + this.options.filterBtnSelector);
-		this.filterContainer = document.querySelector(this.options.formSelector + ' ' + this.options.filterContainerSelector);
+		this.filterContainer = document.querySelector(this.options.formSelector + ' ' + this.options.filterContainerSelector) ? document.querySelector(this.options.formSelector + ' ' + this.options.filterContainerSelector) : '';
 		this.filtersHidden   = this.options.filtersHidden;
 
 		// List fields
@@ -98,7 +98,7 @@
 			// Get values
 			this.searchString = this.searchField.value;
 
-			if (this.filterContainer.classList.contains('js-stools-container-filters-visible')) {
+			if (this.filterContainer && this.filterContainer.classList.contains('js-stools-container-filters-visible')) {
 				this.showFilters();
 				this.showList();
 			} else {
@@ -123,12 +123,14 @@
 			}
 
 			// Do we need to add to mark filter as enabled?
-			self.getFilterFields().forEach(function(i) {
-				self.checkFilter(i);
-				i.addEventListener('change', function () {
+			if (self.getFilterFields()) {
+				self.getFilterFields().forEach(function(i) {
 					self.checkFilter(i);
+					i.addEventListener('change', function () {
+						self.checkFilter(i);
+					});
 				});
-			});
+			}
 
 			if (self.clearButton) {
 				self.clearButton.addEventListener('click', function () {
@@ -180,14 +182,16 @@
 		clear: function () {
 			var self = this;
 
-			self.getFilterFields().forEach(function(i) {
-				i.value = '';
-				self.checkFilter(i);
+			if (self.getFilterFields()) {
+				self.getFilterFields().forEach(function(i) {
+					i.value = '';
+					self.checkFilter(i);
 
-				if (window.jQuery && jQuery.chosen) {
-					jQuery(i).trigger('liszt:updated');
-				}
-			});
+					if (window.jQuery && jQuery.chosen) {
+						jQuery(i).trigger('liszt:updated');
+					}
+				});
+			}
 
 			if (self.clearListOptions) {
 				self.getListFields().forEach(function(i) {
@@ -228,15 +232,20 @@
 			}
 		},
 		getFilterFields: function () {
-			return Array.prototype.slice.call(this.filterContainer.querySelectorAll('select,input'));
+			if (this.filterContainer) {
+				return Array.prototype.slice.call(this.filterContainer.querySelectorAll('select,input'));
+			}
+
 		},
 		getListFields: function () {
 			return Array.prototype.slice.call(this.listContainer.querySelectorAll('select'));
 		},
 		// Common container functions
 		hideContainer: function (container) {
-			container.style.display = 'none';
-			container.classList.remove('shown');
+			if (container) {
+				container.style.display = 'none';
+				container.classList.remove('shown');
+			}
 		},
 		showContainer: function (container) {
 			container.style.display = 'block';
