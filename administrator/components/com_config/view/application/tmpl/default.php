@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
-
+JHtml::_('behavior.tabstate');
 
 // Load JS message titles
 JText::script('ERROR');
