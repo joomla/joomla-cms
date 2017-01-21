@@ -63,7 +63,6 @@ rsort($durations, SORT_NUMERIC);
 						<td><strong><?php echo htmlspecialchars($td); ?></strong>
 					<?php endif; ?>
 				<?php elseif ($k == 'Extra') : ?>
-					<?php
 					<?php // Replace spaces with &nbsp; (non-breaking spaces) for less tall tables displayed. ?>
 					<?php $htmlTd = preg_replace('/([^;]) /', '\1&nbsp;', htmlspecialchars($td)); ?>
 					<?php // Displays warnings for "Using filesort": ?>
