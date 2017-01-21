@@ -22,8 +22,7 @@
 /* Fixed filter fields (selector) */
 .js-stools .js-stools-container-selector {
 	float: left;
-	margin-right: 10px;
-	min-width: 220px;
+	margin-right: 8px;
 }
 html[dir=rtl] .js-stools .js-stools-container-selector {
 	float: right;
