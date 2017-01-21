@@ -152,7 +152,7 @@ abstract class JLoader
 	/**
 	 * Method to get the list of registered namespaces.
 	 *
-	 * @param   string   $type  Defines the type of namespace, can be prs0 or psr4.
+	 * @param   string  $type  Defines the type of namespace, can be prs0 or psr4.
 	 *
 	 * @return  array  The array of namespace => path values for the autoloader.
 	 *
@@ -160,6 +160,10 @@ abstract class JLoader
 	 */
 	public static function getNamespaces($type = 'psr0')
 	{
+		if ($type != 'psr0' && $type != 'psr4')
+		{
+			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
+		}
 		return self::$namespaces;
 	}
 
@@ -382,7 +386,7 @@ abstract class JLoader
 	/**
 	 * Register a namespace to the autoloader. When loaded, namespace paths are searched in a "last in, first out" order.
 	 *
-	 * This function will be changed in J4 to support PSR-4 namespace registering.
+	 * @note This function will be changed in J4 to support PSR-4 namespace registering.
 	 *
 	 * @param   string   $namespace  A case sensitive Namespace to register.
 	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
@@ -398,6 +402,11 @@ abstract class JLoader
 	 */
 	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr0')
 	{
+		if ($type != 'psr0' && $type != 'psr4')
+		{
+			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
+		}
+
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
@@ -506,6 +515,7 @@ abstract class JLoader
 		foreach (self::$namespaces['psr4'] as $ns => $paths)
 		{
 			$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
+
 			if (strpos($class, $ns) === 0)
 			{
 				// Loop through paths registered to this namespace until we find a match.
