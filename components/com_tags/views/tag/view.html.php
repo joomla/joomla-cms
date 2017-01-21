@@ -253,7 +253,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * Prepares the document.
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function _prepareDocument()
 	{
@@ -341,8 +341,9 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * Creates the tags title for the output
 	 *
-	 * @return string
-	 * @since  3.1
+	 * @return  string
+	 *
+	 * @since   3.1
 	 */
 	protected function getTagsTitle()
 	{
