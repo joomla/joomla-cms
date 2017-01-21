@@ -190,6 +190,10 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function test__toStringSelectRowNumber()
 	{
+		$this->dbo->expects($this->exactly(6))
+			->method('getVersion')
+			->will($this->onConsecutiveCalls('8.3.18', '8.3.22', '8.3.23', '8.4.0', '9.1.24', '9.5.5'));
+
 		$this->_instance
 			->select('id')
 			->selectRowNumber('ordering', 'new_ordering')
@@ -197,12 +201,12 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 			->where('catid = 1');
 
 		$this->assertEquals(
-			PHP_EOL . "SELECT w.*, nextval('ROW_NUMBER') - 1 AS new_ordering FROM (" .
-			PHP_EOL . "SELECT id" .
-			PHP_EOL . "FROM a" .
-			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . 'SELECT w.*, nextval(\'ROW_NUMBER\') - 1 AS new_ordering FROM (' .
+			PHP_EOL . 'SELECT id' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1' .
 			PHP_EOL . 'ORDER BY ordering' .
-			PHP_EOL . ") w,(SELECT setval('ROW_NUMBER', 1)) AS r",
+			PHP_EOL . ') w,(SELECT setval(\'ROW_NUMBER\', 1)) AS r',
 			(string) $this->_instance
 		);
 
@@ -214,26 +218,65 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 			->where('catid = 1');
 
 		$this->assertEquals(
-			PHP_EOL . "SELECT w.*, nextval('ROW_NUMBER') - 1 AS \"ordering\" FROM (" .
-			PHP_EOL . "SELECT id" .
-			PHP_EOL . "FROM a" .
-			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . 'SELECT w.*, nextval(\'ROW_NUMBER\') - 1 AS "ordering" FROM (' .
+			PHP_EOL . 'SELECT id' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1' .
 			PHP_EOL . 'ORDER BY ordering DESC' .
-			PHP_EOL . ") w,(SELECT setval('ROW_NUMBER', 1)) AS r",
+			PHP_EOL . ') w,(SELECT setval(\'ROW_NUMBER\', 1)) AS r',
 			(string) $this->_instance
 		);
 
 		$this->_instance
 			->clear('select')
-			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'));
+			->selectRowNumber('ordering ASC', $this->_instance->quoteName('ordering'));
 
 		$this->assertEquals(
-			PHP_EOL . "SELECT nextval('ROW_NUMBER') - 1 AS \"ordering\" FROM (" .
-			PHP_EOL . "SELECT 1" .
-			PHP_EOL . "FROM a" .
-			PHP_EOL . "WHERE catid = 1" .
-			PHP_EOL . 'ORDER BY ordering DESC' .
-			PHP_EOL . ") w,(SELECT setval('ROW_NUMBER', 1)) AS r",
+			PHP_EOL . 'SELECT nextval(\'ROW_NUMBER\') - 1 AS "ordering" FROM (' .
+			PHP_EOL . 'SELECT 1' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1' .
+			PHP_EOL . 'ORDER BY ordering ASC' .
+			PHP_EOL . ') w,(SELECT setval(\'ROW_NUMBER\', 1)) AS r',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->select('id')
+			->selectRowNumber('ordering', 'new_ordering')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT id,ROW_NUMBER() OVER (ORDER BY ordering) AS new_ordering' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'))
+			->select('id')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT ROW_NUMBER() OVER (ORDER BY ordering DESC) AS "ordering",id' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->selectRowNumber('ordering ASC', $this->_instance->quoteName('ordering'));
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT ROW_NUMBER() OVER (ORDER BY ordering ASC) AS "ordering"' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1',
 			(string) $this->_instance
 		);
 	}

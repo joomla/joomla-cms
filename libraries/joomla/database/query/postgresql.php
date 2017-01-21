@@ -66,8 +66,19 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 		switch ($this->type)
 		{
 			case 'select':
-				if ($this->selectRowNumber)
+				if ($this->selectRowNumber && $this->selectRowNumber['native'] === false)
 				{
+					// Workaround for postgresql version less than 8.4.0
+					try
+					{
+						$this->db->setQuery('CREATE TEMP SEQUENCE ROW_NUMBER');
+						$this->db->execute();
+					}
+					catch (JDatabaseExceptionExecuting $e)
+					{
+						// Do nothing, sequence exists
+					}
+
 					$orderBy          = $this->selectRowNumber['orderBy'];
 					$orderColumnAlias = $this->selectRowNumber['orderColumnAlias'];
 
@@ -121,6 +132,16 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 				if ($this->where)
 				{
 					$query .= (string) $this->where;
+				}
+
+				if ($this->selectRowNumber)
+				{
+					if ($this->order)
+					{
+						$query .= (string) $this->order;
+					}
+
+					break;
 				}
 
 				if ($this->group)
@@ -744,6 +765,16 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	public function selectRowNumber($orderBy, $orderColumnAlias)
 	{
 		$this->validateRowNumber($orderBy, $orderColumnAlias);
+
+		if (version_compare($this->db->getVersion(), '8.4.0') >= 0)
+		{
+			$this->selectRowNumber['native'] = true;
+			$this->select("ROW_NUMBER() OVER (ORDER BY $orderBy) AS $orderColumnAlias");
+		}
+		else
+		{
+			$this->selectRowNumber['native'] = false;
+		}
 
 		return $this;
 	}
