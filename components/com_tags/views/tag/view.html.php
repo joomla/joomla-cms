@@ -18,19 +18,85 @@ use Joomla\Registry\Registry;
  */
 class TagsViewTag extends JViewLegacy
 {
+	/**
+	 * The model state
+	 *
+	 * @var    JObject
+	 * @since  3.1
+	 */
 	protected $state;
 
+	/**
+	 * List of items associated with the tag
+	 *
+	 * @var    stdClass[]|false
+	 * @since  3.1
+	 */
 	protected $items;
 
+	/**
+	 * Tag data for the current tag or tags
+	 *
+	 * @var    JObject[]
+	 * @since  3.1
+	 */
 	protected $item;
 
+	/**
+	 * UNUSED
+	 *
+	 * @var    null
+	 * @since  3.1
+	 */
 	protected $children;
 
+	/**
+	 * UNUSED
+	 *
+	 * @var    null
+	 * @since  3.1
+	 */
+	protected $parent;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var    JPagination
+	 * @since  3.1
+	 */
 	protected $pagination;
 
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  3.1
+	 */
 	protected $params;
 
+	/**
+	 * The title to display on the page
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
 	protected $tags_title;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
+	 * The logged in user
+	 *
+	 * @var    JUser|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $user = null;
 
 	/**
 	 * Execute and display a template script.
@@ -275,7 +341,8 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * Creates the tags title for the output
 	 *
-	 * @return bool
+	 * @return string
+	 * @since  3.1
 	 */
 	protected function getTagsTitle()
 	{

@@ -16,15 +16,75 @@ defined('_JEXEC') or die;
  */
 class ContentViewArchive extends JViewLegacy
 {
+	/**
+	 * The model state
+	 *
+	 * @var    JObject
+	 */
 	protected $state = null;
 
-	protected $item = null;
+	/**
+	 * An array containing archived articles
+	 *
+	 * @var    stdClass[]
+	 */
+	protected $items = array();
 
-	protected $items = null;
-
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination|null
+	 */
 	protected $pagination = null;
 
-	protected $years = null;
+	/**
+	 * The years that are available to filter on.
+	 *
+	 * @var   array
+	 * @since 3.6.0
+	 */
+	protected $years = array();
+
+	/**
+	 * Object containing the year, month and limit field to be displayed
+	 *
+	 * @var    stdClass|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $form = null;
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
+
+	/**
+	 * The search query used on any archived articles (note this may not be displayed depending on the value of the
+	 * filter_field component parameter)
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $filter = '';
+
+	/**
+	 * The user object
+	 *
+	 * @var    JUser
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $user = null;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
 
 	/**
 	 * Execute and display a template script.
@@ -191,12 +251,12 @@ class ContentViewArchive extends JViewLegacy
 
 		if ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 	}
 }

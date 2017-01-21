@@ -38,6 +38,14 @@ class TemplatesViewStyle extends JViewLegacy
 	protected $state;
 
 	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var    JObject
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $canDo;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.

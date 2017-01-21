@@ -17,24 +17,65 @@ defined('_JEXEC') or die;
 class MenusViewItems extends JViewLegacy
 {
 	/**
-	 * @var  array
+	 * Array used for displaying the levels filter
+	 *
+	 * @return  stdClass[]
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $f_levels;
 
 	/**
-	 * @var  mixed
+	 * An array of items
+	 *
+	 * @var  array
 	 */
 	protected $items;
 
 	/**
+	 * The pagination object
+	 *
 	 * @var  JPagination
 	 */
 	protected $pagination;
 
 	/**
+	 * The model state
+	 *
 	 * @var  JObject
 	 */
 	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var    JForm
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $activeFilters;
+
+	/**
+	 * The sidebar markup
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $sidebar;
+
+	/**
+	 * Ordering of the items
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $ordering;
 
 	/**
 	 * Display the view

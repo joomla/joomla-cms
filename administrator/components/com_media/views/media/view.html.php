@@ -32,7 +32,9 @@ class MediaViewMedia extends JViewLegacy
 
 		if (!$app->isClient('administrator'))
 		{
-			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+
+			return;
 		}
 
 		/*

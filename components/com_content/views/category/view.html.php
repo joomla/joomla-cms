@@ -123,7 +123,6 @@ class ContentViewCategory extends JViewCategory
 		$app     = JFactory::getApplication();
 		$active  = $app->getMenu()->getActive();
 		$menus   = $app->getMenu();
-		$pathway = $app->getPathway();
 		$title   = null;
 
 		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
@@ -188,8 +187,6 @@ class ContentViewCategory extends JViewCategory
 		}
 
 		$title = $this->params->get('page_title', '');
-
-		$id = (int) @$menu->query['id'];
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))

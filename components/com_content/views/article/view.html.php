@@ -16,15 +16,49 @@ defined('_JEXEC') or die;
  */
 class ContentViewArticle extends JViewLegacy
 {
+	/**
+	 * The article object
+	 *
+	 * @var  stdClass
+	 */
 	protected $item;
 
-	protected $params;
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
 
-	protected $print;
+	/**
+	 * Should the print button be displayed or not?
+	 *
+	 * @var  boolean
+	 */
+	protected $print = false;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
 
-	protected $user;
+	/**
+	 * The user object
+	 *
+	 * @var  JUser|null
+	 */
+	protected $user = null;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
 
 	/**
 	 * Execute and display a template script.
@@ -39,7 +73,7 @@ class ContentViewArticle extends JViewLegacy
 		$user       = JFactory::getUser();
 
 		$this->item  = $this->get('Item');
-		$this->print = $app->input->getBool('print');
+		$this->print = $app->input->getBool('print', false);
 		$this->state = $this->get('State');
 		$this->user  = $user;
 

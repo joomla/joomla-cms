@@ -16,6 +16,11 @@ defined('_JEXEC') or die;
  */
 class UsersViewDebuguser extends JViewLegacy
 {
+	/**
+	 * List of component actions
+	 *
+	 * @var  array
+	 */
 	protected $actions;
 
 	/**
@@ -41,6 +46,46 @@ class UsersViewDebuguser extends JViewLegacy
 	 * @since 1.6
 	 */
 	protected $state;
+
+	/**
+	 * The user object of the user being debugged.
+	 *
+	 * @var   JUser
+	 */
+	protected $user;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var  JForm
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var  array
+	 */
+	public $activeFilters;
+
+	/**
+	 * An array containing the component levels.
+	 *
+	 * @var         array
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  4.0 To be removed with Hathor
+	 */
+	public $levels;
+
+	/**
+	 * An array of installed components with a text property containing component name and the value property
+	 * containing the extension element (e.g. plg_system_debug)
+	 *
+	 * @var         stdClass[]
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  4.0 To be removed with Hathor
+	 */
+	public $components;
 
 	/**
 	 * Display the view

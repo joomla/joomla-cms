@@ -16,20 +16,53 @@ defined('_JEXEC') or die;
  */
 class ContentViewFeatured extends JViewLegacy
 {
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state = null;
 
-	protected $item = null;
-
+	/**
+	 * The featured articles array
+	 *
+	 * @var  stdClass[]
+	 */
 	protected $items = null;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination = null;
 
+	/**
+	 * The featured articles to be displayed as lead items.
+	 *
+	 * @var  stdClass[]
+	 */
 	protected $lead_items = array();
 
+	/**
+	 * The featured articles to be displayed as intro items.
+	 *
+	 * @var  stdClass[]
+	 */
 	protected $intro_items = array();
 
+	/**
+	 * The featured articles to be displayed as link items.
+	 *
+	 * @var  stdClass[]
+	 */
 	protected $link_items = array();
 
+	/**
+	 * The number of columns to show introduction articles in.
+	 *
+	 * @var  integer
+	 */
 	protected $columns = 1;
 
 	/**
@@ -39,6 +72,29 @@ class ContentViewFeatured extends JViewLegacy
 	 * @since  3.6.3
 	 */
 	 protected $db;
+
+	/**
+	 * The user object
+	 *
+	 * @var  JUser|null
+	 */
+	protected $user = null;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
 
 	/**
 	 * Execute and display a template script.
@@ -61,6 +117,7 @@ class ContentViewFeatured extends JViewLegacy
 			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
+		/** @var \Joomla\Registry\Registry $params */
 		$params = &$state->params;
 
 		// PREPARE THE DATA
@@ -108,7 +165,7 @@ class ContentViewFeatured extends JViewLegacy
 		}
 
 		// Preprocess the breakdown of leading, intro and linked articles.
-		// This makes it much easier for the designer to just interogate the arrays.
+		// This makes it much easier for the designer to just integrate the arrays.
 		$max = count($items);
 
 		// The first group is the leading articles.
@@ -205,12 +262,12 @@ class ContentViewFeatured extends JViewLegacy
 
 		if ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		// Add feed links
