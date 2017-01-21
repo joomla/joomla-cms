@@ -456,13 +456,13 @@ abstract class JLoader
 		if ($enablePsr)
 		{
 			// Register the PSR-0 based autoloader.
-			spl_autoload_register(array('JLoader', 'loadByPsr0'));
+			spl_autoload_register(array('JLoader', 'loadByPsr4'));
 			spl_autoload_register(array('JLoader', 'loadByAlias'));
 		}
 	}
 
 	/**
-	 * Method to autoload classes that are namespaced to the PSR-0 standard.
+	 * Method to autoload classes that are namespaced to the PSR-4 standard.
 	 *
 	 * @param   string  $class  The fully qualified class name to autoload.
 	 *
@@ -470,7 +470,7 @@ abstract class JLoader
 	 *
 	 * @since   13.1
 	 */
-	public static function loadByPsr0($class)
+	public static function loadByPsr4($class)
 	{
 		// Remove the root backslash if present.
 		if ($class[0] == '\\')
@@ -494,17 +494,18 @@ abstract class JLoader
 			$className = $class;
 		}
 
-		$classPath .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+		$classPath .= $className . '.php';
 
 		// Loop through registered namespaces until we find a match.
 		foreach (self::$namespaces as $ns => $paths)
 		{
+			$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
 			if (strpos($class, $ns) === 0)
 			{
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{
-					$classFilePath = $path . DIRECTORY_SEPARATOR . $classPath;
+					$classFilePath = $path . DIRECTORY_SEPARATOR . str_replace($nsPath, '', $classPath);
 
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
