@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Joomla\\Cms\\": "libraries/src/Joomla/Cms"
+            "Joomla\\": "libraries/src/Joomla"
         }
     },
     "require": {

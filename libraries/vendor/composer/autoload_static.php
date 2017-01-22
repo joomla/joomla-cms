@@ -56,8 +56,8 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Data\\' => 12,
             'Joomla\\DI\\Tests\\' => 16,
             'Joomla\\DI\\' => 10,
-            'Joomla\\Cms\\' => 11,
             'Joomla\\Application\\' => 19,
+            'Joomla\\' => 7,
         ),
     );
 
@@ -138,13 +138,13 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/joomla/di/src',
         ),
-        'Joomla\\Cms\\' => 
-        array (
-            0 => __DIR__ . '/../../..' . '/libraries/src/Joomla/Cms',
-        ),
         'Joomla\\Application\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/application/src',
+        ),
+        'Joomla\\' => 
+        array (
+            0 => __DIR__ . '/../../..' . '/libraries/src/Joomla',
         ),
     );
 
