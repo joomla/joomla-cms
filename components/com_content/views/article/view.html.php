@@ -177,9 +177,9 @@ class ContentViewArticle extends JViewLegacy
 	/**
 	 * Prepares the document.
 	 *
-	 * @param   object   $params  The params
-	 * @param   Object   $item    The article Item
-	 * @param   $state   $sate    State
+	 * @param   object  $params  The params
+	 * @param   Object  $item    The article Item
+	 * @param   $state  $state   State
 	 *
 	 * @return  void
 	 */
