@@ -185,6 +185,15 @@ class ContentViewArticle extends JViewLegacy
 		echo $this->jLayout->render();
 	}
 
+	public function render($layout = null)
+	{
+		$layout = $layout ?: 'article';
+
+		$this->jLayout = new JLayoutFile($layout, JPATH_COMPONENT . '/layouts/article');
+
+	}
+
+
 	/**
 	 * Prepares the document.
 	 *
