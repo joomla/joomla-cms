@@ -174,7 +174,7 @@ module.exports = function(grunt) {
 					{ src: ['<%= folder.node_module %>dragula/license'], dest: 'media/vendor/dragula/license'},
 					{ src: ['<%= folder.node_module %>awesomplete/LICENSE'], dest: 'media/vendor/awesomplete/LICENSE'},
 					{ src: ['<%= folder.node_module %>perfect-scrollbar/LICENSE'], dest: 'media/vendor/perfect-scrollbar/LICENSE'},
-					{ src: ['<%= folder.node_module %>flying-focus-a11y/MIT-LICENSE'], dest: 'media/vendor/flying-focus-a11y/MIT-LICENSE'},
+					{ src: ['<%= folder.node_module %>flying-focus-a11y/MIT-LICENSE.txt'], dest: 'media/vendor/flying-focus-a11y/MIT-LICENSE.txt'},
 				]
 			}
 		},
