@@ -60,6 +60,7 @@ $class        = ' class="' . trim('minicolors ' . $class) . ($validate == 'color
 $control      = $control ? ' data-control="' . $control . '"' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
+$disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
 $hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : ' placeholder="' . $placeholder . '"';
 $autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
