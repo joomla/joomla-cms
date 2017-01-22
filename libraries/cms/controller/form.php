@@ -379,7 +379,7 @@ class JControllerForm extends JControllerLegacy
 
 		// Get the previous record id (if any) and the current record id.
 		$recordId = (int) (count($cid) ? $cid[0] : $this->input->getInt($urlVar));
-		$checkin = property_exists($table, 'checked_out');
+		$checkin = property_exists($table, $table->getColumnAlias('checked_out'));
 
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))
@@ -617,11 +617,10 @@ class JControllerForm extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app   = JFactory::getApplication();
-		$lang  = JFactory::getLanguage();
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data  = $this->input->post->get('jform', array(), 'array');
-		$checkin = property_exists($table, 'checked_out');
+		$checkin = property_exists($table, $table->getColumnAlias('checked_out'));
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
 

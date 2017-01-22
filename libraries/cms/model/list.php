@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Model class for handling lists of items.
  *
@@ -375,7 +377,7 @@ class JModelList extends JModelLegacy
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
 		// Handle the optional arguments.
-		$options['control'] = JArrayHelper::getValue($options, 'control', false);
+		$options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
 
 		// Create a signature hash.
 		$hash = md5($source . serialize($options));
@@ -639,7 +641,7 @@ class JModelList extends JModelLegacy
 		JPluginHelper::importPlugin($group);
 
 		// Trigger the form preparation event.
-		$results = JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+		JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.CMS
+ * @package     Joomla.Libraries
  * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform CMS Interface
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 interface JControllerInterface
 {
@@ -23,7 +23,7 @@ interface JControllerInterface
 	 *
 	 * @return  mixed   The value returned by the called method.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
