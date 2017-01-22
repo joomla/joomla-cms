@@ -18,15 +18,62 @@ use Joomla\Registry\Registry;
  */
 class TagsViewTags extends JViewLegacy
 {
+	/**
+	 * The model state
+	 *
+	 * @var    JObject
+	 * @since  3.1
+	 */
 	protected $state;
 
+	/**
+	 * The list of tags
+	 *
+	 * @var    array|false
+	 * @since  3.1
+	 */
 	protected $items;
 
+	/**
+	 * UNUSED PROPERTY
+	 *
+	 * @var         array|null
+	 * @since       3.1
+	 * @deprecated  4.0
+	 */
 	protected $item;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var    JPagination
+	 * @since  3.1
+	 */
 	protected $pagination;
 
-	protected $params;
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  3.1
+	 */
+	protected $params = null;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
+	 * The logged in user
+	 *
+	 * @var    JUser|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $user = null;
 
 	/**
 	 * Execute and display a template script.
@@ -176,12 +223,12 @@ class TagsViewTags extends JViewLegacy
 
 		if ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		// If this is not a single tag menu item, set the page title to the tag titles
@@ -230,16 +277,16 @@ class TagsViewTags extends JViewLegacy
 
 				if ($itemElement->metakey)
 				{
-					$this->document->setMetadata('keywords', $this->tag->metakey);
+					$this->document->setMetaData('keywords', $this->tag->metakey);
 				}
 				elseif ($this->params->get('menu-meta_keywords'))
 				{
-					$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+					$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 				}
 
 				if ($this->params->get('robots'))
 				{
-					$this->document->setMetadata('robots', $this->params->get('robots'));
+					$this->document->setMetaData('robots', $this->params->get('robots'));
 				}
 
 				if ($app->get('MetaAuthor') == '1')
@@ -253,7 +300,7 @@ class TagsViewTags extends JViewLegacy
 				{
 					if ($v)
 					{
-						$this->document->setMetadata($k, $v);
+						$this->document->setMetaData($k, $v);
 					}
 				}
 			}

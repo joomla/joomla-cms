@@ -17,7 +17,8 @@ defined('_JEXEC') or die;
 class ContentViewArticles extends JViewLegacy
 {
 	/**
-	 * The item authors
+	 * List of authors. Each stdClass has two properties - value and text, containing the user id and user's name
+	 * respectively
 	 *
 	 * @var  stdClass
 	 */
@@ -40,7 +41,7 @@ class ContentViewArticles extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var  JObject
 	 */
 	protected $state;
 
@@ -64,6 +65,14 @@ class ContentViewArticles extends JViewLegacy
 	 * @var  string
 	 */
 	protected $sidebar;
+
+	/**
+	 * Array used for displaying the levels filter
+	 *
+	 * @return  stdClass[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $f_levels;
 
 	/**
 	 * Display the view

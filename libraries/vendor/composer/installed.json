@@ -783,53 +783,6 @@
         ]
     },
     {
-        "name": "joomla/event",
-        "version": "dev-2.0-dev",
-        "version_normalized": "dev-2.0-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joomla-framework/event.git",
-            "reference": "f9767be70301a7208eb286da211cfeefbcebc95a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/event/zipball/f9767be70301a7208eb286da211cfeefbcebc95a",
-            "reference": "f9767be70301a7208eb286da211cfeefbcebc95a",
-            "shasum": ""
-        },
-        "require": {
-            "php": "^5.5.9|~7.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.8|~5.0",
-            "squizlabs/php_codesniffer": "1.*"
-        },
-        "time": "2016-12-18T15:29:47+00:00",
-        "type": "joomla-package",
-        "extra": {
-            "branch-alias": {
-                "dev-2.0-dev": "2.0-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "Joomla\\Event\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "description": "Joomla Event Package",
-        "homepage": "https://github.com/joomla-framework/event",
-        "keywords": [
-            "event",
-            "framework",
-            "joomla"
-        ]
-    },
-    {
         "name": "joomla/image",
         "version": "1.3.0",
         "version_normalized": "1.3.0.0",
@@ -877,72 +830,6 @@
             "framework",
             "image",
             "joomla"
-        ]
-    },
-    {
-        "name": "joomla/session",
-        "version": "dev-2.0-dev",
-        "version_normalized": "dev-2.0-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joomla-framework/session.git",
-            "reference": "129235e067aaee9c7d81f51dcb4606a051246cd7"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/session/zipball/129235e067aaee9c7d81f51dcb4606a051246cd7",
-            "reference": "129235e067aaee9c7d81f51dcb4606a051246cd7",
-            "shasum": ""
-        },
-        "require": {
-            "php": "^5.5.9|~7.0"
-        },
-        "require-dev": {
-            "joomla/database": "~2.0@dev",
-            "joomla/event": "~2.0@dev",
-            "joomla/input": "~2.0@dev",
-            "joomla/test": "~1.0",
-            "paragonie/random_compat": "~1.0|~2.0",
-            "phpunit/dbunit": "~1.3",
-            "phpunit/phpunit": "~4.8|~5.0",
-            "squizlabs/php_codesniffer": "1.*"
-        },
-        "suggest": {
-            "ext-apc": "To use APC cache as a session handler",
-            "ext-apcu": "To use APCu cache as a session handler",
-            "ext-memcache": "To use a Memcache server as a session handler",
-            "ext-memcached": "To use a Memcached server as a session handler",
-            "ext-redis": "To use a Redis server as a session handler",
-            "ext-wincache": "To use WinCache as a session handler",
-            "ext-xcache": "To use XCache as a session handler",
-            "joomla/database": "Install joomla/database if you want to use Database session storage.",
-            "joomla/event": "The joomla/event package is required to use Joomla\\Session\\Session.",
-            "joomla/input": "The joomla/input package is required to use Address and Forwarded session validators.",
-            "paragonie/random_compat": "The paragonie/random_compat package is required to use Joomla\\Session\\Session on PHP 5.x."
-        },
-        "time": "2016-12-18T16:23:40+00:00",
-        "type": "joomla-package",
-        "extra": {
-            "branch-alias": {
-                "dev-2.0-dev": "2.x-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "Joomla\\Session\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "description": "Joomla Session Package",
-        "homepage": "https://github.com/joomla-framework/session",
-        "keywords": [
-            "framework",
-            "joomla",
-            "session"
         ]
     },
     {
@@ -1250,5 +1137,118 @@
         ],
         "description": "Symfony Yaml Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "joomla/event",
+        "version": "dev-2.0-dev",
+        "version_normalized": "dev-2.0-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/event.git",
+            "reference": "f9767be70301a7208eb286da211cfeefbcebc95a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/event/zipball/f9767be70301a7208eb286da211cfeefbcebc95a",
+            "reference": "f9767be70301a7208eb286da211cfeefbcebc95a",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.5.9|~7.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.8|~5.0",
+            "squizlabs/php_codesniffer": "1.*"
+        },
+        "time": "2016-12-18T15:29:47+00:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-2.0-dev": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Event\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Event Package",
+        "homepage": "https://github.com/joomla-framework/event",
+        "keywords": [
+            "event",
+            "framework",
+            "joomla"
+        ]
+    },
+    {
+        "name": "joomla/session",
+        "version": "dev-2.0-dev",
+        "version_normalized": "dev-2.0-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/session.git",
+            "reference": "129235e067aaee9c7d81f51dcb4606a051246cd7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/session/zipball/129235e067aaee9c7d81f51dcb4606a051246cd7",
+            "reference": "129235e067aaee9c7d81f51dcb4606a051246cd7",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.5.9|~7.0"
+        },
+        "require-dev": {
+            "joomla/database": "~2.0@dev",
+            "joomla/event": "~2.0@dev",
+            "joomla/input": "~2.0@dev",
+            "joomla/test": "~1.0",
+            "paragonie/random_compat": "~1.0|~2.0",
+            "phpunit/dbunit": "~1.3",
+            "phpunit/phpunit": "~4.8|~5.0",
+            "squizlabs/php_codesniffer": "1.*"
+        },
+        "suggest": {
+            "ext-apc": "To use APC cache as a session handler",
+            "ext-apcu": "To use APCu cache as a session handler",
+            "ext-memcache": "To use a Memcache server as a session handler",
+            "ext-memcached": "To use a Memcached server as a session handler",
+            "ext-redis": "To use a Redis server as a session handler",
+            "ext-wincache": "To use WinCache as a session handler",
+            "ext-xcache": "To use XCache as a session handler",
+            "joomla/database": "Install joomla/database if you want to use Database session storage.",
+            "joomla/event": "The joomla/event package is required to use Joomla\\Session\\Session.",
+            "joomla/input": "The joomla/input package is required to use Address and Forwarded session validators.",
+            "paragonie/random_compat": "The paragonie/random_compat package is required to use Joomla\\Session\\Session on PHP 5.x."
+        },
+        "time": "2016-12-18T16:23:40+00:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-2.0-dev": "2.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Session\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Session Package",
+        "homepage": "https://github.com/joomla-framework/session",
+        "keywords": [
+            "framework",
+            "joomla",
+            "session"
+        ]
     }
 ]

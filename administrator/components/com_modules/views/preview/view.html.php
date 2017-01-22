@@ -17,6 +17,13 @@ defined('_JEXEC') or die;
 class ModulesViewPreview extends JViewLegacy
 {
 	/**
+	 * The editor instance
+	 *
+	 * @var  JEditor
+	 */
+	protected $editor;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.

@@ -40,9 +40,17 @@ class FinderViewFilter extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var  JObject
 	 */
 	protected $state;
+
+	/**
+	 * The total number of indexed items
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $total;
 
 	/**
 	 * Method to display the view.

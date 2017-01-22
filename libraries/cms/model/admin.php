@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Prototype admin model.
@@ -190,7 +191,7 @@ abstract class JModelAdmin extends JModelForm
 	{
 		// Sanitize ids.
 		$pks = array_unique($pks);
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 
 		// Remove any values of zero.
 		if (array_search(0, $pks, true))
@@ -223,7 +224,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if ($this->batch_copymove && !empty($commands[$this->batch_copymove]))
 		{
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+			$cmd = ArrayHelper::getValue($commands, 'move_copy', 'c');
 
 			if ($cmd == 'c')
 			{
@@ -679,12 +680,14 @@ abstract class JModelAdmin extends JModelForm
 			$pks = array((int) $this->getState($this->getName() . '.id'));
 		}
 
+		$checkedOutField = $table->getColumnAlias('checked_out');
+
 		// Check in all items.
 		foreach ($pks as $pk)
 		{
 			if ($table->load($pk))
 			{
-				if ($table->checked_out > 0)
+				if ($table->{$checkedOutField} > 0)
 				{
 					if (!parent::checkin($pk))
 					{
@@ -888,7 +891,7 @@ abstract class JModelAdmin extends JModelForm
 
 		// Convert to the JObject before adding other data.
 		$properties = $table->getProperties(1);
-		$item = JArrayHelper::toObject($properties, 'JObject');
+		$item = ArrayHelper::toObject($properties, 'JObject');
 
 		if (property_exists($item, 'params'))
 		{
@@ -1192,7 +1195,7 @@ abstract class JModelAdmin extends JModelForm
 			$associations = $data['associations'];
 
 			// Unset any invalid associations
-			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
+			$associations = ArrayHelper::toInteger($associations);
 
 			// Unset any invalid associations
 			foreach ($associations as $tag => $id)

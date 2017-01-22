@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Abstract Fields Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 abstract class FieldsPlugin extends JPlugin
 {
@@ -22,7 +22,7 @@ abstract class FieldsPlugin extends JPlugin
 	 *
 	 * @return  string[][]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onCustomFieldsGetTypes()
 	{
@@ -75,7 +75,7 @@ abstract class FieldsPlugin extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onCustomFieldsPrepareField($context, $item, $field)
 	{
@@ -154,15 +154,13 @@ abstract class FieldsPlugin extends JPlugin
 			$node->setAttribute('disabled', 'true');
 		}
 
-		// Set the specific field parameters
-		foreach ($field->fieldparams->toArray() as $key => $param)
-		{
-			if ($param === '')
-			{
-				// If the param is empty get it from the plugin parameters
-				$param = $this->params->get($key);
-			}
+		// Combine the two params
+		$params = clone $this->params;
+		$params->merge($field->fieldparams);
 
+		// Set the specific field parameters
+		foreach ($params->toArray() as $key => $param)
+		{
 			if (is_array($param))
 			{
 				// Multidimensional arrays (eg. list options) can't be transformed properly
@@ -196,7 +194,7 @@ abstract class FieldsPlugin extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentPrepareForm(JForm $form, $data)
 	{
@@ -242,7 +240,7 @@ abstract class FieldsPlugin extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function isTypeSupported($type)
 	{

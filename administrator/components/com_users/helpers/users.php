@@ -290,7 +290,7 @@ class UsersHelper
 	 *
 	 * @return  string|null  The new section
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function validateSection($section)
 	{

@@ -16,8 +16,18 @@ defined('_JEXEC') or die;
  */
 class ContenthistoryViewPreview extends JViewLegacy
 {
-	protected $items;
+	/**
+	 * An array of items
+	 *
+	 * @var  stdClass|false
+	 */
+	protected $item;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
 
 	/**

@@ -17,35 +17,64 @@ defined('_JEXEC') or die;
 class LanguagesViewInstalled extends JViewLegacy
 {
 	/**
-	 * @var object client object.
-	 * @deprecated 4.0
-	 */
-	protected $client = null;
-
-	/**
-	 * @var boolean|JException True, if FTP settings should be shown, or an exception.
+	 * True, if FTP settings should be shown, or an exception.
+	 *
+	 * @var boolean|JException
 	 */
 	protected $ftp = null;
 
 	/**
-	 * @var string option name.
+	 * Option (component) name
+	 *
+	 * @var string
 	 */
 	protected $option = null;
 
 	/**
-	 * @var object pagination information.
+	 * The pagination object
+	 *
+	 * @var  JPagination
 	 */
-	protected $pagination = null;
+	protected $pagination;
 
 	/**
-	 * @var array languages information.
+	 * Languages information
+	 *
+	 * @var array
 	 */
 	protected $rows = null;
 
 	/**
-	 * @var object user object
+	 * The model state
+	 *
+	 * @var    JObject
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $user = null;
+	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var    JForm
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $activeFilters;
+
+	/**
+	 * The sidebar markup
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $sidebar;
 
 	/**
 	 * Display the view.

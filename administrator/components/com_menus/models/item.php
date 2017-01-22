@@ -848,7 +848,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Get the list of all view levels
 	 *
-	 * @return  array|bool  An array of all view levels (id, title).
+	 * @return  stdClass[]|bool  An array of all view levels (id, title).
 	 *
 	 * @since   3.4
 	 */
@@ -1007,7 +1007,7 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @return  stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getMenuType($menutype)
 	{

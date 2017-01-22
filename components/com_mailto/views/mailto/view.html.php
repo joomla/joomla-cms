@@ -42,11 +42,11 @@ class MailtoViewMailto extends JViewLegacy
 	/**
 	 * Get the form data
 	 *
-	 * @return  object
+	 * @return  object|false
 	 *
 	 * @since  1.5
 	 */
-	protected function &getData()
+	protected function getData()
 	{
 		$user = JFactory::getUser();
 		$app  = JFactory::getApplication();
