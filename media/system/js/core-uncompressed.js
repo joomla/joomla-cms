@@ -49,7 +49,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * Default function. Usually would be overriden by the component
 	 */
 	Joomla.submitbutton = function( task ) {
-		var form = document.querySelectorAll( '.js-submit-button' );
+		var form = document.querySelectorAll( 'form.form-validate' );
 
 		if (form) {
 			for (var i = 0, j = form.length; i < j; i++) {

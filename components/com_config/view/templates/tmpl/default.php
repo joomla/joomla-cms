@@ -14,7 +14,7 @@ JHtml::_('behavior.keepalive');
 $user = JFactory::getUser();
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="js-submit-button form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
 
 	<div class="row-fluid">
 		<!-- Begin Content -->

@@ -15,7 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="level-form" class="js-submit-button form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_users&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="level-form" class="form-validate form-horizontal">
 	<fieldset>
 		<legend><?php echo JText::_('COM_USERS_LEVEL_DETAILS'); ?></legend>
 		<div class="control-group">

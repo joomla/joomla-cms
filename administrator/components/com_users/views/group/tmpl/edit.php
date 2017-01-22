@@ -16,7 +16,7 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="js-submit-button form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate form-horizontal">
 	<fieldset>
 		<legend><?php echo JText::_('COM_USERS_USERGROUP_DETAILS'); ?></legend>
 		<div class="control-group">

@@ -41,7 +41,7 @@ JFactory::getDocument()->addScriptDeclaration('
 ');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="js-submit-button form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">
 	<div class="row-fluid">
 		<div class="span6">
 			<fieldset>

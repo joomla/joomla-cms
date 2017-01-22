@@ -24,7 +24,7 @@ JText::script('NOTICE');
 JText::script('MESSAGE');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="js-submit-button form-validate" data-cancel-task="config.cancel.application"  data-skip-permissions="true">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate" data-cancel-task="config.cancel.application"  data-skip-permissions="true">
 	<div class="row-fluid">
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="span2">
