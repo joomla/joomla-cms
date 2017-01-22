@@ -376,8 +376,6 @@ abstract class JModelForm extends JModelLegacy
 			$data['tags'] = $data['metadata']['tags'];
 		}
 
-		$dispatcher->trigger('onAfterDataValidation', array($form, &$data));
-
 		return $data;
 	}
 }
