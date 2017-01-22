@@ -164,6 +164,7 @@ abstract class JLoader
 		{
 			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
 		}
+
 		return self::$namespaces[$type];
 	}
 
@@ -184,10 +185,10 @@ abstract class JLoader
 		{
 			// Setup some variables.
 			$success = false;
-			$parts = explode('.', $key);
-			$class = array_pop($parts);
-			$base = (!empty($base)) ? $base : __DIR__;
-			$path = str_replace('.', DIRECTORY_SEPARATOR, $key);
+			$parts   = explode('.', $key);
+			$class   = array_pop($parts);
+			$base    = (!empty($base)) ? $base : __DIR__;
+			$path    = str_replace('.', DIRECTORY_SEPARATOR, $key);
 
 			// Handle special case for helper classes.
 			if ($class == 'helper')
