@@ -20,20 +20,20 @@ defined('_JEXEC') or die;
 abstract class JDispatcher implements JDispatcherInterface
 {
 	/**
-	 * Router this rule belongs to
+	 * The publicly available JApplication
 	 *
-	 * @var    JApplicationCms
+	 * @var     JApplicationCms
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public $app;
 
 	/**
-	 * Constructor.
+	 * Constructor for JDispatcher
 	 *
-	 * @param  JApplicationCms  $app
+	 * @param   JApplicationCms  $app  The JApplication for the dispatcher
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(JApplicationCms $app)
 	{

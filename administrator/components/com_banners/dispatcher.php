@@ -9,8 +9,18 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Dispatcher class for com_banners
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 class BannersDispatcher extends JDispatcher
 {
+	/**
+	 * Dispatch method for com_banners
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function dispatch()
 	{
 		JHtml::_('behavior.tabstate');
