@@ -29,51 +29,26 @@ class PlgSystemFields extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Validated fields data is stored here.
-	 *
-	 * @var    array
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private $validFieldData = array();
-
-	/**
-	 * The onAfterDataValidation event.
-	 *
-	 * @param   JForm  $form  The form
-	 * @param   array  $data  The validated data
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function onAfterDataValidation($form, $data)
-	{
-		if (!empty($data['params']))
-		{
-			// Store the validated data in the plugin for use after the save was successful
-			$this->validFieldData = $data['params'];
-		}
-	}
-
-	/**
 	 * The save event.
 	 *
 	 * @param   string    $context  The context
-	 * @param   stdClass  $item     The item
-	 * @param   boolean   $isNew    Is new
+	 * @param   JTable    $item     The table
+	 * @param   boolean   $isNew    Is new item
+	 * @param   array     $data     The validated data
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentAfterSave($context, $item, $isNew)
+	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
-		if (!$this->validFieldData)
+		if (!$data || !is_array($data) || empty($data['params']))
 		{
 			return true;
 		}
 
-		$parts = FieldsHelper::extract($context);
+		$fieldsData = $data['params'];
+		$parts      = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -96,7 +71,7 @@ class PlgSystemFields extends JPlugin
 		foreach ($fieldsObjects as $field)
 		{
 			// Only save the fields with the alias from the data
-			if (!key_exists($field->alias, $this->validFieldData))
+			if (!key_exists($field->alias, $fieldsData))
 			{
 				continue;
 			}
@@ -114,7 +89,7 @@ class PlgSystemFields extends JPlugin
 			}
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $this->validFieldData[$field->alias]);
+			$model->setFieldValue($field->id, $context, $id, $fieldsData[$field->alias]);
 		}
 
 		return true;
