@@ -16,8 +16,6 @@ defined('_JEXEC') or die;
  */
 class ContentViewArticle extends JViewLegacy
 {
-	protected $jLayout;
-
 	/**
 	 * Execute and display a template script.
 	 *
@@ -27,8 +25,6 @@ class ContentViewArticle extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->jLayout = new JLayoutFile('article', JPATH_COMPONENT . '/layouts/article');
-
 		$app   = JFactory::getApplication();
 		$user  = JFactory::getUser();
 		$input = $app->input;
@@ -174,25 +170,8 @@ class ContentViewArticle extends JViewLegacy
 
 		$this->jLayout->set('params', $params);
 
-		$file = $this->getTemplateFile();
-
-		if ($file)
-		{
-			// Fallback to old system
-			return parent::display($tpl);
-		}
-
-		echo $this->jLayout->render();
+		parent::display();
 	}
-
-	public function render($layout = null)
-	{
-		$layout = $layout ?: 'article';
-
-		$this->jLayout = new JLayoutFile($layout, JPATH_COMPONENT . '/layouts/article');
-
-	}
-
 
 	/**
 	 * Prepares the document.

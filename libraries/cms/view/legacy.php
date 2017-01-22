@@ -211,6 +211,8 @@ class JViewLegacy extends JObject
 		}
 
 		$this->baseurl = JUri::base(true);
+
+		$this->jLayout = new JLayoutFile($this->getName(), JPATH_COMPONENT . '/layouts/' . $this->getName());
 	}
 
 	/**
@@ -225,25 +227,50 @@ class JViewLegacy extends JObject
 	 */
 	public function display($tpl = null)
 	{
-		// Load jLayout data here into the object properties
-		if ($this->jLayout != null)
-		{
-			$data = $this->jLayout->getData();
+		$file = $this->getTemplateFile();
 
-			foreach ($data as $key => $value)
+		if (!$file)
+		{
+			$this->render();
+		}
+		else
+		{
+			// Fallback to the old
+			$result = $this->loadTemplate($tpl);
+
+			if ($result instanceof Exception)
 			{
-				$this->$key = $value;
+				return $result;
 			}
+
+			echo $result;
 		}
+	}
 
-		$result = $this->loadTemplate($tpl);
+	/**
+	 * Render the JLayout
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function render()
+	{
+		echo $this->jLayout->render();
+	}
 
-		if ($result instanceof Exception)
-		{
-			return $result;
-		}
-
-		echo $result;
+	/**
+	 * George likes to apologise to everyone who has to look at this. But b/c is a sad sad thing.
+	 *
+	 * @param   string  $key  The value to check
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __get($key)
+	{
+		return $this->jLayout->get($key, null);
 	}
 
 	/**
