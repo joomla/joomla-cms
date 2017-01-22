@@ -19,4 +19,4 @@ JLoader::registerAlias('JData',                 '\\Joomla\\Data\\DataObject', '4
 JLoader::registerAlias('JDataSet',              '\\Joomla\\Data\\DataSet', '4.0');
 JLoader::registerAlias('JDataDumpable',         '\\Joomla\\Data\\DumpableInterface', '4.0');
 
-JLoader::registerAlias('JControllerLegacy',     '\\Joomla\\Controller\\Controller', '4.0');
+JLoader::registerAlias('JControllerLegacy',     '\\Joomla\\Cms\\Controller\\Controller', '4.0');
