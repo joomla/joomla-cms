@@ -160,7 +160,7 @@ abstract class JLoader
 	 */
 	public static function getNamespaces($type = 'psr0')
 	{
-		if ($type != 'psr0' && $type != 'psr4')
+		if ($type !== 'psr0' && $type !== 'psr4')
 		{
 			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
 		}
