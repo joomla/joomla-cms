@@ -135,6 +135,13 @@
 				}
 			});
 
+			jQuery('#sidebar-wrapper').hover(function(){     
+		        jQuery('#wrapper').removeClass('closed');    
+		    },     
+		    function(){    
+		        jQuery('#wrapper').addClass('closed');     
+		    });
+
 			/** Accessibility */
 			var allLiEl = sidebar.querySelectorAll('ul[role="menubar"] li');
 			for (var i = 0; i < allLiEl.length; i++) {

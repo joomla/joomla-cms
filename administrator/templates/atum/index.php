@@ -97,7 +97,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 				<div class="text-center">
 
 					<?php if (!$hidden) : ?>
-					<div class="menu-collapse">
+					<div class="menu-collapse hidden-lg-up">
 						<a id="menu-collapse" class="menu-toggle" href="#">
 							<span></span>
 						</a>
