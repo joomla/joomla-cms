@@ -10,7 +10,9 @@
             "php": "5.5.9"
         },
         "preferred-install": {
-            "joomla/crypt": "dist"
+            "joomla/crypt": "dist",
+            "joomla/event": "dist",
+            "joomla/session": "dist"
         },
         "vendor-dir": "libraries/vendor"
     },
