@@ -16,6 +16,7 @@ $lang = JFactory::getLanguage();
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
+$doc->addScriptVersion(JUri::root() . 'media/vendor/flying-focus-a11y/js/flying-focus.min.js');
 
 // Add Stylesheets
 $doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.min.css');

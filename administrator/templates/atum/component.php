@@ -17,6 +17,7 @@ $this->direction = $doc->direction;
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+$doc->addScriptVersion(JUri::root() . 'media/vendor/flying-focus-a11y/js/flying-focus.min.js');
 
 // Add Stylesheets
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', array('version' => 'auto', 'relative' => true));
