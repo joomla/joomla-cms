@@ -19,6 +19,8 @@ class BannersDispatcher extends JDispatcher
 	/**
 	 * Dispatch method for com_banners
 	 *
+	 * @return  void
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function dispatch()

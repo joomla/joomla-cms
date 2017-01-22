@@ -20,13 +20,13 @@ defined('_JEXEC') or die;
 abstract class JDispatcher implements JDispatcherInterface
 {
 	/**
-	 * The publicly available JApplication
+	 * The JApplication instance
 	 *
 	 * @var     JApplicationCms
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public $app;
+	private $app;
 
 	/**
 	 * Constructor for JDispatcher
@@ -38,10 +38,6 @@ abstract class JDispatcher implements JDispatcherInterface
 	public function __construct(JApplicationCms $app)
 	{
 		$this->app = $app;
-
-		// Load common and local language files.
-		$lang = JFactory::getLanguage();
-		$lang->load($app->scope, JPATH_BASE, null, false, true) || $lang->load($app->scope, JPATH_COMPONENT, null, false, true);
 	}
 
 	/**
@@ -53,11 +49,17 @@ abstract class JDispatcher implements JDispatcherInterface
 	 */
 	public function dispatch()
 	{
+		// Check the user has permission to access this component if in the backend
 		if ($this->app->isClient('admin') && !JFactory::getUser()->authorise('core.manage', $this->app->scope))
 		{
 			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
+		// Load common and local language files.
+		$lang = JFactory::getLanguage();
+		$lang->load($this->app->scope, JPATH_BASE, null, false, true) || $lang->load($this->app->scope, JPATH_COMPONENT, null, false, true);
+
+		// Execute the task for this component
 		$controller = JControllerLegacy::getInstance(ucwords(substr($this->app->scope, 4)));
 		$controller->execute($this->app->input->get('task'));
 		$controller->redirect();

@@ -431,13 +431,13 @@ class JComponentHelper
 	/**
 	 * Dispatch the component.
 	 *
-	 * @param   object  $dispatcher  The dispatcher class.
+	 * @param   JDispatcherInterface  $dispatcher  The dispatcher class.
 	 *
 	 * @return  string  The component output
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function dispatchComponent($dispatcher)
+	protected static function dispatchComponent(JDispatcherInterface $dispatcher)
 	{
 		ob_start();
 		$dispatcher->dispatch();
