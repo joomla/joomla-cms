@@ -396,12 +396,12 @@ abstract class JLoader
 	 *
 	 * @throws  RuntimeException
 	 *
-	 * @note    This function will be changed in J4 to support PSR-4 namespace registering.
+	 * @note    The default argument of $type will be changed in J4 to be 'psr4'
 	 * @since   12.3
 	 */
 	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr0')
 	{
-		if ($type != 'psr0' && $type != 'psr4')
+		if ($type !== 'psr0' && $type !== 'psr4')
 		{
 			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
 		}
