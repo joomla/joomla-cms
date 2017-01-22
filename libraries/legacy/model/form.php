@@ -344,10 +344,7 @@ abstract class JModelForm extends JModelLegacy
 		JPluginHelper::importPlugin($this->events_map['validate']);
 
 		$dispatcher = JEventDispatcher::getInstance();
-
-		// "onUserBeforeDataValidation" is deprecated, use the "onBeforeDataValidation" event instead.
 		$dispatcher->trigger('onUserBeforeDataValidation', array($form, &$data));
-		$dispatcher->trigger('onBeforeDataValidation', array($form, &$data));
 
 		// Filter and validate the form data.
 		$data = $form->filter($data);
