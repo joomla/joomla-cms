@@ -31,10 +31,10 @@ class PlgSystemFields extends JPlugin
 	/**
 	 * The save event.
 	 *
-	 * @param   string    $context  The context
-	 * @param   JTable    $item     The table
-	 * @param   boolean   $isNew    Is new item
-	 * @param   array     $data     The validated data
+	 * @param   string   $context  The context
+	 * @param   JTable   $item     The table
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
 	 *
 	 * @return  boolean
 	 *
