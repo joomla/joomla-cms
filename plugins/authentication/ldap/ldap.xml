@@ -36,6 +36,7 @@
 					min="1"
 					max="65535"
 					default="389"
+					hint="389"
 					validate="number"
 					filter="integer"
 					size="5"
