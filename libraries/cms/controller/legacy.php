@@ -191,20 +191,39 @@ class JControllerLegacy implements JControllerInterface
 				break;
 
 			case 'view':
-				if (!empty($parts['type']))
+				if (empty($parts['type']))
 				{
-					$parts['type'] = '.' . $parts['type'];
-				}
-				else
-				{
-					$parts['type'] = '';
+					$parts['type'] = 'view';
 				}
 
-				$filename = strtolower($parts['name'] . '/view' . $parts['type'] . '.php');
+				$filename = strtolower($parts['name'] . '/' . $parts['type'] . '.php');
 				break;
 		}
 
 		return $filename;
+	}
+
+	/**
+	 * Fallback for the old view names
+	 *
+	 * @param   array  $parts  An associative array of filename information. Optional.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function createOldFilename($parts)
+	{
+		if (!empty($parts['type']))
+		{
+			$parts['type'] = '.' . $parts['type'];
+		}
+		else
+		{
+			$parts['type'] = '';
+		}
+
+		return strtolower($parts['name'] . '/view' . $parts['type'] . '.php');
 	}
 
 	/**
@@ -574,6 +593,12 @@ class JControllerLegacy implements JControllerInterface
 		{
 			jimport('joomla.filesystem.path');
 			$path = JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+
+			// Check for the old file
+			if (!$path)
+			{
+				$path = JPath::find($this->paths['view'], $this->createOldFilename(array('name' => $viewName, 'type' => $viewType)));
+			}
 
 			if (!$path)
 			{
