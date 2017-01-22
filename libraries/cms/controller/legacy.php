@@ -212,7 +212,7 @@ class JControllerLegacy implements JControllerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function createOldFilename($parts)
+	protected static function createOldFileName($parts)
 	{
 		if (!empty($parts['type']))
 		{
@@ -597,7 +597,7 @@ class JControllerLegacy implements JControllerInterface
 			// Check for the old file
 			if (!$path)
 			{
-				$path = JPath::find($this->paths['view'], $this->createOldFilename(array('name' => $viewName, 'type' => $viewType)));
+				$path = JPath::find($this->paths['view'], $this->createOldFileName(array('name' => $viewName, 'type' => $viewType)));
 			}
 
 			if (!$path)
