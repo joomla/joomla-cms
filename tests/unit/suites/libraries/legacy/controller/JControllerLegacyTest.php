@@ -69,7 +69,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::addModelPath
 	 */
-	public function itestAddModelPath()
+	public function testAddModelPath()
 	{
 		$path = JPath::clean(JPATH_ROOT . '/addmodelpath');
 		JControllerLegacy::addModelPath($path);
@@ -85,7 +85,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::createFileName
 	 */
-	public function itestCreateFileName()
+	public function testCreateFileName()
 	{
 		$parts = array('name' => 'test');
 
@@ -121,7 +121,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::__construct
 	 */
-	public function itestConstructer()
+	public function testConstructer()
 	{
 		$controller = new TestTestController;
 		$this->assertEquals(
@@ -136,7 +136,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::__construct
 	 */
-	public function itestConstructerWithInjectedName()
+	public function testConstructerWithInjectedName()
 	{
 		$name = 'foobar';
 		$config = array(
@@ -158,7 +158,7 @@ class JControllerLegacyTest extends TestCase
 	 * @note     addPath call JPath::check which will exit if the path is out of bounds.
 	 *           If execution halts for some reason, a bad path could be the culprit.
 	 */
-	public function itestAddPath()
+	public function testAddPath()
 	{
 		$path = JPATH_ROOT . '/foobar';
 
@@ -182,7 +182,7 @@ class JControllerLegacyTest extends TestCase
 	 * @note     addPath call JPath::check which will exit if the path is out of bounds.
 	 *           If execution halts for some reason, a bad path could be the culprit.
 	 */
-	public function itestAddViewPath()
+	public function testAddViewPath()
 	{
 		$this->class->addViewPath(JPATH_ROOT . '/views');
 
@@ -216,7 +216,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::getTask
 	 */
-	public function itestGetTask()
+	public function testGetTask()
 	{
 		TestReflection::setValue($this->class, 'task', 'test');
 
@@ -228,7 +228,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::getTasks
 	 */
-	public function itestGetTasks()
+	public function testGetTasks()
 	{
 		$class = new TestController;
 
@@ -240,7 +240,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::setMessage
 	 */
-	public function itestSetMessage()
+	public function testSetMessage()
 	{
 		$this->class->setMessage('Hello World');
 
@@ -258,7 +258,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::setRedirect
 	 */
-	public function itestSetRedirectWithUrlOnly()
+	public function testSetRedirectWithUrlOnly()
 	{
 		$this->class->setRedirect('index.php?option=com_foobar');
 
@@ -272,7 +272,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::setRedirect
 	 */
-	public function itestSetRedirectWithUrlAndMessageWithoutType()
+	public function testSetRedirectWithUrlAndMessageWithoutType()
 	{
 		$this->class->setRedirect('index.php?option=com_foobar', 'Hello World');
 
@@ -286,7 +286,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::setRedirect
 	 */
-	public function itestSetRedirectWithUrlAndMessageWithType()
+	public function testSetRedirectWithUrlAndMessageWithType()
 	{
 		$this->class->setRedirect('index.php?option=com_foobar', 'Morning Universe', 'notice');
 
@@ -301,7 +301,7 @@ class JControllerLegacyTest extends TestCase
 	 * @covers   JControllerLegacy::setRedirect
 	 * @uses     JControllerLegacy::setMessage
 	 */
-	public function itestSetRedirectWithUrlAndMessageWithoutTypeWithPreviouslySetMessage()
+	public function testSetRedirectWithUrlAndMessageWithoutTypeWithPreviouslySetMessage()
 	{
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar');
@@ -317,7 +317,7 @@ class JControllerLegacyTest extends TestCase
 	 * @covers   JControllerLegacy::setRedirect
 	 * @uses     JControllerLegacy::setMessage
 	 */
-	public function itestSetRedirectWithMessageOverwritesPreviousMessage()
+	public function testSetRedirectWithMessageOverwritesPreviousMessage()
 	{
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye all');
@@ -332,7 +332,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::setRedirect
 	 */
-	public function itestSetRedirectWithUrlMessageAndMessageTypeOverwritesPreviouslySetMessageAndMessageType()
+	public function testSetRedirectWithUrlMessageAndMessageTypeOverwritesPreviouslySetMessageAndMessageType()
 	{
 		$this->class->setMessage('Hello folks', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye, Folks');
@@ -347,7 +347,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::setRedirect
 	 */
-	public function itestSetRedirectWithUrlMessageAndMessageTypeOverwritesPreviouslySetMessage()
+	public function testSetRedirectWithUrlMessageAndMessageTypeOverwritesPreviouslySetMessage()
 	{
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye all', 'notice');
@@ -362,7 +362,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::setRedirect
 	 */
-	public function itestSetRedirectWithUrlWithoutMessgeAndWithMessageType()
+	public function testSetRedirectWithUrlWithoutMessgeAndWithMessageType()
 	{
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar', null, 'notice');
@@ -377,7 +377,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::setRedirect
 	 */
-	public function itestSetRedirectWithPreviouslySetMessageAndMessageType()
+	public function testSetRedirectWithPreviouslySetMessageAndMessageType()
 	{
 		$this->class->setMessage('Hello folks', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar');
@@ -392,7 +392,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::setRedirect
 	 */
-	public function itestSetRedirectWithUrlMessageAndMessageTypeOverwritesPreviouslySetMessageAndType()
+	public function testSetRedirectWithUrlMessageAndMessageTypeOverwritesPreviouslySetMessageAndType()
 	{
 		$this->class->setMessage('Hello folks', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye, folks', 'notice');
@@ -407,7 +407,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::setRedirect
 	 */
-	public function itestSetRedirectWithUrlNoMessageAndMessageTypeWithPreviouslySetMessage()
+	public function testSetRedirectWithUrlNoMessageAndMessageTypeWithPreviouslySetMessage()
 	{
 		$this->class->setMessage('Folks?', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar', null, 'question');
