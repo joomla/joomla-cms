@@ -16,15 +16,56 @@ defined('_JEXEC') or die;
  */
 class RedirectViewLinks extends JViewLegacy
 {
+	/**
+	 * True if "System - Redirect Plugin" is enabled
+	 *
+	 * @var  boolean
+	 */
 	protected $enabled;
 
+	/**
+	 * True if "Collect URLs" is enabled
+	 *
+	 * @var  boolean
+	 */
 	protected $collect_urls_enabled;
 
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var    JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var    JForm
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $activeFilters;
 
 	/**
 	 * Display the view.

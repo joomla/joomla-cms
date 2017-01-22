@@ -388,7 +388,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2016-12-18 15:29:47"
+            "time": "2016-12-18T15:29:47+00:00"
         },
         {
             "name": "joomla/filter",
@@ -651,7 +651,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2016-12-18 16:23:40"
+            "time": "2016-12-18T16:23:40+00:00"
         },
         {
             "name": "joomla/string",

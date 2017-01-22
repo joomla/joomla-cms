@@ -33,7 +33,7 @@ class CategoriesViewCategory extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var  JObject
 	 */
 	protected $state;
 
@@ -50,6 +50,14 @@ class CategoriesViewCategory extends JViewLegacy
 	 * @var  JObject
 	 */
 	protected $canDo;
+
+	/**
+	 * Is there a content type associated with this category aias
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $checkTags = false;
 
 	/**
 	 * Display the view.
@@ -73,8 +81,11 @@ class CategoriesViewCategory extends JViewLegacy
 			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		// Check for tag type
-		$this->checkTags = JHelperTags::getTypes('objectList', array($this->state->get('category.extension') . '.category'), true);
+		// Check if we have a content type for this alias
+		if (!empty(JHelperTags::getTypes('objectList', array($this->state->get('category.extension') . '.category'), true)))
+		{
+			$this->checkTags = true;
+		}
 
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
@@ -112,10 +123,6 @@ class CategoriesViewCategory extends JViewLegacy
 
 		$isNew = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
-
-		// Check to see if the type exists
-		$ucmType = new JUcmType;
-		$this->typeId = $ucmType->getTypeId($extension . '.category');
 
 		// Avoid nonsense situation.
 		if ($extension == 'com_categories')

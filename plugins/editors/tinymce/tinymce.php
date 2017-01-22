@@ -1164,7 +1164,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  int  The plugin id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function getPluginId()
 	{
@@ -1195,7 +1195,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	private function onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
 	{

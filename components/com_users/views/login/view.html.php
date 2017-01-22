@@ -16,13 +16,49 @@ defined('_JEXEC') or die;
  */
 class UsersViewLogin extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The page parameters
+	 *
+	 * @var  \Joomla\Registry\Registry|null
+	 */
 	protected $params;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
 
+	/**
+	 * The logged in user
+	 *
+	 * @var  JUser
+	 */
 	protected $user;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
+	 * Array containing the available two factor authentication methods
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $tfa = '';
 
 	/**
 	 * Method to display the view.
@@ -118,12 +154,12 @@ class UsersViewLogin extends JViewLegacy
 
 		if ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 	}
 }

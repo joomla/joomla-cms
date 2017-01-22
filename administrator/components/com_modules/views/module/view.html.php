@@ -16,11 +16,34 @@ defined('_JEXEC') or die;
  */
 class ModulesViewModule extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	protected $item;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var    JObject
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $canDo;
 
 	/**
 	 * Display the view

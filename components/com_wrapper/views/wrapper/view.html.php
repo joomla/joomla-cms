@@ -17,6 +17,30 @@ defined('_JEXEC') or die;
 class WrapperViewWrapper extends JViewLegacy
 {
 	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    stdClass
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $wrapper = null;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -56,12 +80,12 @@ class WrapperViewWrapper extends JViewLegacy
 
 		if ($params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $params->get('menu-meta_keywords'));
 		}
 
 		if ($params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $params->get('robots'));
+			$this->document->setMetaData('robots', $params->get('robots'));
 		}
 
 		$wrapper = new stdClass;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('JPATH_BASE') or die;
@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('groupedlist');
 /**
  * A drop down containing all component item types that implement associations.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormFieldItemType extends JFormFieldGroupedList
 {
@@ -23,7 +23,7 @@ class JFormFieldItemType extends JFormFieldGroupedList
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $type = 'ItemType';
 	
@@ -32,7 +32,7 @@ class JFormFieldItemType extends JFormFieldGroupedList
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 *
 	 * @throws  UnexpectedValueException
 	 */

@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
  */
 class ContentViewArticle extends JViewLegacy
 {
+
 	/**
 	 * Execute and display a template script.
 	 *

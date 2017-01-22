@@ -20,6 +20,111 @@ use Joomla\String\StringHelper;
 class SearchViewSearch extends JViewLegacy
 {
 	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
+	 * The pagination object
+	 *
+	 * @var    JPagination|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pagination = null;
+
+	/**
+	 * The results of the search
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $results = array();
+
+	/**
+	 * The select box lists for result filtering
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $lists = array();
+
+	/**
+	 * The page parameters
+	 *
+	 * @var  \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
+
+	/**
+	 * The ordering for the query
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $ordering = '';
+
+	/**
+	 * The search phrase used (after sanity checks)
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $searchword = '';
+
+	/**
+	 * The raw search phrase used (before sanity checks)
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $origkeyword = '';
+
+	/**
+	 * The search phrase matching preference
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $searchphrase = '';
+
+	/**
+	 * The available search 'areas' (plugins that are enabled to search). Key of the array should be the name used
+	 * for the filter options and the value should be the language constant to be used for translation.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $searchareas = '';
+
+	/**
+	 * The total number of results for the search query
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $total = 0;
+
+	/**
+	 * A translated error message to display to the user
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $error = '';
+
+	/**
+	 * The URL instance
+	 *
+	 * @var    JUri|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $action = null;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.

@@ -17,7 +17,18 @@ defined('_JEXEC') or die;
 class MenusViewMenutypes extends JViewLegacy
 {
 	/**
-	 * @var  JObject[]
+	 * The menu type id
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $recordId;
+
+	/**
+	 * Array of menu types
+	 *
+	 * @var    JObject[]
+	 * @since  3.7.0
 	 */
 	protected $types;
 
@@ -93,7 +104,7 @@ class MenusViewMenutypes extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function addCustomTypes(&$types)
 	{

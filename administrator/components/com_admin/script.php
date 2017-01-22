@@ -17,9 +17,50 @@ defined('_JEXEC') or die;
 class JoomlaInstallerScript
 {
 	/**
+	 * The Joomla Version we are updating from
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $fromVersion = null;
+
+	/**
+	 * Function to act prior to installation process begins
+	 *
+	 * @param   string      $action     Which action is happening (install|uninstall|discover_install|update)
+	 * @param   JInstaller  $installer  The class calling this method
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.7.0
+	 */
+	public function preflight($action, $installer)
+	{
+		if ($action === 'update')
+		{
+			// Get the version we are updating from
+			if (!empty($installer->extension->manifest_cache))
+			{
+				$manifestValues = json_decode($installer->extension->manifest_cache, true);
+
+				if ((array_key_exists('version', $manifestValues)))
+				{
+					$this->fromVersion = $manifestValues['version'];
+
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerAdapterFile  $installer  The class calling this method
+	 * @param   JInstaller  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
@@ -36,7 +77,7 @@ class JoomlaInstallerScript
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
-		$this->updateAssets();
+		$this->updateAssets($installer);
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
 		$this->cleanJoomlaCache();
@@ -44,6 +85,59 @@ class JoomlaInstallerScript
 		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
 		// LOGOUT ALL THE USERS
 		$this->flushSessions();
+	}
+
+	/**
+	 * Called after any type of action
+	 *
+	 * @param   string      $action     Which action is happening (install|uninstall|discover_install|update)
+	 * @param   JInstaller  $installer  The class calling this method
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.7.0
+	 */
+	public function postflight($action, $installer)
+	{
+		if ($action === 'update')
+		{
+			if (!empty($this->fromVersion) && version_compare($this->fromVersion, '3.7.0', 'lt'))
+			{
+				/*
+				 * Add a menu item for com_associations, we need to do that here because with a plain sql statement we
+				 * damage the nested set structure for the menu table
+				 */
+				$newMenuItem = JTable::getInstance('Menu');
+
+				$data              = array();
+				$data['menutype']  = 'main';
+				$data['title']     = 'com_associations';
+				$data['alias']     = 'Multilingual Associations';
+				$data['path']      = 'Multilingual Associations';
+				$data['link']      = 'index.php?option=com_associations';
+				$data['type']      = 'component';
+				$data['published'] = 1;
+				$data['parent_id'] = 1;
+
+				// We have used a SQL Statement to add the extension so using 34 is safe (fingers crossed)
+				$data['component_id'] = 34;
+				$data['img']          = 'class:associations';
+				$data['language']     = '*';
+				$data['client_id']    = 1;
+
+				$newMenuItem->setLocation($data['parent_id'], 'last-child');
+
+				if (!$newMenuItem->save($data))
+				{
+					// Install failed, roll back changes
+					$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $newMenuItem->getError()));
+
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -425,7 +519,7 @@ class JoomlaInstallerScript
 		);
 
 		// Attempt to refresh manifest caches
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__extensions');
@@ -1609,7 +1703,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default.php',
-			// Joomla __DEPLOY_VERSION__
+			// Joomla 3.7.0
 			'/administrator/modules/mod_menu/tmpl/default_enabled.php',
 			'/administrator/modules/mod_menu/tmpl/default_disabled.php',
 			'/administrator/templates/hathor/html/mod_menu/default_enabled.php',
@@ -1738,7 +1832,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/layouts/joomla/searchtools',
 			'/administrator/components/com_templates/layouts/joomla',
 			'/administrator/components/com_templates/layouts',
-			// Joomla! __DEPLOY_VERSION__
+			// Joomla! 3.7.0
 			'/administrator/templates/hathor/html/mod_menu',
 		);
 
@@ -1795,11 +1889,13 @@ class JoomlaInstallerScript
 	/**
 	 * Method to create assets for newly installed components
 	 *
+	 * @param   JInstaller  $installer  The class calling this method
+	 *
 	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
-	public function updateAssets()
+	public function updateAssets($installer)
 	{
 		// List all components added since 1.6
 		$newComponents = array(
@@ -1823,16 +1919,16 @@ class JoomlaInstallerScript
 				continue;
 			}
 
-			$asset->name = $component;
+			$asset->name      = $component;
 			$asset->parent_id = 1;
-			$asset->rules = '{}';
-			$asset->title = $component;
+			$asset->rules     = '{}';
+			$asset->title     = $component;
 			$asset->setLocation(1, 'last-child');
 
 			if (!$asset->store())
 			{
 				// Install failed, roll back changes
-				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
+				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
 
 				return false;
 			}
@@ -1935,7 +2031,7 @@ class JoomlaInstallerScript
 		// Check conversion status in database
 		$db->setQuery('SELECT ' . $db->quoteName('converted')
 			. ' FROM ' . $db->quoteName('#__utf8_conversion')
-			);
+		);
 
 		try
 		{
@@ -1967,7 +2063,7 @@ class JoomlaInstallerScript
 		if (is_file($fileName1))
 		{
 			$fileContents1 = @file_get_contents($fileName1);
-			$queries1 = $db->splitSql($fileContents1);
+			$queries1      = $db->splitSql($fileContents1);
 
 			if (!empty($queries1))
 			{
@@ -1991,7 +2087,7 @@ class JoomlaInstallerScript
 		if (is_file($fileName2))
 		{
 			$fileContents2 = @file_get_contents($fileName2);
-			$queries2 = $db->splitSql($fileContents2);
+			$queries2      = $db->splitSql($fileContents2);
 
 			if (!empty($queries2))
 			{
