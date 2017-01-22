@@ -120,7 +120,7 @@ class PlgSystemFields extends JPlugin
 		$user->params = (string) $user->getParameters();
 
 		// Trigger the events with a real user
-		$this->onContentAfterSave('com_users.user', $user, false);
+		$this->onContentAfterSave('com_users.user', $user, false, $userData);
 
 		// Save the user with the modified params
 		$db    = JFactory::getDbo();
