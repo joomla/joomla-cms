@@ -1503,6 +1503,7 @@ class JForm
 				else
 				{
 					$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
 					if (($value === '' || $value === null) && ! $required)
 					{
 						$return = '';
