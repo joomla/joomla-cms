@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Controller\Base;
-
 /**
  * Component Controller
  *
  * @since  1.5
  */
-class ContentController extends Base
+class ContentController extends JControllerLegacy
 {
 	/**
 	 * The default view.
