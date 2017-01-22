@@ -9304,9 +9304,6 @@ iframe {
   @media (min-width: 768px) {
     .wrapper.closed {
       padding-left: 55px; } }
-  .wrapper.closed .status {
-    margin-left: 55px;
-    transition: all .5s ease; }
 
 .sidebar-wrapper {
   position: fixed;
@@ -9475,13 +9472,15 @@ iframe {
   background: none; }
 
 .status {
+  z-index: 9;
   padding: 5px 10px;
-  margin-left: 250px;
+  margin-left: 55px;
   color: #626262;
   background: #ebebeb;
   border-top: 1px solid #d4d4d4;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
-  transition: all .4s ease; }
+  transition: all .4s ease;
+  transition-delay: 0s; }
   .status p {
     margin: 0; }
   .status li, .status a {
