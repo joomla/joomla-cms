@@ -17,6 +17,11 @@
         "forum":"https://forum.joomla.org/",
         "docs":"https://docs.joomla.org"
     },
+    "autoload": {
+        "psr-4": {
+            "Joomla\\Cms\\": "libraries/src/Joomla/Cms"
+        }
+    },
     "require": {
         "php": ">=5.3.10",
         "joomla/application": "~1.5",

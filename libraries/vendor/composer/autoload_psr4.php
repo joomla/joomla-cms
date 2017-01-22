@@ -25,5 +25,6 @@ return array(
     'Joomla\\Data\\' => array($vendorDir . '/joomla/data/src'),
     'Joomla\\DI\\Tests\\' => array($vendorDir . '/joomla/di/Tests'),
     'Joomla\\DI\\' => array($vendorDir . '/joomla/di/src'),
+    'Joomla\\Cms\\' => array($baseDir . '/libraries/src/Joomla/Cms'),
     'Joomla\\Application\\' => array($vendorDir . '/joomla/application/src'),
 );
