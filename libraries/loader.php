@@ -62,7 +62,7 @@ abstract class JLoader
 	 * @var    array
 	 * @since  12.3
 	 */
-	protected static $namespaces = array();
+	protected static $namespaces = array('psr4' => array());
 
 	/**
 	 * Holds a reference for all deprecated aliases (mainly for use by a logging platform).
@@ -152,13 +152,20 @@ abstract class JLoader
 	/**
 	 * Method to get the list of registered namespaces.
 	 *
+	 * @param   string  $type  Defines the type of namespace, can be prs0 or psr4.
+	 *
 	 * @return  array  The array of namespace => path values for the autoloader.
 	 *
 	 * @since   12.3
 	 */
-	public static function getNamespaces()
+	public static function getNamespaces($type = 'psr4')
 	{
-		return self::$namespaces;
+		if ($type !== 'psr4')
+		{
+			throw new InvalidArgumentException('Type needs to be psr4!');
+		}
+
+		return self::$namespaces[$type];
 	}
 
 	/**
@@ -384,6 +391,7 @@ abstract class JLoader
 	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
 	 * @param   boolean  $reset      True to reset the namespace with only the given lookup path.
 	 * @param   boolean  $prepend    If true, push the path to the beginning of the namespace lookup paths array.
+	 * @param   string   $type       Defines the type of namespace, can be prs0 or psr4.
 	 *
 	 * @return  void
 	 *
@@ -391,8 +399,13 @@ abstract class JLoader
 	 *
 	 * @since   12.3
 	 */
-	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false)
+	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr4')
 	{
+		if ($type !== 'psr4')
+		{
+			throw new InvalidArgumentException('Type needs to be psr4!');
+		}
+
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
@@ -402,9 +415,9 @@ abstract class JLoader
 		}
 
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
-		if (!isset(self::$namespaces[$namespace]) || $reset)
+		if (!isset(self::$namespaces[$type][$namespace]) || $reset)
 		{
-			self::$namespaces[$namespace] = array($path);
+			self::$namespaces[$type][$namespace] = array($path);
 		}
 
 		// Otherwise we want to simply add the path to the namespace.
@@ -412,11 +425,11 @@ abstract class JLoader
 		{
 			if ($prepend)
 			{
-				array_unshift(self::$namespaces[$namespace], $path);
+				array_unshift(self::$namespaces[$type][$namespace], $path);
 			}
 			else
 			{
-				self::$namespaces[$namespace][] = $path;
+				self::$namespaces[$type][$namespace][] = $path;
 			}
 		}
 	}
@@ -455,7 +468,7 @@ abstract class JLoader
 
 		if ($enablePsr)
 		{
-			// Register the PSR-4 based autoloader.
+			// Register the PSR-0 based autoloader.
 			spl_autoload_register(array('JLoader', 'loadByPsr4'));
 			spl_autoload_register(array('JLoader', 'loadByAlias'));
 		}
@@ -497,7 +510,7 @@ abstract class JLoader
 		$classPath .= $className . '.php';
 
 		// Loop through registered namespaces until we find a match.
-		foreach (self::$namespaces as $ns => $paths)
+		foreach (self::$namespaces['psr4'] as $ns => $paths)
 		{
 			$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
 
