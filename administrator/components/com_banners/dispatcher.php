@@ -25,8 +25,6 @@ class BannersDispatcher extends JDispatcher
 	 */
 	public function dispatch()
 	{
-		JHtml::_('behavior.tabstate');
-
 		parent::dispatch();
 	}
 }
