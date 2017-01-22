@@ -1,4 +1,28 @@
 @charset "UTF-8";
+#flying-focus {
+  position: absolute;
+  margin: 0;
+  background: transparent;
+  transition-property: left, top, width, height;
+  transition-timing-function: cubic-bezier(0, 1, 0, 1);
+  visibility: hidden;
+  pointer-events: none;
+  box-shadow: 0 0 2px 3px #78aeda, 0 0 2px #78aeda inset;
+  border-radius: 2px; }
+  #flying-focus.flying-focus_visible {
+    visibility: visible;
+    z-index: 9999; }
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    #flying-focus #flying-focus {
+      box-shadow: none;
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: -3px; } }
+
+.flying-focus_target {
+  outline: none !important; }
+  .flying-focus_target::-moz-focus-inner {
+    border: 0 !important; }
+
 /*!
  * Bootstrap v4.0.0-alpha.6 (https://getbootstrap.com)
  * Copyright 2011-2017 The Bootstrap Authors

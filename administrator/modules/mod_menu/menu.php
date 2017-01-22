@@ -167,7 +167,7 @@ class JAdminCssMenu
 
 		// Print the item
 		$ariaPopup = $this->_current->hasChildren() ? 'aria-haspopup="true"' : '';
-		echo '<li' . $class . ' role="menuitem" tabindex="0" ' . $ariaPopup . '>';
+		echo '<li' . $class . ' role="menuitem" tabindex="' . $unique . '" ' . $ariaPopup . '>';
 
 		// Print a link if it exists
 		$linkClass = array();
