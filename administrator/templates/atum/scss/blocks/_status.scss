@@ -1,14 +1,15 @@
 // Status
 
 .status {
+  z-index: 9;
   padding: 5px 10px;
-  margin-left: 250px;
+  margin-left: 55px;
   color: #626262;
   background: #ebebeb;
   border-top: 1px solid #d4d4d4;
   box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset;
-  transition: all .5s ease;
-
+  transition: all .4s ease;
+  transition-delay: 0s;
   p {
     margin: 0;
   }

@@ -5,7 +5,7 @@
   transition: all .5s ease;
 
   @include media-breakpoint-up(md) {
-    padding-left: 250px;
+    padding-left: 55px;
   }
 }
 .wrapper.closed {
@@ -14,23 +14,21 @@
   @include media-breakpoint-up(md) {
     padding-left: 55px;
   }
-
-  .status {
-    margin-left: 55px;
-    transition: all .5s ease;
-  }
 }
 
 .sidebar-wrapper {
   position: fixed;
   left: 0;
+  z-index: 10;
   width: 250px;
   height: 100%;
   margin-left: 0;
   overflow: hidden;
   background-color: $atum-sidebar-bg;
   background-image: linear-gradient(to bottom, $atum-sidebar-bg 0%, $atum-template-color-light 100%);
-  transition: all .5s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5), inset -1px 0 0 rgba(0,0,0,.2);
+  transition: all .4s ease;
+  transition-delay: 0;
   transform: translateX(-250px);
   .sidebar-brand {
     position: absolute;
@@ -51,16 +49,6 @@
       transform: rotate(-17deg);
     }
   }
-  &::before {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    content: "";
-    box-shadow: inset -3px 0 3px rgba(0, 0, 0, .35);
-  }
 
   @include media-breakpoint-up(md) {
     left: 250px;
@@ -74,6 +62,7 @@
   }
 
   .main-brand {
+    margin-left: 7px;
     font-size: 30px;
     line-height: 96px;
     text-align: center;
@@ -91,20 +80,8 @@
     }
 
     img {
-      max-width: 190px;
+      width: 200px;
   }
-  }
-}
-.wrapper.closed .sidebar-wrapper {
-  transform: translateX(0);
-
-  @include media-breakpoint-up(md) {
-    width: 55px;
-    transform: translateX(0);
-  }
-
-  .main-brand img {
-    max-width: 40px;
   }
 }
 
@@ -116,6 +93,11 @@
   margin: 0;
   overflow-y: auto;
   list-style: none;
+  opacity: 1;
+  span {
+    transition: all .2s ease;
+    transition-delay: .2s;
+  }
   &.second {
     margin-bottom: 0;
   }
@@ -243,104 +225,42 @@
   }
 }
 
+.wrapper.closed .sidebar-wrapper {
+  transition-delay: .2s;
+  transform: translateX(0);
+  @include media-breakpoint-up(md) {
+    width: 55px;
+    transform: translateX(0);
+  }
+
+  .main-nav {
+    span {
+      opacity: 0;
+      transition-delay: 0;
+    }
+    .fa {
+      opacity: 1;
+    }
+    .collapse-level-1 {
+      display: none !important;
+    }
+  }
+}
+
+// Mobile Toggle
+.menu-collapse {
+  margin-top: 2px;
+  margin-right: 10px;
+  font-size: 2rem;
+  text-align: right;
+  a {
+    color: $white;
+  }
+}
+
 // Edit view
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
   color: $white-offset;
   cursor: not-allowed;
   background: none;
-}
-
-// Sidebar closed hover
-.closed {
-  .sidebar-wrapper {
-    z-index: 10;
-    overflow: visible;
-  }
-  .sidebar-item-title {
-    display: none;
-  }
-  .parent .collapse-arrow::after {
-    display: none;
-  }
-  .main-nav {
-    width: 55px;
-    overflow: visible;
-    > li {
-      position: relative;
-      transition: all .5s ease;
-      .sidebar-item-title {
-        position: absolute;
-        top: 0;
-        left: 100%;
-        width: 220px;
-        padding: 0 13px;
-        font-size: $atum-sidebar-item-title;
-        font-weight: bold;
-        background-color: $atum-template-color;
-        border-radius: 0 $border-radius $border-radius 0;
-      }
-      &.parent .sidebar-item-title {
-        border-radius: 0 $border-radius 0 0;
-      }
-      &:hover .sidebar-item-title {
-        display: block;
-        opacity: 1;
-      }
-      &:hover .collapse-arrow::after {
-        display: block;
-      }
-      &.parent > .collapse-arrow::after {
-        display: none;
-      }
-      .collapse, &:hover .collapse {
-        position: absolute;
-        top: 100%;
-        left: 100%;
-        display: block;
-      }
-      &:hover .collapse-level-2 {
-        position: relative;
-        left: 0;
-        display: none;
-      }
-    }
-    .collapse-level-1 {
-      display: block !important;
-      height: auto !important;
-      padding: 5px 0 10px;
-      margin-top: -1px;
-      text-indent: 0;
-      border-bottom-right-radius: $border-radius;
-      li {
-        position: relative;
-        font-size: $atum-sidebar-item-title;
-        line-height: 30px;
-        text-indent: 0;
-      }
-      a {
-        color: $white-offset;
-        border: 0;
-      }
-      a::before {
-        display: none;
-      }
-      .sidebar-item-title {
-        position: relative;
-        left: 0;
-        font-size: 1rem;
-        font-weight: normal;
-        background-color: transparent;
-      }
-      a:hover {
-        background-color: $atum-template-color;
-        box-shadow: none;
-      }
-    }
-    .collapse-level-2 {
-      padding-bottom: 5px;
-      .sidebar-item-title {
-        text-indent: 10px;
-      }
-    }
-  }
 }
