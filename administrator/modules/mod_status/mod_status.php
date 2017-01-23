@@ -23,6 +23,7 @@ $query = $db->getQuery(true)
 
 $db->setQuery($query);
 $unread = (int) $db->loadResult();
+
 // Set the unread message count as a session variable so we can access it in the template
 JFactory::getSession()->set('messages.unread', $unread);
 

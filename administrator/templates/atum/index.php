@@ -167,8 +167,9 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 										<i class="fa fa-user"></i>
 										<?php echo $user->name; ?>
 									</div>
-									<a class="dropdown-item" href="<?php echo JRoute::_('index.php?option=com_admin&amp;task=profile.edit&amp;id=' 
-										. $user->id); ?>"><?php echo JText::_('TPL_ATUM_EDIT_ACCOUNT'); ?></a>
+									<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
+									<a class="dropdown-item" href="<?php echo JRoute::_($route); ?>">
+										<?php echo JText::_('TPL_ATUM_EDIT_ACCOUNT'); ?></a>
 									<a class="dropdown-item" href="<?php echo JRoute::_('index.php?option=com_login&task=logout&' 
 										. JSession::getFormToken() . '=1') ?>"><?php echo JText::_('TPL_ATUM_LOGOUT'); ?></a>
 								</div>

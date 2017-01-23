@@ -126,7 +126,8 @@ class JAdminCssMenu
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			echo "<div role=\"navigation\" aria-label=\"Main menu\"><ul id='menu' class='nav navbar-nav nav-stacked main-nav clearfix' tabindex='0' role=\"menubar\">\n";
+			echo "<div role=\"navigation\" aria-label=\"Main menu\">'
+			. '<ul id='menu' class='nav navbar-nav nav-stacked main-nav clearfix' tabindex='0' role=\"menubar\">\n";
 
 			foreach ($this->_current->getChildren() as $child)
 			{
