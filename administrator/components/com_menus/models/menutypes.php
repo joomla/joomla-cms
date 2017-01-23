@@ -108,7 +108,7 @@ class MenusModelMenutypes extends JModelLegacy
 						{
 							$componentLanguageFolder = JPATH_ADMINISTRATOR . '/components/' . $option->request['option'];
 							$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-								||	$lang->load($option->request['option'] . '.sys', $componentLanguageFolder, null, false, true);
+								|| $lang->load($option->request['option'] . '.sys', $componentLanguageFolder, null, false, true);
 						}
 					}
 				}

@@ -758,12 +758,14 @@ abstract class JHtmlBootstrap
 			JHtml::_('stylesheet', 'vendor/bootstrap/bootstrap.min.css', array('version' => 'auto', 'relative' => true), $attribs);
 		}
 
-		// BOOTSTRAP RTL - WILL SORT OUT LATER DOWN THE LINE
-		// Load Bootstrap RTL CSS
-		//if ($direction === 'rtl')
-		//{
-		//	JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
-		//}
+		/**
+		 * BOOTSTRAP RTL - WILL SORT OUT LATER DOWN THE LINE
+		 * Load Bootstrap RTL CSS
+		 * if ($direction === 'rtl')
+		 * {
+		 *  JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
+		 * }
+		 */
 
 	}
 }

@@ -39,7 +39,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function framework($extras = false, $debug = null)
 	{
-		// files removed!!
+		// Files removed!!
 	}
 
 	/**
@@ -173,7 +173,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function switcher()
 	{
-		// files removed!
+		// Files removed!
 	}
 
 	/**
@@ -192,6 +192,7 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
 		// Include core
 		static::core();
 
@@ -229,7 +230,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function tooltip($selector = '.hasTip', $params = array())
 	{
-		// files removed!!
+		// Files removed!!
 	}
 
 	/**
@@ -256,7 +257,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function modal($selector = 'a.modal', $params = array())
 	{
-		// files removed!!
+		// Files removed!!
 	}
 
 	/**
@@ -305,7 +306,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function tree($id, $params = array(), $root = array())
 	{
-		// files removed!!
+		// Files removed!!
 	}
 
 	/**
