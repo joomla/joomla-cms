@@ -1498,10 +1498,20 @@ class JForm
 					$return = call_user_func($filter, $value);
 				}
 
-				// Filter using JFilterInput. All HTML code is filtered by default.
+				// Check for empty value and return empty string if no value is required,
+				// otherwise filter using JFilterInput. All HTML code is filtered by default.
 				else
 				{
-					$return = JFilterInput::getInstance()->clean($value, $filter);
+					$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
+					if (($value === '' || $value === null) && ! $required)
+					{
+						$return = '';
+					}
+					else
+					{
+						$return = JFilterInput::getInstance()->clean($value, $filter);
+					}
 				}
 				break;
 		}

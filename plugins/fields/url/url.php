@@ -14,7 +14,7 @@ JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRA
 /**
  * Fields Url Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class PlgFieldsUrl extends FieldsPlugin
 {

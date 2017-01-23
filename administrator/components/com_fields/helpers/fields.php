@@ -593,7 +593,7 @@ class FieldsHelper
 	 *
 	 * @return  array  Array with the assigned categories
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getAssignedCategoriesTitles($fieldId)
 	{

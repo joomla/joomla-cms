@@ -165,7 +165,7 @@ abstract class ModMenuHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getMenuItems($menutype, $authCheck = true)
 	{
@@ -220,7 +220,7 @@ abstract class ModMenuHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected static function parseItems($menuItems, $authCheck = true)
 	{
@@ -311,7 +311,7 @@ abstract class ModMenuHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected static function getLink($menuId)
 	{
@@ -337,7 +337,7 @@ abstract class ModMenuHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected static function cleanup(&$items)
 	{
