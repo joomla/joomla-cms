@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.6
  */
-abstract class Item extends \JModelLegacy
+abstract class Item extends Model
 {
 	/**
 	 * An item.

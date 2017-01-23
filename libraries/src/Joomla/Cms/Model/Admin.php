@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-abstract class Admin extends \JModelForm
+abstract class Admin extends Form
 {
 	/**
 	 * The prefix to use with controller messages.

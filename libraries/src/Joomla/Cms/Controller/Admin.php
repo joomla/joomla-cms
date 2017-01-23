@@ -21,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Admin extends \JControllerLegacy
+class Admin extends Controller
 {
 	/**
 	 * The URL option for the component.

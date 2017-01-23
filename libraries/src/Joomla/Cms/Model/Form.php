@@ -21,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  * @see    \JFormRule
  * @since  1.6
  */
-abstract class Form extends \JModelLegacy
+abstract class Form extends Model
 {
 	/**
 	 * Array of form objects.
