@@ -8116,7 +8116,7 @@ th .tooltip-inner {
 }
 .controls .btn-group.btn-group-yesno > .btn {
 	width: 50%;
-	min-width: 20px;
+	min-width: 40px;
 	padding: 2px 0;
 }
 .img-preview > img {
