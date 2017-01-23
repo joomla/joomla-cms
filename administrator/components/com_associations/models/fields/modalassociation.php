@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Supports a modal item picker.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormFieldModalAssociation extends JFormField
 {
@@ -20,7 +20,7 @@ class JFormFieldModalAssociation extends JFormField
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $type = 'Modal_Association';
 
@@ -29,7 +29,7 @@ class JFormFieldModalAssociation extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getInput()
 	{
@@ -93,8 +93,8 @@ class JFormFieldModalAssociation extends JFormField
 				'url'         => $urlSelect,
 				'height'      => '400px',
 				'width'       => '800px',
-				'bodyHeight'  => '70',
-				'modalWidth'  => '80',
+				'bodyHeight'  => 70,
+				'modalWidth'  => 80,
 				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
 						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
 			)

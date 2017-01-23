@@ -45,7 +45,9 @@ extract($displayData);
  * @var   array    $control         Is this field checked?
  */
 
-$class = ' class="custom-select ' . trim('simplecolors chzn-done ' . $class) . '"';
+$class    = ' class="custom-select ' . trim('simplecolors chzn-done ' . $class) . '"';
+$disabled = $disabled ? ' disabled' : '';
+$readonly = $readonly ? ' readonly' : '';
 
 // Include jQuery
 JHtml::_('jquery.framework');
@@ -54,7 +56,7 @@ JHtml::_('stylesheet', 'system/jquery.simplecolors.css', array('version' => 'aut
 JHtml::_('script', 'system/fields/color-field-init.min.js', array('version' => 'auto', 'relative' => true);
 ?>
 <select data-chosen="true" name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php
-echo $disabled; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
+echo $disabled; ?><?php echo $readonly; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
 echo $onchange; ?><?php echo $autofocus; ?> style="visibility:hidden;width:22px;height:1px">
 	<?php foreach ($colors as $i => $c) : ?>
 		<option<?php echo ($c == $color ? ' selected="selected"' : ''); ?>><?php echo $c; ?></option>

@@ -36,7 +36,7 @@
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
-			</field>			
+			</field>
 		</fieldset>
 	</fields>
 	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_HEADING" />

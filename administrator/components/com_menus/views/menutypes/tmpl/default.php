@@ -40,7 +40,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php $menutype = array('id' => $this->recordId, 'title' => (isset($item->type) ? $item->type : $item->title), 'request' => $item->request); ?>
 					<?php $menutype = base64_encode(json_encode($menutype)); ?>
 					<a class="choose_type list-group-item list-group-item-action" href="#" title="<?php echo JText::_($item->description); ?>"
-						onclick="javascript:setmenutype('<?php echo $menutype; ?>')">
+						onclick="setmenutype('<?php echo $menutype; ?>')">
 						<?php echo $title; ?>
 						<small class="text-muted">
 							<?php echo JText::_($item->description); ?>

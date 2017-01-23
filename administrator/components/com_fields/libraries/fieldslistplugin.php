@@ -3,7 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
+<<<<<<< HEAD
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+=======
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+>>>>>>> joomla/master
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -13,7 +17,11 @@ JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRA
 /**
  * Base plugin for all list based plugins
  *
+<<<<<<< HEAD
  * @since  __DEPLOY_VERSION__
+=======
+ * @since  3.7.0
+>>>>>>> joomla/master
  */
 class FieldsListPlugin extends FieldsPlugin
 {
@@ -28,7 +36,11 @@ class FieldsListPlugin extends FieldsPlugin
 	 *
 	 * @return  DOMElement
 	 *
+<<<<<<< HEAD
 	 * @since   __DEPLOY_VERSION__
+=======
+	 * @since   3.7.0
+>>>>>>> joomla/master
 	 */
 	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
 	{
@@ -58,7 +70,11 @@ class FieldsListPlugin extends FieldsPlugin
 	 *
 	 * @return  array
 	 *
+<<<<<<< HEAD
 	 * @since   __DEPLOY_VERSION__
+=======
+	 * @since   3.7.0
+>>>>>>> joomla/master
 	 */
 	public function getOptionsFromField($field)
 	{

@@ -105,7 +105,7 @@ class JTableNested extends JTable
 	 * Array declaring the valid location values for moving a node
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	private $_validLocations = array('before', 'after', 'first-child', 'last-child');
 

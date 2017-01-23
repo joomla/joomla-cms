@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_a
 /**
  * Association edit controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class AssociationsControllerAssociation extends JControllerForm
 {
@@ -27,7 +27,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
@@ -54,7 +54,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	 *
 	 * @return  void.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function cancel($key = null)
 	{

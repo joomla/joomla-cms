@@ -32,6 +32,7 @@ JFactory::getDocument()->addScriptDeclaration("
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+
 	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 

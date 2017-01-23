@@ -14,7 +14,7 @@ JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_a
 /**
  * Associations controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class AssociationsControllerAssociations extends JControllerAdmin
 {
@@ -23,7 +23,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $view_list = 'associations';
 
@@ -36,7 +36,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 *
 	 * @return  JModel|bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function getModel($name = 'Associations', $prefix = 'AssociationsModel', $config = array('ignore_request' => true))
 	{
@@ -48,7 +48,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function purge()
 	{
@@ -61,7 +61,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function clean()
 	{
