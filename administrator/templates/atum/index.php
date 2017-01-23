@@ -76,12 +76,13 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 		<?php // Sidebar ?>
 		<?php if (!$hidden) : ?>
 			<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
-			<div id="main-brand-sm" class="main-brand hidden-xs-up align-items-center">
-				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $logoSm; ?>" class="logo" alt="<?php echo $sitename;?>" />
-				</a>
-			</div>
-
+			<?php if (!$hidden) : ?>
+				<div class="menu-collapse hidden-lg-up">
+					<a id="menu-collapse" class="menu-toggle" href="#">
+						<span class="fa fa-bars fa-fw"></span>
+					</a>
+				</div>
+			<?php endif; ?>
 			<div id="main-brand" class="main-brand align-items-center">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename;?>" />
@@ -95,14 +96,6 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 		<header id="header" class="header">
 			<div class="container-fluid">
 				<div class="text-center">
-
-					<?php if (!$hidden) : ?>
-					<div class="menu-collapse hidden-lg-up">
-						<a id="menu-collapse" class="menu-toggle" href="#">
-							<span></span>
-						</a>
-					</div>
-					<?php endif; ?>
 
 					<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
 						<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>

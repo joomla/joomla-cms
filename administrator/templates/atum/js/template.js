@@ -66,15 +66,11 @@
 				sidebar.querySelector('.collapse-arrow').classList.add('collapsed');
 				menuToggle.classList.add('active');
 				wrapper.classList.add('closed');
-				logoSm.classList.remove('hidden-xs-up');
-				logo.classList.add('hidden-xs-up');
 			};
 
 			var menuOpen = function() {
 				wrapper.classList.remove('closed');
 				menuToggle.classList.remove('active');
-				logoSm.classList.add('hidden-xs-up');
-				logo.classList.remove('hidden-xs-up');
 			};
 
 			/** Localstorage to remember the menu state (open/close) */
@@ -135,6 +131,7 @@
 				}
 			});
 
+			// Add class to sidebar container when hovered 
 			jQuery('#sidebar-wrapper').hover(function(){     
 		        jQuery('#wrapper').removeClass('closed');    
 		    },     

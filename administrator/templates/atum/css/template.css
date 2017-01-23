@@ -9002,86 +9002,6 @@ legend {
       font-size: 1.857rem;
       color: #4a556a; }
 
-.menu-collapse {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1001;
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  background-color: #353d4c; }
-  .menu-collapse .menu-text {
-    margin-right: 5px;
-    font-size: 16px;
-    line-height: 40px;
-    color: #20252e; }
-    @media (max-width: 767px) {
-      .menu-collapse .menu-text {
-        display: none; } }
-  .menu-collapse .menu-toggle {
-    position: relative;
-    display: inline-block;
-    width: 30px;
-    height: 40px;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
-    cursor: pointer;
-    transition: background 0.3s; }
-    .menu-collapse .menu-toggle span {
-      position: absolute;
-      top: 18.5px;
-      right: 5px;
-      left: 5px;
-      display: block;
-      height: 3px;
-      background-color: #fcfcfc;
-      transition: transform 0.3s; }
-      .menu-collapse .menu-toggle span::before, .menu-collapse .menu-toggle span::after {
-        position: absolute;
-        left: 0;
-        display: block;
-        width: 100%;
-        height: 3px;
-        content: "";
-        background-color: #fcfcfc; }
-      .menu-collapse .menu-toggle span::before {
-        top: -6px;
-        transition: transform 0.3s, width 0.3s, top 0.3s;
-        transform-origin: top left; }
-        @media (max-width: 767px) {
-          .menu-collapse .menu-toggle span::before {
-            transform-origin: top right; } }
-      .menu-collapse .menu-toggle span::after {
-        bottom: -6px;
-        transition: transform 0.3s, width 0.3s, bottom 0.3s;
-        transform-origin: bottom left; }
-        @media (max-width: 767px) {
-          .menu-collapse .menu-toggle span::after {
-            transform-origin: bottom right; } }
-    @media (max-width: 767px) {
-      .menu-collapse .menu-toggle {
-        float: none;
-        margin: 0 auto; } }
-  .menu-collapse .menu-toggle .active span {
-    transform: rotate(180deg); }
-    .menu-collapse .menu-toggle .active span::before, .menu-collapse .menu-toggle .active span::after {
-      width: 50%; }
-    .menu-collapse .menu-toggle .active span::before {
-      top: 0;
-      transform: translateX(-3px) translateY(1.5px) rotate(-45deg); }
-      @media (max-width: 767px) {
-        .menu-collapse .menu-toggle .active span::before {
-          transform: translateX(13px) translateY(1.5px) rotate(45deg); } }
-    .menu-collapse .menu-toggle .active span::after {
-      bottom: 0;
-      transform: translateX(-3px) translateY(-1.5px) rotate(45deg); }
-      @media (max-width: 767px) {
-        .menu-collapse .menu-toggle .active span::after {
-          bottom: 4px;
-          transform: translateX(13px) translateY(1.5px) rotate(-45deg); } }
-
 .icon-back::before {
   content: "\e008"; }
 
@@ -9465,6 +9385,16 @@ iframe {
     transition-delay: 0; }
   .wrapper.closed .sidebar-wrapper .main-nav .fa {
     opacity: 1; }
+  .wrapper.closed .sidebar-wrapper .main-nav .collapse-level-1 {
+    display: none !important; }
+
+.menu-collapse {
+  margin-top: 2px;
+  margin-right: 10px;
+  font-size: 2rem;
+  text-align: right; }
+  .menu-collapse a {
+    color: #fff; }
 
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
   color: #fcfcfc;

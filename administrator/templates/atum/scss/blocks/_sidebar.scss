@@ -241,6 +241,20 @@
     .fa {
       opacity: 1;
     }
+    .collapse-level-1 {
+      display: none !important;
+    }
+  }
+}
+
+// Mobile Toggle
+.menu-collapse {
+  margin-top: 2px;
+  margin-right: 10px;
+  font-size: 2rem;
+  text-align: right;
+  a {
+    color: $white;
   }
 }
 
