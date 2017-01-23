@@ -523,7 +523,7 @@ class Form extends \JControllerLegacy
 	 * after the data has been saved.
 	 *
 	 * @param   \JModelLegacy  $model      The data model object.
-	 * @param   array         $validData  The validated data.
+	 * @param   array          $validData  The validated data.
 	 *
 	 * @return  void
 	 *
