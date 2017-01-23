@@ -65,6 +65,20 @@ if (isset($params['keyboard']))
 	$modalAttributes['data-keyboard'] = (is_bool($params['keyboard']) ? ($params['keyboard'] ? 'true' : 'false') : 'true');
 }
 
+if (isset($params['url']))
+{
+	$script[] = ';jQuery(document).ready(function() {';
+	$script[] = '   jQuery("#' . $selector . '").on("show.bs.modal", function() {';
+	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
+	// Script for destroying and reloading the iframe
+	$script[] = "       var modalBody = jQuery(this).find('.modal-body');";
+	$script[] = "       modalBody.find('iframe').remove();";
+	$script[] = "       modalBody.prepend('" . trim($iframeHtml) . "');";
+	$script[] = '   });';
+	$script[] = '});';
+
+	JFactory::getDocument()->addScriptDeclaration(implode('', $script));
+}
 ?>
 <div id="<?php echo $selector; ?>" role="dialog" <?php echo JArrayHelper::toString($modalAttributes); ?>>
 	<div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>" role="document">
