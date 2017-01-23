@@ -19,6 +19,11 @@ JLoader::registerAlias('JData',                 '\\Joomla\\Data\\DataObject', '4
 JLoader::registerAlias('JDataSet',              '\\Joomla\\Data\\DataSet', '4.0');
 JLoader::registerAlias('JDataDumpable',         '\\Joomla\\Data\\DumpableInterface', '4.0');
 
+JLoader::registerAlias('JModelAdmin',           '\\Joomla\\Cms\\Model\\Admin', '4.0');
+JLoader::registerAlias('JModelForm',            '\\Joomla\\Cms\\Model\\Form', '4.0');
+JLoader::registerAlias('JModelItem',            '\\Joomla\\Cms\\Model\\Item', '4.0');
+JLoader::registerAlias('JModelList',            '\\Joomla\\Cms\\Model\\ListModel', '4.0');
+JLoader::registerAlias('JModelLegacy',          '\\Joomla\\Cms\\Model\\Model', '4.0');
 JLoader::registerAlias('JViewCategories',       '\\Joomla\\Cms\\View\\Categories', '4.0');
 JLoader::registerAlias('JViewCategory',         '\\Joomla\\Cms\\View\\Category', '4.0');
 JLoader::registerAlias('JViewCategoryfeed',     '\\Joomla\\Cms\\View\\CategoryFeed', '4.0');

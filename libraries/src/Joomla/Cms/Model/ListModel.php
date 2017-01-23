@@ -1,11 +1,13 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Cms
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Model;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class JModelList extends JModelLegacy
+class ListModel extends Model
 {
 	/**
 	 * Internal memory based cache array of data.
@@ -46,7 +48,7 @@ class JModelList extends JModelLegacy
 	/**
 	 * An internal cache for the last query used.
 	 *
-	 * @var    JDatabaseQuery[]
+	 * @var    \JDatabaseQuery[]
 	 * @since  1.6
 	 */
 	protected $query = array();
@@ -88,7 +90,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JModelLegacy
+	 * @see     \JModelLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -113,7 +115,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * This method ensures that the query is constructed only once for a given state of the model.
 	 *
-	 * @return  JDatabaseQuery  A JDatabaseQuery object
+	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
 	 *
 	 * @since   1.6
 	 */
@@ -185,7 +187,7 @@ class JModelList extends JModelLegacy
 			// Load the list items and add the items to the internal cache.
 			$this->cache[$store] = $this->_getList($this->_getListQuery(), $this->getStart(), $this->getState('list.limit'));
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -196,9 +198,9 @@ class JModelList extends JModelLegacy
 	}
 
 	/**
-	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
+	 * @return  \JDatabaseQuery  A \JDatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   1.6
 	 */
@@ -208,9 +210,9 @@ class JModelList extends JModelLegacy
 	}
 
 	/**
-	 * Method to get a JPagination object for the data set.
+	 * Method to get a \JPagination object for the data set.
 	 *
-	 * @return  JPagination  A JPagination object for the data set.
+	 * @return  \JPagination  A \JPagination object for the data set.
 	 *
 	 * @since   1.6
 	 */
@@ -228,7 +230,7 @@ class JModelList extends JModelLegacy
 		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
 
 		// Create the pagination object and add the object to the internal cache.
-		$this->cache[$store] = new JPagination($this->getTotal(), $this->getStart(), $limit);
+		$this->cache[$store] = new \JPagination($this->getTotal(), $this->getStart(), $limit);
 
 		return $this->cache[$store];
 	}
@@ -280,7 +282,7 @@ class JModelList extends JModelLegacy
 			// Load the total and add the total to the internal cache.
 			$this->cache[$store] = (int) $this->_getListCount($this->_getListQuery());
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -332,7 +334,7 @@ class JModelList extends JModelLegacy
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  JForm|boolean  The JForm object or false on error
+	 * @return  \JForm|boolean  The \JForm object or false on error
 	 *
 	 * @since   3.2
 	 */
@@ -369,9 +371,9 @@ class JModelList extends JModelLegacy
 	 * @param   boolean         $clear    Optional argument to force load a new form.
 	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
 	 *
-	 * @return  JForm|boolean  JForm object on success, False on error.
+	 * @return  \JForm|boolean  \JForm object on success, False on error.
 	 *
-	 * @see     JForm
+	 * @see     \JForm
 	 * @since   3.2
 	 */
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
@@ -389,12 +391,12 @@ class JModelList extends JModelLegacy
 		}
 
 		// Get the form.
-		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
+		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 
 		try
 		{
-			$form = JForm::getInstance($name, $source, $options, false, $xpath);
+			$form = \JForm::getInstance($name, $source, $options, false, $xpath);
 
 			if (isset($options['load_data']) && $options['load_data'])
 			{
@@ -413,7 +415,7 @@ class JModelList extends JModelLegacy
 			// Load the data into the form after the plugins have operated.
 			$form->bind($data);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -436,7 +438,7 @@ class JModelList extends JModelLegacy
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState($this->context, new stdClass);
+		$data = \JFactory::getApplication()->getUserState($this->context, new \stdClass);
 
 		// Pre-fill the list options
 		if (!property_exists($data, 'list'))
@@ -473,8 +475,8 @@ class JModelList extends JModelLegacy
 		// If the context is set, assume that stateful lists are used.
 		if ($this->context)
 		{
-			$app         = JFactory::getApplication();
-			$inputFilter = JFilterInput::getInstance();
+			$app         = \JFactory::getApplication();
+			$inputFilter = \JFilterInput::getInstance();
 
 			// Receive & set filters
 			if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array'))
@@ -627,22 +629,22 @@ class JModelList extends JModelLegacy
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   JForm   $form   A JForm object.
+	 * @param   \JForm  $form   A \JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
-	 * @throws  Exception if there is an error in the form event.
+	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		// Import the appropriate plugin group.
-		JPluginHelper::importPlugin($group);
+		\JPluginHelper::importPlugin($group);
 
 		// Get the dispatcher.
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = \JEventDispatcher::getInstance();
 
 		// Trigger the form preparation event.
 		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
@@ -653,9 +655,9 @@ class JModelList extends JModelLegacy
 			// Get the last error.
 			$error = $dispatcher->getError();
 
-			if (!($error instanceof Exception))
+			if (!($error instanceof \Exception))
 			{
-				throw new Exception($error);
+				throw new \Exception($error);
 			}
 		}
 	}
@@ -663,13 +665,13 @@ class JModelList extends JModelLegacy
 	/**
 	 * Gets the value of a user state variable and sets it in the session
 	 *
-	 * This is the same as the method in JApplication except that this also can optionally
+	 * This is the same as the method in \JApplication except that this also can optionally
 	 * force you back to the first page when a filter has changed
 	 *
 	 * @param   string   $key        The key of the user state variable.
 	 * @param   string   $request    The name of the variable passed in a request.
 	 * @param   string   $default    The default value for the variable if not found. Optional.
-	 * @param   string   $type       Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
+	 * @param   string   $type       Filter for the variable, for valid values see {@link \JFilterInput::clean()}. Optional.
 	 * @param   boolean  $resetPage  If true, the limitstart in request is set to zero
 	 *
 	 * @return  mixed  The request user state.
@@ -678,7 +680,7 @@ class JModelList extends JModelLegacy
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
-		$app       = JFactory::getApplication();
+		$app       = \JFactory::getApplication();
 		$input     = $app->input;
 		$old_state = $app->getUserState($key);
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
