@@ -17,7 +17,9 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlDraggablelist
 {
 	/**
-	 * @var    array  Array containing information for loaded files
+	 * Array containing information for loaded files
+	 *
+	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $loaded = array();
@@ -49,8 +51,8 @@ abstract class JHtmlDraggablelist
 		$doc = JFactory::getDocument();
 
 		// Please consider using data attributes instead of passing arguments here!
-		if (!empty($tableId) && !empty($saveOrderingUrl) && !empty($formId) && !empty($sortDir)) {
-
+		if (!empty($tableId) && !empty($saveOrderingUrl) && !empty($formId) && !empty($sortDir))
+		{
 			$doc->addScriptOptions(
 				'draggable-list',
 				array(
