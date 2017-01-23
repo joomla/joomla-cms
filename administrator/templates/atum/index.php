@@ -209,14 +209,9 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 				<?php // Begin Content ?>
 				<jdoc:include type="modules" name="top" style="xhtml" />
 				<div class="row">
-
-					<div class="col-md-10">
-						<?php else : ?>
-						<div class="col-md-12">
-							<?php endif; ?>
-							<jdoc:include type="component" />
-						</div>
-					</div>
+                    <div class="col-md-12">
+                        <jdoc:include type="component" />
+                    </div>
 
 					<?php if ($this->countModules('bottom')) : ?>
 						<jdoc:include type="modules" name="bottom" style="xhtml" />
