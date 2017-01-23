@@ -470,8 +470,8 @@ abstract class Model extends \JObject
 	/**
 	 * Method to load a row for editing from the version history table.
 	 *
-	 * @param   integer   $version_id  Key to the version history table.
-	 * @param   \JTable   &$table      Content table object being loaded.
+	 * @param   integer  $version_id  Key to the version history table.
+	 * @param   \JTable  &$table      Content table object being loaded.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *

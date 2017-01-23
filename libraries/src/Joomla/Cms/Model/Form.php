@@ -293,9 +293,9 @@ abstract class Form extends Model
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   \JForm   $form   A \JForm object.
-	 * @param   mixed    $data   The data expected for the form.
-	 * @param   string   $group  The name of the plugin group to import (defaults to "content").
+	 * @param   \JForm  $form   A \JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
@@ -330,9 +330,9 @@ abstract class Form extends Model
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   \JForm   $form   The form to validate against.
-	 * @param   array    $data   The data to validate.
-	 * @param   string   $group  The name of the field group to validate.
+	 * @param   \JForm  $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *

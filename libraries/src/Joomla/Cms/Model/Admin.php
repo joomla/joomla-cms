@@ -1458,8 +1458,8 @@ abstract class Admin extends Form
 	 * A method to preprocess generating a new title in order to allow tables with alternative names
 	 * for alias and title to use the batch move and copy methods
 	 *
-	 * @param   integer  $categoryId   The target category id
-	 * @param   \JTable   $table       The \JTable within which move or copy is taking place
+	 * @param   integer  $categoryId  The target category id
+	 * @param   \JTable  $table       The \JTable within which move or copy is taking place
 	 *
 	 * @return  void
 	 *
