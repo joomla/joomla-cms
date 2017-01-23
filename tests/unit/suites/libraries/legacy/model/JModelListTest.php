@@ -81,7 +81,7 @@ class JModelListTest extends TestCaseDatabase
 	 */
 	public function testContextIsSetInConstructor()
 	{
-		$this->assertSame("com_j.list", TestReflection::getValue($this->object, 'context'));
+		$this->assertSame("com_joomla\cms\model\list.\listmodel", TestReflection::getValue($this->object, 'context'));
 	}
 
 	/**
@@ -134,7 +134,7 @@ class JModelListTest extends TestCaseDatabase
 		$this->object->setState('list.ordering', 'enabled');
 		$this->object->setState('list.direction', 'ASC');
 
-		$expectedString = "com_j.list:1:0:100:enabled:ASC";
+		$expectedString = "com_joomla\cms\model\list.\listmodel:1:0:100:enabled:ASC";
 
 		$this->assertSame(md5($expectedString), $method->invokeArgs($this->object, array('1')));
 	}
@@ -211,7 +211,7 @@ class JModelListTest extends TestCaseDatabase
 
 		// Write value in "getStart" cache
 		TestReflection::setValue($this->object, 'cache', array('cf97226bf7fdca1fe5579e6d96dca3c3' => 123));
-
+		print_R($this->object);die;
 		$this->assertSame(123, $this->object->getStart());
 	}
 
@@ -569,7 +569,7 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock->expects($this->once())
 			->method('getUserState')
 			->with(
-				$this->equalTo('com_j.list'),
+				$this->equalTo('com_joomla\cms\model\list.\listmodel'),
 				$this->equalTo(new stdClass)
 			)
 			->will(
@@ -619,7 +619,7 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock->expects($this->once())
 			->method('getUserState')
 			->with(
-				$this->equalTo('com_j.list'),
+				$this->equalTo('com_joomla\cms\model\list.\listmodel'),
 				$this->equalTo(new stdClass)
 			)
 			->will($this->returnValue($data));
@@ -653,12 +653,12 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
 				array($this->equalTo('global.list.limit'), $this->equalTo('limit'), $this->equalTo(null), $this->equalTo('uint')),
-				array($this->equalTo('com_j.list.ordercol'), $this->equalTo('filter_order'), $this->equalTo('col'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.ordercol'), $this->equalTo('filter_order'), $this->equalTo('col'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -707,12 +707,12 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
 				array($this->equalTo('global.list.limit'), $this->equalTo('limit'), $this->equalTo(null), $this->equalTo('uint')),
-				array($this->equalTo('com_j.list.ordercol'), $this->equalTo('filter_order'), $this->equalTo('inwhitelist'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.ordercol'), $this->equalTo('filter_order'), $this->equalTo('inwhitelist'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -759,12 +759,12 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
 				array($this->equalTo('global.list.limit'), $this->equalTo('limit'), $this->equalTo(null), $this->equalTo('uint')),
-				array($this->equalTo('com_j.list.ordercol'), $this->equalTo('filter_order'), $this->equalTo('col'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.ordercol'), $this->equalTo('filter_order'), $this->equalTo('col'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -807,12 +807,12 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
 				array($this->equalTo('global.list.limit'), $this->equalTo('limit'), $this->equalTo(null), $this->equalTo('uint')),
-				array($this->equalTo('com_j.list.ordercol'), $this->equalTo('filter_order'), $this->equalTo('col'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.ordercol'), $this->equalTo('filter_order'), $this->equalTo('col'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -871,9 +871,9 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -924,9 +924,9 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -974,9 +974,9 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -1022,9 +1022,9 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
