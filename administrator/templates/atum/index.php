@@ -50,7 +50,6 @@ $itemid      = $input->get('Itemid', '');
 $sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $cpanel      = ($option === 'com_cpanel');
 $hidden      = $app->input->get('hidemainmenu');
-$showSubmenu = false;
 $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
@@ -210,11 +209,6 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 				<?php // Begin Content ?>
 				<jdoc:include type="modules" name="top" style="xhtml" />
 				<div class="row">
-
-					<?php if ($showSubmenu) : ?>
-					<div class="col-md-2">
-						<jdoc:include type="modules" name="submenu" style="none" />
-					</div>
 
 					<div class="col-md-10">
 						<?php else : ?>

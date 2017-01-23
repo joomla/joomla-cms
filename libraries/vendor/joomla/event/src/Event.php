@@ -23,7 +23,7 @@ class Event extends AbstractEvent
 	 * @param   string  $name   The argument name.
 	 * @param   mixed   $value  The argument value.
 	 *
-	 * @return  Event  This method is chainable.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
@@ -38,13 +38,12 @@ class Event extends AbstractEvent
 	}
 
 	/**
-	 * Set the value of an event argument.
-	 * If the argument already exists, it will be overridden.
+	 * Add argument to event.
 	 *
-	 * @param   string  $name   The argument name.
-	 * @param   mixed   $value  The argument value.
+	 * @param   string  $name   Argument name.
+	 * @param   mixed   $value  Value.
 	 *
-	 * @return  Event  This method is chainable.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
@@ -86,8 +85,8 @@ class Event extends AbstractEvent
 	 */
 	public function clearArguments()
 	{
-		$arguments = $this->arguments;
-		$this->arguments = array();
+		$arguments       = $this->arguments;
+		$this->arguments = [];
 
 		return $arguments;
 	}
@@ -98,10 +97,11 @@ class Event extends AbstractEvent
 	 * @return  void
 	 *
 	 * @since   1.0
+	 * @deprecated  3.0  Use stopPropogation instead
 	 */
 	public function stop()
 	{
-		$this->stopped = true;
+		$this->stopPropagation();
 	}
 
 	/**
@@ -112,9 +112,8 @@ class Event extends AbstractEvent
 	 *
 	 * @return  void
 	 *
-	 * @throws  InvalidArgumentException  If the argument name is null.
-	 *
 	 * @since   1.0
+	 * @throws  InvalidArgumentException  If the argument name is null.
 	 */
 	public function offsetSet($name, $value)
 	{

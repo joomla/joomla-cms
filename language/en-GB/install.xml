@@ -2,8 +2,8 @@
 <extension version="3.6" client="site" type="language" method="upgrade">
 	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>3.7.0</version>
-	<creationDate>January 2017</creationDate>
+	<version>4.0.0</version>
+	<creationDate>December 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -34,7 +34,6 @@
 		<filename>en-GB.lib_joomla.ini</filename>
 		<filename>en-GB.lib_joomla.sys.ini</filename>
 		<filename>en-GB.lib_phpass.sys.ini</filename>
-		<filename>en-GB.lib_phputf8.sys.ini</filename>
 		<filename>en-GB.lib_simplepie.sys.ini</filename>
 		<filename>en-GB.localise.php</filename>
 		<filename>en-GB.mod_articles_archive.ini</filename>

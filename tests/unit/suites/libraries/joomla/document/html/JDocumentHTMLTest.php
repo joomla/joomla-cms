@@ -168,7 +168,7 @@ class JDocumentHtmlTest extends TestCase
 	 */
 	public function testTheDefaultReturnForIsHtml5()
 	{
-		$this->assertNull($this->object->isHtml5());
+		$this->assertTrue($this->object->isHtml5());
 	}
 
 	/**

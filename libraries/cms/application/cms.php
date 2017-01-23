@@ -9,15 +9,23 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Event\AbstractEvent;
+use Joomla\Cms\Event\BeforeExecuteEvent;
+use Joomla\DI\Container;
+use Joomla\DI\ContainerAwareInterface;
+use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
+use Joomla\Session\SessionEvent;
 
 /**
  * Joomla! CMS Application class
  *
  * @since  3.2
  */
-class JApplicationCms extends JApplicationWeb
+abstract class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 {
+	use ContainerAwareTrait;
+
 	/**
 	 * Constant defining an enqueued emergency message
 	 *
@@ -110,28 +118,25 @@ class JApplicationCms extends JApplicationWeb
 	 * The client identifier.
 	 *
 	 * @var    integer
-	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $clientId
+	 * @since  4.0
 	 */
-	protected $_clientId = null;
+	protected $clientId = null;
 
 	/**
 	 * The application message queue.
 	 *
 	 * @var    array
-	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $messageQueue
+	 * @since  4.0
 	 */
-	protected $_messageQueue = array();
+	protected $messageQueue = array();
 
 	/**
 	 * The name of the application.
 	 *
 	 * @var    array
-	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $name
+	 * @since  4.0
 	 */
-	protected $_name = null;
+	protected $name = null;
 
 	/**
 	 * The profiler instance
@@ -152,24 +157,25 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
-	 *                                          input object.  If the argument is a JInput object that object will become
-	 *                                          the application's input object, otherwise a default input object is created.
-	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
-	 *                                          config object.  If the argument is a Registry object that object will become
-	 *                                          the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                                          the application's client object, otherwise a default client object is created.
+	 * @param   JInput                 $input      An optional argument to provide dependency injection for the application's
+	 *                                             input object.  If the argument is a JInput object that object will become
+	 *                                             the application's input object, otherwise a default input object is created.
+	 * @param   Registry               $config     An optional argument to provide dependency injection for the application's
+	 *                                             config object.  If the argument is a Registry object that object will become
+	 *                                             the application's config object, otherwise a default config object is created.
+	 * @param   JApplicationWebClient  $client     An optional argument to provide dependency injection for the application's
+	 *                                             client object.  If the argument is a JApplicationWebClient object that object will become
+	 *                                             the application's client object, otherwise a default client object is created.
+	 * @param   Container              $container  Dependency injection container.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
+	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null, Container $container = null)
 	{
-		parent::__construct($input, $config, $client);
+		$container = $container ?: new Container;
+		$this->setContainer($container);
 
-		// Load and set the dispatcher
-		$this->loadDispatcher();
+		parent::__construct($input, $config, $client);
 
 		// If JDEBUG is defined, load the profiler instance
 		if (defined('JDEBUG') && JDEBUG)
@@ -188,29 +194,64 @@ class JApplicationCms extends JApplicationWeb
 		{
 			$this->config->set('session_name', $this->getName());
 		}
-
-		// Create the session if a session name is passed.
-		if ($this->config->get('session') !== false)
-		{
-			$this->loadSession();
-		}
 	}
 
 	/**
 	 * After the session has been started we need to populate it with some default values.
 	 *
+	 * @param   SessionEvent  $event  Session event being triggered
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public function afterSessionStart()
+	public function afterSessionStart(SessionEvent $event)
 	{
-		$session = JFactory::getSession();
+		$session = $event->getSession();
 
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry);
 			$session->set('user', new JUser);
+		}
+
+		// TODO: At some point we need to get away from having session data always in the db.
+		$db   = JFactory::getDbo();
+		$time = time();
+
+		// Get the session handler from the configuration.
+		$handler = $this->get('session_handler', 'none');
+
+		// Purge expired session data if not using the database handler; the handler will run garbage collection as a native part of PHP's API
+		if ($handler != 'database' && $time % 2)
+		{
+			// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
+			try
+			{
+				$db->setQuery(
+					$db->getQuery(true)
+						->delete($db->quoteName('#__session'))
+						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())))
+				)->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				/*
+				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+				 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
+				 */
+			}
+		}
+
+		/*
+		 * Check for extra session metadata when:
+		 *
+		 * 1) The database handler is in use and the session is new
+		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
+		 */
+		if (($handler != 'database' && ($time % 2 || $session->isNew())) || ($handler == 'database' && $session->isNew()))
+		{
+			$this->checkSession();
 		}
 	}
 
@@ -242,25 +283,30 @@ class JApplicationCms extends JApplicationWeb
 		// If the session record doesn't exist initialise it.
 		if (!$exists)
 		{
-			$query->clear();
+			$handler = $this->get('session_handler', 'none');
 
-			$time = $session->isNew() ? time() : $session->get('session.timer.start');
-
+			// Default column/value set
 			$columns = array(
 				$db->quoteName('session_id'),
 				$db->quoteName('guest'),
-				$db->quoteName('time'),
 				$db->quoteName('userid'),
-				$db->quoteName('username'),
+				$db->quoteName('username')
 			);
 
 			$values = array(
 				$db->quote($session->getId()),
 				(int) $user->guest,
-				$db->quote((int) $time),
 				(int) $user->id,
-				$db->quote($user->username),
+				$db->quote($user->username)
 			);
+
+			// If the database session handler is not in use, append the time to the row
+			if ($handler != 'database')
+			{
+				$columns[] = $db->quoteName('time');
+				$time = $session->isNew() ? time() : $session->get('session.timer.start');
+				$values[]  = (int) $time;
+			}
 
 			if (!$this->get('shared_session', '0'))
 			{
@@ -268,16 +314,15 @@ class JApplicationCms extends JApplicationWeb
 				$values[] = (int) $this->getClientId();
 			}
 
-			$query->insert($db->quoteName('#__session'))
-				->columns($columns)
-				->values(implode(', ', $values));
-
-			$db->setQuery($query);
-
 			// If the insert failed, exit the application.
 			try
 			{
-				$db->execute();
+				$db->setQuery(
+					$db->getQuery(true)
+						->insert($db->quoteName('#__session'))
+						->columns($columns)
+						->values(implode(', ', $values))
+				)->execute();
 			}
 			catch (RuntimeException $e)
 			{
@@ -309,10 +354,10 @@ class JApplicationCms extends JApplicationWeb
 
 		$message = array('message' => $msg, 'type' => strtolower($type));
 
-		if (!in_array($message, $this->_messageQueue))
+		if (!in_array($message, $this->messageQueue))
 		{
 			// Enqueue the message.
-			$this->_messageQueue[] = $message;
+			$this->messageQueue[] = $message;
 		}
 	}
 
@@ -325,6 +370,23 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function execute()
 	{
+		JPluginHelper::importPlugin('system');
+
+		// Trigger the onBeforeExecute event.
+		$this->triggerEvent(
+			'onBeforeExecute',
+			AbstractEvent::create(
+				'onBeforeExecute',
+				[
+					'subject'    => $this,
+					'eventClass' => BeforeExecuteEvent::class,
+				]
+			)
+		);
+
+		// Mark beforeExecute in the profiler.
+		JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
+
 		// Perform application routines.
 		$this->doExecute();
 
@@ -430,7 +492,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  mixed  The user state.
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Use get() instead
+	 * @deprecated  5.0  Use get() instead
 	 */
 	public function getCfg($varname, $default = null)
 	{
@@ -446,7 +508,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function getClientId()
 	{
-		return $this->_clientId;
+		return $this->clientId;
 	}
 
 	/**
@@ -454,26 +516,36 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * This method must be invoked as: $web = JApplicationCms::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JApplicationCms class to instantiate.
+	 * @param   string     $name       The name (optional) of the JApplicationCms class to instantiate.
+	 * @param   string     $prefix     The class name prefix of the object.
+	 * @param   Container  $container  An optional dependency injection container to inject into the application.
 	 *
 	 * @return  JApplicationCms
 	 *
 	 * @since   3.2
 	 * @throws  RuntimeException
 	 */
-	public static function getInstance($name = null)
+	public static function getInstance($name = null, $prefix = 'JApplication', Container $container = null)
 	{
 		if (empty(static::$instances[$name]))
 		{
 			// Create a JApplicationCms object.
-			$classname = 'JApplication' . ucfirst($name);
+			$classname = $prefix . ucfirst($name);
 
 			if (!class_exists($classname))
 			{
 				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			static::$instances[$name] = new $classname;
+			if ($container && $container->exists($classname))
+			{
+				static::$instances[$name] = $container->get($classname);
+			}
+			else
+			{
+				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor
+				static::$instances[$name] = new $classname(null, null, null, $container);
+			}
 		}
 
 		return static::$instances[$name];
@@ -485,7 +557,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   string  $name     The name of the application/client.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JMenu|null
+	 * @return  JMenu
 	 *
 	 * @since   3.2
 	 */
@@ -502,16 +574,7 @@ class JApplicationCms extends JApplicationWeb
 			$options['app'] = $this;
 		}
 
-		try
-		{
-			$menu = JMenu::getInstance($name, $options);
-		}
-		catch (Exception $e)
-		{
-			return;
-		}
-
-		return $menu;
+		return JMenu::getInstance($name, $options);
 	}
 
 	/**
@@ -524,19 +587,18 @@ class JApplicationCms extends JApplicationWeb
 	public function getMessageQueue()
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
-		if (!count($this->_messageQueue))
+		if (!count($this->messageQueue))
 		{
-			$session = JFactory::getSession();
-			$sessionQueue = $session->get('application.queue');
+			$sessionQueue = $this->getSession()->get('application.queue');
 
 			if (count($sessionQueue))
 			{
-				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', null);
+				$this->messageQueue = $sessionQueue;
+				$this->getSession()->set('application.queue', null);
 			}
 		}
 
-		return $this->_messageQueue;
+		return $this->messageQueue;
 	}
 
 	/**
@@ -548,7 +610,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function getName()
 	{
-		return $this->_name;
+		return $this->name;
 	}
 
 	/**
@@ -557,7 +619,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JPathway|null
+	 * @return  JPathway
 	 *
 	 * @since   3.2
 	 */
@@ -568,16 +630,7 @@ class JApplicationCms extends JApplicationWeb
 			$name = $this->getName();
 		}
 
-		try
-		{
-			$pathway = JPathway::getInstance($name, $options);
-		}
-		catch (Exception $e)
-		{
-			return;
-		}
-
-		return $pathway;
+		return JPathway::getInstance($name, $options);
 	}
 
 	/**
@@ -586,7 +639,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JRouter|null
+	 * @return  JRouter
 	 *
 	 * @since   3.2
 	 */
@@ -598,16 +651,7 @@ class JApplicationCms extends JApplicationWeb
 			$name = $app->getName();
 		}
 
-		try
-		{
-			$router = JRouter::getInstance($name, $options);
-		}
-		catch (Exception $e)
-		{
-			return;
-		}
-
-		return $router;
+		return JRouter::getInstance($name, $options);
 	}
 
 	/**
@@ -733,6 +777,9 @@ class JApplicationCms extends JApplicationWeb
 
 		$this->set('editor', $editor);
 
+		// Load the behaviour plugins
+		JPluginHelper::importPlugin('behaviour');
+
 		// Trigger the onAfterInitialise event.
 		JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterInitialise');
@@ -788,104 +835,6 @@ class JApplicationCms extends JApplicationWeb
 	protected function loadLibraryLanguage()
 	{
 		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
-	}
-
-	/**
-	 * Allows the application to load a custom or default session.
-	 *
-	 * The logic and options for creating this object are adequately generic for default cases
-	 * but for many applications it will make sense to override this method and create a session,
-	 * if required, based on more specific needs.
-	 *
-	 * @param   JSession  $session  An optional session object. If omitted, the session is created.
-	 *
-	 * @return  JApplicationCms  This method is chainable.
-	 *
-	 * @since   3.2
-	 */
-	public function loadSession(JSession $session = null)
-	{
-		if ($session !== null)
-		{
-			$this->session = $session;
-
-			return $this;
-		}
-
-		// Generate a session name.
-		$name = JApplicationHelper::getHash($this->get('session_name', get_class($this)));
-
-		// Calculate the session lifetime.
-		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
-
-		// Initialize the options for JSession.
-		$options = array(
-			'name'   => $name,
-			'expire' => $lifetime,
-		);
-
-		switch ($this->getClientId())
-		{
-			case 0:
-				if ($this->get('force_ssl') == 2)
-				{
-					$options['force_ssl'] = true;
-				}
-
-				break;
-
-			case 1:
-				if ($this->get('force_ssl') >= 1)
-				{
-					$options['force_ssl'] = true;
-				}
-
-				break;
-		}
-
-		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
-
-		/*
-		 * Note: The below code CANNOT change from instantiating a session via JFactory until there is a proper dependency injection container supported
-		 * by the application. The current default behaviours result in this method being called each time an application class is instantiated.
-		 * https://github.com/joomla/joomla-cms/issues/12108 explains why things will crash and burn if you ever attempt to make this change
-		 * without a proper dependency injection container.
-		 */
-
-		$session = JFactory::getSession($options);
-		$session->initialise($this->input, $this->dispatcher);
-
-		// TODO: At some point we need to get away from having session data always in the db.
-		$db = JFactory::getDbo();
-
-		// Remove expired sessions from the database.
-		$time = time();
-
-		if ($time % 2)
-		{
-			// The modulus introduces a little entropy, making the flushing less accurate
-			// but fires the query less than half the time.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-			$db->setQuery($query);
-			$db->execute();
-		}
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
-		{
-			$this->checkSession();
-		}
-
-		// Set the session object.
-		$this->session = $session;
-
-		return $this;
 	}
 
 	/**
@@ -994,7 +943,7 @@ class JApplicationCms extends JApplicationWeb
 		// If status is success, any error will have been raised by the user plugin
 		if ($response->status !== JAuthentication::STATUS_SUCCESS)
 		{
-			JLog::add($response->error_message, JLog::WARNING, 'jerror');
+			$this->getLogger()->warning($response->error_message, array('category' => 'jerror'));
 		}
 
 		return false;
@@ -1085,11 +1034,11 @@ class JApplicationCms extends JApplicationWeb
 			if (isset($args[1]) && !empty($args[1]) && (!is_bool($args[1]) && !is_int($args[1])))
 			{
 				// Log that passing the message to the function is deprecated
-				JLog::add(
-					'Passing a message and message type to JFactory::getApplication()->redirect() is deprecated. '
-					. 'Please set your message via JFactory::getApplication()->enqueueMessage() prior to calling redirect().',
-					JLog::WARNING,
-					'deprecated'
+				$this->getLogger()->warning(
+					'Passing a message and message type to ' . __METHOD__ . '() is deprecated. '
+					. 'Please set your message via ' . __CLASS__ . '::enqueueMessage() prior to calling ' . __CLASS__
+					. '::redirect().',
+					array('category' => 'deprecated')
 				);
 
 				$message = $args[1];
@@ -1113,10 +1062,9 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// Persist messages if they exist.
-		if (count($this->_messageQueue))
+		if (count($this->messageQueue))
 		{
-			$session = JFactory::getSession();
-			$session->set('application.queue', $this->_messageQueue);
+			$this->getSession()->set('application.queue', $this->messageQueue);
 		}
 
 		// Hand over processing to the parent now
@@ -1194,7 +1142,7 @@ class JApplicationCms extends JApplicationWeb
 		$uri = clone JUri::getInstance();
 
 		$router = static::getRouter();
-		$result = $router->parse($uri);
+		$result = $router->parse($uri, true);
 
 		foreach ($result as $key => $value)
 		{

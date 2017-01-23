@@ -16,12 +16,32 @@ defined('_JEXEC') or die;
  */
 class UsersViewProfile extends JViewLegacy
 {
+	/**
+	 * Profile form data for the user
+	 *
+	 * @var  JUser
+	 */
 	protected $data;
 
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The page parameters
+	 *
+	 * @var  \Joomla\Registry\Registry|null
+	 */
 	protected $params;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
 
 	/**
@@ -31,6 +51,38 @@ class UsersViewProfile extends JViewLegacy
 	 * @since  3.6.3
 	 */
 	protected $db;
+
+	/**
+	 * Configuration forms for all two-factor authentication methods.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $twofactorform;
+
+	/**
+	 * List of two factor authentication methods available.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $twofactormethods;
+
+	/**
+	 * One time password (OTP) – a.k.a. two factor authentication – configuration for the user.
+	 *
+	 * @var    stdClass
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $otpConfig;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
 
 	/**
 	 * Execute and display a template script.
@@ -58,9 +110,7 @@ class UsersViewProfile extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// View also takes responsibility for checking if the user logged in with remember me.
@@ -80,9 +130,7 @@ class UsersViewProfile extends JViewLegacy
 		// Check if a user was found.
 		if (!$this->data->id)
 		{
-			JError::raiseError(404, JText::_('JERROR_USERS_PROFILE_NOT_FOUND'));
-
-			return false;
+			throw new Exception(JText::_('JERROR_USERS_PROFILE_NOT_FOUND'), 404);
 		}
 
 		$this->data->tags = new JHelperTags;
@@ -90,7 +138,7 @@ class UsersViewProfile extends JViewLegacy
 
 		JPluginHelper::importPlugin('content');
 		$this->data->text = '';
-		JEventDispatcher::getInstance()->trigger('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
+		JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
 		unset($this->data->text);
 
 		// Check for layout override
@@ -160,12 +208,12 @@ class UsersViewProfile extends JViewLegacy
 
 		if ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 	}
 }

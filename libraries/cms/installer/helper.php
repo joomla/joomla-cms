@@ -43,8 +43,7 @@ abstract class JInstallerHelper
 		// Load installer plugins, and allow url and headers modification
 		$headers = array();
 		JPluginHelper::importPlugin('installer');
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
+		JFactory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', array(&$url, &$headers));
 
 		try
 		{
@@ -306,25 +305,5 @@ abstract class JInstallerHelper
 			// It might also be just a base filename
 			JFile::delete(JPath::clean($config->get('tmp_path') . '/' . $package));
 		}
-	}
-
-	/**
-	 * Splits contents of a sql file into array of discreet queries.
-	 * Queries need to be delimited with end of statement marker ';'
-	 *
-	 * @param   string  $query  The SQL statement.
-	 *
-	 * @return  array  Array of queries
-	 *
-	 * @since   3.1
-	 * @deprecated  13.3  Use JDatabaseDriver::splitSql() directly
-	 * @codeCoverageIgnore
-	 */
-	public static function splitSql($query)
-	{
-		JLog::add('JInstallerHelper::splitSql() is deprecated. Use JDatabaseDriver::splitSql() instead.', JLog::WARNING, 'deprecated');
-		$db = JFactory::getDbo();
-
-		return $db->splitSql($query);
 	}
 }

@@ -33,7 +33,7 @@ class ContentViewArticle extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var  JObject
 	 */
 	protected $state;
 
@@ -43,6 +43,13 @@ class ContentViewArticle extends JViewLegacy
 	 * @var  JObject
 	 */
 	protected $canDo;
+
+	/**
+	 * Pagebreak TOC alias
+	 *
+	 * @var  string
+	 */
+	protected $eName;
 
 	/**
 	 * Execute and display a template script.
@@ -57,9 +64,9 @@ class ContentViewArticle extends JViewLegacy
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			// TODO: This is really dogy - should change this one day.
+			// TODO: This is really dodgy - should change this one day.
 			$eName = JFactory::getApplication()->input->getCmd('e_name');
-			$eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
+			$eName    = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 			$this->document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 			$this->eName = &$eName;
 
@@ -74,9 +81,7 @@ class ContentViewArticle extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).

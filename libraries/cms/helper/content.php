@@ -33,55 +33,6 @@ class JHelperContent
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   integer  $categoryId  The category ID.
-	 * @param   integer  $id          The item ID.
-	 * @param   string   $assetName   The asset name
-	 *
-	 * @return  JObject
-	 *
-	 * @since   3.1
-	 * @deprecated  3.2  Use JHelperContent::getActions() instead
-	 */
-	public static function _getActions($categoryId = 0, $id = 0, $assetName = '')
-	{
-		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
-
-		// Reverted a change for version 2.5.6
-		$user   = JFactory::getUser();
-		$result = new JObject;
-
-		$path = JPATH_ADMINISTRATOR . '/components/' . $assetName . '/access.xml';
-
-		if (empty($id) && empty($categoryId))
-		{
-			$section = 'component';
-		}
-		elseif (empty($id))
-		{
-			$section = 'category';
-			$assetName .= '.category.' . (int) $categoryId;
-		}
-		else
-		{
-			// Used only in com_content
-			$section = 'article';
-			$assetName .= '.article.' . (int) $id;
-		}
-
-		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='" . $section . "']/");
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
 	 * @param   string   $component  The component name.
 	 * @param   string   $section    The access section name.
 	 * @param   integer  $id         The item ID.
@@ -92,12 +43,11 @@ class JHelperContent
 	 */
 	public static function getActions($component = '', $section = '', $id = 0)
 	{
-		// Check for deprecated arguments order
-		if (is_int($component) || is_null($component))
-		{
-			$result = self::_getActions($component, $section, $id);
+		$assetName = $component;
 
-			return $result;
+		if ($section && $id)
+		{
+			$assetName .=  '.' . $section . '.' . (int) $id;
 		}
 
 		$assetName = $component;

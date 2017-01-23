@@ -16,15 +16,58 @@ defined('_JEXEC') or die;
  */
 class UsersViewUser extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	protected $item;
 
+	/**
+	 * Gets the available groups
+	 *
+	 * @var  array
+	 */
 	protected $grouplist;
 
+	/**
+	 * The groups this user is assigned to
+	 *
+	 * @var     array
+	 * @since   1.6
+	 */
 	protected $groups;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
+
+	/**
+	 * Configuration forms for all two-factor authentication methods
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	protected $tfaform;
+
+	/**
+	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
+	 * configuration for the user.
+	 *
+	 * @var    stdClass
+	 * @since  3.2
+	 */
+	protected $otpConfig;
 
 	/**
 	 * Display the view
@@ -46,9 +89,7 @@ class UsersViewUser extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Prevent user from modifying own group(s)

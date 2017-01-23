@@ -299,9 +299,7 @@ class AdminModelSysInfo extends JModelLegacy
 			return $this->info;
 		}
 
-		$version  = new JVersion;
-		$platform = new JPlatform;
-		$db       = $this->getDbo();
+		$db = $this->getDbo();
 
 		$this->info = array(
 			'php'                   => php_uname(),
@@ -311,8 +309,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'phpversion'            => phpversion(),
 			'server'                => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE'),
 			'sapi_name'             => php_sapi_name(),
-			'version'               => $version->getLongVersion(),
-			'platform'              => $platform->getLongVersion(),
+			'version'               => (new JVersion)->getLongVersion(),
 			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
 		);
 

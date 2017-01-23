@@ -119,7 +119,7 @@ class UsersModelProfile extends JModelForm
 	 * The base form data is loaded and then an event is fired
 	 * for users plugins to extend the data.
 	 *
-	 * @return  mixed  	Data object on success, false on failure.
+	 * @return  JUser
 	 *
 	 * @since   1.6
 	 */
@@ -151,18 +151,10 @@ class UsersModelProfile extends JModelForm
 			$this->data->params = $registry->toArray();
 
 			// Get the dispatcher and load the users plugins.
-			$dispatcher = JEventDispatcher::getInstance();
 			JPluginHelper::importPlugin('user');
 
 			// Trigger the data preparation event.
-			$results = $dispatcher->trigger('onContentPrepareData', array('com_users.profile', $this->data));
-
-			// Check for errors encountered while preparing the data.
-			if (count($results) && in_array(false, $results, true))
-			{
-				$this->setError($dispatcher->getError());
-				$this->data = false;
-			}
+			$results = JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', $this->data));
 		}
 
 		return $this->data;

@@ -27,7 +27,7 @@ class JTableCorecontent extends JTable
 	 *
 	 * @since   3.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__ucm_content', 'core_content_id', $db);
 	}
@@ -89,6 +89,17 @@ class JTableCorecontent extends JTable
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		if (trim($this->core_title) == '')
 		{
 			$this->setError(JText::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));

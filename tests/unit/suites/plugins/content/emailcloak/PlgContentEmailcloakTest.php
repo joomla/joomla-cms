@@ -36,22 +36,18 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 	public function setup()
 	{
 		JFactory::$application = $this->getMockCmsApp();
-		JFactory::$session = $this->getMockSession();
+		JFactory::$session     = $this->getMockSession();
 
 		// force the cloak JS inline so that we can unit test it easier than messing with script head in document
 		JFactory::getApplication()->input->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
 
-		/**
-		 * Create a mock dispatcher instance
-		 *
-		 * @var $dispatcher Mock_JEventDispatcher_f5646d4b e.g
-		 */
-		$dispatcher = TestCaseDatabase::getMockDispatcher();
+		// Create a mock dispatcher instance
+		$dispatcher = $this->getMockDispatcher();
 
 		$plugin = array(
 			'name'   => 'emailcloak',
 			'type'   => 'Content',
-			'params' => new \JRegistry
+			'params' => new \JRegistry,
 		);
 
 		$this->class = new PlgContentEmailcloak($dispatcher, $plugin);

@@ -2,8 +2,8 @@
 <extension version="3.6" client="administrator" type="language" method="upgrade">
 	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>3.7.0</version>
-	<creationDate>January 2017</creationDate>
+	<version>4.0.0</version>
+	<creationDate>December 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -101,8 +101,6 @@
 		<filename>en-GB.mod_stats_admin.sys.ini</filename>
 		<filename>en-GB.mod_status.ini</filename>
 		<filename>en-GB.mod_status.sys.ini</filename>
-		<filename>en-GB.mod_submenu.ini</filename>
-		<filename>en-GB.mod_submenu.sys.ini</filename>
 		<filename>en-GB.mod_title.ini</filename>
 		<filename>en-GB.mod_title.sys.ini</filename>
 		<filename>en-GB.mod_toolbar.ini</filename>
@@ -243,8 +241,6 @@
 		<filename>en-GB.plg_system_log.sys.ini</filename>
 		<filename>en-GB.plg_system_logout.ini</filename>
 		<filename>en-GB.plg_system_logout.sys.ini</filename>
-		<filename>en-GB.plg_system_p3p.ini</filename>
-		<filename>en-GB.plg_system_p3p.sys.ini</filename>
 		<filename>en-GB.plg_system_redirect.ini</filename>
 		<filename>en-GB.plg_system_redirect.sys.ini</filename>
 		<filename>en-GB.plg_system_remember.ini</filename>

@@ -296,7 +296,7 @@ class JLanguage
 	{
 		if (!isset(self::$languages[$lang . $debug]))
 		{
-			self::$languages[$lang . $debug] = new JLanguage($lang, $debug);
+			self::$languages[$lang . $debug] = new static($lang, $debug);
 		}
 
 		return self::$languages[$lang . $debug];
@@ -423,7 +423,7 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 */
-	public function setTransliterator($function)
+	public function setTransliterator(callable $function)
 	{
 		$previous = $this->transliterator;
 		$this->transliterator = $function;
@@ -473,7 +473,7 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 */
-	public function setPluralSuffixesCallback($function)
+	public function setPluralSuffixesCallback(callable $function)
 	{
 		$previous = $this->pluralSuffixesCallback;
 		$this->pluralSuffixesCallback = $function;
@@ -521,7 +521,7 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 */
-	public function setIgnoredSearchWordsCallback($function)
+	public function setIgnoredSearchWordsCallback(callable $function)
 	{
 		$previous = $this->ignoredSearchWordsCallback;
 		$this->ignoredSearchWordsCallback = $function;
@@ -569,7 +569,7 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 */
-	public function setLowerLimitSearchWordCallback($function)
+	public function setLowerLimitSearchWordCallback(callable $function)
 	{
 		$previous = $this->lowerLimitSearchWordCallback;
 		$this->lowerLimitSearchWordCallback = $function;
@@ -615,7 +615,7 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 */
-	public function setUpperLimitSearchWordCallback($function)
+	public function setUpperLimitSearchWordCallback(callable $function)
 	{
 		$previous = $this->upperLimitSearchWordCallback;
 		$this->upperLimitSearchWordCallback = $function;
@@ -663,7 +663,7 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 */
-	public function setSearchDisplayedCharactersNumberCallback($function)
+	public function setSearchDisplayedCharactersNumberCallback(callable $function)
 	{
 		$previous = $this->searchDisplayedCharactersNumberCallback;
 		$this->searchDisplayedCharactersNumberCallback = $function;

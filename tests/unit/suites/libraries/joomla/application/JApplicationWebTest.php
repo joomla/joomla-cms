@@ -61,24 +61,6 @@ class JApplicationWebTest extends TestCase
 	protected $backupServer;
 
 	/**
-	 * Data for detectRequestUri method.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	public function getDetectRequestUriData()
-	{
-		return array(
-			// HTTPS, PHP_SELF, REQUEST_URI, HTTP_HOST, SCRIPT_NAME, QUERY_STRING, (resulting uri)
-			array(null, '/j/index.php', '/j/index.php?foo=bar', 'joom.la:3', '/j/index.php', '', 'http://joom.la:3/j/index.php?foo=bar'),
-			array('on', '/j/index.php', '/j/index.php?foo=bar', 'joom.la:3', '/j/index.php', '', 'https://joom.la:3/j/index.php?foo=bar'),
-			array(null, '', '', 'joom.la:3', '/j/index.php', '', 'http://joom.la:3/j/index.php'),
-			array(null, '', '', 'joom.la:3', '/j/index.php', 'foo=bar', 'http://joom.la:3/j/index.php?foo=bar'),
-		);
-	}
-
-	/**
 	 * Data for fetchConfigurationData method.
 	 *
 	 * @return  array
@@ -131,13 +113,11 @@ class JApplicationWebTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		// Reset the dispatcher and session instances.
-		TestReflection::setValue('JEventDispatcher', 'instance', null);
-		TestReflection::setValue('JSession', 'instance', null);
-
 		// Reset some web inspector static settings.
 		JApplicationWebInspector::$headersSent = false;
 		JApplicationWebInspector::$connectionAlive = true;
+
+		TestReflection::setValue('JApplicationWeb', 'instance', null);
 
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
@@ -176,9 +156,9 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function test__constructDependancyInjection()
 	{
-		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
+		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
 		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
+			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
 		// Build the mock object.
@@ -280,296 +260,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::close method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testClose()
-	{
-		// Make sure the application is not already closed.
-		$this->assertNull($this->class->closed);
-
-		$this->class->close(3);
-
-		// Make sure the application is closed with code 3.
-		$this->assertSame($this->class->closed, 3);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::compress method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testCompressWithGzipEncoding()
-	{
-		// Fill the header body with a value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => null,
-				'body' => array('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-					sunt in culpa qui officia deserunt mollit anim id est laborum.'),
-			)
-		);
-
-		// Load the client encoding with a value.
-		TestReflection::setValue(
-			$this->class,
-			'client',
-			(object) array(
-				'encodings' => array('gzip', 'deflate'),
-			)
-		);
-
-		TestReflection::invoke($this->class, 'compress');
-
-		// Ensure that the compressed body is shorter than the raw body.
-		$this->assertLessThan(471, strlen($this->class->getBody()));
-
-		// Ensure that the compression headers were set.
-		$this->assertEquals(
-			array(
-				0 => array('name' => 'Content-Encoding', 'value' => 'gzip')
-			),
-			TestReflection::getValue($this->class, 'response')->headers
-		);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::compress method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testCompressWithDeflateEncoding()
-	{
-		// Fill the header body with a value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => null,
-				'body' => array('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-					sunt in culpa qui officia deserunt mollit anim id est laborum.'),
-			)
-		);
-
-		// Load the client encoding with a value.
-		TestReflection::setValue(
-			$this->class,
-			'client',
-			(object) array(
-				'encodings' => array('deflate', 'gzip'),
-			)
-		);
-
-		TestReflection::invoke($this->class, 'compress');
-
-		// Ensure that the compressed body is shorter than the raw body.
-		$this->assertLessThan(471, strlen($this->class->getBody()));
-
-		// Ensure that the compression headers were set.
-		$this->assertEquals(
-			array(
-				0 => array('name' => 'Content-Encoding', 'value' => 'deflate')
-			),
-			TestReflection::getValue($this->class, 'response')->headers
-		);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::compress method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testCompressWithNoAcceptEncodings()
-	{
-		$string = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-					sunt in culpa qui officia deserunt mollit anim id est laborum.';
-
-		// Replace \r\n -> \n to ensure same length on all platforms
-		// Fill the header body with a value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => null,
-				'body' => array(str_replace("\r\n", "\n", $string)),
-			)
-		);
-
-		// Load the client encoding with a value.
-		TestReflection::setValue(
-			$this->class,
-			'client',
-			(object) array(
-				'encodings' => array(),
-			)
-		);
-
-		TestReflection::invoke($this->class, 'compress');
-
-		// Ensure that the compressed body is the same as the raw body since there is no compression.
-		$this->assertSame(471, strlen($this->class->getBody()));
-
-		// Ensure that the compression headers were not set.
-		$this->assertNull(TestReflection::getValue($this->class, 'response')->headers);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::compress method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testCompressWithHeadersSent()
-	{
-		$string = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-					sunt in culpa qui officia deserunt mollit anim id est laborum.';
-
-		// Replace \r\n -> \n to ensure same length on all platforms
-		// Fill the header body with a value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => null,
-				'body' => array(str_replace("\r\n", "\n", $string)),
-			)
-		);
-
-		// Load the client encoding with a value.
-		TestReflection::setValue(
-			$this->class,
-			'client',
-			(object) array(
-				'encodings' => array('gzip', 'deflate'),
-			)
-		);
-
-		// Set the headers sent flag to true.
-		JApplicationWebInspector::$headersSent = true;
-
-		TestReflection::invoke($this->class, 'compress');
-
-		// Set the headers sent flag back to false.
-		JApplicationWebInspector::$headersSent = false;
-
-		// Ensure that the compressed body is the same as the raw body since there is no compression.
-		$this->assertSame(471, strlen($this->class->getBody()));
-
-		// Ensure that the compression headers were not set.
-		$this->assertNull(TestReflection::getValue($this->class, 'response')->headers);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::compress method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testCompressWithUnsupportedEncodings()
-	{
-		$string = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-					sunt in culpa qui officia deserunt mollit anim id est laborum.';
-
-		// Replace \r\n -> \n to ensure same length on all platforms
-		// Fill the header body with a value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => null,
-				'body' => array(str_replace("\r\n", "\n", $string)),
-			)
-		);
-
-		// Load the client encoding with a value.
-		TestReflection::getValue(
-			$this->class,
-			'client',
-			(object) array(
-				'encodings' => array('foo', 'bar'),
-			)
-		);
-
-		TestReflection::invoke($this->class, 'compress');
-
-		// Ensure that the compressed body is the same as the raw body since there is no supported compression.
-		$this->assertSame(471, strlen($this->class->getBody()));
-
-		// Ensure that the compression headers were not set.
-		$this->assertNull(TestReflection::getValue($this->class, 'response')->headers);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::detectRequestUri method.
-	 *
-	 * @param   string  $https        @todo
-	 * @param   string  $phpSelf      @todo
-	 * @param   string  $requestUri   @todo
-	 * @param   string  $httpHost     @todo
-	 * @param   string  $scriptName   @todo
-	 * @param   string  $queryString  @todo
-	 * @param   string  $expects      @todo
-	 *
-	 * @return  void
-	 *
-	 * @dataProvider getDetectRequestUriData
-	 * @since   11.3
-	 */
-	public function testDetectRequestUri($https, $phpSelf, $requestUri, $httpHost, $scriptName, $queryString, $expects)
-	{
-		if ($https !== null)
-		{
-			$_SERVER['HTTPS'] = $https;
-		}
-
-		$_SERVER['PHP_SELF'] = $phpSelf;
-		$_SERVER['REQUEST_URI'] = $requestUri;
-		$_SERVER['HTTP_HOST'] = $httpHost;
-		$_SERVER['SCRIPT_NAME'] = $scriptName;
-		$_SERVER['QUERY_STRING'] = $queryString;
-
-		$this->assertEquals($expects, TestReflection::invoke($this->class, 'detectRequestUri'));
-	}
-
-	/**
 	 * Tests the JApplicationWeb::Execute method without a document.
 	 *
 	 * @return  void
@@ -578,28 +268,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testExecuteWithoutDocument()
 	{
-		// Manually inject the dispatcher.
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-
-		// Register all the methods so that we can track if they have been fired.
-		$this->class->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
-			->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
-			->registerEvent('onAfterExecute', 'JWebTestExecute-onAfterExecute')
-			->registerEvent('onBeforeRespond', 'JWebTestExecute-onBeforeRespond')
-			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
-
 		$this->class->execute();
-
-		$this->assertEquals(
-			array(
-				'onBeforeExecute',
-				'JWebDoExecute',
-				'onAfterExecute',
-				'onBeforeRespond',
-				'onAfterRespond',
-			),
-			TestMockDispatcher::$triggered
-		);
 	}
 
 	/**
@@ -617,35 +286,13 @@ class JApplicationWebTest extends TestCase
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));
 
 		// Manually inject the mocks.
-		TestReflection::setValue($this->class, 'dispatcher', $dispatcher);
-		TestReflection::setValue($this->class, 'document', $document);
-
-		// Register all the methods so that we can track if they have been fired.
-		$this->class->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
-			->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
-			->registerEvent('onAfterExecute', 'JWebTestExecute-onAfterExecute')
-			->registerEvent('onBeforeRender', 'JWebTestExecute-onBeforeRender')
-			->registerEvent('onAfterRender', 'JWebTestExecute-onAfterRender')
-			->registerEvent('onBeforeRespond', 'JWebTestExecute-onBeforeRespond')
-			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
+		$this->class->setDispatcher($dispatcher);
+		$this->class->loadDocument($document);
 
 		// Buffer the execution.
 		ob_start();
 		$this->class->execute();
 		$buffer = ob_get_clean();
-
-		$this->assertEquals(
-			array(
-				'onBeforeExecute',
-				'JWebDoExecute',
-				'onAfterExecute',
-				'onBeforeRender',
-				'onAfterRender',
-				'onBeforeRespond',
-				'onAfterRespond',
-			),
-			TestMockDispatcher::$triggered
-		);
 
 		$this->assertEquals('JWeb Body', $this->class->getBody());
 
@@ -717,23 +364,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::get method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testGet()
-	{
-		$config = new Registry(array('foo' => 'bar'));
-
-		TestReflection::setValue($this->class, 'config', $config);
-
-		$this->assertEquals('bar', $this->class->get('foo', 'car'));
-		$this->assertEquals('car', $this->class->get('goo', 'car'));
-	}
-
-	/**
 	 * Tests the JApplicationWeb::getBody method.
 	 *
 	 * @return  void
@@ -790,111 +420,23 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testGetInstance()
 	{
-		$this->assertInstanceOf('JApplicationWebInspector', JApplicationWeb::getInstance('JApplicationWebInspector'));
+		$app = JApplicationWeb::getInstance('JApplicationWebInspector');
 
-		TestReflection::setValue('JApplicationWeb', 'instance', 'foo');
-
-		$this->assertEquals('foo', JApplicationWeb::getInstance('JApplicationWebInspector'));
-
-		TestReflection::setValue('JApplicationWeb', 'instance', null);
-
-		$this->assertInstanceOf('JApplicationWeb', JApplicationWeb::getInstance('Foo'));
+		$this->assertInstanceOf('JApplicationWebInspector', $app);
+		$this->assertSame($app, JApplicationWeb::getInstance('JApplicationWebInspector'), 'The same application object was not returned.');
 	}
 
 	/**
-	 * Tests the JApplicationWeb::initialise method with default settings.
+	 * Tests the JApplicationWeb::getInstance method for an unexisting class.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @expectedException  RuntimeException
 	 */
-	public function testInitialiseWithDefaults()
+	public function testGetInstanceForUnexistingClass()
 	{
-		// TODO JSession default is not tested properly.
-
-		$this->class->initialise(false);
-
-		$this->assertAttributeInstanceOf('JDocument', 'document', $this->class);
-		$this->assertAttributeInstanceOf('JLanguage', 'language', $this->class);
-		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::initialise method with false injection.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testInitialiseWithFalse()
-	{
-		$this->class->initialise(false, false, false);
-
-		$this->assertAttributeEmpty('session', $this->class);
-		$this->assertAttributeEmpty('document', $this->class);
-		$this->assertAttributeEmpty('language', $this->class);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::initialise method with dependancy injection.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testInitialiseWithInjection()
-	{
-		// Build the mock object.
-		$mockSession = $this->getMockBuilder('JSession')
-					->setMethods(array('test'))
-					->setConstructorArgs(array())
-					->setMockClassName('')
-					->disableOriginalConstructor()
-					->getMock();
-		$mockSession
-			->expects($this->any())
-			->method('test')
-			->willReturnSelf();
-
-		$mockDocument = $this->getMockBuilder('JDocument')
-					->setMethods(array('test'))
-					->setConstructorArgs(array())
-					->setMockClassName('')
-					->disableOriginalConstructor()
-					->getMock();
-		$mockDocument
-			->expects($this->any())
-			->method('test')
-			->willReturnSelf();
-
-		$mockLanguage = $this->getMockBuilder('JLanguage')
-					->setMethods(array('test'))
-					->setConstructorArgs(array())
-					->setMockClassName('')
-					->disableOriginalConstructor()
-					->getMock();
-		$mockLanguage
-			->expects($this->any())
-			->method('test')
-			->willReturnSelf();
-
-		$mockDispatcher = $this->getMockBuilder('JEventDispatcher')
-					->setMethods(array('test'))
-					->setConstructorArgs(array())
-					->setMockClassName('')
-					->disableOriginalConstructor()
-					->getMock();
-		$mockDispatcher
-			->expects($this->any())
-			->method('test')
-			->willReturnSelf();
-
-		$this->class->initialise($mockSession, $mockDocument, $mockLanguage, $mockDispatcher);
-
-		$this->assertSame($mockSession, $this->class->getSession()->test());
-		$this->assertSame($mockDocument, $this->class->getDocument()->test());
-		$this->assertSame($mockLanguage, $this->class->getLanguage()->test());
-		$this->assertSame($mockDispatcher, TestReflection::getValue($this->class, 'dispatcher')->test());
+		JApplicationWeb::getInstance('Foo');
 	}
 
 	/**
@@ -929,9 +471,6 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testLoadDocument()
 	{
-		// Inject the mock dispatcher into the JEventDispatcher singleton.
-		TestReflection::setValue('JEventDispatcher', 'instance', $this->getMockDispatcher());
-
 		$this->class->loadDocument();
 
 		$this->assertAttributeInstanceOf('JDocument', 'document', $this->class);
@@ -1264,26 +803,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::registerEvent method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testRegisterEvent()
-	{
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-
-		$this->assertSame($this->class, $this->class->registerEvent('onJWebRegisterEvent', 'function'));
-
-		$this->assertArrayHasKey(
-			'onJWebRegisterEvent',
-			TestMockDispatcher::$handlers,
-			'Checks the events were passed to the mock dispatcher.'
-		);
-	}
-
-	/**
 	 * Tests the JApplicationWeb::render method.
 	 *
 	 * @return  void
@@ -1328,24 +847,6 @@ class JApplicationWebTest extends TestCase
 			),
 			$this->class->headers
 		);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::set method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testSet()
-	{
-		$config = new Registry(array('foo' => 'bar'));
-
-		TestReflection::setValue($this->class, 'config', $config);
-
-		$this->assertEquals('bar', $this->class->set('foo', 'car'));
-
-		$this->assertEquals('car', $config->get('foo'));
 	}
 
 	/**
@@ -1406,23 +907,5 @@ class JApplicationWebTest extends TestCase
 			),
 			TestReflection::getValue($this->class, 'response')->headers
 		);
-	}
-
-	/**
-	 * Tests the isSSLConnection method
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 */
-	public function testIsSSLConnection()
-	{
-		unset($_SERVER['HTTPS']);
-
-		$this->assertFalse($this->class->isSSLConnection());
-
-		$_SERVER['HTTPS'] = 'on';
-
-		$this->assertTrue($this->class->isSSLConnection());
 	}
 }

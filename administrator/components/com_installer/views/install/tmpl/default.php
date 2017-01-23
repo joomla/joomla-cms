@@ -84,6 +84,7 @@ JFactory::getDocument()->addStyleDeclaration(
 </script>
 
 <div id="installer-install" class="clearfix">
+
 	<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install'); ?>" method="post" name="adminForm" id="adminForm">
 		<div id="j-main-container" class="j-main-container">
 			<?php // Render messages set by extension install scripts here ?>
@@ -107,9 +108,9 @@ JFactory::getDocument()->addStyleDeclaration(
 			<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab'); ?>
 			<?php // Show installation tabs at the start ?>
-			<?php $firstTab = JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); ?>
+			<?php $firstTab = JFactory::getApplication()->triggerEvent('onInstallerViewBeforeFirstTab', array()); ?>
 			<?php // Show installation tabs ?>
-			<?php $tabs = JEventDispatcher::getInstance()->trigger('onInstallerAddInstallationTab', array()); ?>
+			<?php $tabs = JFactory::getApplication()->triggerEvent('onInstallerAddInstallationTab', array()); ?>
 			<?php foreach ($tabs as $tab) : ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', $tab['name'], $tab['label']); ?>
 				<fieldset class="uploadform">
@@ -118,7 +119,7 @@ JFactory::getDocument()->addStyleDeclaration(
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endforeach; ?>
 			<?php // Show installation tabs at the end ?>
-			<?php $lastTab = JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); ?>
+			<?php $lastTab = JFactory::getApplication()->triggerEvent('onInstallerViewAfterLastTab', array()); ?>
 			<?php $tabs = array_merge($firstTab, $tabs, $lastTab); ?>
 			<?php if (!$tabs) : ?>
 				<?php JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>

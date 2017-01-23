@@ -9,6 +9,15 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+trigger_error(
+	sprintf(
+		'Bootstrapping Joomla using the %1$s file is deprecated.  Use %2$s instead.',
+		__FILE__,
+		__DIR__ . '/bootstrap.php'
+	),
+	E_USER_DEPRECATED
+);
+
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM'))
 {
@@ -70,18 +79,3 @@ define('JPATH_ISMAC', IS_MAC);
 
 // Register the PasswordHash lib
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
-
-// Register classes where the names have been changed to fit the autoloader rules
-// @deprecated  4.0
-JLoader::register('JSimpleCrypt', JPATH_PLATFORM . '/legacy/simplecrypt/simplecrypt.php');
-JLoader::register('JTree', JPATH_PLATFORM . '/legacy/base/tree.php');
-JLoader::register('JNode', JPATH_PLATFORM . '/legacy/base/node.php');
-JLoader::register('JObserver', JPATH_PLATFORM . '/legacy/base/observer.php');
-JLoader::register('JObservable', JPATH_PLATFORM . '/legacy/base/observable.php');
-JLoader::register('LogException', JPATH_PLATFORM . '/legacy/log/logexception.php');
-JLoader::register('JXMLElement', JPATH_PLATFORM . '/legacy/utilities/xmlelement.php');
-JLoader::register('JRule', JPATH_PLATFORM . '/legacy/access/rule.php');
-JLoader::register('JRules', JPATH_PLATFORM . '/legacy/access/rules.php');
-JLoader::register('JCli', JPATH_PLATFORM . '/legacy/application/cli.php');
-JLoader::register('JDaemon', JPATH_PLATFORM . '/legacy/application/daemon.php');
-JLoader::register('JApplication', JPATH_LIBRARIES . '/legacy/application/application.php');

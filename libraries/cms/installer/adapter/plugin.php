@@ -305,18 +305,9 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	 */
 	public function prepareDiscoverInstall()
 	{
-		$client   = JApplicationHelper::getClientInfo($this->extension->client_id);
-		$basePath = $client->path . '/plugins/' . $this->extension->folder;
-
-		if (is_dir($basePath . '/' . $this->extension->element))
-		{
-			$manifestPath = $basePath . '/' . $this->extension->element . '/' . $this->extension->element . '.xml';
-		}
-		else
-		{
-			// @deprecated 4.0 - This path supports Joomla! 1.5 plugin folder layouts
-			$manifestPath = $basePath . '/' . $this->extension->element . '.xml';
-		}
+		$client       = JApplicationHelper::getClientInfo($this->extension->client_id);
+		$basePath     = $client->path . '/plugins/' . $this->extension->folder;
+		$manifestPath = $basePath . '/' . $this->extension->element . '/' . $this->extension->element . '.xml';
 
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
@@ -540,7 +531,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 				$this->parent->manifestClass = new $classname($this);
 
 				// And set this so we can copy it later
-				$this->set('manifest_script', $manifestScript);
+				$this->manifest_script = $manifestScript;
 			}
 		}
 
@@ -730,15 +721,4 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			return false;
 		}
 	}
-}
-
-/**
- * Deprecated class placeholder. You should use JInstallerAdapterPlugin instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JInstallerPlugin extends JInstallerAdapterPlugin
-{
 }

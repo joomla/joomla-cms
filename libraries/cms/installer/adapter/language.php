@@ -29,6 +29,14 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 	protected $core = false;
 
 	/**
+	 * The language tag for the package
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected $tag;
+
+	/**
 	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
@@ -141,8 +149,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 		// Get the language name
 		// Set the extensions name
-		$name = JFilterInput::getInstance()->clean((string) $this->getManifest()->name, 'cmd');
-		$this->set('name', $name);
+		$this->name = JFilterInput::getInstance()->clean((string) $this->getManifest()->name, 'cmd');
 
 		// Get the Language tag [ISO tag, eg. en-GB]
 		$tag = (string) $this->getManifest()->tag;
@@ -155,7 +162,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			return false;
 		}
 
-		$this->set('tag', $tag);
+		$this->tag = $tag;
 
 		// Set the language installation path
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
@@ -279,9 +286,9 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 		// Add an entry to the extension table with a whole heap of defaults
 		$row = JTable::getInstance('extension');
-		$row->set('name', $this->get('name'));
+		$row->set('name', $this->name);
 		$row->set('type', 'language');
-		$row->set('element', $this->get('tag'));
+		$row->set('element', $this->tag);
 
 		// There is no folder for languages
 		$row->set('folder', '');
@@ -374,7 +381,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->tag, 'type' => 'language', 'folder' => ''));
 
 		if ($uid)
 		{
@@ -528,7 +535,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => $clientId));
+		$uid = $update->find(array('element' => $this->tag, 'type' => 'language', 'client_id' => $clientId));
 
 		if ($uid)
 		{
@@ -537,7 +544,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 		// Update an entry to the extension table
 		$row = JTable::getInstance('extension');
-		$eid = $row->find(array('element' => strtolower($this->get('tag')), 'type' => 'language', 'client_id' => $clientId));
+		$eid = $row->find(array('element' => strtolower($this->tag), 'type' => 'language', 'client_id' => $clientId));
 
 		if ($eid)
 		{
@@ -556,9 +563,9 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			$row->set('params', $this->parent->getParams());
 		}
 
-		$row->set('name', $this->get('name'));
+		$row->set('name', $this->name);
 		$row->set('type', 'language');
-		$row->set('element', $this->get('tag'));
+		$row->set('element', $this->tag);
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
 
 		// Clean installed languages cache.
@@ -837,15 +844,4 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			return false;
 		}
 	}
-}
-
-/**
- * Deprecated class placeholder. You should use JInstallerAdapterLanguage instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JInstallerLanguage extends JInstallerAdapterLanguage
-{
 }

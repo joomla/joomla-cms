@@ -192,11 +192,6 @@ class JHtmlTest extends TestCase
 			->method('mockFunction');
 
 		JHtml::_('prefix.register.testfunction');
-
-		$this->assertFalse(
-			JHtml::register('prefix.register.missingtestfunction', array($registered, 'missingFunction')),
-			'Registering a missing method should fail.'
-		);
 	}
 
 	/**

@@ -16,11 +16,50 @@ defined('_JEXEC') or die;
  */
 class TagsViewTags extends JViewLegacy
 {
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var    JForm
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $activeFilters;
+
+	/**
+	 * Array used for displaying the levels filter
+	 *
+	 * @return  stdClass[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $f_levels;
 
 	/**
 	 * Execute and display a template script.
@@ -40,9 +79,7 @@ class TagsViewTags extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Preprocess the list of items to find ordering divisions.

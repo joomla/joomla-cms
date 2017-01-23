@@ -63,7 +63,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 * @var    string  The minimum supported database version.
 	 * @since  12.2
 	 */
-	protected static $dbMinimum = '5.0.4';
+	protected static $dbMinimum = '5.5.3';
 
 	/**
 	 * Constructor.
@@ -183,8 +183,16 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			throw new JDatabaseExceptionConnecting('Could not connect to MySQL.');
 		}
 
-		// Set sql_mode to non_strict mode
-		mysqli_query($this->connection, "SET @@SESSION.sql_mode = '';");
+		// Set sql_mode to MySql 5.7.8+ default strict mode.
+		$sqlModes = array(
+			'ONLY_FULL_GROUP_BY',
+			'STRICT_TRANS_TABLES',
+			'ERROR_FOR_DIVISION_BY_ZERO',
+			'NO_AUTO_CREATE_USER',
+			'NO_ENGINE_SUBSTITUTION',
+		);
+
+		mysqli_query($this->connection, "SET @@SESSION.sql_mode = '" . implode(',', $sqlModes) . "';");
 
 		// If auto-select is enabled select the given database.
 		if ($this->options['select'] && !empty($this->options['database']))

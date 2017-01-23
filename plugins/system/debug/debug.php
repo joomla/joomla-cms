@@ -336,16 +336,9 @@ class PlgSystemDebug extends JPlugin
 	 * @return  boolean
 	 *
 	 * @since   3.7.0
-	 * @throws  InvalidArgumentException
 	 */
-	public static function addDisplayCallback($name, $callable)
+	public static function addDisplayCallback($name, callable $callable)
 	{
-		// TODO - When PHP 5.4 is the minimum the parameter should be typehinted "callable" and this check removed
-		if (!is_callable($callable))
-		{
-			throw new InvalidArgumentException('A valid callback function must be given.');
-		}
-
 		self::$displayCallbacks[$name] = $callable;
 
 		return true;
@@ -498,7 +491,7 @@ class PlgSystemDebug extends JPlugin
 	{
 		if (!$session)
 		{
-			$session = JFactory::getSession()->getData();
+			$session = $this->app->getSession()->all();
 		}
 
 		$html = array();
@@ -2056,11 +2049,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function prettyPrintJSON($json = '')
 	{
-		// In PHP 5.4.0 or later we have pretty print option.
-		if (version_compare(PHP_VERSION, '5.4', '>='))
-		{
-			$json = json_encode($json, JSON_PRETTY_PRINT);
-		}
+		$json = json_encode($json, JSON_PRETTY_PRINT);
 
 		// Add some colors
 		$json = preg_replace('#"([^"]+)":#', '<span class=\'black\'>"</span><span class=\'green\'>$1</span><span class=\'black\'>"</span>:', $json);

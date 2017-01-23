@@ -33,7 +33,7 @@ class ContactViewContact extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var  JObject
 	 */
 	protected $state;
 
@@ -54,9 +54,7 @@ class ContactViewContact extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).

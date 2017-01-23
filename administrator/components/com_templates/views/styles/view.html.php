@@ -16,11 +16,50 @@ defined('_JEXEC') or die;
  */
 class TemplatesViewStyles extends JViewLegacy
 {
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var    JForm
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $activeFilters;
+
+	/**
+	 * Is the parameter enabled to show template positions in the frontend?
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $preview;
 
 	/**
 	 * Execute and display a template script.
@@ -44,9 +83,7 @@ class TemplatesViewStyles extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();

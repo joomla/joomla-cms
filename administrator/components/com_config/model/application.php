@@ -250,8 +250,31 @@ class ConfigModelApplication extends ConfigModelForm
 		// Purge the database session table if we are changing to the database handler.
 		if ($prev['session_handler'] != 'database' && $data['session_handler'] == 'database')
 		{
-			$table = JTable::getInstance('session');
-			$table->purge(-1);
+			$query = $this->_db->getQuery(true)
+				->delete($this->_db->quoteName('#__session'))
+				->where($this->_db->quoteName('time') . ' < ' . (time() - 1));
+			$this->_db->setQuery($query);
+			$this->_db->execute();
+		}
+
+		// Set the shared session configuration
+		if (isset($data['shared_session']))
+		{
+			$currentShared = isset($prev['shared_session']) ? $prev['shared_session'] : '0';
+
+			// Has the user enabled shared sessions?
+			if ($data['shared_session'] == 1 && $currentShared == 0)
+			{
+				// Generate a random shared session name
+				$data['session_name'] = JUserHelper::genRandomPassword(16);
+			}
+
+			// Has the user disabled shared sessions?
+			if ($data['shared_session'] == 0 && $currentShared == 1)
+			{
+				// Remove the session name value
+				unset($data['session_name']);
+			}
 		}
 
 		// Set the shared session configuration

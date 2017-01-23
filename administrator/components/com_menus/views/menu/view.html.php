@@ -17,21 +17,28 @@ defined('_JEXEC') or die;
 class MenusViewMenu extends JViewLegacy
 {
 	/**
+	 * The JForm object
+	 *
 	 * @var  JForm
 	 */
 	protected $form;
 
 	/**
-	 * @var  mixed
+	 * The active item
+	 *
+	 * @var  object
 	 */
 	protected $item;
 
 	/**
+	 * The model state
+	 *
 	 * @var  JObject
 	 */
 	protected $state;
 
 	/**
+	 * The actions the user is authorised to perform
 	 *
 	 * @var  JObject
 	 */
@@ -57,9 +64,7 @@ class MenusViewMenu extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		parent::display($tpl);

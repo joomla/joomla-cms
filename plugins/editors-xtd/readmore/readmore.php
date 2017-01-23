@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Event\Event;
+
 /**
  * Editor Readmore button
  *
@@ -35,7 +37,14 @@ class PlgButtonReadmore extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$getContent = $this->_subject->getContent($name);
+		// Button is not active in specific content components
+
+		$event = new Event(
+			'getContent',
+			['name' => $name]
+		);
+		$getContentResult = $this->getDispatcher()->dispatch('getContent', $event);
+		$getContent = $getContentResult['result'][0];
 		$present    = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
 		$js = "
 			function insertReadmore(editor)

@@ -327,19 +327,10 @@ class JHttpTransportCurl implements JHttpTransport
 			}
 		}
 
-		// From PHP 5.4.0 to 5.5.30 curl redirects are only allowed if open_basedir is disabled
-		elseif (version_compare(PHP_VERSION, '5.4', '>='))
+		// In the PHP 5.5 branch, curl redirects are only allowed if open_basedir is disabled
+		if (version_compare(PHP_VERSION, '5.5.9', '>='))
 		{
 			if (!ini_get('open_basedir'))
-			{
-				return true;
-			}
-		}
-
-		// From PHP 5.1.5 to 5.3.30 curl redirects are only allowed if safe_mode and open_basedir are disabled
-		else
-		{
-			if (!ini_get('safe_mode') && !ini_get('open_basedir'))
 			{
 				return true;
 			}

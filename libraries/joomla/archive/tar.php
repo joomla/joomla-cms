@@ -67,10 +67,10 @@ class JArchiveTar implements JArchiveExtractable
 	 * @param   string  $destination  Path to extract archive into
 	 * @param   array   $options      Extraction options [unused]
 	 *
-	 * @return  boolean|JException  True on success, JException instance on failure if JError class exists
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException if JError class does not exist
+	 * @throws  RuntimeException
 	 */
 	public function extract($archive, $destination, array $options = array())
 	{
@@ -81,14 +81,7 @@ class JArchiveTar implements JArchiveExtractable
 
 		if (!$this->_data)
 		{
-			if (class_exists('JError'))
-			{
-				return JError::raiseWarning(100, 'Unable to read archive');
-			}
-			else
-			{
-				throw new RuntimeException('Unable to read archive');
-			}
+			throw new RuntimeException('Unable to read archive');
 		}
 
 		$this->_getTarInfo($this->_data);
@@ -105,26 +98,12 @@ class JArchiveTar implements JArchiveExtractable
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path)))
 				{
-					if (class_exists('JError'))
-					{
-						return JError::raiseWarning(100, 'Unable to create destination');
-					}
-					else
-					{
-						throw new RuntimeException('Unable to create destination');
-					}
+					throw new RuntimeException('Unable to create destination');
 				}
 
 				if (JFile::write($path, $buffer) === false)
 				{
-					if (class_exists('JError'))
-					{
-						return JError::raiseWarning(100, 'Unable to write entry');
-					}
-					else
-					{
-						throw new RuntimeException('Unable to write entry');
-					}
+					throw new RuntimeException('Unable to write entry');
 				}
 			}
 		}
@@ -149,10 +128,10 @@ class JArchiveTar implements JArchiveExtractable
 	 *
 	 * @param   string  &$data  The Tar archive buffer.
 	 *
-	 * @return  boolean|JException  True on success, JException instance on failure if JError class exists
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException if JError class does not exist
+	 * @throws  RuntimeException
 	 */
 	protected function _getTarInfo(& $data)
 	{
@@ -161,20 +140,10 @@ class JArchiveTar implements JArchiveExtractable
 
 		while ($position < strlen($data))
 		{
-			if (version_compare(PHP_VERSION, '5.5', '>='))
-			{
-				$info = @unpack(
-					'Z100filename/Z8mode/Z8uid/Z8gid/Z12size/Z12mtime/Z8checksum/Ctypeflag/Z100link/Z6magic/Z2version/Z32uname/Z32gname/Z8devmajor/Z8devminor',
-					substr($data, $position)
-				);
-			}
-			else
-			{
-				$info = @unpack(
-					'a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor',
-					substr($data, $position)
-				);
-			}
+			$info = @unpack(
+				'Z100filename/Z8mode/Z8uid/Z8gid/Z12size/Z12mtime/Z8checksum/Ctypeflag/Z100link/Z6magic/Z2version/Z32uname/Z32gname/Z8devmajor/Z8devminor',
+				substr($data, $position)
+			);
 
 			/**
 			 * This variable has been set in the previous loop,
@@ -189,14 +158,7 @@ class JArchiveTar implements JArchiveExtractable
 
 			if (!$info)
 			{
-				if (class_exists('JError'))
-				{
-					return JError::raiseWarning(100, 'Unable to decompress data');
-				}
-				else
-				{
-					throw new RuntimeException('Unable to decompress data');
-				}
+				throw new RuntimeException('Unable to decompress data');
 			}
 
 			$position += 512;
