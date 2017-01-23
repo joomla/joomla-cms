@@ -86,12 +86,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer = array_merge($buffer, $this->fetchStyleDeclarations($document));
 		}
 
-		// Get scripts (loaded as external files)
-		if (!empty($document->_scripts))
-		{
-			$buffer = array_merge($buffer, $this->fetchScripts($document));
-		}
-
 		// Get script options
 		$scriptOptions = $document->getScriptOptions();
 
@@ -100,18 +94,16 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer = array_merge($buffer, $this->fetchScriptOptions($document));
 		}
 
+		// Get scripts (loaded as external files)
+		if (!empty($document->_scripts))
+		{
+			$buffer = array_merge($buffer, $this->fetchScripts($document));
+		}
+
 		// Get script declarations
 		if (!empty($document->_script))
 		{
 			$buffer = array_merge($buffer, $this->fetchScriptDeclarations($document));
-		}
-
-		// Get translation strings for javascript
-		$script = JText::script();
-
-		if (!empty($script))
-		{
-			$buffer = array_merge($buffer, $this->fetchScriptLanguageDeclarations($document));
 		}
 
 		// Get custom tags
@@ -507,60 +499,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 			$buffer[] = $tab . '</script>';
 		}
-
-		return $buffer;
-	}
-
-	/**
-	 * Gets a script tag that loads translation strings.
-	 *
-	 * @param   JDocumentHtml  $document  The document for which the head will be created
-	 *
-	 * @return  array  The tags
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function fetchScriptLanguageDeclarations($document)
-	{
-		$script = JText::script();
-
-		if (empty($script))
-		{
-			return array();
-		}
-
-		$tab     = $document->_getTab();
-		$isHtml5 = $document->isHtml5();
-		$buffer  = array();
-
-		// Generate script language declarations.
-		$openTag = $tab . '<script';
-
-		if (!$document->isHtml5())
-		{
-			$openTag .= ' type="text/javascript"';
-		}
-
-		$openTag .= '>';
-
-		$buffer[] = $openTag;
-
-		if ($document->_mime != 'text/html')
-		{
-			$buffer[] = $tab . $tab . '//<![CDATA[';
-		}
-
-		// Why is this inside of a closure?
-		$buffer[] = $tab . $tab . '(function() {';
-		$buffer[] = $tab . $tab . $tab . 'Joomla.JText.load(' . json_encode($script) . ');';
-		$buffer[] = $tab . $tab . '})();';
-
-		if ($document->_mime != 'text/html')
-		{
-			$buffer[] = $tab . $tab . '//]]>';
-		}
-
-		$buffer[] = $tab . '</script>';
 
 		return $buffer;
 	}
