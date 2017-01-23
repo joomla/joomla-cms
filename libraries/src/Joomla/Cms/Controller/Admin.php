@@ -54,7 +54,7 @@ class Admin extends Controller
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -95,7 +95,7 @@ class Admin extends Controller
 
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
 			{
-				throw new Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
 			$this->view_list = strtolower($r[2]);
@@ -242,7 +242,7 @@ class Admin extends Controller
 					$this->setMessage(\JText::plural($ntext, count($cid)));
 				}
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				$this->setMessage($e->getMessage(), 'error');
 			}

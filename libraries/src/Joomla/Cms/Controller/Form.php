@@ -66,7 +66,7 @@ class Form extends Controller
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -91,7 +91,7 @@ class Form extends Controller
 
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
 			{
-				throw new Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
 			$this->context = strtolower($r[2]);
@@ -713,7 +713,7 @@ class Form extends Controller
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if ($errors[$i] instanceof Exception)
+				if ($errors[$i] instanceof \Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}

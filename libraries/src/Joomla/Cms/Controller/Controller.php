@@ -218,7 +218,7 @@ class Controller extends \JObject
 	 * @return  \JControllerLegacy
 	 *
 	 * @since   3.0
-	 * @throws  Exception if the controller cannot be loaded.
+	 * @throws  \Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
@@ -567,7 +567,7 @@ class Controller extends \JObject
 	 * @return  \JViewLegacy|null  View object on success; null or error result on failure.
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
@@ -679,7 +679,7 @@ class Controller extends \JObject
 	 * @return  mixed   The value returned by the called method.
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function execute($task)
 	{
@@ -761,7 +761,7 @@ class Controller extends \JObject
 	 * @return  string  The name of the dispatcher
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getName()
 	{
@@ -815,7 +815,7 @@ class Controller extends \JObject
 	 * @return  \JViewLegacy  Reference to the view or an error.
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getView($name = '', $type = '', $prefix = '', $config = array())
 	{
