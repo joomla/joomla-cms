@@ -22,7 +22,7 @@ class JHtmlFieldEmailTest_DataSet
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email" id="myTestId" value="" />',
 		),
 
 		'Value' => array(
@@ -31,7 +31,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'value' => 'foo@bar.com',
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="foo@bar.com" />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email" id="myTestId" value="foo@bar.com" />',
 		),
 
 		'Class' => array(
@@ -40,7 +40,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'class' => 'foo bar',
 			),
-			'<input type="email" name="myTestName" class="validate-email foo bar" id="myTestId" value="" />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email foo bar" id="myTestId" value="" />',
 		),
 
 		'Size' => array(
@@ -49,7 +49,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'size' => 60,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" size="60" />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email" id="myTestId" value="" size="60" />',
 		),
 
 		'Disabled' => array(
@@ -58,7 +58,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'disabled' => true,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" disabled />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email" id="myTestId" value="" disabled />',
 		),
 
 		'Readonly' => array(
@@ -67,7 +67,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'readonly' => true,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" readonly />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email" id="myTestId" value="" readonly />',
 		),
 
 		'Hint' => array(
@@ -76,7 +76,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'hint' => 'Type any email.',
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" placeholder="Type any email." />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email" id="myTestId" value="" placeholder="Type any email." />',
 		),
 
 		'Autocomplete' => array(
@@ -85,7 +85,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'autocomplete' => false,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" autocomplete="off" />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email" id="myTestId" value="" autocomplete="off" />',
 		),
 
 		'Autofocus' => array(
@@ -94,7 +94,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'autofocus' => true,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" autofocus />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email" id="myTestId" value="" autofocus />',
 		),
 
 		'Spellcheck' => array(
@@ -103,7 +103,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'spellcheck' => false,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" spellcheck="false" />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email" id="myTestId" value="" spellcheck="false" />',
 		),
 
 		'Onchange' => array(
@@ -112,7 +112,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'onchange' => 'foobar();',
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" onchange="foobar();" />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email" id="myTestId" value="" onchange="foobar();" />',
 		),
 
 		'Maxlength' => array(
@@ -121,7 +121,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'maxlength' => 250,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" maxlength="250" />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email" id="myTestId" value="" maxlength="250" />',
 		),
 
 		'Required' => array(
@@ -130,7 +130,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'required' => true,
 			),
-			'<input type="email" name="myTestName" class="validate-email required" id="myTestId" value="" required aria-required="true" />',
+			'<input type="email" name="myTestName" class="form-controlvalidate-email required" id="myTestId" value="" required aria-required="true" />',
 		),
 
 	);
