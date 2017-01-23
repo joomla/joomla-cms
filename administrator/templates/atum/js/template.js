@@ -89,9 +89,9 @@
 				animateWrapper();
 			});
 
-			if (wrapperClosed) {
-				wrapperClosed[i].addEventListener('click', animateWrapper(true));
-			}
+			// if (wrapperClosed) {
+			// 	wrapperClosed[i].addEventListener('click', animateWrapper(true));
+			// }
 
 			for (var i = 0; i < sidebar.length; i++) {
 				sidebar[i].addEventListener('click', animateWrapper(true));
