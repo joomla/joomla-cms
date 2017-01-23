@@ -649,7 +649,7 @@ class Controller extends \JObject
 				}
 				else
 				{
-					$registeredurlparams = new stdClass;
+					$registeredurlparams = new \stdClass;
 				}
 
 				foreach ($urlparams as $key => $value)
