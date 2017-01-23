@@ -477,9 +477,9 @@ abstract class JToolbarHelper
 	 * Writes a save button for a given option.
 	 * Save operation leads to a save and then close action.
 	 *
-	 * @param   string   $task    An override for the task.
-	 * @param   string   $alt     An override for the alt text.
-	 * @param   boolean  $group   True or false
+	 * @param   string   $task   An override for the task.
+	 * @param   string   $alt    An override for the alt text.
+	 * @param   boolean  $group  True or false
 	 *
 	 * @return  void
 	 *
@@ -497,9 +497,9 @@ abstract class JToolbarHelper
 	 * Writes a save and create new button for a given option.
 	 * Save and create operation leads to a save and then add action.
 	 *
-	 * @param   string   $task    An override for the task.
-	 * @param   string   $alt     An override for the alt text.
-	 * @param   boolean  $group   True or false
+	 * @param   string   $task   An override for the task.
+	 * @param   string   $alt    An override for the alt text.
+	 * @param   boolean  $group  True or false
 	 *
 	 * @return  void
 	 *
@@ -518,9 +518,9 @@ abstract class JToolbarHelper
 	 * Save as copy operation leads to a save after clearing the key,
 	 * then returns user to edit mode with new key.
 	 *
-	 * @param   string   $task    An override for the task.
-	 * @param   string   $alt     An override for the alt text.
-	 * @param   boolean  $group   True or false
+	 * @param   string   $task   An override for the task.
+	 * @param   string   $alt    An override for the alt text.
+	 * @param   boolean  $group  True or false
 	 *
 	 * @return  void
 	 *
