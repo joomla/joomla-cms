@@ -1,11 +1,13 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Cms
  * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -15,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @since  1.6
  * @todo   Add ability to set redirect manually to better cope with frontend usage.
  */
-class JControllerForm extends JControllerLegacy
+class Form extends \JControllerLegacy
 {
 	/**
 	 * The context for storing internal data, e.g. record.
@@ -62,7 +64,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JControllerLegacy
+	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 * @throws  Exception
 	 */
@@ -76,7 +78,7 @@ class JControllerForm extends JControllerLegacy
 			$this->option = 'com_' . strtolower($this->getName());
 		}
 
-		// Guess the JText message prefix. Defaults to the option.
+		// Guess the \JText message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
 			$this->text_prefix = strtoupper($this->option);
@@ -89,7 +91,7 @@ class JControllerForm extends JControllerLegacy
 
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
 			$this->context = strtolower($r[2]);
@@ -150,11 +152,11 @@ class JControllerForm extends JControllerLegacy
 		if (!$this->allowAdd())
 		{
 			// Set the internal error and also the redirect error.
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -164,11 +166,11 @@ class JControllerForm extends JControllerLegacy
 		}
 
 		// Clear the record edit information from the session.
-		JFactory::getApplication()->setUserState($context . '.data', null);
+		\JFactory::getApplication()->setUserState($context . '.data', null);
 
 		// Redirect to the edit screen.
 		$this->setRedirect(
-			JRoute::_(
+			\JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_item
 				. $this->getRedirectToItemAppend(), false
 			)
@@ -190,7 +192,7 @@ class JControllerForm extends JControllerLegacy
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		return $user->authorise('core.create', $this->option) || count($user->getAuthorisedCategories($this->option, 'core.create'));
 	}
@@ -209,7 +211,7 @@ class JControllerForm extends JControllerLegacy
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		return JFactory::getUser()->authorise('core.edit', $this->option);
+		return \JFactory::getUser()->authorise('core.edit', $this->option);
 	}
 
 	/**
@@ -241,7 +243,7 @@ class JControllerForm extends JControllerLegacy
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   JModelLegacy  $model  The model of the component being processed.
+	 * @param   \JModelLegacy  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -273,13 +275,13 @@ class JControllerForm extends JControllerLegacy
 		// Attempt to run the batch operation.
 		if ($model->batch($vars, $cid, $contexts))
 		{
-			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_BATCH'));
+			$this->setMessage(\JText::_('JLIB_APPLICATION_SUCCESS_BATCH'));
 
 			return true;
 		}
 		else
 		{
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), 'warning');
+			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), 'warning');
 
 			return false;
 		}
@@ -296,7 +298,7 @@ class JControllerForm extends JControllerLegacy
 	 */
 	public function cancel($key = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel();
 		$table = $model->getTable();
@@ -317,11 +319,11 @@ class JControllerForm extends JControllerLegacy
 				if ($model->checkin($recordId) === false)
 				{
 					// Check-in failed, go back to the record and display a notice.
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 					$this->setMessage($this->getError(), 'error');
 
 					$this->setRedirect(
-						JRoute::_(
+						\JRoute::_(
 							'index.php?option=' . $this->option . '&view=' . $this->view_item
 							. $this->getRedirectToItemAppend($recordId, $key), false
 						)
@@ -334,10 +336,10 @@ class JControllerForm extends JControllerLegacy
 
 		// Clean the session data and redirect.
 		$this->releaseEditId($context, $recordId);
-		JFactory::getApplication()->setUserState($context . '.data', null);
+		\JFactory::getApplication()->setUserState($context . '.data', null);
 
 		$this->setRedirect(
-			JRoute::_(
+			\JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. $this->getRedirectToListAppend(), false
 			)
@@ -360,7 +362,7 @@ class JControllerForm extends JControllerLegacy
 	public function edit($key = null, $urlVar = null)
 	{
 		// Do not cache the response to this, its a redirect, and mod_expires and google chrome browser bugs cache it forever!
-		JFactory::getApplication()->allowCache(false);
+		\JFactory::getApplication()->allowCache(false);
 
 		$model = $this->getModel();
 		$table = $model->getTable();
@@ -386,11 +388,11 @@ class JControllerForm extends JControllerLegacy
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -403,11 +405,11 @@ class JControllerForm extends JControllerLegacy
 		if ($checkin && !$model->checkout($recordId))
 		{
 			// Check-out failed, display a notice but allow the user to see the record.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
+			$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
 					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
@@ -419,10 +421,10 @@ class JControllerForm extends JControllerLegacy
 		{
 			// Check-out succeeded, push the new record id into the session.
 			$this->holdEditId($context, $recordId);
-			JFactory::getApplication()->setUserState($context . '.data', null);
+			\JFactory::getApplication()->setUserState($context . '.data', null);
 
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
 					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
@@ -439,7 +441,7 @@ class JControllerForm extends JControllerLegacy
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JModelLegacy  The model.
+	 * @return  \JModelLegacy  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -520,14 +522,14 @@ class JControllerForm extends JControllerLegacy
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   \JModelLegacy  $model      The data model object.
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	protected function postSaveHook(\JModelLegacy $model, $validData = array())
 	{
 	}
 
@@ -549,7 +551,7 @@ class JControllerForm extends JControllerLegacy
 			$this->setMessage($model->getError(), 'error');
 
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -572,11 +574,11 @@ class JControllerForm extends JControllerLegacy
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -588,14 +590,14 @@ class JControllerForm extends JControllerLegacy
 
 		$table->store();
 		$this->setRedirect(
-			JRoute::_(
+			\JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_item
 				. $this->getRedirectToItemAppend($recordId, $urlVar), false
 			)
 		);
 
 		$this->setMessage(
-			JText::sprintf(
+			\JText::sprintf(
 				'JLIB_APPLICATION_SUCCESS_LOAD_HISTORY', $model->getState('save_date'), $model->getState('version_note')
 			)
 		);
@@ -619,9 +621,9 @@ class JControllerForm extends JControllerLegacy
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$app   = JFactory::getApplication();
+		$app   = \JFactory::getApplication();
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data  = $this->input->post->get('jform', array(), 'array');
@@ -653,11 +655,11 @@ class JControllerForm extends JControllerLegacy
 			if ($checkin && $model->checkin($data[$key]) === false)
 			{
 				// Check-in failed. Go back to the item and display a notice.
-				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+				$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 				$this->setMessage($this->getError(), 'error');
 
 				$this->setRedirect(
-					JRoute::_(
+					\JRoute::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
 						. $this->getRedirectToItemAppend($recordId, $urlVar), false
 					)
@@ -675,11 +677,11 @@ class JControllerForm extends JControllerLegacy
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -726,7 +728,7 @@ class JControllerForm extends JControllerLegacy
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
 					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
@@ -747,11 +749,11 @@ class JControllerForm extends JControllerLegacy
 			$app->setUserState($context . '.data', $validData);
 
 			// Redirect back to the edit screen.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+			$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
 					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
@@ -767,11 +769,11 @@ class JControllerForm extends JControllerLegacy
 			$app->setUserState($context . '.data', $validData);
 
 			// Check-in failed, so go back to the record and display a notice.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+			$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
 					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
@@ -781,9 +783,9 @@ class JControllerForm extends JControllerLegacy
 		}
 
 		$langKey = $this->text_prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
-		$prefix  = JFactory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
+		$prefix  = \JFactory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
 
-		$this->setMessage(JText::_($prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
+		$this->setMessage(\JText::_($prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
@@ -797,7 +799,7 @@ class JControllerForm extends JControllerLegacy
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
-					JRoute::_(
+					\JRoute::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
 						. $this->getRedirectToItemAppend($recordId, $urlVar), false
 					)
@@ -811,7 +813,7 @@ class JControllerForm extends JControllerLegacy
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
-					JRoute::_(
+					\JRoute::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
 						. $this->getRedirectToItemAppend(null, $urlVar), false
 					)
@@ -825,7 +827,7 @@ class JControllerForm extends JControllerLegacy
 
 				// Redirect to the list screen.
 				$this->setRedirect(
-					JRoute::_(
+					\JRoute::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_list
 						. $this->getRedirectToListAppend(), false
 					)
