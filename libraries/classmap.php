@@ -21,3 +21,4 @@ JLoader::registerAlias('JDataDumpable',         '\\Joomla\\Data\\DumpableInterfa
 
 JLoader::registerAlias('JModelLegacy',          '\\Joomla\\Cms\\Model\\Model', '4.0');
 JLoader::registerAlias('JModelList',            '\\Joomla\\Cms\\Model\\ListModel', '4.0');
+JLoader::registerAlias('JModelAdmin',           '\\Joomla\\Cms\\Model\\Admin', '4.0');
