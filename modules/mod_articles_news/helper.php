@@ -68,7 +68,7 @@ abstract class ModArticlesNewsHelper
 				$model->setState('filter.featured', 'show');
 				break;
 		}
-		
+
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
@@ -114,6 +114,8 @@ abstract class ModArticlesNewsHelper
 			{
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
+
+			$app->trigger('onContentPrepare', array ('com_content.article', &$item, &$params, 1));
 
 			$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
 			$item->afterDisplayTitle = trim(implode("\n", $results));
