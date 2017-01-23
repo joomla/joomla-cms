@@ -189,7 +189,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 		$this->addChild(
 			new JMenuNode(
-				$menuType->title, 'index.php?option=com_menus&view=items&menutype=' . $menuType->menutype, 'class:menu', null, null, $titleicon
+				$menuType->title, 'index.php?option=com_menus&view=items&menutype=' . $menuType->menutype, '', null, null, $titleicon
 			),
 			$user->authorise('core.create', 'com_menus.menu.' . (int) $menuType->id)
 		);
@@ -274,18 +274,18 @@ if ($components)
 		if (!empty($component->submenu))
 		{
 			// This component has a db driven submenu.
-			$this->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
+			$this->addChild(new JMenuNode($component->text, $component->link, ''), true);
 
 			foreach ($component->submenu as $sub)
 			{
-				$this->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
+				$this->addChild(new JMenuNode($sub->text, $sub->link, ''));
 			}
 
 			$this->getParent();
 		}
 		else
 		{
-			$this->addChild(new JMenuNode($component->text, $component->link, $component->img));
+			$this->addChild(new JMenuNode($component->text, $component->link, ''));
 		}
 	}
 
