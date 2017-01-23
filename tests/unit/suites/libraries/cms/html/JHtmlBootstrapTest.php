@@ -670,7 +670,7 @@ class JHtmlBootstrapTest extends TestCase
 			'Verify that the alert method initialises Bootstrap as well'
 		);
 
-		$li = "<li class=\\\"\\\"><a href=\\\"#myTabItem\\\" data-toggle=\\\"tab\\\">myTitle<\/a><\/li>";
+		$li = "<li class=\\\"nav-item\\\"><a class=\\\"nav-link\\\" href=\\\"#myTabItem\\\" data-toggle=\\\"tab\\\">myTitle<\/a><\/li>";
 		$script = 'jQuery(function($){ $("#myTab a").click(function (e) {e.preventDefault();$(this).tab("show");});});';
 		$script .= chr(13);
 		$script .= 'jQuery(function($){ $("#myTabTabs").append($("' . $li . '")); });';
