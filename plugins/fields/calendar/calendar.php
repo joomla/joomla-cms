@@ -43,6 +43,10 @@ class PlgFieldsCalendar extends FieldsPlugin
 		// Set filter to user UTC
 		$fieldNode->setAttribute('filter', 'USER_UTC');
 
+		// Set field to use translated formats
+		$fieldNode->setAttribute('translateformat', '1');
+		$fieldNode->setAttribute('showtime', $field->fieldparams->get('showtime', 0) ? 'true' : 'false');
+
 		return $fieldNode;
 	}
 }

@@ -21,4 +21,6 @@ if (is_array($value))
 	$value = implode(', ', $value);
 }
 
-echo htmlentities(JHtml::_('date', $value, JText::_('DATE_FORMAT_LC4')));
+$formatString =  $field->fieldparams->get('showtime', 0) ? 'DATE_FORMAT_LC5' : 'DATE_FORMAT_LC4';
+
+echo htmlentities(JHtml::_('date', $value, JText::_($formatString)));
