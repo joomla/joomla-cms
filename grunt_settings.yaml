@@ -46,6 +46,9 @@ vendors:
     'cropperjs':
                   'version': '1.0.0-beta'
                   'dependencies': ''
+    'flying-focus-a11y':
+                  'version': '1.5.4'
+                  'dependencies': ''
 
 ## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:

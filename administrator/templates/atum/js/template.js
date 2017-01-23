@@ -73,14 +73,6 @@
 				menuToggle.classList.remove('active');
 			};
 
-			/** Localstorage to remember the menu state (open/close) */
-			var saveState = function () {
-				if (typeof(Storage) !== 'undefined') {
-					// Set the state of the menu in localStorage
-					localStorage.setItem('adminMenuState', wrapper.classList.contains('closed'));
-				}
-			};
-
 			var animateWrapper = function(keepOpen) {
 				if (window.outerWidth > 767) {
 					if (wrapper.classList.contains('closed') || keepOpen && keepOpen === true) {
@@ -95,7 +87,6 @@
 			document.getElementById('menu-collapse').addEventListener('click', function(e) {
 				e.preventDefault();
 				animateWrapper();
-				saveState();
 			});
 
 			if (wrapperClosed) {

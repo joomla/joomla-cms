@@ -19,6 +19,7 @@ $input           = $app->input;
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+$doc->addScriptVersion(JUri::root() . 'media/vendor/flying-focus-a11y/js/flying-focus.min.js');
 $doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
@@ -48,7 +49,7 @@ $task        = $input->get('task', '');
 $itemid      = $input->get('Itemid', '');
 $sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $cpanel      = ($option === 'com_cpanel');
-$hidden      = JFactory::getApplication()->input->get('hidemainmenu');
+$hidden      = $app->input->get('hidemainmenu');
 $showSubmenu = false;
 $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
