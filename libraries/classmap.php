@@ -24,3 +24,6 @@ JLoader::registerAlias('JModelForm',            '\\Joomla\\Cms\\Model\\Form', '4
 JLoader::registerAlias('JModelItem',            '\\Joomla\\Cms\\Model\\Item', '4.0');
 JLoader::registerAlias('JModelList',            '\\Joomla\\Cms\\Model\\ListModel', '4.0');
 JLoader::registerAlias('JModelLegacy',          '\\Joomla\\Cms\\Model\\Model', '4.0');
+JLoader::registerAlias('JControllerAdmin',      '\\Joomla\\Cms\\Controller\\Admin', '4.0');
+JLoader::registerAlias('JControllerLegacy',     '\\Joomla\\Cms\\Controller\\Controller', '4.0');
+JLoader::registerAlias('JControllerForm',       '\\Joomla\\Cms\\Controller\\Form', '4.0');
