@@ -115,6 +115,14 @@ class JViewLegacy extends JObject
 	protected $_charset = 'UTF-8';
 
 	/**
+	 * The JLayout object
+	 *
+	 * @var    JLayoutFile
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $jLayout = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $config  A named configuration array for object construction.
@@ -203,6 +211,8 @@ class JViewLegacy extends JObject
 		}
 
 		$this->baseurl = JUri::base(true);
+
+		$this->jLayout = new JLayoutFile($this->getName(), JPATH_COMPONENT . '/layouts/' . $this->getName());
 	}
 
 	/**
@@ -217,14 +227,50 @@ class JViewLegacy extends JObject
 	 */
 	public function display($tpl = null)
 	{
-		$result = $this->loadTemplate($tpl);
+		$file = $this->getTemplateFile();
 
-		if ($result instanceof Exception)
+		if (!$file)
 		{
-			return $result;
+			$this->render();
 		}
+		else
+		{
+			// Fallback to the old
+			$result = $this->loadTemplate($tpl);
 
-		echo $result;
+			if ($result instanceof Exception)
+			{
+				return $result;
+			}
+
+			echo $result;
+		}
+	}
+
+	/**
+	 * Render the JLayout
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function render()
+	{
+		echo $this->jLayout->render();
+	}
+
+	/**
+	 * George likes to apologise to everyone who has to look at this. But b/c is a sad sad thing.
+	 *
+	 * @param   string  $key  The value to check
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __get($key)
+	{
+		return $this->jLayout->get($key, null);
 	}
 
 	/**
@@ -467,20 +513,16 @@ class JViewLegacy extends JObject
 	}
 
 	/**
-	 * Load a template file -- first look in the templates folder for an override
+	 * Get the old template file, if any (looks for tpl.php)
 	 *
 	 * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
 	 *
-	 * @return  string  The output of the the template script.
+	 * @return  mixed
 	 *
-	 * @since   3.0
-	 * @throws  Exception
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function loadTemplate($tpl = null)
+	public function getTemplateFile($tpl = null)
 	{
-		// Clear prior output
-		$this->_output = null;
-
 		$template = JFactory::getApplication()->getTemplate();
 		$layout = $this->getLayout();
 		$layoutTemplate = $this->getLayoutTemplate();
@@ -495,7 +537,7 @@ class JViewLegacy extends JObject
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
 		// Change the template folder if alternative layout is in different template
 		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
@@ -506,14 +548,41 @@ class JViewLegacy extends JObject
 		// Load the template script
 		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$this->_template = JPath::find($this->_path['template'], $filetofind);
+		$templateFile = JPath::find($this->_path['template'], $filetofind);
 
 		// If alternate layout can't be found, fall back to default layout
-		if ($this->_template == false)
+		if ($templateFile == false)
 		{
 			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
-			$this->_template = JPath::find($this->_path['template'], $filetofind);
+			$templateFile = JPath::find($this->_path['template'], $filetofind);
 		}
+
+		return $templateFile;
+	}
+
+	/**
+	 * Load a template file -- first look in the templates folder for an override
+	 *
+	 * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
+	 *
+	 * @return  string  The output of the the template script.
+	 *
+	 * @since   3.0
+	 * @throws  Exception
+	 */
+	public function loadTemplate($tpl = null)
+	{
+		// Clear prior output
+		$this->_output = null;
+		$layout = $this->getLayout();
+
+		// Create the template file name based on the layout
+		$file = isset($tpl) ? $layout . '_' . $tpl : $layout;
+
+		// Clean the file name
+		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
+
+		$this->_template = $this->getTemplateFile($tpl);
 
 		if ($this->_template != false)
 		{
