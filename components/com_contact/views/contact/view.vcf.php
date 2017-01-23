@@ -17,14 +17,6 @@ defined('_JEXEC') or die;
 class ContactViewContact extends JViewLegacy
 {
 	/**
-	 * The item model state
-	 *
-	 * @var         \Joomla\Registry\Registry
-	 * @deprecated  4.0  Variable not used
-	 */
-	protected $state;
-
-	/**
 	 * The contact item
 	 *
 	 * @var   JObject
@@ -46,8 +38,7 @@ class ContactViewContact extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseWarning(500, implode("\n", $errors));
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		JFactory::getDocument()->setMimeEncoding('text/directory', true);

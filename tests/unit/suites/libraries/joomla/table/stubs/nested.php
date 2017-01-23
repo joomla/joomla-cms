@@ -25,7 +25,7 @@ class NestedTable extends JTableNested
 	 *
 	 * @since   12.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__categories', 'id', $db);
 	}
@@ -39,7 +39,7 @@ class NestedTable extends JTableNested
 	{
 		self::$unlocked = true;
 	}
-	
+
 	/**
 	 * Method to reset the root_id
 	 *

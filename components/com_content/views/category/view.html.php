@@ -97,26 +97,24 @@ class ContentViewCategory extends JViewCategory
 			$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->event   = new stdClass;
 
-			$dispatcher = JEventDispatcher::getInstance();
-
 			// Old plugins: Ensure that text property is available
 			if (!isset($item->text))
 			{
 				$item->text = $item->introtext;
 			}
 
-			$dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$item->params, 0));
+			JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.category', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;
 
-			$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.category', &$item, &$item->params, 0));
+			$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.category', &$item, &$item->params, 0));
+			$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
+			$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
@@ -125,7 +123,6 @@ class ContentViewCategory extends JViewCategory
 		$app     = JFactory::getApplication();
 		$active  = $app->getMenu()->getActive();
 		$menus   = $app->getMenu();
-		$pathway = $app->getPathway();
 		$title   = null;
 
 		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
@@ -190,8 +187,6 @@ class ContentViewCategory extends JViewCategory
 		}
 
 		$title = $this->params->get('page_title', '');
-
-		$id = (int) @$menu->query['id'];
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))

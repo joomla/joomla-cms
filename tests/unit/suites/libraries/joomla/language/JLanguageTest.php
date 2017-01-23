@@ -230,7 +230,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testSetTransliterator()
 	{
 		$function1 = 'phpinfo';
-		$function2 = 'print';
+		$function2 = function () { return; };
 		$lang = new JLanguage('');
 
 		// Note: set -> $funtion1: set returns NULL and get returns $function1
@@ -320,7 +320,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testSetPluralSuffixesCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = 'print';
+		$function2 = function () { return; };
 		$lang = new JLanguage('');
 
 		$this->assertTrue(
@@ -409,7 +409,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testSetIgnoredSearchWordsCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = 'print';
+		$function2 = function () { return; };
 		$lang = new JLanguage('');
 
 		$this->assertTrue(
@@ -499,7 +499,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testSetLowerLimitSearchWordCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = 'print';
+		$function2 = function () { return; };
 		$lang = new JLanguage('');
 
 		$this->assertTrue(
@@ -589,7 +589,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testSetUpperLimitSearchWordCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = 'print';
+		$function2 = function () { return; };
 		$lang = new JLanguage('');
 
 		$this->assertTrue(
@@ -679,7 +679,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testSetSearchDisplayedCharactersNumberCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = 'print';
+		$function2 = function () { return; };
 		$lang = new JLanguage('');
 
 		$this->assertTrue(

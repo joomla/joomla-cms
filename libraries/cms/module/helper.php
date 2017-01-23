@@ -140,13 +140,18 @@ abstract class JModuleHelper
 	{
 		static $chrome;
 
+		$app = JFactory::getApplication();
+
 		// Check that $module is a valid module object
 		if (!is_object($module) || !isset($module->module) || !isset($module->params))
 		{
 			if (JDEBUG)
 			{
 				JLog::addLogger(array('text_file' => 'jmodulehelper.log.php'), JLog::ALL, array('modulehelper'));
-				JLog::add('JModuleHelper::renderModule($module) expects a module object', JLog::DEBUG, 'modulehelper');
+				$app->getLogger()->debug(
+					__METHOD__ . '() - The $module parameter should be a module object.',
+					array('category' => 'modulehelper')
+				);
 			}
 
 			return;
@@ -156,8 +161,6 @@ abstract class JModuleHelper
 		{
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
-
-		$app = JFactory::getApplication();
 
 		// Record the scope.
 		$scope = $app->scope;
@@ -324,19 +327,6 @@ abstract class JModuleHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Use JModuleHelper::load() instead
-	 */
-	protected static function &_load()
-	{
-		return static::load();
-	}
-
-	/**
-	 * Load published modules.
-	 *
-	 * @return  array
-	 *
 	 * @since   3.2
 	 */
 	protected static function &load()
@@ -425,7 +415,10 @@ abstract class JModuleHelper
 		}
 		catch (RuntimeException $e)
 		{
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
+			$app->getLogger()->warning(
+				JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
+				array('category' => 'jerror')
+			);
 
 			return array();
 		}

@@ -106,6 +106,10 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// Get a new JApplicationCmsInspector instance.
 		$this->class = new JApplicationCmsInspector($this->getMockInput(), $config);
+		$this->class->setSession(JFactory::$session);
+		$this->class->setDispatcher($this->getMockDispatcher());
+
+		JFactory::$application = $this->class;
 	}
 
 	/**
@@ -118,8 +122,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		// Reset the dispatcher instance.
-		TestReflection::setValue('JEventDispatcher', 'instance', null);
+		TestReflection::setValue('JPluginHelper', 'plugins', null);
 
 		// Reset some web inspector static settings.
 		JApplicationCmsInspector::$headersSent = false;
@@ -166,7 +169,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
 		$this->assertAttributeInstanceOf('JApplicationWebClient', 'client', $this->class);
-		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Event\\DispatcherInterface', 'dispatcher', $this->class);
 	}
 
 	/**
@@ -178,9 +181,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function test__constructDependancyInjection()
 	{
-		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
+		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
 		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
+			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
 		$mockInput = $this->getMockInput();
@@ -212,16 +215,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testExecuteWithoutDocument()
 	{
-		// Manually inject the dispatcher.
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-
-		// Register all the methods so that we can track if they have been fired.
-		$this->class->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
-			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
-
 		$this->class->execute();
-
-		$this->assertEquals(array('JWebDoExecute', 'onAfterRespond'), TestMockDispatcher::$triggered);
 	}
 
 	/**
@@ -233,22 +227,12 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testExecuteWithDocument()
 	{
-		JFactory::$application = $this->class;
-
-		$dispatcher = $this->getMockDispatcher();
 		$document = $this->getMockDocument();
 
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));
 
-		// Manually inject the dispatcher.
-		TestReflection::setValue($this->class, 'dispatcher', $dispatcher);
-		TestReflection::setValue($this->class, 'document', $document);
-
-		// Register all the methods so that we can track if they have been fired.
-		$this->class->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
-			->registerEvent('onBeforeRender', 'JWebTestExecute-onBeforeRender')
-			->registerEvent('onAfterRender', 'JWebTestExecute-onAfterRender')
-			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
+		// Manually inject the document.
+		$this->class->loadDocument($document);
 
 		// Buffer the execution.
 		ob_start();
@@ -256,26 +240,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$buffer = ob_get_contents();
 		ob_end_clean();
 
-		$this->assertEquals(array('JWebDoExecute', 'onBeforeRender', 'onAfterRender', 'onAfterRespond'), TestMockDispatcher::$triggered);
 		$this->assertEquals('JWeb Body', $this->class->getBody());
 		$this->assertEquals('JWeb Body', $buffer);
-	}
-
-	/**
-	 * Tests the JApplicationCms::get method.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	public function testGet()
-	{
-		$config = new Registry(array('foo' => 'bar'));
-
-		TestReflection::setValue($this->class, 'config', $config);
-
-		$this->assertEquals('bar', $this->class->get('foo', 'car'));
-		$this->assertEquals('car', $this->class->get('goo', 'car'));
 	}
 
 	/**
@@ -755,8 +721,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testRender()
 	{
-		JFactory::$application = $this->class;
-
 		$document = $this->getMockDocument();
 
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));

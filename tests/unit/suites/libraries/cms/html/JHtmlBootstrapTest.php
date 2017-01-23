@@ -274,40 +274,6 @@ class JHtmlBootstrapTest extends TestCase
 	}
 
 	/**
-	 * Tests the modal method.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.6.0
-	 */
-	public function testModal()
-	{
-		// Initialise the modal script
-		JHtmlBootstrap::modal();
-
-		// Get the document instance
-		$document = JFactory::getDocument();
-
-		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
-			$document->_scripts,
-			'Verify that tether.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
-			$document->_scripts,
-			'Verify that the alert method initialises Bootstrap as well'
-		);
-
-		$this->assertEquals(
-			$document->_script['text/javascript'],
-			'jQuery(function($){ $("#modal").modal({"backdrop": true,"keyboard": true,"show": false,"remote": ""}); });',
-			'Verify that the modal script is initialised'
-		);
-	}
-
-	/**
 	 * Tests the renderModal method.
 	 *
 	 * @return  void
@@ -739,30 +705,6 @@ class JHtmlBootstrapTest extends TestCase
 	public function testEndTab()
 	{
 		$this->assertEquals("\n</div>", JHtmlBootstrap::endTabSet());
-	}
-
-	/**
-	 * Tests the endPane method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function testEndPane()
-	{
-		$this->assertEquals('</div>', JHtmlBootstrap::endPane());
-	}
-
-	/**
-	 * Tests the endPanel method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function testEndPanel()
-	{
-		$this->assertEquals('</div>', JHtmlBootstrap::endPanel());
 	}
 
 	/**

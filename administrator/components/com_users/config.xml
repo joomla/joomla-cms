@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset 
+	<fieldset
 		name="user_options"
 		label="COM_USERS_CONFIG_USER_OPTIONS" >
 		<field
@@ -256,18 +256,6 @@
 	>
 
 		<field
-			name="sef_advanced"
-			type="radio"
-			class="switcher"
-			default="0"
-			label="JGLOBAL_SEF_ADVANCED_LABEL"
-			description="JGLOBAL_SEF_ADVANCED_DESC"
-			filter="integer">
-			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
-			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
-		</field>
-
-		<field
 			name="custom_fields_enable"
 			type="radio"
 			class="switcher"
@@ -275,8 +263,8 @@
 			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
 			default="1"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 	</fieldset>

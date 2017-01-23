@@ -35,55 +35,7 @@ class UsersRouter extends JComponentRouterView
 		parent::__construct($app, $menu);
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
-
-		$params = JComponentHelper::getParams('com_content');
-
-		if ($params->get('sef_advanced', 0))
-		{
-			$this->attachRule(new JComponentRouterRulesStandard($this));
-			$this->attachRule(new JComponentRouterRulesNomenu($this));
-		}
-		else
-		{
-			JLoader::register('UsersRouterRulesLegacy', __DIR__ . '/helpers/legacyrouter.php');
-			$this->attachRule(new UsersRouterRulesLegacy($this));
-		}
+		$this->attachRule(new JComponentRouterRulesStandard($this));
+		$this->attachRule(new JComponentRouterRulesNomenu($this));
 	}
-}
-
-/**
- * Users router functions
- *
- * These functions are proxys for the new router interface
- * for old SEF extensions.
- *
- * @param   array  &$query  REQUEST query
- *
- * @return  array  Segments of the SEF url
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function usersBuildRoute(&$query)
-{
-	$app = JFactory::getApplication();
-	$router = new UsersRouter($app, $app->getMenu());
-
-	return $router->build($query);
-}
-
-/**
- * Convert SEF URL segments into query variables
- *
- * @param   array  $segments  Segments in the current URL
- *
- * @return  array  Query variables
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function usersParseRoute($segments)
-{
-	$app = JFactory::getApplication();
-	$router = new UsersRouter($app, $app->getMenu());
-
-	return $router->parse($segments);
 }

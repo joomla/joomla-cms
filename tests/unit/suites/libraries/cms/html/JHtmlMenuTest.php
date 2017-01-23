@@ -30,7 +30,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$session = $this->getMockSession();
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**

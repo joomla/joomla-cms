@@ -70,5 +70,6 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 	<input type="hidden" name="task" value="database" />
+	<input type="hidden" name="format" value="json" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

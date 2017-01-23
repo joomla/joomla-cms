@@ -47,7 +47,9 @@ class JOAuth1ClientTest extends TestCase
 	protected $object;
 
 	/**
-	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
+	 * The application object to send HTTP headers for redirects.
+	 *
+	 * @var    JApplicationWeb|PHPUnit_Framework_MockObject_MockObject
 	 * @since  13.1
 	 */
 	protected $application;
@@ -82,7 +84,6 @@ class JOAuth1ClientTest extends TestCase
 	{
 		$this->saveFactoryState();
 		$this->backupServer = $_SERVER;
-		JFactory::$session = $this->getMockSession();
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
@@ -96,6 +97,8 @@ class JOAuth1ClientTest extends TestCase
 		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->input = new JInput(array());
 		$this->application = $this->getMockWeb();
+
+		JFactory::$application = $this->application;
 
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);
@@ -173,7 +176,7 @@ class JOAuth1ClientTest extends TestCase
 			$this->client->expects($this->at(0))
 				->method('post')
 				->with($this->object->getOption('requestTokenURL'))
-				->will($this->returnValue($returnData));
+				->willReturn($returnData);
 
 			$input = TestReflection::getValue($this->object, 'input');
 			TestReflection::setValue($this->object, 'input', $input);
@@ -204,37 +207,49 @@ class JOAuth1ClientTest extends TestCase
 			TestReflection::setValue($input, 'data', $data);
 
 			// Get mock session
-			$mockSession = $this->getMockBuilder('JSession')->setMethods(array( '_start', 'get'))->getMock();
+			$mockSession = $this->getMockBuilder('JSession')
+				->setMethods(['get'])
+				->disableOriginalConstructor()
+				->getMock();
 
 			if ($fail)
 			{
 				$mockSession->expects($this->at(0))
-							->method('get')
-							->with('key', null, 'oauth_token')
-							->will($this->returnValue('bad'));
+					->method('get')
+					->with('oauth_token.key', null)
+					->willReturn('bad');
 
 				$mockSession->expects($this->at(1))
-							->method('get')
-							->with('secret', null, 'oauth_token')
-							->will($this->returnValue('session'));
+					->method('get')
+					->with('oauth_token.secret', null)
+					->willReturn('session');
 
-				JFactory::$session = $mockSession;
+				$this->application = $this->getMockWeb(['session' => $mockSession]);
+
+				JFactory::$application = $this->application;
+
+				TestReflection::setValue($this->object, 'application', $this->application);
 
 				$this->setExpectedException('DomainException');
+
 				$this->object->authenticate();
 			}
 
 			$mockSession->expects($this->at(0))
-						->method('get')
-						->with('key', null, 'oauth_token')
-						->will($this->returnValue('token'));
+				->method('get')
+				->with('oauth_token.key', null)
+				->willReturn('token');
 
 			$mockSession->expects($this->at(1))
-						->method('get')
-						->with('secret', null, 'oauth_token')
-						->will($this->returnValue('secret'));
+				->method('get')
+				->with('oauth_token.secret', null)
+				->willReturn('secret');
 
-			JFactory::$session = $mockSession;
+			$this->application = $this->getMockWeb(['session' => $mockSession]);
+
+			JFactory::$application = $this->application;
+
+			TestReflection::setValue($this->object, 'application', $this->application);
 
 			$returnData = new stdClass;
 			$returnData->code = 200;
@@ -243,7 +258,7 @@ class JOAuth1ClientTest extends TestCase
 			$this->client->expects($this->at(0))
 				->method('post')
 				->with($this->object->getOption('accessTokenURL'))
-				->will($this->returnValue($returnData));
+				->willReturn($returnData);
 
 			$result = $this->object->authenticate();
 

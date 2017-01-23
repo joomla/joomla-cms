@@ -9,12 +9,15 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Input\Input;
+
 /**
  * Joomla! Input Base Class
  *
  * This is an abstracted input class used to manage retrieving data from the application environment.
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  5.0  Use Joomla\Input\Input instead
  *
  * @property-read    JInput        $get
  * @property-read    JInput        $post
@@ -22,51 +25,15 @@ defined('JPATH_PLATFORM') or die;
  * @property-read    JInput        $server
  * @property-read    JInputFiles   $files
  * @property-read    JInputCookie  $cookie
- *
- * @method      integer  getInt()       getInt($name, $default = null)    Get a signed integer.
- * @method      integer  getUint()      getUint($name, $default = null)   Get an unsigned integer.
- * @method      float    getFloat()     getFloat($name, $default = null)  Get a floating-point number.
- * @method      boolean  getBool()      getBool($name, $default = null)   Get a boolean.
- * @method      string   getWord()      getWord($name, $default = null)
- * @method      string   getAlnum()     getAlnum($name, $default = null)
- * @method      string   getCmd()       getCmd($name, $default = null)
- * @method      string   getBase64()    getBase64($name, $default = null)
- * @method      string   getString()    getString($name, $default = null)
- * @method      string   getHtml()      getHtml($name, $default = null)
- * @method      string   getPath()      getPath($name, $default = null)
- * @method      string   getUsername()  getUsername($name, $default = null)
  */
-class JInput implements Serializable, Countable
+class JInput extends Input
 {
-	/**
-	 * Options array for the JInput instance.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected $options = array();
-
-	/**
-	 * Filter object to use.
-	 *
-	 * @var    JFilterInput
-	 * @since  11.1
-	 */
-	protected $filter = null;
-
-	/**
-	 * Input data.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected $data = array();
-
 	/**
 	 * Input objects
 	 *
-	 * @var    array
+	 * @var    JInput[]
 	 * @since  11.1
+	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	protected $inputs = array();
 
@@ -77,29 +44,16 @@ class JInput implements Serializable, Countable
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
 	 * @since   11.1
+	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function __construct($source = null, array $options = array())
 	{
-		if (isset($options['filter']))
-		{
-			$this->filter = $options['filter'];
-		}
-		else
+		if (!isset($options['filter']))
 		{
 			$this->filter = JFilterInput::getInstance();
 		}
 
-		if (is_null($source))
-		{
-			$this->data = &$_REQUEST;
-		}
-		else
-		{
-			$this->data = $source;
-		}
-
-		// Set the options for the class.
-		$this->options = $options;
+		parent::__construct($source, $options);
 	}
 
 	/**
@@ -107,9 +61,10 @@ class JInput implements Serializable, Countable
 	 *
 	 * @param   mixed  $name  Name of the input object to retrieve.
 	 *
-	 * @return  JInput  The request input object
+	 * @return  Input  The request input object
 	 *
 	 * @since   11.1
+	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function __get($name)
 	{
@@ -136,41 +91,8 @@ class JInput implements Serializable, Countable
 			return $this->inputs[$name];
 		}
 
-		// TODO throw an exception
-	}
-
-	/**
-	 * Get the number of variables.
-	 *
-	 * @return  integer  The number of variables in the input.
-	 *
-	 * @since   12.2
-	 * @see     Countable::count()
-	 */
-	public function count()
-	{
-		return count($this->data);
-	}
-
-	/**
-	 * Gets a value from the input data.
-	 *
-	 * @param   string  $name     Name of the value to get.
-	 * @param   mixed   $default  Default value to return if variable does not exist.
-	 * @param   string  $filter   Filter to apply to the value.
-	 *
-	 * @return  mixed  The filtered input value.
-	 *
-	 * @since   11.1
-	 */
-	public function get($name, $default = null, $filter = 'cmd')
-	{
-		if (isset($this->data[$name]))
-		{
-			return $this->filter->clean($this->data[$name], $filter);
-		}
-
-		return $default;
+		// Try using the parent class
+		return parent::__get($name);
 	}
 
 	/**
@@ -188,6 +110,7 @@ class JInput implements Serializable, Countable
 	 * @return  mixed  The filtered input data.
 	 *
 	 * @since   11.1
+	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function getArray(array $vars = array(), $datasource = null, $defaultFilter = 'unknown')
 	{
@@ -210,6 +133,7 @@ class JInput implements Serializable, Countable
 	 * @return  mixed  The filtered input data.
 	 *
 	 * @since   3.4.2
+	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	protected function getArrayRecursive(array $vars = array(), $datasource = null, $defaultFilter = 'unknown', $recursion = false)
 	{
@@ -263,105 +187,6 @@ class JInput implements Serializable, Countable
 	}
 
 	/**
-	 * Sets a value
-	 *
-	 * @param   string  $name   Name of the value to set.
-	 * @param   mixed   $value  Value to assign to the input.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function set($name, $value)
-	{
-		$this->data[$name] = $value;
-	}
-
-	/**
-	 * Define a value. The value will only be set if there's no value for the name or if it is null.
-	 *
-	 * @param   string  $name   Name of the value to define.
-	 * @param   mixed   $value  Value to assign to the input.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function def($name, $value)
-	{
-		if (isset($this->data[$name]))
-		{
-			return;
-		}
-
-		$this->data[$name] = $value;
-	}
-
-	/**
-	 * Magic method to get filtered input data.
-	 *
-	 * @param   string  $name       Name of the filter type prefixed with 'get'.
-	 * @param   array   $arguments  [0] The name of the variable [1] The default value.
-	 *
-	 * @return  mixed   The filtered input value.
-	 *
-	 * @since   11.1
-	 */
-	public function __call($name, $arguments)
-	{
-		if (substr($name, 0, 3) == 'get')
-		{
-			$filter = substr($name, 3);
-
-			$default = null;
-
-			if (isset($arguments[1]))
-			{
-				$default = $arguments[1];
-			}
-
-			return $this->get($arguments[0], $default, $filter);
-		}
-	}
-
-	/**
-	 * Gets the request method.
-	 *
-	 * @return  string   The request method.
-	 *
-	 * @since   11.1
-	 */
-	public function getMethod()
-	{
-		// Get method if exist
-		$method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '';
-		$method = strtoupper($method);
-
-		return $method;
-	}
-
-	/**
-	 * Method to serialize the input.
-	 *
-	 * @return  string  The serialized input.
-	 *
-	 * @since   12.1
-	 */
-	public function serialize()
-	{
-		// Load all of the inputs.
-		$this->loadAllInputs();
-
-		// Remove $_ENV and $_SERVER from the inputs.
-		$inputs = $this->inputs;
-		unset($inputs['env']);
-		unset($inputs['server']);
-
-		// Serialize the options, data, and inputs.
-		return serialize(array($this->options, $this->data, $inputs));
-	}
-
-	/**
 	 * Method to unserialize the input.
 	 *
 	 * @param   string  $input  The serialized input.
@@ -369,6 +194,7 @@ class JInput implements Serializable, Countable
 	 * @return  JInput  The input object.
 	 *
 	 * @since   12.1
+	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function unserialize($input)
 	{
@@ -383,38 +209,6 @@ class JInput implements Serializable, Countable
 		else
 		{
 			$this->filter = JFilterInput::getInstance();
-		}
-	}
-
-	/**
-	 * Method to load all of the global inputs.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	protected function loadAllInputs()
-	{
-		static $loaded = false;
-
-		if (!$loaded)
-		{
-			// Load up all the globals.
-			foreach ($GLOBALS as $global => $data)
-			{
-				// Check if the global starts with an underscore.
-				if (strpos($global, '_') === 0)
-				{
-					// Convert global name to input name.
-					$global = strtolower($global);
-					$global = substr($global, 1);
-
-					// Get the input.
-					$this->$global;
-				}
-			}
-
-			$loaded = true;
 		}
 	}
 }

@@ -38,6 +38,14 @@ class TemplatesViewStyle extends JViewLegacy
 	protected $state;
 
 	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var    JObject
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $canDo;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -56,9 +64,7 @@ class TemplatesViewStyle extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();

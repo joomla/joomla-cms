@@ -18,11 +18,12 @@ defined('_JEXEC') or die;
  */
 class ModulesViewModule extends JViewLegacy
 {
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	protected $item;
-
-	protected $form;
-
-	protected $state;
 
 	/**
 	 * Display the view
@@ -53,7 +54,5 @@ class ModulesViewModule extends JViewLegacy
 		$paramsList = json_encode($paramsList);
 
 		return $paramsList;
-
 	}
-
 }

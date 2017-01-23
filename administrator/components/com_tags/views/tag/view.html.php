@@ -16,13 +16,41 @@ defined('_JEXEC') or die;
  */
 class TagsViewTag extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	protected $item;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
 
+	/**
+	 * Flag if an association exists
+	 *
+	 * @var  boolean
+	 */
 	protected $assoc;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var    JObject
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $canDo;
 
 	/**
 	 * Display the view
@@ -44,9 +72,7 @@ class TagsViewTag extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$input->set('hidemainmenu', true);

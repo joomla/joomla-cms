@@ -16,11 +16,34 @@ defined('_JEXEC') or die;
  */
 class LanguagesViewLanguage extends JViewLegacy
 {
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	public $item;
 
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	public $form;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	public $state;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var    JObject
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $canDo;
 
 	/**
 	 * Display the view.
@@ -39,9 +62,7 @@ class LanguagesViewLanguage extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();

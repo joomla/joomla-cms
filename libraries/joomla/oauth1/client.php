@@ -70,8 +70,8 @@ abstract class JOAuth1Client
 	{
 		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : JHttpFactory::getHttp($this->options);
-		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 		$this->application = isset($application) ? $application : new JApplicationWeb;
+		$this->input = isset($input) ? $input : $this->application->input;
 		$this->version = isset($version) ? $version : '1.0a';
 	}
 
@@ -122,10 +122,10 @@ abstract class JOAuth1Client
 		// Callback
 		else
 		{
-			$session = JFactory::getSession();
+			$session = $this->application->getSession();
 
 			// Get token form session.
-			$this->token = array('key' => $session->get('key', null, 'oauth_token'), 'secret' => $session->get('secret', null, 'oauth_token'));
+			$this->token = array('key' => $session->get('oauth_token.key', null), 'secret' => $session->get('oauth_token.secret', null));
 
 			// Verify the returned request token.
 			if (strcmp($this->token['key'], $this->input->get('oauth_token')) !== 0)
@@ -183,9 +183,9 @@ abstract class JOAuth1Client
 		$this->token = array('key' => $params['oauth_token'], 'secret' => $params['oauth_token_secret']);
 
 		// Save the request token in session
-		$session = JFactory::getSession();
-		$session->set('key', $this->token['key'], 'oauth_token');
-		$session->set('secret', $this->token['secret'], 'oauth_token');
+		$session = $this->application->getSession();
+		$session->set('oauth_token.key', $this->token['key']);
+		$session->set('oauth_token.secret', $this->token['secret']);
 	}
 
 	/**

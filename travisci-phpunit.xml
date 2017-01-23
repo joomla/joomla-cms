@@ -21,9 +21,6 @@
 		<testsuite name="database">
 			<directory>tests/unit/suites/database</directory>
 		</testsuite>
-		<testsuite name="administrator">
-			<directory>tests/unit/suites/administrator</directory>
-		</testsuite>
 		<testsuite name="FinderIndexer">
 			<directory>tests/unit/suites/finderIndexer</directory>
 		</testsuite>

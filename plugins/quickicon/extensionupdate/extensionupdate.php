@@ -39,7 +39,7 @@ class PlgQuickiconExtensionupdate extends JPlugin
 	{
 		if ($context != $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_installer'))
 		{
-			return;
+			return array();
 		}
 
 		$token    = JSession::getFormToken() . '=1';

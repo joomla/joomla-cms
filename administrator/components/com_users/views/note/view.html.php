@@ -59,7 +59,7 @@ class UsersViewNote extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Get the component HTML helpers

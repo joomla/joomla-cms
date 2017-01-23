@@ -9,6 +9,15 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+trigger_error(
+	sprintf(
+		'Bootstrapping Joomla using the %1$s file is deprecated.  Use %2$s instead.',
+		__FILE__,
+		__DIR__ . '/bootstrap.php'
+	),
+	E_USER_DEPRECATED
+);
+
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM'))
 {
@@ -50,6 +59,8 @@ if (!interface_exists('JsonSerializable'))
 }
 
 // Register classes that don't follow one file per class naming conventions.
+JLoader::register('JAuthenticationResponse',  JPATH_PLATFORM . '/joomla/user/response.php');
+JLoader::register('JAuthentication',  JPATH_PLATFORM . '/joomla/user/authentication.php');
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 

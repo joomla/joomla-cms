@@ -44,19 +44,8 @@ class ContentRouter extends JComponentRouterView
 		parent::__construct($app, $menu);
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
-
-		$params = JComponentHelper::getParams('com_content');
-
-		if ($params->get('sef_advanced', 0))
-		{
-			$this->attachRule(new JComponentRouterRulesStandard($this));
-			$this->attachRule(new JComponentRouterRulesNomenu($this));
-		}
-		else
-		{
-			JLoader::register('ContentRouterRulesLegacy', __DIR__ . '/helpers/legacyrouter.php');
-			$this->attachRule(new ContentRouterRulesLegacy($this));
-		}
+		$this->attachRule(new JComponentRouterRulesStandard($this));
+		$this->attachRule(new JComponentRouterRulesNomenu($this));
 	}
 
 	/**
@@ -213,45 +202,4 @@ class ContentRouter extends JComponentRouterView
 
 		return (int) $segment;
 	}
-}
-
-/**
- * Content router functions
- *
- * These functions are proxys for the new router interface
- * for old SEF extensions.
- *
- * @param   array  &$query  An array of URL arguments
- *
- * @return  array  The URL arguments to use to assemble the subsequent URL.
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function contentBuildRoute(&$query)
-{
-	$app = JFactory::getApplication();
-	$router = new ContentRouter($app, $app->getMenu());
-
-	return $router->build($query);
-}
-
-/**
- * Parse the segments of a URL.
- *
- * This function is a proxy for the new router interface
- * for old SEF extensions.
- *
- * @param   array  $segments  The segments of the URL to parse.
- *
- * @return  array  The URL attributes to be used by the application.
- *
- * @since   3.3
- * @deprecated  4.0  Use Class based routers instead
- */
-function contentParseRoute($segments)
-{
-	$app = JFactory::getApplication();
-	$router = new ContentRouter($app, $app->getMenu());
-
-	return $router->parse($segments);
 }

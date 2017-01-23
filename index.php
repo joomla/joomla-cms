@@ -7,9 +7,13 @@
  */
 
 /**
+ * NOTE: This file should remain compatible with PHP 5.2 to allow us to run our PHP minimum check and show a friendly error message
+ */
+
+/**
  * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
  */
-define('JOOMLA_MINIMUM_PHP', '5.3.10');
+define('JOOMLA_MINIMUM_PHP', '5.5.9');
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
@@ -22,7 +26,6 @@ $startMem  = memory_get_usage();
 
 /**
  * Constant that is checked in included files to prevent direct access.
- * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
  */
 define('_JEXEC', 1);
 

@@ -16,16 +16,60 @@ defined('_JEXEC') or die;
  */
 class ContentViewForm extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The item being created
+	 *
+	 * @var  stdClass
+	 */
 	protected $item;
 
-	protected $return_page;
+	/**
+	 * The page to return to after the article is submitted
+	 *
+	 * @var  string
+	 */
+	protected $return_page = '';
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
 
 	/**
-	 * Should we show a captcha form for the submission of the article?
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
+	 * The user object
+	 *
+	 * @var    JUser
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $user = null;
+
+  /*
+   * Should we show a captcha form for the submission of the article?
 	 *
 	 * @var   bool
 	 * @since 3.7.0
@@ -88,9 +132,7 @@ class ContentViewForm extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseWarning(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Create a shortcut to the parameters.
@@ -170,7 +212,7 @@ class ContentViewForm extends JViewLegacy
 
 		$this->document->setTitle($title);
 
-		$pathway = $app->getPathWay();
+		$pathway = $app->getPathway();
 		$pathway->addItem($title, '');
 
 		if ($this->params->get('menu-meta_description'))

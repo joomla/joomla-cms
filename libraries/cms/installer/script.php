@@ -118,7 +118,7 @@ class JInstallerScript
 		}
 
 		// Extension manifest file version
-		$this->release = $parent->get('manifest')->version;
+		$this->release = $parent->getManifest()->version;
 		$extensionType = substr($this->extension, 0, 3);
 
 		// Modules parameters are located in the module table - else in the extension table

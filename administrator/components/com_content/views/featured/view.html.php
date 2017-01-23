@@ -17,7 +17,8 @@ defined('_JEXEC') or die;
 class ContentViewFeatured extends JViewLegacy
 {
 	/**
-	 * The item authors
+	 * List of authors. Each stdClass has two properties - value and text, containing the user id and user's name
+	 * respectively
 	 *
 	 * @var  stdClass
 	 */
@@ -40,7 +41,7 @@ class ContentViewFeatured extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var  JObject
 	 */
 	protected $state;
 
@@ -66,6 +67,14 @@ class ContentViewFeatured extends JViewLegacy
 	protected $sidebar;
 
 	/**
+	 * Array used for displaying the levels filter
+	 *
+	 * @return  stdClass[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $f_levels;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -87,9 +96,7 @@ class ContentViewFeatured extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Levels filter - Used in Hathor.

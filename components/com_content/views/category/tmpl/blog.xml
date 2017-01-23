@@ -168,7 +168,7 @@
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">
-				<field 
+				<field
 					name="bloglayout"
 					type="spacer"
 					class="text"

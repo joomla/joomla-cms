@@ -17,12 +17,16 @@ defined('_JEXEC') or die;
 class MenusViewItem extends JViewLegacy
 {
 	/**
+	 * The JForm object
+	 *
 	 * @var  JForm
 	 */
 	protected $form;
 
 	/**
-	 * @var  object
+	 * The active item
+	 *
+	 * @var  JObject
 	 */
 	protected $item;
 
@@ -32,14 +36,27 @@ class MenusViewItem extends JViewLegacy
 	protected $modules;
 
 	/**
+	 * The model state
+	 *
 	 * @var  JObject
 	 */
 	protected $state;
 
 	/**
-	 * @var  JObject
+	 * The actions the user is authorised to perform
+	 *
+	 * @var    JObject
+	 * @since  3.7.0
 	 */
 	protected $canDo;
+
+	/**
+	 * A list of view levels containing the id and title of the view level
+	 *
+	 * @var    stdClass[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $levels;
 
 	/**
 	 * Display the view
@@ -52,8 +69,6 @@ class MenusViewItem extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$user = JFactory::getUser();
-
 		$this->state   = $this->get('State');
 		$this->form    = $this->get('Form');
 		$this->item    = $this->get('Item');
@@ -71,9 +86,7 @@ class MenusViewItem extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).

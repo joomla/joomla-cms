@@ -21,11 +21,11 @@ class MessagesTableMessage extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  Database connector object
+	 * @param   JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(&$db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__messages', 'message_id', $db);
 	}
@@ -39,6 +39,17 @@ class MessagesTableMessage extends JTable
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		// Check the to and from users.
 		$user = new JUser($this->user_id_from);
 

@@ -272,9 +272,8 @@
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
-			filter="string"
-		/>
+			supported="mysql,mysqli,pdomysql,postgresql"
+			filter="string" />
 
 		<field
 			name="host"
@@ -893,18 +892,6 @@
 		label="CONFIG_SESSION_SETTINGS_LABEL">
 
 		<field
-			name="lifetime"
-			type="number"
-			min="1"
-			default="15"
-			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
-			description="COM_CONFIG_FIELD_SESSION_TIME_DESC"
-			required="true"
-			filter="integer"
-			validate="number"
-			size="6" />
-
-		<field
 			name="shared_session"
 			type="radio"
 			class="switcher"
@@ -919,11 +906,20 @@
 		<field
 			name="session_handler"
 			type="sessionhandler"
+			default="filesystem"
 			label="COM_CONFIG_FIELD_SESSION_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_HANDLER_DESC"
-			default="none"
 			filter="word"
 		/>
+
+		<field
+			name="session_filesystem_path"
+			type="text"
+			default=""
+			label="COM_CONFIG_FIELD_FILESYSTEM_PATH_LABEL"
+			description="COM_CONFIG_FIELD_FILESYSTEM_PATH_DESC"
+			filter="path"
+			showon="session_handler:filesystem" />
 
 		<field
 			name="session_memcache_server_host"

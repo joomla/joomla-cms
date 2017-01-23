@@ -9,67 +9,46 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\AbstractWebApplication;
+use Joomla\Application\Web\WebClient;
+use Joomla\Cms\Application\Autoconfigurable;
+use Joomla\Cms\Application\EventAware;
+use Joomla\Cms\Application\IdentityAware;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
+use Joomla\Session\SessionEvent;
 use Joomla\String\StringHelper;
 
 /**
  * Base class for a Joomla! Web application.
  *
  * @since  11.4
- * @note   As of 4.0 this class will be abstract
  */
-class JApplicationWeb extends JApplicationBase
+abstract class JApplicationWeb extends AbstractWebApplication implements DispatcherAwareInterface
 {
-	/**
-	 * @var    string  Character encoding string.
-	 * @since  11.3
-	 */
-	public $charSet = 'utf-8';
+	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware;
 
 	/**
-	 * @var    string  Response mime type.
-	 * @since  11.3
-	 */
-	public $mimeType = 'text/html';
-
-	/**
-	 * @var    JDate  The body modified date for response headers.
-	 * @since  11.3
-	 */
-	public $modifiedDate;
-
-	/**
-	 * @var    JApplicationWebClient  The application client object.
-	 * @since  11.3
-	 */
-	public $client;
-
-	/**
-	 * @var    JDocument  The application document object.
+	 * The application document object.
+	 *
+	 * @var    JDocument
 	 * @since  11.3
 	 */
 	protected $document;
 
 	/**
-	 * @var    JLanguage  The application language object.
+	 * The application language object.
+	 *
+	 * @var    JLanguage
 	 * @since  11.3
 	 */
 	protected $language;
 
 	/**
-	 * @var    JSession  The application session object.
-	 * @since  11.3
-	 */
-	protected $session;
-
-	/**
-	 * @var    object  The application response object.
-	 * @since  11.3
-	 */
-	protected $response;
-
-	/**
-	 * @var    JApplicationWeb  The application instance.
+	 * The application instance.
+	 *
+	 * @var    JApplicationWeb
 	 * @since  11.3
 	 */
 	protected static $instance;
@@ -77,7 +56,7 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * A map of integer HTTP 1.1 response codes to the full HTTP Status for the headers.
 	 *
-	 * @var    object
+	 * @var    array
 	 * @since  3.4
 	 * @see    http://tools.ietf.org/pdf/rfc7231.pdf
 	 */
@@ -96,7 +75,7 @@ class JApplicationWeb extends JApplicationBase
 	/**
          * A map of HTTP Response headers which may only send a single value, all others
          * are considered to allow multiple
-         * 
+         *
          * @var    object
          * @since  3.5.2
          * @see    https://tools.ietf.org/html/rfc7230
@@ -123,52 +102,23 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
-	 *                                          input object.  If the argument is a JInput object that object will become
-	 *                                          the application's input object, otherwise a default input object is created.
-	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
-	 *                                          config object.  If the argument is a Registry object that object will become
-	 *                                          the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                                          the application's client object, otherwise a default client object is created.
+	 * @param   JInput     $input   An optional argument to provide dependency injection for the application's
+	 *                              input object.  If the argument is a JInput object that object will become
+	 *                              the application's input object, otherwise a default input object is created.
+	 * @param   Registry   $config  An optional argument to provide dependency injection for the application's
+	 *                              config object.  If the argument is a Registry object that object will become
+	 *                              the application's config object, otherwise a default config object is created.
+	 * @param   WebClient  $client  An optional argument to provide dependency injection for the application's
+	 *                              client object.  If the argument is a WebClient object that object will become
+	 *                              the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
+	public function __construct(JInput $input = null, Registry $config = null, WebClient $client = null)
 	{
-		// If an input object is given use it.
-		if ($input instanceof JInput)
-		{
-			$this->input = $input;
-		}
-		// Create the input based on the application logic.
-		else
-		{
-			$this->input = new JInput;
-		}
-
-		// If a config object is given use it.
-		if ($config instanceof Registry)
-		{
-			$this->config = $config;
-		}
-		// Instantiate a new configuration object.
-		else
-		{
-			$this->config = new Registry;
-		}
-
-		// If a client object is given use it.
-		if ($client instanceof JApplicationWebClient)
-		{
-			$this->client = $client;
-		}
-		// Instantiate a new web client object.
-		else
-		{
-			$this->client = new JApplicationWebClient;
-		}
+		$this->input  = $input ?: new JInput;
+		$this->config = $config ?: new Registry;
+		$this->client = $client ?: new WebClient;
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
@@ -197,80 +147,22 @@ class JApplicationWeb extends JApplicationBase
 	 * @return  JApplicationWeb
 	 *
 	 * @since   11.3
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($name = null)
 	{
 		// Only create the object if it doesn't exist.
-		if (empty(self::$instance))
+		if (empty(static::$instance))
 		{
-			if (class_exists($name) && (is_subclass_of($name, 'JApplicationWeb')))
+			if (!class_exists($name))
 			{
-				self::$instance = new $name;
+				throw new RuntimeException(sprintf('Unable to load application: %s', $name), 500);
 			}
-			else
-			{
-				self::$instance = new JApplicationWeb;
-			}
+
+			static::$instance = new $name;
 		}
 
-		return self::$instance;
-	}
-
-	/**
-	 * Initialise the application.
-	 *
-	 * @param   mixed  $session     An optional argument to provide dependency injection for the application's
-	 *                              session object.  If the argument is a JSession object that object will become
-	 *                              the application's session object, if it is false then there will be no session
-	 *                              object, and if it is null then the default session object will be created based
-	 *                              on the application's loadSession() method.
-	 * @param   mixed  $document    An optional argument to provide dependency injection for the application's
-	 *                              document object.  If the argument is a JDocument object that object will become
-	 *                              the application's document object, if it is false then there will be no document
-	 *                              object, and if it is null then the default document object will be created based
-	 *                              on the application's loadDocument() method.
-	 * @param   mixed  $language    An optional argument to provide dependency injection for the application's
-	 *                              language object.  If the argument is a JLanguage object that object will become
-	 *                              the application's language object, if it is false then there will be no language
-	 *                              object, and if it is null then the default language object will be created based
-	 *                              on the application's loadLanguage() method.
-	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
-	 *                              the application's event dispatcher, if it is null then the default event dispatcher
-	 *                              will be created based on the application's loadDispatcher() method.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
-	 * @see     JApplicationWeb::loadSession()
-	 * @see     JApplicationWeb::loadDocument()
-	 * @see     JApplicationWeb::loadLanguage()
-	 * @see     JApplicationBase::loadDispatcher()
-	 * @since   11.3
-	 */
-	public function initialise($session = null, $document = null, $language = null, $dispatcher = null)
-	{
-		// Create the session based on the application logic.
-		if ($session !== false)
-		{
-			$this->loadSession($session);
-		}
-
-		// Create the document based on the application logic.
-		if ($document !== false)
-		{
-			$this->loadDocument($document);
-		}
-
-		// Create the language based on the application logic.
-		if ($language !== false)
-		{
-			$this->loadLanguage($language);
-		}
-
-		$this->loadDispatcher($dispatcher);
-
-		return $this;
+		return static::$instance;
 	}
 
 	/**
@@ -359,124 +251,6 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Checks the accept encoding of the browser and compresses the data before
-	 * sending it to the client if possible.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	protected function compress()
-	{
-		// Supported compression encodings.
-		$supported = array(
-			'x-gzip' => 'gz',
-			'gzip' => 'gz',
-			'deflate' => 'deflate',
-		);
-
-		// Get the supported encoding.
-		$encodings = array_intersect($this->client->encodings, array_keys($supported));
-
-		// If no supported encoding is detected do nothing and return.
-		if (empty($encodings))
-		{
-			return;
-		}
-
-		// Verify that headers have not yet been sent, and that our connection is still alive.
-		if ($this->checkHeadersSent() || !$this->checkConnectionAlive())
-		{
-			return;
-		}
-
-		// Iterate through the encodings and attempt to compress the data using any found supported encodings.
-		foreach ($encodings as $encoding)
-		{
-			if (($supported[$encoding] == 'gz') || ($supported[$encoding] == 'deflate'))
-			{
-				// Verify that the server supports gzip compression before we attempt to gzip encode the data.
-				// @codeCoverageIgnoreStart
-				if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
-				{
-					continue;
-				}
-				// @codeCoverageIgnoreEnd
-
-				// Attempt to gzip encode the data with an optimal level 4.
-				$data = $this->getBody();
-				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
-
-				// If there was a problem encoding the data just try the next encoding scheme.
-				// @codeCoverageIgnoreStart
-				if ($gzdata === false)
-				{
-					continue;
-				}
-				// @codeCoverageIgnoreEnd
-
-				// Set the encoding headers.
-				$this->setHeader('Content-Encoding', $encoding);
-
-				// Header will be removed at 4.0
-				if ($this->get('MetaVersion'))
-				{
-					$this->setHeader('X-Content-Encoded-By', 'Joomla');
-				}
-
-				// Replace the output with the encoded data.
-				$this->setBody($gzdata);
-
-				// Compression complete, let's break out of the loop.
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Method to send the application response to the client.  All headers will be sent prior to the main
-	 * application output data.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	protected function respond()
-	{
-		// Send the content-type header.
-		$this->setHeader('Content-Type', $this->mimeType . '; charset=' . $this->charSet);
-
-		// If the response is set to uncachable, we need to set some appropriate headers so browsers don't cache the response.
-		if (!$this->response->cachable)
-		{
-			// Expires in the past.
-			$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
-
-			// Always modified.
-			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-			$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-
-			// HTTP 1.0
-			$this->setHeader('Pragma', 'no-cache');
-		}
-		else
-		{
-			// Expires.
-			$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
-
-			// Last modified.
-			if ($this->modifiedDate instanceof JDate)
-			{
-				$this->setHeader('Last-Modified', $this->modifiedDate->format('D, d M Y H:i:s'));
-			}
-		}
-
-		$this->sendHeaders();
-
-		echo $this->getBody();
-	}
-
-	/**
 	 * Redirect to another URL.
 	 *
 	 * If the headers have not been sent the redirect will be accomplished using a "301 Moved Permanently"
@@ -539,7 +313,7 @@ class JApplicationWeb extends JApplicationBase
 		else
 		{
 			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !StringHelper::is_ascii($url))
+			if (($this->client->engine == WebClient::TRIDENT) && !StringHelper::is_ascii($url))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
@@ -578,223 +352,6 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Load an object or array into the application configuration object.
-	 *
-	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @since   11.3
-	 */
-	public function loadConfiguration($data)
-	{
-		// Load the data into the configuration object.
-		if (is_array($data))
-		{
-			$this->config->loadArray($data);
-		}
-		elseif (is_object($data))
-		{
-			$this->config->loadObject($data);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Set/get cachable state for the response.  If $allow is set, sets the cachable state of the
-	 * response.  Always returns the current state.
-	 *
-	 * @param   boolean  $allow  True to allow browser caching.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   11.3
-	 */
-	public function allowCache($allow = null)
-	{
-		if ($allow !== null)
-		{
-			$this->response->cachable = (bool) $allow;
-		}
-
-		return $this->response->cachable;
-	}
-
-	/**
-	 * Method to set a response header.  If the replace flag is set then all headers
-	 * with the given name will be replaced by the new one.  The headers are stored
-	 * in an internal array to be sent when the site is sent to the browser.
-	 *
-	 * @param   string   $name     The name of the header to set.
-	 * @param   string   $value    The value of the header to set.
-	 * @param   boolean  $replace  True to replace any headers with the same name.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @since   11.3
-	 */
-	public function setHeader($name, $value, $replace = false)
-	{
-		// Sanitize the input values.
-		$name = (string) $name;
-		$value = (string) $value;
-
-		// Create an array of duplicate header names
-		$keys = false;
-		if ($this->response->headers)
-		{
-			$names = array();
-			foreach ($this->response->headers as $key => $header)
-			{
-				$names[$key] = $header['name'];
-			}
-			// Find existing headers by name
-			$keys = array_keys($names, $name);
-		}
-
-		// Remove if $replace is true and there are duplicate names
-		if ($replace && $keys)
-		{
-			$this->response->headers = array_diff_key($this->response->headers, array_flip($keys));
-		}
-
-		/**
-                 * If no keys found, safe to insert (!$keys)
-                 * If ($keys && $replace) it's a replacement and previous have been deleted
-                 * if($keys && !in_array...) it's a multiple value header
-                 */
-		$single = in_array($name, $this->singleValueResponseHeaders);
-		if ($value && (!$keys || ($keys && ($replace || !$single))))
-		{
-			// Add the header to the internal array.
-			$this->response->headers[] = array('name' => $name, 'value' => $value);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Method to get the array of response headers to be sent when the response is sent
-	 * to the client.
-	 *
-	 * @return  array	 *
-	 * 
-	 * @since   11.3
-	 */
-	public function getHeaders()
-	{
-		return $this->response->headers;
-	}
-
-	/**
-	 * Method to clear any set response headers.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @since   11.3
-	 */
-	public function clearHeaders()
-	{
-		$this->response->headers = array();
-
-		return $this;
-	}
-
-	/**
-	 * Send the response headers.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @since   11.3
-	 */
-	public function sendHeaders()
-	{
-		if (!$this->checkHeadersSent())
-		{
-			// Creating an array of headers, making arrays of headers with multiple values
-			$val = array();
-			foreach ($this->response->headers as $header)
-			{
-				if ('status' == strtolower($header['name']))
-				{
-					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					$this->header('HTTP/1.1 ' . $header['value'], null, (int) $header['value']);
-				}
-				else
-				{
-					$val[$header['name']] = !isset($val[$header['name']])?$header['value']:implode(', ', array($val[$header['name']], $header['value']));
-					$this->header($header['name'] . ': ' . $val[$header['name']], true);
-				}
-			}
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Set body content.  If body content already defined, this will replace it.
-	 *
-	 * @param   string  $content  The content to set as the response body.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @since   11.3
-	 */
-	public function setBody($content)
-	{
-		$this->response->body = array((string) $content);
-
-		return $this;
-	}
-
-	/**
-	 * Prepend content to the body content
-	 *
-	 * @param   string  $content  The content to prepend to the response body.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @since   11.3
-	 */
-	public function prependBody($content)
-	{
-		array_unshift($this->response->body, (string) $content);
-
-		return $this;
-	}
-
-	/**
-	 * Append content to the body content
-	 *
-	 * @param   string  $content  The content to append to the response body.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @since   11.3
-	 */
-	public function appendBody($content)
-	{
-		$this->response->body[] = (string) $content;
-
-		return $this;
-	}
-
-	/**
-	 * Return the body content
-	 *
-	 * @param   boolean  $asArray  True to return the body as an array of strings.
-	 *
-	 * @return  mixed  The response body either as an array or concatenated string.
-	 *
-	 * @since   11.3
-	 */
-	public function getBody($asArray = false)
-	{
-		return $asArray ? $this->response->body : implode((array) $this->response->body);
-	}
-
-	/**
 	 * Method to get the application document object.
 	 *
 	 * @return  JDocument  The document object
@@ -819,145 +376,6 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Method to get the application session object.
-	 *
-	 * @return  JSession  The session object
-	 *
-	 * @since   11.3
-	 */
-	public function getSession()
-	{
-		return $this->session;
-	}
-
-	/**
-	 * Method to check the current client connnection status to ensure that it is alive.  We are
-	 * wrapping this to isolate the connection_status() function from our code base for testing reasons.
-	 *
-	 * @return  boolean  True if the connection is valid and normal.
-	 *
-	 * @codeCoverageIgnore
-	 * @see     connection_status()
-	 * @since   11.3
-	 */
-	protected function checkConnectionAlive()
-	{
-		return connection_status() === CONNECTION_NORMAL;
-	}
-
-	/**
-	 * Method to check to see if headers have already been sent.  We are wrapping this to isolate the
-	 * headers_sent() function from our code base for testing reasons.
-	 *
-	 * @return  boolean  True if the headers have already been sent.
-	 *
-	 * @codeCoverageIgnore
-	 * @see     headers_sent()
-	 * @since   11.3
-	 */
-	protected function checkHeadersSent()
-	{
-		return headers_sent();
-	}
-
-	/**
-	 * Method to detect the requested URI from server environment variables.
-	 *
-	 * @return  string  The requested URI
-	 *
-	 * @since   11.3
-	 */
-	protected function detectRequestUri()
-	{
-		// First we need to detect the URI scheme.
-		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
-		{
-			$scheme = 'https://';
-		}
-		else
-		{
-			$scheme = 'http://';
-		}
-
-		/*
-		 * There are some differences in the way that Apache and IIS populate server environment variables.  To
-		 * properly detect the requested URI we need to adjust our algorithm based on whether or not we are getting
-		 * information from Apache or IIS.
-		 */
-		// Define variable to return
-		$uri = '';
-
-		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
-		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
-		{
-			// The URI is built from the HTTP_HOST and REQUEST_URI environment variables in an Apache environment.
-			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		}
-		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
-		elseif (isset($_SERVER['HTTP_HOST']))
-		{
-			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
-			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
-
-			// If the QUERY_STRING variable exists append it to the URI string.
-			if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']))
-			{
-				$uri .= '?' . $_SERVER['QUERY_STRING'];
-			}
-		}
-
-		return trim($uri);
-	}
-
-	/**
-	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
-	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
-	 * for your specific application.
-	 *
-	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-	 *                          in JPATH_CONFIGURATION will be used.
-	 * @param   string  $class  The class name to instantiate.
-	 *
-	 * @return  mixed   Either an array or object to be loaded into the configuration object.
-	 *
-	 * @since   11.3
-	 * @throws  RuntimeException
-	 */
-	protected function fetchConfigurationData($file = '', $class = 'JConfig')
-	{
-		// Instantiate variables.
-		$config = array();
-
-		if (empty($file))
-		{
-			$file = JPATH_CONFIGURATION . '/configuration.php';
-
-			// Applications can choose not to have any configuration data
-			// by not implementing this method and not having a config file.
-			if (!file_exists($file))
-			{
-				$file = '';
-			}
-		}
-
-		if (!empty($file))
-		{
-			JLoader::register($class, $file);
-
-			if (class_exists($class))
-			{
-				$config = new $class;
-			}
-			else
-			{
-				throw new RuntimeException('Configuration class does not exist.');
-			}
-		}
-
-		return $config;
-	}
-
-	/**
 	 * Flush the media version to refresh versionable assets
 	 *
 	 * @return  void
@@ -968,40 +386,6 @@ class JApplicationWeb extends JApplicationBase
 	{
 		$version = new JVersion;
 		$version->refreshMediaVersion();
-	}
-
-	/**
-	 * Method to send a header to the client.  We are wrapping this to isolate the header() function
-	 * from our code base for testing reasons.
-	 *
-	 * @param   string   $string   The header string.
-	 * @param   boolean  $replace  The optional replace parameter indicates whether the header should
-	 *                             replace a previous similar header, or add a second header of the same type.
-	 * @param   integer  $code     Forces the HTTP response code to the specified value. Note that
-	 *                             this parameter only has an effect if the string is not empty.
-	 *
-	 * @return  void
-	 *
-	 * @codeCoverageIgnore
-	 * @see     header()
-	 * @since   11.3
-	 */
-	protected function header($string, $replace = true, $code = null)
-	{
-		$string = str_replace(chr(0), '', $string);
-		header($string, $replace, $code);
-	}
-
-	/**
-	 * Determine if we are using a secure (SSL) connection.
-	 *
-	 * @return  boolean  True if using SSL, false if not.
-	 *
-	 * @since   12.2
-	 */
-	public function isSSLConnection()
-	{
-		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
 	}
 
 	/**
@@ -1056,49 +440,11 @@ class JApplicationWeb extends JApplicationBase
 	 * @return  JApplicationWeb This method is chainable.
 	 *
 	 * @since   11.3
+	 * @deprecated  5.0  The session should be injected as a service.
 	 */
 	public function loadSession(JSession $session = null)
 	{
-		if ($session !== null)
-		{
-			$this->session = $session;
-
-			return $this;
-		}
-
-		// Generate a session name.
-		$name = md5($this->get('secret') . $this->get('session_name', get_class($this)));
-
-		// Calculate the session lifetime.
-		$lifetime = (($this->get('sess_lifetime')) ? $this->get('sess_lifetime') * 60 : 900);
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('sess_handler', 'none');
-
-		// Initialize the options for JSession.
-		$options = array(
-			'name' => $name,
-			'expire' => $lifetime,
-			'force_ssl' => $this->get('force_ssl'),
-		);
-
-		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
-
-		// Instantiate the session object.
-		$session = JSession::getInstance($handler, $options);
-		$session->initialise($this->input, $this->dispatcher);
-
-		if ($session->getState() == 'expired')
-		{
-			$session->restart();
-		}
-		else
-		{
-			$session->start();
-		}
-
-		// Set the session object.
-		$this->session = $session;
+		$this->getLogger()->warning(__METHOD__ . '() is deprecated.  Inject the session as a service instead.', array('category' => 'deprecated'));
 
 		return $this;
 	}
@@ -1106,13 +452,15 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * After the session has been started we need to populate it with some default values.
 	 *
+	 * @param   SessionEvent  $event  Session event being triggered
+	 *
 	 * @return  void
 	 *
 	 * @since   12.2
 	 */
-	public function afterSessionStart()
+	public function afterSessionStart(SessionEvent $event)
 	{
-		$session = JFactory::getSession();
+		$session = $event->getSession();
 
 		if ($session->isNew())
 		{

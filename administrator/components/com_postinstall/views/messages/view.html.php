@@ -40,7 +40,7 @@ class PostinstallViewMessages extends FOFViewHtml
 		$this->token = JFactory::getSession()->getFormToken();
 		$this->extension_options = $model->getComponentOptions();
 
-		JToolBarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
+		JToolbarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
 
 		return parent::onBrowse($tpl);
 	}

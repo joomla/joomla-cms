@@ -14,8 +14,36 @@
  * @subpackage  Form
  * @since       3.1
  */
-class JFormFieldModuletagTest extends PHPUnit_Framework_TestCase
+class JFormFieldModuletagTest extends TestCase
 {
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockCmsApp();
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
+	}
+
 	/**
 	 * Tests the getInput method.
 	 *

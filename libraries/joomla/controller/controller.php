@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\AbstractApplication;
+
 /**
  * Joomla Platform Controller Interface
  *
