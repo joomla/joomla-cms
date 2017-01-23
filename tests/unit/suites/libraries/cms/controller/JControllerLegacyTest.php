@@ -109,11 +109,15 @@ class JControllerLegacyTest extends TestCase
 
 		$parts['type'] = 'json';
 
-		$this->assertEquals('test/view.json.php', TestReflection::invoke('JControllerLegacy', 'createFileName', 'view', $parts), __LINE__);
+		$this->assertEquals('test/json.php', TestReflection::invoke('JControllerLegacy', 'createFileName', 'view', $parts), __LINE__);
 
 		$parts = array('type' => 'JSON', 'name' => 'TEST');
 
-		$this->assertEquals('test/view.json.php', TestReflection::invoke('JControllerLegacy', 'createFileName', 'view', $parts), __LINE__);
+		$this->assertEquals('test/json.php', TestReflection::invoke('JControllerLegacy', 'createFileName', 'view', $parts), __LINE__);
+
+		$parts = array('type' => 'JSON', 'name' => 'TEST');
+
+		$this->assertEquals('test/view.json.php', TestReflection::invoke('JControllerLegacy', 'createOldFileName', $parts), __LINE__);
 	}
 
 	/**
