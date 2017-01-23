@@ -1,11 +1,13 @@
 <?php
 /**
- * @package     Joomla.Libraries
+ * @package     Joomla.Cms
  * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\View;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.2
  */
-class JViewCategories extends JViewLegacy
+class Categories extends View
 {
 	/**
 	 * State data
@@ -55,7 +57,7 @@ class JViewCategories extends JViewLegacy
 		$items  = $this->get('Items');
 		$parent = $this->get('Parent');
 
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -67,14 +69,14 @@ class JViewCategories extends JViewLegacy
 
 		if ($items === false)
 		{
-			$app->enqueueMessage(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
+			$app->enqueueMessage(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
 
 			return false;
 		}
 
 		if ($parent == false)
 		{
-			$app->enqueueMessage(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
+			$app->enqueueMessage(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
 
 			return false;
 		}
@@ -105,7 +107,7 @@ class JViewCategories extends JViewLegacy
 	 */
 	protected function prepareDocument()
 	{
-		$app   = JFactory::getApplication();
+		$app   = \JFactory::getApplication();
 		$menus = $app->getMenu();
 
 		// Because the application sets a default page title, we need to get it from the menu item itself
@@ -117,7 +119,7 @@ class JViewCategories extends JViewLegacy
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_($this->pageHeading));
+			$this->params->def('page_heading', \JText::_($this->pageHeading));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -128,11 +130,11 @@ class JViewCategories extends JViewLegacy
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
