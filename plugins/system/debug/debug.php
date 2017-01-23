@@ -308,7 +308,8 @@ class PlgSystemDebug extends JPlugin
 			if (!!JError::getErrors())
 			{
 				$sections['errors'] = array(
-					'errors' => JError::getErrors()
+					'errors' => JError::getErrors(),
+					'hasError' => true,
 				);
 			}
 
@@ -379,6 +380,7 @@ class PlgSystemDebug extends JPlugin
 				{
 					$sections['language_files_in_error'] = array(
 						'errors' => $languageErrors,
+						'hasError' => true,
 					);
 				}
 			}

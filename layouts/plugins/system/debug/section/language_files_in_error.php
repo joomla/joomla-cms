@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$errorfiles = $displayData['errorfiles'];
+$errorfiles = $displayData['errors'];
 
 ?>
 <?php if (empty($errorfiles)) : ?>

@@ -16,8 +16,9 @@ $title   = isset($displayData['title']) ? $displayData['title'] : JText::_('PLG_
 
 ?>
 
-<div class="dbg-header" onclick="toggleContainer('dbg_container_<?php echo $section, $suffix; ?>');">
-        <a href="javascript:void(0);"><h3><?php echo $title; ?></h3></a>
+<div class="dbg-header<?php echo $data['hasError'] ? ' dbg-error' : ''; ?>"
+	onclick="toggleContainer('dbg_container_<?php echo $section, $suffix; ?>');">
+    <a href="javascript:void(0);"><h3><?php echo $title; ?></h3></a>
 </div>
 <div style="display: none;" class="dbg-container" id="dbg_container_<?php echo $section, $suffix; ?>">
         <?php echo $this->sublayout($section, $data); ?>
