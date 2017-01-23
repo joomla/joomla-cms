@@ -3,7 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
+<<<<<<< HEAD
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+=======
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+>>>>>>> joomla/master
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +18,11 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Content associations helper.
  *
+<<<<<<< HEAD
  * @since  __DEPLOY_VERSION__
+=======
+ * @since  3.7.0
+>>>>>>> joomla/master
  */
 class ContentAssociationsHelper extends JAssociationExtensionHelper
 {
@@ -23,7 +31,11 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @var     array   $extension
 	 *
+<<<<<<< HEAD
 	 * @since   __DEPLOY_VERSION__
+=======
+	 * @since   3.7.0
+>>>>>>> joomla/master
 	 */
 	protected $extension = 'com_content';
 
@@ -32,7 +44,11 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @var     array   $itemTypes
 	 *
+<<<<<<< HEAD
 	 * @since   __DEPLOY_VERSION__
+=======
+	 * @since   3.7.0
+>>>>>>> joomla/master
 	 */
 	protected $itemTypes = array('article', 'category');
 
@@ -41,7 +57,11 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @var     boolean   $associationsSupport
 	 *
+<<<<<<< HEAD
 	 * @since   __DEPLOY_VERSION__
+=======
+	 * @since   3.7.0
+>>>>>>> joomla/master
 	 */
 	protected $associationsSupport = true;
 
@@ -53,7 +73,11 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array
 	 *
+<<<<<<< HEAD
 	 * @since   __DEPLOY_VERSION__
+=======
+	 * @since   3.7.0
+>>>>>>> joomla/master
 	 */
 
 	public function getAssociations($typeName, $id)
@@ -91,7 +115,11 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  JTable|null
 	 *
+<<<<<<< HEAD
 	 * @since   __DEPLOY_VERSION__
+=======
+	 * @since   3.7.0
+>>>>>>> joomla/master
 	 */
 	public function getItem($typeName, $id)
 	{
@@ -130,7 +158,11 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array  Array of item types
 	 *
+<<<<<<< HEAD
 	 * @since   __DEPLOY_VERSION__
+=======
+	 * @since   3.7.0
+>>>>>>> joomla/master
 	 */
 	public function getType($typeName = '')
 	{

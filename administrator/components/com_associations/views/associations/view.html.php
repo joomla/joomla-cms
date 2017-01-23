@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of articles.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class AssociationsViewAssociations extends JViewLegacy
 {
@@ -21,7 +21,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $items;
 
@@ -30,7 +30,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	 *
 	 * @var    JPagination
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $pagination;
 
@@ -39,7 +39,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	 *
 	 * @var    object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $state;
 
@@ -48,7 +48,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	 *
 	 * @var    Registry
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $itemType = null;
 
@@ -59,7 +59,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function display($tpl = null)
 	{
@@ -185,7 +185,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected function addToolbar()
 	{

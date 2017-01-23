@@ -14,7 +14,7 @@ JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINI
 /**
  * Fields Radio Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class PlgFieldsRadio extends FieldsListPlugin
 {

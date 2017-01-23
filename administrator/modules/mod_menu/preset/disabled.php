@@ -11,20 +11,19 @@ defined('_JEXEC') or die;
 
 /* @var  $this    JAdminCSSMenu */
 /* @var  $params  Joomla\Registry\Registry */
-
 $user = JFactory::getUser();
 
 /**
  * Site SubMenu
  */
-$this->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), null, 'class:cog fa-fw'));
+$this->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), null, 'disabled'));
 
 /**
  * Users Submenu
  */
 if ($user->authorise('core.manage', 'com_users'))
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS'), null, 'class:users fa-fw'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS'), null, 'disabled'));
 }
 
 /**
@@ -32,15 +31,7 @@ if ($user->authorise('core.manage', 'com_users'))
  */
 if ($user->authorise('core.manage', 'com_menus'))
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), null, 'class:list fa-fw'));
-}
-
-/**
- * Media Submenu
- */
-if ($user->authorise('core.manage', 'com_media'))
-{
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_MEDIA_MANAGER'), null, 'class:file-picture-o fa-fw'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), null, 'disabled'));
 }
 
 /**
@@ -48,7 +39,7 @@ if ($user->authorise('core.manage', 'com_media'))
  */
 if ($user->authorise('core.manage', 'com_content'))
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), null, 'class:file-text-o fa-fw'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), null, 'disabled'));
 }
 
 /**
@@ -61,7 +52,7 @@ $components = ModMenuHelper::getComponents(true);
 // Check if there are any components, otherwise, don't display the components menu item
 if ($components)
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), null, 'class:cube fa-fw'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), null, 'disabled'));
 }
 
 /**
@@ -75,7 +66,7 @@ $lm = $user->authorise('core.manage', 'com_languages');
 
 if ($im || $mm || $pm || $tm || $lm)
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), null, 'class:cubes fa-fw'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), null, 'disabled'));
 }
 
 /**
@@ -83,10 +74,5 @@ if ($im || $mm || $pm || $tm || $lm)
  */
 if ($params->get('showhelp', 1))
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), null, 'class:info-circle fa-fw'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), null, 'disabled'));
 }
-
-/*
- * User Submenu
- */
-$this->addChild(new JMenuNode($user->username, null, 'class:user fa-fw'));

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ JTable::addIncludePath(__DIR__ . '/../tables');
 /**
  * Content associations helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class ContactAssociationsHelper extends JAssociationExtensionHelper
 {
@@ -25,7 +25,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @var     array   $extension
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $extension = 'com_contact';
 
@@ -34,7 +34,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @var     array   $itemTypes
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $itemTypes = array('contact', 'category');
 
@@ -43,7 +43,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @var     boolean   $associationsSupport
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $associationsSupport = true;
 
@@ -55,7 +55,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getAssociations($typeName, $id)
 	{
@@ -92,7 +92,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  JTable|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getItem($typeName, $id)
 	{
@@ -131,7 +131,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array  Array of item types
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getType($typeName = '')
 	{

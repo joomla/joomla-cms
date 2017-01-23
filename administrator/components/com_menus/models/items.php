@@ -450,7 +450,7 @@ class MenusModelItems extends JModelList
 	 *
 	 * @return  int
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getMenu($menuType, $check = false)
 	{

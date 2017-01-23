@@ -218,7 +218,7 @@ class JFormFieldList extends JFormField
 	 *
 	 * @return  JFormFieldList  For chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function addOption($text, $attributes = array())
 	{

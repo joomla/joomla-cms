@@ -3,7 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
+<<<<<<< HEAD
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+=======
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+>>>>>>> joomla/master
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Menu associations helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class MenusAssociationsHelper extends JAssociationExtensionHelper
 {
@@ -23,7 +27,7 @@ class MenusAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @var     array   $extension
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $extension = 'com_menus';
 
@@ -32,7 +36,7 @@ class MenusAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @var     array   $itemTypes
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $itemTypes = array('item');
 
@@ -41,7 +45,7 @@ class MenusAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @var     boolean   $associationsSupport
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $associationsSupport = true;
 
@@ -53,7 +57,7 @@ class MenusAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 
 	public function getAssociations($typeName, $id)
@@ -84,7 +88,7 @@ class MenusAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  JTable|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getItem($typeName, $id)
 	{
@@ -119,7 +123,7 @@ class MenusAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @return  array  Array of item types
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getType($typeName = '')
 	{
