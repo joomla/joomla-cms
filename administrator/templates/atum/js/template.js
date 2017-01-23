@@ -64,7 +64,7 @@
 			var menuClose = function() {
 				sidebar.querySelector('.collapse').classList.remove('in');
 				sidebar.querySelector('.collapse-arrow').classList.add('collapsed');
-				menuToggle.classList.add('active');
+				//menuToggle.classList.add('active'); @TODO the hanburger menu is broken
 				wrapper.classList.add('closed');
 			};
 
