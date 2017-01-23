@@ -40,7 +40,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'class' => 'foo bar',
 			),
-			'<input type="tel" name="myTestName" class="foo bar" id="myTestId" value="" />',
+			'<input type="tel" name="myTestName" class="form-control foo bar" id="myTestId" value="" />',
 		),
 
 		'Size' => array(
