@@ -1,11 +1,13 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Cms
  * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\View;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,12 +18,12 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  2.5.5
  */
-class JViewLegacy extends JObject
+class View extends \JObject
 {
 	/**
 	 * The active document object
 	 *
-	 * @var    JDocument
+	 * @var    \JDocument
 	 * @since  3.0
 	 */
 	public $document;
@@ -146,7 +148,7 @@ class JViewLegacy extends JObject
 		// Set the charset (used by the variable escaping functions)
 		if (array_key_exists('charset', $config))
 		{
-			JLog::add('Setting a custom charset for escaping is deprecated. Override JViewLegacy::escape() instead.', JLog::WARNING, 'deprecated');
+			\JLog::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', \JLog::WARNING, 'deprecated');
 			$this->_charset = $config['charset'];
 		}
 
@@ -202,7 +204,7 @@ class JViewLegacy extends JObject
 			$this->setLayout('default');
 		}
 
-		$this->baseurl = JUri::base(true);
+		$this->baseurl = \JUri::base(true);
 	}
 
 	/**
@@ -212,7 +214,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @see     JViewLegacy::loadTemplate()
+	 * @see     \JViewLegacy::loadTemplate()
 	 * @since   3.0
 	 */
 	public function display($tpl = null)
@@ -282,7 +284,7 @@ class JViewLegacy extends JObject
 			}
 		}
 
-		// Degrade to JObject::get
+		// Degrade to \JObject::get
 		$result = parent::get($property, $default);
 
 		return $result;
@@ -293,7 +295,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @param   string  $name  The name of the model (optional)
 	 *
-	 * @return  mixed  JModelLegacy object
+	 * @return  mixed  \JModelLegacy object
 	 *
 	 * @since   3.0
 	 */
@@ -351,7 +353,7 @@ class JViewLegacy extends JObject
 
 			if ($viewpos === false)
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
+				throw new Exception(\JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 
 			$this->_name = strtolower(substr($classname, $viewpos + 4));
@@ -363,14 +365,14 @@ class JViewLegacy extends JObject
 	/**
 	 * Method to add a model to the view.  We support a multiple model single
 	 * view system by which models are referenced by classname.  A caveat to the
-	 * classname referencing is that any classname prepended by JModel will be
-	 * referenced by the name without JModel, eg. JModelCategory is just
+	 * classname referencing is that any classname prepended by \JModel will be
+	 * referenced by the name without \JModel, eg. \JModelCategory is just
 	 * Category.
 	 *
-	 * @param   JModelLegacy  $model    The model to add to the view.
-	 * @param   boolean       $default  Is this the default model?
+	 * @param   \JModelLegacy  $model    The model to add to the view.
+	 * @param   boolean        $default  Is this the default model?
 	 *
-	 * @return  JModelLegacy  The added model.
+	 * @return  \JModelLegacy  The added model.
 	 *
 	 * @since   3.0
 	 */
@@ -481,7 +483,7 @@ class JViewLegacy extends JObject
 		// Clear prior output
 		$this->_output = null;
 
-		$template = JFactory::getApplication()->getTemplate();
+		$template = \JFactory::getApplication()->getTemplate();
 		$layout = $this->getLayout();
 		$layoutTemplate = $this->getLayoutTemplate();
 
@@ -493,7 +495,7 @@ class JViewLegacy extends JObject
 		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
 		// Load the language file for the template
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
@@ -506,13 +508,13 @@ class JViewLegacy extends JObject
 		// Load the template script
 		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$this->_template = JPath::find($this->_path['template'], $filetofind);
+		$this->_template = \JPath::find($this->_path['template'], $filetofind);
 
 		// If alternate layout can't be found, fall back to default layout
 		if ($this->_template == false)
 		{
 			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
-			$this->_template = JPath::find($this->_path['template'], $filetofind);
+			$this->_template = \JPath::find($this->_path['template'], $filetofind);
 		}
 
 		if ($this->_template != false)
@@ -542,7 +544,7 @@ class JViewLegacy extends JObject
 		}
 		else
 		{
-			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
+			throw new Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
 		}
 	}
 
@@ -562,7 +564,7 @@ class JViewLegacy extends JObject
 
 		// Load the template script
 		jimport('joomla.filesystem.path');
-		$helper = JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
+		$helper = \JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
 
 		if ($helper != false)
 		{
@@ -583,8 +585,8 @@ class JViewLegacy extends JObject
 	 */
 	protected function _setPath($type, $path)
 	{
-		$component = JApplicationHelper::getComponentName();
-		$app = JFactory::getApplication();
+		$component = \JApplicationHelper::getComponentName();
+		$app = \JFactory::getApplication();
 
 		// Clear out the prior search dirs
 		$this->_path[$type] = array();
@@ -625,7 +627,7 @@ class JViewLegacy extends JObject
 		foreach ((array) $path as $dir)
 		{
 			// Clean up the path
-			$dir = JPath::clean($dir);
+			$dir = \JPath::clean($dir);
 
 			// Add trailing separators as needed
 			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
@@ -668,7 +670,7 @@ class JViewLegacy extends JObject
 	/**
 	 * Returns the form object
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  mixed  A \JForm object on success, false on failure
 	 *
 	 * @since   3.2
 	 */
@@ -693,7 +695,7 @@ class JViewLegacy extends JObject
 	 */
 	public function setDocumentTitle($title)
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))
@@ -702,11 +704,11 @@ class JViewLegacy extends JObject
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

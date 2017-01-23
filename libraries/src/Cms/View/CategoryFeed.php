@@ -1,11 +1,13 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Cms
  * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\View;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.2
  */
-class JViewCategoryfeed extends JViewLegacy
+class CategoryFeed extends View
 {
 	/**
 	 * Execute and display a template script.
@@ -27,13 +29,13 @@ class JViewCategoryfeed extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		$app      = \JFactory::getApplication();
+		$document = \JFactory::getDocument();
 
 		$extension      = $app->input->getString('option');
 		$contentType = $extension . '.' . $this->viewName;
 
-		$ucmType = new JUcmType;
+		$ucmType = new \JUcmType;
 		$ucmRow = $ucmType->getTypeByAlias($contentType);
 		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 		$createdField = null;
@@ -50,7 +52,7 @@ class JViewCategoryfeed extends JViewLegacy
 			$titleField = $ucmMapCommon[0]->core_title;
 		}
 
-		$document->link = JRoute::_(JHelperRoute::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
+		$document->link = \JRoute::_(\JHelperRoute::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -83,8 +85,8 @@ class JViewCategoryfeed extends JViewLegacy
 			}
 
 			// URL link to article
-			$router = new JHelperRoute;
-			$link   = JRoute::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
+			$router = new \JHelperRoute;
+			$link   = \JRoute::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
 
 			// Strip HTML from feed item description text.
 			$description = $item->description;
@@ -100,7 +102,7 @@ class JViewCategoryfeed extends JViewLegacy
 			}
 
 			// Load individual item creator class.
-			$feeditem              = new JFeedItem;
+			$feeditem              = new \JFeedItem;
 			$feeditem->title       = $title;
 			$feeditem->link        = $link;
 			$feeditem->description = $description;

@@ -1,11 +1,13 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Cms
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Model;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  2.5.5
  */
-abstract class JModelLegacy extends JObject
+abstract class Model extends \JObject
 {
 	/**
 	 * Indicates if the internal state has been set
@@ -29,7 +31,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * Database Connector
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  3.0
 	 */
 	protected $_db;
@@ -53,7 +55,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * A state object
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 * @since  3.0
 	 */
 	protected $state;
@@ -67,7 +69,7 @@ abstract class JModelLegacy extends JObject
 	protected $event_clean_cache = null;
 
 	/**
-	 * Add a directory where JModelLegacy should search for models. You may
+	 * Add a directory where \JModelLegacy should search for models. You may
 	 * either pass a string or an array of directories.
 	 *
 	 * @param   mixed   $path    A path or array[sting] of paths to search.
@@ -104,12 +106,12 @@ abstract class JModelLegacy extends JObject
 			{
 				if (!in_array($includePath, $paths[$prefix]))
 				{
-					array_unshift($paths[$prefix], JPath::clean($includePath));
+					array_unshift($paths[$prefix], \JPath::clean($includePath));
 				}
 
 				if (!in_array($includePath, $paths['']))
 				{
-					array_unshift($paths[''], JPath::clean($includePath));
+					array_unshift($paths[''], \JPath::clean($includePath));
 				}
 			}
 		}
@@ -128,7 +130,7 @@ abstract class JModelLegacy extends JObject
 	 */
 	public static function addTablePath($path)
 	{
-		JTable::addIncludePath($path);
+		\JTable::addIncludePath($path);
 	}
 
 	/**
@@ -162,7 +164,7 @@ abstract class JModelLegacy extends JObject
 	 * @param   string  $prefix  Prefix for the model class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JModelLegacy|boolean   A JModelLegacy instance or false on failure
+	 * @return  \JModelLegacy|boolean   A \JModelLegacy instance or false on failure
 	 *
 	 * @since   3.0
 	 */
@@ -174,11 +176,11 @@ abstract class JModelLegacy extends JObject
 		if (!class_exists($modelClass))
 		{
 			jimport('joomla.filesystem.path');
-			$path = JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
+			$path = \JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
 
 			if (!$path)
 			{
-				$path = JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
+				$path = \JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
 			}
 
 			if (!$path)
@@ -186,11 +188,11 @@ abstract class JModelLegacy extends JObject
 				return false;
 			}
 
-			JLoader::register($modelClass, $path);
+			\JLoader::register($modelClass, $path);
 
 			if (!class_exists($modelClass))
 			{
-				JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), JLog::WARNING, 'jerror');
+				\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), \JLog::WARNING, 'jerror');
 
 				return false;
 			}
@@ -211,7 +213,7 @@ abstract class JModelLegacy extends JObject
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -222,7 +224,7 @@ abstract class JModelLegacy extends JObject
 
 			if (!preg_match('/(.*)Model/i', get_class($this), $r))
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->option = 'com_' . strtolower($r[1]);
@@ -248,7 +250,7 @@ abstract class JModelLegacy extends JObject
 		}
 		else
 		{
-			$this->state = new JObject;
+			$this->state = new \JObject;
 		}
 
 		// Set the model dbo
@@ -258,7 +260,7 @@ abstract class JModelLegacy extends JObject
 		}
 		else
 		{
-			$this->_db = JFactory::getDbo();
+			$this->_db = \JFactory::getDbo();
 		}
 
 		// Set the default view search path
@@ -302,7 +304,7 @@ abstract class JModelLegacy extends JObject
 	 * @return  object[]  An array of results.
 	 *
 	 * @since   3.0
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
@@ -314,7 +316,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * Returns a record count for the query.
 	 *
-	 * @param   JDatabaseQuery|string  $query  The query.
+	 * @param   \JDatabaseQuery|string  $query  The query.
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
@@ -322,8 +324,8 @@ abstract class JModelLegacy extends JObject
 	 */
 	protected function _getListCount($query)
 	{
-		// Use fast COUNT(*) on JDatabaseQuery objects if there is no GROUP BY or HAVING clause:
-		if ($query instanceof JDatabaseQuery
+		// Use fast COUNT(*) on \JDatabaseQuery objects if there is no GROUP BY or HAVING clause:
+		if ($query instanceof \JDatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
 			&& $query->union === null
@@ -340,8 +342,8 @@ abstract class JModelLegacy extends JObject
 
 		// Otherwise fall back to inefficient way of counting all results.
 
-		// Remove the limit and offset part if it's a JDatabaseQuery object
-		if ($query instanceof JDatabaseQuery)
+		// Remove the limit and offset part if it's a \JDatabaseQuery object
+		if ($query instanceof \JDatabaseQuery)
 		{
 			$query = clone $query;
 			$query->clear('limit')->clear('offset');
@@ -358,12 +360,12 @@ abstract class JModelLegacy extends JObject
 	 *
 	 * @param   string  $name    The name of the view
 	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration settings to pass to JTable::getInstance
+	 * @param   array   $config  Configuration settings to pass to \JTable::getInstance
 	 *
-	 * @return  JTable|boolean  Table object or boolean false if failed
+	 * @return  \JTable|boolean  Table object or boolean false if failed
 	 *
 	 * @since   3.0
-	 * @see     JTable::getInstance()
+	 * @see     \JTable::getInstance()
 	 */
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
@@ -377,13 +379,13 @@ abstract class JModelLegacy extends JObject
 			$config['dbo'] = $this->getDbo();
 		}
 
-		return JTable::getInstance($name, $prefix, $config);
+		return \JTable::getInstance($name, $prefix, $config);
 	}
 
 	/**
 	 * Method to get the database driver object
 	 *
-	 * @return  JDatabaseDriver
+	 * @return  \JDatabaseDriver
 	 *
 	 * @since   3.0
 	 */
@@ -401,7 +403,7 @@ abstract class JModelLegacy extends JObject
 	 * @return  string  The name of the model
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getName()
 	{
@@ -411,7 +413,7 @@ abstract class JModelLegacy extends JObject
 
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->name = strtolower($r[1]);
@@ -451,10 +453,10 @@ abstract class JModelLegacy extends JObject
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  \JTable  A \JTable object
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
@@ -468,20 +470,20 @@ abstract class JModelLegacy extends JObject
 			return $table;
 		}
 
-		throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+		throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 	}
 
 	/**
 	 * Method to load a row for editing from the version history table.
 	 *
 	 * @param   integer  $version_id  Key to the version history table.
-	 * @param   JTable   &$table      Content table object being loaded.
+	 * @param   \JTable  &$table      Content table object being loaded.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
 	 * @since   3.2
 	 */
-	public function loadHistory($version_id, JTable &$table)
+	public function loadHistory($version_id, \JTable &$table)
 	{
 		// Only attempt to check the row in if it exists, otherwise do an early exit.
 		if (!$version_id)
@@ -490,7 +492,7 @@ abstract class JModelLegacy extends JObject
 		}
 
 		// Get an instance of the row to checkout.
-		$historyTable = JTable::getInstance('Contenthistory');
+		$historyTable = \JTable::getInstance('Contenthistory');
 
 		if (!$historyTable->load($version_id))
 		{
@@ -499,12 +501,12 @@ abstract class JModelLegacy extends JObject
 			return false;
 		}
 
-		$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
-		$typeId   = JTable::getInstance('Contenttype')->getTypeId($this->typeAlias);
+		$rowArray = \JArrayHelper::fromObject(json_decode($historyTable->version_data));
+		$typeId   = \JTable::getInstance('Contenttype')->getTypeId($this->typeAlias);
 
 		if ($historyTable->ucm_type_id != $typeId)
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
 
 			$key = $table->getKeyName();
 
@@ -541,7 +543,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * Method to set the database driver object
 	 *
-	 * @param   JDatabaseDriver  $db  A JDatabaseDriver based object
+	 * @param   \JDatabaseDriver  $db  A \JDatabaseDriver based object
 	 *
 	 * @return  void
 	 *
@@ -579,18 +581,18 @@ abstract class JModelLegacy extends JObject
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$conf = JFactory::getConfig();
+		$conf = \JFactory::getConfig();
 
 		$options = array(
-			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
+			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
 		);
 
-		/** @var JCacheControllerCallback $cache */
-		$cache = JCache::getInstance('callback', $options);
+		/** @var \JCacheControllerCallback $cache */
+		$cache = \JCache::getInstance('callback', $options);
 		$cache->clean();
 
 		// Trigger the onContentCleanCache event.
-		JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+		\JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
 	}
 }

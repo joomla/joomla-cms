@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Controller;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -14,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-interface JControllerInterface
+interface ControllerInterface
 {
 	/**
 	 * Execute a controller task.
@@ -24,8 +26,8 @@ interface JControllerInterface
 	 * @return  mixed   The value returned by the called method.
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  InvalidArgumentException
-	 * @throws  RuntimeException
+	 * @throws  \InvalidArgumentException
+	 * @throws  \RuntimeException
 	 */
 	public function execute($task);
 }

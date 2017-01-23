@@ -1,11 +1,13 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Cms
  * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -17,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  2.5.5
  */
-class JControllerLegacy implements JControllerInterface
+class Controller  implements ControllerInterface
 {
 	/**
 	 * The base path of the controller
@@ -118,7 +120,7 @@ class JControllerLegacy implements JControllerInterface
 	/**
 	 * Hold a JInput object for easier access to the input variables.
 	 *
-	 * @var    JInput
+	 * @var    \JInput
 	 * @since  3.0
 	 */
 	protected $input;
@@ -126,7 +128,7 @@ class JControllerLegacy implements JControllerInterface
 	/**
 	 * Instance container.
 	 *
-	 * @var    JControllerLegacy
+	 * @var    static
 	 * @since  3.0
 	 */
 	protected static $instance;
@@ -134,7 +136,7 @@ class JControllerLegacy implements JControllerInterface
 	/**
 	 * Instance container containing the views.
 	 *
-	 * @var    JViewLegacy[]
+	 * @var    \Joomla\Cms\View\View[]
 	 * @since  3.4
 	 */
 	protected static $views;
@@ -151,7 +153,7 @@ class JControllerLegacy implements JControllerInterface
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
-		JModelLegacy::addIncludePath($path, $prefix);
+		\JModelLegacy::addIncludePath($path, $prefix);
 	}
 
 	/**
@@ -213,7 +215,7 @@ class JControllerLegacy implements JControllerInterface
 	 * @param   string  $prefix  The prefix for the controller.
 	 * @param   array   $config  An array of optional constructor options.
 	 *
-	 * @return  JControllerLegacy
+	 * @return  \JControllerLegacy
 	 *
 	 * @since   3.0
 	 * @throws  Exception if the controller cannot be loaded.
@@ -225,7 +227,7 @@ class JControllerLegacy implements JControllerInterface
 			return self::$instance;
 		}
 
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
 		// Get the environment configuration.
 		$basePath = array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
@@ -233,7 +235,7 @@ class JControllerLegacy implements JControllerInterface
 		$command  = $input->get('task', 'display');
 
 		// Check for array format.
-		$filter = JFilterInput::getInstance();
+		$filter = \JFilterInput::getInstance();
 
 		if (is_array($command))
 		{
@@ -276,18 +278,18 @@ class JControllerLegacy implements JControllerInterface
 		// Include the class if not present.
 		if (!class_exists($class))
 		{
-			JLoader::register($class, $path);
+			\JLoader::register($class, $path);
 
 			if (!class_exists($class))
 			{
 				if (isset($backuppath) && file_exists($backuppath))
 				{
-					JLoader::register($class, $backuppath);
+					\JLoader::register($class, $backuppath);
 				}
 
 				if (!class_exists($class))
 				{
-					throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
+					throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 				}
 			}
 		}
@@ -295,13 +297,13 @@ class JControllerLegacy implements JControllerInterface
 		// Instantiate the class.
 		if (!class_exists($class))
 		{
-			throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
+			throw new \InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (JFactory::getContainer()->exists($class))
+		if (\JFactory::getContainer()->exists($class))
 		{
-			self::$instance = JFactory::getContainer()->get($class);
+			self::$instance = \JFactory::getContainer()->get($class);
 		}
 		else
 		{
@@ -332,17 +334,17 @@ class JControllerLegacy implements JControllerInterface
 
 		if (defined('JDEBUG') && JDEBUG)
 		{
-			JLog::addLogger(array('text_file' => 'jcontroller.log.php'), JLog::ALL, array('controller'));
+			\JLog::addLogger(array('text_file' => 'jcontroller.log.php'), \JLog::ALL, array('controller'));
 		}
 
-		$this->input = JFactory::getApplication()->input;
+		$this->input = \JFactory::getApplication()->input;
 
 		// Determine the methods to exclude from the base class.
-		$xMethods = get_class_methods('JControllerLegacy');
+		$xMethods = get_class_methods('\JControllerLegacy');
 
 		// Get the public methods in this class using reflection.
-		$r = new ReflectionClass($this);
-		$rMethods = $r->getMethods(ReflectionMethod::IS_PUBLIC);
+		$r = new \ReflectionClass($this);
+		$rMethods = $r->getMethods(\ReflectionMethod::IS_PUBLIC);
 
 		foreach ($rMethods as $rMethod)
 		{
@@ -444,7 +446,7 @@ class JControllerLegacy implements JControllerInterface
 	 * @param   string  $type  The path type (e.g. 'model', 'view').
 	 * @param   mixed   $path  The directory string  or stream array to search.
 	 *
-	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
+	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -459,7 +461,7 @@ class JControllerLegacy implements JControllerInterface
 		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
-			$dir = rtrim(JPath::check($dir, '/'), '/') . '/';
+			$dir = rtrim(\JPath::check($dir, '/'), '/') . '/';
 
 			// Add to the top of the search dirs
 			array_unshift($this->paths[$type], $dir);
@@ -473,7 +475,7 @@ class JControllerLegacy implements JControllerInterface
 	 *
 	 * @param   mixed  $path  The directory (string) or list of directories (array) to add.
 	 *
-	 * @return  JControllerLegacy  This object to support chaining.
+	 * @return  \JControllerLegacy  This object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -496,7 +498,7 @@ class JControllerLegacy implements JControllerInterface
 	{
 		if ($id)
 		{
-			$app    = JFactory::getApplication();
+			$app    = \JFactory::getApplication();
 			$values = (array) $app->getUserState($context . '.id');
 
 			$result = in_array((int) $id, $values);
@@ -529,7 +531,7 @@ class JControllerLegacy implements JControllerInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Configuration array for the model. Optional.
 	 *
-	 * @return  JModelLegacy|boolean   Model object on success; otherwise false on failure.
+	 * @return  \JModelLegacy|boolean   Model object on success; otherwise false on failure.
 	 *
 	 * @since   3.0
 	 */
@@ -539,7 +541,7 @@ class JControllerLegacy implements JControllerInterface
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		return JModelLegacy::getInstance($modelName, $classPrefix, $config);
+		return \JModelLegacy::getInstance($modelName, $classPrefix, $config);
 	}
 
 	/**
@@ -555,7 +557,7 @@ class JControllerLegacy implements JControllerInterface
 	 * @param   string  $type    The type of view.
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
-	 * @return  JViewLegacy|null  View object on success; null or error result on failure.
+	 * @return  \JViewLegacy|null  View object on success; null or error result on failure.
 	 *
 	 * @since   3.0
 	 * @throws  Exception
@@ -573,25 +575,25 @@ class JControllerLegacy implements JControllerInterface
 		if (!class_exists($viewClass))
 		{
 			jimport('joomla.filesystem.path');
-			$path = JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+			$path = \JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
 
 			if (!$path)
 			{
 				return null;
 			}
 
-			JLoader::register($viewClass, $path);
+			\JLoader::register($viewClass, $path);
 
 			if (!class_exists($viewClass))
 			{
-				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
+				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
 			}
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (JFactory::getContainer()->exists($viewClass))
+		if (\JFactory::getContainer()->exists($viewClass))
 		{
-			return JFactory::getContainer()->get($viewClass);
+			return \JFactory::getContainer()->get($viewClass);
 		}
 
 		return new $viewClass($config);
@@ -604,15 +606,15 @@ class JControllerLegacy implements JControllerInterface
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
+	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$document = JFactory::getDocument();
+		$document = \JFactory::getDocument();
 		$viewType = $document->getType();
 		$viewName = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');
@@ -629,16 +631,16 @@ class JControllerLegacy implements JControllerInterface
 		$view->document = $document;
 
 		// Display the view
-		if ($cachable && $viewType != 'feed' && JFactory::getConfig()->get('caching') >= 1)
+		if ($cachable && $viewType != 'feed' && \JFactory::getConfig()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
 
-			/** @var JCacheControllerView $cache */
-			$cache = JFactory::getCache($option, 'view');
+			/** @var \JCacheControllerView $cache */
+			$cache = \JFactory::getCache($option, 'view');
 
 			if (is_array($urlparams))
 			{
-				$app = JFactory::getApplication();
+				$app = \JFactory::getApplication();
 
 				if (!empty($app->registeredurlparams))
 				{
@@ -646,12 +648,12 @@ class JControllerLegacy implements JControllerInterface
 				}
 				else
 				{
-					$registeredurlparams = new stdClass;
+					$registeredurlparams = new \stdClass;
 				}
 
 				foreach ($urlparams as $key => $value)
 				{
-					// Add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
+					// Add your safe url parameters with variable type as value {@see \JFilterInput::clean()}.
 					$registeredurlparams->$key = $value;
 				}
 
@@ -676,7 +678,7 @@ class JControllerLegacy implements JControllerInterface
 	 * @return  mixed   The value returned by the called method.
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function execute($task)
 	{
@@ -694,7 +696,7 @@ class JControllerLegacy implements JControllerInterface
 		}
 		else
 		{
-			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
+			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
 		}
 
 		// Record the actual task being fired
@@ -710,7 +712,7 @@ class JControllerLegacy implements JControllerInterface
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JModelLegacy|boolean  Model object on success; otherwise false on failure.
+	 * @return  \JModelLegacy|boolean  Model object on success; otherwise false on failure.
 	 *
 	 * @since   3.0
 	 */
@@ -732,7 +734,7 @@ class JControllerLegacy implements JControllerInterface
 			$model->setState('task', $this->task);
 
 			// Let's get the application object and set menu information if it's available
-			$menu = JFactory::getApplication()->getMenu();
+			$menu = \JFactory::getApplication()->getMenu();
 
 			if (is_object($menu))
 			{
@@ -758,7 +760,7 @@ class JControllerLegacy implements JControllerInterface
 	 * @return  string  The name of the dispatcher
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getName()
 	{
@@ -768,7 +770,7 @@ class JControllerLegacy implements JControllerInterface
 
 			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
 			$this->name = strtolower($r[1]);
@@ -809,10 +811,10 @@ class JControllerLegacy implements JControllerInterface
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for view. Optional.
 	 *
-	 * @return  JViewLegacy  Reference to the view or an error.
+	 * @return  \JViewLegacy  Reference to the view or an error.
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getView($name = '', $type = '', $prefix = '', $config = array())
 	{
@@ -847,12 +849,12 @@ class JControllerLegacy implements JControllerInterface
 				 * forwarded to Joomla.  Return a 404 response here and assume the client was requesting a non-existent
 				 * file for which there is no view type that matches the file's extension (the most likely scenario).
 				 */
-				if (JFactory::getApplication()->get('sef_rewrite'))
+				if (\JFactory::getApplication()->get('sef_rewrite'))
 				{
 					$response = 404;
 				}
 
-				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), $response);
+				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), $response);
 			}
 		}
 
@@ -871,7 +873,7 @@ class JControllerLegacy implements JControllerInterface
 	 */
 	protected function holdEditId($context, $id)
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$values = (array) $app->getUserState($context . '.id');
 
 		// Add the id to the list if non-zero.
@@ -907,7 +909,7 @@ class JControllerLegacy implements JControllerInterface
 	{
 		if ($this->redirect)
 		{
-			$app = JFactory::getApplication();
+			$app = \JFactory::getApplication();
 
 			// Enqueue the redirect message
 			$app->enqueueMessage($this->message, $this->messageType);
@@ -924,7 +926,7 @@ class JControllerLegacy implements JControllerInterface
 	 *
 	 * @param   string  $method  The name of the method in the derived class to perform if a named task is not found.
 	 *
-	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
+	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -941,7 +943,7 @@ class JControllerLegacy implements JControllerInterface
 	 * @param   string  $task    The task.
 	 * @param   string  $method  The name of the method in the derived class to perform for this task.
 	 *
-	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
+	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -960,7 +962,7 @@ class JControllerLegacy implements JControllerInterface
 	 *
 	 * @param   string  $task  The task.
 	 *
-	 * @return  JControllerLegacy  This object to support chaining.
+	 * @return  \JControllerLegacy  This object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -983,7 +985,7 @@ class JControllerLegacy implements JControllerInterface
 	 */
 	protected function releaseEditId($context, $id)
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$values = (array) $app->getUserState($context . '.id');
 
 		// Do a strict search of the edit list values.
@@ -1050,7 +1052,7 @@ class JControllerLegacy implements JControllerInterface
 	/**
 	 * Checks for a form token in the request.
 	 *
-	 * Use in conjunction with JHtml::_('form.token') or JSession::getFormToken.
+	 * Use in conjunction with \JHtml::_('form.token') or \JSession::getFormToken.
 	 *
 	 * @param   string   $method    The request method in which to look for the token key.
 	 * @param   boolean  $redirect  Whether to implicitly redirect user to the referrer page on failure or simply return false.
@@ -1058,23 +1060,23 @@ class JControllerLegacy implements JControllerInterface
 	 * @return  boolean  True if found and valid, otherwise return false or redirect to referrer page.
 	 *
 	 * @since   3.7.0
-	 * @see     JSession::checkToken()
+	 * @see     \JSession::checkToken()
 	 */
 	public function checkToken($method = 'post', $redirect = true)
 	{
-		$valid = JSession::checkToken($method);
+		$valid = \JSession::checkToken($method);
 
 		if (!$valid && $redirect)
 		{
 			$referrer = $this->input->server->getString('HTTP_REFERER');
 
-			if (!JUri::isInternal($referrer))
+			if (!\JUri::isInternal($referrer))
 			{
 				$referrer = 'index.php';
 			}
 
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
+			$app = \JFactory::getApplication();
+			$app->enqueueMessage(\JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
 			$app->redirect($referrer);
 		}
 
@@ -1088,7 +1090,7 @@ class JControllerLegacy implements JControllerInterface
 	 * @param   string  $msg   Message to display on redirect. Optional, defaults to value set internally by controller, if any.
 	 * @param   string  $type  Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
 	 *
-	 * @return  JControllerLegacy  This object to support chaining.
+	 * @return  \JControllerLegacy  This object to support chaining.
 	 *
 	 * @since   3.0
 	 */

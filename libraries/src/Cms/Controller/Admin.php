@@ -1,11 +1,13 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Cms
  * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -19,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class JControllerAdmin extends JControllerLegacy
+class Admin extends Controller
 {
 	/**
 	 * The URL option for the component.
@@ -50,7 +52,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JControllerLegacy
+	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 * @throws  Exception
 	 */
@@ -80,7 +82,7 @@ class JControllerAdmin extends JControllerLegacy
 			$this->option = 'com_' . strtolower($this->getName());
 		}
 
-		// Guess the JText message prefix. Defaults to the option.
+		// Guess the \JText message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
 			$this->text_prefix = strtoupper($this->option);
@@ -93,7 +95,7 @@ class JControllerAdmin extends JControllerLegacy
 
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
 			$this->view_list = strtolower($r[2]);
@@ -110,16 +112,16 @@ class JControllerAdmin extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Get items to remove from the request.
 		$cid = $app->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			$app->getLogger()->warning(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -132,7 +134,7 @@ class JControllerAdmin extends JControllerLegacy
 			// Remove the items.
 			if ($model->delete($cid))
 			{
-				$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(\JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
 			}
 			else
 			{
@@ -143,21 +145,21 @@ class JControllerAdmin extends JControllerLegacy
 			$this->postDeleteHook($model, $cid);
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
 	/**
 	 * Function that allows child controller access to model data
 	 * after the item has been deleted.
 	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   integer       $id     The validated data.
+	 * @param   \JModelLegacy  $model  The data model object.
+	 * @param   integer        $id     The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postDeleteHook(JModelLegacy $model, $id = null)
+	protected function postDeleteHook(\JModelLegacy $model, $id = null)
 	{
 	}
 
@@ -165,9 +167,9 @@ class JControllerAdmin extends JControllerLegacy
 	 * Display is not supported by this controller.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
+	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   1.6
 	 */
@@ -186,9 +188,9 @@ class JControllerAdmin extends JControllerLegacy
 	public function publish()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Get items to publish from the request.
 		$cid = $app->input->get('cid', array(), 'array');
@@ -198,7 +200,7 @@ class JControllerAdmin extends JControllerLegacy
 
 		if (empty($cid))
 		{
-			$app->getLogger()->warning(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -219,7 +221,7 @@ class JControllerAdmin extends JControllerLegacy
 				{
 					if ($errors)
 					{
-						JFactory::getApplication()->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
+						\JFactory::getApplication()->enqueueMessage(\JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
 					}
 					else
 					{
@@ -241,7 +243,7 @@ class JControllerAdmin extends JControllerLegacy
 
 				if ($ntext !== null)
 				{
-					$this->setMessage(JText::plural($ntext, count($cid)));
+					$this->setMessage(\JText::plural($ntext, count($cid)));
 				}
 			}
 			catch (Exception $e)
@@ -252,7 +254,7 @@ class JControllerAdmin extends JControllerLegacy
 
 		$extension = $this->input->get('extension');
 		$extensionURL = ($extension) ? '&extension=' . $extension : '';
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
 
 	/**
@@ -265,9 +267,9 @@ class JControllerAdmin extends JControllerLegacy
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$ids = \JFactory::getApplication()->input->post->get('cid', array(), 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : 1;
 
 		$model = $this->getModel();
@@ -276,16 +278,16 @@ class JControllerAdmin extends JControllerLegacy
 		if ($return === false)
 		{
 			// Reorder failed.
-			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
 		else
 		{
 			// Reorder succeeded.
-			$message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+			$message = \JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
 			return true;
 		}
@@ -301,7 +303,7 @@ class JControllerAdmin extends JControllerLegacy
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
@@ -320,16 +322,16 @@ class JControllerAdmin extends JControllerLegacy
 		if ($return === false)
 		{
 			// Reorder failed
-			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
 		else
 		{
 			// Reorder succeeded.
-			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+			$this->setMessage(\JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
 			return true;
 		}
@@ -345,9 +347,9 @@ class JControllerAdmin extends JControllerLegacy
 	public function checkin()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$ids = \JFactory::getApplication()->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel();
 		$return = $model->checkin($ids);
@@ -355,16 +357,16 @@ class JControllerAdmin extends JControllerLegacy
 		if ($return === false)
 		{
 			// Checkin failed.
-			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
 		else
 		{
 			// Checkin succeeded.
-			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+			$message = \JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
 			return true;
 		}
@@ -399,6 +401,6 @@ class JControllerAdmin extends JControllerLegacy
 		}
 
 		// Close the application
-		JFactory::getApplication()->close();
+		\JFactory::getApplication()->close();
 	}
 }

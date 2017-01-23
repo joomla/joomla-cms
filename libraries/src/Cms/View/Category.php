@@ -1,11 +1,13 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Cms
  * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\View;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.2
  */
-class JViewCategory extends JViewLegacy
+class Category extends View
 {
 	/**
 	 * State data
@@ -35,7 +37,7 @@ class JViewCategory extends JViewLegacy
 	/**
 	 * The category model object for this category
 	 *
-	 * @var    JModelCategory
+	 * @var    \JModelCategory
 	 * @since  3.2
 	 */
 	protected $category;
@@ -51,7 +53,7 @@ class JViewCategory extends JViewLegacy
 	/**
 	 * Pagination object
 	 *
-	 * @var    JPagination
+	 * @var    \JPagination
 	 * @since  3.2
 	 */
 	protected $pagination;
@@ -100,14 +102,14 @@ class JViewCategory extends JViewLegacy
 	/**
 	 * Method with common display elements used in category list displays
 	 *
-	 * @return  boolean|JException|void  Boolean false or JException instance on error, nothing otherwise
+	 * @return  boolean|\JException|void  Boolean false or \JException instance on error, nothing otherwise
 	 *
 	 * @since   3.2
 	 */
 	public function commonCategoryDisplay()
 	{
-		$app    = JFactory::getApplication();
-		$user   = JFactory::getUser();
+		$app    = \JFactory::getApplication();
+		$user   = \JFactory::getUser();
 		$params = $app->getParams();
 
 		// Get some data from the models
@@ -124,12 +126,12 @@ class JViewCategory extends JViewLegacy
 
 		if ($category == false)
 		{
-			throw new InvalidArgumentException(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			throw new InvalidArgumentException(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		if ($parent == false)
 		{
-			throw new InvalidArgumentException(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			throw new \InvalidArgumentException(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		// Check whether category access level allows access.
@@ -137,7 +139,7 @@ class JViewCategory extends JViewLegacy
 
 		if (!in_array($category->access, $groups))
 		{
-			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			return \JError::raiseError(403, \JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		// Check whether category access level allows access.
@@ -145,7 +147,7 @@ class JViewCategory extends JViewLegacy
 
 		if (!in_array($category->access, $groups))
 		{
-			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \RuntimeException(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$items      = $this->get('Items');
@@ -154,7 +156,7 @@ class JViewCategory extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Setup the category parameters.
@@ -169,7 +171,7 @@ class JViewCategory extends JViewLegacy
 
 		if ($this->runPlugins)
 		{
-			JPluginHelper::importPlugin('content');
+			\JPluginHelper::importPlugin('content');
 
 			foreach ($items as $itemElement)
 			{
@@ -179,21 +181,21 @@ class JViewCategory extends JViewLegacy
 				// For some plugins.
 				!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
 
-				JFactory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
+				\JFactory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
 
-				$results = JFactory::getApplication()->triggerEvent(
+				$results = \JFactory::getApplication()->triggerEvent(
 					'onContentAfterTitle',
 					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
 				);
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = JFactory::getApplication()->triggerEvent(
+				$results = \JFactory::getApplication()->triggerEvent(
 					'onContentBeforeDisplay',
 					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
 				);
 				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = JFactory::getApplication()->triggerEvent(
+				$results = \JFactory::getApplication()->triggerEvent(
 					'onContentAfterDisplay',
 					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
 				);
@@ -234,7 +236,7 @@ class JViewCategory extends JViewLegacy
 			$this->setLayout($active->query['layout']);
 		}
 
-		$this->category->tags = new JHelperTags;
+		$this->category->tags = new \JHelperTags;
 		$this->category->tags->getItemTags($this->extension . '.category', $this->category->id);
 	}
 
@@ -263,7 +265,7 @@ class JViewCategory extends JViewLegacy
 	 */
 	protected function prepareDocument()
 	{
-		$app           = JFactory::getApplication();
+		$app           = \JFactory::getApplication();
 		$menus         = $app->getMenu();
 		$this->pathway = $app->getPathway();
 		$title         = null;
@@ -277,7 +279,7 @@ class JViewCategory extends JViewLegacy
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_($this->defaultPageTitle));
+			$this->params->def('page_heading', \JText::_($this->defaultPageTitle));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -288,11 +290,11 @@ class JViewCategory extends JViewLegacy
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -326,9 +328,9 @@ class JViewCategory extends JViewLegacy
 		{
 			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(\JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(\JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 	}
 }

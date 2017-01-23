@@ -1,11 +1,13 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Cms
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Model;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.6
  */
-abstract class JModelItem extends JModelLegacy
+abstract class Item extends Model
 {
 	/**
 	 * An item.
