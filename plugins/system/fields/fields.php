@@ -42,7 +42,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
-		if (!$data || !is_array($data) || empty($data['params']))
+		if (!is_array($data) || empty($data['params']))
 		{
 			return true;
 		}
