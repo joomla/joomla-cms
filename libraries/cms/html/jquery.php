@@ -17,7 +17,9 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlJquery
 {
 	/**
-	 * @var    array  Array containing information for loaded files
+	 * Array containing information for loaded files
+	 *
+	 * @var    array
 	 * @since  3.0
 	 */
 	protected static $loaded = array();
@@ -100,8 +102,15 @@ abstract class JHtmlJquery
 			// Only attempt to load the component if it's supported in core and hasn't already been loaded
 			if (in_array($component, $supported) && empty(static::$loaded[__METHOD__][$component]))
 			{
-				JHtml::_('script', 'vendor/jquery-ui/jquery.ui.' . $component . '.min.js', 
-					array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+				JHtml::_(
+					'script',
+					'vendor/jquery-ui/jquery.ui.' . $component . '.min.js',
+					array(
+						'version' => 'auto',
+						'relative' => true,
+						'detectDebug' => $debug,
+					)
+				);
 
 				static::$loaded[__METHOD__][$component] = true;
 			}

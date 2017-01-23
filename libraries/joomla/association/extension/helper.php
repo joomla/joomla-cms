@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Association Extension Helper
  *
- * @since   3.7.0
+ * @since  3.7.0
  */
 abstract class JAssociationExtensionHelper  implements JAssociationExtensionInterface
 {
