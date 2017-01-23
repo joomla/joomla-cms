@@ -438,7 +438,7 @@ class ListModel extends \JModelLegacy
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState($this->context, new stdClass);
+		$data = \JFactory::getApplication()->getUserState($this->context, new \stdClass);
 
 		// Pre-fill the list options
 		if (!property_exists($data, 'list'))
