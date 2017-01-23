@@ -1196,7 +1196,7 @@ abstract class Admin extends \JModelForm
 			// Trigger the after save event.
 			$dispatcher->trigger($this->event_after_save, array($context, $table, $isNew));
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$this->setError($e->getMessage());
 

@@ -207,7 +207,7 @@ abstract class Model extends \JObject
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -218,7 +218,7 @@ abstract class Model extends \JObject
 
 			if (!preg_match('/(.*)Model/i', get_class($this), $r))
 			{
-				throw new Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->option = 'com_' . strtolower($r[1]);
@@ -298,7 +298,7 @@ abstract class Model extends \JObject
 	 * @return  object[]  An array of results.
 	 *
 	 * @since   3.0
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
@@ -397,7 +397,7 @@ abstract class Model extends \JObject
 	 * @return  string  The name of the model
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getName()
 	{
@@ -407,7 +407,7 @@ abstract class Model extends \JObject
 
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				throw new Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->name = strtolower($r[1]);
@@ -450,7 +450,7 @@ abstract class Model extends \JObject
 	 * @return  \JTable  A \JTable object
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
@@ -464,7 +464,7 @@ abstract class Model extends \JObject
 			return $table;
 		}
 
-		throw new Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+		throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 	}
 
 	/**

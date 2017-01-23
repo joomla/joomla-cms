@@ -238,7 +238,7 @@ abstract class Form extends \JModelLegacy
 			// Load the data into the form after the plugins have operated.
 			$form->bind($data);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -301,7 +301,7 @@ abstract class Form extends \JModelLegacy
 	 *
 	 * @see     \JFormField
 	 * @since   1.6
-	 * @throws  Exception if there is an error in the form event.
+	 * @throws  \Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
@@ -320,9 +320,9 @@ abstract class Form extends \JModelLegacy
 			// Get the last error.
 			$error = $dispatcher->getError();
 
-			if (!($error instanceof Exception))
+			if (!($error instanceof \Exception))
 			{
-				throw new Exception($error);
+				throw new \Exception($error);
 			}
 		}
 	}
@@ -353,7 +353,7 @@ abstract class Form extends \JModelLegacy
 		$return = $form->validate($data, $group);
 
 		// Check for an error.
-		if ($return instanceof Exception)
+		if ($return instanceof \Exception)
 		{
 			$this->setError($return->getMessage());
 
