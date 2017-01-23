@@ -211,7 +211,7 @@ class JModelListTest extends TestCaseDatabase
 
 		// Write value in "getStart" cache
 		TestReflection::setValue($this->object, 'cache', array('cf97226bf7fdca1fe5579e6d96dca3c3' => 123));
-		print_R($this->object);die;
+
 		$this->assertSame(123, $this->object->getStart());
 	}
 
