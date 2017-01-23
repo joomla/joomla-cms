@@ -138,3 +138,22 @@ Desktop.ini
 /libraries/vendor/simplepie/simplepie/build
 /libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
 /libraries/vendor/simplepie/simplepie/composer.json
+
+# Ignore dev files
+/libraries/vendor/bin
+/libraries/vendor/doctrine
+/libraries/vendor/friendsofphp
+/libraries/vendor/pear
+/libraries/vendor/phpdocumentor
+/libraries/vendor/phpspec
+/libraries/vendor/phpunit
+/libraries/vendor/sebastian
+/libraries/vendor/squizlabs
+/libraries/vendor/symfony/console
+/libraries/vendor/symfony/debug
+/libraries/vendor/symfony/event-dispatcher
+/libraries/vendor/symfony/filesystem
+/libraries/vendor/symfony/finder
+/libraries/vendor/symfony/polyfill-mbstring
+/libraries/vendor/symfony/process
+/libraries/vendor/symfony/stopwatch
