@@ -19,6 +19,7 @@ module.exports = function (config) {
 			{pattern: 'media/jui/js/jquery.ui.core.min.js', included: false},
 			{pattern: 'media/jui/js/jquery.ui.sortable.min.js', included: false},
 			{pattern: 'media/system/js/*.js', included: false},
+			{pattern: 'media/system/js/legacy/*.js', included: false},
 			{pattern: 'media/system/js/fields/*.js', included: false},
 			{pattern: 'media/system/js/fields/calendar-locales/*.js', included: false},
 			{pattern: 'media/system/js/fields/calendar-locales/date/gregorian/*.js', included: false},
