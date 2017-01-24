@@ -15,7 +15,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Fields Forms
  *
- * @since  3.7.0
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldFieldforms extends JFormFieldList
 {
@@ -26,13 +26,18 @@ class JFormFieldFieldforms extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getOptions()
 	{
 		$context = (string) $this->element['context'];
-		$states    = $this->element['state'] ?: '0,1';
-		$states    = ArrayHelper::toInteger(explode(',', $states));
+		if ($context == '')
+		{
+			$app     = JFactory::getApplication();
+			$context = JFactory::getApplication()->input->get('context');
+		}
+		$states = $this->element['state'] ?: '0,1';
+		$states = ArrayHelper::toInteger(explode(',', $states));
 
 		$user       = JFactory::getUser();
 		$viewLevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
@@ -43,6 +48,16 @@ class JFormFieldFieldforms extends JFormFieldList
 		$query->from('#__fields_forms');
 		$query->where('state IN (' . implode(',', $states) . ')');
 		$query->where('context = ' . $db->quote($context));
+
+		if ($this->onlySubForms === true)
+		{
+			$query->where('is_subform = ' . $db->quote(1));
+		}
+		elseif ($this->noSubForms === true || ($this->type === 'Fieldforms' && $this->form->getData()->get('type') === 'subform'))
+		{
+			$query->where('is_subform = ' . $db->quote(0));
+		}
+
 		$query->where('access IN (' . implode(',', $viewLevels) . ')');
 
 		$db->setQuery($query);

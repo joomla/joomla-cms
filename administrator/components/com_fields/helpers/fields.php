@@ -41,7 +41,7 @@ class FieldsHelper
 		}
 
 		$component = $parts[0];
-		$eName = str_replace('com_', '', $component);
+		$eName     = str_replace('com_', '', $component);
 
 		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
@@ -93,8 +93,8 @@ class FieldsHelper
 			JLoader::import('joomla.application.component.model');
 			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
 
-			self::$fieldsCache = JModelLegacy::getInstance('Fields', 'FieldsModel', array(
-				'ignore_request' => true)
+			self::$fieldsCache = JModelLegacy::getInstance(
+				'Fields', 'FieldsModel', array('ignore_request' => true,				        )
 			);
 
 			self::$fieldsCache->setState('filter.state', 1);
@@ -105,7 +105,7 @@ class FieldsHelper
 		{
 			$item = (object) $item;
 		}
-		if (JLanguageMultilang::isEnabled() && isset($item->language) && $item->language !='*')
+		if (JLanguageMultilang::isEnabled() && isset($item->language) && $item->language !== '*')
 		{
 			self::$fieldsCache->setState('filter.language', array('*', $item->language));
 		}
@@ -141,12 +141,16 @@ class FieldsHelper
 		{
 			if (self::$fieldCache === null)
 			{
-				self::$fieldCache = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-					'ignore_request' => true)
+				self::$fieldCache = JModelLegacy::getInstance(
+					'Field', 'FieldsModel', array(
+						       'ignore_request' => true,
+					       )
 				);
 			}
 
 			$new = array();
+
+			$subFormFieldsIds = self::$fieldsCache->get('internal_subform_fields_ids', array());
 
 			foreach ($fields as $key => $original)
 			{
@@ -156,17 +160,35 @@ class FieldsHelper
 				 */
 				$field = clone $original;
 
-				if ($valuesToOverride && key_exists($field->alias, $valuesToOverride))
+				if ($valuesToOverride && array_key_exists($field->alias, $valuesToOverride))
 				{
 					$field->value = $valuesToOverride[$field->alias];
 				}
-				elseif ($valuesToOverride && key_exists($field->id, $valuesToOverride))
+				elseif ($valuesToOverride && array_key_exists($field->id, $valuesToOverride))
 				{
 					$field->value = $valuesToOverride[$field->id];
 				}
 				else
 				{
-					$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
+					if ($field->form_id === null)
+					{
+						$field->form_id = $field->form_id_res;
+					}
+					if ($field->type === 'subform')
+					{
+						$field->value = self::getSubFormValues($item, $field);
+					}
+					else
+					{
+						if (!in_array($field->id, $subFormFieldsIds, false))
+						{
+							$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id, $field->form_id);
+						}
+						else
+						{
+							continue;
+						}
+					}
 				}
 
 				if ($field->value === '' || $field->value === null)
@@ -182,7 +204,7 @@ class FieldsHelper
 
 					$dispatcher = JEventDispatcher::getInstance();
 
-					// Event allow plugins to modfify the output of the field before it is prepared
+					// Event allow plugins to modify the output of the field before it is prepared
 					$dispatcher->trigger('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
 					// Gathering the value for the field
@@ -193,7 +215,7 @@ class FieldsHelper
 						$value = implode($value, ' ');
 					}
 
-					// Event allow plugins to modfify the output of the prepared field
+					// Event allow plugins to modify the output of the prepared field
 					$dispatcher->trigger('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
 
 					// Assign the value
@@ -238,10 +260,10 @@ class FieldsHelper
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
 
-		if ($value == '')
+		if ($value === '')
 		{
 			// Trying to render the layout on Fields itself
-			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
+			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields', 'client' => 0));
 		}
 
 		return $value;
@@ -263,7 +285,7 @@ class FieldsHelper
 		// Extracting the component and section
 		$parts = self::extract($context);
 
-		if (! $parts)
+		if (!$parts)
 		{
 			return true;
 		}
@@ -271,7 +293,7 @@ class FieldsHelper
 		// When no fields available return here
 		$fields = self::getFields($parts[0] . '.' . $parts[1], new JObject);
 
-		if (! $fields)
+		if (!$fields)
 		{
 			return true;
 		}
@@ -290,7 +312,7 @@ class FieldsHelper
 
 			if ($firstChoice = $options->item(0))
 			{
-				$assignedCatIds = $firstChoice->getAttribute('value');
+				$assignedCatIds    = $firstChoice->getAttribute('value');
 				$data->fieldscatid = $assignedCatIds;
 			}
 		}
@@ -327,7 +349,8 @@ class FieldsHelper
 			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
 
 			// Preload spindle-wheel when we need to submit form due to category selector changed
-			JFactory::getDocument()->addScriptDeclaration("
+			JFactory::getDocument()->addScriptDeclaration(
+				"
 			function categoryHasChanged(element) {
 				Joomla.loadingLayer('show');
 				var cat = jQuery(element);
@@ -340,7 +363,8 @@ class FieldsHelper
 				Joomla.loadingLayer('load');
 				var formControl = '#" . $form->getFormControl() . "_catid';
 				if (!jQuery(formControl).val() != '" . $assignedCatIds . "'){jQuery(formControl).val('" . $assignedCatIds . "');}
-			});");
+			});"
+			);
 		}
 
 		// Getting the fields
@@ -354,160 +378,108 @@ class FieldsHelper
 		$fieldTypes = self::getFieldTypes();
 
 		// Creating the dom
-		$xml = new DOMDocument('1.0', 'UTF-8');
+		$xml        = new DOMDocument('1.0', 'UTF-8');
 		$fieldsNode = $xml->appendChild(new DOMElement('form'))->appendChild(new DOMElement('fields'));
 		$fieldsNode->setAttribute('name', 'params');
-
-		// Organizing the fields according to their group
-		$fieldsPerGroup = array(
-//			0 => array()
-		);
-		$groupsPerForm = array(
-//			0 => array()
-		);
-        $formData = array();
-		foreach ($fields as $field)
-		{
-			if (!array_key_exists($field->type, $fieldTypes))
-			{
-				// Field type is not available
-				continue;
-			}
-
-			if (!array_key_exists($field->form_id, $fieldsPerGroup))
-			{
-				$fieldsPerGroup[$field->form_id]= array();
-			}
-			if (!array_key_exists($field->group_id, $fieldsPerGroup[$field->form_id]))
-			{
-				$fieldsPerGroup[$field->form_id][$field->group_id] = array();
-			}
-
-			if ($path = $fieldTypes[$field->type]['path'])
-			{
-				// Add the lookup path for the field
-				JFormHelper::addFieldPath($path);
-			}
-            if (!array_key_exists($field->form_id, $formData)) {
-                $formData[$field->form_id]['title']    = $field->form_title;
-                $formData[$field->form_id]['ordering'] = $field->form_ordering;
-            }
-
-			$fieldsPerGroup[$field->form_id][$field->group_id][] = $field;
-		}
 
 		// On the front, sometimes the admin fields path is not included
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
-        uasort($fieldsPerGroup, function($a, $b) {
-            return $a[0][0]->form_ordering - $b[0][0]->form_ordering;
-        });
-
-        foreach ($fieldsPerGroup as &$groups) {
-            ksort($groups);
-            foreach ($groups as &$group){
-
-                uasort($group, function($a, $b) {
-//                    $groupA = $a->group_id;
-//                    $groupB = $b->group_id;
-//                    $res = ($a->ordering + ($a->group_id * 1000)) - ($b->group_id + ($b->group_id * 1000)) ;
-                    return $a->ordering - $b->ordering;
-                });
-            }
-            unset ($group);
-        }
-        unset ($groups);
+		$subFormToFormAssociation = array();
 
 
+		$formHierarchy = self::getFormHierarchy($fields);
 
-//       foreach ($groupsPerForm as &$groups) {
-//            $groups = array_unique($groups);
-//            asort($groups);
-//        }
+		$subFormFieldsIds = self::$fieldsCache->get('internal_subform_fields_ids', array());
 
-        // Looping trough the groups
-        foreach ($fieldsPerGroup as $form_id => $groups) {
-            foreach ($groups as $group_id => $groupFields) {
-                if (!$groupFields) {
-                    continue;
-                }
+		foreach ($formHierarchy['forms'] as $hFormId => $hForm)
+		{
 
-            // Defining the field set
-            /** @var DOMElement $fieldset */
-            $fieldset = $fieldsNode->appendChild(new DOMElement('fieldset'));
-            $fieldset->setAttribute('name', 'fields-' . $form_id . '-' . $group_id);
-            $fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
-            $fieldset->setAttribute('addrulepath', '/administrator/components/' . $component . '/models/rules');
+			foreach ($hForm['groups'] as $hGroupId => $hGroup)
+			{
 
-            $label       = '';
-            $description = '';
-            if ($group_id) {
-                $group = JTable::getInstance('Group', 'FieldsTable');
-                $group->load($group_id);
+				if (($isSubForm = $hForm['subForm']) === false)
+				{
+					$fieldSet            = self::createFieldSet($fieldsNode, $hFormId, $hGroupId, $component);
+					$fieldSets[$hFormId] = $fieldSet;
+				}
 
-                if ($group->id) {
-                    $label       = $group->title;
-                    $description = $group->description;
-                }
-            }
+				list($label, $description) = self::getLabelAndDescription($hFormId, $hGroupId, $component, $section, $formHierarchy);
 
-            if (!$label || !$description) {
-                $lang = JFactory::getLanguage();
+				if (!$isSubForm)
+				{
+					$fieldSet->setAttribute('label', $label);
+					$fieldSet->setAttribute('description', strip_tags($description));
+				}
 
-                if (!$label) {
-                    $key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
 
-                    if (!$lang->hasKey($key)) {
-                        $key = $formData[$form_id]['title'];
-                    }
+				foreach ($hGroup['fields'] as $hFieldId => $hField)
+				{
+					try
+					{
+						if ($hField->type === 'subform')
+						{
 
-                    $label = JText::_($key);
-                }
+							$subFormToFormAssociation[(int) $hField->fieldparams->get('subform_id')] = $hFormId;
 
-                if (!$description) {
-                    $key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
+							$subFormDoc = new DOMDocument();
 
-                    if ($lang->hasKey($key)) {
-                        $description = JText::_($key);
-                    }
-                }
-            }
+							$subForm = $subFormDoc->createElement('form');
 
-            $fieldset->setAttribute('label', $label);
-            $fieldset->setAttribute('description', strip_tags($description));
+							foreach ($formHierarchy['forms'][(int) $hField->fieldparams->get('subform_id')]['groups'][0]['fields'] as $index => $subFormField)
+							{
+								JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($subFormField, $subForm, $form));
+							}
 
-            // Looping trough the fields for that context
-            foreach ($groupFields as $field) {
-                try {
-                    JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
+							$newSubFormNode                = $fieldsNode->ownerDocument->importNode($subForm, true);
+							$newSubFormNode                = $fieldsNode->ownerDocument->saveXML($newSubFormNode);
+							$hField->subFormFieldsToAttach = $newSubFormNode;
+							JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($hField, $fieldSet, $form));
+						}
+						elseif (!array_key_exists($hField->form_id, $subFormToFormAssociation))
+						{
+							JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($hField, $fieldSet, $form));
+						}
 
-                    /*
-                     * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
-                     * is not known, set the required flag to false on any circumstance.
-                     */
-                    if (!$assignedCatIds && !empty($field->assigned_cat_ids) && $form->getField($field->alias)) {
-                        $form->setFieldAttribute($field->alias, 'required', 'false');
-                    }
-                } catch (Exception $e) {
-                    JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-                }
-            }
+						/*
+						 * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
+						 * is not known, set the required flag to false on any circumstance.
+						 */
+						if (!$assignedCatIds && !empty($hField->assigned_cat_ids) && $form->getField($hField->alias))
+						{
+							$form->setFieldAttribute($hField->alias, 'required', 'false');
+						}
+					}
+					catch (Exception $e)
+					{
+						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					}
+				}
 
-            // When he field set is empty, then remove it
-            if (!$fieldset->hasChildNodes()) {
-                $fieldsNode->removeChild($fieldset);
-            }
-        }
-        }
+				if (!$isSubForm)
+				{
+
+					// When he field set is empty, then remove it
+					if (!$fieldSet->hasChildNodes())
+					{
+						$fieldsNode->removeChild($fieldSet);
+					}
+				}
+			}
+		}
+
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-				'ignore_request' => true)
+		$model = JModelLegacy::getInstance(
+			'Field', 'FieldsModel', array(
+				       'ignore_request' => true,
+			       )
 		);
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') === 'config.display.modules'
-			&& JFactory::getApplication()->isClient('site'))
+			&& JFactory::getApplication()->isClient('site')
+		)
 		{
 			// Modules on front end editing don't have data and an id set
 			$data->id = JFactory::getApplication()->input->getInt('id');
@@ -521,7 +493,21 @@ class FieldsHelper
 
 		foreach ($fields as $field)
 		{
-			$value = $model->getFieldValue($field->id, $field->context, $data->id);
+			if ($field->type === 'subform')
+			{
+				$value = self::getSubFormValues($data, $field);
+			}
+			else
+			{
+				if (!in_array($field->id, $subFormFieldsIds, false))
+				{
+					$value = $model->getFieldValue($field->id, $field->context, $data->id, $field->form_id, false);
+				}
+				else
+				{
+					continue;
+				}
+			}
 
 			if ($value === null)
 			{
@@ -600,7 +586,7 @@ class FieldsHelper
 
 			foreach ($fields as $field)
 			{
-				$property = $states[$field->state];
+				$property        = $states[$field->state];
 				$item->$property = $field->count;
 			}
 		}
@@ -615,7 +601,7 @@ class FieldsHelper
 	 *
 	 * @return  array  Array with the assigned categories
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getAssignedCategoriesTitles($fieldId)
 	{
@@ -630,9 +616,9 @@ class FieldsHelper
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('c.title'))
-				->from($db->quoteName('#__fields_forms_categories', 'a'))
-				->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
-				->where('form_id = ' . $fieldId);
+			->from($db->quoteName('#__fields_forms_categories', 'a'))
+			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+			->where('form_id = ' . $fieldId);
 
 		$db->setQuery($query);
 
@@ -650,10 +636,10 @@ class FieldsHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-		->select($db->quoteName('extension_id'))
-		->from($db->quoteName('#__extensions'))
-		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-		->where($db->quoteName('element') . ' = ' . $db->quote('fields'));
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('fields'));
 		$db->setQuery($query);
 
 		try
@@ -672,8 +658,8 @@ class FieldsHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  $context  The context the fields are used for
-	 * @param   string  $vName    The view currently active
+	 * @param   string $context The context the fields are used for
+	 * @param   string $vName   The view currently active
 	 *
 	 * @return  void
 	 *
@@ -751,5 +737,267 @@ class FieldsHelper
 		}
 
 		return $data;
+	}
+
+    /**
+     * Get a form hierarchy to easier build the forms, sub-forms, groups and fields
+     *
+     * @param  array  $fields  The array of fields to build the hierarchy
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+	public static function getFormHierarchy($fields)
+	{
+		$formData = array();
+
+		foreach ($fields as $tempField)
+		{
+			$formData['forms'][$formId = $tempField->form_id_res]['groups'][$groupId = $tempField->group_id]['fields'][$tempField->id] = $tempField;
+
+			$formData['forms'][$formId]['ordering']                     = $tempField->form_ordering;
+			$formData['forms'][$formId]['title']                        = $tempField->form_title;
+			$formData['forms'][$formId]['groups'][$groupId]['ordering'] = $tempField->group_ordering;
+
+			if (!array_key_exists('subForm', $formData['forms'][$formId]))
+			{
+				$formData['forms'][$formId]['subForm'] = false;
+			}
+			if ($tempField->type === 'subform' && ($subFormId = $tempField->fieldparams->get('subform_id')) > 0)
+			{
+				$formData['forms'][$subFormId]['subForm'] = true;
+			}
+		}
+
+		unset($tempField);
+
+		// Order forms by form_ordering, but order subforms to be the last ones, nevertheless.
+		if (count($formData['forms']) > 1)
+		{
+			uasort(
+				$formData['forms'], function ($a, $b)
+			{
+				$aVal = $a['subForm'] === true ? (int) $a['ordering'] + 1000 : (int) $a['ordering'];
+				$bVal = $b['subForm'] === true ? (int) $b['ordering'] + 1000 : (int) $b['ordering'];
+
+				if ($aVal === $bVal)
+				{
+					return 0;
+				}
+
+				return ($aVal < $bVal) ? -1 : 1;
+			}
+			);
+		}
+
+		// Order groups
+		foreach ($formData['forms'] as $tempKey => &$tempForm)
+		{
+			if (count($tempForm['groups']) > 1)
+			{
+				uasort(
+					$tempForm['groups'], function ($a, $b)
+				{
+					$aVal = $a['ordering'];
+					$bVal = $b['ordering'];
+
+					if ($aVal === $bVal)
+					{
+						return 0;
+					}
+
+					return ($aVal < $bVal) ? -1 : 1;
+				}
+				);
+			}
+
+			// Order fields
+			foreach ($tempForm['groups'] as $tempKey3 => &$tempGroup)
+			{
+				if (count($tempGroup['fields']) > 1)
+				{
+					uasort(
+						$tempGroup['fields'], function ($a, $b)
+					{
+						$aVal = $a->ordering;
+						$bVal = $b->ordering;
+
+						if ($aVal === $bVal)
+						{
+							return 0;
+						}
+
+						return ($aVal < $bVal) ? -1 : 1;
+					}
+					);
+				}
+			}
+		}
+		unset($tempForm, $tempGroup);
+
+		// Now set some often needed info in the fieldsCache.
+
+		self::$fieldsCache->set('internal_hierarchy', $formData);
+
+		$subFormFields = $subForms = $subFormFieldsIds = array();
+		foreach ($formData['forms'] as $key => $form)
+		{
+			if ($form['subForm'] === true)
+			{
+				$subForms[$key] = $form;
+			}
+		}
+		unset($key, $form);
+		self::$fieldsCache->set('internal_subforms', $subForms);
+
+		foreach ($subForms as $key => $form)
+		{
+			foreach ($form['groups'][0]['fields'] as $key2 => $field)
+			{
+				if ($form['subForm'] === true)
+				{
+					$subFormFields[$key2] = $field;
+					$subFormFieldsIds[]   = $key2;
+				}
+			}
+		}
+		unset($key, $key2, $form, $field);
+
+		self::$fieldsCache->set('internal_subform_fields', $subFormFields);
+		self::$fieldsCache->set('internal_subform_fields_ids', $subFormFieldsIds);
+
+		return $formData;
+	}
+
+    /**
+     * Create a field-set for a form.
+     *
+     * @param  DOMElement  $fieldsNode  The node where this field-set is appended to.
+     * @param  integer     $hFormId     The form id
+     * @param  integer     $hGroupId    The group id
+     * @param  string      $component   The component name
+     *
+     * @return  DOMElement
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+	protected static function createFieldSet($fieldsNode, $hFormId, $hGroupId, $component)
+	{
+		// Defining the field set
+		/** @var DOMElement $fieldset */
+		$fieldset = $fieldsNode->appendChild(new DOMElement('fieldset'));
+		$fieldset->setAttribute('name', 'fields-' . $hFormId . '-' . $hGroupId);
+		$fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
+		$fieldset->setAttribute('addrulepath', '/administrator/components/' . $component . '/models/rules');
+
+		return $fieldset;
+	}
+
+    /**
+     * Get label/description for a form- or group-tab
+     *
+     * @param  integer     $hFormId        The form id
+     * @param  integer     $hGroupId       The group id
+     * @param  string      $component      The component name
+     * @param  string      $section        The section name
+     * @param  array       $formHierarchy  The form hierarchy array
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+	protected static function getLabelAndDescription($hFormId, $hGroupId, $component, $section, $formHierarchy)
+	{
+		$label       = '';
+		$description = '';
+
+		if ($hGroupId)
+		{
+			$groupInstance = JTable::getInstance('Group', 'FieldsTable');
+			$groupInstance->load($hGroupId);
+
+			if ($groupInstance->id)
+			{
+				$label       = $groupInstance->title;
+				$description = $groupInstance->description;
+			}
+		}
+
+		if (!$label || !$description)
+		{
+			$lang = JFactory::getLanguage();
+
+			if (!$label)
+			{
+				$key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
+
+				if (!$lang->hasKey($key))
+				{
+					$key = $formHierarchy['forms'][$hFormId]['title'];
+				}
+
+				$label = JText::_($key);
+			}
+
+			if (!$description)
+			{
+				$key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
+
+				if ($lang->hasKey($key))
+				{
+					$description = JText::_($key);
+
+					return array($label, $description);
+				}
+
+				return array($label, $description);
+			}
+
+			return array($label, $description);
+		}
+
+		return array($label, $description);
+	}
+
+    /**
+     * Get subform-values for a sub-form field
+     *
+     * @param  object  $item   The item object
+     * @param  object  $field  The field object
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+	public static function getSubFormValues($item, $field)
+	{
+		$fieldsValues = $subFormValue = array();
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*');
+		$query->from('#__fields');
+		$query->where($db->quoteName('form_id') . ' = ' . $db->quote($field->fieldparams['subform_id']));
+		$db->setQuery($query);
+		$allowedFields = $db->loadObjectList();
+
+
+		foreach ($allowedFields as $allowedField)
+		{
+			$fieldsValues[$allowedField->alias] = self::$fieldCache->getFieldValue($allowedField->id, $allowedField->context, $item->id, $allowedField->form_id, true);
+		}
+		foreach ($fieldsValues as $fieldName => $indexValueArray)
+		{
+			if (is_array($indexValueArray) && count($indexValueArray) > 0)
+			{
+				foreach ($indexValueArray as $indexKey => $indexValue)
+				{
+					$subFormValue[$indexKey][$fieldName] = $indexValue;
+				}
+			}
+		}
+
+		return $subFormValue;
 	}
 }

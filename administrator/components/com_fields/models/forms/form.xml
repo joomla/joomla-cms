@@ -166,12 +166,12 @@
 		/>
 
 		<field
-				name="excluded_except_as_subform"
+				name="is_subform"
 				type="radio"
 				class="btn-group btn-group-yesno"
 				default="0"
-				label="COM_FIELDS_FORM_EXCLUDED_EXCEPT_AS_SUBFORM_LABEL"
-				description="COM_FIELDS_FORM_EXCLUDED_EXCEPT_AS_SUBFORM_DESC"
+				label="COM_FIELDS_FORM_IS_SUBFORM_LABEL"
+				description="COM_FIELDS_FORM_IS_SUBFORM_DESC"
 		>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>

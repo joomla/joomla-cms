@@ -13,7 +13,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Forms Model
  *
- * @since  3.7.0
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsModelForms extends JModelList
 {
@@ -22,7 +22,7 @@ class FieldsModelForms extends JModelList
 	 * when dealing with the getStoreId() method and caching data structures.
 	 *
 	 * @var    string
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $context = 'com_fields.forms';
 
@@ -32,7 +32,7 @@ class FieldsModelForms extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array())
 	{
@@ -74,7 +74,7 @@ class FieldsModelForms extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -105,7 +105,7 @@ class FieldsModelForms extends JModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -124,7 +124,7 @@ class FieldsModelForms extends JModelList
 	 *
 	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getListQuery()
 	{

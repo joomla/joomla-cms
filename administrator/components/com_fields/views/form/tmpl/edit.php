@@ -40,7 +40,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				<?php echo $this->form->renderField('label'); ?>
 				<?php echo $this->form->renderField('context'); ?>
 				<?php echo $this->form->renderField('description'); ?>
-				<?php echo $this->form->renderField('excluded_except_as_subform'); ?>
+				<?php echo $this->form->renderField('is_subform'); ?>
 			</div>
 			<div class="span3">
 				<?php $this->set('fields',

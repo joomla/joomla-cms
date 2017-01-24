@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Abstract Fields Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since   3.7.0
  */
 abstract class FieldsPlugin extends JPlugin
 {
@@ -22,7 +22,7 @@ abstract class FieldsPlugin extends JPlugin
 	 *
 	 * @return  string[][]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onCustomFieldsGetTypes()
 	{
@@ -75,7 +75,7 @@ abstract class FieldsPlugin extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onCustomFieldsPrepareField($context, $item, $field)
 	{
@@ -194,7 +194,7 @@ abstract class FieldsPlugin extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentPrepareForm(JForm $form, $data)
 	{
@@ -240,7 +240,7 @@ abstract class FieldsPlugin extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function isTypeSupported($type)
 	{

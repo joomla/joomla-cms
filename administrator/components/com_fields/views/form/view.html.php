@@ -11,28 +11,28 @@ defined('_JEXEC') or die;
 /**
  * Form View
  *
- * @since  3.7.0
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsViewForm extends JViewLegacy
 {
 	/**
 	 * @var  JForm
 	 *
-	 * @since  3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $form;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since  3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $item;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since  3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
 
@@ -41,7 +41,7 @@ class FieldsViewForm extends JViewLegacy
 	 *
 	 * @var  JObject
 	 *
-	 * @since  3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $canDo;
 
@@ -54,7 +54,7 @@ class FieldsViewForm extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
@@ -92,7 +92,7 @@ class FieldsViewForm extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{

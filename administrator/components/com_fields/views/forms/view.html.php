@@ -11,49 +11,49 @@ defined('_JEXEC') or die;
 /**
  * Forms View
  *
- * @since  3.7.0
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsViewForms extends JViewLegacy
 {
 	/**
 	 * @var  JForm
 	 *
-	 * @since  3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $filterForm;
 
 	/**
 	 * @var  array
 	 *
-	 * @since  3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $activeFilters;
 
 	/**
 	 * @var  array
 	 *
-	 * @since  3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $items;
 
 	/**
 	 * @var  JPagination
 	 *
-	 * @since  3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $pagination;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since  3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
 
 	/**
 	 * @var  string
 	 *
-	 * @since  3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $sidebar;
 
@@ -65,7 +65,7 @@ class FieldsViewForms extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
@@ -103,7 +103,7 @@ class FieldsViewForms extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{
@@ -194,7 +194,7 @@ class FieldsViewForms extends JViewLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getSortFields()
 	{

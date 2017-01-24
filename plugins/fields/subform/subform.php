@@ -1,21 +1,23 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_fields
+ * @package     Joomla.Plugin
+ * @subpackage  Fields.Subform
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 
 JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
 
+
 /**
- * Base plugin for all list based plugins
+ * Fields subform Plugin
  *
- * @since  3.7.0
+ * @since  __DEPLOY_VERSION__
  */
-class FieldsListPlugin extends FieldsPlugin
+class PlgFieldsSubform extends FieldsPlugin
 {
 	/**
 	 * Transforms the field into an XML element and appends it as child on the given parent. This
@@ -28,53 +30,45 @@ class FieldsListPlugin extends FieldsPlugin
 	 *
 	 * @return  DOMElement
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
 	{
-		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
+		$node = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
-		if (!$fieldNode)
+		if (!$node)
 		{
-			return $fieldNode;
+			return $node;
 		}
 
-		foreach ($this->getOptionsFromField($field) as $value => $name)
-		{
-			$option = new DOMElement('option', $value);
-			$option->nodeValue = JText::_($name);
+		$node->setAttribute('disabled', 'true');
 
-			$element = $fieldNode->appendChild($option);
-			$element->setAttribute('value', $value);
-		}
+		$node->setAttribute('formsource', $field->subFormFieldsToAttach);
 
-		return $fieldNode;
+		// Return the node
+		return $node;
 	}
 
 	/**
 	 * Returns an array of key values to put in a list from the given field.
 	 *
-	 * @param   stdClass  $field  The field.
+	 * @param   stdClass  $field The field.
 	 *
 	 * @return  array
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getOptionsFromField($field)
+	public function getSubFormsFromField($field)
 	{
 		$data = array();
 
-		// Fetch the options from the plugin
-		foreach ($this->params->get('options', array()) as $option)
-		{
-			$op = (object) $option;
-			$data[$op->value] = $op->name;
-		}
-
 		// Fetch the options from the field
-		foreach ($field->fieldparams->get('options', array()) as $option)
+		foreach ($field->value as $subForm)
 		{
-			$data[$option->value] = $option->name;
+			foreach ($subForm as $name => $value)
+			{
+				$data[$value] = $name;
+			}
 		}
 
 		return $data;

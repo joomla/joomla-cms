@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 /**
  * The Form controller
  *
- * @since  3.7.0
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsControllerForm extends JControllerForm
 {
@@ -22,7 +22,7 @@ class FieldsControllerForm extends JControllerForm
 	 *
 	 * @var    string
 
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $text_prefix = 'COM_FIELDS_FORM';
 
@@ -30,7 +30,7 @@ class FieldsControllerForm extends JControllerForm
 	 * The component for which the form applies.
 	 *
 	 * @var    string
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private $component = '';
 
@@ -39,7 +39,7 @@ class FieldsControllerForm extends JControllerForm
 	 *
 	 * @param   array  $config  A named array of configuration variables.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array())
 	{
@@ -60,7 +60,7 @@ class FieldsControllerForm extends JControllerForm
 	 *
 	 * @return  boolean   True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function batch($model = null)
 	{
@@ -82,7 +82,7 @@ class FieldsControllerForm extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -97,7 +97,7 @@ class FieldsControllerForm extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function allowEdit($data = array(), $key = 'parent_id')
 	{
@@ -142,7 +142,7 @@ class FieldsControllerForm extends JControllerForm
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{

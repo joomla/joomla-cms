@@ -13,7 +13,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Form Model
  *
- * @since  3.7.0
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsModelForm extends JModelAdmin
 {
@@ -24,7 +24,7 @@ class FieldsModelForm extends JModelAdmin
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function save($data)
 	{
@@ -87,7 +87,7 @@ class FieldsModelForm extends JModelAdmin
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
 	public function getTable($name = 'Form', $prefix = 'FieldsTable', $options = array())
@@ -103,7 +103,7 @@ class FieldsModelForm extends JModelAdmin
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -157,7 +157,7 @@ class FieldsModelForm extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function canDelete($record)
 	{
@@ -177,7 +177,7 @@ class FieldsModelForm extends JModelAdmin
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the
 	 *                   component.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function canEditState($record)
 	{
@@ -200,7 +200,7 @@ class FieldsModelForm extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function populateState()
 	{
@@ -217,7 +217,7 @@ class FieldsModelForm extends JModelAdmin
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getReorderConditions($table)
 	{
@@ -234,7 +234,7 @@ class FieldsModelForm extends JModelAdmin
 	 * @return  void
 	 *
 	 * @see     JFormField
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
@@ -259,7 +259,7 @@ class FieldsModelForm extends JModelAdmin
 	 *
 	 * @return  array    The default data is an empty array.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()
 	{
@@ -305,7 +305,7 @@ class FieldsModelForm extends JModelAdmin
 	 *
 	 * @return  mixed    Object on success, false on failure.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItem($pk = null)
 	{
@@ -364,7 +364,7 @@ class FieldsModelForm extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function cleanCache($form = null, $client_id = 0)
 	{

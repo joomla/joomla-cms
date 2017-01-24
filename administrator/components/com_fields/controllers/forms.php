@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Forms list controller class.
  *
- * @since  3.7.0
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsControllerForms extends JControllerAdmin
 {
@@ -20,7 +20,7 @@ class FieldsControllerForms extends JControllerAdmin
 	 *
 	 * @var    string
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $text_prefix = 'COM_FIELDS_FORM';
 
@@ -33,7 +33,7 @@ class FieldsControllerForms extends JControllerAdmin
 	 *
 	 * @return  JModelLegacy|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getModel($name = 'Form', $prefix = 'FieldsModel', $config = array('ignore_request' => true))
 	{
