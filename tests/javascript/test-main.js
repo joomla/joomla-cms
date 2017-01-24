@@ -23,7 +23,6 @@ require.config({
 		'bootstrap': 'media/jui/js/bootstrap.min',
 		'jasmineJquery': 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery',
 		'libs': 'media/system/js',
-		'legacy_libs': 'media/system/js/legacy',
 		'testsRoot': 'tests/javascript',
 		'text': 'tests/javascript/node_modules/text/text',
 		'calLang': 'media/system/js/fields/calendar-locales/en',
