@@ -135,7 +135,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'From generic cases'
 			),
 			'int_16' => array(
-				'int'
+				'int',
 				'ab1.5e+1ab',
 				15,
 				'From generic cases'
