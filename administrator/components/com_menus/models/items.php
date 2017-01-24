@@ -349,6 +349,9 @@ class MenusModelItems extends JModelList
 				->where('client_id = ' . (int) $this->getState('filter.client_id'))
 				->order('title');
 
+			// Show protected items on explicit filter only
+			$query->where('a.menutype != ' . $db->q('main'));
+
 			$menuTypes = $this->getDbo()->setQuery($query2)->loadObjectList();
 
 			if ($menuTypes)
