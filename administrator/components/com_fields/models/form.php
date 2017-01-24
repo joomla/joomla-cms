@@ -37,46 +37,46 @@ class FieldsModelForm extends JModelAdmin
 			$data['state'] = 0;
 		}
 
-        if (!parent::save($data))
-        {
-            return false;
-        }
+		if (!parent::save($data))
+		{
+			return false;
+		}
 
-        // Save the assigned categories into #__fields_categories
-        $db = $this->getDbo();
-        $id = (int) $this->getState('form.id');
-        $cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
-        $cats = ArrayHelper::toInteger($cats);
+		// Save the assigned categories into #__fields_categories
+		$db   = $this->getDbo();
+		$id   = (int) $this->getState('form.id');
+		$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
+		$cats = ArrayHelper::toInteger($cats);
 
-        $assignedCatIds = array();
+		$assignedCatIds = array();
 
-        foreach ($cats as $cat)
-        {
-            if ($cat)
-            {
-                $assignedCatIds[] = $cat;
-            }
-        }
+		foreach ($cats as $cat)
+		{
+			if ($cat)
+			{
+				$assignedCatIds[] = $cat;
+			}
+		}
 
-        // First delete all assigned categories
-        $query = $db->getQuery(true);
-        $query->delete('#__fields_forms_categories')
-            ->where('form_id = ' . $id);
-        $db->setQuery($query);
-        $db->execute();
+		// First delete all assigned categories
+		$query = $db->getQuery(true);
+		$query->delete('#__fields_forms_categories')
+			->where('form_id = ' . $id);
+		$db->setQuery($query);
+		$db->execute();
 
-        // Inset new assigned categories
-        $tupel = new stdClass;
-        $tupel->form_id = $id;
+		// Inset new assigned categories
+		$tupel          = new stdClass;
+		$tupel->form_id = $id;
 
-        foreach ($assignedCatIds as $catId)
-        {
-            $tupel->category_id = $catId;
-            $db->insertObject('#__fields_forms_categories', $tupel);
-        }
+		foreach ($assignedCatIds as $catId)
+		{
+			$tupel->category_id = $catId;
+			$db->insertObject('#__fields_forms_categories', $tupel);
+		}
 
-        return true;
-    }
+		return true;
+	}
 
 	/**
 	 * Method to get a table object, load it if necessary.
@@ -108,7 +108,7 @@ class FieldsModelForm extends JModelAdmin
 	public function getForm($data = array(), $loadData = true)
 	{
 		$context = $this->getState('filter.context');
-		$jinput = JFactory::getApplication()->input;
+		$jinput  = JFactory::getApplication()->input;
 
 		if (empty($context) && isset($data['context']))
 		{
@@ -359,7 +359,7 @@ class FieldsModelForm extends JModelAdmin
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $form      The cache form
+	 * @param   string   $form       The cache form
 	 * @param   integer  $client_id  The ID of the client
 	 *
 	 * @return  void

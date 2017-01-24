@@ -156,7 +156,8 @@ class FieldsModelFields extends JModelList
 
 		// Join over the field forms.
 
-		$query->select('f.id AS form_id_res, f.title AS form_title, f.access as form_access, f.state AS form_state, f.ordering as form_ordering, f.is_subform as form_is_subform');
+		$query->select('f.id AS form_id_res, f.title AS form_title, f.access as form_access');
+		$query->select('f.state AS form_state, f.ordering as form_ordering, f.is_subform as form_is_subform');
 		$query->join('LEFT', '#__fields_forms AS f ON f.id = a.form_id');
 
 		// Join over the field groups.
@@ -271,6 +272,7 @@ class FieldsModelFields extends JModelList
 			$categories = array();
 
 			$context = $this->getState('filter.context');
+
 			// Split context into component and optional section
 			$parts = FieldsHelper::extract($context);
 
@@ -315,9 +317,9 @@ class FieldsModelFields extends JModelList
 	/**
 	 * Gets an array of objects from the results of database query.
 	 *
-	 * @param   string  $query      The query.
-	 * @param   integer $limitStart Offset.
-	 * @param   integer $limit      The number of records.
+	 * @param   string   $query       The query.
+	 * @param   integer  $limitStart  Offset.
+	 * @param   integer  $limit       The number of records.
 	 *
 	 * @return  array  An array of results.
 	 *
@@ -360,7 +362,7 @@ class FieldsModelFields extends JModelList
 			$form->setValue('context', null, $filterContext);
 			$form->setFieldAttribute('form_id', 'context', $filterContext, 'filter');
 			$form->setFieldAttribute('group_id', 'context', $filterContext, 'filter');
-			//			$form->setFieldAttribute('assigned_cat_ids', 'extension', $this->state->get('filter.component'), 'filter');
+			// $form->setFieldAttribute('assigned_cat_ids', 'extension', $this->state->get('filter.component'), 'filter');
 		}
 
 		return $form;

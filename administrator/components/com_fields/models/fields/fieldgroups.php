@@ -31,8 +31,8 @@ class JFormFieldFieldgroups extends JFormFieldList
 	protected function getOptions()
 	{
 		$context = (string) $this->element['context'];
-		$states    = $this->element['state'] ?: '0,1';
-		$states    = ArrayHelper::toInteger(explode(',', $states));
+		$states  = $this->element['state'] ?: '0,1';
+		$states  = ArrayHelper::toInteger(explode(',', $states));
 
 		$user       = JFactory::getUser();
 		$viewLevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
@@ -45,11 +45,12 @@ class JFormFieldFieldgroups extends JFormFieldList
 		$query->where('context = ' . $db->quote($context));
 		$query->where('access IN (' . implode(',', $viewLevels) . ')');
 
-		if ($formId = $this->form->getValue('form_id', 'filter')){
-            $query->where('form_id = ' . $formId);
-        }
-        
-        $db->setQuery($query);
+		if ($formId = $this->form->getValue('form_id', 'filter'))
+		{
+			$query->where('form_id = ' . $formId);
+		}
+
+		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
 		foreach ($options AS $option)

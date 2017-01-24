@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Abstract Fields Plugin
  *
- * @since   3.7.0
+ * @since  3.7.0
  */
 abstract class FieldsPlugin extends JPlugin
 {
@@ -22,7 +22,7 @@ abstract class FieldsPlugin extends JPlugin
 	 *
 	 * @return  string[][]
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public function onCustomFieldsGetTypes()
 	{

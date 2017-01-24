@@ -52,7 +52,7 @@ class PlgFieldsSubform extends FieldsPlugin
 	/**
 	 * Returns an array of key values to put in a list from the given field.
 	 *
-	 * @param   stdClass  $field The field.
+	 * @param   stdClass  $field  The field.
 	 *
 	 * @return  array
 	 *

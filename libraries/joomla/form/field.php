@@ -538,17 +538,17 @@ abstract class JFormField
 				$this->$name = (int) $value;
 				break;
 
-            case 'noSubForms':
-                // Allow for field classes to force the multiple values option.
-                $value = (string) $value;
-                $this->$name = ($value === 'true' || $value === $name || $value === '1');
-                break;
+			case 'noSubForms':
+				// Allow for field classes to force the multiple values option.
+				$value       = (string) $value;
+				$this->$name = ($value === 'true' || $value === $name || $value === '1');
+				break;
 
-            case 'onlySubForms':
-                // Allow for field classes to force the multiple values option.
-                $value = (string) $value;
-                $this->$name = ($value === 'true' || $value === $name || $value === '1');
-                break;
+			case 'onlySubForms':
+				// Allow for field classes to force the multiple values option.
+				$value       = (string) $value;
+				$this->$name = ($value === 'true' || $value === $name || $value === '1');
+				break;
 
 			default:
 				if (property_exists(__CLASS__, $name))

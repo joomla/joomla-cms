@@ -422,7 +422,7 @@ class FieldsHelper
 
 							$subFormToFormAssociation[(int) $hField->fieldparams->get('subform_id')] = $hFormId;
 
-							$subFormDoc = new DOMDocument();
+							$subFormDoc = new DOMDocument;
 
 							$subForm = $subFormDoc->createElement('form');
 
@@ -478,8 +478,7 @@ class FieldsHelper
 		);
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') === 'config.display.modules'
-			&& JFactory::getApplication()->isClient('site')
-		)
+			&& JFactory::getApplication()->isClient('site'))
 		{
 			// Modules on front end editing don't have data and an id set
 			$data->id = JFactory::getApplication()->input->getInt('id');
@@ -658,8 +657,8 @@ class FieldsHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string $context The context the fields are used for
-	 * @param   string $vName   The view currently active
+	 * @param   string  $context  The context the fields are used for
+	 * @param   string  $vName    The view currently active
 	 *
 	 * @return  void
 	 *
@@ -742,7 +741,7 @@ class FieldsHelper
     /**
      * Get a form hierarchy to easier build the forms, sub-forms, groups and fields
      *
-     * @param  array  $fields  The array of fields to build the hierarchy
+     * @param   array  $fields  The array of fields to build the hierarchy
      *
      * @return  array
      *
@@ -963,8 +962,8 @@ class FieldsHelper
     /**
      * Get subform-values for a sub-form field
      *
-     * @param  object  $item   The item object
-     * @param  object  $field  The field object
+     * @param   object  $item   The item object
+     * @param   object  $field  The field object
      *
      * @return  array
      *
@@ -985,7 +984,8 @@ class FieldsHelper
 
 		foreach ($allowedFields as $allowedField)
 		{
-			$fieldsValues[$allowedField->alias] = self::$fieldCache->getFieldValue($allowedField->id, $allowedField->context, $item->id, $allowedField->form_id, true);
+			$fieldsValues[$allowedField->alias] =
+				self::$fieldCache->getFieldValue($allowedField->id, $allowedField->context, $item->id, $allowedField->form_id, true);
 		}
 		foreach ($fieldsValues as $fieldName => $indexValueArray)
 		{

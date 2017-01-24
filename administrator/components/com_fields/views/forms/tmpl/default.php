@@ -131,7 +131,7 @@ if ($saveOrder)
 										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'forms.', $canCheckin); ?>
 									<?php endif; ?>
 									<?php if ($canEdit || $canEditOwn) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_fields&task=form.edit&id=' . $item->id. '&context=' . $context); ?>">
+										<a href="<?php echo JRoute::_('index.php?option=com_fields&task=form.edit&id=' . $item->id . '&context=' . $context); ?>">
 											<?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
@@ -142,7 +142,7 @@ if ($saveOrder)
                                         <?php endif; ?>
 									</span>
                                     <div class="small">
-                                    <a href="<?php echo JRoute::_('index.php?option=com_fields&view=fields&context='.$this->state->get('filter.context').'&filter[form_id]='.$item->id); ?>">
+                                    <a href="<?php echo JRoute::_('index.php?option=com_fields&view=fields&context=' . $this->state->get('filter.context') . '&filter[form_id]=' . $item->id); ?>">
                                     <?php echo JText::_('COM_FIELDS_VIEW_FORMS_FIELDS_LINK_TITLE'); ?></a>
                                         / <span class="small">
                                             <a href="<?php echo JRoute::_('index.php?option=com_fields&view=groups&context=' . $this->state->get('filter.context') . '&filter[form_id]=' . $item->id); ?>">

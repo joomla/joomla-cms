@@ -360,15 +360,16 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Setting the value for the gven field id, context and item id.
+	 * Setting the value for the given field id, context and item id.
 	 *
-	 * @param   stdClass  $field    The field .
-	 * @param   string    $context  The context.
-	 * @param   string    $itemId   The ID of the item.
-	 * @param   array     $fields   The value.
-	 * @param   bool      $index
+	 * @param   stdClass       $field    The field .
+	 * @param   string         $context  The context.
+	 * @param   string         $itemId   The ID of the item.
+	 * @param   array          $fields   The value.
+	 * @param   bool|integer   $index    The index in case of sub-forms which are set to support
 	 *
 	 * @return bool
+	 *
 	 * @since   3.7.0
 	 */
 	public function setFieldValue($field, $context, $itemId, $fields, $index = false)
@@ -525,11 +526,11 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Returning the value for the given field id, context and item id.
 	 *
-	 * @param   string  $fieldId  The field ID.
-	 * @param   string  $context  The context.
-	 * @param   string  $itemId   The ID of the item.
-     * @param   integer       $formId
-     * @param   integer|boolean  $index
+	 * @param   string         $fieldId  The field ID.
+	 * @param   string         $context  The context.
+	 * @param   string         $itemId   The ID of the item.
+     * @param   integer        $formId   The form id
+	 * @param   bool|integer   $index    The index in case of sub-forms which are set to support
 	 *
      * @return null|string
 	 * @since  3.7.0
@@ -786,16 +787,16 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		// Setting the context for the category field
-//		$cat = JCategories::getInstance(str_replace('com_', '', $component));
+// $cat = JCategories::getInstance(str_replace('com_', '', $component));
 
-//		if ($cat && $cat->get('root')->hasChildren())
-//		{
-//			$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
-//		}
-//		else
-//		{
-//			$form->removeField('assigned_cat_ids');
-//		}
+// if ($cat && $cat->get('root')->hasChildren())
+// {
+//     $form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
+// }
+// else
+// {
+//     $form->removeField('assigned_cat_ids');
+// }
 
 		$form->setFieldAttribute('type', 'component', $component);
 		$form->setFieldAttribute('form_id', 'context', $this->state->get('field.context'));
