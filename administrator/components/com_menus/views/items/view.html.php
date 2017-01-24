@@ -206,7 +206,7 @@ class MenusViewItems extends JViewLegacy
 			}
 
 			$item->item_type = $value;
-			$item->protected = $item->menutype == 'main' || $item->menutype == 'menu';
+			$item->protected = $item->menutype == 'main';
 		}
 
 		// Levels filter.
@@ -284,9 +284,9 @@ class MenusViewItems extends JViewLegacy
 			JToolbarHelper::addNew('item.add');
 		}
 
-		$m = $this->state->get('filter.menutype');
+		$protected = $this->state->get('filter.menutype') == 'main';
 
-		if ($canDo->get('core.edit') && ($m != 'main' && $m != 'menu'))
+		if ($canDo->get('core.edit') && !$protected)
 		{
 			JToolbarHelper::editList('item.edit');
 		}
@@ -313,7 +313,7 @@ class MenusViewItems extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_menus')
+		if (!$protected && $user->authorise('core.create', 'com_menus')
 			&& $user->authorise('core.edit', 'com_menus')
 			&& $user->authorise('core.edit.state', 'com_menus'))
 		{
@@ -326,11 +326,11 @@ class MenusViewItems extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if (!$protected && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
-		elseif ($canDo->get('core.edit.state'))
+		elseif (!$protected && $canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('items.trash');
 		}
