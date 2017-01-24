@@ -70,7 +70,7 @@ if (is_numeric($value))
 else
 {
 	$value = "";
-	$value = isset($min) ? $min : $value;
+	$value = ($required && isset($min)) ? $min : $value;
 }
 
 // Including fallback code for HTML5 non supported browsers.
