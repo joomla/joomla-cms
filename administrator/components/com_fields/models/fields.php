@@ -362,6 +362,7 @@ class FieldsModelFields extends JModelList
 			$form->setValue('context', null, $filterContext);
 			$form->setFieldAttribute('form_id', 'context', $filterContext, 'filter');
 			$form->setFieldAttribute('group_id', 'context', $filterContext, 'filter');
+
 			// $form->setFieldAttribute('assigned_cat_ids', 'extension', $this->state->get('filter.component'), 'filter');
 		}
 

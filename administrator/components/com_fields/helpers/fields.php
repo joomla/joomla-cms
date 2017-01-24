@@ -872,10 +872,10 @@ class FieldsHelper
     /**
      * Create a field-set for a form.
      *
-     * @param  DOMElement  $fieldsNode  The node where this field-set is appended to.
-     * @param  integer     $hFormId     The form id
-     * @param  integer     $hGroupId    The group id
-     * @param  string      $component   The component name
+     * @param   DOMElement  $fieldsNode  The node where this field-set is appended to.
+     * @param   integer     $hFormId     The form id
+     * @param   integer     $hGroupId    The group id
+     * @param   string      $component   The component name
      *
      * @return  DOMElement
      *
@@ -896,11 +896,11 @@ class FieldsHelper
     /**
      * Get label/description for a form- or group-tab
      *
-     * @param  integer     $hFormId        The form id
-     * @param  integer     $hGroupId       The group id
-     * @param  string      $component      The component name
-     * @param  string      $section        The section name
-     * @param  array       $formHierarchy  The form hierarchy array
+     * @param   integer     $hFormId        The form id
+     * @param   integer     $hGroupId       The group id
+     * @param   string      $component      The component name
+     * @param   string      $section        The section name
+     * @param   array       $formHierarchy  The form hierarchy array
      *
      * @return  array
      *
@@ -984,8 +984,8 @@ class FieldsHelper
 
 		foreach ($allowedFields as $allowedField)
 		{
-			$fieldsValues[$allowedField->alias] =
-				self::$fieldCache->getFieldValue($allowedField->id, $allowedField->context, $item->id, $allowedField->form_id, true);
+			$fieldsValues[$allowedField->alias]
+				= self::$fieldCache->getFieldValue($allowedField->id, $allowedField->context, $item->id, $allowedField->form_id, true);
 		}
 		foreach ($fieldsValues as $fieldName => $indexValueArray)
 		{

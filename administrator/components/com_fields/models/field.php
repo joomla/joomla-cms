@@ -533,6 +533,7 @@ class FieldsModelField extends JModelAdmin
 	 * @param   bool|integer   $index    The index in case of sub-forms which are set to support
 	 *
      * @return null|string
+	 *
 	 * @since  3.7.0
 	 */
 	public function getFieldValue($fieldId, $context, $itemId, $formId, $index = false)
@@ -786,17 +787,19 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
-		// Setting the context for the category field
-// $cat = JCategories::getInstance(str_replace('com_', '', $component));
-
-// if ($cat && $cat->get('root')->hasChildren())
-// {
-//     $form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
-// }
-// else
-// {
-//     $form->removeField('assigned_cat_ids');
-// }
+/*
+ * // Setting the context for the category field
+ * $cat = JCategories::getInstance(str_replace('com_', '', $component));
+ *
+ * if ($cat && $cat->get('root')->hasChildren())
+ * {
+ *     $form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
+ * }
+ * else
+ * {
+ *     $form->removeField('assigned_cat_ids');
+ * }
+*/
 
 		$form->setFieldAttribute('type', 'component', $component);
 		$form->setFieldAttribute('form_id', 'context', $this->state->get('field.context'));
