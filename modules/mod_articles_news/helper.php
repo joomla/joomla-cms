@@ -115,6 +115,7 @@ abstract class ModArticlesNewsHelper
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 
+			$item->text = '';
 			$app->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, 1));
 
 			$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
