@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -283,7 +283,7 @@ abstract class JHtml
 	 *
 	 * @return  string  Query string to add.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 *
 	 * @deprecated   4.0  Usage of MD5SUM files is deprecated, use version instead.
 	 */
@@ -600,7 +600,7 @@ abstract class JHtml
 	 */
 	public static function stylesheet($file, $options = array(), $attribs = array())
 	{
-		// B/C before __DEPLOY_VERSION__
+		// B/C before 3.7.0
 		if (!is_array($attribs))
 		{
 			JLog::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
@@ -672,7 +672,7 @@ abstract class JHtml
 	 */
 	public static function script($file, $options = array(), $attribs = array())
 	{
-		// B/C before __DEPLOY_VERSION__
+		// B/C before 3.7.0
 		if (!is_array($options) && !is_array($attribs))
 		{
 			JLog::add('The script method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
@@ -777,7 +777,7 @@ abstract class JHtml
 	{
 		// Get some system objects.
 		$config = JFactory::getConfig();
-		$user = JFactory::getUser();
+		$user   = JFactory::getUser();
 
 		// UTC date converted to user time zone.
 		if ($tz === true)
@@ -974,32 +974,58 @@ abstract class JHtml
 	 * @param   string  $id       The id of the text field
 	 * @param   string  $format   The date format
 	 * @param   mixed   $attribs  Additional HTML attributes
+	 *                            The array can have the following keys:
+	 *                            readonly      Sets the readonly parameter for the input tag
+	 *                            disabled      Sets the disabled parameter for the input tag
+	 *                            autofocus     Sets the autofocus parameter for the input tag
+	 *                            autocomplete  Sets the autocomplete parameter for the input tag
+	 *                            filter        Sets the filter for the input tag
 	 *
 	 * @return  string  HTML markup for a calendar field
 	 *
 	 * @since   1.5
+	 *
 	 */
-	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
+	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{
-		static $done;
+		$tag       = JFactory::getLanguage()->getTag();
+		$calendar  = JFactory::getLanguage()->getCalendar();
+		$direction = strtolower(JFactory::getDocument()->getDirection());
 
-		if ($done === null)
+		// Get the appropriate file for the current language date helper
+		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
+
+		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
 		{
-			$done = array();
+			$helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
 		}
 
-		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
-		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
+		// Get the appropriate locale file for the current language
+		$localesPath = 'system/fields/calendar-locales/en.js';
 
-		if (is_array($attribs))
+		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
 		{
-			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
-			$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
-
-			$attribs = ArrayHelper::toString($attribs);
+			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
+		}
+		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
+		{
+			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
-		static::_('bootstrap.tooltip');
+		$readonly     = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
+		$disabled     = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
+		$autocomplete = isset($attribs['autocomplete']) && $attribs['autocomplete'] == '';
+		$autofocus    = isset($attribs['autofocus']) && $attribs['autofocus'] == '';
+		$required     = isset($attribs['required']) && $attribs['required'] == '';
+		$filter       = isset($attribs['filter']) && $attribs['filter'] == '';
+		$todayBtn     = isset($attribs['todayBtn']) ? $attribs['todayBtn'] : true;
+		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : false;
+		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : true;
+		$fillTable    = isset($attribs['fillTable']) ? $attribs['fillTable'] : true;
+		$timeFormat   = isset($attribs['timeFormat']) ? $attribs['timeFormat'] : 24;
+		$singleHeader = isset($attribs['singleHeader']) ? $attribs['singleHeader'] : false;
+		$hint         = isset($attribs['placeholder']) ? $attribs['placeholder'] : '';
+		$class        = isset($attribs['class']) ? $attribs['class'] : '';
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
@@ -1014,38 +1040,32 @@ abstract class JHtml
 			$inputvalue = '';
 		}
 
-		// Load the calendar behavior
-		static::_('behavior.calendar');
-
-		// Only display the triggers once for each control.
-		if (!in_array($id, $done))
-		{
-			JFactory::getDocument()->addScriptDeclaration(
-				'jQuery(document).ready(function($) {Calendar.setup({
-			// Id of the input field
-			inputField: "' . $id . '",
-			// Format of the input field
-			ifFormat: "' . $format . '",
-			// Trigger for the calendar (button ID)
-			button: "' . $id . '_img",
-			// Alignment (defaults to "Bl")
-			align: "Tl",
-			singleClick: true,
-			firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
-			});});'
+		$data = array(
+			'id'           => $id,
+			'name'         => $name,
+			'class'        => $class,
+			'value'        => $inputvalue,
+			'format'       => $format,
+			'filter'       => $filter,
+			'required'     => $required,
+			'readonly'     => $readonly,
+			'disabled'     => $disabled,
+			'hint'         => $hint,
+			'autofocus'    => $autofocus,
+			'autocomplete' => $autocomplete,
+			'todaybutton'  => $todayBtn,
+			'weeknumbers'  => $weekNumbers,
+			'showtime'     => $showTime,
+			'filltable'    => $fillTable,
+			'timeformat'   => $timeFormat,
+			'singleheader' => $singleHeader,
+			'tag'          => $tag,
+			'helperPath'   => $helperPath,
+			'localesPath'  => $localesPath,
+			'direction'    => $direction,
 			);
-			$done[] = $id;
-		}
 
-		// Hide button using inline styles for readonly/disabled fields
-		$btn_style = ($readonly || $disabled) ? ' style="display:none;"' : '';
-		$div_class = (!$readonly && !$disabled) ? ' class="input-append"' : '';
-
-		return '<div' . $div_class . '>'
-				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
-				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>'
-			. '</div>';
+		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
 	}
 
 	/**

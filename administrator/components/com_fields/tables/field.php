@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 /**
  * Fields Table
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsTableField extends JTable
 {
@@ -22,7 +22,7 @@ class FieldsTableField extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  JDatabaseDriver object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($db = null)
 	{
@@ -41,7 +41,7 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function bind($src, $ignore = '')
@@ -79,7 +79,7 @@ class FieldsTableField extends JTable
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
 	 * @link    https://docs.joomla.org/JTable/check
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function check()
 	{
@@ -100,7 +100,7 @@ class FieldsTableField extends JTable
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = Joomla\String\StringHelper::increment($alias, 'dash');
+			$this->alias = Joomla\String\StringHelper::increment($this->alias, 'dash');
 		}
 
 		$this->alias = str_replace(',', '-', $this->alias);
@@ -110,11 +110,6 @@ class FieldsTableField extends JTable
 			$this->type = 'text';
 		}
 
-		if (is_array($this->assigned_cat_ids))
-		{
-			$this->assigned_cat_ids = implode(',', $this->assigned_cat_ids);
-		}
-
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
@@ -122,11 +117,11 @@ class FieldsTableField extends JTable
 		{
 			// Existing item
 			$this->modified_time = $date->toSql();
-			$this->modified_by   = $user->get('id');
+			$this->modified_by = $user->get('id');
 		}
 		else
 		{
-			if (! (int) $this->created_time)
+			if (!(int) $this->created_time)
 			{
 				$this->created_time = $date->toSql();
 			}
@@ -136,6 +131,11 @@ class FieldsTableField extends JTable
 				$this->created_user_id = $user->get('id');
 			}
 		}
+
+		if (empty($this->group_id))
+		{
+			$this->group_id = 0;
+		}	
 
 		return true;
 	}
@@ -147,13 +147,13 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function _getAssetName()
 	{
-		$k = $this->_tbl_key;
+		$contextArray = explode('.', $this->context);
 
-		return $this->context . '.field.' . (int) $this->$k;
+		return $contextArray[0] . '.field.' . (int) $this->id;
 	}
 
 	/**
@@ -166,7 +166,7 @@ class FieldsTableField extends JTable
 	 * @return  string  The string to use as the title in the asset table.
 	 *
 	 * @link    https://docs.joomla.org/JTable/getAssetTitle
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function _getAssetTitle()
 	{
@@ -177,7 +177,7 @@ class FieldsTableField extends JTable
 	 * Method to get the parent asset under which to register this one.
 	 * By default, all assets are registered to the ROOT node with ID,
 	 * which will default to 1 if none exists.
-	 * The extended class can define a table and id to lookup.  If the
+ 	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
 	 * @param   JTable   $table  A JTable object for the asset parent.
@@ -185,27 +185,27 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
-		$parts     = FieldsHelper::extract($this->context);
-		$component = $parts ? $parts[0] : null;
+		$contextArray = explode('.', $this->context);
+		$component = $contextArray[0];
 
-		if ($parts && $this->catid)
+		if ($this->group_id)
 		{
-			$assetId = $this->getAssetId($parts[0] . '.' . $parts[1] . '.fields.category.' . $this->catid);
+			$assetId = $this->getAssetId($component . '.fieldgroup.' . (int) $this->group_id);
 
-			if ($assetId !== false)
+			if ($assetId)
 			{
 				return $assetId;
 			}
 		}
-		elseif ($component)
+		else
 		{
 			$assetId = $this->getAssetId($component);
 
-			if ($assetId !== false)
+			if ($assetId)
 			{
 				return $assetId;
 			}
@@ -221,22 +221,22 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  number|boolean
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    3.7.0
 	 */
 	private function getAssetId($name)
 	{
-		// Build the query to get the asset id for the name.
-		$query = $this->_db->getQuery(true)
-			->select($this->_db->quoteName('id'))
-			->from($this->_db->quoteName('#__assets'))
-			->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__assets'))
+			->where($db->quoteName('name') . ' = ' . $db->quote($name));
 
 		// Get the asset id from the database.
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
 		$assetId = null;
 
-		if ($result = $this->_db->loadResult())
+		if ($result = $db->loadResult())
 		{
 			$assetId = (int) $result;
 

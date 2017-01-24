@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Session
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,7 +47,7 @@ class JSessionTest extends TestCase
 		$this->object = JSession::getInstance('none', $config, $handler);
 
 		$this->input = new JInput;
-		$this->input->cookie = $this->getMock('JInputCookie', array('set', 'get'));
+		$this->input->cookie = $this->getMockBuilder('JInputCookie')->setMethods(array('set', 'get'))->getMock();
 		$this->object->initialise($this->input);
 
 		$this->input->cookie->expects($this->any())
@@ -81,7 +81,7 @@ class JSessionTest extends TestCase
 	 *
 	 * @return array
 	 */
-	Public function casesGetInstance()
+	public function casesGetInstance()
 	{
 		return array(
 			'first_instance' => array(
@@ -210,7 +210,10 @@ class JSessionTest extends TestCase
 		$user = JFactory::getUser();
 
 		$expected = md5($user->get('id', 0) . $this->object->getToken(false));
-		$this->assertEquals($expected, $this->object->getFormToken(false), 'Form token should be calculated as above.');
+
+		$object = $this->object;
+
+		$this->assertEquals($expected, $object::getFormToken(false), 'Form token should be calculated as above.');
 	}
 
 	/**

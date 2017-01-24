@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -259,8 +259,10 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$packageURL = $headers['Location'];
 			$headers    = get_headers($packageURL, 1);
 		}
+
 		// Remove protocol, path and query string from URL
 		$basename = basename($packageURL);
+
 		if (strpos($basename, '?') !== false)
 		{
 			$basename = substr($basename, 0, strpos($basename, '?'));
@@ -492,7 +494,7 @@ ENDDATA;
 				else
 				{
 					// Try to find the system temp path.
-					$tmpfile = @tempnam("dummy", "");
+					$tmpfile = @tempnam('dummy', '');
 					$systemp = @dirname($tmpfile);
 					@unlink($tmpfile);
 

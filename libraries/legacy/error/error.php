@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -639,7 +639,7 @@ abstract class JError
 
 			if ($info != null)
 			{
-				echo "&#160;&#160;&#160;" . $info . "<br />\n";
+				echo '&#160;&#160;&#160;' . $info . "<br />\n";
 			}
 
 			echo $error->getBacktrace(true);

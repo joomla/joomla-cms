@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -70,7 +70,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								'state',
 								'enabled',
 							),
-							'catid',
+							'group_id',
 							'assigned_cat_ids',
 							'access',
 							'language',
@@ -82,7 +82,9 @@ JFactory::getDocument()->addScriptDeclaration('
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_PUBLISHING', true)); ?>
+		<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -91,10 +93,8 @@ JFactory::getDocument()->addScriptDeclaration('
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_RULES', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
 			<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>

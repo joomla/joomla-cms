@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -75,9 +75,7 @@ class JComponentHelper
 	 */
 	public static function isEnabled($option)
 	{
-		$result = static::getComponent($option, true);
-
-		return $result->enabled;
+		return (bool) static::getComponent($option, true)->enabled;
 	}
 
 	/**

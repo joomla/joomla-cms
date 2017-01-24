@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,12 +44,12 @@ class ContactHelper extends JHelperContent
 			JHtmlSidebar::addEntry(
 				JText::_('JGLOBAL_FIELDS'),
 				'index.php?option=com_fields&context=com_contact.contact',
-				$vName == 'fields.contact'
+				$vName == 'fields.fields'
 			);
 			JHtmlSidebar::addEntry(
 				JText::_('JGLOBAL_FIELD_GROUPS'),
-				'index.php?option=com_categories&extension=com_contact.contact.fields',
-				$vName == 'categories.contact'
+				'index.php?option=com_fields&view=groups&context=com_contact.contact',
+				$vName == 'fields.groups'
 			);
 		}
 	}
@@ -122,7 +122,6 @@ class ContactHelper extends JHelperContent
 	{
 		$db = JFactory::getDbo();
 		$parts     = explode('.', $extension);
-		$component = $parts[0];
 		$section   = null;
 		if (count($parts) > 1)
 		{
@@ -175,5 +174,51 @@ class ContactHelper extends JHelperContent
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Returns a valid section for contacts. If it is not valid then null
+	 * is returned.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 *
+	 * @return  string|null  The new section
+	 *
+	 * @since   3.7.0
+	 */
+	public static function validateSection($section)
+	{
+		if (JFactory::getApplication()->isClient('site') && $section == 'contact')
+		{
+			// The contact form needs to be the mail section
+			$section = 'mail';
+		}
+
+		if ($section != 'mail' && $section != 'contact')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
+	}
+
+	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public static function getContexts()
+	{
+		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_contact.contact' => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
+			'com_contact.mail' => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+		);
+
+		return $contexts;
 	}
 }

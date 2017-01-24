@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,10 +17,10 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 	<?php if (!$this->language_filter && $this->switchers == 0) : ?>
 		<?php if ($this->homes == 1) : ?>
 			<div class="alert alert-info"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?></div>
-		<?php else: ?>
+		<?php else : ?>
 			<div class="alert alert-info"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_USELESS_HOMES'); ?></div>
 		<?php endif; ?>
-	<?php else: ?>
+	<?php else : ?>
 	<table class="table table-striped table-condensed">
 		<tbody>
 		<?php if ($notice_homes) : ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,7 +73,7 @@ abstract class JHtmlContentAdministrator
 					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
 					$url     = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
 
-					$tooltip = $item->title . '<br />' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br />' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
 					$classes = 'hasPopover label label-association label-' . $item->lang_sef;
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes

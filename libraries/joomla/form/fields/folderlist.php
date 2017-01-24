@@ -3,19 +3,22 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
+
+JFormHelper::loadFieldClass('list');
+
 /**
  * Supports an HTML select list of folder
  *
  * @since  11.1
  */
-class JFormFieldFolderList extends JFormAbstractlist
+class JFormFieldFolderList extends JFormFieldList
 {
 	/**
 	 * The form field type.

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -561,31 +561,12 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0
 	 */
 	public static function calendar()
 	{
-		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		$document = JFactory::getDocument();
-		$tag      = JFactory::getLanguage()->getTag();
-		$attribs  = array('title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), 'media' => 'all');
-
-		JHtml::_('stylesheet', 'system/calendar-jos.css', array('version' => 'auto', 'relative' => true), $attribs);
-		JHtml::_('script', $tag . '/calendar.js', array('version' => 'auto', 'relative' => true));
-		JHtml::_('script', $tag . '/calendar-setup.js', array('version' => 'auto', 'relative' => true));
-
-		$translation = static::calendartranslation();
-
-		if ($translation)
-		{
-			$document->addScriptDeclaration($translation);
-		}
-
-		static::$loaded[__METHOD__] = true;
+		JLog::add('JHtmlBehavior::calendar is deprecated as the static assets are being loaded in the relative layout.', JLog::WARNING, 'deprecated');
 	}
 
 	/**
@@ -699,7 +680,7 @@ abstract class JHtmlBehavior
 		}
 
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
-		$uri = 'index.php' . (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest ? '?option=com_ajax&format=json' : '');
+		$uri = 'index.php' . (JFactory::getApplication()->isClient('site') || !JFactory::getUser()->guest ? '?option=com_ajax&format=json' : '');
 
 		// Include core and polyfill for browsers lower than IE 9.
 		static::core();
@@ -852,95 +833,6 @@ abstract class JHtmlBehavior
 	}
 
 	/**
-	 * Internal method to translate the JavaScript Calendar
-	 *
-	 * @return  string  JavaScript that translates the object
-	 *
-	 * @since   1.5
-	 */
-	protected static function calendartranslation()
-	{
-		static $jsscript = 0;
-
-		// Guard clause, avoids unnecessary nesting
-		if ($jsscript)
-		{
-			return false;
-		}
-
-		$jsscript = 1;
-
-		// To keep the code simple here, run strings through JText::_() using array_map()
-		$callback = array('JText', '_');
-		$weekdays_full = array_map(
-			$callback, array(
-				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY',
-			)
-		);
-		$weekdays_short = array_map(
-			$callback,
-			array(
-				'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN',
-			)
-		);
-		$months_long = array_map(
-			$callback, array(
-				'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
-				'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
-			)
-		);
-		$months_short = array_map(
-			$callback, array(
-				'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
-				'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT',
-			)
-		);
-
-		// This will become an object in Javascript but define it first in PHP for readability
-		$today = " " . JText::_('JLIB_HTML_BEHAVIOR_TODAY') . " ";
-		$text = array(
-			'INFO'           => JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
-			'ABOUT'          => "DHTML Date/Time Selector\n"
-				. "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n"
-				. "For latest version visit: http://www.dynarch.com/projects/calendar/\n"
-				. "Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details."
-				. "\n\n"
-				. JText::_('JLIB_HTML_BEHAVIOR_DATE_SELECTION')
-				. JText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT')
-				. JText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT')
-				. JText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE'),
-			'ABOUT_TIME'      => "\n\n"
-				. "Time selection:\n"
-				. "- Click on any of the time parts to increase it\n"
-				. "- or Shift-click to decrease it\n"
-				. "- or click and drag for faster selection.",
-			'PREV_YEAR'       => JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU'),
-			'PREV_MONTH'      => JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU'),
-			'GO_TODAY'        => JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY'),
-			'NEXT_MONTH'      => JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU'),
-			'SEL_DATE'        => JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE'),
-			'DRAG_TO_MOVE'    => JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
-			'PART_TODAY'      => $today,
-			'DAY_FIRST'       => JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
-			'WEEKEND'         => JFactory::getLanguage()->getWeekEnd(),
-			'CLOSE'           => JText::_('JLIB_HTML_BEHAVIOR_CLOSE'),
-			'TODAY'           => JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
-			'TIME_PART'       => JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),
-			'DEF_DATE_FORMAT' => "%Y-%m-%d",
-			'TT_DATE_FORMAT'  => JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
-			'WK'              => JText::_('JLIB_HTML_BEHAVIOR_WK'),
-			'TIME'            => JText::_('JLIB_HTML_BEHAVIOR_TIME'),
-		);
-
-		return 'Calendar._DN = ' . json_encode($weekdays_full) . ';'
-			. ' Calendar._SDN = ' . json_encode($weekdays_short) . ';'
-			. ' Calendar._FD = 0;'
-			. ' Calendar._MN = ' . json_encode($months_long) . ';'
-			. ' Calendar._SMN = ' . json_encode($months_short) . ';'
-			. ' Calendar._TT = ' . json_encode($text) . ';';
-	}
-
-	/**
 	 * Add unobtrusive JavaScript support to keep a tab state.
 	 *
 	 * Note that keeping tab state only works for inner tabs if in accordance with the following example:
@@ -976,7 +868,7 @@ abstract class JHtmlBehavior
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function polyfill($polyfillTypes = null, $conditionalBrowser = null)
 	{

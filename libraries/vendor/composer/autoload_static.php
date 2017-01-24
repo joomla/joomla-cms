@@ -36,18 +36,19 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Symfony\\Polyfill\\Php55\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
         ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
         'J' => 
         array (
-            'Joomla\\Utilities\\Tests\\' => 23,
             'Joomla\\Utilities\\' => 17,
             'Joomla\\Uri\\Tests\\' => 17,
             'Joomla\\Uri\\' => 11,
-            'Joomla\\String\\Tests\\' => 20,
             'Joomla\\String\\' => 14,
             'Joomla\\Registry\\' => 16,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
-            'Joomla\\Filter\\Tests\\' => 20,
             'Joomla\\Filter\\' => 14,
             'Joomla\\Event\\Tests\\' => 19,
             'Joomla\\Event\\' => 13,
@@ -76,9 +77,9 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
-        'Joomla\\Utilities\\Tests\\' => 
+        'Psr\\Log\\' => 
         array (
-            0 => __DIR__ . '/..' . '/joomla/utilities/Tests',
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'Joomla\\Utilities\\' => 
         array (
@@ -91,10 +92,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Uri\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/uri/src',
-        ),
-        'Joomla\\String\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/string/Tests',
         ),
         'Joomla\\String\\' => 
         array (
@@ -111,10 +108,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Input\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/input/src',
-        ),
-        'Joomla\\Filter\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/filter/Tests',
         ),
         'Joomla\\Filter\\' => 
         array (
@@ -156,13 +149,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'SimplePie' => 
             array (
                 0 => __DIR__ . '/..' . '/simplepie/simplepie/library',
-            ),
-        ),
-        'P' => 
-        array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
             ),
         ),
         'J' => 

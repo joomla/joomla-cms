@@ -1,46 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="component">
+	<fieldset 
+		name="component"
+		label="COM_SEARCH_FIELDSET_SEARCH_OPTIONS_LABEL">
 		<field
 			name="enabled"
 			type="radio"
+			label="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
+			description="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_DESC"
 			class="btn-group btn-group-yesno"
 			default="0"
-			label="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
-			description="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_DESC">
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field name="search_phrases"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				description="COM_SEARCH_FIELD_SEARCH_PHRASES_DESC"
-				label="COM_SEARCH_FIELD_SEARCH_PHRASES_LABEL"
+		<field
+			name="search_phrases"
+			type="radio"
+			label="COM_SEARCH_FIELD_SEARCH_PHRASES_LABEL"
+			description="COM_SEARCH_FIELD_SEARCH_PHRASES_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
 			>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
-		<field name="search_areas"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
-				label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
+		<field
+			name="search_areas"
+			type="radio"
+			label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
+			description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
 			>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
 			name="show_date"
 			type="radio"
+			label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
+			description="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
-			label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
-			description="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_DESC">
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -50,6 +56,7 @@
 			type="text"
 			label="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_NAME_LABEL"
 			description="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_NAME_DESC"
+			default=""
 		/>
 
 		<field
@@ -57,8 +64,11 @@
 			type="textarea"
 			label="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_LABEL"
 			description="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_DESC"
-			cols="30" rows="2"
+			default=""
+			cols="30"
+			rows="2"
 		/>
+
 	</fieldset>
 
 	<fieldset
@@ -74,6 +84,8 @@
 			filter="rules"
 			validate="rules"
 			component="com_search"
-			section="component" />
+			section="component"
+		/>
+
 	</fieldset>
 </config>
