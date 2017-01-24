@@ -304,12 +304,12 @@ class JHtmlBootstrapTest extends TestCase
 		$matcher = array(
 			'id'         => 'modal',
 			'tag'        => 'div',
-			'attributes' => array('class' => 'modal hide fade'),
+			'attributes' => array('class' => 'modal fade'),
 			'child'      => array(
-				'attributes' => array('class' => 'modal-header'),
+				'attributes' => array('class' => 'modal-dialog'),
 				'tag' => 'div'
 			),
-			'children'   => array('count' => 2)
+			'children'   => array('count' => 1)
 		);
 
 		$this->assertTag(
@@ -556,10 +556,10 @@ class JHtmlBootstrapTest extends TestCase
 		// Check the modal's html structure
 		$matcher = array(
 			'tag'        => 'div',
-			'attributes' => array('class' => 'accordion-group'),
+			'attributes' => array('class' => 'card'),
 			'child'      => array(
-				'tag'        => 'div',
-				'attributes' => array('class' => 'accordion-heading')
+				'tag'        => 'a',
+				'attributes' => array('class' => 'card-header')
 			)
 		);
 
@@ -670,7 +670,7 @@ class JHtmlBootstrapTest extends TestCase
 			'Verify that the alert method initialises Bootstrap as well'
 		);
 
-		$li = "<li class=\\\"nav-item\\\"><a class=\\\"nav-link\\\" href=\\\"#myTabItem\\\" data-toggle=\\\"tab\\\">myTitle<\/a><\/li>";
+		$li = "<li class=\\\"nav-item\\\"><a class=\\\"nav-link \\\" href=\\\"#myTabItem\\\" data-toggle=\\\"tab\\\">myTitle<\/a><\/li>";
 		$script = 'jQuery(function($){ $("#myTab a").click(function (e) {e.preventDefault();$(this).tab("show");});});';
 		$script .= chr(13);
 		$script .= 'jQuery(function($){ $("#myTabTabs").append($("' . $li . '")); });';

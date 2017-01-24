@@ -100,7 +100,7 @@ class JHtmlFormbehaviorTest extends TestCase
 		);
 
 		$this->assertContains(
-			'$(container).find("testSelect").chosen',
+			'jQuery(\'testSelect\').chosen',
 			$document->_script['text/javascript'],
 			'Verify that the Chosen JS is initialised with the supplied selector'
 		);
