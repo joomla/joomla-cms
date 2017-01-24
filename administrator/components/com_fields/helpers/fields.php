@@ -776,17 +776,17 @@ class FieldsHelper
 		{
 			uasort(
 				$formData['forms'], function ($a, $b)
-			{
-				$aVal = $a['subForm'] === true ? (int) $a['ordering'] + 1000 : (int) $a['ordering'];
-				$bVal = $b['subForm'] === true ? (int) $b['ordering'] + 1000 : (int) $b['ordering'];
-
-				if ($aVal === $bVal)
 				{
-					return 0;
-				}
+					$aVal = $a['subForm'] === true ? (int) $a['ordering'] + 1000 : (int) $a['ordering'];
+					$bVal = $b['subForm'] === true ? (int) $b['ordering'] + 1000 : (int) $b['ordering'];
 
-				return ($aVal < $bVal) ? -1 : 1;
-			}
+					if ($aVal === $bVal)
+					{
+						return 0;
+					}
+
+					return ($aVal < $bVal) ? -1 : 1;
+				}
 			);
 		}
 
@@ -797,17 +797,17 @@ class FieldsHelper
 			{
 				uasort(
 					$tempForm['groups'], function ($a, $b)
-				{
-					$aVal = $a['ordering'];
-					$bVal = $b['ordering'];
-
-					if ($aVal === $bVal)
 					{
-						return 0;
-					}
+						$aVal = $a['ordering'];
+						$bVal = $b['ordering'];
 
-					return ($aVal < $bVal) ? -1 : 1;
-				}
+						if ($aVal === $bVal)
+						{
+							return 0;
+						}
+
+						return ($aVal < $bVal) ? -1 : 1;
+					}
 				);
 			}
 
@@ -818,17 +818,17 @@ class FieldsHelper
 				{
 					uasort(
 						$tempGroup['fields'], function ($a, $b)
-					{
-						$aVal = $a->ordering;
-						$bVal = $b->ordering;
-
-						if ($aVal === $bVal)
 						{
-							return 0;
-						}
+							$aVal = $a->ordering;
+							$bVal = $b->ordering;
 
-						return ($aVal < $bVal) ? -1 : 1;
-					}
+							if ($aVal === $bVal)
+							{
+								return 0;
+							}
+
+							return ($aVal < $bVal) ? -1 : 1;
+						}
 					);
 				}
 			}
