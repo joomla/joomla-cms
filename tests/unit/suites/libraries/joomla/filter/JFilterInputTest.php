@@ -122,6 +122,42 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				array(1, -123, 123),
 				'From generic cases'
 			),
+			'int_14' => array(
+				'int',
+				'1.5e+1',
+				15,
+				'From generic cases'
+			),
+			'int_15' => array(
+				'int',
+				'-1.5e+1',
+				-15,
+				'From generic cases'
+			),
+			'int_16' => array(
+				'int'
+				'ab1.5e+1ab',
+				15,
+				'From generic cases'
+			),
+			'int_17' => array(
+				'int',
+				'ab-1.5e+1ab',
+				-15,
+				'From generic cases'
+			),
+			'int_18' => array(
+				'int',
+				'-ab1.5e+1ab',
+				15,
+				'From generic cases'
+			),
+			'int_19' => array(
+				'int',
+				array('1.5e+1', '1.5e1', 'ab-1.5e+1ab'),
+				array(15, 15, -15),
+				'From generic cases'
+			),
 			'uint_1' => array(
 				'uint',
 				-789,
@@ -144,6 +180,18 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'uint',
 				array(1, 'ab-123ab', '-ab123.456ab'),
 				array(1, 123, 123),
+				'From generic cases'
+			),
+			'uint_5' => array(
+				'uint',
+				'1.5e+1',
+				15,
+				'From generic cases'
+			),
+			'uint_6' => array(
+				'uint',
+				array('-1.5e1', '1.5e2', 'ab-1.5e1ab'),
+				array(15, 150, 15),
 				'From generic cases'
 			),
 			'float_01' => array(
