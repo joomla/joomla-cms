@@ -26,7 +26,7 @@ require.config({
 		'legacy_libs': 'media/system/js/legacy',
 		'testsRoot': 'tests/javascript',
 		'text': 'tests/javascript/node_modules/text/text',
-        'fields': 'media/system/js/fields',
+		'fields': 'media/system/js/fields',
 		'calLang': 'media/system/js/fields/calendar-locales/en',
 		'calDate': 'media/system/js/fields/calendar-locales/date/gregorian/date-helper'
 	},
