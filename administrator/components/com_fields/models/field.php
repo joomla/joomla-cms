@@ -362,11 +362,11 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Setting the value for the given field id, context and item id.
 	 *
-	 * @param   stdClass       $field    The field .
-	 * @param   string         $context  The context.
-	 * @param   string         $itemId   The ID of the item.
-	 * @param   array          $fields   The value.
-	 * @param   bool|integer   $index    The index in case of sub-forms which are set to support
+	 * @param   stdClass      $field    The field .
+	 * @param   string        $context  The context.
+	 * @param   string        $itemId   The ID of the item.
+	 * @param   array         $fields   The value.
+	 * @param   bool|integer  $index    The index in case of sub-forms which are set to support
 	 *
 	 * @return bool
 	 *
@@ -526,11 +526,11 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Returning the value for the given field id, context and item id.
 	 *
-	 * @param   string         $fieldId  The field ID.
-	 * @param   string         $context  The context.
-	 * @param   string         $itemId   The ID of the item.
-     * @param   integer        $formId   The form id
-	 * @param   bool|integer   $index    The index in case of sub-forms which are set to support
+	 * @param   string        $fieldId  The field ID.
+	 * @param   string        $context  The context.
+	 * @param   string        $itemId   The ID of the item.
+     * @param   integer       $formId   The form id
+	 * @param   bool|integer  $index    The index in case of sub-forms which are set to support
 	 *
      * @return null|string
 	 *
