@@ -19,8 +19,6 @@ class FieldsHelper
 {
 	private static $fieldsCache = null;
 
-	private static $fieldCache = null;
-
 	/**
 	 * Extracts the component and section from the context string which has to
 	 * be in the format component.context.
