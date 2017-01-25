@@ -514,6 +514,7 @@ class JRouterSite extends JRouter
 
 		// Build the component route
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
+		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
 		$crouter   = $this->getComponentRouter($component);
 		$parts     = $crouter->build($query);
 		$result    = implode('/', $parts);
@@ -535,6 +536,11 @@ class JRouterSite extends JRouter
 
 				$built = true;
 			}
+		}
+
+		if (empty($query['Itemid']) && !empty($itemID))
+		{
+			$query['Itemid'] = $itemID;
 		}
 
 		if (!$built)

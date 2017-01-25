@@ -132,7 +132,7 @@ class ContentRouter extends JComponentRouterView
 					->where('id = ' . $dbquery->q($id));
 				$db->setQuery($dbquery);
 
-				return array($id => $id . ':' . $db->loadResult());
+				return array($id => $db->loadResult());
 			}
 		}
 
