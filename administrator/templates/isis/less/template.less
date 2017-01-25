@@ -1836,6 +1836,82 @@ textarea.noResize {
 	}
 }
 
+.subform-table-layout {
+	.control-group, .control-group:last-of-type {
+		margin-bottom: 0;
+	}
+	.controls {
+		padding-right: 20px;
+	}
+	.btn-group {
+
+	}
+	input {
+		width: 100%;
+		max-width: 206px;
+	}
+	table .btn-group {
+		margin: 0 7px;
+	}
+}
+@media (max-width: 1024px) {
+	.subform-table-layout {
+		.subform-repeatable {
+			padding-right: 0;
+		}
+		table, thead, tbody, th, td, tr { 
+			display: block; 
+		}
+		table {
+			border: 1px solid #ddd;
+		}
+		thead {
+			
+			th { 
+				position: absolute;
+				top: -9999px;
+				left: -9999px;
+				&:last-of-type {
+					position: static;
+					width: 100% !important;
+					text-align: right;
+					box-sizing: border-box;
+					border-left: 0;
+				}
+			}
+		}
+		tr { 
+			margin: 0;
+    		padding: 0;
+			border: 0;
+		}
+		td { 
+			border: none;
+			position: relative;
+			padding-left: 50%; 
+		}
+		tbody {
+			td:first-of-type {
+				padding-top: 15px;
+				border-top: 1px solid #ddd;
+				&:before {top:18px;}
+			}
+			td:last-of-type {
+				text-align: right;
+				padding-bottom: 15px;
+			}
+		}
+		
+		td:before { 
+			content: attr(data-column);
+			position: absolute;
+			top: 13px;
+			left: 10px;
+			padding-right: 10px; 
+		}
+	}
+}
+
 /* Popover minimum height - overwrite bootstrap default */
 .popover-content {
     min-height: 33px;
@@ -1878,3 +1954,8 @@ textarea.noResize {
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
 }
+
+// Bootsrap revert of override to default 
+.row-fluid [class*="span"] {
+    margin-left: 2.12766%;
+} 
