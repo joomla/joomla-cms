@@ -109,7 +109,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php foreach ($this->items as $i => $item) :
 				$canCheckin = true;
 				$canEdit    = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
-				$canCheckin = $canManageCheckin || AssociationsHelper::typeSupportsCheckout($this->extensionName, $this->typeName);
+				$canCheckin = $canManageCheckin || AssociationsHelper::canCheckinItem($this->extensionName, $this->typeName, $item->id);
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<?php if (!empty($this->typeSupports['state'])) : ?>
