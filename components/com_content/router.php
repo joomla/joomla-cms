@@ -136,7 +136,14 @@ class ContentRouter extends JComponentRouterView
 			}
 		}
 
-		return array((int) $id => $id);
+		$db = JFactory::getDbo();
+		$dbquery = $db->getQuery(true);
+		$dbquery->select($dbquery->qn('alias'))
+			->from($dbquery->qn('#__content'))
+			->where('id = ' . $dbquery->q($id));
+		$db->setQuery($dbquery);
+
+		return array((int) $id => $id . ':' . $db->loadResult());
 	}
 
 	/**
