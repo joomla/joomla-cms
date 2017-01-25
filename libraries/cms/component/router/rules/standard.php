@@ -279,7 +279,16 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 						$i--;
 						$found2 = false;
 					}
-					$found = true;
+
+					/**
+					 * We need this so that when we are on the last item we don't delete variables because even
+					 * though we have a matching menu item we can't get any more information because there isn't
+					 * going to be a next loop
+					 */
+					if (!empty($path))
+					{
+						$found = true;
+					}
 				}
 			}
 			unset($query[$views[$view]->parent_key]);
