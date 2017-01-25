@@ -62,7 +62,9 @@ class JComponentRouterRulesNomenu implements JComponentRouterRulesInterface
 	{
 		$active = $this->router->menu->getActive();
 
-		if (!is_object($active))
+		// We do this if we don't have an active menu item OR we have a active menu item but extra segments (i.e.
+		// when we've piped component segments onto an existing menu item)
+		if (!is_object($active) || (!empty($segments) && is_object($active)))
 		{
 			$views = $this->router->getViews();
 
