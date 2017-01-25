@@ -248,6 +248,18 @@
 				class="input-xxlarge"
 				size="40"
 			/>
+			
+			<field
+				name="hidelabel"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="COM_FIELDS_FIELD_HIDELABEL_LABEL"
+				description="COM_FIELDS_FIELD_HIDELABEL_DESC"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
 
 			<field
 				name="disabled"
