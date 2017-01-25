@@ -17,6 +17,7 @@ $field = $displayData['field'];
 $label = JText::_($field->label);
 $value = $field->value;
 $class = $field->params->get('render_class');
+$hidelabel = $field->params->get('hidelabel');
 
 if ($value == '')
 {
@@ -26,6 +27,8 @@ if ($value == '')
 ?>
 
 <dd class="field-entry <?php echo $class; ?>" id="field-entry-<?php echo $field->id; ?>">
+	<?php if ($hidelabel == 0) { ?>
 	<span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
+	<?php } ?>
 	<span class="field-value"><?php echo $value; ?></span>
 </dd>
