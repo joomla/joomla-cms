@@ -124,7 +124,7 @@ class FieldsViewFields extends JViewLegacy
 		// Load extension language file
 		$lang = JFactory::getLanguage();
 		$lang->load($component, JPATH_ADMINISTRATOR)
-		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+		|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
 		$title = JText::sprintf('COM_FIELDS_VIEW_FIELDS_TITLE', JText::_(strtoupper($component)));
 
