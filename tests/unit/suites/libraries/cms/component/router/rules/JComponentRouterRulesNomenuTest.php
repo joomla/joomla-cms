@@ -110,17 +110,6 @@ class JComponentRouterRulesNomenuTest extends TestCase {
 		$this->object->parse($segments, $vars);
 		$this->assertEquals(array(), $segments);
 		$this->assertEquals(array('option' => 'com_content', 'view' => 'category'), $vars);
-
-		// Test if the rule is properly skipped when a menu item is set
-		$router = $this->object->get('router');
-		$router->menu->expects($this->any())
-			->method('getActive')
-			->will($this->returnValue(new stdClass()));
-		$segments = array('article', '42:the-answer');
-		$vars = array('option' => 'com_content');
-		$this->object->parse($segments, $vars);
-		$this->assertEquals(array('article', '42:the-answer'), $segments);
-		$this->assertEquals(array('option' => 'com_content'), $vars);
 	}
 
 	/**
