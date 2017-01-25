@@ -1858,6 +1858,10 @@ textarea.noResize {
 	.subform-table-layout {
 		.subform-repeatable {
 			padding-right: 0;
+			tbody td:last-of-type {
+				text-align: right;
+				padding-bottom: 15px;
+			}
 		}
 		table, thead, tbody, th, td, tr { 
 			display: block; 
@@ -1895,10 +1899,6 @@ textarea.noResize {
 				padding-top: 15px;
 				border-top: 1px solid #ddd;
 				&:before {top:18px;}
-			}
-			td:last-of-type {
-				text-align: right;
-				padding-bottom: 15px;
 			}
 		}
 		

@@ -8821,6 +8821,10 @@ textarea.noResize {
 	.subform-table-layout .subform-repeatable {
 		padding-right: 0;
 	}
+	.subform-table-layout .subform-repeatable tbody td:last-of-type {
+		text-align: right;
+		padding-bottom: 15px;
+	}
 	.subform-table-layout table,
 	.subform-table-layout thead,
 	.subform-table-layout tbody,
@@ -8860,10 +8864,6 @@ textarea.noResize {
 	}
 	.subform-table-layout tbody td:first-of-type:before {
 		top: 18px;
-	}
-	.subform-table-layout tbody td:last-of-type {
-		text-align: right;
-		padding-bottom: 15px;
 	}
 	.subform-table-layout td:before {
 		content: attr(data-column);
@@ -9833,4 +9833,20 @@ a.grid_true {
 	border-width: 1px 0 0 1px;
 	left: auto;
 	right: 0;
+}
+.subform-table-layout td {
+	padding-left: 10px;
+}
+.subform-table-layout td::before {
+	content: attr(data-column);
+	left: auto;
+	right: 10px;
+	padding-left: 10px;
+	padding-right: 0;
+}
+.subform-table-layout .subform-repeatable tbody td:last-of-type {
+	text-align: left;
+}
+.subform-table-layout .form-horizontal .controls {
+	margin-top: 0;
 }
