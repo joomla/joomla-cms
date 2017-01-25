@@ -132,6 +132,13 @@ class MenusViewMenutypes extends JViewLegacy
 		$o->request     = null;
 		$list[]         = $o;
 
+		$o              = new JObject;
+		$o->title       = 'COM_MENUS_TYPE_CONTAINER';
+		$o->type        = 'container';
+		$o->description = 'COM_MENUS_TYPE_CONTAINER_DESC';
+		$o->request     = null;
+		$list[]         = $o;
+
 		$types['COM_MENUS_TYPE_SYSTEM'] = $list;
 	}
 }

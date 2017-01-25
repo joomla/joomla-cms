@@ -253,6 +253,7 @@ abstract class ModMenuHelper
 					break;
 				case 'separator':
 				case 'heading':
+				case 'container':
 					$menuitem->link = '#';
 					break;
 				case 'alias':

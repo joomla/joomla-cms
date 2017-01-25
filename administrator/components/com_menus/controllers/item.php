@@ -509,7 +509,7 @@ class MenusControllerItem extends JControllerForm
 		$title = isset($type->title) ? $type->title : null;
 		$recordId = isset($type->id) ? $type->id : 0;
 
-		$specialTypes = array('alias', 'separator', 'url', 'heading');
+		$specialTypes = array('alias', 'separator', 'url', 'heading', 'container');
 
 		if (!in_array($title, $specialTypes))
 		{

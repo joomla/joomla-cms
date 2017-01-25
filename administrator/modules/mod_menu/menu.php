@@ -415,10 +415,7 @@ class JAdminCssMenu
 				continue;
 			}
 
-			$container  = $item->params->get('components_container');
-			$components = $container ? ModMenuHelper::getComponents(true, true) : array();
-
-			if ($item->type == 'heading' && !count($components) && !count($item->submenu))
+			if ($item->type == 'heading' && !count($item->submenu))
 			{
 				// Exclude if it is a heading type menu item, and has no children.
 			}
@@ -431,6 +428,13 @@ class JAdminCssMenu
 				$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
 
 				$this->loadItems($item->submenu);
+
+				$components = array();
+
+				if ($item->type == 'container')
+				{
+					$components = ModMenuHelper::getComponents(true, true);
+				}
 
 				// Add a separator between dynamic menu items and components menu items
 				if (count($item->submenu) && count($components))
