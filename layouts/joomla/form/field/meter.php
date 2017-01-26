@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,6 +75,6 @@ $value = ((float) ($value - $min) * 100) / ($max - $min);
 ?>
 <div <?php echo implode(' ', $attributes); ?> >
 	<div class="bar" style="width: <?php
-	echo strval($value); ?>%;<?php
+	echo (string) $value; ?>%;<?php
 	echo !empty($color) ? ' background-color:' . $color . ';' : ''; ?>"></div>
 </div>

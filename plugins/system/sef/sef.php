@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.sef
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class PlgSystemSef extends JPlugin
 	{
 		$doc = $this->app->getDocument();
 
-		if (!$this->app->isSite() || $doc->getType() !== 'html')
+		if (!$this->app->isClient('site') || $doc->getType() !== 'html')
 		{
 			return;
 		}
@@ -86,7 +86,7 @@ class PlgSystemSef extends JPlugin
 	 */
 	public function onAfterRender()
 	{
-		if (!$this->app->isSite())
+		if (!$this->app->isClient('site'))
 		{
 			return;
 		}
@@ -153,8 +153,9 @@ class PlgSystemSef extends JPlugin
 		// Replace all unknown protocols in CSS background image.
 		if (strpos($buffer, 'style=') !== false)
 		{
-			$regex  = '#style=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|' . $protocols . '|\#)([^\)\'\"]+)[\'\"]?\)#m';
-			$buffer = preg_replace($regex, 'style="$1: url(\'' . $base . '$2$3\')', $buffer);
+			$regex_url  = '\s*url\s*\(([\'\"]|\&\#0?3[49];)?(?!/|\&\#0?3[49];|' . $protocols . '|\#)([^\)\'\"]+)([\'\"]|\&\#0?3[49];)?\)';
+			$regex  = '#style=\s*([\'\"])(.*):' . $regex_url . '#m';
+			$buffer = preg_replace($regex, 'style=$1$2: url($3' . $base . '$4$5)', $buffer);
 			$this->checkBuffer($buffer);
 		}
 

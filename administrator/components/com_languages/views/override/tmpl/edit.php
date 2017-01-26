@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
-$expired = ($this->state->get("cache_expired") == 1 ) ? '1' : '';
+$expired = ($this->state->get('cache_expired') == 1 ) ? '1' : '';
 
 JHtml::_('stylesheet', 'overrider/overrider.css', array('version' => 'auto', 'relative' => true));
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,8 +31,8 @@ if ($saveOrder && $menuType)
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 
-$assoc = JLanguageAssociations::isEnabled();
-$colSpan = ($assoc) ? 10 : 9;
+$assoc   = JLanguageAssociations::isEnabled() && $this->state->get('filter.client_id') == 0;
+$colSpan = $assoc ? 10 : 9;
 
 if ($menuType == '')
 {
@@ -48,16 +48,9 @@ if ($menuType == '')
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif; ?>
-		<?php
-		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this), null, array('debug' => false));
-		?>
-		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
-				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-			</div>
-		<?php else : ?>
+<?php endif;?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
+		<?php if ($this->total > 0) : ?>
 			<table class="table table-striped" id="itemList">
 				<thead>
 					<tr>
@@ -78,9 +71,11 @@ if ($menuType == '')
 						<th class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
+						<?php if ($this->state->get('filter.client_id') == 0): ?>
 						<th width="5%" class="center nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
+						<?php endif; ?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
@@ -118,20 +113,20 @@ if ($menuType == '')
 					// Get the parents of item for sorting
 					if ($item->level > 1)
 					{
-						$parentsStr = "";
+						$parentsStr = '';
 						$_currentParentId = $item->parent_id;
-						$parentsStr = " " . $_currentParentId;
+						$parentsStr = ' ' . $_currentParentId;
 
 						for ($j = 0; $j < $item->level; $j++)
 						{
 							foreach ($this->ordering as $k => $v)
 							{
-								$v = implode("-", $v);
-								$v = "-" . $v . "-";
+								$v = implode('-', $v);
+								$v = '-' . $v . '-';
 
-								if (strpos($v, "-" . $_currentParentId . "-") !== false)
+								if (strpos($v, '-' . $_currentParentId . '-') !== false)
 								{
-									$parentsStr .= " " . $k;
+									$parentsStr .= ' ' . $k;
 									$_currentParentId = $k;
 									break;
 								}
@@ -140,7 +135,7 @@ if ($menuType == '')
 					}
 					else
 					{
-						$parentsStr = "";
+						$parentsStr = '';
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $item->level; ?>">
@@ -178,7 +173,7 @@ if ($menuType == '')
 							<?php if ($item->checked_out) : ?>
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 							<?php endif; ?>
-							<?php if ($canEdit) : ?>
+							<?php if ($canEdit && !$item->protected) : ?>
 								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 									<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
@@ -203,12 +198,13 @@ if ($menuType == '')
 							</div>
 						</td>
 						<td class="small hidden-phone">
-							<?php echo $this->escape($item->menutype_title); ?>
+							<?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
 						</td>
+						<?php if ($this->state->get('filter.client_id') == 0): ?>
 						<td class="center hidden-phone">
 							<?php if ($item->type == 'component') : ?>
 								<?php if ($item->language == '*' || $item->home == '0') : ?>
-									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange); ?>
+									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected); ?>
 								<?php elseif ($canChange) : ?>
 									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
 										<?php if ($item->language_image) : ?>
@@ -226,6 +222,7 @@ if ($menuType == '')
 								<?php endif; ?>
 							<?php endif; ?>
 						</td>
+						<?php endif; ?>
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
