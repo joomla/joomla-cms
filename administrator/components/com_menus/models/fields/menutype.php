@@ -63,6 +63,10 @@ class JFormFieldMenutype extends JFormFieldList
 				$value = JText::_('COM_MENUS_TYPE_HEADING');
 				break;
 
+			case 'container':
+				$value = JText::_('COM_MENUS_TYPE_CONTAINER');
+				break;
+
 			default:
 				$link = $this->form->getValue('link');
 
