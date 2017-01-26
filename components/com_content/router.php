@@ -215,12 +215,11 @@ class ContentRouter extends JComponentRouterView
 		if ($this->noIDs)
 		{
 			$db = JFactory::getDbo();
-			$dbquery = $db->getQuery(true);
-			$dbquery->select($dbquery->qn('id'))
-				->from($dbquery->qn('#__content'))
-				->where('alias = ' . $dbquery->q($segment))
-				->where('catid = ' . $dbquery->q($query['id']));
-			$db->setQuery($dbquery);
+			$query = $db->getQuery(true);
+			$query->select($query->quoteName('id'))
+				->from($query->quoteName('#__content'))
+				->where($query->quoteName('alias') . ' = ' . $query->quote($segment));
+			$db->setQuery($query);
 
 			return (int) $db->loadResult();
 		}
