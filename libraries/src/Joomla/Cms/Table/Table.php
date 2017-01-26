@@ -123,8 +123,8 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
 	 *
-	 * @param   string           $table  Name of the table to model.
-	 * @param   mixed            $key    Name of the primary key field in the table or array of field names that compose the primary key.
+	 * @param   string            $table  Name of the table to model.
+	 * @param   mixed             $key    Name of the primary key field in the table or array of field names that compose the primary key.
 	 * @param   \JDatabaseDriver  $db     \JDatabaseDriver object.
 	 *
 	 * @since   11.1
@@ -395,7 +395,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * By default, all assets are registered to the ROOT node with ID, which will default to 1 if none exists.
 	 * An extended class can define a table and ID to lookup.  If the asset does not exist it will be created.
 	 *
-	 * @param   Table   $table  A Table object for the asset parent.
+	 * @param   Table    $table  A Table object for the asset parent.
 	 * @param   integer  $id     Id to look up
 	 *
 	 * @return  integer
@@ -420,7 +420,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * Method to append the primary keys for this table to a query.
 	 *
 	 * @param   \JDatabaseQuery  $query  A query object to append.
-	 * @param   mixed           $pk     Optional primary key parameter.
+	 * @param   mixed            $pk     Optional primary key parameter.
 	 *
 	 * @return  void
 	 *

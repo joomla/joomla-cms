@@ -51,7 +51,7 @@ class ContentHistory extends AbstractObserver
 	 * $typeAlias can be of the form "{variableName}.type", automatically replacing {variableName} with table-instance variables variableName
 	 *
 	 * @param   \JObservableInterface  $observableObject  The subject object to be observed
-	 * @param   array                 $params            ( 'typeAlias' => $typeAlias )
+	 * @param   array                  $params            ( 'typeAlias' => $typeAlias )
 	 *
 	 * @return  ContentHistory
 	 *
