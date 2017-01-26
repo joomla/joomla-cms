@@ -8873,6 +8873,11 @@ textarea.noResize {
 		padding-right: 10px;
 	}
 }
+@media (max-width: 979px) {
+	.com_fields .row-fluid [class*="span"] {
+		margin-left: 2.12766%;
+	}
+}
 .popover-content {
 	min-height: 33px;
 }
@@ -8904,11 +8909,6 @@ textarea.noResize {
 }
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
-}
-@media (max-width: 979px) {
-	.row-fluid [class*="span"] {
-		margin-left: 2.12766%;
-	}
 }
 .pull-right {
 	float: left;

@@ -1911,6 +1911,12 @@ textarea.noResize {
 		}
 	}
 }
+// Following can be removed if a solution is found for #13768
+@media (max-width: 979px) {
+	.com_fields .row-fluid [class*="span"] {
+		margin-left: 2.12766%;
+	} 
+}
 
 /* Popover minimum height - overwrite bootstrap default */
 .popover-content {
@@ -1953,11 +1959,4 @@ textarea.noResize {
 /* Align btn-group-yesno to label */
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
-}
-
-// Bootsrap revert of override to default 
-@media (max-width: 979px) {
-	.row-fluid [class*="span"] {
-		margin-left: 2.12766%;
-	} 
 }
