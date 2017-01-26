@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -534,7 +534,7 @@ class JApplicationWeb extends JApplicationBase
 		// If the headers have already been sent we need to send the redirect statement via JavaScript.
 		if ($this->checkHeadersSent())
 		{
-			echo "<script>document.location.href='" . str_replace("'", "&apos;", $url) . "';</script>\n";
+			echo "<script>document.location.href='" . str_replace("'", '&apos;', $url) . "';</script>\n";
 		}
 		else
 		{
@@ -543,7 +543,7 @@ class JApplicationWeb extends JApplicationBase
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
-				$html .= '<script>document.location.href=\'' . str_replace("'", "&apos;", $url) . '\';</script>';
+				$html .= '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script>';
 				$html .= '</head><body></body></html>';
 
 				echo $html;
@@ -567,11 +567,13 @@ class JApplicationWeb extends JApplicationBase
 				// All other cases use the more efficient HTTP header for redirection.
 				$this->header($this->responseMap[$status]);
 				$this->header('Location: ' . $url);
-				$this->header('Content-Type: text/html; charset=' . $this->charSet);
 			}
 		}
 
-		// Close the application after the redirect.
+		// Set appropriate headers
+		$this->respond();
+
+		//  Close the application after the redirect.
 		$this->close();
 	}
 
@@ -773,7 +775,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function appendBody($content)
 	{
-		array_push($this->response->body, (string) $content);
+		$this->response->body[] = (string) $content;
 
 		return $this;
 	}

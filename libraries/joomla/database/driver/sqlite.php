@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -52,7 +52,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	public function __destruct()
 	{
 		$this->freeResult();
-		unset($this->connection);
+		$this->connection = null;
 	}
 
 	/**
@@ -65,7 +65,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	public function disconnect()
 	{
 		$this->freeResult();
-		unset($this->connection);
+		$this->connection = null;
 	}
 
 	/**
@@ -297,7 +297,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
-		$this->setQuery("SELECT sqlite_version()");
+		$this->setQuery('SELECT sqlite_version()');
 
 		return $this->loadResult();
 	}

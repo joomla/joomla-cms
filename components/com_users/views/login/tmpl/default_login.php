@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,8 +29,8 @@ JHtml::_('behavior.formvalidator');
 			<?php echo $this->params->get('login_description'); ?>
 		<?php endif; ?>
 
-		<?php if (($this->params->get('login_image') != '')) :?>
-			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="login-image" alt="<?php echo JText::_('COM_USERS_LOGIN_IMAGE_ALT')?>"/>
+		<?php if ($this->params->get('login_image') != '') : ?>
+			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="login-image" alt="<?php echo JText::_('COM_USERS_LOGIN_IMAGE_ALT'); ?>"/>
 		<?php endif; ?>
 
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
@@ -53,7 +53,7 @@ JHtml::_('behavior.formvalidator');
 				<?php endif; ?>
 			<?php endforeach; ?>
 
-			<?php if ($this->tfa): ?>
+			<?php if ($this->tfa) : ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getField('secretkey')->label; ?>

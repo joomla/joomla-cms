@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -73,9 +73,6 @@ class JControllerLegacyTest extends TestCase
 	{
 		$path = JPath::clean(JPATH_ROOT . '/addmodelpath');
 		JControllerLegacy::addModelPath($path);
-
-		// The default path is the class file folder/forms
-		$valid = JPATH_PLATFORM . '/joomla/form/fields';
 
 		$this->assertTrue(
 			in_array($path, JModelLegacy::addIncludePath()),

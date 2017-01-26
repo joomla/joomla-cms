@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,49 +108,58 @@ class MenusModelItems extends JModelList
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
+		// Watch changes in client_id and menutype and keep sync whenever needed.
+		$currentClientId = $app->getUserState($this->context . '.client_id', 0);
+		$clientId        = $app->input->getInt('client_id', $currentClientId);
+
 		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
 		$menuType        = $app->input->getString('menutype', $currentMenuType);
 
-		// If selected menu type different from current menu type reset pagination to 0
+		// If client_id changed clear menutype and reset pagination
+		if ($clientId != $currentClientId)
+		{
+			$menuType = '';
+
+			$app->input->set('limitstart', 0);
+			$app->input->set('menutype', '');
+		}
+
+		// If menutype changed reset pagination.
 		if ($menuType != $currentMenuType)
 		{
 			$app->input->set('limitstart', 0);
 		}
 
-		if ($menuType)
-		{
-			$db = $this->getDbo();
-			$query = $db->getQuery(true)
-						->select($db->qn(array('id', 'title')))
-						->from($db->qn('#__menu_types'))
-						->where($db->qn('menutype') . ' = ' . $db->q($menuType));
-
-			$menuTypeItem = $db->setQuery($query)->loadObject();
-
-			// Check if menu type exists.
-			if (!$menuTypeItem)
-			{
-				$this->setError(JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'));
-			}
-			// Check if menu type was changed and if valid agains ACL
-			elseif ($user->authorise('core.manage', 'com_menus.menu.' . $menuTypeItem->id))
-			{
-				$app->setUserState($this->context . '.menutype', $menuType);
-				$this->setState('menutypetitle', !empty($menuTypeItem->title) ? $menuTypeItem->title : '');
-				$this->setState('menutypeid', !empty($menuTypeItem->id) ? $menuTypeItem->id : '');
-			}
-			// Nope, not valid
-			else
-			{
-				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
-			}
-		}
-		else
+		if (!$menuType)
 		{
 			$app->setUserState($this->context . '.menutype', '');
 			$this->setState('menutypetitle', '');
 			$this->setState('menutypeid', '');
 		}
+		// Special menu types, if selected explicitly, will be allowed as a filter
+		elseif ($menuType == 'main' || $menuType == 'menu')
+		{
+			// Adjust client_id to match the menutype. This is safe as client_id was not changed in this request.
+			$app->input->set('client_id', 1);
+
+			$app->setUserState($this->context . '.menutype', $menuType);
+			$this->setState('menutypetitle', ucfirst($menuType));
+			$this->setState('menutypeid', -1);
+		}
+		// Get the menutype object with appropriate checks.
+		elseif ($cMenu = $this->getMenu($menuType, true))
+		{
+			// Adjust client_id to match the menutype. This is safe as client_id was not changed in this request.
+			$app->input->set('client_id', $cMenu->client_id);
+
+			$app->setUserState($this->context . '.menutype', $menuType);
+			$this->setState('menutypetitle', $cMenu->title);
+			$this->setState('menutypeid', $cMenu->id);
+		}
+
+		// Client id filter
+		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
+		$this->setState('filter.client_id', $clientId);
 
 		$this->setState('filter.menutype', $menuType);
 
@@ -193,6 +202,7 @@ class MenusModelItems extends JModelList
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.parent_id');
 		$id .= ':' . $this->getState('filter.menutype');
+		$id .= ':' . $this->getState('filter.client_id');
 
 		return parent::getStoreId($id);
 	}
@@ -273,7 +283,7 @@ class MenusModelItems extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.id, mt.title');
+				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.id, mt.title, l.sef');
 		}
 
 		// Join over the extensions
@@ -282,7 +292,7 @@ class MenusModelItems extends JModelList
 
 		// Exclude the root category.
 		$query->where('a.id > 1')
-			->where('a.client_id = 0');
+			->where('a.client_id = ' . (int) $this->getState('filter.client_id'));
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
@@ -293,7 +303,7 @@ class MenusModelItems extends JModelList
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.published IN (0, 1))');
+			$query->where('a.published IN (0, 1)');
 		}
 
 		// Filter by search in title, alias or id
@@ -329,30 +339,31 @@ class MenusModelItems extends JModelList
 		// Filter the items over the menu id if set.
 		$menuType = $this->getState('filter.menutype');
 
-		// "" means all
+		// A value "" means all
 		if ($menuType == '')
 		{
 			// Load all menu types we have manage access
 			$query2 = $this->getDbo()->getQuery(true)
 				->select($this->getDbo()->qn(array('id', 'menutype')))
 				->from('#__menu_types')
+				->where('client_id = ' . (int) $this->getState('filter.client_id'))
 				->order('title');
 
 			$menuTypes = $this->getDbo()->setQuery($query2)->loadObjectList();
 
-			$types = array();
-
-			foreach ($menuTypes as $type)
+			if ($menuTypes)
 			{
-				if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id))
+				$types = array();
+
+				foreach ($menuTypes as $type)
 				{
-					$types[] = $query->q($type->menutype);
+					if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id))
+					{
+						$types[] = $query->q($type->menutype);
+					}
 				}
-			}
 
-			if (!empty($types))
-			{
-				$query->where('a.menutype IN(' . implode(',', $types) . ')');
+				$query->where($types ? 'a.menutype IN(' . implode(',', $types) . ')' : 0);
 			}
 		}
 		// Default behavior => load all items from a specific menu
@@ -399,5 +410,109 @@ class MenusModelItems extends JModelList
 		$query->order($db->escape($this->getState('list.ordering', 'a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
+	}
+
+	/**
+	 * Method to allow derived classes to preprocess the form.
+	 *
+	 * @param   JForm   $form   A JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 * @throws  Exception if there is an error in the form event.
+	 */
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	{
+		$name = $form->getName();
+
+		if ($name == 'com_menus.items.filter')
+		{
+			$clientId = $this->getState('filter.client_id');
+			$form->setFieldAttribute('menutype', 'clientid', $clientId);
+		}
+		elseif (false !== strpos($name, 'com_menus.items.modal.'))
+		{
+			$form->removeField('client_id');
+
+			$clientId = $this->getState('filter.client_id');
+			$form->setFieldAttribute('menutype', 'clientid', $clientId);
+		}
+	}
+
+	/**
+	 * Get the client id for a menu
+	 *
+	 * @param   string  $menuType  The menutype identifier for the menu
+	 * @param   bool    $check     Flag whether to perform check against ACL as well as existence
+	 *
+	 * @return  int
+	 *
+	 * @since   3.7.0
+	 */
+	protected function getMenu($menuType, $check = false)
+	{
+		$query = $this->_db->getQuery(true);
+
+		$query->select('a.*')
+			->from($this->_db->qn('#__menu_types', 'a'))
+			->where('menutype = ' . $this->_db->q($menuType));
+
+		$cMenu = $this->_db->setQuery($query)->loadObject();
+
+		if ($check)
+		{
+			// Check if menu type exists.
+			if (!$cMenu)
+			{
+				$this->setError(JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'));
+			}
+			// Check if menu type is valid against ACL.
+			elseif (!JFactory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
+			{
+				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+			}
+		}
+
+		return $cMenu;
+	}
+
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   12.2
+	 */
+	public function getItems()
+	{
+		$store = $this->getStoreId();
+
+		if (!isset($this->cache[$store]))
+		{
+			$items = parent::getItems();
+			$lang  = JFactory::getLanguage();
+
+			if ($items)
+			{
+				foreach ($items as $item)
+				{
+					if ($extension = $item->componentname)
+					{
+						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
+						|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
+					}
+
+					// Translate component name
+					$item->title = JText::_($item->title);
+				}
+			}
+
+			$this->cache[$store] = $items;
+		}
+
+		return $this->cache[$store];
 	}
 }

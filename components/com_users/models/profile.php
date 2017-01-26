@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -145,8 +145,7 @@ class UsersModelProfile extends JModelForm
 			}
 
 			// Unset the passwords.
-			unset($this->data->password1);
-			unset($this->data->password2);
+			unset($this->data->password1, $this->data->password2);
 
 			$registry           = new Registry($this->data->params);
 			$this->data->params = $registry->toArray();
@@ -324,7 +323,6 @@ class UsersModelProfile extends JModelForm
 		$data['password'] = $data['password1'];
 
 		// Unset the username if it should not be overwritten
-		$username            = $data['username'];
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
 		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
@@ -332,11 +330,8 @@ class UsersModelProfile extends JModelForm
 			unset($data['username']);
 		}
 
-		// Unset the block so it does not get overwritten
-		unset($data['block']);
-
-		// Unset the sendEmail so it does not get overwritten
-		unset($data['sendEmail']);
+		// Unset block and sendEmail so they do not get overwritten
+		unset($data['block'], $data['sendEmail']);
 
 		// Handle the two factor authentication setup
 		if (array_key_exists('twofactor', $data))
@@ -374,7 +369,7 @@ class UsersModelProfile extends JModelForm
 				// Generate one time emergency passwords if required (depleted or not set)
 				if (empty($otpConfig->otep))
 				{
-					$oteps = $model->generateOteps($userId);
+					$model->generateOteps($userId);
 				}
 			}
 			else

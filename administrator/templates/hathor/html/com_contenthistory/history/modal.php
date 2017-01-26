@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,9 +20,10 @@ $field = $input->getCmd('field');
 $function = 'jSelectContenthistory_' . $field;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
-$message = addslashes(JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_ONE'));
-$compareMessage = addslashes(JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_TWO'));
-$deleteMessage = addslashes(JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
+$message = JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_ONE', true);
+$compareMessage = JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_TWO', true);
+JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+$deleteMessage = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
 $aliasArray = explode('.', $this->state->type_alias);
 $option = (end($aliasArray) == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 1)) : $aliasArray[0];
 $filter = JFilterInput::getInstance();
@@ -100,9 +101,9 @@ JFactory::getDocument()->addScriptDeclaration("
 			<span class="icon-search"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></span></button>
 		<button id="toolbar-compare" type="button" class="btn pointer hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . JSession::getFormToken() . '=1');?>">
 			<span class="icon-zoom-in"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span></button>
-		<button onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $deleteMessage; ?>');}else{ Joomla.submitbutton('history.keep')}" class="btn pointer hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>">
+		<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.keep')}" class="btn pointer hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>">
 			<span class="icon-lock"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></span></button>
-		<button onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $deleteMessage; ?>');}else{ Joomla.submitbutton('history.delete')}" class="btn pointer hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
+		<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.delete')}" class="btn pointer hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
 			<span class="icon-delete"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></span></button>
 	</div>
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -688,6 +688,17 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			return false;
 		}
 
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
 		// Get the admin and site paths for the component
 		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $this->extension->element));
 		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE . '/components/' . $this->extension->element));
@@ -952,7 +963,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['alias'] = (string) $menuElement;
 			$data['link'] = 'index.php?option=' . $option;
 			$data['type'] = 'component';
-			$data['published'] = 0;
+			$data['published'] = 1;
 			$data['parent_id'] = 1;
 			$data['component_id'] = $component_id;
 			$data['img'] = ((string) $menuElement->attributes()->img) ? (string) $menuElement->attributes()->img : 'class:component';
@@ -970,7 +981,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['alias'] = $option;
 			$data['link'] = 'index.php?option=' . $option;
 			$data['type'] = 'component';
-			$data['published'] = 0;
+			$data['published'] = 1;
 			$data['parent_id'] = 1;
 			$data['component_id'] = $component_id;
 			$data['img'] = 'class:component';
@@ -1005,7 +1016,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['title'] = (string) trim($child);
 			$data['alias'] = (string) $child;
 			$data['type'] = 'component';
-			$data['published'] = 0;
+			$data['published'] = 1;
 			$data['parent_id'] = $parent_id;
 			$data['component_id'] = $component_id;
 			$data['img'] = ((string) $child->attributes()->img) ? (string) $child->attributes()->img : 'class:component';
@@ -1140,7 +1151,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$query = $db->getQuery(true)
 					->update('#__menu')
 					->set('component_id = ' . $db->quote($component_id))
-					->where("type = " . $db->quote('component'))
+					->where('type = ' . $db->quote('component'))
 					->where('client_id = 0')
 					->where('link LIKE ' . $db->quote('index.php?option=' . $option)
 							. " OR link LIKE '" . $db->escape('index.php?option=' . $option . '&') . "%'");
