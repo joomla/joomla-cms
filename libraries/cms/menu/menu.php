@@ -75,7 +75,7 @@ class JMenu
 
 		foreach ($this->_items as $item)
 		{
-			if ($item->home)
+			if ($item->home == true)
 			{
 				$this->_default[trim($item->language)] = $item->id;
 			}

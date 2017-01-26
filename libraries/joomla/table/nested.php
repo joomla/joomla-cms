@@ -1108,35 +1108,39 @@ class JTableNested extends JTable
 					return false;
 				}
 			}
-	
+/*	Does not seem to apply to the setInheritable case,
+ *	but as I'm not 100% sure, better to leave it in
+ *	for someone with more experience to determine
+ *	if this is needed.
 			// If any parent nodes have lower published state values, we cannot continue.
-// 			if ($node->parent_id)
-// 			{
-// 				// Get any ancestor nodes that have a lower publishing state.
-// 				$query->clear()
-// 				->select('n.' . $k)
-// 				->from($this->_db->quoteName($this->_tbl) . ' AS n')
-// 				->where('n.lft < ' . (int) $node->lft)
-// 				->where('n.rgt > ' . (int) $node->rgt)
-// 				->where('n.parent_id > 0')
-// 				->where('n.published < ' . (int) $compareState);
+			if ($node->parent_id)
+			{
+				// Get any ancestor nodes that have a lower publishing state.
+				$query->clear()
+				->select('n.' . $k)
+				->from($this->_db->quoteName($this->_tbl) . ' AS n')
+				->where('n.lft < ' . (int) $node->lft)
+				->where('n.rgt > ' . (int) $node->rgt)
+				->where('n.parent_id > 0')
+				->where('n.published < ' . (int) $compareState);
 	
-// 				// Just fetch one row (one is one too many).
-// 				$this->_db->setQuery($query, 0, 1);
+				// Just fetch one row (one is one too many).
+				$this->_db->setQuery($query, 0, 1);
 	
-// 				$rows = $this->_db->loadColumn();
+				$rows = $this->_db->loadColumn();
 	
-// 				if (!empty($rows))
-// 				{
-// 					$e = new UnexpectedValueException(
-// 							sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', get_class($this), $pks, $state, $userId)
-// 							);
-// 					$this->setError($e);
+				if (!empty($rows))
+				{
+					$e = new UnexpectedValueException(
+							sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', get_class($this), $pks, $state, $userId)
+							);
+					$this->setError($e);
 	
-// 					return false;
-// 				}
-// 			}
-	
+					return false;
+				}
+			}
+*/
+
 			// Update and cascade the publishing state.
 			$query->clear()
 			->update($this->_db->quoteName($this->_tbl))

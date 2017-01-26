@@ -178,6 +178,7 @@ class JMenuSite extends JMenu
 			if (($key = array_search('inheritable', $attributes)) === false)
 			{
 				$attributes[] = 'inheritable';
+				
 				// Need a wrapper function 'getUsersGroups()' in the 'getUser' Class
 				$values[] = JFactory::getUser()->groups;
 			}

@@ -260,7 +260,6 @@ abstract class MenusHtmlMenus
 	 *
 	 * @param   integer       $value     The state value.
 	 * @param   integer       $i         The row index
-	 * @param   string|array  $prefix    An optional task prefix or an array of options
 	 * @param   boolean       $enabled   An optional setting for access control on the action.
 	 * @param   string        $checkbox  An optional prefix for checkboxes.
 	 *
