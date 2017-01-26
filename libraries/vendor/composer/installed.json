@@ -1074,17 +1074,17 @@
     },
     {
         "name": "phpmailer/phpmailer",
-        "version": "v5.2.21",
-        "version_normalized": "5.2.21.0",
+        "version": "v5.2.22",
+        "version_normalized": "5.2.22.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "1d51856b76c06fc687fcd9180efa7a0bed0d761e"
+            "reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/1d51856b76c06fc687fcd9180efa7a0bed0d761e",
-            "reference": "1d51856b76c06fc687fcd9180efa7a0bed0d761e",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/b18cb98131bd83103ccb26a888fdfe3177b8a663",
+            "reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663",
             "shasum": ""
         },
         "require": {
@@ -1097,7 +1097,7 @@
         "suggest": {
             "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
         },
-        "time": "2016-12-28T15:35:48+00:00",
+        "time": "2017-01-09T09:33:47+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

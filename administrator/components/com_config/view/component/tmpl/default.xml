@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_CONFIG_COMPONENT_VIEW_DEFAULT_TITLE">
+		<message>
+			<![CDATA[COM_CONFIG_COMPONENT_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request">
+			<field
+				name="component"
+				type="components"
+				label="JGLOBAL_CHOOSE_COMPONENT_LABEL"
+				description="JGLOBAL_CHOOSE_COMPONENT_DESC"
+				required="true"
+			/>
+		</fieldset>
+	</fields>
+</metadata>
