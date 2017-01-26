@@ -255,6 +255,28 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	}
 
 	/**
+	 * Quotes and optionally escapes a string to database requirements for use in database queries.
+	 *
+	 * @param   mixed    $text    A string or an array of strings to quote.
+	 * @param   boolean  $escape  True (default) to escape the string, false to leave it unchanged.
+	 *
+	 * @return  string  The quoted input string.
+	 *
+	 * @note    Accepting an array of strings was added in 12.3.
+	 * @since   11.1
+	 */
+	public function quote($text, $escape = true)
+	{
+		if (is_array($text))
+		{
+			return parent::quote($text, $escape);
+		}
+
+		// To support unicode on MSSQL we have to add prefix N
+		return 'N\'' . ($escape ? $this->escape($text) : $text) . '\'';
+	}
+
+	/**
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return  boolean  True if connected to the database engine.
