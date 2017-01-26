@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,17 +41,13 @@ class TestMockMenu
 			'load'
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JMenu',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JMenu')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		self::createMenuSampleData();
 
@@ -91,7 +87,7 @@ class TestMockMenu
 		foreach (self::$data as $id => $item)
 		{
 			$return[] = array($id, $item);
-			$return[] = array((string)$id, $item);
+			$return[] = array((string) $id, $item);
 		}
 
 		return $return;

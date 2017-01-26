@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -132,11 +132,14 @@ class InstallationControllerInstallEmail extends JControllerBase
 
 		try
 		{
-			$mail->Send();
+			if (!$mail->Send())
+			{
+				$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'error');
+			}
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'warning');
+			$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'error');
 		}
 
 		$app->sendJsonResponse($r);

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -438,24 +438,6 @@ class JHtmlBehaviorTest extends TestCase
 			$expected,
 			JHtmlBehaviorInspector::getLoaded(),
 			'The tree behavior is not loaded with all dependencies'
-		);
-	}
-
-	/**
-	 * Tests the calendar method.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testCalendar()
-	{
-		JHtmlBehavior::calendar();
-
-		$this->assertEquals(
-			array('JHtmlBehavior::calendar' => true),
-			JHtmlBehaviorInspector::getLoaded(),
-			'The calendar behavior is not loaded with all dependencies'
 		);
 	}
 

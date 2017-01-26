@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,7 +46,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			static::framework();
+			JHtml::_('bootstrap.framework');
 
 			// Setup options object
 			$opt['offset'] = isset($params['offset']) ? $params['offset'] : 10;
@@ -83,7 +83,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		// Attach the alerts to the document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -113,7 +113,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		// Attach the button to the document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -147,7 +147,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			static::framework();
+			JHtml::_('bootstrap.framework');
 
 			// Setup options object
 			$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
@@ -185,7 +185,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		// Attach the dropdown to the document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -225,7 +225,7 @@ abstract class JHtmlBootstrap
 			$debug = JDEBUG;
 		}
 
-		JHtml::_('script', 'jui/bootstrap.min.js', false, true, false, false, $debug);
+		JHtml::_('script', 'jui/bootstrap.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		static::$loaded[__METHOD__] = true;
 
 		return;
@@ -256,7 +256,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			static::framework();
+			JHtml::_('bootstrap.framework');
 
 			// Setup options object
 			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
@@ -303,7 +303,7 @@ abstract class JHtmlBootstrap
 	public static function renderModal($selector = 'modal', $params = array(), $body = '')
 	{
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		$layoutData = array(
 			'selector' => $selector,
@@ -348,7 +348,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
 		$opt['html']      = isset($params['html']) ? $params['html'] : true;
@@ -391,7 +391,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			static::framework();
+			JHtml::_('bootstrap.framework');
 
 			// Setup options object
 			$opt['offset'] = isset($params['offset']) ? (int) $params['offset'] : 10;
@@ -440,7 +440,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$selector]))
 		{
 			// Include Bootstrap framework
-			static::framework();
+			JHtml::_('bootstrap.framework');
 
 			// Setup options object
 			$opt['animation'] = isset($params['animation']) ? (boolean) $params['animation'] : null;
@@ -505,8 +505,8 @@ abstract class JHtmlBootstrap
 	{
 		if ($extended)
 		{
-			JHtml::_('script', 'jui/bootstrap-tooltip-extended.min.js', false, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-tooltip-extended.css', false, true);
+			JHtml::_('script', 'jui/bootstrap-tooltip-extended.min.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('stylesheet', 'jui/bootstrap-tooltip-extended.css', array('version' => 'auto', 'relative' => true));
 		}
 	}
 
@@ -541,7 +541,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$selector]))
 		{
 			// Include Bootstrap framework
-			static::framework();
+			JHtml::_('bootstrap.framework');
 
 			// Setup options object
 			$opt['source']      = isset($params['source']) ? $params['source'] : null;
@@ -593,7 +593,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$selector]))
 		{
 			// Include Bootstrap framework
-			static::framework();
+			JHtml::_('bootstrap.framework');
 
 			// Setup options object
 			$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : false;
@@ -717,7 +717,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			static::framework();
+			JHtml::_('bootstrap.framework');
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
@@ -804,7 +804,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded['JHtmlBootstrap::startTabSet'][$sig]))
 		{
 			// Include Bootstrap framework
-			static::framework();
+			JHtml::_('bootstrap.framework');
 
 			// Setup options object
 			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
@@ -887,15 +887,15 @@ abstract class JHtmlBootstrap
 		// Load Bootstrap main CSS
 		if ($includeMainCss)
 		{
-			JHtml::_('stylesheet', 'jui/bootstrap.min.css', $attribs, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-responsive.min.css', $attribs, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-extended.css', $attribs, true);
+			JHtml::_('stylesheet', 'jui/bootstrap.min.css', array('version' => 'auto', 'relative' => true), $attribs);
+			JHtml::_('stylesheet', 'jui/bootstrap-responsive.min.css', array('version' => 'auto', 'relative' => true), $attribs);
+			JHtml::_('stylesheet', 'jui/bootstrap-extended.css', array('version' => 'auto', 'relative' => true), $attribs);
 		}
 
 		// Load Bootstrap RTL CSS
 		if ($direction === 'rtl')
 		{
-			JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', $attribs, true);
+			JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
 		}
 	}
 }

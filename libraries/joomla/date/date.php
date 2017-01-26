@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Date
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -107,8 +107,12 @@ class JDate extends DateTime
 		date_default_timezone_set('UTC');
 		$date = is_numeric($date) ? date('c', $date) : $date;
 
-		// If now, add the microseconds to date.
-		$date = $date === 'now' ? parent::createFromFormat('U.u', number_format(microtime(true), 6, '.', ''), $tz)->format('Y-m-d H:i:s.u') : $date;
+		// If php version below 7.1 and current time, add the microseconds to date.
+		// See http://php.net/manual/en/migration71.incompatible.php#migration71.incompatible.datetime-microseconds
+		if ($date === 'now' && version_compare(PHP_VERSION, '7.1.0', '<'))
+		{
+			$date = parent::createFromFormat('U.u', number_format(microtime(true), 6, '.', ''), $tz)->format('Y-m-d H:i:s.u');
+		}
 
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);

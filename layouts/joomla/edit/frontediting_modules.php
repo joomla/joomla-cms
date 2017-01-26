@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 // JLayout for standard handling of the edit modules:
 
-$moduleHtml   =& $displayData['moduleHtml'];
+$moduleHtml   = &$displayData['moduleHtml'];
 $mod          = $displayData['module'];
 $position     = $displayData['position'];
 $menusEditing = $displayData['menusediting'];
@@ -64,6 +64,6 @@ if ($count)
 	JHtml::_('bootstrap.tooltip');
 	JHtml::_('bootstrap.popover');
 
-	JHtml::_('stylesheet', 'system/frontediting.css', array(), true);
-	JHtml::_('script', 'system/frontediting.js', false, true);
+	JHtml::_('stylesheet', 'system/frontediting.css', array('version' => 'auto', 'relative' => true));
+	JHtml::_('script', 'system/frontediting.js', array('version' => 'auto', 'relative' => true));
 }

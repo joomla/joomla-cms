@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<field
+		name="client_id"
+		type="list"
+		label=""
+		filtermode="selector"
+		onchange="this.form.submit();"
+	>
+		<option value="0">JSITE</option>
+		<option value="1">JADMINISTRATOR</option>
+	</field>
+	<field
 		name="menutype"
 		type="menu"
 		label="COM_MENUS_FILTER_CATEGORY"
 		description="JOPTION_FILTER_CATEGORY_DESC"
-		onchange="this.form.submit();"
 		accesstype="manage"
+		clientid=""
+		showAll="true"
+		filtermode="selector"
+		onchange="this.form.submit();"
 		>
 		<option value="">COM_MENUS_SELECT_MENU</option>
 	</field>
@@ -17,6 +30,7 @@
 			label="COM_MENUS_ITEMS_SEARCH_FILTER_LABEL"
 			description="COM_MENUS_ITEMS_SEARCH_FILTER"
 			hint="JSEARCH_FILTER"
+			noresults="JGLOBAL_NO_MATCHING_RESULTS"
 		/>
 		<field
 			name="published"

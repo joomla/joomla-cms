@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Module table
  *
- * @since  11.1
+ * @since  1.5
  */
 class JTableModule extends JTable
 {
@@ -23,7 +23,7 @@ class JTableModule extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -39,7 +39,7 @@ class JTableModule extends JTable
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	protected function _getAssetName()
 	{
@@ -53,7 +53,7 @@ class JTableModule extends JTable
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	protected function _getAssetTitle()
 	{
@@ -68,7 +68,7 @@ class JTableModule extends JTable
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
@@ -109,7 +109,7 @@ class JTableModule extends JTable
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
 	 * @see     JTable::check()
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function check()
 	{
@@ -142,7 +142,7 @@ class JTableModule extends JTable
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     JTable::bind()
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function bind($array, $ignore = '')
 	{

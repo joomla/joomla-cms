@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ class UsersControllerUser extends UsersController
 	 */
 	public function login()
 	{
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('post');
 
 		$app    = JFactory::getApplication();
 		$input  = $app->input;
@@ -142,12 +142,17 @@ class UsersControllerUser extends UsersController
 	 */
 	public function logout()
 	{
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app = JFactory::getApplication();
 
+		// Prepare the logout options.
+		$options = array(
+			'clientid' => $app->get('shared_session', '0') ? null : 0,
+		);
+
 		// Perform the log out.
-		$error  = $app->logout();
+		$error  = $app->logout(null, $options);
 		$input  = $app->input;
 		$method = $input->getMethod();
 
@@ -166,7 +171,6 @@ class UsersControllerUser extends UsersController
 		{
 			if (JLanguageMultilang::isEnabled())
 			{
-
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
@@ -284,7 +288,7 @@ class UsersControllerUser extends UsersController
 	}
 
 	/**
-	 * Method to login a user.
+	 * Method to request a username reminder.
 	 *
 	 * @return  boolean
 	 *
@@ -293,7 +297,7 @@ class UsersControllerUser extends UsersController
 	public function remind()
 	{
 		// Check the request token.
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('post');
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel('User', 'UsersModel');
@@ -350,7 +354,7 @@ class UsersControllerUser extends UsersController
 	}
 
 	/**
-	 * Method to login a user.
+	 * Method to resend a user.
 	 *
 	 * @return  void
 	 *
@@ -359,6 +363,6 @@ class UsersControllerUser extends UsersController
 	public function resend()
 	{
 		// Check for request forgeries
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		// $this->checkToken('post');
 	}
 }

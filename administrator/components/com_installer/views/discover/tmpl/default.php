@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<div id="j-main-container" class="span10">
 		<?php else : ?>
 		<div id="j-main-container">
-		<?php endif;?>
+		<?php endif; ?>
 			<?php if ($this->showMessage) : ?>
 				<?php echo $this->loadTemplate('message'); ?>
 			<?php endif; ?>
@@ -78,12 +78,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tfoot>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<tr class="row<?php echo $i % 2;?>">
+					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 						</td>
 						<td>
-							<label for="cb<?php echo $i;?>">
+							<label for="cb<?php echo $i; ?>">
 								<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span>
 							</label>
 						</td>

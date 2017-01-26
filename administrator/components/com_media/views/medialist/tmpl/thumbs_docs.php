@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,12 +19,12 @@ $dispatcher = JEventDispatcher::getInstance();
 	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$doc, &$params)); ?>
 	<li class="imgOutline thumbnail height-80 width-80 center">
 		<?php if ($this->canDelete) : ?>
-			<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $doc->name; ?>" rel="<?php echo $doc->name; ?>" title="<?php echo JText::_('JACTION_DELETE');?>">&#215;</a>
+			<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $doc->name; ?>" rel="<?php echo $doc->name; ?>" title="<?php echo JText::_('JACTION_DELETE'); ?>">&#215;</a>
 			<div class="pull-left">
 				<?php echo JHtml::_('grid.id', $i, $doc->name, false, 'rm', 'cb-document'); ?>
 			</div>
 			<div class="clearfix"></div>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<div class="height-50">
 			<a style="display: block; width: 100%; height: 100%" title="<?php echo $doc->name; ?>" >

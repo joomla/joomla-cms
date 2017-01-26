@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,6 +45,21 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		parent::__construct($options);
 		$this->_root = $options['cachebase'];
+	}
+
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function contains($id, $group)
+	{
+		return $this->_checkExpire($id, $group);
 	}
 
 	/**
@@ -131,7 +146,7 @@ class JCacheStorageFile extends JCacheStorage
 		// Prepend a die string
 		$data = $die . $data;
 
-		$_fileopen = @fopen($path, "wb");
+		$_fileopen = @fopen($path, 'wb');
 
 		if ($_fileopen)
 		{
@@ -274,7 +289,7 @@ class JCacheStorageFile extends JCacheStorage
 
 		$looptime  = $locktime * 10;
 		$path      = $this->_getFilePath($id, $group);
-		$_fileopen = @fopen($path, "c+b");
+		$_fileopen = @fopen($path, 'c+b');
 
 		if (!$_fileopen)
 		{

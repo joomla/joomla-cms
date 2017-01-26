@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,6 +54,9 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 		<div class="span6">
+			<div class="center">
+				<h4><?php echo JText::_('INSTL_SUPER_USER_TITLE'); ?></h4>
+			</div>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('admin_email'); ?>

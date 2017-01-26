@@ -16,7 +16,7 @@ What is this?
 What is Joomla?
 ---------------------
 * [Joomla!](https://www.joomla.org/about-joomla.html) is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
-* It is a simple and powerful web server application which requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run. You can find [full technical requirements here](https://www.joomla.org/about-joomla/technical-requirements.html).
+* It is a simple and powerful web server application which requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
 * Joomla! is **free and Open Source software** distributed under the GNU General Public License version 2 or later.
 
 Is Joomla! for you?
@@ -50,14 +50,14 @@ Is it easy to change the layout display?
 
 Ready to install Joomla?
 ---------------------
-* Check the [minimum requirements](https://www.joomla.org/about-joomla/technical-requirements.html). 
+* Check the [minimum requirements](https://downloads.joomla.org/technical-requirements). 
 * How do you [install Joomla](https://docs.joomla.org/J3.x:Installing_Joomla)?
 * You could start your Joomla! experience by [building your site on a local test server](https://docs.joomla.org/Installing_Joomla_locally).
 When ready, it can be moved to an online hosting account of your choice.
 
 Updates are free!
 ---------------------
-* Always use the [latest version](https://www.joomla.org/download.html).
+* Always use the [latest version](https://downloads.joomla.org/latest).
 
 Where can you get support and help?
 ---------------------
@@ -85,7 +85,7 @@ Do you want to improve Joomla?
 
 Copyright
 ---------------------
-* Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+* Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
 * [Special Thanks](https://docs.joomla.org/Joomla!_Credits_and_Thanks)
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Joomla_Licenses)
