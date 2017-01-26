@@ -7,9 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Table;
+
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.path');
+\JLoader::import('joomla.filesystem.path');
 
 /**
  * Abstract Table class
@@ -19,10 +21,10 @@ jimport('joomla.filesystem.path');
  * @since  11.1
  * @tutorial  Joomla.Platform/jtable.cls
  */
-abstract class JTable extends JObject implements JObservableInterface, JTableInterface
+abstract class Table extends \JObject implements \JObservableInterface, \JTableInterface
 {
 	/**
-	 * Include paths for searching for JTable classes.
+	 * Include paths for searching for Table classes.
 	 *
 	 * @var    array
 	 * @since  12.1
@@ -54,9 +56,9 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	protected $_tbl_keys = array();
 
 	/**
-	 * JDatabaseDriver object.
+	 * \JDatabaseDriver object.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -72,7 +74,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	/**
 	 * The rules associated with this record.
 	 *
-	 * @var    JAccessRules  A JAccessRules object.
+	 * @var    \JAccessRules  A \JAccessRules object.
 	 * @since  11.1
 	 */
 	protected $_rules;
@@ -94,9 +96,9 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	protected $_autoincrement = true;
 
 	/**
-	 * Generic observers for this JTable (Used e.g. for tags Processing)
+	 * Generic observers for this Table (Used e.g. for tags Processing)
 	 *
-	 * @var    JObserverUpdater
+	 * @var    \JObserverUpdater
 	 * @since  3.1.2
 	 */
 	protected $_observers;
@@ -123,7 +125,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @param   string           $table  Name of the table to model.
 	 * @param   mixed            $key    Name of the primary key field in the table or array of field names that compose the primary key.
-	 * @param   JDatabaseDriver  $db     JDatabaseDriver object.
+	 * @param   \JDatabaseDriver  $db     \JDatabaseDriver object.
 	 *
 	 * @since   11.1
 	 */
@@ -182,28 +184,28 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// If the access property exists, set the default.
 		if (property_exists($this, 'access'))
 		{
-			$this->access = (int) JFactory::getConfig()->get('access');
+			$this->access = (int) \JFactory::getConfig()->get('access');
 		}
 
-		// Implement JObservableInterface:
+		// Implement \JObservableInterface:
 		// Create observer updater and attaches all observers interested by $this class:
-		$this->_observers = new JObserverUpdater($this);
-		JObserverMapper::attachAllObservers($this);
+		$this->_observers = new \JObserverUpdater($this);
+		\JObserverMapper::attachAllObservers($this);
 	}
 
 	/**
-	 * Implement JObservableInterface:
+	 * Implement \JObservableInterface:
 	 * Adds an observer to this instance.
-	 * This method will be called fron the constructor of classes implementing JObserverInterface
-	 * which is instanciated by the constructor of $this with JObserverMapper::attachAllObservers($this)
+	 * This method will be called fron the constructor of classes implementing \JObserverInterface
+	 * which is instanciated by the constructor of $this with \JObserverMapper::attachAllObservers($this)
 	 *
-	 * @param   JObserverInterface|JTableObserver  $observer  The observer object
+	 * @param   \JObserverInterface|\JTableObserver  $observer  The observer object
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1.2
 	 */
-	public function attachObserver(JObserverInterface $observer)
+	public function attachObserver(\JObserverInterface $observer)
 	{
 		$this->_observers->attachObserver($observer);
 	}
@@ -213,7 +215,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 *
 	 * @param   string  $observerClass  The observer class-name to return the object of
 	 *
-	 * @return  JTableObserver|null
+	 * @return  \JTableObserver|null
 	 *
 	 * @since   3.1.2
 	 */
@@ -254,15 +256,15 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	}
 
 	/**
-	 * Static method to get an instance of a JTable class if it can be found in the table include paths.
+	 * Static method to get an instance of a Table class if it can be found in the table include paths.
 	 *
-	 * To add include paths for searching for JTable classes see JTable::addIncludePath().
+	 * To add include paths for searching for Table classes see Table::addIncludePath().
 	 *
-	 * @param   string  $type    The type (name) of the JTable class to get an instance of.
+	 * @param   string  $type    The type (name) of the Table class to get an instance of.
 	 * @param   string  $prefix  An optional prefix for the table class name.
-	 * @param   array   $config  An optional array of configuration values for the JTable object.
+	 * @param   array   $config  An optional array of configuration values for the Table object.
 	 *
-	 * @return  JTable|boolean   A JTable object if found or boolean false on failure.
+	 * @return  Table|boolean   A Table object if found or boolean false on failure.
 	 *
 	 * @since   11.1
 	 */
@@ -283,17 +285,17 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 			while (!class_exists($tableClass) && $pathIndex < count($paths))
 			{
-				if ($tryThis = JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
+				if ($tryThis = \JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
 				{
 					// Import the class file.
-					JLoader::register($tableClass, $tryThis);
+					\JLoader::register($tableClass, $tryThis);
 				}
 			}
 
 			if (!class_exists($tableClass))
 			{
 				/*
-				* If unable to find the class file in the JTable include paths. Return false.
+				* If unable to find the class file in the Table include paths. Return false.
 				* The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in 3.6.3.
 				* In 4.0 an Exception (type to be determined) will be thrown.
 				* For more info see https://github.com/joomla/joomla-cms/issues/11570
@@ -303,19 +305,19 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			}
 		}
 
-		// If a database object was passed in the configuration array use it, otherwise get the global one from JFactory.
-		$db = isset($config['dbo']) ? $config['dbo'] : JFactory::getDbo();
+		// If a database object was passed in the configuration array use it, otherwise get the global one from \JFactory.
+		$db = isset($config['dbo']) ? $config['dbo'] : \JFactory::getDbo();
 
 		// Instantiate a new table class and return it.
 		return new $tableClass($db);
 	}
 
 	/**
-	 * Add a filesystem path where JTable should search for table class files.
+	 * Add a filesystem path where Table should search for table class files.
 	 *
 	 * @param   array|string  $path  A filesystem path or array of filesystem paths to add.
 	 *
-	 * @return  array  An array of filesystem paths to find JTable classes in.
+	 * @return  array  An array of filesystem paths to find Table classes in.
 	 *
 	 * @since   11.1
 	 */
@@ -393,14 +395,14 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * By default, all assets are registered to the ROOT node with ID, which will default to 1 if none exists.
 	 * An extended class can define a table and ID to lookup.  If the asset does not exist it will be created.
 	 *
-	 * @param   JTable   $table  A JTable object for the asset parent.
+	 * @param   Table   $table  A Table object for the asset parent.
 	 * @param   integer  $id     Id to look up
 	 *
 	 * @return  integer
 	 *
 	 * @since   11.1
 	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
+	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		// For simple cases, parent to the asset root.
 		$assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
@@ -417,7 +419,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	/**
 	 * Method to append the primary keys for this table to a query.
 	 *
-	 * @param   JDatabaseQuery  $query  A query object to append.
+	 * @param   \JDatabaseQuery  $query  A query object to append.
 	 * @param   mixed           $pk     Optional primary key parameter.
 	 *
 	 * @return  void
@@ -491,9 +493,9 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	}
 
 	/**
-	 * Method to get the JDatabaseDriver object.
+	 * Method to get the \JDatabaseDriver object.
 	 *
-	 * @return  JDatabaseDriver  The internal database driver object.
+	 * @return  \JDatabaseDriver  The internal database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -503,9 +505,9 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	}
 
 	/**
-	 * Method to set the JDatabaseDriver object.
+	 * Method to set the \JDatabaseDriver object.
 	 *
-	 * @param   JDatabaseDriver  $db  A JDatabaseDriver object to be used by the table object.
+	 * @param   \JDatabaseDriver  $db  A \JDatabaseDriver object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -521,7 +523,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	/**
 	 * Method to set rules for the record.
 	 *
-	 * @param   mixed  $input  A JAccessRules object, JSON string, or array.
+	 * @param   mixed  $input  A \JAccessRules object, JSON string, or array.
 	 *
 	 * @return  void
 	 *
@@ -529,20 +531,20 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	public function setRules($input)
 	{
-		if ($input instanceof JAccessRules)
+		if ($input instanceof \JAccessRules)
 		{
 			$this->_rules = $input;
 		}
 		else
 		{
-			$this->_rules = new JAccessRules($input);
+			$this->_rules = new \JAccessRules($input);
 		}
 	}
 
 	/**
 	 * Method to get the rules for the record.
 	 *
-	 * @return  JAccessRules object
+	 * @return  \JAccessRules object
 	 *
 	 * @since   11.1
 	 */
@@ -577,11 +579,11 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	}
 
 	/**
-	 * Method to bind an associative array or object to the JTable instance.This
+	 * Method to bind an associative array or object to the Table instance.This
 	 * method only binds properties that are publicly accessible and optionally
 	 * takes an array of properties to ignore when binding.
 	 *
-	 * @param   array|object  $src     An associative array or object to bind to the JTable instance.
+	 * @param   array|object  $src     An associative array or object to bind to the Table instance.
 	 * @param   array|string  $ignore  An optional array or space separated list of properties to ignore while binding.
 	 *
 	 * @return  boolean  True on success.
@@ -644,7 +646,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	}
 
 	/**
-	 * Method to load a row from the database by primary key and bind the fields to the JTable instance properties.
+	 * Method to load a row from the database by primary key and bind the fields to the Table instance properties.
 	 *
 	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.
 	 *                           If not set the instance property value is used.
@@ -659,7 +661,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	public function load($keys = null, $reset = true)
 	{
-		// Implement JObservableInterface: Pre-processing by observers
+		// Implement \JObservableInterface: Pre-processing by observers
 		$this->_observers->update('onBeforeLoad', array($keys, $reset));
 
 		if (empty($keys))
@@ -737,14 +739,14 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$result = $this->bind($row);
 		}
 
-		// Implement JObservableInterface: Post-processing by observers
+		// Implement \JObservableInterface: Post-processing by observers
 		$this->_observers->update('onAfterLoad', array(&$result, $row));
 
 		return $result;
 	}
 
 	/**
-	 * Method to perform sanity checks on the JTable instance properties to ensure they are safe to store in the database.
+	 * Method to perform sanity checks on the Table instance properties to ensure they are safe to store in the database.
 	 *
 	 * Child classes should override this method to make sure the data they are storing in the database is safe and as expected before storage.
 	 *
@@ -758,10 +760,10 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	}
 
 	/**
-	 * Method to store a row in the database from the JTable instance properties.
+	 * Method to store a row in the database from the Table instance properties.
 	 *
 	 * If a primary key value is set the row with that primary key value will be updated with the instance property values.
-	 * If no primary key value is set a new row will be inserted into the database with the properties from the JTable instance.
+	 * If no primary key value is set a new row will be inserted into the database with the properties from the Table instance.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -775,7 +777,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 		$k = $this->_tbl_keys;
 
-		// Implement JObservableInterface: Pre-processing by observers
+		// Implement \JObservableInterface: Pre-processing by observers
 		$this->_observers->update('onBeforeStore', array($updateNulls, $k));
 
 		$currentAssetId = 0;
@@ -844,7 +846,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				$asset->name      = $name;
 				$asset->title     = $title;
 
-				if ($this->_rules instanceof JAccessRules)
+				if ($this->_rules instanceof \JAccessRules)
 				{
 					$asset->rules = (string) $this->_rules;
 				}
@@ -873,20 +875,20 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			}
 		}
 
-		// Implement JObservableInterface: Post-processing by observers
+		// Implement \JObservableInterface: Post-processing by observers
 		$this->_observers->update('onAfterStore', array(&$result));
 
 		return $result;
 	}
 
 	/**
-	 * Method to provide a shortcut to binding, checking and storing a JTable instance to the database table.
+	 * Method to provide a shortcut to binding, checking and storing a Table instance to the database table.
 	 *
 	 * The method will check a row in once the data has been stored and if an ordering filter is present will attempt to reorder
 	 * the table rows based on the filter.  The ordering filter is an instance property name.  The rows that will be reordered
-	 * are those whose value matches the JTable instance for the property specified.
+	 * are those whose value matches the Table instance for the property specified.
 	 *
-	 * @param   array|object  $src             An associative array or object to bind to the JTable instance.
+	 * @param   array|object  $src             An associative array or object to bind to the Table instance.
 	 * @param   string        $orderingFilter  Filter for the order updating
 	 * @param   array|string  $ignore          An optional array or space separated list of properties to ignore while binding.
 	 *
@@ -971,7 +973,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$this->$key = $pk[$key];
 		}
 
-		// Implement JObservableInterface: Pre-processing by observers
+		// Implement \JObservableInterface: Pre-processing by observers
 		$this->_observers->update('onBeforeDelete', array($pk));
 
 		// If tracking assets, remove the asset first.
@@ -1002,7 +1004,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Check for a database error.
 		$this->_db->execute();
 
-		// Implement JObservableInterface: Post-processing by observers
+		// Implement \JObservableInterface: Post-processing by observers
 		$this->_observers->update('onAfterDelete', array($pk));
 
 		return true;
@@ -1059,7 +1061,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		}
 
 		// Get the current time in the database format.
-		$time = JFactory::getDate()->toSql();
+		$time = \JFactory::getDate()->toSql();
 
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true)
@@ -1256,7 +1258,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	public function isCheckedOut($with = 0, $against = null)
 	{
 		// Handle the non-static case.
-		if (isset($this) && ($this instanceof JTable) && is_null($against))
+		if (isset($this) && ($this instanceof Table) && is_null($against))
 		{
 			$checkedOutField = $this->getColumnAlias('checked_out');
 			$against = $this->get($checkedOutField);
@@ -1268,7 +1270,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			return false;
 		}
 
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(userid)')
 			->from($db->quoteName('#__session'))
@@ -1551,7 +1553,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				// We don't have a full primary key - return false
 				else
 				{
-					$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+					$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 					return false;
 				}
@@ -1573,7 +1575,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// If publishing, set published date/time if not previously set
 			if ($state && property_exists($this, 'publish_up') && (int) $this->publish_up == 0)
 			{
-				$nowDate = $this->_db->quote(JFactory::getDate()->toSql());
+				$nowDate = $this->_db->quote(\JFactory::getDate()->toSql());
 				$query->set($this->_db->quoteName($this->getColumnAlias('publish_up')) . ' = ' . $nowDate);
 			}
 
@@ -1610,7 +1612,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				$this->checkin($pk);
 			}
 
-			// If the JTable instance value is in the list of primary keys that were set, set the instance.
+			// If the Table instance value is in the list of primary keys that were set, set the instance.
 			$ours = true;
 
 			foreach ($this->_tbl_keys as $key)
@@ -1651,7 +1653,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	/**
 	 * Method to return the real name of a "special" column such as ordering, hits, published
 	 * etc etc. In this way you are free to follow your db naming convention and use the
-	 * built in Joomla functions.
+	 * built in \Joomla functions.
 	 *
 	 * @param   string  $column  Name of the "special" column (ie ordering, hits)
 	 *
