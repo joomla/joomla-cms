@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -287,7 +287,7 @@ class ConfigModelApplication extends ConfigModelForm
 		{
 			$path = $data['cache_path'];
 		}
-		elseif (!$data['cache_path'] && $prev['cache_path'])
+		elseif (!empty($prev['cache_path']))
 		{
 			$path = $prev['cache_path'];
 		}

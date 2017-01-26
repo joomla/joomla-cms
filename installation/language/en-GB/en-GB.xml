@@ -4,9 +4,9 @@
 	client="installation">
 	<name>English (United Kingdom)</name>
 	<version>3.7.0</version>
-	<creationDate>December 2016</creationDate>
+	<creationDate>January 2017</creationDate>
 	<author>Joomla! Project</author>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>en-GB.ini</filename>

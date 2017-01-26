@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -132,6 +132,9 @@ class TagsViewTag extends JViewLegacy
 		$active       = $app->getMenu()->getActive();
 		$temp         = clone $this->params;
 
+		// Convert item params to a Registry object
+		$item[0]->params = new Registry($item[0]->params);
+
 		// Check to see which parameters should take priority
 		if ($active)
 		{
@@ -140,9 +143,9 @@ class TagsViewTag extends JViewLegacy
 			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
 			if (strpos($currentLink, 'view=tag') && strpos($currentLink, '&id[0]=' . (string) $item[0]->id))
 			{
-				// $item->params are the article params, $temp are the menu item params
+				// $item[0]->params are the tag params, $temp are the menu item params
 				// Merge so that the menu item params take priority
-				$this->params->merge($temp);
+				$item[0]->params->merge($temp);
 
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))
@@ -152,14 +155,14 @@ class TagsViewTag extends JViewLegacy
 			}
 			else
 			{
-				// Current view is not tags, so the global params take priority since tags is not an item.
-				// Merge the menu item params with the global params so that the article params take priority
-				$temp->merge($this->state->params);
-				$this->params = $temp;
+				// Current menuitem is not a single tag view, so the tag params take priority.
+				// Merge the menu item params with the tag params so that the tag params take priority
+				$temp->merge($item[0]->params);
+				$item[0]->params = $temp;
 
 				// Check for alternative layouts (since we are not in a single-article menu item)
 				// Single-article menu item layout takes priority over alt layout for an article
-				if ($layout = $this->params->get('tags_layout'))
+				if ($layout = $item[0]->params->get('tag_layout'))
 				{
 					$this->setLayout($layout);
 				}
