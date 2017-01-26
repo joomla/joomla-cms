@@ -36,3 +36,4 @@ JLoader::registerAlias('JTableNested',                 '\\Joomla\\Cms\\Table\\Ne
 JLoader::registerAlias('JTable',                       '\\Joomla\\Cms\\Table\\Table', '4.0');
 JLoader::registerAlias('JTableInterface',              '\\Joomla\\Cms\\Table\\TableInterface', '4.0');
 JLoader::registerAlias('JTableObserverContenthistory', '\\Joomla\\Cms\\Table\\Observer\\ContentHistory', '4.0');
+JLoader::registerAlias('JTableObserverTags',           '\\Joomla\\Cms\\Table\\Observer\\Tags', '4.0');
