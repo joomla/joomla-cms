@@ -75,7 +75,7 @@ class JMenu
 
 		foreach ($this->_items as $item)
 		{
-			if ($item->home == true)
+			if ($item->home)
 			{
 				$this->_default[trim($item->language)] = $item->id;
 			}
@@ -280,7 +280,9 @@ class JMenu
 							$test = false;
 							break;
 						}
-					} else {
+					}
+					else
+					{
 						// This is the default logic statement when an array of values is passed
 						if (!in_array($item->{$attributes[$i]}, $values[$i]))
 						{
