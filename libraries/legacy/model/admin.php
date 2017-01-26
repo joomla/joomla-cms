@@ -1044,6 +1044,83 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
+	 * Method to change the inheritable state of one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the inheritable state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2017-01-25
+	 */
+	public function setInheritable(&$pks, $value = 1)
+	{
+		$dispatcher = JEventDispatcher::getInstance();
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+		$pks = (array) $pks;
+	
+		// Include the plugins for the change of state event.
+		JPluginHelper::importPlugin($this->events_map['change_state']);
+	
+		// Access checks.
+		foreach ($pks as $i => $pk)
+		{
+			$table->reset();
+	
+			if ($table->load($pk))
+			{
+				if (!$this->canEditState($table))
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+	
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+	
+					return false;
+				}
+	
+				// If the table is checked out by another user, drop it and report to the user trying to change its state.
+				if (property_exists($table, 'checked_out') && $table->checked_out && ($table->checked_out != $user->id))
+				{
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), JLog::WARNING, 'jerror');
+	
+					// Prune items that you can't change.
+					unset($pks[$i]);
+	
+					return false;
+				}
+			}
+		}
+	
+		// Attempt to change the state of the records.
+		if (!$table->setInheritable($pks, $value, $user->get('id')))
+		{
+			$this->setError($table->getError());
+	
+			return false;
+		}
+	
+		$context = $this->option . '.' . $this->name;
+	
+		// Trigger the change state event.
+		$result = $dispatcher->trigger($this->event_change_state, array($context, $pks, $value));
+	
+		if (in_array(false, $result, true))
+		{
+			$this->setError($table->getError());
+	
+			return false;
+		}
+	
+		// Clear the component's cache
+		$this->cleanCache();
+	
+		return true;
+	}
+
+
+	/**
 	 * Method to adjust the ordering of a row.
 	 *
 	 * Returns NULL if the user did not have edit

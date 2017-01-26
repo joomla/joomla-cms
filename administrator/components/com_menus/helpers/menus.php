@@ -155,6 +155,7 @@ class MenusHelper
 					  a.menutype,
 					  a.type,
 					  a.published,
+					  a.inheritable,
 					  a.template_style_id,
 					  a.checked_out,
 					  a.language,
