@@ -136,6 +136,7 @@ $clientId = $this->state->get('item.client_id', 0);
 					'published',
 					'home',
 					'access',
+					'inheritable',
 					'language',
 					'note',
 				);

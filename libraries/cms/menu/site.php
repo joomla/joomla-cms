@@ -79,7 +79,7 @@ class JMenuSite extends JMenu
 				{
 					$query = $db->getQuery(true)
 						->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
-						->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
+						->select($db->quoteName('m.browserNav') . ', m.access, m.inheritable, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
 						->select('e.element as component')
 						->from('#__menu AS m')
 						->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
@@ -167,6 +167,19 @@ class JMenuSite extends JMenu
 			{
 				$attributes[] = 'access';
 				$values[] = $this->user->getAuthorisedViewLevels();
+			}
+			elseif ($values[$key] === null)
+			{
+				unset($attributes[$key]);
+				unset($values[$key]);
+			}
+
+			// Filter by inheritable if not set
+			if (($key = array_search('inheritable', $attributes)) === false)
+			{
+				$attributes[] = 'inheritable';
+				// Need a wrapper function 'getUsersGroups()' in the 'getUser' Class
+				$values[] = JFactory::getUser()->groups;
 			}
 			elseif ($values[$key] === null)
 			{
