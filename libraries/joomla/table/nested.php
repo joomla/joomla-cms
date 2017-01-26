@@ -1112,6 +1112,7 @@ class JTableNested extends JTable
  *	but as I'm not 100% sure, better to leave it in
  *	for someone with more experience to determine
  *	if this is needed.
+
  
 			// If any parent nodes have lower published state values, we cannot continue.
 			if ($node->parent_id)
