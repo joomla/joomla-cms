@@ -682,7 +682,7 @@ class JLanguage
 	 * @return  boolean  True if the language exists.
 	 *
 	 * @since   11.1
-	 * @deprecated   __DEPLOY_VERSION__, use JLanguageHelper::exists() instead.
+	 * @deprecated   3.7.0, use JLanguageHelper::exists() instead.
 	 */
 	public static function exists($lang, $basePath = JPATH_BASE)
 	{
@@ -1203,7 +1203,7 @@ class JLanguage
 	 * @return  mixed  If $lang exists return key/value pair with the language metadata, otherwise return NULL.
 	 *
 	 * @since   11.1
-	 * @deprecated   __DEPLOY_VERSION__, use JLanguageHelper::getMetadata() instead.
+	 * @deprecated   3.7.0, use JLanguageHelper::getMetadata() instead.
 	 */
 	public static function getMetadata($lang)
 	{
@@ -1220,7 +1220,7 @@ class JLanguage
 	 * @return  array  key/value pair with the language file and real name.
 	 *
 	 * @since   11.1
-	 * @deprecated   __DEPLOY_VERSION__, use JLanguageHelper::getKnownLanguages() instead.
+	 * @deprecated   3.7.0, use JLanguageHelper::getKnownLanguages() instead.
 	 */
 	public static function getKnownLanguages($basePath = JPATH_BASE)
 	{
@@ -1238,7 +1238,7 @@ class JLanguage
 	 * @return  string  language related path or null.
 	 *
 	 * @since   11.1
-	 * @deprecated   __DEPLOY_VERSION__, use JLanguageHelper::getLanguagePath() instead.
+	 * @deprecated   3.7.0, use JLanguageHelper::getLanguagePath() instead.
 	 */
 	public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
 	{
@@ -1328,7 +1328,7 @@ class JLanguage
 	 * @return  array  Array holding the found languages as filename => real name pairs.
 	 *
 	 * @since   11.1
-	 * @deprecated   __DEPLOY_VERSION__, use JLanguageHelper::parseLanguageFiles() instead.
+	 * @deprecated   3.7.0, use JLanguageHelper::parseLanguageFiles() instead.
 	 */
 	public static function parseLanguageFiles($dir = null)
 	{
@@ -1346,7 +1346,7 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
-	 * @deprecated   __DEPLOY_VERSION__, use JLanguageHelper::parseXMLLanguageFile() instead.
+	 * @deprecated   3.7.0, use JLanguageHelper::parseXMLLanguageFile() instead.
 	 */
 	public static function parseXMLLanguageFile($path)
 	{

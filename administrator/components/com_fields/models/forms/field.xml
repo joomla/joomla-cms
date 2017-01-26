@@ -232,21 +232,6 @@
 			/>
 
 			<field
-				name="image"
-				type="media"
-				label="COM_FIELDS_FIELD_IMAGE_LABEL"
-				description="COM_FIELDS_FIELD_IMAGE_DESC"
-			/>
-
-			<field
-				name="image_alt"
-				type="text"
-				label="COM_FIELDS_FIELD_IMAGE_ALT_LABEL"
-				description="COM_FIELDS_FIELD_IMAGE_ALT_DESC"
-				size="20"
-			/>
-
-			<field
 				name="render_class"
 				type="textarea"
 				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"

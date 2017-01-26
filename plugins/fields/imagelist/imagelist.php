@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('fields.list.list', JPATH_PLUGINS);
+JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINISTRATOR);
 
 /**
  * Fields Imagelist Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
-class PlgFieldsImagelist extends PlgFieldsList
+class PlgFieldsImagelist extends FieldsListPlugin
 {
 	/**
 	 * Transforms the field into an XML element and appends it as child on the given parent. This

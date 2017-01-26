@@ -134,6 +134,11 @@ class FieldsHelper
 
 		$fields = self::$fieldsCache->getItems();
 
+		if ($fields === false)
+		{
+			return array();
+		}
+
 		if ($item && isset($item->id))
 		{
 			if (self::$fieldCache === null)
@@ -590,7 +595,7 @@ class FieldsHelper
 	 *
 	 * @return  array  Array with the assigned categories
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getAssignedCategoriesTitles($fieldId)
 	{

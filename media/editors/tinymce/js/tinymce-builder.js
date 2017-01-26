@@ -9,7 +9,7 @@
     /**
      * Fake TinyMCE object to allow to use TinyMCE translation for the button labels
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  3.7.0
      */
     window.tinymce = {
         langCode: 'en',
