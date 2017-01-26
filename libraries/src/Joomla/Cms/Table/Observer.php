@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Table;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -14,12 +16,12 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.1.2
  */
-abstract class JTableObserver implements JObserverInterface
+abstract class Observer implements \JObserverInterface
 {
 	/**
 	 * The observed table
 	 *
-	 * @var    JTable
+	 * @var    Table
 	 * @since  3.1.2
 	 */
 	protected $table;
@@ -27,11 +29,11 @@ abstract class JTableObserver implements JObserverInterface
 	/**
 	 * Constructor: Associates to $table $this observer
 	 *
-	 * @param   JTableInterface  $table  Table to be observed
+	 * @param   \JTableInterface  $table  Table to be observed
 	 *
 	 * @since   3.1.2
 	 */
-	public function __construct(JTableInterface $table)
+	public function __construct(\JTableInterface $table)
 	{
 		$table->attachObserver($this);
 		$this->table = $table;

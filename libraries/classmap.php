@@ -32,3 +32,4 @@ JLoader::registerAlias('JControllerAdmin',      '\\Joomla\\Cms\\Controller\\Admi
 JLoader::registerAlias('JControllerLegacy',     '\\Joomla\\Cms\\Controller\\Controller', '4.0');
 JLoader::registerAlias('JControllerForm',       '\\Joomla\\Cms\\Controller\\Form', '4.0');
 JLoader::registerAlias('JTable',                '\\Joomla\\Cms\\Table\\Table', '4.0');
+JLoader::registerAlias('JTableObserver',        '\\Joomla\\Cms\\Table\\Observer', '4.0');
