@@ -8835,6 +8835,8 @@ textarea.noResize {
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
 }
-.row-fluid [class*="span"] {
-	margin-left: 2.12766%;
+@media (max-width: 979px) {
+	.row-fluid [class*="span"] {
+		margin-left: 2.12766%;
+	}
 }
