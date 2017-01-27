@@ -236,8 +236,14 @@ var JFormValidator = function() {
 		    elements = form.querySelectorAll('input, textarea, select, button');
 		    for (var i = 0, l = elements.length; i < l; i++) {
 			    var el = elements[i], tagName = el.tagName.toLowerCase();
+
+			    if (['input', 'textarea', 'select', 'fieldset'].indexOf(tagName) > -1 && el.classList.contains('required')) {
+				    el.setAttribute('required', '');
+			    }
+
 			    // Attach isValid method to submit button
 			    if ((tagName === 'input' || tagName === 'button') && (el.getAttribute('type') === 'submit' || el.getAttribute('type') === 'image')) {
+
 				    if (el.classList.contains('validate')) {
 					    el.addEventListener('click', function() {
 						    return isValid(form);

@@ -32,7 +32,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 			});
 
 			it('with class \'required\' should have attributes required = required', function () {
-				expect($element.find('#attach-to-form input')).toHaveAttr('required', 'required');
+				expect($element.find('#attach-to-form input')).toHaveAttr('required');
 			});
 		});
 
@@ -42,7 +42,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 			});
 
 			it('with class \'required\' should have attributes required = required', function () {
-				expect($element.find('#attach-to-form textarea')).toHaveAttr('required', 'required');
+				expect($element.find('#attach-to-form textarea')).toHaveAttr('required');
 			});
 		});
 
@@ -52,7 +52,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 			});
 
 			it('with class \'required\' should have attributes required = required', function () {
-				expect($element.find('#attach-to-form select')).toHaveAttr('required', 'required');
+				expect($element.find('#attach-to-form select')).toHaveAttr('required');
 			});
 		});
 
@@ -62,12 +62,12 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 			});
 
 			it('with class \'required\' should have attributes required = required', function () {
-				expect($element.find('#attach-to-form fieldset')).toHaveAttr('required', 'required');
+				expect($element.find('#attach-to-form fieldset')).toHaveAttr('required');
 			});
 		});
 
 		describe('validate method on #validate-disabled', function () {
-			var res = document.formvalidator.validate($element.find('#validate-disabled'));
+			var res = document.formvalidator.validate($element.find('#validate-disabled').get(0));
 
 			it('should return true', function () {
 				expect(res).toEqual(true);
@@ -87,7 +87,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 		});
 
 		describe('validate method on #validate-required-unchecked', function () {
-			var res = document.formvalidator.validate($element.find('#validate-required-unchecked'));
+			var res = document.formvalidator.validate($element.find('#validate-required-unchecked').get(0));
 
 			it('should return false', function () {
 				expect(res).toEqual(false);
@@ -103,7 +103,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 		});
 
 		describe('validate method on #validate-required-checked', function () {
-			var res = document.formvalidator.validate($element.find('#validate-required-checked'));
+			var res = document.formvalidator.validate($element.find('#validate-required-checked').get(0));
 
 			it('should return true', function () {
 				expect(res).toEqual(true);
@@ -111,7 +111,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 		});
 
 		describe('validate method on #validate-numeric-number', function () {
-			var res = document.formvalidator.validate($element.find('#validate-numeric-number'));
+			var res = document.formvalidator.validate($element.find('#validate-numeric-number').get(0));
 
 			it('should return true', function () {
 				expect(res).toEqual(true);
@@ -134,7 +134,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 			var $label = $element.find('#validate-numeric-nan-label');
 			$element.find('#validate-numeric-nan').data('label', $label);
 
-			var res = document.formvalidator.validate($element.find('#validate-numeric-nan'));
+			var res = document.formvalidator.validate($element.find('#validate-numeric-nan').get(0));
 
 			it('should return false', function () {
 				expect(res).toEqual(false);
@@ -154,7 +154,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 		});
 
 		describe('validate method on #validate-no-options', function () {
-			var res = document.formvalidator.validate($element.find('#validate-no-options'));
+			var res = document.formvalidator.validate($element.find('#validate-no-options').get(0));
 
 			it('should return true', function () {
 				expect(res).toEqual(true);

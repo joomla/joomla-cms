@@ -47,9 +47,6 @@ var sendTestMail = function() {
 			}
 		}
 	);
-
-	// Scroll to page top
-	window.scrollTo(0, 0);
 };
 
 document.addEventListener('DOMContentLoaded', function() {
