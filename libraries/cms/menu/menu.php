@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class JMenu
 	/**
 	 * Array to hold the menu items
 	 *
-	 * @var    JMenuItem[]
+	 * @var    array
 	 * @since  1.5
 	 * @deprecated  4.0  Will convert to $items
 	 */
@@ -79,8 +79,25 @@ class JMenu
 			{
 				$this->_default[trim($item->language)] = $item->id;
 			}
-		}
 
+			// Decode the item params
+			try
+			{
+				$result = new Registry;
+				$result->loadString($item->params);
+				$item->params = $result;
+			}
+			catch (RuntimeException $e)
+			{
+				/**
+				 * Joomla shipped with a broken sample json string for 4 years which caused fatals with new
+				 * error checks. So for now we catch the exception here - but one day we should remove it and require
+				 * valid JSON.
+				 */
+				$item->params = new Registry;
+			}
+		}
+		/*TODO(DRJ) This may be the place to test if user will see the menu item*/
 		$this->user = isset($options['user']) && $options['user'] instanceof JUser ? $options['user'] : JFactory::getUser();
 	}
 
@@ -112,11 +129,10 @@ class JMenu
 				{
 					$path = $info->path . '/includes/menu.php';
 
-					JLoader::register($classname, $path);
-
-					if (class_exists($classname))
+					if (file_exists($path))
 					{
 						JLog::add('Non-autoloadable JMenu subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
+						include_once $path;
 					}
 				}
 			}
@@ -137,7 +153,7 @@ class JMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  JMenuItem|null  The item object if the ID exists or null if not found
+	 * @return  mixed    The item object, or null if not found
 	 *
 	 * @since   1.5
 	 */
@@ -157,9 +173,9 @@ class JMenu
 	 * Set the default item by id and language code.
 	 *
 	 * @param   integer  $id        The menu item id.
-	 * @param   string   $language  The language code (since 1.6).
+	 * @param   string   $language  The language cod (since 1.6).
 	 *
-	 * @return  boolean  True if a menu item with the given ID exists
+	 * @return  boolean  True, if successful
 	 *
 	 * @since   1.5
 	 */
@@ -180,7 +196,7 @@ class JMenu
 	 *
 	 * @param   string  $language  The language code, default value of * means all.
 	 *
-	 * @return  JMenuItem|null  The item object or null when not found for given language
+	 * @return  mixed  The item object or null when not found for given language
 	 *
 	 * @since   1.5
 	 */
@@ -204,7 +220,7 @@ class JMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  JMenuItem|null  The menu item representing the given ID if present or null otherwise
+	 * @return  mixed  If successful the active item, otherwise null
 	 *
 	 * @since   1.5
 	 */
@@ -224,7 +240,7 @@ class JMenu
 	/**
 	 * Get menu item by id.
 	 *
-	 * @return  JMenuItem|null  The item object if an active menu item has been set or null
+	 * @return  object  The item object.
 	 *
 	 * @since   1.5
 	 */
@@ -248,7 +264,7 @@ class JMenu
 	 *                                each attribute may have multiple values to lookup for.
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *
-	 * @return  JMenuItem|JMenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
+	 * @return  array
 	 *
 	 * @since   1.5
 	 */
@@ -266,24 +282,25 @@ class JMenu
 				continue;
 			}
 
+			
 			$test = true;
 
 			for ($i = 0; $i < $count; $i++)
 			{
 				if (is_array($values[$i]))
 				{
-					// Test special conditions before falling through to default below
-					if ($attributes[$i] == 'inheritable')
-					{
-						if (!$item->inheritable && !in_array($item->access, $values[$i]))
-						{
+					if ($attributes[$i] == 'inheritable') {
+						if (!$item->inheritable) {
 							$test = false;
-							break;
+							foreach ($item->viewlevelrule as $viewlevel) {
+								if (in_array($viewlevel, $values[$i]))
+								{
+									$test = true;
+									break;
+								}
+							}
 						}
-					}
-					else
-					{
-						// This is the default logic statement when an array of values is passed
+					} else {
 						if (!in_array($item->{$attributes[$i]}, $values[$i]))
 						{
 							$test = false;
@@ -320,7 +337,7 @@ class JMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  Registry
+	 * @return  Registry  A Registry object
 	 *
 	 * @since   1.5
 	 */
@@ -337,7 +354,7 @@ class JMenu
 	/**
 	 * Getter for the menu array
 	 *
-	 * @return  JMenuItem[]
+	 * @return  array
 	 *
 	 * @since   1.5
 	 */
@@ -346,12 +363,13 @@ class JMenu
 		return $this->_items;
 	}
 
-	/**
-	 * Method to check JMenu object authorization against an access control object and optionally an access extension object
+	/** TODO(DRJ)
+	 * Method to check JMenu object authorization against an access control
+	 * object and optionally an access extension object
 	 *
 	 * @param   integer  $id  The menu id
 	 *
-	 * @return  boolean
+	 * @return  boolean  True if authorised
 	 *
 	 * @since   1.5
 	 */
