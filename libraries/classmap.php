@@ -40,6 +40,7 @@ JLoader::registerAlias('JTableLanguage',               '\\Joomla\\Cms\\Table\\La
 JLoader::registerAlias('JTableUpdate',                 '\\Joomla\\Cms\\Table\\Update', '4.0');
 JLoader::registerAlias('JTableUpdatesite',             '\\Joomla\\Cms\\Table\\UpdateSite', '4.0');
 JLoader::registerAlias('JTableUser',                   '\\Joomla\\Cms\\Table\\User', '4.0');
+JLoader::registerAlias('JTableUsergroup',              '\\Joomla\\Cms\\Table\\Usergroup', '4.0');
 JLoader::registerAlias('JTableObserver',               '\\Joomla\\Cms\\Table\\Observer\\AbstractObserver', '4.0');
 JLoader::registerAlias('JTableObserverContenthistory', '\\Joomla\\Cms\\Table\\Observer\\ContentHistory', '4.0');
 JLoader::registerAlias('JTableObserverTags',           '\\Joomla\\Cms\\Table\\Observer\\Tags', '4.0');
