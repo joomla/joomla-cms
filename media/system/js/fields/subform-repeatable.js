@@ -53,11 +53,11 @@
 
 		// bind move button
 		if(this.options.btMove){
-			this.$containerRows.sortable({
-				items: this.options.repeatableElement,
-				handle: this.options.btMove,
-				tolerance: 'pointer'
-			});
+			// this.$containerRows.sortable({
+			// 	items: this.options.repeatableElement,
+			// 	handle: this.options.btMove,
+			// 	tolerance: 'pointer'
+			// });
 		}
 
 		// tell all that we a ready

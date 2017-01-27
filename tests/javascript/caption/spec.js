@@ -48,11 +48,15 @@ define(['jquery', 'testsRoot/caption/spec-setup', 'jasmineJquery'], function ($)
 		});
 
 		it('Should have container width as 100 when element width attribute is set to 100', function () {
-			expect($('img#width-attr').parent().width()).toEqual(100);
+			expect($('img#width-attr').parent()).toHaveCss({
+				width: '100px'
+			});
 		});
 
 		it('Should have container width as 90 when element style is set to width: 90px', function () {
-			expect($('img#width-style').parent().width()).toEqual(90);
+			expect($('img#width-style').parent()).toHaveCss({
+				width: '90px'
+			});
 		});
 
 		it('Should have float: right in container CSS when element attribute align is set to right', function () {
