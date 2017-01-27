@@ -110,14 +110,19 @@ abstract class AbstractUri implements UriInterface
 	/**
 	 * Returns full uri string.
 	 *
-	 * @param   array  $parts  An array specifying the parts to render.
+	 * @param   mixed   $parts  An array specifying the parts to render.
 	 *
 	 * @return  string  The rendered URI string.
 	 *
 	 * @since   1.0
 	 */
-	public function toString(array $parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
+	public function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
 	{
+		if (is_string($parts))
+		{
+			$parts = func_get_args();
+		}
+
 		// Make sure the query is created
 		$query = $this->getQuery();
 
