@@ -36,9 +36,6 @@ class JUserTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
-		// Clear JAccess static caches.
-		JAccess::clearStatics();
-
 		$this->saveFactoryState();
 
 		$mockApp = $this->getMockCmsApp();

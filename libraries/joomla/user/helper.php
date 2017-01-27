@@ -157,7 +157,7 @@ abstract class JUserHelper
 				}
 				else
 				{
-					$result = array_values(self::getUserGroups($userId));
+					$result = self::getUserGroups($userId);
 				}
 			}
 			// Registered user and guest if all groups are requested
