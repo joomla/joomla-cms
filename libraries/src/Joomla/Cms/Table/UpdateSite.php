@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Table;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -17,12 +19,12 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Table
  * @since       3.4
  */
-class JTableUpdatesite extends JTable
+class UpdateSite extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   3.4
 	 */
@@ -36,7 +38,7 @@ class JTableUpdatesite extends JTable
 	 *
 	 * @return  boolean  True if the object is ok
 	 *
-	 * @see     JTable::check()
+	 * @see     Table::check()
 	 * @since   3.4
 	 */
 	public function check()
@@ -44,7 +46,7 @@ class JTableUpdatesite extends JTable
 		// Check for valid name
 		if (trim($this->name) == '' || trim($this->location) == '')
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
 			return false;
 		}
