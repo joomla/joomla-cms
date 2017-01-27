@@ -65,6 +65,8 @@
 	* Documentation for Developers: https://docs.joomla.org/Portal:Developers
 	* Documentation for Web designers: https://docs.joomla.org/Web_designers
 
+13- Travis needs a holiday.
+
 Copyright:
 	* Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
 	* Special Thanks: https://docs.joomla.org/Joomla!_Credits_and_Thanks
