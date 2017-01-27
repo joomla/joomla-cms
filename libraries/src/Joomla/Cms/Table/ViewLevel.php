@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Table;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -14,12 +16,12 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JTableViewlevel extends JTable
+class ViewLevel extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -64,7 +66,7 @@ class JTableViewlevel extends JTable
 		// Validate the title.
 		if ((trim($this->title)) == '')
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
 
 			return false;
 		}
@@ -80,7 +82,7 @@ class JTableViewlevel extends JTable
 
 		if ($db->loadResult() > 0)
 		{
-			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_USERLEVEL_NAME_EXISTS', $this->title));
+			$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_USERLEVEL_NAME_EXISTS', $this->title));
 
 			return false;
 		}
