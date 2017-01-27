@@ -770,7 +770,7 @@ class MenusModelItem extends JModelAdmin
 			// Note that all request arguments become reserved parameter names.
 			$result->params = array_merge($result->params, $args);
 			// Add Itemid to the alias link value
-                        $result->link .= $result->id;
+			$result->link .= $result->id;
 		}
 
 		if ($table->type == 'url')
