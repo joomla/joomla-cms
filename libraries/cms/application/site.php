@@ -466,13 +466,7 @@ final class JApplicationSite extends JApplicationCms
 			$tag = '';
 		}
 
-		$cacheId = 'templates0' . $tag;
-
-		if ($cache->contains($cacheId))
-		{
-			$templates = $cache->get($cacheId);
-		}
-		else
+		if (!$templates = $cache->get('templates0' . $tag))
 		{
 			// Load styles
 			$db = JFactory::getDbo();
@@ -488,23 +482,18 @@ final class JApplicationSite extends JApplicationCms
 
 			foreach ($templates as &$template)
 			{
+				$registry = new Registry;
+				$registry->loadString($template->params);
+				$template->params = $registry;
+
 				// Create home element
-				if ($template->home == 1 && !isset($template_home) || $this->_language_filter && $template->home == $tag)
+				if ($template->home == 1 && !isset($templates[0]) || $this->_language_filter && $template->home == $tag)
 				{
-					$template_home = clone $template;
+					$templates[0] = clone $template;
 				}
-
-				$template->params = new Registry($template->params);
 			}
 
-			// Add home element, after loop to avoid double execution
-			if (isset($template_home))
-			{
-				$template_home->params = new Registry($template_home->params);
-				$templates[0] = $template_home;
-			}
-
-			$cache->store($templates, $cacheId);
+			$cache->store($templates, 'templates0' . $tag);
 		}
 
 		if (isset($templates[$id]))
