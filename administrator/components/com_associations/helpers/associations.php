@@ -481,6 +481,44 @@ class AssociationsHelper extends JHelperContent
 	}
 
 	/**
+	 * Check if an item is checked out
+	 *
+	 * @param   string  $extensionName  The extension name with com_
+	 * @param   string  $typeName       The item type
+	 * @param   int     $itemId         The id of item for which we need the associated items
+	 *
+	 * @return  boolean  True if item is checked out.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isCheckoutItem($extensionName, $typeName, $itemId)
+	{
+		if (!self::hasSupport($extensionName))
+		{
+			return false;
+		}
+
+		if (!self::typeSupportsCheckout($extensionName, $typeName))
+		{
+			return false;
+		}
+
+		// Get the extension specific helper method
+		$helper = self::getExtensionHelper($extensionName);
+
+		if (method_exists($helper, 'isCheckoutItem'))
+		{
+			return $helper->isCheckoutItem($typeName, $itemId);
+		}
+
+		$item = self::getItem($extensionName, $typeName, $itemId);
+
+		$checkedOutFieldName = $helper->getTypeFieldName($typeName, 'checked_out');
+
+		return $item->{$checkedOutFieldName} != 0;
+	}
+
+	/**
 	 * Check if user can checkin an item.
 	 *
 	 * @param   string  $extensionName  The extension name with com_

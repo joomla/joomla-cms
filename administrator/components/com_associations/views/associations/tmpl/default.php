@@ -110,6 +110,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				$canCheckin = true;
 				$canEdit    = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
 				$canCheckin = $canManageCheckin || AssociationsHelper::canCheckinItem($this->extensionName, $this->typeName, $item->id);
+				$isCheckout = AssociationsHelper::isCheckoutItem($this->extensionName, $this->typeName, $item->id);
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<?php if (!empty($this->typeSupports['state'])) : ?>
@@ -121,10 +122,10 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php if (isset($item->level)) : ?>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 						<?php endif; ?>
-						<?php if (isset($item->checked_out) && $item->checked_out) : ?>
+						<?php if ($canCheckin && $isCheckout) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
 						<?php endif; ?>
-						<?php if ($canEdit) : ?>
+						<?php if ($canEdit && !$isCheckout) : ?>
 							<a href="<?php echo JRoute::_($this->editUri . '&id=' . (int) $item->id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
 						<?php else : ?>
@@ -145,7 +146,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 					</td>
 					<td>
-						<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language); ?>
+						<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout); ?>
 					</td>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
 						<td class="small">
