@@ -496,6 +496,9 @@ final class JApplicationSite extends JApplicationCms
 			$cache->store($templates, 'templates0' . $tag);
 		}
 
+		// Unset the $template reference to the last $templates[n] item cycled in the foreach above to avoid to edit the $templates array in the following assignment 
+		unset($template);
+		
 		if (isset($templates[$id]))
 		{
 			$template = $templates[$id];
