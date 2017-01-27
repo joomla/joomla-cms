@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Table;
+
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
@@ -17,12 +19,12 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  11.1
  */
-class JTableExtension extends JTable
+class Extension extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -36,7 +38,7 @@ class JTableExtension extends JTable
 	 *
 	 * @return  boolean  True if the object is ok
 	 *
-	 * @see     JTable::check()
+	 * @see     Table::check()
 	 * @since   11.1
 	 */
 	public function check()
@@ -44,7 +46,7 @@ class JTableExtension extends JTable
 		// Check for valid name
 		if (trim($this->name) == '' || trim($this->element) == '')
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
 			return false;
 		}
@@ -61,7 +63,7 @@ class JTableExtension extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable::bind()
+	 * @see     Table::bind()
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -92,7 +94,7 @@ class JTableExtension extends JTable
 	 */
 	public function find($options = array())
 	{
-		// Get the JDatabaseQuery object
+		// Get the \JDatabaseQuery object
 		$query = $this->_db->getQuery(true);
 
 		foreach ($options as $col => $val)
@@ -140,7 +142,7 @@ class JTableExtension extends JTable
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
@@ -177,7 +179,7 @@ class JTableExtension extends JTable
 			}
 		}
 
-		// If the JTable instance value is in the list of primary keys that were set, set the instance.
+		// If the Table instance value is in the list of primary keys that were set, set the instance.
 		if (in_array($this->$k, $pks))
 		{
 			$this->enabled = $state;
