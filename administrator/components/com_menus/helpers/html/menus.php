@@ -255,19 +255,20 @@ abstract class MenusHtmlMenus
 		return ($show_menu === 0) ? '<span class="label">' . JText::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
 	}
 	
-    /**
-     * Returns an isInheritable state on a grid
-     *
-     * @param   integer       $value       The state value.
-     * @param   integer       $i           The row index
-     * @param   boolean       $enabled     An optional setting for access control on the action.
-     * @param   string        $checkbox    An optional prefix for checkboxes.
-     *
-     * @return  string        The HTML markup
-     *
-     * @see     JHtmlJGrid::state()
-     * @since   2017-01-25
-     */
+        /**
+         * Returns an isInheritable state on a grid
+         *
+         * @param   integer  $value     The state value.
+         * @param   integer  $i         The row index
+         * @param   boolean  $enabled   An optional setting for access control on the action.
+         * @param   string   $checkbox  An optional prefix for checkboxes.
+         *
+         * @return  string        The Html markup
+         *
+         * @see JHtmlJGrid::state
+         *
+         * @since   2017-01-25
+         */
 	public static function isinheritable($value, $i, $enabled = true, $checkbox = 'cb')
 	{
 	
