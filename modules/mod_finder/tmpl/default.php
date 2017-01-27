@@ -26,7 +26,8 @@ $output = '<input type="text" name="q" id="mod-finder-searchword' . $module->id 
 
 $showLabel  = $params->get('show_label', 1);
 $labelClass = (!$showLabel ? 'element-invisible ' : '') . 'finder' . $suffix;
-$label      = '<label for="mod-finder-searchword' . $module->id . '" class="' . $labelClass . '">' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
+$style	    = (!$showLabel ? 'style="display:none;" ' : '');
+$label      = '<label for="mod-finder-searchword' . $module->id . '" class="' . $labelClass . '" ' . $style . '>' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
 
 switch ($params->get('label_pos', 'left'))
 {
