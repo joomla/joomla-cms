@@ -291,13 +291,12 @@
 				type="list"
 				label="COM_FIELDS_FIELD_DISPLAY_LABEL"
 				description="COM_FIELDS_FIELD_DISPLAY_DESC"
-				default="-1"
+				default="2"
 			>
 				<option value="1">COM_FIELDS_FIELD_DISPLAY_AFTER_TITLE</option>
 				<option value="2">COM_FIELDS_FIELD_DISPLAY_BEFORE_DISPLAY</option>
 				<option value="3">COM_FIELDS_FIELD_DISPLAY_AFTER_DISPLAY</option>
 				<option value="0">JNO</option>
-				<option value="-1">JGLOBAL_USE_GLOBAL</option>
 			</field>
 		</fieldset>
 	</fields>
