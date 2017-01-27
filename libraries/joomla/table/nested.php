@@ -1114,10 +1114,10 @@ class JTableNested extends JTable
  *	if this is needed.
 
  
-			// If any parent nodes have lower published state values, we cannot continue.
+			(THIS IS A ONE LINE COMMENT)  If any parent nodes have lower published state values, we cannot continue.
 			if ($node->parent_id)
 			{
-				// Get any ancestor nodes that have a lower publishing state.
+				(THIS IS A ONE LINE COMMENT)  Get any ancestor nodes that have a lower publishing state.
 				$query->clear()
 				->select('n.' . $k)
 				->from($this->_db->quoteName($this->_tbl) . ' AS n')
@@ -1126,7 +1126,7 @@ class JTableNested extends JTable
 				->where('n.parent_id > 0')
 				->where('n.published < ' . (int) $compareState);
 	
-				// Just fetch one row (one is one too many).
+				(THIS IS A ONE LINE COMMENT)  Just fetch one row (one is one too many).
 				$this->_db->setQuery($query, 0, 1);
 	
 				$rows = $this->_db->loadColumn();
