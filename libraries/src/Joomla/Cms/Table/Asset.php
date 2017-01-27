@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Table;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -14,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JTableAsset extends JTableNested
+class Asset extends Nested
 {
 	/**
 	 * The primary key of the asset.
@@ -51,7 +53,7 @@ class JTableAsset extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -101,10 +103,10 @@ class JTableAsset extends JTableNested
 		{
 			$this->rules = '{}';
 		}
-		// JTableNested does not allow parent_id = 0, override this.
+		// Nested does not allow parent_id = 0, override this.
 		if ($this->parent_id > 0)
 		{
-			// Get the JDatabaseQuery object
+			// Get the \JDatabaseQuery object
 			$query = $this->_db->getQuery(true)
 				->select('COUNT(id)')
 				->from($this->_db->quoteName($this->_tbl))
@@ -138,7 +140,7 @@ class JTableAsset extends JTableNested
 	 * @return  integer  1 + value of root rgt on success, false on failure
 	 *
 	 * @since   3.5
-	 * @throws  RuntimeException on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public function rebuild($parentId = null, $leftId = 0, $level = 0, $path = null)
 	{
