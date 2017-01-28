@@ -497,6 +497,9 @@ final class JApplicationSite extends JApplicationCms
 				$template->params = new Registry($template->params);
 			}
 
+			// Unset the $template reference to the last $templates[n] item cycled in the foreach above to avoid editing it later
+			unset($template);
+
 			// Add home element, after loop to avoid double execution
 			if (isset($template_home))
 			{
@@ -507,8 +510,6 @@ final class JApplicationSite extends JApplicationCms
 			$cache->store($templates, $cacheId);
 		}
 
-		// Unset the $template reference to the last $templates[n] item cycled in the foreach above to avoid to edit the $templates array in the following assignment 
-		unset($template);
 		if (isset($templates[$id]))
 		{
 			$template = $templates[$id];
