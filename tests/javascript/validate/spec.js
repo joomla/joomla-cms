@@ -86,21 +86,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 			});
 		});
 
-		// describe('validate method on #validate-required-unchecked', function () {
-		// 	var res = document.formvalidator.validate($element.find('#validate-required-unchecked').get(0));
-		//
-		// 	it('should return false', function () {
-		// 		expect(res).toEqual(false);
-		// 	});
-		//
-		// 	it('should add class invalid to element', function () {
-		// 		expect($element.find('#validate-required-unchecked')).toHaveClass('invalid');
-		// 	});
-		//
-		// 	it('should have aria-invalid = true in element', function () {
-		// 		expect($element.find('#validate-required-unchecked')).toHaveAttr('aria-invalid', 'true');
-		// 	});
-		// });
+		// @TODO re add the 'validate method on #validate-required-unchecked' tests
 
 		describe('validate method on #validate-required-checked', function () {
 			var res = document.formvalidator.validate($element.find('#validate-required-checked').get(0));
