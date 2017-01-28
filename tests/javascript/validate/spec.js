@@ -131,9 +131,6 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 		});
 
 		describe('validate method on #validate-numeric-nan', function () {
-			var $label = $element.find('#validate-numeric-nan-label');
-			$element.find('#validate-numeric-nan').data('label', $label);
-
 			var res = document.formvalidator.validate($element.find('#validate-numeric-nan').get(0));
 
 			it('should return false', function () {
@@ -149,7 +146,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 			});
 
 			it('should add class invalid to the label for element', function () {
-				expect($element.find('#validate-numeric-nan-label')).toHaveClass('invalid');
+				expect($element.find('[for="validate-numeric-nan"]')).toHaveClass('invalid');
 			});
 		});
 
@@ -174,8 +171,8 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 				$('#button').trigger( "click" );
 			});
 
-			it('should call Joomla.JText._(\'JLIB_FORM_FIELD_INVALID\')', function () {
-				expect(Joomla.JText._).toHaveBeenCalledWith('JLIB_FORM_FIELD_INVALID');
+			it('should call Joomla.JText._(\'JLIB_FORM_CONTAINS_INVALID_FIELDS\')', function () {
+				expect(Joomla.JText._).toHaveBeenCalledWith('JLIB_FORM_CONTAINS_INVALID_FIELDS');
 			});
 
 			it('should call Joomla.renderMessages({error: ["undefined"]})', function () {
