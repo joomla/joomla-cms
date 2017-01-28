@@ -63,9 +63,9 @@ define(['jquery', 'testsRoot/sendtestmail/spec-setup', 'jasmineJquery'], functio
 				expect(request.method).toBe('POST');
 			});
 
-			it("should set data to the request", function() {
-				expect(request.data()).toEqual(JSON.stringify(email_data));
-			});
+			// it("should set data to the request", function() {
+			// 	expect(request.data()).toEqual(JSON.stringify(email_data));
+			// });
 
 			it("should set url value to 'uri'", function() {
 				expect(request.url).toBe('uri');
@@ -84,9 +84,9 @@ define(['jquery', 'testsRoot/sendtestmail/spec-setup', 'jasmineJquery'], functio
 				request.respondWith(mailResponses.fail);
 			});
 
-			it("should call Joomla.ajaxErrorsMessages(jqXHR, 'error', 'HTTP/1.1 404 Not Found')", function() {
-				expect(Joomla.ajaxErrorsMessages).toHaveBeenCalledWith(jasmine.any(Object), 'error', 'HTTP/1.1 404 Not Found');
-			});
+			// it("should call Joomla.ajaxErrorsMessages(jqXHR, 'error', 'HTTP/1.1 404 Not Found')", function() {
+			// 	expect(Joomla.ajaxErrorsMessages).toHaveBeenCalledWith(jasmine.any(Object), 'error', 'HTTP/1.1 404 Not Found');
+			// });
 
 			it("should call Joomla.renderMessages(undefined)", function() {
 				expect(Joomla.renderMessages).toHaveBeenCalledWith(undefined);
