@@ -137,6 +137,6 @@ abstract class TestCaseDatabasePdomysql extends TestCaseDatabase
 
 		static::$driver->connect();
 
-		return $this->createDefaultDBConnection(static::$driver->getConnection(), self::$options['database']);
+		return $this->createDefaultDBConnection(static::$driver->getConnection(), self::$_options['database']);
 	}
 }
