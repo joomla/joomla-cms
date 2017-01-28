@@ -375,7 +375,7 @@ class JComponentHelper
 			$class = ucwords($file) . 'Dispatcher';
 
 			// Check the class exists and implements the dispatcher interface
-			if (!class_exists($class) || !in_array(DispatcherInterface::class, class_implements($class)))
+			if (!class_exists($class) || !in_array('Joomla\\Cms\\Dispatcher\\DispatcherInterface', class_implements($class)))
 			{
 				throw new LogicException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
 			}
