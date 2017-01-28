@@ -47,21 +47,21 @@ var JFormValidator = function() {
 			    } else {
 				    message = el.parentNode.querySelector('span.invalid')
 			    }
-
-			    el.classList.remove('invalid');
-			    el.classList.add('valid');
-			    el.setAttribute('aria-invalid', 'false');
-
-			    // Remove message
-			    if (message) {
-				    el.parentNode.removeChild(message);
-			    }
-
-			    // Restore Label
-			    if (label) {
-				    label.classList.remove('invalid');
-			    }
 		    }
+
+			el.classList.remove('invalid');
+			el.classList.add('valid');
+			el.setAttribute('aria-invalid', 'false');
+
+			// Remove message
+			if (message) {
+			    el.parentNode.removeChild(message);
+			}
+
+			// Restore Label
+			if (label) {
+			    label.classList.remove('invalid');
+			}
 	    },
 
 	    markInvalid = function(el, empty) {
@@ -139,7 +139,7 @@ var JFormValidator = function() {
 		    debugger;
 		    var tagName, handler;
 		    // Ignore the element if its currently disabled, because are not submitted for the http-request. For those case return always true.
-		    if (el.getAttribute('disabled') == 'disabled' || el.getAttribute('display') == 'none') {
+		    if (el.getAttribute('disabled') === 'disabled' || el.getAttribute('display') == 'none') {
 			    handleResponse(true, el);
 			    return true;
 		    }

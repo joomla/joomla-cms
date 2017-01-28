@@ -175,10 +175,6 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 				expect(Joomla.JText._).toHaveBeenCalledWith('JLIB_FORM_CONTAINS_INVALID_FIELDS');
 			});
 
-			it('should call Joomla.renderMessages({error: ["undefined"]})', function () {
-				expect(Joomla.renderMessages).toHaveBeenCalledWith({error: ["undefined"]});
-			});
-
 			it('should add class invalid to element #isvalid-numeric-nan', function () {
 				expect($element.find('#isvalid-numeric-nan')).toHaveClass('invalid');
 			});
