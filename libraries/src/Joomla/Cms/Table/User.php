@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Table;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -17,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  11.1
  */
-class JTableUser extends JTable
+class User extends Table
 {
 	/**
 	 * Associative array of group ids => group ids for the user
@@ -30,7 +31,7 @@ class JTableUser extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since  11.1
 	 */
@@ -90,7 +91,7 @@ class JTableUser extends JTable
 		}
 
 		// Convert email from punycode
-		$data['email'] = JStringPunycode::emailToUTF8($data['email']);
+		$data['email'] = \JStringPunycode::emailToUTF8($data['email']);
 
 		// Bind the data to the table.
 		$return = $this->bind($data);
@@ -170,19 +171,19 @@ class JTableUser extends JTable
 			$this->id = null;
 		}
 
-		$filterInput = JFilterInput::getInstance();
+		$filterInput = \JFilterInput::getInstance();
 
 		// Validate user information
 		if ($filterInput->clean($this->name, 'TRIM') == '')
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
 
 			return false;
 		}
 
 		if ($filterInput->clean($this->username, 'TRIM') == '')
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
 
 			return false;
 		}
@@ -190,25 +191,25 @@ class JTableUser extends JTable
 		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || strlen(utf8_decode($this->username)) < 2
 			|| $filterInput->clean($this->username, 'TRIM') !== $this->username)
 		{
-			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
+			$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
 
 			return false;
 		}
 
-		if (($filterInput->clean($this->email, 'TRIM') == '') || !JMailHelper::isEmailAddress($this->email))
+		if (($filterInput->clean($this->email, 'TRIM') == '') || !\JMailHelper::isEmailAddress($this->email))
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 
 			return false;
 		}
 
 		// Convert email to punycode for storage
-		$this->email = JStringPunycode::emailToPunycode($this->email);
+		$this->email = \JStringPunycode::emailToPunycode($this->email);
 
 		// Set the registration timestamp
 		if (empty($this->registerDate) || $this->registerDate == $this->_db->getNullDate())
 		{
-			$this->registerDate = JFactory::getDate()->toSql();
+			$this->registerDate = \JFactory::getDate()->toSql();
 		}
 
 		// Set the lastvisitDate timestamp
@@ -235,7 +236,7 @@ class JTableUser extends JTable
 
 		if ($xid && $xid != (int) $this->id)
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'));
 
 			return false;
 		}
@@ -251,13 +252,13 @@ class JTableUser extends JTable
 
 		if ($xid && $xid != (int) $this->id)
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
 
 			return false;
 		}
 
 		// Check for root_user != username
-		$config = JFactory::getConfig();
+		$config = \JFactory::getConfig();
 		$rootUser = $config->get('root_user');
 
 		if (!is_numeric($rootUser))
@@ -272,7 +273,7 @@ class JTableUser extends JTable
 			if ($rootUser == $this->username && (!$xid || $xid && $xid != (int) $this->id)
 				|| $xid && $xid == (int) $this->id && $rootUser != $this->username)
 			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
 
 				return false;
 			}
@@ -282,10 +283,10 @@ class JTableUser extends JTable
 	}
 
 	/**
-	 * Method to store a row in the database from the JTable instance properties.
+	 * Method to store a row in the database from the Table instance properties.
 	 *
 	 * If a primary key value is set the row with that primary key value will be updated with the instance property values.
-	 * If no primary key value is set a new row will be inserted into the database with the properties from the JTable instance.
+	 * If no primary key value is set a new row will be inserted into the database with the properties from the Table instance.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -475,7 +476,7 @@ class JTableUser extends JTable
 		}
 
 		// If no timestamp value is passed to function, than current time is used.
-		$date = JFactory::getDate($timeStamp);
+		$date = \JFactory::getDate($timeStamp);
 
 		// Update the database row for the user.
 		$db = $this->_db;

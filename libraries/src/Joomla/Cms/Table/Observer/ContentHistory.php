@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Table\Observer;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,12 +15,12 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.2
  */
-class JTableObserverContenthistory extends JTableObserver
+class ContentHistory extends AbstractObserver
 {
 	/**
 	 * Helper object for storing and deleting version history information associated with this table observer
 	 *
-	 * @var    JHelperContenthistory
+	 * @var    \JHelperContenthistory
 	 * @since  3.2
 	 */
 	protected $contenthistoryHelper;
@@ -36,7 +37,7 @@ class JTableObserverContenthistory extends JTableObserver
 	 * Not public, so marking private and deprecated, but needed internally in parseTypeAlias for
 	 * PHP < 5.4.0 as it's not passing context $this to closure function.
 	 *
-	 * @var         JTableObserverContenthistory
+	 * @var         ContentHistory
 	 * @since       3.2
 	 * @deprecated  Never use this
 	 * @private
@@ -48,20 +49,20 @@ class JTableObserverContenthistory extends JTableObserver
 	 * Creates the associated content history helper class instance
 	 * $typeAlias can be of the form "{variableName}.type", automatically replacing {variableName} with table-instance variables variableName
 	 *
-	 * @param   JObservableInterface  $observableObject  The subject object to be observed
-	 * @param   array                 $params            ( 'typeAlias' => $typeAlias )
+	 * @param   \JObservableInterface  $observableObject  The subject object to be observed
+	 * @param   array                  $params            ( 'typeAlias' => $typeAlias )
 	 *
-	 * @return  JTableObserverContenthistory
+	 * @return  ContentHistory
 	 *
 	 * @since   3.2
 	 */
-	public static function createObserver(JObservableInterface $observableObject, $params = array())
+	public static function createObserver(\JObservableInterface $observableObject, $params = array())
 	{
 		$typeAlias = $params['typeAlias'];
 
 		$observer = new self($observableObject);
 
-		$observer->contenthistoryHelper = new JHelperContenthistory($typeAlias);
+		$observer->contenthistoryHelper = new \JHelperContenthistory($typeAlias);
 		$observer->typeAliasPattern = $typeAlias;
 
 		return $observer;
@@ -83,7 +84,7 @@ class JTableObserverContenthistory extends JTableObserver
 			$this->parseTypeAlias();
 			$aliasParts = explode('.', $this->contenthistoryHelper->typeAlias);
 
-			if (JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+			if (\JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 			{
 				$this->contenthistoryHelper->store($this->table);
 			}
@@ -105,7 +106,7 @@ class JTableObserverContenthistory extends JTableObserver
 		$this->parseTypeAlias();
 		$aliasParts = explode('.', $this->contenthistoryHelper->typeAlias);
 
-		if (JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+		if (\JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 		{
 			$this->parseTypeAlias();
 			$this->contenthistoryHelper->deleteHistory($this->table);
@@ -129,7 +130,7 @@ class JTableObserverContenthistory extends JTableObserver
 		$this->contenthistoryHelper->typeAlias = preg_replace_callback('/{([^}]+)}/',
 			function($matches)
 			{
-				return JTableObserverContenthistory::$_myTableForPregreplaceOnly->{$matches[1]};
+				return ContentHistory::$_myTableForPregreplaceOnly->{$matches[1]};
 			},
 			$this->typeAliasPattern
 		);

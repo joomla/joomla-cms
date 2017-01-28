@@ -1,29 +1,30 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Table\Observer;
 
 defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract class defining methods that can be
- * implemented by an Observer class of a JTable class (which is an Observable).
+ * implemented by an Observer class of a Table class (which is an Observable).
  * Attaches $this Observer to the $table in the constructor.
  * The classes extending this class should not be instanciated directly, as they
- * are automatically instanciated by the JObserverMapper
+ * are automatically instanciated by the \JObserverMapper
  *
  * @since  3.1.2
  */
-class JTableObserverTags extends JTableObserver
+class Tags extends AbstractObserver
 {
 	/**
 	 * Helper object for managing tags
 	 *
-	 * @var    JHelperTags
+	 * @var    \JHelperTags
 	 * @since  3.1.2
 	 */
 	protected $tagsHelper;
@@ -56,7 +57,7 @@ class JTableObserverTags extends JTableObserver
 	 * Not public, so marking private and deprecated, but needed internally in parseTypeAlias for
 	 * PHP < 5.4.0 as it's not passing context $this to closure function.
 	 *
-	 * @var         JTableObserverTags
+	 * @var         Tags
 	 * @since       3.1.2
 	 * @deprecated  Never use this
 	 * @private
@@ -68,20 +69,20 @@ class JTableObserverTags extends JTableObserver
 	 * Creates the associated tags helper class instance
 	 * $typeAlias can be of the form "{variableName}.type", automatically replacing {variableName} with table-instance variables variableName
 	 *
-	 * @param   JObservableInterface  $observableObject  The subject object to be observed
-	 * @param   array                 $params            ( 'typeAlias' => $typeAlias )
+	 * @param   \JObservableInterface  $observableObject  The subject object to be observed
+	 * @param   array                  $params            ( 'typeAlias' => $typeAlias )
 	 *
-	 * @return  JTableObserverTags
+	 * @return  Tags
 	 *
 	 * @since   3.1.2
 	 */
-	public static function createObserver(JObservableInterface $observableObject, $params = array())
+	public static function createObserver(\JObservableInterface $observableObject, $params = array())
 	{
 		$typeAlias = $params['typeAlias'];
 
 		$observer = new self($observableObject);
 
-		$observer->tagsHelper = new JHelperTags;
+		$observer->tagsHelper = new \JHelperTags;
 		$observer->typeAliasPattern = $typeAlias;
 
 		return $observer;
@@ -189,7 +190,7 @@ class JTableObserverTags extends JTableObserver
 		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/',
 			function($matches)
 			{
-				return JTableObserverTags::$_myTableForPregreplaceOnly->{$matches[1]};
+				return Tags::$_myTableForPregreplaceOnly->{$matches[1]};
 			},
 			$this->typeAliasPattern
 		);

@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Table;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +17,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  11.1
  */
-class JTableNested extends JTable
+class Nested extends Table
 {
 	/**
 	 * Object property holding the primary key of the parent node.  Provides adjacency list data for nodes.
@@ -63,7 +64,7 @@ class JTableNested extends JTable
 	 *
 	 * @var    string
 	 * @since  11.1
-	 * @see    JTableNested::$_validLocations
+	 * @see    Nested::$_validLocations
 	 */
 	protected $_location;
 
@@ -132,7 +133,7 @@ class JTableNested extends JTable
 	 * @return  mixed    An array of node objects including the start node.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException on database error
+	 * @throws  \RuntimeException on database error
 	 */
 	public function getPath($pk = null, $diagnostic = false)
 	{
@@ -162,7 +163,7 @@ class JTableNested extends JTable
 	 * @return  mixed    Boolean false on failure or array of node objects on success.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public function getTree($pk = null, $diagnostic = false)
 	{
@@ -190,7 +191,7 @@ class JTableNested extends JTable
 	 *
 	 * @note    Since 12.1 this method returns null if the node does not exist.
 	 * @since   11.1
-	 * @throws  RuntimeException on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public function isLeaf($pk = null)
 	{
@@ -219,17 +220,17 @@ class JTableNested extends JTable
 	 *
 	 * @return  void
 	 *
-	 * @note    Since 12.1 this method returns void and throws an InvalidArgumentException when an invalid position is passed.
-	 * @see     JTableNested::$_validLocations
+	 * @note    Since 12.1 this method returns void and throws an \InvalidArgumentException when an invalid position is passed.
+	 * @see     Nested::$_validLocations
 	 * @since   11.1
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function setLocation($referenceId, $position = 'after')
 	{
 		// Make sure the location is valid.
 		if (!in_array($position, $this->_validLocations))
 		{
-			throw new InvalidArgumentException(
+			throw new \InvalidArgumentException(
 				sprintf('Invalid location "%1$s" given, valid values are %2$s', $position, implode(', ', $this->_validLocations))
 			);
 		}
@@ -302,7 +303,7 @@ class JTableNested extends JTable
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public function moveByReference($referenceId, $position = 'after', $pk = null)
 	{
@@ -342,7 +343,7 @@ class JTableNested extends JTable
 		if (in_array($referenceId, $children))
 		{
 			$this->setError(
-				new UnexpectedValueException(
+				new \UnexpectedValueException(
 					sprintf('%1%ss::moveByReference() is trying to make record ID %2$d a child of itself.', get_class($this), $pk)
 				)
 			);
@@ -531,7 +532,7 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
-		// Implement JObservableInterface: Pre-processing by observers
+		// Implement \JObservableInterface: Pre-processing by observers
 		$this->_observers->update('onBeforeDelete', array($pk));
 
 		// Lock the table for writing.
@@ -545,7 +546,7 @@ class JTableNested extends JTable
 		if ($this->_trackAssets)
 		{
 			$name = $this->_getAssetName();
-			$asset = JTable::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+			$asset = Table::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 
 			// Lock the table for writing.
 			if (!$asset->_lock())
@@ -655,7 +656,7 @@ class JTableNested extends JTable
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		// Implement JObservableInterface: Post-processing by observers
+		// Implement \JObservableInterface: Post-processing by observers
 		$this->_observers->update('onAfterDelete', array($pk));
 
 		return true;
@@ -681,7 +682,7 @@ class JTableNested extends JTable
 			// Check that the parent_id field is valid.
 			if ($this->parent_id == 0)
 			{
-				throw new UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, get_class($this)));
+				throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, get_class($this)));
 			}
 
 			$query = $this->_db->getQuery(true)
@@ -691,10 +692,10 @@ class JTableNested extends JTable
 
 			if (!$this->_db->setQuery($query)->loadResult())
 			{
-				throw new UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, get_class($this)));
+				throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, get_class($this)));
 			}
 		}
-		catch (UnexpectedValueException $e)
+		catch (\UnexpectedValueException $e)
 		{
 			// Validation error - record it and return false.
 			$this->setError($e);
@@ -718,7 +719,7 @@ class JTableNested extends JTable
 	{
 		$k = $this->_tbl_key;
 
-		// Implement JObservableInterface: Pre-processing by observers
+		// Implement \JObservableInterface: Pre-processing by observers
 		// 2.5 upgrade issue - check if property_exists before executing
 		if (property_exists($this, '_observers'))
 		{
@@ -817,7 +818,7 @@ class JTableNested extends JTable
 			else
 			{
 				// Negative parent ids are invalid
-				$e = new UnexpectedValueException(sprintf('%s::store() used a negative _location_id', get_class($this)));
+				$e = new \UnexpectedValueException(sprintf('%s::store() used a negative _location_id', get_class($this)));
 				$this->setError($e);
 
 				return false;
@@ -848,7 +849,7 @@ class JTableNested extends JTable
 			}
 		}
 
-		// Implement JObservableInterface: We do not want parent::store to update observers,
+		// Implement \JObservableInterface: We do not want parent::store to update observers,
 		// since tables are locked and we are updating it from this level of store():
 
 		// 2.5 upgrade issue - check if property_exists before executing
@@ -859,7 +860,7 @@ class JTableNested extends JTable
 
 		$result = parent::store($updateNulls);
 
-		// Implement JObservableInterface: Restore previous callable observers state:
+		// Implement \JObservableInterface: Restore previous callable observers state:
 		// 2.5 upgrade issue - check if property_exists before executing
 		if (property_exists($this, '_observers'))
 		{
@@ -879,7 +880,7 @@ class JTableNested extends JTable
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		// Implement JObservableInterface: Post-processing by observers
+		// Implement \JObservableInterface: Post-processing by observers
 		// 2.5 upgrade issue - check if property_exists before executing
 		if (property_exists($this, '_observers'))
 		{
@@ -904,7 +905,7 @@ class JTableNested extends JTable
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -930,7 +931,7 @@ class JTableNested extends JTable
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', get_class($this), $pks[0], $state, $userId));
+				$e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', get_class($this), $pks[0], $state, $userId));
 				$this->setError($e);
 
 				return false;
@@ -965,7 +966,7 @@ class JTableNested extends JTable
 				if ($this->_db->loadResult())
 				{
 					// TODO Convert to a conflict exception when available.
-					$e = new RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', get_class($this), $pks[0], $state, $userId));
+					$e = new \RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', get_class($this), $pks[0], $state, $userId));
 
 					$this->setError($e);
 
@@ -992,7 +993,7 @@ class JTableNested extends JTable
 
 				if (!empty($rows))
 				{
-					$e = new UnexpectedValueException(
+					$e = new \UnexpectedValueException(
 						sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', get_class($this), $pks[0], $state, $userId)
 					);
 					$this->setError($e);
@@ -1015,7 +1016,7 @@ class JTableNested extends JTable
 			}
 		}
 
-		// If the JTable instance value is in the list of primary keys that were set, set the instance.
+		// If the Table instance value is in the list of primary keys that were set, set the instance.
 		if (in_array($this->$k, $pks))
 		{
 			$this->published = $state;
@@ -1034,7 +1035,7 @@ class JTableNested extends JTable
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public function orderUp($pk)
 	{
@@ -1097,7 +1098,7 @@ class JTableNested extends JTable
 				->where($this->_tbl_key . ' NOT IN (' . implode(',', $children) . ')');
 			$this->_db->setQuery($query)->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->_unlock();
 			throw $e;
@@ -1117,7 +1118,7 @@ class JTableNested extends JTable
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public function orderDown($pk)
 	{
@@ -1183,7 +1184,7 @@ class JTableNested extends JTable
 				->where($this->_tbl_key . ' NOT IN (' . implode(',', $children) . ')');
 			$this->_db->setQuery($query)->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->_unlock();
 			throw $e;
@@ -1262,7 +1263,7 @@ class JTableNested extends JTable
 			}
 		}
 
-		$e = new UnexpectedValueException(sprintf('%s::getRootId', get_class($this)));
+		$e = new \UnexpectedValueException(sprintf('%s::getRootId', get_class($this)));
 		$this->setError($e);
 		self::$root_id = false;
 
@@ -1280,7 +1281,7 @@ class JTableNested extends JTable
 	 * @return  integer  1 + value of root rgt on success, false on failure
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public function rebuild($parentId = null, $leftId = 0, $level = 0, $path = '')
 	{
@@ -1445,7 +1446,7 @@ class JTableNested extends JTable
 	 * @return  integer  1 + value of root rgt on success, false on failure.
 	 *
 	 * @since   11.1
-	 * @throws  Exception on database error.
+	 * @throws  \Exception on database error.
 	 */
 	public function saveorder($idArray = null, $lft_array = null)
 	{
@@ -1481,7 +1482,7 @@ class JTableNested extends JTable
 				return false;
 			}
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$this->_unlock();
 			throw $e;
@@ -1498,7 +1499,7 @@ class JTableNested extends JTable
 	 * @return  mixed    Boolean false on failure or node object on success.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	protected function _getNode($id, $key = null)
 	{
@@ -1533,7 +1534,7 @@ class JTableNested extends JTable
 		// Check for no $row returned
 		if (empty($row))
 		{
-			$e = new UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', get_class($this), $id, $key));
+			$e = new \UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', get_class($this), $id, $key));
 			$this->setError($e);
 
 			return false;
@@ -1577,7 +1578,7 @@ class JTableNested extends JTable
 		}
 
 		$k = $this->_tbl_key;
-		$data = new stdClass;
+		$data = new \stdClass;
 
 		// Run the calculations and build the data object by reference position.
 		switch ($position)
@@ -1683,14 +1684,14 @@ class JTableNested extends JTable
 	/**
 	 * Runs a query and unlocks the database on an error.
 	 *
-	 * @param   mixed   $query         A string or JDatabaseQuery object.
+	 * @param   mixed   $query         A string or \JDatabaseQuery object.
 	 * @param   string  $errorMessage  Unused.
 	 *
 	 * @return  boolean  void
 	 *
 	 * @note    Since 12.1 this method returns void and will rethrow the database exception.
 	 * @since   11.1
-	 * @throws  Exception on database error.
+	 * @throws  \Exception on database error.
 	 */
 	protected function _runQuery($query, $errorMessage)
 	{
@@ -1706,7 +1707,7 @@ class JTableNested extends JTable
 			}
 			// @codeCoverageIgnoreEnd
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			// Unlock the tables and rethrow.
 			$this->_unlock();
