@@ -39,14 +39,12 @@ class JFormFieldMenutype extends JFormFieldList
 	{
 		$html     = array();
 		$recordId = (int) $this->form->getValue('id');
-		$size     = ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
-		$class    = ($v = $this->element['class']) ? ' class="' . $v . '"' : 'class="text_area"';
-		$required = ($v = $this->element['required']) ? ' required="required"' : '';
+		$size     = (string) ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
+		$class    = (string) ($v = $this->element['class']) ? ' class="' . $v . '"' : 'class="text_area"';
+		$required = (string) $this->element['required'] ? ' required="required"' : '';
+		$clientId = (int) $this->element['clientid'] ?: 0;
 
 		// Get a reverse lookup of the base link URL to Title
-		$model = JModelLegacy::getInstance('menutypes', 'menusModel');
-		$rlu   = $model->getReverseLookup();
-
 		switch ($this->value)
 		{
 			case 'url':
@@ -65,13 +63,24 @@ class JFormFieldMenutype extends JFormFieldList
 				$value = JText::_('COM_MENUS_TYPE_HEADING');
 				break;
 
+			case 'container':
+				$value = JText::_('COM_MENUS_TYPE_CONTAINER');
+				break;
+
 			default:
 				$link = $this->form->getValue('link');
+
+				/** @var  MenusModelMenutypes $model */
+				$model = JModelLegacy::getInstance('Menutypes', 'MenusModel', array('ignore_request' => true));
+				$model->setState('client_id', $clientId);
+
+				$rlu   = $model->getReverseLookup();
 
 				// Clean the link back to the option, view and layout
 				$value = JText::_(ArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
 				break;
 		}
+
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
@@ -82,9 +91,9 @@ class JFormFieldMenutype extends JFormFieldList
 			}
 		');
 
-		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&recordId=' . $recordId);
+		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-append"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
-			. '" value="' . $value . '"' . $size . $class . ' />';
+			. '" value="' . $value . '" ' . $size . $class . ' />';
 		$html[] = '<a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '">'
 			. '<span class="icon-list icon-white"></span> '
 			. JText::_('JSELECT') . '</a></span>';

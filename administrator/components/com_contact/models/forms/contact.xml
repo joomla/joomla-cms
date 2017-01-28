@@ -117,7 +117,8 @@
 			label="COM_CONTACT_FIELD_CREATED_LABEL"
 			description="COM_CONTACT_FIELD_CREATED_DESC"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			filter="user_utc"
 		/>
 
@@ -129,7 +130,8 @@
 			class="readonly"
 			size="22"
 			readonly="true"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			filter="user_utc"
 		/>
 
@@ -168,7 +170,9 @@
 			type="calendar"
 			label="COM_CONTACT_FIELD_PUBLISH_UP_LABEL"
 			description="COM_CONTACT_FIELD_PUBLISH_UP_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
+			translateformat="true"
+			showtime="true"
+			size="22"
 			filter="user_utc"
 		/>
 
@@ -177,7 +181,9 @@
 			type="calendar"
 			label="COM_CONTACT_FIELD_PUBLISH_DOWN_LABEL"
 			description="COM_CONTACT_FIELD_PUBLISH_DOWN_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
+			translateformat="true"
+			showtime="true"
+			size="22"
 			filter="user_utc"
 		/>
 
@@ -424,7 +430,8 @@
 
 	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 
-		<fieldset name="display" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+		<fieldset name="display" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS"
+			 addfieldpath="/administrator/components/com_fields/models/fields">
 
 			<field
 				name="show_contact_category"
@@ -717,9 +724,9 @@
 			
 			<field
 				name="show_user_custom_fields"
-				type="category"
+				type="fieldgroups"
 				multiple="true"
-				extension="com_users.user.fields"
+				context="com_users.user"
 				label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 				description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
 				>

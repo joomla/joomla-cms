@@ -6955,6 +6955,10 @@ div.modal.jviewport-width100 {
 .chzn-container .chzn-drop {
 	border-radius: 0 0 3px 3px;
 }
+.control-group .chzn-container {
+	width: 100% !important;
+	max-width: 220px;
+}
 .chzn-container-single .chzn-single {
 	background-color: #fff;
 	background-clip: inherit;
@@ -7107,6 +7111,9 @@ div.modal.jviewport-width100 {
 	margin: 1px 0;
 	padding: 0 !important;
 }
+#jform_tags_chzn.chzn-container {
+	max-width: 440px;
+}
 .CodeMirror {
 	height: calc(100vh - 400px);
 	min-height: 400px;
@@ -7205,6 +7212,7 @@ a:focus {
 }
 .view-login #lang_chzn {
 	width: 233px !important;
+	max-width: none;
 }
 .view-login #lang_chzn .chzn-single div {
 	width: 43px;
@@ -7708,10 +7716,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 #assignment.tab-pane {
 	min-height: 500px;
 }
-.chzn-container,
-.chzn-drop {
-	max-width: 100% !important;
-}
 @media (max-width: 979px) {
 	.navbar .nav {
 		font-size: 13px;
@@ -7728,9 +7732,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 @media (min-width: 768px) {
 	body {
 		padding-top: 30px;
-	}
-	.row-fluid [class*="span"] {
-		margin-left: 15px;
 	}
 	.row-fluid .modal-batch [class*="span"] {
 		margin-left: 0;
@@ -7789,11 +7790,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	.btn-subhead {
 		display: block;
 		margin: 10px 0;
-	}
-	.chzn-container,
-	.chzn-container .chzn-results,
-	.chzn-container-single .chzn-drop {
-		width: 99% !important;
 	}
 	.subhead-collapse.collapse {
 		height: 0;
@@ -8115,9 +8111,14 @@ th .tooltip-inner {
 	min-width: 50px;
 	margin-left: -1px;
 }
+.controls .btn-group.btn-group-yesno {
+	width: 100%;
+	max-width: 220px;
+}
 .controls .btn-group.btn-group-yesno > .btn {
-	min-width: 84px;
-	padding: 2px 12px;
+	width: 50%;
+	min-width: 20px;
+	padding: 2px 0;
 }
 .img-preview > img {
 	max-height: 100%;
@@ -8307,7 +8308,7 @@ a.grid_true {
 	width: 16.5%;
 	margin: -10px 0 0 -1px;
 	padding-top: 28px;
-	padding-bottom: 10px;
+	padding-bottom: 40px;
 	clear: both;
 	background-color: #F0F0F0;
 	border-bottom: 1px solid #dedede;
@@ -8801,6 +8802,84 @@ textarea.noResize {
 @media (max-width: 979px) {
 	.subform-repeatable-group > .btn-toolbar .btn-group {
 		margin-bottom: 10px;
+	}
+}
+.subform-table-layout .control-group,
+.subform-table-layout .control-group:last-of-type {
+	margin-bottom: 0;
+}
+.subform-table-layout .controls {
+	padding-right: 20px;
+}
+.subform-table-layout input {
+	width: 100%;
+	max-width: 206px;
+}
+.subform-table-layout table .btn-group {
+	margin: 0 7px;
+}
+@media (max-width: 1024px) {
+	.subform-table-layout .subform-repeatable {
+		padding-right: 0;
+	}
+	.subform-table-layout .subform-repeatable tbody td:last-of-type {
+		text-align: right;
+		padding-bottom: 15px;
+	}
+	.subform-table-layout table,
+	.subform-table-layout thead,
+	.subform-table-layout tbody,
+	.subform-table-layout th,
+	.subform-table-layout td,
+	.subform-table-layout tr {
+		display: block;
+	}
+	.subform-table-layout table {
+		border: 1px solid #ddd;
+	}
+	.subform-table-layout thead th {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	.subform-table-layout thead th:last-of-type {
+		position: static;
+		width: 100% !important;
+		text-align: right;
+		box-sizing: border-box;
+		border-left: 0;
+	}
+	.subform-table-layout tr {
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+	.subform-table-layout td {
+		border: none;
+		position: relative;
+		padding-left: 50%;
+	}
+	.subform-table-layout tbody td:first-of-type {
+		padding-top: 15px;
+		border-top: 1px solid #ddd;
+	}
+	.subform-table-layout tbody td:first-of-type:before {
+		top: 18px;
+	}
+	.subform-table-layout td:before {
+		content: attr(data-column);
+		position: absolute;
+		top: 13px;
+		left: 10px;
+		padding-right: 10px;
+	}
+}
+@media (max-width: 979px) {
+	.com_fields .row-fluid [class*="span"] {
+		margin-left: 2.12766%;
+	}
+	.com_fields .row-fluid [class*="span"]:first-of-type {
+		margin-left: 0;
 	}
 }
 .popover-content {

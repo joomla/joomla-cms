@@ -34,7 +34,7 @@ class JFormFieldTel extends JFormFieldText
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $layout = 'joomla.form.field.tel';
 
@@ -56,7 +56,7 @@ class JFormFieldTel extends JFormFieldText
 	 *
 	 * @return  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	protected function getLayoutData()
 	{
