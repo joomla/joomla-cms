@@ -183,9 +183,10 @@ class InstallerModelInstall extends JModelLegacy
 			return false;
 		}
 
-		$compatibility = str_replace(array('.','x','*'),array('\.','*','.*'),$installer->getManifest()['version']);
+		$compatibility = str_replace(array('.', 'x', '*'), array('\.', '*', '.*'), $installer->getManifest()['version']);
 		$joomla_version = (new JVersion)->getShortVersion();
-		if (!preg_match('/'.$compatibility.'/',$joomla_version)){
+		if (!preg_match('/' . $compatibility . '/', $joomla_version))
+		{
 			$app->enqueueMessage(JText::_('COM_INSTALLER_PACKAGE_VERSION_IS_NOT_COMPATIBLE'), 'error');
 			return false;
 		}
