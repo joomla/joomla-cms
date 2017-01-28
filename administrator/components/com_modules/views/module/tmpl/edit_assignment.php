@@ -77,68 +77,69 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 			<ul class="treeselect">
 				<?php foreach ($menuTypes as &$type) : ?>
-				<?php if (count($type->links)) : ?>
-					<?php $prevlevel = 0; ?>
-					<li>
-						<div class="treeselect-item pull-left">
-							<label class="pull-left nav-header"><?php echo $type->title; ?></label></div>
-					<?php foreach ($type->links as $i => $link) : ?>
-						<?php
-						if ($prevlevel < $link->level)
-						{
-							echo '<ul class="treeselect-sub">';
-						} elseif ($prevlevel > $link->level)
-						{
-							echo str_repeat('</li></ul>', $prevlevel - $link->level);
-						} else {
-							echo '</li>';
-						}
-						$selected = 0;
-						if ($this->item->assignment == 0)
-						{
-							$selected = 1;
-						} elseif ($this->item->assignment < 0)
-						{
-							$selected = in_array(-$link->value, $this->item->assigned);
-						} elseif ($this->item->assignment > 0)
-						{
-							$selected = in_array($link->value, $this->item->assigned);
-						}
-						?>
-							<li>
-								<div class="treeselect-item pull-left">
-									<?php
-									$uselessMenuItem = (in_array($link->type, array('separator', 'heading', 'alias', 'url')));
-									?>
-									<input type="checkbox" class="pull-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
-									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
-										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias)); ?></span>
-										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*') : ?>
-											<?php if ($link->language_image) : ?>
-												<?php echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true); ?>
-											<?php else : ?>
-												<?php echo '<span class="label" title="' . $link->language_title . '">' . $link->language_sef . '</span>'; ?>
+				<?php if ($type->client_id == 0) : ?>
+					<?php if (count($type->links)) : ?>
+						<?php $prevlevel = 0; ?>
+						<li>
+							<div class="treeselect-item pull-left">
+								<label class="pull-left nav-header"><?php echo $type->title; ?></label></div>
+						<?php foreach ($type->links as $i => $link) : ?>
+							<?php
+							if ($prevlevel < $link->level)
+							{
+								echo '<ul class="treeselect-sub">';
+							} elseif ($prevlevel > $link->level)
+							{
+								echo str_repeat('</li></ul>', $prevlevel - $link->level);
+							} else {
+								echo '</li>';
+							}
+							$selected = 0;
+							if ($this->item->assignment == 0)
+							{
+								$selected = 1;
+							} elseif ($this->item->assignment < 0)
+							{
+								$selected = in_array(-$link->value, $this->item->assigned);
+							} elseif ($this->item->assignment > 0)
+							{
+								$selected = in_array($link->value, $this->item->assigned);
+							}
+							?>
+								<li>
+									<div class="treeselect-item pull-left">
+										<?php
+										$uselessMenuItem = (in_array($link->type, array('separator', 'heading', 'alias', 'url')));
+										?>
+										<input type="checkbox" class="pull-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
+										<label for="<?php echo $id . $link->value; ?>" class="pull-left">
+											<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias)); ?></span>
+											<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*') : ?>
+												<?php if ($link->language_image) : ?>
+													<?php echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true); ?>
+												<?php else : ?>
+													<?php echo '<span class="label" title="' . $link->language_title . '">' . $link->language_sef . '</span>'; ?>
+												<?php endif; ?>
 											<?php endif; ?>
-										<?php endif; ?>
-										<?php if ($link->published == 0) : ?>
-											<?php echo ' <span class="label">' . JText::_('JUNPUBLISHED') . '</span>'; ?>
-										<?php endif; ?>
-										<?php if ($uselessMenuItem) : ?>
-											<?php echo ' <span class="label">' . JText::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
-										<?php endif; ?>
-									</label>
-								</div>
-						<?php
-
-						if (!isset($type->links[$i + 1]))
-						{
-							echo str_repeat('</li></ul>', $link->level);
-						}
-						$prevlevel = $link->level;
-						?>
+											<?php if ($link->published == 0) : ?>
+												<?php echo ' <span class="label">' . JText::_('JUNPUBLISHED') . '</span>'; ?>
+											<?php endif; ?>
+											<?php if ($uselessMenuItem) : ?>
+												<?php echo ' <span class="label">' . JText::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
+											<?php endif; ?>
+										</label>
+									</div>
+							<?php
+							if (!isset($type->links[$i + 1]))
+							{
+								echo str_repeat('</li></ul>', $link->level);
+							}
+							$prevlevel = $link->level;
+							?>
 						<?php endforeach; ?>
-					</li>
+						</li>
 					<?php endif; ?>
+				<?php endif; ?>
 				<?php endforeach; ?>
 			</ul>
 			<div id="noresultsfound" style="display:none;" class="alert alert-no-items">
