@@ -113,7 +113,12 @@ abstract class TestCaseDatabaseSqlsrv extends TestCaseDatabase
 	public static function tearDownAfterClass()
 	{
 		JFactory::$database = self::$stash;
-		static::$driver = null;
+
+		if (static::$driver !== null)
+		{
+			static::$driver->disconnect();
+			static::$driver = null;
+		}
 	}
 
 	/**
