@@ -183,6 +183,17 @@ class InstallerModelInstall extends JModelLegacy
 			return false;
 		}
 
+		$joomla_manifest_file = JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'manifests' . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'joomla.xml';
+		if (is_file($joomla_manifest_file) && $joomla_manifest = $installer->isManifest($joomla_manifest_file))
+        {
+            $compatibility = str_replace(array('.','x','*'),array('\.','*','.*'),$installer->getManifest()['version']);
+            $joomla_version = $joomla_manifest->version;
+            if (!preg_match('/'.$compatibility.'/',$joomla_version)){
+                $app->enqueueMessage(JText::_('COM_INSTALLER_PACKAGE_VERSION_IS_NOT_COMPATIBLE'), 'error');
+                return false;
+            }
+        }
+
 		// Install the package.
 		if (!$installer->install($package['dir']))
 		{
