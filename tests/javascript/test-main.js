@@ -36,7 +36,7 @@ require.config({
 		bootstrap: ['jquery'],
 		'jui-sortable': ['jquery'],
 		'libs/validate': {
-			deps: ['jquery']
+			deps: []
 		},
 		'libs/subform-repeatable': {
 			deps: ['jquery', 'jui', 'jui-sortable']

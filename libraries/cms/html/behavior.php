@@ -82,16 +82,15 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
 		JHtml::_('script', 'system/legacy/caption.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(window).on('load',  function() {
-				new JCaption('" . $selector . "');
-			});"
+<<<JS
+document.addEventListener('DOMContentLoaded',  function() {
+	new JCaption('$selector');
+});
+JS
 		);
 
 		// Set static array
