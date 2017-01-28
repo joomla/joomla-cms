@@ -204,6 +204,7 @@ class MenusHelper
 		}
 
 		$query->where('a.published != -2');
+		$query->where('a.client_id = 0');
 		$query->order('a.lft ASC');
 
 		// Get the options.
@@ -227,6 +228,7 @@ class MenusHelper
 				->select('*')
 				->from('#__menu_types')
 				->where('menutype <> ' . $db->quote(''))
+				->where('client_id = 0')
 				->order('title, menutype');
 			$db->setQuery($query);
 
