@@ -72,6 +72,10 @@ install:
     - IF %PHP%==1 echo extension=php_sqlite3.dll >> php.ini
     - IF %PHP%==1 echo extension=php_mysqli.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pgsql.dll >> php.ini
+    - ps: >-
+        If ($env:php_ver_target -eq "5.6") {
+          If ($env:PHP -eq "1") {
+            echo extension=php_mysql.dll >> php.ini}}
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
     - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
     - cd C:\projects\joomla-cms
