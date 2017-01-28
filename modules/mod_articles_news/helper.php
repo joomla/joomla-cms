@@ -84,6 +84,9 @@ abstract class ModArticlesNewsHelper
 			$model->setState('list.ordering', $ordering);
 		}
 
+		// Check if we should trigger additional plugin events
+		$triggerEvents = $params->get('triggerevents', 1);
+
 		// Retrieve Content
 		$items = $model->getItems();
 
@@ -115,14 +118,23 @@ abstract class ModArticlesNewsHelper
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 
-			$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
-			$item->afterDisplayTitle = trim(implode("\n", $results));
+			if ($triggerEvents)
+			{
+				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
+				$item->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
-			$item->beforeDisplayContent = trim(implode("\n", $results));
+				$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
+				$item->beforeDisplayContent = trim(implode("\n", $results));
 
-			$results                 = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
-			$item->afterDisplayContent = trim(implode("\n", $results));
+				$results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
+				$item->afterDisplayContent = trim(implode("\n", $results));
+			}
+			else
+			{
+				$item->afterDisplayTitle    = '';
+				$item->beforeDisplayContent = '';
+				$item->afterDisplayContent  = '';
+			}
 		}
 
 		return $items;
