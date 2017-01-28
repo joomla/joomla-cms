@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 $menuTypes = MenusHelper::getMenuLinks();
 $user      = JFactory::getUser();
-//var_dump($menuTypes);
 ?>
 <label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
 <div class="btn-toolbar">
