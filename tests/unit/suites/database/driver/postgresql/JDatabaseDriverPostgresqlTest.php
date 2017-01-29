@@ -482,11 +482,9 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	public function testGetVersion()
 	{
 		$versionRow = self::$driver->setQuery('SELECT version();')->loadRow();
-		$versionArray = explode(' ', $versionRow[0]);
+		preg_match('/((\d+)\.)((\d+)\.)(\*|\d+)/', $versionRow[0], $versionArray);
 
-		$version = rtrim($versionArray[1], ',');
-
-		$this->assertGreaterThanOrEqual($version, self::$driver->getVersion());
+		$this->assertGreaterThanOrEqual($versionArray[0], self::$driver->getVersion());
 	}
 
 	/**
