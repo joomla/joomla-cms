@@ -42,22 +42,10 @@ class JFormFieldItemLanguage extends JFormFieldList
 
 		list($extensionName, $typeName) = explode('.', $input->get('itemtype'));
 
-		$extension = AssociationsHelper::getSupportedExtension($extensionName);
-		$types     = $extension->get('types');
+		// Get the extension specific helper method
+		$helper = AssociationsHelper::getExtensionHelper($extensionName);
 
-		if (array_key_exists($typeName, $types))
-		{
-			$type = $types[$typeName];
-		}
-
-		$details = $type->get('details');
-
-		if (array_key_exists('fields', $details))
-		{
-			$fields = $details['fields'];
-		}
-
-		$languageField = substr($fields['language'], 2);
+		$languageField = $helper->getTypeFieldName($typeName, 'language');
 		$referenceId   = $input->get('id', 0, 'int');
 		$reference     = ArrayHelper::fromObject(AssociationsHelper::getItem($extensionName, $typeName, $referenceId));
 		$referenceLang = $reference[$languageField];
@@ -94,8 +82,8 @@ class JFormFieldItemLanguage extends JFormFieldList
 				 // Check if user does have permission to edit the associated item.
 				$canEdit = AssociationsHelper::allowEdit($extensionName, $typeName, $itemId);
 
-				// ToDo: Do an additional check to check if user can edit a checked out item (if component item type supports it).
-				$canCheckout = true;
+				// Check if item can be checked out
+				$canCheckout = AssociationsHelper::canCheckinItem($extensionName, $typeName, $itemId);
 
 				// Disable language if user is not allowed to edit the item associated to it.
 				$options[$langCode]->disable = !($canEdit && $canCheckout);

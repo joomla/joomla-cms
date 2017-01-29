@@ -412,12 +412,7 @@ class PlgSystemFields extends JPlugin
 		{
 			foreach ($fields as $key => $field)
 			{
-				$fieldDisplayType = $field->params->get('display', '-1');
-
-				if ($fieldDisplayType == '-1')
-				{
-					$fieldDisplayType = $this->params->get('display', '2');
-				}
+				$fieldDisplayType = $field->params->get('display', '2');
 
 				if ($fieldDisplayType == $displayType)
 				{
@@ -436,9 +431,7 @@ class PlgSystemFields extends JPlugin
 				array(
 					'item'            => $item,
 					'context'         => $context,
-					'fields'          => $fields,
-					'container'       => $params->get('fields-container'),
-					'container-class' => $params->get('fields-container-class'),
+					'fields'          => $fields
 				)
 			);
 		}

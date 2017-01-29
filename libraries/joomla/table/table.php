@@ -1366,41 +1366,37 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 		$quotedOrderingField = $this->_db->quoteName($orderingField);
 
-		// Get the primary keys and ordering values for the selection.
-		$query = $this->_db->getQuery(true)
-			->select(implode(',', $this->_tbl_keys) . ', ' . $quotedOrderingField)
+		$subquery = $this->_db->getQuery(true)
 			->from($this->_tbl)
-			->where($quotedOrderingField . ' >= 0')
-			->order($quotedOrderingField);
+			->selectRowNumber($quotedOrderingField, 'new_ordering');
+
+		$query = $this->_db->getQuery(true)
+			->update($this->_tbl)
+			->set($quotedOrderingField . ' = sq.new_ordering');
+
+		$innerOn = array();
+
+		// Get the primary keys for the selection.
+		foreach ($this->_tbl_keys as $i => $k)
+		{
+			$subquery->select($this->_db->quoteName($k, 'pk__' . $i));
+			$innerOn[] = $this->_db->quoteName($k) . ' = sq.' . $this->_db->quoteName('pk__' . $i);
+		}
 
 		// Setup the extra where and ordering clause data.
 		if ($where)
 		{
+			$subquery->where($where);
 			$query->where($where);
 		}
 
-		$this->_db->setQuery($query);
-		$rows = $this->_db->loadObjectList();
+		$subquery->where($quotedOrderingField . ' >= 0');
+		$query->where($quotedOrderingField . ' >= 0');
 
-		// Compact the ordering values.
-		foreach ($rows as $i => $row)
-		{
-			// Make sure the ordering is a positive integer.
-			if ($row->$orderingField >= 0)
-			{
-				// Only update rows that are necessary.
-				if ($row->$orderingField != $i + 1)
-				{
-					// Update the row ordering field.
-					$query->clear()
-						->update($this->_tbl)
-						->set($quotedOrderingField . ' = ' . ($i + 1));
-					$this->appendPrimaryKeys($query, $row);
-					$this->_db->setQuery($query);
-					$this->_db->execute();
-				}
-			}
-		}
+		$query->innerJoin('(' . (string) $subquery . ') AS sq ON ' . implode(' AND ', $innerOn));
+
+		$this->_db->setQuery($query);
+		$this->_db->execute();
 
 		return true;
 	}
