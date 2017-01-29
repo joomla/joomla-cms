@@ -6,12 +6,9 @@ clone_folder: C:\projects\joomla-cms
 ## Build matrix for lowest and highest possible targets
 environment:
   matrix:
-  - dependencies: current
-    php_ver_target: 5.6
-  - dependencies: current
-    php_ver_target: 7.0
-  - dependencies: current
-    php_ver_target: 7.1
+  - php_ver_target: 5.6
+  - php_ver_target: 7.0
+  - php_ver_target: 7.1
 
 init:
   - SET PATH=C:\Program Files\OpenSSL;C:\tools\php;%PATH%
