@@ -218,7 +218,7 @@ class Controller  implements ControllerInterface
 	 * @return  \JControllerLegacy
 	 *
 	 * @since   3.0
-	 * @throws  Exception if the controller cannot be loaded.
+	 * @throws  \Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
@@ -560,7 +560,7 @@ class Controller  implements ControllerInterface
 	 * @return  \JViewLegacy|null  View object on success; null or error result on failure.
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{

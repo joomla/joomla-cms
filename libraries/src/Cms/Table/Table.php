@@ -1,15 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Table;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.path');
+\JLoader::import('joomla.filesystem.path');
 
 use Joomla\Cms\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
@@ -24,12 +25,12 @@ use Joomla\Event\DispatcherInterface;
  * @since  11.1
  * @tutorial  Joomla.Platform/jtable.cls
  */
-abstract class JTable extends JObject implements JTableInterface, DispatcherAwareInterface
+abstract class Table extends \JObject implements \JTableInterface, DispatcherAwareInterface
 {
 	use DispatcherAwareTrait;
 
 	/**
-	 * Include paths for searching for JTable classes.
+	 * Include paths for searching for Table classes.
 	 *
 	 * @var    array
 	 * @since  12.1
@@ -61,9 +62,9 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	protected $_tbl_keys = array();
 
 	/**
-	 * JDatabaseDriver object.
+	 * \JDatabaseDriver object.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -79,7 +80,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	/**
 	 * The rules associated with this record.
 	 *
-	 * @var    JAccessRules  A JAccessRules object.
+	 * @var    \JAccessRules  A \JAccessRules object.
 	 * @since  11.1
 	 */
 	protected $_rules;
@@ -130,12 +131,12 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 *
 	 * @param   string               $table       Name of the table to model.
 	 * @param   mixed                $key         Name of the primary key field in the table or array of field names that compose the primary key.
-	 * @param   JDatabaseDriver      $db          JDatabaseDriver object.
+	 * @param   \JDatabaseDriver     $db          JDatabaseDriver object.
 	 * @param   DispatcherInterface  $dispatcher  Event dispatcher for this table
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, JDatabaseDriver $db, DispatcherInterface $dispatcher = null)
+	public function __construct($table, $key, \JDatabaseDriver $db, DispatcherInterface $dispatcher = null)
 	{
 		parent::__construct();
 
@@ -192,14 +193,14 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 		// If the access property exists, set the default.
 		if (property_exists($this, 'access'))
 		{
-			$this->access = (int) JFactory::getConfig()->get('access');
+			$this->access = (int) \JFactory::getConfig()->get('access');
 		}
 
 		// Create or set a Dispatcher
 		if (!is_object($dispatcher) || !($dispatcher instanceof DispatcherInterface))
 		{
 			// TODO Maybe we should use a dedicated "behaviour" dispatcher for performance reasons and to prevent system plugins from butting in?
-			$dispatcher = JFactory::getApplication()->getDispatcher();
+			$dispatcher = \JFactory::getApplication()->getDispatcher();
 		}
 
 		$this->setDispatcher($dispatcher);
@@ -221,7 +222,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 * @return  mixed  An array of the field names, or false if an error occurs.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function getFields($reload = false)
 	{
@@ -235,7 +236,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 
 			if (empty($fields))
 			{
-				throw new UnexpectedValueException(sprintf('No columns found for %s table', $name));
+				throw new \UnexpectedValueException(sprintf('No columns found for %s table', $name));
 			}
 
 			$cache = $fields;
@@ -245,15 +246,15 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	}
 
 	/**
-	 * Static method to get an instance of a JTable class if it can be found in the table include paths.
+	 * Static method to get an instance of a Table class if it can be found in the table include paths.
 	 *
-	 * To add include paths for searching for JTable classes see JTable::addIncludePath().
+	 * To add include paths for searching for Table classes see Table::addIncludePath().
 	 *
-	 * @param   string  $type    The type (name) of the JTable class to get an instance of.
+	 * @param   string  $type    The type (name) of the Table class to get an instance of.
 	 * @param   string  $prefix  An optional prefix for the table class name.
-	 * @param   array   $config  An optional array of configuration values for the JTable object.
+	 * @param   array   $config  An optional array of configuration values for the Table object.
 	 *
-	 * @return  JTable|boolean   A JTable object if found or boolean false on failure.
+	 * @return  Table|boolean   A Table object if found or boolean false on failure.
 	 *
 	 * @since   11.1
 	 */
@@ -274,17 +275,17 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 
 			while (!class_exists($tableClass) && $pathIndex < count($paths))
 			{
-				if ($tryThis = JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
+				if ($tryThis = \JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
 				{
 					// Import the class file.
-					JLoader::register($tableClass, $tryThis);
+					\JLoader::register($tableClass, $tryThis);
 				}
 			}
 
 			if (!class_exists($tableClass))
 			{
 				/*
-				* If unable to find the class file in the JTable include paths. Return false.
+				* If unable to find the class file in the Table include paths. Return false.
 				* The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in 3.6.3.
 				* In 4.0 an Exception (type to be determined) will be thrown.
 				* For more info see https://github.com/joomla/joomla-cms/issues/11570
@@ -294,13 +295,13 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 			}
 		}
 
-		// If a database object was passed in the configuration array use it, otherwise get the global one from JFactory.
-		$db = isset($config['dbo']) ? $config['dbo'] : JFactory::getDbo();
+		// If a database object was passed in the configuration array use it, otherwise get the global one from \JFactory.
+		$db = isset($config['dbo']) ? $config['dbo'] : \JFactory::getDbo();
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (JFactory::getContainer()->exists($tableClass))
+		if (\JFactory::getContainer()->exists($tableClass))
 		{
-			return JFactory::getContainer()->get($tableClass);
+			return \JFactory::getContainer()->get($tableClass);
 		}
 
 		// Instantiate a new table class and return it.
@@ -308,11 +309,11 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	}
 
 	/**
-	 * Add a filesystem path where JTable should search for table class files.
+	 * Add a filesystem path where Table should search for table class files.
 	 *
 	 * @param   array|string  $path  A filesystem path or array of filesystem paths to add.
 	 *
-	 * @return  array  An array of filesystem paths to find JTable classes in.
+	 * @return  array  An array of filesystem paths to find Table classes in.
 	 *
 	 * @since   11.1
 	 */
@@ -390,14 +391,14 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 * By default, all assets are registered to the ROOT node with ID, which will default to 1 if none exists.
 	 * An extended class can define a table and ID to lookup.  If the asset does not exist it will be created.
 	 *
-	 * @param   JTable   $table  A JTable object for the asset parent.
+	 * @param   Table    $table  A Table object for the asset parent.
 	 * @param   integer  $id     Id to look up
 	 *
 	 * @return  integer
 	 *
 	 * @since   11.1
 	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
+	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		// For simple cases, parent to the asset root.
 		$assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
@@ -414,8 +415,8 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	/**
 	 * Method to append the primary keys for this table to a query.
 	 *
-	 * @param   JDatabaseQuery  $query  A query object to append.
-	 * @param   mixed           $pk     Optional primary key parameter.
+	 * @param   \JDatabaseQuery  $query  A query object to append.
+	 * @param   mixed            $pk     Optional primary key parameter.
 	 *
 	 * @return  void
 	 *
@@ -502,9 +503,9 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	}
 
 	/**
-	 * Method to get the JDatabaseDriver object.
+	 * Method to get the \JDatabaseDriver object.
 	 *
-	 * @return  JDatabaseDriver  The internal database driver object.
+	 * @return  \JDatabaseDriver  The internal database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -514,15 +515,15 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	}
 
 	/**
-	 * Method to set the JDatabaseDriver object.
+	 * Method to set the \JDatabaseDriver object.
 	 *
-	 * @param   JDatabaseDriver  $db  A JDatabaseDriver object to be used by the table object.
+	 * @param   \JDatabaseDriver  $db  A \JDatabaseDriver object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
-	public function setDbo(JDatabaseDriver $db)
+	public function setDbo(\JDatabaseDriver $db)
 	{
 		$this->_db = $db;
 
@@ -532,7 +533,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	/**
 	 * Method to set rules for the record.
 	 *
-	 * @param   mixed  $input  A JAccessRules object, JSON string, or array.
+	 * @param   mixed  $input  A \JAccessRules object, JSON string, or array.
 	 *
 	 * @return  void
 	 *
@@ -540,20 +541,20 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 */
 	public function setRules($input)
 	{
-		if ($input instanceof JAccessRules)
+		if ($input instanceof \JAccessRules)
 		{
 			$this->_rules = $input;
 		}
 		else
 		{
-			$this->_rules = new JAccessRules($input);
+			$this->_rules = new \JAccessRules($input);
 		}
 	}
 
 	/**
 	 * Method to get the rules for the record.
 	 *
-	 * @return  JAccessRules object
+	 * @return  \JAccessRules object
 	 *
 	 * @since   11.1
 	 */
@@ -604,17 +605,17 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	}
 
 	/**
-	 * Method to bind an associative array or object to the JTable instance.This
+	 * Method to bind an associative array or object to the Table instance.This
 	 * method only binds properties that are publicly accessible and optionally
 	 * takes an array of properties to ignore when binding.
 	 *
-	 * @param   mixed  $src     An associative array or object to bind to the JTable instance.
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 * @param   array|object  $src     An associative array or object to bind to the Table instance.
+	 * @param   array|string  $ignore  An optional array or space separated list of properties to ignore while binding.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function bind($src, $ignore = array())
 	{
@@ -643,7 +644,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 		// Check if the source value is an array or object
 		if (!is_object($src) && !is_array($src))
 		{
-			throw new InvalidArgumentException(
+			throw new \InvalidArgumentException(
 				sprintf(
 					'Could not bind the data source in %1$s::bind(), the source must be an array or object but a "%2$s" was given.',
 					get_class($this),
@@ -691,7 +692,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	}
 
 	/**
-	 * Method to load a row from the database by primary key and bind the fields to the JTable instance properties.
+	 * Method to load a row from the database by primary key and bind the fields to the Table instance properties.
 	 *
 	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.
 	 *                           If not set the instance property value is used.
@@ -700,9 +701,9 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 * @return  boolean  True if successful. False if row not found.
 	 *
 	 * @since   11.1
-	 * @throws  InvalidArgumentException
-	 * @throws  RuntimeException
-	 * @throws  UnexpectedValueException
+	 * @throws  \InvalidArgumentException
+	 * @throws  \RuntimeException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function load($keys = null, $reset = true)
 	{
@@ -744,14 +745,14 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 			{
 				if ($keyCount > 1)
 				{
-					throw new InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
+					throw new \InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
 				}
 
 				$keys = array($this->getKeyName() => $keys);
 			}
 			else
 			{
-				throw new RuntimeException('No table keys defined.');
+				throw new \RuntimeException('No table keys defined.');
 			}
 		}
 
@@ -771,7 +772,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 			// Check that $field is in the table.
 			if (!in_array($field, $fields))
 			{
-				throw new UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
+				throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
 			}
 			// Add the search tuple to the query.
 			$query->where($this->_db->quoteName($field) . ' = ' . $this->_db->quote($value));
@@ -807,7 +808,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	}
 
 	/**
-	 * Method to perform sanity checks on the JTable instance properties to ensure they are safe to store in the database.
+	 * Method to perform sanity checks on the Table instance properties to ensure they are safe to store in the database.
 	 *
 	 * Child classes should override this method to make sure the data they are storing in the database is safe and as expected before storage.
 	 *
@@ -830,10 +831,10 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	}
 
 	/**
-	 * Method to store a row in the database from the JTable instance properties.
+	 * Method to store a row in the database from the Table instance properties.
 	 *
 	 * If a primary key value is set the row with that primary key value will be updated with the instance property values.
-	 * If no primary key value is set a new row will be inserted into the database with the properties from the JTable instance.
+	 * If no primary key value is set a new row will be inserted into the database with the properties from the Table instance.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -910,6 +911,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 			$name     = $this->_getAssetName();
 			$title    = $this->_getAssetTitle();
 
+			/** @var Asset $asset */
 			$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 			$asset->loadByName($name);
 
@@ -938,7 +940,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 				$asset->name      = $name;
 				$asset->title     = $title;
 
-				if ($this->_rules instanceof JAccessRules)
+				if ($this->_rules instanceof \JAccessRules)
 				{
 					$asset->rules = (string) $this->_rules;
 				}
@@ -981,13 +983,13 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	}
 
 	/**
-	 * Method to provide a shortcut to binding, checking and storing a JTable instance to the database table.
+	 * Method to provide a shortcut to binding, checking and storing a Table instance to the database table.
 	 *
 	 * The method will check a row in once the data has been stored and if an ordering filter is present will attempt to reorder
 	 * the table rows based on the filter.  The ordering filter is an instance property name.  The rows that will be reordered
-	 * are those whose value matches the JTable instance for the property specified.
+	 * are those whose value matches the Table instance for the property specified.
 	 *
-	 * @param   array|object  $src             An associative array or object to bind to the JTable instance.
+	 * @param   array|object  $src             An associative array or object to bind to the Table instance.
 	 * @param   string        $orderingFilter  Filter for the order updating
 	 * @param   array|string  $ignore          An optional array or space separated list of properties to ignore while binding.
 	 *
@@ -1042,7 +1044,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function delete($pk = null)
 	{
@@ -1066,7 +1068,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException('Null primary key not allowed.');
+				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 
 			$this->$key = $pk[$key];
@@ -1087,6 +1089,8 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 		{
 			// Get the asset name
 			$name  = $this->_getAssetName();
+
+			/** @var Asset $asset */
 			$asset = self::getInstance('Asset');
 
 			if ($asset->loadByName($name))
@@ -1136,7 +1140,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function checkOut($userId, $pk = null)
 	{
@@ -1180,12 +1184,12 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException('Null primary key not allowed.');
+				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
 
 		// Get the current time in the database format.
-		$time = JFactory::getDate()->toSql();
+		$time = \JFactory::getDate()->toSql();
 
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true)
@@ -1224,7 +1228,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function checkIn($pk = null)
 	{
@@ -1267,7 +1271,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException('Null primary key not allowed.');
+				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
 
@@ -1348,7 +1352,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function hit($pk = null)
 	{
@@ -1390,7 +1394,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException('Null primary key not allowed.');
+				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
 
@@ -1433,7 +1437,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	public function isCheckedOut($with = 0, $against = null)
 	{
 		// Handle the non-static case.
-		if (isset($this) && ($this instanceof JTable) && is_null($against))
+		if (isset($this) && ($this instanceof Table) && is_null($against))
 		{
 			$checkedOutField = $this->getColumnAlias('checked_out');
 			$against = $this->get($checkedOutField);
@@ -1445,7 +1449,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 			return false;
 		}
 
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(userid)')
 			->from($db->quoteName('#__session'))
@@ -1467,7 +1471,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 * @return  integer  The next ordering value.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function getNextOrder($where = '')
 	{
@@ -1476,7 +1480,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 
 		if (!property_exists($this, $orderingField))
 		{
-			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		// Get the largest ordering value for a given where clause.
@@ -1529,7 +1533,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 * @return  mixed  Boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function reorder($where = '')
 	{
@@ -1538,7 +1542,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 
 		if (!property_exists($this, $orderingField))
 		{
-			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		$quotedOrderingField = $this->_db->quoteName($orderingField);
@@ -1610,7 +1614,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function move($delta, $where = '')
 	{
@@ -1619,7 +1623,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 
 		if (!property_exists($this, $orderingField))
 		{
-			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		$quotedOrderingField = $this->_db->quoteName($orderingField);
@@ -1781,7 +1785,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 				// We don't have a full primary key - return false
 				else
 				{
-					$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+					$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 					return false;
 				}
@@ -1803,7 +1807,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 			// If publishing, set published date/time if not previously set
 			if ($state && property_exists($this, 'publish_up') && (int) $this->publish_up == 0)
 			{
-				$nowDate = $this->_db->quote(JFactory::getDate()->toSql());
+				$nowDate = $this->_db->quote(\JFactory::getDate()->toSql());
 				$query->set($this->_db->quoteName($this->getColumnAlias('publish_up')) . ' = ' . $nowDate);
 			}
 
@@ -1827,7 +1831,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 			{
 				$this->_db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
 
@@ -1840,7 +1844,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 				$this->checkin($pk);
 			}
 
-			// If the JTable instance value is in the list of primary keys that were set, set the instance.
+			// If the Table instance value is in the list of primary keys that were set, set the instance.
 			$ours = true;
 
 			foreach ($this->_tbl_keys as $key)
@@ -1880,7 +1884,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function _lock()
 	{
@@ -1893,7 +1897,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	/**
 	 * Method to return the real name of a "special" column such as ordering, hits, published
 	 * etc etc. In this way you are free to follow your db naming convention and use the
-	 * built in Joomla functions.
+	 * built in \Joomla functions.
 	 *
 	 * @param   string  $column  Name of the "special" column (ie ordering, hits)
 	 *

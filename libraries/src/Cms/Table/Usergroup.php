@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Table;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,12 +15,12 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JTableUsergroup extends JTable
+class Usergroup extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -51,7 +52,7 @@ class JTableUsergroup extends JTable
 		// Validate the title.
 		if ((trim($this->title)) == '')
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
 
 			return false;
 		}
@@ -69,7 +70,7 @@ class JTableUsergroup extends JTable
 
 		if ($db->loadResult() > 0)
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE_EXISTS'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE_EXISTS'));
 
 			return false;
 		}
@@ -121,7 +122,7 @@ class JTableUsergroup extends JTable
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (\JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -170,17 +171,17 @@ class JTableUsergroup extends JTable
 
 		if ($this->id == 0)
 		{
-			throw new UnexpectedValueException('Global Category not found');
+			throw new \UnexpectedValueException('Global Category not found');
 		}
 
 		if ($this->parent_id == 0)
 		{
-			throw new UnexpectedValueException('Root categories cannot be deleted.');
+			throw new \UnexpectedValueException('Root categories cannot be deleted.');
 		}
 
 		if ($this->lft == 0 || $this->rgt == 0)
 		{
-			throw new UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
+			throw new \UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
 
 		$db = $this->_db;
@@ -196,7 +197,7 @@ class JTableUsergroup extends JTable
 
 		if (empty($ids))
 		{
-			throw new UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
+			throw new \UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
 
 		// Delete the category dependencies

@@ -152,12 +152,6 @@ class View extends \JObject
 			$this->_charset = $config['charset'];
 		}
 
-		// User-defined escaping callback
-		if (array_key_exists('escape', $config))
-		{
-			$this->setEscape($config['escape']);
-		}
-
 		// Set a base path for use by the view
 		if (array_key_exists('base_path', $config))
 		{
@@ -342,7 +336,7 @@ class View extends \JObject
 	 * @return  string  The name of the model
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getName()
 	{
@@ -353,7 +347,7 @@ class View extends \JObject
 
 			if ($viewpos === false)
 			{
-				throw new Exception(\JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 
 			$this->_name = strtolower(substr($classname, $viewpos + 4));
@@ -476,7 +470,7 @@ class View extends \JObject
 	 * @return  string  The output of the the template script.
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function loadTemplate($tpl = null)
 	{
@@ -544,7 +538,7 @@ class View extends \JObject
 		}
 		else
 		{
-			throw new Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
+			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
 		}
 	}
 

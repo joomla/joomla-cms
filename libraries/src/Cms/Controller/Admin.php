@@ -54,7 +54,7 @@ class Admin extends Controller
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -246,7 +246,7 @@ class Admin extends Controller
 					$this->setMessage(\JText::plural($ntext, count($cid)));
 				}
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				$this->setMessage($e->getMessage(), 'error');
 			}

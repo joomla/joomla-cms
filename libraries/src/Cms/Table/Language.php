@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Table;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,12 +15,12 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JTableLanguage extends JTable
+class Language extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -50,7 +51,7 @@ class JTableLanguage extends JTable
 
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
 
 			return false;
 		}
@@ -59,7 +60,7 @@ class JTableLanguage extends JTable
 	}
 
 	/**
-	 * Overrides JTable::store to check unique fields.
+	 * Overrides Table::store to check unique fields.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -70,11 +71,11 @@ class JTableLanguage extends JTable
 	public function store($updateNulls = false)
 	{
 		// Verify that the sef field is unique
-		$table = JTable::getInstance('Language', 'JTable', array('dbo' => $this->getDbo()));
+		$table = Table::getInstance('Language', 'JTable', array('dbo' => $this->getDbo()));
 
 		if ($table->load(array('sef' => $this->sef)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_SEF'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_SEF'));
 
 			return false;
 		}
@@ -82,7 +83,7 @@ class JTableLanguage extends JTable
 		// Verify that the image field is unique
 		if ($this->image && $table->load(array('image' => $this->image)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
 
 			return false;
 		}
@@ -90,7 +91,7 @@ class JTableLanguage extends JTable
 		// Verify that the language code is unique
 		if ($table->load(array('lang_code' => $this->lang_code)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_LANG_CODE'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_LANG_CODE'));
 
 			return false;
 		}
