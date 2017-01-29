@@ -39,6 +39,7 @@ class InstallerModelManage extends InstallerModel
 				'folder', 'folder_translated',
 				'package_id',
 				'extension_id',
+				'core',
 			);
 		}
 
@@ -67,6 +68,7 @@ class InstallerModelManage extends InstallerModel
 		$this->setState('filter.status', $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'string'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
+		$this->setState('filter.core', $this->getUserStateFromRequest($this->context . '.filter.core', 'filter_core', '', 'string'));
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
@@ -284,14 +286,15 @@ class InstallerModelManage extends InstallerModel
 		$type     = $this->getState('filter.type');
 		$clientId = $this->getState('filter.client_id');
 		$folder   = $this->getState('filter.folder');
+		$core     = $this->getState('filter.core');
 
 		if ($status != '')
 		{
-			if ($status == '2')
+			if ($status === '2')
 			{
 				$query->where('protected = 1');
 			}
-			elseif ($status == '3')
+			elseif ($status === '3')
 			{
 				$query->where('protected = 0');
 			}
@@ -307,14 +310,26 @@ class InstallerModelManage extends InstallerModel
 			$query->where('type = ' . $this->_db->quote($type));
 		}
 
-		if ($clientId != '')
+		if ($clientId !== '')
 		{
 			$query->where('client_id = ' . (int) $clientId);
 		}
 
-		if ($folder != '')
+		if ($folder !== '')
 		{
 			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
+		}
+
+		if ($core !== '')
+		{
+			if ($core === '0')
+			{
+				$query->where($this->getDbo()->quoteName('extension_id') . ' >= 10000');
+			}
+			elseif ($core === '1')
+			{
+				$query->where($this->getDbo()->quoteName('extension_id') . ' < 10000');
+			}
 		}
 
 		// Process search filter (extension id).
