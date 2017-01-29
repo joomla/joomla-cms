@@ -1018,7 +1018,7 @@ class ContentModelArticle extends JModelAdmin
 
 			if ($table->load($pk))
 			{
-				$this->createShareDraft($pk, $table->get('alias'));
+				$this->createShareDraft($pk);
 			}
 		}
 	}
