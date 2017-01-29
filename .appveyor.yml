@@ -6,12 +6,9 @@ clone_folder: C:\projects\joomla-cms
 ## Build matrix for lowest and highest possible targets
 environment:
   matrix:
-  - dependencies: current
-    php_ver_target: 5.6
-  - dependencies: current
-    php_ver_target: 7.0
-  - dependencies: current
-    php_ver_target: 7.1
+  - php_ver_target: 5.6
+  - php_ver_target: 7.0
+  - php_ver_target: 7.1
 
 init:
   - SET PATH=C:\Program Files\OpenSSL;C:\tools\php;%PATH%
@@ -64,6 +61,7 @@ install:
     - IF %PHP%==1 echo extension=php_openssl.dll >> php.ini
     - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
     - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
+    - IF %PHP%==1 echo extension=php_gd2.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pdo_mysql.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pdo_sqlsrv_nts.dll >> php.ini
     - IF %PHP%==1 echo extension=php_sqlsrv_nts.dll >> php.ini
