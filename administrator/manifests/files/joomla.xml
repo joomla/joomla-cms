@@ -4,10 +4,10 @@
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>3.7.0-dev</version>
-	<creationDate>October 2016</creationDate>
+	<version>3.7.0-beta1</version>
+	<creationDate>January 2017</creationDate>
 	<description>FILES_JOOMLA_XML_DESCRIPTION</description>
 
 	<scriptfile>administrator/components/com_admin/script.php</scriptfile>
@@ -48,6 +48,5 @@
 
 	<updateservers>
 		<server name="Joomla! Core" type="collection">https://update.joomla.org/core/list.xml</server>
-		<server name="Joomla! Extension Directory" type="collection">https://update.joomla.org/jed/list.xml</server>
 	</updateservers>
 </extension>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,15 +34,8 @@ $colSpan = $clientId === 1 ? 9 : 10;
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
-		<?php
-		// Search tools bar and filters
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
-		?>
-		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
-				<?php echo JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
-			</div>
-		<?php else : ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php if ($this->total > 0) : ?>
 			<table class="table table-striped" id="moduleList">
 				<thead>
 					<tr>
@@ -178,7 +171,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 							<?php endif; ?>
 						</td>
 						<td class="small hidden-phone hidden-tablet">
-							<?php echo $item->name;?>
+							<?php echo $item->name; ?>
 						</td>
 						<?php if ($clientId === 0) : ?>
 						<td class="small hidden-phone hidden-tablet">
@@ -198,7 +191,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<?php // Load the batch processing form. ?>
 		<?php if ($user->authorise('core.create', 'com_modules')

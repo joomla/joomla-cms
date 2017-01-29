@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -182,6 +182,106 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	}
 
 	/**
+	 * Test for the JDatabaseQueryPostgresql::__string method for a 'selectRowNumber' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function test__toStringSelectRowNumber()
+	{
+		$this->dbo->expects($this->exactly(6))
+			->method('getVersion')
+			->will($this->onConsecutiveCalls('8.3.18', '8.3.22', '8.3.23', '8.4.0', '9.1.24', '9.5.5'));
+
+		$this->_instance
+			->select('id')
+			->selectRowNumber('ordering', 'new_ordering')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT w.*, nextval(\'ROW_NUMBER\') - 1 AS new_ordering FROM (' .
+			PHP_EOL . 'SELECT id' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1' .
+			PHP_EOL . 'ORDER BY ordering' .
+			PHP_EOL . ') w,(SELECT setval(\'ROW_NUMBER\', 1)) AS r',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'))
+			->select('id')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT w.*, nextval(\'ROW_NUMBER\') - 1 AS "ordering" FROM (' .
+			PHP_EOL . 'SELECT id' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1' .
+			PHP_EOL . 'ORDER BY ordering DESC' .
+			PHP_EOL . ') w,(SELECT setval(\'ROW_NUMBER\', 1)) AS r',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->selectRowNumber('ordering ASC', $this->_instance->quoteName('ordering'));
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT nextval(\'ROW_NUMBER\') - 1 AS "ordering" FROM (' .
+			PHP_EOL . 'SELECT 1' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1' .
+			PHP_EOL . 'ORDER BY ordering ASC' .
+			PHP_EOL . ') w,(SELECT setval(\'ROW_NUMBER\', 1)) AS r',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->select('id')
+			->selectRowNumber('ordering', 'new_ordering')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT id,ROW_NUMBER() OVER (ORDER BY ordering) AS new_ordering' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'))
+			->select('id')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT ROW_NUMBER() OVER (ORDER BY ordering DESC) AS "ordering",id' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->selectRowNumber('ordering ASC', $this->_instance->quoteName('ordering'));
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT ROW_NUMBER() OVER (ORDER BY ordering ASC) AS "ordering"' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1',
+			(string) $this->_instance
+		);
+	}
+
+	/**
 	 * Test for the JDatabaseQuery::__string method for a 'update' case.
 	 *
 	 * @return  void
@@ -190,19 +290,43 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function test__toStringUpdate()
 	{
-		$q = new JDatabaseQueryPostgresql($this->dbo);
+		// Test on ugly query
+		$this->_instance
+			->update('#__foo AS a')
+			->join('INNER', "b\roN\nb.id = a.id")
+			->set('a.hits = 0');
 
-		$q->update('#__foo AS a')
+		$string = (string) $this->_instance;
+
+		$this->assertEquals(
+			PHP_EOL . "UPDATE #__foo AS a" .
+			PHP_EOL . "SET a.hits = 0" .
+			PHP_EOL . "FROM b" .
+			PHP_EOL . "WHERE b.id = a.id",
+			$string
+		);
+
+		$this->_instance
+			->clear()
+			->update('#__foo AS a')
 			->join('INNER', 'b ON b.id = a.id')
 			->set('a.id = 2')
 			->where('b.id = 1');
+
+		$string = (string) $this->_instance;
 
 		$this->assertEquals(
 			PHP_EOL . "UPDATE #__foo AS a" .
 			PHP_EOL . "SET a.id = 2" .
 			PHP_EOL . "FROM b" .
 			PHP_EOL . "WHERE b.id = 1 AND b.id = a.id",
-			(string) $q
+			$string
+		);
+
+		// Run method __toString() again on the same query
+		$this->assertEquals(
+			$string,
+			(string) $this->_instance
 		);
 	}
 

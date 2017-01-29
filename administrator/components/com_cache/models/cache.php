@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -165,20 +165,20 @@ class CacheModelCache extends JModelList
 	 *
 	 * @return object
 	 */
-	public function getCache($client_id = null)
+	public function getCache($clientId = null)
 	{
 		$conf = JFactory::getConfig();
 
-		if (is_null($client_id))
+		if (is_null($clientId))
 		{
-			$client_id = $this->getState('client_id');
+			$clientId = $this->getState('client_id');
 		}
 
 		$options = array(
 			'defaultgroup' => '',
 			'storage'      => $conf->get('cache_handler', ''),
 			'caching'      => true,
-			'cachebase'    => (int) $client_id === 1 ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
+			'cachebase'    => (int) $clientId === 1 ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
 		$cache = JCache::getInstance('', $options);

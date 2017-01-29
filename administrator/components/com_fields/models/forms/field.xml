@@ -23,14 +23,12 @@
 		/>
 
 		<field
-			name="catid"
-			type="categoryedit"
-			allowAdd="true"
+			name="group_id"
+			type="fieldgroups"
 			label="COM_FIELDS_FIELD_GROUP_LABEL"
-			extension="com_fields"
-			description="COM_FIELDS_FIELD_GROUP_DESC" class=""
+			description="COM_FIELDS_FIELD_GROUP_DESC"
 		>
-			<option value=""></option>
+			<option value="0">JNONE</option>
 		</field>
 
 		<field
@@ -86,7 +84,7 @@
 
 		<field
 			name="default_value"
-			type="text"
+			type="textarea"
 			filter="raw"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
 			description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
@@ -211,7 +209,6 @@
 			translate_label="false"
 			filter="rules"
 			validate="rules"
-			component="com_fields"
 			section="field"
 		/>
 
@@ -228,25 +225,10 @@
 			<field
 				name="hint"
 				type="text"
-				label="COM_FIELDS_FIELD_HINT_LABEL"
-				description="COM_FIELDS_FIELD_HINT_DESC"
+				label="COM_FIELDS_FIELD_PLACEHOLDER_LABEL"
+				description="COM_FIELDS_FIELD_PLACEHOLDER_DESC"
 				class="input-xxlarge"
 				size="40"
-			/>
-
-			<field
-				name="image"
-				type="media"
-				label="COM_FIELDS_FIELD_IMAGE_LABEL"
-				description="COM_FIELDS_FIELD_IMAGE_DESC"
-			/>
-
-			<field
-				name="image_alt"
-				type="text"
-				label="COM_FIELDS_FIELD_IMAGE_ALT_LABEL"
-				description="COM_FIELDS_FIELD_IMAGE_ALT_DESC"
-				size="20"
 			/>
 
 			<field
@@ -309,13 +291,12 @@
 				type="list"
 				label="COM_FIELDS_FIELD_DISPLAY_LABEL"
 				description="COM_FIELDS_FIELD_DISPLAY_DESC"
-				default="-1"
+				default="2"
 			>
 				<option value="1">COM_FIELDS_FIELD_DISPLAY_AFTER_TITLE</option>
 				<option value="2">COM_FIELDS_FIELD_DISPLAY_BEFORE_DISPLAY</option>
 				<option value="3">COM_FIELDS_FIELD_DISPLAY_AFTER_DISPLAY</option>
 				<option value="0">JNO</option>
-				<option value="-1">JGLOBAL_USE_GLOBAL</option>
 			</field>
 		</fieldset>
 	</fields>

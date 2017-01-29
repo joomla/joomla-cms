@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,7 +91,7 @@ class JMenuSite extends JMenu
 					// Set the query
 					$db->setQuery($query);
 
-					return $db->loadObjectList('id');
+					return $db->loadObjectList('id', 'JMenuItem');
 				},
 				array(),
 				md5(get_class($this)),
@@ -136,7 +136,7 @@ class JMenuSite extends JMenu
 	 * @param   string   $values      The value of the field
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *
-	 * @return  array
+	 * @return  JMenuItem|JMenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
 	 *
 	 * @since   1.6
 	 */
@@ -145,7 +145,7 @@ class JMenuSite extends JMenu
 		$attributes = (array) $attributes;
 		$values     = (array) $values;
 
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
 			// Filter by language if not set
 			if (($key = array_search('language', $attributes)) === false)
@@ -187,13 +187,13 @@ class JMenuSite extends JMenu
 	 *
 	 * @param   string  $language  The language code.
 	 *
-	 * @return  mixed  The item object or null when not found for given language
+	 * @return  JMenuItem|null  The item object or null when not found for given language
 	 *
 	 * @since   1.6
 	 */
 	public function getDefault($language = '*')
 	{
-		if (array_key_exists($language, $this->_default) && $this->app->isSite() && $this->app->getLanguageFilter())
+		if (array_key_exists($language, $this->_default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
 		{
 			return $this->_items[$this->_default[$language]];
 		}
