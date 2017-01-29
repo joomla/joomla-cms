@@ -99,7 +99,7 @@ $columns   = 10;
 							</div>
 						</td>
 						<td>
-							<?php echo JHtml::_('link', $item->link, $item->link); ?>
+							<?php echo JHtml::_('link', $item->shareurl, $item->shareurl); ?>
 						</td>
 						<td class="nowrap small hidden-phone">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>

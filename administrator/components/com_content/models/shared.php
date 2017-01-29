@@ -98,6 +98,7 @@ class ContentModelShared extends JModelList
 						'c.alias',
 						'a.created',
 						'a.sharetoken',
+						'a.shareurl',
 						'a.articleId',
 					)
 				)
@@ -151,23 +152,22 @@ class ContentModelShared extends JModelList
 	{
 		$items = parent::getItems();
 
+		$query = $this->getDbo()->getQuery(true)
+			->select($this->getDbo()->quoteName('old_url'))
+			->from($this->getDbo()->quoteName('#__redirect_links'));
+
 		foreach ($items as $key => $item)
 		{
-			// Create the share link
-			$item->link = $url = JUri::root() . 'index.php?option=com_content&view=article&id=' . $item->articleId . '&token=' . $item->sharetoken;
-
 			// Check if the URL is stored as a redirect
-			$query = $this->getDbo()->getQuery(true)
-				->select($this->getDbo()->quoteName('old_url'))
-				->from($this->getDbo()->quoteName('#__redirect_links'))
-				->where($this->getDbo()->quoteName('new_url') . ' = ' . $this->getDbo()->quote($item->link));
+			$query->clear('where')
+				->where($this->getDbo()->quoteName('new_url') . ' = ' . $this->getDbo()->quote($item->shareurl));
 			$this->getDbo()->setQuery($query);
 
 			$redirectLink = $this->getDbo()->loadResult();
 
 			if ($redirectLink)
 			{
-				$item->link = $redirectLink;
+				$item->shareurl = $redirectLink;
 			}
 
 			$items[$key] = $item;

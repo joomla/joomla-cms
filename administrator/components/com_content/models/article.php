@@ -832,19 +832,29 @@ class ContentModelArticle extends JModelAdmin
 			$table->save($data);
 		}
 
+		// Load the article details
+		$query = $this->getDbo()->getQuery(true)
+			->select(
+				$this->getDbo()->quoteName(
+					array(
+						'alias',
+						'language',
+					)
+				)
+			)
+			->from($this->getDbo()->quoteName('#__content'))
+			->where($this->getDbo()->quoteName('id') . ' = ' . (int) $articleId);
+		$this->getDbo()->setQuery($query);
+
+		$article = $this->getDbo()->loadObject();
+
 		// Check if multi-language is enabled and get the language tag
 		$languageTag = '';
 
 		if (JLanguageMultilang::isEnabled())
 		{
 			// Find the article language
-			$query = $this->getDbo()->getQuery(true)
-				->select($this->getDbo()->quoteName('language'))
-				->from($this->getDbo()->quoteName('#__content'))
-				->where($this->getDbo()->quoteName('id') . ' = ' . (int) $articleId);
-			$this->getDbo()->setQuery($query);
-
-			$languageCode = $this->getDbo()->loadResult();
+			$languageCode = $article->language;
 
 			// Get the default language if an article is set to All languages as we need a language code
 			if ($languageCode === '*')
@@ -895,6 +905,10 @@ class ContentModelArticle extends JModelAdmin
 			$url .= '&lang=' . $languageTag;
 		}
 
+		// Store the share URL
+		$table->set('shareurl', $url);
+		$table->store();
+
 		// Store the URL as a redirect link if possible
 		if (JPluginHelper::isEnabled('system', 'redirect') && JFactory::getConfig()->get('sef'))
 		{
@@ -913,13 +927,7 @@ class ContentModelArticle extends JModelAdmin
 				}
 
 				// Add the alias
-				$query = $this->getDbo()->getQuery(true)
-					->select($this->getDbo()->quoteName('alias'))
-					->from($this->getDbo()->quoteName('#__content'))
-					->where($this->getDbo()->quoteName('id') . ' = ' . (int) $articleId);
-				$this->getDbo()->setQuery($query);
-
-				$redirectUrl .= $this->getDbo()->loadResult();
+				$redirectUrl .= $article->alias;
 
 				// Check for existing name
 				$query->clear()
