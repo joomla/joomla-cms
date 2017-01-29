@@ -275,7 +275,7 @@ if ($user->authorise('core.manage', 'com_content'))
 	}
 
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured', 'class:featured'));
-	$this->->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_SHARED_DRAFTS'), 'index.php?option=com_content&view=shared', 'class:shared'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_SHARED_DRAFTS'), 'index.php?option=com_content&view=shared', 'class:shared'));
 
 	if ($user->authorise('core.manage', 'com_media'))
 	{
