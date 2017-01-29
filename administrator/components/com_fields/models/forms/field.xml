@@ -232,21 +232,6 @@
 			/>
 
 			<field
-				name="image"
-				type="media"
-				label="COM_FIELDS_FIELD_IMAGE_LABEL"
-				description="COM_FIELDS_FIELD_IMAGE_DESC"
-			/>
-
-			<field
-				name="image_alt"
-				type="text"
-				label="COM_FIELDS_FIELD_IMAGE_ALT_LABEL"
-				description="COM_FIELDS_FIELD_IMAGE_ALT_DESC"
-				size="20"
-			/>
-
-			<field
 				name="render_class"
 				type="textarea"
 				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
@@ -306,13 +291,12 @@
 				type="list"
 				label="COM_FIELDS_FIELD_DISPLAY_LABEL"
 				description="COM_FIELDS_FIELD_DISPLAY_DESC"
-				default="-1"
+				default="2"
 			>
 				<option value="1">COM_FIELDS_FIELD_DISPLAY_AFTER_TITLE</option>
 				<option value="2">COM_FIELDS_FIELD_DISPLAY_BEFORE_DISPLAY</option>
 				<option value="3">COM_FIELDS_FIELD_DISPLAY_AFTER_DISPLAY</option>
 				<option value="0">JNO</option>
-				<option value="-1">JGLOBAL_USE_GLOBAL</option>
 			</field>
 		</fieldset>
 	</fields>

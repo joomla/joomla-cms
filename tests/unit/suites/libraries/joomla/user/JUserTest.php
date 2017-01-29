@@ -36,6 +36,9 @@ class JUserTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		// Clear JAccess static caches.
+		JAccess::clearStatics();
+
 		$this->saveFactoryState();
 
 		$this->object = new JUser('42');

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<!-- Heading type menu item does not have a navigation -->
+		<!-- Container type menu item does not have a navigation -->
 		<field
 			name="link"
 			type="hidden"
@@ -64,5 +64,5 @@
 			</field>
 		</fieldset>
 	</fields>
-	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_HEADING"/>
+	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_CONTAINER"/>
 </form>

@@ -160,14 +160,13 @@ abstract class ModMenuHelper
 	/**
 	 * Load the menu items from database for the given menutype
 	 *
-	 * @param   string   $menutype   The selected menu type
-	 * @param   boolean  $authCheck  An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
+	 * @param   string  $menutype  The selected menu type
 	 *
 	 * @return  array
 	 *
 	 * @since   3.7.0
 	 */
-	public static function getMenuItems($menutype, $authCheck = true)
+	public static function getMenuItems($menutype)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -206,10 +205,7 @@ abstract class ModMenuHelper
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
-		// Parse the list of extensions.
-		$result = self::parseItems($menuItems, $authCheck);
-
-		return $result;
+		return $menuItems;
 	}
 
 	/**
@@ -222,7 +218,7 @@ abstract class ModMenuHelper
 	 *
 	 * @since   3.7.0
 	 */
-	protected static function parseItems($menuItems, $authCheck = true)
+	public static function parseItems($menuItems, $authCheck = true)
 	{
 		$result = array();
 		$user   = JFactory::getUser();
@@ -253,6 +249,7 @@ abstract class ModMenuHelper
 					break;
 				case 'separator':
 				case 'heading':
+				case 'container':
 					$menuitem->link = '#';
 					break;
 				case 'alias':
