@@ -1,8 +1,6 @@
 CREATE TABLE IF NOT EXISTS `#__content_draft` (
-  `id`         INT(10) UNSIGNED NOT NULL AUTO_INCREMENT
-  COMMENT 'Primary Key',
-  `articleId`  INT(10) UNSIGNED NOT NULL
-  COMMENT 'article ID',
+  `id`         INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `articleId`  INT(10) UNSIGNED NOT NULL,
   `created`    DATETIME         NOT NULL,
   `sharetoken` VARCHAR(32)     NOT NULL,
   PRIMARY KEY (`id`)
