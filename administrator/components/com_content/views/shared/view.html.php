@@ -20,6 +20,7 @@ class ContentViewShared extends JViewLegacy
 	 * An array of items
 	 *
 	 * @var  array
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $items;
 
@@ -27,6 +28,7 @@ class ContentViewShared extends JViewLegacy
 	 * The pagination object
 	 *
 	 * @var  JPagination
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $pagination;
 
@@ -34,6 +36,7 @@ class ContentViewShared extends JViewLegacy
 	 * The model state
 	 *
 	 * @var  object
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $state;
 
@@ -41,6 +44,7 @@ class ContentViewShared extends JViewLegacy
 	 * Form object for search filters
 	 *
 	 * @var  JForm
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public $filterForm;
 
@@ -48,6 +52,7 @@ class ContentViewShared extends JViewLegacy
 	 * The active search filters
 	 *
 	 * @var  array
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public $activeFilters;
 
@@ -55,6 +60,7 @@ class ContentViewShared extends JViewLegacy
 	 * The sidebar markup
 	 *
 	 * @var  string
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $sidebar;
 
@@ -63,7 +69,7 @@ class ContentViewShared extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -88,7 +94,7 @@ class ContentViewShared extends JViewLegacy
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**

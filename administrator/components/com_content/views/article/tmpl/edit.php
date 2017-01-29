@@ -97,7 +97,7 @@ if ($this->item->id > 0)
 	JFactory::getDocument()->addScriptDeclaration('
 	    var sharebuttonUrl = "'
 		. JRoute::_(
-			'index.php?option=com_content&task=article.shareDraft&articleId=' . $this->item->id . '&alias=' . $this->item->alias . '&format=json&' . JSession::getFormToken() . '=1',
+			'index.php?option=com_content&task=article.shareDraft&articleId=' . $this->item->id . '&format=json&' . JSession::getFormToken() . '=1',
 			false
 		)
 		. '";

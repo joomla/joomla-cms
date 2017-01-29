@@ -19,7 +19,7 @@ class ContentControllerArticle extends JControllerForm
 	/**
 	 * Method to generate and store share token.
 	 *
-	 * @return  string  Returns a JSON string.
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
@@ -43,7 +43,6 @@ class ContentControllerArticle extends JControllerForm
 		try
 		{
 			$articleId = $this->input->get('articleId', false, 'int');
-			$alias     = $this->input->get('alias', false, 'cmd');
 
 			if (false === $articleId)
 			{
@@ -51,8 +50,9 @@ class ContentControllerArticle extends JControllerForm
 			}
 
 			// Get the model
+			/** @var ContentModelArticle $model */
 			$model = $this->getModel();
-			$return = $model->createShareDraft($articleId, $alias);
+			$return = $model->createShareDraft($articleId);
 		}
 		catch (Exception $e)
 		{

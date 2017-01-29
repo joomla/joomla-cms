@@ -809,14 +809,13 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Method to store the token generated.
 	 *
-	 * @param   int     $articleId  The ID of the shared article.
-	 * @param   string  $alias      The alias of the shared article.
+	 * @param   int  $articleId  The ID of the shared article.
 	 *
 	 * @return  string  The generated token.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createShareDraft($articleId, $alias)
+	public function createShareDraft($articleId)
 	{
 		/** @var ContentTableDraft $table */
 		$table = $this->getTable('Draft', 'ContentTable');
@@ -873,7 +872,7 @@ class ContentModelArticle extends JModelAdmin
 		// Find the item ID for the article
 		$menuItem = $menu->getItems('link', 'index.php?option=com_content&view=article&id=' . $articleId, true);
 
-		// If we don't find a single artile, look for the category
+		// If we don't find a single article, look for the category
 		if (!$menuItem)
 		{
 			$contentTable = $this->getTable('Content', 'JTable');
@@ -914,10 +913,16 @@ class ContentModelArticle extends JModelAdmin
 				}
 
 				// Add the alias
-				$redirectUrl .= $alias;
+				$query = $this->getDbo()->getQuery(true)
+					->select($this->getDbo()->quoteName('alias'))
+					->from($this->getDbo()->quoteName('#__content'))
+					->where($this->getDbo()->quoteName('id') . ' = ' . (int) $articleId);
+				$this->getDbo()->setQuery($query);
+
+				$redirectUrl .= $this->getDbo()->loadResult();
 
 				// Check for existing name
-				$query = $this->getDbo()->getQuery(true)
+				$query->clear()
 					->select($this->getDbo()->quoteName('id'))
 					->from($this->getDbo()->quoteName('#__redirect_links'))
 					->where($this->getDbo()->quoteName('old_url') . ' = ' . $this->getDbo()->quote($redirectUrl));
