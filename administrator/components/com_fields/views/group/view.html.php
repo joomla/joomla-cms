@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -11,28 +11,28 @@ defined('_JEXEC') or die;
 /**
  * Group View
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsViewGroup extends JViewLegacy
 {
 	/**
 	 * @var  JForm
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $form;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $item;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $state;
 
@@ -41,7 +41,7 @@ class FieldsViewGroup extends JViewLegacy
 	 *
 	 * @var  JObject
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $canDo;
 
@@ -54,7 +54,7 @@ class FieldsViewGroup extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function display($tpl = null)
 	{
@@ -92,7 +92,7 @@ class FieldsViewGroup extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function addToolbar()
 	{
@@ -117,7 +117,9 @@ class FieldsViewGroup extends JViewLegacy
 		}
 
 		// Load component language file
-		JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
+		$lang = JFactory::getLanguage();
+		$lang->load($component, JPATH_ADMINISTRATOR)
+		|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
 		$title = JText::sprintf('COM_FIELDS_VIEW_GROUP_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', JText::_(strtoupper($component)));
 

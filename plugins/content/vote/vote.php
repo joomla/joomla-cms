@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.vote
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ class PlgContentVote extends JPlugin
 	 * Application object
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $app;
 
@@ -28,7 +28,7 @@ class PlgContentVote extends JPlugin
 	 * The position the voting data is displayed in relative to the article.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $votingPosition;
 
@@ -38,7 +38,7 @@ class PlgContentVote extends JPlugin
 	 * @param   object  &$subject  The object to observe
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -79,7 +79,7 @@ class PlgContentVote extends JPlugin
 	 *
 	 * @return  string|boolean  HTML string containing code for the votes if in com_content else boolean false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterDisplay($context, &$row, &$params, $page = 0)
 	{
@@ -101,7 +101,7 @@ class PlgContentVote extends JPlugin
 	 *
 	 * @return  string|boolean  HTML string containing code for the votes if in com_content else boolean false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function displayVotingData($context, &$row, &$params, $page)
 	{

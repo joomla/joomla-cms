@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,16 +46,14 @@ JFactory::getDocument()->addScriptDeclaration('
 	});
 ');
 
-JFactory::getDocument()->addStyleDeclaration(
-	"
+JFactory::getDocument()->addStyleDeclaration('
 	.accordion-inner .control-group .controls {
 		margin-left: 10px;
 	}
 	.accordion-inner > .control-group {
 		margin-bottom: 0;
 	}
-	"
-);
+	');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filter&layout=edit&filter_id=' . (int) $this->item->filter_id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">

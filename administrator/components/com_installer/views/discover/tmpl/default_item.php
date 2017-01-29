@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 ?>
-<tr class="<?php echo "row" . $this->item->index % 2; ?>" <?php echo $this->item->style; ?>>
+<tr class="<?php echo 'row' . $this->item->index % 2; ?>" <?php echo $this->item->style; ?>>
 	<td>
 			<input type="checkbox" id="cb<?php echo $this->item->index; ?>" name="eid[]" value="<?php echo $this->item->extension_id; ?>" onclick="Joomla.isChecked(this.checked);" <?php echo $this->item->cbd; ?> />
 <!--		<input type="checkbox" id="cb<?php echo $this->item->index; ?>" name="eid" value="<?php echo $this->item->extension_id; ?>" onclick="Joomla.isChecked(this.checked);" <?php echo $this->item->cbd; ?> />-->

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -826,7 +826,6 @@ class JFilterInput extends InputFilter
 		// In the beginning we don't really have a tag, so everything is postTag
 		$preTag = null;
 		$postTag = $source;
-		$currentSpace = false;
 
 		// Setting to null to deal with undefined variables
 		$attr = '';

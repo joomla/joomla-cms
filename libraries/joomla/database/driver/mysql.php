@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -175,7 +175,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	public static function isSupported()
 	{
-		return function_exists('mysql_connect');
+		return PHP_MAJOR_VERSION < 7 && function_exists('mysql_connect');
 	}
 
 	/**
@@ -321,7 +321,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		{
 			// Get the error number and message before we execute any more queries.
 			$this->errorNum = $this->getErrorNumber();
-			$this->errorMsg = $this->getErrorMessage($query);
+			$this->errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -337,7 +337,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 				{
 					// Get the error number and message.
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage($query);
+					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
@@ -554,13 +554,11 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	/**
 	 * Return the actual SQL Error message
 	 *
-	 * @param   string  $query  The SQL Query that fails
-	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage($query)
+	protected function getErrorMessage()
 	{
 		$errorMessage = (string) mysql_error($this->connection);
 
@@ -568,9 +566,8 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		if (!$this->debug)
 		{
 			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			$query        = str_replace($this->tablePrefix, '#__', $query);
 		}
 
-		return $errorMessage . ' SQL=' . $query;
+		return $errorMessage;
 	}
 }
