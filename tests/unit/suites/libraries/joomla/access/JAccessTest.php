@@ -292,10 +292,10 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetGroupsByUser()
 	{
 		$array1 = array(0 => 1, 1 => 8);
-		$this->assertThat($array1, $this->equalTo(JAccess::getGroupsByUser(42, true)));
+		$this->assertThat(JAccess::getGroupsByUser(42, true), $this->equalTo($array1));
 
 		$array2 = array(0 => 8);
-		$this->assertThat($array2, $this->equalTo(JAccess::getGroupsByUser(42, false)));
+		$this->assertThat(JAccess::getGroupsByUser(42, false), $this->equalTo($array2));
 
 		$this->markTestSkipped('Test is now failing with full test suite.');
 

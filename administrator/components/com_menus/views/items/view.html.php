@@ -134,6 +134,10 @@ class MenusViewItems extends JViewLegacy
 					$value = JText::_('COM_MENUS_TYPE_HEADING');
 					break;
 
+				case 'container':
+					$value = JText::_('COM_MENUS_TYPE_CONTAINER');
+					break;
+
 				case 'component':
 				default:
 					// Load language

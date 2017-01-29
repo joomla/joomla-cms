@@ -47,7 +47,7 @@
 			type="text"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
-			default="5"
+			default="10"
 			filter="integer"
 			showon="save_history:1"
 		/>
@@ -69,6 +69,7 @@
 			type="list"
 			label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
 			description="COM_CONTACT_FIELD_PRESENTATION_DESC"
+			default="sliders"
 			>
 			<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
 			<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
@@ -273,6 +274,7 @@
 			type="media"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
+			default=""
 			showon="show_image:1"
 		/>
 
@@ -340,10 +342,11 @@
 		<field
 			name="show_user_custom_fields"
 			type="fieldgroups"
-			multiple="true"
-			context="com_users.user"
 			label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 			description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
+			multiple="true"
+			context="com_users.user"
+			default="-1"
 			>
 			<option value="-1">JALL</option>
 		</field>
@@ -366,6 +369,7 @@
 			label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
 			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
+			default=""
 			showon="show_links:1"
 		/>
 
@@ -375,6 +379,7 @@
 			label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
 			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
+			default=""
 			showon="show_links:1"
 		/>
 
@@ -384,6 +389,7 @@
 			label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
 			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
+			default=""
 			showon="show_links:1"
 		/>
 
@@ -393,6 +399,7 @@
 			label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
 			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
+			default=""
 			showon="show_links:1"
 		/>
 
@@ -402,6 +409,7 @@
 			label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
 			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
+			default=""
 			showon="show_links:1"
 		/>
 
@@ -431,6 +439,7 @@
 			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC"
 			hide_none="1"
+			default=""
 			showon="contact_icons:0"
 		/>
 
@@ -440,6 +449,7 @@
 			label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC"
 			hide_none="1"
+			default=""
 			showon="contact_icons:0"
 		/>
 
@@ -449,6 +459,7 @@
 			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC"
 			hide_none="1"
+			default=""
 			showon="contact_icons:0"
 		/>
 
@@ -458,6 +469,7 @@
 			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC"
 			hide_none="1"
+			default=""
 			showon="contact_icons:0"
 		/>
 
@@ -467,6 +479,7 @@
 			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_FAX_DESC"
 			hide_none="1"
+			default=""
 			showon="contact_icons:0"
 		/>
 
@@ -476,6 +489,7 @@
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_MISC_DESC"
 			hide_none="1"
+			default=""
 			showon="contact_icons:0"
 		/>
 	</fieldset>
@@ -670,6 +684,7 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
+
 	</fieldset>
 
 	<fieldset
@@ -867,6 +882,7 @@
 			<option value="sortname">COM_CONTACT_FIELD_VALUE_SORT_NAME</option>
 			<option value="ordering">COM_CONTACT_FIELD_VALUE_ORDERING</option>
 		</field>
+
 	</fieldset>
 
 	<fieldset
@@ -882,7 +898,8 @@
 			description="COM_CONTACT_FIELD_CAPTCHA_DESC"
 			default=""
 			folder="captcha"
-			filter="cmd" >
+			filter="cmd"
+			>
 			<option value="">JOPTION_USE_DEFAULT</option>
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
@@ -917,6 +934,7 @@
 			type="textarea"
 			label="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_DESC"
+			default=""
 			rows="3"
 			cols="30"
 			showon="show_email_form:1"
@@ -927,6 +945,7 @@
 			type="textarea"
 			label="COM_CONTACT_FIELD_CONFIG_BANNED_SUBJECT_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_BANNED_SUBJECT_DESC"
+			default=""
 			rows="3"
 			cols="30"
 			showon="show_email_form:1"
@@ -937,6 +956,7 @@
 			type="textarea"
 			label="COM_CONTACT_FIELD_CONFIG_BANNED_TEXT_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_BANNED_TEXT_DESC"
+			default=""
 			rows="3"
 			cols="30"
 			showon="show_email_form:1"
@@ -973,6 +993,7 @@
 			type="text"
 			label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC"
+			default=""
 			size="30"
 			showon="show_email_form:1"
 		/>
@@ -1037,5 +1058,6 @@
 			component="com_contact"
 			section="component"
 		/>
+
 	</fieldset>
 </config>

@@ -64,10 +64,10 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th width="1%" class="text-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" style="min-width:85px" class="nowrap text-center">
+						<th width="1%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
-						<th>
+						<th style="min-width:100px" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-sm-down text-center">

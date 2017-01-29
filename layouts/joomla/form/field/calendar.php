@@ -106,7 +106,8 @@ JHtml::_('stylesheet', 'system/fields/calendar-vanilla' . $cssFileExt, array(), 
 		<?php endif; ?>
 		<input
 			type="text"
-			name="<?php echo $name; ?>"
+            id="<?php echo $id; ?>"
+            name="<?php echo $name; ?>"
 			value="<?php echo htmlspecialchars(($value != "0000-00-00 00:00:00") ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo  $attributes; ?>
 			<?php !empty($hint) ? 'placeholder="' . $hint . '"' : ''; ?>

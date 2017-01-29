@@ -264,6 +264,17 @@ class JRouterSite extends JRouter
 
 			if ($found)
 			{
+				if ($found->type == 'alias')
+				{
+					$newItem = $this->menu->getItem($found->params->get('aliasoptions'));
+
+					if ($newItem)
+					{
+						$found->query     = array_merge($found->query, $newItem->query);
+						$found->component = $newItem->component;
+					}
+				}
+
 				$uri->setVar('Itemid', $found->id);
 				$uri->setVar('option', $found->component);
 			}
@@ -313,6 +324,17 @@ class JRouterSite extends JRouter
 		else
 		{
 			$item = $this->menu->getDefault($this->app->getLanguage()->getTag());
+		}
+
+		if ($item && $item->type == 'alias')
+		{
+			$newItem = $this->menu->getItem($item->params->get('aliasoptions'));
+
+			if ($newItem)
+			{
+				$item->query     = array_merge($item->query, $newItem->query);
+				$item->component = $newItem->component;
+			}
 		}
 
 		if (is_object($item))
