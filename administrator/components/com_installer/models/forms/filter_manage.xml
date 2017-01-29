@@ -40,15 +40,6 @@
 			>
 			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
 		</field>
-		<field
-			name="core"
-			type="list"
-			onchange="this.form.submit();"
-		>
-			<option value="">COM_INSTALLER_VALUE_CORE_SELECT</option>
-			<option value="1">COM_INSTALLER_VALUE_CORE_YES</option>
-			<option value="0">COM_INSTALLER_VALUE_CORE_NO</option>
-		</field>
 	</fields>
 	<fields name="list">
 		<field
