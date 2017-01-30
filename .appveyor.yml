@@ -99,29 +99,6 @@ install:
     - ps: >-
         If ($env:php_ver_target -eq "5.6") {
           If ($env:PHP -eq "1") {
-            appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/apcu/4.0.8/php_apcu-4.0.8-5.6-nts-vc11-x86.zip
-            7z x php_apcu-4.0.8-5.6-nts-vc11-x86.zip > $null
-            copy php_apcu.dll ext\php_apcu.dll
-            Remove-Item C:\tools\php\* -include .zip}}
-    - ps: >-
-        If ($env:php_ver_target -eq "7.0") {
-          If ($env:PHP -eq "1") {
-            appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/apcu/5.1.8/php_apcu-5.1.8-7.0-nts-vc14-x64.zip
-            7z x php_apcu-5.1.8-7.0-nts-vc14-x64.zip > $null
-            copy php_apcu.dll ext\php_apcu.dll
-            Remove-Item C:\tools\php\* -include .zip}}
-    - ps: >-
-        If ($env:php_ver_target -eq "7.1") {
-          If ($env:PHP -eq "1") {
-            appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/apcu/5.1.8/php_apcu-5.1.8-7.1-nts-vc14-x64.zip
-            7z x php_apcu-5.1.8-7.1-nts-vc14-x64.zip > $null
-            copy php_apcu.dll ext\php_apcu.dll
-            Remove-Item C:\tools\php\* -include .zip}}
-    - IF %PHP%==1 echo extension=php_apcu.dll >> php.ini
-    - IF %PHP%==1 echo apc.enable_cli=1 >> php.ini
-    - ps: >-
-        If ($env:php_ver_target -eq "5.6") {
-          If ($env:PHP -eq "1") {
             appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/memcache/3.0.8/php_memcache-3.0.8-5.6-ts-vc11-x86.zip
             7z x php_memcache-3.0.8-5.6-ts-vc11-x86.zip -y  > $null
             copy php_memcache.dll ext\php_memcache.dll
