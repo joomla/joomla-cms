@@ -385,3 +385,23 @@ a.grid_true {
     left: auto;
     right: 0;
 }
+
+/* SubForms (Table) */
+.subform-table-layout {
+	td {
+		padding-left: 10px;
+		&::before {
+			content: attr(data-column);
+			left: auto;
+			right: 10px;
+			padding-left: 10px;
+			padding-right: 0;
+		}
+	}
+	.subform-repeatable tbody td:last-of-type {
+		text-align: left;
+	}
+	.form-horizontal .controls {
+		margin-top: 0;
+	}
+}

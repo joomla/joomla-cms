@@ -692,6 +692,7 @@ class MenusModelItem extends JModelAdmin
 
 			case 'separator':
 			case 'heading':
+			case 'container':
 				$table->link = '';
 				$table->component_id = 0;
 				break;
@@ -768,6 +769,9 @@ class MenusModelItem extends JModelAdmin
 		{
 			// Note that all request arguments become reserved parameter names.
 			$result->params = array_merge($result->params, $args);
+			
+			// Add Itemid to the alias link value
+			$result->link .= $result->id;
 		}
 
 		if ($table->type == 'url')
