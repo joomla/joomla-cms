@@ -312,15 +312,7 @@ class Cache
 	 */
 	public function flush()
 	{
-		// Get the storage
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
-		{
-			return $handler->flush();
-		}
-
-		return false;
+		return $this->_getStorage()->flush();
 	}
 
 	/**
