@@ -31,11 +31,11 @@ class JFormFieldFieldgroups extends JFormFieldList
 	protected function getOptions()
 	{
 		$context = (string) $this->element['context'];
-		$states    = $this->element['state'] ? $this->element['state'] : '0,1';
-		$states    = ArrayHelper::toInteger(explode(',', $states));
+		$states  = $this->element['state'] ?: '0,1';
+		$states  = ArrayHelper::toInteger(explode(',', $states));
 
 		$user       = JFactory::getUser();
-		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
+		$viewLevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -43,7 +43,12 @@ class JFormFieldFieldgroups extends JFormFieldList
 		$query->from('#__fields_groups');
 		$query->where('state IN (' . implode(',', $states) . ')');
 		$query->where('context = ' . $db->quote($context));
-		$query->where('access IN (' . implode(',', $viewlevels) . ')');
+		$query->where('access IN (' . implode(',', $viewLevels) . ')');
+
+		if ($formId = $this->form->getValue('form_id', 'filter'))
+		{
+			$query->where('form_id = ' . $formId);
+		}
 
 		$db->setQuery($query);
 		$options = $db->loadObjectList();

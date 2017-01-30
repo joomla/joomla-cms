@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams" addfieldpath="/administrator/components/com_categories/models/fields">
+			<field
+				name="subform_id"
+				type="fieldforms"
+				label="COM_FIELDS_FIELD_USE_SUBFORM_LABEL"
+				description="COM_FIELDS_FIELD_USE_SUBFORM_DESC"
+				required="required"
+				onlySubForms="true"
+			>
+				<option value=""></option>
+			</field>
+			<field
+				name="multiple"
+				type="list"
+				label="PLG_FIELDS_SUBFORM_PARAMS_MULTIPLE_LABEL"
+				description="PLG_FIELDS_SUBFORM_PARAMS_MULTIPLE_DESC"
+			>
+				<option value="">PLG_FIELDS_TEXT_PARAMS_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

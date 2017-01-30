@@ -49,6 +49,16 @@
 		</field>
 
 		<field
+				name="form_id"
+				type="fieldgroupforms"
+				label="COM_FIELDS_FIELD_FORM_LABEL"
+				description="COM_FIELDS_FIELD_FORM_DESC"
+				required="required"
+		>
+			<option value=""></option>
+		</field>
+
+		<field
 			name="checked_out"
 			type="hidden"
 			filter="unset"

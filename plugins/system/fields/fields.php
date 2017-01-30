@@ -41,7 +41,6 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentBeforeSave($context, $item, $isNew)
 	{
-
 		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
@@ -82,11 +81,14 @@ class PlgSystemFields extends JPlugin
 
 		foreach ($fieldsObjects as $field)
 		{
-			// Set the param on the fields variable
-			$fields[$field->alias] = key_exists($field->alias, $params) ? $params[$field->alias] : array();
+			if ($field->form_is_subform == '0')
+			{
+				// Set the param on the fields variable
+				$fields[$field->alias] = key_exists($field->alias, $params) ? $params[$field->alias] : array();
 
-			// Remove it from the params array
-			unset($params[$field->alias]);
+				// Remove it from the params array
+				unset($params[$field->alias]);
+			}
 		}
 
 		$item->_fields = $fields;
@@ -167,7 +169,7 @@ class PlgSystemFields extends JPlugin
 			}
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $fields[$field->alias]);
+			$model->setFieldValue($field, $context, $id, $fields);
 		}
 
 		return true;
@@ -194,7 +196,7 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$user = JFactory::getUser($userData['id']);
+		$user         = JFactory::getUser($userData['id']);
 		$user->params = (string) $user->getParameters();
 
 		// Trigger the events with a real user

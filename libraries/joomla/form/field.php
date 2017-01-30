@@ -298,6 +298,22 @@ abstract class JFormField
 	protected $showon;
 
 	/**
+	 * Do not show sub-forms in forms list field
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $noSubForms;
+
+	/**
+     * Show only sub-forms in forms list field
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $onlySubForms;
+
+	/**
 	 * The count value for generated name field
 	 *
 	 * @var    integer
@@ -405,6 +421,8 @@ abstract class JFormField
 			case 'autocomplete':
 			case 'spellcheck':
 			case 'showon':
+			case 'noSubForms':
+			case 'onlySubForms':
 				return $this->$name;
 
 			case 'input':
@@ -494,7 +512,7 @@ abstract class JFormField
 
 			case 'autocomplete':
 				$value = (string) $value;
-				$value = ($value == 'on' || $value == '') ? 'on' : $value;
+				$value = ($value === 'on' || $value == '') ? 'on' : $value;
 				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
 				break;
 
@@ -518,6 +536,18 @@ abstract class JFormField
 
 			case 'size':
 				$this->$name = (int) $value;
+				break;
+
+			case 'noSubForms':
+				// Allow for field classes to force the multiple values option.
+				$value       = (string) $value;
+				$this->$name = ($value === 'true' || $value === $name || $value === '1');
+				break;
+
+			case 'onlySubForms':
+				// Allow for field classes to force the multiple values option.
+				$value       = (string) $value;
+				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			default:
@@ -565,7 +595,7 @@ abstract class JFormField
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
 		// Make sure there is a valid JFormField XML element.
-		if ((string) $element->getName() != 'field')
+		if ((string) $element->getName() !== 'field')
 		{
 			return false;
 		}
@@ -583,7 +613,7 @@ abstract class JFormField
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'default',
 			'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'noSubForms', 'onlySubForms');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -597,10 +627,10 @@ abstract class JFormField
 
 		// Allow for repeatable elements
 		$repeat = (string) $element['repeat'];
-		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
+		$this->repeat = ($repeat === 'true' || $repeat === 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
 		// Set the visibility.
-		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
+		$this->hidden = ($this->hidden || (string) $element['type'] === 'hidden');
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
@@ -746,7 +776,7 @@ abstract class JFormField
 		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
-		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
+		$position = $this->element['name'] === 'alias' ? ' data-placement="bottom" ' : '';
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(

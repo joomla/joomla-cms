@@ -52,6 +52,11 @@ class ContentHelper extends JHelperContent
 				'index.php?option=com_fields&view=groups&context=com_content.article',
 				$vName == 'fields.groups'
 			);
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELD_FORMS'),
+				'index.php?option=com_fields&view=forms&context=com_content.article',
+				$vName == 'fields.forms'
+			);
 		}
 
 		JHtmlSidebar::addEntry(

@@ -115,43 +115,6 @@ class FieldsModelField extends JModelAdmin
 			$data['state'] = 0;
 		}
 
-		if (!parent::save($data))
-		{
-			return false;
-		}
-
-		// Save the assigned categories into #__fields_categories
-		$db = $this->getDbo();
-		$id = (int) $this->getState('field.id');
-		$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
-		$cats = ArrayHelper::toInteger($cats);
-
-		$assignedCatIds = array();
-
-		foreach ($cats as $cat)
-		{
-			if ($cat)
-			{
-				$assignedCatIds[] = $cat;
-			}
-		}
-
-		// First delete all assigned categories
-		$query = $db->getQuery(true);
-		$query->delete('#__fields_categories')
-			->where('field_id = ' . $id);
-		$db->setQuery($query);
-		$db->execute();
-
-		// Inset new assigned categories
-		$tupel = new stdClass;
-		$tupel->field_id = $id;
-
-		foreach ($assignedCatIds as $catId)
-		{
-			$tupel->category_id = $catId;
-			$db->insertObject('#__fields_categories', $tupel);
-		}
 
 		// If the options have changed delete the values
 		if ($field && isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
@@ -169,7 +132,7 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
-		return true;
+		return parent::save($data);
 	}
 
 	/**
@@ -199,15 +162,6 @@ class FieldsModelField extends JModelAdmin
 				$registry->loadString($result->fieldparams);
 				$result->fieldparams = $registry->toArray();
 			}
-
-			$db = $this->getDbo();
-			$query = $db->getQuery(true);
-			$query->select('category_id')
-				->from('#__fields_categories')
-				->where('field_id = ' . (int) $result->id);
-
-			$db->setQuery($query);
-			$result->assigned_cat_ids = $db->loadColumn() ?: array(0);
 
 			// Convert the created and modified dates to local user time for
 			// display in the form.
@@ -323,14 +277,6 @@ class FieldsModelField extends JModelAdmin
 					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();
-
-				// Delete Assigned Categories
-				$query = $this->getDbo()->getQuery(true);
-
-				$query->delete($query->qn('#__fields_categories'))
-					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
-
-				$this->getDbo()->setQuery($query)->execute();
 			}
 		}
 
@@ -414,21 +360,69 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Setting the value for the gven field id, context and item id.
+	 * Setting the value for the given field id, context and item id.
 	 *
-	 * @param   string  $fieldId  The field ID.
-	 * @param   string  $context  The context.
-	 * @param   string  $itemId   The ID of the item.
-	 * @param   string  $value    The value.
+	 * @param   stdClass      $field    The field .
+	 * @param   string        $context  The context.
+	 * @param   string        $itemId   The ID of the item.
+	 * @param   array         $fields   The value.
+	 * @param   bool|integer  $index    The index in case of sub-forms which are set to support
 	 *
-	 * @return  boolean
+	 * @return bool
 	 *
 	 * @since   3.7.0
 	 */
-	public function setFieldValue($fieldId, $context, $itemId, $value)
+	public function setFieldValue($field, $context, $itemId, $fields, $index = false)
 	{
-		$field  = $this->getItem($fieldId);
-		$params = $field->params;
+		$fieldId = $field->id;
+		$formId  = $field->form_id;
+		$value   = $fields[$field->alias];
+		$field   = $this->getItem($fieldId);
+		$params  = $field->params;
+
+		if ($field->type === 'subform')
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select('*');
+			$query->from('#__fields');
+			$query->where($db->quoteName('form_id') . ' = ' . $db->quote($field->fieldparams['subform_id']));
+			$db->setQuery($query);
+			$allowedFields = $db->loadObjectList();
+
+			$subFormIndex = 1;
+
+			foreach ($allowedFields as $allowedField)
+			{
+				$deleteFields[] = $allowedField->id;
+			}
+
+			/*
+			 *  Delete sub-form entries. They will be added again later on.
+			 *  This is not a very elegant solution, but it works for now.
+			 */
+
+			$query = $db->getQuery(true);
+			$query->delete('#__fields_values');
+			$query->where($db->quoteName('form_id') . ' = ' . $db->quote($field->fieldparams['subform_id']));
+			$query->where($db->quoteName('item_id') . ' = ' . $db->quote($itemId));
+			$query->where($db->quoteName('context') . ' = ' . $db->quote($context));
+			$query->where($db->quoteName('field_id') . ' in (' . implode(',', $deleteFields) . ')');
+			$db->setQuery($query);
+			$res = $db->execute();
+
+
+			foreach ($fields[$field->alias] as $formField)
+			{
+				foreach ($allowedFields as $allowedField)
+				{
+					$this->setFieldValue($allowedField, $context, $itemId, $formField, $subFormIndex);
+				}
+				++$subFormIndex;
+			}
+
+			return true;
+		}
 
 		if (is_array($params))
 		{
@@ -452,7 +446,7 @@ class FieldsModelField extends JModelAdmin
 		}
 		else
 		{
-			$oldValue = $this->getFieldValue($fieldId, $context, $itemId);
+			$oldValue = $this->getFieldValue($fieldId, $context, $itemId, $formId, $index);
 			$value    = (array) $value;
 
 			if ($oldValue === null)
@@ -460,7 +454,7 @@ class FieldsModelField extends JModelAdmin
 				// No records available, doing normal insert
 				$needsInsert = true;
 			}
-			elseif (count($value) == 1 && count((array) $oldValue) == 1)
+			elseif (count($value) === 1 && count((array) $oldValue) === 1)
 			{
 				// Only a single row value update can be done
 				$needsUpdate = true;
@@ -474,32 +468,39 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
+		$indexVal = $index === false ? ' IS NULL' : $index;
+		$db       = $this->getDbo();
 		if ($needsDelete)
 		{
 			// Deleting the existing record as it is a reset
-			$query = $this->getDbo()->getQuery(true);
+			$query = $db->getQuery(true);
 
 			$query->delete($query->qn('#__fields_values'))
 				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
 				->where($query->qn('context') . ' = ' . $query->q($context))
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+				->where($query->qn('item_id') . ' = ' . $query->q($itemId))
+				->where($query->qn('form_id') . ' = ' . $query->q($formId))
+				->where($query->qn('index') . (is_numeric($indexVal) ? ' = ' . $query->q($indexVal) : $indexVal));
 
 			$this->getDbo()->setQuery($query)->execute();
 		}
 
+		$indexVal = $index === false ? null : $index;
 		if ($needsInsert)
 		{
 			$newObj = new stdClass;
 
 			$newObj->field_id = (int) $fieldId;
 			$newObj->context  = $context;
+			$newObj->form_id  = $formId;
 			$newObj->item_id  = $itemId;
+			$newObj->index    = $indexVal;
 
 			foreach ($value as $v)
 			{
 				$newObj->value = $v;
 
-				$this->getDbo()->insertObject('#__fields_values', $newObj);
+				$db->insertObject('#__fields_values', $newObj);
 			}
 		}
 
@@ -510,9 +511,11 @@ class FieldsModelField extends JModelAdmin
 			$updateObj->field_id = (int) $fieldId;
 			$updateObj->context  = $context;
 			$updateObj->item_id  = $itemId;
+			$updateObj->form_id  = (int) $formId;
+			$updateObj->index    = $indexVal;
 			$updateObj->value    = reset($value);
 
-			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'context', 'item_id'));
+			$db->updateObject('#__fields_values', $updateObj, array('field_id', 'context', 'item_id', 'form_id', 'index'));
 		}
 
 		$this->valueCache = array();
@@ -523,37 +526,50 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Returning the value for the given field id, context and item id.
 	 *
-	 * @param   string  $fieldId  The field ID.
-	 * @param   string  $context  The context.
-	 * @param   string  $itemId   The ID of the item.
+	 * @param   string        $fieldId  The field ID.
+	 * @param   string        $context  The context.
+	 * @param   string        $itemId   The ID of the item.
+     * @param   integer       $formId   The form id
+	 * @param   bool|integer  $index    The index in case of sub-forms which are set to support
 	 *
-	 * @return  NULL|string
+     * @return null|string
 	 *
 	 * @since  3.7.0
 	 */
-	public function getFieldValue($fieldId, $context, $itemId)
+	public function getFieldValue($fieldId, $context, $itemId, $formId, $index = false)
 	{
-		$key = md5($fieldId . $context . $itemId);
+		$key = md5($fieldId . $context . $itemId . $formId, $index);
 
-		if (!key_exists($key, $this->valueCache))
+		if (!array_key_exists($key, $this->valueCache))
 		{
 			$this->valueCache[$key] = null;
 
 			$query = $this->getDbo()->getQuery(true);
 
+			if (!is_numeric($index))
+			{
+				$indexVal = $index === true ? ' IS NOT NULL' : ' IS NULL';
+			}
+			else
+			{
+				$indexVal = $index;
+			}
+
 			$query->select($query->qn('value'))
 				->from($query->qn('#__fields_values'))
 				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
 				->where($query->qn('context') . ' = ' . $query->q($context))
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+				->where($query->qn('item_id') . ' = ' . $query->q((int) $itemId))
+				->where($query->qn('form_id') . ' = ' . $query->q((int) $formId))
+				->where($query->qn('index') . (is_numeric($indexVal) ? ' = ' . $query->q($indexVal) : $indexVal));
 
 			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
 
-			if (count($rows) == 1)
+			if (($index === false) && count($rows) === 1)
 			{
 				$this->valueCache[$key] = array_shift($rows)->value;
 			}
-			elseif (count($rows) > 1)
+			elseif (count($rows) >= 1)
 			{
 				$data = array();
 
@@ -675,7 +691,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @param   JTable  $table  A JTable object.
 	 *
-	 * @return  array  An array of conditions to add to ordering queries.
+	 * @return  string  A string of conditions to add to ordering queries.
 	 *
 	 * @since   3.7.0
 	 */
@@ -694,7 +710,7 @@ class FieldsModelField extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app  = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$data = $app->getUserState('com_fields.edit.field.data', array());
 
 		if (empty($data))
@@ -709,8 +725,13 @@ class FieldsModelField extends JModelAdmin
 				// get selected fields
 				$filters = (array) $app->getUserState('com_fields.fields.filter');
 
-				$data->set('state', $app->input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
+				$data->set(
+					'state', $app->input->getInt(
+					'state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)
+				)
+				);
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				$data->set('form_id', $app->input->getString('form_id', (!empty($filters['form_id']) ? $filters['form_id'] : null)));
 				$data->set('group_id', $app->input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
 				$data->set(
 					'access',
@@ -766,19 +787,22 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
-		// Setting the context for the category field
-		$cat = JCategories::getInstance(str_replace('com_', '', $component));
-
-		if ($cat && $cat->get('root')->hasChildren())
-		{
-			$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
-		}
-		else
-		{
-			$form->removeField('assigned_cat_ids');
-		}
+/*
+ * // Setting the context for the category field
+ * $cat = JCategories::getInstance(str_replace('com_', '', $component));
+ *
+ * if ($cat && $cat->get('root')->hasChildren())
+ * {
+ *     $form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
+ * }
+ * else
+ * {
+ *     $form->removeField('assigned_cat_ids');
+ * }
+*/
 
 		$form->setFieldAttribute('type', 'component', $component);
+		$form->setFieldAttribute('form_id', 'context', $this->state->get('field.context'));
 		$form->setFieldAttribute('group_id', 'context', $this->state->get('field.context'));
 		$form->setFieldAttribute('rules', 'component', $component);
 
@@ -893,10 +917,10 @@ class FieldsModelField extends JModelAdmin
 	protected function batchMove($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user      = JFactory::getUser();
-		$table     = $this->getTable();
-		$context   = explode('.', JFactory::getApplication()->getUserState('com_fields.fields.context'));
-		$value     = (int) $value;
+		$user    = JFactory::getUser();
+		$table   = $this->getTable();
+		$context = explode('.', JFactory::getApplication()->getUserState('com_fields.fields.context'));
+		$value   = (int) $value;
 
 		foreach ($pks as $pk)
 		{

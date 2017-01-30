@@ -22,8 +22,8 @@ $context   = $this->escape($this->state->get('filter.context'));
 $component = $this->state->get('filter.component');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.ordering');
-$saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
+$ordering  = ($listOrder === 'a.ordering');
+$saveOrder = ($listOrder === 'a.ordering' && strtolower($listDirn) === 'asc');
 
 if ($saveOrder)
 {
@@ -67,6 +67,9 @@ if ($saveOrder)
 							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
 						</th>
 						<th>
+							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_FORM_LABEL', 'form_title', $listDirn, $listOrder); ?>
+						</th>
+						<th>
 							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'group_title', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
@@ -89,7 +92,7 @@ if ($saveOrder)
 				</tfoot>
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
-						<?php $ordering   = ($listOrder == 'a.ordering'); ?>
+						<?php $ordering   = ($listOrder === 'a.ordering'); ?>
 						<?php $canEdit    = $user->authorise('core.edit', $component . '.field.' . $item->id); ?>
 						<?php $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0; ?>
 						<?php $canEditOwn = $user->authorise('core.edit.own', $component . '.field.' . $item->id) && $item->created_user_id == $userId; ?>
@@ -141,18 +144,13 @@ if ($saveOrder)
 											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 										<?php endif; ?>
 									</span>
-									<div class="small">
-										<?php echo JText::_('JCATEGORY') . ': '; ?>
-										<?php if ($categories = FieldsHelper::getAssignedCategoriesTitles($item->id)) : ?>
-											<?php echo implode(', ', $categories); ?>
-										<?php else: ?>
-											<?php echo JText::_('JALL'); ?>
-										<?php endif; ?>
-									</div>
 								</div>
 							</td>
 							<td class="small">
 								<?php echo $this->escape($item->type); ?>
+							</td>
+							<td>
+								<?php echo $this->escape($item->form_title); ?>
 							</td>
 							<td>
 								<?php echo $this->escape($item->group_title); ?>

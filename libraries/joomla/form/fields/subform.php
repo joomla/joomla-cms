@@ -26,43 +26,57 @@ class JFormFieldSubform extends JFormField
 {
 	/**
 	 * The form field type.
-	 * @var    string
+	 * @var  string
+	 *
+	 * @since   3.6
 	 */
 	protected $type = 'Subform';
 
 	/**
 	 * Form source
-	 * @var string
+	 * @var  string
+	 *
+	 * @since   3.6
 	 */
 	protected $formsource;
 
 	/**
 	 * Minimum items in repeat mode
-	 * @var int
+	 * @var  int
+	 *
+	 * @since   3.6
 	 */
 	protected $min = 0;
 
 	/**
 	 * Maximum items in repeat mode
-	 * @var int
+	 * @var  int
+	 *
+	 * @since   3.6
 	 */
 	protected $max = 1000;
 
 	/**
 	 * Layout to render the form
 	 * @var  string
+	 *
+	 * @since   3.6
 	 */
 	protected $layout = 'joomla.form.field.subform.default';
 
 	/**
 	 * Whether group subform fields by it`s fieldset
-	 * @var boolean
+	 * @var  boolean
+	 *
+	 * @since   3.6
 	 */
 	protected $groupByFieldset = false;
 
 	/**
 	 * Which buttons to show in miltiple mode
 	 * @var array $buttons
+	 *
+	 * @since   3.6
 	 */
 	protected $buttons = array('add' => true, 'remove' => true, 'move' => true);
 
@@ -130,7 +144,7 @@ class JFormFieldSubform extends JFormField
 			case 'groupByFieldset':
 				if ($value !== null)
 				{
-					$value = (string) $value;
+					$value                 = (string) $value;
 					$this->groupByFieldset = !($value === 'false' || $value === 'off' || $value === '0');
 				}
 				break;
@@ -163,7 +177,7 @@ class JFormFieldSubform extends JFormField
 
 				if ($value)
 				{
-					$value = array_merge(array('add' => false, 'remove' => false, 'move' => false), $value);
+					$value         = array_merge(array('add' => false, 'remove' => false, 'move' => false), $value);
 					$this->buttons = $value;
 				}
 
@@ -224,40 +238,40 @@ class JFormFieldSubform extends JFormField
 		$value = $this->value ? $this->value : array();
 
 		// Prepare data for renderer
-		$data    = parent::getLayoutData();
-		$tmpl    = null;
-		$forms   = array();
-		$control = $this->name;
+		$data     = parent::getLayoutData();
+		$template = null;
+		$forms    = array();
+		$control  = $this->name;
 
 		try
 		{
 			// Prepare the form template
-			$formname = 'subform' . ($this->group ? $this->group . '.' : '.') . $this->fieldname;
-			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
-			$tmpl = JForm::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
+			$formName    = 'subform' . ($this->group ? $this->group . '.' : '.') . $this->fieldname;
+			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . '-X]';
+			$template    = JForm::getInstance($formName . '-', $this->formsource, array('control' => $tmplcontrol));
 
 			// Prepare the forms for exiting values
 			if ($this->multiple)
 			{
 				$value = array_values($value);
-				$c = max($this->min, min(count($value), $this->max));
+				$c     = max($this->min, min(count($value), $this->max));
 				for ($i = 0; $i < $c; $i++)
 				{
-					$itemcontrol = $control . '[' . $this->fieldname . $i . ']';
-					$itemform    = JForm::getInstance($formname . $i, $this->formsource, array('control' => $itemcontrol));
+					$itemControl = $control . '[' . $this->fieldname . '-' . $i . ']';
+					$itemForm    = JForm::getInstance($formName . '-' . $i, $this->formsource, array('control' => $itemControl));
 
 					if (!empty($value[$i]))
 					{
-						$itemform->bind($value[$i]);
+						$itemForm->bind($value[$i]);
 					}
 
-					$forms[] = $itemform;
+					$forms[] = $itemForm;
 				}
 			}
 			else
 			{
-				$tmpl->bind($value);
-				$forms[] = $tmpl;
+				$template->bind($value);
+				$forms[] = $template;
 			}
 		}
 		catch (Exception $e)
@@ -265,13 +279,13 @@ class JFormFieldSubform extends JFormField
 			return $e->getMessage();
 		}
 
-		$data['tmpl']      = $tmpl;
-		$data['forms']     = $forms;
-		$data['min']       = $this->min;
-		$data['max']       = $this->max;
-		$data['control']   = $control;
-		$data['buttons']   = $this->buttons;
-		$data['fieldname'] = $this->fieldname;
+		$data['tmpl']            = $template;
+		$data['forms']           = $forms;
+		$data['min']             = $this->min;
+		$data['max']             = $this->max;
+		$data['control']         = $control;
+		$data['buttons']         = $this->buttons;
+		$data['fieldname']       = $this->fieldname;
 		$data['groupByFieldset'] = $this->groupByFieldset;
 
 		// Prepare renderer

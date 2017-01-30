@@ -18,6 +18,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $app       = JFactory::getApplication();
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
+$context   = $this->escape($this->state->get('filter.context'));
 
 $component = '';
 $parts     = FieldsHelper::extract($this->state->get('filter.context'));
@@ -70,7 +71,10 @@ if ($saveOrder)
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+                        <th>
+                            <?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_FORM_LABEL', 'form_title', $listDirn, $listOrder); ?>
+                        </th>
+                        <th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="nowrap hidden-phone">
@@ -130,7 +134,7 @@ if ($saveOrder)
 										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'groups.', $canCheckin); ?>
 									<?php endif; ?>
 									<?php if ($canEdit || $canEditOwn) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_fields&task=group.edit&id=' . $item->id); ?>">
+										<a href="<?php echo JRoute::_('index.php?option=com_fields&task=group.edit&id=' . $item->id . '&context=' . $context); ?>">
 											<?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
@@ -140,9 +144,17 @@ if ($saveOrder)
 											<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 										<?php endif; ?>
 									</span>
-								</div>
+                                    <div class="small">
+                                        <a href="<?php echo JRoute::_('index.php?option=com_fields&view=fields&context=' . $this->state->get('filter.context') .
+                                            '&filter[form_id]=' . $item->form_id . '&filter[group_id]=' . $item->id . ''); ?>">
+                                            <?php echo JText::_('COM_FIELDS_VIEW_FORMS_FIELDS_LINK_TITLE'); ?></a>
+                                    </div>
+                                </div>
 							</td>
-							<td class="small hidden-phone">
+                            <td>
+                                <?php echo $this->escape($item->form_title); ?>
+                            </td>
+                            <td class="small hidden-phone">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
 							<td class="small nowrap hidden-phone">

@@ -199,7 +199,9 @@ class FieldsModelGroup extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		parent::preprocessForm($form, $data, $group);
+        $form->setFieldAttribute('form_id', 'context', $data->context);
+
+        parent::preprocessForm($form, $data, $group);
 
 		$parts = FieldsHelper::extract($this->state->get('filter.context'));
 

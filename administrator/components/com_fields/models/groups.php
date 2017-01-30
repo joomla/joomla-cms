@@ -41,7 +41,8 @@ class FieldsModelGroups extends JModelList
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
-				'type', 'a.type',
+                'form_id', 'a.form_id',
+                'type', 'a.type',
 				'state', 'a.state',
 				'access', 'a.access',
 				'access_level',
@@ -99,6 +100,7 @@ class FieldsModelGroups extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.form_id');
 		$id .= ':' . $this->getState('filter.context');
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . print_r($this->getState('filter.language'), true);
@@ -124,7 +126,7 @@ class FieldsModelGroups extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.checked_out, a.checked_out_time, a.note' .
+				'a.id, a.title, a.form_id, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created, a.created_by, a.ordering, a.language'
 			)
 		);
@@ -143,7 +145,12 @@ class FieldsModelGroups extends JModelList
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
-		// Filter by context
+        // Join over the field forms.
+
+        $query->select('f.title AS form_title, f.access as form_access, f.state AS form_state');
+        $query->join('LEFT', '#__fields_forms AS f ON f.id = a.form_id');
+
+        // Filter by context
 		if ($context = $this->getState('filter.context', 'com_fields'))
 		{
 			$query->where('a.context = ' . $db->quote($context));
@@ -163,7 +170,7 @@ class FieldsModelGroups extends JModelList
 			}
 		}
 
-		// Implement View Level Access
+        // Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
@@ -182,7 +189,14 @@ class FieldsModelGroups extends JModelList
 			$query->where('a.state IN (0, 1)');
 		}
 
-		// Filter by search in title
+        $formId = $this->getState('filter.form_id');
+
+        if (is_numeric($formId))
+        {
+            $query->where('a.form_id = ' . (int) $formId);
+        }
+
+        // Filter by search in title
 		$search = $this->getState('filter.search');
 
 		if (!empty($search))
@@ -213,10 +227,35 @@ class FieldsModelGroups extends JModelList
 
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.ordering', 'a.ordering');
-		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+		$listDirection = $db->escape($this->getState('list.direction', 'ASC'));
 
-		$query->order($db->escape($listOrdering) . ' ' . $listDirn);
+		$query->order($db->escape($listOrdering) . ' ' . $listDirection);
 
 		return $query;
 	}
+
+    /**
+     * Get the filter form
+     *
+     * @param   array    $data      data
+     * @param   boolean  $loadData  load current data
+     *
+     * @return  JForm/false  the JForm object or false
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getFilterForm($data = array(), $loadData = true)
+    {
+        $form = parent::getFilterForm($data, $loadData);
+
+        if ($form)
+        {
+            $filterContext = $this->getState('filter.context');
+            $form->setValue('context', null, $filterContext);
+            $form->setFieldAttribute('form_id', 'context', $filterContext, 'filter');
+        }
+
+        return $form;
+    }
+
 }

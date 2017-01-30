@@ -70,6 +70,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								'state',
 								'enabled',
 							),
+							'form_id',
 							'group_id',
 							'assigned_cat_ids',
 							'access',

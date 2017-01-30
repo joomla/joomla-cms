@@ -23,23 +23,22 @@
 		/>
 
 		<field
+			name="form_id"
+			type="fieldforms"
+			label="COM_FIELDS_FIELD_FORM_LABEL"
+			description="COM_FIELDS_FIELD_FORM_DESC"
+			required="required"
+		>
+			<option value=""></option>
+		</field>
+
+		<field
 			name="group_id"
 			type="fieldgroups"
 			label="COM_FIELDS_FIELD_GROUP_LABEL"
 			description="COM_FIELDS_FIELD_GROUP_DESC"
 		>
 			<option value="0">JNONE</option>
-		</field>
-
-		<field
-			name="assigned_cat_ids"
-			type="category"
-			label="JCATEGORY"
-			extension="com_content"
-			description="JFIELD_CATEGORY_DESC"
-			multiple="true"
-		>
-			<option value="">JALL</option>
 		</field>
 
 		<field
@@ -229,6 +228,21 @@
 				description="COM_FIELDS_FIELD_PLACEHOLDER_DESC"
 				class="input-xxlarge"
 				size="40"
+			/>
+
+			<field
+				name="image"
+				type="media"
+				label="COM_FIELDS_FIELD_IMAGE_LABEL"
+				description="COM_FIELDS_FIELD_IMAGE_DESC"
+			/>
+
+			<field
+				name="image_alt"
+				type="text"
+				label="COM_FIELDS_FIELD_IMAGE_ALT_LABEL"
+				description="COM_FIELDS_FIELD_IMAGE_ALT_DESC"
+				size="20"
 			/>
 
 			<field

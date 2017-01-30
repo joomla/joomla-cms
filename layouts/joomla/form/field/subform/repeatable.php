@@ -50,12 +50,12 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 			<?php endif; ?>
 		<?php
 		foreach ($forms as $k => $form) :
-			echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
+			echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname . '-', 'group' => $fieldname . '-' . $k, 'buttons' => $buttons));
 		endforeach;
 		?>
 		<?php if ($multiple) : ?>
 		<script type="text/subform-repeatable-template-section" class="subform-repeatable-template-section">
-		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons)); ?>
+		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname . '-', 'group' => $fieldname . '-X', 'buttons' => $buttons)); ?>
 		</script>
 		<?php endif; ?>
 		</div>
