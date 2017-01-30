@@ -93,6 +93,8 @@ install:
             copy php_wincache.dll ext\php_wincache.dll
             Remove-Item C:\tools\php\* -include .zip}}
     - IF %PHP%==1 echo extension=php_wincache.dll >> php.ini
+    - IF %PHP%==1 echo zend_extension=php_opcache.dll >> php.ini
+    - IF %PHP%==1 echo opcache.enable_cli=1 >> php.ini
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
     - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
     - cd C:\projects\joomla-cms
