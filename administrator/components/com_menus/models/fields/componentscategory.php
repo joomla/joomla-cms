@@ -28,6 +28,13 @@ class JFormFieldComponentsCategory extends JFormFieldList
 	 */
 	protected $type = 'ComponentsCategory';
 
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects
+	 *
+	 * @since   3.7.0
+	 */
 	public static function getComponents()
 	{
 		// Initialise variable.
