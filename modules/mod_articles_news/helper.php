@@ -122,7 +122,7 @@ abstract class ModArticlesNewsHelper
 			{
 				$item->text = '';
 				$app->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, 1));
-        
+
 				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
 				$item->afterDisplayTitle = trim(implode("\n", $results));
 
