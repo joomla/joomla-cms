@@ -114,10 +114,10 @@ install:
             Remove-Item C:\tools\php\* -include .zip
             Get-ChildItem -Path C:\tools\php\ext\}}
     - IF %PHP%==1 echo extension=php_memcache.dll >> php.ini
-    - IF %PHP%==1 cinst -y redis
+    #- IF %PHP%==1 cinst -y redis
     #- IF %PHP_VER_TARGET%==5.6 IF %PHP%==1 cinst -y redis
     #- IF %PHP_VER_TARGET%>=7.0 IF %PHP%==1 cinst -y redis-64
-    - IF %PHP%==1 echo extension=php_redis.dll >> php.ini
+    #- IF %PHP%==1 echo extension=php_redis.dll >> php.ini
     - php -i
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
     - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
