@@ -84,16 +84,15 @@ install:
             appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/2.0.0.8/php_wincache-2.0.0.8-7.0-nts-vc14-x64.zip
             7z x php_wincache-2.0.0.8-7.0-nts-vc14-x64.zip > $null
             copy php_wincache.dll ext\php_wincache.dll
-            Remove-Item C:\tools\php\* -include .zip
-            echo extension=php_wincache.dll >> php.ini}}
+            Remove-Item C:\tools\php\* -include .zip}}
     - ps: >-
         If ($env:php_ver_target -eq "7.1") {
           If ($env:PHP -eq "1") {
             appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/2.0.0.8/php_wincache-2.0.0.8-7.1-nts-vc14-x64.zip
             7z x php_wincache-2.0.0.8-7.1-nts-vc14-x64.zip > $null
             copy php_wincache.dll ext\php_wincache.dll
-            Remove-Item C:\tools\php\* -include .zip
-            echo extension=php_wincache.dll >> php.ini}}
+            Remove-Item C:\tools\php\* -include .zip}}
+    - IF %PHP%==1 echo extension=php_wincache.dll >> php.ini
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
     - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
     - cd C:\projects\joomla-cms
