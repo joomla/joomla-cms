@@ -135,10 +135,8 @@ if ($saveOrder)
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
 									<span class="small break-word">
-										<?php if (empty($item->note)) : ?>
-											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-										<?php else : ?>
-											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+										<?php if ($item->note) : ?>
+											<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 										<?php endif; ?>
 									</span>
 									<div class="small">

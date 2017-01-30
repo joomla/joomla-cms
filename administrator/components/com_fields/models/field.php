@@ -89,29 +89,11 @@ class FieldsModelField extends JModelAdmin
 			unset($data['params']['label']);
 		}
 
-		// Alter the title for save as copy
+		// Save new field as unpublished
 		$input = JFactory::getApplication()->input;
 
 		if ($input->get('task') == 'save2copy')
 		{
-			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
-
-			if ($data['title'] == $origTable->title)
-			{
-				list($title, $alias) = $this->generateNewTitle($data['group_id'], $data['alias'], $data['title']);
-				$data['title'] = $title;
-				$data['label'] = $title;
-				$data['alias'] = $alias;
-			}
-			else
-			{
-				if ($data['alias'] == $origTable->alias)
-				{
-					$data['alias'] = '';
-				}
-			}
-
 			$data['state'] = 0;
 		}
 
@@ -265,34 +247,6 @@ class FieldsModelField extends JModelAdmin
 		$table->type = 'text';
 
 		return $table;
-	}
-
-	/**
-	 * Method to change the title & alias.
-	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
-	 *
-	 * @return  array  Contains the modified title and alias.
-	 *
-	 * @since    3.7.0
-	 */
-	protected function generateNewTitle($category_id, $alias, $title)
-	{
-		// Alter the title & alias
-		$table = $this->getTable();
-
-		while ($table->load(array('alias' => $alias)))
-		{
-			$title = StringHelper::increment($title);
-			$alias = StringHelper::increment($alias, 'dash');
-		}
-
-		return array(
-			$title,
-			$alias,
-		);
 	}
 
 	/**

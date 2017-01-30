@@ -59,43 +59,24 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$params = new Registry;
-
-		// Load the item params from the request
+		// Load the fields data from the request
 		$data = JFactory::getApplication()->input->post->get('jform', array(), 'array');
 
-		if (key_exists('params', $data))
+		if (!key_exists('com_fields', $data))
 		{
-			$params->loadArray($data['params']);
+			return true;
 		}
-
-		// Load the params from the item itself
-		if (isset($item->params))
-		{
-			$params->loadString($item->params);
-		}
-
-		$params = $params->toArray();
 
 		// Create the new internal fields field
-		$fields = array();
+		$item->_fields = array();
 
 		foreach ($fieldsObjects as $field)
 		{
-			// Set the param on the fields variable
-			$fields[$field->alias] = key_exists($field->alias, $params) ? $params[$field->alias] : array();
-
-			// Remove it from the params array
-			unset($params[$field->alias]);
+			// Set the field data on the fields variable
+			$item->_fields[$field->id] = key_exists($field->id, $data['com_fields']) ? $data['com_fields'][$field->id] : array();
 		}
 
-		$item->_fields = $fields;
-
-		// Update the cleaned up params
-		if (isset($item->params))
-		{
-			$item->params = json_encode($params);
-		}
+		unset ($data['com_fields']);
 
 		return true;
 	}
@@ -148,8 +129,8 @@ class PlgSystemFields extends JPlugin
 
 		foreach ($fieldsObjects as $field)
 		{
-			// Only save the fields with the alias from the data
-			if (!key_exists($field->alias, $fields))
+			// Only save the fields with the id from the data
+			if (!key_exists($field->id, $fields))
 			{
 				continue;
 			}
@@ -167,7 +148,7 @@ class PlgSystemFields extends JPlugin
 			}
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $fields[$field->alias]);
+			$model->setFieldValue($field->id, $context, $id, $fields[$field->id]);
 		}
 
 		return true;
@@ -520,10 +501,10 @@ class PlgSystemFields extends JPlugin
 					foreach ($fields as $field)
 					{
 						// Adding the instructions how to handle the text
-						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->alias);
+						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->id);
 
 						// Adding the field value as a field
-						$item->{$field->alias} = $field->value;
+						$item->{$field->id} = $field->value;
 					}
 				}
 			}

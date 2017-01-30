@@ -29,7 +29,7 @@ $customFields = array();
 
 foreach ($tmp as $customField)
 {
-	$customFields[$customField->alias] = $customField;
+	$customFields[$customField->id] = $customField;
 }
 ?>
 <?php foreach ($fieldsets as $group => $fieldset) : ?>
