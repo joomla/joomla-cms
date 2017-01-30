@@ -71,6 +71,7 @@ install:
     - IF %PHP%==1 echo extension=php_mysqli.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pgsql.dll >> php.ini
     - IF %PHP_VER_TARGET%==5.6 IF %PHP%==1 echo extension=php_mysql.dll >> php.ini
+    - IF %PHP%==1 echo extension=php_curl.dll >> php.ini
     - ps: >-
         If ($env:php_ver_target -eq "5.6") {
           If ($env:PHP -eq "1") {
@@ -93,9 +94,10 @@ install:
             copy php_wincache.dll ext\php_wincache.dll
             Remove-Item C:\tools\php\* -include .zip}}
     - IF %PHP%==1 echo extension=php_wincache.dll >> php.ini
+    - IF %PHP%==1 echo wincache.fcenabled = 1 >> php.ini
+    - IF %PHP%==1 echo wincache.enablecli = 1 >> php.ini
     - IF %PHP%==1 echo zend_extension=php_opcache.dll >> php.ini
     - IF %PHP%==1 echo opcache.enable_cli=1 >> php.ini
-    - IF %PHP%==1 echo extension=php_curl.dll >> php.ini
     - ps: >-
         If ($env:php_ver_target -eq "5.6") {
           If ($env:PHP -eq "1") {
@@ -104,7 +106,8 @@ install:
             copy php_memcache.dll ext\php_memcache.dll
             Remove-Item C:\tools\php\* -include .zip}}
     - IF %PHP%==1 echo extension=php_memcache.dll >> php.ini
-    - IF %PHP_VER_TARGET%==5.6 IF %PHP%==1 cinst -y redis
+    - IF %PHP%==1 cinst -y redis
+    #- IF %PHP_VER_TARGET%==5.6 IF %PHP%==1 cinst -y redis
     #- IF %PHP_VER_TARGET%>=7.0 IF %PHP%==1 cinst -y redis-64
     - IF %PHP%==1 echo extension=php_redis.dll >> php.ini
     - php -i
