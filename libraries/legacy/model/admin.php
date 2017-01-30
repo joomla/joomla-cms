@@ -1159,6 +1159,13 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 
+			// When the data contains params, then we need to add them to the item for the custom fields
+			// plugins which do add new params fieldsets
+			if (isset($data['params']) && !isset($table->params) && !isset($table->_params))
+			{
+				$table->_params = $data['params'];
+			}
+
 			// Prepare the row for saving
 			$this->prepareTable($table);
 

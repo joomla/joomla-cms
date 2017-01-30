@@ -16,9 +16,15 @@ if ($value == '')
 	return;
 }
 
-if (is_array($value))
-{
-	$value = implode(', ', $value);
-}
+// Set up the date based on the user and Joomla timezone
+$date = JFactory::getDate($value, 'UTC');
+$date->setTimezone(new DateTimeZone(JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'))));
 
+// Get the format for PHP date
+$format = $this->changeFormat($fieldParams->get('format', '%Y-%m-%d'), 'strftime');
+
+// Transform the value with the date format of the plugin
+$value = $date->format($format, true);
+
+// Render the date
 echo htmlentities($value);
