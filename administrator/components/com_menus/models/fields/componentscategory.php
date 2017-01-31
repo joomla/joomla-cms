@@ -29,13 +29,13 @@ class JFormFieldComponentsCategory extends JFormFieldList
 	protected $type = 'ComponentsCategory';
 
 	/**
-	 * Method to get the field options.
+	 * Method to get a list of options for a list input.
 	 *
-	 * @return  array  The field option objects
+	 * @return	array  An array of JHtml options.
 	 *
 	 * @since   3.7.0
 	 */
-	public static function getComponents()
+	protected function getOptions()
 	{
 		// Initialise variable.
 		$db = JFactory::getDbo();
@@ -68,19 +68,9 @@ class JFormFieldComponentsCategory extends JFormFieldList
 			$items = ArrayHelper::sortObjects($items, 'text', 1, true, true);
 		}
 
-		return $items;
-	}
-
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects
-	 *
-	 * @since   3.7.0
-	 */
-	protected function getOptions()
-	{
 		// Merge any additional options in the XML definition.
-		return array_merge(parent::getOptions(), static::getComponents());
+		$options = array_merge(parent::getOptions(), $items);
+
+		return $options;
 	}
 }
