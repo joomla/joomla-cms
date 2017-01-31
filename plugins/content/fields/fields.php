@@ -49,11 +49,8 @@ class PlgContentFields extends JPlugin
 			return;
 		}
 
-		// Expression to search for (positions)
-		$regex = '/{field\s+(.*?)}/i';
-
-		// Find all instances of plugin and put in $matches for "fields"
-		// $matches[0] is full pattern match, $matches[1] is the id
+		// Search for {field ID} or {fieldgroup ID} tags and put the results into $matches.
+		$regex = '/{(field|fieldgroup)\s+(.*?)}/i';
 		preg_match_all($regex, $item->text, $matches, PREG_SET_ORDER);
 
 		if ($matches)
@@ -78,10 +75,15 @@ class PlgContentFields extends JPlugin
 
 			foreach ($matches as $i => $match)
 			{
-				$explode = explode(',', $match[1]);
-				$id      = (int) $explode[0];
+				// $match[0] is the full pattern match, $match[1] is the type (field or fieldgroup) and $match[2] the ID
+				$id = (int) $match[2];
 
 				if (!$id)
+				{
+					continue;
+				}
+
+				if ($match[1] == 'field' && !isset($fields[$id]))
 				{
 					continue;
 				}
