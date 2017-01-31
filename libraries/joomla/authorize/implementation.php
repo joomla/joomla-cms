@@ -7,10 +7,9 @@
  * @license     A "Slug" license name e.g. GPL2
  */
 
-namespace Joomla;
 
 
-class JAuthorizeImplementation extends JAuthorize
+class JAuthorizeImplementation
 {
-
+	protected static $authorizationMatrix = array();
 }

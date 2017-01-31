@@ -7,9 +7,6 @@
  * @license     A "Slug" license name e.g. GPL2
  */
 
-namespace Joomla;
-
-
 interface JAuthorizeInterface
 {
 	public function check($actor, $target, $action);
@@ -17,4 +14,6 @@ interface JAuthorizeInterface
 	public function allow($actor, $target, $action);
 
 	public function deny($actor, $target, $action);
+
+	public function getFilterQuery();
 }
