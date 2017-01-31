@@ -20,10 +20,10 @@ class PlgContentFields extends JPlugin
 	/**
 	 * Plugin that shows a custom field
 	 *
-	 * @param   string $context  The context of the content being passed to the plugin.
-	 * @param   object &$item    The item object.  Note $article->text is also available
-	 * @param   object &$params  The article params
-	 * @param   int    $page     The 'page' number
+	 * @param   string  $context  The context of the content being passed to the plugin.
+	 * @param   object  &$item    The item object.  Note $article->text is also available
+	 * @param   object  &$params  The article params
+	 * @param   int     $page     The 'page' number
 	 *
 	 * @return void
 
@@ -49,6 +49,9 @@ class PlgContentFields extends JPlugin
 			return;
 		}
 
+		// Register FieldsHelper
+		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
 		// Search for {field ID} or {fieldgroup ID} tags and put the results into $matches.
 		$regex = '/{(field|fieldgroup)\s+(.*?)}/i';
 		preg_match_all($regex, $item->text, $matches, PREG_SET_ORDER);
@@ -65,10 +68,13 @@ class PlgContentFields extends JPlugin
 			$context = $parts[0] . '.' . $parts[1];
 			$fields  = FieldsHelper::getFields($context, $item, true);
 			$tmp     = array();
+			$groups  = array();
 
+			// Rearranging fields in arrays for easier lookup later.
 			foreach ($fields as $field)
 			{
-				$tmp[$field->id] = $field;
+				$tmp[$field->id]            = $field;
+				$groups[$field->group_id][] = $field;
 			}
 
 			$fields = $tmp;
@@ -83,25 +89,40 @@ class PlgContentFields extends JPlugin
 					continue;
 				}
 
-				if ($match[1] == 'field' && !isset($fields[$id]))
+				if ($match[1] == 'field')
 				{
-					continue;
-				}
+					if (!isset($fields[$id]))
+					{
+						continue;
+					}
 
-				if (!isset($fields[$id]))
+					$output = FieldsHelper::render(
+						$context,
+						'field.render',
+						array(
+							'item'    => $item,
+							'context' => $context,
+							'field'   => $fields[$id]
+						)
+					);
+				}
+				else
 				{
-					continue;
-				}
+					if (!isset($groups[$id]))
+					{
+						continue;
+					}
 
-				$output = FieldsHelper::render(
-					$context,
-					'field.render',
-					array(
-						'item'            => $item,
-						'context'         => $context,
-						'field'          => $fields[$id]
-					)
-				);
+					$output = FieldsHelper::render(
+						$context,
+						'fields.render',
+						array(
+							'item'    => $item,
+							'context' => $context,
+							'fields'   => $groups[$id]
+						)
+					);
+				}
 
 				$item->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $item->text, 1);
 			}
