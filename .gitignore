@@ -29,7 +29,7 @@ administrator/templates/atum/scss/scss-lint-report.xml
 administrator/templates/isis
 administrator/templates/hathor
 templates/protostar
-generatecss.php
+build/generatecss.php
 media/editors/codemirror
 media/editors/tinymce
 media/jui/less
