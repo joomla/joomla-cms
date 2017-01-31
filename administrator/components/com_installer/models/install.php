@@ -187,8 +187,7 @@ class InstallerModelInstall extends JModelLegacy
 		$joomla_version = (new JVersion)->getShortVersion();
 		if (version_compare($joomla_version, $compatibility) < 0)
 		{
-			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_PACKAGE_VERSION_IS_NOT_COMPATIBLE', (string) $installer->getManifest()->name), 'error');
-			return false;
+			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_PACKAGE_VERSION_IS_NOT_COMPATIBLE', (string) $installer->getManifest()->name), 'warning');
 		}
 
 		// Install the package.
