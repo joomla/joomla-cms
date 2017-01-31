@@ -15,7 +15,7 @@ $menuLinks = MenusHelper::getMenuLinks('main');
 
 JHtml::_('script', 'jui/treeselectmenu.jquery.min.js', array('version' => 'auto', 'relative' => true));
 
-JFactory::getDocument()->addScriptDeclaration(<<<'JS'
+$script = <<<'JS'
 	jQuery(document).ready(function ($) {
 		var propagate = function () {
 			var $this = $(this);
@@ -30,8 +30,8 @@ JFactory::getDocument()->addScriptDeclaration(<<<'JS'
 			.on('click', '[type="checkbox"]', propagate)
 			.find('[type="checkbox"]:checked').each(propagate);
 	});
-JS
-);
+JS;
+JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 <div id="menuselect-group" class="control-group">
 	<label id="jform_params_hideitems-lbl" class="control-label"

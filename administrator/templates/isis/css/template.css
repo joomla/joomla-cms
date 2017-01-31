@@ -8117,7 +8117,7 @@ th .tooltip-inner {
 }
 .controls .btn-group.btn-group-yesno > .btn {
 	width: 50%;
-	min-width: 20px;
+	min-width: 40px;
 	padding: 2px 0;
 }
 .img-preview > img {
@@ -8802,6 +8802,84 @@ textarea.noResize {
 @media (max-width: 979px) {
 	.subform-repeatable-group > .btn-toolbar .btn-group {
 		margin-bottom: 10px;
+	}
+}
+.subform-table-layout .control-group,
+.subform-table-layout .control-group:last-of-type {
+	margin-bottom: 0;
+}
+.subform-table-layout .controls {
+	padding-right: 20px;
+}
+.subform-table-layout input {
+	width: 100%;
+	max-width: 206px;
+}
+.subform-table-layout table .btn-group {
+	margin: 0 7px;
+}
+@media (max-width: 1024px) {
+	.subform-table-layout .subform-repeatable {
+		padding-right: 0;
+	}
+	.subform-table-layout .subform-repeatable tbody td:last-of-type {
+		text-align: right;
+		padding-bottom: 15px;
+	}
+	.subform-table-layout table,
+	.subform-table-layout thead,
+	.subform-table-layout tbody,
+	.subform-table-layout th,
+	.subform-table-layout td,
+	.subform-table-layout tr {
+		display: block;
+	}
+	.subform-table-layout table {
+		border: 1px solid #ddd;
+	}
+	.subform-table-layout thead th {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	.subform-table-layout thead th:last-of-type {
+		position: static;
+		width: 100% !important;
+		text-align: right;
+		box-sizing: border-box;
+		border-left: 0;
+	}
+	.subform-table-layout tr {
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+	.subform-table-layout td {
+		border: none;
+		position: relative;
+		padding-left: 50%;
+	}
+	.subform-table-layout tbody td:first-of-type {
+		padding-top: 15px;
+		border-top: 1px solid #ddd;
+	}
+	.subform-table-layout tbody td:first-of-type:before {
+		top: 18px;
+	}
+	.subform-table-layout td:before {
+		content: attr(data-column);
+		position: absolute;
+		top: 13px;
+		left: 10px;
+		padding-right: 10px;
+	}
+}
+@media (max-width: 979px) {
+	.com_fields .row-fluid [class*="span"] {
+		margin-left: 2.12766%;
+	}
+	.com_fields .row-fluid [class*="span"]:first-of-type {
+		margin-left: 0;
 	}
 }
 .popover-content {
