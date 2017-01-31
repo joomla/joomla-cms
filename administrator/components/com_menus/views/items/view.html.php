@@ -295,13 +295,13 @@ class MenusViewItems extends JViewLegacy
 			JToolbarHelper::editList('item.edit');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') && !$protected)
 		{
 			JToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 
-		if (JFactory::getUser()->authorise('core.admin'))
+		if (JFactory::getUser()->authorise('core.admin') && !$protected)
 		{
 			JToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}

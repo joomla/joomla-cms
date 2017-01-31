@@ -426,45 +426,56 @@ class JAdminCssMenu
 			{
 				$this->addChild(new JMenuNode($item->text, $item->link, 'disabled'));
 			}
+			elseif ($item->type == 'container')
+			{
+				$hidden = (array) $item->params->get('hideitems') ?: array();
+
+				$components = ModMenuHelper::getComponents(true, true);
+
+				if (count($item->submenu) || count($components))
+				{
+					$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
+
+					// Load explicitly assigned child items first.
+					$this->loadItems($item->submenu);
+
+					// Add a separator between dynamic menu items and components menu items
+					if (count($item->submenu) && count($components))
+					{
+						$this->addSeparator();
+					}
+
+					// Adding component submenu the old way, this assumes 2-level menu only
+					foreach ($components as $component)
+					{
+						if (in_array($component->id, $hidden))
+						{
+							continue;
+						}
+						elseif (empty($component->submenu))
+						{
+							$this->addChild(new JMenuNode($component->text, $component->link, $component->img));
+						}
+						else
+						{
+							$this->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
+
+							foreach ($component->submenu as $sub)
+							{
+								$this->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
+							}
+
+							$this->getParent();
+						}
+					}
+
+					$this->getParent();
+				}
+			}
 			else
 			{
 				$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
-
 				$this->loadItems($item->submenu);
-
-				$components = array();
-
-				if ($item->type == 'container')
-				{
-					$components = ModMenuHelper::getComponents(true, true);
-				}
-
-				// Add a separator between dynamic menu items and components menu items
-				if (count($item->submenu) && count($components))
-				{
-					$this->addSeparator();
-				}
-
-				// Adding component submenu the old way, this assumes 2-level menu only
-				foreach ($components as &$component)
-				{
-					if (empty($component->submenu))
-					{
-						$this->addChild(new JMenuNode($component->text, $component->link, $component->img));
-					}
-					else
-					{
-						$this->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
-
-						foreach ($component->submenu as $sub)
-						{
-							$this->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
-						}
-
-						$this->getParent();
-					}
-				}
-
 				$this->getParent();
 			}
 		}

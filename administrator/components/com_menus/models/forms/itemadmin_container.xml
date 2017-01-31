@@ -62,6 +62,11 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
+			<field
+				name="hideitems"
+				type="list"
+				filter="array"
+			/>
 		</fieldset>
 	</fields>
 	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_CONTAINER"/>
