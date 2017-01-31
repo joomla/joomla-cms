@@ -77,7 +77,6 @@ install:
           If ($env:PHP -eq "1") {
             appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/1.3.7.12/php_wincache-1.3.7.12-5.6-nts-vc11-x86.zip
             7z x php_wincache-1.3.7.12-5.6-nts-vc11-x86.zip > $null
-            Get-ChildItem -Path C:\tools\php\
             copy php_wincache.dll ext\php_wincache.dll
             Remove-Item C:\tools\php\* -include .zip}}
     - ps: >-
@@ -85,7 +84,6 @@ install:
           If ($env:PHP -eq "1") {
             appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/2.0.0.8/php_wincache-2.0.0.8-7.0-nts-vc14-x64.zip
             7z x php_wincache-2.0.0.8-7.0-nts-vc14-x64.zip > $null
-            Get-ChildItem -Path C:\tools\php\
             copy php_wincache.dll ext\php_wincache.dll
             Remove-Item C:\tools\php\* -include .zip}}
     - ps: >-
@@ -93,22 +91,12 @@ install:
           If ($env:PHP -eq "1") {
             appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/2.0.0.8/php_wincache-2.0.0.8-7.1-nts-vc14-x64.zip
             7z x php_wincache-2.0.0.8-7.1-nts-vc14-x64.zip > $null
-            Get-ChildItem -Path C:\tools\php\
             copy php_wincache.dll ext\php_wincache.dll
             Remove-Item C:\tools\php\* -include .zip}}
-    - ps: Get-ChildItem -Path C:\tools\php\ext\
     - IF %PHP%==1 echo extension=php_wincache.dll >> php.ini
     - IF %PHP%==1 echo wincache.enablecli = 1 >> php.ini
     - IF %PHP%==1 echo zend_extension=php_opcache.dll >> php.ini
     - IF %PHP%==1 echo opcache.enable_cli=1 >> php.ini
-    - ps: >-
-        If ($env:php_ver_target -eq "5.6") {
-          If ($env:PHP -eq "1") {
-            appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/memcache/3.0.8/php_memcache-3.0.8-5.6-nts-vc11-x86.zip
-            7z x php_memcache-3.0.8-5.6-nts-vc11-x86.zip -y  > $null
-            copy php_memcache.dll ext\php_memcache.dll
-            Remove-Item C:\tools\php\* -include .zip}}
-    - IF %PHP%==1 echo extension=php_memcache.dll >> php.ini
     #- IF %PHP%==1 cinst -y redis
     #- IF %PHP_VER_TARGET%==5.6 IF %PHP%==1 cinst -y redis
     #- IF %PHP_VER_TARGET%>=7.0 IF %PHP%==1 cinst -y redis-64
