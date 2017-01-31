@@ -195,7 +195,7 @@ $assoc = JLanguageAssociations::isEnabled();
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<?php if ($assoc) : ?>
-						<td class="hidden-tablet">
+						<td class="hidden-tablet hidden-phone">
 							<?php if ($item->association) : ?>
 								<?php echo JHtml::_('contentadministrator.association', $item->id); ?>
 							<?php endif; ?>
