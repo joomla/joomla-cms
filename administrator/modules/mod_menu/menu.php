@@ -462,7 +462,10 @@ class JAdminCssMenu
 
 							foreach ($component->submenu as $sub)
 							{
-								$this->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
+								if (!in_array($sub->id, $hidden))
+								{
+									$this->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
+								}
 							}
 
 							$this->getParent();
