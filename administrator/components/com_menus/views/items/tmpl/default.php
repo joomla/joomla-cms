@@ -79,6 +79,9 @@ if ($menuType == '')
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort',  'COM_MENUS_ITEM_FIELD_INHERITABLE_LABEL', 'a.inheritable', $listDirn, $listOrder); ?>
+						</th>
 						<?php if ($assoc) : ?>
 							<th width="5%" class="nowrap hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
@@ -225,6 +228,9 @@ if ($menuType == '')
 						<?php endif; ?>
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
+						</td>
+						<td class="center hidden-phone">
+							<?php echo JHtml::_('MenusHtml.Menus.isinheritable', $item->inheritable, $i, $canChange, 'cb'); ?>
 						</td>
 						<?php if ($assoc) : ?>
 							<td class="small hidden-phone">

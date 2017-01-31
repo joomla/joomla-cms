@@ -1027,6 +1027,118 @@ class JTableNested extends JTable
 	}
 
 	/**
+	 * Method to set the inheritable state for a node or list of nodes in the database
+	 * table.  The method respects rows checked out by other users and will attempt
+	 * to checkin rows that it can after adjustments are made. The method will not
+	 * allow you to set the inheritable state on a node with a checked out child.
+	 *
+	 * @todo This method is based on the publish function (line 909) above.
+	 * Lines 977 - 1002 do not seem to apply in this use case, so they have been left out.
+	 * The left out lines check for hierarchical relationships between menu items.
+	 *
+	 * @param   mixed    $pks     An optional array of primary key values to update.  If not
+	 *                            set the instance property value is used.
+	 * @param   integer  $state   The inheritable state. eg. [0 = not inheritable, 1 = inheritable]
+	 * @param   integer  $userId  The user id of the user performing the operation.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2017-01-25
+	 * @throws  UnexpectedValueException
+	 */
+	public function setInheritable($pks = null, $state = 1, $userId = 0)
+	{
+		$k = $this->_tbl_key;
+		$query = $this->_db->getQuery(true);
+	
+		// Sanitize input.
+		$pks = ArrayHelper::toInteger($pks);
+		$userId = (int) $userId;
+		$state = (int) $state;
+	
+		// If $state > 1, then we allow state changes even if an ancestor has lower state
+		// (for example, can change a child state to Archived (2) if an ancestor is Published (1)
+		$compareState = ($state > 1) ? 1 : $state;
+	
+		// If there are no primary keys set check to see if the instance key is set.
+		if (empty($pks))
+		{
+			if ($this->$k)
+			{
+				$pks = explode(',', $this->$k);
+			}
+			// Nothing to set publishing state on, return false.
+			else
+			{
+				$e = new UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', get_class($this), $pks, $state, $userId));
+				$this->setError($e);
+	
+				return false;
+			}
+		}
+	
+		// Determine if there is checkout support for the table.
+		$checkoutSupport = (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'));
+	
+		// Iterate over the primary keys to execute the publish action if possible.
+		foreach ($pks as $pk)
+		{
+			// Get the node by primary key.
+			if (!$node = $this->_getNode($pk))
+			{
+				// Error message set in getNode method.
+				return false;
+			}
+	
+			// If the table has checkout support, verify no children are checked out.
+			if ($checkoutSupport)
+			{
+				// Ensure that children are not checked out.
+				$query->clear()
+				->select('COUNT(' . $k . ')')
+				->from($this->_tbl)
+				->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt)
+				->where('(checked_out <> 0 AND checked_out <> ' . (int) $userId . ')');
+				$this->_db->setQuery($query);
+	
+				// Check for checked out children.
+				if ($this->_db->loadResult())
+				{
+					// TODO Convert to a conflict exception when available.
+					$e = new RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', get_class($this), $pks, $state, $userId));
+	
+					$this->setError($e);
+	
+					return false;
+				}
+			}
+
+			// Update and cascade the publishing state.
+			$query->clear()
+			->update($this->_db->quoteName($this->_tbl))
+			->set('inheritable = ' . (int) $state)
+			->where('(lft > ' . (int) $node->lft . ' AND rgt < ' . (int) $node->rgt . ') OR ' . $k . ' = ' . (int) $pk);
+			$this->_db->setQuery($query)->execute();
+	
+			// If checkout support exists for the object, check the row in.
+			if ($checkoutSupport)
+			{
+				$this->checkin($pk);
+			}
+		}
+	
+		// If the JTable instance value is in the list of primary keys that were set, set the instance.
+		if (in_array($this->$k, $pks))
+		{
+			$this->inheritable = $state;
+		}
+	
+		$this->setError('');
+	
+		return true;
+	}
+
+	/**
 	 * Method to move a node one position to the left in the same level.
 	 *
 	 * @param   integer  $pk  Primary key of the node to move.
