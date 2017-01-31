@@ -26,7 +26,7 @@ class PlgContentFields extends JPlugin
 	 * @param   int     $page     The 'page' number
 	 *
 	 * @return void
-
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onContentPrepare($context, &$item, &$params, $page = 0)
