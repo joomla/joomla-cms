@@ -51,6 +51,13 @@
 		>
 		</field>
 
+		<field name="article_layout" type="componentlayout"
+		       label="JFIELD_ALT_LAYOUT_LABEL"
+		       description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+		       useglobal="true"
+		       extension="com_content" view="article"
+		/>
+
 		<field name="tags"
 			type="tag"
 			label="JTAG"
@@ -467,12 +474,6 @@
 				description="COM_CONTENT_FIELD_BROWSER_PAGE_TITLE_DESC"
 				size="25" />
 
-			<field name="article_layout" type="componentlayout"
-				label="JFIELD_ALT_LAYOUT_LABEL"
-				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-				useglobal="true"
-				extension="com_content" view="article"
-			/>
 		</fieldset>
 
 		<fieldset name="editorConfig" label="COM_CONTENT_EDITORCONFIG_FIELDSET_LABEL">
