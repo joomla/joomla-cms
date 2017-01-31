@@ -24,7 +24,7 @@ class ViewLevel extends Table
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__viewlevels', 'id', $db);
 	}

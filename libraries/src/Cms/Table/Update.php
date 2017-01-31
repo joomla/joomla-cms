@@ -27,7 +27,7 @@ class Update extends Table
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__updates', 'update_id', $db);
 	}
