@@ -21,7 +21,10 @@ JFactory::getDocument()->addScriptDeclaration(<<<'JS'
 			var $this = $(this);
 			var sub = $this.closest('li').find('.treeselect-sub [type="checkbox"]');
 			sub.prop('checked', this.checked);
-			sub.attr('disabled', this.checked ? 'disabled' : null);
+			if ($this.val() == 1)
+				sub.each(propagate);
+			else
+				sub.attr('disabled', this.checked ? 'disabled' : null);
 		};
 		$('.treeselect')
 			.on('click', '[type="checkbox"]', propagate)
@@ -31,7 +34,8 @@ JS
 );
 ?>
 <div id="menuselect-group" class="control-group">
-	<label id="jform_params_hideitems-lbl" class="control-label" for="jform_params_hideitems"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
+	<label id="jform_params_hideitems-lbl" class="control-label"
+		   for="jform_params_hideitems"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
 
 	<div id="jform_params_hideitems" class="controls">
 		<?php if (!empty($menuLinks)) : ?>
@@ -87,9 +91,12 @@ JS
 									<?php
 									$uselessMenuItem = (in_array($link->type, array('separator', 'heading', 'alias', 'url')));
 									?>
-									<input type="checkbox" class="pull-left novalidate" name="jform[params][hideitems][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
+									<input type="checkbox" <?php echo $link->value > 1 ? ' name="jform[params][hideitems][]" ' : ''; ?>
+										   id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>" class="pull-left novalidate"
+										<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
 									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
-										<?php echo JText::_($link->text); ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias)); ?></span>
+										<?php echo $link->value == 1 ? JText::_('JALL') : JText::_($link->text); ?>
+										<span class="small"><?php echo $link->value == 1 ? '' : JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias)); ?></span>
 										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*') : ?>
 											<?php if ($link->language_image) : ?>
 												<?php echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true); ?>

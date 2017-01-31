@@ -414,66 +414,59 @@ class JAdminCssMenu
 			if ($item->type == 'separator')
 			{
 				$this->addSeparator();
-
-				continue;
 			}
-
-			if ($item->type == 'heading' && !count($item->submenu))
+			elseif ($item->type == 'heading' && !count($item->submenu))
 			{
 				// Exclude if it is a heading type menu item, and has no children.
 			}
-			elseif (!$enabled)
-			{
-				$this->addChild(new JMenuNode($item->text, $item->link, 'disabled'));
-			}
 			elseif ($item->type == 'container')
 			{
-				$hidden = (array) $item->params->get('hideitems') ?: array();
+				$exclude    = (array) $item->params->get('hideitems') ?: array();
+				$components = ModMenuHelper::getComponents(true, true, $exclude);
 
-				$components = ModMenuHelper::getComponents(true, true);
-
+				// Exclude if it is a container type menu item, and has no children.
 				if (count($item->submenu) || count($components))
 				{
 					$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
 
-					// Load explicitly assigned child items first.
-					$this->loadItems($item->submenu);
-
-					// Add a separator between dynamic menu items and components menu items
-					if (count($item->submenu) && count($components))
+					if ($enabled)
 					{
-						$this->addSeparator();
-					}
+						// Load explicitly assigned child items first.
+						$this->loadItems($item->submenu);
 
-					// Adding component submenu the old way, this assumes 2-level menu only
-					foreach ($components as $component)
-					{
-						if (in_array($component->id, $hidden))
+						// Add a separator between dynamic menu items and components menu items
+						if (count($item->submenu) && count($components))
 						{
-							continue;
+							$this->addSeparator();
 						}
-						elseif (empty($component->submenu))
-						{
-							$this->addChild(new JMenuNode($component->text, $component->link, $component->img));
-						}
-						else
-						{
-							$this->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
 
-							foreach ($component->submenu as $sub)
+						// Adding component submenu the old way, this assumes 2-level menu only
+						foreach ($components as $component)
+						{
+							if (empty($component->submenu))
 							{
-								if (!in_array($sub->id, $hidden))
+								$this->addChild(new JMenuNode($component->text, $component->link, $component->img));
+							}
+							else
+							{
+								$this->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
+
+								foreach ($component->submenu as $sub)
 								{
 									$this->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
 								}
-							}
 
-							$this->getParent();
+								$this->getParent();
+							}
 						}
 					}
 
 					$this->getParent();
 				}
+			}
+			elseif (!$enabled)
+			{
+				$this->addChild(new JMenuNode($item->text, $item->link, 'disabled'));
 			}
 			else
 			{

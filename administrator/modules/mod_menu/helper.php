@@ -63,12 +63,13 @@ abstract class ModMenuHelper
 	 *
 	 * @param   boolean  $authCheck    An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
 	 * @param   boolean  $enabledOnly  Whether to load only enabled/published menu items.
+	 * @param   int[]    $exclude      The menu items to exclude from the list
 	 *
 	 * @return  array  A nest array of component objects and submenus
 	 *
 	 * @since   1.6
 	 */
-	public static function getComponents($authCheck = true, $enabledOnly = false)
+	public static function getComponents($authCheck = true, $enabledOnly = false, $exclude = array())
 	{
 		$lang   = JFactory::getLanguage();
 		$user   = JFactory::getUser();
@@ -86,6 +87,12 @@ abstract class ModMenuHelper
 		if ($enabledOnly)
 		{
 			$query->where('m.published = 1');
+		}
+
+		if (count($exclude))
+		{
+			$query->where('m.id NOT IN (' . implode(', ', array_map('intval', $exclude)) . ')');
+			$query->where('m.parent_id NOT IN (' . implode(', ', array_map('intval', $exclude)) . ')');
 		}
 
 		// Filter on the enabled states.
