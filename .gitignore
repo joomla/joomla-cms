@@ -28,7 +28,7 @@ administrator/templates/atum/scss/scss-lint-report.xml
 # Removed in Joomla 4 #
 administrator/templates/isis
 administrator/templates/hathor
-templates/protostar
+templates/beez3
 build/generatecss.php
 media/editors/codemirror
 media/editors/tinymce
