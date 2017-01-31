@@ -79,8 +79,8 @@ class JMenuSite extends JMenu
 				{
 					$query = $db->getQuery(true)
 						->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
-						->select($db->quoteName('m.browserNav') . ', m.access, m.inheritable, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
-						->select('e.element as component')
+						->select($db->quoteName('m.browserNav') . ', m.access, m.inheritable, m.params, m.home, m.img')
+						->select('m.template_style_id, m.component_id, m.parent_id, e.element as component')
 						->from('#__menu AS m')
 						->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
 						->where('m.published = 1')
@@ -211,7 +211,8 @@ class JMenuSite extends JMenu
 			if (($key = array_search('inheritable', $attributes)) === false)
 			{
 				$attributes[] = 'inheritable';
-				/// @todo Need a wrapper function 'getUsersGroups()' in the 'getUser' Class
+				
+				// TODO: Need a wrapper function 'getUsersGroups()' in the 'getUser' Class
 				$values[] = JFactory::getUser()->groups;
 			}
 			elseif ($values[$key] === null)

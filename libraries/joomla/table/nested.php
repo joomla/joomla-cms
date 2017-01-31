@@ -1032,7 +1032,7 @@ class JTableNested extends JTable
 	 * to checkin rows that it can after adjustments are made. The method will not
 	 * allow you to set the inheritable state on a node with a checked out child.
 	 *
-	 * @todo This method is based on the publish function (line 909) above.
+	 * TODO: This method is based on the publish function (line 909) above.
 	 * Lines 977 - 1002 do not seem to apply in this use case, so they have been left out.
 	 * The left out lines check for hierarchical relationships between menu items.
 	 *
