@@ -8914,3 +8914,64 @@ textarea.noResize {
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
 }
+@media (max-width: 979px) {
+	.table-responsive {
+		display: block;
+		margin-top: 18px;
+	}
+	.table-responsive thead,
+	.table-responsive tbody,
+	.table-responsive th,
+	.table-responsive td,
+	.table-responsive tr {
+		display: block;
+	}
+	.table-responsive thead,
+	.table-responsive tfoot {
+		display: none;
+	}
+	.table-responsive tr {
+		position: relative;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		border-top: 1px solid #ddd;
+	}
+	.table-responsive td {
+		border: 0;
+		position: relative;
+		padding-top: 0px;
+		padding-left: 36%;
+		padding-right: 20px;
+	}
+	.table-responsive td.center {
+		text-align: left;
+	}
+	.table-responsive td.has-context {
+		height: auto;
+	}
+	.table-responsive td.table-checkbox {
+		display: inline-block;
+		position: absolute;
+		padding-left: 0;
+		padding-right: 0;
+		z-index: 1;
+		top: 5px;
+		right: 12px;
+	}
+	.table-responsive .pull-left {
+		float: none;
+	}
+	.table-responsive .small {
+		font-size: 13px;
+	}
+	.table-responsive td:before {
+		content: attr(data-column);
+		position: absolute;
+		top: 0;
+		left: 10px;
+		padding-right: 10px;
+	}
+	.table-responsive.table-striped tbody > tr:nth-child(2n+1) {
+		background-color: #f9f9f9;
+	}
+}

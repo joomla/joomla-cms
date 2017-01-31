@@ -63,10 +63,10 @@ $assoc = JLanguageAssociations::isEnabled();
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
-			<table class="table table-striped" id="articleList">
+			<table class="table table-striped table-responsive" id="articleList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap center hidden-tablet hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th width="1%" class="center">
@@ -131,7 +131,7 @@ $assoc = JLanguageAssociations::isEnabled();
 					$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
-						<td class="order nowrap center hidden-phone">
+						<td class="order nowrap center hidden-tablet hidden-phone">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -150,10 +150,10 @@ $assoc = JLanguageAssociations::isEnabled();
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="center table-checkbox">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td class="center">
+						<td class="center" data-column="<?php echo JText::_('JSTATUS'); ?>">
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
@@ -167,7 +167,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								?>
 							</div>
 						</td>
-						<td class="has-context">
+						<td class="has-context" data-column="<?php echo JText::_('JGLOBAL_TITLE'); ?>">
 							<div class="pull-left break-word">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
@@ -191,17 +191,17 @@ $assoc = JLanguageAssociations::isEnabled();
 								</div>
 							</div>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small" data-column="<?php echo JText::_('JGRID_HEADING_ACCESS'); ?>">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<?php if ($assoc) : ?>
-						<td class="hidden-phone">
+						<td class="hidden-tablet">
 							<?php if ($item->association) : ?>
 								<?php echo JHtml::_('contentadministrator.association', $item->id); ?>
 							<?php endif; ?>
 						</td>
 						<?php endif; ?>
-						<td class="small hidden-phone">
+						<td class="small" data-column="<?php echo JText::_('JAUTHOR'); ?>">
 							<?php if ($item->created_by_alias) : ?>
 								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
 								<?php echo $this->escape($item->author_name); ?></a>
@@ -211,33 +211,33 @@ $assoc = JLanguageAssociations::isEnabled();
 								<?php echo $this->escape($item->author_name); ?></a>
 							<?php endif; ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small hidden-tablet hidden-phone">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<td class="nowrap small hidden-phone">
+						<td class="nowrap small" data-column="<?php echo JText::_('COM_CONTENT_HEADING_DATE_CREATED'); ?>">
 							<?php
 							$date = $item->{$orderingColumn};
 							echo $date > 0 ? JHtml::_('date', $date, JText::_('DATE_FORMAT_LC4')) : '-';
 							?>
 						</td>
-						<td class="hidden-phone center">
+						<td class="center hidden-tablet hidden-phone">
 							<span class="badge badge-info">
 								<?php echo (int) $item->hits; ?>
 							</span>
 						</td>
 						<?php if ($this->vote) : ?>
-							<td class="hidden-phone center">
+							<td class="center hidden-tablet hidden-phone">
 								<span class="badge badge-success" >
 								<?php echo (int) $item->rating_count; ?>
 								</span>
 							</td>
-							<td class="hidden-phone center">
+							<td class="center hidden-tablet hidden-phone">
 								<span class="badge badge-warning" >
 								<?php echo (int) $item->rating; ?>
 								</span>
 							</td>
 						<?php endif; ?>
-						<td class="hidden-phone">
+						<td class="hidden-tablet hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
