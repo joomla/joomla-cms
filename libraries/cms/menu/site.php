@@ -79,7 +79,7 @@ class JMenuSite extends JMenu
 				{
 					$query = $db->getQuery(true)
 						->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
-						->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
+						->select($db->quoteName('m.browserNav') . ', m.access, m.inheritable, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
 						->select('e.element as component')
 						->from('#__menu AS m')
 						->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
@@ -105,6 +105,38 @@ class JMenuSite extends JMenu
 			return false;
 		}
 
+		try
+		{
+			/** @var JCacheControllerCallback $cache */
+			$cache = JFactory::getCache('com_menus', 'callback');
+
+			$this->_viewlevelrules = $cache->get(
+				function () use ($db)
+				{
+
+					$query = $db->getQuery(true)
+						->select('v.id, v.rules')
+						->from('#__viewlevels AS v')
+						->order('v.id');
+
+					// Set the query
+					$db->setQuery($query);
+
+					return $db->loadObjectList('id');
+				},
+				array(),
+				md5(get_class($this)),
+				false
+			);
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUACCESSLEVEL', $e->getMessage()));
+
+			return false;
+		}
+		
+		
 		foreach ($this->_items as &$item)
 		{
 			// Get parent information.
@@ -118,6 +150,7 @@ class JMenuSite extends JMenu
 			// Create tree.
 			$parent_tree[] = $item->id;
 			$item->tree = $parent_tree;
+			$item->viewlevelrule = (array) json_decode($this->_viewlevelrules[$item->access]->rules);
 
 			// Create the query array.
 			$url = str_replace('index.php?', '', $item->link);
@@ -167,6 +200,19 @@ class JMenuSite extends JMenu
 			{
 				$attributes[] = 'access';
 				$values[] = $this->user->getAuthorisedViewLevels();
+			}
+			elseif ($values[$key] === null)
+			{
+				unset($attributes[$key]);
+				unset($values[$key]);
+			}
+
+			// Filter by inheritable if not set
+			if (($key = array_search('inheritable', $attributes)) === false)
+			{
+				$attributes[] = 'inheritable';
+				/// @todo Need a wrapper function 'getUsersGroups()' in the 'getUser' Class
+				$values[] = JFactory::getUser()->groups;
 			}
 			elseif ($values[$key] === null)
 			{

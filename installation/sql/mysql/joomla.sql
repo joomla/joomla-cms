@@ -1356,6 +1356,7 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
   `checked_out_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
   `browserNav` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'The click behaviour of the link.',
   `access` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'The access level required to view the menu item.',
+  `inheritable` tinyint(3) unsigned NOT NULL DEFAULT 1 COMMENT 'Determines if view access level for this menu item can be inherited.',
   `img` varchar(255) NOT NULL COMMENT 'The image of the menu item.',
   `template_style_id` int(10) unsigned NOT NULL DEFAULT 0,
   `params` text NOT NULL COMMENT 'JSON encoded data for the menu item.',
