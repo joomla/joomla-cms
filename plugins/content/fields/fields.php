@@ -65,33 +65,26 @@ class PlgContentFields extends JPlugin
 				return;
 			}
 
-			$context = $parts[0] . '.' . $parts[1];
-			$fields  = FieldsHelper::getFields($context, $item, true);
-			$tmp     = array();
-			$groups  = array();
+			$context    = $parts[0] . '.' . $parts[1];
+			$fields     = FieldsHelper::getFields($context, $item, true);
+			$fieldsById = array();
+			$groups     = array();
 
 			// Rearranging fields in arrays for easier lookup later.
 			foreach ($fields as $field)
 			{
-				$tmp[$field->id]            = $field;
+				$fieldsById[$field->id]     = $field;
 				$groups[$field->group_id][] = $field;
 			}
-
-			$fields = $tmp;
 
 			foreach ($matches as $i => $match)
 			{
 				// $match[0] is the full pattern match, $match[1] is the type (field or fieldgroup) and $match[2] the ID
 				$id = (int) $match[2];
 
-				if (!$id)
+				if ($match[1] == 'field' && $id)
 				{
-					continue;
-				}
-
-				if ($match[1] == 'field')
-				{
-					if (!isset($fields[$id]))
+					if (!isset($fieldsById[$id]))
 					{
 						continue;
 					}
@@ -102,15 +95,27 @@ class PlgContentFields extends JPlugin
 						array(
 							'item'    => $item,
 							'context' => $context,
-							'field'   => $fields[$id]
+							'field'   => $fieldsById[$id]
 						)
 					);
 				}
 				else
 				{
-					if (!isset($groups[$id]))
+					if ($match[2] === '*')
 					{
-						continue;
+						$match[0]     = str_replace('*', '\*', $match[0]);
+						$renderFields = $fields;
+					}
+					else
+					{
+						if (!isset($groups[$id]))
+						{
+							continue;
+						}
+						else
+						{
+							$renderFields = $groups[$id];
+						}
 					}
 
 					$output = FieldsHelper::render(
@@ -119,7 +124,7 @@ class PlgContentFields extends JPlugin
 						array(
 							'item'    => $item,
 							'context' => $context,
-							'fields'   => $groups[$id]
+							'fields'  => $renderFields
 						)
 					);
 				}
