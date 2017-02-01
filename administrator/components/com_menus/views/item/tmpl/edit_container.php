@@ -34,8 +34,7 @@ JS;
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 <div id="menuselect-group" class="control-group">
-	<label id="jform_params_hideitems-lbl" class="control-label"
-		   for="jform_params_hideitems"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
+	<div class="control-label"><?php echo $this->form->getLabel('hideitems', 'params'); ?></div>
 
 	<div id="jform_params_hideitems" class="controls">
 		<?php if (!empty($menuLinks)) : ?>
@@ -59,6 +58,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 				<?php if (count($menuLinks)) : ?>
 					<?php $prevlevel = 0; ?>
+					<div class="alert alert-info"><?php echo JText::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC')?></div>
 					<li>
 					<?php
 					$params      = new Registry($this->item->params);
