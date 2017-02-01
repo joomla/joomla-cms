@@ -225,6 +225,7 @@ jQuery(document).ready(function($) {
 				// Show change language button
 				document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-change');
 				$('#remove-assoc').removeClass("hidden");
+				$('#toolbar-copy').hide();
 
 				// Add the id to list of items to check in on close.
 				var currentIdList = document.getElementById('target-id').value;
