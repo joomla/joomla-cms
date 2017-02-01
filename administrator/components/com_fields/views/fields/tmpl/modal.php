@@ -18,7 +18,7 @@ if ($app->isSite())
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.framework', true);
-JHtml::_('formbehavior.chosen', 'advancedSelect');
+JHtml::_('formbehavior.chosen', '.advancedSelect');
 
 $function  = $app->input->getCmd('function', 'jSelectField');
 $listOrder = $this->escape($this->state->get('list.ordering'));

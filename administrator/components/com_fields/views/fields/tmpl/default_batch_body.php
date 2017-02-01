@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('formbehavior.chosen', 'advancedSelect');
+JHtml::_('formbehavior.chosen', '.advancedSelect');
 JFactory::getDocument()->addScriptDeclaration(
 	'
 		jQuery(document).ready(function($){
