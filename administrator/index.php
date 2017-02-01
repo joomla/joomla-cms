@@ -42,7 +42,7 @@ require_once JPATH_BASE . '/includes/helper.php';
 require_once JPATH_BASE . '/includes/toolbar.php';
 
 // Set profiler start time and memory usage and mark afterLoad in the profiler.
-JDEBUG ? JProfiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad') : null;
+JDEBUG && JProfiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad');
 
 // Instantiate the application.
 $app = JFactory::getApplication('administrator');
