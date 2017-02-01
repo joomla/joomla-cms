@@ -31,7 +31,30 @@ $script = <<<'JS'
 			.find('[type="checkbox"]:checked').each(propagate);
 	});
 JS;
+
+$style = <<<'CSS'
+	.checkbox-toggle {
+		display: none !important;
+	}
+	.checkbox-toggle[disabled] ~ .btn-hide {
+		opacity: 0.5;
+	}
+	.checkbox-toggle ~ .btn-show {
+		display: inline;
+	}
+	.checkbox-toggle ~ .btn-hide {
+		display: none;
+	}
+	.checkbox-toggle:checked ~ .btn-show {
+		display: none;
+	}
+	.checkbox-toggle:checked ~ .btn-hide {
+		display: inline;
+	}
+CSS;
+
 JFactory::getDocument()->addScriptDeclaration($script);
+JFactory::getDocument()->addStyleDeclaration($style);
 ?>
 <div id="menuselect-group" class="control-group">
 	<div class="control-label"><?php echo $this->form->getLabel('hideitems', 'params'); ?></div>
@@ -44,7 +67,10 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<div class="form-inline">
 				<span class="small"><?php echo JText::_('COM_MENUS_ACTION_EXPAND'); ?>:
 					<a id="treeExpandAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
-					<a id="treeCollapseAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
+					<a id="treeCollapseAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>|
+					<?php echo JText::_('JSHOW'); ?>:
+					<a id="treeUncheckAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
+					<a id="treeCheckAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
 				</span>
 				<input type="text" id="treeselectfilter" name="treeselectfilter" class="input-medium search-query pull-right" size="16"
 					autocomplete="off" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
@@ -88,29 +114,17 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						?>
 							<li>
 								<div class="treeselect-item pull-left">
-									<?php
-									$uselessMenuItem = (in_array($link->type, array('separator', 'heading', 'alias', 'url')));
-									?>
 									<input type="checkbox" <?php echo $link->value > 1 ? ' name="jform[params][hideitems][]" ' : ''; ?>
-										   id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>" class="pull-left novalidate"
-										<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
-									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
-										<?php echo $link->value == 1 ? JText::_('JALL') : JText::_($link->text); ?>
-										<span class="small"><?php echo $link->value == 1 ? '' : JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias)); ?></span>
-										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*') : ?>
-											<?php if ($link->language_image) : ?>
-												<?php echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true); ?>
-											<?php else : ?>
-												<?php echo '<span class="label" title="' . $link->language_title . '">' . $link->language_sef . '</span>'; ?>
-											<?php endif; ?>
-										<?php endif; ?>
-										<?php if ($link->published == 0) : ?>
-											<?php echo ' <span class="label">' . JText::_('JUNPUBLISHED') . '</span>'; ?>
-										<?php endif; ?>
-										<?php if ($uselessMenuItem) : ?>
-											<?php echo ' <span class="label">' . JText::_('COM_MENUS_TYPE_' . strtoupper($link->type)) . '</span>'; ?>
-										<?php endif; ?>
-									</label>
+										   id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>" class="novalidate checkbox-toggle"
+										<?php echo $selected ? ' checked="checked"' : ''; ?> />
+
+									<?php if ($link->value == 1): ?>
+										<label for="<?php echo $id . $link->value; ?>" class="btn btn-mini btn-info pull-left"><?php echo JText::_('JALL') ?></label>
+									<?php else: ?>
+										<label for="<?php echo $id . $link->value; ?>" class="btn btn-mini btn-danger btn-hide pull-left"><?php echo JText::_('JHIDE') ?></label>
+										<label for="<?php echo $id . $link->value; ?>" class="btn btn-mini btn-success btn-show pull-left"><?php echo JText::_('JSHOW') ?></label>
+										<label for="<?php echo $id . $link->value; ?>" class="pull-left"><?php echo JText::_($link->text); ?></label>
+									<?php endif; ?>
 								</div>
 						<?php
 
