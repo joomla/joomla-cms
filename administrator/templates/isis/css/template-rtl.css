@@ -7457,7 +7457,7 @@ body .navbar-fixed-top {
 }
 .btn-toolbar .btn-wrapper {
 	display: inline-block;
-	margin: 0 0 5px 5px;
+	margin: 0 0 8px 5px;
 }
 .subhead-fixed {
 	position: fixed;
@@ -7483,7 +7483,7 @@ body .navbar-fixed-top {
 	margin-top: 6px;
 }
 #toolbar {
-	margin-bottom: 6px;
+	margin-bottom: 2px;
 	margin-top: 12px;
 }
 #toolbar .btn {
