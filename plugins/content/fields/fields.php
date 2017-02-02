@@ -13,7 +13,7 @@ defined('_JEXEC') or die();
  * Plug-in to show a custom field in eg an article
  * This uses the {fields ID} syntax
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class PlgContentFields extends JPlugin
 {
@@ -27,7 +27,7 @@ class PlgContentFields extends JPlugin
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function onContentPrepare($context, &$item, &$params, $page = 0)
 	{

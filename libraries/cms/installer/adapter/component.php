@@ -1157,7 +1157,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function _updateMenus($component_id, $clientId = null)
 	{

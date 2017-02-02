@@ -107,7 +107,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function test__toStringSelectRowNumber()
 	{
@@ -155,7 +155,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function test__toStringUpdate()
 	{
