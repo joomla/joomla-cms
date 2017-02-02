@@ -213,7 +213,7 @@ class PlgSystemRedirect extends JPlugin
 			{
 				$data = (object) array(
 					'id' => 0,
-					'old_url' => strtolower($url),
+					'old_url' => $url,
 					'referer' => $app->input->server->getString('HTTP_REFERER', ''),
 					'hits' => 1,
 					'published' => 0,
