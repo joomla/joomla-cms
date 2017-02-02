@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Plugin class for redirect handling.
@@ -118,11 +119,11 @@ class PlgSystemRedirect extends JPlugin
 
 		$uri = JUri::getInstance();
 
-		$url = strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
-		$urlRel = strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
+		$url = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
+		$urlRel = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
 
-		$urlWithoutQuery = strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
-		$urlRelWithoutQuery = strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
+		$urlWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
+		$urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
 
 		// Why is this (still) here?
 		if ((strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http://') !== false))
