@@ -118,11 +118,11 @@ class PlgSystemRedirect extends JPlugin
 
 		$uri = JUri::getInstance();
 
-		$url = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
-		$urlRel = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
+		$url = strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
+		$urlRel = strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
 
-		$urlWithoutQuery = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment')));
-		$urlRelWithoutQuery = rawurldecode($uri->toString(array('path', 'fragment')));
+		$urlWithoutQuery = strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
+		$urlRelWithoutQuery = strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
 
 		// Why is this (still) here?
 		if ((strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http://') !== false))
@@ -213,7 +213,7 @@ class PlgSystemRedirect extends JPlugin
 			{
 				$data = (object) array(
 					'id' => 0,
-					'old_url' => $url,
+					'old_url' => strtolower($url),
 					'referer' => $app->input->server->getString('HTTP_REFERER', ''),
 					'hits' => 1,
 					'published' => 0,
