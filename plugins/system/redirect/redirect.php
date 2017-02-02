@@ -24,7 +24,7 @@ class PlgSystemRedirect extends JPlugin
 	 * @var    boolean
 	 * @since  3.4
 	 */
-	protected $autoloadLanguage = false;
+	protected $autoloadLanguage = true;
 
 	/**
 	 * The global exception handler registered before the plugin was instantiated
@@ -264,7 +264,7 @@ class PlgSystemRedirect extends JPlugin
 	 */
 	public function onContentbeforeSave($context, $menuItem, $isNew)
 	{
-		if (!$isNew && $context == 'com_menus.item')
+		if (!$isNew && $context == 'com_menus.item' && $this->params->get('watch_alias'))
 		{
 			$menu = & JSite::getMenu();
 			$old_alias = $menu->getItem($menuItem->id)->alias;
@@ -272,7 +272,7 @@ class PlgSystemRedirect extends JPlugin
 			if ($menuItem->alias != $old_alias)
 			{
 				$link = JRoute::_('index.php?option=com_redirect&view=link&layout=edit&old_alias=' . $old_alias . '&new_alias=' . $menuItem->alias);
-				$message = JText::sprintf('PLG_CONTENT_MENU_ALIAS_UPDATE_WARNING', $link);
+				$message = JText::sprintf('PLG_SYSTEM_REDIRECT_WATCH_ALIAS_WARNING', $link);
 				JFactory::getApplication()->enqueueMessage($message, 'warning');
 			}
 		}

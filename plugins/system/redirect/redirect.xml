@@ -30,6 +30,17 @@
 					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
 				</field>
+                                <field
+					name="watch_alias"
+					type="radio"
+					label="PLG_SYSTEM_REDIRECT_FIELD_WATCH_ALIAS_LABEL"
+					description="PLG_SYSTEM_REDIRECT_FIELD_WATCH_ALIAS_DESC"
+					default="1"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
