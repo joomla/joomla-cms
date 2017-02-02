@@ -197,8 +197,9 @@ jQuery(document).ready(function($) {
 			var targetId             = this.getAttribute('data-id');
 			var targetLoadedId       = $(this).contents().find('#jform_id').val() || '0';
 
-			// Hide associations tab.
-			$(this).contents().find('a[href=\"#associations\"]').parent().hide();
+			// Remove modal buttons on the target
+			$(this).contents().find('a[href=\"#associations\"]').parent().find('.btn').remove();
+			$(this).contents().find('#associations').find('.btn').remove();
 
 			// Always show General tab first if associations tab is selected on the reference
 			if ($(this).contents().find('#associations').hasClass('active'))
