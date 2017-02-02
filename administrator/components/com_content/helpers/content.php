@@ -225,6 +225,7 @@ class ContentHelper extends JHelperContent
 				case 'form':
 
 				// Category list view
+				case 'featured':
 				case 'category':
 					$section = 'article';
 			}
