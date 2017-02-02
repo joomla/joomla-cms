@@ -9661,6 +9661,7 @@ input[type="url"] {
 .dropdown-menu > li > a {
 	text-align: right;
 }
+.btn-group.btn-group-yesno > .btn,
 .btn-group > .btn + .dropdown-toggle {
 	float: none;
 }
