@@ -251,7 +251,8 @@ class ContentHelper extends JHelperContent
 		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_content.article' => JText::_('COM_CONTENT'),
+			'com_content.article'    => JText::_('COM_CONTENT'),
+			'com_content.categories' => JText::_('JCATEGORY')
 		);
 
 		return $contexts;
