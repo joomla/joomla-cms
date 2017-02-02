@@ -80,7 +80,7 @@ abstract class ModMenuHelper
 		// Prepare the query.
 		$query->select('m.id, m.title, m.alias, m.link, m.parent_id, m.img, e.element, m.menutype')
 			->from('#__menu AS m')
-			->where('(m.menutype = \'menu\' OR m.menutype = \'main\')')
+			->where('(m.menutype = ' . $db->q('main'))
 			->where('m.client_id = 1')
 			->where('m.id > 1');
 
