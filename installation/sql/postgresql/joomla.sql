@@ -50,7 +50,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (19, 1, 75, 76, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
 (20, 1, 77, 78, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
 (21, 1, 79, 80, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(22, 1, 81, 83, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
+(22, 1, 81, 82, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
 (23, 1, 83, 86, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
 (24, 1, 87, 88, 1, 'com_wrapper', 'com_wrapper', '{}'),
 (25, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{}'),
