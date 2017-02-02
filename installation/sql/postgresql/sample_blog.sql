@@ -9,7 +9,7 @@ TRUNCATE "#__modules_menu" RESTART IDENTITY;
 -- Dumping data for table #__assets
 --
 INSERT INTO "#__assets" VALUES
-(1,0,0,93,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1,0,0,95,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2,1,1,2,1,'com_admin','com_admin','{}'),
 (3,1,3,6,1,'com_banners','com_banners','{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4,1,7,8,1,'com_cache','com_cache','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -52,7 +52,8 @@ INSERT INTO "#__assets" VALUES
 (44,1,85,86,1,'com_tags','com_tags','{"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
 (45,1,87,88,1,'com_contenthistory','com_contenthistory','{}'),
 (46,1,89,90,1,'com_ajax','com_ajax','{}'),
-(47,1,91,92,1,'com_postinstall','com_postinstall','{}');
+(47,1,91,92,1,'com_postinstall','com_postinstall','{}'),
+(48,1,93,94,1,'com_userlogs','com_userlogs','{}');
 
 SELECT setval('#__assets_id_seq', max(id)) FROM #__assets;
 
@@ -87,7 +88,7 @@ SELECT setval('#__content_id_seq', max(id)) FROM #__content;
 -- Dumping data for table #__menu
 --
 INSERT INTO "#__menu" VALUES
-(1,'','Menu_Item_Root','root','','','','',1,0,0,0,0,'1970-01-01 00:00:00',0,0,'',0,'',0,73,0,'*',0),
+(1,'','Menu_Item_Root','root','','','','',1,0,0,0,0,'1970-01-01 00:00:00',0,0,'',0,'',0,75,0,'*',0),
 (2,'menu','com_banners','Banners','','Banners','index.php?option=com_banners','component',0,1,1,4,0,'1970-01-01 00:00:00',0,0,'class:banners',0,'',1,10,0,'*',1),
 (3,'menu','com_banners','Banners','','Banners/Banners','index.php?option=com_banners','component',0,2,2,4,0,'1970-01-01 00:00:00',0,0,'class:banners',0,'',2,3,0,'*',1),
 (4,'menu','com_banners_categories','Categories','','Banners/Categories','index.php?option=com_categories&extension=com_banners','component',0,2,2,6,0,'1970-01-01 00:00:00',0,0,'class:banners-cat',0,'',4,5,0,'*',1),
@@ -105,6 +106,7 @@ INSERT INTO "#__menu" VALUES
 (17,'menu','com_search','Basic Search','','Basic Search','index.php?option=com_search','component',0,1,1,19,0,'1970-01-01 00:00:00',0,0,'class:search',0,'',53,54,0,'*',1),
 (21,'menu','com_finder','Smart Search','','Smart Search','index.php?option=com_finder','component',0,1,1,27,0,'1970-01-01 00:00:00',0,0,'class:finder',0,'',51,52,0,'*',1),
 (22,'menu','com_joomlaupdate','Joomla! Update','','Joomla! Update','index.php?option=com_joomlaupdate','component',0,1,1,28,0,'1970-01-01 00:00:00',0,0,'class:joomlaupdate',0,'',61,62,0,'*',1),
+(23,'main','com_userlogs','com-userlogs','','com-userlogs','index.php?option=com_userlogs','component',0,1,1,33,0,'1970-01-01 00:00:00',0,1,'class:component',0,'{}',73,74,0,'*',1),
 (101,'mainmenu','Home','home','','home','index.php?option=com_content&view=category&layout=blog&id=9','component',1,1,1,22,0,'1970-01-01 00:00:00',0,1,'',0,'{"layout_type":"blog","show_category_title":"0","show_description":"","show_description_image":"","maxLevel":"","show_empty_categories":"","show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"","page_subheading":"","num_leading_articles":"4","num_intro_articles":"0","num_columns":"1","num_links":"2","multi_column_order":"1","show_subcategory_content":"","orderby_pri":"","orderby_sec":"rdate","order_date":"published","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","show_category":"0","link_category":"","show_parent_category":"","link_parent_category":"","info_bloc_position":"0","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"0","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"0","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',29,30,1,'*',0),
 (102,'bottommenu','Author Login','login','','login','index.php?option=com_users&view=login','component',1,1,1,25,0,'1970-01-01 00:00:00',0,1,'',0,'{"login_redirect_url":"index.php?Itemid=101","logindescription_show":"1","login_description":"","login_image":"","logout_redirect_url":"","logoutdescription_show":"1","logout_description":"","logout_image":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',65,66,0,'*',0),
 (103,'authormenu','Change Password','change-password','','change-password','index.php?option=com_users&view=profile&layout=edit','component',1,1,1,25,0,'1970-01-01 00:00:00',0,2,'',0,'{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',25,26,0,'*',0),

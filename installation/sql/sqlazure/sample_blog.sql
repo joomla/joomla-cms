@@ -8,7 +8,7 @@ TRUNCATE TABLE [#__modules_menu];
 SET IDENTITY_INSERT [#__assets] ON;
 
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules])
-SELECT 1, 0, 0, 93, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
+SELECT 1, 0, 0, 95, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
 UNION ALL
 SELECT 2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'
 UNION ALL
@@ -94,7 +94,9 @@ SELECT 45, 1, 87, 88, 1, 'com_contenthistory', 'com_contenthistory', '{}'
 UNION ALL
 SELECT 46, 1, 89, 90, 1, 'com_ajax', 'com_ajax', '{}'
 UNION ALL
-SELECT 47, 1, 91, 92, 1, 'com_postinstall', 'com_postinstall', '{}';
+SELECT 47, 1, 91, 92, 1, 'com_postinstall', 'com_postinstall', '{}'
+UNION ALL
+SELECT 48, 1, 93, 94, 1, 'com_userlogs', 'com_userlogs', '{}';
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
@@ -169,7 +171,7 @@ SET IDENTITY_INSERT [#__content] OFF;
 SET IDENTITY_INSERT [#__menu] ON;
 
 INSERT INTO [#__menu] ([id], [menutype], [title], [alias], [note], [path], [link], [type], [published], [parent_id], [level], [component_id], [checked_out], [checked_out_time], [browserNav], [access], [img], [template_style_id], [params], [lft], [rgt], [home], [language], [client_id])
-SELECT 1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '1900-01-01 00:00:00', 0, 0, '', 0, '', 0, 73, 0, '*', 0
+SELECT 1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '1900-01-01 00:00:00', 0, 0, '', 0, '', 0, 75, 0, '*', 0
 UNION ALL
 SELECT 2, 'menu', 'com_banners', 'Banners', '', 'Banners', 'index.php?option=com_banners', 'component', 0, 1, 1, 4, 0, '1900-01-01 00:00:00', 0, 0, 'class:banners', 0, '', 1, 10, 0, '*', 1
 UNION ALL
@@ -204,6 +206,8 @@ UNION ALL
 SELECT 21, 'menu', 'com_finder', 'Smart Search', '', 'Smart Search', 'index.php?option=com_finder', 'component', 0, 1, 1, 27, 0, '1900-01-01 00:00:00', 0, 0, 'class:finder', 0, '', 51, 52, 0, '*', 1
 UNION ALL
 SELECT 22, 'menu', 'com_joomlaupdate', 'Joomla! Update', '', 'Joomla! Update', 'index.php?option=com_joomlaupdate', 'component', 0, 1, 1, 28, 0, '1900-01-01 00:00:00', 0, 0, 'class:joomlaupdate', 0, '', 61, 62, 0, '*', 1
+UNION ALL
+SELECT 23, 'main', 'com_userlogs', 'com-userlogs', '', 'com-userlogs', 'index.php?option=com_userlogs', 'component', 0, 1, 1, 34, 0, '1900-01-01 00:00:00', 0, 1, 'class:component', 0, '{}', 73, 74, 0, '*', 1
 UNION ALL
 SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=category&layout=blog&id=9', 'component', 1, 1, 1, 22, 0, '1900-01-01 00:00:00', 0, 1, '', 0, '{"layout_type":"blog","show_category_title":"0","show_description":"","show_description_image":"","maxLevel":"","show_empty_categories":"","show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"","page_subheading":"","num_leading_articles":"4","num_intro_articles":"0","num_columns":"1","num_links":"2","multi_column_order":"1","show_subcategory_content":"","orderby_pri":"","orderby_sec":"rdate","order_date":"published","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","show_category":"0","link_category":"","show_parent_category":"","link_parent_category":"","info_bloc_position":"0","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"0","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"0","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 29, 30, 1, '*', 0
 UNION ALL

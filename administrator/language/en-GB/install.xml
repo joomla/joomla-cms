@@ -72,6 +72,8 @@
 		<filename>en-GB.com_templates.sys.ini</filename>
 		<filename>en-GB.com_users.ini</filename>
 		<filename>en-GB.com_users.sys.ini</filename>
+		<filename>en-GB.com_userlogs.ini</filename>
+		<filename>en-GB.com_userlogs.sys.ini</filename>
 		<filename>en-GB.com_weblinks.ini</filename>
 		<filename>en-GB.com_weblinks.sys.ini</filename>
 		<filename>en-GB.com_wrapper.ini</filename>
@@ -255,6 +257,8 @@
 		<filename>en-GB.plg_system_stats.sys.ini</filename>
 		<filename>en-GB.plg_system_updatenotification.ini</filename>
 		<filename>en-GB.plg_system_updatenotification.sys.ini</filename>
+		<filename>en-GB.plg_system_userlogs.ini</filename>
+		<filename>en-GB.plg_system_userlogs.sys.ini</filename>
 		<filename>en-GB.plg_twofactorauth_totp.ini</filename>
 		<filename>en-GB.plg_twofactorauth_totp.sys.ini</filename>
 		<filename>en-GB.plg_twofactorauth_yubikey.ini</filename>

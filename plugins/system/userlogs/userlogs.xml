@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension version="3.6" type="plugin" group="system" method="upgrade">
+	<name>PLG_SYSTEM_USERLOGS</name>
+	<author>Joomla! Project</author>
+	<creationDate>May 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>PLG_SYSTEM_USERLOGS_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="userlogs">userlogs.php</filename>
+		<folder>forms</folder>
+		<folder>field</folder>
+		<folder>layouts</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_userlogs.ini</language>
+		<language tag="en-GB">en-GB.plg_system_userlogs.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldpath="/plugins/system/userlogs/models/field">
+				<field
+					name="logDeletePeriod"
+					type="number"
+					label="PLG_SYSTEM_USERLOGS_LOG_DELETE_PERIOD"
+					description="PLG_SYSTEM_USERLOGS_LOG_DELETE_PERIOD_DESC"
+					default="0"
+				/>
+				<field
+					name="ip_logging"
+					type="radio"
+					label="PLG_SYSTEM_USERLOGS_IP_LOGGING"
+					description="PLG_SYSTEM_USERLOGS_IP_LOGGING_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="loggable_extensions"
+					type="logtype"
+					label="PLG_SYSTEM_USERLOGS_LOG_EXTENSIONS"
+					description="PLG_SYSTEM_USERLOGS_LOG_EXTENSIONS_DESC"
+					multiple="true"
+					default="com_banners,com_cache,com_categories,com_config,com_contact,com_content,com_installer,com_media,com_menus,com_messages,com_modules,com_newsfeeds,com_plugins,com_redirect,com_tags,com_templates,com_users"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

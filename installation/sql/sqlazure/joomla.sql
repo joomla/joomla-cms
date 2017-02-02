@@ -34,7 +34,7 @@ CREATE NONCLUSTERED INDEX [idx_parent_id] ON [#__assets]
 SET IDENTITY_INSERT [#__assets] ON;
 
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules])
-SELECT 1, 0, 0, 103, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
+SELECT 1, 0, 0, 105, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
 UNION ALL
 SELECT 2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'
 UNION ALL
@@ -136,7 +136,9 @@ SELECT 52, 18, 68, 69, 2, 'com_modules.module.79', 'Multilanguage status', '{}'
 UNION ALL
 SELECT 53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{}'
 UNION ALL
-SELECT 54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}';
+SELECT 54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'
+UNION ALL
+SELECT 55, 1, 103, 104, 1, 'com_userlogs', 'com_userlogs', '{}';
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
@@ -805,9 +807,13 @@ SELECT 31, 'com_ajax', 'component', 'com_ajax', '', 1, 1, 1, 1, '', '', '', '', 
 UNION ALL
 SELECT 32, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
+<<<<<<< HEAD
+SELECT 34, 'com_userlogs', 'component', 'com_userlogs', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+=======
 SELECT 33, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 34, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+>>>>>>> upstream/staging
 
 -- Libraries
 INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
@@ -1023,6 +1029,10 @@ SELECT 459, 'plg_editors-xtd_menu', 'plugin', 'menu', 'editors-xtd', 0, 1, 1, 0,
 UNION ALL
 SELECT 460, 'plg_editors-xtd_contact', 'plugin', 'contact', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
+<<<<<<< HEAD
+SELECT 461, 'plg_system_userlogs', 'plugin', 'userlogs', 'system', 0, 0, 1, 0, '', '{"logDeletePeriod":"200","ip_logging":"1","loggable_extensions":["com_banners","com_cache","com_categories","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+
+=======
 SELECT 461, 'plg_system_fields', 'plugin', 'fields', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 462, 'plg_fields_calendar', 'plugin', 'calendar', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -1056,6 +1066,7 @@ UNION ALL
 SELECT 476, 'plg_fields_user', 'plugin', 'user', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 477, 'plg_fields_usergrouplist', 'plugin', 'usergrouplist', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+>>>>>>> upstream/staging
 -- Templates
 INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 503, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -2330,9 +2341,15 @@ SELECT 20, 'main', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags', 
 UNION ALL
 SELECT 21, 'main', 'com_postinstall', 'Post-installation messages', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 1, 1, 1, 32, 0, '1900-01-01 00:00:00', 0, 1, 'class:postinstall', 0, '', 39, 40, 0, '*', 1
 UNION ALL
+<<<<<<< HEAD
+SELECT 22, 'main', 'com_userlogs', 'com-userlogs', '', 'com-userlogs', 'index.php?option=com_userlogs', 'component', 0, 1, 1, 34, 0, '1900-01-01 00:00:00', 0, 1, 'class:component', 0, '{}', 43, 44, 0, '*', 1
+UNION ALL
+SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '1900-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 41, 42, 1, '*', 0;
+=======
 SELECT 22, 'main', 'com_associations', 'Multilingual Associations', '', 'Multilingual Associations', 'index.php?option=com_associations', 'component', 1, 1, 1, 34, 0, '1900-01-01 00:00:00', 0, 0, 'class:associations', 0, '', 41, 42, 0, '*', 1
 UNION ALL
 SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '1900-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 43, 44, 1, '*', 0;
+>>>>>>> upstream/staging
 
 SET IDENTITY_INSERT [#__menu] OFF;
 
@@ -3119,6 +3136,128 @@ CREATE NONCLUSTERED INDEX [user_id] ON [#__user_keys]
 (
   [user_id] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+/****** Object:  Table [#__user_logs] ******/
+SET QUOTED_IDENTIFIER ON;
+
+CREATE TABLE [#__user_logs](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[message] [nvarchar](max) NOT NULL DEFAULT '',
+	[log_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[extension] [nvarchar](255) NOT NULL DEFAULT '',
+	[user_id] [bigint] NOT NULL DEFAULT 0,
+	[ip_address] [nvarchar](30) NOT NULL DEFAULT '0.0.0.0',
+	CONSTRAINT [PK_#__user_logs_id] PRIMARY KEY CLUSTERED
+ (
+ 	[id] ASC
+ )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+ ) ON [PRIMARY];
+
+/****** Object:  Table [#__user_logs_extensions] ******/
+SET QUOTED_IDENTIFIER ON;
+
+CREATE TABLE [#__user_logs_extensions](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[extension] [nvarchar](255) NOT NULL DEFAULT '',
+	CONSTRAINT [PK_#__user_logs_extensions_id] PRIMARY KEY CLUSTERED
+ (
+ 	[id] ASC
+ )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+ ) ON [PRIMARY];
+
+SET IDENTITY_INSERT [#__user_logs_extensions]  ON;
+INSERT INTO [#__user_logs_extensions] ([id], [extension])
+SELECT 1, 'com_banners'
+UNION ALL
+SELECT 2, 'com_cache'
+UNION ALL
+SELECT 3, 'com_categories'
+UNION ALL
+SELECT 4, 'com_config'
+UNION ALL
+SELECT 5, 'com_contact'
+UNION ALL
+SELECT 6, 'com_content'
+UNION ALL
+SELECT 7, 'com_installer'
+UNION ALL
+SELECT 8, 'com_media'
+UNION ALL
+SELECT 9, 'com_menus'
+UNION ALL
+SELECT 10, 'com_messages'
+UNION ALL
+SELECT 11, 'com_modules'
+UNION ALL
+SELECT 12, 'com_newsfeeds'
+UNION ALL
+SELECT 13, 'com_plugins'
+UNION ALL
+SELECT 14, 'com_redirect'
+UNION ALL
+SELECT 15, 'com_tags'
+UNION ALL
+SELECT 16, 'com_templates'
+UNION ALL
+SELECT 17, 'com_users';
+
+SET IDENTITY_INSERT [#__user_logs_extensions]  OFF;
+
+/****** Object:  Table [#__user_logs_tables_data] ******/
+SET QUOTED_IDENTIFIER ON;
+
+CREATE TABLE [#__user_logs_tables_data](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[type_title] [nvarchar](255) NOT NULL DEFAULT '',
+	[type_alias] [nvarchar](255) NOT NULL DEFAULT '',
+	[title_holder] [nvarchar](255) NULL,
+	[table_values] [nvarchar](255) NULL
+	CONSTRAINT [PK_#__user_logs_tables_data_id] PRIMARY KEY CLUSTERED
+ (
+ 	[id] ASC
+ )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+ ) ON [PRIMARY];
+
+SET IDENTITY_INSERT [#__user_logs_tables_data]  ON;
+
+INSERT INTO [#__user_logs_tables_data] ([id], [type_title], [type_alias], [title_holder], [table_values])
+SELECT 1, 'article', 'com_content.article', 'title' ,'{"table_type":"Content","table_prefix":"JTable"}'
+UNION ALL
+SELECT 2, 'article', 'com_content.form', 'title' ,'{"table_type":"Content","table_prefix":"JTable"}'
+UNION ALL
+SELECT 3, 'banner', 'com_banners.banner', 'name' ,'{"table_type":"Banner","table_prefix":"BannersTable"}'
+UNION ALL
+SELECT 4, 'user_note', 'com_users.note', 'subject' ,'{"table_type":"Note","table_prefix":"UsersTable"}'
+UNION ALL
+SELECT 5, 'media', 'com_media.file', 'name' ,'{"table_type":"","table_prefix":""}'
+UNION ALL
+SELECT 6, 'category', 'com_categories.category', 'title' ,'{"table_type":"Category","table_prefix":"JTable"}'
+UNION ALL
+SELECT 7, 'menu', 'com_menus.menu', 'title' ,'{"table_type":"Menu","table_prefix":"JTable"}'
+UNION ALL
+SELECT 8, 'menu_item', 'com_menus.item', 'title' ,'{"table_type":"Menu","table_prefix":"JTable"}'
+UNION ALL
+SELECT 9, 'newsfeed', 'com_newsfeeds.newsfeed', 'name' ,'{"table_type":"Newsfeed","table_prefix":"NewsfeedsTable"}'
+UNION ALL
+SELECT 10, 'link', 'com_redirect.link', 'old_url' ,'{"table_type":"Link","table_prefix":"RedirectTable"}'
+UNION ALL
+SELECT 11, 'tag', 'com_tags.tag', 'title' ,'{"table_type":"Tag","table_prefix":"TagsTable"}'
+UNION ALL
+SELECT 12, 'style', 'com_templates.style', 'title' ,'{"table_type":"","table_prefix":""}'
+UNION ALL
+SELECT 13, 'plugin', 'com_plugins.plugin', 'name' ,'{"table_type":"Extension","table_prefix":"JTable"}'
+UNION ALL
+SELECT 14, 'component_config', 'com_config.component', 'name', '{"table_type":"","table_prefix":""}'
+UNION ALL
+SELECT 15, 'contact', 'com_contact.contact', 'name', '{"table_type":"Contact","table_prefix":"ContactTable"}'
+UNION ALL
+SELECT 16, 'module', 'com_modules.module', 'title', '{"table_type":"Module","table_prefix":"JTable"}'
+UNION ALL
+SELECT 17, 'access_level', 'com_users.level', 'title', '{"table_type":"Viewlevel","table_prefix":"JTable"}'
+UNION ALL
+SELECT 18, 'banner_client', 'com_banners.client', 'name', '{"table_type":"Client","table_prefix":"BannersTable"}';
+
+SET IDENTITY_INSERT [#__user_logs_tables_data]  OFF;
 
 /****** Object:  Table [#__user_notes] ******/
 SET QUOTED_IDENTIFIER ON;

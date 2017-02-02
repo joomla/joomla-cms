@@ -378,6 +378,7 @@ class JoomlaInstallerScript
 			array('component', 'com_contenthistory', '', 1),
 			array('component', 'com_postinstall', '', 1),
 			array('component', 'com_joomlaupdate', '', 1),
+			array('component', 'com_userlogs', '', 1),
 			array('component', 'com_fields', '', 1),
 			array('component', 'com_associations', '', 1),
 
@@ -504,6 +505,7 @@ class JoomlaInstallerScript
 			array('plugin', 'url', 'fields', 0),
 			array('plugin', 'user', 'fields', 0),
 			array('plugin', 'usergrouplist', 'fields', 0),
+			array('plugin', 'userlogs','system', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -1918,6 +1920,7 @@ class JoomlaInstallerScript
 			'com_contenthistory',
 			'com_ajax',
 			'com_postinstall',
+			'com_userlogs',
 			'com_fields',
 			'com_associations',
 		);
