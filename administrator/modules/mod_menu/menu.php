@@ -414,13 +414,55 @@ class JAdminCssMenu
 			if ($item->type == 'separator')
 			{
 				$this->addSeparator();
-
-				continue;
 			}
-
-			if ($item->type == 'heading' && !count($item->submenu))
+			elseif ($item->type == 'heading' && !count($item->submenu))
 			{
 				// Exclude if it is a heading type menu item, and has no children.
+			}
+			elseif ($item->type == 'container')
+			{
+				$exclude    = (array) $item->params->get('hideitems') ?: array();
+				$components = ModMenuHelper::getComponents(true, true, $exclude);
+
+				// Exclude if it is a container type menu item, and has no children.
+				if (count($item->submenu) || count($components))
+				{
+					$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
+
+					if ($enabled)
+					{
+						// Load explicitly assigned child items first.
+						$this->loadItems($item->submenu);
+
+						// Add a separator between dynamic menu items and components menu items
+						if (count($item->submenu) && count($components))
+						{
+							$this->addSeparator();
+						}
+
+						// Adding component submenu the old way, this assumes 2-level menu only
+						foreach ($components as $component)
+						{
+							if (empty($component->submenu))
+							{
+								$this->addChild(new JMenuNode($component->text, $component->link, $component->img));
+							}
+							else
+							{
+								$this->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
+
+								foreach ($component->submenu as $sub)
+								{
+									$this->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
+								}
+
+								$this->getParent();
+							}
+						}
+					}
+
+					$this->getParent();
+				}
 			}
 			elseif (!$enabled)
 			{
@@ -429,42 +471,7 @@ class JAdminCssMenu
 			else
 			{
 				$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
-
 				$this->loadItems($item->submenu);
-
-				$components = array();
-
-				if ($item->type == 'container')
-				{
-					$components = ModMenuHelper::getComponents(true, true);
-				}
-
-				// Add a separator between dynamic menu items and components menu items
-				if (count($item->submenu) && count($components))
-				{
-					$this->addSeparator();
-				}
-
-				// Adding component submenu the old way, this assumes 2-level menu only
-				foreach ($components as &$component)
-				{
-					if (empty($component->submenu))
-					{
-						$this->addChild(new JMenuNode($component->text, $component->link, $component->img));
-					}
-					else
-					{
-						$this->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
-
-						foreach ($component->submenu as $sub)
-						{
-							$this->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
-						}
-
-						$this->getParent();
-					}
-				}
-
 				$this->getParent();
 			}
 		}
