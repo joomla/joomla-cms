@@ -1,7 +1,7 @@
-'id','menutype','title','description'
-'2','usermenu','User Menu','A Menu for logged-in Users'
-'3','top','Top','Links for major types of users'
-'4','aboutjoomla','About Joomla','All about Joomla!'
-'5','parks','Australian Parks','Main menu for a site about Australian  parks'
-'6','mainmenu','Main Menu','Simple Home Menu'
-'7','fruitshop','Fruit Shop','Menu for the sample shop site.'
+'id','menutype','title','description','client_id'
+'2','usermenu','User Menu','A Menu for logged-in Users',0
+'3','top','Top','Links for major types of users',0
+'4','aboutjoomla','About Joomla','All about Joomla!',0
+'5','parks','Australian Parks','Main menu for a site about Australian  parks',0
+'6','mainmenu','Main Menu','Simple Home Menu',0
+'7','fruitshop','Fruit Shop','Menu for the sample shop site.',0

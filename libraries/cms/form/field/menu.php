@@ -95,12 +95,6 @@ class JFormFieldMenu extends JFormFieldGroupedList
 				'text'      => JText::_('COM_MENUS_MENU_TYPE_PROTECTED_MAIN_LABEL'),
 				'client_id' => 1,
 			);
-
-			$opts[] = (object) array(
-				'value'     => 'menu',
-				'text'      => JText::_('COM_MENUS_MENU_TYPE_PROTECTED_MENU_LABEL'),
-				'client_id' => 1,
-			);
 		}
 
 		$options = array_merge($opts, $menus);

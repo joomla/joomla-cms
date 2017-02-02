@@ -41,6 +41,16 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentBeforeSave($context, $item, $isNew)
 	{
+		if (!isset($item->params))
+		{
+			return true;
+		}
+
+		// Create correct context for category
+		if ($context == 'com_categories.category')
+		{
+			$context = $item->extension . '.categories';
+		}
 		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
@@ -58,43 +68,16 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$params = new Registry;
-
-		// Load the item params from the request
-		$data = JFactory::getApplication()->input->post->get('jform', array(), 'array');
-
-		if (key_exists('params', $data))
-		{
-			$params->loadArray($data['params']);
-		}
-
-		// Load the params from the item itself
-		if (isset($item->params))
-		{
-			$params->loadString($item->params);
-		}
-
-		$params = $params->toArray();
-
-		// Create the new internal fields field
-		$fields = array();
+		$params = (array) json_decode($item->params);
 
 		foreach ($fieldsObjects as $field)
 		{
-			// Set the param on the fields variable
-			$fields[$field->name] = key_exists($field->name, $params) ? $params[$field->name] : array();
-
 			// Remove it from the params array
 			unset($params[$field->name]);
 		}
 
-		$item->_fields = $fields;
-
-		// Update the cleaned up params
-		if (isset($item->params))
-		{
-			$item->params = json_encode($params);
-		}
+		// Set the cleaned up params array
+		$item->params = json_encode($params);
 
 		return true;
 	}
@@ -102,17 +85,30 @@ class PlgSystemFields extends JPlugin
 	/**
 	 * The save event.
 	 *
-	 * @param   string    $context  The context
-	 * @param   stdClass  $item     The item
-	 * @param   boolean   $isNew    Is new
+	 * @param   string   $context  The context
+	 * @param   JTable   $item     The table
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentAfterSave($context, $item, $isNew)
+	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
-		$parts = FieldsHelper::extract($context);
+		if (!is_array($data) || empty($data['params']))
+		{
+			return true;
+		}
+
+		// Create correct context for category
+		if ($context == 'com_categories.category')
+		{
+			$context = $item->extension . '.categories';
+		}
+
+		$fieldsData = $data['params'];
+		$parts      = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -120,19 +116,6 @@ class PlgSystemFields extends JPlugin
 		}
 
 		$context = $parts[0] . '.' . $parts[1];
-
-		// Return if the item has no valid state
-		$fields = null;
-
-		if (isset($item->_fields))
-		{
-			$fields = $item->_fields;
-		}
-
-		if (!$fields)
-		{
-			return true;
-		}
 
 		// Loading the fields
 		$fieldsObjects = FieldsHelper::getFields($context, $item);
@@ -197,8 +180,7 @@ class PlgSystemFields extends JPlugin
 		$user->params = (string) $user->getParameters();
 
 		// Trigger the events with a real user
-		$this->onContentBeforeSave('com_users.user', $user, false);
-		$this->onContentAfterSave('com_users.user', $user, false);
+		$this->onContentAfterSave('com_users.user', $user, false, $userData);
 
 		// Save the user with the modified params
 		$db    = JFactory::getDbo();
@@ -273,6 +255,12 @@ class PlgSystemFields extends JPlugin
 	public function onContentPrepareForm(JForm $form, $data)
 	{
 		$context = $form->getName();
+
+		// When a category is edited, the context is com_categories.categorycom_content
+		if (strpos($context, 'com_categories.category') === 0)
+		{
+			$context = str_replace('com_categories.category', '', $context) . '.categories';
+		}
 
 		$parts = FieldsHelper::extract($context);
 
@@ -411,12 +399,7 @@ class PlgSystemFields extends JPlugin
 		{
 			foreach ($fields as $key => $field)
 			{
-				$fieldDisplayType = $field->params->get('display', '-1');
-
-				if ($fieldDisplayType == '-1')
-				{
-					$fieldDisplayType = $this->params->get('display', '2');
-				}
+				$fieldDisplayType = $field->params->get('display', '2');
 
 				if ($fieldDisplayType == $displayType)
 				{

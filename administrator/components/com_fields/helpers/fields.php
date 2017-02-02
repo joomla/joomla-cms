@@ -143,9 +143,7 @@ class FieldsHelper
 		{
 			if (self::$fieldCache === null)
 			{
-				self::$fieldCache = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-					'ignore_request' => true)
-				);
+				self::$fieldCache = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 			}
 
 			$new = array();
