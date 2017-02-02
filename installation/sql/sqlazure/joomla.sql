@@ -60,7 +60,7 @@ SELECT 12, 1, 27, 28, 1, 'com_login', 'com_login', '{}'
 UNION ALL
 SELECT 13, 1, 29, 30, 1, 'com_mailto', 'com_mailto', '{}'
 UNION ALL
-SELECT 14, 1, 31, 33, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'
+SELECT 14, 1, 31, 32, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'
 UNION ALL
 SELECT 15, 1, 33, 36, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'
 UNION ALL
@@ -76,7 +76,7 @@ SELECT 20, 1, 77, 78, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}
 UNION ALL
 SELECT 21, 1, 79, 80, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 22, 1, 81, 83, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'
+SELECT 22, 1, 81, 82, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'
 UNION ALL
 SELECT 23, 1, 83, 86, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'
 UNION ALL
