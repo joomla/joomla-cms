@@ -1,0 +1,2 @@
+-- Add the Inheritable property to the #__menu table.
+ALTER TABLE `#__menu` ADD `inheritable` TINYINT( 3 ) NOT NULL DEFAULT '1' COMMENT 'Determines if menu item is inheritable by higher group access levels.' AFTER `access`;

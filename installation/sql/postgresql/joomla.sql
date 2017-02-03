@@ -1283,6 +1283,7 @@ CREATE TABLE "#__menu" (
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "browserNav" smallint DEFAULT 0 NOT NULL,
   "access" bigint DEFAULT 0 NOT NULL,
+  "inheritable" smallint DEFAULT 1 NOT NULL,
   "img" varchar(255) DEFAULT '' NOT NULL,
   "template_style_id" integer DEFAULT 0 NOT NULL,
   "params" text DEFAULT '' NOT NULL,

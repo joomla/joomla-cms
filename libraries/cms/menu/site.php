@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,7 +57,7 @@ class JMenuSite extends JMenu
 		parent::__construct($options);
 	}
 
-	/**
+	/** TODO(DRJ)  This is the SQL that reads the menu item's details.
 	 * Loads the entire menu table into memory.
 	 *
 	 * @return  boolean  True on success, false on failure
@@ -66,37 +66,24 @@ class JMenuSite extends JMenu
 	 */
 	public function load()
 	{
-		// For PHP 5.3 compat we can't use $this in the lambda function below
-		$db = $this->db;
+		$db    = $this->db;
+		$query = $db->getQuery(true)
+			->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
+			->select($db->quoteName('m.browserNav') . ', m.access, m.inheritable, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
+			->select('e.element as component')
+			->from('#__menu AS m')
+			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
+			->where('m.published = 1')
+			->where('m.parent_id > 0')
+			->where('m.client_id = 0')
+			->order('m.lft');
+
+		// Set the query
+		$db->setQuery($query);
 
 		try
 		{
-			/** @var JCacheControllerCallback $cache */
-			$cache = JFactory::getCache('com_menus', 'callback');
-
-			$this->_items = $cache->get(
-				function () use ($db)
-				{
-					$query = $db->getQuery(true)
-						->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
-						->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
-						->select('e.element as component')
-						->from('#__menu AS m')
-						->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
-						->where('m.published = 1')
-						->where('m.parent_id > 0')
-						->where('m.client_id = 0')
-						->order('m.lft');
-
-					// Set the query
-					$db->setQuery($query);
-
-					return $db->loadObjectList('id', 'JMenuItem');
-				},
-				array(),
-				md5(get_class($this)),
-				false
-			);
+			$this->_items = $db->loadObjectList('id');
 		}
 		catch (RuntimeException $e)
 		{
@@ -105,6 +92,29 @@ class JMenuSite extends JMenu
 			return false;
 		}
 
+// 		$query = $db->getQuery(true)
+		
+		$query->clear()
+		->select('v.id, v.rules')
+		->from('#__viewlevels AS v')
+		->order('v.id');
+		
+		// Set the query
+		$db->setQuery($query);
+		
+		try
+		{
+			$this->_viewlevelrules = $db->loadObjectList('id');
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()));
+		
+			return false;
+		}
+		
+		
+		
 		foreach ($this->_items as &$item)
 		{
 			// Get parent information.
@@ -118,6 +128,7 @@ class JMenuSite extends JMenu
 			// Create tree.
 			$parent_tree[] = $item->id;
 			$item->tree = $parent_tree;
+			$item->viewlevelrule = (array) json_decode($this->_viewlevelrules[$item->access]->rules);
 
 			// Create the query array.
 			$url = str_replace('index.php?', '', $item->link);
@@ -136,7 +147,7 @@ class JMenuSite extends JMenu
 	 * @param   string   $values      The value of the field
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *
-	 * @return  JMenuItem|JMenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
+	 * @return  array
 	 *
 	 * @since   1.6
 	 */
@@ -145,7 +156,7 @@ class JMenuSite extends JMenu
 		$attributes = (array) $attributes;
 		$values     = (array) $values;
 
-		if ($this->app->isClient('site'))
+		if ($this->app->isSite())
 		{
 			// Filter by language if not set
 			if (($key = array_search('language', $attributes)) === false)
@@ -173,6 +184,17 @@ class JMenuSite extends JMenu
 				unset($attributes[$key]);
 				unset($values[$key]);
 			}
+			if (($key = array_search('inheritable', $attributes)) === false)
+			{
+				$attributes[] = 'inheritable';
+				$values[] = JFactory::getUser()->groups;
+			}
+			elseif ($values[$key] === null)
+			{
+				unset($attributes[$key]);
+				unset($values[$key]);
+			}
+					
 		}
 
 		// Reset arrays or we get a notice if some values were unset
@@ -187,13 +209,13 @@ class JMenuSite extends JMenu
 	 *
 	 * @param   string  $language  The language code.
 	 *
-	 * @return  JMenuItem|null  The item object or null when not found for given language
+	 * @return  mixed  The item object or null when not found for given language
 	 *
 	 * @since   1.6
 	 */
 	public function getDefault($language = '*')
 	{
-		if (array_key_exists($language, $this->_default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
+		if (array_key_exists($language, $this->_default) && $this->app->isSite() && $this->app->getLanguageFilter())
 		{
 			return $this->_items[$this->_default[$language]];
 		}

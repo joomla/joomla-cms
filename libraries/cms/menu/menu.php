@@ -79,6 +79,23 @@ class JMenu
 			{
 				$this->_default[trim($item->language)] = $item->id;
 			}
+
+			// Decode the item params
+			try
+			{
+				$result = new Registry;
+				$result->loadString($item->params);
+				$item->params = $result;
+			}
+			catch (RuntimeException $e)
+			{
+				/**
+				 * Joomla shipped with a broken sample json string for 4 years which caused fatals with new
+				 * error checks. So for now we catch the exception here - but one day we should remove it and require
+				 * valid JSON.
+				 */
+				$item->params = new Registry;
+			}
 		}
 
 		$this->user = isset($options['user']) && $options['user'] instanceof JUser ? $options['user'] : JFactory::getUser();
@@ -272,10 +289,30 @@ class JMenu
 			{
 				if (is_array($values[$i]))
 				{
-					if (!in_array($item->{$attributes[$i]}, $values[$i]))
+					// Test special conditions before falling through to default below
+					if ($attributes[$i] == 'inheritable')
 					{
-						$test = false;
-						break;
+						if (!$item->inheritable)
+						{
+							$test = false;
+							foreach ($item->viewlevelrule as $viewlevel)
+							{
+								if (in_array($viewlevel, $values[$i]))
+								{
+									$test = true;
+									break;
+								}
+							}
+						}
+					}
+					else
+					{
+						// This is the default logic statement when an array of values is passed
+						if (!in_array($item->{$attributes[$i]}, $values[$i]))
+						{
+							$test = false;
+							break;
+						}
 					}
 				}
 				else

@@ -166,6 +166,7 @@ class MenusHelper
 					  a.client_id,
 					  a.type,
 					  a.published,
+					  a.inheritable,
 					  a.template_style_id,
 					  a.checked_out,
 					  a.language,
