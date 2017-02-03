@@ -78,7 +78,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 		}
 
 	// Allow translation of custom admin menus
-		foreach ($options as $i => &$option)
+		foreach ($options as &$option)
 		{
 			if ($option->clientId != 0)
 			{
