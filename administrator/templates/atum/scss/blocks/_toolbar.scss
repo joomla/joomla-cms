@@ -10,7 +10,10 @@
   padding: 15px 0;
   color: #0c192e;
   background: $atum-container-main-bg;
-
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
   .btn-toolbar {
     margin-bottom: 0;
     > * {

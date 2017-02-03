@@ -182,7 +182,11 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 		</header>
 		<div class="container-title">
 			<div class="container-fluid">
-				<jdoc:include type="modules" name="title" />
+				<div class="row">
+					<div class="col-md-12">
+						<jdoc:include type="modules" name="title" />
+					</div>
+				</div>
 			</div>
 		</div>
 

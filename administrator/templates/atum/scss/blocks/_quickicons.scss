@@ -16,7 +16,7 @@
     overflow: hidden;
     color: $white-offset;
     text-align: left;
-    background-color: $atum-template-color;
+    background-color: $atum-template-color-light;
     border-radius: $border-radius;
 
     &:hover,
@@ -24,7 +24,7 @@
       text-decoration: none;
 
       &::before {
-        color: lighten($atum-template-color, 14%);
+        color: lighten($atum-template-color-light, 10%);
       }
     }
 
@@ -54,7 +54,7 @@
       right: -40px;
       font-family: FontAwesome;
       font-size: 10em;
-      color: lighten($atum-template-color, 5%);
+      color: lighten($atum-template-color-light, 5%);
       content: "\f1aa";
       transform: rotate(20deg);
     }

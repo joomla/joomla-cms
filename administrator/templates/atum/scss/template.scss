@@ -76,6 +76,10 @@
 .content {
   margin-top: 42px;
   border-radius: $border-radius;
+  > .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
 }
 .j-main-container {
   background-color: $white-offset;
