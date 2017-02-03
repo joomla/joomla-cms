@@ -42,18 +42,6 @@
 				</field>
 	
 				<field
-					name="home"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="PLG_FIELDS_MEDIA_PARAMS_HOME_LABEL"
-					description="PLG_FIELDS_MEDIA_PARAMS_HOME_DESC"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-	
-				<field
 					name="image_class"
 					type="textarea"
 					label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"
