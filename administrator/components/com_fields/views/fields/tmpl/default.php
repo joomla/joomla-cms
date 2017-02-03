@@ -152,11 +152,7 @@ if ($saveOrder)
 								</div>
 							</td>
 							<td class="small">
-								<?php $label = 'COM_FIELDS_TYPE_' . strtoupper($item->type); ?>
-								<?php if (!JFactory::getLanguage()->hasKey($label)) : ?>
-									<?php $label = Joomla\String\StringHelper::ucfirst($item->type); ?>
-								<?php endif; ?>
-								<?php echo $this->escape(JText::_($label)); ?>
+								<?php echo $this->escape($item->type); ?>
 							</td>
 							<td>
 								<?php echo $this->escape($item->group_title); ?>

@@ -32,7 +32,7 @@ $menuType = JFactory::getApplication()->getUserState('com_menus.items.menutype')
 	<div class="row-fluid">
 		<?php if ($published >= 0) : ?>
 			<div id="batch-choose-action" class="combo control-group">
-				<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
+				<label id="batch-choose-action-lbl" class="control-label" for="batch-menu-id">
 					<?php echo JText::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
 				</label>
 				<div class="controls">
@@ -42,7 +42,7 @@ $menuType = JFactory::getApplication()->getUserState('com_menus.items.menutype')
 						$opts = array(
 							'published' => $published,
 							'checkacl'  => (int) $this->state->get('menutypeid'),
-							'client_id' => (int) $this->state->get('filter.client_id'),
+							'clientid'  => (int) $this->state->get('filter.client_id'),
 						);
 						echo JHtml::_('select.options', JHtml::_('menu.menuitems', $opts));
 						?>

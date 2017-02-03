@@ -22,7 +22,7 @@ abstract class JHtmlMenu
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected static $menus = null;
+	protected static $menus = array();
 
 	/**
 	 * Cached array of the menus items.
@@ -30,52 +30,71 @@ abstract class JHtmlMenu
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected static $items = null;
+	protected static $items = array();
 
 	/**
 	 * Get a list of the available menus.
 	 *
-	 * @return  stdClass[]
+	 * @param   int  $clientId  The client id
+	 *
+	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function menus()
+	public static function menus($clientId = 0)
 	{
-		if (is_null(static::$menus))
+		$key = serialize($clientId);
+
+		if (!isset(static::$menus[$key]))
 		{
 			$db = JFactory::getDbo();
 
 			$query = $db->getQuery(true)
 				->select($db->qn(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
 				->from($db->quoteName('#__menu_types'))
-				->order('title');
+				->order('client_id, title');
 
-			static::$menus = $db->setQuery($query)->loadObjectList();
+			if (isset($clientId))
+			{
+				$query->where('client_id = ' . (int) $clientId);
+			}
+
+			static::$menus[$key] = $db->setQuery($query)->loadObjectList();
 		}
 
-		return static::$menus;
+		return static::$menus[$key];
 	}
 
 	/**
 	 * Returns an array of menu items grouped by menu.
 	 *
-	 * @param   array  $config  An array of configuration options.
+	 * @param   array  $config  An array of configuration options [published, checkacl, clientid].
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function menuitems($config = array())
+	public static function menuItems($config = array())
 	{
-		if (empty(static::$items))
+		$key = serialize($config);
+
+		if (empty(static::$items[$key]))
 		{
-			$menus = static::menus();
+			// B/C - not passed  = 0, null can be passed for both clients
+			$clientId = array_key_exists('clientid', $config) ? $config['clientid'] : 0;
+			$menus    = static::menus($clientId);
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('a.id AS value, a.title AS text, a.level, a.menutype')
+				->select('a.id AS value, a.title AS text, a.level, a.menutype, a.client_id')
 				->from('#__menu AS a')
 				->where('a.parent_id > 0');
+
+			// Filter on the client id
+			if (isset($clientId))
+			{
+				$query->where('a.client_id = ' . (int) $clientId);
+			}
 
 			// Filter on the published state
 			if (isset($config['published']))
@@ -90,14 +109,6 @@ abstract class JHtmlMenu
 				}
 			}
 
-			// Filter on the published state
-			if (!isset($config['client_id']))
-			{
-				// B/C, no client_id was being passed.
-				$config['client_id'] = 0;
-			}
-
-			$query->where('a.client_id = ' . (int) $config['client_id']);
 			$query->order('a.lft');
 
 			$db->setQuery($query);
@@ -118,7 +129,7 @@ abstract class JHtmlMenu
 				$item->text = str_repeat('- ', $item->level) . $item->text;
 			}
 
-			static::$items = array();
+			static::$items[$key] = array();
 
 			$user = JFactory::getUser();
 
@@ -126,11 +137,6 @@ abstract class JHtmlMenu
 
 			foreach ($menus as &$menu)
 			{
-				if ($menu->client_id != $config['client_id'])
-				{
-					continue;
-				}
-
 				if ($aclcheck)
 				{
 					$action = $aclcheck == $menu->id ? 'edit' : 'create';
@@ -142,26 +148,26 @@ abstract class JHtmlMenu
 				}
 
 				// Start group:
-				static::$items[] = JHtml::_('select.optgroup', $menu->text);
+				static::$items[$key][] = JHtml::_('select.optgroup', $menu->text);
 
 				// Special "Add to this Menu" option:
-				static::$items[] = JHtml::_('select.option', $menu->value . '.1', JText::_('JLIB_HTML_ADD_TO_THIS_MENU'));
+				static::$items[$key][] = JHtml::_('select.option', $menu->value . '.1', JText::_('JLIB_HTML_ADD_TO_THIS_MENU'));
 
 				// Menu items:
 				if (isset($lookup[$menu->value]))
 				{
 					foreach ($lookup[$menu->value] as &$item)
 					{
-						static::$items[] = JHtml::_('select.option', $menu->value . '.' . $item->value, $item->text);
+						static::$items[$key][] = JHtml::_('select.option', $menu->value . '.' . $item->value, $item->text);
 					}
 				}
 
 				// Finish group:
-				static::$items[] = JHtml::_('select.optgroup', $menu->text);
+				static::$items[$key][] = JHtml::_('select.optgroup', $menu->text);
 			}
 		}
 
-		return static::$items;
+		return static::$items[$key];
 	}
 
 	/**
@@ -170,17 +176,17 @@ abstract class JHtmlMenu
 	 * @param   string  $name      The name of the control.
 	 * @param   string  $selected  The value of the selected option.
 	 * @param   string  $attribs   Attributes for the control.
-	 * @param   array   $config    An array of options for the control.
+	 * @param   array   $config    An array of options for the control [id, published, checkacl, clientid].
 	 *
 	 * @return  string
 	 *
 	 * @since   1.6
 	 */
-	public static function menuitemlist($name, $selected = null, $attribs = null, $config = array())
+	public static function menuItemList($name, $selected = null, $attribs = null, $config = array())
 	{
 		static $count;
 
-		$options = static::menuitems($config);
+		$options = static::menuItems($config);
 
 		return JHtml::_(
 			'select.genericlist', $options, $name,
@@ -234,21 +240,28 @@ abstract class JHtmlMenu
 	 *
 	 * @param   boolean  $all         True if all can be selected
 	 * @param   boolean  $unassigned  True if unassigned can be selected
+	 * @param   int      $clientId    The client id
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
 	 */
-	public static function linkoptions($all = false, $unassigned = false)
+	public static function linkOptions($all = false, $unassigned = false, $clientId = 0)
 	{
 		$db = JFactory::getDbo();
 
 		// Get a list of the menu items
 		$query = $db->getQuery(true)
-			->select('m.id, m.parent_id, m.title, m.menutype')
+			->select('m.id, m.parent_id, m.title, m.menutype, m.client_id')
 			->from($db->quoteName('#__menu') . ' AS m')
 			->where($db->quoteName('m.published') . ' = 1')
-			->order('m.menutype, m.parent_id');
+			->order('m.client_id, m.menutype, m.parent_id');
+
+		if (isset($clientId))
+		{
+			$query->where('m.client_id = ' . (int) $clientId);
+		}
+
 		$db->setQuery($query);
 
 		$mitems = $db->loadObjectList();

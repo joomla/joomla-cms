@@ -122,6 +122,11 @@ $clientId = $this->state->get('item.client_id', 0);
 
 				echo $this->form->renderField('browserNav');
 				echo $this->form->renderField('template_style_id');
+
+				if (!$isModal && $this->item->type == 'container')
+				{
+					echo $this->loadTemplate('container');
+				}
 				?>
 			</div>
 			<div class="span3">
