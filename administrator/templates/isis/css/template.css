@@ -7230,6 +7230,30 @@ a:focus {
 .login .form-inline .btn-group {
 	display: block;
 }
+.com_cpanel .well {
+	padding: 8px 14px;
+	border: 1px solid rgba(0,0,0,0.05);
+}
+.com_cpanel .well .module-title.nav-header {
+	color: #555;
+}
+.com_cpanel .well > .row-striped,
+.com_cpanel .well > .list-striped {
+	margin: 0 -14px;
+}
+.com_cpanel .well > .row-striped > .row-fluid,
+.com_cpanel .well > .list-striped > .row-fluid {
+	padding: 8px 14px;
+}
+.com_cpanel .well > .row-striped > .row-fluid [class*="span"],
+.com_cpanel .well > .list-striped > .row-fluid [class*="span"] {
+	margin-left: 0;
+}
+.com_cpanel .well > .row-striped > li,
+.com_cpanel .well > .list-striped > li {
+	padding-left: 15px;
+	padding-right: 15px;
+}
 .small {
 	font-size: 11px;
 }
