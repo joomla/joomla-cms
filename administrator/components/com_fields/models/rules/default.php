@@ -8,6 +8,11 @@
  */
 defined('_JEXEC') or die;
 
+/**
+ * JFormRuleDefault for com_fields to make sure the default value is valid.
+ *
+ * @since  1.6
+ */
 class JFormRuleDefault extends JFormRule
 {
 	/**
@@ -24,13 +29,13 @@ class JFormRuleDefault extends JFormRule
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
-    {
+	{
 		// Skip validation if empty
-		if(empty($value))
+		if (empty($value))
 		{
 			return true;
 		}
-		
+
 		// Load the JFormRule object for the field.
 		$type = $form->getValue('type');
 		$rule = JFormHelper::loadRuleType($type);
@@ -72,5 +77,5 @@ class JFormRuleDefault extends JFormRule
 		}
 
 		return true;
-    }
+	}
 }
