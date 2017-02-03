@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldpath="/administrator/components/com_categories/models/fields" >
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields" addrulepath="/administrator/components/com_fields/models/rules">
 		<field
 			name="id"
 			type="text"
@@ -88,6 +88,7 @@
 			filter="raw"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
 			description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
+                        validate="default"
 		/>
 	
 		<field
