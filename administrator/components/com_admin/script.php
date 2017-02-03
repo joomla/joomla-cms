@@ -505,6 +505,7 @@ class JoomlaInstallerScript
 			array('plugin', 'user', 'fields', 0),
 			array('plugin', 'usergrouplist', 'fields', 0),
 			array('plugin', 'fields', 'content', 0),
+			array('plugin', 'fields', 'editors-xtd', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
