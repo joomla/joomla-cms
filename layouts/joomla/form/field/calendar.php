@@ -102,6 +102,7 @@ JHtml::_('script', $localesPath, false, true, false, false, true);
 JHtml::_('script', $helperPath, false, true, false, false, true);
 JHtml::_('script', 'system/fields/calendar-vanilla.min.js', false, true, false, false, true);
 JHtml::_('stylesheet', 'system/fields/calendar-vanilla' . $cssFileExt, array(), true);
+JText::script('JLIB_HTML_BEHAVIOR_TODAY', true);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>

@@ -1033,7 +1033,7 @@
 
 		// Fall back for translation strings
 		window.JoomlaCalLocale = window.JoomlaCalLocale ? JoomlaCalLocale : {};
-		JoomlaCalLocale.today = JoomlaCalLocale.today ? JoomlaCalLocale.today : 'today';
+		JoomlaCalLocale.today = Joomla.JText._('JLIB_HTML_BEHAVIOR_TODAY', true) ? Joomla.JText._('JLIB_HTML_BEHAVIOR_TODAY', true) : 'today';
 		JoomlaCalLocale.weekend = JoomlaCalLocale.weekend ? JoomlaCalLocale.weekend : [0,6];
 		JoomlaCalLocale.localLangNumbers = JoomlaCalLocale.localLangNumbers ? JoomlaCalLocale.localLangNumbers : [0,1,2,3,4,5,6,7,8,9];
 		JoomlaCalLocale.wk = JoomlaCalLocale.wk ? JoomlaCalLocale.wk : 'wk';

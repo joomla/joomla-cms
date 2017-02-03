@@ -1,5 +1,4 @@
 window.JoomlaCalLocale = {
-	today : "Today",
 	weekend : [0, 6],
 	wk : "wk",
 	time : "Time:",
