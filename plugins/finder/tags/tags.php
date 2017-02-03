@@ -313,7 +313,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 
 		// Join the #__users table
 		$query->select('u.name AS author')
-			->join('LEFT', '#__users AS u ON u.id = b.created_user_id');
+			->join('LEFT', '#__users AS u ON u.id = a.created_user_id');
 
 		// Exclude the ROOT item
 		$query->where($db->quoteName('a.id') . ' > 1');
