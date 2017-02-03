@@ -1026,28 +1026,21 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function limit($query, $limit, $offset)
 	{
-		if ($limit == 0 && $offset == 0)
+		if ($limit)
+		{
+			$total = $offset + $limit;
+			$query = substr_replace($query, 'SELECT TOP ' . (int) $total, stripos($query, 'SELECT'), 6);
+		}
+
+		if (!$offset)
 		{
 			return $query;
 		}
 
-		$start = $offset + 1;
-		$end   = $offset + $limit;
-
-		$orderBy = stristr($query, 'ORDER BY');
-
-		if (is_null($orderBy) || empty($orderBy))
-		{
-			$orderBy = 'ORDER BY (select 0)';
-		}
-
-		$query = str_ireplace($orderBy, '', $query);
-
-		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
-
-		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
-
-		return $query;
+		return PHP_EOL
+			. 'SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY (SELECT 0)) AS RowNumber FROM ('
+			. $query
+			. PHP_EOL . ') AS A) AS A WHERE RowNumber > ' . (int) $offset;
 	}
 
 	/**

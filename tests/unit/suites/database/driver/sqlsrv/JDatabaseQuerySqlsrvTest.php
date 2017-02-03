@@ -151,6 +151,44 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	}
 
 	/**
+	 * Test for the JDatabaseQuerySqlsrv::__processLimit method.
+	 *
+	 * @return  JDatabaseQuerySqlsrv
+	 *
+	 * @since   3.7.0
+	 */
+	public function test__processLimit()
+	{
+		$this->_instance
+			->select('id, COUNT(*) AS count')
+			->from('a')
+			->where('id = 1');
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT id,COUNT(*) AS count' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE id = 1',
+			$this->_instance->processLimit((string) $this->_instance, 0)
+		);
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT TOP 30 id,COUNT(*) AS count' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE id = 1',
+			$this->_instance->processLimit((string) $this->_instance, 30)
+		);
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY (SELECT 0)) AS RowNumber FROM (' .
+			PHP_EOL . 'SELECT TOP 4 id,COUNT(*) AS count' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE id = 1' .
+			PHP_EOL . ') AS A) AS A WHERE RowNumber > 3',
+			$this->_instance->processLimit((string) $this->_instance, 1, 3)
+		);
+	}
+
+	/**
 	 * Test for the JDatabaseQuery::__string method for a 'update' case.
 	 *
 	 * @return  void
