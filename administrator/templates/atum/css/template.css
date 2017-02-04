@@ -3428,9 +3428,9 @@ a.badge:focus, a.badge:hover {
   border-radius: 10rem; }
 
 .badge-default {
-  background-color: #636c72; }
+  background-color: #5e7082; }
   .badge-default[href]:focus, .badge-default[href]:hover {
-    background-color: #4b5257; }
+    background-color: #495764; }
 
 .badge-primary {
   background-color: #007eb7; }
@@ -8951,6 +8951,7 @@ legend {
     .header .page-title [class^="icon-"] {
       margin-right: 15px; }
   .header .navbar-brand {
+    position: relative;
     display: inline-block;
     float: none;
     padding: 0;
@@ -9011,10 +9012,8 @@ legend {
     border-radius: 0.25rem 0.25rem 0 0; }
 
 .container-title {
-  position: relative;
   padding-top: 13px;
   padding-bottom: 13px;
-  overflow: hidden;
   color: #fff;
   background-color: #1c3d5c; }
   .container-title .row {
@@ -9028,6 +9027,7 @@ legend {
       position: relative;
       top: 2px;
       margin-right: 12px;
+      margin-left: 5px;
       font-size: 1.857rem;
       color: #285783; }
 
@@ -9131,14 +9131,12 @@ iframe {
   padding: 15px; }
 
 .quick-icons {
-  margin-bottom: -15px; }
+  margin-bottom: -14px; }
   .quick-icons *, .quick-icons *::before, .quick-icons *::after {
     transition: all .25s ease; }
   .quick-icons a {
     position: relative;
-    display: block;
     height: 4.7rem;
-    padding: 0 5px;
     margin-bottom: 15px;
     overflow: hidden;
     color: #fefefe;
@@ -9152,16 +9150,19 @@ iframe {
     .quick-icons a > * {
       vertical-align: middle; }
     .quick-icons a span {
-      position: relative;
-      display: inline;
-      font-size: 1rem;
-      font-weight: bold;
-      line-height: 1.2rem; }
+      z-index: 1;
+      padding-left: .9rem;
+      font-size: 1.2rem;
+      line-height: 4.7rem; }
       .quick-icons a span[class*=" icon-"], .quick-icons a span[class^="icon-"] {
-        width: 2.5rem;
-        margin-right: .1rem;
+        width: 5rem;
+        height: 4.7rem;
+        padding-left: 2px;
         font-size: 2.5rem;
-        font-weight: normal; }
+        font-weight: normal;
+        line-height: 4.7rem;
+        background-color: #285783;
+        border-right: 1px solid rgba(255, 255, 255, 0.15); }
     .quick-icons a::before {
       position: absolute;
       top: -100px;
@@ -9171,29 +9172,14 @@ iframe {
       color: #224a70;
       content: "\f1aa";
       transform: rotate(20deg); }
-    .quick-icons a::after {
-      position: absolute;
-      right: 100%;
-      bottom: 0;
-      left: 0;
-      height: 8px;
-      content: "";
-      background: #3d3e54;
-      transition-duration: .7s; }
-  .quick-icons .danger a {
-    background: #d9534f; }
-    .quick-icons .danger a::after {
-      right: 0;
-      background: #d9534f; }
-    .quick-icons .danger a::before {
-      color: #df706c; }
-  .quick-icons .success a {
-    background: #48b848; }
-    .quick-icons .success a::after {
-      right: 0;
-      background: #48b848; }
-    .quick-icons .success a::before {
-      color: #62c262; }
+  .quick-icons .danger a::after {
+    right: 0; }
+  .quick-icons .danger a span[class*=" icon-"], .quick-icons .danger a span[class^="icon-"] {
+    background-color: #df706c; }
+  .quick-icons .success a::after {
+    right: 0; }
+  .quick-icons .success a span[class*=" icon-"], .quick-icons .success a span[class^="icon-"] {
+    background-color: #48b848; }
   .quick-icons [id*="plg_quickicon"] a,
   .quick-icons [id*="plg_quickicon"] a::before {
     transition-delay: .4s; }
@@ -9560,7 +9546,8 @@ iframe {
       line-height: 1.8rem;
       color: #292b2c;
       background-color: #fefefe;
-      border-color: #ccc; }
+      border-color: #ccc;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); }
       .subhead .btn-toolbar .btn-sm [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn [class^="icon-"], .subhead .btn-toolbar .btn-sm [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn [class*=" icon-"] {
         z-index: -1;
         display: inline-block;
@@ -9925,6 +9912,7 @@ iframe {
   margin: 1rem; }
 
 .table thead th {
+  white-space: nowrap;
   border-bottom-width: 1px; }
 
 .table th,
@@ -10042,7 +10030,7 @@ iframe {
     margin-bottom: -1.25rem;
     margin-left: -1.25rem; }
     .com_cpanel .card .list-group > li {
-      padding: 0.7rem 1.25rem;
+      padding: 0.6rem 1.25rem;
       overflow: hidden; }
     .com_cpanel .card .list-group > .published {
       padding-left: .9rem;
@@ -10063,14 +10051,12 @@ iframe {
 
 .com_cpanel .card-title {
   position: relative;
-  padding: 1.1em 1.25rem 0.75rem;
+  padding: 0.9em 1.25rem 0.75rem;
   margin-top: -1.25rem;
   margin-right: -1.25rem;
   margin-bottom: 0;
   margin-left: -1.25rem;
-  font-size: .85em;
   color: #1c3d5c;
-  letter-spacing: 2px;
   background-color: #f5f5f5;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem 0.25rem 0 0;

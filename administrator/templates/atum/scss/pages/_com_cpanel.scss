@@ -16,7 +16,7 @@
       margin-left: - $card-spacer-x;
 
       > li {
-        padding: .7rem $card-spacer-x;
+        padding: .6rem $card-spacer-x;
         overflow: hidden;
       }
 
@@ -51,14 +51,12 @@
 
   .card-title {
     position: relative;
-    padding: 1.1em $card-spacer-x $card-spacer-y;
+    padding: .9em $card-spacer-x $card-spacer-y;
     margin-top: - $card-spacer-x;
     margin-right: - $card-spacer-x;
     margin-bottom: 0;
     margin-left: - $card-spacer-x;
-    font-size: .85em;
     color: $atum-template-color-light;
-    letter-spacing: 2px;
     background-color: $atum-card-title-bg;
     border-bottom: 1px solid rgba(0,0,0,.125);
     border-radius: $border-radius $border-radius 0 0;

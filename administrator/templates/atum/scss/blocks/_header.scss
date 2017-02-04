@@ -36,13 +36,13 @@
   }
 
   .navbar-brand {
+    position: relative;
     display: inline-block;
     float: none;
     padding: 0;
     font-size: 1.3rem;
     line-height: $header-height;
     color: $white-offset;
-
     &:hover,
     &:focus {
       color: darken($white-offset, 6%);
@@ -131,10 +131,8 @@
 }
 
 .container-title {
-  position: relative;
   padding-top: 13px;
   padding-bottom: 13px;
-  overflow: hidden;
   color: $white;
   background-color: $atum-template-color-light;
   .row {
@@ -150,6 +148,7 @@
       position: relative;
       top: 2px;
       margin-right: 12px;
+      margin-left: 5px;
       font-size: $font-size-h1;
       color: lighten($atum-template-color-light, 10%);
     }

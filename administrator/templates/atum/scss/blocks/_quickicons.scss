@@ -1,7 +1,7 @@
 // Quick Icons
 
 .quick-icons {
-  margin-bottom: -15px;
+  margin-bottom: -14px;
 
   *, *::before, *::after {
     transition: all .25s ease;
@@ -9,16 +9,13 @@
 
   a {
     position: relative;
-    display: block;
     height: 4.7rem;
-    padding: 0 5px;
     margin-bottom: 15px;
     overflow: hidden;
     color: $white-offset;
     text-align: left;
     background-color: $atum-template-color-light;
     border-radius: $border-radius;
-
     &:hover,
     &:focus {
       text-decoration: none;
@@ -33,18 +30,21 @@
     }
 
     span {
-      position: relative;
-      display: inline;
-      font-size: 1rem;
-      font-weight: bold;
-      line-height: 1.2rem;
+      z-index: 1;
+      padding-left: .9rem;
+      font-size: 1.2rem;
+      line-height: 4.7rem;
 
       &[class*=" icon-"],
-	  &[class^="icon-"] {
-        width: 2.5rem;
-        margin-right: .1rem;
+	    &[class^="icon-"] {
+        width: 5rem;
+        height: 4.7rem;
+        padding-left: 2px;
         font-size: 2.5rem;
         font-weight: normal;
+        line-height: 4.7rem;
+        background-color: lighten($atum-template-color-light, 10%);
+        border-right: 1px solid rgba(255, 255, 255, .15);
       }
     }
 
@@ -58,42 +58,33 @@
       content: "\f1aa";
       transform: rotate(20deg);
     }
-
-    &::after {
-      position: absolute;
-      right: 100%;
-      bottom: 0;
-      left: 0;
-      height: 8px;
-      content: "";
-      background: #3d3e54;
-      transition-duration: .7s;
-    }
   }
 
   .danger a {
-    background: $brand-danger;
 
     &::after {
       right: 0;
-      background: $brand-danger;
     }
 
-    &::before {
-      color: lighten($brand-danger, 7%);
+    span {
+      &[class*=" icon-"],
+      &[class^="icon-"] {
+        background-color: lighten($brand-danger, 7%);
+      }
     }
   }
 
   .success a {
-    background: $brand-success;
 
     &::after {
       right: 0;
-      background: $brand-success;
     }
 
-    &::before {
-      color: lighten($brand-success, 7%);
+    span {
+      &[class*=" icon-"],
+      &[class^="icon-"] {
+        background-color: $brand-success;
+      }
     }
   }
 
