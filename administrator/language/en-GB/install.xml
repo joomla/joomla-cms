@@ -3,7 +3,7 @@
 	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
 	<version>3.7.0</version>
-	<creationDate>January 2017</creationDate>
+	<creationDate>February 2017</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -123,6 +123,8 @@
 		<filename>en-GB.plg_content_contact.sys.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.sys.ini</filename>
+		<filename>en-GB.plg_content_fields.ini</filename>
+		<filename>en-GB.plg_content_fields.sys.ini</filename>
 		<filename>en-GB.plg_content_finder.ini</filename>
 		<filename>en-GB.plg_content_finder.sys.ini</filename>
 		<filename>en-GB.plg_content_joomla.ini</filename>

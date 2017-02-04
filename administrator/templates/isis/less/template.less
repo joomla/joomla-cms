@@ -59,9 +59,9 @@
 // Phones to portrait tablets and narrow desktops
 @import "../../../../media/jui/less/responsive-767px-max.less";
 // Tablets to regular desktops
-@import "../../../../media/jui/less/responsive-768px-979px.less";
+@import "bootstrap/responsive-768px-979px.less";
 // Large desktops
-@import "../../../../media/jui/less/responsive-1200px-min.less";
+@import "bootstrap/responsive-1200px-min.less";
 // RESPONSIVE NAVBAR
 // ------------------
 // From 979px and below, show a button to toggle navbar contents
@@ -165,6 +165,30 @@ a:focus {
 	}
 	.form-inline .btn-group {
 		display:block;
+	}
+}
+
+/* com_cpanel */
+.com_cpanel {
+	.well {
+		padding: 8px 14px;
+		border: 1px solid rgba(0,0,0,0.05);
+		.module-title.nav-header {
+			color: #555;
+		}
+		> .row-striped, > .list-striped {
+			margin: 0 -14px;
+			> .row-fluid {
+				padding: 8px 14px;
+				[class*="span"] {
+					margin-left: 0;
+				}
+			}
+			> li {
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+		}
 	}
 }
 
@@ -424,7 +448,7 @@ body .navbar-fixed-top {
 	margin-bottom: 5px;
 	.btn-wrapper {
 		display: inline-block;
-		margin: 0 0 5px 5px;
+		margin: 0 0 8px 5px;
 	}
 }
 
@@ -456,7 +480,7 @@ body .navbar-fixed-top {
 
 /* Toolbar */
 #toolbar {
-	margin-bottom: 6px;
+	margin-bottom: 2px;
     margin-top: 12px;
 	.btn {
 	    line-height: 24px;
@@ -1206,7 +1230,7 @@ th .tooltip-inner {
 	max-width: 220px;
 	> .btn {
 		width: 50%;
-		min-width: 20px;
+		min-width: 40px;
 		padding: 2px 0;
 	}
 }

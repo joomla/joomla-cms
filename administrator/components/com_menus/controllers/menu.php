@@ -52,8 +52,8 @@ class MenusControllerMenu extends JControllerForm
 		$task     = $this->getTask();
 		$recordId = $this->input->getInt('id');
 
-		// Prevent using 'menu' or 'main' as menutype as this is reserved for backend menus
-		if (strtolower($data['menutype']) == 'menu' || strtolower($data['menutype']) == 'main')
+		// Prevent using 'main' as menutype as this is reserved for backend menus
+		if (strtolower($data['menutype']) == 'main')
 		{
 			$msg = JText::_('COM_MENUS_ERROR_MENUTYPE');
 			JFactory::getApplication()->enqueueMessage($msg, 'error');
