@@ -275,7 +275,17 @@ class JFormFieldSQL extends JFormFieldList
 
 		// Set the query and get the result list.
 		$db->setQuery($this->query);
-		$items = $db->loadObjectlist();
+
+		$items = array();
+
+		try
+		{
+			$items = $db->loadObjectlist();
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		// Add header.
 		if (!empty($header))
