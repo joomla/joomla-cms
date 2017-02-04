@@ -44,7 +44,7 @@ abstract class JInstallerHelper
 		ini_set('user_agent', $agent);
 
 		// Create option with userAgent to supply to transport
-		$httpTransportOpts = new Registry(array('userAgent'=>$agent));
+		$httpTransportOpts = new Registry(array('userAgent' => $agent));
 
 		// Load installer plugins, and allow url and headers modification
 		$headers = array();
