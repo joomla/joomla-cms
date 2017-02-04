@@ -80,24 +80,23 @@ class PlgContentFields extends JPlugin
 			foreach ($matches as $i => $match)
 			{
 				// $match[0] is the full pattern match, $match[1] is the type (field or fieldgroup) and $match[2] the ID
-				$id = (int) $match[2];
+				$id     = (int) $match[2];
+				$output = '';
 
 				if ($match[1] == 'field' && $id)
 				{
-					if (!isset($fieldsById[$id]))
+					if (isset($fieldsById[$id]))
 					{
-						continue;
+						$output = FieldsHelper::render(
+							$context,
+							'field.render',
+							array(
+								'item'    => $item,
+								'context' => $context,
+								'field'   => $fieldsById[$id]
+							)
+						);
 					}
-
-					$output = FieldsHelper::render(
-						$context,
-						'field.render',
-						array(
-							'item'    => $item,
-							'context' => $context,
-							'field'   => $fieldsById[$id]
-						)
-					);
 				}
 				else
 				{
@@ -108,25 +107,21 @@ class PlgContentFields extends JPlugin
 					}
 					else
 					{
-						if (!isset($groups[$id]))
-						{
-							continue;
-						}
-						else
-						{
-							$renderFields = $groups[$id];
-						}
+						$renderFields = isset($groups[$id]) ? $groups[$id] : '';
 					}
 
-					$output = FieldsHelper::render(
-						$context,
-						'fields.render',
-						array(
-							'item'    => $item,
-							'context' => $context,
-							'fields'  => $renderFields
-						)
-					);
+					if ($renderFields)
+					{
+						$output = FieldsHelper::render(
+							$context,
+							'fields.render',
+							array(
+								'item'    => $item,
+								'context' => $context,
+								'fields'  => $renderFields
+							)
+						);
+					}
 				}
 
 				$item->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $item->text, 1);
