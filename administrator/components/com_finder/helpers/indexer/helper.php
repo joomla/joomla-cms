@@ -99,7 +99,7 @@ class FinderIndexerHelper
 		$input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
 		$input = preg_replace('#\s+#mui', ' ', $input);
-		$input = StringHelper::trim($input);
+		$input = trim($input);
 
 		// Explode the normalized string to get the terms.
 		$terms = explode(' ', $input);
@@ -216,7 +216,7 @@ class FinderIndexerHelper
 	public static function stem($token, $lang)
 	{
 		// Trim apostrophes at either end of the token.
-		$token = StringHelper::trim($token, '\'');
+		$token = trim($token, '\'');
 
 		// Trim everything after any apostrophe in the token.
 		if (($pos = StringHelper::strpos($token, '\'')) !== false)
