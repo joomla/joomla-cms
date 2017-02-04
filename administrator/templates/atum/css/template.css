@@ -9419,6 +9419,20 @@ iframe {
   cursor: not-allowed;
   background: none; }
 
+.sidebar-nav ul {
+  padding-left: .5rem; }
+
+.sidebar-nav li {
+  padding-bottom: 3px;
+  font-size: .9rem;
+  font-weight: bold; }
+  .sidebar-nav li.nav-header {
+    padding-top: .5rem;
+    font-size: .85rem;
+    color: #292b2c; }
+  .sidebar-nav li a {
+    color: #00496b; }
+
 .status {
   z-index: 9;
   padding: 5px 10px;
@@ -9997,20 +10011,6 @@ iframe {
 
 .editor .mce-btn, .editor .mce-panel {
   background: #f8f8f8; }
-
-.com_config .sidebar-nav ul {
-  padding-left: .5rem; }
-
-.com_config .sidebar-nav li {
-  padding-bottom: 3px;
-  font-size: .9rem;
-  font-weight: bold; }
-  .com_config .sidebar-nav li.nav-header {
-    padding-top: .5rem;
-    font-size: .85rem;
-    color: #292b2c; }
-  .com_config .sidebar-nav li a {
-    color: #00496b; }
 
 .com_config .content {
   background-color: transparent; }
