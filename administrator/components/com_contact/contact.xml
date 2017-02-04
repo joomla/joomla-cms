@@ -63,5 +63,9 @@
 			<language tag="en-GB">language/en-GB.com_contact.sys.ini</language>
 		</languages>
 	</administration>
+	<features>
+		<feature type="com_categories"/>
+		<feature type="com_fields" name="com_contact.contact" label="COM_CONTACT"/>
+	</features>
 </extension>
 

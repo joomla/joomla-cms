@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_CATEGORIES_CATEGORIES_VIEW_DEFAULT_TITLE">
+	<layout title="COM_FIELDS_FIELDS_VIEW_DEFAULT_TITLE">
 		<message>
-			<![CDATA[COM_CATEGORIES_CATEGORIES_VIEW_DEFAULT_DESC]]>
+			<![CDATA[COM_FIELDS_FIELDS_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 	<fieldset name="request">
 		<fields name="request">
 			<field
-				name="extension"
+				name="context"
 				type="FeatureComponent"
-				label="COM_CATEGORIES_CHOOSE_COMPONENT_LABEL"
-				description="COM_CATEGORIES_CHOOSE_COMPONENT_DESC"
+				label="COM_FIELDS_CHOOSE_COMPONENT_LABEL"
+				description="COM_FIELDS_CHOOSE_COMPONENT_DESC"
 				required="true"
-			    feature="com_categories"
+				feature="com_fields"
 			>
 				<option value="">COM_MENUS_OPTION_SELECT_COMPONENT</option>
 			</field>

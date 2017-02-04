@@ -37,4 +37,8 @@
 			<language tag="en-GB">language/en-GB.com_users.sys.ini</language>
 		</languages>
 	</administration>
+	<features>
+		<feature type="com_categories"/>
+		<feature type="com_fields" name="com_users.user" label="COM_USERS"/>
+	</features>
 </extension>

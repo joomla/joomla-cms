@@ -37,6 +37,10 @@
 			<language tag="en-GB">language/en-GB.com_content.sys.ini</language>
 		</languages>
 	</administration>
+	<features>
+		<feature type="com_categories"/>
+		<feature type="com_fields" name="com_content.content" label="COM_CONTENT"/>
+	</features>
 </extension>
 
 

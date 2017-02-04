@@ -84,4 +84,7 @@
 			<language tag="en-GB">language/en-GB.com_banners.sys.ini</language>
 		</languages>
 	</administration>
+	<features>
+		<feature type="com_categories"/>
+	</features>
 </extension>
