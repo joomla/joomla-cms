@@ -277,6 +277,7 @@ class JFormFieldSQL extends JFormFieldList
 		$db->setQuery($this->query);
 
 		$items = array();
+
 		try
 		{
 			$items = $db->loadObjectlist();
