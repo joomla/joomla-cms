@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * JFormRuleDefault for com_fields to make sure the default value is valid.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class JFormRuleDefault extends JFormRule
 {
@@ -27,6 +27,8 @@ class JFormRuleDefault extends JFormRule
 	 * @param   JForm             $form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
