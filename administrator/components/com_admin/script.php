@@ -1847,7 +1847,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/layouts/joomla/searchtools',
 			'/administrator/components/com_templates/layouts/joomla',
 			'/administrator/components/com_templates/layouts',
-			// Joomla! 3.7.0
 			'/administrator/templates/hathor/html/mod_menu',
 		);
 
