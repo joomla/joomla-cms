@@ -489,7 +489,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  boolean  True if item is checked out.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function isCheckoutItem($extensionName, $typeName, $itemId)
 	{
@@ -527,7 +527,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  boolean  True on allowed.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function canCheckinItem($extensionName, $typeName, $itemId)
 	{

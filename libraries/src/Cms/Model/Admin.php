@@ -1155,7 +1155,7 @@ abstract class Admin extends Form
 			}
 
 			// Trigger the before save event.
-			$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew));
+			$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
 
 			if (in_array(false, $result, true))
 			{
@@ -1176,7 +1176,7 @@ abstract class Admin extends Form
 			$this->cleanCache();
 
 			// Trigger the after save event.
-			\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew));
+			\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
 		}
 		catch (\Exception $e)
 		{

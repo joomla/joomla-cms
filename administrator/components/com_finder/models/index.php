@@ -214,7 +214,7 @@ class FinderModelIndex extends JModelList
 			// Filter by indexdate only if $search doesn't contains non-ascii characters
 			if (!preg_match('/[^\x00-\x7F]/', $search))
 			{
-				$orSearchSql .= ' OR ' . $db->quoteName('l.indexdate') . ' LIKE  ' . $search;
+				$orSearchSql .= ' OR ' . $query->castAsChar($db->quoteName('l.indexdate')) . ' LIKE ' . $search;
 			}
 
 			$query->where('(' . $orSearchSql . ')');
