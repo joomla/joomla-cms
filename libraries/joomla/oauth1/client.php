@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for interacting with an OAuth 1.0 and 1.0a server.
  *
- * @since  13.1
+ * @since       13.1
+ * @deprecated  4.0  Use the `joomla/oauth1` package via Composer instead
  */
 abstract class JOAuth1Client
 {
