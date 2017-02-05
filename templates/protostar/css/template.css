@@ -178,6 +178,9 @@ textarea {
 .rtl .modal-footer button {
 	float: left;
 }
+.rtl .finder-selects {
+	margin: 0 0 15px 15px;
+}
 .clearfix {
 	*zoom: 1;
 }
@@ -7699,4 +7702,7 @@ ul.manager .height-50 .icon-folder-2 {
 }
 .popover-content {
 	min-height: 33px;
+}
+.finder-selects {
+	margin: 0 15px 15px 0;
 }
