@@ -9,10 +9,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Event\AbstractEvent;
+use Joomla\Event\Dispatcher;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\AbstractEvent;
+use Joomla\Event\Priority;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -180,12 +183,41 @@ abstract class JPlugin implements DispatcherAwareInterface
 	 * arguments and call your on<Something> method. The result will be passed back to the Event into its 'result'
 	 * argument.
 	 *
+	 * This method additionally supports Joomla\Event\SubscriberInterface and plugins implementing this will be
+	 * registered to the dispatcher as a subscriber.
+	 *
 	 * @return  void
 	 *
 	 * @since   4.0
 	 */
 	protected function registerListeners()
 	{
+		// Plugins which are SubscriberInterface implementations are handled without legacy layer support
+		if ($this instanceof SubscriberInterface)
+		{
+			// The addSubscriber method isn't part of the DispatcherInterface, emulate it if need be
+			if ($this->getDispatcher() instanceof Dispatcher)
+			{
+				$this->getDispatcher()->addSubscriber($this);
+			}
+			else
+			{
+				foreach ($this->getSubscribedEvents() as $eventName => $params)
+				{
+					if (is_array($params))
+					{
+						$this->getDispatcher()->addListener($eventName, [$this, $params[0]], isset($params[1]) ? $params[1] : Priority::NORMAL);
+					}
+					else
+					{
+						$this->getDispatcher()->addListener($eventName, [$this, $params]);
+					}
+				}
+			}
+
+			return;
+		}
+
 		$reflectedObject = new ReflectionObject($this);
 		$methods = $reflectedObject->getMethods(ReflectionMethod::IS_PUBLIC);
 
