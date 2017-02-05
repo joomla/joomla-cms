@@ -85,11 +85,11 @@ class JUcmType implements JUcm
 	 */
 	public function __construct($alias = null, JDatabaseDriver $database = null, JApplicationBase $application = null)
 	{
-		$this->db = $database ? $database : JFactory::getDbo();
-		$app      = $application ? $application : JFactory::getApplication();
+		$this->db = $database ?: JFactory::getDbo();
+		$app      = $application ?: JFactory::getApplication();
 
 		// Make the best guess we can in the absence of information.
-		$this->alias = $alias ? $alias : $app->input->get('option') . '.' . $app->input->get('view');
+		$this->alias = $alias ?: $app->input->get('option') . '.' . $app->input->get('view');
 		$this->type  = $this->getType();
 	}
 
