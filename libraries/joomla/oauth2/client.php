@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
  * Joomla Platform class for interacting with an OAuth 2.0 server.
  *
  * @since       12.3
- * @deprecated  4.0  Use the `joomla/oauth2` package via Composer instead
+ * @deprecated  4.0  Use the `joomla/oauth2` framework package that will be bundled instead
  */
 class JOAuth2Client
 {
