@@ -184,8 +184,51 @@ abstract class TestCaseCache extends TestCase
 	 */
 	public function testIsSupported()
 	{
-		$handler = $this->handler;
+		$class = get_class($this->handler);
+		$this->assertTrue($class::isSupported(), 'Claims the cache handler is not supported.');
+	}
 
-		$this->assertTrue($handler::isSupported(), 'Claims the cache handler is not supported.');
+	/**
+	 * @testdox  Check if lock cache data work properly
+	 */
+	public function testCacheLock()
+	{
+		$returning             = new stdClass;
+		$returning->locklooped = false;
+		$returning->locked     = true;
+
+		$expected = $this->logicalOr($this->equalTo($returning), $this->isFalse());
+		$result   = $this->handler->lock($this->id, $this->group, 3);
+
+		$this->assertThat($result, $expected, 'Initial Lock Failed');
+
+		if ($result === false)
+		{
+			$returning = false;
+		}
+		else
+		{
+			$returning->locklooped = true;
+			$returning->locked     = false;
+
+			$this->assertEquals($returning, $this->handler->lock($this->id, $this->group, 3), 'Re-attempt Lock Failed');
+		}
+
+		if ($result === false)
+		{
+			$this->assertFalse($this->handler->unlock($this->id, $this->group), 'False Unlock Failed');
+		}
+		else
+		{
+			$this->assertTrue($this->handler->unlock($this->id, $this->group), 'Non False Unlock Failed');
+		}
+
+		if ($result !== false)
+		{
+			$returning->locklooped = false;
+			$returning->locked     = true;
+		}
+
+		$this->assertEquals($returning, $this->handler->lock($this->id, $this->group, 3), 'Second Lock Failed');
 	}
 }

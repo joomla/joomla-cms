@@ -202,9 +202,8 @@ class JMenu
 		if (isset($this->_items[$id]))
 		{
 			$this->_active = $id;
-			$result = &$this->_items[$id];
 
-			return $result;
+			return $this->_items[$id];
 		}
 
 		return;
@@ -221,9 +220,7 @@ class JMenu
 	{
 		if ($this->_active)
 		{
-			$item = &$this->_items[$this->_active];
-
-			return $item;
+			return $this->_items[$this->_active];
 		}
 
 		return;

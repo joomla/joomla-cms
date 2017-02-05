@@ -52,8 +52,8 @@ class JRouterSite extends JRouter
 	 */
 	public function __construct(JApplicationCms $app = null, JMenu $menu = null)
 	{
-		$this->app  = $app ? $app : JApplicationCms::getInstance('site');
-		$this->menu = $menu ? $menu : $this->app->getMenu();
+		$this->app  = $app ?: JApplicationCms::getInstance('site');
+		$this->menu = $menu ?: $this->app->getMenu();
 
 		// Add core rules
 		if ($this->app->get('force_ssl') == 2)
@@ -131,7 +131,7 @@ class JRouterSite extends JRouter
 		if (preg_match("#.*?\.php#u", $path, $matches))
 		{
 			// Get the current entry point path relative to the site path.
-			$scriptPath         = realpath($_SERVER['SCRIPT_FILENAME'] ? $_SERVER['SCRIPT_FILENAME'] : str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
+			$scriptPath         = realpath($_SERVER['SCRIPT_FILENAME'] ?: str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
 			$relativeScriptPath = str_replace('\\', '/', str_replace(JPATH_SITE, '', $scriptPath));
 
 			// If a php file has been found in the request path, check to see if it is a valid file.

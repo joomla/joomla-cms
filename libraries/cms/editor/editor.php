@@ -202,7 +202,7 @@ class JEditor implements DispatcherAwareInterface
 		$args['col'] = $col;
 		$args['row'] = $row;
 		$args['buttons'] = $buttons;
-		$args['id'] = $id ? $id : $name;
+		$args['id'] = $id ?: $name;
 
 		$editorId = (object) array('id' => $args['id']);
 

@@ -90,7 +90,11 @@ class FieldsViewFields extends JViewLegacy
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
 		}
 
-		$this->addToolbar();
+		// Only add toolbar when not in modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+		}
 
 		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
 		$this->sidebar = JHtmlSidebar::render();

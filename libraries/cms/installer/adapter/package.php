@@ -714,11 +714,10 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		$db->setQuery($query);
-		$result = $db->loadResult();
 
 		// Note: For templates, libraries and packages their unique name is their key.
 		// This means they come out the same way they came in.
-		return $result;
+		return $db->loadResult();
 	}
 
 	/**

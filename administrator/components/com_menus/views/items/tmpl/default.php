@@ -63,22 +63,26 @@ if ($menuType == '')
 						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
-						<?php if ($this->state->get('filter.client_id') == 0): ?>
+						<?php if ($this->state->get('filter.client_id') == 0) : ?>
 						<th width="10%" class="text-center nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
 						<?php endif; ?>
+						<?php if ($this->state->get('filter.client_id') == 0) : ?>
 						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
+						<?php endif; ?>
 						<?php if ($assoc) : ?>
 							<th width="10%" class="nowrap hidden-sm-down text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif; ?>
+						<?php if ($this->state->get('filter.client_id') == 0) : ?>
 						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
+						<?php endif; ?>
 						<th width="5%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -218,9 +222,11 @@ if ($menuType == '')
 							<?php endif; ?>
 						</td>
 						<?php endif; ?>
+						<?php if ($this->state->get('filter.client_id') == 0) : ?>
 						<td class="small hidden-sm-down text-center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
+						<?php endif; ?>
 						<?php if ($assoc) : ?>
 							<td class="small hidden-sm-down text-center">
 								<?php if ($item->association) : ?>
@@ -228,9 +234,11 @@ if ($menuType == '')
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
+						<?php if ($this->state->get('filter.client_id') == 0) : ?>
 						<td class="small hidden-sm-down text-center">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
+						<?php endif; ?>
 						<td class="hidden-sm-down text-center">
 							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 								<?php echo (int) $item->id; ?>

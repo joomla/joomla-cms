@@ -69,9 +69,7 @@ class JLibraryHelper
 	 */
 	public static function isEnabled($element)
 	{
-		$result = static::getLibrary($element, true);
-
-		return $result->enabled;
+		return static::getLibrary($element, true)->enabled;
 	}
 
 	/**
@@ -87,9 +85,7 @@ class JLibraryHelper
 	 */
 	public static function getParams($element, $strict = false)
 	{
-		$library = static::getLibrary($element, $strict);
-
-		return $library->params;
+		return static::getLibrary($element, $strict)->params;
 	}
 
 	/**
