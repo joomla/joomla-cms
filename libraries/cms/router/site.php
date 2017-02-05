@@ -65,7 +65,7 @@ class JRouterSite extends JRouter
 		$this->attachBuildRule(array($this, 'buildInit'), self::PROCESS_BEFORE);
 		$this->attachBuildRule(array($this, 'buildComponentPreprocess'), self::PROCESS_BEFORE);
 
-		if ($this->app->get('sef'))
+		if ($this->app->get('sef', 1))
 		{
 			if ($this->app->get('sef_suffix'))
 			{
