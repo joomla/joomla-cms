@@ -158,7 +158,7 @@ abstract class JDatabaseQuery
 
 	/**
 	 * @var    array  Details of window function.
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $selectRowNumber = null;
 
@@ -1837,7 +1837,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  RuntimeException
 	 */
 	protected function validateRowNumber($orderBy, $orderColumnAlias)
@@ -1868,7 +1868,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  RuntimeException
 	 */
 	public function selectRowNumber($orderBy, $orderColumnAlias)

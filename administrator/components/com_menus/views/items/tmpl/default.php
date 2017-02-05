@@ -71,22 +71,26 @@ if ($menuType == '')
 						<th class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
-						<?php if ($this->state->get('filter.client_id') == 0): ?>
+						<?php if ($this->state->get('filter.client_id') == 0) : ?>
 						<th width="5%" class="center nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
 						<?php endif; ?>
+						<?php if ($this->state->get('filter.client_id') == 0) : ?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
+						<?php endif; ?>
 						<?php if ($assoc) : ?>
 							<th width="5%" class="nowrap hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif; ?>
+						<?php if ($this->state->get('filter.client_id') == 0) : ?>
 						<th width="15%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
+						<?php endif; ?>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -165,7 +169,10 @@ if ($menuType == '')
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td class="center">
-							<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, $canChange, 'cb'); ?>
+							<?php
+							// Show protected items as published always. We don't allow state change for them. Show/Hide is the module's job.
+							$published = $item->protected ? 3 : $item->published;
+							echo JHtml::_('MenusHtml.Menus.state', $published, $i, $canChange && !$item->protected, 'cb'); ?>
 						</td>
 						<td>
 							<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
@@ -200,7 +207,7 @@ if ($menuType == '')
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
 						</td>
-						<?php if ($this->state->get('filter.client_id') == 0): ?>
+						<?php if ($this->state->get('filter.client_id') == 0) : ?>
 						<td class="center hidden-phone">
 							<?php if ($item->type == 'component') : ?>
 								<?php if ($item->language == '*' || $item->home == '0') : ?>
@@ -223,9 +230,11 @@ if ($menuType == '')
 							<?php endif; ?>
 						</td>
 						<?php endif; ?>
+						<?php if ($this->state->get('filter.client_id') == 0) : ?>
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
+						<?php endif; ?>
 						<?php if ($assoc) : ?>
 							<td class="small hidden-phone">
 								<?php if ($item->association) : ?>
@@ -233,9 +242,11 @@ if ($menuType == '')
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
+						<?php if ($this->state->get('filter.client_id') == 0) : ?>
 						<td class="small hidden-phone">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
+						<?php endif; ?>
 						<td class="hidden-phone">
 							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 								<?php echo (int) $item->id; ?>

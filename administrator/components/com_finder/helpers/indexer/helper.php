@@ -33,6 +33,14 @@ class FinderIndexerHelper
 	public static $stemmer;
 
 	/**
+	 * A state flag, in order to not constantly check if the stemmer is an instance of FinderIndexerStemmer
+	 *
+	 * @var		boolean
+	 * @since	__DEPLOY_VERSION__
+	 */
+	protected static $stemmerOK;
+
+	/**
 	 * Method to parse input into plain text.
 	 *
 	 * @param   string  $input   The raw input.
@@ -99,7 +107,7 @@ class FinderIndexerHelper
 		$input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
 		$input = preg_replace('#\s+#mui', ' ', $input);
-		$input = StringHelper::trim($input);
+		$input = trim($input);
 
 		// Explode the normalized string to get the terms.
 		$terms = explode(' ', $input);
@@ -216,18 +224,27 @@ class FinderIndexerHelper
 	public static function stem($token, $lang)
 	{
 		// Trim apostrophes at either end of the token.
-		$token = StringHelper::trim($token, '\'');
+		$token = trim($token, '\'');
 
 		// Trim everything after any apostrophe in the token.
-		if (($pos = StringHelper::strpos($token, '\'')) !== false)
+		if ($res = explode('\'', $token))
 		{
-			$token = StringHelper::substr($token, 0, $pos);
+			$token = $res[0];
 		}
 
-		// Stem the token if we have a valid stemmer to use.
-		if (static::$stemmer instanceof FinderIndexerStemmer)
+		if (static::$stemmerOK === true)
 		{
 			return static::$stemmer->stem($token, $lang);
+		}
+		else
+		{
+			// Stem the token if we have a valid stemmer to use.
+			if (static::$stemmer instanceof FinderIndexerStemmer)
+			{
+				static::$stemmerOK = true;
+
+				return static::$stemmer->stem($token, $lang);
+			}
 		}
 
 		return $token;
@@ -302,7 +319,7 @@ class FinderIndexerHelper
 		}
 
 		// Check if the token is in the common array.
-		return in_array($token, $data[$lang]);
+		return in_array($token, $data[$lang], true);
 	}
 
 	/**
