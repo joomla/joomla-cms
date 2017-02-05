@@ -911,24 +911,34 @@ class JHelperTags extends JHelper
 	 */
 	public static function searchTags($filters = array())
 	{
+		$published = $filters['published'] ? $filters['published'] : array(0, 1);
+
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value')
 			->select('a.path AS text')
 			->select('a.path')
-			->from('#__tags AS a')
-			->join('LEFT', $db->quoteName('#__tags', 'b') . ' ON a.lft > b.lft AND a.rgt < b.rgt');
+			->from('#__tags AS a');
 
-		// Filter language
+		// Filter language.
 		if (!empty($filters['flanguage']))
 		{
-			$query->where('a.language IN (' . $db->quote($filters['flanguage']) . ',' . $db->quote('*') . ') ');
+			if (strpos($filters['flanguage'], ',') !== false)
+			{
+				$language = implode(',', $db->quote(explode(',', $filters['flanguage'])));
+			}
+			else
+			{
+				$language = $db->quote($filters['flanguage']);
+			}
+
+			$query->where($db->quoteName('a.language') . ' IN (' . $language . ',' . $db->quote('*') . ')');
 		}
 
-		// Do not return root
+		// Do not return root.
 		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
 
-		// Search in title or path
+		// Search in title or path.
 		if (!empty($filters['like']))
 		{
 			$query->where(
@@ -937,19 +947,24 @@ class JHelperTags extends JHelper
 			);
 		}
 
-		// Filter title
+		// Filter title.
 		if (!empty($filters['title']))
 		{
 			$query->where($db->quoteName('a.title') . ' = ' . $db->quote($filters['title']));
 		}
 
-		// Filter on the published state
-		if (isset($filters['published']) && is_numeric($filters['published']))
+		// Filter on the published state.
+		if (is_numeric($published))
 		{
-			$query->where('a.published = ' . (int) $filters['published']);
+			$published = (array) $published;
 		}
 
-		// Filter by parent_id
+		if (is_array($published))
+		{
+			$query->where('a.published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
+		}
+
+		// Filter by parent_id.
 		if (!empty($filters['parent_id']))
 		{
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
@@ -966,8 +981,20 @@ class JHelperTags extends JHelper
 			}
 		}
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published, a.path')
-			->order('a.lft ASC');
+		// Exclude some tag ids.
+		if (!empty($filters['exclude']))
+		{
+			$exclude = ArrayHelper::toInteger(explode(',', $filters['exclude']));
+			$query->where('a.id NOT IN (' . implode(',', $exclude) . ')');
+		}
+
+		// Limit the number of tags returned.
+		$limit = isset($filters['limit']) ? (int) $filters['limit'] : 0;
+
+		if ($limit)
+		{
+			$query->setLimit($limit);
+		}
 
 		// Get the options.
 		$db->setQuery($query);

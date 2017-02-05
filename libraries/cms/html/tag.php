@@ -156,12 +156,13 @@ abstract class JHtmlTag
 	 *
 	 * @param   string   $selector     DOM id of the tag field
 	 * @param   boolean  $allowCustom  Flag to allow custom values
+	 * @param   string   $language     Language code
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	public static function ajaxfield($selector = '#jform_tags', $allowCustom = true)
+	public static function ajaxfield($selector = '#jform_tags', $allowCustom = true, $language = '*')
 	{
 		// Get the component parameters
 		$params = JComponentHelper::getParams('com_tags');
@@ -171,6 +172,7 @@ abstract class JHtmlTag
 			'minTermLength' => $minTermLength,
 			'selector'      => $selector,
 			'allowCustom'   => JFactory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
+			'language'		=> $language,
 		);
 
 		JLayoutHelper::render('joomla.html.tag', $displayData);

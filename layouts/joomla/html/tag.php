@@ -18,10 +18,10 @@ use Joomla\Registry\Registry;
  * @var  string   $selector       The id of the field
  * @var  string   $minTermLength  The minimum number of characters for the tag
  * @var  boolean  $allowCustom    Can we insert custom tags?
+ * @var  string   $language       Language code
  */
 
 extract($displayData);
-
 
 // Tags field ajax
 $chosenAjaxSettings = new Registry(
@@ -45,6 +45,12 @@ if ($allowCustom)
 		jQuery(document).ready(function ($) {
 
 			var customTagPrefix = '#new#';
+			var tagList = [];
+
+			// Initialise list of currently selected tags.
+			$('" . $selector . " option').filter(':selected').each(function() {
+				tagList.push(parseInt(this.value));
+			});
 
 			// Method to add tags pressing enter
 			$('" . $selector . "_chzn input').keyup(function(event) {
@@ -93,6 +99,54 @@ if ($allowCustom)
 					event.preventDefault();
 
 				}
+			});
+
+			// Event handler called whenever a tag is selected or deselected.
+			$('" . $selector . "').on('change', function(event, params) {
+
+				// Tag selected so add it to the internal list.
+				if (params.hasOwnProperty('selected'))
+				{
+					tagList.push(parseInt(params.selected));
+				}
+
+				// Tag deselected so remove it from the internal list.
+				if (params.hasOwnProperty('deselected'))
+				{
+					var index = $.inArray(parseInt(params.deselected), tagList);
+
+					if (index > -1)
+					{
+						tagList.splice(index, 1);
+					}
+				}
+
+				// Make an Ajax call to get a list of tags, excluding those already in the internal list.
+				$.ajax('" . JUri::root() . "index.php?option=com_tags&task=tags.searchAjax', {
+					data: {
+						flanguage: '" . $language . "',
+						published: 1,
+						limit: " . (int) JComponentHelper::getParams('com_tags')->get('maximum', 200) . ",
+						exclude: tagList.join(',')
+					}
+				}).done(function(data) {
+
+					var dataArray = JSON.parse(data);
+
+					if (dataArray.length)
+					{
+						// Check each tag to see if it's already in the select list.
+						$.each(JSON.parse(data), function (key, val) {
+
+							// If the tag is not already in the select list, add it.
+							if (!$('" . $selector . " option[value=' + val.value + ']').length)
+							{
+								// Append the option and repopulate the chosen field.
+								$('" . $selector . "').append($('<option>').text(val.text).val(val.value)).trigger('liszt:updated');
+							}
+						});
+					}
+				});
 			});
 		});
 		"
