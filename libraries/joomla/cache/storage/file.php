@@ -160,13 +160,10 @@ class JCacheStorageFile extends JCacheStorage
 
 		if ($_fileopen)
 		{
-			$len = strlen($data);
-			@fwrite($_fileopen, $data, $len);
-			$written = true;
+			return @fwrite($_fileopen, $data, strlen($data)) !== false;
 		}
 
-		// Data integrity check
-		return $written && ($data == file_get_contents($path));
+		return false;
 	}
 
 	/**
