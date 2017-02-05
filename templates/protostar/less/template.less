@@ -3,7 +3,6 @@
 
 // Core variables and mixins
 @import "variables.less"; // Custom for this template
-@import "template_rtl.less"; // Specific for rtl
 @import "../../../media/jui/less/mixins.less";
 
 // Grid system and page structure
@@ -85,6 +84,9 @@
 
 // Icon Font
 @import "icomoon.less";
+
+// RTL specific
+@import "template_rtl.less"; 
 
 /* Site Body Styles */
 body {
@@ -401,10 +403,10 @@ figcaption {
 .navigation .nav-child li > a:hover,
 .navigation .nav-child li > a:focus,
 .navigation .nav-child:hover > a {
-  text-decoration: none;
-  color: @dropdownLinkColorHover;
-  background-color: @dropdownLinkBackgroundHover;
-  #gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%));
+	text-decoration: none;
+	color: @dropdownLinkColorHover;
+	background-color: @dropdownLinkBackgroundHover;
+	#gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%));
 }
 
 // Category collapse
@@ -646,8 +648,8 @@ dd.result-text {
 
 /* Prevent scrolling on the parent window of a modal */
 body.modal-open {
-  overflow: hidden;
-  -ms-overflow-style: none;
+	overflow: hidden;
+	-ms-overflow-style: none;
 }
 
 /* Align fields for the profile display */
@@ -703,13 +705,12 @@ li {
 }
 
 ul.manager .height-50 .icon-folder-2 {
-    height: 35px;
-    width: 35px;
-    line-height: 35px;
-    font-size: 30px;
+	height: 35px;
+	width: 35px;
+	line-height: 35px;
+	font-size: 30px;
 }
 /* Popover minimum height - overwrite bootstrap default */
 .popover-content {
     min-height: 33px;
 }
-
