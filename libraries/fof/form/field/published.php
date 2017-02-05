@@ -8,6 +8,8 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field class for FOF
  * Supports a generic list of options.
@@ -15,7 +17,7 @@ defined('FOF_INCLUDED') or die;
  * @package  FrameworkOnFramework
  * @since    2.0
  */
-class FOFFormFieldPublished extends JFormAbstractlist implements FOFFormField
+class FOFFormFieldPublished extends JFormFieldList implements FOFFormField
 {
 	protected $static;
 

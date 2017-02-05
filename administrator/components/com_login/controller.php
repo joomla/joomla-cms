@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,7 +69,7 @@ class LoginController extends JControllerLegacy
 			if (JUri::isInternal($return))
 			{
 				// If &tmpl=component - redirect to index.php
-				if (strpos($return, "tmpl=component") === false)
+				if (strpos($return, 'tmpl=component') === false)
 				{
 					$app->redirect($return);
 				}
@@ -96,8 +96,17 @@ class LoginController extends JControllerLegacy
 
 		$userid = $this->input->getInt('uid', null);
 
+		if ($app->get('shared_session', '0'))
+		{
+			$clientid = null;
+		}
+		else
+		{
+			$clientid = $userid ? 0 : 1;
+		}
+
 		$options = array(
-			'clientid' => ($userid) ? 0 : 1
+			'clientid' => $clientid,
 		);
 
 		$result = $app->logout($userid, $options);

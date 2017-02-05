@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ class PlgSystemFields extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -37,11 +37,22 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentBeforeSave($context, $item, $isNew)
 	{
-		$parts = $this->getParts($context);
+		if (!isset($item->params))
+		{
+			return true;
+		}
+
+		// Create correct context for category
+		if ($context == 'com_categories.category')
+		{
+			$context = $item->extension . '.categories';
+		}
+
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -58,43 +69,16 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$params = new Registry;
-
-		// Load the item params from the request
-		$data = JFactory::getApplication()->input->post->get('jform', array(), 'array');
-
-		if (key_exists('params', $data))
-		{
-			$params->loadArray($data['params']);
-		}
-
-		// Load the params from the item itself
-		if (isset($item->params))
-		{
-			$params->loadString($item->params);
-		}
-
-		$params = $params->toArray();
-
-		// Create the new internal fields field
-		$fields = array();
+		$params = (array) json_decode($item->params);
 
 		foreach ($fieldsObjects as $field)
 		{
-			// Set the param on the fields variable
-			$fields[$field->alias] = key_exists($field->alias, $params) ? $params[$field->alias] : array();
-
 			// Remove it from the params array
 			unset($params[$field->alias]);
 		}
 
-		$item->_fields = $fields;
-
-		// Update the cleaned up params
-		if (isset($item->params))
-		{
-			$item->params = json_encode($params);
-		}
+		// Set the cleaned up params array
+		$item->params = json_encode($params);
 
 		return true;
 	}
@@ -102,17 +86,30 @@ class PlgSystemFields extends JPlugin
 	/**
 	 * The save event.
 	 *
-	 * @param   string    $context  The context
-	 * @param   stdClass  $item     The item
-	 * @param   boolean   $isNew    Is new
+	 * @param   string   $context  The context
+	 * @param   JTable   $item     The table
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
-	public function onContentAfterSave($context, $item, $isNew)
+	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
-		$parts = $this->getParts($context);
+		if (!is_array($data) || empty($data['params']))
+		{
+			return true;
+		}
+
+		// Create correct context for category
+		if ($context == 'com_categories.category')
+		{
+			$context = $item->extension . '.categories';
+		}
+
+		$fieldsData = $data['params'];
+		$parts      = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -120,19 +117,6 @@ class PlgSystemFields extends JPlugin
 		}
 
 		$context = $parts[0] . '.' . $parts[1];
-
-		// Return if the item has no valid state
-		$fields = null;
-
-		if (isset($item->_fields))
-		{
-			$fields = $item->_fields;
-		}
-
-		if (!$fields)
-		{
-			return true;
-		}
 
 		// Loading the fields
 		$fieldsObjects = FieldsHelper::getFields($context, $item);
@@ -148,7 +132,7 @@ class PlgSystemFields extends JPlugin
 		foreach ($fieldsObjects as $field)
 		{
 			// Only save the fields with the alias from the data
-			if (!key_exists($field->alias, $fields))
+			if (!key_exists($field->alias, $fieldsData))
 			{
 				continue;
 			}
@@ -166,7 +150,7 @@ class PlgSystemFields extends JPlugin
 			}
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $fields[$field->alias]);
+			$model->setFieldValue($field->id, $context, $id, $fieldsData[$field->alias]);
 		}
 
 		return true;
@@ -182,7 +166,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onUserAfterSave($userData, $isNew, $success, $msg)
 	{
@@ -197,8 +181,7 @@ class PlgSystemFields extends JPlugin
 		$user->params = (string) $user->getParameters();
 
 		// Trigger the events with a real user
-		$this->onContentBeforeSave('com_users.user', $user, false);
-		$this->onContentAfterSave('com_users.user', $user, false);
+		$this->onContentAfterSave('com_users.user', $user, false, $userData);
 
 		// Save the user with the modified params
 		$db    = JFactory::getDbo();
@@ -219,11 +202,11 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterDelete($context, $item)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -250,7 +233,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onUserAfterDelete($user, $succes, $msg)
 	{
@@ -268,12 +251,19 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentPrepareForm(JForm $form, $data)
 	{
 		$context = $form->getName();
-		$parts = $this->getParts($context);
+
+		// When a category is edited, the context is com_categories.categorycom_content
+		if (strpos($context, 'com_categories.category') === 0)
+		{
+			$context = str_replace('com_categories.category', '', $context) . '.categories';
+		}
+
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -308,11 +298,11 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -335,7 +325,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterTitle($context, $item, $params, $limitstart = 0)
 	{
@@ -352,7 +342,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentBeforeDisplay($context, $item, $params, $limitstart = 0)
 	{
@@ -369,7 +359,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterDisplay($context, $item, $params, $limitstart = 0)
 	{
@@ -386,11 +376,11 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function display($context, $item, $params, $displayType)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -410,12 +400,7 @@ class PlgSystemFields extends JPlugin
 		{
 			foreach ($fields as $key => $field)
 			{
-				$fieldDisplayType = $field->params->get('display', '-1');
-
-				if ($fieldDisplayType == '-1')
-				{
-					$fieldDisplayType = $this->params->get('display', '2');
-				}
+				$fieldDisplayType = $field->params->get('display', '2');
 
 				if ($fieldDisplayType == $displayType)
 				{
@@ -434,9 +419,7 @@ class PlgSystemFields extends JPlugin
 				array(
 					'item'            => $item,
 					'context'         => $context,
-					'fields'          => $fields,
-					'container'       => $params->get('fields-container'),
-					'container-class' => $params->get('fields-container-class'),
+					'fields'          => $fields
 				)
 			);
 		}
@@ -452,11 +435,11 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentPrepare($context, $item)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
@@ -483,7 +466,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onPrepareFinderContent($item)
 	{
@@ -503,7 +486,7 @@ class PlgSystemFields extends JPlugin
 				}
 
 				// Transofrm com_article to com_content
-				if ($component == 'com_article')
+				if ($component === 'com_article')
 				{
 					$component = 'com_content';
 				}
@@ -535,62 +518,5 @@ class PlgSystemFields extends JPlugin
 		}
 
 		return true;
-	}
-
-	/**
-	 * Returns the parts for the context.
-	 *
-	 * @param   string  $context  The context
-	 *
-	 * @return  array
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getParts($context)
-	{
-		// Some context mapping
-		// @todo needs to be done in a general lookup table on some point
-		$mapping = array(
-				'com_users.registration' => 'com_users.user',
-				'com_content.category'   => 'com_content.article',
-		);
-
-		if (key_exists($context, $mapping))
-		{
-			$context = $mapping[$context];
-		}
-
-		$parts = FieldsHelper::extract($context);
-
-		if (!$parts)
-		{
-			return null;
-		}
-
-		if ($parts[1] == 'form')
-		{
-			// The context is not from a known one, we need to do a lookup
-			// @todo use the api here.
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('context')
-				->from('#__fields')
-				->where('context like ' . $db->quote($parts[0] . '.%'))
-				->group(array('context'));
-			$db->setQuery($query);
-			$tmp = $db->loadObjectList();
-
-			if (count($tmp) == 1)
-			{
-				$parts = FieldsHelper::extract($tmp[0]->context);
-
-				if (count($parts) < 2)
-				{
-					return null;
-				}
-			}
-		}
-
-		return $parts;
 	}
 }

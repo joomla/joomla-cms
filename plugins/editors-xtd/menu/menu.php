@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.menu
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Editor menu buton
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class PlgButtonMenu extends JPlugin
 {
@@ -20,7 +20,7 @@ class PlgButtonMenu extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -29,7 +29,7 @@ class PlgButtonMenu extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 * @return array
 	 */
 	public function onDisplay($name)

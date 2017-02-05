@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,8 +30,8 @@ $baseurl = JUri::base();
 			<?php if (BannerHelper::isImage($imageurl)) : ?>
 				<?php // Image based banner ?>
 				<?php $alt = $item->params->get('alt'); ?>
-				<?php $alt = $alt ? $alt : $item->name; ?>
-				<?php $alt = $alt ? $alt : JText::_('MOD_BANNERS_BANNER'); ?>
+				<?php $alt = $alt ?: $item->name; ?>
+				<?php $alt = $alt ?: JText::_('MOD_BANNERS_BANNER'); ?>
 				<?php if ($item->clickurl) : ?>
 					<?php // Wrap the banner in a link ?>
 					<?php $target = $params->get('target', 1); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ JHtml::_('bootstrap.tooltip');
 $class = ' class="first"';
 $lang  = JFactory::getLanguage();
 
-if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) : ?>
+if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?>
 
 	<?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
 		<?php
@@ -35,7 +35,7 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) : ?
 				<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
 				<?php echo $this->escape($child->title); ?></a>
 
-				<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
+				<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
 					<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
 				<?php endif; ?>
 			</h3>
@@ -49,7 +49,7 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) : ?
 					</span>
 				<?php endif; ?>
 
-				<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
+				<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
 					<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
 				<?php endif; ?>
 			</h3>
@@ -63,7 +63,7 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) : ?
 			<?php endif; ?>
 			<?php endif; ?>
 
-			<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
+			<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
 			<div class="collapse fade" id="category-<?php echo $child->id; ?>">
 				<?php
 				$this->children[$child->id] = $child->getChildren();

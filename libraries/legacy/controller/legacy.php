@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -440,16 +440,13 @@ class JControllerLegacy extends JObject
 	 */
 	protected function addPath($type, $path)
 	{
-		// Just force path to array
-		settype($path, 'array');
-
 		if (!isset($this->paths[$type]))
 		{
 			$this->paths[$type] = array();
 		}
 
 		// Loop through the path directories
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
 			$dir = rtrim(JPath::check($dir, '/'), '/') . '/';
@@ -1063,7 +1060,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  boolean  True if found and valid, otherwise return false or redirect to referrer page.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @see     JSession::checkToken()
 	 */
 	public function checkToken($method = 'post', $redirect = true)

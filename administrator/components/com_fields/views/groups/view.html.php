@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -11,49 +11,49 @@ defined('_JEXEC') or die;
 /**
  * Groups View
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsViewGroups extends JViewLegacy
 {
 	/**
 	 * @var  JForm
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $filterForm;
 
 	/**
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $activeFilters;
 
 	/**
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $items;
 
 	/**
 	 * @var  JPagination
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $pagination;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $state;
 
 	/**
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $sidebar;
 
@@ -65,7 +65,7 @@ class FieldsViewGroups extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function display($tpl = null)
 	{
@@ -92,7 +92,7 @@ class FieldsViewGroups extends JViewLegacy
 
 		$this->addToolbar();
 
-		FieldsHelperInternal::addSubmenu($this->state->get('filter.extension'), 'groups');
+		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'groups');
 		$this->sidebar = JHtmlSidebar::render();
 
 		return parent::display($tpl);
@@ -103,30 +103,39 @@ class FieldsViewGroups extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function addToolbar()
 	{
 		$groupId   = $this->state->get('filter.group_id');
-		$extension = $this->state->get('filter.extension');
-		$canDo     = JHelperContent::getActions($extension, 'fieldgroup', $groupId);
+		$component = '';
+		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
+
+		if ($parts)
+		{
+			$component = $parts[0];
+		}
+
+		$canDo     = JHelperContent::getActions($component, 'fieldgroup', $groupId);
 
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Avoid nonsense situation.
-		if ($extension == 'com_fields')
+		if ($component == 'com_fields')
 		{
 			return;
 		}
 
-		// Load extension language file
-		JFactory::getLanguage()->load($extension, JPATH_ADMINISTRATOR);
+		// Load component language file
+		$lang = JFactory::getLanguage();
+		$lang->load($component, JPATH_ADMINISTRATOR)
+		|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
-		$title = JText::sprintf('COM_FIELDS_VIEW_GROUPS_TITLE', JText::_(strtoupper($extension)));
+		$title = JText::sprintf('COM_FIELDS_VIEW_GROUPS_TITLE', JText::_(strtoupper($component)));
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'puzzle fields ' . substr($extension, 4) . '-groups');
+		JToolbarHelper::title($title, 'puzzle fields ' . substr($component, 4) . '-groups');
 
 		if ($canDo->get('core.create'))
 		{
@@ -169,10 +178,10 @@ class FieldsViewGroups extends JViewLegacy
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			JToolbarHelper::preferences($extension);
+			JToolbarHelper::preferences($component);
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $extension))
+		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component))
 		{
 			JToolbarHelper::deleteList('', 'groups.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
@@ -187,7 +196,7 @@ class FieldsViewGroups extends JViewLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getSortFields()
 	{
@@ -197,7 +206,7 @@ class FieldsViewGroups extends JViewLegacy
 			'a.title'     => JText::_('JGLOBAL_TITLE'),
 			'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
 			'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.extension' => JText::_('JGRID_HEADING_EXTENSION'),
+			'a.context'   => JText::_('JGRID_HEADING_CONTEXT'),
 			'a.id'        => JText::_('JGRID_HEADING_ID'),
 		);
 	}

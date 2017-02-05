@@ -3,18 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  1.6
  */
-class JFormFieldMenuOrdering extends JFormAbstractlist
+class JFormFieldMenuOrdering extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -46,7 +48,7 @@ class JFormFieldMenuOrdering extends JFormAbstractlist
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text')
+			->select('a.id AS value, a.title AS text, a.client_id AS clientId')
 			->from('#__menu AS a')
 
 			->where('a.published >= 0')
@@ -73,6 +75,15 @@ class JFormFieldMenuOrdering extends JFormAbstractlist
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		// Allow translation of custom admin menus
+		foreach ($options as &$option)
+		{
+			if ($option->clientId != 0)
+			{
+				$option->text = JText::_($option->text);
+			}
 		}
 
 		$options = array_merge(

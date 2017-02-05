@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,11 @@ $filters = $data['view']->filterForm->getGroup('filter');
 <?php if (!empty($filters['filter_search'])) : ?>
 	<?php if ($searchButton) : ?>
 		<label for="filter_search" class="element-invisible">
-			<?php echo JText::_('JSEARCH_FILTER'); ?>
+			<?php if (isset($filters['filter_search']->label)) : ?>
+				<?php echo JText::_($filters['filter_search']->label); ?>
+			<?php else : ?>
+				<?php echo JText::_('JSEARCH_FILTER'); ?>
+			<?php endif; ?>
 		</label>
 		<div class="btn-wrapper input-append">
 			<?php echo $filters['filter_search']->input; ?>

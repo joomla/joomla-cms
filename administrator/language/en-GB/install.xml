@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.6" client="administrator" type="language" method="upgrade">
+<extension version="3.7" client="administrator" type="language" method="upgrade">
 	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>3.6.4</version>
-	<creationDate>October 2016</creationDate>
+	<version>3.7.0</version>
+	<creationDate>February 2017</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>en-GB administrator language</description>
 	<files>
@@ -15,6 +15,8 @@
 		<filename>en-GB.com_admin.sys.ini</filename>
 		<filename>en-GB.com_ajax.ini</filename>
 		<filename>en-GB.com_ajax.sys.ini</filename>
+		<filename>en-GB.com_associations.ini</filename>
+		<filename>en-GB.com_associations.sys.ini</filename>
 		<filename>en-GB.com_banners.ini</filename>
 		<filename>en-GB.com_banners.sys.ini</filename>
 		<filename>en-GB.com_cache.ini</filename>
@@ -121,6 +123,8 @@
 		<filename>en-GB.plg_content_contact.sys.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.sys.ini</filename>
+		<filename>en-GB.plg_content_fields.ini</filename>
+		<filename>en-GB.plg_content_fields.sys.ini</filename>
 		<filename>en-GB.plg_content_finder.ini</filename>
 		<filename>en-GB.plg_content_finder.sys.ini</filename>
 		<filename>en-GB.plg_content_joomla.ini</filename>
@@ -143,6 +147,8 @@
 		<filename>en-GB.plg_editors-xtd_article.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_contact.ini</filename>
 		<filename>en-GB.plg_editors-xtd_contact.sys.ini</filename>
+		<filename>en-GB.plg_editors-xtd_fields.ini</filename>
+		<filename>en-GB.plg_editors-xtd_fields.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_image.ini</filename>
 		<filename>en-GB.plg_editors-xtd_image.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_menu.ini</filename>
@@ -155,8 +161,38 @@
 		<filename>en-GB.plg_editors-xtd_readmore.sys.ini</filename>
 		<filename>en-GB.plg_extension_joomla.ini</filename>
 		<filename>en-GB.plg_extension_joomla.sys.ini</filename>
+		<filename>en-GB.plg_fields_calendar.ini</filename>
+		<filename>en-GB.plg_fields_calendar.sys.ini</filename>
+		<filename>en-GB.plg_fields_checkboxes.ini</filename>
+		<filename>en-GB.plg_fields_checkboxes.sys.ini</filename>
+		<filename>en-GB.plg_fields_color.ini</filename>
+		<filename>en-GB.plg_fields_color.sys.ini</filename>
+		<filename>en-GB.plg_fields_editor.ini</filename>
+		<filename>en-GB.plg_fields_editor.sys.ini</filename>
 		<filename>en-GB.plg_fields_gallery.ini</filename>
 		<filename>en-GB.plg_fields_gallery.sys.ini</filename>
+		<filename>en-GB.plg_fields_imagelist.ini</filename>
+		<filename>en-GB.plg_fields_imagelist.sys.ini</filename>
+		<filename>en-GB.plg_fields_integer.ini</filename>
+		<filename>en-GB.plg_fields_integer.sys.ini</filename>
+		<filename>en-GB.plg_fields_list.ini</filename>
+		<filename>en-GB.plg_fields_list.sys.ini</filename>
+		<filename>en-GB.plg_fields_media.ini</filename>
+		<filename>en-GB.plg_fields_media.sys.ini</filename>
+		<filename>en-GB.plg_fields_radio.ini</filename>
+		<filename>en-GB.plg_fields_radio.sys.ini</filename>
+		<filename>en-GB.plg_fields_sql.ini</filename>
+		<filename>en-GB.plg_fields_sql.sys.ini</filename>
+		<filename>en-GB.plg_fields_text.ini</filename>
+		<filename>en-GB.plg_fields_text.sys.ini</filename>
+		<filename>en-GB.plg_fields_textarea.ini</filename>
+		<filename>en-GB.plg_fields_textarea.sys.ini</filename>
+		<filename>en-GB.plg_fields_url.ini</filename>
+		<filename>en-GB.plg_fields_url.sys.ini</filename>
+		<filename>en-GB.plg_fields_user.ini</filename>
+		<filename>en-GB.plg_fields_user.sys.ini</filename>
+		<filename>en-GB.plg_fields_usergrouplist.ini</filename>
+		<filename>en-GB.plg_fields_usergrouplist.sys.ini</filename>
 		<filename>en-GB.plg_finder_categories.ini</filename>
 		<filename>en-GB.plg_finder_categories.sys.ini</filename>
 		<filename>en-GB.plg_finder_contacts.ini</filename>

@@ -2,9 +2,12 @@
 <form>
     <field
             name="access"
-            type="accesslevel"
-            label="JFIELD_ACCESS_LABEL"
-            description="JFIELD_ACCESS_DESC"
+            type="usergrouplist"
+            multiple="true"
+            class="access-select"
+            label="PLG_TINY_FIELD_SETACCESS_LABEL"
+            description="PLG_TINY_FIELD_SETACCESS_DESC"
+            labelclass="label label-success"
     />
 
     <field
@@ -250,7 +253,7 @@
             label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
             description="PLG_TINY_FIELD_ADVIMAGE_DESC"
             class="btn-group btn-group-yesno"
-            default="0"
+            default="1"
     >
         <option value="1">JON</option>
         <option value="0">JOFF</option>
