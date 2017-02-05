@@ -51,13 +51,6 @@
 		>
 		</field>
 
-		<field name="article_layout" type="componentlayout"
-		       label="JFIELD_ALT_LAYOUT_LABEL"
-		       description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-		       useglobal="true"
-		       extension="com_content" view="article"
-		/>
-
 		<field name="tags"
 			type="tag"
 			label="JTAG"
@@ -172,6 +165,14 @@
 
 	<fields name="attribs" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 		<fieldset name="basic" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+
+			<field name="article_layout" type="componentlayout"
+			       label="JFIELD_ALT_LAYOUT_LABEL"
+			       description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+			       useglobal="true"
+			       extension="com_content" view="article"
+			/>
+
 			<field
 				name="show_title"
 				type="list"

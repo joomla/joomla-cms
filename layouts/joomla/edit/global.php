@@ -31,7 +31,6 @@ $fields = $displayData->get('fields') ?: array(
 	'sticky',
 	'access',
 	'language',
-	'article_layout',
 	'tags',
 	'note',
 	'version_note',
