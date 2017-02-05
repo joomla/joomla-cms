@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,9 +45,8 @@ class JLayoutHelper
 		// Make sure we send null to JLayoutFile if no path set
 		$basePath = empty($basePath) ? null : $basePath;
 		$layout = new JLayoutFile($layoutFile, $basePath, $options);
-		$renderedLayout = $layout->debug($displayData);
 
-		return $renderedLayout;
+		return $layout->debug($displayData);
 	}
 
 	/**
@@ -69,8 +68,7 @@ class JLayoutHelper
 		// Make sure we send null to JLayoutFile if no path set
 		$basePath = empty($basePath) ? null : $basePath;
 		$layout = new JLayoutFile($layoutFile, $basePath, $options);
-		$renderedLayout = $layout->render($displayData);
 
-		return $renderedLayout;
+		return $layout->render($displayData);
 	}
 }

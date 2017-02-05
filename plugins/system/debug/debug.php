@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -873,7 +873,7 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql')))
+				if ($db->getServerType() === 'mysql')
 				{
 					if (isset($this->sqlShowProfileEach[$id]))
 					{
@@ -1464,7 +1464,7 @@ class PlgSystemDebug extends JPlugin
 
 		$this->totalQueries = $db->getCount();
 
-		$dbVersion5037 = (strpos($db->name, 'mysql') !== false) && version_compare($db->getVersion(), '5.0.37', '>=');
+		$dbVersion5037 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.0.37', '>=');
 
 		if ($dbVersion5037)
 		{
@@ -1501,13 +1501,13 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql', 'postgresql')))
+		if (in_array($db->getServerType(), array('mysql', 'postgresql')))
 		{
 			$log = $db->getLog();
 
 			foreach ($log as $k => $query)
 			{
-				$dbVersion56 = (strpos($db->name, 'mysql') !== false) && version_compare($db->getVersion(), '5.6', '>=');
+				$dbVersion56 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.6', '>=');
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))
 				{

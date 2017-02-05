@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,6 +30,7 @@ class JCacheControllerCallback extends JCacheController
 	 * @return  mixed  Result of the callback
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function call()
 	{
@@ -88,86 +89,103 @@ class JCacheControllerCallback extends JCacheController
 
 		$data = $this->cache->get($id);
 
-		$locktest             = new stdClass;
-		$locktest->locked     = null;
-		$locktest->locklooped = null;
+		$locktest = (object) array('locked' => null, 'locklooped' => null);
 
 		if ($data === false)
 		{
 			$locktest = $this->cache->lock($id);
 
-			if ($locktest->locked == true && $locktest->locklooped == true)
+			// If locklooped is true try to get the cached data again; it could exist now.
+			if ($locktest->locked === true && $locktest->locklooped === true)
 			{
 				$data = $this->cache->get($id);
 			}
 		}
 
-		$coptions = array();
-
 		if ($data !== false)
 		{
-			$cached                = unserialize(trim($data));
-			$coptions['mergehead'] = isset($woptions['mergehead']) ? $woptions['mergehead'] : 0;
-			$output                = ($wrkarounds == false) ? $cached['output'] : JCache::getWorkarounds($cached['output'], $coptions);
-			$result                = $cached['result'];
-
-			if ($locktest->locked == true)
+			if ($locktest->locked === true)
 			{
 				$this->cache->unlock($id);
 			}
+
+			$data = unserialize(trim($data));
+
+			if ($wrkarounds)
+			{
+				echo JCache::getWorkarounds(
+					$data['output'],
+					array('mergehead' => isset($woptions['mergehead']) ? $woptions['mergehead'] : 0)
+				);
+			}
+			else
+			{
+				echo $data['output'];
+			}
+
+			return $data['result'];
+		}
+
+		if (!is_array($args))
+		{
+			$referenceArgs = !empty($args) ? array(&$args) : array();
 		}
 		else
 		{
-			if (!is_array($args))
-			{
-				$referenceArgs = !empty($args) ? array(&$args) : array();
-			}
-			else
-			{
-				$referenceArgs = &$args;
-			}
+			$referenceArgs = &$args;
+		}
 
-			if ($locktest->locked == false)
-			{
-				$locktest = $this->cache->lock($id);
-			}
+		if ($locktest->locked === false && $locktest->locklooped === true)
+		{
+			// We can not store data because another process is in the middle of saving
+			return call_user_func_array($callback, $referenceArgs);
+		}
 
-			if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
+		$coptions = array();
+
+		if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
+		{
+			$document = JFactory::getDocument();
+
+			if (method_exists($document, 'getHeadData'))
 			{
-				$document = JFactory::getDocument();
-				$coptions['modulemode'] = 1;
-				if (method_exists($document, 'getHeadData'))
-				{
-					$coptions['headerbefore'] = $document->getHeadData();
-				}
-			}
-			else
-			{
-				$coptions['modulemode'] = 0;
+				$coptions['headerbefore'] = $document->getHeadData();
 			}
 
-			ob_start();
-			ob_implicit_flush(false);
+			$coptions['modulemode'] = 1;
+		}
+		else
+		{
+			$coptions['modulemode'] = 0;
+		}
 
-			$result = call_user_func_array($callback, $referenceArgs);
-			$output = ob_get_clean();
+		$coptions['nopathway'] = isset($woptions['nopathway']) ? $woptions['nopathway'] : 1;
+		$coptions['nohead']    = isset($woptions['nohead'])    ? $woptions['nohead'] : 1;
+		$coptions['nomodules'] = isset($woptions['nomodules']) ? $woptions['nomodules'] : 1;
 
-			$coptions['nopathway'] = isset($woptions['nopathway']) ? $woptions['nopathway'] : 1;
-			$coptions['nohead']    = isset($woptions['nohead']) ? $woptions['nohead'] : 1;
-			$coptions['nomodules'] = isset($woptions['nomodules']) ? $woptions['nomodules'] : 1;
+		ob_start();
+		ob_implicit_flush(false);
 
-			$cached = array(
-				'output' => ($wrkarounds == false) ? $output : JCache::setWorkarounds($output, $coptions),
-				'result' => $result,
-			);
+		$result = call_user_func_array($callback, $referenceArgs);
+		$output = ob_get_clean();
 
-			// Store the cache data
-			$this->cache->store(serialize($cached), $id);
+		$data = array('result' => $result);
 
-			if ($locktest->locked == true)
-			{
-				$this->cache->unlock($id);
-			}
+		if ($wrkarounds)
+		{
+			$data['output'] = JCache::setWorkarounds($output, $coptions);
+		}
+		else
+		{
+			$data['output'] = $output;
+		}
+
+		// Store the cache data
+		$this->cache->store(serialize($data), $id);
+
+		if ($locktest->locked === true)
+		{
+			$this->cache->unlock($id);
 		}
 
 		echo $output;

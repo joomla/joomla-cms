@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -49,23 +49,8 @@ if (!$fields)
 	return;
 }
 
-// Load some output definitions
-$container = 'dl';
-
-if (key_exists('container', $displayData) && $displayData['container'])
-{
-	$container = $displayData['container'];
-}
-
-$class = 'article-info muted';
-
-if (key_exists('container-class', $displayData) && $displayData['container-class'])
-{
-	$class = $displayData['container-class'];
-}
-
 // Print the container tag
-echo '<' . $container . ' class="fields-container ' . $class . '">';
+echo '<dl class="fields-container">';
 
 // Loop through the fields and print them
 foreach ($fields as $field)
@@ -80,4 +65,4 @@ foreach ($fields as $field)
 }
 
 // Close the container
-echo '</' . $container . '>';
+echo '</dl>';

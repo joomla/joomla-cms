@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	/**
 	 * Router this rule belongs to
 	 *
-	 * @var JComponentRouterAdvanced
+	 * @var   JComponentRouterView
 	 * @since 3.4
 	 */
 	protected $router;
@@ -25,7 +25,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	/**
 	 * Lookup array of the menu items
 	 *
-	 * @var array
+	 * @var   array
 	 * @since 3.4
 	 */
 	protected $lookup = array();
@@ -33,7 +33,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JComponentRouterAdvanced  $router  Router this rule belongs to
+	 * @param   JComponentRouterView  $router  Router this rule belongs to
 	 *
 	 * @since   3.4
 	 */

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -720,7 +720,7 @@ abstract class JHtmlBootstrap
 			JHtml::_('bootstrap.framework');
 
 			// Setup options object
-			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
+			$opt['active'] = (isset($params['active']) && $params['active']) ? (string) $params['active'] : '';
 
 			// Attach tabs to document
 			JFactory::getDocument()

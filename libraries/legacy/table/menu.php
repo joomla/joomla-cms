@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -148,22 +148,25 @@ class JTableMenu extends JTableNested
 		$this->alias   = !$originalAlias ? $this->title : $originalAlias;
 		$this->alias   = JApplicationHelper::stringURLSafe(trim($this->alias), $this->language);
 
-		// Verify that a first level menu item alias is not 'component'.
-		if ($this->parent_id == 1 && $this->alias == 'component')
+		if ($this->parent_id == 1 && $this->client_id == 0)
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
+			// Verify that a first level menu item alias is not 'component'.
+			if ( $this->alias == 'component')
+			{
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
 
-			return false;
-		}
+				return false;
+			}
 
-		// Verify that a first level menu item alias is not the name of a folder.
-		jimport('joomla.filesystem.folder');
+			// Verify that a first level menu item alias is not the name of a folder.
+			jimport('joomla.filesystem.folder');
 
-		if ($this->parent_id == 1 && in_array($this->alias, JFolder::folders(JPATH_ROOT)))
-		{
-			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
+			if (in_array($this->alias, JFolder::folders(JPATH_ROOT)))
+			{
+				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
 
-			return false;
+				return false;
+			}
 		}
 
 		// If alias still empty (for instance, new menu item with chinese characters with no unicode alias setting).
@@ -177,7 +180,7 @@ class JTableMenu extends JTableNested
 			$error      = false;
 
 			// Check if the alias already exists. For multilingual site.
-			if (JLanguageMultilang::isEnabled())
+			if (JLanguageMultilang::isEnabled() && (int) $this->client_id == 0)
 			{
 				// If there is a menu item at the same level with the same alias (in the All or the same language).
 				if (($table->load(array_replace($itemSearch, array('language' => '*'))) && ($table->id != $this->id || $this->id == 0))
@@ -244,8 +247,8 @@ class JTableMenu extends JTableNested
 				return false;
 			}
 
-			// Verify that the home page for this language is unique
-			if ($table->load(array('home' => '1', 'language' => $this->language)))
+			// Verify that the home page for this language is unique per client id
+			if ($table->load(array('home' => '1', 'language' => $this->language, 'client_id' => (int) $this->client_id)))
 			{
 				if ($table->checked_out && $table->checked_out != $this->checked_out)
 				{

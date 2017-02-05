@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,11 +40,18 @@ class ConfigController extends JControllerLegacy
 		// Set the default view name and format from the Request.
 		$vName = $this->input->get('view', 'application');
 
-		JLog::add(
-			'ConfigController is deprecated. Use ConfigControllerApplicationDisplay or ConfigControllerComponentDisplay instead.',
-			JLog::WARNING,
-			'deprecated'
-		);
+		try
+		{
+			JLog::add(
+				sprintf('%s is deprecated. Use ConfigControllerApplicationDisplay or ConfigControllerComponentDisplay instead.', __CLASS__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		if (ucfirst($vName) == 'Application')
 		{

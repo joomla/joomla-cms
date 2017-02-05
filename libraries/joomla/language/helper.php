@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -131,7 +131,11 @@ class JLanguageHelper
 			{
 				$cache = JFactory::getCache('com_languages', '');
 
-				if (!$languages = $cache->get('languages'))
+				if ($cache->contains('languages'))
+				{
+					$languages = $cache->get('languages');
+				}
+				else
 				{
 					$db = JFactory::getDbo();
 					$query = $db->getQuery(true)
@@ -185,7 +189,11 @@ class JLanguageHelper
 		{
 			$cache = JFactory::getCache('com_languages', '');
 
-			if (!$installedLanguages = $cache->get('installedlanguages'))
+			if ($cache->contains('installedlanguages'))
+			{
+				$installedLanguages = $cache->get('installedlanguages');
+			}
+			else
 			{
 				$db = JFactory::getDbo();
 
@@ -332,7 +340,11 @@ class JLanguageHelper
 		{
 			$cache = JFactory::getCache('com_languages', '');
 
-			if (!$contentLanguages = $cache->get('contentlanguages'))
+			if ($cache->contains('contentlanguages'))
+			{
+				$contentLanguages = $cache->get('contentlanguages');
+			}
+			else
 			{
 				$db = JFactory::getDbo();
 
@@ -382,6 +394,32 @@ class JLanguageHelper
 	}
 
 	/**
+	 * Save strings to a language file.
+	 *
+	 * @param   string  $filename  The language ini file path.
+	 * @param   array   $strings   The array of strings.
+	 *
+	 * @return  boolean  True if saved, false otherwise.
+	 *
+	 * @since   3.7.0
+	 */
+	public static function saveToIniFile($filename, array $strings)
+	{
+		JLoader::register('JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
+
+		// Escape double quotes.
+		foreach ($strings as $key => $string)
+		{
+			$strings[$key] = addcslashes($string, '"');
+		}
+
+		// Write override.ini file with the strings.
+		$registry = new Joomla\Registry\Registry($strings);
+
+		return JFile::write($filename, $registry->toString('INI'));
+	}
+
+	/**
 	 * Checks if a language exists.
 	 *
 	 * This is a simple, quick check for the directory that should contain language files for the given user.
@@ -391,7 +429,7 @@ class JLanguageHelper
 	 *
 	 * @return  boolean  True if the language exists.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function exists($lang, $basePath = JPATH_BASE)
 	{
@@ -424,7 +462,7 @@ class JLanguageHelper
 	 *
 	 * @return  mixed  If $lang exists return key/value pair with the language metadata, otherwise return NULL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getMetadata($lang)
 	{
@@ -451,7 +489,7 @@ class JLanguageHelper
 	 *
 	 * @return  array  key/value pair with the language file and real name.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getKnownLanguages($basePath = JPATH_BASE)
 	{
@@ -466,7 +504,7 @@ class JLanguageHelper
 	 *
 	 * @return  string  language related path or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
 	{
@@ -480,7 +518,7 @@ class JLanguageHelper
 	 *
 	 * @return  array  Array holding the found languages as filename => real name pairs.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function parseLanguageFiles($dir = null)
 	{
@@ -524,7 +562,7 @@ class JLanguageHelper
 	 *
 	 * @return  array  Array holding the found metadata as a key => value pair.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  RuntimeException
 	 */
 	public static function parseXMLLanguageFile($path)

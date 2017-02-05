@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,6 +47,7 @@ class PlgEditorTinymce extends JPlugin
 	public function onInit()
 	{
 		JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
+		JHtml::_('behavior.core');
 		JHtml::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
 		JHtml::_('script', 'system/tinymce-init.min.js', array('version' => 'auto', 'relative' => true));
 	}
@@ -626,6 +627,7 @@ class PlgEditorTinymce extends JPlugin
 			'document_base_url'  => JUri::root(true) . '/',
 			'paste_data_images'  => $allowImgPaste,
 			'importcss_append'   => true,
+			'image_title'        => true,
 			'height'             => $html_height,
 			'width'              => $html_width,
 			'resize'             => $resizing,
@@ -1152,7 +1154,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  int  The plugin id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function getPluginId()
 	{
@@ -1183,7 +1185,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	private function onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
 	{

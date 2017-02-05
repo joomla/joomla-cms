@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -522,7 +522,7 @@ class JDocumentHtml extends JDocument
 	}
 
 	/**
-	 * Count the number of child menu items
+	 * Count the number of child menu items of the current active menu item
 	 *
 	 * @return  integer  Number of child menu items
 	 *

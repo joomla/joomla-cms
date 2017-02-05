@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,14 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  3.1
  */
-class JFormFieldTag extends JFormAbstractlist
+class JFormFieldTag extends JFormFieldList
 {
 	/**
 	 * A flexible tag list that respects access controls
@@ -108,7 +110,7 @@ class JFormFieldTag extends JFormAbstractlist
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published']? $this->element['published'] : array(0, 1);
+		$published = $this->element['published']?: array(0, 1);
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -88,7 +88,7 @@ if ($langs)
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">
-					<button tabindex="3" class="btn btn-primary btn-block btn-large">
+					<button tabindex="3" class="btn btn-primary btn-block btn-large login-button">
 						<span class="icon-lock icon-white"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 					</button>
 				</div>
