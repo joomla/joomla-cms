@@ -206,7 +206,7 @@ class ModulesControllerModule extends JControllerForm
 
 			if (isset($data['params']))
 			{
-			    unset($properties['params']);
+				unset($properties['params']);
 			}
 
 			// Replace changed properties
@@ -238,7 +238,7 @@ class ModulesControllerModule extends JControllerForm
 	 */
 	public function orderPosition()
 	{
-		$app    = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Send json mime type.
 		$app->mimeType = 'application/json';
