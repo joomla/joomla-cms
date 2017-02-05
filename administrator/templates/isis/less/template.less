@@ -1022,6 +1022,18 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	.controls {
 		margin-left: 0;
 	}
+	// Define consistent widths for forn-vertical inputs
+	// note & version note text inputs
+	#jform_note, #jform_version_note {
+		max-width: 220px;
+	}
+	// module publish & unpublish calendar inputs
+	.field-calendar {
+		input#jform_publish_up, input#jform_publish_down {
+			// Smaller size accomodates calendar select button
+			max-width: 164px;
+		}
+	}
 }
 @media (max-width: 979px) {
 	.form-horizontal-desktop {
