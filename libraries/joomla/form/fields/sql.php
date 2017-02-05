@@ -3,18 +3,20 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+JFormHelper::loadFieldClass('list');
 
 /**
  * Supports an custom SQL select list
  *
  * @since  11.1
  */
-class JFormFieldSQL extends JFormAbstractlist implements JFormDomfieldinterface
+class JFormFieldSQL extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -147,7 +149,7 @@ class JFormFieldSQL extends JFormAbstractlist implements JFormDomfieldinterface
 				$query['order'] = (string) $this->element['sql_order'];
 
 				// Get the filters
-				$filters = isset($this->element['sql_filter']) ? explode(",", $this->element['sql_filter']) : '';
+				$filters = isset($this->element['sql_filter']) ? explode(',', $this->element['sql_filter']) : '';
 
 				// Get the default value for query if empty
 				if (is_array($filters))
@@ -273,7 +275,17 @@ class JFormFieldSQL extends JFormAbstractlist implements JFormDomfieldinterface
 
 		// Set the query and get the result list.
 		$db->setQuery($this->query);
-		$items = $db->loadObjectlist();
+
+		$items = array();
+
+		try
+		{
+			$items = $db->loadObjectlist();
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		// Add header.
 		if (!empty($header))
@@ -302,30 +314,5 @@ class JFormFieldSQL extends JFormAbstractlist implements JFormDomfieldinterface
 		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
-	}
-
-	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
-	 *
-	 * @param   stdClass    $field      The field.
-	 * @param   DOMElement  $fieldNode  The field node.
-	 * @param   JForm       $form       The form.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
-	{
-		$fieldNode->setAttribute('value_field', 'text');
-		$fieldNode->setAttribute('key_field', 'value');
-
-		if (! $fieldNode->getAttribute('query'))
-		{
-			$fieldNode->setAttribute('query', 'select id as value, name as text from #__users');
-		}
-
-		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

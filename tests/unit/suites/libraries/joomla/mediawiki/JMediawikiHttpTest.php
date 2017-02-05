@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -58,7 +58,12 @@ class JMediawikiHttpTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport', false);
+				$this->transport = $this->getMockBuilder('JHttpTransportStream')
+				->setMethods(array('request'))
+				->setConstructorArgs(array($this->options))
+				->setMockClassName('CustomTransport')
+				->disableOriginalConstructor()
+				->getMock();
 
 		$this->object = new JMediawikiHttp($this->options, $this->transport);
 	}

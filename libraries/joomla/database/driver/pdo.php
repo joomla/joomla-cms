@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -439,7 +439,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$errorNum = $this->getErrorNumber();
-			$errorMsg = $this->getErrorMessage($query);
+			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -455,7 +455,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				{
 					// Get the error number and message.
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage($query);
+					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
@@ -1018,7 +1018,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			// Do not serialize properties that are PDO
 			if ($property->isStatic() == false && !($this->{$property->name} instanceof PDO))
 			{
-				array_push($serializedProperties, $property->name);
+				$serializedProperties[] = $property->name;
 			}
 		}
 
@@ -1053,18 +1053,14 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	/**
 	 * Return the actual SQL Error message
 	 *
-	 * @param   string  $query  The SQL Query that fails
-	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage($query)
+	protected function getErrorMessage()
 	{
-		// Note we ignoring $query here as it not used in the original code.
-
 		// The SQL Error Information
-		$errorInfo = implode(", ", $this->connection->errorInfo());
+		$errorInfo = implode(', ', $this->connection->errorInfo());
 
 		// Replace the Databaseprefix with `#__` if we are not in Debug
 		if (!$this->debug)
@@ -1072,6 +1068,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			$errorInfo = str_replace($this->tablePrefix, '#__', $errorInfo);
 		}
 
-		return 'SQL: ' . $errorInfo;
+		return $errorInfo;
 	}
 }

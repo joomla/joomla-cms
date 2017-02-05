@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -172,7 +172,7 @@ class TagsModelTag extends JModelList
 		$app = JFactory::getApplication();
 
 		// Load the parameters.
-		$params = $app->isAdmin() ? JComponentHelper::getParams('com_tags') : $app->getParams();
+		$params = $app->isClient('administrator') ? JComponentHelper::getParams('com_tags') : $app->getParams();
 
 		$this->setState('params', $params);
 

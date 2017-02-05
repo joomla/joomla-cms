@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -295,26 +295,34 @@ abstract class JPluginHelper
 		/** @var JCacheControllerCallback $cache */
 		$cache = JFactory::getCache('com_plugins', 'callback');
 
-		static::$plugins = $cache->get(
-			function () use ($levels)
-			{
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
-					->from('#__extensions')
-					->where('enabled = 1')
-					->where('type = ' . $db->quote('plugin'))
-					->where('state IN (0,1)')
-					->where('access IN (' . $levels . ')')
-					->order('ordering');
-				$db->setQuery($query);
+		$loader = function () use ($levels)
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
+				->from('#__extensions')
+				->where('enabled = 1')
+				->where('type = ' . $db->quote('plugin'))
+				->where('state IN (0,1)')
+				->where('access IN (' . $levels . ')')
+				->order('ordering');
+			$db->setQuery($query);
 
-				return $db->loadObjectList();
-			},
-			array(),
-			md5($levels),
-			false
-		);
+			return $db->loadObjectList();
+		};
+
+		try
+		{
+			static::$plugins = $cache->get($loader, array(), md5($levels), false);
+		}
+		catch (JCacheExceptionConnecting $cacheException)
+		{
+			static::$plugins = $loader();
+		}
+		catch (JCacheExceptionUnsupported $cacheException)
+		{
+			static::$plugins = $loader();
+		}
 
 		return static::$plugins;
 	}

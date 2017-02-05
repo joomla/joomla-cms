@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,6 +40,11 @@ class InstallerControllerInstall extends JControllerLegacy
 
 		$app = JFactory::getApplication();
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
+
+		if (!$redirect_url)
+		{
+			$redirect_url = base64_decode($app->input->get('return'));
+		}
 
 		// Don't redirect to an external URL.
 		if (!JUri::isInternal($redirect_url))

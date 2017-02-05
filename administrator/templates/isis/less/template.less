@@ -59,9 +59,9 @@
 // Phones to portrait tablets and narrow desktops
 @import "../../../../media/jui/less/responsive-767px-max.less";
 // Tablets to regular desktops
-@import "../../../../media/jui/less/responsive-768px-979px.less";
+@import "bootstrap/responsive-768px-979px.less";
 // Large desktops
-@import "../../../../media/jui/less/responsive-1200px-min.less";
+@import "bootstrap/responsive-1200px-min.less";
 // RESPONSIVE NAVBAR
 // ------------------
 // From 979px and below, show a button to toggle navbar contents
@@ -76,6 +76,12 @@
 @import "icomoon.less";
 // Chosen.css Flat Override 
 @import "chzn-override.less";
+
+// Blocks
+@import "blocks/_editors.less";
+@import "blocks/_modals.less";
+
+
 /* Body */
 html {
 	height: 100%;
@@ -85,6 +91,7 @@ body {
 	height: 100%;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	box-sizing: border-box;
 }
 
 a:hover,
@@ -138,6 +145,7 @@ a:focus {
 	}
 	#lang_chzn {
 		width: 233px !important;
+		max-width: none;
 		.chzn-single div {
 			width:43px;
 		}
@@ -157,6 +165,30 @@ a:focus {
 	}
 	.form-inline .btn-group {
 		display:block;
+	}
+}
+
+/* com_cpanel */
+.com_cpanel {
+	.well {
+		padding: 8px 14px;
+		border: 1px solid rgba(0,0,0,0.05);
+		.module-title.nav-header {
+			color: #555;
+		}
+		> .row-striped, > .list-striped {
+			margin: 0 -14px;
+			> .row-fluid {
+				padding: 8px 14px;
+				[class*="span"] {
+					margin-left: 0;
+				}
+			}
+			> li {
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+		}
 	}
 }
 
@@ -400,7 +432,7 @@ body .navbar-fixed-top {
 	color: #0C192E;
 	text-shadow: 0 1px 0 #FFF;
 	margin-bottom: 10px;
-	min-height: 43px;
+	min-height: 51px;
 }
 
 .subhead-collapse {
@@ -416,7 +448,7 @@ body .navbar-fixed-top {
 	margin-bottom: 5px;
 	.btn-wrapper {
 		display: inline-block;
-		margin: 0 0 5px 5px;
+		margin: 0 0 8px 5px;
 	}
 }
 
@@ -448,7 +480,7 @@ body .navbar-fixed-top {
 
 /* Toolbar */
 #toolbar {
-	margin-bottom: 6px;
+	margin-bottom: 2px;
     margin-top: 12px;
 	.btn {
 	    line-height: 24px;
@@ -699,11 +731,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 #assignment.tab-pane {
 	min-height: 500px;
 }
-/* Chosen Max Width */
-.chzn-container,
-.chzn-drop {
-	max-width: 100% !important;
-}
+
 @media (max-width: 979px) {
 	.navbar {
 		.nav {
@@ -726,14 +754,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 @media (min-width: 768px) {
 	body {
 		padding-top: 30px;
-	}
-
-	body.component {
-		padding-top: 0;
-	}
-
-	.row-fluid [class*="span"] {
-		margin-left: 15px;
 	}
 
 	.row-fluid .modal-batch [class*="span"] {
@@ -759,12 +779,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	.container-fluid {
 		padding-left: 0;
 		padding-right: 0;
-	}
-}
-
-@media (min-width: 738px) {
-	body.component {
-		padding-top: 0;
 	}
 }
 
@@ -815,12 +829,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	.btn-subhead {
 		display: block;
 		margin: 10px 0;
-	}
-
-	.chzn-container,
-	.chzn-container .chzn-results,
-	.chzn-container-single .chzn-drop {
-		width: 99% !important;
 	}
 
 	.subhead-collapse.collapse {
@@ -1217,9 +1225,14 @@ th .tooltip-inner {
 	margin-left: -1px;
 }
 
-.controls .btn-group.btn-group-yesno > .btn {
-	min-width: 84px;
-	padding: 2px 12px;
+.controls .btn-group.btn-group-yesno {
+	width: 100%;
+	max-width: 220px;
+	> .btn {
+		width: 50%;
+		min-width: 40px;
+		padding: 2px 0;
+	}
 }
 .img-preview > img {
 	max-height: 100%;
@@ -1320,7 +1333,7 @@ a.grid_true {
 	width: 16.5%;
 	margin: -10px 0 0 -1px;
 	padding-top: 28px;
-	padding-bottom: 10px;
+	padding-bottom: 40px;
 	clear: both;
 	background-color: @wellBackground;
 	border-bottom: 1px solid darken(@wellBackground, 7%);
@@ -1441,7 +1454,7 @@ textarea, input, .uneditable-input {
 }
 textarea:focus, input:focus, .uneditable-input:focus {
 	box-shadow: none;
-	border: 1px solid @inputBorderHighlight !important;
+	border: 1px solid @inputBorderHighlight;
 }
 
 /* Customize Textarea Resizing */
@@ -1457,18 +1470,6 @@ textarea.noResize {
 	resize: none;
 }
 
-/* Prevent scrolling on the parent window of a modal */
-body.modal-open {
-	overflow: hidden;
-	-ms-overflow-style: none;
-}
-
-/* Corrects the modals padding */
-.field-media-wrapper .modal .modal-body {
-	padding: 5px 10px;
-	overflow: hidden;
-}
-
 /* Stats plugin */
 .js-pstats-data-details dd {
 	margin-left: 240px;
@@ -1477,15 +1478,6 @@ body.modal-open {
 	width: 220px;
 }
 
-/* Clear div after modal-body rendering */
-.modal-footer {
-	clear: both;
-}
-
-/* Modal Header text align left even if parent container centered */
-.modal-header {
-	text-align: left;
-}
 
 /* ACL Permission page */
 #permissions,
@@ -1535,6 +1527,242 @@ body.modal-open {
 .progress .bar,
 .subhead {
   text-shadow: none;
+}
+
+/* Media */
+#imageForm {
+	margin: -25px 0 0;
+	.well {
+		margin-bottom: 5px;
+	}
+}
+.thumbnails-media {
+	@thumbSize:100px;
+	margin-left: 0;
+	.thumbnail {
+		background-color: #f4f4f4;
+		border-radius: @inputBorderRadius;
+		border: 0;
+		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05) inset;
+		padding: 0px;
+		height: @thumbSize;
+		width: @thumbSize;
+		margin: 8px 16px;
+		margin-left: 0 !important;
+		position: relative;
+		text-align: center;
+		overflow: hidden;
+		.close {
+			background-color: #ccc;
+			border-left: 1px solid rgba(0, 0, 0, 0.1);
+		    height: 22px;
+		    line-height: 22px;
+		    opacity: 0.3;
+		    text-align: center;
+		    width: 22px;
+		    top: 0;
+		    right: 0;
+		    &:hover {
+		    	background-color: #bbb;
+		    }
+		}
+		*, *:before {
+	    	-webkit-transition: all 0.2s ease;
+			transition: all 0.2s ease;
+			-webkit-background-clip: padding-box;
+			background-clip: padding-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+	    }
+	    input[type="radio"], input[type="checkbox"] {
+			margin: 0;
+			opacity: 0.55;
+			position: absolute;
+			top: 5px;
+			left: 5px;
+		}
+		.controls, .imginfoBorder {
+			display: none;
+		}
+	}
+	.imgThumb {
+	    position: relative;
+	    z-index: 1;
+	    width:100%;
+	    display: inline-block;
+	    input {
+	    	display: none;
+	    }
+	    label, .imgThumbInside {
+	    	display: block;
+	    	line-height: @thumbSize;
+	    	position: relative;
+	    	width: 100%;
+	    	border-radius: @inputBorderRadius;
+	    	overflow: hidden;
+	    	&:before {
+		  		font-family: "IcoMoon";
+    			font-style: normal;
+    			content: 'G';
+    			position: absolute;
+    			top: 0;
+    			right: 0;
+    			background-color: @btnSuccessBackground;
+    			color: #fff;
+    			line-height: 26px;
+    			width: 26px;
+				-webkit-transform: scale(0.5);
+				transform: scale(0.5);
+				opacity: 0;
+				border-color: rgba(0, 0, 0, 0.2);
+				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+				border-radius: 0 @inputBorderRadius;
+	    	}
+	    }
+	    img {
+	    	width: auto;
+	    }
+	}
+	.selected, .imgInput {
+		:checked + label, .imgThumbInside {
+		    background-color: #ddd;
+			&:before {
+				-webkit-transform: scale(1);
+				transform: scale(1);
+				opacity: 1;
+			}
+			&:after {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				content: '';
+				border: 3px solid @btnSuccessBackground;
+				border-radius: 5px;
+			}
+		}
+	}
+	.imgDelete a.close, .imgPreview a {
+	    padding: 0;
+	    position: absolute;
+	    left: 0;
+	    z-index: 1;
+	    height: 26px;
+	    width: 26px;
+	}
+	.imgDelete a.close {
+	    background-color: @btnDangerBackground;
+	    border-color: @btnDangerBackground rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2) @btnDangerBackground;
+	    top: 0;
+	    line-height: 28px;
+	    font-size: 12px;
+	    padding-left: 1px;
+	    color: #fff;
+		border-bottom-right-radius: @inputBorderRadius;
+		border-top-left-radius: @inputBorderRadius;
+		z-index: 10;
+		opacity: 0;
+		-webkit-transform: scale(0.5);
+		transform: scale(0.5);
+		&:hover {
+			background-color: darken(@btnDangerBackground, 15%);
+		}
+	}
+	.thumbnail:hover .imgDelete a.close {
+		opacity: 1;
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+	.imgPreview a, .imgDetails {
+		position: absolute;
+		left:0;
+	    background-color: #fff;
+	    border-color: rgba(0, 0, 0, 0.2);
+	    bottom: 0;
+	    line-height: 26px;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-width: 1px 1px 0 0; 
+		border-radius: 0 @inputBorderRadius 0 0;
+		z-index: 1;
+		&:hover {
+			background-color: #eee;
+		}
+	}
+	.imgDetails {
+		padding: 0 5px;
+		line-height: 20px;
+		color: #555;
+	}
+	.imgFolder {
+		span {
+			line-height: 90px;
+			font-size: 38px;
+			margin: 0;
+			width: auto;
+		}
+	}
+	.imgFolder + .imgDetails {
+		color: inherit;
+	}
+}
+
+// Media Manager
+#folderframe.thumbnail {
+	border: 0;
+	box-shadow: none;
+	padding: 0;
+}
+#mediamanager-form {
+	> .muted {
+		padding: 0px;
+	}
+	.checkbox {
+		margin-bottom: 15px;
+	}
+	.thumbnails {
+		.thumbnail {
+			height: 120px;
+			width: 120px;
+			margin: 0 18px 18px 0;
+		}
+		.imgThumb {
+			label {
+				line-height: 120px;
+			}
+		}
+	}
+
+	.height-50 {
+	    background-color: #fafafa;
+	    height: 77px;
+	    position: relative;
+	    z-index: 1;
+	    width:100%;
+	    display: inline-block;
+	    a, .icon-folder-2 {
+	    	display: inline-block;
+	    	line-height: 75px;
+	    	margin-top: -1px;
+	    }
+	    a {
+	    	&:after {
+			    bottom: 0;
+			    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset;
+			    content: "";
+			    display: block;
+			    left: 0;
+			    overflow: hidden;
+			    position: absolute;
+			    right: 0;
+			    top: 0;
+			}
+	    }
+	    .icon-folder-2 {
+	    	font-size: 40px;
+	    }
+	}
+
 }
 
 /* Repeatable SubForm */
@@ -1632,7 +1860,131 @@ body.modal-open {
 		margin-bottom: 10px;
 	}
 }
+
+.subform-table-layout {
+	.control-group, .control-group:last-of-type {
+		margin-bottom: 0;
+	}
+	.controls {
+		padding-right: 20px;
+	}
+	.btn-group {
+
+	}
+	input {
+		width: 100%;
+		max-width: 206px;
+	}
+	table .btn-group {
+		margin: 0 7px;
+	}
+}
+@media (max-width: 1024px) {
+	.subform-table-layout {
+		.subform-repeatable {
+			padding-right: 0;
+			tbody td:last-of-type {
+				text-align: right;
+				padding-bottom: 15px;
+			}
+		}
+		table, thead, tbody, th, td, tr { 
+			display: block; 
+		}
+		table {
+			border: 1px solid #ddd;
+		}
+		thead {
+			
+			th { 
+				position: absolute;
+				top: -9999px;
+				left: -9999px;
+				&:last-of-type {
+					position: static;
+					width: 100% !important;
+					text-align: right;
+					box-sizing: border-box;
+					border-left: 0;
+				}
+			}
+		}
+		tr { 
+			margin: 0;
+    		padding: 0;
+			border: 0;
+		}
+		td { 
+			border: none;
+			position: relative;
+			padding-left: 50%; 
+		}
+		tbody {
+			td:first-of-type {
+				padding-top: 15px;
+				border-top: 1px solid #ddd;
+				&:before {top:18px;}
+			}
+		}
+		
+		td:before { 
+			content: attr(data-column);
+			position: absolute;
+			top: 13px;
+			left: 10px;
+			padding-right: 10px; 
+		}
+	}
+}
+// Following can be removed if a solution is found for #13768
+@media (max-width: 979px) {
+	.com_fields .row-fluid [class*="span"] {
+		margin-left: 2.12766%;
+		&:first-of-type {
+			margin-left: 0;
+		}
+	} 
+}
+
 /* Popover minimum height - overwrite bootstrap default */
 .popover-content {
     min-height: 33px;
+}
+
+/* Overrid font-weight 200 */
+.lead, .navbar .brand, .hero-unit, .hero-unit .lead {
+	font-weight: 400;
+}
+
+/* Template Menu Assignment */
+#menu-assignment {
+	.menu-links {
+		margin-left: 0;
+	}
+	.menu-links-block {
+		background-color: #fafafa;
+	    border: 1px solid #ddd;
+	    border-radius: 3px;
+	    padding: 15px;
+	}
+}
+
+/* Remove unneeded space between label and field in vertical forms */
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+	padding-top: 0;
+
+	.form-horizontal & {
+		padding-top: 5px;
+	}
+}
+
+/* Align btn-group to label */
+.form-horizontal .controls > .radio.btn-group:first-child {
+	padding-top: 0;
+}
+
+/* Align btn-group-yesno to label */
+.form-horizontal .controls > .radio.btn-group-yesno:first-child {
+	padding-top: 2px;
 }

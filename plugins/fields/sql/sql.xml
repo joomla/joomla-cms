@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.7.0" group="fields" method="upgrade">
+	<name>plg_fields_sql</name>
+	<author>Joomla! Project</author>
+	<creationDate>March 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.7.0</version>
+	<description>PLG_FIELDS_SQL_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="sql">sql.php</filename>
+		<folder>params</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_fields_sql.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_sql.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="query"
+					type="textarea"
+					filter="raw"
+					default="select id as value, name as text from #__users"
+					label="PLG_FIELDS_SQL_PARAMS_QUERY_LABEL"
+					description="PLG_FIELDS_SQL_PARAMS_QUERY_DESC"
+					rows="10"
+				/>
+	
+				<field
+					name="multiple"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_FIELDS_SQL_PARAMS_MULTIPLE_LABEL"
+					description="PLG_FIELDS_SQL_PARAMS_MULTIPLE_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

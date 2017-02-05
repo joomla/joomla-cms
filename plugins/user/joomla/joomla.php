@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,7 +62,20 @@ class PlgUserJoomla extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (RuntimeException $e)
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			return false;
+		}
+
+		$query = $this->db->getQuery(true)
+			->delete($this->db->quoteName('#__messages'))
+			->where($this->db->quoteName('user_id_from') . ' = ' . (int) $user['id']);
+
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -91,7 +104,8 @@ class PlgUserJoomla extends JPlugin
 		if ($isnew)
 		{
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
-			if ($this->app->isAdmin())
+			// The method check here ensures that if running as a CLI Application we don't get any errors
+			if (method_exists($this->app, 'isClient') && $this->app->isClient('administrator'))
 			{
 				if ($mail_to_user)
 				{
@@ -242,9 +256,9 @@ class PlgUserJoomla extends JPlugin
 		$cookie_domain = $this->app->get('cookie_domain', '');
 		$cookie_path   = $this->app->get('cookie_path', '/');
 
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
-			$this->app->input->cookie->set("joomla_user_state", "logged_in", 0, $cookie_path, $cookie_domain, 0);
+			$this->app->input->cookie->set('joomla_user_state', 'logged_in', 0, $cookie_path, $cookie_domain, 0);
 		}
 
 		return true;
@@ -274,7 +288,7 @@ class PlgUserJoomla extends JPlugin
 		$sharedSessions = $this->app->get('shared_session', '0');
 
 		// Check to see if we're deleting the current session
-		if ($my->id == $user['id'] && (!$sharedSessions && $options['clientid'] == $this->app->getClientId()))
+		if ($my->id == $user['id'] && ($sharedSessions || (!$sharedSessions && $options['clientid'] == $this->app->getClientId())))
 		{
 			// Hit the user last visit field
 			$my->setLastVisit();
@@ -311,9 +325,9 @@ class PlgUserJoomla extends JPlugin
 		$cookie_domain = $this->app->get('cookie_domain', '');
 		$cookie_path   = $this->app->get('cookie_path', '/');
 
-		if ($this->app->isSite())
+		if ($this->app->isClient('site'))
 		{
-			$this->app->input->cookie->set("joomla_user_state", "", time() - 86400, $cookie_path, $cookie_domain, 0);
+			$this->app->input->cookie->set('joomla_user_state', '', time() - 86400, $cookie_path, $cookie_domain, 0);
 		}
 
 		return true;

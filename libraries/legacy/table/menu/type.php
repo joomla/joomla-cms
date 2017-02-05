@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -184,7 +184,6 @@ class JTableMenuType extends JTable
 				->select('id')
 				->from('#__menu')
 				->where('menutype=' . $this->_db->quote($table->menutype))
-				->where('client_id=0')
 				->where('(checked_out NOT IN (0,' . (int) $userId . ') OR home=1 AND language=' . $this->_db->quote('*') . ')');
 			$this->_db->setQuery($query);
 
@@ -215,8 +214,7 @@ class JTableMenuType extends JTable
 			// Delete the menu items
 			$query->clear()
 				->delete('#__menu')
-				->where('menutype=' . $this->_db->quote($table->menutype))
-				->where('client_id=0');
+				->where('menutype=' . $this->_db->quote($table->menutype));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
