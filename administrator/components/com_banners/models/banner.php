@@ -123,6 +123,25 @@ class BannersModelBanner extends JModelAdmin
 	}
 
 	/**
+	 * A method to preprocess generating a new title in order to allow tables with alternative names
+	 * for alias and title to use the batch move and copy methods
+	 *
+	 * @param   integer  $categoryId  The target category id
+	 * @param   JTable   $table       The JTable within which move or copy is taking place
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function generateTitle($categoryId, $table)
+	{
+		// Alter the title & alias
+		$data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
+		$table->name = $data['0'];
+		$table->alias = $data['1'];
+	}
+
+	/**
 	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
