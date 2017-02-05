@@ -20,7 +20,6 @@ class JAuthorize implements JAuthorizeInterface
 	public function __construct(JAuthorizeInterface $implementation)
 	{
 			$this->implementation = $implementation;
-			$this->implementationClass = get_class($implementation);
 	}
 
 	public static function getInstance($implementationName = 'Joomla')
@@ -61,10 +60,7 @@ class JAuthorize implements JAuthorizeInterface
 			break;
 
 			case 'authorizationMatrix':
-				if ($value instanceof $this->implementationClass)
-				{
-					$this->implementation->set('authorizationMatrix', $value);
-				}
+				$this->implementation->set('authorizationMatrix', $value);
 			break;
 
 		}

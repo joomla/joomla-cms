@@ -73,14 +73,14 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 * Instantiate the access class
 	 *
 	 * @param   mixed            $assetId  Assets id, can be numeric or string
-	 * @param   JAccessRules     $rules    Rules object
 	 * @param   JDatabaseDriver  $db       Database object
+	 * @param   JAccessRules     $rules    Rules object
 	 *
 	 *
 	 * @since  4.0
 	 */
 
-	public function __construct($assetId = 1, JAccessRules $rules = null, JDatabaseDriver $db = null)
+	public function __construct($assetId = 1, JDatabaseDriver $db = null, JAccessRules $rules = null )
 	{
 		$this->set('assetId', $assetId);
 		$this->rules = isset($rules) ? $rules : new JAccessRules();
