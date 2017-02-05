@@ -146,7 +146,17 @@ class JCacheStorageFile extends JCacheStorage
 		// Prepend a die string
 		$data = $die . $data;
 
-		$_fileopen = @fopen($path, 'wb');
+		if (isset($this->_locked_files[$path]))
+		{
+			$_fileopen = $this->_locked_files[$path];
+
+			// Because lock method uses flag c+b we have to truncate it manually
+			ftruncate($_fileopen, 0);
+		}
+		else
+		{
+			$_fileopen = @fopen($path, 'wb');
+		}
 
 		if ($_fileopen)
 		{
