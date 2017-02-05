@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,10 +29,14 @@ class ContenthistoryModelHistory extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-					'version_id', 'h.version_id',
-					'version_note', 'h.version_note',
-					'save_date', 'h.save_date',
-					'editor_user_id', 'h.editor_user_id',
+				'version_id',
+				'h.version_id',
+				'version_note',
+				'h.version_note',
+				'save_date',
+				'h.save_date',
+				'editor_user_id',
+				'h.editor_user_id',
 			);
 		}
 
@@ -133,13 +137,27 @@ class ContenthistoryModelHistory extends JModelList
 
 					if ($error)
 					{
-						JLog::add($error, JLog::WARNING, 'jerror');
+						try
+						{
+							JLog::add($error, JLog::WARNING, 'jerror');
+						}
+						catch (RuntimeException $exception)
+						{
+							JFactory::getApplication()->enqueueMessage($error, 'warning');
+						}
 
 						return false;
 					}
 					else
 					{
-						JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+						try
+						{
+							JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+						}
+						catch (RuntimeException $exception)
+						{
+							JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+						}
 
 						return false;
 					}
@@ -260,13 +278,27 @@ class ContenthistoryModelHistory extends JModelList
 
 					if ($error)
 					{
-						JLog::add($error, JLog::WARNING, 'jerror');
+						try
+						{
+							JLog::add($error, JLog::WARNING, 'jerror');
+						}
+						catch (RuntimeException $exception)
+						{
+							JFactory::getApplication()->enqueueMessage($error, 'warning');
+						}
 
 						return false;
 					}
 					else
 					{
-						JLog::add(JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+						try
+						{
+							JLog::add(JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+						}
+						catch (RuntimeException $exception)
+						{
+							JFactory::getApplication()->enqueueMessage(JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
+						}
 
 						return false;
 					}

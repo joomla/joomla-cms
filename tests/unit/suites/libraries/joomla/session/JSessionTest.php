@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Session
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -210,7 +210,10 @@ class JSessionTest extends TestCase
 		$user = JFactory::getUser();
 
 		$expected = md5($user->get('id', 0) . $this->object->getToken(false));
-		$this->assertEquals($expected, $this->object->getFormToken(false), 'Form token should be calculated as above.');
+
+		$object = $this->object;
+
+		$this->assertEquals($expected, $object::getFormToken(false), 'Form token should be calculated as above.');
 	}
 
 	/**

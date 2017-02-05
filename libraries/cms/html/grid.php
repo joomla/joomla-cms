@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,12 +35,12 @@ abstract class JHtmlGrid
 		JHtml::_('bootstrap.tooltip');
 
 		// Build the title.
-		$title = ($value) ? JText::_('JYES') : JText::_('JNO');
+		$title = $value ? JText::_('JYES') : JText::_('JNO');
 		$title = JHtml::tooltipText($title, JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'), 0);
 
 		// Build the <a> tag.
-		$bool = ($value) ? 'true' : 'false';
-		$task = ($value) ? $taskOff : $taskOn;
+		$bool = $value ? 'true' : 'false';
+		$task = $value ? $taskOff : $taskOn;
 		$toggle = (!$task) ? false : true;
 
 		if ($toggle)
@@ -88,7 +88,7 @@ abstract class JHtmlGrid
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');return false;"'
-			. ' class="hasPopover" title="' . htmlspecialchars(JText::_($tip ? $tip : $title)) . '"'
+			. ' class="hasPopover" title="' . htmlspecialchars(JText::_($tip ?: $title)) . '"'
 			. ' data-content="' . htmlspecialchars(JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-placement="top">';
 
 		if (isset($title['0']) && $title['0'] == '<')

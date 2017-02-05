@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -140,13 +140,13 @@ class JPath
 		for ($i = 0; $i < 3; $i++)
 		{
 			// Read
-			$parsed_mode .= ($mode{$i} & 04) ? "r" : "-";
+			$parsed_mode .= ($mode{$i} & 04) ? 'r' : '-';
 
 			// Write
-			$parsed_mode .= ($mode{$i} & 02) ? "w" : "-";
+			$parsed_mode .= ($mode{$i} & 02) ? 'w' : '-';
 
 			// Execute
-			$parsed_mode .= ($mode{$i} & 01) ? "x" : "-";
+			$parsed_mode .= ($mode{$i} & 01) ? 'x' : '-';
 		}
 
 		return $parsed_mode;

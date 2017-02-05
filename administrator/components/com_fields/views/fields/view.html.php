@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -90,7 +90,11 @@ class FieldsViewFields extends JViewLegacy
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
 		}
 
-		$this->addToolbar();
+		// Only add toolbar when not in modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+		}
 
 		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
 		$this->sidebar = JHtmlSidebar::render();
@@ -122,7 +126,9 @@ class FieldsViewFields extends JViewLegacy
 		}
 
 		// Load extension language file
-		JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
+		$lang = JFactory::getLanguage();
+		$lang->load($component, JPATH_ADMINISTRATOR)
+		|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
 		$title = JText::sprintf('COM_FIELDS_VIEW_FIELDS_TITLE', JText::_(strtoupper($component)));
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,6 +26,15 @@ class JCacheStorageFile extends JCacheStorage
 	protected $_root;
 
 	/**
+	 * Locked resources
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 *
+	 */
+	protected $_locked_files = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters
@@ -36,6 +45,21 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		parent::__construct($options);
 		$this->_root = $options['cachebase'];
+	}
+
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function contains($id, $group)
+	{
+		return $this->_checkExpire($id, $group);
 	}
 
 	/**
@@ -122,7 +146,7 @@ class JCacheStorageFile extends JCacheStorage
 		// Prepend a die string
 		$data = $die . $data;
 
-		$_fileopen = @fopen($path, "wb");
+		$_fileopen = @fopen($path, 'wb');
 
 		if ($_fileopen)
 		{
@@ -265,16 +289,16 @@ class JCacheStorageFile extends JCacheStorage
 
 		$looptime  = $locktime * 10;
 		$path      = $this->_getFilePath($id, $group);
-		$_fileopen = @fopen($path, "r+b");
+		$_fileopen = @fopen($path, 'c+b');
 
-		if ($_fileopen)
+		if (!$_fileopen)
 		{
-			$data_lock = @flock($_fileopen, LOCK_EX);
+			$returning->locked = false;
+
+			return $returning;
 		}
-		else
-		{
-			$data_lock = false;
-		}
+
+		$data_lock = (bool) @flock($_fileopen, LOCK_EX|LOCK_NB);
 
 		if ($data_lock === false)
 		{
@@ -286,15 +310,21 @@ class JCacheStorageFile extends JCacheStorage
 			{
 				if ($lock_counter > $looptime)
 				{
-					$returning->locked     = false;
-					$returning->locklooped = true;
 					break;
 				}
 
 				usleep(100);
-				$data_lock = @flock($_fileopen, LOCK_EX);
+				$data_lock = (bool) @flock($_fileopen, LOCK_EX|LOCK_NB);
 				$lock_counter++;
 			}
+
+			$returning->locklooped = true;
+		}
+
+		if ($data_lock === true)
+		{
+			// Remember resource, flock release lock if you unset/close resource
+			$this->_locked_files[$path] = $_fileopen;
 		}
 
 		$returning->locked = $data_lock;
@@ -314,13 +344,13 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function unlock($id, $group = null)
 	{
-		$path      = $this->_getFilePath($id, $group);
-		$_fileopen = @fopen($path, "r+b");
+		$path = $this->_getFilePath($id, $group);
 
-		if ($_fileopen)
+		if (isset($this->_locked_files[$path]))
 		{
-			$ret = @flock($_fileopen, LOCK_UN);
-			@fclose($_fileopen);
+			$ret = (bool) @flock($this->_locked_files[$path], LOCK_UN);
+			@fclose($this->_locked_files[$path]);
+			unset($this->_locked_files[$path]);
 
 			return $ret;
 		}

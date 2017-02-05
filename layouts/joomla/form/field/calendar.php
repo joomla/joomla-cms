@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,7 +107,7 @@ JHtml::_('stylesheet', 'system/fields/calendar-vanilla' . $cssFileExt, array(), 
 	<?php if (!$readonly && !$disabled) : ?>
 	<div class="input-append">
 		<?php endif; ?>
-		<input type="text" name="<?php
+		<input type="text" id="<?php echo $id; ?>" name="<?php
 		echo $name; ?>" value="<?php
 		echo htmlspecialchars(($value != "0000-00-00 00:00:00") ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?>
 		<?php !empty($hint) ? 'placeholder="' . $hint . '"' : ''; ?> data-alt-value="<?php

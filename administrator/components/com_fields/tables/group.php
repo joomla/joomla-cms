@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -119,7 +119,9 @@ class FieldsTableGroup extends JTable
 	 */
 	protected function _getAssetName()
 	{
-		return $this->context . '.fieldgroup.' . (int) $this->id;
+		$component = explode('.', $this->context)[0];
+
+		return $component . '.fieldgroup.' . (int) $this->id;
 	}
 
 	/**
@@ -155,11 +157,12 @@ class FieldsTableGroup extends JTable
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
+		$component = explode('.', $this->context)[0];
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($this->context));
+			->where($db->quoteName('name') . ' = ' . $db->quote($component));
 		$db->setQuery($query);
 
 		if ($assetId = (int) $db->loadResult())

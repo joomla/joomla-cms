@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -113,9 +113,7 @@ class JComponentHelper
 	 */
 	public static function getParams($option, $strict = false)
 	{
-		$component = static::getComponent($option, $strict);
-
-		return $component->params;
+		return static::getComponent($option, $strict)->params;
 	}
 
 	/**
@@ -310,7 +308,7 @@ class JComponentHelper
 	 * @return  string
 	 *
 	 * @since   1.5
-	 * @throws  Exception
+	 * @throws  JComponentExceptionMissing
 	 */
 	public static function renderComponent($option, $params = array())
 	{
@@ -324,7 +322,7 @@ class JComponentHelper
 
 		if (empty($option))
 		{
-			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new JComponentExceptionMissing(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		if (JDEBUG)
@@ -363,7 +361,7 @@ class JComponentHelper
 		// If component is disabled throw error
 		if (!static::isEnabled($option) || !file_exists($path))
 		{
-			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new JComponentExceptionMissing(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		// Load common and local language files.
@@ -399,9 +397,8 @@ class JComponentHelper
 	{
 		ob_start();
 		require_once $path;
-		$contents = ob_get_clean();
 
-		return $contents;
+		return ob_get_clean();
 	}
 
 	/**
