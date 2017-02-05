@@ -436,9 +436,7 @@ class PlgSystemFields extends JPlugin
 				array(
 					'item'            => $item,
 					'context'         => $context,
-					'fields'          => $fields,
-					'container'       => $params->get('fields-container'),
-					'container-class' => $params->get('fields-container-class'),
+					'fields'          => $fields
 				)
 			);
 		}
