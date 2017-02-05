@@ -73,6 +73,8 @@ Desktop.ini
 /libraries/vendor/ircmaxell/password-compat/phpunit.xml.dist
 /libraries/vendor/ircmaxell/password-compat/README.md
 /libraries/vendor/ircmaxell/password-compat/version-test.php
+/libraries/vendor/composer/ca-bundle/composer.json
+/libraries/vendor/composer/ca-bundle/README.md
 /libraries/vendor/defuse/php-encryption/dist
 /libraries/vendor/defuse/php-encryption/docs
 /libraries/vendor/defuse/php-encryption/test
@@ -94,6 +96,7 @@ Desktop.ini
 /libraries/vendor/joomla/*/CONTRIBUTING.md
 /libraries/vendor/joomla/*/composer.json
 /libraries/vendor/joomla/*/phpunit.xml.dist
+/libraries/vendor/joomla/*/phpunit.travis.xml
 /libraries/vendor/joomla/*/README.md
 /libraries/vendor/leafo/lessphp/docs
 /libraries/vendor/leafo/lessphp/tests
@@ -131,6 +134,9 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/README.md
 /libraries/vendor/phpmailer/phpmailer/travis.phpunit.xml.dist
 /libraries/vendor/phpmailer/phpmailer/UPGRADING.md
+/libraries/vendor/psr/http-message/CHANGELOG.md
+/libraries/vendor/psr/http-message/composer.json
+/libraries/vendor/psr/http-message/README.md
 /libraries/vendor/psr/log/Psr/Log/Test
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
@@ -158,3 +164,11 @@ Desktop.ini
 /libraries/vendor/simplepie/simplepie/build
 /libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
 /libraries/vendor/simplepie/simplepie/composer.json
+/libraries/vendor/zendframework/zend-diactoros/.coveralls.yml
+/libraries/vendor/zendframework/zend-diactoros/CHANGELOG.md
+/libraries/vendor/zendframework/zend-diactoros/composer.json
+/libraries/vendor/zendframework/zend-diactoros/composer.lock
+/libraries/vendor/zendframework/zend-diactoros/CONDUCT.md
+/libraries/vendor/zendframework/zend-diactoros/CONTRIBUTING.md
+/libraries/vendor/zendframework/zend-diactoros/mkdocs.yml
+/libraries/vendor/zendframework/zend-diactoros/README.md

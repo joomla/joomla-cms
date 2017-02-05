@@ -1,16 +1,17 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTTP
+ * Part of the Joomla Framework Http Package
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Http\Transport;
 
+use Composer\CaBundle\CaBundle;
 use Joomla\Http\AbstractTransport;
 use Joomla\Http\Exception\InvalidResponseCodeException;
+use Joomla\Http\Response;
 use Joomla\Uri\Uri;
 use Joomla\Uri\UriInterface;
 use Zend\Diactoros\Stream as StreamResponse;
@@ -18,9 +19,9 @@ use Zend\Diactoros\Stream as StreamResponse;
 /**
  * HTTP transport class for using PHP streams.
  *
- * @since  11.3
+ * @since  1.0
  */
-class JHttpTransportStream extends AbstractTransport implements JHttpTransport
+class Stream extends AbstractTransport
 {
 	/**
 	 * Send a request to the server and return a Response object with the response.
@@ -32,15 +33,15 @@ class JHttpTransportStream extends AbstractTransport implements JHttpTransport
 	 * @param   integer       $timeout    Read timeout in seconds.
 	 * @param   string        $userAgent  The optional user agent string to send with the request.
 	 *
-	 * @return  JHttpResponse
+	 * @return  Response
 	 *
-	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @since   1.0
+	 * @throws  \RuntimeException
 	 */
 	public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
 	{
 		// Create the stream context options array with the required method offset.
-		$options = array('method' => strtoupper($method));
+		$options = ['method' => strtoupper($method)];
 
 		// If data exists let's encode it and make sure our Content-Type header is set.
 		if (isset($data))
@@ -50,8 +51,8 @@ class JHttpTransportStream extends AbstractTransport implements JHttpTransport
 			{
 				$options['content'] = $data;
 			}
-			// Otherwise we need to encode the value first.
 			else
+			// Otherwise we need to encode the value first.
 			{
 				$options['content'] = http_build_query($data);
 			}
@@ -83,68 +84,78 @@ class JHttpTransportStream extends AbstractTransport implements JHttpTransport
 		// Follow redirects.
 		$options['follow_location'] = (int) $this->getOption('follow_location', 1);
 
-		// Set any custom transport options
-		foreach ($this->getOption('transport.stream', array()) as $key => $value)
+		// Add the proxy configuration if enabled
+		if ($this->getOption('proxy.enabled', false))
 		{
-			$options[$key] = $value;
-		}
-
-		// Add the proxy configuration, if any.
-		$config = JFactory::getConfig();
-
-		if ($config->get('proxy_enable'))
-		{
-			$options['proxy'] = $config->get('proxy_host') . ':' . $config->get('proxy_port');
 			$options['request_fulluri'] = true;
 
-			// Put any required authorization into the headers array to be handled later
-			// TODO: do we need to support any auth type other than Basic?
-			if ($user = $config->get('proxy_user'))
+			if ($this->getOption('proxy.host') && $this->getOption('proxy.port'))
 			{
-				$auth = base64_encode($config->get('proxy_user') . ':' . $config->get('proxy_pass'));
+				$options['proxy'] = $this->getOption('proxy.host') . ':' . (int) $this->getOption('proxy.port');
+			}
 
-				$headers['Proxy-Authorization'] = 'Basic ' . $auth;
+			// If authentication details are provided, add those as well
+			if ($this->getOption('proxy.port') && $this->getOption('proxy.password'))
+			{
+				$headers['Proxy-Authorization'] = 'Basic ' . base64_encode($this->getOption('proxy.user') . ':' . $this->getOption('proxy.password'));
 			}
 		}
 
 		// Build the headers string for the request.
-		$headerEntries = array();
+		$headerString = null;
 
 		if (isset($headers))
 		{
 			foreach ($headers as $key => $value)
 			{
-				$headerEntries[] = $key . ': ' . $value;
+				$headerString .= $key . ': ' . $value . "\r\n";
 			}
 
 			// Add the headers string into the stream context options array.
-			$options['header'] = implode("\r\n", $headerEntries);
+			$options['header'] = trim($headerString, "\r\n");
 		}
 
-		// Get the current context options.
-		$contextOptions = stream_context_get_options(stream_context_get_default());
-
-		// Add our options to the current ones, if any.
-		$contextOptions['http'] = isset($contextOptions['http']) ? array_merge($contextOptions['http'], $options) : $options;
-
-		// Create the stream context for the request.
-		$context = stream_context_create(
-			array(
-				'http' => $options,
-				'ssl' => array(
-					'verify_peer'   => true,
-					'cafile'        => $this->getOption('stream.certpath', __DIR__ . '/cacert.pem'),
-					'verify_depth'  => 5,
-				),
-			)
-		);
-
-		// Authentification, if needed
+		// Authentication, if needed
 		if ($uri instanceof Uri && $this->getOption('userauth') && $this->getOption('passwordauth'))
 		{
 			$uri->setUser($this->getOption('userauth'));
 			$uri->setPass($this->getOption('passwordauth'));
 		}
+
+		// Set any custom transport options
+		foreach ($this->getOption('transport.stream', []) as $key => $value)
+		{
+			$options[$key] = $value;
+		}
+
+		// Get the current context options.
+		$contextOptions = stream_context_get_options(stream_context_get_default());
+
+		// Add our options to the currently defined options, if any.
+		$contextOptions['http'] = isset($contextOptions['http']) ? array_merge($contextOptions['http'], $options) : $options;
+
+		// Create the stream context for the request.
+		$streamOptions = [
+			'http' => $options,
+			'ssl'  => [
+				'verify_peer'  => true,
+				'verify_depth' => 5,
+			]
+		];
+
+		// The cacert may be a file or path
+		$certpath = $this->getOption('stream.certpath', CaBundle::getSystemCaRootBundlePath());
+
+		if (is_dir($certpath))
+		{
+			$streamOptions['ssl']['capath'] = $certpath;
+		}
+		else
+		{
+			$streamOptions['ssl']['cafile'] = $certpath;
+		}
+
+		$context = stream_context_create($streamOptions);
 
 		// Capture PHP errors
 		$php_errormsg = '';
@@ -159,13 +170,14 @@ class JHttpTransportStream extends AbstractTransport implements JHttpTransport
 			if (!$php_errormsg)
 			{
 				// Error but nothing from php? Create our own
+				// @todo $err and $errno are undefined variables.
 				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
 			}
 
 			// Restore error tracking to give control to the exception handler
 			ini_set('track_errors', $track_errors);
 
-			throw new RuntimeException($php_errormsg);
+			throw new \RuntimeException($php_errormsg);
 		}
 
 		// Restore error tracking to what it was before.
@@ -180,6 +192,8 @@ class JHttpTransportStream extends AbstractTransport implements JHttpTransport
 		// Close the stream.
 		fclose($stream);
 
+		$headers = [];
+
 		if (isset($metadata['wrapper_data']['headers']))
 		{
 			$headers = $metadata['wrapper_data']['headers'];
@@ -187,10 +201,6 @@ class JHttpTransportStream extends AbstractTransport implements JHttpTransport
 		elseif (isset($metadata['wrapper_data']))
 		{
 			$headers = $metadata['wrapper_data'];
-		}
-		else
-		{
-			$headers = array();
 		}
 
 		return $this->getResponse($headers, $content);
@@ -202,10 +212,10 @@ class JHttpTransportStream extends AbstractTransport implements JHttpTransport
 	 * @param   array   $headers  The response headers as an array.
 	 * @param   string  $body     The response body as a string.
 	 *
-	 * @return  JHttpResponse
+	 * @return  Response
 	 *
-	 * @since   11.3
-	 * @throws  UnexpectedValueException
+	 * @since   1.0
+	 * @throws  InvalidResponseCodeException
 	 */
 	protected function getResponse(array $headers, $body)
 	{
@@ -225,15 +235,15 @@ class JHttpTransportStream extends AbstractTransport implements JHttpTransport
 		$streamInterface = new StreamResponse('php://memory', 'rw');
 		$streamInterface->write($body);
 
-		return new JHttpResponse($streamInterface, $statusCode, $verifiedHeaders);
+		return new Response($streamInterface, $statusCode, $verifiedHeaders);
 	}
 
 	/**
 	 * Method to check if http transport stream available for use
 	 *
-	 * @return bool true if available else false
+	 * @return  boolean  True if available else false
 	 *
-	 * @since   12.1
+	 * @since   1.0
 	 */
 	public static function isSupported()
 	{

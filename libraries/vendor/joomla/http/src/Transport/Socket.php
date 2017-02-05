@@ -1,29 +1,32 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTTP
+ * Part of the Joomla Framework Http Package
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Http\Transport;
 
 use Joomla\Http\AbstractTransport;
 use Joomla\Http\Exception\InvalidResponseCodeException;
+use Joomla\Http\Response;
 use Joomla\Uri\UriInterface;
+use Joomla\Uri\Uri;
 use Zend\Diactoros\Stream as StreamResponse;
 
 /**
  * HTTP transport class for using sockets directly.
  *
- * @since  11.3
+ * @since  1.0
  */
-class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
+class Socket extends AbstractTransport
 {
 	/**
-	 * @var    array  Reusable socket connections.
-	 * @since  11.3
+	 * Reusable socket connections.
+	 *
+	 * @var    array
+	 * @since  1.0
 	 */
 	protected $connections;
 
@@ -37,33 +40,31 @@ class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
 	 * @param   integer       $timeout    Read timeout in seconds.
 	 * @param   string        $userAgent  The optional user agent string to send with the request.
 	 *
-	 * @return  JHttpResponse
+	 * @return  Response
 	 *
-	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @since   1.0
+	 * @throws  \RuntimeException
 	 */
 	public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
 	{
 		$connection = $this->connect($uri, $timeout);
 
 		// Make sure the connection is alive and valid.
-		if (is_resource($connection))
+		if (!is_resource($connection))
 		{
-			// Make sure the connection has not timed out.
-			$meta = stream_get_meta_data($connection);
-
-			if ($meta['timed_out'])
-			{
-				throw new RuntimeException('Server connection timed out.');
-			}
+			throw new \RuntimeException('Not connected to server.');
 		}
-		else
+
+		// Make sure the connection has not timed out.
+		$meta = stream_get_meta_data($connection);
+
+		if ($meta['timed_out'])
 		{
-			throw new RuntimeException('Not connected to server.');
+			throw new \RuntimeException('Server connection timed out.');
 		}
 
 		// Get the request path from the URI object.
-		$path = $uri->toString(array('path', 'query'));
+		$path = $uri->toString(['path', 'query']);
 
 		// If we have data to send make sure our request is setup for it.
 		if (!empty($data))
@@ -84,7 +85,7 @@ class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
 		}
 
 		// Build the request payload.
-		$request = array();
+		$request = [];
 		$request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.0';
 		$request[] = 'Host: ' . $uri->getHost();
 
@@ -92,6 +93,13 @@ class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
 		if (isset($userAgent))
 		{
 			$headers['User-Agent'] = $userAgent;
+		}
+
+		// If we have a username then we include basic authentication credentials.
+		if ($uri->getUser())
+		{
+			$authString = $uri->getUser() . ':' . $uri->getPass();
+			$headers['Authorization'] = 'Basic ' . base64_encode($authString);
 		}
 
 		// If there are custom headers to send add them to the request payload.
@@ -103,8 +111,14 @@ class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
 			}
 		}
 
+		// Authentication, if needed
+		if ($this->getOption('userauth') && $this->getOption('passwordauth'))
+		{
+			$request[] = 'Authorization: Basic ' . base64_encode($this->getOption('userauth') . ':' . $this->getOption('passwordauth'));
+		}
+
 		// Set any custom transport options
-		foreach ($this->getOption('transport.socket', array()) as $value)
+		foreach ($this->getOption('transport.socket', []) as $value)
 		{
 			$request[] = $value;
 		}
@@ -114,12 +128,6 @@ class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
 		{
 			$request[] = null;
 			$request[] = $data;
-		}
-
-		// Authentification, if needed
-		if ($this->getOption('userauth') && $this->getOption('passwordauth'))
-		{
-			$request[] = 'Authorization: Basic ' . base64_encode($this->getOption('userauth') . ':' . $this->getOption('passwordauth'));
 		}
 
 		// Send the request to the server.
@@ -138,7 +146,7 @@ class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
 		// Follow Http redirects
 		if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location']))
 		{
-			return $this->request($method, new JUri($content->headers['Location']), $data, $headers, $timeout, $userAgent);
+			return $this->request($method, new Uri($content->headers['Location']), $data, $headers, $timeout, $userAgent);
 		}
 
 		return $content;
@@ -149,16 +157,17 @@ class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
 	 *
 	 * @param   string  $content  The complete server response, including headers.
 	 *
-	 * @return  JHttpResponse
+	 * @return  Response
 	 *
-	 * @since   11.3
-	 * @throws  UnexpectedValueException
+	 * @since   1.0
+	 * @throws  \UnexpectedValueException
+	 * @throws  InvalidResponseCodeException
 	 */
 	protected function getResponse($content)
 	{
 		if (empty($content))
 		{
-			throw new UnexpectedValueException('No content in response.');
+			throw new \UnexpectedValueException('No content in response.');
 		}
 
 		// Split the response into headers and body.
@@ -186,7 +195,7 @@ class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
 		$streamInterface = new StreamResponse('php://memory', 'rw');
 		$streamInterface->write($body);
 
-		return new JHttpResponse($streamInterface, $statusCode, $verifiedHeaders);
+		return new Response($streamInterface, $statusCode, $verifiedHeaders);
 	}
 
 	/**
@@ -197,8 +206,8 @@ class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
 	 *
 	 * @return  resource  Socket connection resource.
 	 *
-	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @since   1.0
+	 * @throws  \RuntimeException
 	 */
 	protected function connect(UriInterface $uri, $timeout = null)
 	{
@@ -233,7 +242,7 @@ class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
 			{
 				if (!fclose($this->connections[$key]))
 				{
-					throw new RuntimeException('Cannot close connection');
+					throw new \RuntimeException('Cannot close connection');
 				}
 			}
 
@@ -269,7 +278,7 @@ class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
 			// Restore error tracking to give control to the exception handler
 			ini_set('track_errors', $track_errors);
 
-			throw new RuntimeException($php_errormsg);
+			throw new \RuntimeException($php_errormsg);
 		}
 
 		// Restore error tracking to what it was before.
@@ -292,10 +301,10 @@ class JHttpTransportSocket extends AbstractTransport implements JHttpTransport
 	 *
 	 * @return  boolean   True if available else false
 	 *
-	 * @since   12.1
+	 * @since   1.0
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fsockopen') && is_callable('fsockopen') && !JFactory::getConfig()->get('proxy_enable');
+		return function_exists('fsockopen') && is_callable('fsockopen');
 	}
 }
