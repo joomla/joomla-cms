@@ -44,6 +44,8 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 
 	const IMPLEMENTATION = 'Joomla';
 
+	const APPENDSUPPORT = true;
+
 	/**
 	 * Instantiate the access class
 	 *
@@ -90,20 +92,6 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 		return $this;
 	}
 
-	/**
-	 * Method to get the value
-	 *
-	 * @param   string  $key           Key to search for in the data array
-	 * @param   mixed   $defaultValue  Default value to return if the key is not set
-	 *
-	 * @return  mixed   Value | defaultValue if doesn't exist
-	 *
-	 * @since   4.0
-	 */
-	public function get($key, $defaultValue = null)
-	{
-		return isset($this->$key) ? $this->$key : $defaultValue;
-	}
 
 	/**
 	 * Method for clearing static caches.
@@ -354,10 +342,8 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 *                 	 *
 	 * @since   4.0
     */
-	public static function insertFilterQuery(&$query, $joinfield, $permission, $orwhere = null, $groups = null)
+	public function appendFilterQuery(&$query, $joinfield, $permission, $orWhere = null, $groups = null)
 	{
-
-		$db = JFactory::getDbo();
 
 		if (!isset($groups))
 		{
@@ -394,7 +380,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 
 			foreach ($groups AS $group)
 			{
-				$gquery .= 'p.group = ' . $db->quote((string) $group);
+				$gquery .= 'p.group = ' . $this->db->quote((string) $group);
 				$gquery .= ($counter < $allgroups) ? ' OR ' : ' ) ';
 				$counter++;
 			}
@@ -402,15 +388,15 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 			$conditions .= $gquery;
 		}
 
-		$conditions .= ' AND p.permission = ' . $db->quote($permission) . ' ';
+		$conditions .= ' AND p.permission = ' . $this->db->quote($permission) . ' ';
 		$query->leftJoin('#__permissions AS p ' . $conditions);
 
 		// Magic
-		$basicwhere = 'p.permission = ' . $db->quote($permission) . ' AND p.value=1';
+		$basicwhere = 'p.permission = ' . $this->db->quote($permission) . ' AND p.value=1';
 
-		if (isset($orwhere))
+		if (isset($orWhere))
 		{
-			$basicwhere = '(' . $basicwhere . ' OR ' . $orwhere . ')';
+			$basicwhere = '(' . $basicwhere . ' OR ' . $orWhere . ')';
 		}
 
 		$query->where($basicwhere);
@@ -418,7 +404,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 		$query->where('bs.level = (SELECT max(fs.level) FROM #__assets AS fs
   							LEFT JOIN #__permissions AS pr
  							ON fs.id = pr.assetid 
- 						 	WHERE (ass.lft BETWEEN fs.lft AND fs.rgt) AND pr.permission = ' . $db->quote($permission) . ')');
+ 						 	WHERE (ass.lft BETWEEN fs.lft AND fs.rgt) AND pr.permission = ' . $this->db->quote($permission) . ')');
 
 		return $query;
 	}

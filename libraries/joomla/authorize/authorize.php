@@ -63,7 +63,7 @@ class JAuthorize implements JAuthorizeInterface
 			case 'authorizationMatrix':
 				if ($value instanceof $this->implementationClass)
 				{
-					self::$authorizationMatrix[$this->implementationClass] = $value;
+					$this->implementation->set('authorizationMatrix', $value);
 				}
 			break;
 
@@ -86,10 +86,10 @@ class JAuthorize implements JAuthorizeInterface
 	{
 		if ($key == 'authorizationMatrix')
 		{
-			return isset(self::$authorizationMatrix[$this->implementationClass]) ? self::$authorizationMatrix[$this->implementationClass] : $defaultValue;
+			return $this->implementation->get('authorizationMatrix', $defaultValue);
 		}
 
-		return isset($this->$key) ? $this->$key : $defaultValue;
+		return $this->implementation->get($key, $defaultValue);
 	}
 
 	public function check($actor, $target, $action)
@@ -107,5 +107,14 @@ class JAuthorize implements JAuthorizeInterface
 		return $this->implementation->deny($actor, $target, $action);
 	}
 
+	public function appendFilterQuery(&$query, $joinfield, $permission, $orWhere = null, $groups = null)
+	{
+		return $this->implementation->appendFilterQuery(&$query, $joinfield, $permission, $orWhere, $groups);
+	}
+
+	public function isAppendSupported()
+	{
+		return $this->implementation->isAppendSupported();
+	}
 
 }

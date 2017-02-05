@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementation implements JAuthorizeInterface
+class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJoomla implements JAuthorizeInterface
 {
 
 	/**
@@ -66,6 +66,8 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementation impl
 	protected $db = null;
 
 	const IMPLEMENTATION = 'JoomlaLegacy';
+
+	const APPENDSUPPORT = false;
 
 	/**
 	 * Instantiate the access class
@@ -371,24 +373,6 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementation impl
 		return $result;
 	}
 
-	/**
-	 * Query root asset permissions
-	 *
-	 * @return mixed   Db query result - the return value or null if the query failed.
-	 */
-	public function getRootAssetPermissions()
-	{
-		$query = $this->db->getQuery(true);
-		$query  ->select('b.id, b.rules, p.permission, p.value, ' . $this->db->qn('p'). '.' . $this->db->qn('group'))
-				->from($this->db->qn('#__assets', 'b'))
-				->leftJoin($this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
-				->where('b.parent_id=0');
-		$this->db->setQuery($query);
-
-		self::$rootAsset  = $this->db->loadObjectList();
-
-		return self::$rootAsset;
-	}
 
 	/**
 	 * Merge new permissions with old rules from assets table for backwards compatibility
@@ -428,76 +412,4 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementation impl
 		return $mergedResult;
 	}
 
-	/* Inject permissions filter in database object
-	 *
-	 * @TODO make filter usable by passing asset name
-	 */
-	public static function insertFilterQuery(&$query, $joinfield, $permission, $orwhere = null, $groups = null)
-	{
-
-		$db = JFactory::getDbo();
-
-		if (!isset($groups))
-		{
-			$user   = JFactory::getUser();
-			$groups = $user->getAuthorisedGroups();
-		}
-
-		/*if ($user->isAdmin((int) $user->id) == true)
-		{
-			return; // No filter for admins
-		}*/
-
-		$query->select('ass.id AS assid, bs.id AS bssid, bs.rules, p.permission, p.value, p.group');
-		$query->leftJoin('#__assets AS ass ON ass.id = ' . $joinfield);
-
-		// If we want the rules cascading up to the global asset node we need a self-join.
-		$query->innerJoin('#__assets AS bs');
-		$query->where('ass.lft BETWEEN bs.lft AND bs.rgt');
-
-		// Join permissions table
-		$conditions = 'ON bs.id = p.assetid ';
-
-		if (isset($groups))
-		{
-			if (is_string($groups))
-			{
-				$groups = array($groups);
-			}
-
-			$counter   = 1;
-			$allgroups = count($groups);
-
-			$gquery = ' AND (';
-
-			foreach ($groups AS $group)
-			{
-				$gquery .= 'p.group = ' . $db->quote((string) $group);
-				$gquery .= ($counter < $allgroups) ? ' OR ' : ' ) ';
-				$counter++;
-			}
-
-			$conditions .= $gquery;
-		}
-
-		$conditions .= ' AND p.permission = ' . $db->quote($permission) . ' ';
-		$query->leftJoin('#__permissions AS p ' . $conditions);
-
-		// Magic
-		$basicwhere = 'p.permission = ' . $db->quote($permission) . ' AND p.value=1';
-
-		if (isset($orwhere))
-		{
-			$basicwhere = '(' . $basicwhere . ' OR ' . $orwhere . ')';
-		}
-
-		$query->where($basicwhere);
-
-		$query->where('bs.level = (SELECT max(fs.level) FROM #__assets AS fs
-  							LEFT JOIN #__permissions AS pr
- 							ON fs.id = pr.assetid 
- 						 	WHERE (ass.lft BETWEEN fs.lft AND fs.rgt) AND pr.permission = ' . $db->quote($permission) . ')');
-
-		return $query;
-	}
 }
