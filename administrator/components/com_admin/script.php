@@ -504,6 +504,8 @@ class JoomlaInstallerScript
 			array('plugin', 'url', 'fields', 0),
 			array('plugin', 'user', 'fields', 0),
 			array('plugin', 'usergrouplist', 'fields', 0),
+			array('plugin', 'fields', 'content', 0),
+			array('plugin', 'fields', 'editors-xtd', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -1845,7 +1847,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/layouts/joomla/searchtools',
 			'/administrator/components/com_templates/layouts/joomla',
 			'/administrator/components/com_templates/layouts',
-			// Joomla! 3.7.0
 			'/administrator/templates/hathor/html/mod_menu',
 		);
 

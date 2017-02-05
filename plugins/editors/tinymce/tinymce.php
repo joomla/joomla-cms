@@ -627,6 +627,7 @@ class PlgEditorTinymce extends JPlugin
 			'document_base_url'  => JUri::root(true) . '/',
 			'paste_data_images'  => $allowImgPaste,
 			'importcss_append'   => true,
+			'image_title'        => true,
 			'height'             => $html_height,
 			'width'              => $html_width,
 			'resize'             => $resizing,
