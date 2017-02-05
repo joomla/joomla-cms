@@ -116,6 +116,6 @@ class JFormFieldMenu extends JFormFieldGroupedList
 		}
 
 		// Merge any additional options in the XML definition.
-		return array_merge(parent::getOptions(), $groups);
+		return array_merge(parent::getGroups(), $groups);
 	}
 }
