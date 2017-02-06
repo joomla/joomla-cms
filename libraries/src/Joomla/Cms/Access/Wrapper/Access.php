@@ -1,34 +1,37 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Access
+ * Joomla! Content Management System
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Access\Wrapper;
+
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Access\Access;
+
 /**
- * Wrapper class for JAccess
+ * Wrapper class for Access
  *
  * @package     Joomla.Platform
  * @subpackage  User
  * @since       3.4
  */
-class JAccessWrapperAccess
+class Access
 {
 	/**
 	 * Helper wrapper method for addUserToGroup
 	 *
 	 * @return void
 	 *
-	 * @see     JAccess::clearStatics
+	 * @see     Access::clearStatics
 	 * @since   3.4
 	 */
 	public function clearStatics()
 	{
-		return JAccess::clearStatics();
+		return Access::clearStatics();
 	}
 
 	/**
@@ -40,12 +43,12 @@ class JAccessWrapperAccess
 	 *
 	 * @return boolean  True if authorised.
 	 *
-	 * @see     JAccess::check()
+	 * @see     Access::check()
 	 * @since   3.4
 	 */
 	public function check($userId, $action, $asset = null)
 	{
-		return JAccess::check($userId, $action, $asset);
+		return Access::check($userId, $action, $asset);
 	}
 
 	/**
@@ -57,12 +60,12 @@ class JAccessWrapperAccess
 	 *
 	 * @return  boolean  True if authorised.
 	 *
-	 * @see     JAccess::checkGroup()
+	 * @see     Access::checkGroup()
 	 * @since   3.4
 	 */
 	public function checkGroup($groupId, $action, $asset = null)
 	{
-		return JAccess::checkGroup($groupId, $action, $asset);
+		return Access::checkGroup($groupId, $action, $asset);
 	}
 
 	/**
@@ -71,14 +74,14 @@ class JAccessWrapperAccess
 	 * @param   mixed    $asset      Integer asset id or the name of the asset as a string.
 	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
 	 *
-	 * @return  JAccessRules   JAccessRules object for the asset.
+	 * @return  AccessRules   AccessRules object for the asset.
 	 *
-	 * @see     JAccess::getAssetRules
+	 * @see     Access::getAssetRules
 	 * @since   3.4
 	 */
 	public function getAssetRules($asset, $recursive = false)
 	{
-		return JAccess::getAssetRules($asset, $recursive);
+		return Access::getAssetRules($asset, $recursive);
 	}
 
 	/**
@@ -89,12 +92,12 @@ class JAccessWrapperAccess
 	 *
 	 * @return  array    List of user group ids to which the user is mapped.
 	 *
-	 * @see     JAccess::getGroupsByUser()
+	 * @see     Access::getGroupsByUser()
 	 * @since   3.4
 	 */
 	public function getGroupsByUser($userId, $recursive = true)
 	{
-		return JAccess::getGroupsByUser($userId, $recursive);
+		return Access::getGroupsByUser($userId, $recursive);
 	}
 
 	/**
@@ -105,12 +108,12 @@ class JAccessWrapperAccess
 	 *
 	 * @return  array
 	 *
-	 * @see     JAccess::getUsersByGroup()
+	 * @see     Access::getUsersByGroup()
 	 * @since   3.4
 	 */
 	public function getUsersByGroup($groupId, $recursive = false)
 	{
-		return JAccess::getUsersByGroup($groupId, $recursive);
+		return Access::getUsersByGroup($groupId, $recursive);
 	}
 
 	/**
@@ -120,12 +123,12 @@ class JAccessWrapperAccess
 	 *
 	 * @return  array    List of view levels for which the user is authorised.
 	 *
-	 * @see     JAccess::getAuthorisedViewLevels()
+	 * @see     Access::getAuthorisedViewLevels()
 	 * @since   3.4
 	 */
 	public function getAuthorisedViewLevels($userId)
 	{
-		return JAccess::getAuthorisedViewLevels($userId);
+		return Access::getAuthorisedViewLevels($userId);
 	}
 
 	/**
@@ -136,12 +139,13 @@ class JAccessWrapperAccess
 	 *
 	 * @return array  List of actions available for the given component and section.
 	 *
-	 * @see     JAccess::getActions()
+	 * @see     Access::getActions()
 	 * @since   3.4
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS)  Use Access::getActionsFromFile or Access::getActionsFromData instead.
 	 */
 	public function getActions($component, $section = 'component')
 	{
-		return JAccess::getActions($component, $section);
+		return Access::getActions($component, $section);
 	}
 
 	/**
@@ -152,12 +156,12 @@ class JAccessWrapperAccess
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
-	 * @see     JAccess::getActionsFromFile()
+	 * @see     Access::getActionsFromFile()
 	 * @since   3.4
 	 */
 	public function getActionsFromFile($file, $xpath = '/access/section[@name=\'component\']/')
 	{
-		return JAccess::getActionsFromFile($file, $xpath);
+		return Access::getActionsFromFile($file, $xpath);
 	}
 
 	/**
@@ -168,11 +172,11 @@ class JAccessWrapperAccess
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
-	 * @see     JAccess::getActionsFromData()
+	 * @see     Access::getActionsFromData()
 	 * @since   3.4
 	 */
 	public function getActionsFromData($data, $xpath = '/access/section[@name=\'component\']/')
 	{
-		return JAccess::getActionsFromData($data, $xpath);
+		return Access::getActionsFromData($data, $xpath);
 	}
 }

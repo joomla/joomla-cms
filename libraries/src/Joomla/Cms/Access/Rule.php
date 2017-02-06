@@ -1,20 +1,21 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Access
+ * Joomla! Content Management System
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Access;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JAccessRule class.
+ * Rule class.
  *
  * @since  11.4
  */
-class JAccessRule
+class Rule
 {
 	/**
 	 * A named array
@@ -68,7 +69,7 @@ class JAccessRule
 	 */
 	public function mergeIdentities($identities)
 	{
-		if ($identities instanceof JAccessRule)
+		if ($identities instanceof Rule)
 		{
 			$identities = $identities->getData();
 		}

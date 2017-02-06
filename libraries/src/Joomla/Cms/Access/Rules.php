@@ -1,20 +1,21 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Access
+ * Joomla! Content Management System
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Access;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JAccessRules class.
+ * Access rules class.
  *
  * @since  11.4
  */
-class JAccessRules
+class Rules
 {
 	/**
 	 * A named array.
@@ -59,7 +60,7 @@ class JAccessRules
 	/**
 	 * Get the data for the action.
 	 *
-	 * @return  array  A named array of JAccessRule objects.
+	 * @return  array  A named array of Rule objects.
 	 *
 	 * @since   11.1
 	 */
@@ -69,9 +70,9 @@ class JAccessRules
 	}
 
 	/**
-	 * Method to merge a collection of JAccessRules.
+	 * Method to merge a collection of Rules.
 	 *
-	 * @param   mixed  $input  JAccessRule or array of JAccessRules
+	 * @param   mixed  $input  Rule or array of Rules
 	 *
 	 * @return  void
 	 *
@@ -92,7 +93,7 @@ class JAccessRules
 	/**
 	 * Method to merge actions with this object.
 	 *
-	 * @param   mixed  $actions  JAccessRule object, an array of actions or a JSON string array of actions.
+	 * @param   mixed  $actions  Rule object, an array of actions or a JSON string array of actions.
 	 *
 	 * @return  void
 	 *
@@ -112,7 +113,7 @@ class JAccessRules
 				$this->mergeAction($action, $identities);
 			}
 		}
-		elseif ($actions instanceof JAccessRules)
+		elseif ($actions instanceof Rules)
 		{
 			$data = $actions->getData();
 
@@ -143,7 +144,7 @@ class JAccessRules
 		else
 		{
 			// If new, add the action.
-			$this->data[$action] = new JAccessRule($identities);
+			$this->data[$action] = new Rule($identities);
 		}
 	}
 
@@ -176,14 +177,14 @@ class JAccessRules
 	 *
 	 * @param   mixed  $identity  An integer representing the identity or an array of identities
 	 *
-	 * @return  JObject  Allowed actions for the identity or identities
+	 * @return  \JObject  Allowed actions for the identity or identities
 	 *
 	 * @since   11.1
 	 */
 	public function getAllowed($identity)
 	{
 		// Sweep for the allowed actions.
-		$allowed = new JObject;
+		$allowed = new \JObject;
 
 		foreach ($this->data as $name => &$action)
 		{
