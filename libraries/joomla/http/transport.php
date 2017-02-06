@@ -14,7 +14,7 @@ use Joomla\Http\TransportInterface;
 /**
  * HTTP transport class interface.
  *
- * @since  11.3
+ * @since       11.3
  * @deprecated  5.0  Implement Joomla\Http\TransportInterface instead
  */
 interface JHttpTransport extends TransportInterface

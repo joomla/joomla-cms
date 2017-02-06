@@ -14,7 +14,7 @@ use Joomla\Http\Response;
 /**
  * HTTP response data object class.
  *
- * @since  11.3
+ * @since       11.3
  * @deprecated  5.0  Use Joomla\Http\Response instead
  */
 class JHttpResponse extends Response
