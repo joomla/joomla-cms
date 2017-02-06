@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Event\Event;
+
 /**
  * Package installer
  *
@@ -322,14 +324,14 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	/**
 	 * Handler for the `onExtensionAfterInstall` event
 	 *
-	 * @param   JInstaller       $installer  JInstaller instance managing the extension's installation
-	 * @param   integer|boolean  $eid        The extension ID of the installed extension on success, boolean false on install failure
+	 * @param   Event            $event  The event
+	 * @param   integer|boolean  $eid    The extension ID of the installed extension on success, boolean false on install failure
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onExtensionAfterInstall(JInstaller $installer, $eid)
+	public function onExtensionAfterInstall(Event $event, $eid)
 	{
 		if ($eid !== false)
 		{
