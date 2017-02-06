@@ -94,6 +94,12 @@ class PlgSystemStats extends JPlugin
 		// Load plugin language files only when needed (ex: they are not needed in site client).
 		$this->loadLanguage();
 
+		// Only to com_cpanel
+		if ($this->app->input->get('option', 'com_cpanel') !== 'com_cpanel')
+		{
+			return;
+		}
+		
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'plg_system_stats/stats.js', array('version' => 'auto', 'relative' => true));
 	}
