@@ -99,7 +99,7 @@ class PlgSystemStats extends JPlugin
 		{
 			return;
 		}
-		
+
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'plg_system_stats/stats.js', array('version' => 'auto', 'relative' => true));
 	}
