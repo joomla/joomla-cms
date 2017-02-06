@@ -35,35 +35,37 @@ class PlgButtonFields extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		if (JPluginHelper::isEnabled('content', 'fields') && JPluginHelper::isEnabled('system', 'fields'))
+		// Do not display button if content and system plugins are disabled
+		if (!JPluginHelper::isEnabled('content', 'fields') && !JPluginHelper::isEnabled('system', 'fields'))
 		{
-			// Register FieldsHelper
-			JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
-
-			// Guess the field context based on view.
-			$jinput = JFactory::getApplication()->input;
-			$context = $jinput->get('option') . '.' . $jinput->get('view');
-
-			// Validate context.
-			$context = implode('.', FieldsHelper::extract($context));
-
-			if (!FieldsHelper::getFields($context))
-			{
-				return;
-			}
-
-			$link = 'index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;tmpl=component&amp;context='
-				. $context . '&amp;editor=' . $name . '&amp;' . JSession::getFormToken() . '=1';
-
-			$button          = new JObject;
-			$button->modal   = true;
-			$button->class   = 'btn';
-			$button->link    = $link;
-			$button->text    = JText::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
-			$button->name    = 'puzzle';
-			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
-
-			return $button;
+			return;
 		}
+
+		// Register FieldsHelper
+		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
+		// Guess the field context based on view.
+		$jinput = JFactory::getApplication()->input;
+		$context = $jinput->get('option') . '.' . $jinput->get('view');
+
+		// Validate context.
+		$context = implode('.', FieldsHelper::extract($context));
+		if (!FieldsHelper::getFields($context))
+		{
+			return;
+		}
+
+		$link = 'index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;tmpl=component&amp;context='
+			. $context . '&amp;editor=' . $name . '&amp;' . JSession::getFormToken() . '=1';
+
+		$button          = new JObject;
+		$button->modal   = true;
+		$button->class   = 'btn';
+		$button->link    = $link;
+		$button->text    = JText::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
+		$button->name    = 'puzzle';
+		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+
+		return $button;
 	}
 }
