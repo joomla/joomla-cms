@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Cms\Dispatcher\DispatcherInterface;
 
 /**
  * Component helper class
@@ -372,7 +373,7 @@ class JComponentHelper
 			$class = ucwords($file) . 'Dispatcher';
 
 			// Check the class exists and implements the dispatcher interface
-			if (!class_exists($class) || !in_array('JDispatcherInterface', class_implements($class)))
+			if (!class_exists($class) || !in_array(DispatcherInterface::class, class_implements($class)))
 			{
 				throw new LogicException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
 			}
@@ -428,13 +429,13 @@ class JComponentHelper
 	/**
 	 * Dispatch the component.
 	 *
-	 * @param   JDispatcherInterface  $dispatcher  The dispatcher class.
+	 * @param   DispatcherInterface  $dispatcher  The dispatcher class.
 	 *
 	 * @return  string  The component output
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function dispatchComponent(JDispatcherInterface $dispatcher)
+	protected static function dispatchComponent(DispatcherInterface $dispatcher)
 	{
 		ob_start();
 		$dispatcher->dispatch();
