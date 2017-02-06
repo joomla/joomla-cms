@@ -181,14 +181,15 @@ class JCacheStorageFile extends JCacheStorage
 
 		if ($_fileopen)
 		{
-			$result = @fwrite($_fileopen, $data, strlen($data));
+			$length = strlen($data);
+			$result = @fwrite($_fileopen, $data, $length);
 
 			if ($close)
 			{
 				@fclose($_fileopen);
 			}
 
-			return $result !== false;
+			return $result === $length;
 		}
 
 		return false;
