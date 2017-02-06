@@ -36,7 +36,7 @@ class PlgButtonFields extends JPlugin
 	public function onDisplay($name)
 	{
 		// Do not display button if content and system plugins are disabled
-		if (!JPluginHelper::isEnabled('content', 'fields') && !JPluginHelper::isEnabled('system', 'fields'))
+		if (!JPluginHelper::isEnabled('content', 'fields') || !JPluginHelper::isEnabled('system', 'fields'))
 		{
 			return;
 		}
