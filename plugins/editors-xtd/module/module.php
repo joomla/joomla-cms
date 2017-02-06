@@ -39,24 +39,27 @@ class PlgButtonModule extends JPlugin
 		 * Use the built-in element view to select the module.
 		 * Currently uses blank class.
 		 */
-		$user  = JFactory::getUser();
-
-		if ($user->authorise('core.create', 'com_modules')
-			|| $user->authorise('core.edit', 'com_modules')
-			|| $user->authorise('core.edit.own', 'com_modules'))
+		if (JPluginHelper::isEnabled('content', 'loadmodule'))
 		{
-			$link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;editor='
-					. $name . '&amp;' . JSession::getFormToken() . '=1';
+			$user  = JFactory::getUser();
 
-			$button          = new JObject;
-			$button->modal   = true;
-			$button->class   = 'btn';
-			$button->link    = $link;
-			$button->text    = JText::_('PLG_MODULE_BUTTON_MODULE');
-			$button->name    = 'file-add';
-			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+			if ($user->authorise('core.create', 'com_modules')
+				|| $user->authorise('core.edit', 'com_modules')
+				|| $user->authorise('core.edit.own', 'com_modules'))
+			{
+				$link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;editor='
+						. $name . '&amp;' . JSession::getFormToken() . '=1';
 
-			return $button;
+				$button          = new JObject;
+				$button->modal   = true;
+				$button->class   = 'btn';
+				$button->link    = $link;
+				$button->text    = JText::_('PLG_MODULE_BUTTON_MODULE');
+				$button->name    = 'file-add';
+				$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+
+				return $button;
+			}
 		}
 	}
 }
