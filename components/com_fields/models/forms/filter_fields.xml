@@ -30,7 +30,7 @@
 			type="fieldgroups"
 			state="0,1,2"
 			onchange="this.form.submit();"
-			>
+		>
 			<option value="">COM_FIELDS_VIEW_FIELDS_SELECT_GROUP</option>
 		</field>
 
@@ -38,7 +38,7 @@
 			name="assigned_cat_ids"
 			type="category"
 			onchange="this.form.submit();"
-			>
+		>
 			<option value="">COM_FIELDS_VIEW_FIELDS_SELECT_CATEGORY</option>
 		</field>
 
@@ -93,7 +93,8 @@
 			type="limitbox"
 			class="input-mini"
 			default="25"
-			label="COM_FIELDS_LIST_LIMIT" description="COM_FIELDS_LIST_LIMIT_DESC"
+			label="COM_FIELDS_LIST_LIMIT"
+			description="COM_FIELDS_LIST_LIMIT_DESC"
 			onchange="this.form.submit();"
 		/>
 	</fields>

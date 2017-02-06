@@ -22,7 +22,7 @@ class FieldsController extends JControllerLegacy
 	 *                          Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                          'view_path' (this list is not meant to be comprehensive).
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array())
 	{
