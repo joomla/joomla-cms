@@ -75,23 +75,32 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		$data = false;
 		$path = $this->_getFilePath($id, $group);
 
 		if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true))
 		{
 			if (file_exists($path))
 			{
-				$data = file_get_contents($path);
-
-				if ($data)
+				if (isset($this->_locked_files[$path]))
 				{
-					// Remove the initial die() statement
-					$data = str_replace('<?php die("Access Denied"); ?>#x#', '', $data);
+					$_fileopen = $this->_locked_files[$path];
+				}
+				else
+				{
+					$_fileopen = @fopen($path, 'rb');
+				}
+
+				if ($_fileopen)
+				{
+					$data = stream_get_contents($_fileopen);
+
+					if ($data !== false)
+					{
+						// Remove the initial die() statement
+						return str_replace('<?php die("Access Denied"); ?>#x#', '', $data);
+					}
 				}
 			}
-
-			return $data;
 		}
 
 		return false;
