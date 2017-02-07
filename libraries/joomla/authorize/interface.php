@@ -19,19 +19,18 @@ interface JAuthorizeInterface
 	 *
 	 * @since   4.0
 	 */
-	public function set($name, $value);
+	public function __set($name, $value);
 
 	/**
 	 * Method to get the value
 	 *
 	 * @param   string  $key           Key to search for in the data array
-	 * @param   mixed   $defaultValue  Default value to return if the key is not set
 	 *
-	 * @return  mixed   Value | defaultValue if doesn't exist
+	 * @return  mixed   Value
 	 *
 	 * @since   4.0
 	 */
-	public function get($key, $defaultValue = null);
+	public function __get($key, $defaultValue = null);
 
 
 	public function check($actor, $target, $action);

@@ -25,14 +25,14 @@ abstract class JAuthorizeImplementation
 	 *
 	 * @since   4.0
 	 */
-	public function get($key, $defaultValue = null)
+	public function __get($key)
 	{
 		if ($key == 'authorizationMatrix')
 		{
-			return isset(static::$authorizationMatrix[__CLASS__]) ? static::$authorizationMatrix[__CLASS__] : $defaultValue;
+			return isset(static::$authorizationMatrix[__CLASS__]) ? static::$authorizationMatrix[__CLASS__] : array();
 		}
 
-		return isset($this->$key) ? $this->$key : $defaultValue;
+		return isset($this->$key) ? $this->$key : null;
 	}
 
 	/**
@@ -45,7 +45,7 @@ abstract class JAuthorizeImplementation
 	 *
 	 * @since   4.0
 	 */
-	public function set($name, $value)
+	public function __set($name, $value)
 	{
 		switch ($name)
 		{
@@ -93,4 +93,15 @@ abstract class JAuthorizeImplementation
 	{
 		return static::APPENDSUPPORT;
 	}
+
+	protected function cleanAssetId($assetId)
+	{
+		return  strtolower(preg_replace('#[\s\-]+#', '.', trim($assetId)));
+	}
+
+	protected function cleanAction($action)
+	{
+		return  $this->cleanAssetId($action);
+	}
+
 }

@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class that handles all access authorisation routines.
  *
- * @since  11.1
+ * @since  4.0.
+ * @deprecated No replacement, to be removed in 4.1
  */
 class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJoomla implements JAuthorizeInterface
 {
@@ -72,7 +73,7 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	/**
 	 * Instantiate the access class
 	 *
-	 * @param   mixed            $assetId  Assets id, can be numeric or string
+	 * @param   mixed            $assetId Assets id, can be integer id or string name or array of string/integer values
 	 * @param   JDatabaseDriver  $db       Database object
 	 * @param   JAccessRules     $rules    Rules object
 	 *
@@ -82,7 +83,7 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 
 	public function __construct($assetId = 1, JDatabaseDriver $db = null, JAccessRules $rules = null )
 	{
-		$this->set('assetId', $assetId);
+		$this->assetId = $assetId;
 		$this->rules = isset($rules) ? $rules : new JAccessRules();
 		$this->db = isset($db) ? $db : JFactory::getDbo();
 	}
@@ -97,43 +98,22 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 *
 	 * @since   4.0
 	 */
-	public function set($name, $value)
+	public function __set($name, $value)
 	{
 		switch ($name)
 		{
-			case 'assetId':
-				if (is_numeric($value))
-				{
-					$this->assetId = (int) $value;
-				}
-				else
-				{
-					$this->assetId = (string) $value;
-				}
-				break;
 			case 'rules':
 				if ($value instanceof JAccessRules)
 				{
 					$this->rules = $value;
 				}
+			break;
+
+			default:
+				parent::__set($name, $value);
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Method to get the value
-	 *
-	 * @param   string  $key           Key to search for in the data array
-	 * @param   mixed   $defaultValue  Default value to return if the key is not set
-	 *
-	 * @return  mixed   Value | defaultValue if doesn't exist
-	 *
-	 * @since   4.0
-	 */
-	public function get($key, $defaultValue = null)
-	{
-		return isset($this->$key) ? $this->$key : $defaultValue;
 	}
 
 	/**
@@ -159,7 +139,7 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 *
 	 * @param   integer  $id      Id of the user/group for which to check authorisation.
 	 * @param   string   $action  The name of the action to authorise.
-	 * @param   mixed    $asset   Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
+	 * @param   mixed    $asset   Integer asset id or the name of the asset as a string or array with this values.  Defaults to the global asset node.
 	 * @param   boolean  $group   Is id a group id?
 	 *
 	 * @return  boolean  True if authorised.
@@ -182,31 +162,29 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 			array_unshift($identities, $id * -1);
 		}
 
-		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
+		$action = $this->cleanAction($action);
 
+		// Clean and filter
 		if (isset($asset))
 		{
-			$this->set('assetId', $asset);
+			$this->assetId = $asset;
 		}
 
-		$asset = strtolower(preg_replace('#[\s\-]+#', '.', trim($this->assetId)));
-
 		// Default to the root asset node.
-		if (empty($asset))
+		if (empty($this->assetId))
 		{
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $this->db));
-			$asset = $assets->getRootId();
-			$this->set('assetId', $asset);
+			$this->assetId = $assets->getRootId();
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
-		if (empty(self::$assetRules[$asset]))
+		if (empty(self::$assetRules[$this->assetId]))
 		{
 			// Cache ALL rules for this asset
-			self::$assetRules[$asset] = $this->getRules(true, null, null);
+			self::$assetRules[$this->assetId] = $this->getRules(true, null, null);
 		}
 
-		return self::$assetRules[$asset]->allow($action, $identities);
+		return self::$assetRules[$this->assetId]->allow($action, $identities);
 	}
 
 	/**
@@ -303,7 +281,7 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 *
 	 * @return mixed   Db query result - the return value or null if the query failed.
 	 */
-	public  function getAssetPermissions($recursive = false, $groups = array(), $action = null)
+	public function getAssetPermissions($recursive = false, $groups = array(), $action = null)
 	{
 		$query = $this->db->getQuery(true);
 
@@ -355,15 +333,40 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 
 		$query->leftJoin($this->db->qn('#__permissions', 'p') . ' ' . $conditions);
 
-		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
-		if (is_numeric($this->assetId))
+		// Make all assetIds arrays so we can use them in foreach and IN
+		$assetIds = (array) $this->assetId;
+		$numerics = $strings = array();
+
+		foreach ($assetIds AS $assetId)
 		{
-			$query->where('a.id = ' . (int) $this->assetId);
+			if (is_numeric($assetId))
+			{
+				$numerics[] = (int) $assetId;
+			}
+			else
+			{
+				$strings[] = (string) $assetId;
+			}
 		}
-		else
+
+		$assetwhere = '';
+
+		if (!empty($numerics))
 		{
-			$query->where('a.name = ' . $this->db->quote((string) $this->assetId));
+			$assetwhere .= 'a.id IN (' . implode(',', $numerics) . ')';
 		}
+
+		if (!empty($strings))
+		{
+			if (!empty($assetwhere))
+			{
+				$assetwhere .= ' OR ';
+			}
+
+			$assetwhere .= 'a.name IN (' . $this->db->q(implode($this->db->q(','), $numerics)) . ')';
+		}
+
+		$query->where($assetwhere);
 
 		$test = (string)$query;
 
