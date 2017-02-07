@@ -117,7 +117,7 @@ class JApplicationAdministrator extends JApplicationCms
 		$options    = array('language' => $login_lang ?: $this->getUserState('application.lang'));
 
 		// Initialise the application
-		$this->initialiseApp($option);
+		$this->initialiseApp($options);
 
 		// Test for magic quotes
 		if (get_magic_quotes_gpc())
