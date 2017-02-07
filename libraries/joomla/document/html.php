@@ -204,14 +204,15 @@ class JDocumentHtml extends JDocument
 			case 'link':
 				$this->{$type} = '';
 
-			case '_metaTags':
-			case '_links':
-			case '_styleSheets':
-			case '_style':
-			case '_scripts':
-			case '_script':
-			case '_custom':
-				$this->{$type} = array();
+			case 'metaTags':
+			case 'links':
+			case 'styleSheets':
+			case 'style':
+			case 'scripts':
+			case 'script':
+			case 'custom':
+				$realType = '_' . $type;
+				$this->{$realType} = array();
 		}
 	}
 
