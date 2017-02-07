@@ -203,6 +203,7 @@ class JDocumentHtml extends JDocument
 			case 'description':
 			case 'link':
 				$this->{$type} = '';
+				break;
 
 			case 'metaTags':
 			case 'links':
@@ -213,6 +214,7 @@ class JDocumentHtml extends JDocument
 			case 'custom':
 				$realType = '_' . $type;
 				$this->{$realType} = array();
+				break;
 		}
 	}
 
