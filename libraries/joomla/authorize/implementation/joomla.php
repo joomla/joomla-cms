@@ -23,7 +23,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 * @var    array
 	 * @since  4.0
 	 */
-	public static $rootAsset = null;
+	protected static $rootAsset = null;
 
 	/**
 	 * Asset id
@@ -31,7 +31,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 * @var    mixed string or integer
 	 * @since  4.0
 	 */
-	protected $assetId = 1;
+	protected $assetId_ = 1;
 
 
 	/**
@@ -40,7 +40,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 * @var    object JDatabase object
 	 * @since  4.0
 	 */
-	protected $db = null;
+	protected $db_ = null;
 
 	const IMPLEMENTATION = 'Joomla';
 
@@ -75,29 +75,35 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 */
 	public function __set($name, $value)
 	{
-		if ($name == 'assetId')
+		switch ($name)
 		{
+			case 'assetId':
 				if (is_numeric($value))
 				{
-					$this->assetId = (int) $this->cleanAssetId($value);
+					$this->assetId_ = (int) $this->cleanAssetId($value);
 				}
 				elseif (is_array($value))
 				{
-					$this->assetId = array();
+					$this->assetId_ = array();
 
 					foreach ($value AS $val)
 					{
-						$this->assetId = is_numeric($val) ? (int) $this->cleanAssetId($val) : (string) $this->cleanAssetId($val);
+						$this->assetId_ = is_numeric($val) ? (int) $this->cleanAssetId($val) : (string) $this->cleanAssetId($val);
 					}
 				}
 				else
 				{
-					$this->assetId = (string) $this->cleanAssetId($value);
+					$this->assetId_ = (string) $this->cleanAssetId($value);
 				}
-		}
-		else
-		{
-			parent::__set($name, $value);
+				break;
+
+			case 'rootAsset':
+				static::$rootAsset = $value;
+				break;
+
+			default:
+				parent::__set($name, $value);
+				break;
 		}
 
 		return $this;

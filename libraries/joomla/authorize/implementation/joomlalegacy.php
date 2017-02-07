@@ -32,7 +32,7 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 * @var    array
 	 * @since  4.0
 	 */
-	public static $permCache = array();
+	protected static $permCache = array();
 
 	/**
 	 * Root asset permissions
@@ -40,15 +40,8 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 * @var    array
 	 * @since  4.0
 	 */
-	public static $rootAsset = null;
+	protected static $rootAsset = null;
 
-	/**
-	 * Asset id
-	 *
-	 * @var    mixed string or integer
-	 * @since  4.0
-	 */
-	protected $assetId = 1;
 
 	/**
 	 * Rules object
@@ -56,7 +49,7 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 * @var    object JAccessRules
 	 * @since  4.0
 	 */
-	protected $rules = null;
+	private $rules = null;
 
 	/**
 	 * Database object
@@ -414,5 +407,4 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 
 		return $mergedResult;
 	}
-
 }

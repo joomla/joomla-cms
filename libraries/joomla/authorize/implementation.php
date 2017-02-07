@@ -11,7 +11,9 @@
 
 abstract class JAuthorizeImplementation
 {
-	protected static $authorizationMatrix = array();
+	private static $authorizationMatrix = array();
+
+	private $db_ = null;
 
 	const APPENDSUPPORT = false;
 
@@ -51,6 +53,13 @@ abstract class JAuthorizeImplementation
 		{
 			case 'authorizationMatrix':
 				static::$authorizationMatrix[__CLASS__] = $value;
+				break;
+
+			case 'db':
+				if ($value instanceof JDatabaseDriver)
+				{
+					$this->db_ = $value;
+				}
 				break;
 
 			default:
