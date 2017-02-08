@@ -11,6 +11,8 @@ namespace Joomla\Cms\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Model\Model;
+
 /**
  * Base class for a Joomla View
  *
@@ -215,7 +217,7 @@ class View extends \JObject
 	{
 		$result = $this->loadTemplate($tpl);
 
-		if ($result instanceof Exception)
+		if ($result instanceof \Exception)
 		{
 			return $result;
 		}
@@ -363,10 +365,10 @@ class View extends \JObject
 	 * referenced by the name without \JModel, eg. \JModelCategory is just
 	 * Category.
 	 *
-	 * @param   \JModelLegacy  $model    The model to add to the view.
-	 * @param   boolean        $default  Is this the default model?
+	 * @param   Model    $model    The model to add to the view.
+	 * @param   boolean  $default  Is this the default model?
 	 *
-	 * @return  \JModelLegacy  The added model.
+	 * @return  Model  The added model.
 	 *
 	 * @since   3.0
 	 */

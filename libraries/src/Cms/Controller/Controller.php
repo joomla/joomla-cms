@@ -11,6 +11,9 @@ namespace Joomla\Cms\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Model\Model;
+use Joomla\Cms\View\View;
+
 /**
  * Base class for a Joomla Controller
  *
@@ -153,7 +156,7 @@ class Controller  implements ControllerInterface
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
-		\JModelLegacy::addIncludePath($path, $prefix);
+		Model::addIncludePath($path, $prefix);
 	}
 
 	/**
@@ -215,7 +218,7 @@ class Controller  implements ControllerInterface
 	 * @param   string  $prefix  The prefix for the controller.
 	 * @param   array   $config  An array of optional constructor options.
 	 *
-	 * @return  \JControllerLegacy
+	 * @return  static
 	 *
 	 * @since   3.0
 	 * @throws  \Exception if the controller cannot be loaded.
@@ -297,7 +300,7 @@ class Controller  implements ControllerInterface
 		// Instantiate the class.
 		if (!class_exists($class))
 		{
-			throw new \InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
+			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
@@ -446,7 +449,7 @@ class Controller  implements ControllerInterface
 	 * @param   string  $type  The path type (e.g. 'model', 'view').
 	 * @param   mixed   $path  The directory string  or stream array to search.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -475,7 +478,7 @@ class Controller  implements ControllerInterface
 	 *
 	 * @param   mixed  $path  The directory (string) or list of directories (array) to add.
 	 *
-	 * @return  \JControllerLegacy  This object to support chaining.
+	 * @return  static  This object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -531,7 +534,7 @@ class Controller  implements ControllerInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Configuration array for the model. Optional.
 	 *
-	 * @return  \JModelLegacy|boolean   Model object on success; otherwise false on failure.
+	 * @return  Model|boolean   Model object on success; otherwise false on failure.
 	 *
 	 * @since   3.0
 	 */
@@ -541,7 +544,7 @@ class Controller  implements ControllerInterface
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		return \JModelLegacy::getInstance($modelName, $classPrefix, $config);
+		return Model::getInstance($modelName, $classPrefix, $config);
 	}
 
 	/**
@@ -557,7 +560,7 @@ class Controller  implements ControllerInterface
 	 * @param   string  $type    The type of view.
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
-	 * @return  \JViewLegacy|null  View object on success; null or error result on failure.
+	 * @return  View|null  View object on success; null or error result on failure.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
@@ -608,7 +611,7 @@ class Controller  implements ControllerInterface
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -718,7 +721,7 @@ class Controller  implements ControllerInterface
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JModelLegacy|boolean  Model object on success; otherwise false on failure.
+	 * @return  Model|boolean  Model object on success; otherwise false on failure.
 	 *
 	 * @since   3.0
 	 */
@@ -817,7 +820,7 @@ class Controller  implements ControllerInterface
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for view. Optional.
 	 *
-	 * @return  \JViewLegacy  Reference to the view or an error.
+	 * @return  View  Reference to the view or an error.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
@@ -932,7 +935,7 @@ class Controller  implements ControllerInterface
 	 *
 	 * @param   string  $method  The name of the method in the derived class to perform if a named task is not found.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -949,7 +952,7 @@ class Controller  implements ControllerInterface
 	 * @param   string  $task    The task.
 	 * @param   string  $method  The name of the method in the derived class to perform for this task.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -968,7 +971,7 @@ class Controller  implements ControllerInterface
 	 *
 	 * @param   string  $task  The task.
 	 *
-	 * @return  \JControllerLegacy  This object to support chaining.
+	 * @return  static  This object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -1096,7 +1099,7 @@ class Controller  implements ControllerInterface
 	 * @param   string  $msg   Message to display on redirect. Optional, defaults to value set internally by controller, if any.
 	 * @param   string  $type  Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
 	 *
-	 * @return  \JControllerLegacy  This object to support chaining.
+	 * @return  static  This object to support chaining.
 	 *
 	 * @since   3.0
 	 */
