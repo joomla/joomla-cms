@@ -453,11 +453,13 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Get the system message queue.
 	 *
+	 * @param   boolean  $clear     Clear the messages currently attached to the application object
+	 *
 	 * @return  array  The system message queue.
 	 *
 	 * @since   3.2
 	 */
-	public function getMessageQueue()
+	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
 		if (!count($this->_messageQueue))
@@ -471,8 +473,15 @@ class JApplicationCms extends JApplicationWeb
 				$session->set('application.queue', null);
 			}
 		}
+		
+		$messageQueue = $this->_messageQueue;
+		
+		if ($clear)
+		{
+			$this->_messageQueue = array();
+		}
 
-		return $this->_messageQueue;
+		return $messageQueue;
 	}
 
 	/**
