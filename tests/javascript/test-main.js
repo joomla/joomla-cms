@@ -47,7 +47,7 @@ require.config({
 		'libs/combobox': {
 			deps: ['jquery']
 		},
-		'libs/fields/calendar-vanilla': {
+		'libs/fields/calendar': {
 			deps: ['calLang', 'calDate']
 		}
 	},
