@@ -29,12 +29,10 @@ class InstallerViewInstall extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		$paths = new stdClass;
+		$paths        = new stdClass;
 		$paths->first = '';
-		$state = $this->get('state');
 
-		$this->paths = &$paths;
-		$this->state = &$state;
+		$this->paths  = &$paths;
 
 		$this->showJedAndWebInstaller = JComponentHelper::getParams('com_installer')->get('show_jed_info', 1);
 

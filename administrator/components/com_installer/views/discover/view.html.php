@@ -36,7 +36,6 @@ class InstallerViewDiscover extends InstallerViewDefault
 		}
 
 		// Get data from the model.
-		$this->state         = $this->get('State');
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
