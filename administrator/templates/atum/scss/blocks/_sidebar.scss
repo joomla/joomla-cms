@@ -148,7 +148,7 @@
       }
 
       &:hover {
-        color: $white-offset;
+        color: $white;
         text-decoration: none;
         background-color: rgba(0,0,0,.2);
         box-shadow: inset 0 -1px rgba(0,0,0,.2), inset 0 1px rgba(0,0,0,.1);
@@ -161,10 +161,11 @@
 
     }
     a:not([href]):not([tabindex]) {
-      color: $white-offset;
+      color: $white;
     }
     ul {
       display: none;
+      padding: 0 0 5px;
       li {
         text-indent: 20px;
       }
@@ -177,13 +178,28 @@
     }
   }
 
+  .open {
+    background-color: rgba(0,0,0,.2);
+    box-shadow: inset 0 -1px rgba(0,0,0,.2), inset 0 1px rgba(0,0,0,.1);
+    > a {
+      background-color: rgba(0,0,0,.1);
+      box-shadow: none;
+      &:hover {
+        background-color: rgba(0,0,0,.1);
+        box-shadow: none;
+      }
+    }
+  }
+
   li li {
+    line-height: 2rem;
+    border: 0;
+    box-shadow: none;
     a {
-      border-bottom: 1px solid darken($atum-template-color, 3%);
       box-shadow: none;
       &:hover {
         background-color: rgba(0,0,0,.05);
-        box-shadow: inset 0 1px rgba(0,0,0,.3), inset 0 -1px rgba(0,0,0,.3);
+        box-shadow: none;
       }
     }
     &:last-of-type {
@@ -196,19 +212,15 @@
   .fa {
     position: relative;
     top: -2px;
-    margin: 0 15px;
+    margin: 0 8px 0 15px;
     font-size: 20px;
     text-align: center;
     vertical-align: middle;
   }
 
-  .collapse-level-1 {
-    background: $atum-level-1-bg;
-  }
-
   .collapse-level-2 {
-    background: $atum-level-2-bg;
     > li > a {
+      color: rgba(255, 255, 255, .8);
       text-indent: 30px;
     }
   }
@@ -262,7 +274,7 @@
 
 // Edit view
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
-  color: $white-offset;
+  color: $white;
   cursor: not-allowed;
   background: none;
 }
