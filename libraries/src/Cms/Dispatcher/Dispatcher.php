@@ -32,37 +32,15 @@ abstract class Dispatcher implements DispatcherInterface
 	private $app;
 
 	/**
-	 * The JUser instance
-	 *
-	 * @var     \JUser
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private $user;
-
-	/**
-	 * The JLanguage instance
-	 *
-	 * @var     \JLanguage
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private $language;
-
-	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   \JApplicationCms  $app       The JApplication for the dispatcher
-	 * @param   \JUser            $user      The user for the dispatcher
-	 * @param   \JLanguage        $language  The language for the dispatcher
+	 * @param   \JApplicationCms  $app  The JApplicationCms for the dispatcher
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(\JApplicationCms $app, \JUser $user, \JLanguage $language)
+	public function __construct(\JApplicationCms $app)
 	{
-		$this->app      = $app;
-		$this->user     = $user;
-		$this->language = $language;
+		$this->app = $app;
 	}
 
 	/**
@@ -75,18 +53,30 @@ abstract class Dispatcher implements DispatcherInterface
 	public function dispatch()
 	{
 		// Check the user has permission to access this component if in the backend
-		if ($this->app->isClient('admin') && !$this->user->authorise('core.manage', $this->app->scope))
+		if ($this->app->isClient('admin') && !$this->app->getIdentity()->authorise('core.manage', $this->app->scope))
 		{
-			throw new \JAccessExceptionNotallowed($this->language->_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \JAccessExceptionNotallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Load common and local language files.
-		$this->language->load($this->app->scope, JPATH_BASE, null, false, true) ||
-			$this->language->load($this->app->scope, JPATH_COMPONENT, null, false, true);
+		$this->app->getLanguage()->load($this->app->scope, JPATH_BASE, null, false, true) ||
+			$this->app->getLanguage()->load($this->app->scope, JPATH_COMPONENT, null, false, true);
 
 		// Execute the task for this component
 		$controller = Controller::getInstance(ucwords(substr($this->app->scope, 4)));
 		$controller->execute($this->app->input->get('task'));
 		$controller->redirect();
+	}
+
+	/**
+	 * The application the dispatcher is working with.
+	 *
+	 * @return \JApplicationCms
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getApplication()
+	{
+		return $this->app;
 	}
 }
