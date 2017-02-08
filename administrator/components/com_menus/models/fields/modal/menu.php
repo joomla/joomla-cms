@@ -29,7 +29,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * Determinate, if the select button is shown
 	 *
 	 * @var     boolean
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $allowSelect = true;
 	
@@ -37,7 +37,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * Determinate, if the clear button is shown
 	 *
 	 * @var     boolean
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $allowClear = true;
 	
@@ -45,7 +45,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * Determinate, if the create button is shown
 	 *
 	 * @var     boolean
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $allowNew = false;
 	
@@ -53,7 +53,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * Determinate, if the edit button is shown
 	 *
 	 * @var     boolean
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $allowEdit = false;
 
@@ -64,7 +64,7 @@ class JFormFieldModal_Menu extends JFormField
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __get($name)
 	{
@@ -88,7 +88,7 @@ class JFormFieldModal_Menu extends JFormField
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __set($name, $value)
 	{
@@ -118,7 +118,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @return  boolean  True on success.
 	 *
 	 * @see     JFormField::setup()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
