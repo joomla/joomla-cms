@@ -9,22 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Cms\Dispatcher\Dispatcher;
+
 /**
  * Dispatcher class for com_banners
  *
  * @since  __DEPLOY_VERSION__
  */
-class BannersDispatcher extends JDispatcher
+class BannersDispatcher extends Dispatcher
 {
-	/**
-	 * Dispatch method for com_banners
-	 *
-	 * @return  void
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function dispatch()
-	{
-		parent::dispatch();
-	}
 }
