@@ -37,12 +37,11 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 
 	/**
 	 * Rules object
-	 * _ suffixed to force usage of getters and setters, use property name without_ to get or set the value
 	 *
 	 * @var    object JAccessRules
 	 * @since  4.0
 	 */
-	private $rules_ = null;
+	private $rules = null;
 
 	const IMPLEMENTATION = 'JoomlaLegacy';
 
@@ -62,7 +61,7 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	public function __construct($assetId = 1, JDatabaseDriver $db = null, JAccessRules $rules = null )
 	{
 		$this->assetId = $assetId;
-		$this->rules_ = isset($rules) ? $rules : new JAccessRules();
+		$this->rules = isset($rules) ? $rules : new JAccessRules();
 		$this->db = isset($db) ? $db : JFactory::getDbo();
 	}
 
@@ -83,7 +82,7 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 			case 'rules':
 				if ($value instanceof JAccessRules)
 				{
-					$this->rules_ = $value;
+					$this->rules = $value;
 				}
 			break;
 
@@ -99,7 +98,7 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since  4.0.
 	 */
 	public static function clearStatics()
 	{
@@ -115,21 +114,21 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	/**
 	 * Method to check if a user is authorised to perform an action, optionally on an asset.
 	 *
-	 * @param   integer  $id      Id of the user/group for which to check authorisation.
+	 * @param   integer  $actor    Id of the user/group for which to check authorisation.
+	 * @param   mixed    $target  Integer asset id or the name of the asset as a string or array with this values.  Defaults to the global asset node.
 	 * @param   string   $action  The name of the action to authorise.
-	 * @param   mixed    $asset   Integer asset id or the name of the asset as a string or array with this values.  Defaults to the global asset node.
-	 * @param   boolean  $group   Is id a group id?
+	 * @param   string   $actorType   Optional type of actor. User or group.
 	 *
 	 * @return  boolean  True if authorised.
 	 *
 	 * @since   4.0
 	 */
-	public function check($id, $action, $asset = null, $group = false)
+	public function check($actor, $target, $action, $actorType = null)
 	{
 		// Sanitise inputs.
-		$id = (int) $id;
+		$id = (int) $actor;
 
-		if ($group)
+		if ($actorType === null || $actorType == 'group')
 		{
 			$identities = JUserHelper::getGroupPath($id);
 		}
@@ -143,9 +142,9 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 		$action = $this->cleanAction($action);
 
 		// Clean and filter
-		if (isset($asset))
+		if (isset($target))
 		{
-			$this->assetId = $asset;
+			$this->assetId = $target;
 		}
 
 		// Default to the root asset node.
@@ -176,6 +175,8 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 * @param   string   $action     Action name to limit results
 	 *
 	 * @return  JAccessRules   JAccessRules object for the asset.
+	 *
+	 * @since  4.0.
 	 */
 	public function getRules($recursive = false, $groups = null, $action = null )
 	{
@@ -203,8 +204,8 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 		}
 
 		// Instantiate and return the JAccessRules object for the asset rules.
-		$this->rules_->mergeCollection(self::$permCache[$cacheId]);
-		$rules = $this->rules_;
+		$this->rules->mergeCollection(self::$permCache[$cacheId]);
+		$rules = $this->rules;
 
 		// If action was set return only this action's result
 		$data = $rules->getData();
@@ -225,9 +226,10 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 * @param   array    $groups     Array of group ids to get permissions for
 	 * @param   string   &$action    Action name used for id calculation
 	 *
+	 * @since  4.0.
+	 *
 	 * @return string
 	 */
-
 	private function getCacheId($recursive, $groups, &$action)
 	{
 		// We are optimizing only view for frontend, otherwise 1 query for all actions is faster globaly due to cache
@@ -257,6 +259,8 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 * @param   array    $groups     Array of group ids to get permissions for
 	 * @param   string   $action     Action name to limit results
 	 *
+	 * @since  4.0.
+	 *
 	 * @return mixed   Db query result - the return value or null if the query failed.
 	 */
 	public function getAssetPermissions($recursive = false, $groups = array(), $action = null)
@@ -279,7 +283,7 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 			$prefix = 'a';
 		}
 
-		$query->select($prefix . '.id, ' . $prefix . '.rules, p.permission, p.value, ' . $this->db->qn('p'). '.' . $this->db->qn('group'));
+		$query->select($prefix . '.id, ' . $prefix . '.rules, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group'));
 		$conditions = 'ON ' . $prefix . '.id = p.assetid ';
 
 		if (isset($groups) && $groups != array())
@@ -346,8 +350,6 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 
 		$query->where($assetwhere);
 
-		$test = (string)$query;
-
 		$this->db->setQuery($query);
 		$result = $this->db->loadObjectList();
 
@@ -359,6 +361,8 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 * Merge new permissions with old rules from assets table for backwards compatibility
 	 *
 	 * @param   object  $results  database query result object with permissions and rules
+	 *
+	 * @since  4.0.
 	 *
 	 * @return  array   authorisation matrix
 	 */

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class that handles default Joomla authorisation routines.
  *
- * @since  11.1
+ * @since  4.0.
  */
 class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements JAuthorizeInterface
 {
@@ -107,7 +107,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since  4.0.
 	 */
 	public static function clearStatics()
 	{
@@ -119,21 +119,21 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	/**
 	 * Method to check if a user is authorised to perform an action, optionally on an asset.
 	 *
-	 * @param   integer  $id      Id of the user/group for which to check authorisation.
+	 * @param   integer  $actor    Id of the user/group for which to check authorisation.
+	 * @param   mixed    $target  Integer asset id or the name of the asset as a string or array with this values.  Defaults to the global asset node.
 	 * @param   string   $action  The name of the action to authorise.
-	 * @param   mixed    $asset   Integer asset id or the name of the asset as a string or array with this values.  Defaults to the global asset node.
-	 * @param   boolean  $group   Is id a group id?
+	 * @param   string   $actorType   Optional type of actor. User or group.
 	 *
 	 * @return  boolean  True if authorised.
 	 *
 	 * @since   4.0
 	 */
-	public function check($id, $action, $asset = null, $group = false)
+	public function check($actor, $target, $action, $actorType = null)
 	{
 		// Sanitise inputs.
-		$id = (int) $id;
+		$id = (int) $actor;
 
-		if ($group)
+		if ($actorType === null || $actorType == 'group')
 		{
 			$identities = JUserHelper::getGroupPath($id);
 		}
@@ -147,9 +147,9 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 		$action = $this->cleanAction($action);
 
 		// Clean and filter
-		if (isset($asset))
+		if (isset($target))
 		{
-			$this->assetId = $asset;
+			$this->assetId = $target;
 		}
 
 		// Default to the root asset node.
@@ -163,18 +163,42 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 		if (empty(parent::$authorizationMatrix[self::IMPLEMENTATION][$this->assetId]))
 		{
 			// Cache ALL permissions for this asset
-			$this->loadPermissions(true, null, null);
+			$this->loadPermissions(true);
 		}
 
 		return $this->calculate($this->assetId_, $action, $identities);
 	}
 
-	public function loadPermissions($recursive = false, $groups = null, $action = null )
+	/**
+	 * Load permissions into authorization matrix
+	 *
+	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
+	 * @param   array    $groups     Array of group ids to get permissions for
+	 * @param   string   $action     Action name to limit results
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function loadPermissions($recursive = false, $groups = array(), $action = null )
 	{
 		$permissionsFromQuery = $this->getAssetPermissions($recursive, $groups, $action);
 
 		$this->prefillMatrix($permissionsFromQuery);
 	}
+
+	/**
+	 *
+	 *
+	 * @param   mixed   $asset   Integer asset id or the name of the asset as a string or array with this values.  Defaults to the global asset node.
+	 * @param   string  $action The name of the action to authorise.
+	 * @param   array   $identities user or group ids
+	 *
+	 * @return  boolean true if authorized
+	 *
+	 * @since   4.0
+	 */
+
 
 	protected function calculate($asset, $action, $identities)
 	{
@@ -213,7 +237,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 
 
 	/**
-	 * Query permissions based on asset id.
+	 * Execute query to get permissions from database
 	 *
 	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
 	 * @param   array    $groups     Array of group ids to get permissions for

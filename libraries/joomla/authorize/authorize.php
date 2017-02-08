@@ -71,7 +71,6 @@ final class JAuthorize implements JAuthorizeInterface
 
 			default:
 				$this->implementation->$name = $value;
-
 		}
 
 		return $this;
@@ -97,9 +96,21 @@ final class JAuthorize implements JAuthorizeInterface
 		return $this->implementation->$key;
 	}
 
-	public function check($actor, $target, $action)
+	/**
+	 * Method to check if actor is authorised to perform an action, optionally on an asset.
+	 *
+	 * @param   integer  $actor       Id of the actor for which to check authorisation.
+	 * @param   mixed    $target      Subject of the check
+	 * @param   string   $action      The name of the action to authorise.
+	 * @param   string   $actorType   Optional type of actor.
+	 *
+	 * @return  boolean  True if authorised.
+	 *
+	 * @since   4.0
+	 */
+	public function check($actor, $target, $action, $actorType = null)
 	{
-		return $this->implementation->check($actor, $target, $action);
+		return $this->implementation->check($actor, $target, $action, $actorType);
 	}
 
 	public function allow($actor, $target, $action)
