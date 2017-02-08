@@ -453,7 +453,7 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Get the system message queue.
 	 *
-	 * @param   boolean  $clear     Clear the messages currently attached to the application object
+	 * @param   boolean  $clear  Clear the messages currently attached to the application object
 	 *
 	 * @return  array  The system message queue.
 	 *
