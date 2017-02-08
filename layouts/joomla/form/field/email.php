@@ -65,7 +65,7 @@ $attributes = array(
 <input
 	type="email"
 	name="<?php echo $name; ?>"
-	<?php echo !empty($class) ? ' class="validate-email form-control ' . $class . '"' : ' class="form-control validate-email"'; ?>
+	<?php echo !empty($class) ? ' class="form-control validate-email ' . $class . '"' : ' class="form-control validate-email"'; ?>
 	id="<?php echo $id; ?>"
 	value="<?php echo htmlspecialchars(JStringPunycode::emailToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
 	<?php echo implode(' ', $attributes); ?> />

@@ -29,13 +29,10 @@ JFactory::getDocument()->addScriptDeclaration('
 ?>
 
 <div id="j-toggle-sidebar-wrapper">
-	<div id="j-toggle-button-wrapper" class="j-toggle-button-wrapper">
-		<?php echo JLayoutHelper::render('joomla.sidebars.toggle'); ?>
-	</div>
 	<div id="sidebar" class="sidebar">
 		<div class="sidebar-nav">
 			<?php if ($displayData->displayMenu) : ?>
-			<ul id="submenu" class="nav nav-list">
+			<ul class="nav flex-column">
 				<?php foreach ($displayData->list as $item) :
 				if (isset ($item[2]) && $item[2] == 1) : ?>
 					<li class="active">
@@ -59,7 +56,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<hr />
 			<?php endif; ?>
 			<?php if ($displayData->displayFilters) : ?>
-			<div class="filter-select hidden-phone">
+			<div class="filter-select hidden-sm-down">
 				<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></h4>
 				<?php foreach ($displayData->filters as $filter) : ?>
 					<label for="<?php echo $filter['name']; ?>" class="element-invisible"><?php echo $filter['label']; ?></label>
@@ -69,7 +66,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php endif; ?>
 						<?php echo $filter['options']; ?>
 					</select>
-					<hr class="hr-condensed" />
+					<hr>
 				<?php endforeach; ?>
 			</div>
 			<?php endif; ?>

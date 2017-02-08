@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
+class ComposerStaticInit6feecbe3b9e91f2c067e9cca8bd9bdfc
 {
     public static $files = array (
         '2fb9d6f23c8e8faefc193a4cde0cab4f' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utf8.php',
@@ -29,6 +29,10 @@ class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
     );
 
     public static $prefixLengthsPsr4 = array (
+        'Z' => 
+        array (
+            'Zend\\Diactoros\\' => 15,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Util\\' => 22,
@@ -39,6 +43,7 @@ class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
         'P' => 
         array (
             'Psr\\Log\\' => 8,
+            'Psr\\Http\\Message\\' => 17,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'J' => 
@@ -52,6 +57,7 @@ class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
             'Joomla\\Image\\' => 13,
+            'Joomla\\Http\\' => 12,
             'Joomla\\Filter\\' => 14,
             'Joomla\\Event\\' => 13,
             'Joomla\\Data\\Tests\\' => 18,
@@ -62,9 +68,17 @@ class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
             'Joomla\\Application\\' => 19,
             'Joomla\\' => 7,
         ),
+        'C' => 
+        array (
+            'Composer\\CaBundle\\' => 18,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Zend\\Diactoros\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
+        ),
         'Symfony\\Polyfill\\Util\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-util',
@@ -84,6 +98,10 @@ class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'PHPMailer\\PHPMailer\\' => 
         array (
@@ -125,6 +143,10 @@ class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
         array (
             0 => __DIR__ . '/..' . '/joomla/image/src',
         ),
+        'Joomla\\Http\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/http/src',
+        ),
         'Joomla\\Filter\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/filter/src',
@@ -161,6 +183,10 @@ class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
         array (
             0 => __DIR__ . '/../../..' . '/libraries/src',
         ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
+        ),
     );
 
     public static $classMap = array (
@@ -190,9 +216,9 @@ class ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0eb9c0a2a77199b5d3033d4b56b357b0::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6feecbe3b9e91f2c067e9cca8bd9bdfc::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6feecbe3b9e91f2c067e9cca8bd9bdfc::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit6feecbe3b9e91f2c067e9cca8bd9bdfc::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -21,7 +21,6 @@
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
 			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC"
 			checksuperusergroup="1"
-			showon="allowUserRegistration:1"
 			>
 		</field>
 

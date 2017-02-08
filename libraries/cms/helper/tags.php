@@ -505,8 +505,8 @@ class JHelperTags extends JHelper
 			)
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
 
-			// Join over categoris for get only published
-			->join('INNER', '#__categories AS tc ON tc.id = c.core_catid AND tc.published = 1')
+			// Join over categories for get only tags from published categories
+			->join('LEFT', '#__categories AS tc ON tc.id = c.core_catid')
 
 			// Join over the users for the author and email
 			->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author")
@@ -514,7 +514,8 @@ class JHelperTags extends JHelper
 
 			->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id')
 
-			->where('m.tag_id IN (' . implode(',', $tagIds) . ')');
+			->where('m.tag_id IN (' . implode(',', $tagIds) . ')')
+			->where('(c.core_catid = 0 OR tc.published = 1)');
 
 		// Optionally filter on language
 		if (empty($language))

@@ -256,7 +256,7 @@ class JFormFieldRules extends JFormField
 				$active = 'active ';
 			}
 
-			$html[] = '<li class="nav-item ' . $active . '">';
+			$html[] = '<li class="nav-item">';
 			$html[] = '<a class="nav-link ' . $active . '" href="#permission-' . $group->value . '" data-toggle="tab">';
 			$html[] = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '</a>';

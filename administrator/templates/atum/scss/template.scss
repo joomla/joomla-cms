@@ -29,6 +29,7 @@
 @import "blocks/quickicons";
 @import "blocks/searchtools";
 @import "blocks/sidebar";
+@import "blocks/sidebar-nav";
 @import "blocks/status";
 @import "blocks/switcher";
 @import "blocks/toolbar";
@@ -76,6 +77,10 @@
 .content {
   margin-top: 42px;
   border-radius: $border-radius;
+  > .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
 }
 .j-main-container {
   background-color: $white-offset;

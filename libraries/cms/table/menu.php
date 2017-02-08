@@ -191,7 +191,7 @@ class JTableMenu extends JTableNested
 			$error      = false;
 
 			// Check if the alias already exists. For multilingual site.
-			if (JLanguageMultilang::isEnabled())
+			if (JLanguageMultilang::isEnabled() && (int) $this->client_id == 0)
 			{
 				// If there is a menu item at the same level with the same alias (in the All or the same language).
 				if (($table->load(array_replace($itemSearch, array('language' => '*'))) && ($table->id != $this->id || $this->id == 0))

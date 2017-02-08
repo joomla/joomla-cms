@@ -25,7 +25,7 @@
   margin-left: 0;
   overflow: hidden;
   background-color: $atum-sidebar-bg;
-  background-image: linear-gradient(to bottom, $atum-sidebar-bg 0%, $atum-template-color-light 100%);
+  background-image: linear-gradient(to bottom, $atum-template-color-light 0%, $atum-sidebar-bg 100%);
   box-shadow: 0 0 10px rgba(0, 0, 0, .5), inset -1px 0 0 rgba(0,0,0,.2);
   transition: all .4s ease;
   transition-delay: 0;
@@ -62,7 +62,7 @@
   }
 
   .main-brand {
-    margin-left: 7px;
+    margin-left: 8px;
     font-size: 30px;
     line-height: 96px;
     text-align: center;
@@ -71,16 +71,18 @@
     box-shadow: none;
 
     a {
+      display: block;
+      margin-right: 5px;
+      overflow: hidden;
       border: 0;
       box-shadow: none;
-
       &:hover {
         background: none;
       }
     }
 
     img {
-      width: 200px;
+      width: 190px;
   }
   }
 }
@@ -107,10 +109,10 @@
       border-top: 1px solid rgba(0,0,0,.3);
     }
     &:last-of-type > a {
-      border-bottom: 1px solid rgba(255,255,255,.05);
+      border-bottom: 1px solid rgba(50, 111, 168, .2);
     }
     >.no-dropdown {
-      color: $white-offset;
+      color: $white;
     }
   }
 
@@ -120,10 +122,10 @@
     a {
       position: relative;
       display: block;
-      color: $white-offset;
+      color: $white;
       text-decoration: none;
       cursor: pointer;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.075), inset 0 -1px rgba(0,0,0,.3);
+      box-shadow: inset 0 1px 0 rgba(50, 111, 168, .2), inset 0 -1px rgba(0,0,0,.3);
 
       &::before {
         position: absolute;
@@ -149,7 +151,7 @@
         color: $white-offset;
         text-decoration: none;
         background-color: rgba(0,0,0,.2);
-        box-shadow: inset 0 -1px rgba(0,0,0,.2);
+        box-shadow: inset 0 -1px rgba(0,0,0,.2), inset 0 1px rgba(0,0,0,.1);
       }
 
       &:active,
@@ -217,7 +219,7 @@
     right: 15px;
     font-family: FontAwesome;
     font-size: .75rem;
-    color: $white-offset;
+    color: $white;
     content: "\f0d7";
   }
   .open > .collapse-arrow::after {

@@ -17,19 +17,6 @@
 	<fields name="params">
 		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
 			<field
-				name="components_container"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				label="COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_LABEL"
-				description="COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_DESC"
-				default="0"
-				filter="integer"
-			>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
-
-			<field
 				name="menu-anchor_title"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"

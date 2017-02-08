@@ -93,7 +93,9 @@ class FieldsViewField extends JViewLegacy
 		}
 
 		// Load component language file
-		JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
+		$lang = JFactory::getLanguage();
+		$lang->load($component, JPATH_ADMINISTRATOR)
+		|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
 		$title = JText::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', JText::_(strtoupper($component)));
 
@@ -107,36 +109,49 @@ class FieldsViewField extends JViewLegacy
 		// For new records, check the create permission.
 		if ($isNew)
 		{
-			JToolbarHelper::apply('field.apply');
-			JToolbarHelper::save('field.save');
-			JToolbarHelper::save2new('field.save2new');
-		}
+			JToolbarHelper::saveGroup(
+				[
+					['apply', 'field.apply'],
+					['save', 'field.save'],
+					['save2new', 'field.save2new']
+				],
+				'btn-success'
+			);
 
-		// If not checked out, can save the item.
-		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId)))
-		{
-			JToolbarHelper::apply('field.apply');
-			JToolbarHelper::save('field.save');
-
-			if ($canDo->get('core.create'))
-			{
-				JToolbarHelper::save2new('field.save2new');
-			}
-		}
-
-		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create'))
-		{
-			JToolbarHelper::save2copy('field.save2copy');
-		}
-
-		if (empty($this->item->id))
-		{
-			JToolbarHelper::cancel('field.cancel');
+			JToolbarHelper::cancel('contact.cancel');
 		}
 		else
 		{
-			JToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CLOSE');
+			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+
+			$toolbarButtons = [];
+
+			// Can't save the record if it's checked out and editable
+			if (!$checkedOut && $itemEditable)
+			{
+				$toolbarButtons[] = ['apply', 'field.apply'];
+				$toolbarButtons[] = ['save', 'field.save'];
+
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ($canDo->get('core.create'))
+				{
+					$toolbarButtons[] = ['save2new', 'field.save2new'];
+				}
+			}
+
+			// If an existing item, can save to a copy.
+			if ($canDo->get('core.create'))
+			{
+				$toolbarButtons[] = ['save2copy', 'field.save2copy'];
+			}
+
+			JToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
+
+			JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
 	}
 }

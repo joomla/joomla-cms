@@ -215,8 +215,9 @@ class ContactHelper extends JHelperContent
 		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_contact.contact' => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
-			'com_contact.mail' => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+			'com_contact.contact'    => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
+			'com_contact.mail'       => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+			'com_contact.categories' => JText::_('JCATEGORY')
 		);
 
 		return $contexts;

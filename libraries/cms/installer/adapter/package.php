@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Event\Event;
+
 /**
  * Package installer
  *
@@ -322,14 +324,14 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	/**
 	 * Handler for the `onExtensionAfterInstall` event
 	 *
-	 * @param   JInstaller       $installer  JInstaller instance managing the extension's installation
-	 * @param   integer|boolean  $eid        The extension ID of the installed extension on success, boolean false on install failure
+	 * @param   Event            $event  The event
+	 * @param   integer|boolean  $eid    The extension ID of the installed extension on success, boolean false on install failure
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onExtensionAfterInstall(JInstaller $installer, $eid)
+	public function onExtensionAfterInstall(Event $event, $eid)
 	{
 		if ($eid !== false)
 		{
@@ -714,11 +716,10 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		$db->setQuery($query);
-		$result = $db->loadResult();
 
 		// Note: For templates, libraries and packages their unique name is their key.
 		// This means they come out the same way they came in.
-		return $result;
+		return $db->loadResult();
 	}
 
 	/**

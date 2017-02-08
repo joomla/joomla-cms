@@ -22,7 +22,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 			),
-			'<textarea name="myTestName" id="myTestId" ></textarea>',
+			'<textarea name="myTestName" id="myTestId" class="form-control" ></textarea>',
 		),
 
 		'Value' => array(
@@ -31,7 +31,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'value' => 'This is textarea text.',
 			),
-			'<textarea name="myTestName" id="myTestId" >This is textarea text.</textarea>',
+			'<textarea name="myTestName" id="myTestId" class="form-control" >This is textarea text.</textarea>',
 		),
 
 		'Rows' => array(
@@ -40,7 +40,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'rows' => 55,
 			),
-			'<textarea name="myTestName" id="myTestId" rows="55" ></textarea>',
+			'<textarea name="myTestName" id="myTestId" rows="55" class="form-control" ></textarea>',
 		),
 
 		'Columns' => array(
@@ -49,7 +49,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'columns' => 55,
 			),
-			'<textarea name="myTestName" id="myTestId" cols="55" ></textarea>',
+			'<textarea name="myTestName" id="myTestId" cols="55" class="form-control" ></textarea>',
 		),
 
 		'Class' => array(
@@ -58,7 +58,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'class' => 'foo bar',
 			),
-			'<textarea name="myTestName" id="myTestId" class="foo bar" ></textarea>',
+			'<textarea name="myTestName" id="myTestId" class="form-control foo bar" ></textarea>',
 		),
 
 		'Disabled' => array(
@@ -67,7 +67,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'disabled' => true,
 			),
-			'<textarea name="myTestName" id="myTestId" disabled ></textarea>',
+			'<textarea name="myTestName" id="myTestId" class="form-control" disabled ></textarea>',
 		),
 
 		'Readonly' => array(
@@ -76,7 +76,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'readonly' => true,
 			),
-			'<textarea name="myTestName" id="myTestId" readonly ></textarea>',
+			'<textarea name="myTestName" id="myTestId" class="form-control" readonly ></textarea>',
 		),
 
 		'Hint' => array(
@@ -85,7 +85,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'hint' => 'Placeholder for textarea.',
 			),
-			'<textarea name="myTestName" id="myTestId" placeholder="Placeholder for textarea." ></textarea>',
+			'<textarea name="myTestName" id="myTestId" class="form-control" placeholder="Placeholder for textarea." ></textarea>',
 		),
 
 		'Autocomplete' => array(
@@ -94,7 +94,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'autocomplete' => false,
 			),
-			'<textarea name="myTestName" id="myTestId" autocomplete="off" ></textarea>',
+			'<textarea name="myTestName" id="myTestId" class="form-control" autocomplete="off" ></textarea>',
 		),
 
 		'Autofocus' => array(
@@ -103,7 +103,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'autofocus' => true,
 			),
-			'<textarea name="myTestName" id="myTestId" autofocus ></textarea>',
+			'<textarea name="myTestName" id="myTestId" class="form-control" autofocus ></textarea>',
 		),
 
 		'Spellcheck' => array(
@@ -112,7 +112,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'spellcheck' => false,
 			),
-			'<textarea name="myTestName" id="myTestId" spellcheck="false" ></textarea>',
+			'<textarea name="myTestName" id="myTestId" class="form-control" spellcheck="false" ></textarea>',
 		),
 
 		'Onchange' => array(
@@ -121,7 +121,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'onchange' => 'foobar();',
 			),
-			'<textarea name="myTestName" id="myTestId" onchange="foobar();" ></textarea>',
+			'<textarea name="myTestName" id="myTestId" class="form-control" onchange="foobar();" ></textarea>',
 		),
 
 		'Onclick' => array(
@@ -130,7 +130,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'onclick' => 'barfoo();',
 			),
-			'<textarea name="myTestName" id="myTestId" onclick="barfoo();" ></textarea>',
+			'<textarea name="myTestName" id="myTestId" class="form-control" onclick="barfoo();" ></textarea>',
 		),
 
 		'Required' => array(
@@ -139,7 +139,7 @@ class JHtmlFieldTextareaTest_DataSet
 				'name' => 'myTestName',
 				'required' => true,
 			),
-			'<textarea name="myTestName" id="myTestId" required aria-required="true" ></textarea>',
+			'<textarea name="myTestName" id="myTestId" class="form-control" required aria-required="true" ></textarea>',
 		),
 	);
 }

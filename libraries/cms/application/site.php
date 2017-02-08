@@ -269,9 +269,7 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public function getMenu($name = 'site', $options = array())
 	{
-		$menu = parent::getMenu($name, $options);
-
-		return $menu;
+		return parent::getMenu($name, $options);
 	}
 
 	/**
@@ -481,6 +479,9 @@ final class JApplicationSite extends JApplicationCms
 
 				$template->params = new Registry($template->params);
 			}
+
+			// Unset the $template reference to the last $templates[n] item cycled in the foreach above to avoid editing it later
+			unset($template);
 
 			// Add home element, after loop to avoid double execution
 			if (isset($template_home))

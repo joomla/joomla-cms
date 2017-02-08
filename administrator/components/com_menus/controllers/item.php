@@ -70,7 +70,7 @@ class MenusControllerItem extends JControllerForm
 			if (!empty($item->menutype))
 			{
 				// Protected menutype, do not allow edit
-				if ($item->menutype == 'main' || $item->menutype == 'menu')
+				if ($item->menutype == 'main')
 				{
 					return false;
 				}
@@ -508,7 +508,7 @@ class MenusControllerItem extends JControllerForm
 		$title = isset($type->title) ? $type->title : null;
 		$recordId = isset($type->id) ? $type->id : 0;
 
-		$specialTypes = array('alias', 'separator', 'url', 'heading');
+		$specialTypes = array('alias', 'separator', 'url', 'heading', 'container');
 
 		if (!in_array($title, $specialTypes))
 		{

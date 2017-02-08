@@ -14,9 +14,25 @@ defined('JPATH_BASE') or die;
  * layout you need to close this div either by overriding this file or in your main layout.
  */
 $params    = $displayData->params;
-$extension = $displayData->get('category')->extension;
+$category  = $displayData->get('category');
+$extension = $category->extension;
 $canEdit   = $params->get('access-edit');
 $className = substr($extension, 4);
+
+$dispatcher = JEventDispatcher::getInstance();
+
+$category->text = $category->description;
+$dispatcher->trigger('onContentPrepare', array($extension . '.categories', &$category, &$params, 0));
+$category->description = $category->text;
+
+$results = $dispatcher->trigger('onContentAfterTitle', array($extension . '.categories', &$category, &$params, 0));
+$afterDisplayTitle = trim(implode("\n", $results));
+
+$results = $dispatcher->trigger('onContentBeforeDisplay', array($extension . '.categories', &$category, &$params, 0));
+$beforeDisplayContent = trim(implode("\n", $results));
+
+$results = $dispatcher->trigger('onContentAfterDisplay', array($extension . '.categories', &$category, &$params, 0));
+$afterDisplayContent = trim(implode("\n", $results));
 
 /**
  * This will work for the core components but not necessarily for other components
@@ -26,7 +42,7 @@ if (substr($className, -1) === 's')
 {
 	$className = rtrim($className, 's');
 }
-$tagsData = $displayData->get('category')->tags->itemTags;
+$tagsData = $category->tags->itemTags;
 ?>
 <div>
 	<div class="<?php echo $className .'-category' . $displayData->pageclass_sfx; ?>">
@@ -38,22 +54,25 @@ $tagsData = $displayData->get('category')->tags->itemTags;
 
 		<?php if ($params->get('show_category_title', 1)) : ?>
 			<h2>
-				<?php echo JHtml::_('content.prepare', $displayData->get('category')->title, '', $extension . '.category.title'); ?>
+				<?php echo JHtml::_('content.prepare', $category->title, '', $extension . '.category.title'); ?>
 			</h2>
 		<?php endif; ?>
+		<?php echo $afterDisplayTitle; ?>
 
 		<?php if ($params->get('show_cat_tags', 1)) : ?>
 			<?php echo JLayoutHelper::render('joomla.content.tags', $tagsData); ?>
 		<?php endif; ?>
 
-		<?php if ($params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
+		<?php if ($beforeDisplayContent || $afterDisplayContent || $params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
 			<div class="category-desc">
-				<?php if ($params->get('show_description_image') && $displayData->get('category')->getParams()->get('image')) : ?>
-					<img src="<?php echo $displayData->get('category')->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($displayData->get('category')->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>"/>
+				<?php if ($params->get('show_description_image') && $category->getParams()->get('image')) : ?>
+					<img src="<?php echo $category->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>"/>
 				<?php endif; ?>
-				<?php if ($params->get('show_description') && $displayData->get('category')->description) : ?>
-					<?php echo JHtml::_('content.prepare', $displayData->get('category')->description, '', $extension . '.category.description'); ?>
+				<?php echo $beforeDisplayContent; ?>
+				<?php if ($params->get('show_description') && $category->description) : ?>
+					<?php echo JHtml::_('content.prepare', $category->description, '', $extension . '.category.description'); ?>
 				<?php endif; ?>
+				<?php echo $afterDisplayContent; ?>
 				<div class="clr"></div>
 			</div>
 		<?php endif; ?>

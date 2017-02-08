@@ -69,7 +69,7 @@ class JUcmBase implements JUcm
 		}
 
 		$ucmId      = isset($data['ucm_id']) ? $data['ucm_id'] : null;
-		$primaryKey = $primaryKey ? $primaryKey : $ucmId;
+		$primaryKey = $primaryKey ?: $ucmId;
 
 		if (isset($primaryKey))
 		{
@@ -126,7 +126,7 @@ class JUcmBase implements JUcm
 	 */
 	public function mapBase($original, JUcmType $type = null)
 	{
-		$type = $type ? $type : $this->type;
+		$type = $type ?: $this->type;
 
 		$data = array(
 			'ucm_type_id' => $type->id,

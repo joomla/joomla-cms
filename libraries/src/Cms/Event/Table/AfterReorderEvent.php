@@ -35,36 +35,12 @@ class AfterReorderEvent extends AbstractEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('rows', $arguments))
-		{
-			throw new BadMethodCallException("Argument 'rows' is required for event $name");
-		}
-
 		if (!array_key_exists('where', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'ignore' is required for event $name");
 		}
 
 		parent::__construct($name, $arguments);
-	}
-
-	/**
-	 * Setter for the rows argument
-	 *
-	 * @param   stdClass[]|null  $value  The value to set
-	 *
-	 * @return  mixed
-	 *
-	 * @throws  BadMethodCallException  if the argument is not of the expected type
-	 */
-	protected function setRows($value)
-	{
-		if (!is_array($value) && !empty($value))
-		{
-			throw new BadMethodCallException("Argument 'rows' of event {$this->name} must be an array or null");
-		}
-
-		return $value;
 	}
 
 	/**

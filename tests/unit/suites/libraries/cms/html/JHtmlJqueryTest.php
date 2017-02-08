@@ -120,7 +120,7 @@ class JHtmlJqueryTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/jui/js/jquery.ui.sortable.min.js',
+			'/media/vendor/jquery-ui/js/jquery.ui.sortable.min.js',
 			$document->_scripts,
 			'Verify that the jQueryUI sortable script is loaded'
 		);

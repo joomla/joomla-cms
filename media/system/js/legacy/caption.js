@@ -13,30 +13,41 @@
  * @version  1.0
  */
 var JCaption = function(selector) {
-    var initialize = function(selector) {
-        var elements = document.querySelectorAll(selector);
-        for (var i = 0, count = elements.length; i < count; i++) {
-            createCaption(elements[i]);
-        }
-    },
+	var insertBefore = function(el, referenceNode) {
+		    referenceNode.parentNode.insertBefore(el, referenceNode);
+	    },
 
-    createCaption = function(element) {
-        var container, caption = element.getAttribute('title'),
-        width = element.getAttribute("width") || element.width,
-        align = element.getAttribute("align") || element.style.styleFloat || "none",
-        pEl = createElement('<p/>');
-        pEl.text = caption;
-        pEl.class = selector.replace('.', '_');
-        container = createElement('<div/>');
-        container.class = selector.replace('.', '_') + " " + align;
-        container.style.styleFloat = align;
-        container.style.width = width;
-        container.parentNode.insertBefore(element, container);
-        container.innerHTML = element;
-        if (caption !== "") {
-            container.innerHTML = pEl;
-        }
-    };
+	    initialize = function(selector) {
+		    var elements = document.querySelectorAll(selector);
+		    for (var i = 0, count = elements.length; i < count; i++) {
+			    createCaption(elements[i], selector);
+		    }
+	    },
 
-    initialize(selector);
+	    createCaption = function(element, selector) {
+		    var container, caption = element.getAttribute('title'),
+		        width = element.getAttribute("width") || element.style.width,
+		        align = element.getAttribute("align") || element.style.cssFloat || "none",
+		        pEl = document.createElement('p'),
+		        clearClass = selector.replace('.', '_').replace('#', '').replace(',', '').split(' ');
+		    pEl.innerHTML = caption;
+		    container = document.createElement('div');
+		    clearClass.forEach(function(className) {
+			    pEl.classList.add(className);
+			    container.classList.add(className);
+		    });
+		    container.classList.add(align);
+		    insertBefore(container, element);
+
+		    if (caption !== "") {
+			    container.appendChild(pEl);
+		    }
+
+		    container.style.cssFloat = align;
+		    container.style.width = /px/.test(width) ? width : width + 'px';
+
+		    container.appendChild(element);
+	    };
+
+	initialize(selector);
 };

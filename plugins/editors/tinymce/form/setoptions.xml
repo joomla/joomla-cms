@@ -253,7 +253,7 @@
 			class="switcher"
             label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
             description="PLG_TINY_FIELD_ADVIMAGE_DESC"
-            default="0"
+            default="1"
     >
         <option value="1">JON</option>
         <option value="0">JOFF</option>

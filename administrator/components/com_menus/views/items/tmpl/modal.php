@@ -85,7 +85,8 @@ jQuery(document).ready(function($) {
 				</tfoot>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ($item->type != 'separator' && $item->type != 'alias' && $item->type != 'heading' && $item->type != 'url') : ?>
+					<?php if ($item->type != 'separator' && $item->type != 'alias' &&
+								$item->type != 'heading' && $item->type != 'container' && $item->type != 'url') : ?>
 						<?php if ($item->language && JLanguageMultilang::isEnabled())
 						{
 							if ($item->language !== '*')
