@@ -1,19 +1,19 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Access
+ * @subpackage  Authorize
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Class that handles all access authorisation routines.
+ * Class that handles authorisation in a backward (J3.x) compatible way
  *
  * @since  4.0.
- * @deprecated No replacement, to be removed in 4.1
+ * @deprecated No replacement, to be removed in 4.2
  */
 class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJoomla implements JAuthorizeInterface
 {
@@ -34,30 +34,15 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	 */
 	protected static $permCache = array();
 
-	/**
-	 * Root asset permissions
-	 *
-	 * @var    array
-	 * @since  4.0
-	 */
-	protected static $rootAsset = null;
-
 
 	/**
 	 * Rules object
+	 * _ suffixed to force usage of getters and setters, use property name without_ to get or set the value
 	 *
 	 * @var    object JAccessRules
 	 * @since  4.0
 	 */
-	private $rules = null;
-
-	/**
-	 * Database object
-	 *
-	 * @var    object JDatabase object
-	 * @since  4.0
-	 */
-	protected $db = null;
+	private $rules_ = null;
 
 	const IMPLEMENTATION = 'JoomlaLegacy';
 
@@ -77,7 +62,7 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	public function __construct($assetId = 1, JDatabaseDriver $db = null, JAccessRules $rules = null )
 	{
 		$this->assetId = $assetId;
-		$this->rules = isset($rules) ? $rules : new JAccessRules();
+		$this->rules_ = isset($rules) ? $rules : new JAccessRules();
 		$this->db = isset($db) ? $db : JFactory::getDbo();
 	}
 
@@ -98,12 +83,12 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 			case 'rules':
 				if ($value instanceof JAccessRules)
 				{
-					$this->rules = $value;
+					$this->rules_ = $value;
 				}
 			break;
 
 			default:
-				parent::__set($name, $value);
+				JAuthorizeImplementationJoomla::__set($name, $value);
 		}
 
 		return $this;
@@ -218,8 +203,8 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 		}
 
 		// Instantiate and return the JAccessRules object for the asset rules.
-		$this->rules->mergeCollection(self::$permCache[$cacheId]);
-		$rules = $this->rules;
+		$this->rules_->mergeCollection(self::$permCache[$cacheId]);
+		$rules = $this->rules_;
 
 		// If action was set return only this action's result
 		$data = $rules->getData();

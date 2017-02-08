@@ -1,20 +1,27 @@
 <?php
 /**
- * @package     Joomla
- * @subpackage
+ * @package     Joomla.Platform
+ * @subpackage  Authorize
  *
- * @copyright   A copyright
- * @license     A "Slug" license name e.g. GPL2
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('JPATH_PLATFORM') or die;
 
-class JAuthorize implements JAuthorizeInterface
+
+final class JAuthorize implements JAuthorizeInterface
 {
 	private static $instance = null;
 
-	private $implementation = null;
-
-	private $implementationClass;
+	/**
+	 * Implementation object
+	 * _ suffixed to force usage of getters and setters, use property name without_ to get or set the value
+	 *
+	 * @var    array
+	 * @since  4.0
+	 */
+	private $implementation_ = null;
 
 
 	public function __construct(JAuthorizeInterface $implementation)
@@ -35,11 +42,10 @@ class JAuthorize implements JAuthorizeInterface
 		}
 
 		return self::$instance[$implementationClass];
-
 	}
 
 	/**
-	 * Method to set a value Example: $access->set('items', $items);
+	 * Method to allow controlled property value setting;
 	 *
 	 * @param   string  $name   Name of the property
 	 * @param   mixed   $value  Value to assign to the property
@@ -48,20 +54,23 @@ class JAuthorize implements JAuthorizeInterface
 	 *
 	 * @since   4.0
 	 */
-	public function set($name, $value)
+	public function __set($name, $value)
 	{
 		switch ($name)
 		{
 			case 'implementation':
-				if ($value instanceof JAuthorizeInterface)
+				if ($value instanceof JAuthorizeInterface && $value instanceof JAuthorizeImplementation)
 				{
-					$this->implementation = $value;
+					$this->implementation_ = $value;
 				}
 			break;
 
 			case 'authorizationMatrix':
-				$this->implementation->set('authorizationMatrix', $value);
+				$this->implementation->authorizationMatrix = $value;
 			break;
+
+			default:
+				$this->implementation->$name = $value;
 
 		}
 
@@ -74,18 +83,18 @@ class JAuthorize implements JAuthorizeInterface
 	 * @param   string  $key           Key to search for in the data array
 	 * @param   mixed   $defaultValue  Default value to return if the key is not set
 	 *
-	 * @return  mixed   Value | defaultValue if doesn't exist
+	 * @return  mixed   Value | null if doesn't exist
 	 *
 	 * @since   4.0
 	 */
-	public function get($key, $defaultValue = null)
+	public function __get($key)
 	{
-		if ($key == 'authorizationMatrix')
+		if ($key == 'implementation')
 		{
-			return $this->implementation->get('authorizationMatrix', $defaultValue);
+			return $this->implementation_;
 		}
 
-		return $this->implementation->get($key, $defaultValue);
+		return $this->implementation->$key;
 	}
 
 	public function check($actor, $target, $action)

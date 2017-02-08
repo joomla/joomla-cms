@@ -1,16 +1,16 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Access
+ * @subpackage  Authorize
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Class that handles all access authorisation routines.
+ * Class that handles default Joomla authorisation routines.
  *
  * @since  11.1
  */
@@ -26,21 +26,13 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	protected static $rootAsset = null;
 
 	/**
-	 * Asset id
+	 * Integer asset id or the name of the asset as a string or array with this values.
+	 * _ suffixed to force usage of setters, use property name without_ to set the value
 	 *
-	 * @var    mixed string or integer
+	 * @var    mixed string or integer or array
 	 * @since  4.0
 	 */
 	protected $assetId_ = 1;
-
-
-	/**
-	 * Database object
-	 *
-	 * @var    object JDatabase object
-	 * @since  4.0
-	 */
-	protected $db_ = null;
 
 	const IMPLEMENTATION = 'Joomla';
 
@@ -174,7 +166,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 			$this->loadPermissions(true, null, null);
 		}
 
-		return $this->calculate($this->assetId, $action, $identities);
+		return $this->calculate($this->assetId_, $action, $identities);
 	}
 
 	public function loadPermissions($recursive = false, $groups = null, $action = null )

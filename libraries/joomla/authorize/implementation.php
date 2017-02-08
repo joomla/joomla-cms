@@ -1,19 +1,31 @@
 <?php
 /**
- * @package     Joomla
- * @subpackage
+ * @package     Joomla.Platform
+ * @subpackage  Authorize
  *
- * @copyright   A copyright
- * @license     A "Slug" license name e.g. GPL2
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-
+defined('JPATH_PLATFORM') or die;
 
 abstract class JAuthorizeImplementation
 {
+	/**
+	 * A multidimensional array with authorization matryx [authorizationclass][assetid][action1][group] = valuem
+	 *
+	 * @var    array
+	 * @since  4.0
+	 */
 	private static $authorizationMatrix = array();
 
-	private $db_ = null;
+	/**
+	 * Database object
+	 *
+	 * @var    object
+	 * @since  4.0
+	 */
+	private $db = null;
 
 	const APPENDSUPPORT = false;
 
@@ -23,18 +35,27 @@ abstract class JAuthorizeImplementation
 	 * @param   string  $key           Key to search for in the data array
 	 * @param   mixed   $defaultValue  Default value to return if the key is not set
 	 *
-	 * @return  mixed   Value | defaultValue if doesn't exist
+	 * @return  mixed   Value | null if doesn't exist
 	 *
 	 * @since   4.0
 	 */
 	public function __get($key)
 	{
-		if ($key == 'authorizationMatrix')
+		switch ($key)
 		{
-			return isset(static::$authorizationMatrix[__CLASS__]) ? static::$authorizationMatrix[__CLASS__] : array();
+			case 'authorizationMatrix':
+				return isset(static::$authorizationMatrix[__CLASS__]) ? static::$authorizationMatrix[__CLASS__] : array();
+				break;
+
+			case 'appendsupport':
+				return static::APPENDSUPPORT;
+				break;
+
+			default:
+				return isset($this->$key) ? $this->$key : null;
+				break;
 		}
 
-		return isset($this->$key) ? $this->$key : null;
 	}
 
 	/**
@@ -58,7 +79,7 @@ abstract class JAuthorizeImplementation
 			case 'db':
 				if ($value instanceof JDatabaseDriver)
 				{
-					$this->db_ = $value;
+					$this->db = $value;
 				}
 				break;
 
@@ -98,10 +119,6 @@ abstract class JAuthorizeImplementation
 		return $query;
 	}
 
-	public function isAppendSupported()
-	{
-		return static::APPENDSUPPORT;
-	}
 
 	protected function cleanAssetId($assetId)
 	{

@@ -1,12 +1,14 @@
 <?php
-
 /**
- * @package     ${NAMESPACE}
- * @subpackage
+ * @package     Joomla.Platform
+ * @subpackage  Authorize
  *
- * @copyright   A copyright
- * @license     A "Slug" license name e.g. GPL2
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('JPATH_PLATFORM') or die;
+
 class JAuthorizeHelper
 {
 	/**
