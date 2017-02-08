@@ -635,9 +635,6 @@ class Controller extends \JObject
 		{
 			$option = $this->input->get('option');
 
-			/** @var \JCacheControllerView $cache */
-			$cache = \JFactory::getCache($option, 'view');
-
 			if (is_array($urlparams))
 			{
 				$app = \JFactory::getApplication();
@@ -660,7 +657,16 @@ class Controller extends \JObject
 				$app->registeredurlparams = $registeredurlparams;
 			}
 
-			$cache->get($view, 'display');
+			try
+			{
+				/** @var \JCacheControllerView $cache */
+				$cache = \JFactory::getCache($option, 'view');
+				$cache->get($view, 'display');
+			}
+			catch (\JCacheException $exception)
+			{
+				$view->display();
+			}
 		}
 		else
 		{

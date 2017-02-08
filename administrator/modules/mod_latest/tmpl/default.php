@@ -30,12 +30,12 @@ JHtml::_('bootstrap.tooltip');
 						<?php endif; ?>
 					</strong>
 
-					<small class="hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LATEST_CREATED_BY'); ?>">
+					<small class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LATEST_CREATED_BY'); ?>">
 						<?php echo $item->author_name; ?>
 					</small>
 				</div>
 				<div class="span4">
-					<div class="small pull-right hasTooltip" title="<?php echo JHtml::tooltipText('JGLOBAL_FIELD_CREATED_LABEL'); ?>">
+					<div class="small pull-right hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JGLOBAL_FIELD_CREATED_LABEL'); ?>">
 						<span class="icon-calendar"></span> <?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
 					</div>
 				</div>

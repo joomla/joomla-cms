@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="package" version="3.6" method="upgrade">
+<extension type="package" version="3.7" method="upgrade">
 	<name>English (en-GB) Language Pack</name>
 	<packagename>en-GB</packagename>
 	<version>3.7.0.1</version>
