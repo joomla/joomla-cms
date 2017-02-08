@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Exception class defining an error for a missing component
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JComponentExceptionMissing extends InvalidArgumentException
 {
@@ -23,7 +23,7 @@ class JComponentExceptionMissing extends InvalidArgumentException
 	 * @param   integer    $code      The Exception code.
 	 * @param   Exception  $previous  The previous exception used for the exception chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($message = '', $code = 404, Exception $previous = null)
 	{

@@ -29,7 +29,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * Locked resources
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 *
 	 */
 	protected $_locked_files = array();
