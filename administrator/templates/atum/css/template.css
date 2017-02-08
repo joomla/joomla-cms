@@ -9376,7 +9376,7 @@ iframe {
     .main-nav li li a {
       box-shadow: none; }
       .main-nav li li a:hover {
-        background-color: rgba(0, 0, 0, 0.05);
+        background-color: rgba(0, 0, 0, 0.2);
         box-shadow: none; }
     .main-nav li li:last-of-type > a {
       border-bottom: 0; }
