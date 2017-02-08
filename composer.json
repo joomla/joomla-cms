@@ -12,6 +12,7 @@
         "preferred-install": {
             "joomla/crypt": "dist",
             "joomla/event": "dist",
+            "joomla/http": "dist",
             "joomla/session": "dist"
         },
         "vendor-dir": "libraries/vendor"
@@ -34,6 +35,7 @@
         "joomla/data": "~1.2",
         "joomla/di": "~1.2",
         "joomla/event": "~2.0@dev",
+        "joomla/http": "~2.0@dev",
         "joomla/image": "~1.2",
         "joomla/registry": "~1.4 >=1.4.5",
         "joomla/session": "~2.0@dev",

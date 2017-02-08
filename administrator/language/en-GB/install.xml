@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.6" client="administrator" type="language" method="upgrade">
+<extension version="3.7" client="administrator" type="language" method="upgrade">
 	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
 	<version>4.0.0</version>
@@ -121,6 +121,8 @@
 		<filename>en-GB.plg_content_contact.sys.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.sys.ini</filename>
+		<filename>en-GB.plg_content_fields.ini</filename>
+		<filename>en-GB.plg_content_fields.sys.ini</filename>
 		<filename>en-GB.plg_content_finder.ini</filename>
 		<filename>en-GB.plg_content_finder.sys.ini</filename>
 		<filename>en-GB.plg_content_joomla.ini</filename>
@@ -143,6 +145,8 @@
 		<filename>en-GB.plg_editors-xtd_article.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_contact.ini</filename>
 		<filename>en-GB.plg_editors-xtd_contact.sys.ini</filename>
+		<filename>en-GB.plg_editors-xtd_fields.ini</filename>
+		<filename>en-GB.plg_editors-xtd_fields.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_image.ini</filename>
 		<filename>en-GB.plg_editors-xtd_image.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_menu.ini</filename>

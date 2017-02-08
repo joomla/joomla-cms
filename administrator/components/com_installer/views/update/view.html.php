@@ -30,7 +30,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 	 *
 	 * @var  object
 	 */
-	protected $state;
+	public $state;
 
 	/**
 	 * List pagination.

@@ -476,7 +476,7 @@ class JPaginationTest extends TestCase
 				. "</select>\n"
 			),
 			array(100, 0, 20, true,
-				"<select id=\"limit\" name=\"limit\" class=\"inputbox input-mini\" size=\"1\" onchange=\"Joomla.submitform();\">\n"
+				"<select id=\"limit\" name=\"limit\" class=\"custom-select\" onchange=\"Joomla.submitform();\">\n"
 				. "\t<option value=\"5\">5</option>\n"
 				. "\t<option value=\"10\">10</option>\n"
 				. "\t<option value=\"15\">15</option>\n"
@@ -529,8 +529,8 @@ class JPaginationTest extends TestCase
 	public function dataTestOrderUpIcon()
 	{
 		return array(
-			array(0, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
-			array(2, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+			array(0, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+			array(2, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
 			array(2, '&#160;', false, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
 		);
 	}
@@ -570,8 +570,8 @@ class JPaginationTest extends TestCase
 	public function dataTestOrderDownIcon()
 	{
 		return array(
-			array(0, 100, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
-			array(2, 100, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+			array(0, 100, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+			array(2, 100, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
 			array(2, 100, '&#160;', false, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
 		);
 	}

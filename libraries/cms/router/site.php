@@ -52,8 +52,8 @@ class JRouterSite extends JRouter
 	 */
 	public function __construct(JApplicationCms $app = null, JMenu $menu = null)
 	{
-		$this->app  = $app ? $app : JApplicationCms::getInstance('site');
-		$this->menu = $menu ? $menu : $this->app->getMenu();
+		$this->app  = $app ?: JApplicationCms::getInstance('site');
+		$this->menu = $menu ?: $this->app->getMenu();
 
 		// Add core rules
 		if ($this->app->get('force_ssl') == 2)
@@ -65,7 +65,7 @@ class JRouterSite extends JRouter
 		$this->attachBuildRule(array($this, 'buildInit'), self::PROCESS_BEFORE);
 		$this->attachBuildRule(array($this, 'buildComponentPreprocess'), self::PROCESS_BEFORE);
 
-		if ($this->app->get('sef'))
+		if ($this->app->get('sef', 1))
 		{
 			if ($this->app->get('sef_suffix'))
 			{
@@ -131,7 +131,7 @@ class JRouterSite extends JRouter
 		if (preg_match("#.*?\.php#u", $path, $matches))
 		{
 			// Get the current entry point path relative to the site path.
-			$scriptPath         = realpath($_SERVER['SCRIPT_FILENAME'] ? $_SERVER['SCRIPT_FILENAME'] : str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
+			$scriptPath         = realpath($_SERVER['SCRIPT_FILENAME'] ?: str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
 			$relativeScriptPath = str_replace('\\', '/', str_replace(JPATH_SITE, '', $scriptPath));
 
 			// If a php file has been found in the request path, check to see if it is a valid file.
@@ -264,6 +264,17 @@ class JRouterSite extends JRouter
 
 			if ($found)
 			{
+				if ($found->type == 'alias')
+				{
+					$newItem = $this->menu->getItem($found->params->get('aliasoptions'));
+
+					if ($newItem)
+					{
+						$found->query     = array_merge($found->query, $newItem->query);
+						$found->component = $newItem->component;
+					}
+				}
+
 				$uri->setVar('Itemid', $found->id);
 				$uri->setVar('option', $found->component);
 			}
@@ -313,6 +324,17 @@ class JRouterSite extends JRouter
 		else
 		{
 			$item = $this->menu->getDefault($this->app->getLanguage()->getTag());
+		}
+
+		if ($item && $item->type == 'alias')
+		{
+			$newItem = $this->menu->getItem($item->params->get('aliasoptions'));
+
+			if ($newItem)
+			{
+				$item->query     = array_merge($item->query, $newItem->query);
+				$item->component = $newItem->component;
+			}
 		}
 
 		if (is_object($item))

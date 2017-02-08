@@ -9,7 +9,7 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/permissions/fixtures/fixture.html', 'libs/permissions', 'libs/core'], function ($, fixture) {
+define(['jquery', 'text!testsRoot/permissions/fixtures/fixture.html', 'fields/permissions', 'libs/core'], function ($, fixture) {
 	$('body').append(fixture);
 
 	window.id = '0';

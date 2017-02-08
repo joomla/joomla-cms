@@ -47,21 +47,21 @@ var JFormValidator = function() {
 			    } else {
 				    message = el.parentNode.querySelector('span.invalid')
 			    }
-
-			    el.classList.remove('invalid');
-			    el.classList.add('valid');
-			    el.setAttribute('aria-invalid', 'false');
-
-			    // Remove message
-			    if (message) {
-				    el.parentNode.removeChild(message);
-			    }
-
-			    // Restore Label
-			    if (label) {
-				    label.classList.remove('invalid');
-			    }
 		    }
+
+			el.classList.remove('invalid');
+			el.classList.add('valid');
+			el.setAttribute('aria-invalid', 'false');
+
+			// Remove message
+			if (message) {
+			    el.parentNode.removeChild(message);
+			}
+
+			// Restore Label
+			if (label) {
+			    label.classList.remove('invalid');
+			}
 	    },
 
 	    markInvalid = function(el, empty) {
@@ -117,7 +117,6 @@ var JFormValidator = function() {
 
 		    el.classList.remove('invalid');
 		    el.classList.remove('valid');
-		    el.removeAttribute('aria-invalid');
 
 		    // Remove message
 		    if (message) {
@@ -140,7 +139,7 @@ var JFormValidator = function() {
 		    debugger;
 		    var tagName, handler;
 		    // Ignore the element if its currently disabled, because are not submitted for the http-request. For those case return always true.
-		    if (el.getAttribute('disabled') == 'disabled' || el.getAttribute('display') == 'none') {
+		    if (el.getAttribute('disabled') === 'disabled' || el.getAttribute('display') === 'none') {
 			    handleResponse(true, el);
 			    return true;
 		    }
@@ -233,11 +232,18 @@ var JFormValidator = function() {
 	    attachToForm = function(form) {
 		    var inputFields = [], elements;
 		    // Iterate through the form object and attach the validate method to all input fields.
-		    elements = form.querySelectorAll('input, textarea, select, button');
+		    elements = form.querySelectorAll('input, textarea, select, button, fieldset');
 		    for (var i = 0, l = elements.length; i < l; i++) {
 			    var el = elements[i], tagName = el.tagName.toLowerCase();
+
+			    if (['input', 'textarea', 'select', 'fieldset'].indexOf(tagName) > -1 && el.classList.contains('required')) {
+				    el.setAttribute('required', '');
+				    el.setAttribute('aria-required', 'true');
+			    }
+
 			    // Attach isValid method to submit button
 			    if ((tagName === 'input' || tagName === 'button') && (el.getAttribute('type') === 'submit' || el.getAttribute('type') === 'image')) {
+
 				    if (el.classList.contains('validate')) {
 					    el.addEventListener('click', function() {
 						    return isValid(form);

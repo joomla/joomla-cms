@@ -5,7 +5,7 @@
   z-index: 5;
   height: $header-height;
   margin-bottom: 3px;
-  background: $atum-template-color;
+  background: $atum-template-color-light;
 
   &::after {
     position: absolute;
@@ -36,13 +36,13 @@
   }
 
   .navbar-brand {
+    position: relative;
     display: inline-block;
     float: none;
     padding: 0;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     line-height: $header-height;
     color: $white-offset;
-
     &:hover,
     &:focus {
       color: darken($white-offset, 6%);
@@ -76,13 +76,13 @@
       font-size: 1.1rem;
       line-height: 23px;
       color: $white-offset;
-      background-color: lighten($atum-template-color, 10%);
+      background-color: lighten($atum-template-color-light, 10%);
       border-radius: 2px;
     }
 
     .badge {
       position: absolute;
-      top: 2px;
+      top: 4px;
       right: -5px;
     }
 
@@ -131,22 +131,26 @@
 }
 
 .container-title {
-  position: relative;
-  padding-top: 17px;
-  padding-bottom: 16px;
-  overflow: hidden;
+  padding-top: 13px;
+  padding-bottom: 13px;
   color: $white;
   background-color: $atum-template-color-light;
-
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
   .page-title {
     margin-bottom: 0;
     font-size: 1.3rem;
     font-weight: normal;
 
     span {
-      margin-right: 15px;
+      position: relative;
+      top: 2px;
+      margin-right: 12px;
+      margin-left: 5px;
       font-size: $font-size-h1;
-      color: lighten($atum-template-color, 20%);
+      color: lighten($atum-template-color-light, 10%);
     }
   }
 }

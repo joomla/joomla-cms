@@ -158,7 +158,7 @@ class JCaptcha implements DispatcherAwareInterface
 			'onDisplay',
 			[
 				'name'  => $name,
-				'id'    => $id ? $id : $name,
+				'id'    => $id ?: $name,
 				'class' => $class ? 'class="' . $class . '"' : '',
 			]
 		);

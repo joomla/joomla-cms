@@ -29,7 +29,7 @@ class PlgButtonReadmore extends JPlugin
 	/**
 	 * Readmore button
 	 *
-	 * @param   string   $name    The name of the button to add
+	 * @param   string  $name  The name of the button to add
 	 *
 	 * @return  JObject  $button  A two element array of (imageName, textToInsert)
 	 *
@@ -43,6 +43,7 @@ class PlgButtonReadmore extends JPlugin
 			'getContent',
 			['name' => $name]
 		);
+
 		$getContentResult = $this->getDispatcher()->dispatch('getContent', $event);
 		$getContent = $getContentResult['result'][0];
 		$present    = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
