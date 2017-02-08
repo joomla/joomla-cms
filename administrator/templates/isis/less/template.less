@@ -1974,6 +1974,7 @@ textarea.noResize {
 			vertical-align: top;
 			margin-bottom: 15px;
 			width: 100%;
+			list-style: none;
 			-webkit-column-break-inside: avoid;
 			-webkit-backface-visibility: hidden;	
 		}
@@ -1983,6 +1984,13 @@ textarea.noResize {
 	    border: 1px solid #ddd;
 	    border-radius: 3px;
 	    padding: 15px;
+	}
+}
+@media (max-width: 767px) {
+	#menu-assignment .menu-links {
+		-webkit-column-count: auto;
+		-moz-column-count: auto;
+		column-count: auto;
 	}
 }
 
