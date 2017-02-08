@@ -75,23 +75,42 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		$data = false;
-		$path = $this->_getFilePath($id, $group);
+		$path  = $this->_getFilePath($id, $group);
+		$close = false;
 
 		if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true))
 		{
 			if (file_exists($path))
 			{
-				$data = file_get_contents($path);
-
-				if ($data)
+				if (isset($this->_locked_files[$path]))
 				{
-					// Remove the initial die() statement
-					$data = str_replace('<?php die("Access Denied"); ?>#x#', '', $data);
+					$_fileopen = $this->_locked_files[$path];
+				}
+				else
+				{
+					$_fileopen = @fopen($path, 'rb');
+
+					// There is no lock, we have to close file after store data
+					$close = true;
+				}
+
+				if ($_fileopen)
+				{
+					// On Windows system we can not use file_get_contents on the file locked by yourself
+					$data = stream_get_contents($_fileopen);
+
+					if ($close)
+					{
+						@fclose($_fileopen);
+					}
+
+					if ($data !== false)
+					{
+						// Remove the initial die() statement
+						return str_replace('<?php die("Access Denied"); ?>#x#', '', $data);
+					}
 				}
 			}
-
-			return $data;
 		}
 
 		return false;
@@ -139,24 +158,41 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function store($id, $group, $data)
 	{
-		$written = false;
-		$path    = $this->_getFilePath($id, $group);
-		$die     = '<?php die("Access Denied"); ?>#x#';
+		$path  = $this->_getFilePath($id, $group);
+		$close = false;
 
 		// Prepend a die string
-		$data = $die . $data;
+		$data = '<?php die("Access Denied"); ?>#x#' . $data;
 
-		$_fileopen = @fopen($path, 'wb');
+		if (isset($this->_locked_files[$path]))
+		{
+			$_fileopen = $this->_locked_files[$path];
+
+			// Because lock method uses flag c+b we have to truncate it manually
+			@ftruncate($_fileopen, 0);
+		}
+		else
+		{
+			$_fileopen = @fopen($path, 'wb');
+
+			// There is no lock, we have to close file after store data
+			$close = true;
+		}
 
 		if ($_fileopen)
 		{
-			$len = strlen($data);
-			@fwrite($_fileopen, $data, $len);
-			$written = true;
+			$length = strlen($data);
+			$result = @fwrite($_fileopen, $data, $length);
+
+			if ($close)
+			{
+				@fclose($_fileopen);
+			}
+
+			return $result === $length;
 		}
 
-		// Data integrity check
-		return $written && ($data == file_get_contents($path));
+		return false;
 	}
 
 	/**
