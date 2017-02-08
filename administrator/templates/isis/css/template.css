@@ -8919,8 +8919,26 @@ textarea.noResize {
 .hero-unit .lead {
 	font-weight: 400;
 }
+#menu-assignment {
+	position: relative;
+}
 #menu-assignment .menu-links {
+	margin-top: 15px;
 	margin-left: 0;
+	-webkit-column-count: 3;
+	-moz-column-count: 3;
+	column-count: 3;
+	-moz-column-gap: 15px;
+	-webkit-column-gap: 15px;
+	column-gap: 15px;
+}
+#menu-assignment .menu-links > li {
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom: 15px;
+	width: 100%;
+	-webkit-column-break-inside: avoid;
+	-webkit-backface-visibility: hidden;
 }
 #menu-assignment .menu-links-block {
 	background-color: #fafafa;
