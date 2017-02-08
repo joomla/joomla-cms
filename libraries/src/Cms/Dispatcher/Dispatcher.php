@@ -34,13 +34,13 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   \JApplicationCms  $app  The JApplicationCms for the dispatcher
+	 * @param   \JApplicationCms  $app  The JApplication for the dispatcher
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(\JApplicationCms $app)
 	{
-		$this->app = $app;
+		$this->app  = $app;
 	}
 
 	/**
