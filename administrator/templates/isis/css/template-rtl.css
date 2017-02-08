@@ -7521,11 +7521,21 @@ body .navbar-fixed-top {
 	border-color: rgba(0,0,0,0.2);
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
-#toolbar .btn-success:hover {
-	background-color: #378137;
+#toolbar .btn-success {
+	width: 148px;
 }
+#toolbar .btn-primary [class^="icon-"],
+#toolbar .btn-primary [class*=" icon-"],
+#toolbar .btn-warning [class^="icon-"],
+#toolbar .btn-warning [class*=" icon-"],
+#toolbar .btn-danger [class^="icon-"],
+#toolbar .btn-danger [class*=" icon-"],
 #toolbar .btn-success [class^="icon-"],
-#toolbar .btn-success [class*=" icon-"] {
+#toolbar .btn-success [class*=" icon-"],
+#toolbar .btn-info [class^="icon-"],
+#toolbar .btn-info [class*=" icon-"],
+#toolbar .btn-inverse [class^="icon-"],
+#toolbar .btn-inverse [class*=" icon-"] {
 	background-color: transparent;
 	border-right: 0;
 	border-left: 0;

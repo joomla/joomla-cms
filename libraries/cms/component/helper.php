@@ -427,18 +427,24 @@ class JComponentHelper
 	 */
 	protected static function load($option)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('component'));
-		$db->setQuery($query);
+		$loader = function ()
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
+			$db->setQuery($query);
 
+			return $db->loadObjectList('option');
+		};
+
+		/** @var JCacheControllerCallback $cache */
 		$cache = JFactory::getCache('_system', 'callback');
 
 		try
 		{
-			$components = $cache->get(array($db, 'loadObjectList'), array('option'), $option, false);
+			$components = $cache->get($loader, array(), $option, false);
 
 			/**
 			 * Verify $components is an array, some cache handlers return an object even though
@@ -453,27 +459,9 @@ class JComponentHelper
 				static::$components = $components;
 			}
 		}
-		catch (RuntimeException $e)
+		catch (JCacheException $e)
 		{
-			/*
-			 * Fatal error
-			 *
-			 * It is possible for this error to be reached before the global JLanguage instance has been loaded so we check for its presence
-			 * before logging the error to ensure a human friendly message is always given
-			 */
-
-			if (JFactory::$language)
-			{
-				$msg = JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $e->getMessage());
-			}
-			else
-			{
-				$msg = sprintf('Error loading component: %1$s, %2$s', $option, $e->getMessage());
-			}
-
-			JLog::add($msg, JLog::WARNING, 'jerror');
-
-			return false;
+			static::$components = $loader();
 		}
 
 		if (empty(static::$components[$option]))
