@@ -34,7 +34,7 @@ interface JAuthorizeInterface
 	public function __get($key);
 
 	/**
-	 * Method to check if actor is authorised to perform an action, optionally on an asset.
+	 * Check if actor is authorised to perform an action, optionally on an asset.
 	 *
 	 * @param   integer  $actor   Id of the actor for which to check authorisation.
 	 * @param   mixed    $target  Subject of the check

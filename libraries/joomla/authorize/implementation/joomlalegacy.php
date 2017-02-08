@@ -112,7 +112,7 @@ class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJooml
 	}
 
 	/**
-	 * Method to check if a user is authorised to perform an action, optionally on an asset.
+	 * Check if a user is authorised to perform an action, optionally on an asset.
 	 *
 	 * @param   integer  $actor    Id of the user/group for which to check authorisation.
 	 * @param   mixed    $target  Integer asset id or the name of the asset as a string or array with this values.  Defaults to the global asset node.
