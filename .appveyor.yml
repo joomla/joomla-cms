@@ -45,7 +45,7 @@ install:
             Remove-Item c:\tools\php\ext* -include .zip
             cd c:\tools\php
           } Else {
-            $DLLVersion = 4.1.6.1
+            $DLLVersion = "4.1.6.1"
             cd c:\tools\php\ext
             appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/sqlsrv/$($DLLVersion)/php_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip
             7z x -y php_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip > $null
@@ -73,7 +73,7 @@ install:
     # Get the Wincache DLLs
     - ps: >-
         If ($env:PHP -eq "1") {
-          $wincache = 1.3.7.12
+          $wincache = "1.3.7.12"
           cd c:\tools\php\ext
           appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip
           7z x php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip > $null
