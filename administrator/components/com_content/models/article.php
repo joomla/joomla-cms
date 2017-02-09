@@ -208,7 +208,7 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Default to component settings if neither article nor category known.
-		return parent::canEditState();
+		return parent::canEditState($record);
 	}
 
 	/**
@@ -334,19 +334,11 @@ class ContentModelArticle extends JModelAdmin
 			return false;
 		}
 
-		$jinput = JFactory::getApplication()->input;
-
-		/*
-		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
-		 * The back end uses id so we use that the rest of the time and set it to 0 by default.
-		 */
-		$id = $jinput->get('a_id', $jinput->get('id', 0));
+		$id = $this->getState('article.id');
 
 		// Determine correct permissions to check.
-		if ($this->getState('article.id'))
+		if ($id)
 		{
-			$id = $this->getState('article.id');
-
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 
@@ -359,12 +351,15 @@ class ContentModelArticle extends JModelAdmin
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
-		$user = JFactory::getUser();
+		$data = $this->loadFormData();
 
-		// Check for existing article.
+		if (is_array($data))
+		{
+			$data = ArrayHelper::toObject($data, 'JObject');
+		}
+
 		// Modify the form based on Edit State access controls.
-		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
-			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+		if (!$this->canEditState($data))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
@@ -383,7 +378,7 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Prevent messing with article language and category when editing existing article with associations
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 
 		// Check if article is associated
