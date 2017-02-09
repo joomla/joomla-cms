@@ -7470,7 +7470,7 @@ body .navbar-fixed-top {
 	min-height: 51px;
 }
 .subhead-collapse {
-	margin-bottom: 11px;
+	margin-bottom: 21px;
 }
 .subhead-collapse.collapse {
 	height: auto;
@@ -8334,7 +8334,7 @@ a.grid_true {
 	display: block;
 	left: -16.5%;
 	width: 16.5%;
-	margin: -10px 0 0 -1px;
+	margin: -20px 0 0 -1px;
 	padding-top: 28px;
 	padding-bottom: 40px;
 	clear: both;

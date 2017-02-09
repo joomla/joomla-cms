@@ -7470,7 +7470,7 @@ body .navbar-fixed-top {
 	min-height: 51px;
 }
 .subhead-collapse {
-	margin-bottom: 11px;
+	margin-bottom: 21px;
 }
 .subhead-collapse.collapse {
 	height: auto;
@@ -7514,12 +7514,6 @@ body .navbar-fixed-top {
 	line-height: 24px;
 	margin-right: 4px;
 	padding: 0 10px;
-}
-#toolbar .btn-success {
-	width: 148px;
-	border-color: #2384d3;
-	border-color: rgba(0,0,0,0.2);
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 #toolbar .btn-success {
 	width: 148px;
@@ -8340,7 +8334,7 @@ a.grid_true {
 	display: block;
 	left: -16.5%;
 	width: 16.5%;
-	margin: -10px 0 0 -1px;
+	margin: -20px 0 0 -1px;
 	padding-top: 28px;
 	padding-bottom: 40px;
 	clear: both;
