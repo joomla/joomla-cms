@@ -51,6 +51,7 @@ $sitename = $app->get('sitename');
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<?php // TO-DO: sync with _variables.scss ?>
 	<meta name="theme-color" content="#1c3d5c" />
 	<jdoc:include type="head" />
 	<style>
