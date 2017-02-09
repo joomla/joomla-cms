@@ -103,8 +103,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<span class="icon-delete"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></span></button>
 	</div>
 
-	<div class="clearfix"></div>
-	<hr class="hr-condensed">
+	<hr>
 
 	<form action="<?php echo JRoute::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
 		<table class="table table-striped table-sm">

@@ -33,7 +33,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-					<div class="clearfix"></div>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info alert-no-items">
 							<?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>

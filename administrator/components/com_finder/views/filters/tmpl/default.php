@@ -45,7 +45,6 @@ JFactory::getDocument()->addScriptDeclaration('
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-				<div class="clearfix"> </div>
 				<?php if (empty($this->items)) : ?>
 				<div class="alert alert-warning alert-no-items">
 					<?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?>
