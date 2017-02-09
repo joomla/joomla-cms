@@ -70,7 +70,15 @@ class JoomlaInstallerScript
 		$options['text_file'] = 'joomla_update.php';
 
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
-		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
+
+		try
+		{
+			JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
@@ -504,6 +512,8 @@ class JoomlaInstallerScript
 			array('plugin', 'url', 'fields', 0),
 			array('plugin', 'user', 'fields', 0),
 			array('plugin', 'usergrouplist', 'fields', 0),
+			array('plugin', 'fields', 'content', 0),
+			array('plugin', 'fields', 'editors-xtd', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -1845,7 +1855,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/layouts/joomla/searchtools',
 			'/administrator/components/com_templates/layouts/joomla',
 			'/administrator/components/com_templates/layouts',
-			// Joomla! 3.7.0
 			'/administrator/templates/hathor/html/mod_menu',
 		);
 

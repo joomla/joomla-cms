@@ -328,7 +328,15 @@ class ConfigModelApplication extends ConfigModelForm
 
 			if ($error)
 			{
-				JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
+				try
+				{
+					JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
+				}
+				catch (RuntimeException $exception)
+				{
+					$app->enqueueMessage(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), 'warning');
+				}
+
 				$data['caching'] = 0;
 			}
 		}

@@ -25,8 +25,8 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	public function dataTestEscape()
 	{
 		return array(
-			array("'%_abc123", false, "''%_abc123"),
-			array("'%_abc123", true, "''%[_]abc123"),
+			array("'%_abc123[]", false, "''%_abc123[]"),
+			array("'%_abc123[]", true, "''[%][_]abc123[[]]"),
 		);
 	}
 
