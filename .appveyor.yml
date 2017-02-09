@@ -40,7 +40,7 @@ install:
         If ($env:PHP -eq "1") {
           If ($env:php_ver_target -eq "5.6") {
             appveyor DownloadFile https://files.nette.org/misc/php-sqlsrv.zip
-            7z x php-sqlsrv.zip > $null
+            7z x -y php-sqlsrv.zip > $null
             copy SQLSRV\php_sqlsrv_56_nts.dll ext\php_sqlsrv_nts.dll
             copy SQLSRV\php_pdo_sqlsrv_56_nts.dll ext\php_pdo_sqlsrv_nts.dll
             Remove-Item C:\tools\php\* -include .zip
@@ -84,7 +84,7 @@ install:
           If ($env:php_ver_target -eq "5.6") {$wincache = "1.3.7.12"} Else {$wincache = "2.0.0.8"}
           cd c:\tools\php\ext
           appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip
-          7z x php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip > $null
+          7z x -y php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip > $null
           Remove-Item C:\tools\php\ext* -include .zip
           cd c:\tools\php}
     - IF %PHP%==1 echo extension=php_wincache.dll >> php.ini
