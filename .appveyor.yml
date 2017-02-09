@@ -1,5 +1,4 @@
 build: false
-shallow_clone: true
 platform:
   - x64
 clone_folder: C:\projects\joomla-cms
@@ -13,7 +12,7 @@ environment:
 init:
   - SET PATH=C:\Program Files\OpenSSL;C:\tools\php;%PATH%
   - SET COMPOSER_NO_INTERACTION=1
-  - SET PHP=1
+  - SET PHP=1 # This var relates to caching the php  install
   - SET ANSICON=121x90 (121x90)
 services:
   - mssql2014
@@ -26,35 +25,34 @@ install:
     - IF EXIST C:\tools\php (SET PHP=0)
     - ps: >-
         If ($env:php_ver_target -eq "5.6") {
-        appveyor-retry cinst --ignore-checksums -y --forcex86 php --version ((choco search php --exact --all-versions -r | select-string -pattern $Env:php_ver_target | Select-Object -first 1) -replace '[php|]','')
+          appveyor-retry cinst --ignore-checksums -y --forcex86 php --version ((choco search php --exact --all-versions -r | select-string -pattern $Env:php_ver_target | Select-Object -first 1) -replace '[php|]','')
+          SET VC=vc11
+          SET PHPBuild = x86
         } Else {
-        appveyor-retry cinst --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $Env:php_ver_target | Select-Object -first 1) -replace '[php|]','')}
+          appveyor-retry cinst --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $Env:php_ver_target | Select-Object -first 1) -replace '[php|]','')
+          SET VC=vc14
+          SET PHPBuild = x64
+        }
     - cinst -y sqlite
     - cd C:\tools\php
+    # Get the MSSQL DLL's
     - ps: >-
-        If ($env:php_ver_target -eq "5.6") {
-          If ($env:PHP -eq "1") {
+        If ($env:PHP -eq "1") {
+          If ($env:php_ver_target -eq "5.6") {
+            cd c:\tools\php\ext
             appveyor DownloadFile https://files.nette.org/misc/php-sqlsrv.zip
-            7z x php-sqlsrv.zip > $null
-            copy SQLSRV\php_sqlsrv_56_nts.dll ext\php_sqlsrv_nts.dll
-            copy SQLSRV\php_pdo_sqlsrv_56_nts.dll ext\php_pdo_sqlsrv_nts.dll
-            Remove-Item C:\tools\php\* -include .zip}}
-    - ps: >-
-        If ($env:php_ver_target -eq "7.0") {
-          If ($env:PHP -eq "1") {
-            appveyor DownloadFile https://github.com/Microsoft/msphpsql/releases/download/4.1.5-Windows/7.0.zip
-            7z x 7.0.zip > $null
-            copy 7.0\x64\php_pdo_sqlsrv_7_nts.dll ext\php_pdo_sqlsrv_nts.dll
-            copy 7.0\x64\php_sqlsrv_7_nts.dll ext\php_sqlsrv_nts.dll
-            Remove-Item C:\tools\php\* -include .zip}}
-    - ps: >-
-        If ($env:php_ver_target -eq "7.1") {
-          If ($env:PHP -eq "1") {
-            appveyor DownloadFile https://github.com/Microsoft/msphpsql/releases/download/4.1.5-Windows/7.1.zip
-            7z x 7.1.zip > $null
-            copy 7.1\x64\php_pdo_sqlsrv_71_nts.dll ext\php_pdo_sqlsrv_nts.dll
-            copy 7.1\x64\php_sqlsrv_71_nts.dll ext\php_sqlsrv_nts.dll
-            Remove-Item C:\tools\php\* -include .zip}}
+            7z x -y php-sqlsrv.zip > $null
+            Remove-Item c:\tools\php\ext* -include .zip
+            cd c:\tools\php
+          } Else {
+            SET DLLVersion = 4.1.6.1
+            cd c:\tools\php\ext
+            appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/sqlsrv/$($env:DLLVersion)/php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip
+            7z x -y php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip > $null
+            appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:DLLVersion)/php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip
+            7z x -y php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip > $null
+            Remove-Item c:\tools\php\ext* -include .zip
+            cd c:\tools\php}}
     - IF %PHP%==1 copy php.ini-production php.ini /Y
     - IF %PHP%==1 echo date.timezone="UTC" >> php.ini
     - IF %PHP%==1 echo extension_dir=ext >> php.ini
@@ -63,8 +61,8 @@ install:
     - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
     - IF %PHP%==1 echo extension=php_gd2.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pdo_mysql.dll >> php.ini
-    - IF %PHP%==1 echo extension=php_pdo_sqlsrv_nts.dll >> php.ini
-    - IF %PHP%==1 echo extension=php_sqlsrv_nts.dll >> php.ini
+    - IF %PHP%==1 echo extension=php_pdo_sqlsrv.dll >> php.ini
+    - IF %PHP%==1 echo extension=php_sqlsrv.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pdo_pgsql.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pdo_sqlite.dll >> php.ini
     - IF %PHP%==1 echo extension=php_sqlite3.dll >> php.ini
@@ -72,27 +70,15 @@ install:
     - IF %PHP%==1 echo extension=php_pgsql.dll >> php.ini
     - IF %PHP_VER_TARGET%==5.6 IF %PHP%==1 echo extension=php_mysql.dll >> php.ini
     - IF %PHP%==1 echo extension=php_curl.dll >> php.ini
+    # Get the Wincache DLLs
     - ps: >-
-        If ($env:php_ver_target -eq "5.6") {
-          If ($env:PHP -eq "1") {
-            appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/1.3.7.12/php_wincache-1.3.7.12-5.6-nts-vc11-x86.zip
-            7z x php_wincache-1.3.7.12-5.6-nts-vc11-x86.zip > $null
-            copy php_wincache.dll ext\php_wincache.dll
-            Remove-Item C:\tools\php\* -include .zip}}
-    - ps: >-
-        If ($env:php_ver_target -eq "7.0") {
-          If ($env:PHP -eq "1") {
-            appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/2.0.0.8/php_wincache-2.0.0.8-7.0-nts-vc14-x64.zip
-            7z x php_wincache-2.0.0.8-7.0-nts-vc14-x64.zip > $null
-            copy php_wincache.dll ext\php_wincache.dll
-            Remove-Item C:\tools\php\* -include .zip}}
-    - ps: >-
-        If ($env:php_ver_target -eq "7.1") {
-          If ($env:PHP -eq "1") {
-            appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/2.0.0.8/php_wincache-2.0.0.8-7.1-nts-vc14-x64.zip
-            7z x php_wincache-2.0.0.8-7.1-nts-vc14-x64.zip > $null
-            copy php_wincache.dll ext\php_wincache.dll
-            Remove-Item C:\tools\php\* -include .zip}}
+        If ($env:PHP -eq "1") {
+          SET wincache = 1.3.7.12
+          cd c:\tools\php\ext
+          appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/$($env:wincache)/php_wincache-$($env:wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
+          7z x php_wincache-$($env:wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
+          Remove-Item C:\tools\php\ext* -include .zip
+          cd c:\tools\php}
     - IF %PHP%==1 echo extension=php_wincache.dll >> php.ini
     - IF %PHP%==1 echo wincache.enablecli = 1 >> php.ini
     - IF %PHP%==1 echo zend_extension=php_opcache.dll >> php.ini
