@@ -413,33 +413,77 @@ class JDocument
 	/**
 	 * Sets or alters a meta tag.
 	 *
-	 * @param   string  $name       Name of the meta HTML tag
-	 * @param   string  $content    Value of the meta HTML tag
-	 * @param   string  $attribute  Attribute to use in the meta HTML tag
+	 * @param   string  $name       Name of the meta HTML tag or Array
+	 * @param   string  $content    Value of the meta HTML tag @deprecated 4.0
+	 * @param   string  $attribute  Attribute to use in the meta HTML tag @deprecated 4.0
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
+	 *  The $content and $attribute are deprecated and will be remove in 4.0
+	 *  use the new syntax:
+	 *  setMetaData(array(
+	 *            "name" => "viewport",
+	 *            "content" => "width=device-width, initial-scale=1.0"
+	 *           )
+	 *  )
 	 * @since   11.1
 	 */
 	public function setMetaData($name, $content, $attribute = 'name')
 	{
-		// B/C old http_equiv parameter.
-		if (!is_string($attribute))
+		if (!is_array($name))
 		{
-			$attribute = $attribute == true ? 'http-equiv' : 'name';
-		}
+			// B/C old http_equiv parameter.
+			if (!is_string($attribute))
+			{
+				$attribute = $attribute == true ? 'http-equiv' : 'name';
+			}
 
-		if ($name == 'generator')
-		{
-			$this->setGenerator($content);
-		}
-		elseif ($name == 'description')
-		{
-			$this->setDescription($content);
+			if ($name == 'generator')
+			{
+				$this->setGenerator($content);
+			}
+			elseif ($name == 'description')
+			{
+				$this->setDescription($content);
+			}
+			else
+			{
+				$this->_metaTags[$attribute][$name] = $content;
+			}
 		}
 		else
 		{
-			$this->_metaTags[$attribute][$name] = $content;
+			$attrib = 'name';
+
+			foreach ($name as $title => $val)
+			{
+				if ($title === 'property' && $title !== 'content')
+				{
+					$attrib = 'property';
+					$namedProp = $val;
+				}
+				elseif ($title === 'http-equiv' && $title !== 'content')
+				{
+					$attrib = 'http-equiv';
+					$namedProp = $val;
+				}
+				elseif ($title === 'generator' && $title !== 'content')
+				{
+					$this->setGenerator($content);
+					return;
+				}
+				elseif ($title === 'description' && $title !== 'content')
+				{
+					$this->setDescription($content);
+					return;
+				}
+				elseif ($title === 'name' && $title !== 'content')
+				{
+					$attrib = 'name';
+					$namedProp = $val;
+				}
+			}
+			$this->_metaTags[$attrib][$namedProp] = $name['content'];
 		}
 
 		return $this;
