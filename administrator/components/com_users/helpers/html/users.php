@@ -38,7 +38,7 @@ class JHtmlUsers
 			return '';
 		}
 
-		return '<img src="' . JUri::root() . $src . '" alt="" />';
+		return '<img src="' . JUri::root() . $src . '" alt="">';
 	}
 
 	/**
