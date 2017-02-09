@@ -632,7 +632,7 @@ code {
 .search span.highlight {
 	background-color:#FFFFCC;
 	font-weight:bold;
-	padding:1px 4px;
+	padding:1px 0;
 }
 
 /* Com_search break long titles & text */
@@ -653,6 +653,21 @@ body.modal-open {
 /* Align fields for the profile display */
 #users-profile-custom label {
 	display: inline;
+}
+
+/* Remove unneeded space between label and field in vertical forms */
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+	padding-top: 0;
+
+	.form-horizontal & {
+		padding-top: 5px;
+	}
+}
+
+/* Align btn-group to label */
+.form-horizontal .controls > .radio.btn-group:first-child {
+	padding-top: 0;
 }
 
 /* Corrects the modals padding */
@@ -698,3 +713,7 @@ ul.manager .height-50 .icon-folder-2 {
     min-height: 33px;
 }
 
+/* Smart search select field margin */
+.finder-selects {
+    margin: 0 15px 15px 0;
+}

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -578,11 +578,19 @@ abstract class JModelLegacy extends JObject
 		$options = array(
 			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
+			'result' => true,
 		);
 
-		/** @var JCacheControllerCallback $cache */
-		$cache = JCache::getInstance('callback', $options);
-		$cache->clean();
+		try
+		{
+			/** @var JCacheControllerCallback $cache */
+			$cache = JCache::getInstance('callback', $options);
+			$cache->clean();
+		}
+		catch (JCacheException $exception)
+		{
+			$options['result'] = false;
+		}
 
 		// Trigger the onContentCleanCache event.
 		JEventDispatcher::getInstance()->trigger($this->event_clean_cache, $options);

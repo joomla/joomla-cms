@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 <div id="template-manager-resize" class="form-horizontal">
 	<div class="control-group">
 		<div class="control-label">
-			<label for="height" class="modalTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_HEIGHT'); ?>">
-				<?php echo JText::_('COM_TEMPLATES_IMAGE_HEIGHT'); ?>
+			<label for="height" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_IMAGE_HEIGHT'); ?>">
+				<?php echo JText::_('COM_TEMPLATES_IMAGE_HEIGHT')?>
 			</label>
 		</div>
 		<div class="controls">
@@ -22,8 +22,8 @@ defined('_JEXEC') or die;
 	</div>
 	<div class="control-group">
 		<div class="control-label">
-			<label for="width" class="modalTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_WIDTH'); ?>">
-				<?php echo JText::_('COM_TEMPLATES_IMAGE_WIDTH'); ?>
+			<label for="width" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_IMAGE_WIDTH'); ?>">
+				<?php echo JText::_('COM_TEMPLATES_IMAGE_WIDTH')?>
 			</label>
 		</div>
 		<div class="controls">

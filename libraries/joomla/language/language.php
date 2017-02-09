@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -193,7 +193,7 @@ class JLanguage
 		}
 
 		$this->lang = $lang;
-		$this->metadata = $this->getMetadata($this->lang);
+		$this->metadata = JLanguageHelper::getMetadata($this->lang);
 		$this->setDebug($debug);
 
 		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
@@ -682,29 +682,13 @@ class JLanguage
 	 * @return  boolean  True if the language exists.
 	 *
 	 * @since   11.1
+	 * @deprecated   3.7.0, use JLanguageHelper::exists() instead.
 	 */
 	public static function exists($lang, $basePath = JPATH_BASE)
 	{
-		static $paths = array();
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::exists() instead.', JLog::WARNING, 'deprecated');
 
-		// Return false if no language was specified
-		if (!$lang)
-		{
-			return false;
-		}
-
-		$path = $basePath . '/language/' . $lang;
-
-		// Return previous check results if it exists
-		if (isset($paths[$path]))
-		{
-			return $paths[$path];
-		}
-
-		// Check if the language exists
-		$paths[$path] = is_dir($path);
-
-		return $paths[$path];
+		return JLanguageHelper::exists($lang, $basePath);
 	}
 
 	/**
@@ -735,7 +719,7 @@ class JLanguage
 			$this->load($extension, $basePath, $this->default, false, true);
 		}
 
-		$path = self::getLanguagePath($basePath, $lang);
+		$path = JLanguageHelper::getLanguagePath($basePath, $lang);
 
 		$internal = $extension == 'joomla' || $extension == '';
 		$filename = $internal ? $lang : $lang . '.' . $extension;
@@ -758,7 +742,7 @@ class JLanguage
 				$oldFilename = $filename;
 
 				// Check the standard file name
-				$path = self::getLanguagePath($basePath, $this->default);
+				$path = JLanguageHelper::getLanguagePath($basePath, $this->default);
 				$filename = $internal ? $this->default : $this->default . '.' . $extension;
 				$filename = "$path/$filename.ini";
 
@@ -1219,25 +1203,13 @@ class JLanguage
 	 * @return  mixed  If $lang exists return key/value pair with the language metadata, otherwise return NULL.
 	 *
 	 * @since   11.1
+	 * @deprecated   3.7.0, use JLanguageHelper::getMetadata() instead.
 	 */
 	public static function getMetadata($lang)
 	{
-		$path = self::getLanguagePath(JPATH_BASE, $lang);
-		$file = $lang . '.xml';
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::getMetadata() instead.', JLog::WARNING, 'deprecated');
 
-		$result = null;
-
-		if (is_file("$path/$file"))
-		{
-			$result = self::parseXMLLanguageFile("$path/$file");
-		}
-
-		if (empty($result))
-		{
-			return;
-		}
-
-		return $result;
+		return JLanguageHelper::getMetadata($lang);
 	}
 
 	/**
@@ -1248,13 +1220,13 @@ class JLanguage
 	 * @return  array  key/value pair with the language file and real name.
 	 *
 	 * @since   11.1
+	 * @deprecated   3.7.0, use JLanguageHelper::getKnownLanguages() instead.
 	 */
 	public static function getKnownLanguages($basePath = JPATH_BASE)
 	{
-		$dir = self::getLanguagePath($basePath);
-		$knownLanguages = self::parseLanguageFiles($dir);
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::getKnownLanguages() instead.', JLog::WARNING, 'deprecated');
 
-		return $knownLanguages;
+		return JLanguageHelper::getKnownLanguages($basePath);
 	}
 
 	/**
@@ -1266,17 +1238,13 @@ class JLanguage
 	 * @return  string  language related path or null.
 	 *
 	 * @since   11.1
+	 * @deprecated   3.7.0, use JLanguageHelper::getLanguagePath() instead.
 	 */
 	public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
 	{
-		$dir = $basePath . '/language';
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::getLanguagePath() instead.', JLog::WARNING, 'deprecated');
 
-		if (!empty($language))
-		{
-			$dir .= '/' . $language;
-		}
-
-		return $dir;
+		return JLanguageHelper::getLanguagePath($basePath, $language);
 	}
 
 	/**
@@ -1297,7 +1265,7 @@ class JLanguage
 
 		$previous = $this->lang;
 		$this->lang = $lang;
-		$this->metadata = $this->getMetadata($this->lang);
+		$this->metadata = JLanguageHelper::getMetadata($this->lang);
 
 		return $previous;
 	}
@@ -1360,40 +1328,13 @@ class JLanguage
 	 * @return  array  Array holding the found languages as filename => real name pairs.
 	 *
 	 * @since   11.1
+	 * @deprecated   3.7.0, use JLanguageHelper::parseLanguageFiles() instead.
 	 */
 	public static function parseLanguageFiles($dir = null)
 	{
-		$languages = array();
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::parseLanguageFiles() instead.', JLog::WARNING, 'deprecated');
 
-		// Search main language directory for subdirectories
-		foreach (glob($dir . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $directory)
-		{
-			// But only directories with lang code format
-			if (preg_match('#/[a-z]{2,3}-[A-Z]{2}$#', $directory))
-			{
-				$dirPathParts = pathinfo($directory);
-				$file         = $directory . '/' . $dirPathParts['filename'] . '.xml';
-
-				if (!is_file($file))
-				{
-					continue;
-				}
-
-				try
-				{
-					// Get installed language metadata from xml file and merge it with lang array
-					if ($metadata = self::parseXMLLanguageFile($file))
-					{
-						$languages = array_replace($languages, array($dirPathParts['filename'] => $metadata));
-					}
-				}
-				catch (RuntimeException $e)
-				{
-				}
-			}
-		}
-
-		return $languages;
+		return JLanguageHelper::parseLanguageFiles($dir);
 	}
 
 	/**
@@ -1405,35 +1346,12 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
+	 * @deprecated   3.7.0, use JLanguageHelper::parseXMLLanguageFile() instead.
 	 */
 	public static function parseXMLLanguageFile($path)
 	{
-		if (!is_readable($path))
-		{
-			throw new RuntimeException('File not found or not readable');
-		}
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::parseXMLLanguageFile() instead.', JLog::WARNING, 'deprecated');
 
-		// Try to load the file
-		$xml = simplexml_load_file($path);
-
-		if (!$xml)
-		{
-			return;
-		}
-
-		// Check that it's a metadata file
-		if ((string) $xml->getName() != 'metafile')
-		{
-			return;
-		}
-
-		$metadata = array();
-
-		foreach ($xml->metadata->children() as $child)
-		{
-			$metadata[$child->getName()] = (string) $child;
-		}
-
-		return $metadata;
+		return JLanguageHelper::parseXMLLanguageFile($path);
 	}
 }
