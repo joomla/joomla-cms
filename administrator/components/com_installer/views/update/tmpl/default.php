@@ -43,16 +43,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<th class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 							</th>
-							<th class="nowrap">
+							<th class="nowrap center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 							</th>
-							<th class="nowrap">
+							<th class="nowrap center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 							</th>
 							<th class="nowrap hidden-sm-down">
 								<?php echo JText::_('COM_INSTALLER_CURRENT_VERSION'); ?>
 							</th>
-							<th class="nowrap">
+							<th class="nowrap center">
 								<?php echo JText::_('COM_INSTALLER_NEW_VERSION'); ?>
 							</th>
 							<th class="nowrap hidden-sm-down">
@@ -86,17 +86,18 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 								<td>
 									<label for="cb<?php echo $i; ?>">
-								<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('JGLOBAL_DESCRIPTION'), $item->description ? $item->description : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
+								<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('JGLOBAL_DESCRIPTION'), $item->description ? $item->description : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
 								<?php echo $this->escape($item->name); ?>
 								</span>
 									</label>
 								</td>
-								<td>
+								<td class="center">
 									<?php echo $item->client_translated; ?>
 								</td>
-								<td>
+								<td class="center">
 									<?php echo $item->type_translated; ?>
 								</td>
+<<<<<<< HEAD
 								<td class="hidden-sm-down">
 									<span class="badge badge-warning"><?php echo $item->current_version; ?></span>
 								</td>
@@ -107,6 +108,18 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->folder_translated; ?>
 								</td>
 								<td class="hidden-sm-down">
+=======
+								<td class="hidden-phone center">
+									<span class="label label-warning"><?php echo $item->current_version; ?></span>
+								</td>
+								<td class="center">
+									<span class="label label-success"><?php echo $item->version; ?></span>
+								</td>
+								<td class="hidden-phone center">
+									<?php echo $item->folder_translated; ?>
+								</td>
+								<td class="hidden-phone center">
+>>>>>>> 3.8-dev
 									<?php echo $item->install_type; ?>
 								</td>
 								<td class="hidden-sm-down">

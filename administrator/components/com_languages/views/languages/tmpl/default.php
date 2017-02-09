@@ -114,7 +114,7 @@ if ($saveOrder)
 							<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
 						</td>
 						<td>
-							<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('JGLOBAL_EDIT_ITEM'), $item->title, 0); ?>">
+							<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('JGLOBAL_EDIT_ITEM'), $item->title, 0); ?>">
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&lang_id=' . (int) $item->lang_id); ?>"><?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>

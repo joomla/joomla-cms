@@ -132,7 +132,7 @@ $assoc = JLanguageAssociations::isEnabled();
 							}
 							elseif (!$saveOrder)
 							{
-								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass ?>">

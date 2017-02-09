@@ -11,6 +11,7 @@ namespace Joomla\Cms\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -600,7 +601,7 @@ abstract class Admin extends Form
 				$table->load($pk);
 				$tags = array($value);
 
-				$setTagsEvent = Joomla\Cms\Event\AbstractEvent::create(
+				$setTagsEvent = \Joomla\Cms\Event\AbstractEvent::create(
 					'TableSetNewTags',
 					array(
 						'subject'     => $this,
@@ -613,7 +614,7 @@ abstract class Admin extends Form
 				{
 					$table->getDispatcher()->dispatch($setTagsEvent);
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
 
@@ -907,7 +908,7 @@ abstract class Admin extends Form
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   \JTable  $table  A \JTable object.
+	 * @param   Table  $table  A \JTable object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -942,7 +943,7 @@ abstract class Admin extends Form
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   \JTable  $table  A reference to a \JTable object.
+	 * @param   Table  $table  A reference to a \JTable object.
 	 *
 	 * @return  void
 	 *
@@ -1367,7 +1368,7 @@ abstract class Admin extends Form
 		// Check that the category exists
 		if ($categoryId)
 		{
-			$categoryTable = \JTable::getInstance('Category');
+			$categoryTable = Table::getInstance('Category');
 
 			if (!$categoryTable->load($categoryId))
 			{
@@ -1412,7 +1413,7 @@ abstract class Admin extends Form
 	 * for alias and title to use the batch move and copy methods
 	 *
 	 * @param   integer  $categoryId  The target category id
-	 * @param   \JTable  $table       The \JTable within which move or copy is taking place
+	 * @param   Table    $table       The Table within which move or copy is taking place
 	 *
 	 * @return  void
 	 *

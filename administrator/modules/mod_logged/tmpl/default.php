@@ -15,19 +15,19 @@ JHtml::_('bootstrap.tooltip');
 	<?php foreach ($users as $user) : ?>
 		<li class="d-flex justify-content-start list-group-item">
 			<?php if ($user->client_id == 0) : ?>
-				<a title="<?php echo JHtml::tooltipText('MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="mr-2 btn btn-danger btn-xs hasTooltip">
+				<a title="<?php echo JHtml::_('tooltipText', 'MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="mr-2 btn btn-danger btn-xs hasTooltip">
 					<span class="icon-remove icon-white" title="<?php echo JText::_('JLOGOUT'); ?>"></span>
 				</a>
 			<?php endif; ?>
 			<strong class="mr-2 row-title">
 				<?php if (isset($user->editLink)) : ?>
-					<a href="<?php echo $user->editLink; ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('JGRID_HEADING_ID'); ?> : <?php echo $user->id; ?>">
+					<a href="<?php echo $user->editLink; ?>" class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JGRID_HEADING_ID'); ?> : <?php echo $user->id; ?>">
 						<?php echo $user->name; ?></a>
 				<?php else : ?>
 					<?php echo $user->name; ?>
 				<?php endif; ?>
 			</strong>
-			<small class="mr-2 small hasTooltip" title="<?php echo JHtml::tooltipText('JCLIENT'); ?>">
+			<small class="mr-2 small hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JCLIENT'); ?>">
 				<?php if ($user->client_id === null) : ?>
 					<?php // Don't display a client ?>
 				<?php elseif ($user->client_id) : ?>
@@ -36,7 +36,7 @@ JHtml::_('bootstrap.tooltip');
 					<?php echo JText::_('JSITE'); ?>
 				<?php endif; ?>
 			</small>
-			<span class="badge badge-default badge-pill ml-auto hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGGED_LAST_ACTIVITY'); ?>">
+			<span class="badge badge-default badge-pill ml-auto hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LOGGED_LAST_ACTIVITY'); ?>">
 				<span class="small">
 					<span class="icon-calendar"></span>
 					<?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC5')); ?>

@@ -132,7 +132,7 @@ $loggeduser = JFactory::getUser();
 						</td>
 						<td class="text-center">
 							<?php if (substr_count($item->group_names, "\n") > 1) : ?>
-								<span class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
+								<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 							<?php else : ?>
 								<?php echo nl2br($item->group_names); ?>
 							<?php endif; ?>

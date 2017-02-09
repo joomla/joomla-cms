@@ -9354,41 +9354,51 @@ iframe {
         content: "";
         background-color: #59afff; }
       .main-nav li a:hover {
-        color: #fefefe;
+        color: #fff;
         text-decoration: none;
         background-color: rgba(0, 0, 0, 0.2);
         box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2), inset 0 1px rgba(0, 0, 0, 0.1); }
       .main-nav li a:active, .main-nav li a:focus {
         text-decoration: none; }
     .main-nav li a:not([href]):not([tabindex]) {
-      color: #fefefe; }
+      color: #fff; }
     .main-nav li ul {
-      display: none; }
+      display: none;
+      padding: 0 0 5px; }
       .main-nav li ul li {
         text-indent: 20px; }
     .main-nav li a:hover::before {
       width: 3px; }
-  .main-nav li li a {
-    border-bottom: 1px solid #090d16;
+  .main-nav .open {
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2), inset 0 1px rgba(0, 0, 0, 0.1); }
+    .main-nav .open > a {
+      background-color: rgba(0, 0, 0, 0.1);
+      box-shadow: none; }
+      .main-nav .open > a:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        box-shadow: none; }
+  .main-nav li li {
+    line-height: 2rem;
+    border: 0;
     box-shadow: none; }
-    .main-nav li li a:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-      box-shadow: inset 0 1px rgba(0, 0, 0, 0.3), inset 0 -1px rgba(0, 0, 0, 0.3); }
-  .main-nav li li:last-of-type > a {
-    border-bottom: 0; }
+    .main-nav li li a {
+      box-shadow: none; }
+      .main-nav li li a:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+        box-shadow: none; }
+    .main-nav li li:last-of-type > a {
+      border-bottom: 0; }
   .main-nav .fa {
     position: relative;
     top: -2px;
-    margin: 0 15px;
+    margin: 0 8px 0 15px;
     font-size: 20px;
     text-align: center;
     vertical-align: middle; }
-  .main-nav .collapse-level-1 {
-    background: rgba(0, 0, 0, 0.65); }
-  .main-nav .collapse-level-2 {
-    background: rgba(0, 0, 0, 0.05); }
-    .main-nav .collapse-level-2 > li > a {
-      text-indent: 30px; }
+  .main-nav .collapse-level-2 > li > a {
+    color: rgba(255, 255, 255, 0.8);
+    text-indent: 30px; }
   .main-nav > .parent .collapse-arrow::after {
     position: absolute;
     top: 0;
@@ -9414,7 +9424,7 @@ iframe {
       width: 0; } }
 
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
-  color: #fefefe;
+  color: #fff;
   cursor: not-allowed;
   background: none; }
 

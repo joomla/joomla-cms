@@ -1144,7 +1144,7 @@ class PlgSystemDebug extends JPlugin
 					}
 
 					$htmlQuery = '<div class="alert alert-error">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</div>'
-						. '<pre class="alert hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
+						. '<pre class="alert hasTooltip" title="' . JHtml::_('tooltipText', 'PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
 				}
 				else
 				{
@@ -1300,7 +1300,7 @@ class PlgSystemDebug extends JPlugin
 			if (isset($bar->tip) && $bar->tip)
 			{
 				$barClass .= ' hasTooltip';
-				$tip = JHtml::tooltipText($bar->tip, '', 0);
+				$tip = JHtml::_('tooltipText', $bar->tip, '', 0);
 			}
 
 			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: '
@@ -1394,7 +1394,7 @@ class PlgSystemDebug extends JPlugin
 					{
 						// Displays query parts which don't use a key with warning:
 						$html[] = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="'
-									. JHtml::tooltipText('PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
+									. JHtml::_('tooltipText', 'PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
 									. JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
 						$hasWarnings = true;
 					}
@@ -1414,7 +1414,7 @@ class PlgSystemDebug extends JPlugin
 					$htmlTdWithWarnings = str_replace(
 											'Using&nbsp;filesort',
 											'<span class="dbg-warning hasTooltip" title="'
-												. JHtml::tooltipText('PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">'
+												. JHtml::_('tooltipText', 'PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">'
 												. JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>',
 											$htmlTd
 										);

@@ -105,6 +105,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 * Array with alias for "special" columns such as ordering, hits etc etc
 	 *
 	 * @var    array
+	 * @since  3.4.0
 	 */
 	protected $_columnAlias = array();
 
@@ -401,6 +402,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		// For simple cases, parent to the asset root.
+		/** @var Asset $assets */
 		$assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$rootId = $assets->getRootId();
 

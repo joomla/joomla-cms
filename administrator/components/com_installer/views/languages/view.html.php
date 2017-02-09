@@ -29,11 +29,6 @@ class InstallerViewLanguages extends InstallerViewDefault
 	protected $pagination;
 
 	/**
-	 * @var object model state
-	 */
-	protected $state;
-
-	/**
 	 * Display the view.
 	 *
 	 * @param   null  $tpl  template to display
@@ -43,7 +38,6 @@ class InstallerViewLanguages extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Get data from the model.
-		$this->state         = $this->get('State');
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');

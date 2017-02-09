@@ -11,6 +11,8 @@ namespace Joomla\Cms\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Table\Table;
+
 /**
  * Base class for a Joomla Model
  *
@@ -164,7 +166,7 @@ abstract class Model extends \JObject
 	 * @param   string  $prefix  Prefix for the model class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JModelLegacy|boolean   A \JModelLegacy instance or false on failure
+	 * @return  self|boolean   A \JModelLegacy instance or false on failure
 	 *
 	 * @since   3.0
 	 */
@@ -362,7 +364,7 @@ abstract class Model extends \JObject
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration settings to pass to \JTable::getInstance
 	 *
-	 * @return  \JTable|boolean  Table object or boolean false if failed
+	 * @return  Table|boolean  Table object or boolean false if failed
 	 *
 	 * @since   3.0
 	 * @see     \JTable::getInstance()
@@ -379,7 +381,7 @@ abstract class Model extends \JObject
 			$config['dbo'] = $this->getDbo();
 		}
 
-		return \JTable::getInstance($name, $prefix, $config);
+		return Table::getInstance($name, $prefix, $config);
 	}
 
 	/**
@@ -453,7 +455,7 @@ abstract class Model extends \JObject
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  \JTable  A \JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
@@ -477,13 +479,13 @@ abstract class Model extends \JObject
 	 * Method to load a row for editing from the version history table.
 	 *
 	 * @param   integer  $version_id  Key to the version history table.
-	 * @param   \JTable  &$table      Content table object being loaded.
+	 * @param   Table    &$table      Content table object being loaded.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
 	 * @since   3.2
 	 */
-	public function loadHistory($version_id, \JTable &$table)
+	public function loadHistory($version_id, Table &$table)
 	{
 		// Only attempt to check the row in if it exists, otherwise do an early exit.
 		if (!$version_id)
@@ -492,7 +494,7 @@ abstract class Model extends \JObject
 		}
 
 		// Get an instance of the row to checkout.
-		$historyTable = \JTable::getInstance('Contenthistory');
+		$historyTable = Table::getInstance('Contenthistory');
 
 		if (!$historyTable->load($version_id))
 		{
@@ -502,7 +504,7 @@ abstract class Model extends \JObject
 		}
 
 		$rowArray = \JArrayHelper::fromObject(json_decode($historyTable->version_data));
-		$typeId   = \JTable::getInstance('Contenttype')->getTypeId($this->typeAlias);
+		$typeId   = Table::getInstance('Contenttype')->getTypeId($this->typeAlias);
 
 		if ($historyTable->ucm_type_id != $typeId)
 		{
@@ -586,11 +588,19 @@ abstract class Model extends \JObject
 		$options = array(
 			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
+			'result' => true,
 		);
 
-		/** @var \JCacheControllerCallback $cache */
-		$cache = \JCache::getInstance('callback', $options);
-		$cache->clean();
+		try
+		{
+			/** @var \JCacheControllerCallback $cache */
+			$cache = \JCache::getInstance('callback', $options);
+			$cache->clean();
+		}
+		catch (\JCacheException $exception)
+		{
+			$options['result'] = false;
+		}
 
 		// Trigger the onContentCleanCache event.
 		\JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);

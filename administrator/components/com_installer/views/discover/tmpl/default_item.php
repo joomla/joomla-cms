@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 	<td class="text-center"><?php echo @$this->item->folder != '' ? $this->item->folder : 'N/A'; ?></td>
 	<td class="text-center"><?php echo @$this->item->client != '' ? $this->item->client : 'N/A'; ?></td>
 	<td>
-		<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $this->item->author_info, 0); ?>">
+		<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $this->item->author_info, 0); ?>">
 			<?php echo @$this->item->author != '' ? $this->item->author : '&#160;'; ?>
 		</span>
 	</td>
