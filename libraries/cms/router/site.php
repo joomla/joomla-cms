@@ -55,8 +55,8 @@ class JRouterSite extends JRouter
 	{
 		parent::__construct($options);
 
-		$this->app  = $app ? $app : JApplicationCms::getInstance('site');
-		$this->menu = $menu ? $menu : $this->app->getMenu();
+		$this->app  = $app ?: JApplicationCms::getInstance('site');
+		$this->menu = $menu ?: $this->app->getMenu();
 	}
 
 	/**
@@ -90,7 +90,7 @@ class JRouterSite extends JRouter
 		if (preg_match("#.*?\.php#u", $path, $matches))
 		{
 			// Get the current entry point path relative to the site path.
-			$scriptPath         = realpath($_SERVER['SCRIPT_FILENAME'] ? $_SERVER['SCRIPT_FILENAME'] : str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
+			$scriptPath         = realpath($_SERVER['SCRIPT_FILENAME'] ?: str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
 			$relativeScriptPath = str_replace('\\', '/', str_replace(JPATH_SITE, '', $scriptPath));
 
 			// If a php file has been found in the request path, check to see if it is a valid file.
@@ -230,6 +230,17 @@ class JRouterSite extends JRouter
 		if (count($this->getVars()) == 1 || ($this->app->getLanguageFilter() && count($this->getVars()) == 2))
 		{
 			$item = $this->menu->getItem($this->getVar('Itemid'));
+
+			if ($item && $item->type == 'alias')
+			{
+				$newItem = $this->menu->getItem($item->params->get('aliasoptions'));
+
+				if ($newItem)
+				{
+					$item->query     = array_merge($item->query, $newItem->query);
+					$item->component = $newItem->component;
+				}
+			}
 
 			if ($item !== null && is_array($item->query))
 			{
@@ -377,6 +388,17 @@ class JRouterSite extends JRouter
 
 			if ($found)
 			{
+				if ($found->type == 'alias')
+				{
+					$newItem = $this->menu->getItem($found->params->get('aliasoptions'));
+
+					if ($newItem)
+					{
+						$found->query     = array_merge($found->query, $newItem->query);
+						$found->component = $newItem->component;
+					}
+				}
+
 				$vars['Itemid'] = $found->id;
 				$vars['option'] = $found->component;
 			}

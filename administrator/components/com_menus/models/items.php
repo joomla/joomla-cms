@@ -137,7 +137,7 @@ class MenusModelItems extends JModelList
 			$this->setState('menutypeid', '');
 		}
 		// Special menu types, if selected explicitly, will be allowed as a filter
-		elseif ($menuType == 'main' || $menuType == 'menu')
+		elseif ($menuType == 'main')
 		{
 			// Adjust client_id to match the menutype. This is safe as client_id was not changed in this request.
 			$app->input->set('client_id', 1);
@@ -251,6 +251,8 @@ class MenusModelItems extends JModelList
 				' WHEN a.type = ' . $db->quote('separator') . ' AND a.published = -2 THEN a.published-1 ' .
 				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published != -2 THEN a.published+8 ' .
 				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('container') . ' AND a.published != -2 THEN a.published+8 ' .
+				' WHEN a.type = ' . $db->quote('container') . ' AND a.published = -2 THEN a.published-1 ' .
 			' END AS published '
 		);
 		$query->from($db->quoteName('#__menu') . ' AS a');
@@ -348,6 +350,9 @@ class MenusModelItems extends JModelList
 				->from('#__menu_types')
 				->where('client_id = ' . (int) $this->getState('filter.client_id'))
 				->order('title');
+
+			// Show protected items on explicit filter only
+			$query->where('a.menutype != ' . $db->q('main'));
 
 			$menuTypes = $this->getDbo()->setQuery($query2)->loadObjectList();
 

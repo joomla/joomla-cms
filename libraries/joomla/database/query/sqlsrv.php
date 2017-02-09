@@ -79,19 +79,22 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 					$query .= (string) $this->where;
 				}
 
-				if ($this->group)
+				if ($this->selectRowNumber === null)
 				{
-					$query .= (string) $this->group;
+					if ($this->group)
+					{
+						$query .= (string) $this->group;
+					}
+
+					if ($this->having)
+					{
+						$query .= (string) $this->having;
+					}
 				}
 
 				if ($this->order)
 				{
 					$query .= (string) $this->order;
-				}
-
-				if ($this->having)
-				{
-					$query .= (string) $this->having;
 				}
 
 				if ($this instanceof JDatabaseQueryLimitable && ($this->limit > 0 || $this->offset > 0))
@@ -162,18 +165,38 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 				break;
 
 			case 'update':
-				$query .= (string) $this->update;
-
 				if ($this->join)
 				{
+					$tmpUpdate    = $this->update;
+					$tmpFrom      = $this->from;
+					$this->update = null;
+					$this->from   = null;
+
+					$updateElem  = $tmpUpdate->getElements();
+					$updateArray = explode(' ', $updateElem[0]);
+
+					// Use table alias if exists
+					$this->update(end($updateArray));
+					$this->from($updateElem[0]);
+
+					$query .= (string) $this->update;
+					$query .= (string) $this->set;
+					$query .= (string) $this->from;
+
+					$this->update = $tmpUpdate;
+					$this->from   = $tmpFrom;
+
 					// Special case for joins
 					foreach ($this->join as $join)
 					{
 						$query .= (string) $join;
 					}
 				}
-
-				$query .= (string) $this->set;
+				else
+				{
+					$query .= (string) $this->update;
+					$query .= (string) $this->set;
+				}
 
 				if ($this->where)
 				{

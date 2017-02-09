@@ -1247,7 +1247,7 @@ abstract class JModelAdmin extends JModelForm
 			}
 
 			// Trigger the before save event.
-			$result = $dispatcher->trigger($this->event_before_save, array($context, $table, $isNew));
+			$result = $dispatcher->trigger($this->event_before_save, array($context, $table, $isNew, $data));
 
 			if (in_array(false, $result, true))
 			{
@@ -1268,7 +1268,7 @@ abstract class JModelAdmin extends JModelForm
 			$this->cleanCache();
 
 			// Trigger the after save event.
-			$dispatcher->trigger($this->event_after_save, array($context, $table, $isNew));
+			$dispatcher->trigger($this->event_after_save, array($context, $table, $isNew, $data));
 		}
 		catch (Exception $e)
 		{

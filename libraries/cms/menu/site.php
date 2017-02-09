@@ -69,51 +69,54 @@ class JMenuSite extends JMenu
 		// For PHP 5.3 compat we can't use $this in the lambda function below
 		$db = $this->db;
 
+		$loader = function () use ($db)
+		{
+			$query = $db->getQuery(true)
+				->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
+				->select($db->quoteName('m.browserNav') . ', m.access, a.inheritable, m.params, m.home, m.img')
+				->select('m.template_style_id, m.component_id, m.parent_id, e.element as component')
+				->from('#__menu AS m')
+				->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
+				->where('m.published = 1')
+				->where('m.parent_id > 0')
+				->where('m.client_id = 0')
+				->order('m.lft');
+
+			// Set the query
+			$db->setQuery($query);
+
+			return $db->loadObjectList('id', 'JMenuItem');
+		};
+
 		try
 		{
 			/** @var JCacheControllerCallback $cache */
 			$cache = JFactory::getCache('com_menus', 'callback');
 
-			$this->_items = $cache->get(
-				function () use ($db)
-				{
-					$query = $db->getQuery(true)
-						->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
-						->select($db->quoteName('m.browserNav') . ', m.access, m.inheritable, m.params, m.home, m.img')
-						->select('m.template_style_id, m.component_id, m.parent_id, e.element as component')
-						->from('#__menu AS m')
-						->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
-						->where('m.published = 1')
-						->where('m.parent_id > 0')
-						->where('m.client_id = 0')
-						->order('m.lft');
-
-					// Set the query
-					$db->setQuery($query);
-
-					return $db->loadObjectList('id', 'JMenuItem');
-				},
-				array(),
-				md5(get_class($this)),
-				false
-			);
+			$this->_items = $cache->get($loader, array(), md5(get_class($this)), false);
 		}
-		catch (RuntimeException $e)
+		catch (JCacheException $e)
+		{
+			try
+			{
+				$this->_items = $loader();
+			}
+			catch (JDatabaseExceptionExecuting $databaseException)
+			{
+				JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()));
+
+				return false;
+			}
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()));
 
 			return false;
 		}
 
-		try
+ 		$loader = function () use ($db)
 		{
-			/** @var JCacheControllerCallback $cache */
-			$cache = JFactory::getCache('com_menus', 'callback');
-
-			$this->_viewlevelrules = $cache->get(
-				function () use ($db)
-				{
-
 					$query = $db->getQuery(true)
 						->select('v.id, v.rules')
 						->from('#__viewlevels AS v')
@@ -123,15 +126,31 @@ class JMenuSite extends JMenu
 					$db->setQuery($query);
 
 					return $db->loadObjectList('id');
-				},
-				array(),
-				md5(get_class($this)),
-				false
-			);
-		}
-		catch (RuntimeException $e)
+		};
+
+		try
 		{
-			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUACCESSLEVEL', $e->getMessage()));
+			/** @var JCacheControllerCallback $cache */
+			$cache = JFactory::getCache('com_menus', 'callback');
+
+			$this->_items = $cache->get($loader, array(), md5(get_class($this)), false);
+		}
+		catch (JCacheException $e)
+		{
+			try
+			{
+				$this->_items = $loader();
+			}
+			catch (JDatabaseExceptionExecuting $databaseException)
+			{
+				JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()));
+
+				return false;
+			}
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()));
 
 			return false;
 		}
