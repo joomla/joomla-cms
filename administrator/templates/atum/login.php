@@ -87,7 +87,7 @@ $sitename = $app->get('sitename');
 			</noscript>
 			<?php // Begin Content ?>
 			<div id="element-box" class="login card card-block">
-				<h2 class="text-center m-t-1 m-b-2"><?php echo JText::_('MOD_LOGIN_LOGIN'); ?></h2>
+				<h2 class="text-center mt-1 mb-2"><?php echo JText::_('MOD_LOGIN_LOGIN'); ?></h2>
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
 			</div>
