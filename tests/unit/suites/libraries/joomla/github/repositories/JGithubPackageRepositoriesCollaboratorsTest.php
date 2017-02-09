@@ -23,9 +23,9 @@ class JGithubPackageRepositoriesCollaboratorsTest extends PHPUnit_Framework_Test
 	protected $response;
 
 	/**
-     * @var JGithubPackageRepositoriesCollaborators
-     */
-    protected $object;
+	 * @var JGithubPackageRepositoriesCollaborators
+	 */
+	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
@@ -58,43 +58,43 @@ class JGithubPackageRepositoriesCollaboratorsTest extends PHPUnit_Framework_Test
 		$this->object = new JGithubPackageRepositoriesCollaborators($this->options, $this->client);
 	}
 
-    /**
-     * @covers JGithubPackageRepositoriesCollaborators::getList
-     */
-    public function testGetList()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageRepositoriesCollaborators::getList
+	 */
+	public function testGetList()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/repos/joomla/joomla-platform/collaborators')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/collaborators')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->getList('joomla', 'joomla-platform'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->getList('joomla', 'joomla-platform'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageRepositoriesCollaborators::get
-     */
-    public function testGet()
-    {
-	    $this->response->code = 204;
-	    $this->response->body = true;
+	/**
+	 * @covers JGithubPackageRepositoriesCollaborators::get
+	 */
+	public function testGet()
+	{
+		$this->response->code = 204;
+		$this->response->body = true;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/repos/joomla/joomla-platform/collaborators/elkuku')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/collaborators/elkuku')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->get('joomla', 'joomla-platform', 'elkuku'),
-		    $this->equalTo($this->response->body)
-	    );
-    }
+		$this->assertThat(
+			$this->object->get('joomla', 'joomla-platform', 'elkuku'),
+			$this->equalTo($this->response->body)
+		);
+	}
 
 	/**
 	 * @covers JGithubPackageRepositoriesCollaborators::get
@@ -137,40 +137,40 @@ class JGithubPackageRepositoriesCollaboratorsTest extends PHPUnit_Framework_Test
 	}
 
 	/**
-     * @covers JGithubPackageRepositoriesCollaborators::add
-     */
-    public function testAdd()
-    {
-	    $this->response->code = 204;
-	    $this->response->body = $this->sampleString;
+	 * @covers JGithubPackageRepositoriesCollaborators::add
+	 */
+	public function testAdd()
+	{
+		$this->response->code = 204;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('put')
-		    ->with('/repos/joomla/joomla-platform/collaborators/elkuku')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('put')
+			->with('/repos/joomla/joomla-platform/collaborators/elkuku')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->add('joomla', 'joomla-platform', 'elkuku'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->add('joomla', 'joomla-platform', 'elkuku'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageRepositoriesCollaborators::remove
-     */
-    public function testRemove()
-    {
-	    $this->response->code = 204;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageRepositoriesCollaborators::remove
+	 */
+	public function testRemove()
+	{
+		$this->response->code = 204;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('delete')
-		    ->with('/repos/joomla/joomla-platform/collaborators/elkuku')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('delete')
+			->with('/repos/joomla/joomla-platform/collaborators/elkuku')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->remove('joomla', 'joomla-platform', 'elkuku'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->remove('joomla', 'joomla-platform', 'elkuku'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 }

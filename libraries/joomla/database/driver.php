@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -205,12 +205,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 			// Only load for php files.
 			if (!$file->isFile() || $file->getExtension() != 'php')
-			{
-				continue;
-			}
-
-			// Block the ext/mysql driver for PHP 7
-			if ($fileName === 'mysql.php' && PHP_MAJOR_VERSION >= 7)
 			{
 				continue;
 			}
@@ -1935,11 +1929,11 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 			if (strlen($q) == 1)
 			{
-				$parts[] = $q . $part . $q;
+				$parts[] = $q . str_replace($q, $q . $q, $part) . $q;
 			}
 			else
 			{
-				$parts[] = $q{0} . $part . $q{1};
+				$parts[] = $q{0} . str_replace($q{1}, $q{1} . $q{1}, $part) . $q{1};
 			}
 		}
 
@@ -2269,7 +2263,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 
 		// Set the query and execute the update.
-		$this->setQuery(sprintf($statement, implode(",", $fields), implode(' AND ', $where)));
+		$this->setQuery(sprintf($statement, implode(',', $fields), implode(' AND ', $where)));
 
 		return $this->execute();
 	}

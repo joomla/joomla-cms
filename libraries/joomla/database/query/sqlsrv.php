@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -79,19 +79,22 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 					$query .= (string) $this->where;
 				}
 
-				if ($this->group)
+				if ($this->selectRowNumber === null)
 				{
-					$query .= (string) $this->group;
+					if ($this->group)
+					{
+						$query .= (string) $this->group;
+					}
+
+					if ($this->having)
+					{
+						$query .= (string) $this->having;
+					}
 				}
 
 				if ($this->order)
 				{
 					$query .= (string) $this->order;
-				}
-
-				if ($this->having)
-				{
-					$query .= (string) $this->having;
 				}
 
 				if ($this instanceof JDatabaseQueryLimitable && ($this->limit > 0 || $this->offset > 0))
@@ -162,18 +165,38 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 				break;
 
 			case 'update':
-				$query .= (string) $this->update;
-
 				if ($this->join)
 				{
+					$tmpUpdate    = $this->update;
+					$tmpFrom      = $this->from;
+					$this->update = null;
+					$this->from   = null;
+
+					$updateElem  = $tmpUpdate->getElements();
+					$updateArray = explode(' ', $updateElem[0]);
+
+					// Use table alias if exists
+					$this->update(end($updateArray));
+					$this->from($updateElem[0]);
+
+					$query .= (string) $this->update;
+					$query .= (string) $this->set;
+					$query .= (string) $this->from;
+
+					$this->update = $tmpUpdate;
+					$this->from   = $tmpFrom;
+
 					// Special case for joins
 					foreach ($this->join as $join)
 					{
 						$query .= (string) $join;
 					}
 				}
-
-				$query .= (string) $this->set;
+				else
+				{
+					$query .= (string) $this->update;
+					$query .= (string) $this->set;
+				}
 
 				if ($this->where)
 				{
@@ -373,10 +396,10 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	public function group($columns)
 	{
 		// Transform $columns into an array for filtering purposes
-		is_string($columns) && $columns = explode(',', str_replace(" ", "", $columns));
+		is_string($columns) && $columns = explode(',', str_replace(' ', '', $columns));
 
 		// Get the _formatted_ FROM string and remove everything except `table AS alias`
-		$fromStr = str_replace(array("[", "]"), "", str_replace("#__", $this->db->getPrefix(), str_replace("FROM ", "", (string) $this->from)));
+		$fromStr = str_replace(array('[', ']'), '', str_replace('#__', $this->db->getPrefix(), str_replace('FROM ', '', (string) $this->from)));
 
 		// Start setting up an array of alias => table
 		list($table, $alias) = preg_split("/\sAS\s/i", $fromStr);
@@ -386,7 +409,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 		foreach ($tmpCols as $name => $type)
 		{
-			$cols[] = $alias . "." . $name;
+			$cols[] = $alias . '.' . $name;
 		}
 
 		// Now we need to get all tables from any joins
@@ -395,7 +418,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		{
 			foreach ($this->join as $join)
 			{
-				$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string) $join)));
+				$joinTbl = str_replace('#__', $this->db->getPrefix(), str_replace(']', '', preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string) $join)));
 
 				list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
 
@@ -403,27 +426,27 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 				foreach ($tmpCols as $name => $tmpColType)
 				{
-					$cols[] = $alias . "." . $name;
+					$cols[] = $alias . '.' . $name;
 				}
 			}
 		}
 
-		$selectStr = str_replace("SELECT ", "", (string) $this->select);
+		$selectStr = str_replace('SELECT ', '', (string) $this->select);
 
 		// Remove any functions (e.g. COUNT(), SUM(), CONCAT())
-		$selectCols = preg_replace("/([^,]*\([^\)]*\)[^,]*,?)/", "", $selectStr);
+		$selectCols = preg_replace("/([^,]*\([^\)]*\)[^,]*,?)/", '', $selectStr);
 
 		// Remove any "as alias" statements
-		$selectCols = preg_replace("/(\sas\s[^,]*)/i", "", $selectCols);
+		$selectCols = preg_replace("/(\sas\s[^,]*)/i", '', $selectCols);
 
 		// Remove any extra commas
-		$selectCols = preg_replace("/,{2,}/", ",", $selectCols);
+		$selectCols = preg_replace('/,{2,}/', ',', $selectCols);
 
 		// Remove any trailing commas and all whitespaces
-		$selectCols = trim(str_replace(" ", "", preg_replace("/,?$/", "", $selectCols)));
+		$selectCols = trim(str_replace(' ', '', preg_replace("/,?$/", '', $selectCols)));
 
 		// Get an array to compare against
-		$selectCols = explode(",", $selectCols);
+		$selectCols = explode(',', $selectCols);
 
 		// Find all alias.* and fill with proper table column names
 		foreach ($selectCols as $key => $aliasColName)

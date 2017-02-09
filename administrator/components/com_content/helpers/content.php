@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,18 @@ class ContentHelper extends JHelperContent
 	 */
 	public static function filterText($text)
 	{
-		JLog::add('ContentHelper::filterText() is deprecated. Use JComponentHelper::filterText() instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JComponentHelper::filterText() instead', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		return JComponentHelper::filterText($text);
 	}
@@ -205,6 +216,42 @@ class ContentHelper extends JHelperContent
 	}
 
 	/**
+	 * Returns a valid section for articles. If it is not valid then null
+	 * is returned.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 *
+	 * @return  string|null  The new section
+	 *
+	 * @since   3.7.0
+	 */
+	public static function validateSection($section)
+	{
+		if (JFactory::getApplication()->isClient('site'))
+		{
+			// On the front end we need to map some sections
+			switch ($section)
+			{
+				// Editing an article
+				case 'form':
+
+				// Category list view
+				case 'featured':
+				case 'category':
+					$section = 'article';
+			}
+		}
+
+		if ($section != 'article')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
+	}
+
+	/**
 	 * Returns valid contexts
 	 *
 	 * @return  array
@@ -216,7 +263,8 @@ class ContentHelper extends JHelperContent
 		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_content.article' => JText::_('COM_CONTENT'),
+			'com_content.article'    => JText::_('COM_CONTENT'),
+			'com_content.categories' => JText::_('JCATEGORY')
 		);
 
 		return $contexts;

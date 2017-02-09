@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -226,7 +226,11 @@ abstract class JHtmlFilter
 		$cacheId = 'filter_select_' . serialize(array($idxQuery->filter, $options, $groups, JFactory::getLanguage()->getTag()));
 
 		// Check the cached results.
-		if (!($branches = $cache->get($cacheId)))
+		if ($cache->contains($cacheId))
+		{
+			$branches = $cache->get($cacheId);
+		}
+		else
 		{
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -365,7 +369,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_('filter.dates', $idxQuery, $options);
 		}
 
-		$html .= '<div class="filter-branch' . $classSuffix . ' control-group">';
+		$html .= '<div class="filter-branch' . $classSuffix . ' control-group clearfix">';
 
 		// Iterate through all branches and build code.
 		foreach ($branches as $bk => $bv)
@@ -454,7 +458,7 @@ abstract class JHtmlFilter
 				'select.genericlist',
 				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
 			);
-			$html .= JHtml::calendar($idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
+			$html .= JHtml::_('calendar', $idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
 
 			// End date filter.
@@ -467,7 +471,7 @@ abstract class JHtmlFilter
 				'select.genericlist',
 				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
 			);
-			$html .= JHtml::calendar($idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
+			$html .= JHtml::_('calendar', $idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
 
 			// Close the widget.

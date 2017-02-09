@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,8 +50,8 @@ $input = JFactory::getApplication()->input;
 				<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="well" enctype="multipart/form-data">
 					<fieldset class="form-inline">
 						<input type="hidden" class="address" name="address" />
-						<label for="new_name" class="modalTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>">
-							<?php echo JText::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL'); ?>
+						<label for="new_name" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>">
+							<?php echo JText::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?>
 						</label>
 						<input type="text" id="new_name" name="new_name" required />
 						<?php echo JHtml::_('form.token'); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,19 +52,8 @@ class MenusControllerMenu extends JControllerForm
 		$task     = $this->getTask();
 		$recordId = $this->input->getInt('id');
 
-		// Make sure we are not trying to modify an administrator menu.
-		if (isset($data['client_id']) && $data['client_id'] == 1)
-		{
-			JError::raiseNotice(0, JText::_('COM_MENUS_MENU_TYPE_NOT_ALLOWED'));
-
-			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
-
-			return false;
-		}
-
-		// Prevent using 'menu' or 'main' as menutype as this is reserved for backend menus
-		if (strtolower($data['menutype']) == 'menu' || strtolower($data['menutype']) == 'main')
+		// Prevent using 'main' as menutype as this is reserved for backend menus
+		if (strtolower($data['menutype']) == 'main')
 		{
 			$msg = JText::_('COM_MENUS_ERROR_MENUTYPE');
 			JFactory::getApplication()->enqueueMessage($msg, 'error');

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -120,11 +120,11 @@ class ContenthistoryHelper
 					if (isset($expandedObjectArray[$name]))
 					{
 						$optionFieldArray = $field->xpath('option[@value="' . $expandedObjectArray[$name] . '"]');
-						
+
 						$valueText = null;
-						
+
 						if (is_array($optionFieldArray) && count($optionFieldArray))
-						{							
+						{
 							$valueText = trim((string) $optionFieldArray[0]);
 						}
 

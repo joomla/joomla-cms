@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -287,7 +287,7 @@ abstract class JHtmlBehavior
 		static::framework(true);
 
 		// Setup options object
-		$opt['maxTitleChars'] = (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int) $params['maxTitleChars'] : 50;
+		$opt['maxTitleChars'] = (isset($params['maxTitleChars']) && $params['maxTitleChars']) ? (int) $params['maxTitleChars'] : 50;
 
 		// Offsets needs an array in the format: array('x'=>20, 'y'=>30)
 		$opt['offset']    = (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
@@ -372,23 +372,23 @@ abstract class JHtmlBehavior
 		JLog::add('JHtmlBehavior::modal is deprecated. Use the modal equivalent from bootstrap.', JLog::WARNING, 'deprecated');
 
 		// Setup options object
-		$opt['ajaxOptions']   = (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;
-		$opt['handler']       = (isset($params['handler'])) ? $params['handler'] : null;
-		$opt['parseSecure']   = (isset($params['parseSecure'])) ? (bool) $params['parseSecure'] : null;
-		$opt['closable']      = (isset($params['closable'])) ? (bool) $params['closable'] : null;
-		$opt['closeBtn']      = (isset($params['closeBtn'])) ? (bool) $params['closeBtn'] : null;
-		$opt['iframePreload'] = (isset($params['iframePreload'])) ? (bool) $params['iframePreload'] : null;
-		$opt['iframeOptions'] = (isset($params['iframeOptions']) && (is_array($params['iframeOptions']))) ? $params['iframeOptions'] : null;
-		$opt['size']          = (isset($params['size']) && (is_array($params['size']))) ? $params['size'] : null;
-		$opt['shadow']        = (isset($params['shadow'])) ? $params['shadow'] : null;
-		$opt['overlay']       = (isset($params['overlay'])) ? $params['overlay'] : null;
-		$opt['onOpen']        = (isset($params['onOpen'])) ? $params['onOpen'] : null;
-		$opt['onClose']       = (isset($params['onClose'])) ? $params['onClose'] : null;
-		$opt['onUpdate']      = (isset($params['onUpdate'])) ? $params['onUpdate'] : null;
-		$opt['onResize']      = (isset($params['onResize'])) ? $params['onResize'] : null;
-		$opt['onMove']        = (isset($params['onMove'])) ? $params['onMove'] : null;
-		$opt['onShow']        = (isset($params['onShow'])) ? $params['onShow'] : null;
-		$opt['onHide']        = (isset($params['onHide'])) ? $params['onHide'] : null;
+		$opt['ajaxOptions']   = (isset($params['ajaxOptions']) && is_array($params['ajaxOptions'])) ? $params['ajaxOptions'] : null;
+		$opt['handler']       = isset($params['handler']) ? $params['handler'] : null;
+		$opt['parseSecure']   = isset($params['parseSecure']) ? (bool) $params['parseSecure'] : null;
+		$opt['closable']      = isset($params['closable']) ? (bool) $params['closable'] : null;
+		$opt['closeBtn']      = isset($params['closeBtn']) ? (bool) $params['closeBtn'] : null;
+		$opt['iframePreload'] = isset($params['iframePreload']) ? (bool) $params['iframePreload'] : null;
+		$opt['iframeOptions'] = (isset($params['iframeOptions']) && is_array($params['iframeOptions'])) ? $params['iframeOptions'] : null;
+		$opt['size']          = (isset($params['size']) && is_array($params['size'])) ? $params['size'] : null;
+		$opt['shadow']        = isset($params['shadow']) ? $params['shadow'] : null;
+		$opt['overlay']       = isset($params['overlay']) ? $params['overlay'] : null;
+		$opt['onOpen']        = isset($params['onOpen']) ? $params['onOpen'] : null;
+		$opt['onClose']       = isset($params['onClose']) ? $params['onClose'] : null;
+		$opt['onUpdate']      = isset($params['onUpdate']) ? $params['onUpdate'] : null;
+		$opt['onResize']      = isset($params['onResize']) ? $params['onResize'] : null;
+		$opt['onMove']        = isset($params['onMove']) ? $params['onMove'] : null;
+		$opt['onShow']        = isset($params['onShow']) ? $params['onShow'] : null;
+		$opt['onHide']        = isset($params['onHide']) ? $params['onHide'] : null;
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
@@ -516,30 +516,30 @@ abstract class JHtmlBehavior
 		JHtml::_('jquery.framework');
 
 		// Setup options object
-		$opt['div']   = (array_key_exists('div', $params)) ? $params['div'] : $id . '_tree';
-		$opt['mode']  = (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
-		$opt['grid']  = (array_key_exists('grid', $params)) ? '\\' . $params['grid'] : true;
-		$opt['theme'] = (array_key_exists('theme', $params)) ? $params['theme'] : JHtml::_('image', 'system/mootree.gif', '', array(), true, true);
+		$opt['div']   = array_key_exists('div', $params) ? $params['div'] : $id . '_tree';
+		$opt['mode']  = array_key_exists('mode', $params) ? $params['mode'] : 'folders';
+		$opt['grid']  = array_key_exists('grid', $params) ? '\\' . $params['grid'] : true;
+		$opt['theme'] = array_key_exists('theme', $params) ? $params['theme'] : JHtml::_('image', 'system/mootree.gif', '', array(), true, true);
 
 		// Event handlers
-		$opt['onExpand'] = (array_key_exists('onExpand', $params)) ? '\\' . $params['onExpand'] : null;
-		$opt['onSelect'] = (array_key_exists('onSelect', $params)) ? '\\' . $params['onSelect'] : null;
-		$opt['onClick']  = (array_key_exists('onClick', $params)) ? '\\' . $params['onClick']
+		$opt['onExpand'] = array_key_exists('onExpand', $params) ? '\\' . $params['onExpand'] : null;
+		$opt['onSelect'] = array_key_exists('onSelect', $params) ? '\\' . $params['onSelect'] : null;
+		$opt['onClick']  = array_key_exists('onClick', $params) ? '\\' . $params['onClick']
 		: '\\function(node){  window.open(node.data.url, node.data.target != null ? node.data.target : \'_self\'); }';
 
 		$options = JHtml::getJSObject($opt);
 
 		// Setup root node
-		$rt['text']     = (array_key_exists('text', $root)) ? $root['text'] : 'Root';
-		$rt['id']       = (array_key_exists('id', $root)) ? $root['id'] : null;
-		$rt['color']    = (array_key_exists('color', $root)) ? $root['color'] : null;
-		$rt['open']     = (array_key_exists('open', $root)) ? '\\' . $root['open'] : true;
-		$rt['icon']     = (array_key_exists('icon', $root)) ? $root['icon'] : null;
-		$rt['openicon'] = (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
-		$rt['data']     = (array_key_exists('data', $root)) ? $root['data'] : null;
+		$rt['text']     = array_key_exists('text', $root) ? $root['text'] : 'Root';
+		$rt['id']       = array_key_exists('id', $root) ? $root['id'] : null;
+		$rt['color']    = array_key_exists('color', $root) ? $root['color'] : null;
+		$rt['open']     = array_key_exists('open', $root) ? '\\' . $root['open'] : true;
+		$rt['icon']     = array_key_exists('icon', $root) ? $root['icon'] : null;
+		$rt['openicon'] = array_key_exists('openicon', $root) ? $root['openicon'] : null;
+		$rt['data']     = array_key_exists('data', $root) ? $root['data'] : null;
 		$rootNode = JHtml::getJSObject($rt);
 
-		$treeName = (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
+		$treeName = array_key_exists('treeName', $params) ? $params['treeName'] : '';
 
 		$js = '		jQuery(function(){
 			tree' . $treeName . ' = new MooTreeControl(' . $options . ',' . $rootNode . ');
