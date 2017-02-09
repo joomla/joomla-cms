@@ -257,11 +257,11 @@ if ($this->type == 'font')
 						<ul>
 							<li>Item</li>
 							<li>Item</li>
-							<li>Item<br />
+							<li>Item<br>
 								<ul>
 									<li>Item</li>
 									<li>Item</li>
-									<li>Item<br />
+									<li>Item<br>
 										<ul>
 											<li>Item</li>
 											<li>Item</li>
@@ -275,11 +275,11 @@ if ($this->type == 'font')
 						<ol>
 							<li>Item</li>
 							<li>Item</li>
-							<li>Item<br />
+							<li>Item<br>
 								<ul>
 									<li>Item</li>
 									<li>Item</li>
-									<li>Item<br />
+									<li>Item<br>
 										<ul>
 											<li>Item</li>
 											<li>Item</li>

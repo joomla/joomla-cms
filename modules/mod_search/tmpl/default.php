@@ -37,11 +37,11 @@ else
 
 				switch ($button_pos) :
 					case 'top' :
-						$output = $btn_output . '<br />' . $output;
+						$output = $btn_output . '<br>' . $output;
 						break;
 
 					case 'bottom' :
-						$output .= '<br />' . $btn_output;
+						$output .= '<br>' . $btn_output;
 						break;
 
 					case 'right' :

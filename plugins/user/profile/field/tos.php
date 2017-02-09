@@ -71,7 +71,7 @@ class JFormFieldTos extends JFormFieldRadio
 		{
 			$label .= ' title="'
 				. htmlspecialchars(
-					trim($text, ':') . '<br />' . ($this->translateDescription ? JText::_($this->description) : $this->description),
+					trim($text, ':') . '<br>' . ($this->translateDescription ? JText::_($this->description) : $this->description),
 					ENT_COMPAT, 'UTF-8'
 				) . '"';
 		}

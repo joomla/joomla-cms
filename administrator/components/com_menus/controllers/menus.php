@@ -205,7 +205,7 @@ class MenusControllerMenus extends JControllerLegacy
 				{
 					// Update the menu table.
 					$log = "Link $item->id refers to $item->component_id, converting to $componentId ($item->link)";
-					echo "<br />$log";
+					echo "<br>$log";
 
 					$query->clear();
 					$query->update('#__menu')

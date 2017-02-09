@@ -300,7 +300,7 @@ abstract class JHtmlGrid
 			$time = JHtml::_('date', $row->checked_out_time, 'H:i');
 
 			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::_('tooltipText', 'JLIB_HTML_CHECKED_OUT', $row->editor)
-				. '<br />' . $date . '<br />' . $time . '">';
+				. '<br>' . $date . '<br>' . $time . '">';
 		}
 
 		return $hover . JHtml::_('image', 'admin/checked_out.png', null, null, true) . '</span>';

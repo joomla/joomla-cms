@@ -78,7 +78,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td>
 							<label for="cb<?php echo $i; ?>">
 								<?php echo JText::_($item->update_site_name); ?>
-								<br />
+								<br>
 								<span class="small break-word">
 									<a href="<?php echo $item->location; ?>" target="_blank"><?php echo $this->escape($item->location); ?></a>
 								</span>

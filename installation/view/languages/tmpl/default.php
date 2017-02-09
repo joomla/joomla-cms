@@ -63,7 +63,7 @@ $version = new JVersion;
 	<?php else : ?>
 		<p id="install_languages_desc"><?php echo JText::_('INSTL_LANGUAGES_DESC'); ?></p>
 		<p id="wait_installing" style="display: none;">
-			<?php echo JText::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT') ?><br />
+			<?php echo JText::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT') ?><br>
 			<div id="wait_installing_spinner" class="spinner spinner-img" style="display: none;"></div>
 		</p>
 		<table class="table table-striped table-sm">

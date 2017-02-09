@@ -126,7 +126,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<span class="break-word">
 							<?php echo $item->detailsurl; ?>
 								<?php if (isset($item->infourl)) : ?>
-									<br />
+									<br>
 									<a href="<?php echo $item->infourl; ?>" target="_blank"><?php echo $this->escape($item->infourl); ?></a>
 								<?php endif; ?>
 							</span>

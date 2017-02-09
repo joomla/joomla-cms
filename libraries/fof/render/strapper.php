@@ -1354,7 +1354,7 @@ JS;
 					$loadedTooltipScript = true;
 				}
 
-				$tooltipText = '<strong>' . JText::_($title) . '</strong><br />' . JText::_($tooltip);
+				$tooltipText = '<strong>' . JText::_($title) . '</strong><br>' . JText::_($tooltip);
 
 				$html .= "\t\t\t\t" . '<label class="control-label fof-tooltip ' . $labelClass . '" for="' . $field->id . '" title="' . $tooltipText . '" data-toggle="fof-tooltip">';
 			}

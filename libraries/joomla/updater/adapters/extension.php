@@ -93,7 +93,7 @@ class JUpdaterExtension extends JUpdateAdapter
 	{
 		array_pop($this->stack);
 
-		// @todo remove code: echo 'Closing: '. $name .'<br />';
+		// @todo remove code: echo 'Closing: '. $name .'<br>';
 		switch ($name)
 		{
 			case 'UPDATE':

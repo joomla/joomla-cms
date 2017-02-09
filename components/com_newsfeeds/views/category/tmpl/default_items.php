@@ -59,13 +59,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php if ($this->items[$i]->published == 0) : ?>
 					<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
-				<br />
+				<br>
 				<?php if ($this->params->get('show_link')) : ?>
 					<?php $link = JStringPunycode::urlToUTF8($item->link); ?>
 					<span class="list pull-left">
 							<a href="<?php echo $item->link; ?>"><?php echo $link; ?></a>
 					</span>
-					<br />
+					<br>
 				<?php endif; ?>
 				</li>
 			<?php endforeach; ?>

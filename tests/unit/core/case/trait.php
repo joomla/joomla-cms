@@ -93,7 +93,7 @@ trait TestCaseTrait
 	 * Assigns mock values to methods.
 	 *
 	 * @param   PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
-	 * @param   array                                    $array       An associative array of methods to mock with return values:<br />
+	 * @param   array                                    $array       An associative array of methods to mock with return values:<br>
 	 * string (method name) => mixed (return value)
 	 *
 	 * @return  void

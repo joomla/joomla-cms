@@ -71,7 +71,7 @@ defined('_JEXEC') or die;
 	<div class="span6">
 		<p>
 			<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_ALTTEXT') ?>
-			<br />
+			<br>
 			<img src="<?php echo $url ?>" style="float: none;">
 		</p>
 	</div>

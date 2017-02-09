@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 	<body>
 		<!-- Header -->
 		<div class="header">
-			<img src="<?php echo $this->baseurl; ?>/template/images/joomla.png" alt="Joomla" />
+			<img src="<?php echo $this->baseurl; ?>/template/images/joomla.png" alt="Joomla">
 			<hr />
 			<h5>
 				<?php // Fix wrong display of Joomla!® in RTL language ?>

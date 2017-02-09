@@ -96,7 +96,7 @@ if ($params->get('show_autosuggest', 1))
 
 		<?php $show_advanced = $params->get('show_advanced'); ?>
 		<?php if ($show_advanced == 2) : ?>
-			<br />
+			<br>
 			<a href="<?php echo JRoute::_($route); ?>"><?php echo JText::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
 		<?php elseif ($show_advanced == 1) : ?>
 			<div class="js-finder-advanced">

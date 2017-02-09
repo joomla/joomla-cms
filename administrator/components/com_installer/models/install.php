@@ -264,7 +264,7 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			JError::raiseWarning(
 				'',
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET')
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET')
 			);
 
 			return false;
@@ -275,7 +275,7 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			JError::raiseWarning(
 				'',
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE')
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE')
 			);
 
 			return false;

@@ -63,7 +63,7 @@ class InstallerControllerManage extends JControllerLegacy
 			// Change the state of the records.
 			if (!$model->publish($ids, $value))
 			{
-				JError::raiseWarning(500, implode('<br />', $model->getErrors()));
+				JError::raiseWarning(500, implode('<br>', $model->getErrors()));
 			}
 			else
 			{

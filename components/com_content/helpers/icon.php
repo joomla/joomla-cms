@@ -125,7 +125,7 @@ abstract class JHtmlIcon
 			$checkoutUser = JFactory::getUser($article->checked_out);
 			$date         = JHtml::_('date', $article->checked_out_time);
 			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
-				. ' <br /> ' . $date;
+				. ' <br> ' . $date;
 
 			$text = JLayoutHelper::render('joomla.content.icons.edit_lock', array('tooltip' => $tooltip, 'legacy' => $legacy));
 

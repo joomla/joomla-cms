@@ -256,7 +256,7 @@ class InstallationModelSetup extends JModelBase
 		$available = JDatabaseDriver::getConnectors();
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_DATABASE_SUPPORT');
-		$option->label .= '<br />(' . implode(', ', $available) . ')';
+		$option->label .= '<br>(' . implode(', ', $available) . ')';
 		$option->state  = count($available);
 		$option->notice = null;
 		$options[] = $option;

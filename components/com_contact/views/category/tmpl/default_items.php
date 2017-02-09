@@ -72,10 +72,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo $item->event->beforeDisplayContent; ?>
 
 						<?php if ($this->params->get('show_position_headings')) : ?>
-								<?php echo $item->con_position; ?><br />
+								<?php echo $item->con_position; ?><br>
 						<?php endif; ?>
 						<?php if ($this->params->get('show_email_headings')) : ?>
-								<?php echo $item->email_to; ?><br />
+								<?php echo $item->email_to; ?><br>
 						<?php endif; ?>
 						<?php if ($this->params->get('show_suburb_headings') && !empty($item->suburb)) : ?>
 							<?php echo $item->suburb . ', '; ?>
@@ -86,21 +86,21 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 
 						<?php if ($this->params->get('show_country_headings') && !empty($item->country)) : ?>
-							<?php echo $item->country; ?><br />
+							<?php echo $item->country; ?><br>
 						<?php endif; ?>
 					</div>
 
 					<div class="span3 col-md-3">
 						<?php if ($this->params->get('show_telephone_headings') && !empty($item->telephone)) : ?>
-							<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br />
+							<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br>
 						<?php endif; ?>
 
 						<?php if ($this->params->get('show_mobile_headings') && !empty ($item->mobile)) : ?>
-								<?php echo JText::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br />
+								<?php echo JText::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br>
 						<?php endif; ?>
 
 						<?php if ($this->params->get('show_fax_headings') && !empty($item->fax) ) : ?>
-							<?php echo JText::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br />
+							<?php echo JText::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br>
 						<?php endif; ?>
 					</div>
 

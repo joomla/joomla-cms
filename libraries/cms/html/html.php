@@ -939,7 +939,7 @@ abstract class JHtml
 			// Use a formatted string combining the title and content.
 			elseif ($content != '')
 			{
-				$result = '<strong>' . $title . '</strong><br />' . $content;
+				$result = '<strong>' . $title . '</strong><br>' . $content;
 			}
 			else
 			{

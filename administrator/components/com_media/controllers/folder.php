@@ -97,7 +97,7 @@ class MediaControllerFolder extends JControllerLegacy
 				{
 					// There are some errors in the plugins
 					$errors = $object_file->getErrors();
-					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
+					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br>', $errors)));
 
 					continue;
 				}
@@ -121,7 +121,7 @@ class MediaControllerFolder extends JControllerLegacy
 					{
 						// There are some errors in the plugins
 						$errors = $object_file->getErrors();
-						JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
+						JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br>', $errors)));
 						continue;
 					}
 
@@ -148,7 +148,7 @@ class MediaControllerFolder extends JControllerLegacy
 						{
 							// There are some errors in the plugins
 							$errors = $object_file->getErrors();
-							JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
+							JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br>', $errors)));
 							continue;
 						}
 
@@ -232,7 +232,7 @@ class MediaControllerFolder extends JControllerLegacy
 				if (in_array(false, $result, true))
 				{
 					// There are some errors in the plugins
-					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
+					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br>', $errors)));
 
 					return false;
 				}
