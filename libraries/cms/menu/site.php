@@ -133,13 +133,13 @@ class JMenuSite extends JMenu
 			/** @var JCacheControllerCallback $cache */
 			$cache = JFactory::getCache('com_menus', 'callback');
 
-			$this->_items = $cache->get($loader, array(), md5(get_class($this)), false);
+			$this->_viewlevelrules = $cache->get($loader, array(), md5(get_class($this)), false);
 		}
 		catch (JCacheException $e)
 		{
 			try
 			{
-				$this->_items = $loader();
+				$this->_viewlevelrules = $loader();
 			}
 			catch (JDatabaseExceptionExecuting $databaseException)
 			{
