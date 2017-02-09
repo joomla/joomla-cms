@@ -1,14 +1,19 @@
 // TinyMCE
 
 .editor {
+
   .toggle-editor {
     margin-top: 1rem;
   }
+
   .mce-tinymce {
     border: 1px solid $card-border-color;
     @include border-radius($card-border-radius);
   }
-  .mce-btn, .mce-panel {
+
+  .mce-btn,
+  .mce-panel {
     background: $card-bg-color-light;
   }
+
 }

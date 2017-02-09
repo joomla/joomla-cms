@@ -1,6 +1,7 @@
 // com_cpanel
 
 .com_cpanel {
+
   .content {
     margin-top: 0;
     background: none;
@@ -33,6 +34,7 @@
       &:first-of-type {
         border-top: 0;
       }
+
     }
 
     .list-group-item:first-child {
@@ -60,7 +62,7 @@
     background-color: $atum-card-title-bg;
     border-bottom: 1px solid rgba(0,0,0,.125);
     border-radius: $border-radius $border-radius 0 0;
-    box-shadow: 0 1px $white-offset inset, 0 2px 3px -3px rgba(0, 0, 0, .15);
+    box-shadow: 0 1px $white-offset inset, 0 2px 3px -3px rgba(0,0,0,.15);
   }
 
   .module-dropdown {
@@ -81,10 +83,14 @@
       border-top-right-radius: $border-radius;
       box-shadow: 1px 0 $white-offset inset;
 
-      &:hover, &[aria-expanded*="true"] {
+      &:hover,
+      &[aria-expanded*="true"] {
         background-color: $atum-card-title-icon-bg-hover;
         box-shadow: none;
       }
+
     }
+
   }
+
 }

@@ -1,20 +1,26 @@
 // Modals
 
 .modal {
+
   .btn {
     margin-right: .5rem;
   }
+
   .btn-primary:not([href]),
   .btn-success:not([href]) {
     color: $btn-primary-color;
+
     &:hover {
       color: $btn-primary-color;
     }
+
   }
+
 }
 
 .modal-header {
   padding: 0 15px;
+
   .close {
     width: $modal-header-height;
     margin-top: 0;
@@ -23,6 +29,7 @@
     line-height: $modal-header-height;
     border-left: 1px solid $atum-border-color;
   }
+
 }
 
 .modal-body {

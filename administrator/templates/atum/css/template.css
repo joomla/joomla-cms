@@ -8782,17 +8782,24 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   font-weight: normal; }
 
 /* Bootstrap alert mapping */
-html, body {
+html,
+body {
   font-size: 14px; }
 
 body {
   padding: 0;
   margin: 0; }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: bold; }
 
-small, .small {
+small,
+.small {
   font-size: 0.8rem; }
 
 .j-main-container .alert {
@@ -9152,7 +9159,9 @@ iframe {
 
 .quick-icons {
   margin-bottom: -14px; }
-  .quick-icons *, .quick-icons *::before, .quick-icons *::after {
+  .quick-icons *,
+  .quick-icons *::before,
+  .quick-icons *::after {
     transition: all .25s ease; }
   .quick-icons a {
     position: relative;
@@ -9163,6 +9172,20 @@ iframe {
     text-align: left;
     background-color: #1c3d5c;
     border-radius: 0.25rem; }
+    @media (max-width: 575px) {
+      .quick-icons a {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto;
+        overflow: visible;
+        color: #fff;
+        text-align: center;
+        background: #1c3d5c;
+        border-radius: 50%; } }
+    @media (max-width: 575px) {
+      .quick-icons a.pulse {
+        box-shadow: 0 0 0 0 rgba(28, 61, 92, 0.7);
+        animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1); } }
     .quick-icons a:hover, .quick-icons a:focus {
       text-decoration: none; }
       .quick-icons a:hover::before, .quick-icons a:focus::before {
@@ -9174,6 +9197,11 @@ iframe {
       padding-left: .9rem;
       font-size: 1.2rem;
       line-height: 4.7rem; }
+      @media (max-width: 575px) {
+        .quick-icons a span {
+          padding: 0;
+          font-size: 1rem;
+          line-height: 1.4rem; } }
       .quick-icons a span[class*=" icon-"], .quick-icons a span[class^="icon-"] {
         width: 5rem;
         height: 4.7rem;
@@ -9183,6 +9211,15 @@ iframe {
         line-height: 4.7rem;
         background-color: #285783;
         border-right: 1px solid rgba(255, 255, 255, 0.15); }
+        @media (max-width: 575px) {
+          .quick-icons a span[class*=" icon-"], .quick-icons a span[class^="icon-"] {
+            width: 60px;
+            height: 60px;
+            padding: 0;
+            margin: 0 auto !important;
+            line-height: 60px;
+            background: none;
+            border-right: 0; } }
     .quick-icons a::before {
       position: absolute;
       top: -100px;
@@ -9192,17 +9229,42 @@ iframe {
       color: #224a70;
       content: "\f1aa";
       transform: rotate(20deg); }
+      @media (max-width: 575px) {
+        .quick-icons a::before {
+          display: none; } }
+  .quick-icons .quickicon-text-xs {
+    display: block;
+    margin-bottom: 30px;
+    text-align: center; }
   .quick-icons .danger a::after {
     right: 0; }
+  @media (max-width: 575px) {
+    .quick-icons .danger a {
+      background: #df706c;
+      animation: none; } }
   .quick-icons .danger a span[class*=" icon-"], .quick-icons .danger a span[class^="icon-"] {
     background-color: #df706c; }
+    @media (max-width: 575px) {
+      .quick-icons .danger a span[class*=" icon-"], .quick-icons .danger a span[class^="icon-"] {
+        background: none; } }
   .quick-icons .success a::after {
     right: 0; }
+  @media (max-width: 575px) {
+    .quick-icons .success a {
+      background: #48b848;
+      animation: none; } }
   .quick-icons .success a span[class*=" icon-"], .quick-icons .success a span[class^="icon-"] {
     background-color: #48b848; }
+    @media (max-width: 575px) {
+      .quick-icons .success a span[class*=" icon-"], .quick-icons .success a span[class^="icon-"] {
+        background: none; } }
   .quick-icons [id*="plg_quickicon"] a,
   .quick-icons [id*="plg_quickicon"] a::before {
     transition-delay: .4s; }
+
+@keyframes pulse {
+  to {
+    box-shadow: 0 0 0 15px rgba(232, 76, 61, 0); } }
 
 .js-stools {
   width: 100%;
@@ -9454,7 +9516,8 @@ iframe {
   transition-delay: 0s; }
   .status p {
     margin: 0; }
-  .status li, .status a {
+  .status li,
+  .status a {
     font-size: 14px;
     color: #555; }
 
@@ -9571,7 +9634,9 @@ iframe {
       background-color: #fefefe;
       border-color: #ccc;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); }
-      .subhead .btn-toolbar .btn-sm [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn [class^="icon-"], .subhead .btn-toolbar .btn-sm [class*=" icon-"], .subhead .btn-toolbar .btn-group-sm > .btn [class*=" icon-"] {
+      .subhead .btn-toolbar .btn-sm [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn [class^="icon-"],
+      .subhead .btn-toolbar .btn-sm [class*=" icon-"],
+      .subhead .btn-toolbar .btn-group-sm > .btn [class*=" icon-"] {
         z-index: -1;
         display: inline-block;
         width: 28px;
@@ -9585,22 +9650,38 @@ iframe {
       .subhead .btn-toolbar .btn-sm:hover, .subhead .btn-toolbar .btn-group-sm > .btn:hover {
         background-color: #eceeef;
         border-color: #ccc; }
-    .subhead .btn-toolbar .btn-primary [class^="icon-"], .subhead .btn-toolbar .btn-primary [class*=" icon-"], .subhead .btn-toolbar .btn-outline-primary [class^="icon-"], .subhead .btn-toolbar .btn-outline-primary [class*=" icon-"] {
+    .subhead .btn-toolbar .btn-primary [class^="icon-"],
+    .subhead .btn-toolbar .btn-primary [class*=" icon-"],
+    .subhead .btn-toolbar .btn-outline-primary [class^="icon-"],
+    .subhead .btn-toolbar .btn-outline-primary [class*=" icon-"] {
       color: #007eb7; }
-    .subhead .btn-toolbar .btn-success [class^="icon-"], .subhead .btn-toolbar .btn-success [class*=" icon-"], .subhead .btn-toolbar .btn-outline-success [class^="icon-"], .subhead .btn-toolbar .btn-outline-success [class*=" icon-"] {
+    .subhead .btn-toolbar .btn-success [class^="icon-"],
+    .subhead .btn-toolbar .btn-success [class*=" icon-"],
+    .subhead .btn-toolbar .btn-outline-success [class^="icon-"],
+    .subhead .btn-toolbar .btn-outline-success [class*=" icon-"] {
       color: #48b848; }
-    .subhead .btn-toolbar .btn-info [class^="icon-"], .subhead .btn-toolbar .btn-info [class*=" icon-"], .subhead .btn-toolbar .btn-outline-info [class^="icon-"], .subhead .btn-toolbar .btn-outline-info [class*=" icon-"] {
+    .subhead .btn-toolbar .btn-info [class^="icon-"],
+    .subhead .btn-toolbar .btn-info [class*=" icon-"],
+    .subhead .btn-toolbar .btn-outline-info [class^="icon-"],
+    .subhead .btn-toolbar .btn-outline-info [class*=" icon-"] {
       color: #5bc0de; }
-    .subhead .btn-toolbar .btn-danger [class^="icon-"], .subhead .btn-toolbar .btn-danger [class*=" icon-"], .subhead .btn-toolbar .btn-outline-danger [class^="icon-"], .subhead .btn-toolbar .btn-outline-danger [class*=" icon-"] {
+    .subhead .btn-toolbar .btn-danger [class^="icon-"],
+    .subhead .btn-toolbar .btn-danger [class*=" icon-"],
+    .subhead .btn-toolbar .btn-outline-danger [class^="icon-"],
+    .subhead .btn-toolbar .btn-outline-danger [class*=" icon-"] {
       color: #d9534f; }
-    .subhead .btn-toolbar .btn-warning [class^="icon-"], .subhead .btn-toolbar .btn-warning [class*=" icon-"], .subhead .btn-toolbar .btn-outline-warning [class^="icon-"], .subhead .btn-toolbar .btn-outline-warning [class*=" icon-"] {
+    .subhead .btn-toolbar .btn-warning [class^="icon-"],
+    .subhead .btn-toolbar .btn-warning [class*=" icon-"],
+    .subhead .btn-toolbar .btn-outline-warning [class^="icon-"],
+    .subhead .btn-toolbar .btn-outline-warning [class*=" icon-"] {
       color: #f0ad4e; }
     .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) {
       width: 140px;
       color: #fefefe;
       background-color: #48b848;
       border-color: rgba(0, 0, 0, 0.2); }
-      .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class^="icon-"], .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class*=" icon-"] {
+      .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class^="icon-"],
+      .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class*=" icon-"] {
         width: 16px;
         margin-right: 0;
         margin-left: 0;
@@ -10018,7 +10099,8 @@ iframe {
   border: 1px solid #ccc;
   border-radius: 0.25rem; }
 
-.editor .mce-btn, .editor .mce-panel {
+.editor .mce-btn,
+.editor .mce-panel {
   background: #f8f8f8; }
 
 .com_config .content {
@@ -10094,7 +10176,8 @@ iframe {
 .admin.com_modules .js-stools-container-bar .btn-toolbar {
   float: left; }
 
-.container-main, .system-debug {
+.container-main,
+.system-debug {
   padding-bottom: 50px; }
 
 .container-main {

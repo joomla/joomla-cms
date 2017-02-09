@@ -12,9 +12,11 @@
   &90 { height: 90vh; }
   &100 { height: 100vh; }
 }
+
 [class*=jviewport-height] iframe {
   height: 100%;
 }
+
 .modal-dialog.jviewport-width {
   &10 { width: 10vw; max-width: none; }
   &20 { width: 20vw; max-width: none; }

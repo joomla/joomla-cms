@@ -2,20 +2,27 @@
 
 
 .j-main-container {
+
   .alert {
     margin: 10px;
   }
+
 }
 
 @keyframes fadeIn {
+
   from {
     opacity: 0;
     transform: translateY(-15px);
-  } to {
+  }
+
+  to {
     opacity: 1;
     transform: translateY(0);
   }
+
 }
+
 .notify-alerts {
   position: fixed;
   top: 15px;
@@ -24,6 +31,7 @@
   margin-left: 125px;
   transition: all .5s ease;
   transform: translateX(-50%);
+
   .alert {
     width: 100%;
     min-width: 280px;
@@ -35,35 +43,49 @@
     animation-duration: .35s;
     animation-delay: 0s;
     animation-fill-mode: forwards;
+
     &:first-of-type {
       animation-delay: .3s;
     }
+
   }
+
   &.fullWidth {
     left: 265px;
+
     .alert {
       width: auto;
       min-width: none;
       max-width: none;
       margin-left: 0;
     }
+
   }
+
   .close {
     line-height: 1rem;
     color: $white-offset;
     opacity: 1;
   }
+
 }
+
 .closed {
+
   .notify-alerts {
     margin-left: 0;
   }
+
   + .notify-alerts.fullWidth {
     left: 70px;
   }
+
 }
+
 .wrapper0 {
+
   .notify-alerts {
     margin-left: 0;
   }
+
 }

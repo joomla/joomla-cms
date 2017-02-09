@@ -7,19 +7,25 @@
   &.input-xlarge {
     max-width: 350px;
   }
+
   &.input-xxlarge {
     max-width: 550px;
   }
+
   &.input-full {
     max-width: 100%;
   }
+
 }
+
 .control-group::after {
   display: table;
   clear: both;
   content: "";
 }
+
 form:not(.form-no-margin) {
+
   .control-group {
     margin-bottom: 18px;
 
@@ -30,34 +36,48 @@ form:not(.form-no-margin) {
       padding-right: 5px;
       text-align: left;
     }
+
     .controls {
       margin-left: 220px;
     }
+
   }
+
 }
+
 form .form-no-margin {
+
   .control-group {
+
     .controls {
       margin-left: 0;
     }
+
     .control-label {
       float: none;
     }
+
   }
+
 }
+
 .spacer hr {
   width: 380px;
 }
+
 .card .custom-select {
   width: 100%;
 }
+
 td .form-control {
   display: inline-block;
   width: auto;
 }
+
 legend {
   margin-bottom: 1.1rem;
 }
+
 .checkboxes {
   padding-top: 5px;
 
@@ -65,11 +85,14 @@ legend {
     position: static;
     margin-left: 0;
   }
+
 }
+
 .form-check {
   padding-top: 5px;
   margin-bottom: 0;
 }
+
 .modal label {
   width: 100%;
 }

@@ -1,6 +1,7 @@
 // Chosen
 
 .chzn-container.chzn-container-single {
+
   .chzn-single {
     display: inline-block;
     max-width: 100%;
@@ -39,6 +40,7 @@
     div b {
       background: none;
     }
+
   }
 
   .chzn-drop {
@@ -50,6 +52,7 @@
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
   }
+
 }
 
 // TEMPORARY
@@ -60,7 +63,9 @@
 
 .card .chzn-container.chzn-container-single {
   width: 100% !important;
+
   .chzn-single {
     width: 100% !important;
   }
+
 }
