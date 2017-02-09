@@ -9370,7 +9370,7 @@ iframe {
     .main-nav li a:hover::before {
       width: 3px; }
   .main-nav .open {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.4);
     box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2), inset 0 1px rgba(0, 0, 0, 0.1); }
     .main-nav .open > a {
       background-color: rgba(0, 0, 0, 0.1);
