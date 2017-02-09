@@ -59,6 +59,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="theme-color" content="#1c3d5c" />
 	<jdoc:include type="head" />
 </head>
 
