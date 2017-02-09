@@ -58,7 +58,8 @@
 @import "pages/com_cpanel";
 @import "pages/com_modules";
 
-.container-main, .system-debug {
+.container-main,
+.system-debug {
   padding-bottom: 50px;
 }
 
@@ -68,25 +69,31 @@
   padding-top: 15px;
   background-color: $atum-container-main-bg;
 }
+
 .list-view-main {
+
   .container-main {
     background-color: $atum-container-main-bg;
   }
+
 }
 
 .content {
   margin-top: 42px;
   border-radius: $border-radius;
+
   > .row {
     margin-right: 0;
     margin-left: 0;
   }
+
 }
+
 .j-main-container {
   background-color: $white-offset;
-  border: 1px solid rgba(0, 0, 0, .17);
+  border: 1px solid rgba(0,0,0,.17);
   border-radius: $border-radius;
-  box-shadow: 0 0 3px rgba(0, 0, 0, .075);
+  box-shadow: 0 0 3px rgba(0,0,0,.075);
 }
 
 

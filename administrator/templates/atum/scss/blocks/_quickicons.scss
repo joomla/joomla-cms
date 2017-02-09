@@ -3,7 +3,9 @@
 .quick-icons {
   margin-bottom: -14px;
 
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     transition: all .25s ease;
   }
 
@@ -16,6 +18,7 @@
     text-align: left;
     background-color: $atum-template-color-light;
     border-radius: $border-radius;
+
     &:hover,
     &:focus {
       text-decoration: none;
@@ -23,6 +26,7 @@
       &::before {
         color: lighten($atum-template-color-light, 10%);
       }
+
     }
 
     > * {
@@ -36,7 +40,7 @@
       line-height: 4.7rem;
 
       &[class*=" icon-"],
-	    &[class^="icon-"] {
+	  &[class^="icon-"] {
         width: 5rem;
         height: 4.7rem;
         padding-left: 2px;
@@ -44,8 +48,9 @@
         font-weight: normal;
         line-height: 4.7rem;
         background-color: lighten($atum-template-color-light, 10%);
-        border-right: 1px solid rgba(255, 255, 255, .15);
+        border-right: 1px solid rgba($white,.15);
       }
+
     }
 
     &::before {
@@ -58,6 +63,7 @@
       content: "\f1aa";
       transform: rotate(20deg);
     }
+
   }
 
   .danger a {
@@ -67,11 +73,14 @@
     }
 
     span {
+
       &[class*=" icon-"],
       &[class^="icon-"] {
         background-color: lighten($brand-danger, 7%);
       }
+
     }
+
   }
 
   .success a {
@@ -81,15 +90,19 @@
     }
 
     span {
+
       &[class*=" icon-"],
       &[class^="icon-"] {
         background-color: $brand-success;
       }
+
     }
+
   }
 
   [id*="plg_quickicon"] a,
   [id*="plg_quickicon"] a::before {
     transition-delay: .4s;
   }
+
 }
