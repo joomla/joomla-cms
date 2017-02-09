@@ -64,41 +64,15 @@
 			var menuClose = function() {
 				sidebar.querySelector('.collapse').classList.remove('in');
 				sidebar.querySelector('.collapse-arrow').classList.add('collapsed');
-				//menuToggle.classList.add('active'); @TODO the hanburger menu is broken
-				wrapper.classList.add('closed');
-			};
-
-			var menuOpen = function() {
-				wrapper.classList.remove('closed');
-				menuToggle.classList.remove('active');
-			};
-
-			var animateWrapper = function(keepOpen) {
-				if (window.outerWidth > 767) {
-					if (wrapper.classList.contains('closed') || keepOpen && keepOpen === true) {
-						menuOpen();
-					} else {
-						menuClose();
-					}
-				}
 			};
 
 			// Toggle menu
-			document.getElementById('menu-collapse').addEventListener('click', function(e) {
-				e.preventDefault();
-				animateWrapper();
+			menuToggle.addEventListener('click', function(e) {
+				wrapper.classList.toggle("closed");
 			});
 
-			// if (wrapperClosed) {
-			// 	wrapperClosed[i].addEventListener('click', animateWrapper(true));
-			// }
-
-			for (var i = 0; i < sidebar.length; i++) {
-				sidebar[i].addEventListener('click', animateWrapper(true));
-			}
-
 			/**
-			 * Sidebar Accordion
+			 * Sidebar 
 			 */
 			jQuery('.main-nav li.parent > a').on('click', function() {
 				var $self  = jQuery(this),

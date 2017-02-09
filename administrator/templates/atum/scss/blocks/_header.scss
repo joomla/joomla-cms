@@ -154,3 +154,29 @@
     }
   }
 }
+
+@include media-breakpoint-down(md) {
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    + .container-title {
+      margin-top: $header-height;
+    }
+  }
+}
+
+// Mobile Toggle
+.menu-collapse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 2rem;
+  text-align: center;
+  a {
+    display: block;
+    width: $header-height;
+    line-height: $header-height;
+    color: $white;
+  }
+}
