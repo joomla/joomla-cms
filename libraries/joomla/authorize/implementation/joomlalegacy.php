@@ -298,38 +298,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 
 		$query->leftJoin($this->db->qn('#__permissions', 'p') . ' ' . $conditions);
 
-		// Make all assetIds arrays so we can use them in foreach and IN
-		$assetIds = (array) $this->assetId;
-		$numerics = $strings = array();
-
-		foreach ($assetIds AS $assetId)
-		{
-			if (is_numeric($assetId))
-			{
-				$numerics[] = (int) $assetId;
-			}
-			else
-			{
-				$strings[] = (string) $assetId;
-			}
-		}
-
-		$assetwhere = '';
-
-		if (!empty($numerics))
-		{
-			$assetwhere .= 'a.id IN (' . implode(',', $numerics) . ')';
-		}
-
-		if (!empty($strings))
-		{
-			if (!empty($assetwhere))
-			{
-				$assetwhere .= ' OR ';
-			}
-
-			$assetwhere .= 'a.name IN (' . $this->db->q(implode($this->db->q(','), $numerics)) . ')';
-		}
+		$assetwhere = $this->assetWhere();
 
 		$query->where($assetwhere);
 
@@ -342,6 +311,8 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 
 	/**
 	 * Query root asset permissions
+	 *
+	 * @since  4.0.
 	 *
 	 * @return mixed   Db query result - the return value or null if the query failed.
 	 */

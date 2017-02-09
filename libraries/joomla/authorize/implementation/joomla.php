@@ -334,7 +334,25 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 
 		$query->leftJoin($this->db->qn('#__permissions', 'p') . ' ' . $conditions);
 
+		$assetwhere = $this->assetWhere();
 
+		$query->where($assetwhere);
+
+		$this->db->setQuery($query);
+		$result = $this->db->loadObjectList();
+
+		return $result;
+	}
+
+	/**
+	 * Build where part of the query for getAssetPermissions
+	 *
+	 * @return mixed   Db query result - the return value or null if the query failed.
+	 *                 	 *
+	 * @since   4.0
+	 */
+	protected function assetWhere()
+	{
 		// Make all assetIds arrays so we can use them in foreach and IN
 		$assetIds = (array) $this->assetId;
 		$numerics = $strings = array();
@@ -368,12 +386,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 			$assetwhere .= 'a.name IN (' . $this->db->q(implode($this->db->q(','), $numerics)) . ')';
 		}
 
-		$query->where($assetwhere);
-
-		$this->db->setQuery($query);
-		$result = $this->db->loadObjectList();
-
-		return $result;
+		return $assetwhere;
 	}
 
 	/**

@@ -56,7 +56,6 @@ abstract class JAuthorizeImplementation
 				return isset($this->$key) ? $this->$key : null;
 				break;
 		}
-
 	}
 
 	/**
