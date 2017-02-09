@@ -115,17 +115,17 @@ class JMenuSite extends JMenu
 			return false;
 		}
 
- 		$loader = function () use ($db)
+		$loader = function () use ($db)
 		{
-					$query = $db->getQuery(true)
-						->select('v.id, v.rules')
-						->from('#__viewlevels AS v')
-						->order('v.id');
+			$query = $db->getQuery(true)
+				->select('v.id, v.rules')
+				->from('#__viewlevels AS v')
+				->order('v.id');
 
-					// Set the query
-					$db->setQuery($query);
+			// Set the query
+			$db->setQuery($query);
 
-					return $db->loadObjectList('id');
+			return $db->loadObjectList('id');
 		};
 
 		try
