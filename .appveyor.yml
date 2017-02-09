@@ -71,10 +71,6 @@ install:
           Add-Content php.ini "`nextension=php_pdo_sqlsrv.dll"
           Add-Content php.ini "`n"
         }
-    - IF %PHP_VER_TARGET%==5.6 IF %PHP%==1  echo extension=php_pdo_sqlsrv_nts.dll >> php.ini
-    - IF %PHP_VER_TARGET%==5.6 IF %PHP%==1  echo extension=php_sqlsrv_nts.dll >> php.ini
-    - IF %PHP_VER_TARGET%!=5.6 IF %PHP%==1  echo extension=php_pdo_sqlsrv.dll >> php.ini
-    - IF %PHP_VER_TARGET%!=5.6 IF %PHP%==1  echo extension=php_sqlsrv.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pdo_pgsql.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pdo_sqlite.dll >> php.ini
     - IF %PHP%==1 echo extension=php_sqlite3.dll >> php.ini
