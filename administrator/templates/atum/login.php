@@ -45,14 +45,15 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
+// Set some meta data
+$doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
+// @TODO sync with _variables.scss
+$doc->setMetaData('theme-color', '#1c3d5c');
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<?php // TO-DO: sync with _variables.scss ?>
-	<meta name="theme-color" content="#1c3d5c" />
 	<jdoc:include type="head" />
 	<style>
 		.login-initial {
