@@ -129,5 +129,4 @@ abstract class JAuthorizeImplementation
 	{
 		return  $this->cleanAssetId($action);
 	}
-
 }

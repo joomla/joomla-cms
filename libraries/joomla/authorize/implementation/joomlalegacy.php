@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @since  4.0.
  * @deprecated No replacement, to be removed in 4.2
  */
-class JAuthorizeImplementationJoomlaLegacy extends JAuthorizeImplementationJoomla implements JAuthorizeInterface
+class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJoomla implements JAuthorizeInterface
 {
 
 	/**

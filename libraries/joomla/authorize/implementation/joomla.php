@@ -101,6 +101,30 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 		return $this;
 	}
 
+	/**
+	 * Method to get the value
+	 *
+	 * @param   string  $key           Key to search for in the data array
+	 * @param   mixed   $defaultValue  Default value to return if the key is not set
+	 *
+	 * @return  mixed   Value | null if doesn't exist
+	 *
+	 * @since   4.0
+	 */
+	public function __get($key)
+	{
+		switch ($key)
+		{
+			case 'assetId':
+				return $this->assetId_;
+				break;
+
+			default:
+				return parent::__get($key);
+				break;
+		}
+
+	}
 
 	/**
 	 * Method for clearing static caches.

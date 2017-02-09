@@ -125,6 +125,6 @@ final class JAuthorize implements JAuthorizeInterface
 
 	public function appendFilterQuery(&$query, $joinfield, $permission, $orWhere = null, $groups = null)
 	{
-		return $this->implementation->appendFilterQuery(&$query, $joinfield, $permission, $orWhere, $groups);
+		return $this->implementation->appendFilterQuery($query, $joinfield, $permission, $orWhere, $groups);
 	}
 }
