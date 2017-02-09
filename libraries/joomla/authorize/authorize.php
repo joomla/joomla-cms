@@ -97,6 +97,24 @@ final class JAuthorize implements JAuthorizeInterface
 	}
 
 	/**
+	 * Method to call otherwise inaccessible methods
+	 *
+	 * @param   string  $key           Key to search for in the data array
+	 * @param   mixed   $defaultValue  Default value to return if the key is not set
+	 *
+	 * @return  mixed   Value | null if doesn't exist
+	 *
+	 * @since   4.0
+	 */
+	public function __call($method, $parameters)
+	{
+		if (method_exists($this->implementation, $method))
+		{
+			return call_user_func_array(array($this->implementation, $method), $parameters);
+		}
+	}
+
+	/**
 	 * Check if actor is authorised to perform an action, optionally on an asset.
 	 *
 	 * @param   integer  $actor       Id of the actor for which to check authorisation.

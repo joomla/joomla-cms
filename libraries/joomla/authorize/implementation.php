@@ -73,7 +73,8 @@ abstract class JAuthorizeImplementation
 		switch ($name)
 		{
 			case 'authorizationMatrix':
-				static::$authorizationMatrix[__CLASS__] = $value;
+				$class = get_called_class();
+				self::$authorizationMatrix[__CLASS__] = $value;
 				break;
 
 			case 'db':

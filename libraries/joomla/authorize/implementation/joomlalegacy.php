@@ -34,15 +34,6 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 	 */
 	protected static $permCache = array();
 
-
-	/**
-	 * Rules object
-	 *
-	 * @var    object JAccessRules
-	 * @since  4.0
-	 */
-	private $rules = null;
-
 	const IMPLEMENTATION = 'JoomlaLegacy';
 
 	const APPENDSUPPORT = false;
@@ -52,16 +43,14 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 	 *
 	 * @param   mixed            $assetId Assets id, can be integer id or string name or array of string/integer values
 	 * @param   JDatabaseDriver  $db       Database object
-	 * @param   JAccessRules     $rules    Rules object
 	 *
 	 *
 	 * @since  4.0
 	 */
 
-	public function __construct($assetId = 1, JDatabaseDriver $db = null, JAccessRules $rules = null )
+	public function __construct($assetId = 1, JDatabaseDriver $db = null)
 	{
 		$this->assetId = $assetId;
-		$this->rules = isset($rules) ? $rules : new JAccessRules();
 		$this->db = isset($db) ? $db : JFactory::getDbo();
 	}
 
@@ -79,13 +68,6 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 	{
 		switch ($name)
 		{
-			case 'rules':
-				if ($value instanceof JAccessRules)
-				{
-					$this->rules = $value;
-				}
-			break;
-
 			default:
 				JAuthorizeImplementationJoomla::__set($name, $value);
 		}
@@ -100,12 +82,13 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 	 *
 	 * @since  4.0.
 	 */
-	public static function clearStatics()
+	public function clearStatics()
 	{
 		self::$assetRules = array();
 		self::$permCache = array();
-		parent::$authorizationMatrix[self::IMPLEMENTATION] = null;
 		self::$rootAsset = null;
+
+		$this->authorizationMatrix =  null;
 
 		// Legacy
 		JUserHelper::clearStatics();
@@ -204,8 +187,8 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 		}
 
 		// Instantiate and return the JAccessRules object for the asset rules.
-		$this->rules->mergeCollection(self::$permCache[$cacheId]);
-		$rules = $this->rules;
+		$rules = new JAccessRules();
+		$rules->mergeCollection(self::$permCache[$cacheId]);
 
 		// If action was set return only this action's result
 		$data = $rules->getData();
@@ -356,6 +339,25 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 		return $result;
 	}
 
+
+	/**
+	 * Query root asset permissions
+	 *
+	 * @return mixed   Db query result - the return value or null if the query failed.
+	 */
+	public function getRootAssetPermissions()
+	{
+		$query = $this->db->getQuery(true);
+		$query  ->select('b.id, b.rules, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group'))
+			->from($this->db->qn('#__assets', 'b'))
+			->leftJoin($this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
+			->where('b.parent_id=0');
+		$this->db->setQuery($query);
+
+		self::$rootAsset  = $this->db->loadObjectList();
+
+		return self::$rootAsset;
+	}
 
 	/**
 	 * Merge new permissions with old rules from assets table for backwards compatibility

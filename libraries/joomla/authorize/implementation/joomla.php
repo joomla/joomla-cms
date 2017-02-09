@@ -133,9 +133,9 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 *
 	 * @since  4.0.
 	 */
-	public static function clearStatics()
+	public function clearStatics()
 	{
-		parent::$authorizationMatrix[self::IMPLEMENTATION] = null;
+		$this->__set('authorizationMatrix', null);
 
 		self::$rootAsset = null;
 	}
@@ -184,7 +184,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
-		if (empty(parent::$authorizationMatrix[self::IMPLEMENTATION][$this->assetId]))
+		if (empty(parent::$authorizationMatrix[$this->assetId]))
 		{
 			// Cache ALL permissions for this asset
 			$this->loadPermissions(true);
@@ -206,9 +206,20 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 */
 	public function loadPermissions($recursive = false, $groups = array(), $action = null )
 	{
-		$permissionsFromQuery = $this->getAssetPermissions($recursive, $groups, $action);
+		$result = $this->getAssetPermissions($recursive, $groups, $action);
 
-		$this->prefillMatrix($permissionsFromQuery);
+		// If no result get all permisions for root node and cache it!
+		if (empty($result))
+		{
+			if (!isset(self::$rootAsset))
+			{
+				$this->getRootAssetPermissions();
+			}
+
+			$result = self::$rootAsset;
+		}
+
+		$this->prefillMatrix($result);
 	}
 
 	/**
@@ -243,9 +254,9 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 				$identity = (int) $identity;
 
 				// Check if the identity is known.
-				if (isset(parent::$authorizationMatrix[self::IMPLEMENTATION][$asset][$action][$identity]))
+				if (isset(parent::$authorizationMatrix[$asset][$action][$identity]))
 				{
-					$result = (boolean) parent::$authorizationMatrix[self::IMPLEMENTATION][$asset][$action][$identity];
+					$result = (boolean) parent::$authorizationMatrix[$asset][$action][$identity];
 
 					// An explicit deny wins.
 					if ($result === false)
@@ -373,7 +384,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	public function getRootAssetPermissions()
 	{
 		$query = $this->db->getQuery(true);
-		$query  ->select('b.id, p.permission, p.value, ' . $this->db->qn('p'). '.' . $this->db->qn('group'))
+		$query  ->select('b.id, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group'))
 				->from($this->db->qn('#__assets', 'b'))
 				->leftJoin($this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
 				->where('b.parent_id=0');
@@ -395,23 +406,23 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 */
 	private function prefillMatrix($results)
 	{
-		parent::$authorizationMatrix[self::IMPLEMENTATION] = array();
+		parent::$authorizationMatrix = array();
 
 		foreach ($results AS $result)
 		{
 			if (isset($result->permission) && !empty($result->permission))
 			{
-				if (!isset(parent::$authorizationMatrix[self::IMPLEMENTATION][$result->id]))
+				if (!isset(parent::$authorizationMatrix[$result->id]))
 				{
-					parent::$authorizationMatrix[self::IMPLEMENTATION][$result->id] = array();
+					parent::$authorizationMatrix[$result->id] = array();
 				}
 
-				if (!isset(parent::$authorizationMatrix[self::IMPLEMENTATION][$result->id][$result->permission]))
+				if (!isset(parent::$authorizationMatrix[$result->id][$result->permission]))
 				{
-					parent::$authorizationMatrix[self::IMPLEMENTATION][$result->id][$result->permission] = array();
+					parent::$authorizationMatrix[$result->id][$result->permission] = array();
 				}
 
-				parent::$authorizationMatrix[self::IMPLEMENTATION][$result->id][$result->permission][$result->group] = (int) $result->value;
+				parent::$authorizationMatrix[$result->id][$result->permission][$result->group] = (int) $result->value;
 			}
 		}
 	}
