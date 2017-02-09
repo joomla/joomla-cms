@@ -44,7 +44,8 @@ abstract class JAuthorizeImplementation
 		switch ($key)
 		{
 			case 'authorizationMatrix':
-				return isset(static::$authorizationMatrix[__CLASS__]) ? static::$authorizationMatrix[__CLASS__] : array();
+				$class = get_class($this);
+				return isset(static::$authorizationMatrix[$class]) ? static::$authorizationMatrix[$class] : array();
 				break;
 
 			case 'appendsupport':
@@ -73,8 +74,8 @@ abstract class JAuthorizeImplementation
 		switch ($name)
 		{
 			case 'authorizationMatrix':
-				$class = get_called_class();
-				self::$authorizationMatrix[__CLASS__] = $value;
+				$class = get_class($this);
+				self::$authorizationMatrix[$class] = $value;
 				break;
 
 			case 'db':
@@ -98,18 +99,22 @@ abstract class JAuthorizeImplementation
 
 	public function allow($actor, $target, $action){
 
-		if (isset(static::$authorizationMatrix[__CLASS__]))
+		$class = get_class($this);
+
+		if (isset(static::$authorizationMatrix[$class]))
 		{
-			static::$authorizationMatrix[__CLASS__][$target][$action][$actor] = 1;
+			static::$authorizationMatrix[$class][$target][$action][$actor] = 1;
 		}
 
 	}
 
 	public function deny($actor, $target, $action)
 	{
-		if (isset(static::$authorizationMatrix[__CLASS__]))
+		$class = get_class($this);
+
+		if (isset(static::$authorizationMatrix[$class]))
 		{
-			static::$authorizationMatrix[__CLASS__][$target][$action][$actor] = 0;
+			static::$authorizationMatrix[$class][$target][$action][$actor] = 0;
 		}
 
 	}
