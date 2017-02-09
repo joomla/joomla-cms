@@ -78,7 +78,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE') ?>
 				<span class="label label-default"><?php echo $this->item['module'] ?></span>
 			</div>
-			<hr />
+			<hr>
 
 			<div class="row-fluid">
 				<div class="span12">
@@ -108,7 +108,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							</div>
 						</div>
 
-						<hr />
+						<hr>
 
 						<?php
 						if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
@@ -173,7 +173,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							</div>
 						</div>
 
-						<hr />
+						<hr>
 
 						<div id="options">
 							<?php echo $this->loadTemplate('options'); ?>

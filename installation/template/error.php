@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 		<!-- Header -->
 		<div class="header">
 			<img src="<?php echo $this->baseurl; ?>/template/images/joomla.png" alt="Joomla">
-			<hr />
+			<hr>
 			<h5>
 				<?php // Fix wrong display of Joomla!® in RTL language ?>
 				<?php $joomla  = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>' . ($this->direction === 'rtl' ? '&#x200E;' : '') . '</sup>'; ?>
@@ -72,7 +72,7 @@ defined('_JEXEC') or die;
 					<?php endif; ?>
 				</div>
 			</div>
-			<hr />
+			<hr>
 		</div>
 	</body>
 </html>

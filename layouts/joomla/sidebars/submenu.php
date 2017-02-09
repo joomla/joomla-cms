@@ -53,7 +53,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			</ul>
 			<?php endif; ?>
 			<?php if ($displayData->displayMenu && $displayData->displayFilters) : ?>
-			<hr />
+			<hr>
 			<?php endif; ?>
 			<?php if ($displayData->displayFilters) : ?>
 			<div class="filter-select hidden-sm-down">

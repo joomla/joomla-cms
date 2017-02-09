@@ -1213,7 +1213,7 @@ class PlgSystemDebug extends JPlugin
 			$html[] = '</div>';
 		}
 
-		$html[] = '<ol><li>' . implode('<hr /></li><li>', $list) . '<hr /></li></ol>';
+		$html[] = '<ol><li>' . implode('<hr></li><li>', $list) . '<hr></li></ol>';
 
 		if (!$this->params->get('query_types', 1))
 		{
@@ -1932,7 +1932,7 @@ class PlgSystemDebug extends JPlugin
 				$out .= JHtml::_('bootstrap.endAccordion');
 			}
 
-			$out .= '<hr /></li>';
+			$out .= '<hr></li>';
 			$count++;
 		}
 

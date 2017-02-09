@@ -232,7 +232,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				}
 				$this->fieldset = 'basic';
 				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
-				echo $html ? '<hr />' . $html : '';
+				echo $html ? '<hr>' . $html : '';
 				?>
 			</div>
 			<div class="col-md-3">

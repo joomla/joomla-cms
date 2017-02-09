@@ -168,7 +168,7 @@ and some more ra ra</p>
 
 
 <p><b>This is bold</b>, <i>this is italic</i>, <tt>this is teletype</tt>.</p>
-<hr />
+<hr>
 <p><sub>This is subscript</sub>, <sup>this is superscript</sup>, <big>this is big</big>, <small>this is small</small>.</p>
 
 <script>
