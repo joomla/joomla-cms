@@ -19,6 +19,24 @@
     background-color: $atum-template-color-light;
     border-radius: $border-radius;
 
+    @include media-breakpoint-only(xs) {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto;
+      overflow: visible;
+      color: $white;
+      text-align: center;
+      background: $atum-template-color-light;
+      border-radius: 50%;
+    }
+
+    &.pulse {
+      @include media-breakpoint-only(xs) {
+        box-shadow: 0 0 0 0 rgba($atum-template-color-light,.7);
+        animation: pulse 1.25s infinite cubic-bezier(.66,0,0,1);
+      }
+    }
+
     &:hover,
     &:focus {
       text-decoration: none;
@@ -39,6 +57,12 @@
       font-size: 1.2rem;
       line-height: 4.7rem;
 
+      @include media-breakpoint-only(xs) {
+        padding: 0;
+        font-size: 1rem;
+        line-height: 1.4rem;
+      }
+
       &[class*=" icon-"],
 	  &[class^="icon-"] {
         width: 5rem;
@@ -49,6 +73,16 @@
         line-height: 4.7rem;
         background-color: lighten($atum-template-color-light, 10%);
         border-right: 1px solid rgba($white,.15);
+
+        @include media-breakpoint-only(xs) {
+          width: 60px;
+          height: 60px;
+          padding: 0;
+          margin: 0 auto !important;
+          line-height: 60px;
+          background: none;
+          border-right: 0;
+        }
       }
 
     }
@@ -62,8 +96,19 @@
       color: lighten($atum-template-color-light, 5%);
       content: "\f1aa";
       transform: rotate(20deg);
+
+      @include media-breakpoint-only(xs) {
+        display: none;
+      }
+
     }
 
+  }
+
+  .quickicon-text-xs {
+    display: block;
+    margin-bottom: 30px;
+    text-align: center;
   }
 
   .danger a {
@@ -72,11 +117,21 @@
       right: 0;
     }
 
+    @include media-breakpoint-only(xs) {
+      background: lighten($brand-danger, 7%);
+      animation: none;
+    }
+
     span {
 
       &[class*=" icon-"],
       &[class^="icon-"] {
         background-color: lighten($brand-danger, 7%);
+
+        @include media-breakpoint-only(xs) {
+          background: none;
+        }
+
       }
 
     }
@@ -89,11 +144,21 @@
       right: 0;
     }
 
+    @include media-breakpoint-only(xs) {
+      background: $brand-success;
+      animation: none;
+    }
+
     span {
 
       &[class*=" icon-"],
       &[class^="icon-"] {
         background-color: $brand-success;
+
+        @include media-breakpoint-only(xs) {
+          background: none;
+        }
+
       }
 
     }
@@ -105,4 +170,10 @@
     transition-delay: .4s;
   }
 
+}
+
+@keyframes pulse {
+  to {
+    box-shadow: 0 0 0 15px rgba(232,76,61,0);
+  }
 }
