@@ -340,7 +340,12 @@ class JFormHelper
 
 		if ($formPath && $group)
 		{
-			$formPath .= '[' . $group . ']';
+			$groups = explode('.', $group);
+
+			foreach ($groups as $group)
+			{
+				$formPath .= '[' . $group . ']';
+			}
 		}
 
 		$showOnData  = array();
