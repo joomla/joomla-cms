@@ -117,7 +117,9 @@ class FieldsViewGroup extends JViewLegacy
 		}
 
 		// Load component language file
-		JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
+		$lang = JFactory::getLanguage();
+		$lang->load($component, JPATH_ADMINISTRATOR)
+		|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
 		$title = JText::sprintf('COM_FIELDS_VIEW_GROUP_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', JText::_(strtoupper($component)));
 

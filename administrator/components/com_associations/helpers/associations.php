@@ -212,10 +212,13 @@ class AssociationsHelper extends JHelperContent
 					$additional = '<br/>' . JText::_('COM_ASSOCIATIONS_HEADING_MENUTYPE') . ': ' . $items[$langCode]['menu_title'];
 				}
 
-				$additional .= $addLink ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 				$labelClass  = 'label';
 				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
-				$allow       = $canEditReference && self::allowEdit($extensionName, $typeName, $items[$langCode]['id']);
+				$allow       = $canEditReference
+								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
+								&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
+
+				$additional .= $addLink && $allow ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 			}
 			else
 			{
@@ -475,6 +478,84 @@ class AssociationsHelper extends JHelperContent
 		}
 
 		return JFactory::getUser()->authorise('core.create', $extensionName);
+	}
+
+	/**
+	 * Check if an item is checked out
+	 *
+	 * @param   string  $extensionName  The extension name with com_
+	 * @param   string  $typeName       The item type
+	 * @param   int     $itemId         The id of item for which we need the associated items
+	 *
+	 * @return  boolean  True if item is checked out.
+	 *
+	 * @since   3.7.0
+	 */
+	public static function isCheckoutItem($extensionName, $typeName, $itemId)
+	{
+		if (!self::hasSupport($extensionName))
+		{
+			return false;
+		}
+
+		if (!self::typeSupportsCheckout($extensionName, $typeName))
+		{
+			return false;
+		}
+
+		// Get the extension specific helper method
+		$helper = self::getExtensionHelper($extensionName);
+
+		if (method_exists($helper, 'isCheckoutItem'))
+		{
+			return $helper->isCheckoutItem($typeName, $itemId);
+		}
+
+		$item = self::getItem($extensionName, $typeName, $itemId);
+
+		$checkedOutFieldName = $helper->getTypeFieldName($typeName, 'checked_out');
+
+		return $item->{$checkedOutFieldName} != 0;
+	}
+
+	/**
+	 * Check if user can checkin an item.
+	 *
+	 * @param   string  $extensionName  The extension name with com_
+	 * @param   string  $typeName       The item type
+	 * @param   int     $itemId         The id of item for which we need the associated items
+	 *
+	 * @return  boolean  True on allowed.
+	 *
+	 * @since   3.7.0
+	 */
+	public static function canCheckinItem($extensionName, $typeName, $itemId)
+	{
+		if (!self::hasSupport($extensionName))
+		{
+			return false;
+		}
+
+		if (!self::typeSupportsCheckout($extensionName, $typeName))
+		{
+			return true;
+		}
+
+		// Get the extension specific helper method
+		$helper = self::getExtensionHelper($extensionName);
+
+		if (method_exists($helper, 'canCheckinItem'))
+		{
+			return $helper->canCheckinItem($typeName, $itemId);
+		}
+
+		$item = self::getItem($extensionName, $typeName, $itemId);
+
+		$checkedOutFieldName = $helper->getTypeFieldName($typeName, 'checked_out');
+
+		$userId = JFactory::getUser()->id;
+
+		return ($item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0);
 	}
 
 	/**

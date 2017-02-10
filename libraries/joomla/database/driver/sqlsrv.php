@@ -232,18 +232,48 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function escape($text, $extra = false)
 	{
-		$result = addslashes($text);
-		$result = str_replace("\'", "''", $result);
-		$result = str_replace('\"', '"', $result);
-		$result = str_replace('\/', '/', $result);
+		$result = str_replace("'", "''", $text);
+
+		// Fix for SQL Sever escape sequence, see https://support.microsoft.com/en-us/kb/164291
+		$result = str_replace(
+			array("\\\n",     "\\\r",     "\\\\\r\r\n"),
+			array("\\\\\n\n", "\\\\\r\r", "\\\\\r\n\r\n"),
+			$result
+		);
 
 		if ($extra)
 		{
-			// We need the below str_replace since the search in sql server doesn't recognize _ character.
-			$result = str_replace('_', '[_]', $result);
+			// Escape special chars
+			$result = str_replace(
+				array('[',   '_',   '%'),
+				array('[[]', '[_]', '[%]'),
+				$result
+			);
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Quotes and optionally escapes a string to database requirements for use in database queries.
+	 *
+	 * @param   mixed    $text    A string or an array of strings to quote.
+	 * @param   boolean  $escape  True (default) to escape the string, false to leave it unchanged.
+	 *
+	 * @return  string  The quoted input string.
+	 *
+	 * @note    Accepting an array of strings was added in 12.3.
+	 * @since   11.1
+	 */
+	public function quote($text, $escape = true)
+	{
+		if (is_array($text))
+		{
+			return parent::quote($text, $escape);
+		}
+
+		// To support unicode on MSSQL we have to add prefix N
+		return 'N\'' . ($escape ? $this->escape($text) : $text) . '\'';
 	}
 
 	/**
@@ -909,21 +939,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function fetchArray($cursor = null)
 	{
-		$row = sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_NUMERIC);
-
-		if (is_array($row))
-		{
-			// For SQLServer - we need to strip slashes
-			foreach ($row as &$value)
-			{
-				if ($value !== null)
-				{
-					$value = stripslashes($value);
-				}
-			}
-		}
-
-		return $row;
+		return sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_NUMERIC);
 	}
 
 	/**
@@ -937,21 +953,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
-		$row = sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_ASSOC);
-
-		if (is_array($row))
-		{
-			// For SQLServer - we need to strip slashes
-			foreach ($row as &$value)
-			{
-				if ($value !== null)
-				{
-					$value = stripslashes($value);
-				}
-			}
-		}
-
-		return $row;
+		return sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_ASSOC);
 	}
 
 	/**
@@ -966,22 +968,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
-		$row = sqlsrv_fetch_object($cursor ? $cursor : $this->cursor, $class);
-
-		if (is_object($row))
-		{
-			// For SQLServer - we need to strip slashes
-			foreach (get_object_vars($row) as $key => $value)
-			{
-				// Check public variable from object including those from $class, ex. JMenuItem
-				if (is_string($value))
-				{
-					$row->$key = stripslashes($value);
-				}
-			}
-		}
-
-		return $row;
+		return sqlsrv_fetch_object($cursor ? $cursor : $this->cursor, $class);
 	}
 
 	/**
