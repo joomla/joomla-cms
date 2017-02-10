@@ -862,7 +862,7 @@ class JMicrodata
 		// Control if it is an empty element without a closing tag
 		if ($tag === 'meta')
 		{
-			return "<meta$tmp content='$content'/>";
+			return "<meta$tmp content='$content'>";
 		}
 
 		return '<' . $tag . $tmp . '>' . $content . '</' . $tag . '>';

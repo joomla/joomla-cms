@@ -72,7 +72,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		// Generate charset when using HTML5 (should happen first)
 		if ($document->isHtml5())
 		{
-			$buffer .= $tab . '<meta charset="' . $document->getCharset() . '" />' . $lnEnd;
+			$buffer .= $tab . '<meta charset="' . $document->getCharset() . '">' . $lnEnd;
 		}
 
 		// Generate base tag (need to happen early)
@@ -80,7 +80,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 		if (!empty($base))
 		{
-			$buffer .= $tab . '<base href="' . $base . '" />' . $lnEnd;
+			$buffer .= $tab . '<base href="' . $base . '">' . $lnEnd;
 		}
 
 		// Generate META tags (needs to happen as early as possible in the head)
@@ -90,11 +90,11 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			{
 				if ($type == 'http-equiv' && !($document->isHtml5() && $name == 'content-type'))
 				{
-					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
+					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
 				}
 				elseif ($type != 'http-equiv' && !empty($content))
 				{
-					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
+					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
 				}
 			}
 		}
@@ -104,7 +104,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 		if ($documentDescription)
 		{
-			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
+			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
 		}
 
 		// Don't add empty generators
@@ -112,7 +112,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 		if ($generator)
 		{
-			$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
+			$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
 		}
 
 		$buffer .= $tab . '<title>' . htmlspecialchars($document->getTitle(), ENT_COMPAT, 'UTF-8') . '</title>' . $lnEnd;
