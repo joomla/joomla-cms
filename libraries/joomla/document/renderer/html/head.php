@@ -130,7 +130,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 				}
 			}
 
-			$buffer .= ' />' . $lnEnd;
+			$buffer .= '>' . $lnEnd;
 		}
 
 		$defaultCssMimes = array('text/css');
