@@ -33,7 +33,7 @@ final class JAuthorize implements JAuthorizeInterface
 	{
 		if ($implementationName == null)
 		{
-			JFactory::getApplication()->loadDispatcher()->triggerEvent('onAuthorizationInitalize', $implementationName);
+			JEventDispatcher::getInstance()->trigger('onAuthorizationInitalize', array(&$implementationName));
 		}
 
 		$implementationClass = empty($implementationName) ? 'JAuthorizeImplementationJoomla' :
