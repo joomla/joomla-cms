@@ -522,7 +522,7 @@ class JDocumentHtml extends JDocument
 	}
 
 	/**
-	 * Count the number of child menu items
+	 * Count the number of child menu items of the current active menu item
 	 *
 	 * @return  integer  Number of child menu items
 	 *

@@ -752,7 +752,7 @@ class JApplicationCms extends JApplicationWeb
 		$name = JApplicationHelper::getHash($this->get('session_name', get_class($this)));
 
 		// Calculate the session lifetime.
-		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
+		$lifetime = ($this->get('lifetime') ? $this->get('lifetime') * 60 : 900);
 
 		// Initialize the options for JSession.
 		$options = array(

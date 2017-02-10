@@ -579,11 +579,19 @@ abstract class Model extends \JObject
 		$options = array(
 			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
+			'result' => true,
 		);
 
-		/** @var \JCacheControllerCallback $cache */
-		$cache = \JCache::getInstance('callback', $options);
-		$cache->clean();
+		try
+		{
+			/** @var \JCacheControllerCallback $cache */
+			$cache = \JCache::getInstance('callback', $options);
+			$cache->clean();
+		}
+		catch (\JCacheException $exception)
+		{
+			$options['result'] = false;
+		}
 
 		// Trigger the onContentCleanCache event.
 		\JEventDispatcher::getInstance()->trigger($this->event_clean_cache, $options);

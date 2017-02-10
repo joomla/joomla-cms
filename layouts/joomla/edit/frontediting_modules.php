@@ -41,7 +41,7 @@ $moduleHtml = preg_replace(
 	'/^(\s*<(?:div|span|nav|ul|ol|h\d|section|aside|nav|address|article) [^>]*class="[^"]*)"/',
 	// By itself, adding class jmoddiv and data attributes for the url and tooltip:
 	'\\1 jmoddiv" data-jmodediturl="' . $editUrl . '" data-target="' . $target . '" data-jmodtip="'
-	.	JHtml::tooltipText(
+	.	JHtml::_('tooltipText', 
 			JText::_('JLIB_HTML_EDIT_MODULE'),
 			htmlspecialchars($mod->title, ENT_COMPAT, 'UTF-8') . '<br />' . sprintf(JText::_('JLIB_HTML_EDIT_MODULE_IN_POSITION'), htmlspecialchars($position, ENT_COMPAT, 'UTF-8')),
 			0
@@ -49,7 +49,7 @@ $moduleHtml = preg_replace(
 	. '"'
 	// And if menu editing is enabled and allowed and it's a menu module, add data attributes for menu editing:
 	.	($menusEditing && $mod->module === 'mod_menu' ?
-			'" data-jmenuedittip="' . JHtml::tooltipText('JLIB_HTML_EDIT_MENU_ITEM', 'JLIB_HTML_EDIT_MENU_ITEM_ID') . '"'
+			'" data-jmenuedittip="' . JHtml::_('tooltipText', 'JLIB_HTML_EDIT_MENU_ITEM', 'JLIB_HTML_EDIT_MENU_ITEM_ID') . '"'
 			:
 			''
 		),
