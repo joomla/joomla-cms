@@ -8,7 +8,7 @@ CREATE TABLE [#__fields] (
 	[context] [nvarchar](255) NOT NULL DEFAULT '',
 	[group_id] [int] NOT NULL DEFAULT 0,
 	[title] [nvarchar](255) NOT NULL DEFAULT '',
-	[alias] [nvarchar](255) NOT NULL DEFAULT '',
+	[name] [nvarchar](255) NOT NULL DEFAULT '',
 	[label] [nvarchar](255) NOT NULL DEFAULT '',
 	[default_value] [nvarchar](max) NOT NULL DEFAULT '',
 	[type] [nvarchar](255) NOT NULL DEFAULT '',
@@ -146,4 +146,4 @@ UNION ALL
 SELECT 461, 'plg_system_fields', 'plugin', 'fields', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 
 
-SET IDENTITY_INSERT [#__extensions] OFF; 
+SET IDENTITY_INSERT [#__extensions] OFF;

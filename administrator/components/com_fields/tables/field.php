@@ -91,19 +91,29 @@ class FieldsTableField extends JTable
 			return false;
 		}
 
-		if (empty($this->alias))
+		if (empty($this->name))
 		{
-			$this->alias = $this->title;
+			$this->name = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->name = JApplicationHelper::stringURLSafe($this->name);
 
-		if (trim(str_replace('-', '', $this->alias)) == '')
+		if (trim(str_replace('-', '', $this->name)) == '')
 		{
-			$this->alias = Joomla\String\StringHelper::increment($this->alias, 'dash');
+			$this->name = Joomla\String\StringHelper::increment($this->name, 'dash');
 		}
 
-		$this->alias = str_replace(',', '-', $this->alias);
+		$this->name = str_replace(',', '-', $this->name);
+
+		// Verify that the name is unique
+		$table = JTable::getInstance('Field', 'FieldsTable', array('dbo' => $this->_db));
+
+		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
+		{
+			$this->setError(JText::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
+
+			return false;
+		}
 
 		if (empty($this->type))
 		{
@@ -135,7 +145,7 @@ class FieldsTableField extends JTable
 		if (empty($this->group_id))
 		{
 			$this->group_id = 0;
-		}	
+		}
 
 		return true;
 	}
@@ -177,7 +187,7 @@ class FieldsTableField extends JTable
 	 * Method to get the parent asset under which to register this one.
 	 * By default, all assets are registered to the ROOT node with ID,
 	 * which will default to 1 if none exists.
- 	 * The extended class can define a table and id to lookup.  If the
+	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
 	 * @param   JTable   $table  A JTable object for the asset parent.
