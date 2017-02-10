@@ -2,8 +2,8 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Cms\Access;
@@ -737,7 +737,7 @@ class Access
 		}
 
 		// No preload. Return root asset id from Assets.
-		$assets = new Asset(JFactory::getDbo());
+		$assets = new Asset(\JFactory::getDbo());
 
 		return $assets->getRootId();
 	}
@@ -1154,8 +1154,8 @@ class Access
 	/**
 	 * Method to return a list of actions from a string or from an xml for which permissions can be set.
 	 *
-	 * @param   string|SimpleXMLElement  $data   The XML string or an XML element.
-	 * @param   string                   $xpath  An optional xpath to search for the fields.
+	 * @param   string|\SimpleXMLElement  $data   The XML string or an XML element.
+	 * @param   string                    $xpath  An optional xpath to search for the fields.
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
@@ -1164,7 +1164,7 @@ class Access
 	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{
 		// If the data to load isn't already an XML element or string return false.
-		if ((!($data instanceof SimpleXMLElement)) && (!is_string($data)))
+		if ((!($data instanceof \SimpleXMLElement)) && (!is_string($data)))
 		{
 			return false;
 		}
@@ -1174,9 +1174,9 @@ class Access
 		{
 			try
 			{
-				$data = new SimpleXMLElement($data);
+				$data = new \SimpleXMLElement($data);
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				return false;
 			}

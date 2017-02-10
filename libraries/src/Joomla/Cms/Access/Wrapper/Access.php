@@ -2,15 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Cms\Access\Wrapper;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Cms\Access\Access;
+use Joomla\Cms\Access\Access as StaticAccess;
 
 /**
  * Wrapper class for Access
@@ -26,12 +26,12 @@ class Access
 	 *
 	 * @return void
 	 *
-	 * @see     Access::clearStatics
+	 * @see     StaticAccess::clearStatics
 	 * @since   3.4
 	 */
 	public function clearStatics()
 	{
-		return Access::clearStatics();
+		return StaticAccess::clearStatics();
 	}
 
 	/**
@@ -43,12 +43,12 @@ class Access
 	 *
 	 * @return boolean  True if authorised.
 	 *
-	 * @see     Access::check()
+	 * @see     StaticAccess::check()
 	 * @since   3.4
 	 */
 	public function check($userId, $action, $asset = null)
 	{
-		return Access::check($userId, $action, $asset);
+		return StaticAccess::check($userId, $action, $asset);
 	}
 
 	/**
@@ -60,12 +60,12 @@ class Access
 	 *
 	 * @return  boolean  True if authorised.
 	 *
-	 * @see     Access::checkGroup()
+	 * @see     StaticAccess::checkGroup()
 	 * @since   3.4
 	 */
 	public function checkGroup($groupId, $action, $asset = null)
 	{
-		return Access::checkGroup($groupId, $action, $asset);
+		return StaticAccess::checkGroup($groupId, $action, $asset);
 	}
 
 	/**
@@ -76,12 +76,12 @@ class Access
 	 *
 	 * @return  AccessRules   AccessRules object for the asset.
 	 *
-	 * @see     Access::getAssetRules
+	 * @see     StaticAccess::getAssetRules
 	 * @since   3.4
 	 */
 	public function getAssetRules($asset, $recursive = false)
 	{
-		return Access::getAssetRules($asset, $recursive);
+		return StaticAccess::getAssetRules($asset, $recursive);
 	}
 
 	/**
@@ -92,12 +92,12 @@ class Access
 	 *
 	 * @return  array    List of user group ids to which the user is mapped.
 	 *
-	 * @see     Access::getGroupsByUser()
+	 * @see     StaticAccess::getGroupsByUser()
 	 * @since   3.4
 	 */
 	public function getGroupsByUser($userId, $recursive = true)
 	{
-		return Access::getGroupsByUser($userId, $recursive);
+		return StaticAccess::getGroupsByUser($userId, $recursive);
 	}
 
 	/**
@@ -108,12 +108,12 @@ class Access
 	 *
 	 * @return  array
 	 *
-	 * @see     Access::getUsersByGroup()
+	 * @see     StaticAccess::getUsersByGroup()
 	 * @since   3.4
 	 */
 	public function getUsersByGroup($groupId, $recursive = false)
 	{
-		return Access::getUsersByGroup($groupId, $recursive);
+		return StaticAccess::getUsersByGroup($groupId, $recursive);
 	}
 
 	/**
@@ -123,12 +123,12 @@ class Access
 	 *
 	 * @return  array    List of view levels for which the user is authorised.
 	 *
-	 * @see     Access::getAuthorisedViewLevels()
+	 * @see     StaticAccess::getAuthorisedViewLevels()
 	 * @since   3.4
 	 */
 	public function getAuthorisedViewLevels($userId)
 	{
-		return Access::getAuthorisedViewLevels($userId);
+		return StaticAccess::getAuthorisedViewLevels($userId);
 	}
 
 	/**
@@ -139,13 +139,13 @@ class Access
 	 *
 	 * @return array  List of actions available for the given component and section.
 	 *
-	 * @see     Access::getActions()
+	 * @see     StaticAccess::getActions()
 	 * @since   3.4
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS)  Use Access::getActionsFromFile or Access::getActionsFromData instead.
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS)  Use StaticAccess::getActionsFromFile or StaticAccess::getActionsFromData instead.
 	 */
 	public function getActions($component, $section = 'component')
 	{
-		return Access::getActions($component, $section);
+		return StaticAccess::getActions($component, $section);
 	}
 
 	/**
@@ -156,12 +156,12 @@ class Access
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
-	 * @see     Access::getActionsFromFile()
+	 * @see     StaticAccess::getActionsFromFile()
 	 * @since   3.4
 	 */
 	public function getActionsFromFile($file, $xpath = '/access/section[@name=\'component\']/')
 	{
-		return Access::getActionsFromFile($file, $xpath);
+		return StaticAccess::getActionsFromFile($file, $xpath);
 	}
 
 	/**
@@ -172,11 +172,11 @@ class Access
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
-	 * @see     Access::getActionsFromData()
+	 * @see     StaticAccess::getActionsFromData()
 	 * @since   3.4
 	 */
 	public function getActionsFromData($data, $xpath = '/access/section[@name=\'component\']/')
 	{
-		return Access::getActionsFromData($data, $xpath);
+		return StaticAccess::getActionsFromData($data, $xpath);
 	}
 }
