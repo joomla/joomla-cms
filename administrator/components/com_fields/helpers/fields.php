@@ -28,7 +28,8 @@ class FieldsHelper
 	 * @param   string  $contextString  contextString
 	 * @param   object  $item           optional item object
 	 *
-	 * @return array|null
+	 * @return  array|null
+	 *
 	 * @since   3.7.0
 	 */
 	public static function extract($contextString, $item = null)
