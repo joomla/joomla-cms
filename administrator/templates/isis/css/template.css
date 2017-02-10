@@ -7470,7 +7470,7 @@ body .navbar-fixed-top {
 	min-height: 51px;
 }
 .subhead-collapse {
-	margin-bottom: 11px;
+	margin-bottom: 19px;
 }
 .subhead-collapse.collapse {
 	height: auto;
@@ -8334,7 +8334,7 @@ a.grid_true {
 	display: block;
 	left: -16.5%;
 	width: 16.5%;
-	margin: -10px 0 0 -1px;
+	margin: -18px 0 0 -1px;
 	padding-top: 28px;
 	padding-bottom: 40px;
 	clear: both;
@@ -8941,4 +8941,21 @@ textarea.noResize {
 }
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
+}
+.com_postinstall fieldset {
+	background-color: #fafafa;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin: 0 0 18px;
+	padding: 4px 18px 18px;
+}
+.com_postinstall fieldset .btn {
+	margin-top: 10px;
+}
+.com_postinstall legend {
+	border: 0 none;
+	display: inline-block;
+	padding: 0 5px;
+	margin-bottom: 0;
+	width: auto;
 }
