@@ -29,10 +29,15 @@ final class JAuthorize implements JAuthorizeInterface
 			$this->implementation = $implementation;
 	}
 
-	public static function getInstance($implementationName = 'Joomla')
+	public static function getInstance($implementationName = null)
 	{
+		if ($implementationName == null)
+		{
+			JFactory::getApplication()->loadDispatcher()->triggerEvent('onAuthorizationInitalize', $implementationName);
+		}
 
-		$implementationClass = 'JAuthorizeImplementation' . JString::ucfirst($implementationName);
+		$implementationClass = empty($implementationName) ? 'JAuthorizeImplementationJoomla' :
+			'JAuthorizeImplementation' . JString::ucfirst($implementationName);
 
 		if (!isset(self::$instance[$implementationClass]))
 		{
