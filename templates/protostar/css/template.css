@@ -7276,6 +7276,9 @@ p {
 .breadcrumb > .active {
 	color: #515151;
 }
+#login-form {
+	margin-top: 8px;
+}
 .add-on + #modlgn-username,
 .add-on + #modlgn-passwd {
 	max-width: 132px;
