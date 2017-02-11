@@ -7281,8 +7281,7 @@ p {
 }
 .add-on + #modlgn-username,
 .add-on + #modlgn-passwd {
-	max-width: 132px;
-	width: 100%;
+	width: 132px;
 }
 .img_caption .left {
 	float: left;
