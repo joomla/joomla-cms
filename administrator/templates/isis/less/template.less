@@ -59,9 +59,9 @@
 // Phones to portrait tablets and narrow desktops
 @import "../../../../media/jui/less/responsive-767px-max.less";
 // Tablets to regular desktops
-@import "../../../../media/jui/less/responsive-768px-979px.less";
+@import "bootstrap/responsive-768px-979px.less";
 // Large desktops
-@import "../../../../media/jui/less/responsive-1200px-min.less";
+@import "bootstrap/responsive-1200px-min.less";
 // RESPONSIVE NAVBAR
 // ------------------
 // From 979px and below, show a button to toggle navbar contents
@@ -165,6 +165,30 @@ a:focus {
 	}
 	.form-inline .btn-group {
 		display:block;
+	}
+}
+
+/* com_cpanel */
+.com_cpanel {
+	.well {
+		padding: 8px 14px;
+		border: 1px solid rgba(0,0,0,0.05);
+		.module-title.nav-header {
+			color: #555;
+		}
+		> .row-striped, > .list-striped {
+			margin: 0 -14px;
+			> .row-fluid {
+				padding: 8px 14px;
+				[class*="span"] {
+					margin-left: 0;
+				}
+			}
+			> li {
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+		}
 	}
 }
 
@@ -412,7 +436,7 @@ body .navbar-fixed-top {
 }
 
 .subhead-collapse {
-	margin-bottom: 11px;
+	margin-bottom: 19px;
 }
 
 .subhead-collapse.collapse {
@@ -424,7 +448,7 @@ body .navbar-fixed-top {
 	margin-bottom: 5px;
 	.btn-wrapper {
 		display: inline-block;
-		margin: 0 0 5px 5px;
+		margin: 0 0 8px 5px;
 	}
 }
 
@@ -456,7 +480,7 @@ body .navbar-fixed-top {
 
 /* Toolbar */
 #toolbar {
-	margin-bottom: 6px;
+	margin-bottom: 2px;
     margin-top: 12px;
 	.btn {
 	    line-height: 24px;
@@ -465,12 +489,13 @@ body .navbar-fixed-top {
 	}
 	.btn-success {
 		width: 148px;
-		border-color: @btnPrimaryBackground;
-		border-color: rgba(0, 0, 0, 0.2);
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-		&:hover {
-			background-color: #378137;
-		}
+	}
+	.btn-primary,
+	.btn-warning,
+	.btn-danger,
+	.btn-success,
+	.btn-info,
+	.btn-inverse {
 		[class^="icon-"], [class*=" icon-"] {
 			background-color: transparent;
 			border-right: 0;
@@ -1307,7 +1332,7 @@ a.grid_true {
 	display: block;
 	left: -16.5%;
 	width: 16.5%;
-	margin: -10px 0 0 -1px;
+	margin: -18px 0 0 -1px;
 	padding-top: 28px;
 	padding-bottom: 40px;
 	clear: both;
@@ -1963,6 +1988,27 @@ textarea.noResize {
 /* Align btn-group-yesno to label */
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
+}
+
+/* com_postinstall */
+.com_postinstall {
+	fieldset {
+		background-color: #fafafa;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		margin: 0 0 18px;
+		padding: 4px 18px 18px;
+		.btn {
+			margin-top: 10px;
+		}
+	}
+	legend {
+		border: 0 none;
+		display: inline-block;
+		padding: 0 5px;
+		margin-bottom: 0;
+		width: auto;
+	}
 }
 
 /* Responsive Tables */

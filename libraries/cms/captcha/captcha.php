@@ -169,7 +169,7 @@ class JCaptcha extends JObject
 		}
 
 		$args['name']  = $name;
-		$args['id']    = $id ? $id : $name;
+		$args['id']    = $id ?: $name;
 		$args['class'] = $class ? 'class="' . $class . '"' : '';
 		$args['event'] = 'onDisplay';
 

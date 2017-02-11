@@ -63,6 +63,13 @@
 				<option value="0">JNO</option>
 			</field>
 		</fieldset>
+		<field
+			name="hideitems"
+			type="checkboxes"
+			label="COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_LABEL"
+			description="COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC"
+			filter="array"
+		/>
 	</fields>
 	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_CONTAINER"/>
 </form>

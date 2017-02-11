@@ -230,7 +230,7 @@ if ($this->type == 'font')
 							<fieldset>
 								<input type="hidden" class="address" name="address" />
 								<div class="control-group">
-									<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?></label>
+									<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?></label>
 									<div class="controls">
 										<input type="text" id="new_name" name="new_name" required />
 									</div>
@@ -261,12 +261,12 @@ if ($this->type == 'font')
 				<div class="modal-body">
 					<div id="template-manager-css" class="form-horizontal">
 						<div class="control-group">
-							<label for="height" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_HEIGHT'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_HEIGHT')?></label>
+							<label for="height" class="control-label hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_IMAGE_HEIGHT'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_HEIGHT')?></label>
 							<div class="controls">
 								<input class="input-xlarge" type="number" name="height" placeholder="<?php echo $this->image['height']; ?> px" required />
 							</div>
 							<br />
-							<label for="width" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_WIDTH'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_WIDTH')?></label>
+							<label for="width" class="control-label hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_IMAGE_WIDTH'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_WIDTH')?></label>
 							<div class="controls">
 								<input class="input-xlarge" type="number" name="width" placeholder="<?php echo $this->image['width']; ?> px" required />
 							</div>
@@ -441,7 +441,7 @@ if ($this->type == 'font')
 	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
 		  method="post" name="adminForm" id="adminForm">
 		<fieldset class="panelform">
-			<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
+			<label id="new_name" class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
 			<input type="text" id="new_name" name="new_name"  />
 			<button type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
 		</fieldset>
@@ -452,7 +452,7 @@ if ($this->type == 'font')
 		<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
 			  method="post" name="adminForm" id="adminForm">
 			<fieldset class="panelform">
-				<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
+				<label id="new_name" class="hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
 				<input type="text" name="new_name"  />
 				<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
 			</fieldset>

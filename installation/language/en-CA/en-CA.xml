@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.6"
+	version="3.7"
 	client="installation">
-	<name>English (Australia)</name>
+	<name>English (Canada)</name>
 	<version>3.6.3</version>
 	<creationDate>October 2016</creationDate>
 	<author>Joomla! Project</author>
 	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
-		<filename>en-AU.ini</filename>
+		<filename>en-CA.ini</filename>
 	</files>
 	<metadata>
-		<name>English (Australia)</name>
-		<tag>en-AU</tag>
+		<name>English (Canada)</name>
+		<tag>en-CA</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params />

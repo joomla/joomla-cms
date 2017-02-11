@@ -248,6 +248,18 @@
 				class="input-xxlarge"
 				size="40"
 			/>
+			
+			<field
+				name="showlabel"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
+				description="COM_FIELDS_FIELD_SHOWLABEL_DESC"
+			>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
 
 			<field
 				name="disabled"

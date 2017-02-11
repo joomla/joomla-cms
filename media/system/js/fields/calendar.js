@@ -617,7 +617,7 @@
 		this._nav_nm = hh(" &rsaquo;", 1, 1, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-next-month');                       // Next month button
 
 		row = createElement("tr", thead);                                                                   // day names
-		row.className = "daynames";
+		row.className = self.params.weekNumbers ? "daynames wk" : "daynames";
 		if (this.params.weekNumbers) {
 			cell = createElement("td", row);
 			cell.className = "day-name wn";
@@ -740,7 +740,7 @@
 					}, false);
 				} else {
 					cell.innerHTML = "&#160;";
-					cell.colSpan = self.params.weekNumbers ? 4 : 3;
+					cell.colSpan = self.params.weekNumbers ? 3 : 2;
 				}
 
 				H.addEventListener("change", function (event) {
@@ -854,7 +854,7 @@
 				cell = cell.nextSibling;
 			}
 
-			row.className = "daysrow";
+			row.className = this.params.weekNumbers ? "daysrow wk" : "daysrow";
 			var hasdays = false, iday,
 				dpos = ar_days[i] = [],
 				totalDays = monthDays + 1;

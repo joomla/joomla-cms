@@ -31,6 +31,61 @@ class PlgSystemFields extends JPlugin
 	/**
 	 * The save event.
 	 *
+	 * @param   string    $context  The context
+	 * @param   stdClass  $item     The item
+	 * @param   boolean   $isNew    Is new
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function onContentBeforeSave($context, $item, $isNew)
+	{
+		if (!isset($item->params))
+		{
+			return true;
+		}
+
+		// Create correct context for category
+		if ($context == 'com_categories.category')
+		{
+			$context = $item->extension . '.categories';
+		}
+
+		$parts = FieldsHelper::extract($context, $item);
+
+		if (!$parts)
+		{
+			return true;
+		}
+
+		$context = $parts[0] . '.' . $parts[1];
+
+		// Loading the fields
+		$fieldsObjects = FieldsHelper::getFields($context, $item);
+
+		if (!$fieldsObjects)
+		{
+			return true;
+		}
+
+		$params = (array) json_decode($item->params);
+
+		foreach ($fieldsObjects as $field)
+		{
+			// Remove it from the params array
+			unset($params[$field->alias]);
+		}
+
+		// Set the cleaned up params array
+		$item->params = json_encode($params);
+
+		return true;
+	}
+
+	/**
+	 * The save event.
+	 *
 	 * @param   string   $context  The context
 	 * @param   JTable   $item     The table
 	 * @param   boolean  $isNew    Is new item
@@ -47,8 +102,14 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
+		// Create correct context for category
+		if ($context == 'com_categories.category')
+		{
+			$context = $item->extension . '.categories';
+		}
+
 		$fieldsData = $data['params'];
-		$parts      = FieldsHelper::extract($context);
+		$parts      = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
@@ -145,7 +206,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterDelete($context, $item)
 	{
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
@@ -196,7 +257,13 @@ class PlgSystemFields extends JPlugin
 	{
 		$context = $form->getName();
 
-		$parts = FieldsHelper::extract($context);
+		// When a category is edited, the context is com_categories.categorycom_content
+		if (strpos($context, 'com_categories.category') === 0)
+		{
+			$context = str_replace('com_categories.category', '', $context) . '.categories';
+		}
+
+		$parts = FieldsHelper::extract($context, $form);
 
 		if (!$parts)
 		{
@@ -235,7 +302,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $data);
 
 		if (!$parts)
 		{
@@ -313,7 +380,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	private function display($context, $item, $params, $displayType)
 	{
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
@@ -372,7 +439,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentPrepare($context, $item)
 	{
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{

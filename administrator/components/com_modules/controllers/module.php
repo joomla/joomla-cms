@@ -203,6 +203,11 @@ class ModulesControllerModule extends JControllerForm
 			$item = $model->getItem($this->input->get('id'));
 			$properties = $item->getProperties();
 
+			if (isset($data['params']))
+			{
+				unset($properties['params']);
+			}
+
 			// Replace changed properties
 			$data = array_replace_recursive($properties, $data);
 
@@ -232,7 +237,7 @@ class ModulesControllerModule extends JControllerForm
 	 */
 	public function orderPosition()
 	{
-		$app    = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Send json mime type.
 		$app->mimeType = 'application/json';
