@@ -52,7 +52,7 @@ class PlgSystemFields extends JPlugin
 			$context = $item->extension . '.categories';
 		}
 
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
@@ -109,7 +109,7 @@ class PlgSystemFields extends JPlugin
 		}
 
 		$fieldsData = $data['params'];
-		$parts      = FieldsHelper::extract($context);
+		$parts      = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
@@ -206,7 +206,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterDelete($context, $item)
 	{
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
@@ -263,7 +263,7 @@ class PlgSystemFields extends JPlugin
 			$context = str_replace('com_categories.category', '', $context) . '.categories';
 		}
 
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $form);
 
 		if (!$parts)
 		{
@@ -302,7 +302,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $data);
 
 		if (!$parts)
 		{
@@ -380,7 +380,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	private function display($context, $item, $params, $displayType)
 	{
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
@@ -439,7 +439,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentPrepare($context, $item)
 	{
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
