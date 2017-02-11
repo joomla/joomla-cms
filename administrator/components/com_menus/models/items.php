@@ -388,6 +388,12 @@ class MenusModelItems extends JModelList
 			$query->where('a.access = ' . (int) $access);
 		}
 
+		// Filter on the Inheritable.
+		if (($inheritable = $this->getState('filter.inheritable')) != "")
+		{
+			$query->where('a.inheritable = ' . (int) $inheritable);
+		}
+
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{

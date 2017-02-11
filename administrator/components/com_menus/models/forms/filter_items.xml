@@ -53,12 +53,14 @@
 		</field>
 		<field
 			name="inheritable"
-			type="status"
-			label="COM_MENUS_ITEM_FIELD_INHERITABLE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_INHERITABLE_DESC"
-			filter="0,1"
+			type="list"
+			label=""
+			filtermode="selector"
 			onchange="this.form.submit();"
 			>
+			<option value="">JOPTION_SELECT_INHERITABLE</option>
+			<option value="0">JUNINHERITABLE</option>
+			<option value="1">JINHERITABLE</option>
 		</field>
 		<field
 			name="language"
