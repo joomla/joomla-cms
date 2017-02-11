@@ -7276,6 +7276,11 @@ p {
 .breadcrumb > .active {
 	color: #515151;
 }
+.add-on + #modlgn-username,
+.add-on + #modlgn-passwd {
+	max-width: 132px;
+	width: 100%;
+}
 .img_caption .left {
 	float: left;
 	margin-right: 1em;
