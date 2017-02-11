@@ -491,5 +491,4 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	{
 		return ' NEWID() ';
 	}
-
 }
