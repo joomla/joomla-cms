@@ -367,7 +367,7 @@ class PlgEditorTinymce extends JPlugin
 		else {
 			$html_height = $this->params->get('html_height', '550');
 		}
-		
+
 		if (isset($width))
 		{
 			$html_width = $width;
@@ -376,7 +376,7 @@ class PlgEditorTinymce extends JPlugin
 		{
 			$html_width = $this->params->get('html_width', '');
 		}
-		
+
 		if ($html_width == 750)
 		{
 			$html_width = '';
