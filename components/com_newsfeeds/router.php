@@ -128,11 +128,25 @@ class NewsfeedsRouter extends JComponentRouterView
 					->where('id = ' . $dbquery->q((int) $id));
 				$db->setQuery($dbquery);
 
-				return array($id => $id . ':' . $db->loadResult());
+				return array($id => $db->loadResult());
 			}
 		}
 
-		return array((int) $id => $id);
+		if (strpos($id, ':'))
+		{
+			list($void, $segment) = explode(':', $id, 2);
+
+			return array($void => $id);
+		}
+
+		$db = JFactory::getDbo();
+		$dbquery = $db->getQuery(true);
+		$dbquery->select($dbquery->qn('alias'))
+			->from($dbquery->qn('#__newsfeeds'))
+			->where('id = ' . $dbquery->q((int) $id));
+		$db->setQuery($dbquery);
+
+		return array((int) $id => $id . ':' . $db->loadResult());
 	}
 
 	/**
@@ -197,12 +211,11 @@ class NewsfeedsRouter extends JComponentRouterView
 		if ($this->noIDs)
 		{
 			$db = JFactory::getDbo();
-			$dbquery = $db->getQuery(true);
-			$dbquery->select($dbquery->qn('id'))
-				->from($dbquery->qn('#__newsfeeds'))
-				->where('alias = ' . $dbquery->q($segment))
-				->where('catid = ' . $dbquery->q($query['id']));
-			$db->setQuery($dbquery);
+			$query = $db->getQuery(true);
+			$query->select($query->quoteName('id'))
+				->from($query->quoteName('#__newsfeeds'))
+				->where($query->quoteName('alias') . ' = ' . $query->quote($segment));
+			$db->setQuery($query);
 
 			return (int) $db->loadResult();
 		}

@@ -62,7 +62,11 @@ class JComponentRouterRulesNomenu implements JComponentRouterRulesInterface
 	{
 		$active = $this->router->menu->getActive();
 
-		if (!is_object($active))
+		/**
+		 * We do this if we don't have an active menu item OR we have a active menu item but extra segments (i.e.
+		 * when we've piped component segments onto an existing menu item)
+		 */
+		if (!is_object($active) || (!empty($segments) && is_object($active)))
 		{
 			$views = $this->router->getViews();
 
@@ -91,12 +95,16 @@ class JComponentRouterRulesNomenu implements JComponentRouterRulesInterface
 	public function build(&$query, &$segments)
 	{
 		$menu_found = false;
+		$views = $this->router->getViews();
+		$path = array_reverse($this->router->getPath($query), true);
+		end($path);
 
 		if (isset($query['Itemid']))
 		{
 			$item = $this->router->menu->getItem($query['Itemid']);
 
-			if (!isset($query['option']) || ($item && $item->query['option'] == $query['option']))
+			if ((!isset($query['option']) || ($item && $item->query['option'] == $query['option']))
+				&& (isset($query['view']) === false || $item->query['view'] !== key($path)))
 			{
 				$menu_found = true;
 			}
@@ -104,7 +112,6 @@ class JComponentRouterRulesNomenu implements JComponentRouterRulesInterface
 
 		if (!$menu_found && isset($query['view']))
 		{
-			$views = $this->router->getViews();
 			if (isset($views[$query['view']]))
 			{
 				$view = $views[$query['view']];
