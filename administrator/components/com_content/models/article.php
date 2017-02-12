@@ -980,8 +980,14 @@ class ContentModelArticle extends JModelAdmin
 			return false;
 		}
 
-		// Find a menu item linked to this category
+		// Find a menu item linked to this category list
 		$menuItem = $menu->getItems('link', 'index.php?option=com_content&view=category&id=' . $categoryId, true);
+
+		// Find a menu item linked to this category blog if no list item has been found
+		if (!$menuItem)
+		{
+			$menuItem = $menu->getItems('link', 'index.php?option=com_content&view=category&layout=blog&id=' . $categoryId, true);
+		}
 
 		// No menu item found, check the parent category ID
 		if (!$menuItem)
