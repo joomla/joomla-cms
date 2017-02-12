@@ -17,46 +17,52 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_checkin'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container" class="j-main-container">
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<div class="clearfix"></div>
-		<?php if ($this->total > 0) : ?>
-			<table id="global-checkin" class="table table-striped">
-				<thead>
-					<tr>
-						<th width="1%"><?php echo JHtml::_('grid.checkall'); ?></th>
-						<th><?php echo JHtml::_('searchtools.sort', 'COM_CHECKIN_DATABASE_TABLE', 'table', $listDirn, $listOrder); ?></th>
-						<th><?php echo JHtml::_('searchtools.sort', 'COM_CHECKIN_ITEMS_TO_CHECK_IN', 'count', $listDirn, $listOrder); ?></th>
-					</tr>
-				</thead>
-				<tfoot>
-					<tr>
-						<td colspan="3">
-							<?php echo $this->pagination->getListFooter(); ?>
-						</td>
-					</tr>
-				</tfoot>
-				<tbody>
-					<?php $i = 0; ?>
-					<?php foreach ($this->items as $table => $count) : ?>
-						<tr class="row<?php echo $i % 2; ?>">
-							<td class="text-center"><?php echo JHtml::_('grid.id', $i, $table); ?></td>
-							<td>
-								<label for="cb<?php echo $i ?>">
-									<?php echo JText::sprintf('COM_CHECKIN_TABLE', $table); ?>
-								</label>
-							</td>
-							<td>
-								<span class="badge badge-default"><?php echo $count; ?></span>
-							</td>
-						</tr>
-						<?php $i++; ?>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-		<?php endif; ?>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<?php echo JHtml::_('form.token'); ?>
+	<div class="row">
+		<div id="j-sidebar-container" class="col-md-2">
+			<?php echo $this->sidebar; ?>
+		</div>
+		<div class="col-md-10">
+			<div id="j-main-container" class="j-main-container">
+				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php if ($this->total > 0) : ?>
+					<table id="global-checkin" class="table table-striped">
+						<thead>
+							<tr>
+								<th width="1%"><?php echo JHtml::_('grid.checkall'); ?></th>
+								<th><?php echo JHtml::_('searchtools.sort', 'COM_CHECKIN_DATABASE_TABLE', 'table', $listDirn, $listOrder); ?></th>
+								<th><?php echo JHtml::_('searchtools.sort', 'COM_CHECKIN_ITEMS_TO_CHECK_IN', 'count', $listDirn, $listOrder); ?></th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<td colspan="3">
+									<?php echo $this->pagination->getListFooter(); ?>
+								</td>
+							</tr>
+						</tfoot>
+						<tbody>
+							<?php $i = 0; ?>
+							<?php foreach ($this->items as $table => $count) : ?>
+								<tr class="row<?php echo $i % 2; ?>">
+									<td class="text-center"><?php echo JHtml::_('grid.id', $i, $table); ?></td>
+									<td>
+										<label for="cb<?php echo $i ?>">
+											<?php echo JText::sprintf('COM_CHECKIN_TABLE', $table); ?>
+										</label>
+									</td>
+									<td>
+										<span class="badge badge-default"><?php echo $count; ?></span>
+									</td>
+								</tr>
+								<?php $i++; ?>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				<?php endif; ?>
+				<input type="hidden" name="task" value="" />
+				<input type="hidden" name="boxchecked" value="0" />
+				<?php echo JHtml::_('form.token'); ?>
+			</div>
+		</div>
 	</div>
 </form>

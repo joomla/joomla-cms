@@ -14,7 +14,6 @@ JHtml::_('bootstrap.tooltip');
 <form action="<?php echo JRoute::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="sidebar" class="col-md-3">
-			<div class="clearfix"></div>
 			<div class="sidebar-nav">
 				<ul class="nav flex-column">
 					<li><?php echo JHtml::_('link', JHelp::createUrl('JHELP_START_HERE'), JText::_('COM_ADMIN_START_HERE'), array('target' => 'helpFrame')); ?></li>

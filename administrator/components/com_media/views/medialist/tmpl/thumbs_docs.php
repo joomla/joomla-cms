@@ -22,7 +22,6 @@ $params = new Registry;
 			<div class="float-left">
 				<?php echo JHtml::_('grid.id', $i, $doc->name, false, 'rm', 'cb-document'); ?>
 			</div>
-			<div class="clearfix"></div>
 		<?php endif; ?>
 
 		<div class="height-50">

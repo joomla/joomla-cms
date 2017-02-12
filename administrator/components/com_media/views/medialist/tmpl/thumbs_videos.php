@@ -29,7 +29,6 @@ jQuery(document).ready(function($){
 			<div class="float-left">
 				<?php echo JHtml::_('grid.id', $i, $video->name, false, 'rm', 'cb-video'); ?>
 			</div>
-			<div class="clearfix"></div>
 		<?php endif; ?>
 
 		<div class="height-50">

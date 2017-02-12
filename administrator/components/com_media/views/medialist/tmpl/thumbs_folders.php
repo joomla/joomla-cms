@@ -17,7 +17,6 @@ defined('_JEXEC') or die;
 			<div class="float-left">
 				<?php echo JHtml::_('grid.id', $i, $folder->name, false, 'rm', 'cb-folder'); ?>
 			</div>
-			<div class="clearfix"></div>
 		<?php endif; ?>
 
 		<div class="height-50">
