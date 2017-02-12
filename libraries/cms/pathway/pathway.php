@@ -110,6 +110,11 @@ class JPathway
 	 */
 	public function getPathway()
 	{
+		if (empty($this->_pathway))
+		{
+			$this->loadPathway();
+		}
+
 		$pw = $this->_pathway;
 
 		// Use array_values to reset the array keys numerically
@@ -144,6 +149,11 @@ class JPathway
 	 */
 	public function getPathwayNames()
 	{
+		if (empty($this->_pathway))
+		{
+			$this->loadPathway();
+		}
+
 		$names = array();
 
 		// Build the names array using just the names of each pathway item
@@ -200,6 +210,18 @@ class JPathway
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * Load the pathway for this instance.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadPathway()
+	{
+		// There is nothing to do for the default implementation
 	}
 
 	/**
