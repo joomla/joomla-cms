@@ -134,8 +134,23 @@ class JLibraryHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  Use JLibraryHelper::load() instead
 	 */
 	protected static function _load($element)
+	{
+		return static::load($element);
+	}
+
+	/**
+	 * Load the installed libraries into the libraries property.
+	 *
+	 * @param   string  $element  The element value for the extension
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function load($element)
 	{
 		$loader = function ()
 		{
