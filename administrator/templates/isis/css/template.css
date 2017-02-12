@@ -8959,3 +8959,57 @@ textarea.noResize {
 	margin-bottom: 0;
 	width: auto;
 }
+.tree-holder .folder-url,
+.tree-holder .file {
+	position: relative;
+	background-color: #fefefe;
+	border: 1px solid #d2d2d2;
+	border-radius: 3px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+	margin-bottom: 4px;
+	padding: 0 10px;
+	line-height: 32px;
+}
+.tree-holder .folder-url span::before {
+	color: #3071a9;
+}
+.tree-holder .folder-url,
+.tree-holder .folder-url:hover,
+.tree-holder .folder-url:focus {
+	font-weight: bold;
+	background-color: #f3f3f3;
+	color: #3071a9;
+}
+.tree-holder .folder-url::after,
+.tree-holder .folder-url:hover::after,
+.tree-holder .folder-url:focus::after {
+	border-color: transparent #f3f3f3 transparent !important;
+}
+.tree-holder ul ul {
+	padding-right: 0;
+}
+.tree-holder ul ul li:first-of-type {
+	border-radius: 0 3px 3px 3px;
+}
+.tree-holder ul ul li:first-of-type > a::before,
+.tree-holder ul ul li:first-of-type > a::after {
+	position: absolute;
+	content: "";
+	right: 100%;
+	width: 0;
+	height: 0;
+	border-style: solid;
+}
+.tree-holder ul ul li:first-of-type > a::after {
+	top: 0;
+	border-width: 0 9px 6px 0;
+	border-color: transparent #fff transparent;
+}
+.tree-holder ul ul li:first-of-type > a::before {
+	top: -1px;
+	border-width: 0 12px 8px 0;
+	border-color: transparent #d2d2d2 transparent;
+}
+.tree-holder ul ul li:first-of-type .file:hover::after {
+	border-color: transparent #eee transparent;
+}
