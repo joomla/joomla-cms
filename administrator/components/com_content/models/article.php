@@ -853,25 +853,33 @@ class ContentModelArticle extends JModelAdmin
 
 		if (JLanguageMultilang::isEnabled())
 		{
-			// Find the article language
-			$languageCode = $article->language;
+			// Set the language defaults
+			$jLanguage       = new JLanguage;
+			$languageCode    = $article->language;
+			$languageDefault = $jLanguage->getDefault();
 
 			// Get the default language if an article is set to All languages as we need a language code
 			if ($languageCode === '*')
 			{
-				$jLanguage    = new JLanguage;
 				$languageCode = $jLanguage->getDefault();
 			}
 
-			// Get the list of languages
-			$languages = JLanguageHelper::getLanguages();
+			// Check if we need to attach the language tag
+			$languageFilter = JPluginHelper::getPlugin('system', 'languagefilter');
+			$languageFilterParameters = new Registry($languageFilter->params);
 
-			foreach ($languages as $language)
+			if (!$languageFilterParameters->get('remove_default_prefix', 0) || $languageDefault != $languageCode)
 			{
-				if ($language->lang_code === $languageCode)
+				// Get the list of languages
+				$languages = JLanguageHelper::getLanguages();
+
+				foreach ($languages as $language)
 				{
-					$languageTag = $language->sef;
-					break;
+					if ($language->lang_code === $languageCode)
+					{
+						$languageTag = $language->sef;
+						break;
+					}
 				}
 			}
 		}
@@ -969,6 +977,9 @@ class ContentModelArticle extends JModelAdmin
 	 * @param   int    $categoryId  The category ID to find an item ID for.
 	 *
 	 * @return  mixed  Int when item ID has been found | false otherwise.
+	 *
+	 * @todo    Checking if a menu entry exists is tricky because the menu URL can change depending on a number of
+	 *          settings, including the Tag. Find a more resilient way for finding an existing item ID.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
