@@ -364,7 +364,8 @@ class PlgEditorTinymce extends JPlugin
 		{
 			$html_height = $height;
 		}
-		else {
+		else
+		{
 			$html_height = $this->params->get('html_height', '550');
 		}
 
