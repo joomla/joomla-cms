@@ -360,7 +360,7 @@ class PlgEditorTinymce extends JPlugin
 			$valid_elements    = trim($levelParams->get('valid_elements', ''));
 		}
 
-		if(isset($height))
+		if (isset($height))
 		{
 			$html_height = $height;
 		}
@@ -368,7 +368,7 @@ class PlgEditorTinymce extends JPlugin
 			$html_height = $this->params->get('html_height', '550');
 		}
 		
-		if(isset($width))
+		if (isset($width))
 		{
 			$html_width = $width;
 		}
