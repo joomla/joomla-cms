@@ -127,7 +127,7 @@ class JLibraryHelper
 	}
 
 	/**
-	 * Load the installed libraryes into the libraries property.
+	 * Load the installed libraries into the libraries property.
 	 *
 	 * @param   string  $element  The element value for the extension
 	 *
@@ -137,26 +137,41 @@ class JLibraryHelper
 	 */
 	protected static function _load($element)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-			->where($db->quoteName('element') . ' = ' . $db->quote($element));
-		$db->setQuery($query);
+		$loader = function ()
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('library'));
+			$db->setQuery($query);
 
+			return $db->loadObjectList('option');
+		};
+
+		/** @var JCacheControllerCallback $cache */
 		$cache = JFactory::getCache('_system', 'callback');
 
 		try
 		{
-			static::$libraries[$element] = $cache->get(array($db, 'loadObject'), null, $element, false);
-		}
-		catch (RuntimeException $e)
-		{
-			// Fatal error.
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_LIBRARY_NOT_LOADING', $element, $e->getMessage()), JLog::WARNING, 'jerror');
+			$libraries = $cache->get($loader, array(), $element, false);
 
-			return false;
+			/**
+			 * Verify $libraries is an array, some cache handlers return an object even though
+			 * the original was a single object array.
+			 */
+			if (!is_array($libraries))
+			{
+				static::$libraries[$element] = $libraries;
+			}
+			else
+			{
+				static::$libraries = $libraries;
+			}
+		}
+		catch (JCacheException $e)
+		{
+			static::$libraries = $loader();
 		}
 
 		if (empty(static::$libraries[$element]))
