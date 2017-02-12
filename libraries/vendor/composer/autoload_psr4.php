@@ -33,6 +33,7 @@ return array(
     'Joomla\\DI\\Tests\\' => array($vendorDir . '/joomla/di/Tests'),
     'Joomla\\DI\\' => array($vendorDir . '/joomla/di/src'),
     'Joomla\\Crypt\\' => array($vendorDir . '/joomla/crypt/src'),
+    'Joomla\\Controller\\' => array($vendorDir . '/joomla/controller/src'),
     'Joomla\\Application\\' => array($vendorDir . '/joomla/application/src'),
     'Joomla\\' => array($baseDir . '/libraries/src'),
     'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
