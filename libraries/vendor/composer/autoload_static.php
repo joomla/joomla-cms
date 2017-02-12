@@ -67,6 +67,7 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
             'Joomla\\DI\\Tests\\' => 16,
             'Joomla\\DI\\' => 10,
             'Joomla\\Crypt\\' => 13,
+            'Joomla\\Controller\\' => 18,
             'Joomla\\Application\\' => 19,
             'Joomla\\' => 7,
         ),
@@ -184,6 +185,10 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         'Joomla\\Crypt\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/crypt/src',
+        ),
+        'Joomla\\Controller\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/controller/src',
         ),
         'Joomla\\Application\\' => 
         array (

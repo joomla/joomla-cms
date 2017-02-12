@@ -10,6 +10,8 @@
             "php": "5.5.9"
         },
         "preferred-install": {
+            "joomla/application": "dist",
+            "joomla/controller": "dist",
             "joomla/crypt": "dist",
             "joomla/event": "dist",
             "joomla/http": "dist",
@@ -31,6 +33,7 @@
     "require": {
         "php": ">=5.5.9",
         "joomla/application": "~2.0@dev",
+        "joomla/controller": "~2.0@dev",
         "joomla/crypt": "~2.0@dev",
         "joomla/data": "~1.2",
         "joomla/di": "~1.2",
