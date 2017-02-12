@@ -374,7 +374,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 		else
 		{
-			$html_width  = $this->params->get('html_width', '');
+			$html_width = $this->params->get('html_width', '');
 		}
 		
 		if ($html_width == 750)
