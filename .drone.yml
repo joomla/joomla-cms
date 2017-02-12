@@ -1,5 +1,9 @@
 pipeline:
-  build:
+  clone:
+    image: plugins/git
+    depth: 1
+
+  javascript:
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - echo $(date)
@@ -15,7 +19,3 @@ pipeline:
       - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
       - echo $(date)
 
-
-clone:
-  depth: 1
-  path: repo
