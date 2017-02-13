@@ -2016,64 +2016,39 @@ textarea.noResize {
 	.folder-url, .file {
 		position: relative;
 		background-color: #fefefe;
-		border: 1px solid #d2d2d2;
-		border-radius: 3px;
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 		margin-bottom: 4px;
     	padding: 0 10px;
 		line-height: 32px;
 	}
 	.folder-url {
-		span::before {
-		color: #3071a9;
+		border: 1px solid rgba(0, 0, 0, 0.13);
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 	}
+	.file {
+		border: 1px solid rgba(0, 0, 0, 0.1);
 	}
 	.folder-url, .folder-url:hover, .folder-url:focus {
 		font-weight: bold;
-		background-color: #f3f3f3;
-		color: #3071a9;
-		&::after {
-			border-color: transparent #f3f3f3 transparent !important;
-		}
+		background-color: #f5f5f5;
+		color: @linkColor;
 	}
-	
-	
+	.active {
+		background-color: @linkColor;
+		color: #fff;
+	}
 	ul {
 		ul {
+			box-shadow: -3px 0 0 rgba(0, 0, 0, 0.08);
 			padding-right: 0;
 			.folder-url, .file {
-	
+				box-shadow: -3px 0 0 @linkColor;
+				border-left: 0;
+			}
+			.file {
+				border: 1px solid rgba(0, 0, 0, 0.1);
 			}
 			li {
-				&:first-of-type {
-					border-radius: 0 3px 3px 3px;
-					> a::before, > a::after {
-						position: absolute;
-						content: "";
-						right: 100%;
-						width: 0;
-						height: 0;
-						border-style: solid;
-						
-					}
-					> a::after {
-						top: 0;
-						border-width: 0 9px 6px 0;
-						border-color: transparent #fff transparent;
-					}
-					> a::before {
-						top: -1px;
-						border-width: 0 12px 8px 0;
-						border-color: transparent #d2d2d2 transparent;
-					}
-					.file {
-						&:hover {
-							&::after {
-								border-color: transparent #eee transparent;
-							}
-						}
-					}
-				}
+
 			}
 		}
 	}

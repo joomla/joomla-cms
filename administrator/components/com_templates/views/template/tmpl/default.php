@@ -171,13 +171,13 @@ if ($this->type == 'font')
 <div class="row-fluid">
 	<div class="span12">
 		<?php if ($this->type == 'file') : ?>
-			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
 		<?php endif; ?>
 		<?php if ($this->type == 'image') : ?>
-			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
 		<?php endif; ?>
 		<?php if ($this->type == 'font') : ?>
-			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
 		<?php endif; ?>
 	</div>
 </div>
