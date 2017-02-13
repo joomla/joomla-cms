@@ -217,7 +217,7 @@ class JCacheControllerCallback extends JCacheController
 		{
 			$hash = spl_object_hash($callback);
 
-			return md5($hash . serialize($args));
+			return md5($hash . serialize(array($args)));
 		}
 
 		return md5(serialize(array($callback, $args)));
