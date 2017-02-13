@@ -36,7 +36,7 @@ $userRequired    = (int) $input->get('required', 0, 'int');
  *
  * This should be removed when mootools won't be shipped by Joomla.
  */
-$isMoo      = $input->getInt('ismoo', 1);
+$isMoo = $input->getInt('ismoo', 1);
 
 if ($isMoo)
 {
@@ -89,32 +89,31 @@ if ($isMoo)
 				</tr>
 			</tfoot>
 			<tbody>
-				<?php
-				$i = 0;
-				foreach ($this->items as $item) : ?>
-				<tr class="row<?php echo $i % 2; ?>">
-					<td>
-						<a class="pointer button-select" href="#" data-user-value="<?php echo $item->id; ?>" data-user-name="<?php echo $this->escape($item->name); ?>"
-							data-user-field="<?php echo $this->escape($field); ?>" <?php if ($isMoo) : ?>onclick="<?php echo $onClick; ?>"<?php endif; ?>>
-							<?php echo $this->escape($item->name); ?>
-						</a>
-					</td>
-					<td>
-						<?php echo $this->escape($item->username); ?>
-					</td>
-					<td class="center">
-						<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
-					</td>
-					<td class="center">
-						<span class="<?php echo $activatedStates[(int) $this->escape($item->activation)]; ?>"></span>
-					</td>
-					<td>
-						<?php echo nl2br($item->group_names); ?>
-					</td>
-					<td>
-						<?php echo (int) $item->id; ?>
-					</td>
-				</tr>
+				<?php $i = 0; ?>
+				<?php foreach ($this->items as $item) : ?>
+					<tr class="row<?php echo $i % 2; ?>">
+						<td>
+							<a class="pointer button-select" href="#" data-user-value="<?php echo $item->id; ?>" data-user-name="<?php echo $this->escape($item->name); ?>"
+								data-user-field="<?php echo $this->escape($field); ?>" <?php if ($isMoo) : ?>onclick="<?php echo $onClick; ?>"<?php endif; ?>>
+								<?php echo $this->escape($item->name); ?>
+							</a>
+						</td>
+						<td>
+							<?php echo $this->escape($item->username); ?>
+						</td>
+						<td class="center">
+							<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
+						</td>
+						<td class="center">
+							<span class="<?php echo $activatedStates[(int) $this->escape($item->activation)]; ?>"></span>
+						</td>
+						<td>
+							<?php echo nl2br($item->group_names); ?>
+						</td>
+						<td>
+							<?php echo (int) $item->id; ?>
+						</td>
+					</tr>
 				<?php endforeach; ?>
 			</tbody>
 		</table>
@@ -123,7 +122,7 @@ if ($isMoo)
 		<input type="hidden" name="field" value="<?php echo $this->escape($field); ?>" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="required" value="<?php echo $userRequired; ?>" />
-		<input type="hidden" name="ismoo" value="<?php echo $input->get('ismoo', 1, 'int'); ?>" />
+		<input type="hidden" name="ismoo" value="<?php echo $isMoo; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 </div>
