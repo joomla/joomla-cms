@@ -212,6 +212,14 @@ class JCacheControllerCallback extends JCacheController
 			$callback[0] = $vars;
 		}
 
+		// A Closure can't be serialized, so to generate the ID we'll need to get its hash
+		if (is_a($callback, 'closure'))
+		{
+			$hash = spl_object_hash($callback);
+
+			return md5($hash . serialize($args));
+		}
+
 		return md5(serialize(array($callback, $args)));
 	}
 }
