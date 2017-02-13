@@ -8966,12 +8966,7 @@ textarea.noResize {
 	margin-bottom: 4px;
 	padding: 0 10px;
 	line-height: 32px;
-}
-.tree-holder .folder-url {
-	border: 1px solid rgba(0,0,0,0.15);
-}
-.tree-holder .file {
-	border: 1px solid rgba(0,0,0,0.1);
+	border: 1px solid rgba(0,0,0,0.08);
 }
 .tree-holder .folder-url,
 .tree-holder .folder-url:hover,
@@ -8992,7 +8987,4 @@ textarea.noResize {
 .tree-holder ul ul .file {
 	box-shadow: -3px 0 0 #3071a9;
 	border-left: 0;
-}
-.tree-holder ul ul .file {
-	border: 1px solid rgba(0,0,0,0.08);
 }
