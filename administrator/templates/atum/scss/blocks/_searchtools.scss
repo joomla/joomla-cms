@@ -4,9 +4,9 @@
   width: 100%;
   padding: 8px 10px 0;
   background-color: $atum-card-title-bg;
-  border-bottom: 1px solid rgba(0, 0, 0, .125);
+  border-bottom: 1px solid rgba(0,0,0,.125);
   border-radius: $border-radius $border-radius 0 0;
-  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, .15);
+  box-shadow: 0 1px $white inset, 0 2px 3px -3px rgba(0,0,0,.15);
 
   .btn-wrapper {
     display: inline-block;
@@ -28,6 +28,7 @@
       .btn-group:first-child {
         margin-left: 0;
       }
+
 	}
 
     .input-append {
@@ -42,6 +43,7 @@
     .js-stools-field-list:last-child {
       margin-right: 0;
     }
+
   }
 
   .js-stools-container-filters-visible {
@@ -58,9 +60,16 @@
     .form-control {
       display: inline-block;
 	}
+
   }
+
 }
-.js-stools-column-order [class*=" icon-"],
-.js-stools-column-order [class^="icon-"] {
-  text-align: center;
+
+.js-stools-column-order {
+
+  [class*=" icon-"],
+  [class^="icon-"] {
+    text-align: center;
+  }
+
 }

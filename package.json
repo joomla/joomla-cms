@@ -7,7 +7,7 @@
     "url": "https://github.com/joomla/40-backend-template.git"
   },
   "dependencies": {
-    "autoprefixer": "^6.6.1",
+    "autoprefixer": "^6.7.2",
     "grunt": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-concat": "latest",

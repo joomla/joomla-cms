@@ -45,12 +45,15 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
+// Set some meta data
+$doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
+// @TODO sync with _variables.scss
+$doc->setMetaData('theme-color', '#1c3d5c');
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
 	<style>
 		.login-initial {
@@ -85,7 +88,7 @@ $sitename = $app->get('sitename');
 			</noscript>
 			<?php // Begin Content ?>
 			<div id="element-box" class="login card card-block">
-				<h2 class="text-center m-t-1 m-b-2"><?php echo JText::_('MOD_LOGIN_LOGIN'); ?></h2>
+				<h2 class="text-center mt-1 mb-2"><?php echo JText::_('MOD_LOGIN_LOGIN'); ?></h2>
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
 			</div>

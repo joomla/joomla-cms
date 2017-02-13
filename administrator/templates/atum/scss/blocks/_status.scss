@@ -7,18 +7,22 @@
   color: #626262;
   background: #ebebeb;
   border-top: 1px solid #d4d4d4;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset;
+  box-shadow: 0 1px 0 rgba($white,.8) inset;
   transition: all .4s ease;
   transition-delay: 0s;
+
   p {
     margin: 0;
   }
 
-  li, a {
+  li,
+  a {
     font-size: $font-size-root;
     color: #555;
   }
+
 }
+
 .sidebar-wrapper[data-hidden="1"] ~ .status {
   margin-left: 0;
 }

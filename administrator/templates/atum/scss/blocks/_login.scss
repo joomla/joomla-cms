@@ -17,6 +17,7 @@
       margin-top: 0 !important;
       margin-left: -160px;
     }
+
   }
 
   .login-logo {
@@ -26,6 +27,7 @@
     @include media-breakpoint-down(sm) {
       margin: 1rem 0;
     }
+
   }
 
   h2 {
@@ -42,11 +44,13 @@
   }
 
   .navbar {
+
     p,
     a {
       margin-bottom: 0;
-      color: #fff;
+      color: $white;
     }
+
   }
 
   .navbar-fixed-bottom {
@@ -65,9 +69,12 @@
   }
 
   .btn {
+
     @include media-breakpoint-only(xs) {
       padding: 8px 10px;
       font-size: 14px;
     }
+
   }
+
 }

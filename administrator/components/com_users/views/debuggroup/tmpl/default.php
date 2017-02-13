@@ -22,7 +22,6 @@ $colSpan   = 4 + count($this->actions);
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $this->state->get('group_id')); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<div class="clearfix"> </div>
 		<table class="table table-striped">
 			<thead>
 				<tr>

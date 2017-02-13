@@ -24,7 +24,6 @@ $params = new Registry;
 			<div class="float-left">
 				<?php echo JHtml::_('grid.id', $i, $img->name, false, 'rm', 'cb-image'); ?>
 			</div>
-			<div class="clearfix"></div>
 		<?php endif; ?>
 
 		<div class="height-50">

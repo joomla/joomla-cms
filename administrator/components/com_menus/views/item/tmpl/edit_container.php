@@ -76,9 +76,7 @@ JFactory::getDocument()->addStyleDeclaration($style);
 					autocomplete="off" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
 			</div>
 
-			<div class="clearfix"></div>
-
-			<hr class="hr-condensed" />
+			<hr>
 
 			<ul class="treeselect">
 

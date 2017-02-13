@@ -176,7 +176,7 @@ class JDocumentFeed extends JDocument
 
 		// Gets and sets timezone offset from site configuration
 		$this->lastBuildDate = JFactory::getDate();
-		$this->lastBuildDate->setTimeZone(new DateTimeZone(JFactory::getApplication()->get('offset')));
+		$this->lastBuildDate->setTimeZone(new DateTimeZone(JFactory::getApplication()->get('offset', 'UTC')));
 	}
 
 	/**

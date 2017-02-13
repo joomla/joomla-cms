@@ -33,6 +33,7 @@
     [class^="icon-"] {
       margin-right: 15px;
     }
+
   }
 
   .navbar-brand {
@@ -43,6 +44,7 @@
     font-size: 1.3rem;
     line-height: $header-height;
     color: $white-offset;
+
     &:hover,
     &:focus {
       color: darken($white-offset, 6%);
@@ -52,6 +54,7 @@
       margin-right: 0;
       margin-left: 10px;
     }
+
   }
 
   nav {
@@ -89,6 +92,7 @@
     &.dropdown-toggle::after {
       display: none;
     }
+
   }
 
   .dropdown-notifications {
@@ -98,19 +102,24 @@
   }
 
   .dropdown-menu {
+
     &::after {
       left: .65rem;
     }
+
   }
 
   .dropdown-menu-right {
+
     &::after {
       right: .65rem;
       left: auto;
     }
+
   }
 
   .header-profile {
+
     .dropdown-menu {
       padding-top: 0;
 
@@ -118,7 +127,9 @@
         color: $atum-container-main-bg;
       }
     }
+
   }
+
   .header-profile-user {
     padding-top: .5rem;
     padding-bottom: .5rem;
@@ -135,10 +146,12 @@
   padding-bottom: 13px;
   color: $white;
   background-color: $atum-template-color-light;
+
   .row {
     margin-right: 0;
     margin-left: 0;
   }
+
   .page-title {
     margin-bottom: 0;
     font-size: 1.3rem;
@@ -152,18 +165,24 @@
       font-size: $font-size-h1;
       color: lighten($atum-template-color-light, 10%);
     }
+
   }
+
 }
 
 @include media-breakpoint-down(md) {
+
   .header {
     position: fixed;
     top: 0;
     width: 100%;
+
     + .container-title {
       margin-top: $header-height;
     }
+
   }
+
 }
 
 // Mobile Toggle
@@ -173,10 +192,12 @@
   left: 0;
   font-size: 2rem;
   text-align: center;
+
   a {
     display: block;
     width: $header-height;
     line-height: $header-height;
     color: $white;
   }
+
 }

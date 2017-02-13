@@ -38,4 +38,3 @@ $document = JFactory::getDocument();
 	<?php endif; ?>
 <?php endforeach; ?>
 </ul>
-<div class="clr"></div>

@@ -7,10 +7,12 @@
   line-height: 1.2;
   border-radius: .2rem;
 }
+
 .btn.btn-xs .caret {
   font-size: 16px;
   line-height: 13px;
 }
+
 .btn:focus,
 .btn.focus,
 .btn:active:focus,
@@ -19,6 +21,7 @@
 .btn.active.focus {
   text-decoration: none;
 }
+
 .btn.group-move {
   cursor: move;
 }

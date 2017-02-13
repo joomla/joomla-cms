@@ -52,13 +52,13 @@ if ($saveOrder)
 					<table class="table table-striped" id="fieldList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap center hidden-sm-down">
+								<th width="1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th width="1%" class="center">
+								<th width="1%" class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th width="1%" class="nowrap center">
+								<th width="1%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
 								<th>
@@ -96,7 +96,7 @@ if ($saveOrder)
 								<?php $canEditOwn = $user->authorise('core.edit.own', $component . '.field.' . $item->id) && $item->created_user_id == $userId; ?>
 								<?php $canChange  = $user->authorise('core.edit.state', $component . '.field.' . $item->id) && $canCheckin; ?>
 								<tr class="row<?php echo $i % 2; ?>" item-id="<?php echo $item->id ?>">
-									<td class="order nowrap center hidden-sm-down">
+									<td class="order nowrap text-center hidden-sm-down">
 										<?php $iconClass = ''; ?>
 										<?php if (!$canChange) : ?>
 											<?php $iconClass = ' inactive'; ?>
@@ -110,10 +110,10 @@ if ($saveOrder)
 											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" />
 										<?php endif; ?>
 									</td>
-									<td class="center">
+									<td class="text-center">
 										<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 									</td>
-									<td class="center">
+									<td class="text-center">
 										<div class="btn-group">
 											<?php echo JHtml::_('jgrid.published', $item->state, $i, 'fields.', $canChange, 'cb'); ?>
 										</div>
@@ -158,7 +158,7 @@ if ($saveOrder)
 									<td class="small nowrap hidden-sm-down text-center">
 										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 									</td>
-									<td class="center hidden-sm-down text-center">
+									<td class="hidden-sm-down text-center">
 										<span><?php echo (int) $item->id; ?></span>
 									</td>
 								</tr>
