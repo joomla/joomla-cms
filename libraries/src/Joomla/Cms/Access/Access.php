@@ -1,22 +1,24 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Access
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Access;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Cms\Table\Asset;
 
 /**
  * Class that handles all access authorisation routines.
  *
  * @since  11.1
  */
-class JAccess
+class Access
 {
 	/**
 	 * Array of view levels
@@ -182,7 +184,7 @@ class JAccess
 	}
 
 	/**
-	 * Method to preload the JAccessRules object for the given asset type.
+	 * Method to preload the Rules object for the given asset type.
 	 *
 	 * @param   integer|string|array  $assetTypes  The type or name of the asset (e.g. 'com_content.article', 'com_menus.menu.2').
 	 *                                             Also accepts the asset id. An array of asset type or a special
@@ -295,7 +297,7 @@ class JAccess
 		if (!isset(self::$assetPermissionsParentIdMapping[$extensionName]))
 		{
 			// Get the database connection object.
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 
 			// Get a fresh query object:
 			$query    = $db->getQuery(true);
@@ -341,10 +343,10 @@ class JAccess
 			return true;
 		}
 
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::preloadPermissions (' . $extensionName . ')');
+		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
 
 		// Get the database connection object.
-		$db         = JFactory::getDbo();
+		$db         = \JFactory::getDbo();
 		$extraQuery = $db->qn('name') . ' = ' . $db->q($extensionName) . ' OR ' . $db->qn('parent_id') . ' = 0';
 
 		// Get a fresh query object.
@@ -376,13 +378,13 @@ class JAccess
 		self::$preloadedAssetTypes[$assetType]     = true;
 		self::$preloadedAssetTypes[$extensionName] = true;
 
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('After JAccess::preloadPermissions (' . $extensionName . ')');
+		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('After Access::preloadPermissions (' . $extensionName . ')');
 
 		return true;
 	}
 
 	/**
-	 * Method to preload the JAccessRules objects for all components.
+	 * Method to preload the Rules objects for all components.
 	 *
 	 * Note: This will only get the base permissions for the component.
 	 * e.g. it will get 'com_content', but not 'com_content.article.1' or
@@ -400,13 +402,13 @@ class JAccess
 			return array();
 		}
 
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::preloadComponents (all components)');
+		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::preloadComponents (all components)');
 
 		// Add root to asset names list.
 		$components = array();
 
 		// Add enabled components to asset names list.
-		foreach (JComponentHelper::getComponents() as $component)
+		foreach (\JComponentHelper::getComponents() as $component)
 		{
 			if ($component->enabled)
 			{
@@ -415,7 +417,7 @@ class JAccess
 		}
 
 		// Get the database connection object.
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Get the asset info for all assets in asset names list.
 		$query = $db->getQuery(true)
@@ -457,7 +459,7 @@ class JAccess
 		// Mark all components asset type as preloaded.
 		self::$preloadedAssetTypes['components'] = true;
 
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('After JAccess::preloadComponents (all components)');
+		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('After Access::preloadComponents (all components)');
 
 		return $components;
 	}
@@ -496,7 +498,7 @@ class JAccess
 	protected static function getGroupPath($groupId)
 	{
 		// Load all the groups to improve performance on intensive groups checks
-		$groups = JHelperUsergroups::getInstance()->getAll();
+		$groups = \JHelperUsergroups::getInstance()->getAll();
 
 		if (!isset($groups[$groupId]))
 		{
@@ -507,7 +509,7 @@ class JAccess
 	}
 
 	/**
-	 * Method to return the JAccessRules object for an asset.  The returned object can optionally hold
+	 * Method to return the Rules object for an asset. The returned object can optionally hold
 	 * only the rules explicitly set for the asset or the summation of all inherited rules from
 	 * parent assets and explicit rules.
 	 *
@@ -516,7 +518,7 @@ class JAccess
 	 * @param   boolean         $recursiveParentAsset  True to calculate the rule also based on inherited component/extension rules.
 	 * @param   boolean         $preload               Indicates whether preloading should be used.
 	 *
-	 * @return  JAccessRules  JAccessRules object for the asset.
+	 * @return  Rules  Rules object for the asset.
 	 *
 	 * @since   11.1
 	 * @note    The non preloading code will be removed in 4.0. All asset rules should use asset preloading.
@@ -556,14 +558,14 @@ class JAccess
 		{
 			if ($extensionName && $assetName !== $extensionName)
 			{
-				JLog::add('No asset found for ' . $assetName . ', falling back to ' . $extensionName, JLog::WARNING, 'assets');
+				\JLog::add('No asset found for ' . $assetName . ', falling back to ' . $extensionName, \JLog::WARNING, 'assets');
 
 				return self::getAssetRules($extensionName, $recursive, $recursiveParentAsset, $preload);
 			}
 
 			if (self::$rootAssetId !== null && $assetName !== self::$preloadedAssets[self::$rootAssetId])
 			{
-				JLog::add('No asset found for ' . $assetName . ', falling back to ' . self::$preloadedAssets[self::$rootAssetId], JLog::WARNING, 'assets');
+				\JLog::add('No asset found for ' . $assetName . ', falling back to ' . self::$preloadedAssets[self::$rootAssetId], \JLog::WARNING, 'assets');
 
 				return self::getAssetRules(self::$preloadedAssets[self::$rootAssetId], $recursive, $recursiveParentAsset, $preload);
 			}
@@ -572,7 +574,7 @@ class JAccess
 		// Almost all calls can take advantage of preloading.
 		if ($assetId && isset(self::$preloadedAssets[$assetId]))
 		{
-			!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
+			!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
 
 			// Collects permissions for each asset
 			$collected = array();
@@ -614,7 +616,7 @@ class JAccess
 
 			/**
 			* Hashing the collected rules allows us to store
-			* only one instance of the JAccessRules object for
+			* only one instance of the Rules object for
 			* Assets that have the same exact permissions...
 			* it's a great way to save some memory.
 			*/
@@ -622,7 +624,7 @@ class JAccess
 
 			if (!isset(self::$assetRulesIdentities[$hash]))
 			{
-				$rules = new JAccessRules;
+				$rules = new Rules;
 				$rules->mergeCollection($collected);
 
 				self::$assetRulesIdentities[$hash] = $rules;
@@ -634,15 +636,15 @@ class JAccess
 				self::$assetRules[$assetId] = self::$assetRulesIdentities[$hash];
 			}
 
-			!JDEBUG ?: JProfiler::getInstance('Application')->mark('After JAccess::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
+			!JDEBUG ?: \JProfiler::getInstance('Application')->mark('After Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
 
 			return self::$assetRulesIdentities[$hash];
 		}
 
 		// Non preloading code. Use old slower method, slower. Only used in rare cases (if any) or without preloading chosen.
-		JLog::add('Asset ' . $assetKey . ' permissions fetch without preloading (slower method).', JLog::INFO, 'assets');
+		\JLog::add('Asset ' . $assetKey . ' permissions fetch without preloading (slower method).', \JLog::INFO, 'assets');
 
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::getAssetRules (assetKey:' . $assetKey . ')');
+		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::getAssetRules (assetKey:' . $assetKey . ')');
 
 		// There's no need to process it with the recursive method for the Root Asset ID.
 		if ((int) $assetKey === 1)
@@ -651,7 +653,7 @@ class JAccess
 		}
 
 		// Get the database connection object.
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Build the database query to get the rules for the asset.
 		$query = $db->getQuery(true)
@@ -685,7 +687,7 @@ class JAccess
 		// Get the root even if the asset is not found and in recursive mode
 		if (empty($result))
 		{
-			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$assets = new Asset($db);
 
 			$query->clear()
 				->select($db->qn(array('id', 'name', 'parent_id', 'rules')))
@@ -702,11 +704,11 @@ class JAccess
 			$collected[] = $asset->rules;
 		}
 
-		// Instantiate and return the JAccessRules object for the asset rules.
-		$rules = new JAccessRules;
+		// Instantiate and return the Rules object for the asset rules.
+		$rules = new Rules;
 		$rules->mergeCollection($collected);
 
-		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::getAssetRules <strong>Slower</strong> (assetKey:' . $assetKey . ')');
+		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::getAssetRules <strong>Slower</strong> (assetKey:' . $assetKey . ')');
 
 		return $rules;
 	}
@@ -734,8 +736,8 @@ class JAccess
 			return self::$rootAssetId;
 		}
 
-		// No preload. Return root asset id from JTableAssets.
-		$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => JFactory::getDbo()));
+		// No preload. Return root asset id from Assets.
+		$assets = new Asset(\JFactory::getDbo());
 
 		return $assets->getRootId();
 	}
@@ -778,7 +780,7 @@ class JAccess
 				// Else we have to do an extra db query to fetch it from the table fetch it from table.
 				else
 				{
-					$table = JTable::getInstance('Asset');
+					$table = new Asset(\JFactory::getDbo());
 					$table->load(array('name' => $assetKey));
 					$loaded[$assetKey] = $table->id;
 				}
@@ -822,7 +824,7 @@ class JAccess
 			// Else we have to do an extra db query to fetch it from the table fetch it from table.
 			else
 			{
-				$table = JTable::getInstance('Asset');
+				$table = new Asset(\JFactory::getDbo());
 				$table->load($assetKey);
 				$loaded[$assetKey] = $table->name;
 			}
@@ -902,7 +904,7 @@ class JAccess
 	public static function getGroupTitle($groupId)
 	{
 		// Fetch the group title from the database
-		$db    = JFactory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('title')
 			->from('#__usergroups')
@@ -931,10 +933,10 @@ class JAccess
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
-			// TODO: Uncouple this from JComponentHelper and allow for a configuration setting or value injection.
-			if (class_exists('JComponentHelper'))
+			// TODO: Uncouple this from \JComponentHelper and allow for a configuration setting or value injection.
+			if (class_exists('\JComponentHelper'))
 			{
-				$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+				$guestUsergroup = \JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 			}
 			else
 			{
@@ -949,7 +951,7 @@ class JAccess
 			// Registered user and guest if all groups are requested
 			else
 			{
-				$db = JFactory::getDbo();
+				$db = \JFactory::getDbo();
 
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true)
@@ -1010,7 +1012,7 @@ class JAccess
 	public static function getUsersByGroup($groupId, $recursive = false)
 	{
 		// Get a database object.
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		$test = $recursive ? '>=' : '=';
 
@@ -1050,7 +1052,7 @@ class JAccess
 		if (empty(self::$viewLevels))
 		{
 			// Get a database object.
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 
 			// Build the base query.
 			$query = $db->getQuery(true)
@@ -1101,12 +1103,12 @@ class JAccess
 	 * @return  array  List of actions available for the given component and section.
 	 *
 	 * @since       11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS)  Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS)  Use Access::getActionsFromFile or Access::getActionsFromData instead.
 	 * @codeCoverageIgnore
 	 */
 	public static function getActions($component, $section = 'component')
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.', JLog::WARNING, 'deprecated');
+		\JLog::add(__METHOD__ . ' is deprecated. Use Access::getActionsFromFile or Access::getActionsFromData instead.', \JLog::WARNING, 'deprecated');
 
 		$actions = self::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
@@ -1152,8 +1154,8 @@ class JAccess
 	/**
 	 * Method to return a list of actions from a string or from an xml for which permissions can be set.
 	 *
-	 * @param   string|SimpleXMLElement  $data   The XML string or an XML element.
-	 * @param   string                   $xpath  An optional xpath to search for the fields.
+	 * @param   string|\SimpleXMLElement  $data   The XML string or an XML element.
+	 * @param   string                    $xpath  An optional xpath to search for the fields.
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
@@ -1162,7 +1164,7 @@ class JAccess
 	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{
 		// If the data to load isn't already an XML element or string return false.
-		if ((!($data instanceof SimpleXMLElement)) && (!is_string($data)))
+		if ((!($data instanceof \SimpleXMLElement)) && (!is_string($data)))
 		{
 			return false;
 		}
@@ -1172,9 +1174,9 @@ class JAccess
 		{
 			try
 			{
-				$data = new SimpleXMLElement($data);
+				$data = new \SimpleXMLElement($data);
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				return false;
 			}

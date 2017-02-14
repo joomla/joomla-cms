@@ -20,6 +20,8 @@ return array(
     'Joomla\\String\\' => array($vendorDir . '/joomla/string/src'),
     'Joomla\\Session\\' => array($vendorDir . '/joomla/session/src'),
     'Joomla\\Registry\\' => array($vendorDir . '/joomla/registry/src'),
+    'Joomla\\Ldap\\Tests\\' => array($vendorDir . '/joomla/ldap/Tests'),
+    'Joomla\\Ldap\\' => array($vendorDir . '/joomla/ldap/src'),
     'Joomla\\Input\\Tests\\' => array($vendorDir . '/joomla/input/Tests'),
     'Joomla\\Input\\' => array($vendorDir . '/joomla/input/src'),
     'Joomla\\Image\\' => array($vendorDir . '/joomla/image/src'),
