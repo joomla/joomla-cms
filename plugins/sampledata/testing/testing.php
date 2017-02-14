@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Sampledata - Testing Plugin
  *
- * @since  3.5
+ * @since  __DEPLOY_VERSION__
  */
 class PlgSampledataTesting extends JPlugin
 {
@@ -20,7 +20,8 @@ class PlgSampledataTesting extends JPlugin
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  3.5
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
 
@@ -28,7 +29,8 @@ class PlgSampledataTesting extends JPlugin
 	 * Application object
 	 *
 	 * @var    JApplicationCms
-	 * @since  3.5
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -36,7 +38,8 @@ class PlgSampledataTesting extends JPlugin
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  3.5
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
@@ -44,7 +47,8 @@ class PlgSampledataTesting extends JPlugin
 	 * Holds the category model
 	 *
 	 * @var    CategoriesModelCategory
-	 * @since  3.5
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $categoryModel;
 
@@ -52,7 +56,8 @@ class PlgSampledataTesting extends JPlugin
 	 * Holds the menuitem model
 	 *
 	 * @var    MenusModelItem
-	 * @since  3.5
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $menuItemModel;
 
@@ -60,6 +65,8 @@ class PlgSampledataTesting extends JPlugin
 	 * Get an overview of the proposed sampledata.
 	 *
 	 * @return  object  Object containing the name, title, description, icon and steps.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onSampledataGetOverview()
 	{
@@ -77,6 +84,8 @@ class PlgSampledataTesting extends JPlugin
 	 * First step to enter the sampledata. Tags
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep1()
 	{
@@ -169,6 +178,8 @@ class PlgSampledataTesting extends JPlugin
 	 * Second step to enter the sampledata. Banners
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep2()
 	{
@@ -332,6 +343,8 @@ class PlgSampledataTesting extends JPlugin
 	 * Third step to enter the sampledata. Content
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
@@ -945,6 +958,8 @@ class PlgSampledataTesting extends JPlugin
 	 * Fourth step to enter the sampledata. Contacts
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{
@@ -1287,6 +1302,8 @@ class PlgSampledataTesting extends JPlugin
 	 * Fifth step to enter the sampledata. Newsfeed.
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep5()
 	{
@@ -1402,6 +1419,8 @@ class PlgSampledataTesting extends JPlugin
 	 * Sixth step to enter the sampledata. Menus.
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep6()
 	{
@@ -3129,6 +3148,8 @@ class PlgSampledataTesting extends JPlugin
 	 * Seventh step to enter the sampledata. Modules.
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep7()
 	{
@@ -4445,6 +4466,8 @@ class PlgSampledataTesting extends JPlugin
 	 * @return  array  IDs of the inserted categories.
 	 *
 	 * @throws  Exception
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function addCategories(array $categories, $extension, $level)
 	{
@@ -4503,6 +4526,8 @@ class PlgSampledataTesting extends JPlugin
 	 * @return  array  IDs of the inserted categories.
 	 *
 	 * @throws  Exception
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function addArticles(array $articles)
 	{
@@ -4573,6 +4598,8 @@ class PlgSampledataTesting extends JPlugin
 	 * @return  array  IDs of the inserted menuitems.
 	 *
 	 * @throws  Exception
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function addMenuItems(array $menuItems, $level)
 	{
