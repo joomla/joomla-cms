@@ -8978,6 +8978,11 @@ textarea.noResize {
 .tree-holder .active {
 	background-color: #3071a9;
 	color: #fff;
+	box-shadow: -3px 0 0 #36a2ff !important;
+}
+.tree-holder .active.folder-url {
+	background-color: #f5f5f5;
+	color: #3071a9;
 }
 .tree-holder ul ul {
 	box-shadow: -3px 0 0 rgba(0,0,0,0.08);

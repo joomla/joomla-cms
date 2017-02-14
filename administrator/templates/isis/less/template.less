@@ -2020,6 +2020,7 @@ textarea.noResize {
     	padding: 0 10px;
 		line-height: 32px;
 		border: 1px solid rgba(0, 0, 0, 0.08);
+		
 	}
 	.folder-url, .folder-url:hover, .folder-url:focus {
 		font-weight: bold;
@@ -2029,6 +2030,11 @@ textarea.noResize {
 	.active {
 		background-color: @linkColor;
 		color: #fff;
+		box-shadow: -3px 0 0 #36a2ff !important;
+		&.folder-url {
+			background-color: #f5f5f5;
+			color: @linkColor;
+		}
 	}
 	ul {
 		ul {
@@ -2037,9 +2043,6 @@ textarea.noResize {
 			.folder-url, .file {
 				box-shadow: -3px 0 0 @linkColor;
 				border-left: 0;
-			}
-			li {
-
 			}
 		}
 	}
