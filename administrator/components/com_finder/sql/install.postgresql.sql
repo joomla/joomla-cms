@@ -367,12 +367,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language")
 SELECT 'and', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='and');
 
 --
-UPDATE "#__finder_terms_common" SET ("term", "language") = ('ani', 'en') WHERE "term"='ani';
-
-INSERT INTO "#__finder_terms_common" ("term", "language")
-SELECT 'ani', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='ani');
-
---
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('any', 'en') WHERE "term"='any';
 
 INSERT INTO "#__finder_terms_common" ("term", "language")

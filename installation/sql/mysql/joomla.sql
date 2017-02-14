@@ -1137,7 +1137,6 @@ INSERT INTO `#__finder_terms_common` (`term`, `language`) VALUES
 ('am', 'en'),
 ('an', 'en'),
 ('and', 'en'),
-('ani', 'en'),
 ('any', 'en'),
 ('are', 'en'),
 ('aren''t', 'en'),
