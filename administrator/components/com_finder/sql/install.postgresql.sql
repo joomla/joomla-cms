@@ -589,12 +589,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language")
 SELECT 'once', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='once');
 
 --
-UPDATE "#__finder_terms_common" SET ("term", "language") = ('onli', 'en') WHERE "term"='onli';
-
-INSERT INTO "#__finder_terms_common" ("term", "language")
-SELECT 'onli', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='onli');
-
---
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('only', 'en') WHERE "term"='only';
 
 INSERT INTO "#__finder_terms_common" ("term", "language")

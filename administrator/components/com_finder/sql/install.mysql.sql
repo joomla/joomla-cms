@@ -381,7 +381,6 @@ REPLACE INTO `#__finder_terms_common` (`term`, `language`) VALUES
 ('on', 'en'),
 ('onc', 'en'),
 ('once', 'en'),
-('onli', 'en'),
 ('only', 'en'),
 ('or', 'en'),
 ('other', 'en'),

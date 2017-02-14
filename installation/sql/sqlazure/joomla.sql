@@ -1968,8 +1968,6 @@ SELECT 'onc', 'en'
 UNION ALL
 SELECT 'once', 'en'
 UNION ALL
-SELECT 'onli', 'en'
-UNION ALL
 SELECT 'only', 'en'
 UNION ALL
 SELECT 'or', 'en'
