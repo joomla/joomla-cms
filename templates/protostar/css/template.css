@@ -7276,6 +7276,13 @@ p {
 .breadcrumb > .active {
 	color: #515151;
 }
+#login-form {
+	margin-top: 8px;
+}
+.add-on + #modlgn-username,
+.add-on + #modlgn-passwd {
+	width: 132px;
+}
 .img_caption .left {
 	float: left;
 	margin-right: 1em;

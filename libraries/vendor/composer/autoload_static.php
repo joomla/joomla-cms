@@ -47,6 +47,8 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Uri\\' => 11,
             'Joomla\\String\\' => 14,
             'Joomla\\Registry\\' => 16,
+            'Joomla\\Ldap\\Tests\\' => 18,
+            'Joomla\\Ldap\\' => 12,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
             'Joomla\\Filter\\' => 14,
@@ -101,6 +103,14 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Registry\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/registry/src',
+        ),
+        'Joomla\\Ldap\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/ldap/Tests',
+        ),
+        'Joomla\\Ldap\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/ldap/src',
         ),
         'Joomla\\Input\\Tests\\' => 
         array (

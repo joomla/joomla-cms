@@ -28,6 +28,7 @@
         "joomla/data": "~1.2",
         "joomla/di": "~1.2",
         "joomla/event": "~1.1",
+        "joomla/ldap": "~1.1",
         "joomla/registry": "^1.4.5",
         "joomla/session": "~1.3",
         "joomla/string": "~1.3",

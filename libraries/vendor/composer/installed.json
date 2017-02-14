@@ -1133,5 +1133,44 @@
         ],
         "description": "Symfony Yaml Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "joomla/ldap",
+        "version": "1.1.2",
+        "version_normalized": "1.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/ldap.git",
+            "reference": "91c3827a7f6d7164a3bf49eede27419321e4dcbc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/ldap/zipball/91c3827a7f6d7164a3bf49eede27419321e4dcbc",
+            "reference": "91c3827a7f6d7164a3bf49eede27419321e4dcbc",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.10"
+        },
+        "time": "2014-04-10T03:07:59+00:00",
+        "type": "joomla-package",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Ldap\\": "src/",
+                "Joomla\\Ldap\\Tests\\": "Tests/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla LDAP Package",
+        "homepage": "https://github.com/joomla-framework/ldap",
+        "keywords": [
+            "framework",
+            "joomla",
+            "ldap"
+        ]
     }
 ]

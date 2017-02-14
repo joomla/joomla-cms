@@ -315,11 +315,7 @@ abstract class JPluginHelper
 		{
 			static::$plugins = $cache->get($loader, array(), md5($levels), false);
 		}
-		catch (JCacheExceptionConnecting $cacheException)
-		{
-			static::$plugins = $loader();
-		}
-		catch (JCacheExceptionUnsupported $cacheException)
+		catch (JCacheException $cacheException)
 		{
 			static::$plugins = $loader();
 		}
