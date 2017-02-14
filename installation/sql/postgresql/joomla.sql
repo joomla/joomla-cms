@@ -1131,7 +1131,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 ('no', 'en'),
 ('none', 'en'),
 ('not', 'en'),
-('noth', 'en'),
 ('nothing', 'en'),
 ('of', 'en'),
 ('off', 'en'),

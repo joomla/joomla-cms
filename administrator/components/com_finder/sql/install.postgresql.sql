@@ -541,12 +541,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language")
 SELECT 'not', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='not');
 
 --
-UPDATE "#__finder_terms_common" SET ("term", "language") = ('noth', 'en') WHERE "term"='noth';
-
-INSERT INTO "#__finder_terms_common" ("term", "language")
-SELECT 'noth', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='noth');
-
---
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('nothing', 'en') WHERE "term"='nothing';
 
 INSERT INTO "#__finder_terms_common" ("term", "language")
