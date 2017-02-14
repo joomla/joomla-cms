@@ -163,7 +163,7 @@ class JTableModule extends JTable
 	}
 
 	/**
-	 * Stores a contact.
+	 * Stores a module.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
