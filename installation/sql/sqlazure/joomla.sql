@@ -2066,8 +2066,6 @@ SELECT 'when', 'en'
 UNION ALL
 SELECT 'where', 'en'
 UNION ALL
-SELECT 'whi', 'en'
-UNION ALL
 SELECT 'which', 'en'
 UNION ALL
 SELECT 'who', 'en'

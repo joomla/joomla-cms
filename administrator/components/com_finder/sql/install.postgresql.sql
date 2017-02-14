@@ -883,12 +883,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language")
 SELECT 'where', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='where');
 
 --
-UPDATE "#__finder_terms_common" SET ("term", "language") = ('whi', 'en') WHERE "term"='whi';
-
-INSERT INTO "#__finder_terms_common" ("term", "language")
-SELECT 'whi', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='whi');
-
---
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('which', 'en') WHERE "term"='which';
 
 INSERT INTO "#__finder_terms_common" ("term", "language")

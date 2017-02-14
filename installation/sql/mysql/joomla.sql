@@ -1223,7 +1223,6 @@ INSERT INTO `#__finder_terms_common` (`term`, `language`) VALUES
 ('what', 'en'),
 ('when', 'en'),
 ('where', 'en'),
-('whi', 'en'),
 ('which', 'en'),
 ('who', 'en'),
 ('whom', 'en'),
