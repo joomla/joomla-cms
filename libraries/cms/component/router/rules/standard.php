@@ -279,7 +279,11 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 						$i--;
 						$found2 = false;
 					}
-					$found = true;
+
+					if (count($views[$view]->children))
+					{
+						$found = true;
+					}
 				}
 			}
 			unset($query[$views[$view]->parent_key]);
