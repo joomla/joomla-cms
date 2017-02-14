@@ -841,12 +841,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language")
 SELECT 'users', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='users');
 
 --
-UPDATE "#__finder_terms_common" SET ("term", "language") = ('veri', 'en') WHERE "term"='veri';
-
-INSERT INTO "#__finder_terms_common" ("term", "language")
-SELECT 'veri', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='veri');
-
---
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('version', 'en') WHERE "term"='version';
 
 INSERT INTO "#__finder_terms_common" ("term", "language")

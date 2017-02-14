@@ -423,7 +423,6 @@ REPLACE INTO `#__finder_terms_common` (`term`, `language`) VALUES
 ('use', 'en'),
 ('user', 'en'),
 ('users', 'en'),
-('veri', 'en'),
 ('version', 'en'),
 ('very', 'en'),
 ('via', 'en'),
