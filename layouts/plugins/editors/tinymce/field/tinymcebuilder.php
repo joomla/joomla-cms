@@ -36,7 +36,7 @@ extract($displayData);
  * @var   integer $size           Size attribute of the input.
  * @var   boolean $spellcheck     Spellcheck state for the form field.
  * @var   string  $validate       Validation rules to apply.
- * @var   string  $value          Value attribute of the field.
+ * @var   array   $value          Value of the field.
   *
  * @var   array   $menus           List of the menu items
  * @var   array   $menubarSource   Menu items for builder

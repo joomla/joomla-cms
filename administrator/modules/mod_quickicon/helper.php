@@ -50,32 +50,32 @@ abstract class ModQuickIconHelper
 
 				self::$buttons[$key] = array(
 					array(
-						'link' => JRoute::_('index.php?option=com_content&task=article.add'),
-						'image' => 'fa fa-pencil-square',
-						'text' => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
+						'link'   => JRoute::_('index.php?option=com_content&task=article.add'),
+						'image'  => 'fa fa-pencil-square',
+						'text'   => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
-						'group' => 'MOD_QUICKICON_CONTENT'
+						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
 					array(
-						'link' => JRoute::_('index.php?option=com_media'),
-						'image' => 'fa fa-file-image-o',
-						'text' => JText::_('MOD_QUICKICON_MEDIA_MANAGER'),
+						'link'   => JRoute::_('index.php?option=com_media'),
+						'image'  => 'fa fa-file-image-o',
+						'text'   => JText::_('MOD_QUICKICON_MEDIA_MANAGER'),
 						'access' => array('core.manage', 'com_media'),
-						'group' => 'MOD_QUICKICON_CONTENT'
+						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
 					array(
-						'link' => JRoute::_('index.php?option=com_config'),
-						'image' => 'fa fa-cog',
-						'text' => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
+						'link'   => JRoute::_('index.php?option=com_config'),
+						'image'  => 'fa fa-cog',
+						'text'   => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
-						'group' => 'MOD_QUICKICON_CONFIGURATION'
+						'group'  => 'MOD_QUICKICON_CONFIGURATION',
 					),
 					array(
-						'link' => JRoute::_('index.php?option=com_modules'),
-						'image' => 'fa fa-cube',
-						'text' => JText::_('MOD_QUICKICON_MODULE_MANAGER'),
+						'link'   => JRoute::_('index.php?option=com_modules'),
+						'image'  => 'fa fa-cube',
+						'text'   => JText::_('MOD_QUICKICON_MODULE_MANAGER'),
 						'access' => array('core.manage', 'com_modules'),
-						'group' => 'MOD_QUICKICON_STRUCTURE'
+						'group'  => 'MOD_QUICKICON_STRUCTURE'
 					)
 				);
 			}
@@ -94,11 +94,11 @@ abstract class ModQuickIconHelper
 				foreach ($response as $icon)
 				{
 					$default = array(
-						'link' => null,
-						'image' => 'cog',
-						'text' => null,
+						'link'   => null,
+						'image'  => 'cog',
+						'text'   => null,
 						'access' => true,
-						'group' => 'MOD_QUICKICON_EXTENSIONS'
+						'group'  => 'MOD_QUICKICON_EXTENSIONS',
 					);
 					$icon = array_merge($default, $icon);
 
