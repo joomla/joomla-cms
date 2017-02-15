@@ -91,4 +91,4 @@ JHtml::_('script', 'system/fields/color-field-adv-init.min.js', array('version' 
 	<?php echo $format; ?>
 	<?php echo $keywords; ?>
 	<?php echo $direction; ?>
-	<?php echo $validate; ?>/>
+	<?php echo $validate; ?>>

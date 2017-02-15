@@ -78,4 +78,4 @@ else
 	name="<?php echo $name; ?>"
 	id="<?php echo $id; ?>"
 	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?> />
+	<?php echo implode(' ', $attributes); ?>>
