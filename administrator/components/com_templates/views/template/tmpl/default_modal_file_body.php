@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $input = JFactory::getApplication()->input;
 ?>
 <div id="#template-manager-file" class="container-fluid">
-	<div class="row-fluid">
+	<div class="row">
 		<div class="col-md-12">
 			<div class="col-md-6 column-right">
 				<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="well">
