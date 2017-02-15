@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 ?>
 <div id="template-manager-rename" class="container-fluid">
-	<div class="row">
+	<div class="mt-2">
 		<div class="col-md-12">
 			<div class="control-group">
 				<div class="control-label">
