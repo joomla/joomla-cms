@@ -10,7 +10,9 @@
 defined('_JEXEC') or die;
 ?>
 <div id="template-manager-delete" class="container-fluid">
-	<div class="row-fluid">
-        <p><?php echo JText::sprintf('COM_TEMPLATES_MODAL_FILE_DELETE', $this->fileName); ?></p>
+	<div class="mt-2">
+        <div class="col-md-12">
+            <p><?php echo JText::sprintf('COM_TEMPLATES_MODAL_FILE_DELETE', $this->fileName); ?></p>
+        </div>
 	</div>
 </div>
