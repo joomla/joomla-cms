@@ -34,7 +34,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 				<div id="filter-bar" class="btn-toolbar clearfix">
 					<div class="filter-search btn-group float-left">
 						<div class="input-group">
-							<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" />
+							<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>">
 							<div class="input-group-btn">
 								<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
 								<button type="button" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
@@ -115,10 +115,10 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 					</table>
 				<?php endif; ?>
 
-				<input type="hidden" name="task" value="" />
-				<input type="hidden" name="boxchecked" value="0" />
-				<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-				<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+				<input type="hidden" name="task" value="">
+				<input type="hidden" name="boxchecked" value="0">
+				<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>">
+				<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>

@@ -113,7 +113,7 @@ if ($saveOrder)
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" style="display:none" name="order[]" size="5"
-												value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
+												value="<?php echo $item->ordering; ?>" class="width-20 text-area-order ">
 										<?php endif; ?>
 									</td>
 									<td class="text-center">
@@ -182,8 +182,8 @@ if ($saveOrder)
 					<?php endif; ?>
 				<?php endif; ?>
 
-				<input type="hidden" name="task" value="" />
-				<input type="hidden" name="boxchecked" value="0" />
+				<input type="hidden" name="task" value="">
+				<input type="hidden" name="boxchecked" value="0">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>

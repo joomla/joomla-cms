@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 				</div>
 				<div class="controls">
 					<div class="input-group">
-						<input class="form-control" type="text" name="new_name" required />
+						<input class="form-control" type="text" name="new_name" required>
 						<div class="input-group-addon">.<?php echo JFile::getExt($this->fileName); ?></div>
 					</div>
 				</div>

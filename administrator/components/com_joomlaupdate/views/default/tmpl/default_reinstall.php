@@ -58,7 +58,7 @@ defined('_JEXEC') or die;
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
 				</td>
 				<td>
-					<input class="form-control" class="form-control" type="text" name="ftp_host" value="<?php echo $this->ftp['host']; ?>" />
+					<input class="form-control" class="form-control" type="text" name="ftp_host" value="<?php echo $this->ftp['host']; ?>">
 				</td>
 			</tr>
 			<tr id="row_ftp_port" <?php echo $this->ftpFieldsDisplay; ?>>
@@ -66,7 +66,7 @@ defined('_JEXEC') or die;
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
 				</td>
 				<td>
-					<input class="form-control" type="text" name="ftp_port" value="<?php echo $this->ftp['port']; ?>" />
+					<input class="form-control" type="text" name="ftp_port" value="<?php echo $this->ftp['port']; ?>">
 				</td>
 			</tr>
 			<tr id="row_ftp_username" <?php echo $this->ftpFieldsDisplay; ?>>
@@ -74,7 +74,7 @@ defined('_JEXEC') or die;
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
 				</td>
 				<td>
-					<input class="form-control" type="text" name="ftp_user" value="<?php echo $this->ftp['username']; ?>" />
+					<input class="form-control" type="text" name="ftp_user" value="<?php echo $this->ftp['username']; ?>">
 				</td>
 			</tr>
 			<tr id="row_ftp_password" <?php echo $this->ftpFieldsDisplay; ?>>
@@ -82,7 +82,7 @@ defined('_JEXEC') or die;
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
 				</td>
 				<td>
-					<input class="form-control" type="password" name="ftp_pass" value="<?php echo $this->ftp['password']; ?>" />
+					<input class="form-control" type="password" name="ftp_pass" value="<?php echo $this->ftp['password']; ?>">
 				</td>
 			</tr>
 			<tr id="row_ftp_directory" <?php echo $this->ftpFieldsDisplay; ?>>
@@ -90,7 +90,7 @@ defined('_JEXEC') or die;
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
 				</td>
 				<td>
-					<input class="form-control" type="text" name="ftp_root" value="<?php echo $this->ftp['directory']; ?>" />
+					<input class="form-control" type="text" name="ftp_root" value="<?php echo $this->ftp['directory']; ?>">
 				</td>
 			</tr>
 			</tbody>

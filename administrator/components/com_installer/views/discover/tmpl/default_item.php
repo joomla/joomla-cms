@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 ?>
 <tr class="<?php echo 'row' . $this->item->index % 2; ?>" <?php echo $this->item->style; ?>>
 	<td>
-			<input type="checkbox" id="cb<?php echo $this->item->index; ?>" name="eid[]" value="<?php echo $this->item->extension_id; ?>" onclick="Joomla.isChecked(this.checked);" <?php echo $this->item->cbd; ?> />
-<!--		<input type="checkbox" id="cb<?php echo $this->item->index; ?>" name="eid" value="<?php echo $this->item->extension_id; ?>" onclick="Joomla.isChecked(this.checked);" <?php echo $this->item->cbd; ?> />-->
+			<input type="checkbox" id="cb<?php echo $this->item->index; ?>" name="eid[]" value="<?php echo $this->item->extension_id; ?>" onclick="Joomla.isChecked(this.checked);" <?php echo $this->item->cbd; ?>>
+<!--		<input type="checkbox" id="cb<?php echo $this->item->index; ?>" name="eid" value="<?php echo $this->item->extension_id; ?>" onclick="Joomla.isChecked(this.checked);" <?php echo $this->item->cbd; ?>>-->
 		<span class="bold"><?php echo $this->item->name; ?></span>
 	</td>
 	<td>

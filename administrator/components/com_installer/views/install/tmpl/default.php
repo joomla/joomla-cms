@@ -108,7 +108,7 @@ JFactory::getDocument()->addStyleDeclaration(
 								<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
 							<input class="btn btn-primary" type="button"
 								value="<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>"
-								onclick="Joomla.submitbuttonInstallWebInstaller()"/>
+								onclick="Joomla.submitbuttonInstallWebInstaller()">
 						</div>
 					<?php endif; ?>
 					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab'); ?>
@@ -136,8 +136,8 @@ JFactory::getDocument()->addStyleDeclaration(
 						<?php echo JHtml::_('bootstrap.endTab'); ?>
 					<?php endif; ?>
 
-					<input type="hidden" name="installtype" value=""/>
-					<input type="hidden" name="task" value="install.install"/>
+					<input type="hidden" name="installtype" value="">
+					<input type="hidden" name="task" value="install.install">
 					<?php echo JHtml::_('form.token'); ?>
 
 					<?php echo JHtml::_('bootstrap.endTabSet'); ?>

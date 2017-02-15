@@ -102,8 +102,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 		<?php echo $this->form->getInput('extension'); ?>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

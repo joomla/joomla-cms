@@ -45,8 +45,8 @@ JHtml::_('behavior.core');
 				<?php echo $this->item->message; ?>
 			</div>
 		</div>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="reply_id" value="<?php echo $this->item->message_id; ?>" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="reply_id" value="<?php echo $this->item->message_id; ?>">
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 </form>

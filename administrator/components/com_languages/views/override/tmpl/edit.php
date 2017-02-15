@@ -147,8 +147,8 @@ JFactory::getDocument()->addScriptDeclaration('
 				</span>
 			</fieldset>
 
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="id" value="<?php echo $this->item->key; ?>" />
+			<input type="hidden" name="task" value="">
+			<input type="hidden" name="id" value="<?php echo $this->item->key; ?>">
 
 			<?php echo JHtml::_('form.token'); ?>
 		</div>

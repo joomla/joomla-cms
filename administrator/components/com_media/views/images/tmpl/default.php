@@ -93,7 +93,7 @@ else // XTD Image plugin
 						<label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL'); ?></label>
 					</div>
 					<div class="controls">
-						<input type="text" id="f_url" value="" />
+						<input type="text" id="f_url" value="">
 					</div>
 				</div>
 				<?php if (!$this->state->get('field.id')): ?>
@@ -119,7 +119,7 @@ else // XTD Image plugin
 							<label for="f_alt"><?php echo JText::_('COM_MEDIA_IMAGE_DESCRIPTION'); ?></label>
 						</div>
 						<div class="controls">
-							<input type="text" id="f_alt" value="" />
+							<input type="text" id="f_alt" value="">
 						</div>
 					</div>
 					<div class="col-md-6 control-group">
@@ -127,7 +127,7 @@ else // XTD Image plugin
 							<label for="f_title"><?php echo JText::_('COM_MEDIA_TITLE'); ?></label>
 						</div>
 						<div class="controls">
-							<input type="text" id="f_title" value="" />
+							<input type="text" id="f_title" value="">
 						</div>
 					</div>
 				</div>
@@ -137,7 +137,7 @@ else // XTD Image plugin
 							<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION'); ?></label>
 						</div>
 						<div class="controls">
-							<input type="text" id="f_caption" value="" />
+							<input type="text" id="f_caption" value="">
 						</div>
 					</div>
 					<div class="col-md-6 control-group">
@@ -145,7 +145,7 @@ else // XTD Image plugin
 							<label title="<?php echo JText::_('COM_MEDIA_CAPTION_CLASS_DESC'); ?>" class="noHtmlTip" for="f_caption_class"><?php echo JText::_('COM_MEDIA_CAPTION_CLASS_LABEL'); ?></label>
 						</div>
 						<div class="controls">
-							<input type="text" list="d_caption_class" id="f_caption_class" value="" />
+							<input type="text" list="d_caption_class" id="f_caption_class" value="">
 							<datalist id="d_caption_class">
 								<option value="text-left">
 								<option value="text-center">
@@ -156,9 +156,9 @@ else // XTD Image plugin
 				</div>
 			<?php endif; ?>
 
-			<input type="hidden" id="dirPath" name="dirPath" />
-			<input type="hidden" id="f_file" name="f_file" />
-			<input type="hidden" id="tmpl" name="component" />
+			<input type="hidden" id="dirPath" name="dirPath">
+			<input type="hidden" id="f_file" name="f_file">
+			<input type="hidden" id="tmpl" name="component">
 
 		</div>
 	</form>
@@ -172,7 +172,7 @@ else // XTD Image plugin
 							<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
 						</div>
 						<div class="controls">
-							<input required type="file" id="upload-file" name="Filedata[]" multiple /><button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
+							<input required type="file" id="upload-file" name="Filedata[]" multiple><button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
 							<p class="help-block">
 								<?php $cMax    = (int) $this->config->get('upload_maxsize'); ?>
 								<?php $maxSize = JUtility::getMaxUploadSize($cMax . 'MB'); ?>

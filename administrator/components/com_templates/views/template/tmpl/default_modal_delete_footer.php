@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 $input = JFactory::getApplication()->input;
 ?>
 <form method="post" action="">
-	<input type="hidden" name="option" value="com_templates" />
-	<input type="hidden" name="task" value="template.delete" />
-	<input type="hidden" name="id" value="<?php echo $input->getInt('id'); ?>" />
-	<input type="hidden" name="file" value="<?php echo $this->file; ?>" />
+	<input type="hidden" name="option" value="com_templates">
+	<input type="hidden" name="task" value="template.delete">
+	<input type="hidden" name="id" value="<?php echo $input->getInt('id'); ?>">
+	<input type="hidden" name="file" value="<?php echo $this->file; ?>">
 	<?php echo JHtml::_('form.token'); ?>
 	<a href="#" class="btn btn-secondary" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 	<button type="submit" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>

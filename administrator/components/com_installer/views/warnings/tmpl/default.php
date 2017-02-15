@@ -31,7 +31,7 @@ defined('_JEXEC') or die;
 						<?php echo JHtml::_('bootstrap.endAccordion'); ?>
 					<?php endif; ?>
 					<div>
-						<input type="hidden" name="boxchecked" value="0" />
+						<input type="hidden" name="boxchecked" value="0">
 						<?php echo JHtml::_('form.token'); ?>
 					</div>
 				</div>

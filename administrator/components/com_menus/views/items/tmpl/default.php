@@ -158,7 +158,7 @@ if ($menuType == '')
 											<span class="icon-menu"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
-											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>" />
+											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>">
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
@@ -267,8 +267,8 @@ if ($menuType == '')
 					<?php endif; ?>
 				<?php endif; ?>
 
-				<input type="hidden" name="task" value="" />
-				<input type="hidden" name="boxchecked" value="0" />
+				<input type="hidden" name="task" value="">
+				<input type="hidden" name="boxchecked" value="0">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>

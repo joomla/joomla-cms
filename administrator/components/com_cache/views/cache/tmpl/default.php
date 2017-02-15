@@ -54,7 +54,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						foreach ($this->data as $folder => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td>
-									<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $item->group; ?>" onclick="Joomla.isChecked(this.checked);" />
+									<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $item->group; ?>" onclick="Joomla.isChecked(this.checked);">
 								</td>
 								<td>
 									<label for="cb<?php echo $i; ?>">
@@ -72,8 +72,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</tbody>
 				</table>
 				<?php endif; ?>
-				<input type="hidden" name="task" value="" />
-				<input type="hidden" name="boxchecked" value="0" />
+				<input type="hidden" name="task" value="">
+				<input type="hidden" name="boxchecked" value="0">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>

@@ -187,7 +187,7 @@ if ($this->type == 'font')
 	<div class="col-md-9">
 		<?php if ($this->type == 'home') : ?>
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
-				<input type="hidden" name="task" value="" />
+				<input type="hidden" name="task" value="">
 				<?php echo JHtml::_('form.token'); ?>
 				<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 				<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
@@ -224,7 +224,7 @@ if ($this->type == 'font')
 						</li>
 					<?php endforeach; ?>
 				</ul>
-				<input type="hidden" name="task" value="" />
+				<input type="hidden" name="task" value="">
 				<?php echo JHtml::_('form.token'); ?>
 			</form>
 		<?php endif; ?>
@@ -232,11 +232,11 @@ if ($this->type == 'font')
 			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<fieldset class="adminform">
-					<input type ="hidden" id="x" name="x" />
-					<input type ="hidden" id="y" name="y" />
-					<input type ="hidden" id="h" name="h" />
-					<input type ="hidden" id="w" name="w" />
-					<input type="hidden" name="task" value="" />
+					<input type ="hidden" id="x" name="x">
+					<input type ="hidden" id="y" name="y">
+					<input type ="hidden" id="h" name="h">
+					<input type ="hidden" id="w" name="w">
+					<input type="hidden" name="task" value="">
 					<?php echo JHtml::_('form.token'); ?>
 				</fieldset>
 			</form>
@@ -289,7 +289,7 @@ if ($this->type == 'font')
 								</ul>
 							</li>
 						</ol>
-						<input type="hidden" name="task" value="" />
+						<input type="hidden" name="task" value="">
 						<?php echo JHtml::_('form.token'); ?>
 					</fieldset>
 				</form>

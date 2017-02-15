@@ -48,7 +48,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						<?php echo JComponentHelper::getParams('com_users')->get('mailBodySuffix'); ?></div>
 				</div>
 			</fieldset>
-			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="task" value="">
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 		<div class="col-md-3">

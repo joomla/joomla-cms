@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 					<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
 				</td>
 				<td>
-					<input type="text" id="username" name="username" class="form-control" size="70" value="" />
+					<input type="text" id="username" name="username" class="form-control" size="70" value="">
 				</td>
 			</tr>
 			<tr>
@@ -33,7 +33,7 @@ defined('_JEXEC') or die;
 					<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
 				</td>
 				<td>
-					<input type="password" id="password" name="password" class="form-control" size="70" value="" />
+					<input type="password" id="password" name="password" class="form-control" size="70" value="">
 				</td>
 			</tr>
 		</tbody>

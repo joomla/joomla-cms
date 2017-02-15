@@ -64,18 +64,18 @@ if ($lang->isRtl())
 					<legend><?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?></legend>
 					<?php echo JText::_('COM_MEDIA_DESCFTP'); ?>
 					<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-					<input type="text" id="username" name="username" size="70" value="" />
+					<input type="text" id="username" name="username" size="70" value="">
 
 					<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-					<input type="password" id="password" name="password" size="70" value="" />
+					<input type="password" id="password" name="password" size="70" value="">
 				</fieldset>
 			</form>
 		<?php endif; ?>
 
 		<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="cb1" id="cb1" value="0" />
-			<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
+			<input type="hidden" name="task" value="">
+			<input type="hidden" name="cb1" id="cb1" value="0">
+			<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>">
 		</form>
 
 		<?php if ($user->authorise('core.create', 'com_media')) : ?>
@@ -85,7 +85,7 @@ if ($lang->isRtl())
 				<div id="uploadform">
 					<fieldset id="upload-noflash" class="actions">
 						<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
-						<input required type="file" id="upload-file" name="Filedata[]" multiple />
+						<input required type="file" id="upload-file" name="Filedata[]" multiple>
 						<button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
 						<p class="help-block">
 							<?php $cMax    = (int) $this->config->get('upload_maxsize'); ?>
@@ -93,7 +93,7 @@ if ($lang->isRtl())
 							<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', JHtml::_('number.bytes', $maxSize)); ?>
 						</p>
 					</fieldset>
-					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
+					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>">
 					<?php JFactory::getSession()->set('com_media.return_url', 'index.php?option=com_media'); ?>
 				</div>
 			</form>
@@ -101,9 +101,9 @@ if ($lang->isRtl())
 		<div id="collapseFolder" class="collapse">
 			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index'); ?>" name="folderForm" id="folderForm" class="form-inline" method="post">
 				<div class="path">
-					<input type="text" id="folderpath" readonly="readonly" class="form-control update-folder" />
-					<input required type="text" class="form-control" id="foldername" name="foldername" />
-					<input class="form-control update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
+					<input type="text" id="folderpath" readonly="readonly" class="form-control update-folder">
+					<input required type="text" class="form-control" id="foldername" name="foldername">
+					<input class="form-control update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>">
 					<button type="submit" class="btn btn-secondary"><span class="icon-folder-open"></span> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
 				</div>
 				<?php echo JHtml::_('form.token'); ?>

@@ -73,6 +73,6 @@ $fieldsets = $this->form->getFieldsets();
 	<?php endforeach; ?>
 
 	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="task" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -81,7 +81,7 @@ class JFormFieldModalAssociation extends JFormField
  				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
  				. '</button>';
 
-		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '" />';
+		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '">';
 
 		// Select custom association modal
 		$html[] = JHtml::_(

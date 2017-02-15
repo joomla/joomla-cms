@@ -83,7 +83,7 @@ jQuery(document).ready(function() {
 			</div>
 		</div>
 
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="task" value="">
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 </form>

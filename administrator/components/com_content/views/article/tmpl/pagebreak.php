@@ -38,7 +38,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<label for="title"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TITLE'); ?></label>
 			</div>
 			<div class="controls">
-				<input type="text" id="title" name="title" />
+				<input type="text" id="title" name="title">
 			</div>
 		</div>
 		<div class="control-group">
@@ -46,7 +46,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<label for="alias"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TOC'); ?></label>
 			</div>
 			<div class="controls">
-				<input type="text" id="alt" name="alt" />
+				<input type="text" id="alt" name="alt">
 			</div>
 		</div>
 		<button onclick="insertPagebreak();" class="btn btn-primary"><?php echo JText::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?></button>

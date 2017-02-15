@@ -22,6 +22,6 @@ $input = JFactory::getApplication()->input;
 			<?php echo $this->loadTemplate('description'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="task" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -105,10 +105,10 @@ JFactory::getDocument()->addScriptDeclaration(
 
 		</div>
 
-		<input type="hidden" name="id" value="<?php echo $this->component->id; ?>" />
-		<input type="hidden" name="component" value="<?php echo $this->component->option; ?>" />
-		<input type="hidden" name="return" value="<?php echo $this->return; ?>" />
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="id" value="<?php echo $this->component->id; ?>">
+		<input type="hidden" name="component" value="<?php echo $this->component->option; ?>">
+		<input type="hidden" name="return" value="<?php echo $this->return; ?>">
+		<input type="hidden" name="task" value="">
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
