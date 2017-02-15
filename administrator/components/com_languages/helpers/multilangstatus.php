@@ -242,10 +242,10 @@ abstract class MultilangstatusHelper
 		$query = $db->getQuery(true)
 			->select($db->qn('menutype'))
 			->from($db->qn('#__menu'))
-			->where($db->qn('home') . ' = ' . $db->quote('1'))
-			->where($db->qn('published') . ' = ' . $db->quote('1'))
-			->where($db->qn('client_id') . ' = ' . $db->quote('0'))
-			->where($db->qn('language') . ' = ' . $db->quote('*'));
+			->where($db->qn('home') . ' = ' . $db->q('1'))
+			->where($db->qn('published') . ' = ' . $db->q('1'))
+			->where($db->qn('client_id') . ' = ' . $db->q('0'))
+			->where($db->qn('language') . ' = ' . $db->q('*'));
 
 		$db->setQuery($query);
 
@@ -255,9 +255,9 @@ abstract class MultilangstatusHelper
 		$query->clear()
 			->select($db->qn('title'))
 			->from($db->qn('#__modules'))
-			->where($db->qn('module') . ' = ' . $db->quote('mod_menu'))
-			->where($db->qn('published') . ' = ' . $db->quote('1'))
-			->where($db->qn('client_id') . ' = ' . $db->quote('0'));
+			->where($db->qn('module') . ' = ' . $db->q('mod_menu'))
+			->where($db->qn('published') . ' = ' . $db->q('1'))
+			->where($db->qn('client_id') . ' = ' . $db->q('0'));
 
 		$db->setQuery($query);
 
@@ -274,10 +274,8 @@ abstract class MultilangstatusHelper
 			{
 				continue;
 			}
-			else
-			{
-				return true;
-			}
+
+			return true;
 		}
 	}
 
@@ -298,13 +296,13 @@ abstract class MultilangstatusHelper
 		$query = $db->getQuery(true)
 			->select('id, title, module, position, content, showtitle, params')
 			->from($db->qn('#__modules'))
-			->where($db->qn('module') . ' = ' . $db->quote($moduleName))
-			->where($db->qn('published') . ' = ' . $db->quote('1'))
-			->where($db->qn('client_id') . ' = ' . $db->quote('0'));
+			->where($db->qn('module') . ' = ' . $db->q($moduleName))
+			->where($db->qn('published') . ' = ' . $db->q('1'))
+			->where($db->qn('client_id') . ' = ' . $db->q('0'));
 
 		if ($instanceTitle)
 		{
-			$query->where($db->qn('title') . ' = ' . $db->quote($instanceTitle));
+			$query->where($db->qn('title') . ' = ' . $db->q($instanceTitle));
 		}
 
 		$db->setQuery($query);
