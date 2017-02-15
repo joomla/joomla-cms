@@ -25,11 +25,11 @@ install:
     - IF EXIST C:\tools\php (SET PHP=0)
     - ps: >-
         If ($env:php_ver_target -eq "5.6") {
-          appveyor-retry cinst --ignore-checksums -y --forcex86 php --version ((choco search php --exact --all-versions -r | select-string -pattern $Env:php_ver_target | Select-Object -first 1) -replace '[php|]','')
+          appveyor-retry cinst --params '""/InstallDir:C:\tools\php"""' --ignore-checksums -y --forcex86 php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
           $VC = "vc11"
           $PHPBuild = "x86"
         } Else {
-          appveyor-retry cinst --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $Env:php_ver_target | Select-Object -first 1) -replace '[php|]','')
+          appveyor-retry cinst --params '""/InstallDir:C:\tools\php"""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
           $VC = "vc14"
           $PHPBuild = "x64"
         }
