@@ -90,9 +90,9 @@ if ($spacing > 0)
 			<div><a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>"><?php echo JText::_('MOD_LOGIN_RESET'); ?></a></div>
 		</div>
 
-		<input type="hidden" name="option" value="com_login"/>
-		<input type="hidden" name="task" value="login"/>
-		<input type="hidden" name="return" value="<?php echo $return; ?>"/>
+		<input type="hidden" name="option" value="com_login">
+		<input type="hidden" name="task" value="login">
+		<input type="hidden" name="return" value="<?php echo $return; ?>">
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 </form>
