@@ -236,7 +236,7 @@ abstract class JHtmlMenu
 		}
 		else
 		{
-			$ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '" />' . JText::_('JGLOBAL_NEWITEMSLAST_DESC');
+			$ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '">' . JText::_('JGLOBAL_NEWITEMSLAST_DESC');
 		}
 
 		return $ordering;
