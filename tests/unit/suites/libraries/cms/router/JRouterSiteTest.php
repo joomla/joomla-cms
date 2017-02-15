@@ -114,12 +114,13 @@ class JRouterSiteTest extends TestCaseDatabase
 		$app->method('get')->will($this->returnValueMap($config));
 		$object = new JRouterSite($app, $app->getMenu());
 		$rules = $object->getRules();
-		$this->assertTrue(count($rules['parse' . JRouter::PROCESS_BEFORE]) == 3);
-		$this->assertTrue(count($rules['parse']) == 2);
-		$this->assertTrue(count($rules['parse' . JRouter::PROCESS_AFTER]) == 1);
+
+		$this->assertTrue(count($rules['parse' . JRouter::PROCESS_BEFORE]) == 2);
+		$this->assertTrue(count($rules['parse']) == 1);
+		$this->assertTrue(count($rules['parse' . JRouter::PROCESS_AFTER]) == 0);
 		$this->assertTrue(count($rules['build' . JRouter::PROCESS_BEFORE]) == 2);
-		$this->assertTrue(count($rules['build']) == 1);
-		$this->assertTrue(count($rules['build' . JRouter::PROCESS_AFTER]) == 4);
+		$this->assertTrue(count($rules['build']) == 0);
+		$this->assertTrue(count($rules['build' . JRouter::PROCESS_AFTER]) == 1);
 	}
 
 	/**

@@ -38,6 +38,6 @@ class JMediawikiHttpTest extends PHPUnit_Framework_TestCase
 	{
 		$http = new JHttp;
 
-		$this->assertAttributeInstanceOf('JHttpTransportStream', 'transport', $http);
+		$this->assertAttributeInstanceOf('JHttpTransportCurl', 'transport', $http);
 	}
 }
