@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 					</label>
 				</div>
 				<div class="controls">
-					<input class="input-xlarge" type="number" name="height" placeholder="<?php echo $this->image['height']; ?> px" required />
+					<input class="form-control" type="number" name="height" placeholder="<?php echo $this->image['height']; ?> px" required />
 				</div>
 			</div>
 			<div class="control-group">
@@ -29,7 +29,7 @@ defined('_JEXEC') or die;
 					</label>
 				</div>
 				<div class="controls">
-					<input class="input-xlarge" type="number" name="width" placeholder="<?php echo $this->image['width']; ?> px" required />
+					<input class="form-control" type="number" name="width" placeholder="<?php echo $this->image['width']; ?> px" required />
 				</div>
 			</div>
 		</div>

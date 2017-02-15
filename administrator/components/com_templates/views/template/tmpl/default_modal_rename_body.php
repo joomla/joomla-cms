@@ -20,9 +20,9 @@ defined('_JEXEC') or die;
 					</label>
 				</div>
 				<div class="controls">
-					<div class="input-append">
-						<input class="input-xlarge" type="text" name="new_name" required />
-						<span class="add-on">.<?php echo JFile::getExt($this->fileName); ?></span>
+					<div class="input-group">
+						<input class="form-control" type="text" name="new_name" required />
+						<div class="input-group-addon">.<?php echo JFile::getExt($this->fileName); ?></div>
 					</div>
 				</div>
 			</div>
