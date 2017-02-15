@@ -242,10 +242,10 @@ abstract class MultilangstatusHelper
 		$query = $db->getQuery(true)
 			->select($db->qn('menutype'))
 			->from($db->qn('#__menu'))
-			->where($db->qn('home') . ' = '. $db->quote('1'))
-			->where($db->qn('published') . ' = '. $db->quote('1'))
-			->where($db->qn('client_id') . ' = '. $db->quote('0'))
-			->where($db->qn('language') . ' = '. $db->quote('*'));
+			->where($db->qn('home') . ' = ' . $db->quote('1'))
+			->where($db->qn('published') . ' = ' . $db->quote('1'))
+			->where($db->qn('client_id') . ' = ' . $db->quote('0'))
+			->where($db->qn('language') . ' = ' . $db->quote('*'));
 
 		$db->setQuery($query);
 
@@ -256,8 +256,8 @@ abstract class MultilangstatusHelper
 			->select($db->qn('title'))
 			->from($db->qn('#__modules'))
 			->where($db->qn('module') . ' = ' . $db->quote('mod_menu'))
-			->where($db->qn('published') . ' = '. $db->quote('1'))
-			->where($db->qn('client_id') . ' = '. $db->quote('0'));
+			->where($db->qn('published') . ' = ' . $db->quote('1'))
+			->where($db->qn('client_id') . ' = ' . $db->quote('0'));
 
 		$db->setQuery($query);
 
@@ -284,8 +284,8 @@ abstract class MultilangstatusHelper
 	/**
 	 * Get module by name
 	 *
-	 * @param   string  $name   The name of the module
-	 * @param   string  $title  The title of the module, optional
+	 * @param   string  $moduleName     The name of the module
+	 * @param   string  $instanceTitle  The title of the module, optional
 	 *
 	 * @return  stdClass  The Module object
 	 *
