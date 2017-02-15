@@ -20,7 +20,7 @@ $lang->load('com_finder', JPATH_SITE);
 $suffix = $params->get('moduleclass_sfx');
 $output = '<input type="text" name="q" class="js-finder-search-query input-medium" size="'
 	. $params->get('field_size', 20) . '" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
-	. ' placeholder="' . JText::_('MOD_FINDER_SEARCH_VALUE') . '"/>';
+	. ' placeholder="' . JText::_('MOD_FINDER_SEARCH_VALUE') . '">';
 
 $showLabel  = $params->get('show_label', 1);
 $labelClass = (!$showLabel ? 'element-invisible ' : '') . 'finder' . $suffix;
