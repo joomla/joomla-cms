@@ -22,7 +22,7 @@ class JHtmlFieldPasswordTest_DataSet
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 			),
-			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" />',
+			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control">',
 		),
 
 		'Value' => array(
@@ -31,7 +31,7 @@ class JHtmlFieldPasswordTest_DataSet
 				'name' => 'myTestName',
 				'value' => 'foobar',
 			),
-			'<input type="password" name="myTestName" id="myTestId" value="foobar" class="form-control" />',
+			'<input type="password" name="myTestName" id="myTestId" value="foobar" class="form-control">',
 		),
 
 		'Class' => array(
@@ -40,7 +40,7 @@ class JHtmlFieldPasswordTest_DataSet
 				'name' => 'myTestName',
 				'class' => 'foo bar',
 			),
-			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control foo bar" />',
+			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control foo bar">',
 		),
 
 		'Size' => array(
@@ -49,7 +49,7 @@ class JHtmlFieldPasswordTest_DataSet
 				'name' => 'myTestName',
 				'size' => 60,
 			),
-			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" size="60" />',
+			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" size="60">',
 		),
 
 		'Disabled' => array(
@@ -58,7 +58,7 @@ class JHtmlFieldPasswordTest_DataSet
 				'name' => 'myTestName',
 				'disabled' => true,
 			),
-			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" disabled />',
+			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" disabled>',
 		),
 
 		'Readonly' => array(
@@ -67,7 +67,7 @@ class JHtmlFieldPasswordTest_DataSet
 				'name' => 'myTestName',
 				'readonly' => true,
 			),
-			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" readonly />',
+			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" readonly>',
 		),
 
 		'Hint' => array(
@@ -76,7 +76,7 @@ class JHtmlFieldPasswordTest_DataSet
 				'name' => 'myTestName',
 				'hint' => 'Type any password.',
 			),
-			'<input type="password" name="myTestName" id="myTestId" value="" placeholder="Type any password." class="form-control" />',
+			'<input type="password" name="myTestName" id="myTestId" value="" placeholder="Type any password." class="form-control">',
 		),
 
 		'Autocomplete' => array(
@@ -85,7 +85,7 @@ class JHtmlFieldPasswordTest_DataSet
 				'name' => 'myTestName',
 				'autocomplete' => false,
 			),
-			'<input type="password" name="myTestName" id="myTestId" value="" autocomplete="off" class="form-control" />',
+			'<input type="password" name="myTestName" id="myTestId" value="" autocomplete="off" class="form-control">',
 		),
 
 		'Autofocus' => array(
@@ -94,7 +94,7 @@ class JHtmlFieldPasswordTest_DataSet
 				'name' => 'myTestName',
 				'autofocus' => true,
 			),
-			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" autofocus />',
+			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" autofocus>',
 		),
 
 		'Maxlength' => array(
@@ -103,7 +103,7 @@ class JHtmlFieldPasswordTest_DataSet
 				'name' => 'myTestName',
 				'maxLength' => 250,
 			),
-			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" maxlength="250" />',
+			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" maxlength="250">',
 		),
 
 		'Required' => array(
@@ -112,7 +112,7 @@ class JHtmlFieldPasswordTest_DataSet
 				'name' => 'myTestName',
 				'required' => true,
 			),
-			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" required aria-required="true" />',
+			'<input type="password" name="myTestName" id="myTestId" value="" class="form-control" required aria-required="true">',
 		),
 
 	);

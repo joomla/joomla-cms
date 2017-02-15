@@ -79,15 +79,15 @@ class JHtmlSelectTest_DataSet
 			"<div class=\"controls\">
 	<label for=\"yesId\" id=\"yesId-lbl\" class=\"radio\">
 	
-	<input type=\"radio\" name=\"myRadioListName\" id=\"yesId\" value=\"1\"  >Yes
+	<input type=\"radio\" name=\"myRadioListName\" id=\"yesId\" value=\"1\">Yes
 	</label>
 	<label for=\"myRadioListName0\" id=\"myRadioListName0-lbl\" class=\"radio\">
 	
-	<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\"  >No
+	<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\">No
 	</label>
 	<label for=\"myRadioListName-1\" id=\"myRadioListName-1-lbl\" class=\"radio\">
 	
-	<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\"  >Maybe
+	<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\">Maybe
 	</label>
 </div>
 ",
@@ -112,11 +112,11 @@ class JHtmlSelectTest_DataSet
 			"<div class=\"controls\">
 	<label for=\"fooId\" id=\"fooId-lbl\" class=\"radio\">
 	
-	<input type=\"radio\" name=\"myFooBarListName\" id=\"fooId\" value=\"foo\" class=\"i am radio\" onchange=\"jsfunc();\" >FOO
+	<input type=\"radio\" name=\"myFooBarListName\" id=\"fooId\" value=\"foo\" class=\"i am radio\" onchange=\"jsfunc();\">FOO
 	</label>
 	<label for=\"myFooBarListNamebar\" id=\"myFooBarListNamebar-lbl\" class=\"radio\">
 	
-	<input type=\"radio\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" class=\"i am radio\" onchange=\"jsfunc();\" >BAR
+	<input type=\"radio\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" class=\"i am radio\" onchange=\"jsfunc();\">BAR
 	</label>
 </div>
 ",

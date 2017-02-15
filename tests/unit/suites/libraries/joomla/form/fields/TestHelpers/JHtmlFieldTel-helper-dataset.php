@@ -22,7 +22,7 @@ class JHtmlFieldTelTest_DataSet
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 			),
-			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" />',
+			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="">',
 		),
 
 		'Value' => array(
@@ -31,7 +31,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'value' => 'foobar',
 			),
-			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="foobar" />',
+			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="foobar">',
 		),
 
 		'Class' => array(
@@ -40,7 +40,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'class' => 'foo bar',
 			),
-			'<input type="tel" name="myTestName" class="form-control foo bar" id="myTestId" value="" />',
+			'<input type="tel" name="myTestName" class="form-control foo bar" id="myTestId" value="">',
 		),
 
 		'Size' => array(
@@ -49,7 +49,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'size' => 60,
 			),
-			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" size="60" />',
+			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" size="60">',
 		),
 
 		'Disabled' => array(
@@ -58,7 +58,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'disabled' => true,
 			),
-			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" disabled />',
+			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" disabled>',
 		),
 
 		'Readonly' => array(
@@ -67,7 +67,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'readonly' => true,
 			),
-			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" readonly />',
+			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" readonly>',
 		),
 
 		'Hint' => array(
@@ -76,7 +76,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'hint' => 'Type any tel.',
 			),
-			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" placeholder="Type any tel." />',
+			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" placeholder="Type any tel.">',
 		),
 
 		'Autocomplete' => array(
@@ -85,7 +85,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'autocomplete' => false,
 			),
-			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" autocomplete="off" />',
+			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" autocomplete="off">',
 		),
 
 		'Autofocus' => array(
@@ -94,7 +94,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'autofocus' => true,
 			),
-			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" autofocus />',
+			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" autofocus>',
 		),
 
 		'Spellcheck' => array(
@@ -103,7 +103,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'spellcheck' => false,
 			),
-			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" spellcheck="false" />',
+			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" spellcheck="false">',
 		),
 
 		'Onchange' => array(
@@ -112,7 +112,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'onchange' => 'foobar();',
 			),
-			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" onchange="foobar();" />',
+			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" onchange="foobar();">',
 		),
 
 		'Maxlength' => array(
@@ -121,7 +121,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'maxLength' => 250,
 			),
-			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" maxlength="250" />',
+			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" maxlength="250">',
 		),
 
 		'Required' => array(
@@ -130,7 +130,7 @@ class JHtmlFieldTelTest_DataSet
 				'name' => 'myTestName',
 				'required' => true,
 			),
-			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" required aria-required="true" />',
+			'<input type="tel" name="myTestName" class="form-control" id="myTestId" value="" required aria-required="true">',
 		),
 
 	);

@@ -96,9 +96,9 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 			. '<form action="index.php" method="post" class="form-inline">'
 			. '<label for="mod-search-searchword63" class="element-invisible">Search ...</label>'
 			. '<input name="searchword" id="mod-search-searchword63" maxlength="200"  '
-			. 'class="inputbox search-query" type="search" size="20" placeholder="Search ..." />'
-			. '<input type="hidden" name="task" value="search" /><input type="hidden" name="option" value="com_search" />'
-			. '<input type="hidden" name="Itemid" value="" /></form></div></div>';
+			. 'class="inputbox search-query" type="search" size="20" placeholder="Search ...">'
+			. '<input type="hidden" name="task" value="search"><input type="hidden" name="option" value="com_search">'
+			. '<input type="hidden" name="Itemid" value=""></form></div></div>';
 		$this->assertEquals($html, $htmlClean, 'render output does not match expected content');
 	}
 
