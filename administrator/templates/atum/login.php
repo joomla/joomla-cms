@@ -56,9 +56,6 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 <head>
 	<jdoc:include type="head" />
 	<style>
-		.login-initial {
-			display: none;
-		}
 		<?php // Check if debug is on ?>
 		<?php if ($app->get('debug_lang', 1) || $app->get('debug', 1)) : ?>
 		.view-login .container {
@@ -109,11 +106,5 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 		</ul>
 	</nav>
 	<jdoc:include type="modules" name="debug" style="none" />
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			var formTmp = document.querySelector('.login-initial');
-			if (formTmp) formTmp.style.display = 'block';
-		});
-	</script>
 </body>
 </html>

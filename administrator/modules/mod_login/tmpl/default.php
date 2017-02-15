@@ -45,9 +45,10 @@ if ($spacing > 0)
 				id="mod-login-username"
 				type="text"
 				class="form-control input-full"
+				tabindex="1"
 				placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>"
-				size="15"
-				autofocus="true">
+				autofocus
+			>
 		</div>
 
 		<div class="form-group">
@@ -57,7 +58,7 @@ if ($spacing > 0)
 				type="password"
 				class="form-control input-full"
 				placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"
-				size="15">
+			>
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>
@@ -69,7 +70,7 @@ if ($spacing > 0)
 					type="text"
 					class="form-control input-full"
 					placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>"
-					size="15">
+				>
 			</div>
 		<?php endif; ?>
 
