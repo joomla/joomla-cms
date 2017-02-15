@@ -188,7 +188,7 @@ abstract class JHtmlFilter
 				$html .= '<label class="checkbox" tax-'
 					. $bk . '>';
 				$html .= '<input type="checkbox" class="selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
-					. $bk . '"' . $checked . ' />';
+					. $bk . '"' . $checked . '>';
 				$html .= $nv->title;
 				$html .= '</label>';
 				$html .= '</div>';

@@ -41,9 +41,9 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 		<?php if ($this->params->get('logout_redirect_url')) : ?>
-			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_url', $this->form->getValue('return'))); ?>" />
+			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_url', $this->form->getValue('return'))); ?>">
 		<?php else : ?>
-			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_menuitem', $this->form->getValue('return'))); ?>" />
+			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_menuitem', $this->form->getValue('return'))); ?>">
 		<?php endif; ?>
 		<?php echo JHtml::_('form.token'); ?>
 	</form>

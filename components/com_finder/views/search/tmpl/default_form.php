@@ -27,14 +27,14 @@ if ($this->params->get('show_autosuggest', 1))
 	 * DISABLED UNTIL WEIRD VALUES CAN BE TRACKED DOWN.
 	 */
 	if (false && $this->state->get('list.ordering') !== 'relevance_dsc') : ?>
-		<input type="hidden" name="o" value="<?php echo $this->escape($this->state->get('list.ordering')); ?>" />
+		<input type="hidden" name="o" value="<?php echo $this->escape($this->state->get('list.ordering')); ?>">
 	<?php endif; ?>
 
 	<fieldset class="word">
 		<label for="q">
 			<?php echo JText::_('COM_FINDER_SEARCH_TERMS'); ?>
 		</label>
-		<input type="text" name="q" class="js-finder-search-query inputbox" size="30" value="<?php echo $this->escape($this->query->input); ?>" />
+		<input type="text" name="q" class="js-finder-search-query inputbox" size="30" value="<?php echo $this->escape($this->query->input); ?>">
 		<?php if ($this->escape($this->query->input) != '' || $this->params->get('allow_empty_search')) : ?>
 			<button name="Search" type="submit" class="btn btn-primary"><span class="icon-search icon-white"></span> <?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 		<?php else : ?>
