@@ -11,6 +11,6 @@ defined('_JEXEC') or die;
 
 $text = JText::_('JTOOLBAR_CANCEL');
 ?>
-<button onclick="location.href='index.php?option=com_modules'" class="btn" title="<?php echo $text; ?>">
-	<span class="icon-remove"></span> <?php echo $text; ?>
+<button onclick="location.href='index.php?option=com_modules'" class="btn btn-sm btn-danger" title="<?php echo $text; ?>">
+	<span class="icon-cancel"></span> <?php echo $text; ?>
 </button>
