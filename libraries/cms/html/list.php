@@ -160,7 +160,7 @@ abstract class JHtmlList
 				$text = JText::_('JGLOBAL_NEWITEMSFIRST_DESC');
 			}
 
-			$html = '<input type="hidden" name="' . $name . '" value="' . (int) $selected . '" /><span class="readonly">' . $text . '</span>';
+			$html = '<input type="hidden" name="' . $name . '" value="' . (int) $selected . '"><span class="readonly">' . $text . '</span>';
 		}
 
 		return $html;
