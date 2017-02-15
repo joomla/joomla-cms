@@ -21,8 +21,8 @@ var_dump('TEST');
 		<label for="jform_language" class="control-label"><?php echo JText::_('INSTL_SELECT_LANGUAGE_TITLE'); ?></label>
 		<?php echo $this->form->getInput('language'); ?>
 	</div>
-	<input type="hidden" name="view" value="preinstall" />
-	<input type="hidden" name="task" value="setlanguage" />
+	<input type="hidden" name="view" value="preinstall">
+	<input type="hidden" name="task" value="setlanguage">
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <form action="index.php" method="post" id="adminForm">
@@ -108,6 +108,6 @@ var_dump('TEST');
 			<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
 		</div>
 	</div>
-	<input type="hidden" name="task" value="preinstall" />
+	<input type="hidden" name="task" value="preinstall">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

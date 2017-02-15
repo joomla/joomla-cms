@@ -69,7 +69,7 @@ defined('_JEXEC') or die;
 			<a  class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 		</div>
 	</div>
-	<input type="hidden" name="task" value="database" />
-	<input type="hidden" name="format" value="json" />
+	<input type="hidden" name="task" value="database">
+	<input type="hidden" name="format" value="json">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

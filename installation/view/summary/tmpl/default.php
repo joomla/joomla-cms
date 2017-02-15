@@ -346,8 +346,8 @@ $prev = $useftp ? 'ftp' : 'database';
 		</div>
 	</div>
 
-	<input type="hidden" name="task" value="summary" />
-	<input type="hidden" name="format" value="json" />
+	<input type="hidden" name="task" value="summary">
+	<input type="hidden" name="format" value="json">
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 
