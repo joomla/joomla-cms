@@ -184,11 +184,6 @@ class JTableModule extends JTable
 			$this->publish_down = $this->_db->getNullDate();
 		}
 
-		if (!$this->checked_out_time)
-		{
-			$this->checked_out_time = $this->_db->getNullDate();
-		}
-
 		return parent::store($updateNulls);
 	}
 }
