@@ -39,12 +39,12 @@ JFactory::getDocument()->addScriptDeclaration('
 	</label>
 	<div class="controls">
 		<input type="text" id="install_directory" name="install_directory" class="form-control"
-			value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>" />
+			value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>">
 	</div>
 </div>
 <div class="control-group">
 	<div class="controls">
 		<input type="button" class="btn btn-primary" id="installbutton_directory"
-			value="<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonfolder()" />
+			value="<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonfolder()">
 	</div>
 </div>
