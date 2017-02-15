@@ -35,6 +35,14 @@ class JFormFieldTinymceBuilder extends JFormField
 	protected $layout = 'plugins.editors.tinymce.field.tinymcebuilder';
 
 	/**
+	 * The prepared layout data
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $layoutData = array();
+
+	/**
 	 * Method to get the data to be passed to the layout for rendering.
 	 *
 	 * @return  array
@@ -43,9 +51,19 @@ class JFormFieldTinymceBuilder extends JFormField
 	 */
 	protected function getLayoutData()
 	{
+		if (!empty($this->layoutData))
+		{
+			return $this->layoutData;
+		}
+
 		$data       = parent::getLayoutData();
 		$paramsAll  = (object) $this->form->getValue('params');
 		$setsAmount = empty($paramsAll->sets_amount) ? 3 : $paramsAll->sets_amount;
+
+		if (empty($data['value']))
+		{
+			$data['value'] = array();
+		}
 
 		// Get the plugin
 		require_once JPATH_PLUGINS . '/editors/tinymce/tinymce.php';
@@ -153,6 +171,8 @@ class JFormFieldTinymceBuilder extends JFormField
 		{
 			$data['languageFile'] = $languageFile2;
 		}
+
+		$this->layoutData = $data;
 
 		return $data;
 	}
