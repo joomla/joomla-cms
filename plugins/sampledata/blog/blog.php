@@ -506,7 +506,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'menutype'     => $menuTypes[0],
+				'menutype'     => $menuTypes[1],
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
 				'link'         => 'index.php?option=com_config&view=templates&controller=config.display.templates',
 				'parent_id'    => $menuIdsLevel1[4],
@@ -577,6 +577,28 @@ class PlgSampledataBlog extends JPlugin
 				'ordering'  => 1,
 				'position'  => 'position-1',
 				'module'    => 'mod_menu',
+				'showtitle' => 0,
+				'params'    => array(
+					'menutype'        => $menuTypes[0],
+					'startLevel'      => 1,
+					'endLevel'        => 0,
+					'showAllChildren' => 0,
+					'class_sfx'       => ' nav-pills',
+					'layout'          => '_:default',
+					'cache'           => 1,
+					'cache_time'      => 900,
+					'cachemode'       => 'itemid',
+					'module_tag'      => 'div',
+					'bootstrap_size'  => 0,
+					'header_tag'      => 'h3',
+					'style'           => 0,
+				),
+			),
+			array(
+				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
+				'ordering'  => 1,
+				'position'  => 'position-1',
+				'module'    => 'mod_menu',
 				'access'    => 3,
 				'showtitle' => 0,
 				'params'    => array(
@@ -596,7 +618,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
+				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
 				'ordering'  => 6,
 				'position'  => 'position-7',
 				'module'    => 'mod_syndicate',
@@ -610,7 +632,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
+				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
 				'ordering' => 4,
 				'position' => 'position-7',
 				'module'   => 'mod_articles_archive',
@@ -623,7 +645,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
+				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
 				'ordering' => 5,
 				'position' => 'position-7',
 				'module'   => 'mod_articles_popular',
@@ -638,7 +660,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
+				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
 				'ordering' => 2,
 				'position' => 'position-7',
 				'module'   => 'mod_articles_category',
@@ -684,7 +706,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
+				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_6_TITLE'),
 				'ordering'  => 1,
 				'position'  => 'footer',
 				'module'    => 'mod_menu',
@@ -705,7 +727,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_6_TITLE'),
+				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
 				'ordering' => 1,
 				'position' => 'position-0',
 				'module'   => 'mod_search',
@@ -720,7 +742,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
+				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
 				'content'   => '<p><img src="images/headers/raindrops.jpg" alt="" /></p>',
 				'ordering'  => 1,
 				'position'  => 'position-3',
@@ -739,7 +761,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
+				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_9_TITLE'),
 				'ordering' => 1,
 				'position' => 'position-7',
 				'module'   => 'mod_tags_popular',
@@ -761,7 +783,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_9_TITLE'),
+				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
 				'ordering' => 0,
 				'position' => '',
 				'module'   => 'mod_tags_similar',
@@ -777,7 +799,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
+				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_11_TITLE'),
 				'ordering'  => 4,
 				'position'  => 'cpanel',
 				'module'    => 'mod_stats_admin',
@@ -799,7 +821,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_11_TITLE'),
+				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_12_TITLE'),
 				'ordering'  => 1,
 				'position'  => 'postinstall',
 				'module'    => 'mod_feed',
