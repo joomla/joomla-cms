@@ -136,7 +136,9 @@ SELECT 52, 18, 68, 69, 2, 'com_modules.module.79', 'Multilanguage status', '{}'
 UNION ALL
 SELECT 53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{}'
 UNION ALL
-SELECT 54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}';
+SELECT 54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'
+UNION ALL
+SELECT 55, 18, 71, 72, 2, 'com_modules.module.87', 'SampleData', '{}';
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
@@ -871,7 +873,9 @@ SELECT 223, 'mod_finder', 'module', 'mod_finder', '', 0, 1, 0, 0, '', '', '', ''
 UNION ALL
 SELECT 316, 'mod_tags_popular', 'module', 'mod_tags_popular', '', 0, 1, 1, 0, '', '{"maximum":"5","timeframe":"alltime","owncache":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 317, 'mod_tags_similar', 'module', 'mod_tags_similar', '', 0, 1, 1, 0, '', '{"maximum":"5","matchtype":"any","owncache":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 317, 'mod_tags_similar', 'module', 'mod_tags_similar', '', 0, 1, 1, 0, '', '{"maximum":"5","matchtype":"any","owncache":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 318, 'mod_sampledata', 'module', 'mod_sampledata', '', 1, 1, 1, 0, '', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 -- Modules: Administrator
 INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
@@ -1059,7 +1063,12 @@ SELECT 477, 'plg_fields_usergrouplist', 'plugin', 'usergrouplist', 'fields', 0, 
 UNION ALL
 SELECT 478, 'plg_content_fields', 'plugin', 'fields', 'content', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 479, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 479, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 480, 'plg_sampledata_blog', 'plugin', 'blog', 'sampledata', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 481, 'plg_sampledata_testing', 'plugin', 'testing', 'sampledata', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+
 -- Templates
 INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 503, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -2482,7 +2491,9 @@ SELECT 17, 51, 'Breadcrumbs', '', '', 1, 'position-2', 0, '1900-01-01 00:00:00',
 UNION ALL
 SELECT 79, 52, 'Multilanguage status', '', '', 1, 'status', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'
 UNION ALL
-SELECT 86, 53, 'Joomla Version', '', '', 1, 'footer', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*';
+SELECT 86, 53, 'Joomla Version', '', '', 1, 'footer', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'
+UNION ALL
+SELECT 87, 55, 'SampleData', '', '', 0, 'cpanel', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_sampledata', 3, 1, '{}', 1, '*';
 
 SET IDENTITY_INSERT [#__modules] OFF;
 
@@ -2532,7 +2543,9 @@ SELECT 17, 0
 UNION ALL
 SELECT 79, 0
 UNION ALL
-SELECT 86, 0;
+SELECT 86, 0
+UNION ALL
+SELECT 87, 0;
 
 /****** Object:  Table [#__newsfeeds] ******/
 SET QUOTED_IDENTIFIER ON;
