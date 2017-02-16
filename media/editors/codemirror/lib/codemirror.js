@@ -1745,6 +1745,9 @@ function buildLineContent(cm, lineView) {
                  col: 0, pos: 0, cm: cm,
                  trailingSpace: false,
                  splitSpaces: (ie || webkit) && cm.getOption("lineWrapping")}
+  // hide from accessibility tree
+  content.setAttribute("role", "presentation")
+  builder.pre.setAttribute("role", "presentation")
   lineView.measure = {}
 
   // Iterate over the logical lines that make up this visual line.
@@ -5583,6 +5586,7 @@ function markText(doc, from, to, options, type) {
     // Showing up as a widget implies collapsed (widget replaces text)
     marker.collapsed = true
     marker.widgetNode = elt("span", [marker.replacedWith], "CodeMirror-widget")
+    marker.widgetNode.setAttribute("role", "presentation") // hide from accessibility tree
     if (!options.handleMouseEvents) { marker.widgetNode.setAttribute("cm-ignore-events", "true") }
     if (options.insertLeft) { marker.widgetNode.insertLeft = true }
   }
@@ -5930,7 +5934,6 @@ Doc.prototype = createObj(BranchChunk.prototype, {
   clearGutter: docMethodOp(function(gutterID) {
     var this$1 = this;
 
-    var i = this.first
     this.iter(function (line) {
       if (line.gutterMarkers && line.gutterMarkers[gutterID]) {
         changeLine(this$1, line, "gutter", function () {
@@ -5939,7 +5942,6 @@ Doc.prototype = createObj(BranchChunk.prototype, {
           return true
         })
       }
-      ++i
     })
   }),
 
@@ -9104,7 +9106,7 @@ CodeMirror.fromTextArea = fromTextArea
 
 addLegacyProps(CodeMirror)
 
-CodeMirror.version = "5.22.0"
+CodeMirror.version = "5.23.0"
 
 return CodeMirror;
 
