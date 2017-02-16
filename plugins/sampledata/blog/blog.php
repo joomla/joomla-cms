@@ -281,12 +281,16 @@ class PlgSampledataBlog extends JPlugin
 			$menuTable->load();
 			$menuTable->bind($menu);
 
-			if (!$menuTable->store())
+			try
+			{
+				$menuTable->store();
+			}
+			catch (Exception $e)
 			{
 				JFactory::getLanguage()->load('com_menus');
-				$response = array();
+				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, JText::_($menuTable->getError()));
+				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
 				return $response;
 			}

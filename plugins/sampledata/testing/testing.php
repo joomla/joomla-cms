@@ -1456,12 +1456,16 @@ class PlgSampledataTesting extends JPlugin
 			$menuTable->load();
 			$menuTable->bind($menu);
 
-			if (!$menuTable->store())
+			try
+			{
+				$menuTable->store();
+			}
+			catch (Exception $e)
 			{
 				JFactory::getLanguage()->load('com_menus');
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, JText::_($menuTable->getError()));
+				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
 
 				return $response;
 			}
