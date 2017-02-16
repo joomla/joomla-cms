@@ -490,7 +490,7 @@ class PlgSampledataBlog extends JPlugin
 		$menuItems = array(
 			array(
 				'menutype'     => $menuTypes[1],
-				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_19_TITLE'),
+				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
 				'link'         => 'index.php?option=com_config&view=config&controller=config.display.config',
 				'parent_id'    => $menuIdsLevel1[4],
 				'component_id' => 23,
