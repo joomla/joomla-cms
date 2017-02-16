@@ -36,8 +36,8 @@ class JMediawikiHttpTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorSetsStreamTransport()
 	{
-		$http = new JHttp;
+		$http = new JMediawikiHttp(array());
 
-		$this->assertAttributeInstanceOf('JHttpTransportCurl', 'transport', $http);
+		$this->assertAttributeInstanceOf('JHttpTransportStream', 'transport', $http);
 	}
 }
