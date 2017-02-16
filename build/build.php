@@ -55,8 +55,7 @@ mkdir($fullpath);
 
 echo "Copy the files from the git repository.\n";
 chdir($repo);
-//system($systemGit . ' archive ' . $fullVersion . ' | tar -x -C ' . $fullpath);
-system($systemGit . ' archive inheritable | tar -x -C ' . $fullpath);
+system($systemGit . ' archive ' . $fullVersion . ' | tar -x -C ' . $fullpath);
 
 chdir($tmp);
 system('mkdir diffdocs');
@@ -142,8 +141,7 @@ for ($num = $release - 1; $num >= 0; $num--)
 
 	// Here we get a list of all files that have changed between the two tags ($previousTag and $fullVersion) and save in diffdocs
 	$previousTag = $version . '.' . $num;
-//	$command     = $systemGit . ' diff tags/' . $previousTag . ' tags/' . $fullVersion . ' --name-status > diffdocs/' . $version . '.' . $num;
-	$command = $systemGit . ' diff tags/' . $previousTag . ' inheritable --name-status > diffdocs/' . $version . '.' . $num;
+	$command     = $systemGit . ' diff tags/' . $previousTag . ' tags/' . $fullVersion . ' --name-status > diffdocs/' . $version . '.' . $num;
 
 	system($command);
 
