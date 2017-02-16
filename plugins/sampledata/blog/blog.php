@@ -121,13 +121,18 @@ class PlgSampledataBlog extends JPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => '*',
+			'params'          => '',
 		);
 
-		if (!$categoryModel->save($category))
+		try
+		{
+			$categoryModel->save($category);
+		}
+		catch (Exception $e)
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $categoryModel->getError());
+			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
 			return $response;
 		}
@@ -150,13 +155,18 @@ class PlgSampledataBlog extends JPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => '*',
+			'params'          => '',
 		);
 
-		if (!$categoryModel->save($category))
+		try
+		{
+			$categoryModel->save($category);
+		}
+		catch (Exception $e)
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $categoryModel->getError());
+			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
 			return $response;
 		}
@@ -210,6 +220,9 @@ class PlgSampledataBlog extends JPlugin
 			$article['state']           = 1;
 			$article['featured']        = 0;
 			$article['images']          = '';
+			$article['metakey']         = '';
+			$article['metadesc']        = '';
+			$article['xreference']      = '';
 
 			if (!isset($article['access']))
 			{
