@@ -128,7 +128,12 @@ abstract class TestCaseDatabaseOracle extends TestCaseDatabase
 	public static function tearDownAfterClass()
 	{
 		JFactory::$database = self::$_stash;
-		self::$driver = null;
+
+		if (static::$driver !== null)
+		{
+			static::$driver->disconnect();
+			static::$driver = null;
+		}
 	}
 
 	/**

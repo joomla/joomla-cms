@@ -970,57 +970,6 @@
         ]
     },
     {
-        "name": "symfony/yaml",
-        "version": "v2.8.15",
-        "version_normalized": "2.8.15.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/yaml.git",
-            "reference": "befb26a3713c97af90d25dd12e75621ef14d91ff"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/befb26a3713c97af90d25dd12e75621ef14d91ff",
-            "reference": "befb26a3713c97af90d25dd12e75621ef14d91ff",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9"
-        },
-        "time": "2016-11-14T16:15:57+00:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.8-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\Yaml\\": ""
-            },
-            "exclude-from-classmap": [
-                "/Tests/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Yaml Component",
-        "homepage": "https://symfony.com"
-    },
-    {
         "name": "joomla/session",
         "version": "1.3.3",
         "version_normalized": "1.3.3.0",
@@ -1133,5 +1082,95 @@
             }
         ],
         "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "symfony/yaml",
+        "version": "v2.8.16",
+        "version_normalized": "2.8.16.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/yaml.git",
+            "reference": "dbe61fed9cd4a44c5b1d14e5e7b1a8640cfb2bf2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/dbe61fed9cd4a44c5b1d14e5e7b1a8640cfb2bf2",
+            "reference": "dbe61fed9cd4a44c5b1d14e5e7b1a8640cfb2bf2",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "time": "2017-01-03T13:49:52+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Yaml\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Yaml Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "joomla/ldap",
+        "version": "1.1.2",
+        "version_normalized": "1.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/ldap.git",
+            "reference": "91c3827a7f6d7164a3bf49eede27419321e4dcbc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/ldap/zipball/91c3827a7f6d7164a3bf49eede27419321e4dcbc",
+            "reference": "91c3827a7f6d7164a3bf49eede27419321e4dcbc",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.10"
+        },
+        "time": "2014-04-10T03:07:59+00:00",
+        "type": "joomla-package",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Ldap\\": "src/",
+                "Joomla\\Ldap\\Tests\\": "Tests/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla LDAP Package",
+        "homepage": "https://github.com/joomla-framework/ldap",
+        "keywords": [
+            "framework",
+            "joomla",
+            "ldap"
+        ]
     }
 ]

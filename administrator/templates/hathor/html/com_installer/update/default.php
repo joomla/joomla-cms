@@ -55,7 +55,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<tr class="row<?php echo $i % 2; ?>">
 				<td><?php echo JHtml::_('grid.id', $i, $item->update_id); ?></td>
 				<td>
-					<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('JGLOBAL_DESCRIPTION'), $item->description ? $item->description : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
+					<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('JGLOBAL_DESCRIPTION'), $item->description ? $item->description : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
 					<?php echo $item->name; ?>
 					</span>
 				</td>

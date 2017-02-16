@@ -158,7 +158,7 @@ abstract class JDatabaseQuery
 
 	/**
 	 * @var    array  Details of window function.
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $selectRowNumber = null;
 
@@ -1809,27 +1809,6 @@ abstract class JDatabaseQuery
 	}
 
 	/**
-	 * Find a value in a varchar used like a set.
-	 *
-	 * Ensure that the value is an integer before passing to the method.
-	 *
-	 * Usage:
-	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
-	 *
-	 * @param   string  $value  The value to search for.
-	 *
-	 * @param   string  $set    The set of values.
-	 *
-	 * @return  string  Returns the find_in_set() Mysql function and must be translated in each driver.
-	 *
-	 * @since   3.7.0
-	 */
-	public function findInSet($value, $set)
-	{
-		return '';
-	}
-
-	/**
 	 * Validate arguments which are passed to selectRowNumber method and set up common variables.
 	 *
 	 * @param   string  $orderBy           An expression of ordering for window function.
@@ -1837,7 +1816,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  RuntimeException
 	 */
 	protected function validateRowNumber($orderBy, $orderColumnAlias)
@@ -1868,7 +1847,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  RuntimeException
 	 */
 	public function selectRowNumber($orderBy, $orderColumnAlias)
