@@ -212,7 +212,7 @@ class JFormHelper
 				continue;
 			}
 
-			JLoader::register($class, $file);
+			require_once $file;
 
 			if (class_exists($class))
 			{
