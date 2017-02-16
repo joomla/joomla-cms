@@ -65,9 +65,13 @@ class MediaControllerApi extends JControllerLegacy
 	 * - GET a list of files and subfolders of a given folder:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
 	 * 		/api/files/sampledata/fruitshop
+	 * - GET a list of files and subfolders of a given folder for a given filter:
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop&filter=apple
+	 * 		/api/files/sampledata/fruitshop?filter=apple
 	 * - GET file information for a specific file:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 *
 	 *
 	 * - POST a new file or folder into a specific folder:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
@@ -123,10 +127,10 @@ class MediaControllerApi extends JControllerLegacy
 			switch (strtolower($method))
 			{
 				case 'get':
-					$data = $this->adapter->getFiles($path);
+					$data = $this->adapter->getFiles($path, $this->input->getWord('filter'));
 					break;
 				case 'delete':
-					$data = $this->adapter->delete($path);
+					$this->adapter->delete($path);
 					break;
 				case 'post':
 					$content      = $this->input->json;
@@ -136,12 +140,12 @@ class MediaControllerApi extends JControllerLegacy
 					if ($mediaContent)
 					{
 						// A file needs to be created
-						$data = $this->adapter->createFile($name, $path, $mediaContent);
+						$this->adapter->createFile($name, $path, $mediaContent);
 					}
 					else
 					{
 						// A file needs to be created
-						$data = $this->adapter->createFolder($name, $path);
+						$this->adapter->createFolder($name, $path);
 					}
 					break;
 				case 'put':
@@ -149,7 +153,7 @@ class MediaControllerApi extends JControllerLegacy
 					$name         = basename($path);
 					$mediaContent = base64_decode($content->get('content'));
 
-					$data = $this->adapter->updateFile($name, str_replace($name, '', $path), $mediaContent);
+					$this->adapter->updateFile($name, str_replace($name, '', $path), $mediaContent);
 					break;
 				default:
 					throw new BadMethodCallException('Method not supported yet!');

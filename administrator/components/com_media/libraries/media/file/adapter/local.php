@@ -45,7 +45,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 	/**
 	 * Returns the folders and files for the given path. The returned objects
-	 * have the following properties avilable:
+	 * have the following properties available:
 	 * - type: The type can be file or dir
 	 * - name: The name of the file
 	 * - path: The relative path to the root
@@ -54,14 +54,15 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * - extension: The file extension
 	 * - size:      The size of the file
 	 *
-	 * @param   string  $path  The folder
+	 * @param   string  $path    The folder
+	 * @param   string  $filter  The filter
 	 *
 	 * @return  stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function getFiles($path = '/')
+	public function getFiles($path = '/', $filter = '')
 	{
 		// Set up the path correctly
 		$path     = JPath::clean('/' . $path);
@@ -91,7 +92,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$data = array();
 
 		// Read the folders
-		foreach (JFolder::folders($basePath) as $folder)
+		foreach (JFolder::folders($basePath, $filter) as $folder)
 		{
 			$obj       = new stdClass;
 			$obj->type = 'dir';
@@ -102,7 +103,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		}
 
 		// Read the files
-		foreach (JFolder::files($basePath) as $file)
+		foreach (JFolder::files($basePath, $filter) as $file)
 		{
 			$obj            = new stdClass;
 			$obj->type      = 'file';

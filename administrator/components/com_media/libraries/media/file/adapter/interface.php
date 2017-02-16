@@ -18,19 +18,24 @@ interface MediaFileAdapterInterface
 {
 	/**
 	 * Returns the folders and files for the given path. The returned objects
-	 * have the following properties:
-	 * - type: file or dir
+	 * have the following properties available:
+	 * - type: The type can be file or dir
 	 * - name: The name of the file
 	 * - path: The relative path to the root
 	 *
-	 * @param   string  $path  The folder
+	 * If the type is file, then some additional properties are available:
+	 * - extension: The file extension
+	 * - size:      The size of the file
+	 *
+	 * @param   string  $path    The folder
+	 * @param   string  $filter  The filter
 	 *
 	 * @return  stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function getFiles($path = '/');
+	public function getFiles($path = '/', $filter = '');
 
 	/**
 	 * Creates a folder with the given name in the given path.

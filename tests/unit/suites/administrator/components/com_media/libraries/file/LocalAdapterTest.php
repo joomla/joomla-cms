@@ -91,6 +91,45 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test MediaFileAdapterLocal::getFiles with a filter
+	 *
+	 * @return  void
+	 */
+	public function testGetFilteredFiles()
+	{
+		// Make some test files
+		JFile::write($this->root . 'test.txt', 'test');
+		JFile::write($this->root . 'foo.txt', 'test');
+		JFile::write($this->root . 'bar.txt', 'test');
+		JFolder::create($this->root . 'unit');
+		JFolder::create($this->root . 'foo');
+
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Fetch the files from the root folder
+		$files = $adapter->getFiles('/', 'foo');
+
+		// Check if the array is big enough
+		$this->assertNotEmpty($files);
+		$this->assertCount(2, $files);
+
+		// Check the folder
+		$this->assertInstanceOf('stdClass', $files[0]);
+		$this->assertEquals('dir', $files[0]->type);
+		$this->assertEquals('foo', $files[0]->name);
+		$this->assertEquals('/foo', $files[0]->path);
+
+		// Check the file
+		$this->assertInstanceOf('stdClass', $files[1]);
+		$this->assertEquals('file', $files[1]->type);
+		$this->assertEquals('foo.txt', $files[1]->name);
+		$this->assertEquals('txt', $files[1]->extension);
+		$this->assertEquals('/foo.txt', $files[1]->path);
+		$this->assertGreaterThan(1, $files[1]->size);
+	}
+
+	/**
 	 * Test MediaFileAdapterLocal::getFiles with a single file
 	 *
 	 * @return  void
