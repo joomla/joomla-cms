@@ -177,8 +177,8 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$user = JFactory::getUser($userData['id']);
-		$user->params = (string) $user->getParameters();
+		$userData['params'] = json_decode($userData['params'], true);
+		$user               = JFactory::getUser($userData['id']);
 
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);
