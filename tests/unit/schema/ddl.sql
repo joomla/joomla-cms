@@ -287,6 +287,7 @@ CREATE TABLE `jos_menu` (
   `checked_out_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `browserNav` INTEGER NOT NULL DEFAULT '0',
   `access` INTEGER NOT NULL DEFAULT '0',
+  `inheritable` INTEGER NOT NULL DEFAULT '1',
   `img` TEXT NOT NULL DEFAULT '',
   `template_style_id` INTEGER NOT NULL DEFAULT '0',
   `params` TEXT NOT NULL DEFAULT '',

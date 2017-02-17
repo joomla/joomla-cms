@@ -247,6 +247,8 @@ CREATE TABLE "jos_menu" (
   "browserNav" smallint DEFAULT 0 NOT NULL,
   -- The access level required to view the menu item.
   "access" smallint DEFAULT 0 NOT NULL,
+  -- Determines if view access level for this menu item can be inherited.
+  "inheritable" smallint DEFAULT 1 NOT NULL,
   -- The image of the menu item.
   "img" character varying(255) NOT NULL,
   "template_style_id" integer DEFAULT 0 NOT NULL,
