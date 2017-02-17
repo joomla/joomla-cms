@@ -229,7 +229,7 @@ if ($this->type == 'font')
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'image') : ?>
-			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
+			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>">
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<fieldset class="adminform">
 					<input type ="hidden" id="x" name="x" />
@@ -257,11 +257,11 @@ if ($this->type == 'font')
 						<ul>
 							<li>Item</li>
 							<li>Item</li>
-							<li>Item<br />
+							<li>Item<br>
 								<ul>
 									<li>Item</li>
 									<li>Item</li>
-									<li>Item<br />
+									<li>Item<br>
 										<ul>
 											<li>Item</li>
 											<li>Item</li>
@@ -275,11 +275,11 @@ if ($this->type == 'font')
 						<ol>
 							<li>Item</li>
 							<li>Item</li>
-							<li>Item<br />
+							<li>Item<br>
 								<ul>
 									<li>Item</li>
 									<li>Item</li>
-									<li>Item<br />
+									<li>Item<br>
 										<ul>
 											<li>Item</li>
 											<li>Item</li>

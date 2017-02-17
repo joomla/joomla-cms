@@ -31,7 +31,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->ftp) : ?>
 						<?php echo $this->loadTemplate('ftp'); ?>
 					<?php endif; ?>
-
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info alert-no-items">
@@ -47,10 +46,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap center">
+								<th class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap center">
+								<th class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap hidden-sm-down">
@@ -117,7 +116,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<span class="break-word">
 										<?php echo $item->detailsurl; ?>
 											<?php if (isset($item->infourl)) : ?>
-												<br />
+												<br>
 												<a href="<?php echo $item->infourl; ?>" target="_blank"><?php echo $this->escape($item->infourl); ?></a>
 											<?php endif; ?>
 										</span>

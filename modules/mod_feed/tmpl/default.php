@@ -80,7 +80,7 @@ else
 		// Feed image
 		if ($iUrl && $params->get('rssimage', 1)) :
 		?>
-			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
+			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>">
 		<?php endif; ?>
 
 

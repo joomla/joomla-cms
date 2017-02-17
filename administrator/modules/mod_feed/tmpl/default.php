@@ -71,7 +71,7 @@ else
 
 		<!--  Feed image  -->
 		<?php if ($params->get('rssimage', 1) && $iUrl) : ?>
-			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
+			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>">
 		<?php endif; ?>
 
 

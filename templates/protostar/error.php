@@ -151,7 +151,7 @@ else
 								<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn"><span class="icon-home"></span> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
 							</div>
 						</div>
-						<hr />
+						<hr>
 						<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
 						<blockquote>
 							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
@@ -185,7 +185,7 @@ else
 	<!-- Footer -->
 	<div class="footer">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
-			<hr />
+			<hr>
 			<?php echo $this->getBuffer('modules', 'footer', array('style' => 'none')); ?>
 			<p class="pull-right">
 				<a href="#top" id="back-top">

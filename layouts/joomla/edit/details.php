@@ -20,7 +20,7 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 ?>
 <div class="span2">
 	<h4><?php echo JText::_('JDETAILS'); ?></h4>
-	<hr />
+	<hr>
 	<fieldset class="form-vertical">
 		<?php if (empty($title)) : ?>
 			<div class="control-group">

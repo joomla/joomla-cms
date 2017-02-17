@@ -316,7 +316,7 @@ abstract class JApplicationWeb extends AbstractWebApplication implements Dispatc
 			if (($this->client->engine == WebClient::TRIDENT) && !StringHelper::is_ascii($url))
 			{
 				$html = '<html><head>';
-				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
+				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '">';
 				$html .= '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script>';
 				$html .= '</head><body></body></html>';
 

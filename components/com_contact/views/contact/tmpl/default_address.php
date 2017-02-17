@@ -27,7 +27,7 @@ defined('_JEXEC') or die;
 			<dd>
 				<span class="contact-street" itemprop="streetAddress">
 					<?php echo nl2br($this->contact->address); ?>
-					<br />
+					<br>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -36,7 +36,7 @@ defined('_JEXEC') or die;
 			<dd>
 				<span class="contact-suburb" itemprop="addressLocality">
 					<?php echo $this->contact->suburb; ?>
-					<br />
+					<br>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -44,7 +44,7 @@ defined('_JEXEC') or die;
 			<dd>
 				<span class="contact-state" itemprop="addressRegion">
 					<?php echo $this->contact->state; ?>
-					<br />
+					<br>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -52,7 +52,7 @@ defined('_JEXEC') or die;
 			<dd>
 				<span class="contact-postcode" itemprop="postalCode">
 					<?php echo $this->contact->postcode; ?>
-					<br />
+					<br>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -60,7 +60,7 @@ defined('_JEXEC') or die;
 		<dd>
 			<span class="contact-country" itemprop="addressCountry">
 				<?php echo $this->contact->country; ?>
-				<br />
+				<br>
 			</span>
 		</dd>
 		<?php endif; ?>

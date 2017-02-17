@@ -421,7 +421,7 @@ class PlgSystemDebug extends JPlugin
 
 		if (!method_exists($this, $fncName))
 		{
-			return __METHOD__ . ' -- Unknown method: ' . $fncName . '<br />';
+			return __METHOD__ . ' -- Unknown method: ' . $fncName . '<br>';
 		}
 
 		$html = array();
@@ -576,13 +576,13 @@ class PlgSystemDebug extends JPlugin
 			$col = (E_WARNING == $error->get('level')) ? 'red' : 'orange';
 
 			$html[] = '<li>';
-			$html[] = '<b style="color: ' . $col . '">' . $error->getMessage() . '</b><br />';
+			$html[] = '<b style="color: ' . $col . '">' . $error->getMessage() . '</b><br>';
 
 			$info = $error->get('info');
 
 			if ($info)
 			{
-				$html[] = '<pre>' . print_r($info, true) . '</pre><br />';
+				$html[] = '<pre>' . print_r($info, true) . '</pre><br>';
 			}
 
 			$html[] = $this->renderBacktrace($error);
@@ -740,7 +740,7 @@ class PlgSystemDebug extends JPlugin
 					$labelClass = 'label-warning';
 				}
 
-				$html[] = '<br /><div>' . JText::sprintf(
+				$html[] = '<br><div>' . JText::sprintf(
 						'PLG_DEBUG_QUERIES_TIME',
 						sprintf('<span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
@@ -1191,7 +1191,7 @@ class PlgSystemDebug extends JPlugin
 		$html = array();
 
 		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
-			. sprintf(' <span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime) . '</h4><br />';
+			. sprintf(' <span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime) . '</h4><br>';
 
 		if ($total_duplicates)
 		{
@@ -1213,7 +1213,7 @@ class PlgSystemDebug extends JPlugin
 			$html[] = '</div>';
 		}
 
-		$html[] = '<ol><li>' . implode('<hr /></li><li>', $list) . '<hr /></li></ol>';
+		$html[] = '<ol><li>' . implode('<hr></li><li>', $list) . '<hr></li></ol>';
 
 		if (!$this->params->get('query_types', 1))
 		{
@@ -1688,7 +1688,7 @@ class PlgSystemDebug extends JPlugin
 
 		$query = htmlspecialchars($query, ENT_QUOTES);
 
-		$query = preg_replace($newlineKeywords, '<br />&#160;&#160;\\0', $query);
+		$query = preg_replace($newlineKeywords, '<br>&#160;&#160;\\0', $query);
 
 		$regex = array(
 
@@ -1884,7 +1884,7 @@ class PlgSystemDebug extends JPlugin
 
 		$showEverything = $this->params->get('log-everything', 0);
 
-		$out .= '<h4>' . JText::sprintf('PLG_DEBUG_LOGS_LOGGED', $logEntriesTotal) . '</h4><br />';
+		$out .= '<h4>' . JText::sprintf('PLG_DEBUG_LOGS_LOGGED', $logEntriesTotal) . '</h4><br>';
 
 		if ($showDeprecated && $logEntriesDeprecated > 0)
 		{
@@ -1893,7 +1893,7 @@ class PlgSystemDebug extends JPlugin
 				<h4>' . JText::sprintf('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE', $logEntriesDeprecated) . '</h4>
 				<div>' . JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TEXT') . '</div>
 			</div>
-			<br />';
+			<br>';
 		}
 
 		$out .= '<ol>';
@@ -1920,7 +1920,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			$out .= '<li id="dbg_logs_' . $count . '">';
-			$out .= '<h5>' . $priorities[$entry->priority] . ' ' . $entry->category . '</h5><br />
+			$out .= '<h5>' . $priorities[$entry->priority] . ' ' . $entry->category . '</h5><br>
 				<pre>' . $entry->message . '</pre>';
 
 			if ($entry->callStack)
@@ -1932,7 +1932,7 @@ class PlgSystemDebug extends JPlugin
 				$out .= JHtml::_('bootstrap.endAccordion');
 			}
 
-			$out .= '<hr /></li>';
+			$out .= '<hr></li>';
 			$count++;
 		}
 

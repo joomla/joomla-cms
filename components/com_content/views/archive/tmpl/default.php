@@ -38,7 +38,7 @@ JHtml::_('behavior.caption');
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="limitstart" value="0" />
 	</div>
-	<br />
+	<br>
 	</fieldset>
 
 	<?php echo $this->loadTemplate('items'); ?>

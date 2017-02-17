@@ -78,7 +78,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 	<?php // Container ?>
 	<div class="container">
 		<div class="login-logo">
-			<img class="card-img-top" src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo.svg" alt="<?php echo $sitename; ?>" />
+			<img class="card-img-top" src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo.svg" alt="<?php echo $sitename; ?>">
 		</div>
 		<div id="content">
 			<noscript>

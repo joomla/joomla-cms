@@ -571,7 +571,7 @@ abstract class JHtml
 			return $file;
 		}
 
-		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs) . ' /') . '>';
+		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
 	}
 
 	/**
@@ -939,7 +939,7 @@ abstract class JHtml
 			// Use a formatted string combining the title and content.
 			elseif ($content != '')
 			{
-				$result = '<strong>' . $title . '</strong><br />' . $content;
+				$result = '<strong>' . $title . '</strong><br>' . $content;
 			}
 			else
 			{

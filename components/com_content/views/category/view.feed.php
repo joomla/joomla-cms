@@ -44,7 +44,7 @@ class ContentViewCategory extends JViewCategoryfeed
 		if (isset($introImage) && ($introImage != ''))
 		{
 			$image = preg_match('/http/', $introImage)? $introImage : JURI::root() . $introImage;
-			$item->description = '<p><img src="' . $image . '" /></p>';
+			$item->description = '<p><img src="' . $image . '"></p>';
 		}
 
 		$item->description .= ($params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext);         

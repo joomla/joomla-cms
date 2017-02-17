@@ -331,7 +331,7 @@ class JHtmlTest extends TestCase
 		// We do a test for the case that the image is in the templates directory.
 		$this->assertEquals(
 			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
-			'<img src="' . JUri::base(true) . '/templates/' . $template . '/images/' . $urlpath . $urlfilename . '" alt="My Alt Text" />',
+			'<img src="' . JUri::base(true) . '/templates/' . $template . '/images/' . $urlpath . $urlfilename . '" alt="My Alt Text">',
 			'JHtml::image failed when we should get it from the templates directory'
 		);
 
@@ -356,7 +356,7 @@ class JHtmlTest extends TestCase
 		// We do a test for the case that the image is in the media directory.
 		$this->assertEquals(
 			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
-			'<img src="' . JUri::base(true) . '/media/' . $urlpath . 'images/' . $urlfilename . '" alt="My Alt Text" />',
+			'<img src="' . JUri::base(true) . '/media/' . $urlpath . 'images/' . $urlfilename . '" alt="My Alt Text">',
 			'JHtml::image failed when we should get it from the media directory'
 		);
 
@@ -379,7 +379,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertEquals(
 			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
-			'<img src="' . JUri::base(true) . '/media/system/images/' . $urlfilename . '" alt="My Alt Text" />',
+			'<img src="' . JUri::base(true) . '/media/system/images/' . $urlfilename . '" alt="My Alt Text">',
 			'JHtml::image failed when we should get it from the media directory'
 		);
 
@@ -393,7 +393,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertEquals(
 			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
-			'<img src="" alt="My Alt Text" />',
+			'<img src="" alt="My Alt Text">',
 			'JHtml::image failed when we should get it from the media directory'
 		);
 
@@ -413,7 +413,7 @@ class JHtmlTest extends TestCase
 		$this->assertEquals(
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			'<img src="' . JUri::base(true) . '/media/' . $extension . '/' . $element . '/images/' . $urlpath . $urlfilename .
-			'" alt="My Alt Text" />',
+			'" alt="My Alt Text">',
 			'JHtml::image failed when we should get it from the media directory, with the plugin fix'
 		);
 
@@ -436,7 +436,7 @@ class JHtmlTest extends TestCase
 		$this->assertEquals(
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			'<img src="' . JUri::base(true) . '/media/' . $extension . '/images/' . $element . '/' . $urlpath . $urlfilename .
-			'" alt="My Alt Text" />'
+			'" alt="My Alt Text">'
 		);
 
 		$this->assertEquals(
@@ -455,7 +455,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertEquals(
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
-			'<img src="' . JUri::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename . '" alt="My Alt Text" />'
+			'<img src="' . JUri::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename . '" alt="My Alt Text">'
 		);
 
 		$this->assertEquals(
@@ -472,7 +472,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertEquals(
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
-			'<img src="" alt="My Alt Text" />'
+			'<img src="" alt="My Alt Text">'
 		);
 
 		$this->assertNull(
@@ -489,7 +489,7 @@ class JHtmlTest extends TestCase
 					'height' => 150
 				)
 			),
-			'<img src="http://www.example.com/test/image.jpg" alt="My Alt Text" width="150" height="150" />',
+			'<img src="http://www.example.com/test/image.jpg" alt="My Alt Text" width="150" height="150">',
 			'JHtml::image with an absolute path'
 		);
 
@@ -497,7 +497,7 @@ class JHtmlTest extends TestCase
 		file_put_contents(JPATH_ROOT . '/test/image.jpg', 'test');
 		$this->assertEquals(
 			JHtml::image('test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
-			'<img src="' . JUri::root(true) . '/test/image.jpg" alt="My Alt Text" width="150" height="150" />',
+			'<img src="' . JUri::root(true) . '/test/image.jpg" alt="My Alt Text" width="150" height="150">',
 			'JHtml::image with an absolute path, URL does not start with http'
 		);
 
@@ -506,7 +506,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertEquals(
 			JHtml::image('test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
-			'<img src="" alt="My Alt Text" width="150" height="150" />',
+			'<img src="" alt="My Alt Text" width="150" height="150">',
 			'JHtml::image with an absolute path, URL does not start with http'
 		);
 	}
@@ -1308,7 +1308,7 @@ class JHtmlTest extends TestCase
 		$this->assertEquals(
 			JHtml::tooltip('Content'),
 			'<span class="hasTooltip" title="Content"><img src="' .
-			JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip" /></span>',
+			JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"></span>',
 			'Basic tooltip failed'
 		);
 
@@ -1316,7 +1316,7 @@ class JHtmlTest extends TestCase
 			JHtml::tooltip('Content', 'Title'),
 			'<span class="hasTooltip" title="' .
 			'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content' .
-			'"><img src="/media/system/images/tooltip.png" alt="Tooltip" /></span>',
+			'"><img src="/media/system/images/tooltip.png" alt="Tooltip"></span>',
 			'Tooltip with title and content failed'
 		);
 
@@ -1337,7 +1337,7 @@ class JHtmlTest extends TestCase
 			'<span class="hasTooltip" title="' .
 			'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content' .
 			'"><img src="' .
-			JUri::base(true) . '/media/system/images/tooltip.png" alt="MyAlt" /></span>',
+			JUri::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"></span>',
 			'Tooltip with title and content and alt failed'
 		);
 
@@ -1346,7 +1346,7 @@ class JHtmlTest extends TestCase
 			'<span class="hasTooltip2" title="' .
 			'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content' .
 			'"><img src="' . JUri::base(true) .
-			'/media/system/images/tooltip.png" alt="MyAlt" /></span>',
+			'/media/system/images/tooltip.png" alt="MyAlt"></span>',
 			'Tooltip with title and content and alt and class failed'
 		);
 
@@ -1360,7 +1360,7 @@ class JHtmlTest extends TestCase
 		$this->assertEquals(
 			JHtml::tooltip('Content', array('title' => 'Title')),
 			'<span class="hasTooltip" title="&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content"><img src="' .
-			JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip" /></span>',
+			JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"></span>',
 			'Tooltip with title and content failed'
 		);
 
@@ -1379,20 +1379,20 @@ class JHtmlTest extends TestCase
 		$this->assertEquals(
 			JHtml::tooltip('Content', array('title' => 'Title', 'alt' => 'MyAlt')),
 			'<span class="hasTooltip" title="&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content"><img src="' .
-			JUri::base(true) . '/media/system/images/tooltip.png" alt="MyAlt" /></span>',
+			JUri::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"></span>',
 			'Tooltip with title and content and alt failed'
 		);
 
 		$this->assertEquals(
 			JHtml::tooltip('Content', array('title' => 'Title', 'class' => 'hasTooltip2')),
 			'<span class="hasTooltip2" title="&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content"><img src="' .
-			JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip" /></span>',
+			JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"></span>',
 			'Tooltip with title and content and class failed'
 		);
 		$this->assertEquals(
 			JHtml::tooltip('Content', array()),
 			'<span class="hasTooltip" title="Content"><img src="' .
-			JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip" /></span>',
+			JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"></span>',
 			'Basic tooltip (array version) failed'
 		);
 	}

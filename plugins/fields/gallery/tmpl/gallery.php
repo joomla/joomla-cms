@@ -148,12 +148,12 @@ foreach ($value as $path)
 		if (JFile::exists($thumb))
 		{
 			// Linking to the real image and loading only the thumbnail
-			$buffer .= '<a href="' . $webImagePath . '"><img src="' . JUri::base(true) . str_replace(JPATH_ROOT, '', $thumb) . '" /></a>';
+			$buffer .= '<a href="' . $webImagePath . '"><img src="' . JUri::base(true) . str_replace(JPATH_ROOT, '', $thumb) . '"></a>';
 		}
 		else
 		{
 			// Thumbnail doesn't exist, loading the full image
-			$buffer .= '<img src="' . $webImagePath . '"/>';
+			$buffer .= '<img src="' . $webImagePath . '">';
 		}
 	}
 }

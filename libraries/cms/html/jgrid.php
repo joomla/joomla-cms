@@ -196,7 +196,7 @@ abstract class JHtmlJGrid
 				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publish_down->format(JDate::$format, true));
 			}
 
-			$tip = empty($tips) ? false : implode('<br />', $tips);
+			$tip = empty($tips) ? false : implode('<br>', $tips);
 
 			// Add tips and special titles
 			foreach ($states as $key => $state)
@@ -223,8 +223,8 @@ abstract class JHtmlJGrid
 				if ($tip)
 				{
 					$states[$key][1] = JText::_($states[$key][1]);
-					$states[$key][2] = JText::_($states[$key][2]) . '<br />' . $tip;
-					$states[$key][3] = JText::_($states[$key][3]) . '<br />' . $tip;
+					$states[$key][2] = JText::_($states[$key][2]) . '<br>' . $tip;
+					$states[$key][3] = JText::_($states[$key][3]) . '<br>' . $tip;
 					$states[$key][4] = true;
 				}
 			}
@@ -338,7 +338,7 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$text = $editorName . '<br />' . JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')) . '<br />' . JHtml::_('date', $time, 'H:i');
+		$text = $editorName . '<br>' . JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')) . '<br>' . JHtml::_('date', $time, 'H:i');
 		$active_title = JHtml::_('tooltipText', JText::_('JLIB_HTML_CHECKIN'), $text, 0);
 		$inactive_title = JHtml::_('tooltipText', JText::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
 
