@@ -124,14 +124,23 @@ class PlgSampledataTesting extends JPlugin
 				'access'          => $access,
 				'created_user_id' => $user->id,
 				'language'        => '*',
+				'description'     => '',
 			);
 
-			if (!$model->save($tag))
+			try
 			{
-				JFactory::getLanguage()->load('com_tags');
+				if (!$model->save($tag))
+				{
+					JFactory::getLanguage()->load('com_tags');
+					throw new Exception(JText::_($model->getError()));
+				}
+			}
+			catch (Exception $e)
+			{
+
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, JText::_($model->getError()));
+				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage());
 
 				return $response;
 			}
@@ -150,14 +159,22 @@ class PlgSampledataTesting extends JPlugin
 			'access'          => $access,
 			'created_user_id' => $user->id,
 			'language'        => '*',
+			'description'     => '',
 		);
 
-		if (!$model->save($tag))
+		try
 		{
-			JFactory::getLanguage()->load('com_tags');
+			if (!$model->save($tag))
+			{
+				JFactory::getLanguage()->load('com_tags');
+				throw new Exception(JText::_($model->getError()));
+			}
+		}
+		catch (Exception $e)
+		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, JText::_($model->getError()));
+			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage());
 
 			return $response;
 		}
@@ -254,19 +271,28 @@ class PlgSampledataTesting extends JPlugin
 		foreach ($clients as $client)
 		{
 			// Set values which are always the same.
-			$client['id']    = 0;
-			$client['email'] = 'banner@example.com';
-			$client['state'] = 1;
+			$client['id']        = 0;
+			$client['email']     = 'banner@example.com';
+			$client['state']     = 1;
+			$client['metakey']   = '';
+			$client['extrainfo'] = '';
 
 			$clientTable->load();
 			$clientTable->bind($client);
 
-			if (!$clientTable->store())
+			try
 			{
-				JFactory::getLanguage()->load('com_banners');
+				if (!$clientTable->store())
+				{
+					JFactory::getLanguage()->load('com_banners');
+					throw new Exception(JText::_($clientTable->getError()));
+				}
+			}
+			catch (Exception $e)
+			{
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, JText::_($clientTable->getError()));
+				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage());
 
 				return $response;
 			}
@@ -313,6 +339,8 @@ class PlgSampledataTesting extends JPlugin
 			$banner['type']             = 0;
 			$banner['state']            = 1;
 			$banner['alias']            = JApplicationHelper::stringURLSafe($banner['name']);
+			$banner['custombannercode'] = '';
+			$banner['metakey']          = '';
 			$banner['purchase_type']    = -1;
 			$banner['created_by']       = $user->id;
 			$banner['created_by_alias'] = 'Joomla';
@@ -321,12 +349,19 @@ class PlgSampledataTesting extends JPlugin
 			$bannerTable->load();
 			$bannerTable->bind($banner);
 
-			if (!$bannerTable->store())
+			try
 			{
-				JFactory::getLanguage()->load('com_banners');
+				if (!$bannerTable->store())
+				{
+					JFactory::getLanguage()->load('com_banners');
+					throw new Exception(JText::_($bannerTable->getError()));
+				}
+			}
+			catch (Exception $e)
+			{
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, JText::_($bannerTable->getError()));
+				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage());
 
 				return $response;
 			}
@@ -1232,6 +1267,11 @@ class PlgSampledataTesting extends JPlugin
 			$fields = array('con_position', 'address', 'suburb', 'state', 'country', 'postcode', 'telephone', 'fax',
 				'misc', 'sortname1', 'sortname2', 'sortname3', 'email_to', 'image');
 
+			// Temporary, they are waiting for PR #14112
+			$fields[] = 'metakey';
+			$fields[] = 'metadesc';
+			$contact['metadata'] = '{}';
+
 			foreach ($fields as $field)
 			{
 				if (!isset($contact[$field]))
@@ -1269,12 +1309,19 @@ class PlgSampledataTesting extends JPlugin
 				);
 			}
 
-			if (!$model->save($contact))
+			try
 			{
-				JFactory::getLanguage()->load('com_contact');
+				if (!$model->save($contact))
+				{
+					JFactory::getLanguage()->load('com_contact');
+					throw new Exception(JText::_($model->getError()));
+				}
+			}
+			catch (Exception $e)
+			{
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 4, JText::_($model->getError()));
+				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 4, $e->getMessage());
 
 				return $response;
 			}
@@ -1389,12 +1436,26 @@ class PlgSampledataTesting extends JPlugin
 			$newsfeed['images']          = '';
 			$newsfeed['catid']           = $catIdsLevel1[0];
 
-			if (!$model->save($newsfeed))
+			// Temporary, it should be fixed in other place
+			$newsfeed['metakey']         = '';
+			$newsfeed['metadesc']        = '';
+			$newsfeed['xreference']      = '';
+			$newsfeed['metadata']        = '{}';
+			$newsfeed['params']          = '{}';
+
+			try
 			{
-				JFactory::getLanguage()->load('com_newsfeeds');
+				if (!$model->save($newsfeed))
+				{
+					JFactory::getLanguage()->load('com_newsfeeds');
+					throw new Exception(JText::_($model->getError()));
+				}
+			}
+			catch (Exception $e)
+			{
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, JText::_($model->getError()));
+				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
 				return $response;
 			}
@@ -4555,6 +4616,9 @@ class PlgSampledataTesting extends JPlugin
 			$article['alias']           = JApplicationHelper::stringURLSafe($article['title']);
 			$article['language']        = '*';
 			$article['associations']    = array();
+			$article['metakey']         = '';
+			$article['metadesc']        = '';
+			$article['xreference']      = '';
 
 			// Set state to published if not set.
 			if (!isset($article['state']))
