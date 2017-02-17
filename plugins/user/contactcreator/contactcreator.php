@@ -38,7 +38,7 @@ class PlgUserContactCreator extends JPlugin
 	 * @param   boolean  $success  True if user was succesfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
@@ -92,6 +92,9 @@ class PlgUserContactCreator extends JPlugin
 			$contact->access   = (int) JFactory::getConfig()->get('access');
 			$contact->language = '*';
 			$contact->generateAlias();
+			$contact->sortname1= '';
+			$contact->sortname2= '';
+			$contact->sortname3= '';
 
 			// Check if the contact already exists to generate new name & alias if required
 			if ($contact->id == 0)
