@@ -170,7 +170,7 @@ class JMenuSite extends JMenu
 			$parent_tree[] = $item->id;
 			$item->tree = $parent_tree;
 			
-			// record the View Access Levels required for this Menu Item.
+			// Record the View Access Levels required for this Menu Item.
 			$item->viewlevelrule = (array) json_decode($this->_viewlevelrules[$item->access]->rules);
 
 			// Create the query array.

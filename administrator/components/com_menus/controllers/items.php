@@ -154,7 +154,7 @@ class MenusControllerItems extends JControllerAdmin
 			// Make sure the item ids are integers
 			JArrayHelper::toInteger($cid);
 	
-			// set the items Inheritable.
+			// Set the items Inheritable.
 			if (!$model->setInheritable($cid, $value))
 			{
 				JError::raiseWarning(500, $model->getError());
