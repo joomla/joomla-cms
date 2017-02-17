@@ -16,17 +16,6 @@
 			<option value="admin">JADMINISTRATOR</option>
 			<option value="site">JSITE</option>
 		</field>
-		<field
-			name="custom_fields_enable"
-			type="radio"
-			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
-			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
-			default="1"
-			class="btn-group btn-group-yesno"
-			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
 	</fieldset>
 	<fieldset
 		name="permissions"

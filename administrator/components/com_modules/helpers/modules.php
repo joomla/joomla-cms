@@ -27,25 +27,7 @@ abstract class ModulesHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_modules')->get('custom_fields_enable', '1'))
-		{
-			JHtmlSidebar::addEntry(
-				JText::_('COM_MODULES_SUBMENU_MODULES'),
-				'index.php?option=com_modules&view=modules',
-				$vName == 'modules'
-			);
-
-			JHtmlSidebar::addEntry(
-				JText::_('JGLOBAL_FIELDS'),
-				'index.php?option=com_fields&context=com_modules.module',
-				$vName == 'fields.fields'
-			);
-			JHtmlSidebar::addEntry(
-				JText::_('JGLOBAL_FIELD_GROUPS'),
-				'index.php?option=com_fields&view=groups&context=com_modules.module',
-				$vName == 'fields.groups'
-			);
-		}
+		// Not used in this component.
 	}
 
 	/**
