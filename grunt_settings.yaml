@@ -41,7 +41,7 @@ vendors:
                   'version': '3.7.2'
                   'dependencies': ''
     'codemirror':
-                  'version': '5.22.2'
+                  'version': '5.23.0'
                   'dependencies': ''
     'cropperjs':
                   'version': '1.0.0-beta'

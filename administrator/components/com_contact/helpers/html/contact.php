@@ -117,8 +117,8 @@ abstract class JHtmlContact
 		}
 		else
 		{
-			$html = '<a class="btn btn-xs btn-secondary hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[2])
-				. '"><span class="icon-' . $icon . '"></span></a>';
+			$html = '<a class="btn btn-xs btn-secondary hasTooltip disabled' . ($value == 1 ? ' active' : '')
+				. '" title="' . JHtml::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '"></span></a>';
 		}
 
 		return $html;

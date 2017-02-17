@@ -17,6 +17,7 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
+JHtml::_('formbehavior.chosen', '.chzn-custom-value', null, array('disable_search_threshold' => 0));
 
 // Load JS message titles
 JText::script('ERROR');

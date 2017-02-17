@@ -149,12 +149,6 @@ class UsersModelProfile extends JModelForm
 
 			$registry           = new Registry($this->data->params);
 			$this->data->params = $registry->toArray();
-
-			// Get the dispatcher and load the users plugins.
-			JPluginHelper::importPlugin('user');
-
-			// Trigger the data preparation event.
-			$results = JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', $this->data));
 		}
 
 		return $this->data;
@@ -189,10 +183,10 @@ class UsersModelProfile extends JModelForm
 
 		// Check for username compliance and parameter set
 		$isUsernameCompliant = true;
+		$username = $loadData ? $form->getValue('username') : $this->loadFormData()->username;
 
-		if ($this->loadFormData()->username)
+		if ($username)
 		{
-			$username = $this->loadFormData()->username;
 			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
 				|| trim($username) != $username);
 		}
@@ -237,7 +231,7 @@ class UsersModelProfile extends JModelForm
 	{
 		$data = $this->getData();
 
-		$this->preprocessData('com_users.profile', $data);
+		$this->preprocessData('com_users.profile', $data, 'user');
 
 		return $data;
 	}

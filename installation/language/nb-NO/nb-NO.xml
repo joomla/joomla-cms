@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.6"
+	version="3.7"
 	client="installation">
 	<name>Norwegian bokmål (Norway)</name>
-	<version>3.6.3</version>
-	<creationDate>August 2016</creationDate>
+	<version>3.7.0</version>
+	<creationDate>December 2016</creationDate>
 	<author>Joomla! Project</author>
 	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -12,7 +12,8 @@
 		<filename>nb-NO.ini</filename>
 	</files>
 	<metadata>
-		<name>Norsk bokmål (Norway)</name>
+		<name>Norwegian bokmål (nb-NO)</name>
+		<nativeName>Norsk bokmål (Norge)</nativeName>
 		<tag>nb-NO</tag>
 		<rtl>0</rtl>
 	</metadata>
