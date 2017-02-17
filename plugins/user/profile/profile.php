@@ -83,7 +83,7 @@ class PlgUserProfile extends JPlugin
 					)
 					->from('#__user_profiles')
 					->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
-					->where($db->qn('profile_key') . ' LIKE ' . $db->qn('profile.%'))
+					->where($db->qn('profile_key') . ' LIKE ' . $db->q('profile.%'))
 					->order($db->qn('ordering'));
 
 				$db->setQuery($query);

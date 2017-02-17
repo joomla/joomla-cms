@@ -580,11 +580,13 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 	/**
 	 * Get the system message queue.
 	 *
+	 * @param   boolean  $clear  Clear the messages currently attached to the application object
+	 *
 	 * @return  array  The system message queue.
 	 *
 	 * @since   3.2
 	 */
-	public function getMessageQueue()
+	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
 		if (!count($this->messageQueue))
@@ -598,7 +600,14 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 			}
 		}
 
-		return $this->messageQueue;
+		$messageQueue = $this->messageQueue;
+
+		if ($clear)
+		{
+			$this->messageQueue = array();
+		}
+
+		return $messageQueue;
 	}
 
 	/**

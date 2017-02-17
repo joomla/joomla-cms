@@ -25,7 +25,7 @@ $user      = JFactory::getUser();
 		<?php foreach ($menuTypes as &$type) : ?>
 			<li class="col-md-3">
 				<div class="thumbnail">
-					<button class="btn btn-secondary" type="button" class="jform-rightbtn" onclick="jQuery('.<?php echo $type->menutype; ?>').attr('checked', !jQuery('.<?php echo $type->menutype; ?>').attr('checked'));">
+					<button class="btn btn-secondary jform-rightbtn" type="button" onclick="jQuery('.<?php echo $type->menutype; ?>').attr('checked', !jQuery('.<?php echo $type->menutype; ?>').attr('checked'));">
 						<span class="icon-checkbox-partial"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
 					</button>
 					<h5><?php echo $type->title ? $type->title : $type->menutype; ?></h5>

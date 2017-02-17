@@ -111,6 +111,10 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	public function dataTestQuoteName()
 	{
 		return array(
+			/* test escape double quote */
+			array('protected`title', null, '"protected`title"'),
+			array('protected"title', null, '"protected""title"'),
+			array('protected]title', null, '"protected]title"'),
 			/* no dot inside var */
 			array('jos_dbtest', null, '"jos_dbtest"'),
 			/* a dot inside var */
