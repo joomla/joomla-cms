@@ -269,10 +269,36 @@ class JMenu
 			{
 				if (is_array($values[$i]))
 				{
-					if (!in_array($item->{$attributes[$i]}, $values[$i]))
+					// Test special conditions before falling through to default below
+					if ($attributes[$i] == 'inheritable')
 					{
-						$test = false;
-						break;
+						if (!$item->inheritable)
+						{
+							
+							// Assume User does not have access to this Menu Item
+							$test = false;
+							
+							// Test if the Menu Item's View Access Level is explicitely assigned to the User
+							foreach ($item->viewlevelrule as $viewlevel)
+							{
+								if (in_array($viewlevel, $values[$i]))
+								{
+									
+									// If the User has explicit access to this View Level, then allow the Menu Item to be included.
+									$test = true;
+									break;
+								}
+							}
+						}
+					}
+					else
+					{
+						// This is the default logic statement when an array of values is passed
+						if (!in_array($item->{$attributes[$i]}, $values[$i]))
+						{
+							$test = false;
+							break;
+						}
 					}
 				}
 				else

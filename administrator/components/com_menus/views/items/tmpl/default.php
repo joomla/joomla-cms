@@ -80,6 +80,9 @@ if ($menuType == '')
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort',  'COM_MENUS_ITEM_FIELD_INHERITABLE_LABEL', 'a.inheritable', $listDirn, $listOrder); ?>
+						</th>
 						<?php endif; ?>
 						<?php if ($assoc) : ?>
 							<th width="5%" class="nowrap hidden-phone">
@@ -233,6 +236,9 @@ if ($menuType == '')
 						<?php if ($this->state->get('filter.client_id') == 0) : ?>
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
+						</td>
+						<td class="center hidden-phone">
+							<?php echo JHtml::_('MenusHtml.Menus.isinheritable', $item->inheritable, $i, $canChange, 'cb'); ?>
 						</td>
 						<?php endif; ?>
 						<?php if ($assoc) : ?>

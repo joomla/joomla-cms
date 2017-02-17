@@ -230,12 +230,12 @@ class MenusModelItems extends JModelList
 					array(
 						'a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id',
 						'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav',
-						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'
+						'a.access', 'a.inheritable', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'
 					),
 					array(
 						null, null, null, null, null, null, null, null, null,
 						null, 'a.published', null, null, null, null,
-						null, null, null, null, null, null, null, null, null
+						null, null, null, null, null, null, null, null, null, null
 					)
 				)
 			)
@@ -386,6 +386,12 @@ class MenusModelItems extends JModelList
 		if ($access = $this->getState('filter.access'))
 		{
 			$query->where('a.access = ' . (int) $access);
+		}
+
+		// Filter on the Inheritable property.
+		if (($inheritable = $this->getState('filter.inheritable')) != "")
+		{
+			$query->where('a.inheritable = ' . (int) $inheritable);
 		}
 
 		// Implement View Level Access

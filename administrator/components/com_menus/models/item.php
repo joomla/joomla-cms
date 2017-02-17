@@ -1625,6 +1625,7 @@ class MenusModelItem extends JModelAdmin
 						if ($table->language == '*')
 						{
 							$table->published = 1;
+							$table->inheritable = 1;
 						}
 
 						if (!$this->canSave($table))
@@ -1706,6 +1707,48 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		return parent::publish($pks, $value);
+	}
+
+	/**
+	 * Method to change the inheritable state of one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the inheritable state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2017-02-17
+	 */
+	public function setInheritable(&$pks, $value = 1)
+	{
+		$table = $this->getTable();
+		$pks = (array) $pks;
+	
+		// Default menu item existence checks.
+		if ($value != 1)
+		{
+			foreach ($pks as $i => $pk)
+			{
+				if ($table->load($pk) && $table->home && $table->language == '*')
+				{
+					// Prune items that you can't change.
+					JError::raiseWarning(403, JText::_('JLIB_DATABASE_ERROR_MENU_UNINHETITABLE_DEFAULT_HOME'));
+					unset($pks[$i]);
+					break;
+				}
+			}
+		}
+	
+		// Clean the cache
+		$this->cleanCache();
+	
+		// Ensure that previous checks doesn't empty the array
+		if (empty($pks))
+		{
+			return true;
+		}
+	
+		return parent::setInheritable($pks, $value);
 	}
 
 	/**
