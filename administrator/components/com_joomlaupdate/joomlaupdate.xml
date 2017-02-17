@@ -3,14 +3,19 @@
 	<name>com_joomlaupdate</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2012</creationDate>
-	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.0.0</version>
+	<version>3.6.2</version>
 	<description>COM_JOOMLAUPDATE_XML_DESCRIPTION</description>
+	<media destination="com_joomlaupdate" folder="media">
+		<folder>js</folder>
+	</media>
 	<administration>
+		<menu img="class:joomlaupdate">com_joomlaupdate</menu>
 		<files folder="admin">
+			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>joomlaupdate.php</filename>
@@ -26,7 +31,6 @@
 		</languages>
 	</administration>
 	<updateservers>
-		<server type="extension" name="Joomla! Update Component Update Site">http://update.joomla.org/core/extensions/com_joomlaupdate.xml</server>
+		<server type="extension" name="Joomla! Update Component Update Site">https://update.joomla.org/core/extensions/com_joomlaupdate.xml</server>
 	</updateservers>
 </extension>
-

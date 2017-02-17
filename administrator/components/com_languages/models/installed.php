@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -198,64 +198,39 @@ class LanguagesModelInstalled extends JModelList
 		{
 			$this->data = array();
 
-			// Get information.
-			$db = $this->getDbo();
-			$query = $db->getQuery(true);
-
-			// Select languages installed from the extensions table.
-			$query->select($db->quoteName(array('a.element', 'a.client_id', 'a.extension_id')))
-				->from($db->quoteName('#__extensions', 'a'))
-				->where($db->quoteName('a.type') . ' = ' . $db->quote('language'))
-				->where($db->quoteName('state') . ' = 0')
-				->where($db->quoteName('enabled') . ' = 1');
-
-			// For client_id = 1 do we need to check language table also?
-			$db->setQuery($query);
-			$langlist = $db->loadObjectList();
+			$isCurrentLanguageRtl = JFactory::getLanguage()->isRtl();
+			$params               = JComponentHelper::getParams('com_languages');
+			$installedLanguages   = JLanguageHelper::getInstalledLanguages(null, true, true, null, null, null);
 
 			// Compute all the languages.
-			foreach ($langlist as $lang)
+			foreach ($installedLanguages as $clientId => $languages)
 			{
-				$client     = JApplicationHelper::getClientInfo($lang->client_id);
-				$clientPath = (int) $lang->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
+				$defaultLanguage = $params->get(JApplicationHelper::getClientInfo($clientId)->name, 'en-GB');
 
-				$info = JApplicationHelper::parseXMLLangMetaFile($clientPath . '/language/' . $lang->element . '/' . $lang->element . '.xml');
-				$row  = new StdClass;
-
-				$row->language     = $lang->element;
-				$row->client_id    = (int) $lang->client_id;
-				$row->extension_id = (int) $lang->extension_id;
-
-				if (!is_array($info))
+				foreach ($languages as $lang)
 				{
-					continue;
-				}
+					$row               = new stdClass;
+					$row->language     = $lang->element;
+					$row->name         = $lang->metadata['name'];
+					$row->nativeName   = isset($lang->metadata['nativeName']) ? $lang->metadata['nativeName'] : '-';
+					$row->client_id    = (int) $lang->client_id;
+					$row->extension_id = (int) $lang->extension_id;
+					$row->author       = $lang->manifest['author'];
+					$row->creationDate = $lang->manifest['creationDate'];
+					$row->authorEmail  = $lang->manifest['authorEmail'];
+					$row->version      = $lang->manifest['version'];
+					$row->published    = $defaultLanguage === $row->language ? 1 : 0;
+					$row->checked_out  = 0;
 
-				foreach ($info as $key => $value)
-				{
-					$row->$key = $value;
-				}
+					// Fix wrongly set parentheses in RTL languages
+					if ($isCurrentLanguageRtl)
+					{
+						$row->name       = html_entity_decode($row->name . '&#x200E;', ENT_QUOTES, 'UTF-8');
+						$row->nativeName = html_entity_decode($row->nativeName . '&#x200E;', ENT_QUOTES, 'UTF-8');
+					}
 
-				// Fix wrongly set parentheses in RTL languages
-				if (JFactory::getLanguage()->isRtl())
-				{
-					$row->name = html_entity_decode($row->name . '&#x200E;', ENT_QUOTES, 'UTF-8');
+					$this->data[] = $row;
 				}
-
-				// If current than set published.
-				$params = JComponentHelper::getParams('com_languages');
-
-				if ($params->get($client->name, 'en-GB') == $row->language)
-				{
-					$row->published = 1;
-				}
-				else
-				{
-					$row->published = 0;
-				}
-
-				$row->checked_out = 0;
-				$this->data[] = $row;
 			}
 		}
 
@@ -276,10 +251,12 @@ class LanguagesModelInstalled extends JModelList
 					continue;
 				}
 			}
+
 			// Filter by search term.
 			if (!empty($search))
 			{
 				if (stripos($installedLanguage->name, $search) === false
+					&& stripos($installedLanguage->nativeName, $search) === false
 					&& stripos($installedLanguage->language, $search) === false)
 				{
 					unset($installedLanguages[$key]);
@@ -322,8 +299,8 @@ class LanguagesModelInstalled extends JModelList
 		// Create a new db object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$client = $this->getState('filter.client_id');
-		$type = "language";
+		$client = $this->getState('client_id');
+		$type = 'language';
 
 		// Select field element from the extensions table.
 		$query->select($this->getState('list.select', 'a.element'))
@@ -452,8 +429,8 @@ class LanguagesModelInstalled extends JModelList
 	{
 		if (is_null($this->path))
 		{
-			$client = $this->getClient();
-			$this->path = JLanguage::getLanguagePath($client->path);
+			$client     = $this->getClient();
+			$this->path = JLanguageHelper::getLanguagePath($client->path);
 		}
 
 		return $this->path;

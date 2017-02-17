@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension version="3.5" type="file" method="upgrade">
+<extension version="3.6" type="file" method="upgrade">
 	<name>files_joomla</name>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>3.5.1-rc2</version>
-	<creationDate>March 2016</creationDate>
+	<version>3.7.0-beta2</version>
+	<creationDate>February 2017</creationDate>
 	<description>FILES_JOOMLA_XML_DESCRIPTION</description>
 
 	<scriptfile>administrator/components/com_admin/script.php</scriptfile>
@@ -33,7 +33,6 @@
 			<folder>language</folder>
 			<folder>layouts</folder>
 			<folder>libraries</folder>
-			<folder>logs</folder>
 			<folder>media</folder>
 			<folder>modules</folder>
 			<folder>plugins</folder>
@@ -48,7 +47,6 @@
 	</fileset>
 
 	<updateservers>
-		<server type="collection">http://update.joomla.org/core/list.xml</server>
-		<server type="collection">http://update.joomla.org/jed/list.xml</server>
+		<server name="Joomla! Core" type="collection">https://update.joomla.org/core/list.xml</server>
 	</updateservers>
 </extension>

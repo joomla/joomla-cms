@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * RSS Feed Parser Namespace handler for iTunes.
  *
- * @see    http://www.apple.com/itunes/podcasts/specs.html
+ * @see    https://itunespartner.apple.com/en/podcasts/overview
  * @since  12.3
  */
 class JFeedParserRssItunes implements JFeedParserNamespace

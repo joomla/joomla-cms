@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -111,7 +111,7 @@ class JPagination
 		$this->limitstart = (int) max($limitstart, 0);
 		$this->limit = (int) max($limit, 0);
 		$this->prefix = $prefix;
-		$this->app = $app ? $app : JFactory::getApplication();
+		$this->app = $app ?: JFactory::getApplication();
 
 		if ($this->limit > $this->total)
 		{
@@ -330,13 +330,27 @@ class JPagination
 		{
 			include_once $chromePath;
 
+			/*
+			 * @deprecated Item rendering should use a layout
+			 */
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 			{
+				JLog::add(
+					'pagination_item_active and pagination_item_inactive are deprecated. Use the layout joomla.pagination.link instead.',
+					JLog::WARNING,
+					'deprecated'
+				);
+
 				$itemOverride = true;
 			}
 
+			/*
+			 * @deprecated The list rendering is now a layout.
+			 * @see JPagination::_list_render()
+			 */
 			if (function_exists('pagination_list_render'))
 			{
+				JLog::add('pagination_list_render is deprecated. Use the layout joomla.pagination.list instead.', JLog::WARNING, 'deprecated');
 				$listOverride = true;
 			}
 		}
@@ -345,34 +359,34 @@ class JPagination
 		if ($data->all->base !== null)
 		{
 			$list['all']['active'] = true;
-			$list['all']['data'] = ($itemOverride) ? pagination_item_active($data->all) : $this->_item_active($data->all);
+			$list['all']['data'] = $itemOverride ? pagination_item_active($data->all) : $this->_item_active($data->all);
 		}
 		else
 		{
 			$list['all']['active'] = false;
-			$list['all']['data'] = ($itemOverride) ? pagination_item_inactive($data->all) : $this->_item_inactive($data->all);
+			$list['all']['data'] = $itemOverride ? pagination_item_inactive($data->all) : $this->_item_inactive($data->all);
 		}
 
 		if ($data->start->base !== null)
 		{
 			$list['start']['active'] = true;
-			$list['start']['data'] = ($itemOverride) ? pagination_item_active($data->start) : $this->_item_active($data->start);
+			$list['start']['data'] = $itemOverride ? pagination_item_active($data->start) : $this->_item_active($data->start);
 		}
 		else
 		{
 			$list['start']['active'] = false;
-			$list['start']['data'] = ($itemOverride) ? pagination_item_inactive($data->start) : $this->_item_inactive($data->start);
+			$list['start']['data'] = $itemOverride ? pagination_item_inactive($data->start) : $this->_item_inactive($data->start);
 		}
 
 		if ($data->previous->base !== null)
 		{
 			$list['previous']['active'] = true;
-			$list['previous']['data'] = ($itemOverride) ? pagination_item_active($data->previous) : $this->_item_active($data->previous);
+			$list['previous']['data'] = $itemOverride ? pagination_item_active($data->previous) : $this->_item_active($data->previous);
 		}
 		else
 		{
 			$list['previous']['active'] = false;
-			$list['previous']['data'] = ($itemOverride) ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
+			$list['previous']['data'] = $itemOverride ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
 		}
 
 		// Make sure it exists
@@ -383,40 +397,40 @@ class JPagination
 			if ($page->base !== null)
 			{
 				$list['pages'][$i]['active'] = true;
-				$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_active($page) : $this->_item_active($page);
+				$list['pages'][$i]['data'] = $itemOverride ? pagination_item_active($page) : $this->_item_active($page);
 			}
 			else
 			{
 				$list['pages'][$i]['active'] = false;
-				$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_inactive($page) : $this->_item_inactive($page);
+				$list['pages'][$i]['data'] = $itemOverride ? pagination_item_inactive($page) : $this->_item_inactive($page);
 			}
 		}
 
 		if ($data->next->base !== null)
 		{
 			$list['next']['active'] = true;
-			$list['next']['data'] = ($itemOverride) ? pagination_item_active($data->next) : $this->_item_active($data->next);
+			$list['next']['data'] = $itemOverride ? pagination_item_active($data->next) : $this->_item_active($data->next);
 		}
 		else
 		{
 			$list['next']['active'] = false;
-			$list['next']['data'] = ($itemOverride) ? pagination_item_inactive($data->next) : $this->_item_inactive($data->next);
+			$list['next']['data'] = $itemOverride ? pagination_item_inactive($data->next) : $this->_item_inactive($data->next);
 		}
 
 		if ($data->end->base !== null)
 		{
 			$list['end']['active'] = true;
-			$list['end']['data'] = ($itemOverride) ? pagination_item_active($data->end) : $this->_item_active($data->end);
+			$list['end']['data'] = $itemOverride ? pagination_item_active($data->end) : $this->_item_active($data->end);
 		}
 		else
 		{
 			$list['end']['active'] = false;
-			$list['end']['data'] = ($itemOverride) ? pagination_item_inactive($data->end) : $this->_item_inactive($data->end);
+			$list['end']['data'] = $itemOverride ? pagination_item_inactive($data->end) : $this->_item_inactive($data->end);
 		}
 
 		if ($this->total > $this->limit)
 		{
-			return ($listOverride) ? pagination_list_render($list) : $this->_list_render($list);
+			return $listOverride ? pagination_list_render($list) : $this->_list_render($list);
 		}
 		else
 		{
@@ -446,7 +460,8 @@ class JPagination
 			'total'        => $this->total,
 			'limitfield'   => $this->getLimitBox(),
 			'pagescounter' => $this->getPagesCounter(),
-			'pages'        => $this->getPaginationPages()
+			'pages'        => $this->getPaginationPages(),
+			'pagesTotal'   => $this->pagesTotal,
 		);
 
 		return JLayoutHelper::render($layoutId, array('list' => $list, 'options' => $options));
@@ -513,19 +528,22 @@ class JPagination
 
 		if (file_exists($chromePath))
 		{
-			$list = array();
-			$list['prefix'] = $this->prefix;
-			$list['limit'] = $this->limit;
-			$list['limitstart'] = $this->limitstart;
-			$list['total'] = $this->total;
-			$list['limitfield'] = $this->getLimitBox();
-			$list['pagescounter'] = $this->getPagesCounter();
-			$list['pageslinks'] = $this->getPagesLinks();
-
 			include_once $chromePath;
 
 			if (function_exists('pagination_list_footer'))
 			{
+				JLog::add('pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.', JLog::WARNING, 'deprecated');
+
+				$list = array(
+					'prefix'       => $this->prefix,
+					'limit'        => $this->limit,
+					'limitstart'   => $this->limitstart,
+					'total'        => $this->total,
+					'limitfield'   => $this->getLimitBox(),
+					'pagescounter' => $this->getPagesCounter(),
+					'pageslinks'   => $this->getPagesLinks(),
+				);
+
 				return pagination_list_footer($list);
 			}
 		}
@@ -557,7 +575,7 @@ class JPagination
 		$selected = $this->viewall ? 0 : $this->limit;
 
 		// Build the select list.
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			$html = JHtml::_(
 				'select.genericlist',
@@ -672,21 +690,7 @@ class JPagination
 	 */
 	protected function _list_render($list)
 	{
-		// Reverse output rendering for right-to-left display.
-		$html = '<ul>';
-		$html .= '<li class="pagination-start">' . $list['start']['data'] . '</li>';
-		$html .= '<li class="pagination-prev">' . $list['previous']['data'] . '</li>';
-
-		foreach ($list['pages'] as $page)
-		{
-			$html .= '<li>' . $page['data'] . '</li>';
-		}
-
-		$html .= '<li class="pagination-next">' . $list['next']['data'] . '</li>';
-		$html .= '<li class="pagination-end">' . $list['end']['data'] . '</li>';
-		$html .= '</ul>';
-
-		return $html;
+		return JLayoutHelper::render('joomla.pagination.list', array('list' => $list));
 	}
 
 	/**
@@ -697,6 +701,7 @@ class JPagination
 	 * @return  string  HTML link
 	 *
 	 * @since   1.5
+	 * @note    As of 4.0 this method will proxy to `JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => true])`
 	 */
 	protected function _item_active(JPaginationObject $item)
 	{
@@ -710,7 +715,7 @@ class JPagination
 			$class = 'hasTooltip ';
 		}
 
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return '<a' . $title . ' href="#" onclick="document.adminForm.' . $this->prefix
 			. 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;">' . $item->text . '</a>';
@@ -729,10 +734,11 @@ class JPagination
 	 * @return  string
 	 *
 	 * @since   1.5
+	 * @note    As of 4.0 this method will proxy to `JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => false])`
 	 */
 	protected function _item_inactive(JPaginationObject $item)
 	{
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return '<span>' . $item->text . '</span>';
 		}

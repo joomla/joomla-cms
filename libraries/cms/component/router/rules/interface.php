@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,7 +29,7 @@ interface JComponentRouterRulesInterface
 	public function preprocess(&$query);
 
 	/**
-	 * Parses an URI to retrieve informations for the right route through
+	 * Parses a URI to retrieve informations for the right route through
 	 * the component.
 	 * This method should retrieve all its input from its method arguments.
 	 *

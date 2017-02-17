@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,15 +15,13 @@ defined('JPATH_BASE') or die;
  * None
  */
 
-JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal'));
-
 JFactory::getDocument()->addScriptDeclaration(
 	'
 		jQuery(document).ready(function($){
 			if ($("#batch-category-id").length){var batchSelector = $("#batch-category-id");}
 			if ($("#batch-menu-id").length){var batchSelector = $("#batch-menu-id");}
 			if ($("#batch-position-id").length){var batchSelector = $("#batch-position-id");}
-			if ($("#batch-copy-move").length) {
+			if ($("#batch-copy-move").length && batchSelector) {
 				$("#batch-copy-move").hide();
 				batchSelector.on("change", function(){
 					if (batchSelector.val() != 0 || batchSelector.val() != "") {

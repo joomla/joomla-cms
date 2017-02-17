@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,6 @@ JHtml::_('formbehavior.chosen', 'select');
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$canOrder  = $user->authorise('core.edit.state', 'com_plugins');
 $saveOrder = $listOrder == 'ordering';
 
 if ($saveOrder)
@@ -27,28 +26,7 @@ if ($saveOrder)
 	$saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'pluginList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
-
-$sortFields = $this->getSortFields();
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.orderTable = function()
-	{
-		table = document.getElementById("list_sortTable");
-		direction = document.getElementById("list_directionTable");
-		order = table.options[table.selectedIndex].value;
-		if (order != "' . $listOrder . '")
-		{
-			dirn = "asc";
-		}
-		else
-		{
-			dirn = direction.options[direction.selectedIndex].value;
-		}
-		Joomla.tableOrdering(order, dirn, "");
-	};
-');
 ?>
-
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugins'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -57,7 +35,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
@@ -68,13 +46,13 @@ JFactory::getDocument()->addScriptDeclaration('
 			<table class="table table-striped" id="pluginList">
 				<thead>
 					<tr>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', '', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap center" style="min-width:55px">
+						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
@@ -96,7 +74,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="12">
+						<td colspan="8">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -108,7 +86,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
 					$canChange  = $user->authorise('core.edit.state', 'com_plugins') && $canCheckin;
 					?>
-					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->folder?>">
+					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->folder; ?>">
 						<td class="order nowrap center hidden-phone">
 							<?php
 							$iconClass = '';
@@ -118,17 +96,17 @@ JFactory::getDocument()->addScriptDeclaration('
 							}
 							elseif (!$saveOrder)
 							{
-								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
 							}
 							?>
-							<span class="sortable-handler<?php echo $iconClass ?>">
+							<span class="sortable-handler<?php echo $iconClass; ?>">
 								<span class="icon-menu"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
-								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering;?>" class="width-20 text-area-order " />
+								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 							<?php endif; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 						</td>
 						<td class="center">
@@ -139,29 +117,29 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'plugins.', $canCheckin); ?>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $item->extension_id); ?>">
+								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $item->extension_id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 									<?php echo $item->name; ?></a>
 							<?php else : ?>
 									<?php echo $item->name; ?>
 							<?php endif; ?>
 						</td>
 						<td class="nowrap small hidden-phone">
-							<?php echo $this->escape($item->folder);?>
+							<?php echo $this->escape($item->folder); ?>
 						</td>
 						<td class="nowrap small hidden-phone">
-							<?php echo $this->escape($item->element);?>
+							<?php echo $this->escape($item->element); ?>
 						</td>
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="hidden-phone">
-							<?php echo (int) $item->extension_id;?>
+							<?php echo (int) $item->extension_id; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

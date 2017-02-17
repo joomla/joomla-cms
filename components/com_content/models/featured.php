@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/articles.php';
+JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
  * Frontpage Component Model
@@ -71,6 +71,16 @@ class ContentModelFeatured extends ContentModelArticles
 			$featuredCategories = $params->get('featured_categories');
 			$this->setState('filter.frontpage.categories', $featuredCategories);
 		}
+
+		$articleOrderby   = $params->get('orderby_sec', 'rdate');
+		$articleOrderDate = $params->get('order_date');
+		$categoryOrderby  = $params->def('orderby_pri', '');
+
+		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate);
+		$primary   = ContentHelperQuery::orderbyPrimary($categoryOrderby);
+
+		$this->setState('list.ordering', $primary . $secondary . ', a.created DESC');
+		$this->setState('list.direction', '');
 	}
 
 	/**
@@ -119,26 +129,8 @@ class ContentModelFeatured extends ContentModelArticles
 	 */
 	protected function getListQuery()
 	{
-		// Set the blog ordering
-		$params = $this->state->params;
-		$articleOrderby = $params->get('orderby_sec', 'rdate');
-		$articleOrderDate = $params->get('order_date');
-		$categoryOrderby = $params->def('orderby_pri', '');
-		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
-		$primary = ContentHelperQuery::orderbyPrimary($categoryOrderby);
-
-		$orderby = $primary . ' ' . $secondary . ' a.created DESC ';
-		$this->setState('list.ordering', $orderby);
-		$this->setState('list.direction', '');
-
 		// Create a new query object.
 		$query = parent::getListQuery();
-
-		// Filter by frontpage.
-		if ($this->getState('filter.frontpage'))
-		{
-			$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
-		}
 
 		// Filter by categories
 		$featuredCategories = $this->getState('filter.frontpage.categories');

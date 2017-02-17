@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,6 +17,41 @@ defined('_JEXEC') or die;
 class FinderViewFilters extends JViewLegacy
 {
 	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
+	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
+	protected $pagination;
+
+	/**
+	 * The HTML markup for the sidebar
+	 *
+	 * @var  string
+	 */
+	protected $sidebar;
+
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
+	protected $state;
+
+	/**
+	 * The total number of items
+	 *
+	 * @var  object
+	 */
+	protected $total;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -28,11 +63,11 @@ class FinderViewFilters extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Load the view data.
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->total = $this->get('Total');
-		$this->state = $this->get('State');
-		$this->filterForm = $this->get('FilterForm');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->total         = $this->get('Total');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('filters');
@@ -50,7 +85,8 @@ class FinderViewFilters extends JViewLegacy
 		// Configure the toolbar.
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -78,6 +114,7 @@ class FinderViewFilters extends JViewLegacy
 		{
 			JToolbarHelper::publishList('filters.publish');
 			JToolbarHelper::unpublishList('filters.unpublish');
+			JToolbarHelper::checkin('filters.checkin');
 			JToolbarHelper::divider();
 		}
 

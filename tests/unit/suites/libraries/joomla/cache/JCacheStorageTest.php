@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,6 +66,11 @@ class JCacheStorageTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+
+		// Mock the returns on JApplicationCms::get() to use the default values
+		JFactory::$application->expects($this->any())
+			->method('get')
+			->willReturnArgument(1);
 	}
 
 	/**
@@ -98,7 +103,7 @@ class JCacheStorageTest extends TestCase
 	{
 		$this->restoreErrorHandlers();
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -355,8 +360,10 @@ class JCacheStorageTest extends TestCase
 	 */
 	public function testIsSupported()
 	{
+		$object = $this->object;
+
 		$this->assertThat(
-			$this->object->isSupported(),
+			$object::isSupported(),
 			$this->isTrue()
 		);
 	}

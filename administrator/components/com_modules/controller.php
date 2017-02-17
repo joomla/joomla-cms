@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,7 +57,7 @@ class ModulesController extends JControllerLegacy
 			return $view->display();
 		}
 
-		require_once JPATH_COMPONENT . '/helpers/modules.php';
+		JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
 
 		$layout = $this->input->get('layout', 'edit');
 		$id     = $this->input->getInt('id');

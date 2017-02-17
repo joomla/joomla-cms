@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,12 +59,24 @@ class UsersHelper
 				'index.php?option=com_users&view=notes',
 				$vName == 'notes'
 			);
-
-			$extension = JFactory::getApplication()->input->getString('extension');
 			JHtmlSidebar::addEntry(
 				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
 				'index.php?option=com_categories&extension=com_users',
-				$vName == 'categories' || $extension == 'com_users'
+				$vName == 'categories'
+			);
+		}
+
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
+		{
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELDS'),
+				'index.php?option=com_fields&context=com_users.user',
+				$vName == 'fields.fields'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELD_GROUPS'),
+				'index.php?option=com_fields&view=groups&context=com_users.user',
+				$vName == 'fields.groups'
 			);
 		}
 	}
@@ -79,12 +91,21 @@ class UsersHelper
 	public static function getActions()
 	{
 		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions
-		$result = JHelperContent::getActions('com_users');
-
-		return $result;
+		return JHelperContent::getActions('com_users');
 	}
 
 	/**
@@ -130,31 +151,12 @@ class UsersHelper
 	 */
 	public static function getGroups()
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.id AS value')
-			->select('a.title AS text')
-			->select('COUNT(DISTINCT b.id) AS level')
-			->from('#__usergroups as a')
-			->join('LEFT', '#__usergroups  AS b ON a.lft > b.lft AND a.rgt < b.rgt')
-			->group('a.id, a.title, a.lft, a.rgt')
-			->order('a.lft ASC');
-		$db->setQuery($query);
-
-		try
-		{
-			$options = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseNotice(500, $e->getMessage());
-
-			return null;
-		}
+		$options = JHelperUsergroups::getInstance()->getAll();
 
 		foreach ($options as &$option)
 		{
-			$option->text = str_repeat('- ', $option->level) . $option->text;
+			$option->value = $option->id;
+			$option->text = str_repeat('- ', $option->level) . $option->title;
 		}
 
 		return $options;
@@ -193,12 +195,6 @@ class UsersHelper
 	 */
 	public static function getTwoFactorMethods()
 	{
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
 		FOFPlatform::getInstance()->importPlugin('twofactorauth');
 		$identities = FOFPlatform::getInstance()->runPlugins('onUserTwofactorIdentify', array());
 
@@ -220,5 +216,145 @@ class UsersHelper
 		}
 
 		return $options;
+	}
+
+	/**
+	 * Get a list of the User Groups for Viewing Access Levels
+	 *
+	 * @param   string  $rules  User Groups in JSON format
+	 *
+	 * @return  string  $groups  Comma separated list of User Groups
+	 *
+	 * @since   3.6
+	 */
+	public static function getVisibleByGroups($rules)
+	{
+		$rules = json_decode($rules);
+
+		if (!$rules)
+		{
+			return false;
+		}
+
+		$rules = implode(',', $rules);
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('a.title AS text')
+			->from('#__usergroups as a')
+			->where('a.id IN (' . $rules . ')');
+		$db->setQuery($query);
+
+		$groups = $db->loadColumn();
+		$groups = implode(', ', $groups);
+
+		return $groups;
+	}
+
+	/**
+	 * Adds Count Items for Tag Manager.
+	 *
+	 * @param   stdClass[]  &$items     The user note tag objects
+	 * @param   string      $extension  The name of the active view.
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6
+	 */
+	public static function countTagItems(&$items, $extension)
+	{
+		$db = JFactory::getDbo();
+
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('published as state, count(*) AS count')
+				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->where('ct.tag_id = ' . (int) $item->id)
+				->where('ct.type_alias =' . $db->q($extension))
+				->join('LEFT', $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id')
+				->group('c.published');
+
+			$db->setQuery($query);
+			$users = $db->loadObjectList();
+
+			foreach ($users as $user)
+			{
+				if ($user->state == 1)
+				{
+					$item->count_published = $user->count;
+				}
+
+				if ($user->state == 0)
+				{
+					$item->count_unpublished = $user->count;
+				}
+
+				if ($user->state == 2)
+				{
+					$item->count_archived = $user->count;
+				}
+
+				if ($user->state == -2)
+				{
+					$item->count_trashed = $user->count;
+				}
+			}
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Returns a valid section for users. If it is not valid then null
+	 * is returned.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 *
+	 * @return  string|null  The new section
+	 *
+	 * @since   3.7.0
+	 */
+	public static function validateSection($section)
+	{
+		if (JFactory::getApplication()->isClient('site'))
+		{
+			switch ($section)
+			{
+				case 'registration':
+				case 'profile':
+					$section = 'user';
+			}
+		}
+
+		if ($section != 'user')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
+	}
+
+	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public static function getContexts()
+	{
+		JFactory::getLanguage()->load('com_users', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_users.user' => JText::_('COM_USERS'),
+		);
+
+		return $contexts;
 	}
 }

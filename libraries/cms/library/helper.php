@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Library
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -69,9 +69,7 @@ class JLibraryHelper
 	 */
 	public static function isEnabled($element)
 	{
-		$result = static::getLibrary($element, true);
-
-		return $result->enabled;
+		return static::getLibrary($element, true)->enabled;
 	}
 
 	/**
@@ -87,9 +85,7 @@ class JLibraryHelper
 	 */
 	public static function getParams($element, $strict = false)
 	{
-		$library = static::getLibrary($element, $strict);
-
-		return $library->params;
+		return static::getLibrary($element, $strict)->params;
 	}
 
 	/**
@@ -143,8 +139,8 @@ class JLibraryHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('extension_id AS id, element AS "option", params, enabled')
-			->from('#__extensions')
+			->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
 			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
@@ -175,9 +171,7 @@ class JLibraryHelper
 		// Convert the params to an object.
 		if (is_string(static::$libraries[$element]->params))
 		{
-			$temp = new Registry;
-			$temp->loadString(static::$libraries[$element]->params);
-			static::$libraries[$element]->params = $temp;
+			static::$libraries[$element]->params = new Registry(static::$libraries[$element]->params);
 		}
 
 		return true;

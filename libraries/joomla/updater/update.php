@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -238,13 +238,13 @@ class JUpdate extends JObject
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
-		array_push($this->stack, $name);
-		$tag = $this->_getStackLocation();
+		$this->stack[] = $name;
+		$tag           = $this->_getStackLocation();
 
 		// Reset the data
 		if (isset($this->$tag))
 		{
-			$this->$tag->_data = "";
+			$this->$tag->_data = '';
 		}
 
 		switch ($name)
@@ -321,14 +321,35 @@ class JUpdate extends JObject
 					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || JVersion::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
 					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || JVersion::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
+					$phpMatch = false;
+
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>='))
 					{
 						$phpMatch = true;
 					}
+
+					$dbMatch = false;
+
+					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
+					if (isset($this->currentUpdate->supported_databases))
+					{
+						$db           = JFactory::getDbo();
+						$dbType       = strtolower($db->getServerType());
+						$dbVersion    = $db->getVersion();
+						$supportedDbs = $this->currentUpdate->supported_databases;
+
+						// Do we have a entry for the database?
+						if (isset($supportedDbs->$dbType))
+						{
+							$minumumVersion = $supportedDbs->$dbType;
+							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
+						}
+					}
 					else
 					{
-						$phpMatch = false;
+						// Set to true if the <supported_databases> tag is not set
+						$dbMatch = true;
 					}
 
 					// Check minimum stability
@@ -339,7 +360,7 @@ class JUpdate extends JObject
 						$stabilityMatch = false;
 					}
 
-					if ($phpMatch && $stabilityMatch)
+					if ($phpMatch && $stabilityMatch && $dbMatch)
 					{
 						if (isset($this->latest))
 						{
@@ -390,9 +411,6 @@ class JUpdate extends JObject
 	public function _characterData($parser, $data)
 	{
 		$tag = $this->_getLastTag();
-
-		// @todo remove code: if(!isset($this->$tag->_data)) $this->$tag->_data = '';
-		// @todo remove code: $this->$tag->_data .= $data;
 
 		// Throw the data for this item together
 		$tag = strtolower($tag);
@@ -452,7 +470,7 @@ class JUpdate extends JObject
 		{
 			JLog::add(
 				sprintf(
-					"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xmlParser)),
+					'XML error: %s at line %d', xml_error_string(xml_get_error_code($this->xmlParser)),
 					xml_get_current_line_number($this->xmlParser)
 				),
 				JLog::WARNING, 'updater'

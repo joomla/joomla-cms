@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,15 +36,7 @@ class ModFeedHelper
 			$feed   = new JFeedFactory;
 			$rssDoc = $feed->getFeed($rssurl);
 		}
-		catch (InvalidArgumentException $e)
-		{
-			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
-		}
-		catch (RunTimeException $e)
-		{
-			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
-		}
-		catch (LogicException $e)
+		catch (Exception $e)
 		{
 			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}

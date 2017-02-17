@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Editor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -261,7 +261,7 @@ class JEditor extends JObject
 
 		$document = JFactory::getDocument();
 
-		if (method_exists($document, "addCustomTag") && !empty($return))
+		if (method_exists($document, 'addCustomTag') && !empty($return))
 		{
 			$document->addCustomTag($return);
 		}
@@ -314,7 +314,7 @@ class JEditor extends JObject
 		$args['col'] = $col;
 		$args['row'] = $row;
 		$args['buttons'] = $buttons;
-		$args['id'] = $id ? $id : $name;
+		$args['id'] = $id ?: $name;
 		$args['event'] = 'onDisplay';
 
 		$results[] = $this->_editor->update($args);
@@ -536,8 +536,7 @@ class JEditor extends JObject
 			return false;
 		}
 
-		$params = new Registry;
-		$params->loadString($plugin->params);
+		$params = new Registry($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;
 

@@ -25,7 +25,7 @@ function wrapperwidth(width) {
 // add Wai-Aria landmark-roles
 jQuery(function($) {
 	$('#nav').attr('role', 'navigation');
-	$('#mod-search-searchword').closest('form').attr('role', 'search');
+	$('input[id^="mod-search-searchword"]').closest('form').attr('role', 'search');
 	$('#main').attr('role', 'main');
 	$('#right').attr('role', 'contentinfo');
 });

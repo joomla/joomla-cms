@@ -31,6 +31,9 @@
 		<testsuite name="FinderIndexer">
 			<directory>tests/unit/suites/finderIndexer</directory>
 		</testsuite>
+		<testsuite name="plugins">
+			<directory>tests/unit/suites/plugins</directory>
+		</testsuite>
 	</testsuites>
 
 	<logging>
@@ -45,6 +48,7 @@
 			<directory suffix=".php">libraries/joomla</directory>
 			<directory suffix=".php">libraries/legacy</directory>
 			<directory suffix=".php">administrator/components/com_finder/helpers/indexer</directory>
+			<directory suffix=".php">plugins</directory>
 			<file>administrator/includes/helper.php</file>
 			<file>libraries/loader.php</file>
 			<file>libraries/platform.php</file>

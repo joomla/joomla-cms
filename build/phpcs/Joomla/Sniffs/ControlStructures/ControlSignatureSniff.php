@@ -75,7 +75,7 @@ class Joomla_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSnif
 	 *
 	 * @param array $patternInfo Information about the pattern used for checking, which includes are
 	 *               parsed token representation of the pattern.
-	 * @param PHP_CodeSniffer_File $phpcsFile The PHP_CodeSniffer file where the token occured.
+	 * @param PHP_CodeSniffer_File $phpcsFile The PHP_CodeSniffer file where the token occurred.
 	 * @param integer $stackPtr The postion in the tokens stack where the listening token type was found.
 	 *
 	 * @return return_type

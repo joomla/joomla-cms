@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ class JDatabaseExporterMysqlTest extends TestCase
 	/**
 	 * @var    JDatabaseDriverMysql  The mocked database object for use by test methods.
 	 */
-	protected $dbo = null;
+	protected $dbo;
 
 	/**
 	 * This method is called before the first test of this test class is run.
@@ -117,6 +117,21 @@ class JDatabaseExporterMysqlTest extends TestCase
 			->willReturnCallback(array($this, 'callbackLoadObjectList'));
 
 		parent::setUp();
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo);
+		parent::tearDown();
 	}
 
 	/**

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.2"
+	version="3.6"
 	client="installation">
 	<name>Czech (Čeština)</name>
-	<version>3.2.0</version>
-	<creationDate>January 2013</creationDate>
+	<version>3.6.3</version>
+	<creationDate>August 2016</creationDate>
 	<author>Czech Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>cs-CZ.ini</filename>

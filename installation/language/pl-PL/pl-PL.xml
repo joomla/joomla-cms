@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.4"
-	client="installation">
+<metafile version="3.6"	client="installation">
 	<name>Polski (PL)</name>
-	<version>3.4.2</version>
-	<creationDate>15/10/2012</creationDate>
+	<version>3.6.3</version>
+	<creationDate>20-09-2016</creationDate>
 	<author>Polskie Centrum Joomla!: joomla.pl</author>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>pl-PL.ini</filename>

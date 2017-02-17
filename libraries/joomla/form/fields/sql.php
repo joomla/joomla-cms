@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -149,7 +149,7 @@ class JFormFieldSQL extends JFormFieldList
 				$query['order'] = (string) $this->element['sql_order'];
 
 				// Get the filters
-				$filters = isset($this->element['sql_filter']) ? explode(",", $this->element['sql_filter']) : '';
+				$filters = isset($this->element['sql_filter']) ? explode(',', $this->element['sql_filter']) : '';
 
 				// Get the default value for query if empty
 				if (is_array($filters))
@@ -275,7 +275,17 @@ class JFormFieldSQL extends JFormFieldList
 
 		// Set the query and get the result list.
 		$db->setQuery($this->query);
-		$items = $db->loadObjectlist();
+
+		$items = array();
+
+		try
+		{
+			$items = $db->loadObjectlist();
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		// Add header.
 		if (!empty($header))

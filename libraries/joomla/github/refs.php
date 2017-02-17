@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API References class for the Joomla Platform.
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubRefs extends JGithubObject
 {
@@ -39,7 +40,7 @@ class JGithubRefs extends JGithubObject
 		$data = json_encode(
 			array(
 				'ref' => $ref,
-				'sha' => $sha
+				'sha' => $sha,
 			)
 		);
 

@@ -3,7 +3,7 @@
 	<name>plg_authentication_ldap</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -20,108 +20,141 @@
 		<fields name="params">
 
 			<fieldset name="basic">
-				<field name="host" type="text"
-					description="PLG_LDAP_FIELD_HOST_DESC"
+				<field
+					name="host"
+					type="text"
 					label="PLG_LDAP_FIELD_HOST_LABEL"
+					description="PLG_LDAP_FIELD_HOST_DESC"
 					size="20"
 				/>
 
-				<field name="port" type="text"
-					default="389"
-					description="PLG_LDAP_FIELD_PORT_DESC"
+				<field
+					name="port"
+					type="number"
 					label="PLG_LDAP_FIELD_PORT_LABEL"
-					size="20"
+					description="PLG_LDAP_FIELD_PORT_DESC"
+					min="1"
+					max="65535"
+					default="389"
+					hint="389"
+					validate="number"
+					filter="integer"
+					size="5"
 				/>
 
-				<field name="use_ldapV3" type="radio"
-					default="0"
-					class="btn-group btn-group-yesno"
-					description="PLG_LDAP_FIELD_V3_DESC"
+				<field
+					name="use_ldapV3"
+					type="radio"
 					label="PLG_LDAP_FIELD_V3_LABEL"
+					description="PLG_LDAP_FIELD_V3_DESC"
+					default="0"
+					class="btn-group btn-group-yesno"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="negotiate_tls" type="radio"
-					default="0"
-					class="btn-group btn-group-yesno"
-					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
+				<field
+					name="negotiate_tls"
+					type="radio"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-
-				<field name="no_referrals" type="radio"
+					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
 					default="0"
 					class="btn-group btn-group-yesno"
-					description="PLG_LDAP_FIELD_REFERRALS_DESC"
-					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="auth_method" type="list"
+				<field
+					name="no_referrals"
+					type="radio"
+					default="0"
+					class="btn-group btn-group-yesno"
+					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
+					description="PLG_LDAP_FIELD_REFERRALS_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="auth_method"
+					type="list"
 					default="bind"
-					description="PLG_LDAP_FIELD_AUTHMETHOD_DESC"
 					label="PLG_LDAP_FIELD_AUTHMETHOD_LABEL"
+					description="PLG_LDAP_FIELD_AUTHMETHOD_DESC"
 				>
 					<option value="search">PLG_LDAP_FIELD_VALUE_BINDSEARCH</option>
 					<option value="bind">PLG_LDAP_FIELD_VALUE_BINDUSER</option>
 				</field>
 
-				<field name="base_dn" type="text"
-					description="PLG_LDAP_FIELD_BASEDN_DESC"
+				<field
+					name="base_dn"
+					type="text"
 					label="PLG_LDAP_FIELD_BASEDN_LABEL"
+					description="PLG_LDAP_FIELD_BASEDN_DESC"
 					size="20"
 				/>
 
-				<field name="search_string" type="text"
-					description="PLG_LDAP_FIELD_SEARCHSTRING_DESC"
+				<field
+					name="search_string"
+					type="text"
 					label="PLG_LDAP_FIELD_SEARCHSTRING_LABEL"
+					description="PLG_LDAP_FIELD_SEARCHSTRING_DESC"
 					size="20"
 				/>
 
-				<field name="users_dn" type="text"
-					description="PLG_LDAP_FIELD_USERSDN_DESC"
+				<field
+					name="users_dn"
+					type="text"
 					label="PLG_LDAP_FIELD_USERSDN_LABEL"
+					description="PLG_LDAP_FIELD_USERSDN_DESC"
 					size="20"
 				/>
 
 
-				<field name="username" type="text"
-					description="PLG_LDAP_FIELD_USERNAME_DESC"
+				<field
+					name="username"
+					type="text"
 					label="PLG_LDAP_FIELD_USERNAME_LABEL"
+					description="PLG_LDAP_FIELD_USERNAME_DESC"
 					size="20"
 				/>
 
-				<field name="password" type="password"
-					description="PLG_LDAP_FIELD_PASSWORD_DESC"
+				<field
+					name="password"
+					type="password"
 					label="PLG_LDAP_FIELD_PASSWORD_LABEL"
+					description="PLG_LDAP_FIELD_PASSWORD_DESC"
 					size="20"
 				/>
 
 
-				<field name="ldap_fullname" type="text"
-					default="fullName"
-					description="PLG_LDAP_FIELD_FULLNAME_DESC"
+				<field
+					name="ldap_fullname"
+					type="text"
 					label="PLG_LDAP_FIELD_FULLNAME_LABEL"
+					description="PLG_LDAP_FIELD_FULLNAME_DESC"
+					default="fullName"
 					size="20"
 				/>
 
-				<field name="ldap_email" type="text"
-					default="mail"
-					description="PLG_LDAP_FIELD_EMAIL_DESC"
+				<field
+					name="ldap_email"
+					type="text"
 					label="PLG_LDAP_FIELD_EMAIL_LABEL"
+					description="PLG_LDAP_FIELD_EMAIL_DESC"
+					default="mail"
 					size="20"
 				/>
 
-				<field name="ldap_uid" type="text"
-					default="uid"
-					description="PLG_LDAP_FIELD_UID_DESC"
+				<field
+					name="ldap_uid"
+					type="text"
 					label="PLG_LDAP_FIELD_UID_LABEL"
+					description="PLG_LDAP_FIELD_UID_DESC"
+					default="uid"
 					size="20"
 				/>
 			</fieldset>

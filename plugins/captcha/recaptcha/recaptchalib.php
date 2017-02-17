@@ -41,19 +41,19 @@ class JReCaptchaResponse
 
 class JReCaptcha
 {
-	private static $_signupUrl = "https://www.google.com/recaptcha/admin";
-	private static $_siteVerifyUrl = "https://www.google.com/recaptcha/api/siteverify";
+	private static $_signupUrl = 'https://www.google.com/recaptcha/admin';
+	private static $_siteVerifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
 	private $_secret;
-	private static $_version = "php_1.0";
+	private static $_version = 'php_1.0';
 
 	/**
 	 * Constructor.
 	 *
 	 * @param string $secret shared secret between site and ReCAPTCHA server.
 	 */
-	function JReCaptcha($secret)
+	public function __construct($secret)
 	{
-		if ($secret == null || $secret == "")
+		if ($secret == null || $secret == '')
 		{
 			die("To use reCAPTCHA you must get an API key from <a href='"
 				. self::$_signupUrl . "'>" . self::$_signupUrl . "</a>");
@@ -70,7 +70,7 @@ class JReCaptcha
 	 */
 	private function _encodeQS($data)
 	{
-		$req = "";
+		$req = '';
 		foreach ($data as $key => $value)
 		{
 			$req .= $key . '=' . urlencode(stripslashes($value)) . '&';
@@ -94,9 +94,8 @@ class JReCaptcha
 	{
 		$req = $this->_encodeQS($data);
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($path . '?' . $req)->body;
 
-		return $response;
+		return $http->get($path . '?' . $req)->body;
 	}
 
 	/**

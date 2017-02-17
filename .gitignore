@@ -1,5 +1,6 @@
 # IDE & System Related Files #
 .buildpath
+.editorconfig
 .project
 .settings
 .DS_Store
@@ -7,25 +8,20 @@
 
 # Local System Files (i.e. cache, logs, etc.) #
 /administrator/cache
+/administrator/logs
 /cache
-/logs
+/installation/cache
 /tmp
 /configuration.php
 /.htaccess
 /web.config
+/.php_cs.cache
 
 # Test Related Files #
 /phpunit.xml
-/tests/system/webdriver/tests/logs/
-/tests/system/servers/configdef.php
-codecept.phar
-tests/codeception/_output/*
-tests/codeception/vendor/*
-tests/codeception/testingsite*
-tests/codeception/tests/acceptance.suite.yml
-tests/codeception/tests/acceptance/*Tester.php
-tests/codeception/tests/functional/*Tester.php
-tests/codeception/tests/unit/*Tester.php
+
+# Node modules #
+node_modules/
 
 # phpDocumentor Logs #
 phpdoc-*
@@ -64,6 +60,9 @@ Desktop.ini
 /libraries/vendor/ircmaxell/password-compat/phpunit.xml.dist
 /libraries/vendor/ircmaxell/password-compat/README.md
 /libraries/vendor/ircmaxell/password-compat/version-test.php
+/libraries/vendor/joomla/*/.github
+/libraries/vendor/joomla/*/.gitignore
+/libraries/vendor/joomla/*/.gitmodules
 /libraries/vendor/joomla/*/docs
 /libraries/vendor/joomla/*/Tests
 /libraries/vendor/joomla/*/vendor
@@ -72,6 +71,7 @@ Desktop.ini
 /libraries/vendor/joomla/*/composer.json
 /libraries/vendor/joomla/*/phpunit.xml.dist
 /libraries/vendor/joomla/*/README.md
+/libraries/vendor/joomla/session/Joomla/Session/.github
 /libraries/vendor/joomla/session/Joomla/Session/_Tests
 /libraries/vendor/joomla/session/Joomla/Session/build
 /libraries/vendor/joomla/session/Joomla/Session/Tests
@@ -115,6 +115,8 @@ Desktop.ini
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
 /libraries/vendor/psr/log/README.md
+/libraries/vendor/symfony/polyfill-php55/composer.json
+/libraries/vendor/symfony/polyfill-php55/README.md
 /libraries/vendor/symfony/polyfill-php56/composer.json
 /libraries/vendor/symfony/polyfill-php56/README.md
 /libraries/vendor/symfony/polyfill-util/composer.json
@@ -126,3 +128,13 @@ Desktop.ini
 /libraries/vendor/symfony/yaml/composer.json
 /libraries/vendor/symfony/yaml/phpunit.xml.dist
 /libraries/vendor/symfony/yaml/README.md
+/libraries/vendor/simplepie/simplepie/demo
+/libraries/vendor/simplepie/simplepie/tests
+/libraries/vendor/simplepie/simplepie/README.markdown
+/libraries/vendor/simplepie/simplepie/phpunit.xml.dist
+/libraries/vendor/simplepie/simplepie/.gitignore
+/libraries/vendor/simplepie/simplepie/.travis.yml
+/libraries/vendor/simplepie/simplepie/compatibility_test
+/libraries/vendor/simplepie/simplepie/build
+/libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
+/libraries/vendor/simplepie/simplepie/composer.json

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,21 +27,18 @@ class ModulesViewModules extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-
-		if ($this->getLayout() == 'default')
-		{
-			$this->filterForm    = $this->get('FilterForm');
-			$this->activeFilters = $this->get('ActiveFilters');
-		}
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->total         = $this->get('Total');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -55,6 +52,19 @@ class ModulesViewModules extends JViewLegacy
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
+		}
+		// If in modal layout.
+		else
+		{
+			// Client id selector should not exist.
+			$this->filterForm->removeField('client_id', '');
+
+			// If in the frontend state and language should not activate the search tools.
+			if (JFactory::getApplication()->isClient('site'))
+			{
+				unset($this->activeFilters['state']);
+				unset($this->activeFilters['language']);
+			}
 		}
 
 		// Include the component HTML helpers.
@@ -79,7 +89,7 @@ class ModulesViewModules extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
-		if ($state->get('filter.client_id') == 1)
+		if ($state->get('client_id') == 1)
 		{
 			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
 		}
@@ -117,7 +127,7 @@ class ModulesViewModules extends JViewLegacy
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
+			JHtml::_('bootstrap.renderModal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -142,6 +152,11 @@ class ModulesViewModules extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
+
+		if (JHtmlSidebar::getEntries())
+		{
+			$this->sidebar = JHtmlSidebar::render();
+		}
 	}
 
 	/**

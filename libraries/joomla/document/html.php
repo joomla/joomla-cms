@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -97,6 +97,8 @@ class JDocumentHtml extends JDocument
 	 *
 	 * @var    boolean
 	 * @since  12.1
+	 *
+	 * @note  4.0  Will be replaced by $html5 and the default value will be true.
 	 */
 	private $_html5 = null;
 
@@ -156,7 +158,7 @@ class JDocumentHtml extends JDocument
 	{
 		if (empty($data) || !is_array($data))
 		{
-			return null;
+			return;
 		}
 
 		$this->title        = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
@@ -194,7 +196,7 @@ class JDocumentHtml extends JDocument
 	{
 		if (empty($data) || !is_array($data))
 		{
-			return null;
+			return;
 		}
 
 		$this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))
@@ -219,7 +221,7 @@ class JDocumentHtml extends JDocument
 		}
 
 		$this->_links = (isset($data['links']) && !empty($data['links']) && is_array($data['links']))
-			? array_unique(array_merge($this->_links, $data['links']))
+			? array_unique(array_merge($this->_links, $data['links']), SORT_REGULAR)
 			: $this->_links;
 		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets']))
 			? array_merge($this->_styleSheets, $data['styleSheets'])
@@ -520,7 +522,7 @@ class JDocumentHtml extends JDocument
 	}
 
 	/**
-	 * Count the number of child menu items
+	 * Count the number of child menu items of the current active menu item
 	 *
 	 * @return  integer  Number of child menu items
 	 *
@@ -617,6 +619,11 @@ class JDocumentHtml extends JDocument
 		if (!file_exists($directory . '/' . $template . '/' . $file))
 		{
 			$template = 'system';
+		}
+
+		if (!file_exists($directory . '/' . $template . '/' . $file))
+		{
+			$file = 'index.php';
 		}
 
 		// Load the language file for the template

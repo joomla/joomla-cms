@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ jQuery(document).ready(function() {
 			try {
 				var updateInfoList = jQuery.parseJSON(data);
 			} catch (e) {
-				// An error occured
+				// An error occurred
 				link.html(plg_quickicon_extensionupdate_text.ERROR);
 			}
 
@@ -21,34 +21,23 @@ jQuery(document).ready(function() {
 					link.html(plg_quickicon_extensionupdate_text.UPTODATE);
 				} else {
 					var updateString = plg_quickicon_extensionupdate_text.UPDATEFOUND_MESSAGE.replace("%s", updateInfoList.length);
-					if (jQuery('.alert-joomlaupdate').length == 0) {
-						jQuery('#system-message-container').prepend(
-							'<div class="alert alert-error alert-joomlaupdate">'
-							+ updateString
-							+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_extensionupdate_url + '\'">'
-							+ plg_quickicon_extensionupdate_text.UPDATEFOUND_BUTTON + '</button>'
-							+ '</div>'
-						);
-					}
-					else {
-						jQuery('#system-message-container').prepend(
-							'<div class="alert alert-error alert-joomlaupdate span6">'
-							+ updateString
-							+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_extensionupdate_url + '\'">'
-							+ plg_quickicon_extensionupdate_text.UPDATEFOUND_BUTTON + '</button>'
-							+ '</div>'
-						);
-					}
+					jQuery('#system-message-container').prepend(
+						'<div class="alert alert-error alert-joomlaupdate">'
+						+ updateString
+						+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_extensionupdate_url + '\'">'
+						+ plg_quickicon_extensionupdate_text.UPDATEFOUND_BUTTON + '</button>'
+						+ '</div>'
+					);
 					var updateString = plg_quickicon_extensionupdate_text.UPDATEFOUND.replace("%s", updateInfoList.length);
 					link.html(updateString);
 				}
 			} else {
-				// An error occured
+				// An error occurred
 				link.html(plg_quickicon_extensionupdate_text.ERROR);
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
-			// An error occured
+			// An error occurred
 			jQuery('#plg_quickicon_extensionupdate').find('span.j-links-link').html(plg_quickicon_extensionupdate_text.ERROR);
 		},
 		url: plg_quickicon_extensionupdate_ajax_url + '&eid=0&skip=700'

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -122,7 +122,9 @@ class JApplicationSiteTest extends TestCaseDatabase
 		TestReflection::setValue('JApplicationCms', 'instances', array());
 
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
+		unset($config);
+		unset($this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -227,7 +229,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testGetRouter()
 	{
-		$this->assertInstanceOf('JRouterSite', $this->class->getRouter());
+		$this->assertInstanceOf('JRouterSite', JApplicationSite::getRouter());
 	}
 
 	/**
@@ -268,6 +270,19 @@ class JApplicationSiteTest extends TestCaseDatabase
 	public function testIsSite()
 	{
 		$this->assertTrue($this->class->isSite());
+	}
+
+	/**
+	 * Tests the JApplicationCms::isClient method.
+	 *
+	 * @return  void
+	 *
+	 * @since  3.7.0
+	 */
+	public function testIsClient()
+	{
+		$this->assertFalse($this->class->isClient('administrator'));
+		$this->assertTrue($this->class->isClient('site'));
 	}
 
 	/**

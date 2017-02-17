@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,6 +41,20 @@ class JDatabaseDriverTest extends TestCaseDatabase
 				'prefix' => '&',
 			)
 		);
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->db);
+		parent::tearDown();
 	}
 
 	/**
@@ -117,9 +131,11 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 */
 	public function testGetConnectors()
 	{
+		$db = $this->db;
+
 		$this->assertContains(
 			'sqlite',
-			$this->db->getConnectors(),
+			$db::getConnectors(),
 			'The getConnectors method should return an array with Sqlite as an available option.'
 		);
 	}
@@ -180,8 +196,10 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 */
 	public function testSplitSql()
 	{
+		$db = $this->db;
+
 		$this->assertThat(
-			$this->db->splitSql('SELECT * FROM #__foo;SELECT * FROM #__bar;'),
+			$db::splitSql('SELECT * FROM #__foo;SELECT * FROM #__bar;'),
 			$this->equalTo(
 				array(
 					'SELECT * FROM #__foo;',

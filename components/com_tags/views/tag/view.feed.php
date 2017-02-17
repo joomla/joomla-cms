@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class TagsViewTag extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -35,7 +35,7 @@ class TagsViewTag extends JViewLegacy
 		$feedEmail        = $app->get('feed_email', 'none');
 		$document->editor = $fromName;
 
-		if ($feedEmail != "none")
+		if ($feedEmail != 'none')
 		{
 			$document->editorEmail = $siteEmail;
 		}
@@ -57,7 +57,7 @@ class TagsViewTag extends JViewLegacy
 
 				// Strip HTML from feed item description text
 				$description = $item->core_body;
-				$author      = $item->core_created_by_alias ? $item->core_created_by_alias : $item->author;
+				$author      = $item->core_created_by_alias ?: $item->author;
 				$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 				// Load individual item creator class

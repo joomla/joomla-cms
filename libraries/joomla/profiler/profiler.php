@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Profiler
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -114,7 +114,7 @@ class JProfiler
 			'totalTime' => ($current * 1000),
 			'memory' => ($currentMem > $this->previousMem ? '+' : '-') . ($currentMem - $this->previousMem),
 			'totalMemory' => $currentMem,
-			'label' => $label
+			'label' => $label,
 		);
 		$this->marks[] = $m;
 
@@ -147,7 +147,7 @@ class JProfiler
 	{
 		list ($usec, $sec) = explode(' ', microtime());
 
-		return ((float) $usec + (float) $sec);
+		return (float) $usec + (float) $sec;
 	}
 
 	/**

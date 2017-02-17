@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,6 +49,22 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	}
 
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo);
+		unset($this->_instance);
+		parent::tearDown();
+	}
+
+	/**
 	 * Data for the testDateAdd test.
 	 *
 	 * @return  array
@@ -84,5 +100,100 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 			$this->_instance->dateAdd($date, $interval, $datePart),
 			$this->equalTo($expected)
 		);
+	}
+
+	/**
+	 * Test for the JDatabaseQuerySqlsrv::__string method for a 'selectRowNumber' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function test__toStringSelectRowNumber()
+	{
+		$this->_instance
+			->select('id')
+			->selectRowNumber('ordering', 'new_ordering')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT id,ROW_NUMBER() OVER (ORDER BY ordering) AS new_ordering" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->select('id')
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'))
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT id,ROW_NUMBER() OVER (ORDER BY ordering DESC) AS [ordering]" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'));
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT ROW_NUMBER() OVER (ORDER BY ordering DESC) AS [ordering]" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1",
+			(string) $this->_instance
+		);
+	}
+
+	/**
+	 * Test for the JDatabaseQuery::__string method for a 'update' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function test__toStringUpdate()
+	{
+		$this->_instance
+			->update('#__foo AS a')
+			->join('INNER', 'b ON b.id = a.id')
+			->set('a.id = 2')
+			->where('b.id = 1');
+
+		$string = (string) $this->_instance;
+
+		$this->assertEquals(
+			PHP_EOL . "UPDATE a" .
+			PHP_EOL . "SET a.id = 2" .
+			PHP_EOL . "FROM #__foo AS a" .
+			PHP_EOL . "INNER JOIN b ON b.id = a.id" .
+			PHP_EOL . "WHERE b.id = 1",
+			$string
+		);
+
+		// Run method __toString() again on the same query
+		$this->assertEquals(
+			$string,
+			(string) $this->_instance
+		);
+	}
+
+	/**
+	 * Mock quoteName method.
+	 *
+	 * @param   string  $value  The value to be quoted.
+	 *
+	 * @return  string  The value passed wrapped in MySQL quotes.
+	 *
+	 * @since   11.3
+	 */
+	public function mockQuoteName($value)
+	{
+		return "[$value]";
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -127,16 +127,14 @@ class LoginModelLogin extends JModelLegacy
 			return $clean;
 		}
 
-		$app = JFactory::getApplication();
-		$lang = JFactory::getLanguage()->getTag();
+		$app      = JFactory::getApplication();
+		$lang     = JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
-		$cache = JFactory::getCache('com_modules', '');
-		$cacheid = md5(serialize(array($clientId, $lang)));
-		$loginmodule = array();
+		/** @var JCacheControllerCallback $cache */
+		$cache = JFactory::getCache('com_modules', 'callback');
 
-		if (!($clean = $cache->get($cacheid)))
-		{
+		$loader = function () use ($app, $lang, $module) {
 			$db = JFactory::getDbo();
 
 			$query = $db->getQuery(true)
@@ -147,7 +145,7 @@ class LoginModelLogin extends JModelLegacy
 				->where('e.enabled = 1');
 
 			// Filter by language.
-			if ($app->isSite() && $app->getLanguageFilter())
+			if ($app->isClient('site') && $app->getLanguageFilter())
 			{
 				$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
 			}
@@ -157,23 +155,31 @@ class LoginModelLogin extends JModelLegacy
 			// Set the query.
 			$db->setQuery($query);
 
+			return $db->loadObjectList();
+		};
+
+		try
+		{
+			return $clean = $cache->get($loader, array(), md5(serialize(array($clientId, $lang))));
+		}
+		catch (JCacheException $cacheException)
+		{
 			try
 			{
-				$modules = $db->loadObjectList();
+				return $loader();
 			}
-			catch (RuntimeException $e)
+			catch (JDatabaseExceptionExecuting $databaseException)
 			{
-				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()));
+				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()));
 
-				return $loginmodule;
+				return array();
 			}
-
-			// Return to simple indexing that matches the query order.
-			$loginmodule = $modules;
-
-			$cache->store($loginmodule, $cacheid);
 		}
+		catch (JDatabaseExceptionExecuting $databaseException)
+		{
+			JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()));
 
-		return $loginmodule;
+			return array();
+		}
 	}
 }

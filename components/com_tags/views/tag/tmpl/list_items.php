@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,18 +15,28 @@ JHtml::_('formbehavior.chosen', 'select');
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-
+JFactory::getDocument()->addScriptDeclaration("
+		var resetFilter = function() {
+		document.getElementById('filter-search').value = '';
+	}
+");
 ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar">
-		<?php if ($this->params->get('filter_field')) :?>
+		<?php if ($this->params->get('filter_field')) : ?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
 					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
 				</label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>" />
+				<button type="button" name="filter-search-button" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" onclick="document.adminForm.submit();" class="btn">
+					<span class="icon-search"></span>
+				</button>
+				<button type="reset" name="filter-clear-button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn" onclick="resetFilter(); document.adminForm.submit();">
+					<span class="icon-remove"></span>
+				</button>
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
@@ -58,11 +68,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</th>
 					<?php if ($date = $this->params->get('tag_list_show_date')) : ?>
 						<th id="categorylist_header_date">
-							<?php if ($date == "created") : ?>
+							<?php if ($date == 'created') : ?>
 								<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_created_time', $listDirn, $listOrder); ?>
-							<?php elseif ($date == "modified") : ?>
+							<?php elseif ($date == 'modified') : ?>
 								<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_modified_time', $listDirn, $listOrder); ?>
-							<?php elseif ($date == "published") : ?>
+							<?php elseif ($date == 'published') : ?>
 								<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_publish_up', $listDirn, $listOrder); ?>
 							<?php endif; ?>
 						</th>
@@ -75,7 +85,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php foreach ($this->items as $i => $item) : ?>
 					<?php if ($this->items[$i]->core_state == 0) : ?>
 					 <tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-					<?php else: ?>
+					<?php else : ?>
 					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 						<td <?php if ($this->params->get('show_headings')) echo "headers=\"categorylist_header_title\""; ?> class="list-title">

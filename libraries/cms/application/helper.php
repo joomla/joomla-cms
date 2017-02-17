@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -70,17 +70,18 @@ class JApplicationHelper
 	}
 
 	/**
-	 * This method transliterates a string into an URL
+	 * This method transliterates a string into a URL
 	 * safe string or returns a URL safe UTF-8 string
 	 * based on the global configuration
 	 *
-	 * @param   string  $string  String to process
+	 * @param   string  $string    String to process
+	 * @param   string  $language  Language to transliterate to if unicode slugs are disabled
 	 *
 	 * @return  string  Processed string
 	 *
 	 * @since   3.2
 	 */
-	public static function stringURLSafe($string)
+	public static function stringURLSafe($string, $language = '')
 	{
 		if (JFactory::getConfig()->get('unicodeslugs') == 1)
 		{
@@ -88,7 +89,12 @@ class JApplicationHelper
 		}
 		else
 		{
-			$output = JFilterOutput::stringURLSafe($string);
+			if ($language == '*' || $language == '')
+			{
+				$languageParams = JComponentHelper::getParams('com_languages');
+				$language = $languageParams->get('site');
+			}
+			$output = JFilterOutput::stringURLSafe($string, $language);
 		}
 
 		return $output;
@@ -159,7 +165,7 @@ class JApplicationHelper
 			}
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -230,6 +236,12 @@ class JApplicationHelper
 	{
 		JLog::add('JApplicationHelper::parseXMLLangMetaFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
 
+		// Check if meta file exists.
+		if (!file_exists($path))
+		{
+			return false;
+		}
+
 		// Read the file to see if it's a valid component XML file
 		$xml = simplexml_load_file($path);
 
@@ -255,8 +267,8 @@ class JApplicationHelper
 		$data['name'] = (string) $xml->name;
 		$data['type'] = $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('JLIB_UNKNOWN');
-		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('JLIB_UNKNOWN');
+		$data['creationDate'] = ((string) $xml->creationDate) ?: JText::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ?: JText::_('JLIB_UNKNOWN');
 
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;

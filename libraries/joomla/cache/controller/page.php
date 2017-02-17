@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,19 +17,25 @@ defined('JPATH_PLATFORM') or die;
 class JCacheControllerPage extends JCacheController
 {
 	/**
-	 * @var    integer  ID property for the cache page object.
+	 * ID property for the cache page object.
+	 *
+	 * @var    integer
 	 * @since  11.1
 	 */
 	protected $_id;
 
 	/**
-	 * @var    string  Cache group
+	 * Cache group
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_group;
 
 	/**
-	 * @var    object  Cache lock test
+	 * Cache lock test
+	 *
+	 * @var    stdClass
 	 * @since  11.1
 	 */
 	protected $_locktest = null;
@@ -37,17 +43,17 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Get the cached page data
 	 *
-	 * @param   boolean  $id     The cache data id
+	 * @param   boolean  $id     The cache data ID
 	 * @param   string   $group  The cache data group
 	 *
-	 * @return  boolean  True if the cache is hit (false else)
+	 * @return  mixed  Boolean false on no result, cached object otherwise
 	 *
 	 * @since   11.1
 	 */
 	public function get($id = false, $group = 'page')
 	{
 		// If an id is not given, generate it from the request
-		if ($id == false)
+		if (!$id)
 		{
 			$id = $this->_makeId();
 		}
@@ -71,15 +77,14 @@ class JCacheControllerPage extends JCacheController
 		// We got a cache hit... set the etag header and echo the page data
 		$data = $this->cache->get($id, $group);
 
-		$this->_locktest = new stdClass;
-		$this->_locktest->locked = null;
-		$this->_locktest->locklooped = null;
+		$this->_locktest = (object) array('locked' => null, 'locklooped' => null);
 
 		if ($data === false)
 		{
 			$this->_locktest = $this->cache->lock($id, $group);
 
-			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true)
+			// If locklooped is true try to get the cached data again; it could exist now.
+			if ($this->_locktest->locked === true && $this->_locktest->locklooped === true)
 			{
 				$data = $this->cache->get($id, $group);
 			}
@@ -87,21 +92,20 @@ class JCacheControllerPage extends JCacheController
 
 		if ($data !== false)
 		{
-			$data = unserialize(trim($data));
-
-			$data = JCache::getWorkarounds($data);
-
-			$this->_setEtag($id);
-
-			if ($this->_locktest->locked == true)
+			if ($this->_locktest->locked === true)
 			{
 				$this->cache->unlock($id, $group);
 			}
 
+			$data = unserialize(trim($data));
+			$data = JCache::getWorkarounds($data);
+
+			$this->_setEtag($id);
+
 			return $data;
 		}
 
-		// Set id and group placeholders
+		// Set ID and group placeholders
 		$this->_id    = $id;
 		$this->_group = $group;
 
@@ -112,74 +116,75 @@ class JCacheControllerPage extends JCacheController
 	 * Stop the cache buffer and store the cached data
 	 *
 	 * @param   mixed    $data        The data to store
-	 * @param   string   $id          The cache data id
+	 * @param   string   $id          The cache data ID
 	 * @param   string   $group       The cache data group
 	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
-	 * @return  boolean  True if cache stored
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)
 	{
+		if ($this->_locktest->locked === false && $this->_locktest->locklooped === true)
+		{
+			// We can not store data because another process is in the middle of saving
+			return false;
+		}
+
 		// Get page data from the application object
-		if (empty($data))
+		if (!$data)
 		{
 			$data = JFactory::getApplication()->getBody();
+
+			// Only attempt to store if page data exists.
+			if (!$data)
+			{
+				return false;
+			}
 		}
 
 		// Get id and group and reset the placeholders
-		if (empty($id))
+		if (!$id)
 		{
 			$id = $this->_id;
 		}
 
-		if (empty($group))
+		if (!$group)
 		{
 			$group = $this->_group;
 		}
 
-		// Only attempt to store if page data exists
-		if ($data)
+		if ($wrkarounds)
 		{
-			if ($wrkarounds)
-			{
-				$data = JCache::setWorkarounds(
-					$data, array(
-						'nopathway' => 1,
-						'nohead'    => 1,
-						'nomodules' => 1,
-						'headers'   => true
-					)
-				);
-			}
-
-			if ($this->_locktest->locked == false)
-			{
-				$this->_locktest = $this->cache->lock($id, $group);
-			}
-
-			$sucess = $this->cache->store(serialize($data), $id, $group);
-
-			if ($this->_locktest->locked == true)
-			{
-				$this->cache->unlock($id, $group);
-			}
-
-			return $sucess;
+			$data = JCache::setWorkarounds(
+				$data,
+				array(
+					'nopathway' => 1,
+					'nohead'    => 1,
+					'nomodules' => 1,
+					'headers'   => true,
+				)
+			);
 		}
 
-		return false;
+		$result = $this->cache->store(serialize($data), $id, $group);
+
+		if ($this->_locktest->locked === true)
+		{
+			$this->cache->unlock($id, $group);
+		}
+
+		return $result;
 	}
 
 	/**
 	 * Generate a page cache id
 	 *
-	 * @return  string  MD5 Hash : page cache id
+	 * @return  string  MD5 Hash
 	 *
 	 * @since   11.1
-	 * @todo    Discuss whether this should be coupled to a data hash or a request
-	 * hash ... perhaps hashed with a serialized request
+	 * @todo    Discuss whether this should be coupled to a data hash or a request hash ... perhaps hashed with a serialized request
 	 */
 	protected function _makeId()
 	{
@@ -187,8 +192,7 @@ class JCacheControllerPage extends JCacheController
 	}
 
 	/**
-	 * There is no change in page data so send an
-	 * unmodified header and die gracefully
+	 * There is no change in page data so send an unmodified header and die gracefully
 	 *
 	 * @return  void
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -71,13 +71,29 @@ class JSchemaChangeset
 
 		foreach ($updateQueries as $obj)
 		{
-			$this->changeItems[] = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
+			$changeItem = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
+
+			if ($changeItem->queryType === 'UTF8CNV')
+			{
+				// Execute the special update query for utf8mb4 conversion status reset
+				try
+				{
+					$this->db->setQuery($changeItem->updateQuery)->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
+			}
+			else
+			{
+				// Normal change item
+				$this->changeItems[] = $changeItem;
+			}
 		}
 
 		// If on mysql, add a query at the end to check for utf8mb4 conversion status
-		$serverType = $this->db->getServerType();
-
-		if ($serverType == 'mysql')
+		if ($this->db->getServerType() == 'mysql')
 		{
 			// Let the update query be something harmless which should always succeed
 			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance(
@@ -238,13 +254,10 @@ class JSchemaChangeset
 	private function getUpdateFiles()
 	{
 		// Get the folder from the database name
-		$sqlFolder = $this->db->name;
+		$sqlFolder = $this->db->getServerType();
 
-		if ($sqlFolder == 'mysqli' || $sqlFolder == 'pdomysql')
-		{
-			$sqlFolder = 'mysql';
-		}
-		elseif ($sqlFolder == 'sqlsrv')
+		// For `mssql` server types, convert the type to `sqlazure`
+		if ($sqlFolder === 'mssql')
 		{
 			$sqlFolder = 'sqlazure';
 		}

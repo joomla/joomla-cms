@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -121,7 +121,8 @@ class JBrowser
 		'ViolaBot',
 		'webbandit',
 		'www.almaden.ibm.com/cs/crawler',
-		'ZyBorg');
+		'ZyBorg',
+	);
 
 	/**
 	 * @var    boolean  Is this a mobile browser?
@@ -244,6 +245,13 @@ class JBrowser
 				{
 					$this->identifyBrowserVersion();
 				}
+			}
+
+			// Opera 15+
+			elseif (preg_match('|OPR[/ ]([0-9.]+)|', $this->agent, $version))
+			{
+				$this->setBrowser('opera');
+				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (preg_match('|Chrome[/ ]([0-9.]+)|', $this->agent, $version))
 			{
@@ -552,7 +560,7 @@ class JBrowser
 			}
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -609,7 +617,7 @@ class JBrowser
 			return false;
 		}
 
-		return (in_array($subtype, $this->images));
+		return in_array($subtype, $this->images);
 	}
 
 	/**
@@ -623,7 +631,7 @@ class JBrowser
 	 */
 	public function isBrowser($browser)
 	{
-		return ($this->browser === $browser);
+		return $this->browser === $browser;
 	}
 
 	/**
@@ -668,9 +676,12 @@ class JBrowser
 	 */
 	public function isSSLConnection()
 	{
-		JLog::add('JBrowser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
-			JLog::WARNING, 'deprecated');
+		JLog::add(
+			'JBrowser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
+			JLog::WARNING,
+			'deprecated'
+		);
 
-		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
+		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
 	}
 }

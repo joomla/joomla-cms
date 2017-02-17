@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
+JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 /**
  * View class for a list of tracks.
@@ -44,14 +44,14 @@ class BannersViewTracks extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
-		$this->filterForm = $this->get('FilterForm');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
@@ -65,8 +65,6 @@ class BannersViewTracks extends JViewLegacy
 		BannersHelper::addSubmenu('tracks');
 
 		$this->addToolbar();
-
-		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
 
 		$this->sidebar = JHtmlSidebar::render();
 
@@ -87,7 +85,19 @@ class BannersViewTracks extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 
 		$bar = JToolbar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'download', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
+
+		// Instantiate a new JLayoutFile instance and render the export button
+		$layout = new JLayoutFile('joomla.toolbar.modal');
+
+		$dhtml  = $layout->render(
+			array(
+				'selector' => 'downloadModal',
+				'icon'     => 'download',
+				'text'     => JText::_('JTOOLBAR_EXPORT'),
+			)
+		);
+
+		$bar->appendButton('Custom', $dhtml, 'download');
 
 		if ($canDo->get('core.delete'))
 		{
@@ -104,7 +114,6 @@ class BannersViewTracks extends JViewLegacy
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
 
 		JHtmlSidebar::setAction('index.php?option=com_banners&view=tracks');
-
 	}
 
 	/**
@@ -117,10 +126,10 @@ class BannersViewTracks extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'b.name' => JText::_('COM_BANNERS_HEADING_NAME'),
-			'cl.name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'b.name'     => JText::_('COM_BANNERS_HEADING_NAME'),
+			'cl.name'    => JText::_('COM_BANNERS_HEADING_CLIENT'),
 			'track_type' => JText::_('COM_BANNERS_HEADING_TYPE'),
-			'count' => JText::_('COM_BANNERS_HEADING_COUNT'),
+			'count'      => JText::_('COM_BANNERS_HEADING_COUNT'),
 			'track_date' => JText::_('JDATE')
 		);
 	}

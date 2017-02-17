@@ -5,11 +5,11 @@
  * Joomla is assumed to include the /unittest/ directory.
  * eg, /path/to/joomla/unittest/
  *
- * @package     Joomla.UnitTest
+ * @package    Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
- * @link        http://www.phpunit.de/manual/current/en/installation.html
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
+ * @link       http://www.phpunit.de/manual/current/en/installation.html
  */
 
 /**
@@ -21,7 +21,6 @@
  */
 function jexit($message = 0)
 {
-	return;
 }
 
 define('_JEXEC', 1);
@@ -117,6 +116,9 @@ JLoader::registerPrefix('Test', __DIR__ . '/core');
 
 // Register the deprecation handler
 TestHelper::registerDeprecationHandler();
+
+// Register the deprecation logger
+TestHelper::registerDeprecationLogger();
 
 // Register the logger if enabled
 TestHelper::registerLogger();

@@ -1,19 +1,16 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package     Joomla.UnitTest
+ * @subpackage  Session
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
-
-include_once JPATH_PLATFORM . '/joomla/session/storage.php';
 
 /**
  * Test class for JSessionStorageNone.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Session
- * @since       11.1
+ * @since  11.1
  */
 class JSessionStorageNoneTest extends PHPUnit_Framework_TestCase
 {

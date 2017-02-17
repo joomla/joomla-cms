@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -147,17 +147,19 @@ class BannersModelBanner extends JModelLegacy
 
 			$id = $this->getState('banner.id');
 
-			$this->_item = $cache->get($id);
-
-			if ($this->_item === false)
+			if ($cache->contains($id))
+			{
+				$this->_item = $cache->get($id);
+			}
+			else
 			{
 				// Redirect to banner url
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select(
-						'a.clickurl as clickurl,' .
-							'a.cid as cid,' .
-							'a.track_clicks as track_clicks'
+						'a.clickurl as clickurl,'
+							. 'a.cid as cid,'
+							. 'a.track_clicks as track_clicks'
 					)
 					->from('#__banners as a')
 					->where('a.id = ' . (int) $id)

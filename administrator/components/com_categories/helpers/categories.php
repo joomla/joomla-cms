@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,10 +47,10 @@ class CategoriesHelper
 
 		if (file_exists($file))
 		{
-			require_once $file;
-
 			$prefix = ucfirst(str_replace('com_', '', $component));
 			$cName = $prefix . 'Helper';
+
+			JLoader::register($cName, $file);
 
 			if (class_exists($cName))
 			{
@@ -83,7 +83,18 @@ class CategoriesHelper
 	public static function getActions($extension, $categoryId = 0)
 	{
 		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated, use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions
 		return JHelperContent::getActions($extension, 'category', $categoryId);
@@ -108,5 +119,51 @@ class CategoriesHelper
 		}
 
 		return $associations;
+	}
+
+	/**
+	 * Check if Category ID exists otherwise assign to ROOT category.
+	 *
+	 * @param   mixed   $catid      Name or ID of category.
+	 * @param   string  $extension  Extension that triggers this function
+	 *
+	 * @return int $catid  Category ID.
+	 */
+	public static function validateCategoryId($catid, $extension)
+	{
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
+
+		$categoryTable = JTable::getInstance('Category');
+
+		$data = array();
+		$data['id'] = $catid;
+		$data['extension'] = $extension;
+
+		if (!$categoryTable->load($data))
+		{
+			$catid = 0;
+		}
+
+		return (int) $catid;
+	}
+
+	/**
+	 * Create new Category from within item view.
+	 *
+	 * @param   array  $data  Array of data for new category.
+	 *
+	 * @return  integer.
+	 */
+	public static function createCategory($data)
+	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/models');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
+
+		$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel', array('ignore_request' => true));
+		$categoryModel->save($data);
+
+		$catid = $categoryModel->getState('category.id');
+
+		return $catid;
 	}
 }

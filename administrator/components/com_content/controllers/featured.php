@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/articles.php';
+JLoader::register('ContentControllerArticles', __DIR__ . '/articles.php');
 
 /**
  * Featured content controller class.
@@ -51,6 +51,7 @@ class ContentControllerFeatured extends ContentControllerArticles
 		else
 		{
 			// Get the model.
+			/** @var ContentModelFeature $model */
 			$model = $this->getModel();
 
 			// Remove the items.
@@ -84,14 +85,12 @@ class ContentControllerFeatured extends ContentControllerArticles
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  JModelLegacy  The model.
 	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Feature', $prefix = 'ContentModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 }

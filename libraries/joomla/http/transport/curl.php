@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,7 +29,7 @@ class JHttpTransportCurl implements JHttpTransport
 	 *
 	 * @param   Registry  $options  Client options object.
 	 *
-	 * @see     http://www.php.net/manual/en/function.curl-setopt.php
+	 * @see     https://secure.php.net/manual/en/function.curl-setopt.php
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
@@ -62,6 +62,8 @@ class JHttpTransportCurl implements JHttpTransport
 	{
 		// Setup the cURL handle.
 		$ch = curl_init();
+
+		$options = array();
 
 		// Set the request method.
 		switch (strtoupper($method))
@@ -127,6 +129,12 @@ class JHttpTransportCurl implements JHttpTransport
 			$options[CURLOPT_HTTPHEADER] = $headerArray;
 		}
 
+		// Curl needs the accepted encoding header as option
+		if (isset($headers['Accept-Encoding']))
+		{
+			$options[CURLOPT_ENCODING] = $headers['Accept-Encoding'];
+		}
+
 		// If an explicit timeout is given user it.
 		if (isset($timeout))
 		{
@@ -176,6 +184,13 @@ class JHttpTransportCurl implements JHttpTransport
 		foreach ($this->options->get('transport.curl', array()) as $key => $value)
 		{
 			$options[$key] = $value;
+		}
+
+		// Authentification, if needed
+		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		{
+			$options[CURLOPT_USERPWD] = $this->options->get('userauth') . ':' . $this->options->get('passwordauth');
+			$options[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC;
 		}
 
 		// Set the cURL options.
@@ -237,21 +252,37 @@ class JHttpTransportCurl implements JHttpTransport
 		// Create the response object.
 		$return = new JHttpResponse;
 
-		// Get the number of redirects that occurred.
-		$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
+		// Try to get header size
+		if (isset($info['header_size']))
+		{
+			$headerString = trim(substr($content, 0, $info['header_size']));
+			$headerArray  = explode("\r\n\r\n", $headerString);
 
-		/*
-		 * Split the response into headers and body. If cURL encountered redirects, the headers for the redirected requests will
-		 * also be included. So we split the response into header + body + the number of redirects and only use the last two
-		 * sections which should be the last set of headers and the actual body.
-		 */
-		$response = explode("\r\n\r\n", $content, 2 + $redirects);
+			// Get the last set of response headers as an array.
+			$headers = explode("\r\n", array_pop($headerArray));
 
-		// Set the body for the response.
-		$return->body = array_pop($response);
+			// Set the body for the response.
+			$return->body = substr($content, $info['header_size']);
+		}
+		// Fallback and try to guess header count by redirect count
+		else
+		{
+			// Get the number of redirects that occurred.
+			$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
 
-		// Get the last set of response headers as an array.
-		$headers = explode("\r\n", array_pop($response));
+			/*
+			 * Split the response into headers and body. If cURL encountered redirects, the headers for the redirected requests will
+			 * also be included. So we split the response into header + body + the number of redirects and only use the last two
+			 * sections which should be the last set of headers and the actual body.
+			 */
+			$response = explode("\r\n\r\n", $content, 2 + $redirects);
+
+			// Set the body for the response.
+			$return->body = array_pop($response);
+
+			// Get the last set of response headers as an array.
+			$headers = explode("\r\n", array_pop($response));
+		}
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);

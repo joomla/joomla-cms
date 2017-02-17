@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ class MenusModelItems extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
-				'menutype', 'a.menutype',
+				'menutype', 'a.menutype', 'menutype_title',
 				'title', 'a.title',
 				'alias', 'a.alias',
 				'published', 'a.published',
@@ -71,9 +71,24 @@ class MenusModelItems extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
 		$app = JFactory::getApplication('administrator');
+		$user = JFactory::getUser();
+
+		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+
+		// Adjust the context to support modal layouts.
+		if ($layout = $app->input->get('layout'))
+		{
+			$this->context .= '.' . $layout;
+		}
+
+		// Adjust the context to support forced languages.
+		if ($forcedLanguage)
+		{
+			$this->context .= '.' . $forcedLanguage;
+		}
 
 		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
 		$this->setState('filter.parent_id', $parentId);
@@ -93,37 +108,60 @@ class MenusModelItems extends JModelList
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
-		$menuType = $app->input->getString('menutype', null);
+		// Watch changes in client_id and menutype and keep sync whenever needed.
+		$currentClientId = $app->getUserState($this->context . '.client_id', 0);
+		$clientId        = $app->input->getInt('client_id', $currentClientId);
 
-		if ($menuType)
-		{
-			if ($menuType != $app->getUserState($this->context . '.menutype'))
-			{
-				$app->setUserState($this->context . '.menutype', $menuType);
-				$app->input->set('limitstart', 0);
-			}
-		}
-		else
-		{
-			$menuType = $app->getUserState($this->context . '.menutype');
+		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
+		$menuType        = $app->input->getString('menutype', $currentMenuType);
 
-			if (!$menuType)
-			{
-				$menuType = $this->getDefaultMenuType();
-			}
+		// If client_id changed clear menutype and reset pagination
+		if ($clientId != $currentClientId)
+		{
+			$menuType = '';
+
+			$app->input->set('limitstart', 0);
+			$app->input->set('menutype', '');
 		}
+
+		// If menutype changed reset pagination.
+		if ($menuType != $currentMenuType)
+		{
+			$app->input->set('limitstart', 0);
+		}
+
+		if (!$menuType)
+		{
+			$app->setUserState($this->context . '.menutype', '');
+			$this->setState('menutypetitle', '');
+			$this->setState('menutypeid', '');
+		}
+		// Special menu types, if selected explicitly, will be allowed as a filter
+		elseif ($menuType == 'main')
+		{
+			// Adjust client_id to match the menutype. This is safe as client_id was not changed in this request.
+			$app->input->set('client_id', 1);
+
+			$app->setUserState($this->context . '.menutype', $menuType);
+			$this->setState('menutypetitle', ucfirst($menuType));
+			$this->setState('menutypeid', -1);
+		}
+		// Get the menutype object with appropriate checks.
+		elseif ($cMenu = $this->getMenu($menuType, true))
+		{
+			// Adjust client_id to match the menutype. This is safe as client_id was not changed in this request.
+			$app->input->set('client_id', $cMenu->client_id);
+
+			$app->setUserState($this->context . '.menutype', $menuType);
+			$this->setState('menutypetitle', $cMenu->title);
+			$this->setState('menutypeid', $cMenu->id);
+		}
+
+		// Client id filter
+		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
+		$this->setState('filter.client_id', $clientId);
 
 		$this->setState('filter.menutype', $menuType);
-
-		// Get menutype title
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('title')
-			->from($db->quoteName('#__menu_types'))
-			->where($db->quoteName('menutype') . " = " . $db->quote($menuType));
-		$db->setQuery($query);
-		$menuTypeTitle = $db->loadResult();
-		$this->setState('menutypetitle', $menuTypeTitle);
 
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
@@ -133,7 +171,13 @@ class MenusModelItems extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.lft', 'asc');
+		parent::populateState($ordering, $direction);
+
+		// Force a language.
+		if (!empty($forcedLanguage))
+		{
+			$this->setState('filter.language', $forcedLanguage);
+		}
 	}
 
 	/**
@@ -158,31 +202,9 @@ class MenusModelItems extends JModelList
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.parent_id');
 		$id .= ':' . $this->getState('filter.menutype');
+		$id .= ':' . $this->getState('filter.client_id');
 
 		return parent::getStoreId($id);
-	}
-
-	/**
-	 * Finds the default menu type.
-	 *
-	 * In the absence of better information, this is the first menu ordered by title.
-	 *
-	 * @return  string    The default menu type
-	 *
-	 * @since   1.6
-	 */
-	protected function getDefaultMenuType()
-	{
-		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('menutype')
-			->from('#__menu_types')
-			->order('title');
-		$db->setQuery($query, 0, 1);
-		$menuType = $db->loadResult();
-
-		return $menuType;
 	}
 
 	/**
@@ -212,7 +234,7 @@ class MenusModelItems extends JModelList
 					),
 					array(
 						null, null, null, null, null, null, null, null, null,
-						null, 'apublished', null, null, null, null,
+						null, 'a.published', null, null, null, null,
 						null, null, null, null, null, null, null, null, null
 					)
 				)
@@ -221,20 +243,22 @@ class MenusModelItems extends JModelList
 		$query->select(
 			'CASE ' .
 				' WHEN a.type = ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
-				' WHEN a.type = ' . $db->quote('url') . 'AND a.published != -2 THEN a.published+2 ' .
-				' WHEN a.type = ' . $db->quote('url') . 'AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('alias') . 'AND a.published != -2 THEN a.published+4 ' .
-				' WHEN a.type = ' . $db->quote('alias') . 'AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('separator') . 'AND a.published != -2 THEN a.published+6 ' .
-				' WHEN a.type = ' . $db->quote('separator') . 'AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('heading') . 'AND a.published != -2 THEN a.published+8 ' .
-				' WHEN a.type = ' . $db->quote('heading') . 'AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('url') . ' AND a.published != -2 THEN a.published+2 ' .
+				' WHEN a.type = ' . $db->quote('url') . ' AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('alias') . ' AND a.published != -2 THEN a.published+4 ' .
+				' WHEN a.type = ' . $db->quote('alias') . ' AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('separator') . ' AND a.published != -2 THEN a.published+6 ' .
+				' WHEN a.type = ' . $db->quote('separator') . ' AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published != -2 THEN a.published+8 ' .
+				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('container') . ' AND a.published != -2 THEN a.published+8 ' .
+				' WHEN a.type = ' . $db->quote('container') . ' AND a.published = -2 THEN a.published-1 ' .
 			' END AS published '
 		);
 		$query->from($db->quoteName('#__menu') . ' AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
+		$query->select('l.title AS language_title, l.image AS language_image, l.sef AS language_sef')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users.
@@ -249,6 +273,10 @@ class MenusModelItems extends JModelList
 		$query->select('ag.title AS access_level')
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
+		// Join over the menu types.
+		$query->select($db->quoteName(array('mt.id', 'mt.title'), array('menutype_id', 'menutype_title')))
+			->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->qn('mt.menutype') . ' = ' . $db->qn('a.menutype'));
+
 		// Join over the associations.
 		$assoc = JLanguageAssociations::isEnabled();
 
@@ -257,7 +285,7 @@ class MenusModelItems extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name');
+				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.id, mt.title, l.sef');
 		}
 
 		// Join over the extensions
@@ -266,7 +294,7 @@ class MenusModelItems extends JModelList
 
 		// Exclude the root category.
 		$query->where('a.id > 1')
-			->where('a.client_id = 0');
+			->where('a.client_id = ' . (int) $this->getState('filter.client_id'));
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
@@ -277,7 +305,7 @@ class MenusModelItems extends JModelList
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.published IN (0, 1))');
+			$query->where('a.published IN (0, 1)');
 		}
 
 		// Filter by search in title, alias or id
@@ -307,15 +335,51 @@ class MenusModelItems extends JModelList
 
 		if (!empty($parentId))
 		{
-			$query->where('p.id = ' . (int) $parentId);
+			$query->where('a.parent_id = ' . (int) $parentId);
 		}
 
 		// Filter the items over the menu id if set.
 		$menuType = $this->getState('filter.menutype');
 
-		if (!empty($menuType))
+		// A value "" means all
+		if ($menuType == '')
+		{
+			// Load all menu types we have manage access
+			$query2 = $this->getDbo()->getQuery(true)
+				->select($this->getDbo()->qn(array('id', 'menutype')))
+				->from('#__menu_types')
+				->where('client_id = ' . (int) $this->getState('filter.client_id'))
+				->order('title');
+
+			// Show protected items on explicit filter only
+			$query->where('a.menutype != ' . $db->q('main'));
+
+			$menuTypes = $this->getDbo()->setQuery($query2)->loadObjectList();
+
+			if ($menuTypes)
+			{
+				$types = array();
+
+				foreach ($menuTypes as $type)
+				{
+					if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id))
+					{
+						$types[] = $query->q($type->menutype);
+					}
+				}
+
+				$query->where($types ? 'a.menutype IN(' . implode(',', $types) . ')' : 0);
+			}
+		}
+		// Default behavior => load all items from a specific menu
+		elseif (strlen($menuType))
 		{
 			$query->where('a.menutype = ' . $db->quote($menuType));
+		}
+		// Empty menu type => error
+		else
+		{
+			$query->where('1 != 1');
 		}
 
 		// Filter on the access level.
@@ -327,8 +391,12 @@ class MenusModelItems extends JModelList
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+
+			if (!empty($groups))
+			{
+				$query->where('a.access IN (' . implode(',', $groups) . ')');
+			}
 		}
 
 		// Filter on the level.
@@ -347,5 +415,109 @@ class MenusModelItems extends JModelList
 		$query->order($db->escape($this->getState('list.ordering', 'a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
+	}
+
+	/**
+	 * Method to allow derived classes to preprocess the form.
+	 *
+	 * @param   JForm   $form   A JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 * @throws  Exception if there is an error in the form event.
+	 */
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	{
+		$name = $form->getName();
+
+		if ($name == 'com_menus.items.filter')
+		{
+			$clientId = $this->getState('filter.client_id');
+			$form->setFieldAttribute('menutype', 'clientid', $clientId);
+		}
+		elseif (false !== strpos($name, 'com_menus.items.modal.'))
+		{
+			$form->removeField('client_id');
+
+			$clientId = $this->getState('filter.client_id');
+			$form->setFieldAttribute('menutype', 'clientid', $clientId);
+		}
+	}
+
+	/**
+	 * Get the client id for a menu
+	 *
+	 * @param   string  $menuType  The menutype identifier for the menu
+	 * @param   bool    $check     Flag whether to perform check against ACL as well as existence
+	 *
+	 * @return  int
+	 *
+	 * @since   3.7.0
+	 */
+	protected function getMenu($menuType, $check = false)
+	{
+		$query = $this->_db->getQuery(true);
+
+		$query->select('a.*')
+			->from($this->_db->qn('#__menu_types', 'a'))
+			->where('menutype = ' . $this->_db->q($menuType));
+
+		$cMenu = $this->_db->setQuery($query)->loadObject();
+
+		if ($check)
+		{
+			// Check if menu type exists.
+			if (!$cMenu)
+			{
+				$this->setError(JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'));
+			}
+			// Check if menu type is valid against ACL.
+			elseif (!JFactory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
+			{
+				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+			}
+		}
+
+		return $cMenu;
+	}
+
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   12.2
+	 */
+	public function getItems()
+	{
+		$store = $this->getStoreId();
+
+		if (!isset($this->cache[$store]))
+		{
+			$items = parent::getItems();
+			$lang  = JFactory::getLanguage();
+
+			if ($items)
+			{
+				foreach ($items as $item)
+				{
+					if ($extension = $item->componentname)
+					{
+						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
+						|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
+					}
+
+					// Translate component name
+					$item->title = JText::_($item->title);
+				}
+			}
+
+			$this->cache[$store] = $items;
+		}
+
+		return $this->cache[$store];
 	}
 }

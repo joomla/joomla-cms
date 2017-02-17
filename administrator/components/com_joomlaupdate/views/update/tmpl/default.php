@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 JHtml::_('jquery.framework');
 
 // Load the scripts
-JHtml::script('com_joomlaupdate/json2.js', false, true, false);
-JHtml::script('com_joomlaupdate/encryption.js', false, true, false);
-JHtml::script('com_joomlaupdate/update.js', false, true, false);
+JHtml::_('script', 'com_joomlaupdate/json2.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_joomlaupdate/encryption.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_joomlaupdate/update.js', array('version' => 'auto', 'relative' => true));
 
 $password = JFactory::getApplication()->getUserState('com_joomlaupdate.password', null);
 $filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
 $ajaxUrl = JUri::base() . 'components/com_joomlaupdate/restore.php';
-$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise';
+$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . JFactory::getSession()->getFormToken() . '=1';
 
 JFactory::getDocument()->addScriptDeclaration(
 	"
@@ -36,7 +36,7 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 ?>
 
-<p class="nowarning"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_INPROGRESS') ?></p>
+<p class="nowarning"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_INPROGRESS'); ?></p>
 
 <div id="update-progress">
 	<div id="extprogress">

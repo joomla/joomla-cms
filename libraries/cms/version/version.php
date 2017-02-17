@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Version
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELEASE = '3.5';
+	const RELEASE = '3.7';
 
 	/**
 	 * Maintenance version.
@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '1-rc2';
+	const DEV_LEVEL = '0-beta3';
 
 	/**
 	 * Development status.
@@ -46,7 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Release Candidate';
+	const DEV_STATUS = 'dev';
 
 	/**
 	 * Build number.
@@ -62,7 +62,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Unicorn';
+	const CODENAME = 'Amani';
 
 	/**
 	 * Release date.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '29-March-2016';
+	const RELDATE = '8-February-2017';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '22:30';
+	const RELTIME = '14:11';
 
 	/**
 	 * Release timezone.
@@ -94,7 +94,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const COPYRIGHT = 'Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = 'Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.';
 
 	/**
 	 * Link text.
@@ -153,7 +153,7 @@ final class JVersion
 	 *
 	 * @return  boolean True if the version is compatible.
 	 *
-	 * @see     http://www.php.net/version_compare
+	 * @see     https://secure.php.net/version_compare
 	 * @since   1.0
 	 */
 	public function isCompatible($minimum)
@@ -243,10 +243,9 @@ final class JVersion
 	 */
 	public function generateMediaVersion()
 	{
-		$date   = new JDate;
-		$config = JFactory::getConfig();
+		$date = new JDate;
 
-		return md5($this->getLongVersion() . $config->get('secret') . $date->toSql());
+		return md5($this->getLongVersion() . JFactory::getConfig()->get('secret') . $date->toSql());
 	}
 
 	/**
@@ -267,9 +266,6 @@ final class JVersion
 
 		if ($mediaVersion === null)
 		{
-			$config = JFactory::getConfig();
-			$debugEnabled = $config->get('debug', 0);
-
 			// Get the joomla library params
 			$params = JLibraryHelper::getParams('joomla');
 
@@ -277,7 +273,7 @@ final class JVersion
 			$mediaVersion = $params->get('mediaversion', '');
 
 			// Refresh assets in debug mode or when the media version is not set
-			if ($debugEnabled || empty($mediaVersion))
+			if (JDEBUG || empty($mediaVersion))
 			{
 				$mediaVersion = $this->generateMediaVersion();
 

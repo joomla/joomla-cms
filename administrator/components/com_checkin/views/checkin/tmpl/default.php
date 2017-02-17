@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,13 +25,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
-		<div class="clearfix"></div>
-		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
-				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-			</div>
-		<?php else : ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php if ($this->total > 0) : ?>
 			<table id="global-checkin" class="table table-striped">
 				<thead>
 					<tr>
@@ -49,7 +44,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tfoot>
 				<tbody>
 					<?php $i = 0; ?>
-					<?php foreach ($this->items as $table => $count): ?>
+					<?php foreach ($this->items as $table => $count) : ?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="center"><?php echo JHtml::_('grid.id', $i, $table); ?></td>
 							<td>
@@ -58,18 +53,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</label>
 							</td>
 							<td>
-								<?php if ($count > 0) : ?>
-									<span class="label label-warning"><?php echo $count; ?></span>
-								<?php else : ?>
-									<span class="label label-info"><?php echo $count; ?></span>
-								<?php endif; ?>
+								<span class="label label-warning"><?php echo $count; ?></span>
 							</td>
 						</tr>
 						<?php $i++; ?>
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>

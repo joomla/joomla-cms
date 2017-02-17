@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,7 +62,7 @@ class JLanguageAssociations
 					$query->concatenate(
 						array(
 							$db->quoteName('c2.' . $pk),
-							$db->quoteName('c2.' . $aliasField)
+							$db->quoteName('c2.' . $aliasField),
 						),
 						':'
 					) . ' AS ' . $db->quoteName($pk)

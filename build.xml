@@ -17,7 +17,7 @@
 	</target>
 
 	<target name="phpunit" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
-		<exec executable="phpunit">
+		<exec executable="${basedir}/libraries/vendor/bin/phpunit">
 			<arg value="-d" />
 			<arg value="zend.enable_gc=0" />
 		</exec>
@@ -84,11 +84,11 @@
 			<arg value="--template" />
 			<arg value="joomla" />
 			<arg value="--title" />
-			<arg value="Joomla! CMS 3.5 API" />
+			<arg value="Joomla! CMS 3.7 API" />
 		</exec>
 	</target>
 
-	<target name="lint" description="Perform syntax check of sourcecode files">
+	<target name="lint" description="Perform syntax check of source code files">
 		<apply executable="php" failonerror="true">
 			<arg value="-l" />
 
@@ -149,7 +149,14 @@
 			<fileset dir="${basedir}/administrator/components/com_joomlaupdate" />
 		</copy>
 		<move file="${basedir}/build/com_joomlaupdate-pkg/staging/admin/joomlaupdate.xml" todir="${basedir}/build/com_joomlaupdate-pkg/staging" />
-
+		<echo message="Copy the media folder" />
+		<copy todir="${basedir}/build/com_joomlaupdate-pkg/staging/media/js">
+			<fileset dir="${basedir}/media/com_joomlaupdate/js" />
+		</copy>
+		<echo message="Copy language files" />
+		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language" />
+		<copyfile src="${basedir}/administrator/language/en-GB/en-GB.com_joomlaupdate.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB.com_joomlaupdate.ini"/>
+		<copyfile src="${basedir}/administrator/language/en-GB/en-GB.com_joomlaupdate.sys.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB.com_joomlaupdate.sys.ini"/>
 		<echo message="Archiving package" />
 		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/packages" />
 		<zip destfile="${basedir}/build/com_joomlaupdate-pkg/packages/com_joomlaupdate.zip" basedir="${basedir}/build/com_joomlaupdate-pkg/staging" />

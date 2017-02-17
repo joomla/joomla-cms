@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /** 
  * JHtml module helper class.
@@ -136,7 +138,8 @@ abstract class JHtmlModules
 
 	public static function positions($clientId, $state = 1, $selectedPosition = '')
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php';
+		JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
+
 		$templates      = array_keys(ModulesHelper::getTemplates($clientId, $state));
 		$templateGroups = array();
 
@@ -166,7 +169,7 @@ abstract class JHtmlModules
 					}
 				}
 
-				$options = JArrayHelper::sortObjects($options, 'text');
+				$options = ArrayHelper::sortObjects($options, 'text');
 			}
 
 			$templateGroups[$template] = ModulesHelper::createOptionGroup(ucfirst($template), $options);

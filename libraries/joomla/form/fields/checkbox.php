@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
- * Single check box field.
+ * Single checkbox field.
  * This is a boolean field with null for false and the specified option for true
  *
  * @link   http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
@@ -96,6 +96,16 @@ class JFormFieldCheckbox extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
+		// Handle the default attribute
+		$default = (string) $element['default'];
+
+		if ($default)
+		{
+			$test = $this->form->getValue((string) $element['name'], $group);
+
+			$value = ($test == $default) ? $default : null;
+		}
+
 		$return = parent::setup($element, $value, $group);
 
 		if ($return)
@@ -133,7 +143,7 @@ class JFormFieldCheckbox extends JFormField
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
+		JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
 
 		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange

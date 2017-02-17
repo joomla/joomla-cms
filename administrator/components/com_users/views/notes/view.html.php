@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -83,8 +83,7 @@ class UsersViewNotes extends JViewLegacy
 		// Turn parameters into registry objects
 		foreach ($this->items as $item)
 		{
-			$item->cparams = new Registry;
-			$item->cparams->loadString($item->category_params);
+			$item->cparams = new Registry($item->category_params);
 		}
 
 		$this->addToolbar();
@@ -126,7 +125,7 @@ class UsersViewNotes extends JViewLegacy
 			JToolbarHelper::checkin('notes.checkin');
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolbarHelper::divider();

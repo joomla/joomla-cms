@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,8 +47,7 @@ abstract class JHtmlFormbehavior
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$config = JFactory::getConfig();
-			$debug  = (boolean) $config->get('debug');
+			$debug = JDEBUG;
 		}
 
 		// Default settings
@@ -70,7 +69,7 @@ abstract class JHtmlFormbehavior
 
 		if (!isset($options['placeholder_text_multiple']))
 		{
-			$options['placeholder_text_multiple'] = JText::_('JGLOBAL_SELECT_SOME_OPTIONS');
+			$options['placeholder_text_multiple'] = JText::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS');
 		}
 
 		if (!isset($options['placeholder_text_single']))
@@ -86,7 +85,7 @@ abstract class JHtmlFormbehavior
 		$displayData = array(
 			'debug'     => $debug,
 			'options'  => $options,
-			'selector' => $selector
+			'selector' => $selector,
 		);
 
 		JLayoutHelper::render('joomla.html.formbehavior.chosen', $displayData);
@@ -139,7 +138,7 @@ abstract class JHtmlFormbehavior
 				'dataType'       => $dataType,
 				'jsonTermKey'    => $jsonTermKey,
 				'afterTypeDelay' => $afterTypeDelay,
-				'minTermLength'  => $minTermLength
+				'minTermLength'  => $minTermLength,
 			);
 
 			JLayoutHelper::render('joomla.html.formbehavior.ajaxchosen', $displayData);

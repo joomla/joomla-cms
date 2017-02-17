@@ -6,6 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
-    'Psr\\Log\\' => array($vendorDir . '/psr/log'),
+    'SimplePie' => array($vendorDir . '/simplepie/simplepie/library'),
     'Joomla\\Session' => array($vendorDir . '/joomla/session'),
 );

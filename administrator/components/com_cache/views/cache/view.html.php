@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,12 +33,13 @@ class CacheViewCache extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
 		$this->data          = $this->get('Data');
 		$this->pagination    = $this->get('Pagination');
+		$this->total         = $this->get('Total');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
@@ -77,6 +78,7 @@ class CacheViewCache extends JViewLegacy
 		}
 
 		JToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
+		JToolbarHelper::custom('deleteAll', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE_ALL', false);
 		JToolbarHelper::divider();
 
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache'))

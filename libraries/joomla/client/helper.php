@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,7 +48,8 @@ class JClientHelper
 						'port' => $config->get('ftp_port'),
 						'user' => $config->get('ftp_user'),
 						'pass' => $config->get('ftp_pass'),
-						'root' => $config->get('ftp_root'));
+						'root' => $config->get('ftp_root'),
+					);
 					break;
 
 				default:
