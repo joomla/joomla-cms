@@ -14,7 +14,7 @@
  * @subpackage  com_media
  * @since       __DEPLOY_VERSION__
  */
-class LocalAdapterTest extends PHPUnit_Framework_TestCase
+class LocalAdapterTest extends TestCaseDatabase
 {
 	/**
 	 * The root folder to work from.
@@ -41,6 +41,10 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 		// Set up the temp root folder
 		$this->root = JPath::clean(JPATH_TESTS . '/tmp/test/');
 		JFolder::create($this->root);
+
+		// Set up the application and session
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$session     = $this->getMockSession();
 	}
 
 	/**
@@ -80,14 +84,26 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('dir', $files[0]->type);
 		$this->assertEquals('unit', $files[0]->name);
 		$this->assertEquals('/unit', $files[0]->path);
+		$this->assertEquals('', $files[0]->extension);
+		$this->assertEquals(0, $files[0]->size);
+		$this->assertNotEmpty($files[0]->create_date);
+		$this->assertNotEmpty($files[0]->modified_date);
+		$this->assertEquals('directory', $files[0]->mime_type);
+		$this->assertEquals(0, $files[0]->width);
+		$this->assertEquals(0, $files[0]->height);
 
 		// Check the file
 		$this->assertInstanceOf('stdClass', $files[1]);
 		$this->assertEquals('file', $files[1]->type);
 		$this->assertEquals('test.txt', $files[1]->name);
-		$this->assertEquals('txt', $files[1]->extension);
 		$this->assertEquals('/test.txt', $files[1]->path);
+		$this->assertEquals('txt', $files[1]->extension);
 		$this->assertGreaterThan(1, $files[1]->size);
+		$this->assertNotEmpty($files[1]->create_date);
+		$this->assertNotEmpty($files[1]->modified_date);
+		$this->assertEquals('text/plain', $files[1]->mime_type);
+		$this->assertEquals(0, $files[1]->width);
+		$this->assertEquals(0, $files[1]->height);
 	}
 
 	/**
@@ -115,7 +131,6 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(2, $files);
 
 		// Check the folder
-		$this->assertInstanceOf('stdClass', $files[0]);
 		$this->assertEquals('dir', $files[0]->type);
 		$this->assertEquals('foo', $files[0]->name);
 		$this->assertEquals('/foo', $files[0]->path);
@@ -124,9 +139,7 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('stdClass', $files[1]);
 		$this->assertEquals('file', $files[1]->type);
 		$this->assertEquals('foo.txt', $files[1]->name);
-		$this->assertEquals('txt', $files[1]->extension);
 		$this->assertEquals('/foo.txt', $files[1]->path);
-		$this->assertGreaterThan(1, $files[1]->size);
 	}
 
 	/**
@@ -153,38 +166,14 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('stdClass', $files[0]);
 		$this->assertEquals('file', $files[0]->type);
 		$this->assertEquals('test.txt', $files[0]->name);
-		$this->assertEquals('txt', $files[0]->extension);
 		$this->assertEquals('/test.txt', $files[0]->path);
-		$this->assertGreaterThan(0, $files[0]->size);
-	}
-
-	/**
-	 * Test MediaFileAdapterLocal::getFiles with a single file and a different path
-	 *
-	 * @return  void
-	 */
-	public function testGetSingleFileSpecialPath()
-	{
-		// Make some test files
-		JFile::write($this->root . 'test.txt', 'test');
-
-		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
-
-		// Fetch the files from the root folder
-		$files = $adapter->getFiles('/test.txt');
-
-		// Check if the array is big enough
-		$this->assertNotEmpty($files);
-		$this->assertCount(1, $files);
-
-		// Check the file
-		$this->assertInstanceOf('stdClass', $files[0]);
-		$this->assertEquals('file', $files[0]->type);
-		$this->assertEquals('test.txt', $files[0]->name);
 		$this->assertEquals('txt', $files[0]->extension);
-		$this->assertEquals('/test.txt', $files[0]->path);
-		$this->assertGreaterThan(0, $files[0]->size);
+		$this->assertGreaterThan(1, $files[0]->size);
+		$this->assertNotEmpty($files[0]->create_date);
+		$this->assertNotEmpty($files[0]->modified_date);
+		$this->assertEquals('text/plain', $files[0]->mime_type);
+		$this->assertEquals(0, $files[0]->width);
+		$this->assertEquals(0, $files[0]->height);
 	}
 
 	/**

@@ -73,7 +73,7 @@ class MediaControllerApi extends JControllerLegacy
 	 * 		/api/files/sampledata/fruitshop/test.jpg
 	 *
 	 *
-	 * - POST a new file or folder into a specific folder:
+	 * - POST a new file or folder into a specific folder, the file or folder information is returned:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
 	 * 		/api/files/sampledata/fruitshop
 	 *
@@ -87,7 +87,7 @@ class MediaControllerApi extends JControllerLegacy
 	 * 			"name": "test",
 	 * 		}
 	 *
-	 * - PUT a media file:
+	 * - PUT a media file, the file or folder information is returned:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/files/sampledata/fruitshop/test.jpg
 	 *
@@ -95,10 +95,6 @@ class MediaControllerApi extends JControllerLegacy
 	 * 		{
 	 * 			"content":"base64 encoded image"
 	 * 		}
-	 *
-	 * - PUT process a media file:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&action=process
-	 * 		/api/files/sampledata/fruitshop/test.jpg/process
 	 *
 	 * - DELETE an existing folder in a specific folder:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test
@@ -147,6 +143,8 @@ class MediaControllerApi extends JControllerLegacy
 						// A file needs to be created
 						$this->adapter->createFolder($name, $path);
 					}
+
+					$data = $this->adapter->getFiles($path . '/' . $name);
 					break;
 				case 'put':
 					$content      = $this->input->json;
@@ -154,6 +152,8 @@ class MediaControllerApi extends JControllerLegacy
 					$mediaContent = base64_decode($content->get('content'));
 
 					$this->adapter->updateFile($name, str_replace($name, '', $path), $mediaContent);
+
+					$data = $this->adapter->getFiles($path . '/' . $name);
 					break;
 				default:
 					throw new BadMethodCallException('Method not supported yet!');

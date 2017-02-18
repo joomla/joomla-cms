@@ -19,13 +19,16 @@ interface MediaFileAdapterInterface
 	/**
 	 * Returns the folders and files for the given path. The returned objects
 	 * have the following properties available:
-	 * - type: The type can be file or dir
-	 * - name: The name of the file
-	 * - path: The relative path to the root
-	 *
-	 * If the type is file, then some additional properties are available:
-	 * - extension: The file extension
-	 * - size:      The size of the file
+	 * - type:          The type can be file or dir
+	 * - name:          The name of the file
+	 * - path:          The relative path to the root
+	 * - extension:     The file extension
+	 * - size:          The size of the file
+	 * - create_date:   The date created
+	 * - modified_date: The date modified
+	 * - mime_type:     The mime type
+	 * - width:         The width, when available
+	 * - height:        The height, when available
 	 *
 	 * @param   string  $path    The folder
 	 * @param   string  $filter  The filter
