@@ -187,7 +187,7 @@ class JLibraryHelper
 
 		try
 		{
-			static::$libraries = $cache->get($loader);
+			static::$libraries = $cache->get($loader, array(), __METHOD__);
 		}
 		catch (JCacheException $e)
 		{
