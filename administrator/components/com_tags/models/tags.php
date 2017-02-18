@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -365,8 +365,6 @@ class TagsModelTags extends JModelList
 			return;
 		}
 
-		$section = $parts[1];
-
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
 		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
@@ -380,7 +378,7 @@ class TagsModelTags extends JModelList
 
 			if (class_exists($cName) && is_callable(array($cName, 'countTagItems')))
 			{
-				call_user_func(array($cName, 'countTagItems'), $items, $extension);
+				$cName::countTagItems($items, $extension);
 			}
 		}
 	}

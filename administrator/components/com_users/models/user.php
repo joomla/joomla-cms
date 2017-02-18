@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,13 @@ use Joomla\Utilities\ArrayHelper;
  */
 class UsersModelUser extends JModelAdmin
 {
+	/**
+	 * An item.
+	 *
+	 * @var    array
+	 */
+	protected $_item = null;
+
 	/**
 	 * Constructor.
 	 *
@@ -70,24 +77,27 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		$result = parent::getItem($pk);
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('user.id');
 
-		$context = 'com_users.user';
+		if ($this->_item === null)
+		{
+			$this->_item = array();
+		}
 
-		$result->tags = new JHelperTags;
-		$result->tags->getTagIds($result->id, $context);
+		if (!isset($this->_item[$pk]))
+		{
+			$result = parent::getItem($pk);
 
-		// Get the dispatcher and load the content plugins.
-		$dispatcher = JEventDispatcher::getInstance();
-		JPluginHelper::importPlugin('content');
+			if ($result)
+			{
+				$result->tags = new JHelperTags;
+				$result->tags->getTagIds($result->id, 'com_users.user');
+			}
 
-		// Load the user plugins for backward compatibility (v3.3.3 and earlier).
-		JPluginHelper::importPlugin('user');
+			$this->_item[$pk] = $result;
+		}
 
-		// Trigger the data preparation event.
-		$dispatcher->trigger('onContentPrepareData', array($context, $result));
-
-		return $result;
+		return $this->_item[$pk];
 	}
 
 	/**
@@ -116,7 +126,7 @@ class UsersModelUser extends JModelAdmin
 		// Passwords fields are required when mail to user is set to No in joomla user plugin
 		$userId = $form->getValue('id');
 
-		if ($userId === 0 && $pluginParams->get('mail_to_user') === "0")
+		if ($userId === 0 && $pluginParams->get('mail_to_user') === '0')
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
@@ -161,9 +171,7 @@ class UsersModelUser extends JModelAdmin
 			$data = $this->getItem();
 		}
 
-		JPluginHelper::importPlugin('user');
-
-		$this->preprocessData('com_users.profile', $data);
+		$this->preprocessData('com_users.profile', $data, 'user');
 
 		return $data;
 	}
@@ -413,6 +421,11 @@ class UsersModelUser extends JModelAdmin
 
 		JPluginHelper::importPlugin($this->events_map['save']);
 
+		// Prepare the logout options.
+		$options = array(
+			'clientid' => $app->get('shared_session', '0') ? null : 0,
+		);
+
 		// Access checks.
 		foreach ($pks as $i => $pk)
 		{
@@ -429,11 +442,6 @@ class UsersModelUser extends JModelAdmin
 
 				// Don't allow non-super-admin to delete a super admin
 				$allow = (!$iAmSuperAdmin && JAccess::check($pk, 'core.admin')) ? false : $allow;
-
-				// Prepare the logout options.
-				$options = array(
-					'clientid' => 0
-				);
 
 				if ($allow)
 				{
@@ -677,6 +685,19 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function batchReset($user_ids, $action)
 	{
+		$user_ids = ArrayHelper::toInteger($user_ids);
+
+		// Check if I am a Super Admin
+		$iAmSuperAdmin = JFactory::getUser()->authorise('core.admin');
+
+		// Non-super super user cannot work with super-admin user.
+		if (!$iAmSuperAdmin && JUserHelper::checkSuperUserInUsers($user_ids))
+		{
+			$this->setError(JText::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
+
+			return false;
+		}
+
 		// Set the action to perform
 		if ($action === 'yes')
 		{
@@ -738,18 +759,29 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function batchUser($group_id, $user_ids, $action)
 	{
-		// Get the DB object
-		$db = $this->getDbo();
-
 		$user_ids = ArrayHelper::toInteger($user_ids);
 
-		// Non-super admin cannot work with super-admin group
-		if ((!JFactory::getUser()->get('isRoot') && JAccess::checkGroup($group_id, 'core.admin')) || $group_id < 1)
+		// Check if I am a Super Admin
+		$iAmSuperAdmin = JFactory::getUser()->authorise('core.admin');
+
+		// Non-super super user cannot work with super-admin user.
+		if (!$iAmSuperAdmin && JUserHelper::checkSuperUserInUsers($user_ids))
+		{
+			$this->setError(JText::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
+
+			return false;
+		}
+
+		// Non-super admin cannot work with super-admin group.
+		if ((!$iAmSuperAdmin && JAccess::checkGroup($group_id, 'core.admin')) || $group_id < 1)
 		{
 			$this->setError(JText::_('COM_USERS_ERROR_INVALID_GROUP'));
 
 			return false;
 		}
+
+		// Get the DB object
+		$db = $this->getDbo();
 
 		switch ($action)
 		{
@@ -892,7 +924,6 @@ class UsersModelUser extends JModelAdmin
 		{
 			$result   = array();
 			$form     = $this->getForm();
-			$groupIDs = array();
 
 			if ($form)
 			{
@@ -950,7 +981,7 @@ class UsersModelUser extends JModelAdmin
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__users'))
-			->where($db->qn('id') . ' = ' . $db->q($user_id));
+			->where($db->qn('id') . ' = ' . (int) $user_id);
 		$db->setQuery($query);
 		$item = $db->loadObject();
 
@@ -961,15 +992,50 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		// Get the encrypted data
-		list($method, $encryptedConfig) = explode(':', $item->otpKey, 2);
+		list($method, $config) = explode(':', $item->otpKey, 2);
 		$encryptedOtep = $item->otep;
 
-		// Create an encryptor class
+		// Get the secret key, yes the thing that is saved in the configuration file
 		$key = $this->getOtpConfigEncryptionKey();
+
+		if (strpos($config, '{') === false)
+		{
+			$openssl         = new FOFEncryptAes($key, 256);
+			$mcrypt          = new FOFEncryptAes($key, 256, 'cbc', null, 'mcrypt');
+
+			$decryptedConfig = $mcrypt->decryptString($config);
+
+			if (strpos($decryptedConfig, '{') !== false)
+			{
+				// Data encrypted with mcrypt
+				$decryptedOtep = $mcrypt->decryptString($encryptedOtep);
+				$encryptedOtep = $openssl->encryptString($decryptedOtep);
+			}
+			else
+			{
+				// Config data seems to be save encrypted, this can happen with 3.6.3 and openssl, lets get the data
+				$decryptedConfig = $openssl->decryptString($config);
+			}
+
+			$otpKey = $method . ':' . $decryptedConfig;
+
+			$query = $db->getQuery(true)
+				->update($db->qn('#__users'))
+				->set($db->qn('otep') . '=' . $db->q($encryptedOtep))
+				->set($db->qn('otpKey') . '=' . $db->q($otpKey))
+				->where($db->qn('id') . ' = ' . $db->q($user_id));
+			$db->setQuery($query);
+			$db->execute();
+		}
+		else
+		{
+			$decryptedConfig = $config;
+		}
+
+		// Create an encryptor class
 		$aes = new FOFEncryptAes($key, 256);
 
 		// Decrypt the data
-		$decryptedConfig = $aes->decryptString($encryptedConfig);
 		$decryptedOtep = $aes->decryptString($encryptedOtep);
 
 		// Remove the null padding added during encryption
@@ -1041,7 +1107,7 @@ class UsersModelUser extends JModelAdmin
 		{
 			$decryptedConfig = json_encode($otpConfig->config);
 			$decryptedOtep = json_encode($otpConfig->otep);
-			$updates->otpKey = $otpConfig->method . ':' . $aes->encryptString($decryptedConfig);
+			$updates->otpKey = $otpConfig->method . ':' . $decryptedConfig;
 			$updates->otep = $aes->encryptString($decryptedOtep);
 		}
 
@@ -1111,7 +1177,7 @@ class UsersModelUser extends JModelAdmin
 			return $oteps;
 		}
 
-		$salt = "0123456789";
+		$salt = '0123456789';
 		$base = strlen($salt);
 		$length = 16;
 

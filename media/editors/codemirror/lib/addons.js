@@ -80,6 +80,9 @@
     var height = (options && options.height) || node.offsetHeight;
     this._setSize(null, info.heightLeft -= height);
     info.panels++;
+    if (options.stable && isAtTop(this, node))
+      this.scrollTo(null, this.getScrollInfo().top + height)
+
     return new Panel(this, node, options, height);
   });
 
@@ -96,6 +99,8 @@
     this.cleared = true;
     var info = this.cm.state.panels;
     this.cm._setSize(null, info.heightLeft += this.height);
+    if (this.options.stable && isAtTop(this.cm, this.node))
+      this.cm.scrollTo(null, this.cm.getScrollInfo().top - this.height)
     info.wrapper.removeChild(this.node);
     if (--info.panels == 0) removePanels(this.cm);
   };
@@ -151,6 +156,12 @@
     cm.setSize = cm._setSize;
     cm.setSize();
   }
+
+  function isAtTop(cm, dom) {
+    for (var sibling = dom.nextSibling; sibling; sibling = sibling.nextSibling)
+      if (sibling == cm.getWrapperElement()) return true
+    return false
+  }
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -200,7 +211,7 @@
 
   function getConfig(cm) {
     var deflt = cm.state.closeBrackets;
-    if (!deflt) return null;
+    if (!deflt || deflt.override) return deflt;
     var mode = cm.getModeAt(cm.getCursor());
     return mode.closeBrackets || deflt;
   }
@@ -271,7 +282,9 @@
       if (opening && !range.empty()) {
         curType = "surround";
       } else if ((identical || !opening) && next == ch) {
-        if (triples.indexOf(ch) >= 0 && cm.getRange(cur, Pos(cur.line, cur.ch + 3)) == ch + ch + ch)
+        if (identical && stringStartsAfter(cm, cur))
+          curType = "both";
+        else if (triples.indexOf(ch) >= 0 && cm.getRange(cur, Pos(cur.line, cur.ch + 3)) == ch + ch + ch)
           curType = "skipThree";
         else
           curType = "skip";
@@ -346,6 +359,11 @@
       if (stream.pos >= pos.ch + 1) return /\bstring2?\b/.test(type1);
       stream.start = stream.pos;
     }
+  }
+
+  function stringStartsAfter(cm, pos) {
+    var token = cm.getTokenAt(Pos(pos.line, pos.ch + 1))
+    return /\bstring/.test(token.type) && token.start == pos.ch
   }
 });
 
@@ -2214,12 +2232,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
-// Because sometimes you need to style the cursor's line.
-//
-// Adds an option 'styleActiveLine' which, when enabled, gives the
-// active line's wrapping <div> the CSS class "CodeMirror-activeline",
-// and gives its background <div> the class "CodeMirror-activeline-background".
-
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"));
@@ -2234,15 +2246,17 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   var GUTT_CLASS = "CodeMirror-activeline-gutter";
 
   CodeMirror.defineOption("styleActiveLine", false, function(cm, val, old) {
-    var prev = old && old != CodeMirror.Init;
-    if (val && !prev) {
-      cm.state.activeLines = [];
-      updateActiveLines(cm, cm.listSelections());
-      cm.on("beforeSelectionChange", selectionChange);
-    } else if (!val && prev) {
+    var prev = old == CodeMirror.Init ? false : old;
+    if (val == prev) return
+    if (prev) {
       cm.off("beforeSelectionChange", selectionChange);
       clearActiveLines(cm);
       delete cm.state.activeLines;
+    }
+    if (val) {
+      cm.state.activeLines = [];
+      updateActiveLines(cm, cm.listSelections());
+      cm.on("beforeSelectionChange", selectionChange);
     }
   });
 
@@ -2265,7 +2279,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     var active = [];
     for (var i = 0; i < ranges.length; i++) {
       var range = ranges[i];
-      if (!range.empty()) continue;
+      var option = cm.getOption("styleActiveLine");
+      if (typeof option == "object" && option.nonEmpty ? range.anchor.line != range.head.line : !range.empty())
+        continue
       var line = cm.getLineHandleVisualStart(range.head.line);
       if (active[active.length - 1] != line) active.push(line);
     }
@@ -2478,6 +2494,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     { keys: '.', type: 'action', action: 'repeatLastEdit' },
     { keys: '<C-a>', type: 'action', action: 'incrementNumberToken', isEdit: true, actionArgs: {increase: true, backtrack: false}},
     { keys: '<C-x>', type: 'action', action: 'incrementNumberToken', isEdit: true, actionArgs: {increase: false, backtrack: false}},
+    { keys: '<C-t>', type: 'action', action: 'indent', actionArgs: { indentRight: true }, context: 'insert' },
+    { keys: '<C-d>', type: 'action', action: 'indent', actionArgs: { indentRight: false }, context: 'insert' },
     // Text object motions
     { keys: 'a<character>', type: 'motion', motion: 'textObjectManipulation' },
     { keys: 'i<character>', type: 'motion', motion: 'textObjectManipulation', motionArgs: { textObjectInner: true }},
@@ -4903,6 +4921,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           repeat = vim.lastEditInputState.repeatOverride || repeat;
         }
         repeatLastEdit(cm, vim, repeat, false /** repeatForInsert */);
+      },
+      indent: function(cm, actionArgs) {
+        cm.indentLine(cm.getCursor().line, actionArgs.indentRight);
       },
       exitInsertMode: exitInsertMode
     };

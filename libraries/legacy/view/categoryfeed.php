@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,6 +66,12 @@ class JViewCategoryfeed extends JViewLegacy
 		// Get some data from the model
 		$items    = $this->get('Items');
 		$category = $this->get('Category');
+
+		// Don't display feed if category id missing or non existent
+		if ($category == false || $category->alias == "root")
+		{
+			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+		}
 
 		foreach ($items as $item)
 		{

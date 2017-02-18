@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ foreach ($this->items as $i => $item)
 {
 	if ($item->user_count > 0)
 	{
-		array_push($groupsWithUsers, $i);
+		$groupsWithUsers[] = $i;
 	}
 }
 JFactory::getDocument()->addScriptDeclaration('

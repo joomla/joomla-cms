@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$canOrder  = $user->authorise('core.edit.state', 'com_banners.category');
+$canOrder  = $user->authorise('core.edit.state', 'com_banners');
 $saveOrder = $listOrder == 'ordering';
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
@@ -219,8 +219,8 @@ $saveOrder = $listOrder == 'ordering';
 			'bootstrap.renderModal',
 			'collapseModal',
 			array(
-				'title' => JText::_('COM_BANNERS_BATCH_OPTIONS'),
-				'footer' => $this->loadTemplate('batch_footer')
+				'title'  => JText::_('COM_BANNERS_BATCH_OPTIONS'),
+				'footer' => $this->loadTemplate('batch_footer'),
 			),
 			$this->loadTemplate('batch_body')
 		); ?>

@@ -3,17 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_BASE') or die();
 
-JFormHelper::loadFieldClass('list');
-
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+
+JFormHelper::loadFieldClass('list');
 
 /**
  * Content Types Filter field for the Finder package.

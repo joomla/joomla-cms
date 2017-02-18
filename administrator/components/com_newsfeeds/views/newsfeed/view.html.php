@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,27 +63,18 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			return false;
 		}
 
-		if ($this->getLayout() == 'modal')
+		// If we are forcing a language in modal (used for associations).
+		if ($this->getLayout() === 'modal' && $forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
-			// If we are forcing a language in modal (used for associations).
-			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
-			{
-				// Set the language field to the forcedLanguage and disable changing it.
-				$this->form->setValue('language', null, $forcedLanguage);
-				$this->form->setFieldAttribute('language', 'readonly', 'true');
-
-				// Only allow to select categories with All language or with the forced language.
-				$this->form->setFieldAttribute('catid', 'language', '*,' . $forcedLanguage);
-
-				// Only allow to select tags with All language or with the forced language.
-				$this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
-			}
-		}
-		// If not in associations modal, block the language change if in edit modal, language not All, associations enabled and some association.
-		elseif ($this->item->id && $this->form->getValue('language', null, '*') != '*' && JLanguageAssociations::isEnabled()
-			&& count($this->item->associations) > 0)
-		{
+			// Set the language field to the forcedLanguage and disable changing it.
+			$this->form->setValue('language', null, $forcedLanguage);
 			$this->form->setFieldAttribute('language', 'readonly', 'true');
+
+			// Only allow to select categories with All language or with the forced language.
+			$this->form->setFieldAttribute('catid', 'language', '*,' . $forcedLanguage);
+
+			// Only allow to select tags with All language or with the forced language.
+			$this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
 		}
 
 		$this->addToolbar();
@@ -132,7 +123,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 		else
 		{
-			if ($this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
 			}

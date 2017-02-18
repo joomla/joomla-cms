@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Basic Web application router class for the Joomla Platform.
  *
  * @since       12.2
- * @deprecated  __DEPLOY_VERSION__  Use the `joomla/router` package via Composer instead
+ * @deprecated  3.7.0  Use the `joomla/router` package via Composer instead
  */
 class JApplicationWebRouterBase extends JApplicationWebRouter
 {

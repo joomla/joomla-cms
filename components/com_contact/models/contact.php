@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -271,13 +271,11 @@ class ContactModelContact extends JModelForm
 		$groups    = implode(',', $user->getAuthorisedViewLevels());
 		$published = $this->getState('filter.published');
 
-		$contactParams = new Registry($contact->params);
-
 		// If we are showing a contact list, then the contact parameters take priority
 		// So merge the contact parameters with the merged parameters
 		if ($this->getState('params')->get('show_contact_list'))
 		{
-			$this->getState('params')->merge($contactParams);
+			$this->getState('params')->merge($contact->params);
 		}
 
 		// Get the com_content articles by the linked user
@@ -337,7 +335,7 @@ class ContactModelContact extends JModelForm
 			// Use contact setting?
 			if ($articles_display_num === 'use_contact')
 			{
-				$articles_display_num = $contactParams->get('articles_display_num', 10);
+				$articles_display_num = $contact->params->get('articles_display_num', 10);
 
 				// Use global?
 				if ((string) $articles_display_num === '')

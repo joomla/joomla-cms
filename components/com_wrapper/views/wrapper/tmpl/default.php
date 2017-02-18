@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-JHtml::script('com_wrapper/iframe-height.min.js', false, true);
+JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="contentpane<?php echo $this->pageclass_sfx; ?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>
-			<?php if ($this->escape($this->params->get('page_heading'))) :?>
+			<?php if ($this->escape($this->params->get('page_heading'))) : ?>
 				<?php echo $this->escape($this->params->get('page_heading')); ?>
 			<?php else : ?>
 				<?php echo $this->escape($this->params->get('page_title')); ?>

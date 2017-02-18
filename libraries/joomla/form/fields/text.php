@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -141,14 +141,14 @@ class JFormFieldText extends JFormField
 
 			if (!empty($inputmode))
 			{
-				$defaultInputmode = in_array('default', $inputmode) ? JText::_("JLIB_FORM_INPUTMODE") . ' ' : '';
+				$defaultInputmode = in_array('default', $inputmode) ? JText::_('JLIB_FORM_INPUTMODE') . ' ' : '';
 
 				foreach (array_keys($inputmode, 'default') as $key)
 				{
 					unset($inputmode[$key]);
 				}
 
-				$this->inputmode = $defaultInputmode . implode(" ", $inputmode);
+				$this->inputmode = $defaultInputmode . implode(' ', $inputmode);
 			}
 
 			// Set the dirname.
@@ -170,6 +170,41 @@ class JFormFieldText extends JFormField
 	 */
 	protected function getInput()
 	{
+		if ($this->element['useglobal'])
+		{
+			$component = JFactory::getApplication()->input->getCmd('option');
+
+			// Get correct component for menu items
+			if ($component == 'com_menus')
+			{
+				$link      = $this->form->getData()->get('link');
+				$uri       = new JUri($link);
+				$component = $uri->getVar('option', 'com_menus');
+			}
+
+			$params = JComponentHelper::getParams($component);
+			$value  = $params->get($this->fieldname);
+
+			// Try with global configuration
+			if (is_null($value))
+			{
+				$value = JFactory::getConfig()->get($this->fieldname);
+			}
+
+			// Try with menu configuration
+			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
+			{
+				$value = JComponentHelper::getParams('com_menus')->get($this->fieldname);
+			}
+
+			if (!is_null($value))
+			{
+				$value = (string) $value;
+
+				$this->hint = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
+			}
+		}
+
 		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
 

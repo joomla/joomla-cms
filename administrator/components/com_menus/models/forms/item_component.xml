@@ -41,34 +41,44 @@
 			</field>
 		</fieldset>
 
-		<fieldset name="page-options"
-			label="COM_MENUS_PAGE_OPTIONS_LABEL"
-		>
+		<fieldset name="page-options" label="COM_MENUS_PAGE_OPTIONS_LABEL">
 
-
-			<field name="page_title" type="text"
+			<field
+				name="page_title"
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
-				description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC" />
+				description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC"
+				useglobal="true"
+			/>
 
-			<field name="show_page_heading" type="list"
-				class="chzn-color"
+			<field
+				name="show_page_heading"
+				type="list"
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 				description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
+				class="chzn-color"
 				default=""
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="1" class="yes">JYES</option>
-				<option value="0" class="no">JNO</option>
+				useglobal="true"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 
-			<field name="page_heading" type="text"
+			<field
+				name="page_heading"
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
-				description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC" />
+				description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC"
+				useglobal="true"
+			/>
 
-			<field name="pageclass_sfx" type="text"
+			<field
+				name="pageclass_sfx"
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
-				description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC" />
-
+				description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC"
+				useglobal="true"
+			/>
 
 		</fieldset>
 
@@ -86,7 +96,7 @@
 			type="list"
 			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
-		>
+			>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
 			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>

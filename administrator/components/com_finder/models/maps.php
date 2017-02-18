@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -156,75 +156,46 @@ class FinderModelMaps extends JModelList
 	{
 		$db = $this->getDbo();
 
-		$query = $db->getQuery(true);
-
 		// Select all fields from the table.
-		$query->select('a.*')
-			->select('s.count_published')
-			->select('s.count_unpublished')
+		$query = $db->getQuery(true)
+			->select('a.id, a.parent_id, a.title, a.state, a.access, a.ordering')
+			->select('CASE WHEN a.parent_id = 1 THEN 1 ELSE 2 END AS level')
+			->select('p.title AS parent_title')
 			->from($db->quoteName('#__finder_taxonomy', 'a'))
-			->where($db->quoteName('a.parent_id') . ' <> 0');
+			->leftJoin($db->quoteName('#__finder_taxonomy', 'p') . ' ON p.id = a.parent_id')
+			->where('a.parent_id != 0');
 
-		// Self-join to get children.
-		$query->select('COUNT(b.id) AS num_children')
-			->join('LEFT', $db->quoteName('#__finder_taxonomy', 'b') . ' ON ' . $db->qn('b.parent_id') . ' = ' . $db->qn('a.id'));
+		$childQuery = $db->getQuery(true)
+			->select('parent_id')
+			->select('COUNT(*) AS num_children')
+			->from($db->quoteName('#__finder_taxonomy'))
+			->where('parent_id != 0')
+			->group('parent_id');
+
+		// Join to get children.
+		$query->select('b.num_children');
+		$query->select('CASE WHEN a.parent_id = 1 THEN a.title ELSE p.title END AS branch_title');
+		$query->leftJoin('(' . $childQuery . ') AS b ON b.parent_id = a.id');
 
 		// Join to get the map links.
-		$stateSubQuery1 = $db->getQuery(true);
-		$stateSubQuery1->select($db->quoteName('mp.node_id'))
-			->select('COUNT(mp.node_id) AS count_published')
-			->from($db->quoteName('#__finder_links', 'lp'))
-			->join('LEFT', $db->quoteName('#__finder_taxonomy_map', 'mp') . ' ON ' . $db->qn('lp.link_id') . ' = ' . $db->qn('mp.link_id'))
-			->where($db->quoteName('lp.published') . ' = 1')
-			->group($db->quoteName('mp.node_id'));
+		$stateQuery = $db->getQuery(true)
+			->select('m.node_id')
+			->select('COUNT(NULLIF(l.published, 0)) AS count_published')
+			->select('COUNT(NULLIF(l.published, 1)) AS count_unpublished')
+			->from($db->quoteName('#__finder_taxonomy_map', 'm'))
+			->leftJoin($db->quoteName('#__finder_links', 'l') . ' ON l.link_id = m.link_id')
+			->group('m.node_id');
 
-		$stateSubQuery2 = $db->getQuery(true);
-		$stateSubQuery2->select($db->quoteName('mu.node_id'))
-			->select('COUNT(mu.node_id) AS count_unpublished')
-			->from($db->quoteName('#__finder_links', 'lu'))
-			->join('LEFT', $db->quoteName('#__finder_taxonomy_map', 'mu') . ' ON ' . $db->qn('lu.link_id') . ' = ' . $db->qn('mu.link_id'))
-			->where($db->quoteName('lu.published') . ' = 0')
-			->group($db->quoteName('mu.node_id'));
-
-		$stateQuery = $db->getQuery(true);
-		$stateQuery->select('s1.*')
-			->select('s2.count_unpublished')
-			->from('(' . $stateSubQuery1 . ') AS s1')
-			->join('LEFT', '(' . $stateSubQuery2 . ') AS s2 ON ' . $db->qn('s1.node_id') . ' = ' . $db->qn('s2.node_id'));
-
-		$query->join('LEFT', '(' . $stateQuery . ') AS s ON ' . $db->qn('s.node_id') . ' = ' . $db->qn('a.id'));
-
-		// Calculate levels.
-		$levelQuery = $db->getQuery(true);
-		$levelQuery->select('title AS branch_title, 1 as level')
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('parent_id') . ' = 1');
-		$levelQuery2 = $db->getQuery(true);
-		$levelQuery2->select('b.title AS branch_title, 2 as level')
-			->select($db->quoteName('a.id'))
-			->from($db->quoteName('#__finder_taxonomy', 'a'))
-			->join('LEFT', $db->quoteName('#__finder_taxonomy', 'b') . ' ON ' . $db->qn('a.parent_id') . ' = ' . $db->qn('b.id'))
-			->where($db->quoteName('a.parent_id') . ' NOT IN (0, 1)');
-
-		$levelQuery->union($levelQuery2);
-
-		// Join to get the levels.
-		$query->join('LEFT', '(' . $levelQuery . ') AS d ON ' . $db->qn('d.id') . ' = ' . $db->qn('a.id'));
-
-		// Group
-		$query->group('a.id, a.parent_id, a.title, a.state, a.access, a.ordering');
-
-		// Self-join to get the parent title.
-		$query->select('e.title AS parent_title')
-			->join('LEFT', $db->quoteName('#__finder_taxonomy', 'e') . ' ON ' . $db->quoteName('e.id') . ' = ' . $db->quoteName('a.parent_id'));
+		$query->select('COALESCE(s.count_published, 0) AS count_published');
+		$query->select('COALESCE(s.count_unpublished, 0) AS count_unpublished');
+		$query->leftJoin('(' . $stateQuery . ') AS s ON s.node_id = a.id');
 
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
 
 		if (is_numeric($state))
 		{
-			$query->where($db->quoteName('a.state') . ' = ' . (int) $state);
+			$query->where('a.state = ' . (int) $state);
 		}
 
 		// Filter over level.
@@ -232,7 +203,7 @@ class FinderModelMaps extends JModelList
 
 		if (is_numeric($level) && (int) $level === 1)
 		{
-			$query->where($db->quoteName('d.level') . ' = 1');
+			$query->where('a.parent_id = 1');
 		}
 
 		// Filter the maps over the branch if set.
@@ -240,30 +211,47 @@ class FinderModelMaps extends JModelList
 
 		if (is_numeric($branchId))
 		{
-			$query->where($db->quoteName('a.parent_id') . ' = ' . (int) $branchId);
+			$query->where('a.parent_id = ' . (int) $branchId);
 		}
 
 		// Filter the maps over the search string if set.
 		if ($search = $this->getState('filter.search'))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where($db->quoteName('a.title') . ' LIKE ' . $search);
+			$query->where('a.title LIKE ' . $search);
 		}
 
 		// Handle the list ordering.
-		$listOrdering = $db->escape($this->getState('list.ordering', 'd.branch_title'));
-		$listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
+		$listOrdering = $this->getState('list.ordering', 'd.branch_title');
+		$listDirn     = $this->getState('list.direction', 'ASC');
 
 		if ($listOrdering == 'd.branch_title')
 		{
-			$query->order('d.branch_title ' . $listDirn . ', d.level ASC, a.title ' . $listDirn);
+			$query->order("branch_title $listDirn, level ASC, a.title $listDirn");
 		}
 		elseif ($listOrdering == 'a.state')
 		{
-			$query->order('a.state ' . $listDirn . ', d.branch_title ' . $listDirn . ', d.level ASC');
+			$query->order("a.state $listDirn, branch_title $listDirn, level ASC");
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Returns a record count for the query.
+	 *
+	 * @param   JDatabaseQuery|string  $query  The query.
+	 *
+	 * @return  integer  Number of rows for query.
+	 *
+	 * @since   3.0
+	 */
+	protected function _getListCount($query)
+	{
+		$query = clone $query;
+		$query->clear('select')->clear('join')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
+
+		return (int) $this->getDbo()->setQuery($query)->loadResult();
 	}
 
 	/**
@@ -316,7 +304,7 @@ class FinderModelMaps extends JModelList
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = 'd.branch_title', $direction = 'asc')
+	protected function populateState($ordering = 'd.branch_title', $direction = 'ASC')
 	{
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));

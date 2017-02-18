@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -100,21 +100,29 @@ class JHelperContent
 			return $result;
 		}
 
-		$user   = JFactory::getUser();
-		$result = new JObject;
-
-		$path = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
+		$assetName = $component;
 
 		if ($section && $id)
 		{
-			$assetName = $component . '.' . $section . '.' . (int) $id;
-		}
-		else
-		{
-			$assetName = $component;
+			$assetName .=  '.' . $section . '.' . (int) $id;
 		}
 
-		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='component']/");
+		$result = new JObject;
+
+		$user = JFactory::getUser();
+
+		$actions = JAccess::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', '/access/section[@name="component"]/'
+		);
+
+		if ($actions === false)
+		{
+			JLog::add(
+				JText::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), JLog::ERROR, 'jerror'
+			);
+
+			return $result;
+		}
 
 		foreach ($actions as $action)
 		{
@@ -174,9 +182,7 @@ class JHelperContent
 			->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
 		$db->setQuery($query);
 
-		$id = $db->loadResult();
-
-		return $id;
+		return $db->loadResult();
 	}
 
 	/**

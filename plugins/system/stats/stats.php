@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,7 +76,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		if (!$this->app->isAdmin() || !$this->isAllowedUser())
+		if (!$this->app->isClient('administrator') || !$this->isAllowedUser())
 		{
 			return;
 		}
@@ -86,7 +86,7 @@ class PlgSystemStats extends JPlugin
 			return;
 		}
 
-		if (JUri::getInstance()->getVar("tmpl") === "component")
+		if (JUri::getInstance()->getVar('tmpl') === 'component')
 		{
 			return;
 		}
@@ -95,7 +95,7 @@ class PlgSystemStats extends JPlugin
 		$this->loadLanguage();
 
 		JHtml::_('jquery.framework');
-		JHtml::script('plg_system_stats/stats.js', false, true, false);
+		JHtml::_('script', 'plg_system_stats/stats.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -402,7 +402,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function isAjaxRequest()
 	{
-		return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) == 'xmlhttprequest';
+		return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
 	}
 
 	/**
@@ -545,7 +545,7 @@ class PlgSystemStats extends JPlugin
 				{
 					$options = array(
 						'defaultgroup' => $group,
-						'cachebase'    => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $this->app->get('cache_path', JPATH_SITE . '/cache')
+						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->app->get('cache_path', JPATH_SITE . '/cache')
 					);
 
 					$cache = JCache::getInstance('callback', $options);

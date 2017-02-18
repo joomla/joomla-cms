@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -466,7 +466,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		{
 			// Update the link counts for the terms.
 			$query->update('t')
-				->set('t.links = t.links - 1 from #__finder_terms AS t INNER JOIN #__finder_links_terms' . dechex($i) . ' AS AS m ON m.term_id = t.term_id')
+				->set('t.links = t.links - 1 from #__finder_terms AS t INNER JOIN #__finder_links_terms' . dechex($i) . ' AS m ON m.term_id = t.term_id')
 				->where('m.link_id = ' . $db->quote((int) $linkId));
 			$db->setQuery($query);
 			$db->execute();

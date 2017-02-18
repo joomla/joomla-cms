@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class UsersControllerRemind extends UsersController
 	public function remind()
 	{
 		// Check the request token.
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('post');
 
 		$model = $this->getModel('Remind', 'UsersModel');
 		$data  = $this->input->post->get('jform', array(), 'array');

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,12 +50,19 @@ class JFormFieldUserGroupList extends JFormFieldList
 		{
 			static::$options[$hash] = parent::getOptions();
 
-			$groups = JHelperUsergroups::getInstance()->getAll();
-
-			$options = array();
+			$groups         = JHelperUsergroups::getInstance()->getAll();
+			$checkSuperUser = (int) $this->getAttribute('checksuperusergroup', 0);
+			$isSuperUser    = JFactory::getUser()->authorise('core.admin');
+			$options        = array();
 
 			foreach ($groups as $group)
 			{
+				// Don't show super user groups to non super users.
+				if ($checkSuperUser && !$isSuperUser && JAccess::checkGroup($group->id, 'core.admin'))
+				{
+					continue;
+				}
+
 				$options[] = (object) array(
 					'text'  => str_repeat('- ', $group->level) . $group->title,
 					'value' => $group->id,

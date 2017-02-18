@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -163,6 +163,8 @@ class JViewCategory extends JViewLegacy
 
 		if ($this->runPlugins)
 		{
+			JPluginHelper::importPlugin('content');
+
 			foreach ($items as $itemElement)
 			{
 				$itemElement = (object) $itemElement;
@@ -172,7 +174,6 @@ class JViewCategory extends JViewLegacy
 				!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
 
 				$dispatcher = JEventDispatcher::getInstance();
-				JPluginHelper::importPlugin('content');
 
 				$dispatcher->trigger('onContentPrepare', array($this->extension . '.category', &$itemElement, &$itemElement->params, 0));
 

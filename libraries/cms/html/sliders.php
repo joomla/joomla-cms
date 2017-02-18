@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Utility class for Sliders elements
  *
  * @since       1.6
- * @deprecated  __DEPLOY_VERSION__ These helpers are dependent on the deprecated MooTools support
+ * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
  */
 abstract class JHtmlSliders
 {
@@ -26,7 +26,7 @@ abstract class JHtmlSliders
 	 * @return  string
 	 *
 	 * @since   1.6
-	 * @deprecated  __DEPLOY_VERSION__ These helpers are dependent on the deprecated MooTools support
+	 * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
 	 */
 	public static function start($group = 'sliders', $params = array())
 	{
@@ -41,7 +41,7 @@ abstract class JHtmlSliders
 	 * @return  string  hTML to close the pane
 	 *
 	 * @since   1.6
-	 * @deprecated  __DEPLOY_VERSION__ These helpers are dependent on the deprecated MooTools support
+	 * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
 	 */
 	public static function end()
 	{
@@ -57,7 +57,7 @@ abstract class JHtmlSliders
 	 * @return  string  HTML to start a panel
 	 *
 	 * @since   1.6
-	 * @deprecated  __DEPLOY_VERSION__ These helpers are dependent on the deprecated MooTools support
+	 * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
 	 */
 	public static function panel($text, $id)
 	{
@@ -74,7 +74,7 @@ abstract class JHtmlSliders
 	 * @return  void
 	 *
 	 * @since   1.6
-	 * @deprecated  __DEPLOY_VERSION__ These helpers are dependent on the deprecated MooTools support
+	 * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
 	 */
 	protected static function loadBehavior($group, $params = array())
 	{
@@ -104,11 +104,11 @@ abstract class JHtmlSliders
 				"toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');i.removeClass('pane-down');if($$('div#"
 				. $group . ".pane-sliders > .panel > h3').length==$$('div#" . $group
 				. ".pane-sliders > .panel > h3.pane-toggler').length) Cookie.write('jpanesliders_" . $group . "',-1);}";
-			$opt['duration'] = (isset($params['duration'])) ? (int) $params['duration'] : 300;
+			$opt['duration'] = isset($params['duration']) ? (int) $params['duration'] : 300;
 			$opt['display'] = (isset($params['useCookie']) && $params['useCookie']) ? $input->cookie->get('jpanesliders_' . $group, $display, 'integer')
 				: $display;
 			$opt['show'] = (isset($params['useCookie']) && $params['useCookie']) ? $input->cookie->get('jpanesliders_' . $group, $show, 'integer') : $show;
-			$opt['opacity'] = (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false';
+			$opt['opacity'] = (isset($params['opacityTransition']) && $params['opacityTransition']) ? 'true' : 'false';
 			$opt['alwaysHide'] = (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
 
 			$options = JHtml::getJSObject($opt);

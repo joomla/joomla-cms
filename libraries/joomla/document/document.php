@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -459,8 +459,8 @@ class JDocument
 	 */
 	public function addScript($url, $options = array(), $attribs = array())
 	{
-		// B/C before __DEPLOY_VERSION__
-		if (!is_array($options) && !is_array($attribs))
+		// B/C before 3.7.0
+		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
 			JLog::add('The addScript method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
@@ -516,8 +516,8 @@ class JDocument
 	{
 		JLog::add('The method is deprecated, use addScript(url, attributes, options) instead.', JLog::WARNING, 'deprecated');
 
-		// B/C before __DEPLOY_VERSION__
-		if (!is_array($options) && !is_array($attribs))
+		// B/C before 3.7.0
+		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
 			$argList = func_get_args();
 			$options = array();
@@ -632,19 +632,60 @@ class JDocument
 	 * Adds a linked stylesheet to the page
 	 *
 	 * @param   string  $url      URL to the linked style sheet
-	 * @param   string  $type     Mime encoding type
-	 * @param   string  $media    Media type that this stylesheet applies to
-	 * @param   array   $attribs  Array of attributes
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'stylesheet', 'data-test' => 1)
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
+	 * @deprecated 4.0  The (url, mime, media, attribs) method signature is deprecated, use (url, options, attributes) instead.
 	 */
-	public function addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array())
+	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
-		$this->_styleSheets[$url]['mime'] = $type;
-		$this->_styleSheets[$url]['media'] = $media;
-		$this->_styleSheets[$url]['attribs'] = $attribs;
+		// B/C before 3.7.0
+		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
+		{
+			JLog::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
+
+			$argList = func_get_args();
+			$options = array();
+			$attribs = array();
+
+			// Old mime type parameter.
+			if (!empty($argList[1]))
+			{
+				$attribs['mime'] = $argList[1];
+			}
+
+			// Old media parameter.
+			if (isset($argList[2]) && $argList[2])
+			{
+				$attribs['media'] = $argList[2];
+			}
+
+			// Old attribs parameter.
+			if (isset($argList[3]) && $argList[3])
+			{
+				$attribs = array_replace($attribs, $argList[3]);
+			}
+		}
+
+		// Default value for type.
+		if (!isset($attribs['type']) && !isset($attribs['mime']))
+		{
+			$attribs['type'] = 'text/css';
+		}
+
+		$this->_styleSheets[$url] = isset($this->_styleSheets[$url]) ? array_replace($this->_styleSheets[$url], $attribs) : $attribs;
+
+		if (isset($this->_styleSheets[$url]['options']))
+		{
+			$this->_styleSheets[$url]['options'] = array_replace($this->_styleSheets[$url]['options'], $options);
+		}
+		else
+		{
+			$this->_styleSheets[$url]['options'] = $options;
+		}
 
 		return $this;
 	}
@@ -654,29 +695,53 @@ class JDocument
 	 * If not specified Joomla! automatically handles versioning
 	 *
 	 * @param   string  $url      URL to the linked style sheet
-	 * @param   string  $version  Version of the stylesheet
-	 * @param   string  $type     Mime encoding type
-	 * @param   string  $media    Media type that this stylesheet applies to
-	 * @param   array   $attribs  Array of attributes
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'stylesheet', 'data-test' => 1)
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   3.2
+	 * @deprecated 4.0  This method is deprecated, use addStyleSheet(url, options, attributes) instead.
 	 */
-	public function addStyleSheetVersion($url, $version = null, $type = "text/css", $media = null, $attribs = array())
+	public function addStyleSheetVersion($url, $options = array(), $attribs = array())
 	{
-		// Automatic version
-		if ($version === null)
+		JLog::add('The method is deprecated, use addStyleSheet(url, attributes, options) instead.', JLog::WARNING, 'deprecated');
+
+		// B/C before 3.7.0
+		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
-			$version = $this->getMediaVersion();
+			$argList = func_get_args();
+			$options = array();
+			$attribs = array();
+
+			// Old version parameter.
+			$options['version'] = isset($argList[1]) && !is_null($argList[1]) ? $argList[1] : 'auto';
+
+			// Old mime type parameter.
+			if (!empty($argList[2]))
+			{
+				$attribs['mime'] = $argList[2];
+			}
+
+			// Old media parameter.
+			if (isset($argList[3]) && $argList[3])
+			{
+				$attribs['media'] = $argList[3];
+			}
+
+			// Old attribs parameter.
+			if (isset($argList[4]) && $argList[4])
+			{
+				$attribs = array_replace($attribs, $argList[4]);
+			}
+		}
+		// Default value for version.
+		else
+		{
+			$options['version'] = 'auto';
 		}
 
-		if (!empty($version) && strpos($url, '?') === false)
-		{
-			$url .= '?' . $version;
-		}
-
-		return $this->addStyleSheet($url, $type, $media, $attribs);
+		return $this->addStyleSheet($url, $options, $attribs);
 	}
 
 	/**
@@ -740,7 +805,7 @@ class JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function setLanguage($lang = "en-gb")
+	public function setLanguage($lang = 'en-gb')
 	{
 		$this->language = strtolower($lang);
 
@@ -768,7 +833,7 @@ class JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function setDirection($dir = "ltr")
+	public function setDirection($dir = 'ltr')
 	{
 		$this->direction = strtolower($dir);
 

@@ -3,11 +3,13 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Base class for a Joomla Administrator Controller
@@ -15,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * Controller (controllers are where you put all the actual code) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
- * @since  12.2
+ * @since  1.6
  */
 class JControllerAdmin extends JControllerLegacy
 {
@@ -23,7 +25,7 @@ class JControllerAdmin extends JControllerLegacy
 	 * The URL option for the component.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $option;
 
@@ -31,7 +33,7 @@ class JControllerAdmin extends JControllerLegacy
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $text_prefix;
 
@@ -39,7 +41,7 @@ class JControllerAdmin extends JControllerLegacy
 	 * The URL view list variable.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $view_list;
 
@@ -49,7 +51,7 @@ class JControllerAdmin extends JControllerLegacy
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JControllerLegacy
-	 * @since   12.2
+	 * @since   1.6
 	 * @throws  Exception
 	 */
 	public function __construct($config = array())
@@ -103,7 +105,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function delete()
 	{
@@ -123,8 +125,7 @@ class JControllerAdmin extends JControllerLegacy
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::toInteger($cid);
+			$cid = ArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if ($model->delete($cid))
@@ -152,7 +153,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.1
 	 */
 	protected function postDeleteHook(JModelLegacy $model, $id = null)
 	{
@@ -166,7 +167,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -178,7 +179,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function publish()
 	{
@@ -189,7 +190,7 @@ class JControllerAdmin extends JControllerLegacy
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		$data = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
 		$task = $this->getTask();
-		$value = JArrayHelper::getValue($data, $task, 0, 'int');
+		$value = ArrayHelper::getValue($data, $task, 0, 'int');
 
 		if (empty($cid))
 		{
@@ -201,20 +202,20 @@ class JControllerAdmin extends JControllerLegacy
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			JArrayHelper::toInteger($cid);
+			$cid = ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			try
 			{
 				$model->publish($cid, $value);
 				$errors = $model->getErrors();
+				$ntext = null;
 
 				if ($value == 1)
 				{
 					if ($errors)
 					{
-						$app = JFactory::getApplication();
-						$app->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
+						JFactory::getApplication()->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
 					}
 					else
 					{
@@ -234,7 +235,10 @@ class JControllerAdmin extends JControllerLegacy
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
-				$this->setMessage(JText::plural($ntext, count($cid)));
+				if ($ntext !== null)
+				{
+					$this->setMessage(JText::plural($ntext, count($cid)));
+				}
 			}
 			catch (Exception $e)
 			{
@@ -252,7 +256,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function reorder()
 	{
@@ -288,7 +292,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function saveorder()
 	{
@@ -300,8 +304,8 @@ class JControllerAdmin extends JControllerLegacy
 		$order = $this->input->post->get('order', array(), 'array');
 
 		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
+		$pks = ArrayHelper::toInteger($pks);
+		$order = ArrayHelper::toInteger($order);
 
 		// Get the model
 		$model = $this->getModel();
@@ -332,7 +336,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function checkin()
 	{
@@ -376,8 +380,8 @@ class JControllerAdmin extends JControllerLegacy
 		$order = $this->input->post->get('order', array(), 'array');
 
 		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
+		$pks = ArrayHelper::toInteger($pks);
+		$order = ArrayHelper::toInteger($order);
 
 		// Get the model
 		$model = $this->getModel();
@@ -387,7 +391,7 @@ class JControllerAdmin extends JControllerLegacy
 
 		if ($return)
 		{
-			echo "1";
+			echo '1';
 		}
 
 		// Close the application

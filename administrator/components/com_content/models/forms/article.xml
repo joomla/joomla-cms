@@ -68,6 +68,7 @@
 		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
 			description="COM_CONTENT_FIELD_CREATED_DESC"
 			translateformat="true"
+			weeknumbers="true"
 			showtime="true"
 			size="22"
 			filter="user_utc" />
@@ -98,15 +99,19 @@
 
 		<field name="checked_out_time" type="hidden" filter="unset" />
 
-		<field name="publish_up" type="calendar"
-			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
+		<field name="publish_up"
+			type="calendar"
+			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL"
+			description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
 			translateformat="true"
 			showtime="true"
 			size="22"
 			filter="user_utc" />
 
-		<field name="publish_down" type="calendar"
-			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL" description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
+		<field name="publish_down"
+			type="calendar"
+			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL"
+			description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -165,8 +170,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_TITLE_LABEL"
-				description="JGLOBAL_SHOW_TITLE_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_TITLE_DESC"
+				useglobal="true"
+				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
@@ -176,8 +182,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_LINKED_TITLES_LABEL"
-				description="JGLOBAL_LINKED_TITLES_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_LINKED_TITLES_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -187,8 +194,8 @@
 				class="chzn-color"
 				label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
 				description="COM_CONTENT_FIELD_SHOW_TAGS_DESC"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
@@ -198,8 +205,8 @@
 				class="chzn-color"
 				description="JGLOBAL_SHOW_INTRO_DESC"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
+				useglobal="true"
 				>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
@@ -208,8 +215,9 @@
 				type="list"
 				default=""
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
-				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC"
+				useglobal="true"
+				>
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 				<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
@@ -220,8 +228,9 @@
 				type="list"
 				class="chzn-color"
 				label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
-				description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -231,8 +240,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
-				description="JGLOBAL_SHOW_CATEGORY_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_CATEGORY_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -242,8 +252,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
-				description="JGLOBAL_LINK_CATEGORY_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_LINK_CATEGORY_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
 			</field>
@@ -253,8 +264,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
-				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -264,8 +276,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
-				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
 			</field>
@@ -275,8 +288,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
-				description="JGLOBAL_SHOW_ASSOCIATIONS_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_ASSOCIATIONS_DESC"
+				useglobal="true"
+				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
@@ -286,8 +300,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
-				description="JGLOBAL_SHOW_AUTHOR_DESC">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_AUTHOR_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -297,8 +312,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
-				description="JGLOBAL_LINK_AUTHOR_DESC">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_LINK_AUTHOR_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
 			</field>
@@ -308,8 +324,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
-				description="JGLOBAL_SHOW_CREATE_DATE_DESC">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -319,8 +336,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
-				description="JGLOBAL_SHOW_MODIFY_DATE_DESC">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -330,8 +348,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
-				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -341,8 +360,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-				description="JGLOBAL_SHOW_NAVIGATION_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_NAVIGATION_DESC"
+				useglobal="true"
+				>
 				<option value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -352,8 +372,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_ICONS_LABEL"
-				description="JGLOBAL_SHOW_ICONS_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_ICONS_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -363,8 +384,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
-				description="JGLOBAL_SHOW_PRINT_ICON_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_PRINT_ICON_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -374,8 +396,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
-				description="JGLOBAL_SHOW_EMAIL_ICON_DESC">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -386,8 +409,8 @@
 				class="chzn-color"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				description="JGLOBAL_SHOW_VOTE_DESC"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -397,8 +420,9 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_HITS_LABEL"
-				description="JGLOBAL_SHOW_HITS_DESC">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				description="JGLOBAL_SHOW_HITS_DESC"
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
@@ -408,10 +432,11 @@
 				type="list"
 				class="chzn-color"
 				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
-				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
+				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
+				useglobal="true"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field
@@ -419,8 +444,9 @@
 				type="list"
 				class="chzn-color"
 				label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
-				description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="COM_CONTENT_FIELD_URLSPOSITION_DESC"
+				useglobal="true"
+				>
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 			</field>
@@ -457,11 +483,10 @@
 				default=""
 				label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
 				description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC"
+				useglobal="true"
 				>
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
-
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 			<field
 				name="show_article_options"
@@ -470,11 +495,10 @@
 				default=""
 				label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
 				description="COM_CONTENT_SHOW_ARTICLE_OPTIONS_DESC"
+				useglobal="true"
 				>
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
-
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 			<field
 				name="show_urls_images_backend"
@@ -483,11 +507,10 @@
 				default=""
 				label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
 				description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
+				useglobal="true"
 				>
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
-
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 			<field
 				name="show_urls_images_frontend"
@@ -496,10 +519,10 @@
 				default=""
 				label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
 				description="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_DESC"
+				useglobal="true"
 				>
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 		</fieldset>
 
@@ -666,11 +689,12 @@
 			name="float_intro"
 			type="list"
 			label="COM_CONTENT_FLOAT_LABEL"
-			description="COM_CONTENT_FLOAT_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="right">COM_CONTENT_RIGHT</option>
-				<option value="left">COM_CONTENT_LEFT</option>
-				<option value="none">COM_CONTENT_NONE</option>
+			description="COM_CONTENT_FLOAT_DESC"
+			useglobal="true"
+			>
+			<option value="right">COM_CONTENT_RIGHT</option>
+			<option value="left">COM_CONTENT_LEFT</option>
+			<option value="none">COM_CONTENT_NONE</option>
 		</field>
 		<field name="image_intro_alt"
 			type="text"
@@ -696,11 +720,12 @@
 			name="float_fulltext"
 			type="list"
 			label="COM_CONTENT_FLOAT_LABEL"
-			description="COM_CONTENT_FLOAT_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="right">COM_CONTENT_RIGHT</option>
-				<option value="left">COM_CONTENT_LEFT</option>
-				<option value="none">COM_CONTENT_NONE</option>
+			description="COM_CONTENT_FLOAT_DESC"
+			useglobal="true"
+			>
+			<option value="right">COM_CONTENT_RIGHT</option>
+			<option value="left">COM_CONTENT_LEFT</option>
+			<option value="none">COM_CONTENT_NONE</option>
 		</field>
 		<field name="image_fulltext_alt"
 			type="text"
@@ -734,8 +759,8 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default=""
 			filter="options"
+			useglobal="true"
 			>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
 			<option value="2">JBROWSERTARGET_POPUP</option>
@@ -766,12 +791,12 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default=""
 			filter="options"
+			useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JBROWSERTARGET_PARENT</option>
-				<option value="1">JBROWSERTARGET_NEW</option>
-				<option value="2">JBROWSERTARGET_POPUP</option>
-				<option value="3">JBROWSERTARGET_MODAL</option>
+			<option value="0">JBROWSERTARGET_PARENT</option>
+			<option value="1">JBROWSERTARGET_NEW</option>
+			<option value="2">JBROWSERTARGET_POPUP</option>
+			<option value="3">JBROWSERTARGET_MODAL</option>
 		</field>
 		<field
 			name="spacer4"
@@ -799,12 +824,12 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default=""
 			filter="options"
+			useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JBROWSERTARGET_PARENT</option>
-				<option value="1">JBROWSERTARGET_NEW</option>
-				<option value="2">JBROWSERTARGET_POPUP</option>
-				<option value="3">JBROWSERTARGET_MODAL</option>
+			<option value="0">JBROWSERTARGET_PARENT</option>
+			<option value="1">JBROWSERTARGET_NEW</option>
+			<option value="2">JBROWSERTARGET_POPUP</option>
+			<option value="3">JBROWSERTARGET_MODAL</option>
 		</field>
 
 	</fields>

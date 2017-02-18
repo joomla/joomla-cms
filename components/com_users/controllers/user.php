@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ class UsersControllerUser extends UsersController
 	 */
 	public function login()
 	{
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('post');
 
 		$app    = JFactory::getApplication();
 		$input  = $app->input;
@@ -142,12 +142,17 @@ class UsersControllerUser extends UsersController
 	 */
 	public function logout()
 	{
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app = JFactory::getApplication();
 
+		// Prepare the logout options.
+		$options = array(
+			'clientid' => $app->get('shared_session', '0') ? null : 0,
+		);
+
 		// Perform the log out.
-		$error  = $app->logout();
+		$error  = $app->logout(null, $options);
 		$input  = $app->input;
 		$method = $input->getMethod();
 
@@ -166,7 +171,6 @@ class UsersControllerUser extends UsersController
 		{
 			if (JLanguageMultilang::isEnabled())
 			{
-
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
@@ -284,88 +288,7 @@ class UsersControllerUser extends UsersController
 	}
 
 	/**
-	 * Method to register a user.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.6
-	 */
-	public function register()
-	{
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Get the application
-		$app = JFactory::getApplication();
-
-		// Get the form data.
-		$data = $this->input->post->get('user', array(), 'array');
-
-		// Get the model and validate the data.
-		$model  = $this->getModel('Registration', 'UsersModel');
-
-		$form = $model->getForm();
-
-		if (!$form)
-		{
-			JError::raiseError(500, $model->getError());
-
-			return false;
-		}
-
-		$return = $model->validate($form, $data);
-
-		// Check for errors.
-		if ($return === false)
-		{
-			// Get the validation messages.
-			$errors = $model->getErrors();
-
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
-				if ($errors[$i] instanceof Exception)
-				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
-
-					continue;
-				}
-
-				$app->enqueueMessage($errors[$i], 'notice');
-			}
-
-			// Save the data in the session.
-			$app->setUserState('users.registration.form.data', $data);
-
-			// Redirect back to the registration form.
-			$this->setRedirect('index.php?option=com_users&view=registration');
-
-			return false;
-		}
-
-		// Finish the registration.
-		$return = $model->register($data);
-
-		// Check for errors.
-		if ($return === false)
-		{
-			// Save the data in the session.
-			$app->setUserState('users.registration.form.data', $data);
-
-			// Redirect back to the registration form.
-			$message = JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_users&view=registration', $message, 'error');
-
-			return false;
-		}
-
-		// Flush the data from the session.
-		$app->setUserState('users.registration.form.data', null);
-
-		return true;
-	}
-
-	/**
-	 * Method to login a user.
+	 * Method to request a username reminder.
 	 *
 	 * @return  boolean
 	 *
@@ -374,7 +297,7 @@ class UsersControllerUser extends UsersController
 	public function remind()
 	{
 		// Check the request token.
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('post');
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel('User', 'UsersModel');
@@ -431,7 +354,7 @@ class UsersControllerUser extends UsersController
 	}
 
 	/**
-	 * Method to login a user.
+	 * Method to resend a user.
 	 *
 	 * @return  void
 	 *
@@ -440,6 +363,6 @@ class UsersControllerUser extends UsersController
 	public function resend()
 	{
 		// Check for request forgeries
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		// $this->checkToken('post');
 	}
 }
