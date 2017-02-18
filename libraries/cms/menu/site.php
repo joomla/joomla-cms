@@ -116,7 +116,7 @@ class JMenuSite extends JMenu
 			return false;
 		}
 
-		// Need to get the available View Access Levels
+		// Get the mappings of Access Level to User Groups.
 		$loader = function () use ($db)
 		{
 			$query = $db->getQuery(true)
@@ -170,7 +170,7 @@ class JMenuSite extends JMenu
 			$parent_tree[] = $item->id;
 			$item->tree = $parent_tree;
 			
-			// Record the View Access Levels required for this Menu Item.
+			// Record the list of User Groups that have explicit View Access to the Menu Item's Access Level.
 			$item->viewlevelrule = (array) json_decode($this->_viewlevelrules[$item->access]->rules);
 
 			// Create the query array.
@@ -180,6 +180,8 @@ class JMenuSite extends JMenu
 			parse_str($url, $item->query);
 		}
 
+		// Can unset($this->_viewlevelrules) here as the Inheritable property functions do not require it beyond this point.
+		
 		return true;
 	}
 

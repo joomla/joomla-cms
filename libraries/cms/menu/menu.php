@@ -278,13 +278,14 @@ class JMenu
 							// Assume User does not have access to this Menu Item
 							$test = false;
 							
-							// Test if the Menu Item's View Access Level is explicitely assigned to the User
+							// For each of the User Groups having Viewing Access to the Menu Item's Access Level
 							foreach ($item->viewlevelrule as $viewlevel)
 							{
+								// Test if the User has been assigned to this to this User Group on the 'Users:Edit->Assigned User Groups' tab.
 								if (in_array($viewlevel, $values[$i]))
 								{
 									
-									// If the User has explicit access to this View Level, then allow the Menu Item to be included.
+									// User has been assigned to this User Group.
 									$test = true;
 									break;
 								}
