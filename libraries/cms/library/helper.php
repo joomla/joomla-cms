@@ -144,14 +144,32 @@ class JLibraryHelper
 	/**
 	 * Load the installed libraries into the libraries property.
 	 *
-	 * @param   string  $element  The element value for the extension
+	 * @param   string  $element  The element value for the extension [deprecated]
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @note    As of 4.0 this method will be restructured to only load the data into memory
 	 */
 	protected static function load($element)
 	{
+		try
+		{
+			JLog::add(
+				sprintf(
+					'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$libraries directly after loading the data.',
+					__METHOD__,
+					__CLASS__
+				),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $e)
+		{
+			// Informational log only
+		}
+
 		$loader = function ()
 		{
 			$db = JFactory::getDbo();
@@ -169,20 +187,7 @@ class JLibraryHelper
 
 		try
 		{
-			$libraries = $cache->get($loader, array(), $element, false);
-
-			/**
-			 * Verify $libraries is an array, some cache handlers return an object even though
-			 * the original was a single object array.
-			 */
-			if (!is_array($libraries))
-			{
-				static::$libraries[$element] = $libraries;
-			}
-			else
-			{
-				static::$libraries = $libraries;
-			}
+			static::$libraries = $cache->get($loader);
 		}
 		catch (JCacheException $e)
 		{
