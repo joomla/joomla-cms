@@ -229,6 +229,19 @@ class JMenuSite extends JMenu
 				unset($attributes[$key]);
 				unset($values[$key]);
 			}
+
+			// Filter by inheritable if not set
+			if (($key = array_search('inheritable', $attributes)) === false)
+			{
+				$attributes[] = 'inheritable';
+				$values[] = JFactory::getUser()->groups;
+			}
+			elseif ($values[$key] === null)
+			{
+				unset($attributes[$key]);
+				unset($values[$key]);
+			}
+			
 		}
 
 		// Reset arrays or we get a notice if some values were unset
