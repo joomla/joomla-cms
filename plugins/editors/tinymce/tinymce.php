@@ -360,6 +360,7 @@ class PlgEditorTinymce extends JPlugin
 			$valid_elements    = trim($levelParams->get('valid_elements', ''));
 		}
 
+		// Compare the value with what is set in JFormFieldEditor::setup()
 		if ($height && $height !== '500')
 		{
 			$html_height = $height;
@@ -369,6 +370,7 @@ class PlgEditorTinymce extends JPlugin
 			$html_height = $this->params->get('html_height', '500px');
 		}
 
+		// Compare the value with what is set in JFormFieldEditor::setup()
 		if ($width && $width !== '100%')
 		{
 			$html_width = $width;
