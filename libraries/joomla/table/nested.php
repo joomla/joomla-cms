@@ -1043,7 +1043,7 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   2017-02-17
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  UnexpectedValueException
 	 */
 	public function setInheritable($pks = null, $state = 1, $userId = 0)

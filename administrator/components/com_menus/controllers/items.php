@@ -127,7 +127,7 @@ class MenusControllerItems extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   2017-02-17
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setInheritable()
 	{

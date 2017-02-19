@@ -267,7 +267,7 @@ abstract class MenusHtmlMenus
 	 *
 	 * @see JHtmlJGrid::state
 	 *
-	 * @since   2017-02-17
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function isinheritable($value, $i, $enabled = true, $checkbox = 'cb')
 	{

@@ -1051,7 +1051,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   2017-02-17
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setInheritable(&$pks, $value = 1)
 	{
