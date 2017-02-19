@@ -21,9 +21,9 @@ function modChrome_beezDivision($module, &$params, &$attribs)
 		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 		<?php if ($module->showtitle) : ?>
 			<h<?php echo $headerLevel; ?>><?php echo $module->title; ?></h<?php echo $headerLevel; ?>>
-      <?php echo $module->event->afterDisplayTitle; ?>
+			<?php echo $module->event->afterDisplayTitle; ?>
 		<?php endif; ?>
-    <?php echo $module->event->beforeDisplayContent; ?>
+		<?php echo $module->event->beforeDisplayContent; ?>
 		<?php echo $module->content; ?>
 		<?php echo $module->event->afterDisplayContent; ?></div>
 	<?php endif;
@@ -84,7 +84,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 		$temp->title = $module->title;
 		$temp->params = $module->params;
 		$temp->id = $module->id;
-    $temp->event = $module->event;
+		$temp->event = $module->event;
 		$modules[] = $temp;
 		// list of moduletitles
 		// list of moduletitles
@@ -104,7 +104,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 			echo '<div tabindex="-1" class="tabcontent tabopen" id="module_'.$rendermodule->id.'">';
 			echo $rendermodule->event->beforeDisplayContent;
 			echo $rendermodule->content;
-      echo $rendermodule->event->afterDisplayContent;
+			echo $rendermodule->event->afterDisplayContent;
 			if ($counter != count($modules))
 			{
 			echo '<a href="#" class="unseen" onclick="nexttab(\'module_'. $rendermodule->id.'\');return false;" id="next_'.$rendermodule->id.'">'.JText::_('TPL_BEEZ3_NEXTTAB').'</a>';
@@ -119,7 +119,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 		$temp->params = $module->params;
 		$temp->title = $module->title;
 		$temp->id = $module->id;
-    $temp->event = $module->event;
+		$temp->event = $module->event;
 		$modules[] = $temp;
 		$modulecount--;
 	}
