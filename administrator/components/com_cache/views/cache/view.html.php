@@ -16,12 +16,6 @@ defined('_JEXEC') or die;
  */
 class CacheViewCache extends JViewLegacy
 {
-	/**
-	 * @var object client object.
-	 * @deprecated 4.0
-	 */
-	protected $client;
-
 	protected $data;
 
 	protected $pagination;
