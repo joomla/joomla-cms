@@ -179,6 +179,16 @@ class PlgEditorCodemirror extends JPlugin
 
 		// Must pass the field id to the buttons in this editor.
 		$buttons = $this->displayButtons($id, $buttons, $asset, $author);
+		
+		if ($height == '')
+		{
+			$height = '500px';
+		}
+
+		if ($width == '')
+		{
+			$height = '100%';
+		}
 
 		// Only add "px" to width and height if they are not given as a percentage.
 		$width .= is_numeric($width) ? 'px' : '';
