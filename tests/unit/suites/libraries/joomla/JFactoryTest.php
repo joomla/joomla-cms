@@ -140,22 +140,6 @@ class JFactoryTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the JFactory::getURI method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function testGetUri()
-	{
-		$this->assertInstanceOf(
-			'JUri',
-			JFactory::getUri('https://www.joomla.org'),
-			'Line: ' . __LINE__
-		);
-	}
-
-	/**
 	 * Tests the JFactory::getXML method.
 	 *
 	 * @return  void
