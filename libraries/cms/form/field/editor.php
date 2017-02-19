@@ -201,8 +201,8 @@ class JFormFieldEditor extends JFormFieldTextarea
 
 		if ($result == true)
 		{
-			$this->height      = $this->element['height'] ? (string) $this->element['height'] : '500';
-			$this->width       = $this->element['width'] ? (string) $this->element['width'] : '100%';
+			$this->height      = (string) $this->element['height'];
+			$this->width       = (string) $this->element['width'];
 			$this->assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 			$this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
 			$this->asset       = $this->form->getValue($this->assetField) ?: (string) $this->element['asset_id'];
