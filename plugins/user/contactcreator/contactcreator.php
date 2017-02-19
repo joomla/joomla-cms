@@ -92,9 +92,6 @@ class PlgUserContactCreator extends JPlugin
 			$contact->access   = (int) JFactory::getConfig()->get('access');
 			$contact->language = '*';
 			$contact->generateAlias();
-			$contact->sortname1= '';
-			$contact->sortname2= '';
-			$contact->sortname3= '';
 
 			// Check if the contact already exists to generate new name & alias if required
 			if ($contact->id == 0)
