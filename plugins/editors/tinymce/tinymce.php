@@ -360,27 +360,22 @@ class PlgEditorTinymce extends JPlugin
 			$valid_elements    = trim($levelParams->get('valid_elements', ''));
 		}
 
-		if (isset($height))
+		if ($height)
 		{
 			$html_height = $height;
 		}
 		else
 		{
-			$html_height = $this->params->get('html_height', '550');
+			$html_height = $this->params->get('html_height', '500px');
 		}
 
-		if (isset($width))
+		if ($width)
 		{
 			$html_width = $width;
 		}
 		else
 		{
-			$html_width = $this->params->get('html_width', '');
-		}
-
-		if ($html_width == 750)
-		{
-			$html_width = '';
+			$html_width = $this->params->get('html_width', '100%');
 		}
 
 		// The param is true for vertical resizing only, false or both
