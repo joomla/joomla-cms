@@ -361,7 +361,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// Compare the value with what is set in JFormFieldEditor::setup()
-		if ($height && $height !== '500')
+		if ($height && $height !== '500px')
 		{
 			$html_height = $height;
 		}
