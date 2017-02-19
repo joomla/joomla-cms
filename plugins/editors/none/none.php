@@ -103,16 +103,6 @@ class PlgEditorNone extends JPlugin
 		if (empty($id))
 		{
 			$id = $name;
-		}
-
-		if ($height == '')
-		{
-			$height = '500px';
-		}
-
-		if ($width == '')
-		{
-			$height = '100%';
 		}		
 
 		// Only add "px" to width and height if they are not given as a percentage
