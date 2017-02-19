@@ -1215,4 +1215,21 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 
 		return $this->getBody();
 	}
+
+	/**
+	 * Method to determine a hash for anti-spoofing variable names
+	 *
+	 * @param   boolean  $forceNew  If true, force a new token to be created
+	 *
+	 * @return  string  Hashed var name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getFormToken($forceNew = false)
+	{
+		/** @var JSession $session */
+		$session = $this->getSession();
+
+		return $session->getFormToken();
+	}
 }
