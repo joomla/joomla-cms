@@ -26,20 +26,20 @@ class JCacheStorageMemcache extends JCacheStorage
 	protected static $_db = null;
 
 	/**
-	 * Flag to indicate whether storage support raw, not serialized data.
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $supportRawData = true;
-
-	/**
 	 * Payload compression level
 	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
 	protected $_compress = 0;
+
+	/**
+	 * Flag to indicate whether storage support raw, not serialized data.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $supportRawData = true;
 
 	/**
 	 * Constructor

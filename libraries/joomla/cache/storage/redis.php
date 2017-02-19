@@ -25,20 +25,20 @@ class JCacheStorageRedis extends JCacheStorage
 	protected static $_redis = null;
 
 	/**
-	 * Flag to indicate whether storage support raw, not serialized data.
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $supportRawData = true;
-
-	/**
 	 * Persistent session flag
 	 *
 	 * @var    boolean
 	 * @since  3.4
 	 */
 	protected $_persistent = false;
+
+	/**
+	 * Flag to indicate whether storage support raw, not serialized data.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $supportRawData = true;
 
 	/**
 	 * Constructor

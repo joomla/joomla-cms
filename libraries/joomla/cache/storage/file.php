@@ -18,14 +18,6 @@ defined('JPATH_PLATFORM') or die;
 class JCacheStorageFile extends JCacheStorage
 {
 	/**
-	 * Flag to indicate whether storage support raw, not serialized data.
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $supportRawData = true;
-
-	/**
 	 * Root path
 	 *
 	 * @var    string
@@ -41,6 +33,14 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 */
 	protected $_locked_files = array();
+
+	/**
+	 * Flag to indicate whether storage support raw, not serialized data.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $supportRawData = true;
 
 	/**
 	 * Constructor

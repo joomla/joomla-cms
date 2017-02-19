@@ -604,7 +604,7 @@ class JCacheTest extends TestCase
 
 		$supportRawData = $handlerClass->getProperty('supportRawData');
 		$supportRawData->setAccessible(true);
-		$supportRawData->setValue(false);
+		$supportRawData->setValue($this->object->cache->_getStorage(), false);
 
 		$this->assertFalse($this->object->cache->_getStorage()->supportRawData());
 

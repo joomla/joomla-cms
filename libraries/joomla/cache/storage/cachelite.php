@@ -26,20 +26,20 @@ class JCacheStorageCachelite extends JCacheStorage
 	protected static $CacheLiteInstance = null;
 
 	/**
-	 * Flag to indicate whether storage support raw, not serialized data.
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $supportRawData = true;
-
-	/**
 	 * Root path
 	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_root;
+
+	/**
+	 * Flag to indicate whether storage support raw, not serialized data.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $supportRawData = true;
 
 	/**
 	 * Constructor

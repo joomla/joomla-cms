@@ -18,20 +18,20 @@ defined('JPATH_PLATFORM') or die;
 class JCacheStorage
 {
 	/**
-	 * Flag to indicate whether storage support raw, not serialized data.
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $supportRawData = false;
-
-	/**
 	 * The raw object name
 	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $rawname;
+
+	/**
+	 * Flag to indicate whether storage support raw, not serialized data.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $supportRawData = false;
 
 	/**
 	 * Time that the cache storage handler was instantiated
@@ -311,7 +311,7 @@ class JCacheStorage
 	 */
 	public function supportRawData()
 	{
-		return static::$supportRawData;
+		return $this->supportRawData;
 	}
 
 	/**

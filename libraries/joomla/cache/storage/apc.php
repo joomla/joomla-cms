@@ -23,7 +23,7 @@ class JCacheStorageApc extends JCacheStorage
 	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $supportRawData = true;
+	protected $supportRawData = true;
 
 	/**
 	 * Check if the cache contains data stored by ID and group
