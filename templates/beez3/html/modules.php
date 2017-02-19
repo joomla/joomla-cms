@@ -21,8 +21,11 @@ function modChrome_beezDivision($module, &$params, &$attribs)
 		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 		<?php if ($module->showtitle) : ?>
 			<h<?php echo $headerLevel; ?>><?php echo $module->title; ?></h<?php echo $headerLevel; ?>>
+      <?php echo $module->event->afterDisplayTitle; ?>
 		<?php endif; ?>
-		<?php echo $module->content; ?></div>
+    <?php echo $module->event->beforeDisplayContent; ?>
+		<?php echo $module->content; ?>
+		<?php echo $module->event->afterDisplayContent; ?></div>
 	<?php endif;
 }
 
@@ -46,9 +49,11 @@ function modChrome_beezHide($module, &$params, &$attribs)
 	class="opencloselink" id="link_<?php echo $module->id?>"> <span
 	class="no"><img src="templates/beez3/images/plus.png"
 	alt="<?php if ($state == 1) { echo JText::_('TPL_BEEZ3_ALTOPEN');} else {echo JText::_('TPL_BEEZ3_ALTCLOSE');} ?>" />
-</span></a></h<?php echo $headerLevel; ?>> <?php endif; ?>
+</span></a></h<?php echo $headerLevel; ?>>
+<?php echo $module->event->afterDisplayTitle; ?>
+<?php endif; ?>
 <div class="module_content <?php if ($state == 1){echo 'open';} ?>"
-	id="module_<?php echo $module->id; ?>" tabindex="-1"><?php echo $module->content; ?></div>
+	id="module_<?php echo $module->id; ?>" tabindex="-1"><?php echo $module->event->beforeDisplayContent; ?><?php echo $module->content; ?><?php echo $module->event->afterDisplayContent; ?></div>
 </div>
 	<?php }
 }
@@ -79,6 +84,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 		$temp->title = $module->title;
 		$temp->params = $module->params;
 		$temp->id = $module->id;
+    $temp->event = $module->event;
 		$modules[] = $temp;
 		// list of moduletitles
 		// list of moduletitles
@@ -86,7 +92,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 
 		foreach ($modules as $rendermodule)
 		{
-			echo '<li class="tab"><a href="#" id="link_'.$rendermodule->id.'" class="linkopen" onclick="tabshow(\'module_'. $rendermodule->id.'\');return false">'.$rendermodule->title.'</a></li>';
+			echo '<li class="tab"><a href="#" id="link_'.$rendermodule->id.'" class="linkopen" onclick="tabshow(\'module_'. $rendermodule->id.'\');return false">'.$rendermodule->title.'</a>'.$rendermodule->event->afterDisplayTitle.'</li>';
 		}
 		echo '</ul>';
 		$counter = 0;
@@ -96,7 +102,9 @@ function modChrome_beezTabs($module, $params, $attribs)
 			$counter ++;
 
 			echo '<div tabindex="-1" class="tabcontent tabopen" id="module_'.$rendermodule->id.'">';
+			echo $rendermodule->event->beforeDisplayContent;
 			echo $rendermodule->content;
+      echo $rendermodule->event->afterDisplayContent;
 			if ($counter != count($modules))
 			{
 			echo '<a href="#" class="unseen" onclick="nexttab(\'module_'. $rendermodule->id.'\');return false;" id="next_'.$rendermodule->id.'">'.JText::_('TPL_BEEZ3_NEXTTAB').'</a>';
@@ -111,6 +119,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 		$temp->params = $module->params;
 		$temp->title = $module->title;
 		$temp->id = $module->id;
+    $temp->event = $module->event;
 		$modules[] = $temp;
 		$modulecount--;
 	}
