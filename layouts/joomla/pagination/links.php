@@ -80,7 +80,7 @@ if ($currentPage >= $step)
 	<?php endif; ?>
 
 	<?php if ($showLimitStart) : ?>
-		<input type="hidden" name="<?php echo $list['prefix']; ?>limitstart" value="<?php echo $list['limitstart']; ?>" />
+		<input type="hidden" name="<?php echo $list['prefix']; ?>limitstart" value="<?php echo $list['limitstart']; ?>">
 	<?php endif; ?>
 
 </div>

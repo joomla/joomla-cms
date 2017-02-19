@@ -127,7 +127,7 @@ abstract class JHtmlGrid
 		JHtml::_('bootstrap.tooltip');
 
 		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::_('tooltipText', $tip)
-			. '" onclick="' . $action . '" />';
+			. '" onclick="' . $action . '">';
 	}
 
 	/**
@@ -146,7 +146,7 @@ abstract class JHtmlGrid
 	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb')
 	{
 		return $checkedOut ? '' : '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
-			. '" onclick="Joomla.isChecked(this.checked);" />';
+			. '" onclick="Joomla.isChecked(this.checked);">';
 	}
 
 	/**

@@ -56,8 +56,8 @@ jQuery(document).ready(function($) {
 			<?php endif; ?>
 		<?php endif; ?>
 
-		<input type="hidden" name="task" value="update.download" />
-		<input type="hidden" name="option" value="com_joomlaupdate" />
+		<input type="hidden" name="task" value="update.download">
+		<input type="hidden" name="option" value="com_joomlaupdate">
 
 		<?php echo JHtml::_('form.token'); ?>
 	</form>

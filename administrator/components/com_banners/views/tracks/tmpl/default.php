@@ -99,8 +99,8 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								. JText::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
 					)
 				); ?>
-				<input type="hidden" name="task" value="" />
-				<input type="hidden" name="boxchecked" value="0" />
+				<input type="hidden" name="task" value="">
+				<input type="hidden" name="boxchecked" value="0">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>

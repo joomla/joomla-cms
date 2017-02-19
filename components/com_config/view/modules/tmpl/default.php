@@ -187,9 +187,9 @@ JFactory::getDocument()->addScriptDeclaration("
 					</fieldset>
 				</div>
 
-				<input type="hidden" name="id" value="<?php echo $this->item['id']; ?>" />
-				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64'); ?>" />
-				<input type="hidden" name="task" value="" />
+				<input type="hidden" name="id" value="<?php echo $this->item['id']; ?>">
+				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64'); ?>">
+				<input type="hidden" name="task" value="">
 				<?php echo JHtml::_('form.token'); ?>
 
 			</div>

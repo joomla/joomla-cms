@@ -93,8 +93,8 @@ $colSpan   = 4 + count($this->actions);
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="boxchecked" value="0">
 		<?php echo JHtml::_('form.token'); ?>
 		<div>
 			<?php echo JText::_('COM_USERS_DEBUG_LEGEND'); ?>

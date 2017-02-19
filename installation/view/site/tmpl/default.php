@@ -22,8 +22,8 @@ defined('_JEXEC') or die;
 		<label for="jform_language"><?php echo JText::_('INSTL_SELECT_LANGUAGE_TITLE'); ?></label>
 		<?php echo $this->form->getInput('language'); ?>
 	</div>
-	<input type="hidden" name="task" value="setlanguage" />
-	<input type="hidden" name="format" value="json" />
+	<input type="hidden" name="task" value="setlanguage">
+	<input type="hidden" name="format" value="json">
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
@@ -76,7 +76,7 @@ defined('_JEXEC') or die;
 			<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 		</div>
 	</div>
-	<input type="hidden" name="task" value="site" />
-	<input type="hidden" name="format" value="json" />
+	<input type="hidden" name="task" value="site">
+	<input type="hidden" name="format" value="json">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

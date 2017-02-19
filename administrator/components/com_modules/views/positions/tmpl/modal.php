@@ -28,7 +28,7 @@ $type      = $this->state->get('filter.type');
 			<label for="filter_search">
 				<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
 			</label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" size="30" title="<?php echo JText::_('COM_MODULES_FILTER_SEARCH_DESC'); ?>" />
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" size="30" title="<?php echo JText::_('COM_MODULES_FILTER_SEARCH_DESC'); ?>">
 
 			<button type="submit">
 				<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
@@ -95,10 +95,10 @@ $type      = $this->state->get('filter.type');
 	</table>
 
 	<div>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $ordering; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="boxchecked" value="0">
+		<input type="hidden" name="filter_order" value="<?php echo $ordering; ?>">
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>">
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

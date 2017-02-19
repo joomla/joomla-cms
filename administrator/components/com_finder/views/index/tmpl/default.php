@@ -127,8 +127,8 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-				<input type="hidden" name="task" value="display" />
-				<input type="hidden" name="boxchecked" value="0" />
+				<input type="hidden" name="task" value="display">
+				<input type="hidden" name="boxchecked" value="0">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>

@@ -715,7 +715,7 @@ abstract class JHtmlSelect
 
 			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
 			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . $k . '" ' . $extra
-				. $attribs . ' />' . $t;
+				. $attribs . '>' . $t;
 			$html .= "\n\t" . '</label>';
 		}
 

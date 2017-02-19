@@ -109,7 +109,7 @@ if ($saveOrder)
 											<span class="icon-menu"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
-											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" />
+											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>">
 										<?php endif; ?>
 									</td>
 									<td class="text-center">

@@ -67,7 +67,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td>
 									<?php $buttonText = (isset($this->installedLang[0][$language->code]) || isset($this->installedLang[1][$language->code])) ? 'REINSTALL' : 'INSTALL'; ?>
 									<?php $onclick = 'document.getElementById(\'install_url\').value = \'' . $language->detailsurl . '\'; Joomla.submitbutton(\'install.install\');'; ?>
-									<input type="button" class="btn btn-secondary btn-sm" value="<?php echo JText::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>" onclick="<?php echo $onclick; ?>" />
+									<input type="button" class="btn btn-secondary btn-sm" value="<?php echo JText::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>" onclick="<?php echo $onclick; ?>">
 								</td>
 								<td>
 									<label for="cb<?php echo $i; ?>">
@@ -94,11 +94,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</tbody>
 					</table>
 					<?php endif; ?>
-					<input type="hidden" name="task" value="" />
-					<input type="hidden" name="return" value="<?php echo base64_encode('index.php?option=com_installer&view=languages') ?>" />
-					<input type="hidden" id="install_url" name="install_url" />
-					<input type="hidden" name="installtype" value="url" />
-					<input type="hidden" name="boxchecked" value="0" />
+					<input type="hidden" name="task" value="">
+					<input type="hidden" name="return" value="<?php echo base64_encode('index.php?option=com_installer&view=languages') ?>">
+					<input type="hidden" id="install_url" name="install_url">
+					<input type="hidden" name="installtype" value="url">
+					<input type="hidden" name="boxchecked" value="0">
 					<?php echo JHtml::_('form.token'); ?>
 				</div>
 			</div>

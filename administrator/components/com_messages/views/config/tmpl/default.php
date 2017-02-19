@@ -37,7 +37,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		</fieldset>
 		<button id="saveBtn" type="button" class="hidden" onclick="Joomla.submitform('config.save', this.form);"></button>
 
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="task" value="">
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 </div>

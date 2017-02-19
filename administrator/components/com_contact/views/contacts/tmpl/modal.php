@@ -134,8 +134,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</table>
 		<?php endif; ?>
 
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>">
 		<?php echo JHtml::_('form.token'); ?>
 
 	</form>

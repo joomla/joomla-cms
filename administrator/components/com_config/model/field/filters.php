@@ -109,7 +109,7 @@ class JFormFieldFilters extends JFormField
 				. ' id="' . $this->id . $group->value . '_filter_tags" class="novalidate form-control"'
 				. ' title="' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '"'
 				. ' value="' . $group_filter['filter_tags'] . '"'
-				. '/>';
+				. '>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
 			$html[] = '				<input'
@@ -118,7 +118,7 @@ class JFormFieldFilters extends JFormField
 				. ' id="' . $this->id . $group->value . '_filter_attributes" class="novalidate form-control"'
 				. ' title="' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '"'
 				. ' value="' . $group_filter['filter_attributes'] . '"'
-				. '/>';
+				. '>';
 			$html[] = '		</td>';
 			$html[] = '	</tr>';
 		}

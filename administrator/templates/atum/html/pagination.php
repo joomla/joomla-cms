@@ -71,7 +71,7 @@ defined('_JEXEC') or die;
 function pagination_list_footer($list)
 {
 	$html = $list['pageslinks'];
-	$html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"" . $list['limitstart'] . "\" />";
+	$html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"" . $list['limitstart'] . "\">";
 
 	return $html;
 }

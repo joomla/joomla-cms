@@ -182,9 +182,9 @@ $clientId = $this->state->get('item.client_id', 0);
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>" />
+	<input type="hidden" name="task" value="">
+	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
-	<input type="hidden" id="fieldtype" name="fieldtype" value="" />
+	<input type="hidden" id="fieldtype" name="fieldtype" value="">
 </form>

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<input type="hidden" name="jform[twofactor][totp][key]" value="<?php echo $secret ?>" />
+<input type="hidden" name="jform[twofactor][totp][key]" value="<?php echo $secret ?>">
 
 <div class="well">
 	<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_INTRO') ?>

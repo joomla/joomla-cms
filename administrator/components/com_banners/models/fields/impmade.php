@@ -36,7 +36,7 @@ class JFormFieldImpMade extends JFormField
 		$onclick = ' onclick="document.getElementById(\'' . $this->id . '\').value=\'0\';"';
 
 		return '<div class="input-group"><input class="form-control" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly" />'
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly">'
 			. '<span class="input-group-btn"><a class="btn btn-secondary" ' . $onclick . '>'
 			. '<span class="icon-refresh"></span> ' . JText::_('COM_BANNERS_RESET_IMPMADE') . '</a></span></div>';
 	}

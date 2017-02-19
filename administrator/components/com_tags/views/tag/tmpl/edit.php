@@ -63,6 +63,6 @@ $this->ignore_fieldsets = array('jmetadata');
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 	</div>
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="task" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -50,7 +50,7 @@ JHtml::_('jquery.framework');
  *     %3 - value
  *     %4 = any other attributes
  */
-$format = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s />';
+$format = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 ?>
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"

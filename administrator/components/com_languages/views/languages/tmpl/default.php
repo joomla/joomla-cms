@@ -104,7 +104,7 @@ if ($saveOrder)
 										<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
 											<span class="icon-menu"></span>
 										</span>
-										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
+										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 									<?php else : ?>
 										<span class="sortable-handler inactive">
 											<span class="icon-menu"></span>
@@ -156,8 +156,8 @@ if ($saveOrder)
 						</tbody>
 					</table>
 				<?php endif; ?>
-				<input type="hidden" name="task" value="" />
-				<input type="hidden" name="boxchecked" value="0" />
+				<input type="hidden" name="task" value="">
+				<input type="hidden" name="boxchecked" value="0">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>

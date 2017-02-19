@@ -93,7 +93,7 @@ class JFormFieldMenutype extends JFormFieldList
 
 		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
-			. '" value="' . $value . '"' . $size . $class . ' />';
+			. '" value="' . $value . '"' . $size . $class . '>';
 		$html[] = '<span class="input-group-btn"><a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="'
 			. JText::_('JSELECT') . '">' . '<span class="icon-list icon-white"></span> '
 			. JText::_('JSELECT') . '</a></span></span>';
@@ -112,7 +112,7 @@ class JFormFieldMenutype extends JFormFieldList
 			)
 		);
 		$html[] = '<input type="hidden" name="' . $this->name . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '">';
 
 		return implode("\n", $html);
 	}

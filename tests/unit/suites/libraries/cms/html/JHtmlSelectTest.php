@@ -97,13 +97,13 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 			array(
 				"<div class=\"controls\">\n\t" .
 				"<label for=\"yesId\" id=\"yesId-lbl\" class=\"radio\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myRadioListName\" id=\"yesId\" value=\"1\"  />Yes\n\t" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"yesId\" value=\"1\" >Yes\n\t" .
 				"</label>\n\t" .
 				"<label for=\"myRadioListName0\" id=\"myRadioListName0-lbl\" class=\"radio\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\"  />No\n\t" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\" >No\n\t" .
 				"</label>\n\t" .
 				"<label for=\"myRadioListName-1\" id=\"myRadioListName-1-lbl\" class=\"radio\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\"  />Maybe\n\t" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\" >Maybe\n\t" .
 				"</label>\n" .
 				"</div>\n",
 				array(
@@ -126,10 +126,10 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 			array(
 				"<div class=\"controls\">\n\t" .
 				"<label for=\"fooId\" id=\"fooId-lbl\" class=\"radio\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myFooBarListName\" id=\"fooId\" value=\"foo\" class=\"i am radio\" onchange=\"jsfunc();\" />FOO\n\t" .
+				"<input type=\"radio\" name=\"myFooBarListName\" id=\"fooId\" value=\"foo\" class=\"i am radio\" onchange=\"jsfunc();\">FOO\n\t" .
 				"</label>\n\t" .
 				"<label for=\"myFooBarListNamebar\" id=\"myFooBarListNamebar-lbl\" class=\"radio\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" class=\"i am radio\" onchange=\"jsfunc();\" />BAR\n\t" .
+				"<input type=\"radio\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" class=\"i am radio\" onchange=\"jsfunc();\">BAR\n\t" .
 				"</label>\n" .
 				"</div>\n",
 				array(

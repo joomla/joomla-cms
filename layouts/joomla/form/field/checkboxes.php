@@ -49,7 +49,7 @@ extract($displayData);
  *     %3 - value
  *     %4 = any other attributes
  */
-$format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s />';
+$format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 
 // The alt option for JText::alt
 $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);

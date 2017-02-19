@@ -153,9 +153,9 @@ $app->getDocument()->addScriptDeclaration(
 
 	<?php endif; ?>
 
-		<input type="hidden" name="task" value=""/>
-		<input type="hidden" name="forcedItemType" value="<?php echo $app->input->get('forcedItemType', '', 'string'); ?>" />
-		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="forcedItemType" value="<?php echo $app->input->get('forcedItemType', '', 'string'); ?>">
+		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

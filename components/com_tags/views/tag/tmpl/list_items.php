@@ -30,7 +30,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<label class="filter-search-lbl element-invisible" for="filter-search">
 					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
 				</label>
-				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>" />
+				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
 				<button type="button" name="filter-search-button" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" onclick="document.adminForm.submit();" class="btn">
 					<span class="icon-search"></span>
 				</button>
@@ -48,10 +48,10 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 		<?php endif; ?>
 
-		<input type="hidden" name="filter_order" value="" />
-		<input type="hidden" name="filter_order_Dir" value="" />
-		<input type="hidden" name="limitstart" value="" />
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="filter_order" value="">
+		<input type="hidden" name="filter_order_Dir" value="">
+		<input type="hidden" name="limitstart" value="">
+		<input type="hidden" name="task" value="">
 		<div class="clearfix"></div>
 	</fieldset>
 	<?php endif; ?>

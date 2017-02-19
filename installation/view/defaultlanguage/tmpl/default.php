@@ -95,7 +95,7 @@ JS
 						name="administratorlang"
 						value="<?php echo $lang->language; ?>"
 						<?php if ($lang->published) echo 'checked="checked"'; ?>
-					/>
+					>
 				</td>
 				<td align="text-center">
 					<label for="admin-language-cb<?php echo $i; ?>">
@@ -136,7 +136,7 @@ JS
 						name="frontendlang"
 						value="<?php echo $lang->language; ?>"
 						<?php if ($lang->published) echo 'checked="checked"'; ?>
-					/>
+					>
 				</td>
 				<td align="text-center">
 					<label for="site-language-cb<?php echo $i; ?>">
@@ -175,7 +175,7 @@ JS
 			<?php endif; ?>
 		</div>
 	</div>
-	<input type="hidden" name="task" value="setdefaultlanguage" />
+	<input type="hidden" name="task" value="setdefaultlanguage">
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 

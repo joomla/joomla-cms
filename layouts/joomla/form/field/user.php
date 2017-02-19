@@ -103,7 +103,7 @@ if (!$readonly)
 	data-input-name=".field-user-input-name"
 	data-button-select=".button-select">
 	<div class="input-group">
-		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly />
+		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly>
 			<?php if (!$readonly) : ?>
 				<span class="input-group-btn">
 					<a class="btn btn-primary button-select" title="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"><span class="icon-user icon-white"></span></a>
@@ -127,5 +127,5 @@ if (!$readonly)
 	<?php // Create the real field, hidden, that stored the user id. ?>
 	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>"
 		class="field-user-input <?php echo $class ? (string) $class : ''?>"
-		data-onchange="<?php echo $this->escape($onchange); ?>"/>
+		data-onchange="<?php echo $this->escape($onchange); ?>">
 </div>

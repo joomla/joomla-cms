@@ -18,10 +18,10 @@ $input = JFactory::getApplication()->input;
 				<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="well">
 					<fieldset class="form-inline">
 						<label><?php echo JText::_('COM_TEMPLATES_FOLDER_NAME'); ?></label>
-						<input type="text" name="name" required />
-						<input type="hidden" class="address" name="address" />
+						<input type="text" name="name" required>
+						<input type="hidden" class="address" name="address">
 						<?php echo JHtml::_('form.token'); ?>
-						<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_CREATE'); ?>" class="btn btn-primary" />
+						<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_CREATE'); ?>" class="btn btn-primary">
 					</fieldset>
 				</form>
 			</div>

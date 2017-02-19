@@ -114,7 +114,7 @@ JFactory::getDocument()->addStyleDeclaration($style);
 								<div class="treeselect-item pull-left">
 									<input type="checkbox" <?php echo $link->value > 1 ? ' name="jform[params][hideitems][]" ' : ''; ?>
 										   id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>" class="novalidate checkbox-toggle"
-										<?php echo $selected ? ' checked="checked"' : ''; ?> />
+										<?php echo $selected ? ' checked="checked"' : ''; ?>>
 
 									<?php if ($link->value == 1): ?>
 										<label for="<?php echo $id . $link->value; ?>" class="btn btn-mini btn-info pull-left"><?php echo JText::_('JALL') ?></label>

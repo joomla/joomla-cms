@@ -117,11 +117,11 @@ if ($isMoo)
 			</tbody>
 		</table>
 		<?php endif; ?>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="field" value="<?php echo $this->escape($field); ?>" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="required" value="<?php echo $userRequired; ?>" />
-		<input type="hidden" name="ismoo" value="<?php echo $isMoo; ?>" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="field" value="<?php echo $this->escape($field); ?>">
+		<input type="hidden" name="boxchecked" value="0">
+		<input type="hidden" name="required" value="<?php echo $userRequired; ?>">
+		<input type="hidden" name="ismoo" value="<?php echo $isMoo; ?>">
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 </div>

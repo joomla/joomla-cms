@@ -208,7 +208,7 @@ class FinderViewSearch extends JViewLegacy
 		{
 			if (is_scalar($v))
 			{
-				$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
+				$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '">';
 			}
 		}
 

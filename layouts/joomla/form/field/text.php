@@ -78,7 +78,7 @@ $attributes = array(
 echo $name; ?>" id="<?php
 echo $id; ?>" <?php
 echo $dirname; ?> value="<?php
-echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo implode(' ', $attributes); ?> />
+echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo implode(' ', $attributes); ?>>
 <?php if ($options) : ?>
 	<datalist id="<?php echo $id; ?>_datalist">
 		<?php foreach ($options as $option) : ?>
