@@ -248,14 +248,15 @@ abstract class JModuleHelper
 		}
 
 		$module->event = new stdClass;
+    $dispatcher = JEventDispatcher::getInstance();
 
-		$results = $app->triggerEvent('onContentAfterTitle', array('com_modules.module', &$module, &$params, 0));
+		$results = $dispatcher->trigger('onContentAfterTitle', array('com_modules.module', &$module, &$params, 0));
 		$module->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $app->triggerEvent('onContentBeforeDisplay', array('com_modules.module', &$module, &$params, 0));
+		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_modules.module', &$module, &$params, 0));
 		$module->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = $app->triggerEvent('onContentAfterDisplay', array('com_modules.module', &$module, &$params, 0));
+		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_modules.module', &$module, &$params, 0));
 		$module->event->afterDisplayContent = trim(implode("\n", $results));
 
 		foreach (explode(' ', $attribs['style']) as $style)
