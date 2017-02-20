@@ -40,36 +40,42 @@ class PlgButtonMenu extends JPlugin
 		 * jSelectMenuItem creates the link tag, sends it to the editor,
 		 * and closes the select frame.
 		 */
-		$js = "
-		function jSelectMenuItem(id, title, tree, object, uri, language)
+		$user  = JFactory::getUser();
+
+		if ($user->authorise('core.create', 'com_menus')
+			|| $user->authorise('core.edit', 'com_menus'))
 		{
-			var thislang = '';
-			if (language !== '')
+			$js = "
+			function jSelectMenuItem(id, title, tree, object, uri, language)
 			{
-				var thislang = '&lang=';
-			}
-			var tag = '<a href=\"' + uri + thislang + language + '\">' + title + '</a>';
-			jInsertEditorText(tag, '" . $name . "');
-			jModalClose();
-		}";
+				var thislang = '';
+				if (language !== '')
+				{
+					var thislang = '&lang=';
+				}
+				var tag = '<a href=\"' + uri + thislang + language + '\">' + title + '</a>';
+				jInsertEditorText(tag, '" . $name . "');
+				jModalClose();
+			}";
 
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration($js);
+			$doc = JFactory::getDocument();
+			$doc->addScriptDeclaration($js);
 
-		/*
-		 * Use the built-in element view to select the menu item.
-		 * Currently uses blank class.
-		 */
-		$link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
+			/*
+			 * Use the built-in element view to select the menu item.
+			 * Currently uses blank class.
+			 */
+			$link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
 
-		$button          = new JObject;
-		$button->modal   = true;
-		$button->class   = 'btn';
-		$button->link    = $link;
-		$button->text    = JText::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
-		$button->name    = 'share-alt';
-		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+			$button          = new JObject;
+			$button->modal   = true;
+			$button->class   = 'btn';
+			$button->link    = $link;
+			$button->text    = JText::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
+			$button->name    = 'share-alt';
+			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
 
-		return $button;
+			return $button;
+		}
 	}
 }
