@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9456e79cf2b897fb883c7e1e452741d",
+    "content-hash": "d34c2effd779525e253a41273b44924d",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -102,6 +102,58 @@
                 "joomla"
             ],
             "time": "2016-12-10T17:26:50+00:00"
+        },
+        {
+            "name": "joomla/archive",
+            "version": "1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/archive.git",
+                "reference": "027e054aee3e757305c12ea6f83c9b5f7c1a91e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/027e054aee3e757305c12ea6f83c9b5f7c1a91e5",
+                "reference": "027e054aee3e757305c12ea6f83c9b5f7c1a91e5",
+                "shasum": ""
+            },
+            "require": {
+                "joomla/filesystem": "~1.0",
+                "php": "^5.3.10|~7.0"
+            },
+            "require-dev": {
+                "joomla/test": "~1.0",
+                "phpunit/phpunit": "~4.8|~5.0",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "suggest": {
+                "ext-bz2": "To extract bzip2 compressed packages",
+                "ext-zip": "To extract zip compressed packages",
+                "ext-zlib": "To extract gzip or zip compressed packages"
+            },
+            "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Archive\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla Archive Package",
+            "homepage": "https://github.com/joomla-framework/archive",
+            "keywords": [
+                "archive",
+                "framework",
+                "joomla"
+            ],
+            "time": "2016-12-10T17:29:25+00:00"
         },
         {
             "name": "joomla/compat",
@@ -283,6 +335,55 @@
                 "joomla"
             ],
             "time": "2016-03-13T19:41:09+00:00"
+        },
+        {
+            "name": "joomla/filesystem",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/filesystem.git",
+                "reference": "6e2840a82a3958cf8f23ae869e2292d812cfa5d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/6e2840a82a3958cf8f23ae869e2292d812cfa5d3",
+                "reference": "6e2840a82a3958cf8f23ae869e2292d812cfa5d3",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.10|~7.0"
+            },
+            "require-dev": {
+                "paragonie/random_compat": "~1.0|~2.0",
+                "phpunit/phpunit": "~4.8|~5.0",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "suggest": {
+                "paragonie/random_compat": "Required to use Joomla\\Filesystem\\Path::isOwner()"
+            },
+            "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Filesystem\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla Filesystem Package",
+            "homepage": "https://github.com/joomla/joomla-framework-filesystem",
+            "keywords": [
+                "filesystem",
+                "framework",
+                "joomla"
+            ],
+            "time": "2016-12-10T17:45:15+00:00"
         },
         {
             "name": "joomla/filter",

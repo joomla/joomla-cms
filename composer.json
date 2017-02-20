@@ -25,6 +25,7 @@
     "require": {
         "php": ">=5.3.10",
         "joomla/application": "~1.5",
+        "joomla/archive": "~1.1",
         "joomla/data": "~1.2",
         "joomla/di": "~1.2",
         "joomla/event": "~1.1",
