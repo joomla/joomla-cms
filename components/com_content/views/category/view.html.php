@@ -80,6 +80,8 @@ class ContentViewCategory extends JViewCategory
 		$this->vote = JPluginHelper::isEnabled('content', 'vote');
 
 		JPluginHelper::importPlugin('content');
+		
+		$app     = JFactory::getApplication();
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)
@@ -103,24 +105,23 @@ class ContentViewCategory extends JViewCategory
 				$item->text = $item->introtext;
 			}
 
-			JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.category', &$item, &$item->params, 0));
+			$app->triggerEvent('onContentPrepare', array('com_content.category', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;
 
-			$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.category', &$item, &$item->params, 0));
+			$results = $app->triggerEvent('onContentAfterTitle', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.category', &$item, &$item->params, 0));
+			$results = $app->triggerEvent('onContentBeforeDisplay', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-			$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
+			$results = $app->triggerEvent('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
 		// Check for layout override only if this is not the active menu item
-		// If it is the active menu item, then the view and category id will match
-		$app     = JFactory::getApplication();
+		// If it is the active menu item, then the view and category id will match		
 		$active  = $app->getMenu()->getActive();
 		$menus   = $app->getMenu();
 		$title   = null;
