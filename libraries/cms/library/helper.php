@@ -46,6 +46,12 @@ class JLibraryHelper
 
 		if (static::_load($element))
 		{
+			// Convert the params to an object.
+			if (is_string(static::$libraries[$element]->params))
+			{
+				static::$libraries[$element]->params = new Registry(static::$libraries[$element]->params);
+			}
+
 			$result = static::$libraries[$element];
 		}
 		else
@@ -201,12 +207,6 @@ class JLibraryHelper
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_LIBRARY_NOT_LOADING', $element, $error), JLog::WARNING, 'jerror');
 
 			return false;
-		}
-
-		// Convert the params to an object.
-		if (is_string(static::$libraries[$element]->params))
-		{
-			static::$libraries[$element]->params = new Registry(static::$libraries[$element]->params);
 		}
 
 		return true;
