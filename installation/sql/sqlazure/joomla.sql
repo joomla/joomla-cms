@@ -165,7 +165,7 @@ CREATE TABLE [#__banner_clients](
 	[extrainfo] [nvarchar](max) NOT NULL,
 	[state] [smallint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[metakey] [nvarchar](max) NOT NULL DEFAULT 0,
 	[own_prefix] [smallint] NOT NULL DEFAULT 0,
 	[metakey_prefix] [nvarchar](255) NOT NULL DEFAULT '',
@@ -192,11 +192,11 @@ CREATE NONCLUSTERED INDEX [idx_own_prefix] ON [#__banner_clients]
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__banner_tracks](
-	[track_date] [datetime] NOT NULL,
+	[track_date] [datetime2](0) NOT NULL,
 	[track_type] [bigint] NOT NULL,
 	[banner_id] [bigint] NOT NULL,
 	[count] [bigint] NOT NULL DEFAULT 0,
- CONSTRAINT [PK_#__banner_tracks_track_date] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_#__banner_tracks_track_date_type_id] PRIMARY KEY CLUSTERED
 (
 	[track_date] ASC,
 	[track_type] ASC,
@@ -209,7 +209,7 @@ CREATE NONCLUSTERED INDEX [idx_banner_id] ON [#__banner_tracks]
 	[banner_id] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-CREATE NONCLUSTERED INDEX [idx_track_date] ON [#__banner_tracks]
+CREATE NONCLUSTERED INDEX [idx_track_date2] ON [#__banner_tracks]
 (
 	[track_date] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -246,15 +246,15 @@ CREATE TABLE [#__banners](
 	[track_clicks] [smallint] NOT NULL DEFAULT -1,
 	[track_impressions] [smallint] NOT NULL DEFAULT -1,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[reset] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[created] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[publish_up] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[publish_down] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[reset] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[created] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[language] [nvarchar](7) NOT NULL DEFAULT '',
 	[created_by] [bigint] NOT NULL DEFAULT 0,
 	[created_by_alias] [nvarchar](255) NOT NULL DEFAULT '',
-	[modified] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[modified] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[modified_by] [bigint] NOT NULL DEFAULT 0,
 	[version] [bigint] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__banners_id] PRIMARY KEY CLUSTERED
@@ -311,16 +311,16 @@ CREATE TABLE [#__categories](
 	[description] [nvarchar](max) NOT NULL DEFAULT '',
 	[published] [smallint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[access] [int] NOT NULL DEFAULT 0,
 	[params] [nvarchar](max) NOT NULL DEFAULT '',
 	[metadesc] [nvarchar](1024) NOT NULL DEFAULT '',
 	[metakey] [nvarchar](1024) NOT NULL DEFAULT '',
 	[metadata] [nvarchar](2048) NOT NULL DEFAULT '',
 	[created_user_id] [bigint] NOT NULL DEFAULT 0,
-	[created_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[modified_user_id] [bigint] NOT NULL DEFAULT 0,
-	[modified_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[modified_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[hits] [bigint] NOT NULL DEFAULT 0,
 	[language] [nvarchar](7) NOT NULL DEFAULT '',
 	[version] [bigint] NOT NULL DEFAULT 1,
@@ -373,7 +373,7 @@ CREATE NONCLUSTERED INDEX [idx_created_user_id] ON [#__categories]
 	[created_user_id] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-CREATE NONCLUSTERED INDEX [idx_checked_out_time] ON [#__categories]
+CREATE NONCLUSTERED INDEX [idx_checked_out_time2] ON [#__categories]
 (
 	[checked_out_time] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -405,23 +405,23 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__contact_details](
 	[id] [int] IDENTITY(1,1) NOT NULL,
-	[name] [nvarchar](255) NOT NULL DEFAULT '',
+	[name] [nvarchar](255) NOT NULL,
 	[alias] [nvarchar](255) NOT NULL,
-	[con_position] [nvarchar](255) NULL,
-	[address] [nvarchar](max) NULL,
-	[suburb] [nvarchar](100) NULL,
-	[state] [nvarchar](100) NULL,
-	[country] [nvarchar](100) NULL,
-	[postcode] [nvarchar](100) NULL,
-	[telephone] [nvarchar](255) NULL,
-	[fax] [nvarchar](255) NULL,
-	[misc] [nvarchar](max) NULL,
-	[image] [nvarchar](255) NULL,
-	[email_to] [nvarchar](255) NULL,
+	[con_position] [nvarchar](255),
+	[address] [nvarchar](max),
+	[suburb] [nvarchar](100),
+	[state] [nvarchar](100),
+	[country] [nvarchar](100),
+	[postcode] [nvarchar](100),
+	[telephone] [nvarchar](255),
+	[fax] [nvarchar](255),
+	[misc] [nvarchar](max),
+	[image] [nvarchar](255),
+	[email_to] [nvarchar](255),
 	[default_con] [tinyint] NOT NULL DEFAULT 0,
-	[published] [smallint] NOT NULL,
-	[checked_out] [int] NOT NULL,
-	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[published] [smallint] NOT NULL DEFAULT 0,
+	[checked_out] [int] NOT NULL DEFAULT 0,
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[ordering] [int] NOT NULL DEFAULT 0,
 	[params] [nvarchar](max) NOT NULL,
 	[user_id] [int] NOT NULL DEFAULT 0,
@@ -429,22 +429,22 @@ CREATE TABLE [#__contact_details](
 	[access] [int] NOT NULL DEFAULT 0,
 	[mobile] [nvarchar](255) NOT NULL DEFAULT '',
 	[webpage] [nvarchar](255) NOT NULL DEFAULT '',
-	[sortname1] [nvarchar](255) NOT NULL,
-	[sortname2] [nvarchar](255) NOT NULL,
-	[sortname3] [nvarchar](255) NOT NULL,
+	[sortname1] [nvarchar](255) NOT NULL DEFAULT '',
+	[sortname2] [nvarchar](255) NOT NULL DEFAULT '',
+	[sortname3] [nvarchar](255) NOT NULL DEFAULT '',
 	[language] [nvarchar](7) NOT NULL,
-	[created] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[created_by] [bigint] NOT NULL DEFAULT 0,
-	[created_by_alias] [nvarchar](255) NOT NULL,
-	[modified] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created_by_alias] [nvarchar](255) NOT NULL DEFAULT '',
+	[modified] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[modified_by] [bigint] NOT NULL DEFAULT 0,
 	[metakey] [nvarchar](max) NOT NULL,
 	[metadesc] [nvarchar](max) NOT NULL,
 	[metadata] [nvarchar](max) NOT NULL,
 	[featured] [tinyint] NOT NULL DEFAULT 0,
-	[xreference] [nvarchar](50) NOT NULL,
-	[publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[xreference] [nvarchar](50) NOT NULL DEFAULT '',
+	[publish_up] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[publish_down] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[version] [bigint] NOT NULL DEFAULT 1,
 	[hits] [bigint] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__contact_details_id] PRIMARY KEY CLUSTERED
@@ -506,15 +506,15 @@ CREATE TABLE [#__content](
 	[fulltext] [nvarchar](max) NOT NULL,
 	[state] [smallint] NOT NULL DEFAULT 0,
 	[catid] [bigint] NOT NULL DEFAULT 0,
-	[created] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[created_by] [bigint] NOT NULL DEFAULT 0,
 	[created_by_alias] [nvarchar](255) NOT NULL DEFAULT '',
-	[modified] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[modified] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[modified_by] [bigint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[publish_up] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[publish_down] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[images] [nvarchar](max) NOT NULL,
 	[urls] [nvarchar](max) NOT NULL,
 	[attribs] [nvarchar](max) NOT NULL,
@@ -663,7 +663,7 @@ CREATE TABLE [#__contentitem_tag_map](
 	[core_content_id] [bigint] NOT NULL,
 	[content_item_id] [int] NOT NULL,
 	[tag_id] [bigint] NOT NULL,
-	[tag_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[tag_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[type_id] [int] NOT NULL,
  CONSTRAINT [#__contentitem_tag_map$uc_ItemnameTagid] UNIQUE NONCLUSTERED
 (
@@ -673,7 +673,7 @@ CREATE TABLE [#__contentitem_tag_map](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
-CREATE NONCLUSTERED INDEX [idx_date_id] ON [#__contentitem_tag_map]
+CREATE NONCLUSTERED INDEX [idx_date_id2] ON [#__contentitem_tag_map]
 (
 	[tag_date] ASC,
 	[tag_id] ASC
@@ -711,7 +711,7 @@ CREATE TABLE [#__extensions](
 	[custom_data] [nvarchar](max) NOT NULL,
 	[system_data] [nvarchar](max) NOT NULL DEFAULT '',
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[ordering] [int] NULL DEFAULT 0,
 	[state] [int] NULL DEFAULT 0,
  CONSTRAINT [PK_#__extensions_extension_id] PRIMARY KEY CLUSTERED
@@ -1105,14 +1105,14 @@ CREATE TABLE [#__fields] (
 	[state] [smallint] NOT NULL DEFAULT 0,
 	[required] [smallint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[ordering] [int] NOT NULL DEFAULT 0,
 	[params] [nvarchar](max) NOT NULL DEFAULT '',
 	[fieldparams] [nvarchar](max) NOT NULL DEFAULT '',
 	[language] [nvarchar](7) NOT NULL DEFAULT '',
-	[created_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[created_user_id] [bigint] NOT NULL DEFAULT 0,
-	[modified_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[modified_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[modified_by] [bigint] NOT NULL DEFAULT 0,
 	[access] [int] NOT NULL DEFAULT 1,
 CONSTRAINT [PK_#__fields_id] PRIMARY KEY CLUSTERED(
@@ -1166,12 +1166,12 @@ CREATE TABLE [#__fields_groups] (
 	[description] [nvarchar](max) NOT NULL DEFAULT '',
 	[state] [smallint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[ordering] [int] NOT NULL DEFAULT 0,
 	[language] [nvarchar](7) NOT NULL DEFAULT '',
-	[created] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[created_by] [bigint] NOT NULL DEFAULT 0,
-	[modified] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[modified] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[modified_by] [bigint] NOT NULL DEFAULT 0,
 	[access] [int] NOT NULL DEFAULT 1,
 CONSTRAINT [PK_#__fields_groups_id] PRIMARY KEY CLUSTERED(
@@ -1234,13 +1234,13 @@ CREATE TABLE [#__finder_filters](
 	[title] [nvarchar](255) NOT NULL,
 	[alias] [nvarchar](255) NOT NULL,
 	[state] [smallint] NOT NULL DEFAULT 1,
-	[created] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[created_by] [bigint] NOT NULL,
 	[created_by_alias] [nvarchar](255) NOT NULL,
-	[modified] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[modified] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[modified_by] [bigint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[map_count] [bigint] NOT NULL DEFAULT 0,
 	[data] [nvarchar](max) NOT NULL,
 	[params] [nvarchar](max) NULL,
@@ -1260,16 +1260,16 @@ CREATE TABLE [#__finder_links](
 	[route] [nvarchar](255) NOT NULL,
 	[title] [nvarchar](255) NULL,
 	[description] [nvarchar](max) NULL,
-	[indexdate] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[indexdate] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[md5sum] [nvarchar](32) NULL,
 	[published] [smallint] NOT NULL DEFAULT 1,
 	[state] [int] NULL DEFAULT 1,
 	[access] [int] NULL DEFAULT 0,
 	[language] [nvarchar](8) NOT NULL,
-	[publish_start_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_end_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[start_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[end_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[publish_start_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[publish_end_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[start_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[end_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[list_price] [float] NOT NULL DEFAULT 0,
 	[sale_price] [float] NOT NULL DEFAULT 0,
 	[type_id] [int] NOT NULL,
@@ -2219,7 +2219,7 @@ CREATE TABLE [#__menu](
 	[level] [bigint] NOT NULL DEFAULT 0,
 	[component_id] [bigint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[browserNav] [smallint] NOT NULL DEFAULT 0,
 	[access] [int] NOT NULL DEFAULT 0,
 	[inheritable] [tinyint] NOT NULL DEFAULT 1,
@@ -2376,7 +2376,7 @@ CREATE TABLE [#__messages](
 	[user_id_from] [bigint] NOT NULL DEFAULT 0,
 	[user_id_to] [bigint] NOT NULL DEFAULT 0,
 	[folder_id] [tinyint] NOT NULL DEFAULT 0,
-	[date_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[date_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[state] [smallint] NOT NULL DEFAULT 0,
 	[priority] [tinyint] NOT NULL,
 	[subject] [nvarchar](255) NOT NULL DEFAULT '',
@@ -2419,9 +2419,9 @@ CREATE TABLE [#__modules](
 	[ordering] [int] NOT NULL DEFAULT 0,
 	[position] [nvarchar](50) NULL DEFAULT '',
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[publish_up] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[publish_down] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[published] [smallint] NOT NULL DEFAULT 0,
 	[module] [nvarchar](50) NULL,
 	[access] [bigint] NOT NULL DEFAULT 0,
@@ -2548,23 +2548,23 @@ CREATE TABLE [#__newsfeeds](
 	[numarticles] [bigint] NOT NULL DEFAULT 1,
 	[cache_time] [bigint] NOT NULL DEFAULT 3600,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[ordering] [int] NOT NULL DEFAULT 0,
 	[rtl] [smallint] NOT NULL DEFAULT 0,
 	[access] [bigint] NOT NULL DEFAULT 0,
 	[language] [nvarchar](7) NOT NULL,
 	[params] [nvarchar](max) NOT NULL,
-	[created] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[created_by] [bigint] NOT NULL DEFAULT 0,
 	[created_by_alias] [nvarchar](255) NOT NULL DEFAULT '',
-	[modified] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[modified] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[modified_by] [bigint] NOT NULL DEFAULT 0,
 	[metakey] [nvarchar](max) NOT NULL,
 	[metadesc] [nvarchar](max) NOT NULL,
 	[metadata] [nvarchar](max) NOT NULL,
 	[xreference] [nvarchar](50) NOT NULL,
-	[publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[publish_up] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[publish_down] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[description] [nvarchar](max) NOT NULL,
 	[version] [bigint] NOT NULL DEFAULT 1,
 	[hits] [bigint] NOT NULL DEFAULT 0,
@@ -2669,8 +2669,8 @@ CREATE TABLE [#__redirect_links](
 	[comment] [nvarchar](255) NOT NULL,
 	[hits] [bigint] NOT NULL DEFAULT 0,
 	[published] [smallint] NOT NULL,
-	[created_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[modified_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[modified_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[header] [smallint] NOT NULL DEFAULT 301,
  CONSTRAINT [PK_#__redirect_links_id] PRIMARY KEY CLUSTERED
 (
@@ -2683,7 +2683,7 @@ CREATE NONCLUSTERED INDEX [idx_old_url] ON [#__redirect_links]
 	[old_url] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-CREATE NONCLUSTERED INDEX [idx_link_modifed] ON [#__redirect_links]
+CREATE NONCLUSTERED INDEX [idx_link_modifed2] ON [#__redirect_links]
 (
 	[modified_date] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -2744,24 +2744,24 @@ CREATE TABLE [#__tags](
 	[description] [nvarchar](max) NOT NULL,
 	[published] [smallint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[access] [bigint] NOT NULL DEFAULT 0,
 	[params] [nvarchar](max) NOT NULL,
 	[metadesc] [nvarchar](1024) NOT NULL,
 	[metakey] [nvarchar](1024) NOT NULL,
 	[metadata] [nvarchar](2048) NOT NULL,
 	[created_user_id] [bigint] NOT NULL DEFAULT 0,
-	[created_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[created_by_alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[modified_user_id] [bigint] NOT NULL DEFAULT 0,
-	[modified_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[modified_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[images] [nvarchar](max) NOT NULL,
 	[urls] [nvarchar](max) NOT NULL,
 	[hits] [bigint] NOT NULL DEFAULT 0,
 	[language] [nvarchar](7) NOT NULL,
 	[version] [bigint] NOT NULL DEFAULT 1,
-	[publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[publish_up] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[publish_down] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
  CONSTRAINT [PK_#__tags_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
@@ -2890,7 +2890,7 @@ CREATE TABLE [#__ucm_content](
 	[core_alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[core_body] [nvarchar](max) NOT NULL DEFAULT '',
 	[core_state] [smallint] NOT NULL DEFAULT 0,
-	[core_checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[core_checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[core_checked_out_user_id] [bigint] NOT NULL DEFAULT 0,
 	[core_access] [bigint] NOT NULL DEFAULT 0,
 	[core_params] [nvarchar](max) NOT NULL DEFAULT '',
@@ -2898,12 +2898,12 @@ CREATE TABLE [#__ucm_content](
 	[core_metadata] [nvarchar](2048) NOT NULL DEFAULT '',
 	[core_created_user_id] [bigint] NOT NULL DEFAULT 0,
 	[core_created_by_alias] [nvarchar](255) NOT NULL DEFAULT '',
-	[core_created_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[core_created_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[core_modified_user_id] [bigint] NOT NULL DEFAULT 0,
-	[core_modified_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[core_modified_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[core_language] [nvarchar](7) NOT NULL DEFAULT '',
-	[core_publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[core_publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[core_publish_up] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[core_publish_down] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[core_content_item_id] [bigint] NOT NULL DEFAULT 0,
 	[asset_id] [bigint] NOT NULL DEFAULT 0,
 	[core_images] [nvarchar](max) NOT NULL DEFAULT '',
@@ -2953,12 +2953,12 @@ CREATE NONCLUSTERED INDEX [idx_title] ON [#__ucm_content]
 	[core_title] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-CREATE NONCLUSTERED INDEX [idx_modified_time] ON [#__ucm_content]
+CREATE NONCLUSTERED INDEX [idx_modified_time2] ON [#__ucm_content]
 (
 	[core_modified_time] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-CREATE NONCLUSTERED INDEX [idx_created_time] ON [#__ucm_content]
+CREATE NONCLUSTERED INDEX [idx_created_time2] ON [#__ucm_content]
 (
 	[core_created_time] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -2996,7 +2996,7 @@ CREATE TABLE [#__ucm_history](
 	[ucm_item_id] [bigint] NOT NULL,
 	[ucm_type_id] [bigint] NOT NULL,
 	[version_note] [nvarchar](255) NOT NULL DEFAULT '',
-	[save_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[save_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[editor_user_id] [bigint] NOT NULL DEFAULT 0,
 	[character_count] [bigint] NOT NULL DEFAULT 0,
 	[sha1_hash] [nvarchar](50) NOT NULL DEFAULT '',
@@ -3014,7 +3014,7 @@ CREATE NONCLUSTERED INDEX [idx_ucm_item_id] ON [#__ucm_history]
 	[ucm_item_id] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-CREATE NONCLUSTERED INDEX [idx_save_date] ON [#__ucm_history]
+CREATE NONCLUSTERED INDEX [idx_save_date2] ON [#__ucm_history]
 (
 	[save_date] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -3136,14 +3136,14 @@ CREATE TABLE [#__user_notes](
 	[body] [nvarchar](max) NOT NULL,
 	[state] [smallint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
-	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[created_user_id] [bigint] NOT NULL,
-	[created_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[created_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[modified_user_id] [bigint] NOT NULL,
-	[modified_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[review_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_up] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_down] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[modified_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[review_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[publish_up] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[publish_down] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
  CONSTRAINT [PK_#__user_notes_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
@@ -3258,11 +3258,11 @@ CREATE TABLE [#__users](
 	[password] [nvarchar](100) NOT NULL DEFAULT '',
 	[block] [smallint] NOT NULL DEFAULT 0,
 	[sendEmail] [smallint] NULL DEFAULT 0,
-	[registerDate] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[lastvisitDate] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[registerDate] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+	[lastvisitDate] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[activation] [nvarchar](100) NOT NULL DEFAULT '',
 	[params] [nvarchar](max) NOT NULL,
-	[lastResetTime] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
+	[lastResetTime] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[resetCount] [int] NOT NULL DEFAULT 0,
 	[otpKey] [nvarchar](1000) NOT NULL DEFAULT '',
 	[otep] [nvarchar](1000) NOT NULL DEFAULT '',

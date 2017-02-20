@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile version="3.7" client="installation">
-	<name>German (Germany)</name>
+	<name>German (Lichtenstein)</name>
 	<version>3.7.0</version>
 	<creationDate>January 2017</creationDate>
 	<author>J!German</author>
 	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
-		<filename>de-DE.ini</filename>
+		<filename>de-LI.ini</filename>
 	</files>
 	<metadata>
-		<name>German (Germany)</name>
-		<nativeName>Deutsch (Deutschland)</nativeName>
-		<tag>de-DE</tag>
+		<name>German (Lichtenstein)</name>
+		<nativeName>Deutsch (Lichtenstein)</nativeName>
+		<tag>de-LI</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params/>
