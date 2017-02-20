@@ -13,6 +13,8 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.path');
 
+use \Joomla\Archive\Archive;
+
 /**
  * Installer helper class
  *
@@ -127,7 +129,9 @@ abstract class JInstallerHelper
 		// Do the unpacking of the archive
 		try
 		{
-			$extract = JArchive::extract($archivename, $extractdir);
+
+            $archive = new Archive(array('tmp_path' => JFactory::getConfig()->get('tmp_path') . '/' . uniqid('installer')));
+            $extract = $archive->extract($archivename, $extractdir);
 		}
 		catch (Exception $e)
 		{
