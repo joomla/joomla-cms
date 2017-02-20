@@ -39,7 +39,7 @@ class JArchive
 	 *
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
-     * @deprecated 4.0 use the Joomla\Archive\Archive class instead
+	 * @deprecated 4.0 use the Joomla\Archive\Archive class instead
 	 */
 	public static function extract($archivename, $extractdir)
 	{
@@ -56,7 +56,7 @@ class JArchive
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
-     * @deprecated 4.0 use the Joomla\Archive\Archive class instead
+	 * @deprecated 4.0 use the Joomla\Archive\Archive class instead
 	 */
 	public static function getAdapter($type)
 	{
