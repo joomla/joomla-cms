@@ -1,22 +1,21 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Authentication
+ * Joomla! Content Management System
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Cms\Authentication;
 
-use Joomla\Registry\Registry;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Authentication helper class
  *
  * @since  3.6.3
  */
-abstract class JAuthenticationHelper
+abstract class AuthenticationHelper
 {
 	/**
 	 * Get the Two Factor Authentication Methods available.
@@ -28,14 +27,14 @@ abstract class JAuthenticationHelper
 	public static function getTwoFactorMethods()
 	{
 		// Get all the Two Factor Authentication plugins.
-		JPluginHelper::importPlugin('twofactorauth');
+		\JPluginHelper::importPlugin('twofactorauth');
 
 		// Trigger onUserTwofactorIdentify event and return the two factor enabled plugins.
-		$identities = JEventDispatcher::getInstance()->trigger('onUserTwofactorIdentify', array());
+		$identities = \JEventDispatcher::getInstance()->trigger('onUserTwofactorIdentify', array());
 
 		// Generate array with two factor auth methods.
 		$options = array(
-			JHtml::_('select.option', 'none', JText::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
+			\JHtml::_('select.option', 'none', \JText::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
 		);
 
 		if (!empty($identities))
@@ -47,7 +46,7 @@ abstract class JAuthenticationHelper
 					continue;
 				}
 
-				$options[] = JHtml::_('select.option', $identity->method, $identity->title, 'value', 'text');
+				$options[] = \JHtml::_('select.option', $identity->method, $identity->title, 'value', 'text');
 			}
 		}
 
