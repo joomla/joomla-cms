@@ -1232,4 +1232,23 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 
 		return $session->getFormToken();
 	}
+
+	/**
+	 * Checks for a form token in the request.
+	 *
+	 * Use in conjunction with getFormToken.
+	 *
+	 * @param   string  $method  The request method in which to look for the token key.
+	 *
+	 * @return  boolean  True if found and valid, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkToken($method = 'post')
+	{
+		/** @var JSession $session */
+		$session = $this->getSession();
+
+		return $session->checkToken($method);
+	}
 }
