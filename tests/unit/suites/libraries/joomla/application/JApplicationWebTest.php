@@ -214,52 +214,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::appendBody method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testAppendBody()
-	{
-		// Similulate a previous call to setBody or appendBody.
-		TestReflection::getValue($this->class, 'response')->body = array('foo');
-
-		$this->class->appendBody('bar');
-
-		$this->assertEquals(array('foo', 'bar'), TestReflection::getValue($this->class, 'response')->body);
-
-		$this->class->appendBody(true);
-
-		$this->assertEquals(array('foo', 'bar', '1'), TestReflection::getValue($this->class, 'response')->body);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::clearHeaders method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testClearHeaders()
-	{
-		// Fill the header array with an arbitrary value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => array('foo'),
-				'body' => array(),
-			)
-		);
-
-		$this->class->clearHeaders();
-
-		$this->assertEquals(array(), TestReflection::getValue($this->class, 'response')->headers);
-	}
-
-	/**
 	 * Tests the JApplicationWeb::Execute method without a document.
 	 *
 	 * @return  void
@@ -361,54 +315,6 @@ class JApplicationWebTest extends TestCase
 		}
 
 		$this->assertEquals($expects, (array) $config);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::getBody method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testGetBody()
-	{
-		// Fill the header body with an arbitrary value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => null,
-				'body' => array('foo', 'bar'),
-			)
-		);
-
-		$this->assertEquals('foobar', $this->class->getBody());
-		$this->assertEquals($this->class->getBody(false), $this->class->getBody());
-		$this->assertEquals(array('foo', 'bar'), $this->class->getBody(true));
-	}
-
-	/**
-	 * Tests the JApplicationWeb::getHeaders method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testGetHeaders()
-	{
-		// Fill the header body with an arbitrary value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => array('ok'),
-				'body' => null,
-			)
-		);
-
-		$this->assertEquals(array('ok'), $this->class->getHeaders());
 	}
 
 	/**
@@ -572,27 +478,6 @@ class JApplicationWebTest extends TestCase
 		$this->assertEquals('/', $this->class->get('uri.base.path'));
 		$this->assertEquals('http://joom.la/media/', $this->class->get('uri.media.full'));
 		$this->assertEquals('/media/', $this->class->get('uri.media.path'));
-	}
-
-	/**
-	 * Tests the JApplicationWeb::prependBody method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testPrependBody()
-	{
-		// Similulate a previous call to a body method.
-		TestReflection::getValue($this->class, 'response')->body = array('foo');
-
-		$this->class->prependBody('bar');
-
-		$this->assertEquals(array('bar', 'foo'), TestReflection::getValue($this->class, 'response')->body);
-
-		$this->class->prependBody(true);
-
-		$this->assertEquals(array('1', 'bar', 'foo'), TestReflection::getValue($this->class, 'response')->body);
 	}
 
 	/**
@@ -820,92 +705,6 @@ class JApplicationWebTest extends TestCase
 
 		TestReflection::invoke($this->class, 'render');
 
-		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::sendHeaders method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testSendHeaders()
-	{
-		// Similulate a previous call to a setHeader method.
-		TestReflection::getValue($this->class, 'response')->headers = array(
-			array('name' => 'Status', 'value' => 200),
-			array('name' => 'X-JWeb-SendHeaders', 'value' => 'foo'),
-		);
-
-		$this->assertSame($this->class, $this->class->sendHeaders());
-
-		$this->assertEquals(
-			array(
-				array('HTTP/1.1 200', null, 200),
-				array('X-JWeb-SendHeaders: foo', true, null),
-			),
-			$this->class->headers
-		);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::setBody method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testSetBody()
-	{
-		$this->class->setBody('foo');
-
-		$this->assertEquals(array('foo'), TestReflection::getValue($this->class, 'response')->body);
-
-		$this->class->setBody(true);
-
-		$this->assertEquals(array('1'), TestReflection::getValue($this->class, 'response')->body);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::setHeader method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testSetHeader()
-	{
-		// Fill the header body with an arbitrary value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => array(
-					array('name' => 'foo', 'value' => 'bar'),
-				),
-				'body' => null,
-			)
-		);
-
-		$this->class->setHeader('foo', 'car');
-
-		$this->assertEquals(
-			array(
-				array('name' => 'foo', 'value' => 'bar'),
-				array('name' => 'foo', 'value' => 'car')
-			),
-			TestReflection::getValue($this->class, 'response')->headers
-		);
-
-		$this->class->setHeader('foo', 'car', true);
-
-		$this->assertEquals(
-			array(
-				array('name' => 'foo', 'value' => 'car')
-			),
-			TestReflection::getValue($this->class, 'response')->headers
-		);
+		$this->assertEquals('JWeb Body', (string) $this->class->getResponse()->getBody());
 	}
 }
