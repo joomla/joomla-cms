@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.patch');
+jimport('joomla.filesystem.path');
 
 JFormHelper::loadFieldClass('list');
 
