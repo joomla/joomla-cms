@@ -16,6 +16,8 @@ jimport('joomla.filesystem.folder');
  * An Archive handling class
  *
  * @since  11.1
+ *
+ * @deprecated 4.0 use the Joomla\Archive\Archive class instead
  */
 class JArchive
 {
@@ -35,6 +37,7 @@ class JArchive
 	 *
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
+     * @deprecated 4.0 use the Joomla\Archive\Archive class instead
 	 */
 	public static function extract($archivename, $extractdir)
 	{
@@ -175,6 +178,7 @@ class JArchive
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
+     * @deprecated 4.0 use the Joomla\Archive\Archive class instead
 	 */
 	public static function getAdapter($type)
 	{
