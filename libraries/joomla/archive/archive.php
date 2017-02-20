@@ -43,8 +43,8 @@ class JArchive
 	 */
 	public static function extract($archivename, $extractdir)
 	{
-	    $archive = new Archive(array('tmp_path' => JFactory::getConfig()->get('tmp_path') . '/' . uniqid('archive')));
-	    return $archive->extract($archivename, $extractdir);
+		$archive = new Archive(array('tmp_path' => JFactory::getConfig()->get('tmp_path') . '/' . uniqid('archive')));
+		return $archive->extract($archivename, $extractdir);
 	}
 
 	/**
