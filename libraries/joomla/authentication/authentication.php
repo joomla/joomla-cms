@@ -134,6 +134,9 @@ class JAuthentication extends JObject
 		JLoader::register('JAuthenticationResponse', __DIR__ . '/response.php');
 		$response = new JAuthenticationResponse;
 
+		// Get the dispatcher
+		$dispatcher = $this->getDispatcher();
+
 		/*
 		 * Loop through the plugins and check if the credentials can be used to authenticate
 		 * the user
@@ -147,7 +150,7 @@ class JAuthentication extends JObject
 
 			if (class_exists($className))
 			{
-				$plugin = new $className($this->getDispatcher(), (array) $plugin);
+				$plugin = new $className($dispatcher, (array) $plugin);
 			}
 			else
 			{
