@@ -331,11 +331,11 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	 *
 	 * @since   3.7.0
 	 */
-	public function onExtensionAfterInstall(Event $event, $eid)
+	public function onExtensionAfterInstall(Event $event)
 	{
-		if ($eid !== false)
+		if ($event->getArgument('eid', false) !== false)
 		{
-			$this->installedIds[] = $eid;
+			$this->installedIds[] = $event->getArgument('eid');
 		}
 	}
 
