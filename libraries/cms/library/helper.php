@@ -38,27 +38,22 @@ class JLibraryHelper
 	 */
 	public static function getLibrary($element, $strict = false)
 	{
-		// Is already cached ?
-		if (isset(static::$libraries[$element]))
-		{
-			return static::$libraries[$element];
-		}
-
-		if (static::_load($element))
+		// Is already cached?
+		if (isset(static::$libraries[$element]) || static::_load($element))
 		{
 			$result = static::$libraries[$element];
+
+			// Convert the params to an object.
+			if (is_string($result->params))
+			{
+				$result->params = new Registry($result->params);
+			}
 		}
 		else
 		{
 			$result = new stdClass;
 			$result->enabled = $strict ? false : true;
 			$result->params = new Registry;
-		}
-
-		// Convert the params to an object.
-		if (is_string($result->params))
-		{
-			$result->params = new Registry($result->params);
 		}
 
 		return $result;
