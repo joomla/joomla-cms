@@ -35,7 +35,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function dataTestQuoteName()
 	{
@@ -93,7 +93,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 * @return  void
 	 *
 	 * @dataProvider  dataTestQuoteName
-	 * @since         __DEPLOY_VERSION__
+	 * @since         3.7.0
 	 */
 	public function testQuoteName($text, $asPart, $expected)
 	{
