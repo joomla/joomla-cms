@@ -230,7 +230,7 @@ class JDocumentError extends JDocument
 			echo '	</tr>';
 
 			// Add the position of the actual file
-			array_unshift($backtrace, array('file' => $this->_error->getFile(), 'line' => $this->_error->getLine()));
+//			array_unshift($backtrace, array('file' => $this->_error->getFile(), 'line' => $this->_error->getLine(), 'function' => ''));
 
 			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{
