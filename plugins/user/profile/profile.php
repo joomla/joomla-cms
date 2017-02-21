@@ -416,7 +416,7 @@ class PlgUserProfile extends JPlugin
 
 			foreach ($data['profile'] as $k => $v)
 			{
-				$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . ($order++) . ')';
+				$tuples[] = $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . ($order++);
 			}
 
 			$query = $db->getQuery(true)
@@ -452,6 +452,7 @@ class PlgUserProfile extends JPlugin
 
 		if ($userId)
 		{
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->qn('#__user_profiles'))
 				->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
