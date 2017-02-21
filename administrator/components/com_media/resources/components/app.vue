@@ -1,12 +1,11 @@
 <template>
-    <div>
-        <div class="row-fluid">
-            <div class="span3 media-sidebar">
-                <media-tree :tree="tree" :dir="dir"></media-tree>
+    <div class="media-container" :style="{minHeight: fullHeight}">
+        <media-toolbar></media-toolbar>
+        <div class="media-main">
+            <div class="media-sidebar">
+                <media-tree :root="'/'"></media-tree>
             </div>
-            <div class="span9 media-browser">
-                <media-browser :content="content"></media-browser>
-            </div>
+            <media-browser></media-browser>
         </div>
     </div>
 </template>
@@ -14,63 +13,32 @@
 <script>
     export default {
         name: 'media-app',
+        methods: {
+            /* Set the full height on the app container */
+            setFullHeight() {
+                this.fullHeight = window.innerHeight - this.$el.offsetTop + 'px';
+            },
+        },
         data() {
             return {
-                // The current selected directory
-                dir: '/',
-                // The content of the selected directory
-                content: [],
-                // The tree structure
-                tree: {path: '/', children: []},
-                // The api base url
-                baseUrl: 'https://api.github.com/repos/joomla/joomla-cms/contents'
-            }
-        },
-        methods: {
-            getContent() {
-                let url = this.baseUrl + this.dir;
-                jQuery.getJSON(url, (content) => {
-                    // Update the current directory content
-                    this.content = content;
-                    // Find the directory node by path and update its children
-                    this._updateLeafByPath(this.tree, this.dir, content);
-                }).error(() => {
-                    alert("Error loading directory content.");
-                })
-            },
-            // TODO move to a mixin
-            _updateLeafByPath(obj, path, data) {
-                // Set the node children
-                if (obj.path && obj.path === path) {
-                    this.$set(obj, 'children', data);
-                    return true;
-                }
-                // Loop over the node children
-                if (obj.children && obj.children.length) {
-                    for(let i=0; i < obj.children.length; i++) {
-                        if(this._updateLeafByPath(obj.children[i], path, data)) {
-                            return true;
-                        }
-                    }
-                }
-
-                return false;
-            }
-        },
-        created() {
-            // Listen to the directory changed event
-            Media.Event.listen('dirChanged', (dir) => {
-                this.dir = dir;
-            });
+                // The full height of the app in px
+                fullHeight: '',
+            };
         },
         mounted() {
-            // Load the tree data
-            this.getContent();
+            // Initial load the data
+            this.$store.dispatch('getContents', this.$store.state.selectedDirectory);
+
+            // Set the full height and add event listener when dom is updated
+            this.$nextTick(() => {
+                this.setFullHeight();
+                // Add the global resize event listener
+                window.addEventListener('resize', this.setFullHeight)
+            });
         },
-        watch: {
-            dir: function () {
-                this.getContent();
-            }
-        }
+        beforeDestroy() {
+            // Add the global resize event listener
+            window.removeEventListener('resize', this.setFullHeight)
+        },
     }
 </script>

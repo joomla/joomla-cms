@@ -5,10 +5,11 @@
   "author": "",
   "license": "GPL-3.0",
   "scripts": {
-    "build": "browserify ./resources/main.js | uglifyjs -c warnings=false -m > ../../../media/media/js/app.js"
+    "build": "browserify ./resources/main.js | uglifyjs -c warnings=false -m > ../../../media/com_media/js/mediamanager.js"
   },
   "dependencies": {
-    "vue": "^2.0.1"
+    "vue": "^2.0.1",
+    "vuex": "^2.1.2"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",

@@ -1,32 +1,42 @@
 <template>
-    <li class="media-tree-item" v-bind:class="{active: isActive }">
-        <a @click.stop.prevent="toggleItem(item)">{{ item.name }}</a>
-        <media-tree v-if="item.children && item.children.length" :tree="item" :dir="dir"></media-tree>
+    <li class="media-tree-item" :class="{active: isActive}">
+        <a @click.stop.prevent="toggleItem()" :style="{'paddingLeft': 15 * level + 'px'}">
+            <span class="item-icon material-icons">folder</span>
+            <span class="item-name">{{ item.name }}</span>
+        </a>
+        <transition name="slide-fade">
+            <media-tree v-if="hasChildren" v-show="isOpen" :root="item.path"></media-tree>
+        </transition>
     </li>
 </template>
 
 <script>
     export default {
         name: 'media-tree-item',
-        props: ['item', 'dir'],
+        props: ['item'],
         computed: {
-            isActive: function() {
-                return (this.item.path === this.dir);
-            }
+            /* Whether or not the item is active */
+            isActive () {
+                return (this.item.path === this.$store.state.selectedDirectory);
+            },
+            /* Whether or not the item is open */
+            isOpen () {
+                return this.$store.state.selectedDirectory.includes(this.item.path);
+            },
+            /* Get the current level */
+            level() {
+                return this.item.path.split('/').length - 1;
+            },
+            /* Whether or not the item has children */
+            hasChildren() {
+                return this.item.directories.length > 0;
+            },
         },
         methods: {
-            toggleItem(item) {
-                Media.Event.fire('dirChanged', item.path);
+            /* Toggle an item open state */
+            toggleItem () {
+                this.$store.dispatch('getContents', this.item.path);
             }
-        },
+        }
     }
 </script>
-
-<style>
-    .media-tree-item.active > a {
-        font-weight: bold;
-    }
-    .media-tree-item a {
-        cursor: pointer;
-    }
-</style>

@@ -47,9 +47,16 @@ class MediaViewMedia extends JViewLegacy
 		$doc = JFactory::getDocument();
 
 		// Add javascripts
-		$doc->addScript(JUri::root() . 'media/media/js/app.js');
+		$doc->addScript(JUri::root() . 'media/com_media/js/mediamanager.js');
 
-		// TODO Add stylesheets
+		// Add stylesheets
+        $doc->addStyleSheet(JUri::root() . 'media/com_media/css/mediamanager.css');
+
+        // TODO include the font in the component media (self hosted)
+        $doc->addStyleSheet('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+		// Populate the language
+		// TODO use JText for all language strings used by the js application
 	}
 
 	/**
@@ -63,7 +70,5 @@ class MediaViewMedia extends JViewLegacy
 	{
 		// Set the title
 		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
-
-		// TODO add the toolbar buttons
 	}
 }
