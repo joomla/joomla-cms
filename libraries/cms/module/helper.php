@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Module
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -297,7 +297,7 @@ abstract class JModuleHelper
 			$temp = explode(':', $layout);
 			$template = ($temp[0] == '_') ? $template : $temp[0];
 			$layout = $temp[1];
-			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
+			$defaultLayout = $temp[1] ?: 'default';
 		}
 
 		// Build the template and base path for the layout
@@ -405,7 +405,7 @@ abstract class JModuleHelper
 			->where('(mm.menuid = ' . (int) $Itemid . ' OR mm.menuid <= 0)');
 
 		// Filter by language
-		if ($app->isSite() && $app->getLanguageFilter())
+		if ($app->isClient('site') && $app->getLanguageFilter())
 		{
 			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
 			$cacheId .= $lang . '*';

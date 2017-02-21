@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ abstract class ModLoginHelper
 			$languages,
 			function ($a, $b)
 			{
-				return strcmp($a["value"], $b["value"]);
+				return strcmp($a['value'], $b['value']);
 			}
 		);
 
@@ -82,7 +82,18 @@ abstract class ModLoginHelper
 	 */
 	public static function getTwoFactorMethods()
 	{
-		JLog::add(__METHOD__ . ' is deprecated, use JAuthenticationHelper::getTwoFactorMethods() instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated, use JAuthenticationHelper::getTwoFactorMethods() instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		return JAuthenticationHelper::getTwoFactorMethods();
 	}

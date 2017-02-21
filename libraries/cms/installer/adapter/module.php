@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -197,7 +197,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 			if ($extension)
 			{
-				$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
+				$source = $path ?: ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
 				$folder = (string) $this->getManifest()->files->attributes()->folder;
 
 				if ($folder && file_exists($path . '/' . $folder))
@@ -529,6 +529,17 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		if ($this->extension->protected)
 		{
 			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_WARNCOREMODULE', $this->extension->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name), JLog::WARNING, 'jerror');
 
 			return false;
 		}

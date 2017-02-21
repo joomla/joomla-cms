@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,14 +47,9 @@ class JDocumentRendererAtomTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMock(
-			'JApplication',
-			array(
-				'get',
-				'getCfg',
-				'getRouter',
-			)
-		);
+		JFactory::$application = $this->getMockBuilder('JApplication')
+								->setMethods(array('get', 'getCfg', 'getRouter'))
+								->getMock();
 
 		JFactory::$application
 			->expects($this->any())
@@ -63,10 +58,7 @@ class JDocumentRendererAtomTest extends TestCase
 			$this->returnValue(new JRouter)
 		);
 
-		JFactory::$config = $this->getMock(
-			'JConfig',
-			array('get')
-		);
+		JFactory::$config = $this->getMockBuilder('JConfig')->setMethods(array('get'))->getMock();
 
 		$_SERVER['REQUEST_METHOD'] = 'get';
 		$input = JFactory::getApplication()->input;

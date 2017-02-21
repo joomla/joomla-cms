@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,7 +78,14 @@ class CategoriesControllerCategories extends JControllerAdmin
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		JLog::add('CategoriesControllerCategories::saveorder() is deprecated. Function will be removed in 4.0', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(sprintf('%s() is deprecated. Function will be removed in 4.0.', __METHOD__), JLog::WARNING, 'deprecated');
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get the arrays from the Request
 		$order = $this->input->post->get('order', null, 'array');

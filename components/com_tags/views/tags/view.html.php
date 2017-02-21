@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -122,7 +122,7 @@ class TagsViewTags extends JViewLegacy
 				}
 			}
 		}
-		elseif(!empty($items[0]))
+		elseif (!empty($items[0]))
 		{
 			// Merge so that tag params take priority
 			$temp->merge($items[0]->params);

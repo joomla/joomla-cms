@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for Joomla 4.0 pre checks
@@ -38,10 +38,15 @@ function admin_postinstall_joomla40checks_condition()
 		return true;
 	}
 
-	
 	if ($serverType == 'mysql' && version_compare($serverVersion, '5.5.3', 'lt'))
 	{
 		// MySQL minimum version is 5.5.3
+		return true;
+	}
+
+	if ($db->name === 'mysql')
+	{
+		// Using deprecated MySQL driver
 		return true;
 	}
 

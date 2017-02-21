@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -364,7 +364,7 @@ class JText
 		{
 			JLog::add(
 				sprintf(
-					'As of __DEPLOY_VERSION__, passing a null value for the first argument of %1$s() is deprecated and will not be supported in 4.0.'
+					'As of 3.7.0, passing a null value for the first argument of %1$s() is deprecated and will not be supported in 4.0.'
 					. ' Use the %2$s::getScriptStrings() method to get the strings from the JavaScript language store instead.',
 					__METHOD__,
 					__CLASS__
@@ -412,7 +412,7 @@ class JText
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getScriptStrings()
 	{

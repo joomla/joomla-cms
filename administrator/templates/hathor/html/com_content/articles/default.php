@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -126,7 +126,7 @@ $n         = count($this->items);
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_CREATED_BY', 'a.created_by', $listDirn, $listOrder); ?>
 				</th>
 				<th class="title date-col">
-					<?php echo JHtml::_('grid.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_DATE_CREATED', 'a.created', $listDirn, $listOrder); ?>
 				</th>
 				<th class="hits-col">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
@@ -236,8 +236,8 @@ $n         = count($this->items);
 				'bootstrap.renderModal',
 				'collapseModal',
 				array(
-					'title' => JText::_('COM_CONTENT_BATCH_OPTIONS'),
-					'footer' => $this->loadTemplate('batch_footer')
+					'title'  => JText::_('COM_CONTENT_BATCH_OPTIONS'),
+					'footer' => $this->loadTemplate('batch_footer'),
 				),
 				$this->loadTemplate('batch_body')
 			); ?>
