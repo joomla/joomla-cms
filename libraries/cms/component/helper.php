@@ -424,9 +424,27 @@ class JComponentHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
+	 * @note    As of 4.0 this method will be restructured to only load the data into memory
 	 */
 	protected static function load($option)
 	{
+		try
+		{
+			JLog::add(
+				sprintf(
+					'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
+					__METHOD__,
+					__CLASS__
+				),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $e)
+		{
+			// Informational log only
+		}
+
 		$loader = function ()
 		{
 			$db = JFactory::getDbo();
@@ -444,20 +462,7 @@ class JComponentHelper
 
 		try
 		{
-			$components = $cache->get($loader, array(), $option, false);
-
-			/**
-			 * Verify $components is an array, some cache handlers return an object even though
-			 * the original was a single object array.
-			 */
-			if (!is_array($components))
-			{
-				static::$components[$option] = $components;
-			}
-			else
-			{
-				static::$components = $components;
-			}
+			static::$components = $cache->get($loader, array(), __METHOD__);
 		}
 		catch (JCacheException $e)
 		{
