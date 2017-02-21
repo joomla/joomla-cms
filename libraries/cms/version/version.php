@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '07:54';
+	const RELTIME = '15:03';
 
 	/**
 	 * Release timezone.
