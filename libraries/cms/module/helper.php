@@ -248,7 +248,7 @@ abstract class JModuleHelper
 		}
 
 		$module->event = new stdClass;
-    $dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		$results = $dispatcher->trigger('onContentAfterTitle', array('com_modules.module', &$module, &$params, 0));
 		$module->event->afterDisplayTitle = trim(implode("\n", $results));
