@@ -54,4 +54,4 @@ JLoader::registerAlias('JAccessExceptionNotallowed',   '\\Joomla\\Cms\\Access\\E
 JLoader::registerAlias('JRule',                        '\\Joomla\\Cms\\Access\\Rule', '4.0');
 JLoader::registerAlias('JRules',                       '\\Joomla\\Cms\\Access\\Rules', '4.0');
 
-JLoader::registerAlias('JAuthenticationHelper',        '\\Joomla\\Cms\\Access\\Authentication\\AuthenticationHelper', '4.0');
+JLoader::registerAlias('JAuthenticationHelper',        '\\Joomla\\Cms\\Authentication\\AuthenticationHelper', '4.0');
