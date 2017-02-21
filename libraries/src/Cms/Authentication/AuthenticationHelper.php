@@ -30,7 +30,7 @@ abstract class AuthenticationHelper
 		\JPluginHelper::importPlugin('twofactorauth');
 
 		// Trigger onUserTwofactorIdentify event and return the two factor enabled plugins.
-		$identities = JFactory::getApplication()->triggerEvent('onUserTwofactorIdentify', array());
+		$identities = \JFactory::getApplication()->triggerEvent('onUserTwofactorIdentify', array());
 
 		// Generate array with two factor auth methods.
 		$options = array(
