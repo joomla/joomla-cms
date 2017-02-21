@@ -46,12 +46,6 @@ class JLibraryHelper
 
 		if (static::_load($element))
 		{
-			// Convert the params to an object.
-			if (is_string(static::$libraries[$element]->params))
-			{
-				static::$libraries[$element]->params = new Registry(static::$libraries[$element]->params);
-			}
-
 			$result = static::$libraries[$element];
 		}
 		else
@@ -59,6 +53,12 @@ class JLibraryHelper
 			$result = new stdClass;
 			$result->enabled = $strict ? false : true;
 			$result->params = new Registry;
+		}
+
+		// Convert the params to an object.
+		if (is_string($result->params))
+		{
+			$result->params = new Registry($result->params);
 		}
 
 		return $result;
