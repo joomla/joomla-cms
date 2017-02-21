@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  OAuth1
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for interacting with an OAuth 1.0 and 1.0a server.
  *
- * @since  13.1
+ * @since       13.1
+ * @deprecated  4.0  Use the `joomla/oauth1` framework package that will be bundled instead
  */
 abstract class JOAuth1Client
 {

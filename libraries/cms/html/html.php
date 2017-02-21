@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -283,7 +283,7 @@ abstract class JHtml
 	 *
 	 * @return  string  Query string to add.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 *
 	 * @deprecated   4.0  Usage of MD5SUM files is deprecated, use version instead.
 	 */
@@ -600,7 +600,7 @@ abstract class JHtml
 	 */
 	public static function stylesheet($file, $options = array(), $attribs = array())
 	{
-		// B/C before __DEPLOY_VERSION__
+		// B/C before 3.7.0
 		if (!is_array($attribs))
 		{
 			JLog::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
@@ -672,7 +672,7 @@ abstract class JHtml
 	 */
 	public static function script($file, $options = array(), $attribs = array())
 	{
-		// B/C before __DEPLOY_VERSION__
+		// B/C before 3.7.0
 		if (!is_array($options) && !is_array($attribs))
 		{
 			JLog::add('The script method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');

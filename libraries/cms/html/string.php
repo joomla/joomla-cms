@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -95,7 +95,7 @@ abstract class JHtmlString
 				$openedTags = $result[1];
 
 				// Some tags self close so they do not need a separate close tag.
-				$openedTags = array_diff($openedTags, array("img", "hr", "br"));
+				$openedTags = array_diff($openedTags, array('img', 'hr', 'br'));
 				$openedTags = array_values($openedTags);
 
 				// Put all closed tags into an array
@@ -118,7 +118,7 @@ abstract class JHtmlString
 				{
 					if (!in_array($openedTags[$i], $closedTags))
 					{
-						$tmp .= "</" . $openedTags[$i] . ">";
+						$tmp .= '</' . $openedTags[$i] . '>';
 					}
 					else
 					{

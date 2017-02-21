@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -227,25 +227,6 @@ class TagsModelTag extends JModelAdmin
 		$this->preprocessData('com_tags.tag', $data);
 
 		return $data;
-	}
-
-	/**
-	 * Method to preprocess the form.
-	 *
-	 * @param   JForm   $form   A JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import.
-	 *
-	 * @return  void
-	 *
-	 * @see     JFormField
-	 * @since   3.1
-	 * @throws  Exception if there is an error in the form event.
-	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
-	{
-		// Trigger the default form events.
-		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**

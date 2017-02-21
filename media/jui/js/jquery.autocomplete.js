@@ -1,6 +1,6 @@
 /**
-*  Ajax Autocomplete for jQuery, version 1.2.26
-*  (c) 2015 Tomas Kirda
+*  Ajax Autocomplete for jQuery, version 1.3.0
+*  (c) 2017 Tomas Kirda
 *
 *  Ajax Autocomplete for jQuery is freely distributable under the terms of an MIT-style license.
 *  For details, see the web site: https://github.com/devbridge/jQuery-Autocomplete
@@ -67,6 +67,7 @@
                 deferRequestBy: 0,
                 params: {},
                 formatResult: Autocomplete.formatResult,
+                formatGroup: Autocomplete.formatGroup,
                 delimiter: null,
                 zIndex: 9999,
                 type: 'GET',
@@ -141,6 +142,10 @@
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
             .replace(/&lt;(\/?strong)&gt;/g, '<$1>');
+    };
+
+    Autocomplete.formatGroup = function (suggestion, category) {
+        return '<div class="autocomplete-group"><strong>' + category + '</strong></div>';
     };
 
     Autocomplete.prototype = {
@@ -671,7 +676,7 @@
 
                         category = currentCategory;
 
-                        return '<div class="autocomplete-group"><strong>' + category + '</strong></div>';
+                        return options.formatGroup(suggestion, category);
                     };
 
             if (options.triggerSelectOnValidInput && that.isExactMatch(value)) {
@@ -742,6 +747,10 @@
             if (options.width === 'auto') {
                 width = that.el.outerWidth();
                 container.css('width', width > 0 ? width : 300);
+            } else if(options.width === 'flex') {
+                // Trust the source! Unset the width property so it will be the max length
+                // the containing elements.
+                container.css('width', '');
             }
         },
 
@@ -853,6 +862,7 @@
             var that = this;
             that.hide();
             that.onSelect(i);
+            that.disableKillerFn();
         },
 
         moveUp: function () {

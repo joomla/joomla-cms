@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,14 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  1.6
  */
-class JFormFieldCategoryEdit extends JFormAbstractlist
+class JFormFieldCategoryEdit extends JFormFieldList
 {
 	/**
 	 * To allow creation of new categories.
@@ -140,6 +142,9 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 		}
 
 		$db = JFactory::getDbo();
+		$user = JFactory::getUser();
+		$groups = implode(',', $user->getAuthorisedViewLevels());
+
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published, a.lft');
 		$subQuery = $db->getQuery(true)
@@ -179,6 +184,9 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 		{
 			$subQuery->where('published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
 		}
+
+		// Filter categories on User Access Level
+		$subQuery->where('access IN (' . $groups . ')');
 
 		$query->from('(' . (string) $subQuery . ') AS a')
 			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
@@ -261,7 +269,7 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 				 * To take save or create in a category you need to have create rights for that category unless the item is already in that category.
 				 * Unset the option if the user isn't authorised for it. In this field assets are always categories.
 				 */
-				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true && $option->level != 0)
+				if ($option->level != 0 && !$user->authorise('core.create', $extension . '.category.' . $option->value))
 				{
 					unset($options[$i]);
 				}
@@ -277,40 +285,36 @@ class JFormFieldCategoryEdit extends JFormAbstractlist
 			 */
 			foreach ($options as $i => $option)
 			{
-				if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true && !isset($oldParent))
-				{
-					if ($option->value != $oldCat)
-					{
-						unset($options[$i]);
-					}
-				}
+				$assetKey = $extension . '.category.' . $oldCat;
 
-				if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true
-					&& (isset($oldParent))
-					&& $option->value != $oldParent)
+				if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.edit.state', $assetKey))
 				{
 					unset($options[$i]);
+					continue;
+				}
+
+				if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey))
+				{
+					unset($options[$i]);
+					continue;
 				}
 
 				/*
 				 * However, if you can edit.state you can also move this to another category for which you have
 				 * create permission and you should also still be able to save in the current category.
 				 */
-				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
-					&& ($option->value != $oldCat && !isset($oldParent)))
+				$assetKey = $extension . '.category.' . $option->value;
+
+				if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.create', $assetKey))
 				{
-					{
-						unset($options[$i]);
-					}
+					unset($options[$i]);
+					continue;
 				}
 
-				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
-					&& (isset($oldParent))
-					&& $option->value != $oldParent)
+				if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey))
 				{
-					{
-						unset($options[$i]);
-					}
+					unset($options[$i]);
+					continue;
 				}
 			}
 		}
