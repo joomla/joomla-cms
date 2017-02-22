@@ -29,6 +29,7 @@ class MenusControllerItems extends JControllerAdmin
 	{
 		parent::__construct($config);
 		$this->registerTask('unsetDefault',	'setDefault');
+		$this->registerTask('unsetInheritable',	'setInheritable');
 	}
 
 	/**
@@ -119,6 +120,66 @@ class MenusControllerItems extends JControllerAdmin
 
 			return true;
 		}
+	}
+
+	/**
+	 * Method to set the inheritable property for a list of items
+	 *
+	 * @return  void
+	 *
+	 * @since   2017-01-25
+	 */
+	public function setInheritable()
+	{
+		// Check for request forgeries
+		JSession::checkToken('request') or die(JText::_('JINVALID_TOKEN'));
+	
+		$app = JFactory::getApplication();
+	
+		// Get items to publish from the request.
+		$cid   = $this->input->get('cid', array(), 'array');
+		$data  = array('setInheritable' => 1, 'unsetInheritable' => 0);
+		$task  = $this->getTask();
+		$value = JArrayHelper::getValue($data, $task, 0, 'int');
+	
+		if (empty($cid))
+		{
+			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
+		}
+		else
+		{
+			// Get the model.
+			$model = $this->getModel();
+	
+			// Make sure the item ids are integers
+			JArrayHelper::toInteger($cid);
+	
+			// Publish the items.
+			if (!$model->setInheritable($cid, $value))
+			{
+				JError::raiseWarning(500, $model->getError());
+			}
+			else
+			{
+				if ($value == 1)
+				{
+					$ntext = 'COM_MENUS_ITEMS_SET_INHERITABLE';
+				}
+				else
+				{
+					$ntext = 'COM_MENUS_ITEMS_UNSET_INHERITABLE';
+				}
+	
+				$this->setMessage(JText::plural($ntext, count($cid)));
+			}
+		}
+	
+		$this->setRedirect(
+				JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_list
+						. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
+						)
+				);
 	}
 
 	/**

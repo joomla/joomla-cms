@@ -52,6 +52,17 @@
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
 		<field
+			name="inheritable"
+			type="list"
+			label=""
+			filtermode="selector"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_INHERITABLE</option>
+			<option value="0">JUNINHERITABLE</option>
+			<option value="1">JINHERITABLE</option>
+		</field>
+		<field
 			name="language"
 			type="contentlanguage"
 			label="JOPTION_FILTER_LANGUAGE"
@@ -98,6 +109,8 @@
 			<option value="a.home DESC">COM_MENUS_HEADING_HOME_DESC</option>
 			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
+			<option value="a.inheritable ASC">JGRID_HEADING_INHERITABLE_ASC</option>
+			<option value="a.inheritable DESC">JGRID_HEADING_INHERITABLE_DESC</option>
 			<option value="association ASC" requires="associations">JASSOCIATIONS_ASC</option>
 			<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
 			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>

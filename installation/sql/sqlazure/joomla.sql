@@ -2222,6 +2222,7 @@ CREATE TABLE [#__menu](
 	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[browserNav] [smallint] NOT NULL DEFAULT 0,
 	[access] [int] NOT NULL DEFAULT 0,
+	[inheritable] [tinyint] NOT NULL DEFAULT 1,
 	[img] [nvarchar](255) NOT NULL,
 	[template_style_id] [bigint] NOT NULL DEFAULT 0,
 	[params] [nvarchar](max) NOT NULL,

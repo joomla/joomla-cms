@@ -138,6 +138,17 @@
 			description="JFIELD_ACCESS_DESC"
 			filter="integer"/>
 
+		<field
+			name="inheritable"
+			type="radio"
+			label="COM_MENUS_ITEM_FIELD_INHERITABLE_LABEL"
+			description="COM_MENUS_ITEM_FIELD_INHERITABLE_DESC"
+			default="1"
+			class="btn-group btn-group-yesno"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 
 		<field
 			name="template_style_id"

@@ -269,10 +269,30 @@ class JMenu
 			{
 				if (is_array($values[$i]))
 				{
-					if (!in_array($item->{$attributes[$i]}, $values[$i]))
+					// Test special conditions before falling through to default below
+					if ($attributes[$i] == 'inheritable')
 					{
-						$test = false;
-						break;
+						if (!$item->inheritable)
+						{
+							$test = false;
+							foreach ($item->viewlevelrule as $viewlevel)
+							{
+								if (in_array($viewlevel, $values[$i]))
+								{
+									$test = true;
+									break;
+								}
+							}
+						}
+					}
+					else
+					{
+						// This is the default logic statement when an array of values is passed
+						if (!in_array($item->{$attributes[$i]}, $values[$i]))
+						{
+							$test = false;
+							break;
+						}
 					}
 				}
 				else
