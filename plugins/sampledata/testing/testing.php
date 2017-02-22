@@ -2659,7 +2659,7 @@ class PlgSampledataTesting extends JPlugin
 				'type'         => 'alias',
 				'component_id' => 0,
 				'params'       => array(
-					'aliasoptions' => $menuIdsLevel1[0],
+					'aliasoptions' => $menuIdsLevel1[5],
 				),
 			),
 			array(
