@@ -23,14 +23,25 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
+JHtml::_('script', 'com_contact/admin-contacts-modal.min.js', array('version' => 'auto', 'relative' => true));
 
 // Special case for the search field tooltip.
 $searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
 JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
 $function  = $app->input->getCmd('function', 'jSelectContact');
+$editor    = $app->input->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+$onclick   = $this->escape($function);
+
+if (!empty($editor))
+{
+	// This view is used also in com_menus. Load the xtd script only if the editor is set!
+	JFactory::getDocument()->addScriptOptions('xtd-contacts', array('editor' => $editor));
+	$onclick = "jSelectContact";
+}
 ?>
 <div class="container-popup">
 
@@ -108,7 +119,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
 						</td>
 						<td>
-							<a href="javascript:void(0);" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContactHelperRoute::getContactRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
+							<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($onclick); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape(addslashes($item->name)); ?>" data-uri="<?php echo $this->escape(ContactHelperRoute::getContactRoute($item->id, $item->catid, $item->language)); ?>" data-language="<?php echo $this->escape($lang); ?>">
+								<?php echo $this->escape($item->name); ?>
+							</a>
 							<?php echo $this->escape($item->name); ?></a>
 							<div class="small">
 								<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
