@@ -168,7 +168,7 @@ abstract class JHtmlBehavior
 	 * numeric and email. To use these add class="validate-email" and so on.
 	 *
 	 * @param   string  $class  Class for invalid field
-
+	 *
 	 * @return  void
 	 *
 	 * @since   3.4
