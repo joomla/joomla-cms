@@ -15,6 +15,7 @@ use Joomla\Registry\Registry;
  * Object representing a component extension record
  *
  * @since  __DEPLOY_VERSION__
+ * @note   As of 4.0 this class will no longer extend JObject
  */
 class JComponentRecord extends JObject
 {
