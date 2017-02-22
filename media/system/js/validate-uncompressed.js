@@ -10,8 +10,9 @@
  *
  * @since  1.5
  */
-var JFormValidator = function() {
+var JFormValidator = function(option) {
 	"use strict";
+	var invalidClass = option;
 	var handlers, inputEmail, custom,
 
  	setHandler = function(name, fn, en) {
@@ -48,14 +49,14 @@ var JFormValidator = function() {
 
  	 	// Set the element and its label (if exists) invalid state
  	 	if (state === false) {
- 	 	 	$el.addClass('invalid').attr('aria-invalid', 'true');
+ 	 	 	$el.addClass(invalidClass).attr('aria-invalid', 'true');
  	 	 	if ($label) {
- 	 	 	 	$label.addClass('invalid');
+ 	 	 	 	$label.addClass(invalidClass);
  	 	 	}
  	 	} else {
- 	 	 	$el.removeClass('invalid').attr('aria-invalid', 'false');
+ 	 	 	$el.removeClass(invalidClass).attr('aria-invalid', 'false');
  	 	 	if ($label) {
- 	 	 	 	$label.removeClass('invalid');
+ 	 	 	 	$label.removeClass(invalidClass);
  	 	 	}
  	 	}
  	},
@@ -233,5 +234,5 @@ var JFormValidator = function() {
 
 document.formvalidator = null;
 jQuery(function() {
-	document.formvalidator = new JFormValidator();
+	document.formvalidator = new JFormValidator('invalid');
 });

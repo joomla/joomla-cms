@@ -134,13 +134,15 @@ abstract class JHtmlBehavior
 	 * Additional handlers can be added to the handler for username, password,
 	 * numeric and email. To use these add class="validate-email" and so on.
 	 *
+	 * @param   string   $class   Class for invalid field
+	 *
 	 * @return  void
 	 *
 	 * @since   1.5
 	 *
 	 * @Deprecated 3.4 Use formvalidator instead
 	 */
-	public static function formvalidation()
+	public static function formvalidation($class = 'invalid')
 	{
 		JLog::add('The use of formvalidation is deprecated use formvalidator instead.', JLog::WARNING, 'deprecated');
 
@@ -154,7 +156,7 @@ abstract class JHtmlBehavior
 		static::framework();
 
 		// Load the new jQuery code
-		static::formvalidator();
+		static::formvalidator($class);
 	}
 
 	/**
@@ -165,11 +167,13 @@ abstract class JHtmlBehavior
 	 * Additional handlers can be added to the handler for username, password,
 	 * numeric and email. To use these add class="validate-email" and so on.
 	 *
+	 * @param   string   $class   Class for invalid field
+
 	 * @return  void
 	 *
 	 * @since   3.4
 	 */
-	public static function formvalidator()
+	public static function formvalidator($class = 'invalid')
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
@@ -188,6 +192,15 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script', 'system/punycode.js', array('version' => 'auto', 'relative' => true));
 		JHtml::_('script', 'system/validate.js', array('version' => 'auto', 'relative' => true));
+
+		// Attach formvalidation to document
+		JFactory::getDocument()->addScriptDeclaration(
+			"jQuery(function() {
+						document.formvalidator = null;
+						document.formvalidator = new JFormValidator('" . $class . "');
+					});"
+		);
+
 		static::$loaded[__METHOD__] = true;
 	}
 
