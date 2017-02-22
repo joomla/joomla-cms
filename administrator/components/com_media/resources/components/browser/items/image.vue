@@ -2,7 +2,7 @@
     <div class="media-browser-image">
         <div class="media-browser-item-preview">
             <div class="image-brackground">
-                <div class="image-cropped" :style="{ backgroundImage: 'url(/images' + item.path + ')' }"></div>
+                <div class="image-cropped" :style="{ backgroundImage: 'url(' + itemUrl + ')' }"></div>
             </div>
         </div>
         <div class="media-browser-item-info">
@@ -16,5 +16,13 @@
     export default {
         name: 'media-browser-item-image',
         props: ['item'],
+        computed: {
+            /* Get the item url */
+            itemUrl() {
+                const filePath = Joomla.getOptions('com_media').filePath || 'images';
+
+                return '/' + filePath + this.item.path;
+            }
+        }
     }
 </script>
