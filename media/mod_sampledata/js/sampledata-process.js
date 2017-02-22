@@ -63,7 +63,7 @@
 			}
 		});
 		request.fail(function(jqXHR, textStatus){
-			alert('Something went wrong! Please reboot the Windows and try again!');
+			alert('Something went wrong! Please close and reopen the browser and try again!');
 		});
 	};
 
