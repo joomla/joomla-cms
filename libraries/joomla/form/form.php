@@ -1503,6 +1503,29 @@ class JForm
 				$return = $result;
 
 				break;
+			case 'SUBFORM':
+				if ($element['type'] == 'subform')
+				{
+					$field   = $this->loadField($element);
+					$subForm = $field->loadSubForm();
+
+					if ($field->multiple)
+					{
+						$return = array();
+
+						foreach ($value as $row)
+						{
+							$return[] = $subForm->filter($row);
+						}
+					}
+					else
+					{
+						$return = $subForm->filter($value);
+					}
+
+					break;
+				}
+
 			default:
 				// Check for a callback filter.
 				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))

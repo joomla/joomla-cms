@@ -221,44 +221,15 @@ class JFormFieldSubform extends JFormField
 	 */
 	protected function getInput()
 	{
-		$value = $this->value ? $this->value : array();
-
 		// Prepare data for renderer
 		$data    = parent::getLayoutData();
 		$tmpl    = null;
-		$forms   = array();
 		$control = $this->name;
 
 		try
 		{
-			// Prepare the form template
-			$formname = 'subform' . ($this->group ? $this->group . '.' : '.') . $this->fieldname;
-			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
-			$tmpl = JForm::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
-
-			// Prepare the forms for exiting values
-			if ($this->multiple)
-			{
-				$value = array_values($value);
-				$c = max($this->min, min(count($value), $this->max));
-				for ($i = 0; $i < $c; $i++)
-				{
-					$itemcontrol = $control . '[' . $this->fieldname . $i . ']';
-					$itemform    = JForm::getInstance($formname . $i, $this->formsource, array('control' => $itemcontrol));
-
-					if (!empty($value[$i]))
-					{
-						$itemform->bind($value[$i]);
-					}
-
-					$forms[] = $itemform;
-				}
-			}
-			else
-			{
-				$tmpl->bind($value);
-				$forms[] = $tmpl;
-			}
+			$tmpl  = $this->loadSubForm();
+			$forms = $this->loadSubFormData($tmpl);
 		}
 		catch (Exception $e)
 		{
@@ -357,4 +328,67 @@ class JFormFieldSubform extends JFormField
 		return $name;
 	}
 
+	/**
+	 * Loads the form instance for the subform.
+	 *
+	 * @return  JForm  The form instance.
+	 *
+	 * @throws  InvalidArgumentException if no form provided.
+	 * @throws  RuntimeException if the form could not be loaded.
+	 *
+	 * @since   3.8
+	 */
+	public function loadSubForm()
+	{
+		$control = $this->name;
+
+		// Prepare the form template
+		$formname    = 'subform' . ($this->group ? $this->group . '.' : '.') . $this->fieldname;
+		$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
+		$tmpl        = JForm::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
+
+		return $tmpl;
+	}
+
+	/**
+	 * Binds given data to the subform and its elements.
+	 *
+	 * @param   JForm  &$tmpl  Form instance of the subform.
+	 *
+	 * @return  array  Array of JForm instances for the rows.
+	 *
+	 * @since   3.8
+	 */
+	private function loadSubFormData(&$tmpl)
+	{
+		$value = $this->value ? $this->value : array();
+		$forms = array();
+
+		// Prepare the forms for exiting values
+		if ($this->multiple)
+		{
+			$value = array_values($value);
+			$c     = max($this->min, min(count($value), $this->max));
+
+			for ($i = 0; $i < $c; $i++)
+			{
+				$itemcontrol = $this->name . '[' . $this->fieldname . $i . ']';
+				$itemform    = JForm::getInstance($tmpl->getName() . $i, $this->formsource, array('control' => $itemcontrol));
+
+				if (!empty($value[$i]))
+				{
+					$itemform->bind($value[$i]);
+				}
+
+				$forms[] = $itemform;
+			}
+		}
+		else
+		{
+			$tmpl->bind($value);
+			$forms[] = $tmpl;
+		}
+
+		return $forms;
+	}
 }
