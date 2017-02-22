@@ -342,10 +342,14 @@ class JFormFieldSubform extends JFormField
 	{
 		$control = $this->name;
 
+		if ($this->multiple)
+		{
+			$control .= '[' . $this->fieldname . 'X]';
+		}
+
 		// Prepare the form template
-		$formname    = 'subform' . ($this->group ? $this->group . '.' : '.') . $this->fieldname;
-		$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
-		$tmpl        = JForm::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
+		$formname = 'subform.' . ($this->group ? $this->group . '.' : '') . $this->fieldname;
+		$tmpl     = JForm::getInstance($formname, $this->formsource, array('control' => $control));
 
 		return $tmpl;
 	}
@@ -353,40 +357,42 @@ class JFormFieldSubform extends JFormField
 	/**
 	 * Binds given data to the subform and its elements.
 	 *
-	 * @param   JForm  &$tmpl  Form instance of the subform.
+	 * @param   JForm  &$subForm  Form instance of the subform.
 	 *
 	 * @return  array  Array of JForm instances for the rows.
 	 *
 	 * @since   3.8
 	 */
-	private function loadSubFormData(&$tmpl)
+	private function loadSubFormData(&$subForm)
 	{
 		$value = $this->value ? $this->value : array();
-		$forms = array();
 
-		// Prepare the forms for exiting values
-		if ($this->multiple)
+		// Simple form, just bind the data and return one row.
+		if (!$this->multiple)
 		{
-			$value = array_values($value);
-			$c     = max($this->min, min(count($value), $this->max));
+			$subForm->bind($value);
 
-			for ($i = 0; $i < $c; $i++)
-			{
-				$itemcontrol = $this->name . '[' . $this->fieldname . $i . ']';
-				$itemform    = JForm::getInstance($tmpl->getName() . $i, $this->formsource, array('control' => $itemcontrol));
-
-				if (!empty($value[$i]))
-				{
-					$itemform->bind($value[$i]);
-				}
-
-				$forms[] = $itemform;
-			}
+			return array($subForm);
 		}
-		else
+
+		// Multiple rows possible: Construct array and bind values to their respective forms.
+		$forms = array();
+		$value = array_values($value);
+
+		// Show as many rows as we have values, but at least min and at most max.
+		$c = max($this->min, min(count($value), $this->max));
+
+		for ($i = 0; $i < $c; $i++)
 		{
-			$tmpl->bind($value);
-			$forms[] = $tmpl;
+			$control  = $this->name . '[' . $this->fieldname . $i . ']';
+			$itemForm = JForm::getInstance($subForm->getName() . $i, $this->formsource, array('control' => $control));
+
+			if (!empty($value[$i]))
+			{
+				$itemForm->bind($value[$i]);
+			}
+
+			$forms[] = $itemForm;
 		}
 
 		return $forms;
