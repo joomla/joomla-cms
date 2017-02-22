@@ -9,7 +9,12 @@ class Api {
      * Store constructor
      */
     constructor() {
-        this._baseUrl = '/administrator/index.php?option=com_media&format=json';
+        const options = Joomla.getOptions('com_media', {});
+        if (options.apiBaseUrl === undefined) {
+            throw new TypeError('Media api baseUrl is not defined');
+        }
+
+        this._baseUrl = options.apiBaseUrl;
     }
 
     /**

@@ -26,37 +26,11 @@ class MediaViewMedia extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Prepare the document
-		$this->prepareDocument();
 
 		// Prepare the toolbar
 		$this->prepareToolbar();
 
 		parent::display($tpl);
-	}
-
-	/**
-	 * Prepare the document.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function prepareDocument()
-	{
-		$doc = JFactory::getDocument();
-
-		// Add javascripts
-		$doc->addScript(JUri::root() . 'media/com_media/js/mediamanager.js');
-
-		// Add stylesheets
-        $doc->addStyleSheet(JUri::root() . 'media/com_media/css/mediamanager.css');
-
-        // TODO include the font in the component media (self hosted)
-        $doc->addStyleSheet('https://fonts.googleapis.com/icon?family=Material+Icons');
-
-		// Populate the language
-		// TODO use JText for all language strings used by the js application
 	}
 
 	/**
