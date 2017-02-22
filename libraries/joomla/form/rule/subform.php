@@ -13,6 +13,8 @@ use Joomla\Registry\Registry;
 
 /**
  * Form rule to validate subforms field-wise.
+ *
+ * @since  __DEPLOY_VERSION__
  */
 class JFormRuleSubform extends JFormRule
 {
@@ -29,7 +31,7 @@ class JFormRuleSubform extends JFormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   11.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
