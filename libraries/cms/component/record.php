@@ -54,7 +54,7 @@ class JComponentRecord extends JObject
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $data  The menu item data to load
+	 * @param   array  $data  The component record data to load
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
