@@ -30,7 +30,7 @@
 				editors = target.querySelectorAll('.js-editor-tinymce');
 
 			for(var i = 0, l = editors.length; i < l; i++) {
-				var editor = document.querySelector('textarea');
+				var editor = editors[i].querySelector('textarea');
 				this.setupEditor(editor, pluginOptions);
 			}
 		},
