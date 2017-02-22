@@ -336,7 +336,7 @@ class JFormFieldSubform extends JFormField
 	 * @throws  InvalidArgumentException if no form provided.
 	 * @throws  RuntimeException if the form could not be loaded.
 	 *
-	 * @since   3.8
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function loadSubForm()
 	{
@@ -361,7 +361,7 @@ class JFormFieldSubform extends JFormField
 	 *
 	 * @return  array  Array of JForm instances for the rows.
 	 *
-	 * @since   3.8
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function loadSubFormData(&$subForm)
 	{
