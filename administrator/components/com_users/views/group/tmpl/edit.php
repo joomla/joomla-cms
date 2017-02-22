@@ -14,16 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'group.cancel' || document.formvalidator.isValid(document.getElementById('group-form')))
-		{
-			Joomla.submitform(task, document.getElementById('group-form'));
-		}
-	};
-");
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate form-horizontal">

@@ -14,14 +14,6 @@ JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "filter.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
-		{
-			Joomla.submitform(task, document.getElementById("adminForm"));
-		}
-	};
-
 	jQuery(document).ready(function($) {
 		$("#rightbtn").on("click", function() {
 			if($(this).text() == "' . JText::_('COM_FINDER_FILTER_SHOW_ALL') . '") {
@@ -41,8 +33,6 @@ JFactory::getDocument()->addScriptDeclaration('
 		$(".filter-node").change(function() {
 			$(\'input[id="jform_map_count"]\').val(document.querySelectorAll(\'input[type="checkbox"]:checked\').length);
 		});
-
-
 	});
 ');
 

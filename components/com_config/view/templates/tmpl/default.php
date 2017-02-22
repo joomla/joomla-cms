@@ -12,16 +12,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 $user = JFactory::getUser();
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'config.cancel' || document.formvalidator.isValid(document.getElementById('templates-form')))
-		{
-			Joomla.submitform(task, document.getElementById('templates-form'));
-		}
-	}
-");
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">

@@ -16,14 +16,6 @@ JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration(
 	'
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "language.cancel" || document.formvalidator.isValid(document.getElementById("language-form")))
-		{
-			Joomla.submitform(task, document.getElementById("language-form"));
-		}
-	};
-
 	jQuery(document).ready(function() {
 		jQuery("#jform_image").on("change", function() {
 			var flag = this.value;

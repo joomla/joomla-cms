@@ -31,6 +31,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	{
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
 		{
+			/** @deprecated 4.0  Editors need to pass their content to the textarea before save. **/
 			" . $this->form->getField('articletext')->save() . "
 			Joomla.submitform(task);
 		}

@@ -48,8 +48,41 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	/**
 	 * Default function. Usually would be overriden by the component
 	 */
-	Joomla.submitbutton = function( pressbutton ) {
-		Joomla.submitform( pressbutton );
+	Joomla.submitbutton = function( task ) {
+		var form = document.querySelectorAll( 'form.form-validate' );
+
+		if (form) {
+			for (var i = 0, j = form.length; i < j; i++) {
+				var pressbutton = task.split('.'),
+				    cancelTask = form[i].getAttribute( 'data-cancel-task' ),
+				    permContainer = form[i].getAttribute( 'data-permissions-selector' ),
+				    skipPermissionsValidation = form[i].getAttribute( 'data-skip-permissions' );
+
+				if (!cancelTask) {
+					cancelTask = pressbutton[0] + '.cancel';
+				}
+
+				if ((task == cancelTask ) || document.formvalidator.isValid( form[i] ))
+				{
+					if ( skipPermissionsValidation ) {
+
+						if ( !permContainer ) {
+							permContainer = '#permissions-sliders'
+						}
+
+						var i, items = document.querySelectorAll( permContainer + ' select'), l = items.length;
+
+						for (i = 0, l; i < l; i++) {
+							items[i].setAttribute('disabled', 'disabled');
+						}
+					}
+
+					Joomla.submitform( task, form[i] );
+				}
+			}
+		} else {
+			Joomla.submitform( task );
+		}
 	};
 
 	/**
@@ -140,7 +173,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		// Load form the script container
 		if (!options) {
 			var elements = document.querySelectorAll('.joomla-script-options.new'),
-				str, element, option;
+			    str, element, option;
 
 			for (var i = 0, l = elements.length; i < l; i++) {
 				element = elements[i];
@@ -177,7 +210,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		if (!/^[0-9A-F]{32}$/i.test(newToken)) { return; }
 
 		var els = document.getElementsByTagName( 'input' ),
-			i, el, n;
+		    i, el, n;
 
 		for ( i = 0, n = els.length; i < n; i++ ) {
 			el = els[i];
@@ -218,7 +251,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		stub = stub ? stub : 'cb';
 
 		var c = 0,
-			i, e, n;
+		    i, e, n;
 
 		for ( i = 0, n = checkbox.form.elements.length; i < n; i++ ) {
 			e = checkbox.form.elements[ i ];
@@ -251,7 +284,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		Joomla.removeMessages();
 
 		var messageContainer = document.getElementById( 'system-message-container' ),
-			type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper, alertClass;
+		    type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper, alertClass;
 
 		for ( type in messages ) {
 			if ( !messages.hasOwnProperty( type ) ) { continue; }
@@ -397,7 +430,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 		// Toggle main toggle checkbox depending on checkbox selection
 		var c = true,
-			i, e, n;
+		    i, e, n;
 
 		for ( i = 0, n = form.elements.length; i < n; i++ ) {
 			e = form.elements[ i ];
@@ -418,13 +451,13 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 */
 	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
 		var winl = ( screen.width - w ) / 2,
-			wint = ( screen.height - h ) / 2,
-			winprops = 'height=' + h +
-				',width=' + w +
-				',top=' + wint +
-				',left=' + winl +
-				',scrollbars=' + scroll +
-				',resizable';
+		    wint = ( screen.height - h ) / 2,
+		    winprops = 'height=' + h +
+			    ',width=' + w +
+			    ',top=' + wint +
+			    ',left=' + winl +
+			    ',scrollbars=' + scroll +
+			    ',resizable';
 
 		window.open( mypage, myname, winprops )
 			.window.focus();
@@ -464,9 +497,9 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 */
 	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
 		var html = '<select ' + selectParams + '>',
-			hasSelection = key == orig_key,
-			i = 0,
-			selected, x, item;
+		    hasSelection = key == orig_key,
+		    i = 0,
+		    selected, x, item;
 
 		for ( x in source ) {
 			if (!source.hasOwnProperty(x)) { continue; }
@@ -513,8 +546,8 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 */
 	window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
 		var list = document.adminForm[ listname ],
-			hasSelection = key == orig_key,
-			i, x, item, opt;
+		    hasSelection = key == orig_key,
+		    i, x, item, opt;
 
 		// empty the list
 		while ( list.firstChild ) list.removeChild( list.firstChild );
@@ -556,7 +589,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		if ( !radioObj ) { return ''; }
 
 		var n = radioObj.length,
-			i;
+		    i;
 
 		if ( n === undefined ) {
 			return radioObj.checked ? radioObj.value : '';
@@ -581,7 +614,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 */
 	window.getSelectedValue = function ( frmName, srcListName ) {
 		var srcList = document[ frmName ][ srcListName ],
-			i = srcList.selectedIndex;
+		    i = srcList.selectedIndex;
 
 		if ( i !== null && i > -1 ) {
 			return srcList.options[ i ].value;
@@ -599,8 +632,8 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 */
 	window.listItemTask = function ( id, task ) {
 		var f = document.adminForm,
-			i = 0, cbx,
-			cb = f[ id ];
+		    i = 0, cbx,
+		    cb = f[ id ];
 
 		if ( !cb ) return false;
 

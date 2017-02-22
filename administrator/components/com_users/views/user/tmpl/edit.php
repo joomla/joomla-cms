@@ -16,14 +16,6 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'user.cancel' || document.formvalidator.isValid(document.getElementById('user-form')))
-		{
-			Joomla.submitform(task, document.getElementById('user-form'));
-		}
-	};
-
 	Joomla.twoFactorMethodChange = function(e)
 	{
 		var selectedPane = 'com_users_twofactor_' + jQuery('#jform_twofactor_method').val();

@@ -68,10 +68,11 @@ JFactory::getDocument()->addScriptDeclaration('
 		if (task == "article.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
 			jQuery("#permissions-sliders select").attr("disabled", "disabled");
+			/** @deprecated 4.0  Editors need to pass their content to the textarea before save. **/
 			' . $this->form->getField('articletext')->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 
-			// @deprecated 4.0  The following js is not needed since 3.7.0.
+			/** @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__. **/
 			if (task !== "article.apply")
 			{
 				window.parent.jQuery("#articleEdit' . (int) $this->item->id . 'Modal").modal("hide");
@@ -79,7 +80,6 @@ JFactory::getDocument()->addScriptDeclaration('
 		}
 	};
 ');
-
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';

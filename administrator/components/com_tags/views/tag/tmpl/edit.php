@@ -17,6 +17,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'tag.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
+			/** @deprecated 4.0  Editors need to pass their content to the textarea before save. **/
 			" . $this->form->getField('description')->save() . "
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}

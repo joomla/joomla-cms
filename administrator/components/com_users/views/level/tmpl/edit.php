@@ -13,16 +13,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'level.cancel' || document.formvalidator.isValid(document.getElementById('level-form')))
-		{
-			Joomla.submitform(task, document.getElementById('level-form'));
-		}
-	};
-");
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="level-form" class="form-validate form-horizontal">
