@@ -306,7 +306,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 
 		TestReflection::invoke($this->class, 'render');
 
-		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
+		$this->assertEquals('JWeb Body', (string) $this->class->getResponse()->getBody());
 	}
 
 	/**

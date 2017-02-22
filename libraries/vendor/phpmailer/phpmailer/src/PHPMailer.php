@@ -398,15 +398,6 @@ class PHPMailer
     public $AllowEmpty = false;
 
     /**
-     * The default line ending.
-     *
-     * @note The default remains "\n". We force LE where we know
-     *        it must be used via static::LE.
-     * @var  string
-     */
-    public $LE = "\n";
-
-    /**
      * DKIM selector.
      *
      * @var string
@@ -736,6 +727,7 @@ class PHPMailer
         } else {
             $subject = $this->encodeHeader($this->secureHeader($subject));
         }
+        //Calling mail() with null params breaks
         if (!$this->UseSendmailOptions or is_null($params)) {
             $result = @mail($to, $subject, $body, $header);
         } else {
@@ -1404,19 +1396,24 @@ class PHPMailer
      */
     protected function sendmailSend($header, $body)
     {
-        if ('' != $this->Sender) {
+        // CVE-2016-10033, CVE-2016-10045: Don't pass -f if characters will be escaped.
+        if (!empty($this->Sender) and self::isShellSafe($this->Sender)) {
             if ('qmail' == $this->Mailer) {
-                $sendmail = sprintf('%s -f%s', escapeshellcmd($this->Sendmail), escapeshellarg($this->Sender));
+                $sendmailFmt = '%s -f%s';
             } else {
-                $sendmail = sprintf('%s -oi -f%s -t', escapeshellcmd($this->Sendmail), escapeshellarg($this->Sender));
+                $sendmailFmt = '%s -oi -f%s -t';
             }
         } else {
             if ('qmail' == $this->Mailer) {
-                $sendmail = sprintf('%s', escapeshellcmd($this->Sendmail));
+                $sendmailFmt = '%s';
             } else {
-                $sendmail = sprintf('%s -oi -t', escapeshellcmd($this->Sendmail));
+                $sendmailFmt = '%s -oi -t';
             }
         }
+
+        // TODO: If possible, this should be changed to escapeshellarg.  Needs thorough testing.
+        $sendmail = sprintf($sendmailFmt, escapeshellcmd($this->Sendmail), $this->Sender);
+
         if ($this->SingleTo) {
             foreach ($this->SingleToArray as $toAddr) {
                 if (!@$mail = popen($sendmail, 'w')) {
@@ -1463,6 +1460,40 @@ class PHPMailer
     }
 
     /**
+     * Fix CVE-2016-10033 and CVE-2016-10045 by disallowing potentially unsafe shell characters.
+     *
+     * Note that escapeshellarg and escapeshellcmd are inadequate for our purposes, especially on Windows.
+     * @param string $string The string to be validated
+     * @see https://github.com/PHPMailer/PHPMailer/issues/924 CVE-2016-10045 bug report
+     * @access protected
+     * @return boolean
+     */
+    protected static function isShellSafe($string)
+    {
+        // Future-proof
+        if (escapeshellcmd($string) !== $string
+            or !in_array(escapeshellarg($string), array("'$string'", "\"$string\""))
+        ) {
+            return false;
+        }
+
+        $length = strlen($string);
+
+        for ($i = 0; $i < $length; $i++) {
+            $c = $string[$i];
+
+            // All other characters have a special meaning in at least one common shell, including = and +.
+            // Full stop (.) has a special meaning in cmd.exe, but its impact should be negligible here.
+            // Note that this does permit non-Latin alphanumeric characters based on the current locale.
+            if (!ctype_alnum($c) && strpos('@_-.', $c) === false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Send mail using the PHP mail() function.
      *
      * @param string $header The message headers
@@ -1482,16 +1513,19 @@ class PHPMailer
 
         $params = null;
         //This sets the SMTP envelope sender which gets turned into a return-path header by the receiver
-        if (!empty($this->Sender)) {
+        if (!empty($this->Sender) and $this->validateAddress($this->Sender)) {
             //A space after `-f` is optional, but there is a long history of its presence
             //causing problems, so we don't use one
             //Exim docs: http://www.exim.org/exim-html-current/doc/html/spec_html/ch-the_exim_command_line.html
             //Sendmail docs: http://www.sendmail.org/~ca/email/man/sendmail.html
             //Qmail docs: http://www.qmail.org/man/man8/qmail-inject.html
             //Example problem: https://www.drupal.org/node/1057954
-            $params = sprintf('-f%s', $this->Sender);
+            // CVE-2016-10033, CVE-2016-10045: Don't pass -f if characters will be escaped.
+            if (self::isShellSafe($this->Sender)) {
+                $params = sprintf('-f%s', $this->Sender);
+            }
         }
-        if ('' != $this->Sender) {
+        if (!empty($this->Sender)and $this->validateAddress($this->Sender)) {
             $old_from = ini_get('sendmail_from');
             ini_set('sendmail_from', $this->Sender);
         }
@@ -1547,6 +1581,7 @@ class PHPMailer
         if (!$this->smtpConnect($this->SMTPOptions)) {
             throw new Exception($this->lang('smtp_connect_failed'), self::STOP_CRITICAL);
         }
+        //Sender already validated in preSend()
         if ('' == $this->Sender) {
             $smtp_from = $this->From;
         } else {
@@ -2506,6 +2541,7 @@ class PHPMailer
 
     /**
      * Add an attachment from a path on the filesystem.
+     * Never use a user-supplied path to a file!
      * Returns false if the file could not be found or read.
      *
      * @param string $path Path to the attachment.
@@ -3001,6 +3037,7 @@ class PHPMailer
      * displayed inline with the message, not just attached for download.
      * This is used in HTML messages that embed the images
      * the HTML refers to using the $cid value.
+     * Never use a user-supplied path to a file!
      *
      * @param string $path Path to the attachment.
      * @param string $cid Content ID of the attachment; Use this to reference
@@ -3379,13 +3416,16 @@ class PHPMailer
      * Create a message body from an HTML string.
      * Automatically inlines images and creates a plain-text version by converting the HTML,
      * overwriting any existing values in Body and AltBody.
-     * Converts data-uri images into embedded attachments.
-     * $basedir is used when handling relative image paths, e.g. <img src="images/a.png">
+     * Do not source $message content from user input!
+     * $basedir is prepended when handling relative URLs, e.g. <img src="/images/a.png"> and must not be empty
      * will look for an image file in $basedir/images/a.png and convert it to inline.
-     * If you don't want to apply these transformations to your HTML, just set Body and AltBody yourself.
+     * If you don't provide a $basedir, relative paths will be left untouched (and thus probably break in email)
+     * Converts data-uri images into embedded attachments.
+     * If you don't want to apply these transformations to your HTML, just set Body and AltBody directly.
+     *
      * @access public
      * @param string $message HTML message string
-     * @param string $basedir base directory for relative paths to images
+     * @param string $basedir Absolute path to a base directory to prepend to relative paths to images
      * @param boolean|callable $advanced Whether to use the internal HTML to text converter
      *    or your own custom converter @see PHPMailer::html2text()
      * @return string $message The transformed message Body
@@ -3396,6 +3436,10 @@ class PHPMailer
     {
         preg_match_all('/(src|background)=["\'](.*)["\']/Ui', $message, $images);
         if (array_key_exists(2, $images)) {
+            if (strlen($basedir) > 1 && substr($basedir, -1) != '/') {
+                // Ensure $basedir has a trailing /
+                $basedir .= '/';
+            }
             foreach ($images[2] as $imgindex => $url) {
                 // Convert data URIs into embedded images
                 //e.g. "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
@@ -3420,9 +3464,18 @@ class PHPMailer
                         $images[1][$imgindex] . '="cid:' . $cid . '"',
                         $message
                     );
-                } elseif (substr($url, 0, 4) !== 'cid:' and !preg_match('#^[a-z][a-z0-9+.-]*://#i', $url)) {
-                    // Do not change urls for absolute images (thanks to corvuscorax)
+                    continue;
+                }
+                if (
+                    // Only process relative URLs if a basedir is provided (i.e. no absolute local paths)
+                    !empty($basedir)
+                    // Ignore URLs containing parent dir traversal (..)
+                    and (strpos($url, '..') === false)
                     // Do not change urls that are already inline images
+                    and substr($url, 0, 4) !== 'cid:'
+                    // Do not change absolute URLs, including anonymous protocol
+                    and !preg_match('#^[a-z][a-z0-9+.-]*:?//#i', $url)
+                ) {
                     $filename = basename($url);
                     $directory = dirname($url);
                     if ('.' == $directory) {

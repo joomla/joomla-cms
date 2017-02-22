@@ -306,61 +306,6 @@
         ]
     },
     {
-        "name": "joomla/registry",
-        "version": "1.5.2",
-        "version_normalized": "1.5.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joomla-framework/registry.git",
-            "reference": "bd3592c6f0554a72811df52aeaea98c7815f6e5a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/registry/zipball/bd3592c6f0554a72811df52aeaea98c7815f6e5a",
-            "reference": "bd3592c6f0554a72811df52aeaea98c7815f6e5a",
-            "shasum": ""
-        },
-        "require": {
-            "joomla/compat": "~1.0",
-            "joomla/utilities": "~1.0",
-            "php": ">=5.3.10|>=7.0",
-            "symfony/polyfill-php55": "~1.0"
-        },
-        "require-dev": {
-            "joomla/test": "~1.0",
-            "phpunit/phpunit": "~4.8|~5.0",
-            "squizlabs/php_codesniffer": "1.*",
-            "symfony/yaml": "~2.0|~3.0"
-        },
-        "suggest": {
-            "symfony/yaml": "Install symfony/yaml if you require YAML support."
-        },
-        "time": "2016-05-14T20:42:05+00:00",
-        "type": "joomla-package",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Joomla\\Registry\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "description": "Joomla Registry Package",
-        "homepage": "https://github.com/joomla-framework/registry",
-        "keywords": [
-            "framework",
-            "joomla",
-            "registry"
-        ]
-    },
-    {
         "name": "joomla/filter",
         "version": "1.3.0",
         "version_normalized": "1.3.0.0",
@@ -459,63 +404,6 @@
         "keywords": [
             "framework",
             "input",
-            "joomla"
-        ]
-    },
-    {
-        "name": "joomla/application",
-        "version": "1.7.0",
-        "version_normalized": "1.7.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joomla-framework/application.git",
-            "reference": "e1a2416d3aaeae3c927920b3e1b1c33095b16e03"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/application/zipball/e1a2416d3aaeae3c927920b3e1b1c33095b16e03",
-            "reference": "e1a2416d3aaeae3c927920b3e1b1c33095b16e03",
-            "shasum": ""
-        },
-        "require": {
-            "joomla/input": "~1.2",
-            "joomla/registry": "~1.1",
-            "php": "^5.3.10|~7.0",
-            "psr/log": "~1.0"
-        },
-        "require-dev": {
-            "joomla/session": "^1.2.1",
-            "joomla/test": "~1.1",
-            "joomla/uri": "~1.1",
-            "phpunit/phpunit": "~4.8|>=5.0 <5.4",
-            "squizlabs/php_codesniffer": "1.*"
-        },
-        "suggest": {
-            "joomla/session": "To use AbstractWebApplication with session support, install joomla/session",
-            "joomla/uri": "To use AbstractWebApplication, install joomla/uri"
-        },
-        "time": "2016-12-10T17:26:50+00:00",
-        "type": "joomla-package",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Joomla\\Application\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "description": "Joomla Application Package",
-        "homepage": "https://github.com/joomla-framework/application",
-        "keywords": [
-            "application",
-            "framework",
             "joomla"
         ]
     },
@@ -676,57 +564,6 @@
         "homepage": "https://github.com/joomla-framework/crypt",
         "keywords": [
             "crypt",
-            "framework",
-            "joomla"
-        ]
-    },
-    {
-        "name": "joomla/data",
-        "version": "1.2.0",
-        "version_normalized": "1.2.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joomla-framework/data.git",
-            "reference": "57ee292ba23307a6a6059e69b7b19ca5b624ab80"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/data/zipball/57ee292ba23307a6a6059e69b7b19ca5b624ab80",
-            "reference": "57ee292ba23307a6a6059e69b7b19ca5b624ab80",
-            "shasum": ""
-        },
-        "require": {
-            "joomla/compat": "~1.0",
-            "joomla/registry": "~1.0",
-            "php": ">=5.3.10|>=7.0"
-        },
-        "require-dev": {
-            "joomla/test": "~1.0",
-            "phpunit/phpunit": "~4.8|~5.0",
-            "squizlabs/php_codesniffer": "1.*"
-        },
-        "time": "2016-04-02T22:20:43+00:00",
-        "type": "joomla-package",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Joomla\\Data\\": "src/",
-                "Joomla\\Data\\Tests\\": "Tests/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "description": "Joomla Data Package",
-        "homepage": "https://github.com/joomla-framework/data",
-        "keywords": [
-            "data",
             "framework",
             "joomla"
         ]
@@ -1285,67 +1122,6 @@
         "homepage": "http://leafo.net/lessphp/"
     },
     {
-        "name": "phpmailer/phpmailer",
-        "version": "v6.0.0rc3",
-        "version_normalized": "6.0.0.0-RC3",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "9727777f27b56b80654498713c6a17414b1b2e9e"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/9727777f27b56b80654498713c6a17414b1b2e9e",
-            "reference": "9727777f27b56b80654498713c6a17414b1b2e9e",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.5.0"
-        },
-        "require-dev": {
-            "phpdocumentor/phpdocumentor": "2.*",
-            "phpunit/phpunit": "4.*"
-        },
-        "suggest": {
-            "ext-mbstring": "Needed to send email in multibyte encoding charset",
-            "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
-            "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
-            "psr/log": "For optional PSR-3 debug logging",
-            "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
-            "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
-        },
-        "time": "2016-12-09T12:05:38+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "PHPMailer\\PHPMailer\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-2.1"
-        ],
-        "authors": [
-            {
-                "name": "Jim Jagielski",
-                "email": "jimjag@gmail.com"
-            },
-            {
-                "name": "Marcus Bointon",
-                "email": "phpmailer@synchromedia.co.uk"
-            },
-            {
-                "name": "Andy Prevost",
-                "email": "codeworxtech@users.sourceforge.net"
-            },
-            {
-                "name": "Brent R. Matzelle"
-            }
-        ],
-        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
-    },
-    {
         "name": "symfony/polyfill-util",
         "version": "v1.3.0",
         "version_normalized": "1.3.0.0",
@@ -1458,6 +1234,67 @@
         ]
     },
     {
+        "name": "phpmailer/phpmailer",
+        "version": "v6.0.0rc4",
+        "version_normalized": "6.0.0.0-RC4",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPMailer/PHPMailer.git",
+            "reference": "2963f2b2945610cc0c1a6b8a1714602cdd7299a2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/2963f2b2945610cc0c1a6b8a1714602cdd7299a2",
+            "reference": "2963f2b2945610cc0c1a6b8a1714602cdd7299a2",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "phpdocumentor/phpdocumentor": "2.*",
+            "phpunit/phpunit": "4.*"
+        },
+        "suggest": {
+            "ext-mbstring": "Needed to send email in multibyte encoding charset",
+            "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
+            "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
+            "psr/log": "For optional PSR-3 debug logging",
+            "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
+            "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
+        },
+        "time": "2017-01-09T10:18:14+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "PHPMailer\\PHPMailer\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Jim Jagielski",
+                "email": "jimjag@gmail.com"
+            },
+            {
+                "name": "Marcus Bointon",
+                "email": "phpmailer@synchromedia.co.uk"
+            },
+            {
+                "name": "Andy Prevost",
+                "email": "codeworxtech@users.sourceforge.net"
+            },
+            {
+                "name": "Brent R. Matzelle"
+            }
+        ],
+        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
         "name": "symfony/yaml",
         "version": "v2.8.17",
         "version_normalized": "2.8.17.0",
@@ -1507,5 +1344,171 @@
         ],
         "description": "Symfony Yaml Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "joomla/registry",
+        "version": "1.5.2",
+        "version_normalized": "1.5.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/registry.git",
+            "reference": "bd3592c6f0554a72811df52aeaea98c7815f6e5a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/registry/zipball/bd3592c6f0554a72811df52aeaea98c7815f6e5a",
+            "reference": "bd3592c6f0554a72811df52aeaea98c7815f6e5a",
+            "shasum": ""
+        },
+        "require": {
+            "joomla/compat": "~1.0",
+            "joomla/utilities": "~1.0",
+            "php": ">=5.3.10|>=7.0",
+            "symfony/polyfill-php55": "~1.0"
+        },
+        "require-dev": {
+            "joomla/test": "~1.0",
+            "phpunit/phpunit": "~4.8|~5.0",
+            "squizlabs/php_codesniffer": "1.*",
+            "symfony/yaml": "~2.0|~3.0"
+        },
+        "suggest": {
+            "symfony/yaml": "Install symfony/yaml if you require YAML support."
+        },
+        "time": "2016-05-14T20:42:05+00:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Registry\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Registry Package",
+        "homepage": "https://github.com/joomla-framework/registry",
+        "keywords": [
+            "framework",
+            "joomla",
+            "registry"
+        ]
+    },
+    {
+        "name": "joomla/data",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/data.git",
+            "reference": "57ee292ba23307a6a6059e69b7b19ca5b624ab80"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/data/zipball/57ee292ba23307a6a6059e69b7b19ca5b624ab80",
+            "reference": "57ee292ba23307a6a6059e69b7b19ca5b624ab80",
+            "shasum": ""
+        },
+        "require": {
+            "joomla/compat": "~1.0",
+            "joomla/registry": "~1.0",
+            "php": ">=5.3.10|>=7.0"
+        },
+        "require-dev": {
+            "joomla/test": "~1.0",
+            "phpunit/phpunit": "~4.8|~5.0",
+            "squizlabs/php_codesniffer": "1.*"
+        },
+        "time": "2016-04-02T22:20:43+00:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Data\\": "src/",
+                "Joomla\\Data\\Tests\\": "Tests/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Data Package",
+        "homepage": "https://github.com/joomla-framework/data",
+        "keywords": [
+            "data",
+            "framework",
+            "joomla"
+        ]
+    },
+    {
+        "name": "joomla/application",
+        "version": "dev-2.0-dev",
+        "version_normalized": "dev-2.0-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/application.git",
+            "reference": "95d495386b6ed041b75f0dbc2f090c4446103508"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/application/zipball/95d495386b6ed041b75f0dbc2f090c4446103508",
+            "reference": "95d495386b6ed041b75f0dbc2f090c4446103508",
+            "shasum": ""
+        },
+        "require": {
+            "joomla/input": "~1.2|~2.0",
+            "joomla/registry": "^1.4.5|~2.0",
+            "php": "^5.5.9|~7.0",
+            "psr/http-message": "~1.0",
+            "psr/log": "~1.0",
+            "zendframework/zend-diactoros": "~1.3"
+        },
+        "require-dev": {
+            "joomla/event": "~2.0",
+            "joomla/session": "~2.0",
+            "joomla/test": "~1.1",
+            "joomla/uri": "~1.1",
+            "phpunit/phpunit": "~4.8|>=5.0 <5.4",
+            "squizlabs/php_codesniffer": "1.*"
+        },
+        "suggest": {
+            "joomla/session": "To use AbstractWebApplication with session support, install joomla/session",
+            "joomla/uri": "To use AbstractWebApplication, install joomla/uri"
+        },
+        "time": "2017-02-19T21:40:05+00:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-2.0-dev": "2.0-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Application\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Application Package",
+        "homepage": "https://github.com/joomla-framework/application",
+        "keywords": [
+            "application",
+            "framework",
+            "joomla"
+        ]
     }
 ]

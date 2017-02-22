@@ -30,7 +30,7 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "joomla/application": "~1.5",
+        "joomla/application": "~2.0@dev",
         "joomla/crypt": "~2.0@dev",
         "joomla/data": "~1.2",
         "joomla/di": "~1.2",
