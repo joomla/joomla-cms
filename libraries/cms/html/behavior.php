@@ -134,7 +134,7 @@ abstract class JHtmlBehavior
 	 * Additional handlers can be added to the handler for username, password,
 	 * numeric and email. To use these add class="validate-email" and so on.
 	 *
-	 * @param   string   $class   Class for invalid field
+	 * @param   string  $class  Class for invalid field
 	 *
 	 * @return  void
 	 *
@@ -167,7 +167,7 @@ abstract class JHtmlBehavior
 	 * Additional handlers can be added to the handler for username, password,
 	 * numeric and email. To use these add class="validate-email" and so on.
 	 *
-	 * @param   string   $class   Class for invalid field
+	 * @param   string  $class  Class for invalid field
 
 	 * @return  void
 	 *
@@ -196,7 +196,6 @@ abstract class JHtmlBehavior
 		// Attach formvalidation to document
 		JFactory::getDocument()->addScriptDeclaration(
 			"jQuery(function() {
-						document.formvalidator = null;
 						document.formvalidator = new JFormValidator('" . $class . "');
 					});"
 		);
