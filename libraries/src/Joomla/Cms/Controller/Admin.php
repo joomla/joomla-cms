@@ -114,7 +114,7 @@ class Admin extends Controller
 		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
-		$cid = \JFactory::getApplication()->input->get('cid', array(), 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -188,7 +188,7 @@ class Admin extends Controller
 		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
-		$cid = \JFactory::getApplication()->input->get('cid', array(), 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 		$data = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
 		$task = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
@@ -264,7 +264,7 @@ class Admin extends Controller
 		// Check for request forgeries.
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$ids = \JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$ids = $this->input->post->get('cid', array(), 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : 1;
 
 		$model = $this->getModel();
@@ -344,7 +344,7 @@ class Admin extends Controller
 		// Check for request forgeries.
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$ids = \JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$ids = $this->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel();
 		$return = $model->checkin($ids);
