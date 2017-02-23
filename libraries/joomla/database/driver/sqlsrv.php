@@ -148,6 +148,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		// Set charactersets.
 		$this->utf = $this->setUtf();
+
+		// Set QUOTED_IDENTIFIER always ON
+		sqlsrv_query($this->connection, 'SET QUOTED_IDENTIFIER ON');
 	}
 
 	/**
@@ -710,93 +713,28 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function replacePrefix($query, $prefix = '#__')
 	{
-		$startPos = 0;
-		$literal = '';
-
 		$query = trim($query);
-		$n = strlen($query);
 
-		while ($startPos < $n)
+		if (strpos($query, "'"))
 		{
-			$ip = strpos($query, $prefix, $startPos);
+			$parts = explode("'", $query);
 
-			if ($ip === false)
+			for ($nIndex = 0, $size = count($parts); $nIndex < $size; $nIndex = $nIndex + 2)
 			{
-				break;
-			}
-
-			$j = strpos($query, "N'", $startPos);
-			$k = strpos($query, '"', $startPos);
-
-			if (($k !== false) && (($k < $j) || ($j === false)))
-			{
-				$quoteChar = '"';
-				$j = $k;
-			}
-			else
-			{
-				$quoteChar = "'";
-			}
-
-			if ($j === false)
-			{
-				$j = $n;
-			}
-
-			$literal .= str_replace($prefix, $this->tablePrefix, substr($query, $startPos, $j - $startPos));
-			$startPos = $j;
-
-			$j = $startPos + 1;
-
-			if ($j >= $n)
-			{
-				break;
-			}
-
-			// Quote comes first, find end of quote
-			while (true)
-			{
-				$k = strpos($query, $quoteChar, $j);
-				$escaped = false;
-
-				if ($k === false)
+				if (strpos($parts[$nIndex], $prefix) !== false)
 				{
-					break;
+					$parts[$nIndex] = str_replace($prefix, $this->tablePrefix, $parts[$nIndex]);
 				}
-
-				$l = $k - 1;
-
-				while ($l >= 0 && $query{$l} == '\\')
-				{
-					$l--;
-					$escaped = !$escaped;
-				}
-
-				if ($escaped)
-				{
-					$j = $k + 1;
-					continue;
-				}
-
-				break;
 			}
 
-			if ($k === false)
-			{
-				// Error in the query - no end quote; ignore it
-				break;
-			}
-
-			$literal .= substr($query, $startPos, $k - $startPos + 1);
-			$startPos = $k + 1;
+			$query = implode("'", $parts);
+		}
+		else
+		{
+			$query = str_replace($prefix, $this->tablePrefix, $query);
 		}
 
-		if ($startPos < $n)
-		{
-			$literal .= substr($query, $startPos, $n - $startPos);
-		}
-
-		return $literal;
+		return $query;
 	}
 
 	/**
