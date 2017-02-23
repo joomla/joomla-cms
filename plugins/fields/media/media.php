@@ -44,15 +44,17 @@ class PlgFieldsMedia extends FieldsPlugin
 
 		if ($field->fieldparams->get('home'))
 		{
-			$userName = JFactory::getUser()->username;
+			$userId = JFactory::getUser()->id;
 			$root     = $field->fieldparams->get('directory');
 
-			if (!$root)
+			if (empty($root))
 			{
-				$root = 'images';
+				$directory = JPATH_ROOT . '/images/' . $userId;
 			}
-
-			$directory = JPATH_ROOT . '/images/' . $root . '/' . $userName;
+			else
+			{
+				$directory = JPATH_ROOT . '/images/' . $root . '/' . $userId;
+			}
 
 			if (!JFolder::exists($directory))
 			{
