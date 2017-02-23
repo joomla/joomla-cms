@@ -282,11 +282,11 @@ class JFormFieldSQL extends JFormFieldList
 		{
 			$items = $db->loadObjectlist();
 		}
-		catch (Exception $e)
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			try
 			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), JLog::WARNING, 'jerror');
+				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), JLog::WARNING, 'database');
 			}
 			catch (RuntimeException $exception)
 			{
