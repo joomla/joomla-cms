@@ -81,7 +81,7 @@ class JFormFieldModalAssociation extends JFormField
  				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
  				. '</button>';
 
-		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '" />';
+		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '">';
 
 		// Select custom association modal
 		$html[] = JHtml::_(
@@ -93,8 +93,8 @@ class JFormFieldModalAssociation extends JFormField
 				'url'         => $urlSelect,
 				'height'      => '400px',
 				'width'       => '800px',
-				'bodyHeight'  => '70',
-				'modalWidth'  => '80',
+				'bodyHeight'  => 70,
+				'modalWidth'  => 80,
 				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
 						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
 			)

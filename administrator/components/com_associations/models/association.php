@@ -24,7 +24,7 @@ class AssociationsModelAssociation extends JModelList
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{

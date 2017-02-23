@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Error\AbstractRenderer;
+
 /**
  * Displays the custom error page when an uncaught exception occurs.
  *
@@ -66,50 +68,34 @@ class JErrorPage
 					$app->redirect('index.php');
 				}
 
-				$attributes = array(
-					'charset'   => 'utf-8',
-					'lineend'   => 'unix',
-					'tab'       => "\t",
-					'language'  => 'en-GB',
-					'direction' => 'ltr',
-				);
-
-				// If there is a JLanguage instance in JFactory then let's pull the language and direction from its metadata
-				if (JFactory::$language)
-				{
-					$attributes['language']  = JFactory::getLanguage()->getTag();
-					$attributes['direction'] = JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr';
-				}
-
-				$document = JDocument::getInstance('error', $attributes);
-
-				if (!$document)
+				/*
+				 * Try and determine the format to render the error page in
+				 *
+				 * First we check if a JDocument instance was registered to JFactory and use the type from that if available
+				 * If a type doesn't exist for that format, we try to use the format from the application's JInput object
+				 * Lastly, if all else fails, we default onto the HTML format to at least render something
+				 */
+				if (JFactory::$document)
 				{
 					// We're probably in an CLI environment
-					jexit($error->getMessage());
+					$format = JFactory::getDocument()->getType();
 				}
-
-				// Get the current template from the application
-				$template = $app->getTemplate();
-
-				// Push the error object into the document
-				$document->setError($error);
-
-				if (ob_get_contents())
+				else
 				{
-					ob_end_clean();
+					$format = $app->input->getString('format', 'html');
 				}
 
-				$document->setTitle(JText::_('ERROR') . ': ' . $error->getCode());
+				try
+				{
+					$renderer = AbstractRenderer::getRenderer($format);
+				}
+				catch (InvalidArgumentException $e)
+				{
+					// Default to the HTML renderer
+					$renderer = AbstractRenderer::getRenderer('html');
+				}
 
-				$data = $document->render(
-					false,
-					array(
-						'template'  => $template,
-						'directory' => JPATH_THEMES,
-						'debug'     => JDEBUG,
-					)
-				);
+				$data = $renderer->render($error);
 
 				// Do not allow cache
 				$app->allowCache(false);

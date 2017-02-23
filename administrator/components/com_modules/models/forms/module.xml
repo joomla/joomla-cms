@@ -22,7 +22,6 @@
 			label="COM_MODULES_FIELD_NOTE_LABEL"
 			maxlength="255"
 			size="40"
-			class="span12"
 		/>
 
 		<field name="module" type="hidden"
@@ -33,18 +32,18 @@
 		/>
 
 		<field name="showtitle" type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			description="COM_MODULES_FIELD_SHOWTITLE_DESC"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
 			size="1"
 		>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="published" type="list"
-			class="chzn-color-state"
+		       class="custom-select-color-state"
 			default="1"
 			description="COM_MODULES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"

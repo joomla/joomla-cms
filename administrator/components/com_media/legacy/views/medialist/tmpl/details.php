@@ -94,7 +94,7 @@ $doc->addScriptDeclaration(
 	</div>
 
 	<div class="manager">
-		<table class="table table-striped table-condensed">
+		<table class="table table-striped table-sm">
 		<thead>
 			<tr>
 				<?php if ($this->canDelete) : ?>
@@ -126,9 +126,9 @@ $doc->addScriptDeclaration(
 		</table>
 	</div>
 
-	<input type="hidden" name="task" value="list" />
-	<input type="hidden" name="username" value="" />
-	<input type="hidden" name="password" value="" />
-	<input type="hidden" name="boxchecked" value="" />
+	<input type="hidden" name="task" value="list">
+	<input type="hidden" name="username" value="">
+	<input type="hidden" name="password" value="">
+	<input type="hidden" name="boxchecked" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

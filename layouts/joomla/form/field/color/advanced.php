@@ -56,7 +56,7 @@ else
 }
 
 $inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $format;
-$class        = ' class="' . trim('minicolors ' . $class) . ($validate == 'color' ? '' : $inputclass) . '"';
+$class        = ' class="form-control ' . trim('minicolors ' . $class) . ($validate == 'color' ? 'form-control ' : $inputclass) . '"';
 $control      = $control ? ' data-control="' . $control . '"' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
@@ -66,17 +66,29 @@ $hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : ' placeholder="
 $autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
-$direction    = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
+$direction = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
 
-// Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'jui/jquery.minicolors.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'jui/jquery.minicolors.css', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'system/color-field-adv-init.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'vendor/minicolors/jquery.minicolors.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'vendor/minicolors/jquery.minicolors.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/fields/color-field-adv-init.min.js', array('version' => 'auto', 'relative' => true));
 ?>
-<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
-echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $hint; ?><?php echo $class; ?><?php echo
-$position; ?><?php echo $control; ?><?php echo $readonly; ?><?php echo $disabled; ?><?php echo
-$required; ?><?php echo $onchange; ?><?php echo $autocomplete; ?><?php echo $autofocus; ?><?php echo
-$format; ?><?php echo $keywords; ?><?php echo $direction; ?><?php echo $validate; ?>/>
+<input
+	type="text"
+	name="<?php echo $name; ?>"
+	id="<?php echo $id; ?>"
+	value="<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"
+	<?php echo $hint; ?>
+	<?php echo $class; ?>
+	<?php echo $position; ?>
+	<?php echo $control; ?>
+	<?php echo $readonly; ?>
+	<?php echo $disabled; ?>
+	<?php echo $required; ?>
+	<?php echo $onchange; ?>
+	<?php echo $autocomplete; ?>
+	<?php echo $autofocus; ?>
+	<?php echo $format; ?>
+	<?php echo $keywords; ?>
+	<?php echo $direction; ?>
+	<?php echo $validate; ?>>

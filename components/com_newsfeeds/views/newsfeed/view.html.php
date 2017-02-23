@@ -19,22 +19,61 @@ use Joomla\Registry\Registry;
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {
 	/**
+	 * The model state
+	 *
 	 * @var     object
 	 * @since   1.6
 	 */
 	protected $state;
 
 	/**
+	 * The newsfeed item
+	 *
 	 * @var     object
 	 * @since   1.6
 	 */
 	protected $item;
 
 	/**
+	 * UNUSED?
+	 *
 	 * @var     boolean
 	 * @since   1.6
 	 */
 	protected $print;
+
+	/**
+	 * The current user instance
+	 *
+	 * @var    JUser|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $user = null;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params;
+
+	/**
+	 * Clone of the $item property
+	 *
+	 * @var         object
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  4.0
+	 */
+	protected $newsfeed;
 
 	/**
 	 * Execute and display a template script.
@@ -73,9 +112,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// @TODO: Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseWarning(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Add router helpers.
@@ -164,7 +201,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		{
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
-		catch (RunTimeException $e)
+		catch (RuntimeException $e)
 		{
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
@@ -183,7 +220,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->params = $params;
+    $this->params = $params;
 		$this->newsfeed = $newsfeed;
 		$this->state = $state;
 		$this->item = $item;

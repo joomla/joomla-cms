@@ -5,28 +5,53 @@
  */
 
 /**
- * gets the help site with ajax
+ * Rebuilds the list with the available help sites
  */
-jQuery(document).ready(function() {
-	jQuery('#helpsite-refresh').click(function()
-	{
-		// Uses global variable helpsite_base for bast uri
-		var select_id   = jQuery(this).attr('rel');
-		var showDefault = jQuery(this).attr('showDefault');
+"use strict";
 
-		jQuery.getJSON('index.php?option=com_users&task=profile.gethelpsites&format=json', function(data){
-			// The response contains the options to use in help site select field
-			var items = [];
+var resetHelpSiteList = function() {
 
-			// Build options
-			jQuery.each(data, function(key, val) {
-				if (val.value !== '' || showDefault === 'true') {
-					items.push('<option value="' + val.value + '">' + val.text + '</option>');
-				}
-			});
+	// Uses global variable helpsite_base for bast uri
+	var select_id   = this.getAttribute('rel');
+	var showDefault = this.getAttribute('showDefault');
 
-			// Replace current select options. The trigger is needed for Chosen select box enhancer
-			jQuery("#" + select_id).empty().append(items).trigger("liszt:updated");
-		});
-	});
+	Joomla.request(
+		{
+			url:    'index.php?option=com_users&task=profile.gethelpsites&format=json',
+			method: 'GET',
+			data:    '',
+			perform: true,
+			headers: {'Content-Type': 'application/json;charset=utf-8'},
+			onSuccess: function(response, xhr)
+			{
+				response = JSON.parse(response);
+
+				// The response contains the options to use in help site select field
+				var node;
+
+				document.getElementById(select_id).innerHTML = '';
+
+				// Build options
+				response.forEach(function(item) {
+					if (item.value !== '' || showDefault === 'true') {
+						node = document.createElement('option');
+						node.value = item.value;
+						node.innerHTML = item.text;
+						document.getElementById(select_id).appendChild(node);
+					}
+				});
+			},
+			onError: function(xhr)
+			{
+				// Remove js messages, if they exist.
+				Joomla.removeMessages();
+
+				Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+			}
+		}
+	);
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+	document.getElementById('helpsite-refresh').addEventListener('click', resetHelpSiteList);
 });

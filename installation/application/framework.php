@@ -33,13 +33,9 @@ if (file_exists(JPATH_CONFIGURATION . '/configuration.php')
  */
 
 // Import the Joomla Platform.
-require_once JPATH_LIBRARIES . '/import.legacy.php';
-
-// Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES . '/cms.php';
+require_once JPATH_LIBRARIES . '/bootstrap.php';
 
 // Import filesystem and utilities classes since they aren't autoloaded
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.path');
-jimport('joomla.utilities.arrayhelper');

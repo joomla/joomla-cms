@@ -51,7 +51,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 					<label class="filter-search-lbl element-invisible" for="filter-search">
 						<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL') . '&#160;'; ?>
 					</label>
-					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>" />
+					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>">
 				<?php else : ?>
 					<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
 						<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
@@ -69,10 +69,10 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 			</div>
 		<?php endif; ?>
 
-		<input type="hidden" name="filter_order" value="" />
-		<input type="hidden" name="filter_order_Dir" value="" />
-		<input type="hidden" name="limitstart" value="" />
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="filter_order" value="">
+		<input type="hidden" name="filter_order_Dir" value="">
+		<input type="hidden" name="limitstart" value="">
+		<input type="hidden" name="task" value="">
 	</fieldset>
 
 	<div class="control-group hide pull-right">
@@ -88,9 +88,28 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
 	<?php endif; ?>
 <?php else : ?>
-	<table class="category table table-striped table-bordered table-hover<?php echo $tableClass; ?>">
-		<caption class="hide"><?php echo JText::sprintf('COM_CONTENT_CATEGORY_LIST_TABLE_CAPTION', $this->category->title); ?></caption>
-		<thead>
+
+	<table class="category table table-striped table-bordered table-hover">
+		<?php
+		$headerTitle    = '';
+		$headerDate     = '';
+		$headerAuthor   = '';
+		$headerHits     = '';
+		$headerVotes    = '';
+		$headerRatings  = '';
+		$headerEdit     = '';
+		?>
+		<?php if ($this->params->get('show_headings')) : ?>
+			<?php
+			$headerTitle    = 'headers="categorylist_header_title"';
+			$headerDate     = 'headers="categorylist_header_date"';
+			$headerAuthor   = 'headers="categorylist_header_author"';
+			$headerHits     = 'headers="categorylist_header_hits"';
+			$headerVotes    = 'headers="categorylist_header_votes"';
+			$headerRatings  = 'headers="categorylist_header_ratings"';
+			$headerEdit     = 'headers="categorylist_header_edit"';
+			?>
+			<thead>
 			<tr>
 				<th scope="col" id="categorylist_header_title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
@@ -130,7 +149,8 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 					<th scope="col" id="categorylist_header_edit"><?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?></th>
 				<?php endif; ?>
 			</tr>
-		</thead>
+			</thead>
+		<?php endif; ?>
 		<tbody>
 		<?php foreach ($this->items as $i => $article) : ?>
 			<?php if ($this->items[$i]->state == 0) : ?>

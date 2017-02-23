@@ -225,55 +225,10 @@ abstract class JHtmlBootstrap
 			$debug = JDEBUG;
 		}
 
-		JHtml::_('script', 'jui/bootstrap.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		JHtml::_('script', 'vendor/tether/tether.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		JHtml::_('script', 'vendor/bootstrap/bootstrap.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+
 		static::$loaded[__METHOD__] = true;
-
-		return;
-	}
-
-	/**
-	 * Add javascript support for Bootstrap modals
-	 *
-	 * @param   string  $selector  The ID selector for the modal.
-	 * @param   array   $params    An array of options for the modal.
-	 *                             Options for the modal can be:
-	 *                             - backdrop  boolean  Includes a modal-backdrop element.
-	 *                             - keyboard  boolean  Closes the modal when escape key is pressed.
-	 *                             - show      boolean  Shows the modal when initialized.
-	 *                             - remote    string   An optional remote URL to load
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0  This method was used by the old renderModal() implementation.
-	 *                   Since the new implementation it is unneeded and the broken JS it was injecting could create issues
-	 *                   As a case, please see: https://github.com/joomla/joomla-cms/pull/6918
-	 */
-	public static function modal($selector = 'modal', $params = array())
-	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded[__METHOD__][$sig]))
-		{
-			// Include Bootstrap framework
-			JHtml::_('bootstrap.framework');
-
-			// Setup options object
-			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
-			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
-			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : false;
-			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
-
-			$options = JHtml::getJSObject($opt);
-
-			// Attach the modal to document
-			JFactory::getDocument()->addScriptDeclaration(
-				'jQuery(function($){ $(' . json_encode('#' . $selector) . ').modal(' . $options . '); });'
-			);
-
-			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
-		}
 
 		return;
 	}
@@ -598,10 +553,10 @@ abstract class JHtmlBootstrap
 			// Setup options object
 			$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : false;
 			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : ($opt['parent'] === false || isset($params['active']) ? false : true);
-			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
-			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
-			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
-			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+			$onShow        = isset($params['onShow']) ? (string) $params['onShow'] : null;
+			$onShown       = isset($params['onShown']) ? (string) $params['onShown'] : null;
+			$onHide        = isset($params['onHide']) ? (string) $params['onHide'] : null;
+			$onHidden      = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
@@ -640,7 +595,7 @@ abstract class JHtmlBootstrap
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = $opt;
 
-			return '<div id="' . $selector . '" class="accordion">';
+			return '<div id="' . $selector . '" class="accordion" role="tablist">';
 		}
 	}
 
@@ -670,20 +625,18 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
-		$in = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? ' in' : '';
+		$in        = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? ' in' : '';
 		$collapsed = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? '' : ' collapsed';
-		$parent = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
+		$parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
-		$class = (!empty($class)) ? ' ' . $class : '';
+		$class     = (!empty($class)) ? ' ' . $class : '';
 
-		$html = '<div class="accordion-group' . $class . '">'
-			. '<div class="accordion-heading">'
-			. '<strong><a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="accordion-toggle' . $collapsed . '">'
+		$html = '<div class="card' . $class . '">'
+			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
 			. $text
-			. '</a></strong>'
-			. '</div>'
-			. '<div class="accordion-body collapse' . $in . '" id="' . $id . '">'
-			. '<div class="accordion-inner">';
+			. '</a>'
+			. '<div class="collapse' . $in . '" id="' . $id . '" role="tabpanel">'
+			. '<div class="card-block">';
 
 		return $html;
 	}
@@ -787,91 +740,6 @@ abstract class JHtmlBootstrap
 	}
 
 	/**
-	 * Creates a tab pane
-	 *
-	 * @param   string  $selector  The pane identifier.
-	 * @param   array   $params    The parameters for the pane
-	 *
-	 * @return  string
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0	Use JHtml::_('bootstrap.startTabSet') instead.
-	 */
-	public static function startPane($selector = 'myTab', $params = array())
-	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded['JHtmlBootstrap::startTabSet'][$sig]))
-		{
-			// Include Bootstrap framework
-			JHtml::_('bootstrap.framework');
-
-			// Setup options object
-			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
-
-			// Attach tab to document
-			JFactory::getDocument()->addScriptDeclaration(
-				'jQuery(function($){
-					$(' . json_encode('#' . $selector . ' a') . ').click(function (e) {
-						e.preventDefault();
-						$(this).tab("show");
-					});
-				});'
-			);
-
-			// Set static array
-			static::$loaded['JHtmlBootstrap::startTabSet'][$sig] = true;
-			static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] = $opt['active'];
-		}
-
-		return '<div class="tab-content" id="' . $selector . 'Content">';
-	}
-
-	/**
-	 * Close the current tab pane
-	 *
-	 * @return  string  HTML to close the pane
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0	Use JHtml::_('bootstrap.endTabSet') instead.
-	 */
-	public static function endPane()
-	{
-		return '</div>';
-	}
-
-	/**
-	 * Begins the display of a new tab content panel.
-	 *
-	 * @param   string  $selector  Identifier of the panel.
-	 * @param   string  $id        The ID of the div element
-	 *
-	 * @return  string  HTML to start a new panel
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0 Use JHtml::_('bootstrap.addTab') instead.
-	 */
-	public static function addPanel($selector, $id)
-	{
-		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
-
-		return '<div id="' . $id . '" class="tab-pane' . $active . '">';
-	}
-
-	/**
-	 * Close the current tab content panel
-	 *
-	 * @return  string  HTML to close the pane
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0 Use JHtml::_('bootstrap.endTab') instead.
-	 */
-	public static function endPanel()
-	{
-		return '</div>';
-	}
-
-	/**
 	 * Loads CSS files needed by Bootstrap
 	 *
 	 * @param   boolean  $includeMainCss  If true, main bootstrap.css files are loaded
@@ -887,15 +755,17 @@ abstract class JHtmlBootstrap
 		// Load Bootstrap main CSS
 		if ($includeMainCss)
 		{
-			JHtml::_('stylesheet', 'jui/bootstrap.min.css', array('version' => 'auto', 'relative' => true), $attribs);
-			JHtml::_('stylesheet', 'jui/bootstrap-responsive.min.css', array('version' => 'auto', 'relative' => true), $attribs);
-			JHtml::_('stylesheet', 'jui/bootstrap-extended.css', array('version' => 'auto', 'relative' => true), $attribs);
+			JHtml::_('stylesheet', 'vendor/bootstrap/bootstrap.min.css', array('version' => 'auto', 'relative' => true), $attribs);
 		}
 
-		// Load Bootstrap RTL CSS
-		if ($direction === 'rtl')
-		{
-			JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
-		}
+		/**
+		 * BOOTSTRAP RTL - WILL SORT OUT LATER DOWN THE LINE
+		 * Load Bootstrap RTL CSS
+		 * if ($direction === 'rtl')
+		 * {
+		 *  JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
+		 * }
+		 */
+
 	}
 }

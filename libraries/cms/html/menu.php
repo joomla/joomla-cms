@@ -148,7 +148,10 @@ abstract class JHtmlMenu
 				}
 
 				// Start group:
-				static::$items[$key][] = JHtml::_('select.optgroup', $menu->text);
+				$optGroup = new stdClass;
+				$optGroup->value = '<OPTGROUP>';
+				$optGroup->text = $menu->text;
+				static::$items[$key][] = $optGroup;
 
 				// Special "Add to this Menu" option:
 				static::$items[$key][] = JHtml::_('select.option', $menu->value . '.1', JText::_('JLIB_HTML_ADD_TO_THIS_MENU'));
@@ -163,7 +166,11 @@ abstract class JHtmlMenu
 				}
 
 				// Finish group:
-				static::$items[$key][] = JHtml::_('select.optgroup', $menu->text);
+				$closeOptGroup = new stdClass;
+				$closeOptGroup->value = '</OPTGROUP>';
+				$closeOptGroup->text = $menu->text;
+
+				static::$items[$key][] = $closeOptGroup;
 			}
 		}
 
@@ -229,7 +236,7 @@ abstract class JHtmlMenu
 		}
 		else
 		{
-			$ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '" />' . JText::_('JGLOBAL_NEWITEMSLAST_DESC');
+			$ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '">' . JText::_('JGLOBAL_NEWITEMSLAST_DESC');
 		}
 
 		return $ordering;

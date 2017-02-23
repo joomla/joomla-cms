@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0));
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
@@ -144,8 +144,8 @@ JFactory::getDocument()->addScriptDeclaration("
 
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="return" value="<?php echo $this->return_page; ?>" />
+			<input type="hidden" name="task" value="">
+			<input type="hidden" name="return" value="<?php echo $this->return_page; ?>">
 			<?php echo JHtml::_('form.token'); ?>
 		</fieldset>
 		<div class="btn-toolbar">

@@ -1,0 +1,114 @@
+// Variables
+@import "variables";
+
+// Flying Focus
+@import "../../../../media/vendor/flying-focus-a11y/scss/flying-focus";
+
+// Bootstrap
+@import "../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../media/vendor/bootstrap/scss/bootstrap";
+
+// FontAwesome
+@import "../../../../media/vendor/font-awesome/scss/font-awesome";
+
+// B/C for Icomoon
+@import "../../../../media/system/scss/icomoon";
+
+// Alert
+@import "../../../../media/system/scss/jalert";
+
+// Blocks
+@import "blocks/global"; // Leave this first
+@import "blocks/alerts";
+@import "blocks/form";
+@import "blocks/header";
+@import "blocks/icons";
+@import "blocks/iframe";
+@import "blocks/login";
+@import "blocks/modals";
+@import "blocks/quickicons";
+@import "blocks/searchtools";
+@import "blocks/sidebar";
+@import "blocks/sidebar-nav";
+@import "blocks/status";
+@import "blocks/switcher";
+@import "blocks/toolbar";
+@import "blocks/treeselect";
+@import "blocks/utilities";
+
+// Vendor overrides
+@import "vendor/awesomplete";
+@import "vendor/bootstrap/buttons";
+@import "vendor/bootstrap/card";
+@import "vendor/bootstrap/custom-forms";
+@import "vendor/bootstrap/collapse";
+@import "vendor/bootstrap/dropdown";
+@import "vendor/bootstrap/lists";
+@import "vendor/bootstrap/modal";
+@import "vendor/bootstrap/nav";
+@import "vendor/bootstrap/pagination";
+@import "vendor/bootstrap/table";
+@import "vendor/chosen";
+@import "vendor/dragula";
+@import "vendor/minicolors";
+@import "vendor/tinymce";
+
+// Page specifics
+@import "pages/com_config";
+@import "pages/com_cpanel";
+@import "pages/com_modules";
+
+.container-main,
+.system-debug {
+  padding-bottom: 50px;
+}
+
+.container-main {
+  position: relative;
+  min-height: calc(100vh - 50px);
+  padding-top: 15px;
+  background-color: $atum-container-main-bg;
+}
+
+.list-view-main {
+
+  .container-main {
+    background-color: $atum-container-main-bg;
+  }
+
+}
+
+.content {
+  margin-top: 42px;
+  border-radius: $border-radius;
+
+  > .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+}
+
+.j-main-container {
+  background-color: $white-offset;
+  border: 1px solid rgba(0,0,0,.17);
+  border-radius: $border-radius;
+  box-shadow: 0 0 3px rgba(0,0,0,.075);
+}
+
+
+// Chosen (TEMPORARY)
+.chzn-container-single {
+  width: auto !important;
+}
+
+// Bootstrap (TEMPORARY)
+// This fixes odd stacking when 2 buttons are used in an input group
+.input-group-btn {
+  flex-direction: row;
+}
+// This adds the correct cursor on hover for buttons
+.btn:hover,
+.btn:focus {
+  cursor: pointer;
+}

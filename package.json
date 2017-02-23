@@ -1,0 +1,24 @@
+{
+  "name": "joomla",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joomla/40-backend-template.git"
+  },
+  "dependencies": {
+    "autoprefixer": "^6.7.2",
+    "grunt": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-concat": "latest",
+    "grunt-contrib-copy": "latest",
+    "grunt-contrib-cssmin": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-fetch-pages": "^2.0.0",
+    "grunt-postcss": "0.8.0",
+    "grunt-sass": "^2.0.0",
+    "grunt-scss-lint": "^0.5.0",
+    "grunt-shell": "latest"
+  },
+  "license": "GPL-2.0+"
+}

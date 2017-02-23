@@ -13,7 +13,6 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.combobox');
-JHtml::_('formbehavior.chosen', 'select');
 
 $hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
 
@@ -79,7 +78,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE') ?>
 				<span class="label label-default"><?php echo $this->item['module'] ?></span>
 			</div>
-			<hr />
+			<hr>
 
 			<div class="row-fluid">
 				<div class="span12">
@@ -109,7 +108,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							</div>
 						</div>
 
-						<hr />
+						<hr>
 
 						<?php
 						if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
@@ -174,7 +173,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							</div>
 						</div>
 
-						<hr />
+						<hr>
 
 						<div id="options">
 							<?php echo $this->loadTemplate('options'); ?>
@@ -188,9 +187,9 @@ JFactory::getDocument()->addScriptDeclaration("
 					</fieldset>
 				</div>
 
-				<input type="hidden" name="id" value="<?php echo $this->item['id']; ?>" />
-				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64'); ?>" />
-				<input type="hidden" name="task" value="" />
+				<input type="hidden" name="id" value="<?php echo $this->item['id']; ?>">
+				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64'); ?>">
+				<input type="hidden" name="task" value="">
 				<?php echo JHtml::_('form.token'); ?>
 
 			</div>

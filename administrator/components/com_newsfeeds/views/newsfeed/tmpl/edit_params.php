@@ -16,11 +16,15 @@ foreach ($fieldSets as $name => $fieldSet) :
 	<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 		<p class="alert alert-info"><?php echo $this->escape(JText::_($fieldSet->description)); ?></p>
 	<?php endif; ?>
-			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-				<div class="control-group">
-					<div class="control-label"><?php echo $field->label; ?></div>
-					<div class="controls"><?php echo $field->input; ?></div>
-				</div>
-			<?php endforeach; ?>
+	<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $field->label; ?>
+			</div>
+			<div class="controls">
+				<?php echo $field->input; ?>
+			</div>
+		</div>
+	<?php endforeach; ?>
 	</div>
 <?php endforeach; ?>

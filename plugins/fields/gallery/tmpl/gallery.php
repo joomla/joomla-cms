@@ -21,8 +21,6 @@ JFactory::getLanguage()->load('plg_fields_gallery', JPATH_ADMINISTRATOR);
 
 JHtml::_('jquery.framework');
 
-$doc = JFactory::getDocument();
-
 // Adding the javascript gallery library
 JHtml::_('script', 'plg_fields_gallery/fotorama.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', 'plg_fields_gallery/fotorama.min.css', array('version' => 'auto', 'relative' => true));
@@ -150,12 +148,12 @@ foreach ($value as $path)
 		if (JFile::exists($thumb))
 		{
 			// Linking to the real image and loading only the thumbnail
-			$buffer .= '<a href="' . $webImagePath . '"><img src="' . JUri::base(true) . str_replace(JPATH_ROOT, '', $thumb) . '" /></a>';
+			$buffer .= '<a href="' . $webImagePath . '"><img src="' . JUri::base(true) . str_replace(JPATH_ROOT, '', $thumb) . '"></a>';
 		}
 		else
 		{
 			// Thumbnail doesn't exist, loading the full image
-			$buffer .= '<img src="' . $webImagePath . '"/>';
+			$buffer .= '<img src="' . $webImagePath . '">';
 		}
 	}
 }

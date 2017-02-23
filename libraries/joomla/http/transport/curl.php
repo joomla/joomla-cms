@@ -9,56 +9,34 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
+use Joomla\Http\AbstractTransport;
+use Joomla\Http\Exception\InvalidResponseCodeException;
+use Joomla\Uri\UriInterface;
+use Zend\Diactoros\Stream as StreamResponse;
 
 /**
  * HTTP transport class for using cURL.
  *
  * @since  11.3
  */
-class JHttpTransportCurl implements JHttpTransport
+class JHttpTransportCurl extends AbstractTransport implements JHttpTransport
 {
 	/**
-	 * @var    Registry  The client options.
-	 * @since  11.3
-	 */
-	protected $options;
-
-	/**
-	 * Constructor. CURLOPT_FOLLOWLOCATION must be disabled when open_basedir or safe_mode are enabled.
+	 * Send a request to the server and return a Response object with the response.
 	 *
-	 * @param   Registry  $options  Client options object.
-	 *
-	 * @see     https://secure.php.net/manual/en/function.curl-setopt.php
-	 * @since   11.3
-	 * @throws  RuntimeException
-	 */
-	public function __construct(Registry $options)
-	{
-		if (!function_exists('curl_init') || !is_callable('curl_init'))
-		{
-			throw new RuntimeException('Cannot use a cURL transport when curl_init() is not available.');
-		}
-
-		$this->options = $options;
-	}
-
-	/**
-	 * Send a request to the server and return a JHttpResponse object with the response.
-	 *
-	 * @param   string   $method     The HTTP method for sending the request.
-	 * @param   JUri     $uri        The URI to the resource to request.
-	 * @param   mixed    $data       Either an associative array or a string to be sent with the request.
-	 * @param   array    $headers    An array of request headers to send with the request.
-	 * @param   integer  $timeout    Read timeout in seconds.
-	 * @param   string   $userAgent  The optional user agent string to send with the request.
+	 * @param   string        $method     The HTTP method for sending the request.
+	 * @param   UriInterface  $uri        The URI to the resource to request.
+	 * @param   mixed         $data       Either an associative array or a string to be sent with the request.
+	 * @param   array         $headers    An array of request headers to send with the request.
+	 * @param   integer       $timeout    Read timeout in seconds.
+	 * @param   string        $userAgent  The optional user agent string to send with the request.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
+	public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
 	{
 		// Setup the cURL handle.
 		$ch = curl_init();
@@ -86,7 +64,7 @@ class JHttpTransportCurl implements JHttpTransport
 		$options[CURLOPT_NOBODY] = ($method === 'HEAD');
 
 		// Initialize the certificate store
-		$options[CURLOPT_CAINFO] = $this->options->get('curl.certpath', __DIR__ . '/cacert.pem');
+		$options[CURLOPT_CAINFO] = $this->getOption('curl.certpath', __DIR__ . '/cacert.pem');
 
 		// If data exists let's encode it and make sure our Content-type header is set.
 		if (isset($data))
@@ -164,7 +142,7 @@ class JHttpTransportCurl implements JHttpTransport
 		// Follow redirects if server config allows
 		if ($this->redirectsAllowed())
 		{
-			$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
+			$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->getOption('follow_location', true);
 		}
 
 		// Proxy configuration
@@ -181,15 +159,15 @@ class JHttpTransportCurl implements JHttpTransport
 		}
 
 		// Set any custom transport options
-		foreach ($this->options->get('transport.curl', array()) as $key => $value)
+		foreach ($this->getOption('transport.curl', array()) as $key => $value)
 		{
 			$options[$key] = $value;
 		}
 
 		// Authentification, if needed
-		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		if ($this->getOption('userauth') && $this->getOption('passwordauth'))
 		{
-			$options[CURLOPT_USERPWD] = $this->options->get('userauth') . ':' . $this->options->get('passwordauth');
+			$options[CURLOPT_USERPWD] = $this->getOption('userauth') . ':' . $this->getOption('passwordauth');
 			$options[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC;
 		}
 
@@ -249,9 +227,6 @@ class JHttpTransportCurl implements JHttpTransport
 	 */
 	protected function getResponse($content, $info)
 	{
-		// Create the response object.
-		$return = new JHttpResponse;
-
 		// Try to get header size
 		if (isset($info['header_size']))
 		{
@@ -262,7 +237,7 @@ class JHttpTransportCurl implements JHttpTransport
 			$headers = explode("\r\n", array_pop($headerArray));
 
 			// Set the body for the response.
-			$return->body = substr($content, $info['header_size']);
+			$body = substr($content, $info['header_size']);
 		}
 		// Fallback and try to guess header count by redirect count
 		else
@@ -278,7 +253,7 @@ class JHttpTransportCurl implements JHttpTransport
 			$response = explode("\r\n\r\n", $content, 2 + $redirects);
 
 			// Set the body for the response.
-			$return->body = array_pop($response);
+			$body = array_pop($response);
 
 			// Get the last set of response headers as an array.
 			$headers = explode("\r\n", array_pop($response));
@@ -289,25 +264,19 @@ class JHttpTransportCurl implements JHttpTransport
 
 		$code = count($matches) ? $matches[0] : null;
 
-		if (is_numeric($code))
+		if (!is_numeric($code))
 		{
-			$return->code = (int) $code;
+			// No valid response code was detected.
+			throw new InvalidResponseCodeException('No HTTP response code found.');
 		}
 
-		// No valid response code was detected.
-		else
-		{
-			throw new UnexpectedValueException('No HTTP response code found.');
-		}
+		$statusCode      = (int) $code;
+		$verifiedHeaders = $this->processHeaders($headers);
 
-		// Add the response headers to the response object.
-		foreach ($headers as $header)
-		{
-			$pos = strpos($header, ':');
-			$return->headers[trim(substr($header, 0, $pos))] = trim(substr($header, ($pos + 1)));
-		}
+		$streamInterface = new StreamResponse('php://memory', 'rw');
+		$streamInterface->write($body);
 
-		return $return;
+		return new JHttpResponse($streamInterface, $statusCode, $verifiedHeaders);
 	}
 
 	/**
@@ -343,19 +312,10 @@ class JHttpTransportCurl implements JHttpTransport
 			}
 		}
 
-		// From PHP 5.4.0 to 5.5.30 curl redirects are only allowed if open_basedir is disabled
-		elseif (version_compare(PHP_VERSION, '5.4', '>='))
+		// In the PHP 5.5 branch, curl redirects are only allowed if open_basedir is disabled
+		if (version_compare(PHP_VERSION, '5.5.9', '>='))
 		{
 			if (!ini_get('open_basedir'))
-			{
-				return true;
-			}
-		}
-
-		// From PHP 5.1.5 to 5.3.30 curl redirects are only allowed if safe_mode and open_basedir are disabled
-		else
-		{
-			if (!ini_get('safe_mode') && !ini_get('open_basedir'))
 			{
 				return true;
 			}

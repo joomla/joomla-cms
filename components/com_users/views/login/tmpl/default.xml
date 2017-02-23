@@ -18,13 +18,13 @@
 		<field
 			name="loginredirectchoice"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher switcher-primary"
 			default="1"
 			label="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_LABEL"
 			description="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_DESC"
 		>
-			<option value="1">COM_USERS_FIELD_LOGIN_MENUITEM</option>
 			<option value="0">COM_USERS_FIELD_LOGIN_URL</option>
+			<option value="1">COM_USERS_FIELD_LOGIN_MENUITEM</option>
 		</field>
 
 		<field
@@ -91,13 +91,13 @@
 		<field
 			name="logoutredirectchoice"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher switcher-primary"
 			default="1"
 			label="COM_USERS_FIELD_LOGOUT_REDIRECT_CHOICE_LABEL"
 			description="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_DESC"
 		>
-			<option value="1">COM_USERS_FIELD_LOGIN_MENUITEM</option>
 			<option value="0">COM_USERS_FIELD_LOGIN_URL</option>
+			<option value="1">COM_USERS_FIELD_LOGIN_MENUITEM</option>
 		</field>
 
 		<field

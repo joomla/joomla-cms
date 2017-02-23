@@ -29,11 +29,6 @@ class InstallerViewLanguages extends InstallerViewDefault
 	protected $pagination;
 
 	/**
-	 * @var object model state
-	 */
-	protected $state;
-
-	/**
 	 * Display the view.
 	 *
 	 * @param   null  $tpl  template to display
@@ -43,7 +38,6 @@ class InstallerViewLanguages extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Get data from the model.
-		$this->state         = $this->get('State');
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
@@ -53,9 +47,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		parent::display($tpl);
@@ -69,14 +61,14 @@ class InstallerViewLanguages extends InstallerViewDefault
 	protected function addToolbar()
 	{
 		$canDo = JHelperContent::getActions('com_installer');
-		JToolBarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle install');
+		JToolbarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle install');
 
 		if ($canDo->get('core.admin'))
 		{
 			parent::addToolbar();
 
 			// TODO: this help screen will need to be created.
-			JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_LANGUAGES');
+			JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_LANGUAGES');
 		}
 	}
 }

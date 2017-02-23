@@ -33,50 +33,50 @@
 				<field
 					name="automatic_change"
 					type="radio"
+					class="switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_AUTOMATIC_CHANGE_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_AUTOMATIC_CHANGE_DESC"
 					default="1"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="item_associations"
 					type="radio"
+					class="switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ITEM_ASSOCIATIONS_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ITEM_ASSOCIATIONS_DESC"
 					default="1"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="alternate_meta"
 					type="radio"
+					class="switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"
 					default="1"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="xdefault"
 					type="radio"
+					class="switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DESC"
 					default="1"
-					class="btn-group btn-group-yesno"
 					showon="alternate_meta:1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -93,13 +93,13 @@
 				<field
 					name="remove_default_prefix"
 					type="radio"
+					class="switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field

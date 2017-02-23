@@ -36,7 +36,6 @@ class InstallerViewDiscover extends InstallerViewDefault
 		}
 
 		// Get data from the model.
-		$this->state         = $this->get('State');
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
@@ -45,7 +44,7 @@ class InstallerViewDiscover extends InstallerViewDefault
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		parent::display($tpl);

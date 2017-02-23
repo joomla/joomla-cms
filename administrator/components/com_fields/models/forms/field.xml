@@ -47,11 +47,11 @@
 			type="text"
 			label="JGLOBAL_TITLE"
 			description="JFIELD_TITLE_DESC"
-			class="input-xxlarge input-large-text"
+			class="input-xxlarge"
 			size="40"
 			required="true"
 		/>
-		
+
 		<field
 			name="alias"
 			type="text"
@@ -60,7 +60,7 @@
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="45"
 		/>
-	
+
 		<field
 			name="type"
 			type="type"
@@ -73,13 +73,13 @@
 		<field
 			name="required"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_FIELDS_FIELD_REQUIRED_LABEL"
 			description="COM_FIELDS_FIELD_REQUIRED_DESC"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -89,7 +89,7 @@
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
 			description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
 		/>
-	
+
 		<field
 			name="state"
 			type="list"
@@ -111,7 +111,7 @@
 			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
 			type="spacer"
 		/>
-	
+
 		<field
 			name="checked_out"
 			type="hidden"
@@ -123,7 +123,7 @@
 			type="hidden"
 			filter="unset"
 		/>
-	
+
 		<field
 			name="created_user_id"
 			type="user"
@@ -264,31 +264,30 @@
 			<field
 				name="disabled"
 				type="radio"
-				class="btn-group btn-group-yesno"
+				class="switcher"
 				default="0"
 				label="COM_FIELDS_FIELD_DISABLED_LABEL"
 				description="COM_FIELDS_FIELD_DISABLED_DESC"
 			>
-				<option value="1">JYES</option>
 				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field
 				name="readonly"
 				type="radio"
-				class="btn-group btn-group-yesno"
+				class="switcher"
 				default="0"
 				label="COM_FIELDS_FIELD_READONLY_LABEL"
 				description="COM_FIELDS_FIELD_READONLY_DESC"
 			>
-				<option value="1">JYES</option>
 				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field
 				name="show_on"
-				type="radio"
-				class="btn-group btn-group-yesno"
+				type="list"
 				default=""
 				label="COM_FIELDS_FIELD_SHOW_ON_LABEL"
 				description="COM_FIELDS_FIELD_SHOW_ON_DESC"

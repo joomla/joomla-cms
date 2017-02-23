@@ -30,7 +30,7 @@ JHtml::_('behavior.formvalidator');
 		<?php endif; ?>
 
 		<?php if ($this->params->get('login_image') != '') : ?>
-			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="login-image" alt="<?php echo JText::_('COM_USERS_LOGIN_IMAGE_ALT'); ?>"/>
+			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="login-image" alt="<?php echo JText::_('COM_USERS_LOGIN_IMAGE_ALT'); ?>">
 		<?php endif; ?>
 
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
@@ -67,7 +67,7 @@ JHtml::_('behavior.formvalidator');
 			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
 			<div  class="control-group">
 				<div class="control-label"><label><?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?></label></div>
-				<div class="controls"><input id="remember" type="checkbox" name="remember" class="inputbox" value="yes"/></div>
+				<div class="controls"><input id="remember" type="checkbox" name="remember" class="inputbox" value="yes"></div>
 			</div>
 			<?php endif; ?>
 
@@ -80,7 +80,7 @@ JHtml::_('behavior.formvalidator');
 			</div>
 
 			<?php $return = $this->form->getValue('return', '', $this->params->get('login_redirect_url', $this->params->get('login_redirect_menuitem'))); ?>
-			<input type="hidden" name="return" value="<?php echo base64_encode($return); ?>" />
+			<input type="hidden" name="return" value="<?php echo base64_encode($return); ?>">
 			<?php echo JHtml::_('form.token'); ?>
 		</fieldset>
 	</form>

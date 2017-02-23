@@ -51,92 +51,32 @@ abstract class ModQuickIconHelper
 				self::$buttons[$key] = array(
 					array(
 						'link'   => JRoute::_('index.php?option=com_content&task=article.add'),
-						'image'  => 'pencil-2',
-						'icon'   => 'header/icon-48-article-add.png',
+						'image'  => 'fa fa-pencil-square',
 						'text'   => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
 					array(
-						'link'   => JRoute::_('index.php?option=com_content'),
-						'image'  => 'stack',
-						'icon'   => 'header/icon-48-article.png',
-						'text'   => JText::_('MOD_QUICKICON_ARTICLE_MANAGER'),
-						'access' => array('core.manage', 'com_content'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
-					),
-					array(
-						'link'   => JRoute::_('index.php?option=com_categories&extension=com_content'),
-						'image'  => 'folder',
-						'icon'   => 'header/icon-48-category.png',
-						'text'   => JText::_('MOD_QUICKICON_CATEGORY_MANAGER'),
-						'access' => array('core.manage', 'com_content'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
-					),
-					array(
 						'link'   => JRoute::_('index.php?option=com_media'),
-						'image'  => 'pictures',
-						'icon'   => 'header/icon-48-media.png',
+						'image'  => 'fa fa-file-image-o',
 						'text'   => JText::_('MOD_QUICKICON_MEDIA_MANAGER'),
 						'access' => array('core.manage', 'com_media'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
 					array(
-						'link'   => JRoute::_('index.php?option=com_menus'),
-						'image'  => 'list-view',
-						'icon'   => 'header/icon-48-menumgr.png',
-						'text'   => JText::_('MOD_QUICKICON_MENU_MANAGER'),
-						'access' => array('core.manage', 'com_menus'),
-						'group'  => 'MOD_QUICKICON_STRUCTURE',
-					),
-					array(
-						'link'   => JRoute::_('index.php?option=com_users'),
-						'image'  => 'users',
-						'icon'   => 'header/icon-48-user.png',
-						'text'   => JText::_('MOD_QUICKICON_USER_MANAGER'),
-						'access' => array('core.manage', 'com_users'),
-						'group'  => 'MOD_QUICKICON_USERS',
-					),
-					array(
-						'link'   => JRoute::_('index.php?option=com_modules'),
-						'image'  => 'cube',
-						'icon'   => 'header/icon-48-module.png',
-						'text'   => JText::_('MOD_QUICKICON_MODULE_MANAGER'),
-						'access' => array('core.manage', 'com_modules'),
-						'group'  => 'MOD_QUICKICON_STRUCTURE',
-					),
-					array(
 						'link'   => JRoute::_('index.php?option=com_config'),
-						'image'  => 'cog',
-						'icon'   => 'header/icon-48-config.png',
+						'image'  => 'fa fa-cog',
 						'text'   => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
 						'group'  => 'MOD_QUICKICON_CONFIGURATION',
 					),
 					array(
-						'link'   => JRoute::_('index.php?option=com_templates'),
-						'image'  => 'eye',
-						'icon'   => 'header/icon-48-themes.png',
-						'text'   => JText::_('MOD_QUICKICON_TEMPLATE_MANAGER'),
-						'access' => array('core.manage', 'com_templates'),
-						'group'  => 'MOD_QUICKICON_CONFIGURATION',
-					),
-					array(
-						'link'   => JRoute::_('index.php?option=com_languages'),
-						'image'  => 'comments-2',
-						'icon'   => 'header/icon-48-language.png',
-						'text'   => JText::_('MOD_QUICKICON_LANGUAGE_MANAGER'),
-						'access' => array('core.manage', 'com_languages'),
-						'group'  => 'MOD_QUICKICON_CONFIGURATION',
-					),
-					array(
-						'link'   => JRoute::_('index.php?option=com_installer'),
-						'image'  => 'download',
-						'icon'   => 'header/icon-48-extension.png',
-						'text'   => JText::_('MOD_QUICKICON_INSTALL_EXTENSIONS'),
-						'access' => array('core.manage', 'com_installer'),
-						'group'  => 'MOD_QUICKICON_EXTENSIONS',
-					),
+						'link'   => JRoute::_('index.php?option=com_modules'),
+						'image'  => 'fa fa-cube',
+						'text'   => JText::_('MOD_QUICKICON_MODULE_MANAGER'),
+						'access' => array('core.manage', 'com_modules'),
+						'group'  => 'MOD_QUICKICON_STRUCTURE'
+					)
 				);
 			}
 			else
@@ -171,27 +111,6 @@ abstract class ModQuickIconHelper
 		}
 
 		return self::$buttons[$key];
-	}
-
-	/**
-	 * Classifies the $buttons by group
-	 *
-	 * @param   array  $buttons  The buttons
-	 *
-	 * @return  array  The buttons sorted by groups
-	 *
-	 * @since   3.2
-	 */
-	public static function groupButtons($buttons)
-	{
-		$groupedButtons = array();
-
-		foreach ($buttons as $button)
-		{
-			$groupedButtons[$button['group']][] = $button;
-		}
-
-		return $groupedButtons;
 	}
 
 	/**

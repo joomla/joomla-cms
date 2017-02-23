@@ -23,30 +23,32 @@ $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
 // Build field
 $attr = array(
 	'id'        => 'batch-position-id',
-	'list.attr' => 'class="chzn-custom-value input-xlarge" '
+	'list.attr' => 'class="chzn-custom-value" '
 		. 'data-custom_group_text="' . $customGroupText . '" '
 		. 'data-no_results_text="' . JText::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
 		. 'data-placeholder="' . JText::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '
 );
 
+JHtml::_('formbehavior.chosen', '.chzn-custom-value');
 ?>
-<div class="container-fluid">
-	<p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
-	<div class="row-fluid">
-		<div class="control-group span6">
+
+<p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
+<div class="container">
+	<div class="row">
+		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo JHtml::_('batch.language'); ?>
 			</div>
 		</div>
-		<div class="control-group span6">
+		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo JHtml::_('batch.access'); ?>
 			</div>
 		</div>
 	</div>
-	<div class="row-fluid">
+	<div class="row">
 		<?php if ($published >= 0) : ?>
-			<div class="span6">
+			<div class="col-md-6">
 				<div class="controls">
 					<label id="batch-choose-action-lbl" for="batch-choose-action">
 						<?php echo JText::_('COM_MODULES_BATCH_POSITION_LABEL'); ?>
@@ -58,7 +60,7 @@ $attr = array(
 						</div>
 					</div>
 				</div>
-			</div>
-		<?php endif; ?>
+			<?php endif; ?>
+		</div>
 	</div>
 </div>

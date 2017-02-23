@@ -30,16 +30,14 @@ class ContactTableContact extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  Database connector object
+	 * @param   JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(&$db)
+	public function __construct(JDatabaseDriver $db)
 	{
+		$this->typeAlias = 'com_contact.contact';
 		parent::__construct('#__contact_details', 'id', $db);
-
-		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_contact.contact'));
-		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_contact.contact'));
 	}
 
 	/**
@@ -132,6 +130,17 @@ class ContactTableContact extends JTable
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		$this->default_con = (int) $this->default_con;
 
 		if (JFilterInput::checkAttribute(array('href', $this->webpage)))
@@ -203,6 +212,10 @@ class ContactTableContact extends JTable
 			// Put array back together delimited by ", "
 			$this->metakey = implode(', ', $cleanKeys);
 		}
+		else
+		{
+			$this->metakey = '';
+		}
 
 		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
@@ -210,6 +223,20 @@ class ContactTableContact extends JTable
 			// Only process if not empty
 			$badCharacters = array("\"", '<', '>');
 			$this->metadesc = StringHelper::str_ireplace($badCharacters, '', $this->metadesc);
+		}
+		else
+		{
+			$this->metadesc = '';
+		}
+
+		if (empty($this->params))
+		{
+			$this->params = '{}';
+		}
+
+		if (empty($this->metadata))
+		{
+			$this->metadata = '{}';
 		}
 
 		return true;

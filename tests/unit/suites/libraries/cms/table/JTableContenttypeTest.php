@@ -34,6 +34,14 @@ class JTableContenttypeTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getDispatcher')
+			->willReturn($this->getMockDispatcher());
+		JFactory::$application = $mockApp;
+
 		$this->object = new JTableContenttype(static::$driver);
 	}
 
@@ -48,6 +56,8 @@ class JTableContenttypeTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		unset($this->object);
+		$this->restoreFactoryState();
+
 		parent::tearDown();
 	}
 

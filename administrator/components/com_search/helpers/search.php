@@ -33,33 +33,6 @@ class SearchHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject
-	 *
-	 * @deprecated  3.2  Use JHelperContent::getActions() instead.
-	 */
-	public static function getActions()
-	{
-		// Log usage of deprecated function.
-		try
-		{
-			JLog::add(
-				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Get list of actions.
-		return JHelperContent::getActions('com_search');
-	}
-
-	/**
 	 * Sanitise search word.
 	 *
 	 * @param   string  &$searchword   Search word to be sanitised.
@@ -69,11 +42,10 @@ class SearchHelper
 	 */
 	public static function santiseSearchWord(&$searchword, $searchphrase)
 	{
-		$ignored = false;
-
 		$lang          = JFactory::getLanguage();
 		$tag           = $lang->getTag();
 		$search_ignore = $lang->getIgnoredSearchWords();
+		$ignored       = false;
 
 		// Deprecated in 1.6 use $lang->getIgnoredSearchWords instead.
 		$ignoreFile = JLanguageHelper::getLanguagePath() . '/' . $tag . '/' . $tag . '.ignore.php';

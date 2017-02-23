@@ -581,7 +581,7 @@ class JPagination
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
-				'class="inputbox input-mini" size="1" onchange="Joomla.submitform();"',
+				'class="custom-select" onchange="Joomla.submitform();"',
 				'value',
 				'text',
 				$selected
@@ -673,7 +673,7 @@ class JPagination
 		$html .= $list['pageslinks'];
 		$html .= "\n<div class=\"counter\">" . $list['pagescounter'] . "</div>";
 
-		$html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"" . $list['limitstart'] . "\" />";
+		$html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"" . $list['limitstart'] . "\">";
 		$html .= "\n</div>";
 
 		return $html;
@@ -831,60 +831,5 @@ class JPagination
 		}
 
 		return $data;
-	}
-
-	/**
-	 * Modifies a property of the object, creating it if it does not already exist.
-	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $value     The value of the property to set.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0  Access the properties directly.
-	 */
-	public function set($property, $value = null)
-	{
-		JLog::add('JPagination::set() is deprecated. Access the properties directly.', JLog::WARNING, 'deprecated');
-
-		if (strpos($property, '.'))
-		{
-			$prop = explode('.', $property);
-			$prop[1] = ucfirst($prop[1]);
-			$property = implode($prop);
-		}
-
-		$this->$property = $value;
-	}
-
-	/**
-	 * Returns a property of the object or the default value if the property is not set.
-	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $default   The default value.
-	 *
-	 * @return  mixed    The value of the property.
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0  Access the properties directly.
-	 */
-	public function get($property, $default = null)
-	{
-		JLog::add('JPagination::get() is deprecated. Access the properties directly.', JLog::WARNING, 'deprecated');
-
-		if (strpos($property, '.'))
-		{
-			$prop = explode('.', $property);
-			$prop[1] = ucfirst($prop[1]);
-			$property = implode($prop);
-		}
-
-		if (isset($this->$property))
-		{
-			return $this->$property;
-		}
-
-		return $default;
 	}
 }

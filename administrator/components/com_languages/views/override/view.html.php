@@ -58,7 +58,7 @@ class LanguagesViewOverride extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors));
+			throw new JViewGenericdataexception(implode("\n", $errors));
 		}
 
 		// Check whether the cache has to be refreshed.
@@ -95,17 +95,24 @@ class LanguagesViewOverride extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments-2 langmanager');
 
+		$toolbarButtons = [];
+
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::apply('override.apply');
-			JToolbarHelper::save('override.save');
+			$toolbarButtons[] = ['apply', 'override.apply'];
+			$toolbarButtons[] = ['save', 'override.save'];
 		}
 
 		// This component does not support Save as Copy.
 		if ($canDo->get('core.edit') && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2new('override.save2new');
+			$toolbarButtons[] = ['save2new', 'override.save2new'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if (empty($this->item->key))
 		{

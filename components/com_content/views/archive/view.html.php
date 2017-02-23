@@ -16,15 +16,75 @@ defined('_JEXEC') or die;
  */
 class ContentViewArchive extends JViewLegacy
 {
+	/**
+	 * The model state
+	 *
+	 * @var    JObject
+	 */
 	protected $state = null;
 
-	protected $item = null;
+	/**
+	 * An array containing archived articles
+	 *
+	 * @var    stdClass[]
+	 */
+	protected $items = array();
 
-	protected $items = null;
-
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination|null
+	 */
 	protected $pagination = null;
 
-	protected $years = null;
+	/**
+	 * The years that are available to filter on.
+	 *
+	 * @var   array
+	 * @since 3.6.0
+	 */
+	protected $years = array();
+
+	/**
+	 * Object containing the year, month and limit field to be displayed
+	 *
+	 * @var    stdClass|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $form = null;
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
+
+	/**
+	 * The search query used on any archived articles (note this may not be displayed depending on the value of the
+	 * filter_field component parameter)
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $filter = '';
+
+	/**
+	 * The user object
+	 *
+	 * @var    JUser
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $user = null;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
 
 	/**
 	 * Execute and display a template script.
@@ -58,26 +118,24 @@ class ContentViewArchive extends JViewLegacy
 
 			$item->event = new stdClass;
 
-			$dispatcher = JEventDispatcher::getInstance();
-
 			// Old plugins: Ensure that text property is available
 			if (!isset($item->text))
 			{
 				$item->text = $item->introtext;
 			}
 
-			$dispatcher->trigger('onContentPrepare', array ('com_content.archive', &$item, &$item->params, 0));
+			JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.archive', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;
 
-			$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.archive', &$item, &$item->params, 0));
+			$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.archive', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.archive', &$item, &$item->params, 0));
+			$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.archive', &$item, &$item->params, 0));
 			$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
+			$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
@@ -193,12 +251,12 @@ class ContentViewArchive extends JViewLegacy
 
 		if ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 	}
 }

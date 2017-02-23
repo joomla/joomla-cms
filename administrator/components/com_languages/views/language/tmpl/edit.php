@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.tabstate');
 
 JFactory::getDocument()->addScriptDeclaration(
 	'
@@ -39,7 +39,7 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form">
 
 	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 
@@ -52,15 +52,15 @@ JFactory::getDocument()->addScriptDeclaration(
 			<?php echo $this->form->renderField('lang_code'); ?>
 			<?php echo $this->form->renderField('sef'); ?>
 			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('image'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('image'); ?>
-						<span id="flag">
-							<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), null, true); ?>
-						</span>
-					</div>
+				<div class="control-label">
+					<?php echo $this->form->getLabel('image'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('image'); ?>
+					<span id="flag">
+						<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), null, true); ?>
+					</span>
+				</div>
 			</div>
 			<?php if ($this->canDo->get('core.edit.state')) : ?>
 				<?php echo $this->form->renderField('published'); ?>
@@ -81,6 +81,6 @@ JFactory::getDocument()->addScriptDeclaration(
 
 	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="task" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

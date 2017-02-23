@@ -5,7 +5,7 @@
 			name="summary_email"
 			type="radio"
 			id="summary_email"
-			class="btn-group"
+			class="btn-group btn-group-reverse"
 			default="0"
 			label="INSTL_SUMMARY_EMAIL_LABEL"
 			filter="integer"
@@ -17,7 +17,7 @@
 			name="summary_email_passwords"
 			type="radio"
 			id="email_passwords"
-			class="btn-group"
+			class="btn-group btn-group-reverse"
 			default="0"
 			label="INSTL_SUMMARY_EMAIL_PASSWORDS_LABEL"
 			filter="integer"
@@ -29,7 +29,7 @@
 		<field
 			name="sample_file"
 			type="installation.sample"
-			class="inputbox"
+			class="radio btn-group btn-group-reverse"
 			label="INSTL_SITE_INSTALL_SAMPLE_LABEL"
 		/>
 	</fieldset>

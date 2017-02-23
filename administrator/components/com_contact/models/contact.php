@@ -129,8 +129,6 @@ class ContactModelContact extends JModelAdmin
 				return false;
 			}
 
-			$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-
 			// Store the row.
 			if (!$this->table->store())
 			{
@@ -172,8 +170,6 @@ class ContactModelContact extends JModelAdmin
 				$this->table->reset();
 				$this->table->load($pk);
 				$this->table->user_id = (int) $value;
-
-				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 
 				if (!$this->table->store())
 				{

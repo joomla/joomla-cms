@@ -30,7 +30,7 @@ extract($displayData);
 if ($multiple)
 {
 	JHtml::_('jquery.ui', array('core', 'sortable'));
-	JHtml::_('script', 'system/subform-repeatable.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('script', 'system/fields/subform-repeatable.min.js', array('version' => 'auto', 'relative' => true));
 }
 
 // Build heading
@@ -43,7 +43,7 @@ if (!empty($groupByFieldset))
 
 		if (!empty($fieldset->description))
 		{
-			$table_head .= '<br /><small style="font-weight:normal">' . JText::_($fieldset->description) . '</small>';
+			$table_head .= '<br><small style="font-weight:normal">' . JText::_($fieldset->description) . '</small>';
 		}
 
 		$table_head .= '</th>';
@@ -55,7 +55,7 @@ else
 {
 	foreach ($tmpl->getGroup('') as $field) {
 		$table_head .= '<th>' . strip_tags($field->label);
-		$table_head .= '<br /><small style="font-weight:normal">' . JText::_($field->description) . '</small>';
+		$table_head .= '<br><small style="font-weight:normal">' . JText::_($field->description) . '</small>';
 		$table_head .= '</th>';
 	}
 
@@ -83,7 +83,7 @@ else
 					<th style="width:8%;">
 					<?php if (!empty($buttons['add'])) : ?>
 						<div class="btn-group">
-							<a class="group-add btn btn-mini button btn-success"><span class="icon-plus"></span> </a>
+							<a class="group-add btn btn-sm button btn-success"><span class="icon-plus icon-white"></span> </a>
 						</div>
 					<?php endif; ?>
 					</th>

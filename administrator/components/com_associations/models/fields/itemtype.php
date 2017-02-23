@@ -32,7 +32,7 @@ class JFormFieldItemType extends JFormFieldGroupedList
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 *
 	 * @throws  UnexpectedValueException
 	 */

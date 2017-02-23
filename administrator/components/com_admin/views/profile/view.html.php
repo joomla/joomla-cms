@@ -58,9 +58,7 @@ class AdminViewProfile extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->form->setValue('password',	null);
@@ -83,8 +81,15 @@ class AdminViewProfile extends JViewLegacy
 		JFactory::getApplication()->input->set('hidemainmenu', 1);
 
 		JToolbarHelper::title(JText::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user user-profile');
-		JToolbarHelper::apply('profile.apply');
-		JToolbarHelper::save('profile.save');
+
+		JToolbarHelper::saveGroup(
+			[
+				['apply', 'profile.apply'],
+				['save', 'profile.save']
+			],
+			'btn-success'
+		);
+
 		JToolbarHelper::cancel('profile.cancel', 'JTOOLBAR_CLOSE');
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_ADMIN_USER_PROFILE_EDIT');

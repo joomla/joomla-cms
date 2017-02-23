@@ -14,27 +14,26 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('formbehavior.chosen', 'select');
 
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 		<?php else : ?>
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="center nowrap">
+						<th width="1%" class="text-center nowrap">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="center nowrap">
+						<th width="1%" class="text-center nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap title">
@@ -43,19 +42,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th width="30%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_NEW_URL', 'a.new_url', $listDirn, $listOrder); ?>
 						</th>
-						<th width="30%" class="nowrap hidden-phone hidden-tablet">
+						<th width="30%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_REFERRER', 'a.referer', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone hidden-tablet">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_CREATED_DATE', 'a.created_date', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_STATUS_CODE', 'a.header', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -73,20 +72,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					$canChange = $user->authorise('core.edit.state', 'com_redirect');
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center">
+						<td class="text-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td class="center">
+						<td class="text-center">
 							<div class="btn-group">
 								<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
-								<?php // Create dropdown items and render the dropdown list.
-								if ($canChange)
-								{
-									JHtml::_('actionsdropdown.' . ((int) $item->published === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'links');
-									JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'links');
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->old_url));
-								}
-								?>
 							</div>
 						</td>
 						<td class="break-word">
@@ -100,19 +91,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="small break-word">
 							<?php echo $this->escape(rawurldecode($item->new_url)); ?>
 						</td>
-						<td class="small break-word hidden-phone hidden-tablet">
+						<td class="small break-word hidden-sm-down">
 							<?php echo $this->escape($item->referer); ?>
 						</td>
-						<td class="small hidden-phone hidden-tablet">
+						<td class="small hidden-sm-down">
 							<?php echo JHtml::_('date', $item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-sm-down">
 							<?php echo (int) $item->hits; ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-sm-down">
 							<?php echo (int) $item->header; ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-sm-down">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
@@ -139,8 +130,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				); ?>
 			<?php endif; ?>
 
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="boxchecked" value="0">
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

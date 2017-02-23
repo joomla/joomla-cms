@@ -11,12 +11,14 @@ defined('_JEXEC') or die;
 
 // Add specific helper files for html generation
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+JHtml::_('behavior.tabstate');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_admin&view=sysinfo'); ?>" method="post" name="adminForm" id="adminForm">
-	<div class="row-fluid">
-		<!-- Begin Content -->
-		<div class="span12">
+	<div class="row">
+		<?php // Begin Content ?>
+		<div class="col-md-12">
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'site')); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site', JText::_('COM_ADMIN_SYSTEM_INFORMATION')); ?>
@@ -41,8 +43,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		</div>
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="task" value="">
 		<?php echo JHtml::_('form.token'); ?>
-		<!-- End Content -->
+		<?php // End Content ?>
 	</div>
 </form>

@@ -25,14 +25,14 @@
 				<field
 					name="display_text"
 					type="radio"
+					class="switcher"
 					label="MOD_SYNDICATE_FIELD_DISPLAYTEXT_LABEL"
 					description="MOD_SYNDICATE_FIELD_DISPLAYTEXT_DESC"
 					default="1"
-					class="btn-group btn-group-yesno"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field

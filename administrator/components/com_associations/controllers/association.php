@@ -27,7 +27,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
@@ -54,7 +54,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	 *
 	 * @return  void.
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public function cancel($key = null)
 	{

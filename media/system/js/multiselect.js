@@ -1,4 +1,48 @@
-/*
-        GNU General Public License version 2 or later; see LICENSE.txt
-*/
-(function(b){Joomla=window.Joomla||{};var a;Joomla.JMultiSelect=function(f){var e,c=function(g){a=b("#"+g).find("input[type=checkbox]");a.on("click",function(h){d(h)})},d=function(j){var h=b(j.target),l,k,g,i;if(j.shiftKey&&e.length){l=h.is(":checked");k=a.index(e);g=a.index(h);if(g<k){i=k;k=g;g=i}a.slice(k,g+1).attr("checked",l)}e=h};c(f)}})(jQuery);
+/**
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/**
+ * JavaScript behavior to allow shift select in administrator grids
+ */
+Joomla = window.Joomla || {};
+
+Joomla.JMultiSelect = function(table) {
+	"use strict";
+
+	var last, boxes,
+
+		initialize = function(table) {
+			var tableEl = document.querySelector(table);
+
+			if (tableEl) {
+				boxes = tableEl.querySelectorAll('input[type=checkbox]');
+				var i = 0, countB = boxes.length;
+				for (i; boxes<countB; i++) {
+					boxes[i].addEventListener('click', function (e) {
+						doselect(e)
+					});
+				}
+			}
+		},
+
+		doselect = function(e) {
+			var current = e.target, isChecked, lastIndex, currentIndex, swap;
+			if (e.shiftKey && last.length) {
+				isChecked = current.hasAttribute(':checked');
+				lastIndex = boxes.index(last);
+				currentIndex = boxes.index(current);
+				if (currentIndex < lastIndex) {
+					// handle selection from bottom up
+					swap = lastIndex;
+					lastIndex = currentIndex;
+					currentIndex = swap;
+				}
+				boxes.slice(lastIndex, currentIndex + 1).setAttribute('checked', isChecked);
+			}
+
+			last = current;
+	};
+	initialize(table);
+};

@@ -68,7 +68,7 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 		// Change the state of the records.
 		if (!$model->publish($ids, $value))
 		{
-			throw new Exception(implode('<br />', $model->getErrors()), 500);
+			throw new Exception(implode('<br>', $model->getErrors()), 500);
 		}
 
 		$ntext = ($value == 0) ? 'COM_INSTALLER_N_UPDATESITES_UNPUBLISHED' : 'COM_INSTALLER_N_UPDATESITES_PUBLISHED';

@@ -17,32 +17,44 @@ defined('_JEXEC') or die;
 class TemplatesViewTemplate extends JViewLegacy
 {
 	/**
-	 * For loading extension state
+	 * The Model state
+	 *
+	 * @var  JObject
 	 */
 	protected $state;
 
 	/**
-	 * For loading template details
+	 * The template details
+	 *
+	 * @var  stdClass|false
 	 */
 	protected $template;
 
 	/**
 	 * For loading the source form
+	 *
+	 * @var  JForm
 	 */
 	protected $form;
 
 	/**
 	 * For loading source file contents
+	 *
+	 * @var  array
 	 */
 	protected $source;
 
 	/**
 	 * Extension id
+	 *
+	 * @var  integer
 	 */
 	protected $id;
 
 	/**
 	 * Encrypted file path
+	 *
+	 * @var  string
 	 */
 	protected $file;
 
@@ -53,36 +65,50 @@ class TemplatesViewTemplate extends JViewLegacy
 
 	/**
 	 * Name of the present file
+	 *
+	 * @var  string
 	 */
 	protected $fileName;
 
 	/**
 	 * Type of the file - image, source, font
+	 *
+	 * @var  string
 	 */
 	protected $type;
 
 	/**
 	 * For loading image information
+	 *
+	 * @var  array
 	 */
 	protected $image;
 
 	/**
 	 * Template id for showing preview button
+	 *
+	 * @var  stdClass
 	 */
 	protected $preview;
 
 	/**
 	 * For loading font information
+	 *
+	 * @var  array
 	 */
 	protected $font;
 
 	/**
-	 * A nested array containing lst of files and folders
+	 * A nested array containing list of files and folders
+	 *
+	 * @var  array
 	 */
 	protected $files;
 
 	/**
 	 * An array containing a list of compressed files
+	 *
+	 * @var  array
 	 */
 	protected $archive;
 
@@ -188,14 +214,19 @@ class TemplatesViewTemplate extends JViewLegacy
 			// Add an Apply and save button
 			if ($this->type == 'file')
 			{
-				JToolbarHelper::apply('template.apply');
-				JToolbarHelper::save('template.save');
+				JToolbarHelper::saveGroup(
+					[
+						['apply', 'template.apply'],
+						['save', 'template.save']
+					],
+					'btn-success'
+				);
 			}
 			// Add a Crop and Resize button
 			elseif ($this->type == 'image')
 			{
-				JToolbarHelper::custom('template.cropImage', 'move', 'move', 'COM_TEMPLATES_BUTTON_CROP', false);
-				JToolbarHelper::modal('resizeModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RESIZE');
+				JToolbarHelper::custom('template.cropImage', 'crop', 'move', 'COM_TEMPLATES_BUTTON_CROP', false);
+				JToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
 			}
 			// Add an extract button
 			elseif ($this->type == 'archive')
@@ -203,11 +234,8 @@ class TemplatesViewTemplate extends JViewLegacy
 				JToolbarHelper::custom('template.extractArchive', 'arrow-down', 'arrow-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
 			}
 
-			// Add a copy template button (Hathor override doesn't need the button)
-			if ($app->getTemplate() != 'hathor')
-			{
-				JToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
-			}
+			// Add a copy template button
+			JToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
 		}
 
 		// Add a Template preview button
@@ -225,8 +253,8 @@ class TemplatesViewTemplate extends JViewLegacy
 			// Add a new file button
 			JToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
 
-			// Add a Rename file Button (Hathor override doesn't need the button)
-			if ($app->getTemplate() != 'hathor' && $this->type != 'home')
+			// Add a Rename file Button
+			if ($this->type != 'home')
 			{
 				JToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 			}

@@ -48,21 +48,6 @@ class JApplicationBaseTest extends TestCase
 	}
 
 	/**
-	 * @testdox  Tests that close() exits the application with the given code
-	 *
-	 * @covers  JApplicationBase::close
-	 */
-	public function testClose()
-	{
-		$object = $this->getMockForAbstractClass('JApplicationBase', array(), '', false, true, true, array('close'));
-		$object->expects($this->any())
-			->method('close')
-			->willReturnArgument(0);
-
-		$this->assertSame(3, $object->close(3));
-	}
-
-	/**
 	 * @testdox  Tests that the application is executed successfully.
 	 *
 	 * @covers  JApplicationBase::doExecute
@@ -109,46 +94,6 @@ class JApplicationBaseTest extends TestCase
 	}
 
 	/**
-	 * @testdox  Tests that a default PSR-3 LoggerInterface object is returned.
-	 *
-	 * @covers  JApplicationBase::getLogger
-	 */
-	public function testGetLogger()
-	{
-		$this->assertInstanceOf('Psr\Log\NullLogger', $this->class->getLogger());
-	}
-
-	/**
-	 * @testdox  Tests that the global dispatcher is loaded by loadDispatcher() when no object is injected.
-	 *
-	 * @covers  JApplicationBase::loadDispatcher
-	 * @uses    JEventDispatcher
-	 */
-	public function testLoadDispatcherWithNoInjection()
-	{
-		$this->class->loadDispatcher();
-
-		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
-
-		// Reset the global state for JEventDispatcher
-		TestReflection::setValue('JEventDispatcher', 'instance', null);
-	}
-
-	/**
-	 * @testdox  Tests that the injected dispatcher is stored to the application.
-	 *
-	 * @covers  JApplicationBase::loadDispatcher
-	 */
-	public function testLoadDispatcherWithInjection()
-	{
-		$dispatcher = $this->getMockDispatcher();
-
-		$this->class->loadDispatcher($dispatcher);
-
-		$this->assertAttributeSame($dispatcher, 'dispatcher', $this->class);
-	}
-
-	/**
 	 * @testdox  Tests that a JUser object is loaded into the application from the global factory.
 	 *
 	 * @covers  JApplicationBase::loadIdentity
@@ -157,11 +102,6 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testLoadIdentity()
 	{
-		// We need to mock JSession for this test, don't use the getMockSession() method since it has an inbuilt method to mock loading the user
-		$this->saveFactoryState();
-
-		JFactory::$session = $this->getMockBuilder('JSession')->getMock();
-
 		// Before running, this should be null
 		$this->assertAttributeNotInstanceOf('JUser', 'identity', $this->class);
 
@@ -170,9 +110,6 @@ class JApplicationBaseTest extends TestCase
 
 		// A JUser object should have been loaded
 		$this->assertAttributeInstanceOf('JUser', 'identity', $this->class);
-
-		// Restore the global state
-		$this->restoreFactoryState();
 	}
 
 	/**
@@ -194,88 +131,38 @@ class JApplicationBaseTest extends TestCase
 	 * @testdox  Tests that an event is registered with the application dispatcher.
 	 *
 	 * @covers  JApplicationBase::registerEvent
-	 * @uses    JApplicationBase::loadDispatcher
+	 * @uses    JApplicationBase::setDispatcher
 	 */
 	public function testRegisterEvent()
 	{
 		// Inject the mock dispatcher into the application
-		$this->class->loadDispatcher($this->getMockDispatcher());
+		$this->class->setDispatcher($this->getMockDispatcher());
 
 		// Validate method chaining
-		$this->assertSame($this->class, $this->class->registerEvent('onJApplicationBaseRegisterEvent', 'function'));
+		$this->assertSame($this->class, $this->class->registerEvent('onJApplicationBaseRegisterEvent', [$this, 'eventCallback']));
 
 		// Validate the event was registered
 		$this->assertArrayHasKey('onJApplicationBaseRegisterEvent', TestMockDispatcher::$handlers);
 	}
 
 	/**
-	 * @testdox  Tests that data is set to the application configuration successfully.
-	 *
-	 * @covers  JApplicationBase::set
-	 * @uses    JApplicationBase::get
-	 * @uses    JApplicationBase::setConfiguration
-	 */
-	public function testSet()
-	{
-		// Build the mock object.
-		$mockConfig  = $this->getMockBuilder('Joomla\Registry\Registry')
-					->setMethods(array('get', 'set'))
-					->setConstructorArgs(array(array('foo' => 'bar')))
-					->setMockClassName('')
-					->disableOriginalClone()
-					->enableProxyingToOriginalMethods()
-					->getMock();
-		$this->class->setConfiguration($mockConfig);
-
-		$this->assertEquals('bar', $this->class->set('foo', 'car'), 'Checks set returns the previous value.');
-		$this->assertEquals('car', $this->class->get('foo'), 'Checks the new value has been set.');
-	}
-
-	/**
-	 * @testdox  Tests that the application configuration is overwritten successfully.
-	 *
-	 * @covers  JApplicationBase::setConfiguration
-	 */
-	public function testSetConfiguration()
-	{
-		$mockConfig = $this->getMockBuilder('Joomla\Registry\Registry')->getMock();
-
-		$this->class->setConfiguration($mockConfig);
-
-		$this->assertAttributeSame($mockConfig, 'config', $this->class);
-	}
-
-	/**
-	 * @testdox  Tests that a PSR-3 LoggerInterface object is correctly set to the application.
-	 *
-	 * @covers  JApplicationBase::setLogger
-	 */
-	public function testSetLogger()
-	{
-		$mockLogger = $this->getMockForAbstractClass('Psr\Log\AbstractLogger');
-
-		$this->class->setLogger($mockLogger);
-
-		$this->assertAttributeSame($mockLogger, 'logger', $this->class);
-	}
-
-	/**
 	 * @testdox  Tests that an event is triggered with the application dispatcher.
 	 *
 	 * @covers  JApplicationBase::triggerEvent
-	 * @uses    JApplicationBase::loadDispatcher
+	 * @uses    JApplicationBase::setDispatcher
 	 * @uses    JApplicationBase::registerEvent
 	 */
 	public function testTriggerEvent()
 	{
 		// Inject the mock dispatcher into the application
-		$this->class->loadDispatcher($this->getMockDispatcher());
+		$this->class->setDispatcher($this->getMockDispatcher());
 
 		// Register our event to be triggered
-		$this->class->registerEvent('onJApplicationBaseTriggerEvent', 'function');
+		$this->class->registerEvent('onJApplicationBaseTriggerEvent', [$this, 'eventCallback']);
 
 		// Validate the event was triggered
-		$this->assertSame(array('function' => null), $this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
+		$this->assertSame([], $this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
+		$this->assertTrue(in_array('onJApplicationBaseTriggerEvent', TestMockDispatcher::$triggered));
 	}
 
 	/**
@@ -285,8 +172,10 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testTriggerEventWithNoDispatcher()
 	{
+		$this->class->setDispatcher($this->getMockDispatcher());
+
 		// Validate the event was triggered
-		$this->assertNull($this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
+		$this->assertEmpty($this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
 	}
 
 	/**
@@ -316,5 +205,17 @@ class JApplicationBaseTest extends TestCase
 	{
 		unset($this->class);
 		parent::tearDown();
+	}
+
+	/**
+	 * Stub function used with testing event integrations
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function eventCallback()
+	{
+		// Stub for testing event integrations
 	}
 }

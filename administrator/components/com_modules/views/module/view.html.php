@@ -16,11 +16,34 @@ defined('_JEXEC') or die;
  */
 class ModulesViewModule extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	protected $item;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var    JObject
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $canDo;
 
 	/**
 	 * Display the view
@@ -39,9 +62,7 @@ class ModulesViewModule extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -69,26 +90,34 @@ class ModulesViewModule extends JViewLegacy
 		// For new records, check the create permission.
 		if ($isNew && $canDo->get('core.create'))
 		{
-			JToolbarHelper::apply('module.apply');
-			JToolbarHelper::save('module.save');
-			JToolbarHelper::save2new('module.save2new');
+			JToolbarHelper::saveGroup(
+				[
+					['apply', 'module.apply'],
+					['save', 'module.save'],
+					['save2new', 'module.save2new']
+				],
+				'btn-success'
+			);
+
 			JToolbarHelper::cancel('module.cancel');
 		}
 		else
 		{
+			$toolbarButtons = [];
+
 			// Can't save the record if it's checked out.
 			if (!$checkedOut)
 			{
 				// Since it's an existing record, check the edit permission.
 				if ($canDo->get('core.edit'))
 				{
-					JToolbarHelper::apply('module.apply');
-					JToolbarHelper::save('module.save');
+					$toolbarButtons[] = ['apply', 'module.apply'];
+					$toolbarButtons[] = ['save', 'module.save'];
 
 					// We can save this record, but check the create permission to see if we can return to make a new one.
 					if ($canDo->get('core.create'))
 					{
-						JToolbarHelper::save2new('module.save2new');
+						$toolbarButtons[] = ['save2new', 'module.save2new'];
 					}
 				}
 			}
@@ -96,8 +125,13 @@ class ModulesViewModule extends JViewLegacy
 			// If checked out, we can still save
 			if ($canDo->get('core.create'))
 			{
-				JToolbarHelper::save2copy('module.save2copy');
+				$toolbarButtons[] = ['save2copy', 'module.save2copy'];
 			}
+
+			JToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
 
 			JToolbarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
 		}

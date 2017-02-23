@@ -109,10 +109,10 @@ $doc->addScriptDeclaration(
 				$this->loadTemplate('imgs');
 		?>
 
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="username" value="" />
-		<input type="hidden" name="password" value="" />
-		<input type="hidden" name="boxchecked" value="" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="username" value="">
+		<input type="hidden" name="password" value="">
+		<input type="hidden" name="boxchecked" value="">
 		<?php echo JHtml::_('form.token'); ?>
 	</ul>
 </form>

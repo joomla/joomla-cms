@@ -61,7 +61,7 @@ class AssociationsViewAssociation extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public function display($tpl = null)
 	{
@@ -154,7 +154,7 @@ class AssociationsViewAssociation extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	protected function addToolbar()
 	{

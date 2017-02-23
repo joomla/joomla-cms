@@ -21,9 +21,7 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic"
-				addfieldpath="/administrator/components/com_menus/models/fields"
-			>
+			<fieldset name="basic" addfieldpath="/administrator/components/com_menus/models/fields">
 				<field
 					name="pretext"
 					type="textarea"
@@ -75,13 +73,13 @@
 				<field
 					name="greeting"
 					type="radio"
+					class="switcher"
 					label="MOD_LOGIN_FIELD_GREETING_LABEL"
 					description="MOD_LOGIN_FIELD_GREETING_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 				<field
 					name="profilelink"
@@ -109,13 +107,13 @@
 				<field
 					name="usesecure"
 					type="radio"
+					class="switcher"
 					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
 					description="MOD_LOGIN_FIELD_USESECURE_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field

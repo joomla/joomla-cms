@@ -246,48 +246,48 @@ SELECT setval('#__categories_id_seq', 8, false);
 --
 CREATE TABLE "#__contact_details" (
   "id" serial NOT NULL,
-  "name" varchar(255) DEFAULT '' NOT NULL,
-  "alias" varchar(255) DEFAULT '' NOT NULL,
-  "con_position" varchar(255) DEFAULT NULL,
+  "name" varchar(255) NOT NULL,
+  "alias" varchar(255) NOT NULL,
+  "con_position" varchar(255),
   "address" text,
-  "suburb" varchar(100) DEFAULT NULL,
-  "state" varchar(100) DEFAULT NULL,
-  "country" varchar(100) DEFAULT NULL,
-  "postcode" varchar(100) DEFAULT NULL,
-  "telephone" varchar(255) DEFAULT NULL,
-  "fax" varchar(255) DEFAULT NULL,
+  "suburb" varchar(100),
+  "state" varchar(100),
+  "country" varchar(100),
+  "postcode" varchar(100),
+  "telephone" varchar(255),
+  "fax" varchar(255),
   "misc" text,
-  "image" varchar(255) DEFAULT NULL,
-  "email_to" varchar(255) DEFAULT NULL,
-  "default_con" smallint DEFAULT 0 NOT NULL,
-  "published" smallint DEFAULT 0 NOT NULL,
-  "checked_out" bigint DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "ordering" bigint DEFAULT 0 NOT NULL,
+  "image" varchar(255),
+  "email_to" varchar(255),
+  "default_con" smallint NOT NULL DEFAULT 0,
+  "published" smallint NOT NULL DEFAULT 0,
+  "checked_out" bigint NOT NULL DEFAULT 0,
+  "checked_out_time" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
+  "ordering" bigint NOT NULL DEFAULT 0,
   "params" text NOT NULL,
-  "user_id" bigint DEFAULT 0 NOT NULL,
-  "catid" bigint DEFAULT 0 NOT NULL,
-  "access" bigint DEFAULT 0 NOT NULL,
-  "mobile" varchar(255) DEFAULT '' NOT NULL,
-  "webpage" varchar(255) DEFAULT '' NOT NULL,
-  "sortname1" varchar(255) NOT NULL,
-  "sortname2" varchar(255) NOT NULL,
-  "sortname3" varchar(255) NOT NULL,
-  "language" varchar(7) DEFAULT '' NOT NULL,
-  "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "created_by" integer DEFAULT 0 NOT NULL,
-  "created_by_alias" varchar(255) DEFAULT '' NOT NULL,
-  "modified" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "modified_by" integer DEFAULT 0 NOT NULL,
+  "user_id" bigint NOT NULL DEFAULT 0,
+  "catid" bigint NOT NULL DEFAULT 0,
+  "access" bigint NOT NULL DEFAULT 0,
+  "mobile" varchar(255) NOT NULL DEFAULT '',
+  "webpage" varchar(255) NOT NULL DEFAULT '',
+  "sortname1" varchar(255) NOT NULL DEFAULT '',
+  "sortname2" varchar(255) NOT NULL DEFAULT '',
+  "sortname3" varchar(255) NOT NULL DEFAULT '',
+  "language" varchar(7) NOT NULL,
+  "created" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
+  "created_by" integer NOT NULL DEFAULT 0,
+  "created_by_alias" varchar(255) NOT NULL DEFAULT '',
+  "modified" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
+  "modified_by" integer NOT NULL DEFAULT 0,
   "metakey" text NOT NULL,
   "metadesc" text NOT NULL,
   "metadata" text NOT NULL,
-  "featured" smallint DEFAULT 0 NOT NULL,
-  "xreference" varchar(50) NOT NULL,
-  "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "version" bigint DEFAULT 1 NOT NULL,
-  "hits" bigint DEFAULT 0 NOT NULL,
+  "featured" smallint NOT NULL DEFAULT 0,
+  "xreference" varchar(50) NOT NULL DEFAULT '',
+  "publish_up" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
+  "publish_down" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
+  "version" bigint NOT NULL DEFAULT 1,
+  "hits" bigint NOT NULL DEFAULT 0,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__contact_details_idx_access" ON "#__contact_details" ("access");
@@ -509,7 +509,6 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 
 -- Libraries
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
-(102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (103, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (104, 'IDNA Convert', 'library', 'idna_convert', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (105, 'FOF', 'library', 'fof', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -553,7 +552,6 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (307, 'mod_popular', 'module', 'mod_popular', '', 1, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (308, 'mod_quickicon', 'module', 'mod_quickicon', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (309, 'mod_status', 'module', 'mod_status', '', 1, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(310, 'mod_submenu', 'module', 'mod_submenu', '', 1, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (311, 'mod_title', 'module', 'mod_title', '', 1, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (312, 'mod_toolbar', 'module', 'mod_toolbar', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (313, 'mod_multilangstatus', 'module', 'mod_multilangstatus', '', 1, 1, 1, 0, '', '{"cache":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -585,7 +583,6 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (419, 'plg_search_content', 'plugin', 'content', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","search_content":"1","search_archived":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (420, 'plg_search_newsfeeds', 'plugin', 'newsfeeds', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","search_content":"1","search_archived":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (422, 'plg_system_languagefilter', 'plugin', 'languagefilter', 'system', 0, 0, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 1, 0),
-(423, 'plg_system_p3p', 'plugin', 'p3p', 'system', 0, 0, 1, 0, '', '{"headers":"NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"}', '', '', 0, '1970-01-01 00:00:00', 2, 0),
 (424, 'plg_system_cache', 'plugin', 'cache', 'system', 0, 0, 1, 1, '', '{"browsercache":"0","cachetime":"15"}', '', '', 0, '1970-01-01 00:00:00', 9, 0),
 (425, 'plg_system_debug', 'plugin', 'debug', 'system', 0, 1, 1, 0, '', '{"profile":"1","queries":"1","memory":"1","language_files":"1","language_strings":"1","strip-first":"1","strip-prefix":"","strip-suffix":""}', '', '', 0, '1970-01-01 00:00:00', 4, 0),
 (426, 'plg_system_log', 'plugin', 'log', 'system', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 5, 0),
@@ -640,14 +637,14 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (476, 'plg_fields_user', 'plugin', 'user', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (477, 'plg_fields_usergrouplist', 'plugin', 'usergrouplist', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (478, 'plg_content_fields', 'plugin', 'fields', 'content', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(479, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+(479, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(480, 'plg_behaviour_taggable', 'plugin', 'taggable', 'behaviour', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(481, 'plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Templates
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
-(503, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(504, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, '', '{"showSiteName":"0","colourChoice":"0","boldText":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(506, 'protostar', 'template', 'protostar', '', 0, 1, 1, 0, '', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(507, 'isis', 'template', 'isis', '', 1, 1, 1, 0, '', '{"templateColor":"","logoFile":""}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+(508, 'protostar', 'template', 'protostar', '', 0, 1, 1, 0, '', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(509, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Languages
 INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -1695,10 +1692,8 @@ CREATE INDEX "#__template_styles_idx_home" ON "#__template_styles" ("home");
 --
 
 INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title", "params") VALUES
-(4, 'beez3', 0, '0', 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.png","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
-(5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
-(7, 'protostar', 0, '1', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
-(8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
+(9, 'protostar', 0, '1', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
+(10, 'atum', 1, '1', 'atum - Default', '');
 
 SELECT setval('#__template_styles_id_seq', 9, false);
 
@@ -1949,7 +1944,6 @@ CREATE TABLE "#__user_keys" (
   "user_id" varchar(255) NOT NULL,
   "token" varchar(255) NOT NULL,
   "series" varchar(255) NOT NULL,
-  "invalid" smallint NOT NULL,
   "time" varchar(200) NOT NULL,
   "uastring" varchar(255) NOT NULL,
   PRIMARY KEY ("id"),

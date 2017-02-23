@@ -44,7 +44,7 @@ class JHtmlTemplates
 
 			if (file_exists($preview))
 			{
-				$html = '<a href="#' . $template . '-Modal" role="button" class="thumbnail pull-left hasTooltip" data-toggle="modal" title="' .
+				$html = '<a href="#' . $template . '-Modal" role="button" class="thumbnail float-left hasTooltip" data-toggle="modal" title="' .
 					JHtml::_('tooltipText', 'COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</a>';
 			}
 		}
@@ -76,7 +76,7 @@ class JHtmlTemplates
 			if (file_exists($preview))
 			{
 				$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
-				$footer = '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+				$footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 					. JText::_('JTOOLBAR_CLOSE') . '</a>';
 
 				$html .= JHtml::_(

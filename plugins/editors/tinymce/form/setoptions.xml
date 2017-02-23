@@ -34,25 +34,25 @@
     <field
             name="mobile"
             type="radio"
+			class="switcher"
             label="PLG_TINY_FIELD_MOBILE_LABEL"
             description="PLG_TINY_FIELD_MOBILE_DESC"
-            class="btn-group btn-group-yesno"
             default="0"
     >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
             name="drag_drop"
             type="radio"
+			class="switcher"
             label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
             description="PLG_TINY_FIELD_DRAG_DROP_DESC"
-            class="btn-group btn-group-yesno"
             default="1"
     >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -79,13 +79,13 @@
     <field
             name="lang_mode"
             type="radio"
+			class="switcher"
             label="PLG_TINY_FIELD_LANGSELECT_LABEL"
             description="PLG_TINY_FIELD_LANGSELECT_DESC"
-            class="btn-group btn-group-yesno"
             default="1"
     >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -95,7 +95,7 @@
             description="PLG_TINY_FIELD_LANGCODE_DESC"
             class="inputbox"
             stripext="1"
-            directory="media/editors/tinymce/langs/"
+            directory="media/vendor/tinymce/langs/"
             hide_none="1"
             default="en"
             hide_default="1"
@@ -118,13 +118,13 @@
     <field
             name="content_css"
             type="radio"
+			class="switcher"
             label="PLG_TINY_FIELD_CSS_LABEL"
             description="PLG_TINY_FIELD_CSS_DESC"
-            class="btn-group btn-group-yesno"
             default="1"
     >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -160,13 +160,13 @@
     <field
             name="use_config_textfilters"
             type="radio"
+			class="switcher"
             label="PLG_TINY_CONFIG_TEXTFILTER_ACL_LABEL"
             description="PLG_TINY_CONFIG_TEXTFILTER_ACL_DESC"
-            class="btn-group btn-group-yesno"
             default="0"
     >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -201,9 +201,9 @@
     <field
             name="resizing"
             type="radio"
+			class="switcher"
             label="PLG_TINY_FIELD_RESIZING_LABEL"
             description="PLG_TINY_FIELD_RESIZING_DESC"
-            class="btn-group btn-group-yesno"
             default="1"
     >
         <option value="1">JON</option>
@@ -213,9 +213,9 @@
     <field
             name="resize_horizontal"
             type="radio"
+			class="switcher"
             label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
             description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
-            class="btn-group btn-group-yesno"
             default="1"
             showon="resizing:1"
     >
@@ -226,9 +226,9 @@
     <field
             name="element_path"
             type="radio"
+			class="switcher"
             label="PLG_TINY_FIELD_PATH_LABEL"
             description="PLG_TINY_FIELD_PATH_DESC"
-            class="btn-group btn-group-yesno"
             default="0"
     >
         <option value="1">JON</option>
@@ -238,9 +238,9 @@
     <field
             name="wordcount"
             type="radio"
+			class="switcher"
             label="PLG_TINY_FIELD_WORDCOUNT_LABEL"
             description="PLG_TINY_FIELD_WORDCOUNT_DESC"
-            class="btn-group btn-group-yesno"
             default="1"
     >
         <option value="1">JON</option>
@@ -250,9 +250,9 @@
     <field
             name="image_advtab"
             type="radio"
+			class="switcher"
             label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
             description="PLG_TINY_FIELD_ADVIMAGE_DESC"
-            class="btn-group btn-group-yesno"
             default="1"
     >
         <option value="1">JON</option>
@@ -262,9 +262,9 @@
     <field
             name="advlist"
             type="radio"
+			class="switcher"
             label="PLG_TINY_FIELD_ADVLIST_LABEL"
             description="PLG_TINY_FIELD_ADVLIST_DESC"
-            class="btn-group btn-group-yesno"
             default="1"
     >
         <option value="1">JON</option>
@@ -274,9 +274,9 @@
     <field
             name="autosave"
             type="radio"
+			class="switcher"
             label="PLG_TINY_FIELD_SAVEWARNING_LABEL"
             description="PLG_TINY_FIELD_SAVEWARNING_DESC"
-            class="btn-group btn-group-yesno"
             default="1"
     >
         <option value="1">JON</option>
@@ -286,9 +286,9 @@
     <field
             name="contextmenu"
             type="radio"
+			class="switcher"
             label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
             description="PLG_TINY_FIELD_CONTEXTMENU_DESC"
-            class="btn-group btn-group-yesno"
             default="1"
     >
         <option value="1">JON</option>

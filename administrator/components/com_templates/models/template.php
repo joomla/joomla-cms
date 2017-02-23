@@ -116,7 +116,7 @@ class TemplatesModelTemplate extends JModelForm
 
 		foreach ($dirFiles as $key => $value)
 		{
-			if (!in_array($value, array('.', '..')))
+			if (!in_array($value, array('.', '..', 'node_modules')))
 			{
 				if (is_dir($dir . $value))
 				{
@@ -1229,7 +1229,6 @@ class TemplatesModelTemplate extends JModelForm
 
 				$font['name'] = $fileName;
 			}
-
 			else
 			{
 				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');

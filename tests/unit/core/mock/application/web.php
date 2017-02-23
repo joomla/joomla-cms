@@ -69,6 +69,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 			'set',
 			'setBody',
 			'setHeader',
+			'setSession',
 		);
 
 		return array_merge($methods, parent::getMethods());
@@ -143,14 +144,15 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	 *
 	 * If any *Body methods are implemented in the test class, all should be implemented otherwise behaviour will be unreliable.
 	 *
-	 * @param   TestCase  $test     A test object.
-	 * @param   array     $options  A set of options to configure the mock.
+	 * @param   TestCase  $test         A test object.
+	 * @param   array     $options      A set of options to configure the mock.
+	 * @param   array     $constructor  An array containing constructor arguments to inject into the mock.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   11.3
 	 */
-	public static function create($test, $options = array())
+	public static function create($test, $options = array(), $constructor = array())
 	{
 		// Set expected server variables.
 		if (!isset($_SERVER['HTTP_HOST']))
@@ -158,19 +160,25 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 			$_SERVER['HTTP_HOST'] = 'localhost';
 		}
 
-		// Collect all the relevant methods in JApplicationWeb (work in progress).
-		$methods = self::getMethods();
+		// Create the mock.
+		$mockObject = $test->getMockForAbstractClass(
+			// Original class name.
+			'JApplicationWeb',
+			// Constructor arguments.
+			$constructor,
+			// Mock class name.
+			'',
+			// Call original constructor.
+			true,
+			// Call original clone.
+			true,
+			// Call autoload.
+			true,
+			// Mocked methods.
+			self::getMethods()
+		);
 
-		// Build the mock object & allow call to original constructor.
-		$mockObject = $test->getMockBuilder('JApplicationWeb')
-					->setMethods($methods)
-					->setConstructorArgs(array())
-					->setMockClassName('')
-					->getMock();
-
-		$mockObject = self::addBehaviours($test, $mockObject, $options);
-
-		return $mockObject;
+		return self::addBehaviours($test, $mockObject, $options);
 	}
 
 	/**

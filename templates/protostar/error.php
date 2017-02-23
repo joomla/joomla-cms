@@ -11,8 +11,7 @@ defined('_JEXEC') or die;
 
 /** @var JDocumentError $this */
 
-$app  = JFactory::getApplication();
-$user = JFactory::getUser();
+$app = JFactory::getApplication();
 
 // Getting params from template
 $params = $app->getTemplate(true)->params;
@@ -68,7 +67,7 @@ else
 	<?php endif; ?>
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" rel="stylesheet" />
 	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
-		<link href="<?php echo JUri::root(true); ?>/media/cms/css/debug.css" rel="stylesheet" />
+		<link href="<?php echo JUri::root(true); ?>/media/system/css/debug.css" rel="stylesheet" />
 	<?php endif; ?>
 	<?php // If Right-to-Left ?>
 	<?php if ($this->direction === 'rtl') : ?>
@@ -95,7 +94,6 @@ else
 			}
 		</style>
 	<?php endif; ?>
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="site <?php echo $option
 	. ' view-' . $view
@@ -153,7 +151,7 @@ else
 								<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn"><span class="icon-home"></span> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
 							</div>
 						</div>
-						<hr />
+						<hr>
 						<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
 						<blockquote>
 							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
@@ -187,7 +185,7 @@ else
 	<!-- Footer -->
 	<div class="footer">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
-			<hr />
+			<hr>
 			<?php echo $this->getBuffer('modules', 'footer', array('style' => 'none')); ?>
 			<p class="pull-right">
 				<a href="#top" id="back-top">

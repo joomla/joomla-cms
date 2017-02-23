@@ -13,23 +13,15 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
-JHtml::_('formbehavior.chosen', 'select');
+
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $colSpan   = 4 + count($this->actions);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('user_id')); ?>" method="post" name="adminForm" id="adminForm">
-<?php if (!empty( $this->sidebar)) : ?>
-	<div id="j-sidebar-container" class="span2">
-		<?php echo $this->sidebar; ?>
-	</div>
-	<div id="j-main-container" class="span10">
-<?php else : ?>
-	<div id="j-main-container">
-<?php endif; ?>
+	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<div class="clearfix"> </div>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -40,14 +32,14 @@ $colSpan   = 4 + count($this->actions);
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
 					</th>
 					<?php foreach ($this->actions as $key => $action) : ?>
-					<th width="5%" class="center">
+					<th width="5%" class="text-center">
 						<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', $key, $action[1]); ?>"><?php echo JText::_($key); ?></span>
 					</th>
 					<?php endforeach; ?>
-					<th width="5%" class="nowrap center">
+					<th width="5%" class="nowrap text-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LFT', 'a.lft', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-center">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -86,30 +78,30 @@ $colSpan   = 4 + count($this->actions);
 								$button = '';
 							endif;
 							?>
-						<td class="center">
+						<td class="text-center">
 							<span class="icon-white <?php echo $class; ?>"></span>
 						</td>
 						<?php endforeach; ?>
-						<td class="center">
+						<td class="text-center">
 							<?php echo (int) $item->lft; ?>
 							- <?php echo (int) $item->rgt; ?>
 						</td>
-						<td class="center">
+						<td class="text-center">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="boxchecked" value="0">
 		<?php echo JHtml::_('form.token'); ?>
 		<div>
 			<?php echo JText::_('COM_USERS_DEBUG_LEGEND'); ?>
 			<span class="icon-white icon-ban-circle"></span><?php echo JText::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
 			<span class="icon-white icon-ok"></span><?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
 			<span class="icon-white icon-remove"></span><?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
-			<br /><br />
+			<br><br>
 		</div>
 	</div>
 </form>

@@ -35,30 +35,54 @@ class ContactViewFeatured extends JViewLegacy
 	protected $items;
 
 	/**
-	 * Who knows what this variable was intended for - but it's never been used
-	 *
-	 * @var         array
-	 * @since       1.6.0
-	 * @deprecated  4.0  This variable has been null since 1.6.0-beta8
-	 */
-	protected $category;
-
-	/**
-	 * Who knows what this variable was intended for - but it's never been used
-	 *
-	 * @var         JObject  Maybe.
-	 * @since       1.6.0
-	 * @deprecated  4.0  This variable has never been used ever
-	 */
-	protected $categories;
-
-	/**
 	 * The pagination object
 	 *
 	 * @var    JPagination
 	 * @since  1.6.0
 	 */
 	protected $pagination;
+
+	/**
+	 * Who knows what this variable was intended for - but it's never been used
+	 *
+	 * @var         integer
+	 * @deprecated  4.0  This variable has never been used ever
+	 */
+	protected $maxLevel;
+
+	/**
+	 * Who knows what this variable was intended for - but it's never been used
+	 *
+	 * @var         array
+	 * @since       1.6.0
+	 * @deprecated  4.0  This variable has been null since 1.6.0-beta8
+	 */
+	protected $children;
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
+
+	/**
+	 * Who knows what this variable was intended for - but it's never been used
+	 *
+	 * @var         array
+	 * @since       1.6.0
+	 * @deprecated  4.0  This variable has been null since 1.6.0-beta8
+	 */
+	protected $parent;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
 
 	/**
 	 * Method to display the view.
@@ -85,9 +109,7 @@ class ContactViewFeatured extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseWarning(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Prepare the data.

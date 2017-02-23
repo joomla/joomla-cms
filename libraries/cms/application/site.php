@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
 /**
@@ -22,45 +23,44 @@ final class JApplicationSite extends JApplicationCms
 	 * Option to filter by language
 	 *
 	 * @var    boolean
-	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $language_filter
+	 * @since  4.0
 	 */
-	protected $_language_filter = false;
+	protected $language_filter = false;
 
 	/**
 	 * Option to detect language by the browser
 	 *
 	 * @var    boolean
-	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $detect_browser
+	 * @since  4.0
 	 */
-	protected $_detect_browser = false;
+	protected $detect_browser = false;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
-	 *                                          input object.  If the argument is a JInput object that object will become
-	 *                                          the application's input object, otherwise a default input object is created.
-	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
-	 *                                          config object.  If the argument is a Registry object that object will become
-	 *                                          the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                                          the application's client object, otherwise a default client object is created.
+	 * @param   JInput                 $input      An optional argument to provide dependency injection for the application's
+	 *                                             input object.  If the argument is a JInput object that object will become
+	 *                                             the application's input object, otherwise a default input object is created.
+	 * @param   Registry               $config     An optional argument to provide dependency injection for the application's
+	 *                                             config object.  If the argument is a Registry object that object will become
+	 *                                             the application's config object, otherwise a default config object is created.
+	 * @param   JApplicationWebClient  $client     An optional argument to provide dependency injection for the application's
+	 *                                             client object.  If the argument is a JApplicationWebClient object that object will become
+	 *                                             the application's client object, otherwise a default client object is created.
+	 * @param   Container              $container  Dependency injection container.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
+	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null, Container $container = null)
 	{
 		// Register the application name
-		$this->_name = 'site';
+		$this->name = 'site';
 
 		// Register the client ID
-		$this->_clientId = 0;
+		$this->clientId = 0;
 
 		// Execute the parent constructor
-		parent::__construct($input, $config, $client);
+		parent::__construct($input, $config, $client, $container);
 	}
 
 	/**
@@ -156,7 +156,7 @@ final class JApplicationSite extends JApplicationCms
 
 				$document->setMetaData('rights', $this->get('MetaRights'));
 
-				if ($router->getMode() == JROUTER_MODE_SEF)
+				if ($this->get('sef'))
 				{
 					$document->setBase(htmlspecialchars(JUri::current()));
 				}
@@ -242,7 +242,7 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public function getDetectBrowser()
 	{
-		return $this->_detect_browser;
+		return $this->detect_browser;
 	}
 
 	/**
@@ -254,7 +254,7 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public function getLanguageFilter()
 	{
-		return $this->_language_filter;
+		return $this->language_filter;
 	}
 
 	/**
@@ -270,21 +270,6 @@ final class JApplicationSite extends JApplicationCms
 	public function getMenu($name = 'site', $options = array())
 	{
 		return parent::getMenu($name, $options);
-	}
-
-	/**
-	 * Get the application parameters
-	 *
-	 * @param   string  $option  The component option
-	 *
-	 * @return  Registry  The parameters object
-	 *
-	 * @since   3.2
-	 * @deprecated  4.0  Use getParams() instead
-	 */
-	public function getPageParameters($option = null)
-	{
-		return $this->getParams($option);
 	}
 
 	/**
@@ -455,7 +440,7 @@ final class JApplicationSite extends JApplicationCms
 
 		$cache = JFactory::getCache('com_templates', '');
 
-		if ($this->_language_filter)
+		if ($this->getLanguageFilter())
 		{
 			$tag = $this->getLanguage()->getTag();
 		}
@@ -487,7 +472,7 @@ final class JApplicationSite extends JApplicationCms
 			foreach ($templates as &$template)
 			{
 				// Create home element
-				if ($template->home == 1 && !isset($template_home) || $this->_language_filter && $template->home == $tag)
+				if ($template->home == 1 && !isset($template_home) || $this->getLanguageFilter() && $template->home == $tag)
 				{
 					$template_home = clone $template;
 				}
@@ -544,18 +529,6 @@ final class JApplicationSite extends JApplicationCms
 		{
 			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
-			// Try to find data for 'beez3' template
-			$original_tmpl = $template->template;
-
-			foreach ($templates as $tmpl)
-			{
-				if ($tmpl->template == 'beez3')
-				{
-					$template = $tmpl;
-					break;
-				}
-			}
-
 			// Check, the data were found and if template really exists
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
@@ -592,22 +565,6 @@ final class JApplicationSite extends JApplicationCms
 		{
 			$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 			$user->groups = array($guestUsergroup);
-		}
-
-		/*
-		 * If a language was specified it has priority, otherwise use user or default language settings
-		 * Check this only if the languagefilter plugin is enabled
-		 *
-		 * @TODO - Remove the hardcoded dependency to the languagefilter plugin
-		 */
-		if (JPluginHelper::isEnabled('system', 'languagefilter'))
-		{
-			$plugin = JPluginHelper::getPlugin('system', 'languagefilter');
-
-			$pluginParams = new Registry($plugin->params);
-
-			$this->setLanguageFilter(true);
-			$this->setDetectBrowser($pluginParams->get('detect_browser', '1') == '1');
 		}
 
 		if (empty($options['language']))
@@ -809,8 +766,8 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public function setDetectBrowser($state = false)
 	{
-		$old = $this->_detect_browser;
-		$this->_detect_browser = $state;
+		$old = $this->getDetectBrowser();
+		$this->detect_browser = $state;
 
 		return $old;
 	}
@@ -826,8 +783,8 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public function setLanguageFilter($state = false)
 	{
-		$old = $this->_language_filter;
-		$this->_language_filter = $state;
+		$old = $this->getLanguageFilter();
+		$this->language_filter = $state;
 
 		return $old;
 	}

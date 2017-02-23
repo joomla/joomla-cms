@@ -179,21 +179,25 @@ class FieldsHelper
 				{
 					JPluginHelper::importPlugin('fields');
 
-					$dispatcher = JEventDispatcher::getInstance();
-
-					// Event allow plugins to modfify the output of the field before it is prepared
-					$dispatcher->trigger('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
+					/*
+					 * On before field prepare
+					 * Event allow plugins to modfify the output of the field before it is prepared
+					 */
+					JFactory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
 					// Gathering the value for the field
-					$value = $dispatcher->trigger('onCustomFieldsPrepareField', array($context, $item, &$field));
+					$value = JFactory::getApplication()->triggerEvent('onCustomFieldsPrepareField', array($context, $item, &$field));
 
 					if (is_array($value))
 					{
 						$value = implode($value, ' ');
 					}
 
-					// Event allow plugins to modfify the output of the prepared field
-					$dispatcher->trigger('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
+					/*
+					 * On after field render
+					 * Event allows plugins to modify the output of the prepared field
+					 */
+					JFactory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
 
 					// Assign the value
 					$field->value = $value;
@@ -452,7 +456,7 @@ class FieldsHelper
 			{
 				try
 				{
-					JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
+					JFactory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
 
 					/*
 					 * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
@@ -711,7 +715,7 @@ class FieldsHelper
 	public static function getFieldTypes()
 	{
 		JPluginHelper::importPlugin('fields');
-		$eventData = JEventDispatcher::getInstance()->trigger('onCustomFieldsGetTypes');
+		$eventData = JFactory::getApplication()->triggerEvent('onCustomFieldsGetTypes');
 
 		$data = array();
 

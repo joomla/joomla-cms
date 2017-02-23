@@ -16,7 +16,7 @@ $class  = $displayData['class'];
 $text   = $displayData['text'];
 $name   = $displayData['name'];
 ?>
-<button value="<?php echo $doTask; ?>" class="btn btn-small modal" data-toggle="modal" data-target="#modal-<?php echo $name; ?>">
+<button value="<?php echo $doTask; ?>" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modal-<?php echo $name; ?>">
 	<span class="<?php echo $class; ?>"></span>
 	<?php echo $text; ?>
 </button>

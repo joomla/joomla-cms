@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Event\Event;
+
 /**
  * Plain Textarea Editor Plugin
  *
@@ -137,14 +139,15 @@ class PlgEditorNone extends JPlugin
 	{
 		$return = '';
 
-		$args = array(
-			'name'  => $name,
-			'event' => 'onGetInsertMethod'
+		$onGetInsertMethodEvent = new Event(
+			'onGetInsertMethod',
+			['name' => $name]
 		);
 
-		$results = (array) $this->update($args);
+		$rawResults = $this->getDispatcher()->dispatch('onGetInsertMethod', $onGetInsertMethodEvent);
+		$results    = $rawResults['result'];
 
-		if ($results)
+		if (is_array($results) && !empty($results))
 		{
 			foreach ($results as $result)
 			{
@@ -157,7 +160,16 @@ class PlgEditorNone extends JPlugin
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
-			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
+			$buttonsEvent = new Event(
+				'getButtons',
+				[
+					'name'    => $this->_name,
+					'buttons' => $buttons,
+				]
+			);
+
+			$buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
+			$buttons       = $buttonsResult['result'];
 
 			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}

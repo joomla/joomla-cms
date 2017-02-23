@@ -28,40 +28,40 @@
 				<field
 					name="lineNumbers"
 					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="options"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
 					name="codeFolding"
 					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
 					description="PLG_CODEMIRROR_FIELD_CODEFOLDING_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="options"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
 					name="markerGutter"
 					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="options"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
@@ -80,105 +80,105 @@
 				<field
 					name="activeLine"
 					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
 					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="options"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
 					name="selectionMatches"
 					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_LABEL"
 					description="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="options"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
 					name="matchTags"
 					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MATCHTAGS_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="options"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
 					name="matchBrackets"
 					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="options"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
 					name="autoCloseTags"
 					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="options"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
 					name="autoCloseBrackets"
 					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
 					description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="options"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
 					name="autoFocus"
 					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOFOCUS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_AUTOFOCUS_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="options"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
 					name="vimKeyBinding"
 					type="radio"
+					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_LABEL"
 					description="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					filter="options"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
@@ -247,7 +247,7 @@
 					stripext="true"
 					hide_none="true"
 					hide_default="false"
-					directory="media/editors/codemirror/theme"
+					directory="media/vendor/codemirror/theme"
 					>
 					<option value="">JDEFAULT</option>
 				</field>
@@ -316,10 +316,9 @@
 
 				<field
 					name="scrollbarStyle"
-					type="radio"
+					type="list"
 					label="PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_LABEL"
 					description="PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_DESC"
-					class="btn-group btn-group-yesno"
 					default="native"
 					filter="options"
 					>

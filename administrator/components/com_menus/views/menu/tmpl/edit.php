@@ -14,7 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidator');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.tabstate');
 
 JText::script('ERROR');
 
@@ -33,7 +33,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="form-horizontal">
+	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_MENU_DETAILS')); ?>
@@ -70,9 +70,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php endif; ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="task" value="">
 		<?php echo JHtml::_('form.token'); ?>
-
-
 	</div>
 </form>

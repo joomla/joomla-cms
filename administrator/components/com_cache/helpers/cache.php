@@ -17,23 +17,6 @@ defined('_JEXEC') or die;
 class CacheHelper
 {
 	/**
-	 * Get a list of filter options for the application clients.
-	 *
-	 * @return  array  An array of JHtmlOption elements.
-	 *
-	 * @deprecated  4.0  No replacement.
-	 */
-	public static function getClientOptions()
-	{
-		// Build the filter options.
-		$options   = array();
-		$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
-		$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
-
-		return $options;
-	}
-
-	/**
 	 * Configure the Linkbar.
 	 *
 	 * @param   string  $vName  The name of the active view.

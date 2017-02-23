@@ -59,7 +59,7 @@ class UsersViewNote extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Get the component HTML helpers
@@ -90,23 +90,30 @@ class UsersViewNote extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_USERS_NOTES'), 'users user');
 
+		$toolbarButtons = [];
+
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || (count($user->getAuthorisedCategories('com_users', 'core.create')))))
 		{
-			JToolbarHelper::apply('note.apply');
-			JToolbarHelper::save('note.save');
+			$toolbarButtons[] = ['apply', 'note.apply'];
+			$toolbarButtons[] = ['save', 'note.save'];
 		}
 
 		if (!$checkedOut && (count($user->getAuthorisedCategories('com_users', 'core.create'))))
 		{
-			JToolbarHelper::save2new('note.save2new');
+			$toolbarButtons[] = ['save2new', 'note.save2new'];
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && (count($user->getAuthorisedCategories('com_users', 'core.create')) > 0))
 		{
-			JToolbarHelper::save2copy('note.save2copy');
+			$toolbarButtons[] = ['save2copy', 'note.save2copy'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if (empty($this->item->id))
 		{

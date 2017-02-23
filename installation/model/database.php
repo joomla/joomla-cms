@@ -193,9 +193,10 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @param   array  $options  The configuration options
 	 *
-	 * @return    boolean    True on success.
+	 * @return  boolean
 	 *
-	 * @since    3.1
+	 * @since   3.1
+	 * @throws  RuntimeException
 	 */
 	public function createDatabase($options)
 	{
@@ -209,8 +210,11 @@ class InstallationModelDatabase extends JModelBase
 
 		$options['db_select'] = false;
 
-		if (!$db = $this->initialise($options))
+		$db = $this->initialise($options);
+
+		if ($db === false)
 		{
+			// Error messages are enqueued by the initialise function, we just need to tell the controller how to redirect
 			return false;
 		}
 
@@ -259,9 +263,7 @@ class InstallationModelDatabase extends JModelBase
 				catch (RuntimeException $e)
 				{
 					// We did everything we could
-					JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'error');
-
-					return false;
+					throw new RuntimeException(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $e);
 				}
 
 				// If we got here, the database should have been successfully created, now try one more time to get the version
@@ -272,31 +274,23 @@ class InstallationModelDatabase extends JModelBase
 				catch (RuntimeException $e)
 				{
 					// We did everything we could
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
-
-					return false;
+					throw new RuntimeException(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
 				}
 			}
 			elseif ($type == 'postgresql' && strpos($e->getMessage(), 'Error connecting to PGSQL database') === 42)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'error');
-
-				return false;
+				throw new RuntimeException(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $e);
 			}
 			// Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
 			else
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
-
-				return false;
+				throw new RuntimeException(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
 			}
 		}
 
 		if (!$db->isMinimumVersion())
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version), 'error');
-
-			return false;
+			throw new RuntimeException(JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version));
 		}
 
 		if ($db->getServerType() === 'mysql')
@@ -304,26 +298,20 @@ class InstallationModelDatabase extends JModelBase
 			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
 			if (preg_match('#[\\\/\.\0]#', $options->db_name) && (!version_compare($db_version, '5.1.6', '>=')))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version), 'error');
-
-				return false;
+				throw new RuntimeException(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
 			}
 		}
 
 		// @internal Check for spaces in beginning or end of name.
 		if (strlen(trim($options->db_name)) <> strlen($options->db_name))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_NAME_INVALID_SPACES'), 'error');
-
-			return false;
+			throw new RuntimeException(JText::_('INSTL_DATABASE_NAME_INVALID_SPACES'));
 		}
 
 		// @internal Check for asc(00) Null in name.
 		if (strpos($options->db_name, chr(00)) !== false)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'), 'error');
-
-			return false;
+			throw new RuntimeException(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
 		}
 
 		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
@@ -337,9 +325,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 			catch (RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 'error');
-
-				return false;
+				throw new RuntimeException(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
 			}
 
 			$column = $db->loadResult();
@@ -354,9 +340,7 @@ class InstallationModelDatabase extends JModelBase
 				}
 				catch (RuntimeException $e)
 				{
-					JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 'error');
-
-					return false;
+					throw new RuntimeException(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
 				}
 			}
 		}
@@ -372,16 +356,12 @@ class InstallationModelDatabase extends JModelBase
 		catch (RuntimeException $e)
 		{
 			// If the database could not be selected, attempt to create it and then select it.
-			if ($this->createDb($db, $options, $utfSupport))
+			if (!$this->createDb($db, $options, $utfSupport))
 			{
-				$db->select($options->db_name);
+				throw new RuntimeException(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name), 500, $e);
 			}
-			else
-			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name), 'error');
 
-				return false;
-			}
+			$db->select($options->db_name);
 		}
 
 		$options = (array) $options;
@@ -397,7 +377,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 		}
 
-		$options = array_merge(array('db_created' => 1), $options);
+		$options = array_merge(['db_created' => 1], $options);
 
 		// Restore autoselect value after database creation.
 		$options['db_select'] = $tmpSelect;
@@ -491,10 +471,6 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$schema = 'sql/mysql/joomla.sql';
 		}
-		elseif ($db->getServerType() === 'mssql')
-		{
-			$schema = 'sql/sqlazure/joomla.sql';
-		}
 		else
 		{
 			$schema = 'sql/' . $type . '/joomla.sql';
@@ -545,10 +521,6 @@ class InstallationModelDatabase extends JModelBase
 		if ($serverType === 'mysql')
 		{
 			$pathPart .= 'mysql/';
-		}
-		elseif ($serverType === 'mssql')
-		{
-			$pathPart .= 'sqlazure/';
 		}
 		else
 		{
@@ -631,10 +603,6 @@ class InstallationModelDatabase extends JModelBase
 		if ($serverType === 'mysql')
 		{
 			$dblocalise = 'sql/mysql/localise.sql';
-		}
-		elseif ($serverType === 'mssql')
-		{
-			$dblocalise = 'sql/sqlazure/localise.sql';
 		}
 		else
 		{
@@ -725,10 +693,6 @@ class InstallationModelDatabase extends JModelBase
 		if ($db->getServerType() === 'mysql')
 		{
 			$type = 'mysql';
-		}
-		elseif ($db->getServerType() === 'mssql')
-		{
-			$type = 'sqlazure';
 		}
 
 		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;

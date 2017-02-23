@@ -340,7 +340,6 @@ class UsersModelUser extends JModelAdmin
 		$iAmSuperAdmin = $user->authorise('core.admin');
 
 		JPluginHelper::importPlugin($this->events_map['delete']);
-		$dispatcher = JEventDispatcher::getInstance();
 
 		if (in_array($user->id, $pks))
 		{
@@ -366,7 +365,7 @@ class UsersModelUser extends JModelAdmin
 					$user_to_delete = JFactory::getUser($pk);
 
 					// Fire the before delete event.
-					$dispatcher->trigger($this->event_before_delete, array($table->getProperties()));
+					JFactory::getApplication()->triggerEvent($this->event_before_delete, array($table->getProperties()));
 
 					if (!$table->delete($pk))
 					{
@@ -377,7 +376,7 @@ class UsersModelUser extends JModelAdmin
 					else
 					{
 						// Trigger the after delete event.
-						$dispatcher->trigger($this->event_after_delete, array($user_to_delete->getProperties(), true, $this->getError()));
+						JFactory::getApplication()->triggerEvent($this->event_after_delete, array($user_to_delete->getProperties(), true, $this->getError()));
 					}
 				}
 				else
@@ -411,7 +410,6 @@ class UsersModelUser extends JModelAdmin
 	public function block(&$pks, $value = 1)
 	{
 		$app        = JFactory::getApplication();
-		$dispatcher = JEventDispatcher::getInstance();
 		$user       = JFactory::getUser();
 
 		// Check if I am a Super Admin
@@ -471,7 +469,7 @@ class UsersModelUser extends JModelAdmin
 						}
 
 						// Trigger the before save event.
-						$result = $dispatcher->trigger($this->event_before_save, array($old, false, $table->getProperties()));
+						$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
 
 						if (in_array(false, $result, true))
 						{
@@ -488,7 +486,7 @@ class UsersModelUser extends JModelAdmin
 						}
 
 						// Trigger the after save event
-						$dispatcher->trigger($this->event_after_save, array($table->getProperties(), false, true, null));
+						JFactory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
 					}
 					catch (Exception $e)
 					{
@@ -526,8 +524,7 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function activate(&$pks)
 	{
-		$dispatcher = JEventDispatcher::getInstance();
-		$user       = JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = $user->authorise('core.admin');
@@ -568,7 +565,7 @@ class UsersModelUser extends JModelAdmin
 						}
 
 						// Trigger the before save event.
-						$result = $dispatcher->trigger($this->event_before_save, array($old, false, $table->getProperties()));
+						$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
 
 						if (in_array(false, $result, true))
 						{
@@ -585,7 +582,7 @@ class UsersModelUser extends JModelAdmin
 						}
 
 						// Fire the after save event
-						$dispatcher->trigger($this->event_after_save, array($table->getProperties(), false, true, null));
+						JFactory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
 					}
 					catch (Exception $e)
 					{

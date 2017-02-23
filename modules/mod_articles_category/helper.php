@@ -252,9 +252,6 @@ abstract class ModArticlesCategoryHelper
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
 
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
-			$item->catslug = $item->catid . ':' . $item->category_alias;
-
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article

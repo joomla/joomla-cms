@@ -94,14 +94,6 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('COM_ADMIN_PLATFORM_VERSION'); ?></strong>
-				</td>
-				<td>
-					<?php echo $this->info['platform']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
 					<strong><?php echo JText::_('COM_ADMIN_USER_AGENT'); ?></strong>
 				</td>
 				<td>

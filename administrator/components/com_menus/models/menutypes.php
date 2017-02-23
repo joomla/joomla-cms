@@ -108,7 +108,7 @@ class MenusModelMenutypes extends JModelLegacy
 						{
 							$componentLanguageFolder = JPATH_ADMINISTRATOR . '/components/' . $option->request['option'];
 							$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-								||	$lang->load($option->request['option'] . '.sys', $componentLanguageFolder, null, false, true);
+								|| $lang->load($option->request['option'] . '.sys', $componentLanguageFolder, null, false, true);
 						}
 					}
 				}
@@ -116,7 +116,7 @@ class MenusModelMenutypes extends JModelLegacy
 		}
 
 		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
-		JEventDispatcher::getInstance()->trigger('onAfterGetMenuTypeOptions', array(&$list, $this));
+		JFactory::getApplication()->triggerEvent('onAfterGetMenuTypeOptions', array(&$list, $this));
 
 		return $list;
 	}

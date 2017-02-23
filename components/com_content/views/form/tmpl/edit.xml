@@ -12,12 +12,12 @@
 		<fieldset name="basic">
 			<field name="enable_category"
 				type="radio"
-				class="btn-group btn-group-yesno"
+				class="switcher"
 				default="0"
 				label="COM_CONTENT_CREATE_ARTICLE_CATEGORY_LABEL"
 				description="COM_CONTENT_CREATE_ARTICLE_CATEGORY_DESC">
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 			</field>
 			<field name="catid"
 				type="category"

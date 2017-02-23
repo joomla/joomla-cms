@@ -33,13 +33,13 @@
 				<field
 					name="show_autosuggest"
 					type="radio"
+					class="switcher"
 					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
 					description="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION"
 					default="1"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -66,13 +66,13 @@
 				<field
 					name="show_label"
 					type="radio"
+					class="switcher"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_DESCRIPTION"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -98,13 +98,13 @@
 				<field
 					name="show_button"
 					type="radio"
+					class="switcher"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_DESCRIPTION"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -123,13 +123,13 @@
 				<field
 					name="opensearch"
 					type="radio"
+					class="switcher"
 					label="MOD_FINDER_FIELD_OPENSEARCH_LABEL"
 					description="MOD_FINDER_FIELD_OPENSEARCH_DESCRIPTION"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field

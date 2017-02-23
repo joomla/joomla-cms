@@ -143,25 +143,20 @@ abstract class JHtml
 	/**
 	 * Registers a function to be called with a specific key
 	 *
-	 * @param   string  $key       The name of the key
-	 * @param   string  $function  Function or method
+	 * @param   string    $key       The name of the key
+	 * @param   callable  $function  Function or method
 	 *
 	 * @return  boolean  True if the function is callable
 	 *
 	 * @since   1.6
 	 */
-	public static function register($key, $function)
+	public static function register($key, callable $function)
 	{
 		list($key) = static::extract($key);
 
-		if (is_callable($function))
-		{
-			static::$registry[$key] = $function;
+		static::$registry[$key] = $function;
 
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 	/**
@@ -215,13 +210,8 @@ abstract class JHtml
 	 * @since   1.6
 	 * @throws  InvalidArgumentException
 	 */
-	protected static function call($function, $args)
+	protected static function call(callable $function, $args)
 	{
-		if (!is_callable($function))
-		{
-			throw new InvalidArgumentException('Function not supported', 500);
-		}
-
 		// PHP 5.3 workaround
 		$temp = array();
 
@@ -581,7 +571,7 @@ abstract class JHtml
 			return $file;
 		}
 
-		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs) . ' /') . '>';
+		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
 	}
 
 	/**
@@ -717,7 +707,7 @@ abstract class JHtml
 			{
 				return $includes[0];
 			}
-			
+
 			return $includes;
 		}
 
@@ -949,7 +939,7 @@ abstract class JHtml
 			// Use a formatted string combining the title and content.
 			elseif ($content != '')
 			{
-				$result = '<strong>' . $title . '</strong><br />' . $content;
+				$result = '<strong>' . $title . '</strong><br>' . $content;
 			}
 			else
 			{
@@ -1063,7 +1053,7 @@ abstract class JHtml
 			'helperPath'   => $helperPath,
 			'localesPath'  => $localesPath,
 			'direction'    => $direction,
-			);
+		);
 
 		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
 	}

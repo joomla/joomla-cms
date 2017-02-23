@@ -110,7 +110,6 @@
 			type="limitbox"
 			label="COM_MENUS_LIST_LIMIT"
 			description="COM_MENUS_LIST_LIMIT_DESC"
-			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

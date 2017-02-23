@@ -11,8 +11,7 @@ defined('_JEXEC') or die;
 
 /** @var JDocumentHtml $this */
 
-$app  = JFactory::getApplication();
-$user = JFactory::getUser();
+$app = JFactory::getApplication();
 
 // Output as HTML5
 $this->setHtml5(true);
@@ -201,7 +200,7 @@ else
 	<!-- Footer -->
 	<footer class="footer" role="contentinfo">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
-			<hr />
+			<hr>
 			<jdoc:include type="modules" name="footer" style="none" />
 			<p class="pull-right">
 				<a href="#top" id="back-top">

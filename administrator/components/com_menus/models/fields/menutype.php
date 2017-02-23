@@ -40,7 +40,7 @@ class JFormFieldMenutype extends JFormFieldList
 		$html     = array();
 		$recordId = (int) $this->form->getValue('id');
 		$size     = (string) ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
-		$class    = (string) ($v = $this->element['class']) ? ' class="' . $v . '"' : 'class="text_area"';
+		$class    = (string) ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : 'class="form-control"';
 		$required = (string) $this->element['required'] ? ' required="required"' : '';
 		$clientId = (int) $this->element['clientid'] ?: 0;
 
@@ -92,11 +92,11 @@ class JFormFieldMenutype extends JFormFieldList
 		');
 
 		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
-		$html[] = '<span class="input-append"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
-			. '" value="' . $value . '" ' . $size . $class . ' />';
-		$html[] = '<a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '">'
-			. '<span class="icon-list icon-white"></span> '
-			. JText::_('JSELECT') . '</a></span>';
+		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
+			. '" value="' . $value . '"' . $size . $class . '>';
+		$html[] = '<span class="input-group-btn"><a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="'
+			. JText::_('JSELECT') . '">' . '<span class="icon-list icon-white"></span> '
+			. JText::_('JSELECT') . '</a></span></span>';
 		$html[] = JHtml::_(
 			'bootstrap.renderModal',
 			'menuTypeModal',
@@ -105,14 +105,14 @@ class JFormFieldMenutype extends JFormFieldList
 				'title'      => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
 				'width'      => '800px',
 				'height'     => '300px',
-				'modalWidth' => '80',
-				'bodyHeight' => '70',
-				'footer'     => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+				'modalWidth' => 80,
+				'bodyHeight' => 70,
+				'footer'     => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 						. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 			)
 		);
-		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
+		$html[] = '<input type="hidden" name="' . $this->name . '" value="'
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '">';
 
 		return implode("\n", $html);
 	}

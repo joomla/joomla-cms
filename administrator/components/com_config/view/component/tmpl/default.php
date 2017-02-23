@@ -16,8 +16,8 @@ $template = $app->getTemplate();
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
+JHtml::_('behavior.tabstate');
 JHtml::_('formbehavior.chosen', '.chzn-custom-value', null, array('disable_search_threshold' => 0));
-JHtml::_('formbehavior.chosen', 'select');
 
 // Load JS message titles
 JText::script('ERROR');
@@ -43,17 +43,18 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
-	<div class="row-fluid">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off">
+	<div class="row">
 
-		<!-- Begin Sidebar -->
-		<div class="span2" id="sidebar">
+		<?php // Begin Sidebar ?>
+		<div class="col-md-2" id="sidebar">
 			<div class="sidebar-nav">
 				<?php echo $this->loadTemplate('navigation'); ?>
 			</div>
-		</div><!-- End Sidebar -->
+		</div>
+		<?php // End Sidebar ?>
 
-		<div class="span10" id="config">
+		<div class="col-md-10" id="config">
 
 			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
@@ -64,9 +65,9 @@ JFactory::getDocument()->addScriptDeclaration(
 						<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
 					<?php endif; ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
-					<li<?php echo $dataShowOn; ?>><a data-toggle="tab" href="#<?php echo $name; ?>"><?php echo JText::_($label); ?></a></li>
+					<li class="nav-item"<?php echo $dataShowOn; ?>><a class="nav-link" data-toggle="tab" href="#<?php echo $name; ?>"><?php echo JText::_($label); ?></a></li>
 				<?php endforeach; ?>
-			</ul><!-- /configTabs -->
+			</ul>
 
 			<div class="tab-content" id="configContent">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
@@ -100,14 +101,14 @@ JFactory::getDocument()->addScriptDeclaration(
 						<?php endforeach; ?>
 					</div>
 				<?php endforeach; ?>
-			</div><!-- /configContent -->
+			</div>
 
-		</div><!-- /config -->
+		</div>
 
-		<input type="hidden" name="id" value="<?php echo $this->component->id; ?>" />
-		<input type="hidden" name="component" value="<?php echo $this->component->option; ?>" />
-		<input type="hidden" name="return" value="<?php echo $this->return; ?>" />
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="id" value="<?php echo $this->component->id; ?>">
+		<input type="hidden" name="component" value="<?php echo $this->component->option; ?>">
+		<input type="hidden" name="return" value="<?php echo $this->return; ?>">
+		<input type="hidden" name="task" value="">
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

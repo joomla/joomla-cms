@@ -26,7 +26,6 @@ class MediaViewMedia extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-
 		// Prepare the toolbar
 		$this->prepareToolbar();
 

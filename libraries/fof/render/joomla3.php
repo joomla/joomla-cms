@@ -191,7 +191,7 @@ class FOFRenderJoomla3 extends FOFRenderStrapper
 		{
 			JHtml::_('bootstrap.tooltip');
 
-			$tooltipText = '<strong>' . JText::_($title) . '</strong><br />' . JText::_($tooltip);
+			$tooltipText = '<strong>' . JText::_($title) . '</strong><br>' . JText::_($tooltip);
 
 			$html .= "\t\t\t\t" . '<label class="control-label hasTooltip ' . $labelClass . '" for="' . $field->id . '" title="' . $tooltipText . '" rel="tooltip">';
 		}

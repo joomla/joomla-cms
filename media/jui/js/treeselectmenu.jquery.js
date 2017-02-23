@@ -12,14 +12,11 @@ jQuery(function($)
 		$div = $li.find('div.treeselect-item:first');
 
 		// Add icons
-		$li.prepend('<span class="pull-left icon-"></span>');
-
-		// Append clearfix
-		$div.after('<div class="clearfix"></div>');
+		$li.prepend('<span class="icon-"></span>');
 
 		if ($li.find('ul.treeselect-sub').length) {
 			// Add classes to Expand/Collapse icons
-			$li.find('span.icon-').addClass('treeselect-toggle icon-minus');
+			$li.find('span.icon-').addClass('treeselect-toggle fa-chevron-down');
 
 			// Append drop down menu in nodes
 			$div.find('label:first').after(treeselectmenu);
@@ -37,13 +34,13 @@ jQuery(function($)
 
 		// Take care of parent UL
 		if ($i.parent().find('ul.treeselect-sub').is(':visible')) {
-			$i.removeClass('icon-minus').addClass('icon-plus');
+			$i.removeClass('fa-chevron-down').addClass('fa-chevron-right');
 			$i.parent().find('ul.treeselect-sub').hide();
-			$i.parent().find('ul.treeselect-sub i.treeselect-toggle').removeClass('icon-minus').addClass('icon-plus');
+			$i.parent().find('ul.treeselect-sub i.treeselect-toggle').removeClass('fa-chevron-down').addClass('fa-chevron-right');
 		} else {
-			$i.removeClass('icon-plus').addClass('icon-minus');
+			$i.removeClass('fa-chevron-right').addClass('fa-chevron-down');
 			$i.parent().find('ul.treeselect-sub').show();
-			$i.parent().find('ul.treeselect-sub i.treeselect-toggle').removeClass('icon-plus').addClass('icon-minus');
+			$i.parent().find('ul.treeselect-sub i.treeselect-toggle').removeClass('fa-chevron-right').addClass('fa-chevron-down');
 		}
 	});
 
@@ -86,14 +83,14 @@ jQuery(function($)
 	$('#treeExpandAll').click(function()
 	{
 		$('ul.treeselect ul.treeselect-sub').show();
-		$('ul.treeselect i.treeselect-toggle').removeClass('icon-plus').addClass('icon-minus');
+		$('ul.treeselect i.treeselect-toggle').removeClass('fa-chevron-right').addClass('fa-chevron-down');
 	});
 
 	// Unchecks all checkboxes the tree
 	$('#treeCollapseAll').click(function()
 	{
 		$('ul.treeselect ul.treeselect-sub').hide();
-		$('ul.treeselect i.treeselect-toggle').removeClass('icon-minus').addClass('icon-plus');
+		$('ul.treeselect i.treeselect-toggle').removeClass('fa-chevron-down').addClass('fa-chevron-right');
 	});
 	// Take care of children check/uncheck all
 	$('a.checkall').click(function()
@@ -110,12 +107,12 @@ jQuery(function($)
 	{
 		var $parent = $(this).parents().eq(6);
 		$parent.find('ul.treeselect-sub').show();
-		$parent.find('ul.treeselect-sub i.treeselect-toggle').removeClass('icon-plus').addClass('icon-minus');
+		$parent.find('ul.treeselect-sub i.treeselect-toggle').removeClass('fa-chevron-right').addClass('fa-chevron-down');
 	});
 	$('a.collapseall').click(function()
 	{
 		var $parent = $(this).parents().eq(6);
 		$parent.find('li ul.treeselect-sub').hide();
-		$parent.find('li i.treeselect-toggle').removeClass('icon-minus').addClass('icon-plus');
+		$parent.find('li i.treeselect-toggle').removeClass('fa-chevron-down').addClass('fa-chevron-right');
 	});
 });

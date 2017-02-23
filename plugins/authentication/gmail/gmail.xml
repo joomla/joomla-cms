@@ -43,13 +43,13 @@
 				<field
 					name="verifypeer"
 					type="radio"
+					class="switcher"
 					label="PLG_GMAIL_FIELD_VERIFYPEER_LABEL"
 					description="PLG_GMAIL_FIELD_VERIFYPEER_DESC"
 					default="1"
-					class="btn-group btn-group-yesno"
 				>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -62,13 +62,13 @@
 				<field
 					name="backendLogin"
 					type="radio"
+					class="switcher"
 					label="PLG_GMAIL_FIELD_BACKEND_LOGIN_LABEL"
 					description="PLG_GMAIL_FIELD_BACKEND_LOGIN_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 				>
-					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
 				</field>
 			</fieldset>
 		</fields>

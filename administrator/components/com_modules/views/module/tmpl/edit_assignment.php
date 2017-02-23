@@ -42,17 +42,16 @@ JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 <div class="control-group">
 	<label id="jform_menus-lbl" class="control-label" for="jform_menus"><?php echo JText::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
-
 	<div id="jform_menus" class="controls">
-		<select name="jform[assignment]" id="jform_assignment">
+		<select class="custom-select" name="jform[assignment]" id="jform_assignment">
 			<?php echo JHtml::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true); ?>
 		</select>
 	</div>
 </div>
 <div id="menuselect-group" class="control-group">
-	<label id="jform_menuselect-lbl" class="control-label" for="jform_menuselect"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
+	<label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
 
-	<div id="jform_menuselect" class="controls">
+	<div id="jform_menuselect">
 		<?php if (!empty($menuTypes)) : ?>
 		<?php $id = 'jform_menuselect'; ?>
 
@@ -67,21 +66,19 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					<a id="treeExpandAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
 					<a id="treeCollapseAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
 				</span>
-				<input type="text" id="treeselectfilter" name="treeselectfilter" class="input-medium search-query pull-right" size="16"
+				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-right" size="16"
 					autocomplete="off" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
 			</div>
 
-			<div class="clearfix"></div>
-
-			<hr class="hr-condensed" />
+			<hr>
 
 			<ul class="treeselect">
 				<?php foreach ($menuTypes as &$type) : ?>
 				<?php if (count($type->links)) : ?>
 					<?php $prevlevel = 0; ?>
 					<li>
-						<div class="treeselect-item pull-left">
-							<label class="pull-left nav-header"><?php echo $type->title; ?></label></div>
+						<div class="treeselect-item treeselect-header">
+							<label class="nav-header"><?php echo $type->title; ?></label></div>
 					<?php foreach ($type->links as $i => $link) : ?>
 						<?php
 						if ($prevlevel < $link->level)
@@ -106,12 +103,12 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						}
 						?>
 							<li>
-								<div class="treeselect-item pull-left">
+								<div class="treeselect-item">
 									<?php
 									$uselessMenuItem = (in_array($link->type, array('separator', 'heading', 'alias', 'url')));
 									?>
-									<input type="checkbox" class="pull-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
-									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
+									<input type="checkbox" class="float-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?>>
+									<label for="<?php echo $id . $link->value; ?>" class="float-left">
 										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias)); ?></span>
 										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*') : ?>
 											<?php if ($link->language_image) : ?>
@@ -141,28 +138,26 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</ul>
-			<div id="noresultsfound" style="display:none;" class="alert alert-no-items">
+			<div id="noresultsfound" style="display:none;" class="alert alert-warning alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
-			<div style="display:none;" id="treeselectmenu">
-				<div class="pull-left nav-hover treeselect-menu">
-					<div class="btn-group">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-micro">
+			<div style="display:none" id="treeselectmenu">
+				<div class="nav-hover treeselect-menu">
+					<div class="dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-xs btn-secondary">
 							<span class="caret"></span>
 						</a>
-						<ul class="dropdown-menu">
-							<li class="nav-header"><?php echo JText::_('COM_MODULES_SUBITEMS'); ?></li>
-							<li class="divider"></li>
-							<li class=""><a class="checkall" href="javascript://"><span class="icon-checkbox"></span> <?php echo JText::_('JSELECT'); ?></a>
-							</li>
-							<li><a class="uncheckall" href="javascript://"><span class="icon-checkbox-unchecked"></span> <?php echo JText::_('COM_MODULES_DESELECT'); ?></a>
-							</li>
+						<div class="dropdown-menu">
+							<h5 class="dropdown-header"><?php echo JText::_('COM_MODULES_SUBITEMS'); ?></h5>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item checkall" href="javascript://"><span class="icon-checkbox"></span> <?php echo JText::_('JSELECT'); ?></a>
+							<a class="dropdown-item uncheckall" href="javascript://"><span class="icon-checkbox-unchecked"></span> <?php echo JText::_('COM_MODULES_DESELECT'); ?></a>
 							<div class="treeselect-menu-expand">
-							<li class="divider"></li>
-							<li><a class="expandall" href="javascript://"><span class="icon-plus"></span> <?php echo JText::_('COM_MODULES_EXPAND'); ?></a></li>
-							<li><a class="collapseall" href="javascript://"><span class="icon-minus"></span> <?php echo JText::_('COM_MODULES_COLLAPSE'); ?></a></li>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item expandall" href="javascript://"><span class="icon-plus"></span> <?php echo JText::_('COM_MODULES_EXPAND'); ?></a>
+								<a class="dropdown-item collapseall" href="javascript://"><span class="icon-minus"></span> <?php echo JText::_('COM_MODULES_COLLAPSE'); ?></a>
 							</div>
-						</ul>
+						</div>
 					</div>
 				</div>
 			</div>

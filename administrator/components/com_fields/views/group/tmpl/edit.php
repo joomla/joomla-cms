@@ -14,7 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('formbehavior.chosen', '.advancedSelect');
 
 $app = JFactory::getApplication();
 $input = $app->input;
@@ -77,7 +77,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php endif; ?>
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		<?php echo $this->form->getInput('context'); ?>
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="task" value="">
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

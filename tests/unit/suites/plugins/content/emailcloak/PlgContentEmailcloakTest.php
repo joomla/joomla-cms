@@ -36,22 +36,18 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 	public function setup()
 	{
 		JFactory::$application = $this->getMockCmsApp();
-		JFactory::$session = $this->getMockSession();
+		JFactory::$session     = $this->getMockSession();
 
 		// force the cloak JS inline so that we can unit test it easier than messing with script head in document
 		JFactory::getApplication()->input->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
 
-		/**
-		 * Create a mock dispatcher instance
-		 *
-		 * @var $dispatcher Mock_JEventDispatcher_f5646d4b e.g
-		 */
-		$dispatcher = TestCaseDatabase::getMockDispatcher();
+		// Create a mock dispatcher instance
+		$dispatcher = $this->getMockDispatcher();
 
 		$plugin = array(
 			'name'   => 'emailcloak',
 			'type'   => 'Content',
-			'params' => new \JRegistry
+			'params' => new \JRegistry,
 		);
 
 		$this->class = new PlgContentEmailcloak($dispatcher, $plugin);
@@ -251,9 +247,9 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 
 			// 10
 			array(
-				'<p><a href="mailto:joe@nowhere.com?subject=Text"><img src="path/to/something.jpg" />joe@nowhere.com</a></p>',
+				'<p><a href="mailto:joe@nowhere.com?subject=Text"><img src="path/to/something.jpg">joe@nowhere.com</a></p>',
 
-				'<a href=\'mailto:joe@nowhere.com?subject=Text\'><img src="path/to/something.jpg" />joe@nowhere.com</a>',
+				'<a href=\'mailto:joe@nowhere.com?subject=Text\'><img src="path/to/something.jpg">joe@nowhere.com</a>',
 
 				"
 				<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
@@ -262,7 +258,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 				var path = 'hr' + 'ef' + '=';
 				var addy__HASH__ = 'joe' + '@';
 				addy__HASH__ = addy__HASH__ + 'nowhere' + '.' + 'com?subject=Text';
-				var addy_text__HASH__ = '<img src=\"path/to/something.jpg\" />joe' + '@' + 'nowhere' + '.' + 'com';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
+				var addy_text__HASH__ = '<img src=\"path/to/something.jpg\">joe' + '@' + 'nowhere' + '.' + 'com';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
 		</script></p>
 				"
 			),

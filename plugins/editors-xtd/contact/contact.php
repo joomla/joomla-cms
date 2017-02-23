@@ -64,11 +64,15 @@ class PlgButtonContact extends JPlugin
 
 		$button = new JObject;
 		$button->modal   = true;
-		$button->class   = 'btn';
 		$button->link    = $link;
 		$button->text    = JText::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
 		$button->name    = 'address';
-		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+		$button->options = array(
+			'height' => '300px',
+			'width'  => '800px',
+			'bodyHeight'  => '70',
+			'modalWidth'  => '80',
+		);
 
 		return $button;
 	}

@@ -173,7 +173,7 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 			return;
 		}
@@ -201,7 +201,7 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 			return;
 		}
@@ -240,7 +240,7 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 			return;
 		}
@@ -260,7 +260,7 @@ class JoomlaInstallerScript
 			}
 			catch (Exception $e)
 			{
-				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 				return;
 			}
@@ -340,7 +340,7 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 			return;
 		}
@@ -390,7 +390,6 @@ class JoomlaInstallerScript
 			array('component', 'com_associations', '', 1),
 
 			// Libraries
-			array('library', 'phputf8', '', 0),
 			array('library', 'joomla', '', 0),
 			array('library', 'idna_convert', '', 0),
 			array('library', 'fof', '', 0),
@@ -434,7 +433,6 @@ class JoomlaInstallerScript
 			array('module', 'mod_quickicon', '', 1),
 			array('module', 'mod_stats_admin', '', 1),
 			array('module', 'mod_status', '', 1),
-			array('module', 'mod_submenu', '', 1),
 			array('module', 'mod_title', '', 1),
 			array('module', 'mod_toolbar', '', 1),
 			array('module', 'mod_multilangstatus', '', 1),
@@ -462,7 +460,6 @@ class JoomlaInstallerScript
 			array('plugin', 'newsfeeds', 'search', 0),
 			array('plugin', 'tags', 'search', 0),
 			array('plugin', 'languagefilter', 'system', 0),
-			array('plugin', 'p3p', 'system', 0),
 			array('plugin', 'cache', 'system', 0),
 			array('plugin', 'debug', 'system', 0),
 			array('plugin', 'log', 'system', 0),
@@ -516,10 +513,8 @@ class JoomlaInstallerScript
 			array('plugin', 'fields', 'editors-xtd', 0),
 
 			// Templates
-			array('template', 'beez3', '', 0),
-			array('template', 'hathor', '', 1),
 			array('template', 'protostar', '', 0),
-			array('template', 'isis', '', 1),
+			array('template', 'atum', '', 1),
 
 			// Languages
 			array('language', 'en-GB', '', 0),
@@ -556,7 +551,7 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 			return;
 		}
@@ -567,7 +562,7 @@ class JoomlaInstallerScript
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
 			{
-				echo JText::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br />';
+				echo JText::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br>';
 			}
 		}
 	}
@@ -704,15 +699,9 @@ class JoomlaInstallerScript
 			'/includes/pathway.php',
 			'/includes/router.php',
 			'/language/en-GB/en-GB.pkg_joomla.sys.ini',
-			'/libraries/cms/controller/index.html',
-			'/libraries/cms/controller/legacy.php',
-			'/libraries/cms/model/index.html',
-			'/libraries/cms/model/legacy.php',
 			'/libraries/cms/schema/changeitemmysql.php',
 			'/libraries/cms/schema/changeitemsqlazure.php',
 			'/libraries/cms/schema/changeitemsqlsrv.php',
-			'/libraries/cms/view/index.html',
-			'/libraries/cms/view/legacy.php',
 			'/libraries/joomla/application/application.php',
 			'/libraries/joomla/application/categories.php',
 			'/libraries/joomla/application/cli/daemon.php',
@@ -1713,6 +1702,13 @@ class JoomlaInstallerScript
 			'/components/com_users/views/remind/metadata.xml',
 			'/components/com_users/views/reset/metadata.xml',
 			'/components/com_wrapper/metadata.xml',
+			'/media/jui/js/bootstrap-tooltip-extended.js',
+			'/media/jui/js/bootstrap-tooltip-extended.min.js',
+			'/media/jui/js/icomoon-lte-ie7.js',
+			'/media/jui/css/bootstrap-extended.css',
+			'/media/jui/css/bootstrap-tooltip-extended.css',
+			'/media/jui/css/bootstrap-responsive.css',
+			'/media/jui/css/bootstrap-responsive.min.css',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
@@ -1741,9 +1737,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_newsfeeds/elements',
 			'/administrator/components/com_templates/views/prevuuw/tmpl',
 			'/administrator/components/com_templates/views/prevuuw',
-			'/libraries/cms/controller',
-			'/libraries/cms/model',
-			'/libraries/cms/view',
 			'/libraries/joomla/application/cli',
 			'/libraries/joomla/application/component',
 			'/libraries/joomla/application/input',
@@ -1838,6 +1831,10 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/mode/jade',
 			// Joomla! 3.7.0
 			'/libraries/joomla/data',
+			'/templates/beez3',
+			'/administrator/templates/isis',
+			'/administrator/templates/hathor',
+			'/media/jui/less',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default',
 			'/administrator/components/com_cache/layouts/joomla/searchtools',
 			'/administrator/components/com_cache/layouts/joomla',
@@ -1864,7 +1861,7 @@ class JoomlaInstallerScript
 		{
 			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
 			{
-				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br />';
+				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br>';
 			}
 		}
 
@@ -1874,7 +1871,7 @@ class JoomlaInstallerScript
 		{
 			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
 			{
-				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
+				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br>';
 			}
 		}
 
@@ -2011,7 +2008,7 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 			return false;
 		}

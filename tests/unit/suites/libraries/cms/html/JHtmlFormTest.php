@@ -79,7 +79,7 @@ class JHtmlFormTest extends TestCase
 
 		$this->assertThat(
 			JHtmlForm::token(),
-			$this->equalTo('<input type="hidden" name="' . $token . '" value="1" />')
+			$this->equalTo('<input type="hidden" name="' . $token . '" value="1">')
 		);
 	}
 }

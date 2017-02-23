@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('formbehavior.chosen', '.advancedSelect');
 JFactory::getDocument()->addScriptDeclaration(
 	'
 		jQuery(document).ready(function($){
@@ -24,27 +24,27 @@ JFactory::getDocument()->addScriptDeclaration(
 				});
 			}
 		});
-			'
+	'
 );
 
 $context   = $this->escape($this->state->get('filter.context'));
 ?>
 
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="control-group span6">
+<div class="container">
+	<div class="row">
+		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo JLayoutHelper::render('joomla.html.batch.language', array()); ?>
 			</div>
 		</div>
-		<div class="control-group span6">
+		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo JLayoutHelper::render('joomla.html.batch.access', array()); ?>
 			</div>
 		</div>
 	</div>
-	<div class="row-fluid">
-		<div class="control-group span6">
+	<div class="row">
+		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php $options = array(
 					JHtml::_('select.option', 'c', JText::_('JLIB_HTML_BATCH_COPY')),
@@ -53,7 +53,7 @@ $context   = $this->escape($this->state->get('filter.context'));
 				?>
 				<label id="batch-choose-action-lbl" for="batch-choose-action"><?php echo JText::_('COM_FIELDS_BATCH_GROUP_LABEL'); ?></label>
 				<div id="batch-choose-action" class="control-group">
-					<select name="batch[group_id]" class="inputbox" id="batch-group-id">
+					<select name="batch[group_id]" class="custom-select" id="batch-group-id">
 						<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
 						<option value="nogroup"><?php echo JText::_('COM_FIELDS_BATCH_GROUP_OPTION_NONE'); ?></option>
 						<?php echo JHtml::_('select.options', $this->get('Groups'), 'value', 'text'); ?>

@@ -187,18 +187,6 @@ class CacheModelCache extends JModelList
 	}
 
 	/**
-	 * Method to get client data.
-	 *
-	 * @return array
-	 *
-	 * @deprecated  4.0  No replacement.
-	 */
-	public function getClient()
-	{
-		return JApplicationHelper::getClientInfo($this->getState('client_id', 0));
-	}
-
-	/**
 	 * Get the number of current Cache Groups.
 	 *
 	 * @return  integer

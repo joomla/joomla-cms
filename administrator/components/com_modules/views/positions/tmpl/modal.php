@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('formbehavior.chosen', 'select');
+
 
 $function  = JFactory::getApplication()->input->getCmd('function', 'jSelectPosition');
 $lang      = JFactory::getLanguage();
@@ -28,7 +28,7 @@ $type      = $this->state->get('filter.type');
 			<label for="filter_search">
 				<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
 			</label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" size="30" title="<?php echo JText::_('COM_MODULES_FILTER_SEARCH_DESC'); ?>" />
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" size="30" title="<?php echo JText::_('COM_MODULES_FILTER_SEARCH_DESC'); ?>">
 
 			<button type="submit">
 				<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
@@ -37,17 +37,17 @@ $type      = $this->state->get('filter.type');
 		</div>
 
 		<div class="right">
-			<select name="filter_state" onchange="this.form.submit()">
+			<select class="custom-select" name="filter_state" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('modules.templateStates'), 'value', 'text', $state, true); ?>
 			</select>
 
-			<select name="filter_type" onchange="this.form.submit()">
+			<select class="custom-select" name="filter_type" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_TYPE'); ?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('modules.types'), 'value', 'text', $type, true); ?>
 			</select>
 
-			<select name="filter_template" onchange="this.form.submit()">
+			<select class="custom-select" name="filter_template" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_TEMPLATE'); ?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('modules.templates', $clientId), 'value', 'text', $template, true); ?>
 			</select>
@@ -95,10 +95,10 @@ $type      = $this->state->get('filter.type');
 	</table>
 
 	<div>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $ordering; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="boxchecked" value="0">
+		<input type="hidden" name="filter_order" value="<?php echo $ordering; ?>">
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>">
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

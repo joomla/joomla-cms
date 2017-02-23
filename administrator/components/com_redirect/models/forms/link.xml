@@ -41,7 +41,7 @@
 			type="list"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			size="1"
 			required="true"
 			default="1">

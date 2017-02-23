@@ -16,6 +16,11 @@ defined('_JEXEC') or die;
  */
 class UsersViewGroup extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
 	/**
@@ -50,9 +55,7 @@ class UsersViewGroup extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -75,22 +78,29 @@ class UsersViewGroup extends JViewLegacy
 
 		JToolbarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_GROUP_TITLE' : 'COM_USERS_VIEW_EDIT_GROUP_TITLE'), 'users groups-add');
 
+		$toolbarButtons = [];
+
 		if ($canDo->get('core.edit') || $canDo->get('core.create'))
 		{
-			JToolbarHelper::apply('group.apply');
-			JToolbarHelper::save('group.save');
+			$toolbarButtons[] = ['apply', 'group.apply'];
+			$toolbarButtons[] = ['save', 'group.save'];
 		}
 
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::save2new('group.save2new');
+			$toolbarButtons[] = ['save2new', 'group.save2new'];
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2copy('group.save2copy');
+			$toolbarButtons[] = ['save2copy', 'group.save2copy'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if (empty($this->item->id))
 		{

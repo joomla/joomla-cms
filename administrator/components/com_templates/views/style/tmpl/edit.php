@@ -13,7 +13,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.tabstate');
+
 $user = JFactory::getUser();
 
 JFactory::getDocument()->addScriptDeclaration("
@@ -30,18 +31,18 @@ JFactory::getDocument()->addScriptDeclaration("
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="form-horizontal">
+	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS')); ?>
 
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<h3>
 					<?php echo JText::_($this->item->template); ?>
 				</h3>
 				<div class="info-labels">
-					<span class="label hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
+					<span class="badge badge-default hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
 						<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 					</span>
 				</div>
@@ -62,19 +63,21 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php
 				$this->fieldset = 'basic';
 				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
-				echo $html ? '<hr />' . $html : '';
+				echo $html ? '<hr>' . $html : '';
 				?>
 			</div>
-			<div class="span3">
-				<?php
-				// Set main fields.
-				$this->fields = array(
-					'home',
-					'client_id',
-					'template'
-				);
-				?>
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+			<div class="col-md-3">
+				<div class="card card-block card-light">
+					<?php
+					// Set main fields.
+					$this->fields = array(
+						'home',
+						'client_id',
+						'template'
+					);
+					?>
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				</div>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -99,7 +102,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="task" value="">
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

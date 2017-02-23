@@ -41,13 +41,13 @@ class ContactViewContact extends JViewLegacy
 	protected $item;
 
 	/**
-	 * The page to return to on sumission
+	 * The page to return to on submission
+	 * TODO: Implement this functionality
 	 *
 	 * @var         string
 	 * @since       1.6
-	 * @deprecated  4.0  Variable not used
 	 */
-	protected $return_page;
+	protected $return_page = '';
 
 	/**
 	 * Should we show a captcha form for the submission of the contact request?
@@ -56,6 +56,47 @@ class ContactViewContact extends JViewLegacy
 	 * @since 3.6.3
 	 */
 	protected $captchaEnabled = false;
+
+	/**
+	 * The item object details (a duplicate of $item)
+	 *
+	 * @var         JObject
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  4.0
+	 */
+	protected $contact;
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
+
+	/**
+	 * The user object
+	 *
+	 * @var   JUser
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $user;
+
+	/**
+	 * Other contacts in this contacts category
+	 *
+	 * @var   array
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $contacts;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
 
 	/**
 	 * Execute and display a template script.
@@ -93,15 +134,11 @@ class ContactViewContact extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseWarning(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Check if access is not public
 		$groups = $user->getAuthorisedViewLevels();
-
-		$return = '';
 
 		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups)))
 		{
@@ -239,23 +276,22 @@ class ContactViewContact extends JViewLegacy
 		}
 
 		// Process the content plugins.
-		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('content');
 		$offset = $state->get('list.offset');
 
 		// Fix for where some plugins require a text attribute
 		!empty($item->misc)? $item->text = $item->misc : $item->text = null;
-		$dispatcher->trigger('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
+		JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
 
 		// Store the events for later
 		$item->event = new stdClass;
-		$results = $dispatcher->trigger('onContentAfterTitle', array('com_contact.contact', &$item, &$this->params, $offset));
+		$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_contact.contact', &$item, &$this->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_contact.contact', &$item, &$this->params, $offset));
+		$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_contact.contact', &$item, &$this->params, $offset));
 		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_contact.contact', &$item, &$this->params, $offset));
+		$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_contact.contact', &$item, &$this->params, $offset));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		if ($item->text)
@@ -267,7 +303,7 @@ class ContactViewContact extends JViewLegacy
 		if ($params->get('show_user_custom_fields') && $item->user_id && $contactUser = JFactory::getUser($item->user_id))
 		{
 			$contactUser->text = '';
-			JEventDispatcher::getInstance()->trigger('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
+			JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
 
 			if (!isset($contactUser->fields))
 			{
@@ -280,7 +316,6 @@ class ContactViewContact extends JViewLegacy
 
 		$this->contact     = &$item;
 		$this->params      = &$params;
-		$this->return      = &$return;
 		$this->state       = &$state;
 		$this->item        = &$item;
 		$this->user        = &$user;

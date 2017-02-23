@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 /**
  * Abstract test case for archive package tests
  *
@@ -14,7 +16,7 @@
  * @subpackage  Archive
  * @since       3.1
  */
-abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
+abstract class JArchiveTestCase extends TestCase
 {
 	/**
 	 * Output path
@@ -43,10 +45,15 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 			mkdir($this->outputPath, 0777);
 		}
 
-		if (! is_dir($this->outputPath))
+		if (!is_dir($this->outputPath))
 		{
 			$this->markTestSkipped('We can not create the output dir, so skip all tests');
 		}
+
+		$this->saveFactoryState();
+
+		// We need a configuration with a tmp_path set
+		JFactory::$config = new Registry(['tmp_path' => __DIR__ . '/output']);
 	}
 
 	/**
@@ -68,6 +75,8 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 			}
 			rmdir($this->outputPath);
 		}
+
+		$this->restoreFactoryState();
 
 		unset($this->outputPath);
 		parent::tearDown();

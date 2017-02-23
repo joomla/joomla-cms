@@ -102,9 +102,9 @@
 		<field
 			name="limit"
 			type="limitbox"
+			class="input-mini custom-select"
 			label="COM_BANNERS_LIST_LIMIT"
 			description="COM_BANNERS_LIST_LIMIT_DESC"
-			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

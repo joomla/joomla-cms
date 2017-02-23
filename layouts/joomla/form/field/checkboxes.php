@@ -42,10 +42,6 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  */
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
-
 /**
  * The format of the input tag to be filled in using sprintf.
  *     %1 - id
@@ -53,7 +49,7 @@ JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relati
  *     %3 - value
  *     %4 = any other attributes
  */
-$format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s />';
+$format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 
 // The alt option for JText::alt
 $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
@@ -70,7 +66,7 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 			// In case there is no stored value, use the option's default state.
 			$checked     = (!$hasValue && $option->checked) ? 'checked' : $checked;
-			$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
+			$optionClass = !empty($option->class) ? 'class="form-check-input ' . $option->class . '"' : ' class="form-check-input"';
 			$disabled    = !empty($option->disable) || $disabled ? 'disabled' : '';
 
 			// Initialize some JavaScript option attributes.
@@ -82,7 +78,7 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
 		?>
 
-		<label for="<?php echo $oid; ?>" class="checkbox">
+		<label for="<?php echo $oid; ?>" class="form-check-inline">
 			<?php echo sprintf($format, $oid, $name, $value, implode(' ', $attributes)); ?>
 		<?php echo $option->text; ?></label>
 	<?php endforeach; ?>

@@ -15,11 +15,6 @@
 class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 {
 	/**
-	 * @var  JEventDispatcher
-	 */
-	protected $dispatcher;
-
-	/**
 	 * Flag indicating execution of onAfterRenderModules event in JDocumentRendererHtmlModules::render
 	 * method.
 	 *
@@ -42,10 +37,11 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
-		JFactory::$session     = $this->getMockSession();
-		$this->dispatcher      = new JEventDispatcher;
-		TestReflection::setValue($this->dispatcher, 'instance', $this->dispatcher);
-		$this->dispatcher->register('onAfterRenderModules', array($this, 'eventCallback'));
+		JFactory::$application->expects($this->any())
+			->method('triggerEvent')
+			->willReturnCallback([$this, 'eventCallback']);
+
+		JFactory::$session = $this->getMockSession();
 	}
 
 	/**
@@ -59,7 +55,7 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-		TestReflection::setValue($this->dispatcher, 'instance', null);
+
 		parent::tearDown();
 	}
 
@@ -90,9 +86,8 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 	 */
 	public function testRender()
 	{
-		$document               = new JDocumentHtml;
-		$renderer               = $document->loadRenderer('modules');
-		$params                 = array('name' => 'position-0', 'style' => 'xhtml');
+		$renderer               = new JDocumentRendererHtmlModules(new JDocumentHtml);
+		$params                 = ['name' => 'position-0', 'style' => 'xhtml'];
 		$this->callbackExecuted = false;
 		$output                 = $renderer->render('position-0', $params);
 		$htmlClean              = trim(preg_replace('~>\s+<~', '><', $output));
@@ -101,28 +96,31 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 			. '<form action="index.php" method="post" class="form-inline">'
 			. '<label for="mod-search-searchword63" class="element-invisible">Search ...</label>'
 			. '<input name="searchword" id="mod-search-searchword63" maxlength="200"  '
-			. 'class="inputbox search-query" type="search" size="20" placeholder="Search ..." />'
-			. '<input type="hidden" name="task" value="search" /><input type="hidden" name="option" value="com_search" />'
-			. '<input type="hidden" name="Itemid" value="" /></form></div></div>';
+			. 'class="inputbox search-query" type="search" size="20" placeholder="Search ...">'
+			. '<input type="hidden" name="task" value="search"><input type="hidden" name="option" value="com_search">'
+			. '<input type="hidden" name="Itemid" value=""></form></div></div>';
 		$this->assertEquals($html, $htmlClean, 'render output does not match expected content');
 	}
 
 	/**
-	 * Callback for event 'onAfterRenderModules'
+	 * Callback for the DispatcherInterface trigger method.
 	 *
-	 * @param   string  &$buffer  contains rendered output from JDocumentRendererHtmlModules::render
+	 * @param   string  $event  The event to trigger.
+	 * @param   array   $args   An array of arguments.
 	 *
-	 * @param   array   &$params  template position and style parameters
+	 * @return  array  An array of results from each function call.
 	 *
-	 * @return  void
-	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function eventCallback(&$buffer, &$params)
+	public function eventCallback($event, array $args = [])
 	{
-		$this->assertContains('mod_search63', $buffer, 'buffer empty when processing onAfterRenderModules event');
-		$this->assertArrayHasKey('name', $params, "params['name'] empty when processing onAfterRenderModules event");
-		$this->callbackExecuted = true;
+		switch ($event)
+		{
+			case 'onAfterRenderModules':
+				$this->assertContains('mod_search63', $args[0], 'buffer empty when processing onAfterRenderModules event');
+				$this->assertArrayHasKey('name', $args[1], "params['name'] empty when processing onAfterRenderModules event");
+				$this->callbackExecuted = true;
+		}
 	}
 }
 

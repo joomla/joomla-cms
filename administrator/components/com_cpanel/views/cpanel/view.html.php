@@ -24,6 +24,14 @@ class CpanelViewCpanel extends JViewLegacy
 	protected $modules = null;
 
 	/**
+	 * Number of unread postinstall messages
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $postinstall_message_count = null;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -46,21 +54,6 @@ class CpanelViewCpanel extends JViewLegacy
 
 		// Display the cpanel modules
 		$this->modules = JModuleHelper::getModules('cpanel');
-
-		try
-		{
-			$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
-			$messages       = $messages_model->getItemList();
-		}
-		catch (RuntimeException $e)
-		{
-			$messages = array();
-
-			// Still render the error message from the Exception object
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-		}
-
-		$this->postinstall_message_count = count($messages);
 
 		parent::display($tpl);
 	}

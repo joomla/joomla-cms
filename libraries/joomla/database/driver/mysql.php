@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @see         http://dev.mysql.com/doc/
  * @since       12.1
- * @deprecated  Will be removed when the minimum supported PHP version no longer includes the deprecated PHP `mysql` extension
+ * @deprecated  4.0  Use MySQLi or PDO MySQL instead
  */
 class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 {
@@ -91,8 +91,16 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 			throw new JDatabaseExceptionConnecting('Could not connect to MySQL.');
 		}
 
-		// Set sql_mode to non_strict mode
-		mysql_query("SET @@SESSION.sql_mode = '';", $this->connection);
+		// Set sql_mode to MySql 5.7.8+ default strict mode.
+		$sqlModes = array(
+			'ONLY_FULL_GROUP_BY',
+			'STRICT_TRANS_TABLES',
+			'ERROR_FOR_DIVISION_BY_ZERO',
+			'NO_AUTO_CREATE_USER',
+			'NO_ENGINE_SUBSTITUTION',
+		);
+
+		mysql_query("SET @@SESSION.sql_mode = '" . implode(',', $sqlModes) . "';", $this->connection);
 
 		// If auto-select is enabled select the given database.
 		if ($this->options['select'] && !empty($this->options['database']))

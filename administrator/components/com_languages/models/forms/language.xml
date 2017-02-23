@@ -52,7 +52,6 @@
 			hide_default="1"
 			required="false"
 			filter="\.gif$"
-			size="10"
 			>
 			<option value="">JNONE</option>
 		</field>
@@ -68,6 +67,7 @@
 			default="1"
 			description="COM_LANGUAGES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"
+			class="custom-select-color-state"
 			size="1"
 		>
 			<option value="1">JPUBLISHED</option>

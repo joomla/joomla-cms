@@ -11,7 +11,34 @@
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
 			filter="word"
-		/>
+			showon="caching:1,2">
+		</field>
+
+		<field
+			name="cache_platformprefix"
+			type="radio"
+			class="switcher"
+			default="0"
+			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
+			filter="integer"
+			showon="caching:1,2">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="cachetime"
+			type="number"
+			min="1"
+			default="15"
+			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
+			required="true"
+			filter="integer"
+			validate="number"
+			showon="caching:1,2"
+			size="6" />
 
 		<field
 			name="cache_path"
@@ -28,13 +55,13 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			showon="cache_handler:memcache"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -42,13 +69,13 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			showon="cache_handler:memcache"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -81,13 +108,13 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			showon="cache_handler:memcached"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -95,13 +122,13 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			showon="cache_handler:memcached"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -134,13 +161,13 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			filter="integer"
 			showon="cache_handler:redis"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -208,12 +235,12 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -245,9 +272,8 @@
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
-			filter="string"
-		/>
+			supported="mysql,mysqli,pdomysql,postgresql"
+			filter="string" />
 
 		<field
 			name="host"
@@ -298,27 +324,27 @@
 		<field
 			name="debug"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_SYSTEM_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_SYSTEM_DESC"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="debug_lang"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_LANG_DESC"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 	</fieldset>
@@ -330,14 +356,14 @@
 		<field
 			name="ftp_enable"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_FTP_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_FTP_ENABLE_DESC"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -405,14 +431,14 @@
 		<field
 			name="proxy_enable"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_PROXY_ENABLE_DESC"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -488,12 +514,12 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MAILONLINE_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -501,13 +527,13 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			filter="integer"
 			showon="mailonline:1"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -621,15 +647,15 @@
 		<field
 			name="smtpauth"
 			type="radio"
+			class="switcher"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_DESC"
-			class="btn-group btn-group-yesno"
 			default="0"
 			showon="mailonline:1[AND]mailer:smtp"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -706,27 +732,27 @@
 		<field
 			name="MetaAuthor"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
 			description="COM_CONFIG_FIELD_METAAUTHOR_DESC"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="MetaVersion"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
 			description="COM_CONFIG_FIELD_METAVERSION_DESC"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 	</fieldset>
@@ -738,56 +764,56 @@
 		<field
 			name="sef"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			description="COM_CONFIG_FIELD_SEF_URL_DESC"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="sef_rewrite"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
 			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
 			filter="integer"
 			showon="sef:1"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="sef_suffix"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
 			description="COM_CONFIG_FIELD_SEF_SUFFIX_DESC"
 			filter="integer"
 			showon="sef:1"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="unicodeslugs"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
 			description="COM_CONFIG_FIELD_UNICODESLUGS_DESC"
 			filter="integer"
 			showon="sef:1"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -821,14 +847,14 @@
 		<field
 			name="gzip"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_GZIP_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_GZIP_COMPRESSION_DESC"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -866,13 +892,34 @@
 		label="CONFIG_SESSION_SETTINGS_LABEL">
 
 		<field
+			name="shared_session"
+			type="radio"
+			class="switcher"
+			default="0"
+			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
+			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
+			filter="integer">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
 			name="session_handler"
 			type="sessionhandler"
+			default="filesystem"
 			label="COM_CONFIG_FIELD_SESSION_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_HANDLER_DESC"
-			default="none"
 			filter="word"
 		/>
+
+		<field
+			name="session_filesystem_path"
+			type="text"
+			default=""
+			label="COM_CONFIG_FIELD_FILESYSTEM_PATH_LABEL"
+			description="COM_CONFIG_FIELD_FILESYSTEM_PATH_DESC"
+			filter="path"
+			showon="session_handler:filesystem" />
 
 		<field
 			name="session_memcache_server_host"
@@ -942,12 +989,12 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
 			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 	</fieldset>
@@ -969,14 +1016,14 @@
 		<field
 			name="offline"
 			type="radio"
-			class="btn-group btn-group-yesno btn-group-reversed"
+			class="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_OFFLINE_DESC"
 			filter="integer"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field

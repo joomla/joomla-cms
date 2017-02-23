@@ -71,13 +71,12 @@ class InstallerModelInstall extends JModelLegacy
 
 		// Load installer plugins for assistance if required:
 		JPluginHelper::importPlugin('installer');
-		$dispatcher = JEventDispatcher::getInstance();
 
 		$package = null;
 
 		// This event allows an input pre-treatment, a custom pre-packing or custom installation.
 		// (e.g. from a JSON description).
-		$results = $dispatcher->trigger('onInstallerBeforeInstallation', array($this, &$package));
+		$results = $app->triggerEvent('onInstallerBeforeInstallation', array($this, &$package));
 
 		if (in_array(true, $results, true))
 		{
@@ -118,7 +117,7 @@ class InstallerModelInstall extends JModelLegacy
 		}
 
 		// This event allows a custom installation of the package or a customization of the package:
-		$results = $dispatcher->trigger('onInstallerBeforeInstaller', array($this, &$package));
+		$results = $app->triggerEvent('onInstallerBeforeInstaller', array($this, &$package));
 
 		if (in_array(true, $results, true))
 		{
@@ -200,7 +199,7 @@ class InstallerModelInstall extends JModelLegacy
 		}
 
 		// This event allows a custom a post-flight:
-		$dispatcher->trigger('onInstallerAfterInstaller', array($this, &$package, $installer, &$result, &$msg));
+		$app->triggerEvent('onInstallerAfterInstaller', array($this, &$package, $installer, &$result, &$msg));
 
 		// Set some model state values.
 		$app = JFactory::getApplication();
@@ -265,7 +264,7 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			JError::raiseWarning(
 				'',
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET')
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET')
 			);
 
 			return false;
@@ -276,7 +275,7 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			JError::raiseWarning(
 				'',
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE')
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE')
 			);
 
 			return false;

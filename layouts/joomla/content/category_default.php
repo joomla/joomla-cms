@@ -19,19 +19,19 @@ $extension = $category->extension;
 $canEdit   = $params->get('access-edit');
 $className = substr($extension, 4);
 
-$dispatcher = JEventDispatcher::getInstance();
+$app = JFactory::getApplication();
 
 $category->text = $category->description;
-$dispatcher->trigger('onContentPrepare', array($extension . '.categories', &$category, &$params, 0));
+$app->triggerEvent('onContentPrepare', array($extension . '.categories', &$category, &$params, 0));
 $category->description = $category->text;
 
-$results = $dispatcher->trigger('onContentAfterTitle', array($extension . '.categories', &$category, &$params, 0));
+$results = $app->triggerEvent('onContentAfterTitle', array($extension . '.categories', &$category, &$params, 0));
 $afterDisplayTitle = trim(implode("\n", $results));
 
-$results = $dispatcher->trigger('onContentBeforeDisplay', array($extension . '.categories', &$category, &$params, 0));
+$results = $app->triggerEvent('onContentBeforeDisplay', array($extension . '.categories', &$category, &$params, 0));
 $beforeDisplayContent = trim(implode("\n", $results));
 
-$results = $dispatcher->trigger('onContentAfterDisplay', array($extension . '.categories', &$category, &$params, 0));
+$results = $app->triggerEvent('onContentAfterDisplay', array($extension . '.categories', &$category, &$params, 0));
 $afterDisplayContent = trim(implode("\n", $results));
 
 /**
@@ -42,6 +42,7 @@ if (substr($className, -1) === 's')
 {
 	$className = rtrim($className, 's');
 }
+
 $tagsData = $category->tags->itemTags;
 ?>
 <div>
@@ -66,7 +67,7 @@ $tagsData = $category->tags->itemTags;
 		<?php if ($beforeDisplayContent || $afterDisplayContent || $params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
 			<div class="category-desc">
 				<?php if ($params->get('show_description_image') && $category->getParams()->get('image')) : ?>
-					<img src="<?php echo $category->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>"/>
+					<img src="<?php echo $category->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>">
 				<?php endif; ?>
 				<?php echo $beforeDisplayContent; ?>
 				<?php if ($params->get('show_description') && $category->description) : ?>

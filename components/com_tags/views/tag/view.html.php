@@ -18,19 +18,85 @@ use Joomla\Registry\Registry;
  */
 class TagsViewTag extends JViewLegacy
 {
+	/**
+	 * The model state
+	 *
+	 * @var    JObject
+	 * @since  3.1
+	 */
 	protected $state;
 
+	/**
+	 * List of items associated with the tag
+	 *
+	 * @var    stdClass[]|false
+	 * @since  3.1
+	 */
 	protected $items;
 
+	/**
+	 * Tag data for the current tag or tags
+	 *
+	 * @var    JObject[]
+	 * @since  3.1
+	 */
 	protected $item;
 
+	/**
+	 * UNUSED
+	 *
+	 * @var    null
+	 * @since  3.1
+	 */
 	protected $children;
 
+	/**
+	 * UNUSED
+	 *
+	 * @var    null
+	 * @since  3.1
+	 */
+	protected $parent;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var    JPagination
+	 * @since  3.1
+	 */
 	protected $pagination;
 
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  3.1
+	 */
 	protected $params;
 
+	/**
+	 * The title to display on the page
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
 	protected $tags_title;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
+	 * The logged in user
+	 *
+	 * @var    JUser|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $user = null;
 
 	/**
 	 * Execute and display a template script.
@@ -54,12 +120,10 @@ class TagsViewTag extends JViewLegacy
 		$parent     = $this->get('Parent');
 		$pagination = $this->get('Pagination');
 
-		/*
-		 * // Change to catch
-		 * if (count($errors = $this->get('Errors'))) {
-		 * JError::raiseError(500, implode("\n", $errors));
-		 * return false;
-		 */
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+		}
 
 		// Check whether access level allows access.
 		// @TODO: Should already be computed in $item->params->get('access-view')
@@ -94,17 +158,15 @@ class TagsViewTag extends JViewLegacy
 				// For some plugins.
 				!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
 
-				$dispatcher = JEventDispatcher::getInstance();
+				JFactory::getApplication()->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 
-				$dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
-
-				$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = $dispatcher->trigger('onContentAfterDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
 				// Write the results back into the body
@@ -194,7 +256,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * Prepares the document.
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function _prepareDocument()
 	{
@@ -282,7 +344,9 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * Creates the tags title for the output
 	 *
-	 * @return bool
+	 * @return  string
+	 *
+	 * @since   3.1
 	 */
 	protected function getTagsTitle()
 	{

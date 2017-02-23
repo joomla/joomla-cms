@@ -299,9 +299,7 @@ class AdminModelSysInfo extends JModelLegacy
 			return $this->info;
 		}
 
-		$version  = new JVersion;
-		$platform = new JPlatform;
-		$db       = $this->getDbo();
+		$db = $this->getDbo();
 
 		$this->info = array(
 			'php'                   => php_uname(),
@@ -311,8 +309,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'phpversion'            => phpversion(),
 			'server'                => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE'),
 			'sapi_name'             => php_sapi_name(),
-			'version'               => $version->getLongVersion(),
-			'platform'              => $platform->getLongVersion(),
+			'version'               => (new JVersion)->getLongVersion(),
 			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
 		);
 
@@ -392,7 +389,7 @@ class AdminModelSysInfo extends JModelLegacy
 		$output = preg_replace('#<table[^>]*>#', '<table class="table table-striped adminlist">', $output[1][0]);
 		$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 		$output = preg_replace('#<hr />#', '', $output);
-		$output = str_replace('<div class="center">', '', $output);
+		$output = str_replace('<div class="text-center">', '', $output);
 		$output = preg_replace('#<tr class="h">(.*)<\/tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
 		$output = str_replace('</table>', '</tbody></table>', $output);
 		$output = str_replace('</div>', '', $output);

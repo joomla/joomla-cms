@@ -33,7 +33,7 @@ class ContactViewContact extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var  JObject
 	 */
 	protected $state;
 
@@ -54,9 +54,7 @@ class ContactViewContact extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).
@@ -105,9 +103,14 @@ class ContactViewContact extends JViewLegacy
 			// For new records, check the create permission.
 			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
 			{
-				JToolbarHelper::apply('contact.apply');
-				JToolbarHelper::save('contact.save');
-				JToolbarHelper::save2new('contact.save2new');
+				JToolbarHelper::saveGroup(
+					[
+						['apply', 'contact.apply'],
+						['save', 'contact.save'],
+						['save2new', 'contact.save2new']
+					],
+					'btn-success'
+				);
 			}
 
 			JToolbarHelper::cancel('contact.cancel');
@@ -116,25 +119,32 @@ class ContactViewContact extends JViewLegacy
 		{
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+			
+			$toolbarButtons = [];
 
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				JToolbarHelper::apply('contact.apply');
-				JToolbarHelper::save('contact.save');
+				$toolbarButtons[] = ['apply', 'contact.apply'];
+				$toolbarButtons[] = ['save', 'contact.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
 				if ($canDo->get('core.create'))
 				{
-					JToolbarHelper::save2new('contact.save2new');
+					$toolbarButtons[] = ['save2new', 'contact.save2new'];
 				}
 			}
 
 			// If checked out, we can still save
 			if ($canDo->get('core.create'))
 			{
-				JToolbarHelper::save2copy('contact.save2copy');
+				$toolbarButtons[] = ['save2copy', 'contact.save2copy'];
 			}
+
+			JToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
 
 			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{

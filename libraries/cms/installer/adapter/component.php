@@ -737,8 +737,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		// Set the extensions name
-		$this->set('name', $this->getName());
-		$this->set('element', $this->getElement());
+		$this->name = $this->getName();
+		$this->element = $this->getElement();
 
 		// Attempt to load the admin language file; might have uninstall strings
 		$this->loadLanguage(JPATH_ADMINISTRATOR . '/components/' . $this->element);
@@ -885,7 +885,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	{
 		$db     = $this->parent->getDbo();
 
-		$option = $this->get('element');
+		$option = $this->element;
 
 		// If a component exists with this option in the table within the protected menutype 'main' then we don't need to add menus
 		$query = $db->getQuery(true)
@@ -1121,7 +1121,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			{
 				if (!$table->delete((int) $menuid))
 				{
-					$this->setError($table->getError());
+					JError::raiseWarning(1, $table->getError());
 
 					$result = false;
 				}
@@ -1162,7 +1162,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	protected function _updateMenus($component_id, $clientId = null)
 	{
 		$db     = $this->parent->getDbo();
-		$option = $this->get('element');
+		$option = $this->element;
 
 		// Update all menu items which contain 'index.php?option=com_extension' or 'index.php?option=com_extension&...'
 		// to use the new component id.
@@ -1368,15 +1368,4 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 		return $table->id;
 	}
-}
-
-/**
- * Deprecated class placeholder. You should use JInstallerAdapterComponent instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JInstallerComponent extends JInstallerAdapterComponent
-{
 }

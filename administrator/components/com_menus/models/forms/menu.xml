@@ -30,7 +30,7 @@
 			type="text"
 			label="JGLOBAL_TITLE"
 			description="COM_MENUS_MENU_TITLE_DESC"
-			size="30"
+			class="input-xxlarge"
 			maxlength="48"
 			required="true"
 		/>
@@ -50,7 +50,7 @@
 			label="COM_MENUS_MENU_CLIENT_ID_LABEL"
 			description="COM_MENUS_MENU_CLIENT_ID_DESC"
 			default="0"
-			class="btn-group"
+			class="btn-group btn-group-yesno btn-group-reversed"
 			required="true"
 		>
 			<option value="0">JSITE</option>

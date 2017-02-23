@@ -679,7 +679,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   CMS 3.1.2
 	 */
-	public function addDisconnectHandler($callable)
+	public function addDisconnectHandler(callable $callable)
 	{
 		$this->disconnectHandlers[] = $callable;
 	}

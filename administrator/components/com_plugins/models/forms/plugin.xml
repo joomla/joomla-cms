@@ -21,7 +21,7 @@
 		<field
 			name="enabled"
 			type="list"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			label="JSTATUS"
 			description="COM_PLUGINS_FIELD_ENABLED_DESC"
 			size="1"

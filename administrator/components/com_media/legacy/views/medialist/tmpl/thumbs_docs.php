@@ -11,19 +11,17 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-$params     = new Registry;
-$dispatcher = JEventDispatcher::getInstance();
+$params = new Registry;
 ?>
 
 <?php foreach ($this->documents as $i => $doc) : ?>
-	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$doc, &$params)); ?>
+	<?php JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_media.file', &$doc, &$params)); ?>
 	<li class="imgOutline thumbnail height-80 width-80 center">
 		<?php if ($this->canDelete) : ?>
 			<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $doc->name; ?>" rel="<?php echo $doc->name; ?>" title="<?php echo JText::_('JACTION_DELETE'); ?>">&#215;</a>
-			<div class="pull-left">
+			<div class="float-left">
 				<?php echo JHtml::_('grid.id', $i, $doc->name, false, 'rm', 'cb-document'); ?>
 			</div>
-			<div class="clearfix"></div>
 		<?php endif; ?>
 
 		<div class="height-50">
@@ -36,5 +34,5 @@ $dispatcher = JEventDispatcher::getInstance();
 			<?php echo JHtml::_('string.truncate', $doc->name, 10, false); ?>
 		</div>
 	</li>
-	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$doc, &$params)); ?>
+	<?php JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_media.file', &$doc, &$params)); ?>
 <?php endforeach; ?>

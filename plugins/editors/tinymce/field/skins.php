@@ -36,7 +36,7 @@ class JFormFieldSkins extends JFormFieldList
 	{
 		$options = array();
 
-		$directories = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
+		$directories = glob(JPATH_ROOT . '/media/vendor/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
 		for ($i = 0; $i < count($directories); ++$i)
 		{

@@ -84,7 +84,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetShortVersion()
 	{
-		$this->assertEquals($this->object->RELEASE . '.' . $this->object->DEV_LEVEL, $this->object->getShortVersion());
+		$this->assertEquals(JVersion::RELEASE . '.' . JVersion::DEV_LEVEL, $this->object->getShortVersion());
 	}
 
 	/**

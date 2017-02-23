@@ -62,7 +62,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of item types
 	 *
-	 * @since  3.7.0
+	 * @since   3.7.0
 	 */
 	public function getItemTypes()
 	{
@@ -77,7 +77,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return   array
 	 *
-	 * @since    3.7.0
+	 * @since   3.7.0
 	 */
 	public function getAssociationList($typeName, $itemId)
 	{

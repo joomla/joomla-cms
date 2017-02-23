@@ -26,8 +26,6 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 
 	protected $form;
 
-	protected $state;
-
 	/**
 	 * Display the view
 	 *
@@ -42,7 +40,6 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Get data from the model
-		$this->state         = $this->get('State');
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
@@ -51,7 +48,7 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Include the component HTML helpers.

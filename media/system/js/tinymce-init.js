@@ -26,10 +26,10 @@
 			target = target || document;
 			var pluginOptions = Joomla.getOptions ? Joomla.getOptions('plg_editor_tinymce', {})
 					:  (Joomla.optionsStorage.plg_editor_tinymce || {}),
-				$editors = target.querySelectorAll('.joomla-editor-tinymce');
+				editors = target.querySelectorAll('.joomla-editor-tinymce');
 
-			for(var i = 0, l = $editors.length; i < l; i++) {
-				this.setupEditor($editors[i], pluginOptions);
+			for(var i = 0, l = editors.length; i < l; i++) {
+				this.setupEditor(editors[i], pluginOptions);
 			}
 		},
 
@@ -59,6 +59,20 @@
 			if (options.setupCallbackString && !options.setup) {
 				options.setup = new Function('editor', options.setupCallbackString);
 			}
+
+			// Check if control-s is enabled and map it
+			if (window.parent.Joomla.getOptions('keySave')) {
+				options.plugins = 'save';
+				options.toolbar = 'save';
+				options.save_onsavecallback = function() { window.parent.Joomla.submitbutton(window.parent.Joomla.getOptions('keySave').task) };
+			}
+
+			// Check if drag and drop is enabled
+			if (window.parent.Joomla.getOptions('dnd-enabled')) {
+				// Loads a plugin from an external URL
+				tinymce.PluginManager.load('jdragdrop', window.parent.Joomla.getOptions('dnd-path'));
+			}
+
 
 			tinyMCE.init(options);
 		}

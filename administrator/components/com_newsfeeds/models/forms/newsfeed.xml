@@ -38,7 +38,7 @@
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
 			default="1"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			size="1"
 			>
 			<option value="1">JPUBLISHED</option>
@@ -71,7 +71,6 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="span12"
 			multiple="true"
 		/>
 
@@ -81,7 +80,6 @@
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 			labelclass="control-label"
-			class="span12"
 			size="45"
 			maxlength="255"
 		/>
@@ -101,7 +99,6 @@
 			type="url"
 			label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
 			description="COM_NEWSFEEDS_FIELD_LINK_DESC"
-			class="span12"
 			size="60"
 			required="true"
 			filter="url"

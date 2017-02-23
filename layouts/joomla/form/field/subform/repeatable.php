@@ -30,7 +30,7 @@ extract($displayData);
 if ($multiple)
 {
 	JHtml::_('jquery.ui', array('core', 'sortable'));
-	JHtml::_('script', 'system/subform-repeatable.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('script', 'system/fields/subform-repeatable.min.js', array('version' => 'auto', 'relative' => true));
 }
 
 $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
@@ -44,7 +44,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 			<?php if (!empty($buttons['add'])) : ?>
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<a class="group-add btn btn-mini button btn-success"><span class="icon-plus"></span> </a>
+					<a class="group-add btn btn-sm button btn-success"><span class="icon-plus icon-white"></span> </a>
 				</div>
 			</div>
 			<?php endif; ?>

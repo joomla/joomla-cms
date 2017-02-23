@@ -13,8 +13,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
+
 $this->fieldsets = $this->form->getFieldsets('params');
 
 JFactory::getDocument()->addScriptDeclaration("
@@ -28,14 +28,14 @@ JFactory::getDocument()->addScriptDeclaration("
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
-	<div class="form-horizontal">
+	<div>
 
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_PLUGINS_PLUGIN')); ?>
 
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
 						<h3>
@@ -50,25 +50,32 @@ JFactory::getDocument()->addScriptDeclaration("
 							}
 							?>
 						</h3>
-						<div class="info-labels">
-							<span class="label hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_PLUGINS_FIELD_FOLDER_LABEL', 'COM_PLUGINS_FIELD_FOLDER_DESC'); ?>">
+						<div class="info-labels mb-1">
+							<span class="badge badge-default hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_PLUGINS_FIELD_FOLDER_LABEL', 'COM_PLUGINS_FIELD_FOLDER_DESC'); ?>">
 								<?php echo $this->form->getValue('folder'); ?>
 							</span> /
-							<span class="label hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_PLUGINS_FIELD_ELEMENT_LABEL', 'COM_PLUGINS_FIELD_ELEMENT_DESC'); ?>">
+							<span class="badge badge-default hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_PLUGINS_FIELD_ELEMENT_LABEL', 'COM_PLUGINS_FIELD_ELEMENT_DESC'); ?>">
 								<?php echo $this->form->getValue('element'); ?>
 							</span>
 						</div>
 						<div>
 							<?php
+							$this->fieldset    = 'description';
 							$short_description = JText::_($this->item->xml->description);
-							$this->fieldset = 'description';
-							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
-							if (!$long_description) {
+							$this->fieldset    = 'description';
+							$long_description  = JLayoutHelper::render('joomla.edit.fieldset', $this);
+
+							if (!$long_description)
+							{
 								$truncated = JHtmlString::truncate($short_description, 550, true, false);
-								if (strlen($truncated) > 500) {
-									$long_description = $short_description;
+
+								if (strlen($truncated) > 500)
+								{
+									$long_description  = $short_description;
 									$short_description = JHtmlString::truncate($truncated, 250);
-									if ($short_description == $long_description) {
+
+									if ($short_description == $long_description)
+									{
 										$long_description = '';
 									}
 								}
@@ -85,40 +92,42 @@ JFactory::getDocument()->addScriptDeclaration("
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<div class="alert alert-error"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></div>
+					<div class="alert alert-danger"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></div>
 				<?php endif; ?>
 
 				<?php
 				$this->fieldset = 'basic';
 				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
-				echo $html ? '<hr />' . $html : '';
+				echo $html ? '<hr>' . $html : '';
 				?>
 			</div>
-			<div class="span3">
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
-				<div class="form-vertical">
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('ordering'); ?>
+			<div class="col-md-3">
+				<div class="card card-block card-light">
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					<div class="form-vertical form-no-margin">
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('ordering'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('ordering'); ?>
+							</div>
 						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('ordering'); ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('folder'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('folder'); ?>
+							</div>
 						</div>
-					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('folder'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('folder'); ?>
-						</div>
-					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('element'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('element'); ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('element'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('element'); ?>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -141,6 +150,6 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="task" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

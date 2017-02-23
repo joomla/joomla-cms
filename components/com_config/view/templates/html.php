@@ -16,9 +16,29 @@ defined('_JEXEC') or die;
  */
 class ConfigViewTemplatesHtml extends ConfigViewCmsHtml
 {
+	/**
+	 * The data to be displayed in the form
+	 *
+	 * @var   array
+	 * @since 3.2
+	 */
 	public $item;
 
+	/**
+	 * The form object
+	 *
+	 * @var   JForm
+	 * @since 3.2
+	 */
 	public $form;
+
+	/**
+	 * Is the current user a super administrator?
+	 *
+	 * @var   boolean
+	 * @since 3.2
+	 */
+	protected $userIsSuperAdmin;
 
 	/**
 	 * Method to render the view.

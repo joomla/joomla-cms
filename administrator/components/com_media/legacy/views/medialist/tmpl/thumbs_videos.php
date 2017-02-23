@@ -11,8 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-$params     = new Registry;
-$dispatcher = JEventDispatcher::getInstance();
+$params = new Registry;
 
 JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($){
@@ -23,14 +22,13 @@ jQuery(document).ready(function($){
 ");
 ?>
 <?php foreach ($this->videos as $i => $video) : ?>
-	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$video, &$params)); ?>
+	<?php JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_media.file', &$video, &$params)); ?>
 	<li class="imgOutline thumbnail height-80 width-80 center">
 		<?php if ($this->canDelete) : ?>
 			<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $video->name; ?>" rel="<?php echo $video->name; ?>" title="<?php echo JText::_('JACTION_DELETE'); ?>">&#215;</a>
-			<div class="pull-left">
+			<div class="float-left">
 				<?php echo JHtml::_('grid.id', $i, $video->name, false, 'rm', 'cb-video'); ?>
 			</div>
-			<div class="clearfix"></div>
 		<?php endif; ?>
 
 		<div class="height-50">
@@ -43,5 +41,5 @@ jQuery(document).ready(function($){
 			</a>
 		</div>
 	</li>
-	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$video, &$params)); ?>
+	<?php JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_media.file', &$video, &$params)); ?>
 <?php endforeach; ?>

@@ -111,15 +111,6 @@ class JInstaller extends JAdapter
 	protected $packageUninstall = false;
 
 	/**
-	 * JInstaller instance container.
-	 *
-	 * @var    JInstaller
-	 * @since  3.1
-	 * @deprecated  4.0
-	 */
-	protected static $instance;
-
-	/**
 	 * JInstaller instances container.
 	 *
 	 * @var    JInstaller[]
@@ -158,13 +149,7 @@ class JInstaller extends JAdapter
 	{
 		if (!isset(self::$instances[$basepath]))
 		{
-			self::$instances[$basepath] = new JInstaller($basepath, $classprefix, $adapterfolder);
-
-			// For B/C, we load the first instance into the static $instance container, remove at 4.0
-			if (!isset(self::$instance))
-			{
-				self::$instance = self::$instances[$basepath];
-			}
+			self::$instances[$basepath] = new static($basepath, $classprefix, $adapterfolder);
 		}
 
 		return self::$instances[$basepath];
@@ -500,8 +485,7 @@ class JInstaller extends JAdapter
 
 		// Fire the onExtensionBeforeInstall event.
 		JPluginHelper::importPlugin('extension');
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger(
+		JFactory::getApplication()->triggerEvent(
 			'onExtensionBeforeInstall',
 			array(
 				'method' => 'install',
@@ -515,7 +499,7 @@ class JInstaller extends JAdapter
 		$result = $adapter->install();
 
 		// Fire the onExtensionAfterInstall
-		$dispatcher->trigger(
+		JFactory::getApplication()->triggerEvent(
 			'onExtensionAfterInstall',
 			array('installer' => clone $this, 'eid' => $result)
 		);
@@ -567,7 +551,7 @@ class JInstaller extends JAdapter
 		$type   = $this->extension->type;
 		$params = array('extension' => $this->extension, 'route' => 'discover_install');
 
-		$adapter = $this->getAdapter($type, $params);
+		$adapter = $this->loadAdapter($type, $params);
 
 		if (!is_object($adapter))
 		{
@@ -604,8 +588,7 @@ class JInstaller extends JAdapter
 
 		// Fire the onExtensionBeforeInstall event.
 		JPluginHelper::importPlugin('extension');
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger(
+		JFactory::getApplication()->triggerEvent(
 			'onExtensionBeforeInstall',
 			array(
 				'method' => 'discover_install',
@@ -619,7 +602,7 @@ class JInstaller extends JAdapter
 		$result = $adapter->discover_install();
 
 		// Fire the onExtensionAfterInstall
-		$dispatcher->trigger(
+		JFactory::getApplication()->triggerEvent(
 			'onExtensionAfterInstall',
 			array('installer' => clone $this, 'eid' => $result)
 		);
@@ -646,15 +629,16 @@ class JInstaller extends JAdapter
 	 */
 	public function discover()
 	{
-		$this->loadAllAdapters();
 		$results = array();
 
-		foreach ($this->_adapters as $adapter)
+		foreach ($this->getAdapters() as $adapter)
 		{
+			$instance = $this->loadAdapter($adapter);
+
 			// Joomla! 1.5 installation adapter legacy support
-			if (method_exists($adapter, 'discover'))
+			if (method_exists($instance, 'discover'))
 			{
-				$tmp = $adapter->discover();
+				$tmp = $instance->discover();
 
 				// If its an array and has entries
 				if (is_array($tmp) && count($tmp))
@@ -710,14 +694,16 @@ class JInstaller extends JAdapter
 
 		// Fire the onExtensionBeforeUpdate event.
 		JPluginHelper::importPlugin('extension');
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onExtensionBeforeUpdate', array('type' => $this->manifest->attributes()->type, 'manifest' => $this->manifest));
+		JFactory::getApplication()->triggerEvent(
+			'onExtensionBeforeUpdate',
+			array('type' => $this->manifest->attributes()->type, 'manifest' => $this->manifest)
+		);
 
 		// Run the update
 		$result = $adapter->update();
 
 		// Fire the onExtensionAfterUpdate
-		$dispatcher->trigger(
+		JFactory::getApplication()->triggerEvent(
 			'onExtensionAfterUpdate',
 			array('installer' => clone $this, 'eid' => $result)
 		);
@@ -733,19 +719,18 @@ class JInstaller extends JAdapter
 	/**
 	 * Package uninstallation method
 	 *
-	 * @param   string   $type        Package type
-	 * @param   mixed    $identifier  Package identifier for adapter
-	 * @param   integer  $cid         Application ID; deprecated in 1.6
+	 * @param   string  $type        Package type
+	 * @param   mixed   $identifier  Package identifier for adapter
 	 *
 	 * @return  boolean  True if successful
 	 *
 	 * @since   3.1
 	 */
-	public function uninstall($type, $identifier, $cid = 0)
+	public function uninstall($type, $identifier)
 	{
 		$params = array('extension' => $this->extension, 'route' => 'uninstall');
 
-		$adapter = $this->getAdapter($type, $params);
+		$adapter = $this->loadAdapter($type, $params);
 
 		if (!is_object($adapter))
 		{
@@ -755,14 +740,16 @@ class JInstaller extends JAdapter
 		// We don't load languages here, we get the extension adapter to work it out
 		// Fire the onExtensionBeforeUninstall event.
 		JPluginHelper::importPlugin('extension');
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onExtensionBeforeUninstall', array('eid' => $identifier));
+		JFactory::getApplication()->triggerEvent(
+			'onExtensionBeforeUninstall',
+			array('eid' => $identifier)
+		);
 
 		// Run the uninstall
 		$result = $adapter->uninstall($identifier);
 
 		// Fire the onExtensionAfterInstall
-		$dispatcher->trigger(
+		JFactory::getApplication()->triggerEvent(
 			'onExtensionAfterUninstall',
 			array('installer' => clone $this, 'eid' => $identifier, 'result' => $result)
 		);
@@ -801,7 +788,7 @@ class JInstaller extends JAdapter
 			}
 
 			// Fetch the adapter
-			$adapter = $this->getAdapter($this->extension->type);
+			$adapter = $this->loadAdapter($this->extension->type);
 
 			if (!is_object($adapter))
 			{
@@ -858,7 +845,7 @@ class JInstaller extends JAdapter
 		$params = array('route' => $route, 'manifest' => $this->getManifest());
 
 		// Load the adapter
-		$adapter = $this->getAdapter($type, $params);
+		$adapter = $this->loadAdapter($type, $params);
 
 		if ($returnAdapter)
 		{
@@ -941,13 +928,7 @@ class JInstaller extends JAdapter
 
 		$db = & $this->_db;
 
-		// TODO - At 4.0 we can change this to use `getServerType()` since SQL Server will not be supported
-		$dbDriver = strtolower($db->name);
-
-		if ($db->getServerType() === 'mysql')
-		{
-			$dbDriver = 'mysql';
-		}
+		$dbDriver = $db->getServerType();
 
 		$update_count = 0;
 
@@ -1108,13 +1089,7 @@ class JInstaller extends JAdapter
 
 			if (count($schemapaths))
 			{
-				// TODO - At 4.0 we can change this to use `getServerType()` since SQL Server will not be supported
-				$dbDriver = strtolower($db->name);
-
-				if ($db->getServerType() === 'mysql')
-				{
-					$dbDriver = 'mysql';
-				}
+				$dbDriver = $db->getServerType();
 
 				$schemapath = '';
 
@@ -2266,41 +2241,14 @@ class JInstaller extends JAdapter
 	}
 
 	/**
-	 * Fetches an adapter and adds it to the internal storage if an instance is not set
-	 * while also ensuring its a valid adapter name
-	 *
-	 * @param   string  $name     Name of adapter to return
-	 * @param   array   $options  Adapter options
-	 *
-	 * @return  JInstallerAdapter
-	 *
-	 * @since       3.4
-	 * @deprecated  4.0  The internal adapter cache will no longer be supported,
-	 *                   use loadAdapter() to fetch an adapter instance
-	 */
-	public function getAdapter($name, $options = array())
-	{
-		$this->getAdapters($options);
-
-		if (!$this->setAdapter($name, $this->_adapters[$name]))
-		{
-			return false;
-		}
-
-		return $this->_adapters[$name];
-	}
-
-	/**
 	 * Gets a list of available install adapters.
 	 *
 	 * @param   array  $options  An array of options to inject into the adapter
 	 * @param   array  $custom   Array of custom install adapters
 	 *
-	 * @return  array  An array of available install adapters.
+	 * @return  string[]  An array of the class names of available install adapters.
 	 *
 	 * @since   3.4
-	 * @note    As of 4.0, this method will only return the names of available adapters and will not
-	 *          instantiate them and store to the $_adapters class var.
 	 */
 	public function getAdapters($options = array(), array $custom = array())
 	{
@@ -2334,7 +2282,7 @@ class JInstaller extends JAdapter
 				}
 			}
 
-			$this->_adapters[$name] = $this->loadAdapter($name, $options);
+			$adapters[] = str_ireplace('.php', '', $fileName);
 		}
 
 		// Add any custom adapters if specified
@@ -2352,11 +2300,11 @@ class JInstaller extends JAdapter
 					continue;
 				}
 
-				$this->_adapters[$name] = $this->loadAdapter($name, $options);
+				$adapters[] = str_ireplace('.php', '', $fileName);
 			}
 		}
 
-		return $this->_adapters;
+		return $adapters;
 	}
 
 	/**
@@ -2376,43 +2324,18 @@ class JInstaller extends JAdapter
 
 		if (!class_exists($class))
 		{
-			// @deprecated 4.0 - The adapter should be autoloaded or manually included by the caller
-			$path = $this->_basepath . '/' . $this->_adapterfolder . '/' . $adapter . '.php';
-
-			// Try to load the adapter object
-			if (!file_exists($path))
-			{
-				throw new InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
-			}
-
-			// Try once more to find the class
-			JLoader::register($class, $path);
-
-			if (!class_exists($class))
-			{
-				throw new InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
-			}
+			throw new InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
 		}
 
 		// Ensure the adapter type is part of the options array
 		$options['type'] = $adapter;
 
-		return new $class($this, $this->getDbo(), $options);
-	}
+		// Check for a possible service from the container otherwise manually instantiate the class
+		if (JFactory::getContainer()->exists($class))
+		{
+			return JFactory::getContainer()->get($class);
+		}
 
-	/**
-	 * Loads all adapters.
-	 *
-	 * @param   array  $options  Adapter options
-	 *
-	 * @return  void
-	 *
-	 * @since       3.4
-	 * @deprecated  4.0  Individual adapters should be instantiated as needed
-	 * @note        This method is serving as a proxy of the legacy JAdapter API into the preferred API
-	 */
-	public function loadAllAdapters($options = array())
-	{
-		$this->getAdapters($options);
+		return new $class($this, $this->getDbo(), $options);
 	}
 }

@@ -89,13 +89,13 @@ JHtml::_('searchtools.form', $data['options']['formSelector'], $data['options'])
 		<div class="js-stools-container-bar">
 			<?php echo $this->sublayout('bar', $data); ?>
 		</div>
-		<div class="js-stools-container-list hidden-phone hidden-tablet">
+		<div class="js-stools-container-list hidden-md-down">
 			<?php echo $this->sublayout('list', $data); ?>
 		</div>
 	</div>
 	<!-- Filters div -->
 	<?php if ($data['options']['filterButton']) : ?>
-	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersActiveClass; ?>">
+	<div class="js-stools-container-filters hidden-sm-down clearfix<?php echo $filtersActiveClass; ?>">
 		<?php echo $this->sublayout('filters', $data); ?>
 	</div>
 	<?php endif; ?>

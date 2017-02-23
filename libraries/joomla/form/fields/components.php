@@ -24,7 +24,7 @@ class JFormFieldComponents extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	protected $type = 'Components';
 

@@ -305,7 +305,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$title->Comment    = '';
 
 		$start_date = new stdClass;
-		$start_date->Default    = null;
+		$start_date->Default    = '0000-00-00 00:00:00';
 		$start_date->Field      = 'start_date';
 		$start_date->Type       = 'datetime';
 		$start_date->Null       = 'NO';

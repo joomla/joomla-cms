@@ -26,7 +26,7 @@ class InstallationControllerSetlanguage extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
@@ -44,18 +44,18 @@ class InstallationControllerSetlanguage extends JControllerBase
 		}
 
 		// Check for potentially unwritable session
-		$session = JFactory::getSession();
+		$session = $app->getSession();
 
 		if ($session->isNew())
 		{
-			$this->sendResponse(new Exception(JText::_('INSTL_COOKIES_NOT_ENABLED'), 500));
+			$app->sendJsonResponse(new Exception(JText::_('INSTL_COOKIES_NOT_ENABLED'), 500));
 		}
 
 		// Get the setup model.
 		$model = new InstallationModelSetup;
 
 		// Get the posted values from the request and validate them.
-		$data   = $this->input->post->get('jform', array(), 'array');
+		$data   = $this->input->post->get('jform', [], 'array');
 		$return = $model->validate($data, 'preinstall');
 
 		$r = new stdClass;
@@ -75,8 +75,7 @@ class InstallationControllerSetlanguage extends JControllerBase
 		$model->storeOptions($return);
 
 		// Setup language
-		$language = JFactory::getLanguage();
-		$language->setLanguage($return['language']);
+		JFactory::$language = JLanguage::getInstance($return['language']);
 
 		// Redirect to the page.
 		$r->view = $this->input->getWord('view', 'site');

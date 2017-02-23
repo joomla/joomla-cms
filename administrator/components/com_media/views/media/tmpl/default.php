@@ -37,3 +37,4 @@ JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
 JHtml::_('stylesheet', 'https://fonts.googleapis.com/icon?family=Material+Icons');
 ?>
 <div id="com-media"></div>
+

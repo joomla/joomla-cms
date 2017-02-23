@@ -106,7 +106,7 @@ class InstallationModelSetup extends JModelBase
 	 *
 	 * @param   string  $page  The view being checked.
 	 *
-	 * @return  array  Validated form data.
+	 * @return  array|boolean  Array with the validated form data or boolean false on a validation failure.
 	 *
 	 * @since   3.1
 	 */
@@ -127,18 +127,13 @@ class InstallationModelSetup extends JModelBase
 		// Check for validation errors.
 		if ($return === false)
 		{
-			// Redirect back to the previous page.
-			$r = new stdClass;
-			$r->view = $page;
-			JFactory::getApplication()->sendJsonResponse($r);
+			return false;
 		}
 
 		unset($return['admin_password2']);
 
 		// Store the options in the session.
-		$vars = $this->storeOptions($return);
-
-		return $vars;
+		return $this->storeOptions($return);
 	}
 
 	/**
@@ -261,7 +256,7 @@ class InstallationModelSetup extends JModelBase
 		$available = JDatabaseDriver::getConnectors();
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_DATABASE_SUPPORT');
-		$option->label .= '<br />(' . implode(', ', $available) . ')';
+		$option->label .= '<br>(' . implode(', ', $available) . ')';
 		$option->state  = count($available);
 		$option->notice = null;
 		$options[] = $option;

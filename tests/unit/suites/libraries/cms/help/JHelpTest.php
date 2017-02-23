@@ -14,7 +14,7 @@
  * @subpackage  Help
  * @since       3.0
  */
-class JHelpTest extends TestCase
+class JHelpTest extends TestCaseDatabase
 {
 	/**
 	 * The mock config object
@@ -62,10 +62,28 @@ class JHelpTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		TestReflection::setValue('JComponentHelper', 'components', array());
+
 		// Restore the state
 		$this->restoreFactoryState();
 
 		parent::tearDown();
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 *
+	 * @since   4.0
+	 */
+	protected function getDataSet()
+	{
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
+
+		return $dataSet;
 	}
 
 	/**
