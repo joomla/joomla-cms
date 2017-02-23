@@ -5,4 +5,5 @@ export default {
         {path: '/', directories: [], files: [], directory: null}
     ],
     files: [],
+    showCreateFolderModal: false,
 }

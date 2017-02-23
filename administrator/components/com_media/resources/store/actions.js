@@ -12,7 +12,7 @@ import * as types from "./mutation-types";
  */
 export const getContents = ({commit}, dir) => {
     api.getContents(dir)
-        .then((contents) => {
+        .then(contents => {
             commit(types.LOAD_CONTENTS_SUCCESS, contents);
             commit(types.SELECT_DIRECTORY, dir);
         })
@@ -20,5 +20,22 @@ export const getContents = ({commit}, dir) => {
             // TODO error handling
             console.log("error", error);
         });
+}
+
+/**
+ * Create a new folder
+ * @param commit
+ * @param payload object with the new folder name and its parent directory
+ */
+export const createDirectory = ({commit}, payload) => {
+    api.createDirectory(payload.name, payload.parent)
+        .then(folder => {
+            commit(types.CREATE_DIRECTORY_SUCCESS, folder);
+            commit(types.HIDE_CREATE_FOLDER_MODAL);
+        })
+        .catch(error => {
+            // TODO error handling
+            console.log("error", error);
+        })
 }
 

@@ -35,6 +35,46 @@ class Api {
     }
 
     /**
+     * Create a directory
+     * @param name
+     * @param parent
+     * @returns {Promise.<T>}
+     */
+    createDirectory(name, parent) {
+        // Wrap the jquery call into a real promise
+        return new Promise((resolve, reject) => {
+            const url = this._baseUrl + '&task=api.files&path=' + parent;
+            jQuery.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({'name': name}),
+                contentType: "application/json",
+            })
+                .done((json) => resolve(this._normalizeItem(json.data)))
+                .fail((xhr, status, error) => {
+                    reject(xhr)
+                })
+        }).catch(this._handleError);
+    }
+
+    /**
+     * Normalize a single item
+     * @param item
+     * @returns {*}
+     * @private
+     */
+    _normalizeItem(item) {
+        if(item.type === 'dir') {
+            item.directories = [];
+            item.files = [];
+        }
+
+        item.directory = path.dirname(item.path);
+
+        return item;
+    }
+
+    /**
      * Normalize array data
      * @param data
      * @returns {{directories, files}}
@@ -42,21 +82,10 @@ class Api {
      */
     _normalizeArray(data) {
 
-        // Directories
         const directories = data.filter(item => (item.type === 'dir'))
-            .map(directory => {
-                directory.directory = path.dirname(directory.path);
-                directory.directories = [];
-                directory.files = [];
-                return directory;
-            });
-
-        // Files
+            .map(directory => this._normalizeItem(directory));
         const files = data.filter(item => (item.type === 'file'))
-            .map(file => {
-                file.directory = path.dirname(file.path);
-                return file;
-            });
+            .map(file => this._normalizeItem(file));
 
         return {
             directories: directories,

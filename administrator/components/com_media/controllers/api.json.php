@@ -144,7 +144,7 @@ class MediaControllerApi extends JControllerLegacy
 						$this->adapter->createFolder($name, $path);
 					}
 
-					$data = $this->adapter->getFiles($path . '/' . $name);
+					$data = $this->adapter->getFile($path . '/' . $name);
 					break;
 				case 'put':
 					$content      = $this->input->json;

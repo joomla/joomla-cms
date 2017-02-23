@@ -7,6 +7,7 @@
             </div>
             <media-browser></media-browser>
         </div>
+        <create-folder-modal></create-folder-modal>
     </div>
 </template>
 
@@ -37,7 +38,7 @@
             });
         },
         beforeDestroy() {
-            // Add the global resize event listener
+            // Remove the global resize event listener
             window.removeEventListener('resize', this.setFullHeight)
         },
     }

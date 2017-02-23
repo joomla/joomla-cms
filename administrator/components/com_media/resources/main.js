@@ -6,6 +6,8 @@ import Toolbar from "./components/toolbar/toolbar.vue";
 import Breadcrumb from "./components/breadcrumb/breadcrumb.vue";
 import Browser from "./components/browser/browser.vue";
 import BrowserItem from "./components/browser/items/item";
+import MediaModal from "./components/modals/modal.vue";
+import CreateFolderModal from "./components/modals/create-folder-modal.vue";
 import store from './store/store'
 
 // Register the vue components
@@ -15,6 +17,8 @@ Vue.component('media-toolbar', Toolbar);
 Vue.component('media-breadcrumb', Breadcrumb);
 Vue.component('media-browser', Browser);
 Vue.component('media-browser-item', BrowserItem);
+Vue.component('media-modal', MediaModal);
+Vue.component('create-folder-modal', CreateFolderModal);
 
 // Create the root Vue instance
 document.addEventListener("DOMContentLoaded",
