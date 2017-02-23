@@ -283,8 +283,21 @@ class JFormFieldSQL extends JFormFieldList
 			$items = $db->loadObjectlist();
 		}
 		catch (Exception $e)
+		
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			try
+			{
+				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), JLog::WARNING, 'jerror');
+			}
+			catch (RuntimeException $exception)
+			{
+				JFactory::getApplication()->enqueueMessage(
+					JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
+					'warning'
+				);
+			}
+
+			JFactory::getApplication()->enqueueMessage(JText::_(JLIB_DATABASE_GENERIC_SQL_ERROR), 'error');
 		}
 
 		// Add header.
