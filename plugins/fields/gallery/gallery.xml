@@ -70,10 +70,8 @@
 	
 				<field
 					name="directory"
-					type="folderlist"
-					directory="images"
-					hide_none="true"
-					recursive="true"
+					type="text"
+					default="images"
 					label="PLG_FIELDS_GALLERY_PARAMS_DIRECTORY_LABEL"
 					description="PLG_FIELDS_GALLERY_PARAMS_DIRECTORY_DESC"
 				/>
