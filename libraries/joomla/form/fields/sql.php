@@ -284,18 +284,6 @@ class JFormFieldSQL extends JFormFieldList
 		}
 		catch (JDatabaseExceptionExecuting $e)
 		{
-			try
-			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), JLog::WARNING, 'database');
-			}
-			catch (RuntimeException $exception)
-			{
-				JFactory::getApplication()->enqueueMessage(
-					JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
-					'warning'
-				);
-			}
-
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_GENERIC_SQL_ERROR'), 'error');
 		}
 
