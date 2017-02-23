@@ -43,11 +43,6 @@ class PlgFieldsSql extends FieldsListPlugin
 		$fieldNode->setAttribute('value_field', 'text');
 		$fieldNode->setAttribute('key_field', 'value');
 
-		if (! $fieldNode->getAttribute('query'))
-		{
-			$fieldNode->setAttribute('query', 'select id as value, name as text from #__users');
-		}
-
 		return $fieldNode;
 	}
 }
