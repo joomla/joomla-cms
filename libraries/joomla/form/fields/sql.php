@@ -284,7 +284,7 @@ class JFormFieldSQL extends JFormFieldList
 		}
 		catch (JDatabaseExceptionExecuting $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_GENERIC_SQL_ERROR'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
 		// Add header.
