@@ -234,6 +234,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	{
 		$result = str_replace("'", "''", $text);
 
+		// SQL Server does not accept NULL byte in query string
+		$result = str_replace("\0", "' + CHAR(0) + N'", $result);
+
 		// Fix for SQL Sever escape sequence, see https://support.microsoft.com/en-us/kb/164291
 		$result = str_replace(
 			array("\\\n",     "\\\r",     "\\\\\r\r\n"),

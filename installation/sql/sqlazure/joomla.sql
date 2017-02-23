@@ -2665,7 +2665,7 @@ CREATE TABLE [#__redirect_links](
 	[old_url] [nvarchar](2048) NOT NULL,
 	[new_url] [nvarchar](2048),
 	[referer] [nvarchar](2048) NOT NULL,
-	[comment] [nvarchar](255) NOT NULL,
+	[comment] [nvarchar](255) NOT NULL DEFAULT '',
 	[hits] [bigint] NOT NULL DEFAULT 0,
 	[published] [smallint] NOT NULL,
 	[created_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',

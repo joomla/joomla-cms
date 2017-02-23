@@ -22,17 +22,6 @@
 			</field>
 
 			<field
-				name="home"
-				type="list"
-				label="PLG_FIELDS_MEDIA_PARAMS_HOME_LABEL"
-				description="PLG_FIELDS_MEDIA_PARAMS_HOME_DESC"
-			>
-				<option value="">PLG_FIELDS_MEDIA_PARAMS_USE_GLOBAL</option>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
-
-			<field
 				name="image_class"
 				type="textarea"
 				label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"

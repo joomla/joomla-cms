@@ -63,7 +63,7 @@ class LoginController extends JControllerLegacy
 
 		$result = $app->login($credentials, array('action' => 'core.login.admin'));
 
-		if (!($result instanceof Exception))
+		if ($result && !($result instanceof Exception))
 		{
 			// Only redirect to an internal URL.
 			if (JUri::isInternal($return))
@@ -80,7 +80,7 @@ class LoginController extends JControllerLegacy
 			}
 		}
 
-		parent::display();
+		$this->display();
 	}
 
 	/**
