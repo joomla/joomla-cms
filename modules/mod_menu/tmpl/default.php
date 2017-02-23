@@ -18,10 +18,10 @@ if ($tagId = $params->get('tag_id', ''))
 
 // The menu class is deprecated. Use nav instead
 ?>
-<ul class="nav menu<?php echo $class_sfx; ?>"<?php echo $id; ?>>
+<ul<?php echo $id; ?> class="nav flex-column<?php echo $class_sfx; ?>">
 <?php foreach ($list as $i => &$item)
 {
-	$class = 'item-' . $item->id;
+	$class = '';
 
 	if ($item->id == $default_id)
 	{
@@ -84,7 +84,7 @@ if ($tagId = $params->get('tag_id', ''))
 	// The next item is deeper.
 	if ($item->deeper)
 	{
-		echo '<ul class="nav-child unstyled small">';
+		echo '<ul class="list-unstyled small">';
 	}
 	// The next item is shallower.
 	elseif ($item->shallower)
