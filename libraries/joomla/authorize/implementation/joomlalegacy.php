@@ -275,8 +275,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 	 */
 	private function getAssetPermissions($recursive = false, $groups = array(), $action = null)
 	{
-
-		if ( sizeof($this->assetId) > $this->optimizeLimit)
+		if (sizeof($this->assetId) > $this->optimizeLimit)
 		{
 			$useIds = false;
 			$forceIndex = $straightJoin = '';
@@ -314,24 +313,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 
 		if (isset($groups) && $groups != array())
 		{
-			if (is_string($groups))
-			{
-				$groups = array($groups);
-			}
-
-			$counter   = 1;
-			$allGroups = count($groups);
-
-			$groupQuery = ' AND (';
-
-			foreach ($groups AS $group)
-			{
-				$groupQuery .= 'p.group = ' . $this->db->quote((string) $group);
-				$groupQuery .= ($counter < $allGroups) ? ' OR ' : ' ) ';
-				$counter++;
-			}
-
-			$conditions .= $groupQuery;
+			$conditions .= $this->assetGroupQuery($groups);
 		}
 
 		$query->leftJoin($this->db->qn('#__permissions', 'p') . ' ' . $conditions);
