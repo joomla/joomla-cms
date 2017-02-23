@@ -9,48 +9,54 @@
 
 defined('_JEXEC') or die;
 
-if ($width)
-{
-	$moduleclass_sfx .= ' ' . 'mod_search' . $module->id;
-	$css = 'div.mod_search' . $module->id . ' input[type="search"]{ width:auto; }';
-	JFactory::getDocument()->addStyleDeclaration($css);
-	$width = ' size="' . $width . '"';
-}
-else
-{
-	$width = '';
-}
 ?>
 <div class="search<?php echo $moduleclass_sfx; ?>">
-	<form action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-inline">
+	<form action="<?php echo JRoute::_('index.php'); ?>" method="post">
 		<?php
-			$output = '<label for="mod-search-searchword' . $module->id . '" class="element-invisible">' . $label . '</label> ';
-			$output .= '<input name="searchword" id="mod-search-searchword' . $module->id . '" maxlength="' . $maxlength . '"  class="inputbox search-query" type="search"' . $width;
-			$output .= ' placeholder="' . $text . '">';
+			$btnBlock = '';
+			if ($button_pos === 'top' || $button_pos === 'bottom')
+			{
+				$btnBlock = ' btn-block';
+			}
+
+			$input = '<input name="searchword" id="mod-search-searchword' . $module->id . '" maxlength="' . $maxlength . '" class="form-control" type="search"';
+			$input .= ' placeholder="' . $text . '">';
+
+			$output = '';
 
 			if ($button) :
 				if ($imagebutton) :
-					$btn_output = ' <input type="image" alt="' . $button_text . '" class="button" src="' . $img . '" onclick="this.form.searchword.focus();">';
+					$btn_output = '<input type="image" alt="' . $button_text . '" class="btn btn-primary' . $btnBlock . '" src="' . $img . '" onclick="this.form.searchword.focus();">';
 				else :
-					$btn_output = ' <button class="button btn btn-primary" onclick="this.form.searchword.focus();">' . $button_text . '</button>';
+					$btn_output = '<button class="btn btn-primary' . $btnBlock . '" onclick="this.form.searchword.focus();">' . $button_text . '</button>';
 				endif;
 
 				switch ($button_pos) :
 					case 'top' :
-						$output = $btn_output . '<br>' . $output;
+						$output = $btn_output . '<br>' . $input;
 						break;
 
 					case 'bottom' :
-						$output .= '<br>' . $btn_output;
+						$output .= $input . '<br>' . $btn_output;
 						break;
 
 					case 'right' :
+						$output .= '<div class="input-group">';
+						$output .= $input;
+						$output .= '<span class="input-group-btn">';
 						$output .= $btn_output;
+						$output .= '</span>';
+						$output .= '</div>';
 						break;
 
 					case 'left' :
 					default :
-						$output = $btn_output . $output;
+						$output .= '<div class="input-group">';
+						$output .= '<span class="input-group-btn">';
+						$output .= $btn_output;
+						$output .= '</span>';
+						$output .= $input;
+						$output .= '</div>';
 						break;
 				endswitch;
 			endif;
