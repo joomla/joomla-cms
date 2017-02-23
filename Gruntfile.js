@@ -33,6 +33,7 @@ module.exports = function(grunt) {
 			puny          : 'media/vendor/punycode/js',
 			codemirror    : 'media/vendor/codemirror',
 			adminTemplate : 'administrator/templates/atum',
+			siteTemplate  : 'templates/aurora',
 			node_module   : 'build/assets_tmp/node_modules/'
 		},
 
@@ -187,7 +188,8 @@ module.exports = function(grunt) {
 					sourceMap: true // SHOULD BE FALSE FOR DIST
 				},
 				files: {
-					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss'
+					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss',
+					'<%= folder.siteTemplate %>/css/template.css': '<%= folder.siteTemplate %>/scss/template.scss',
 				}
 			}
 		},
@@ -196,10 +198,11 @@ module.exports = function(grunt) {
 		scsslint: {
 			allFiles: [
 				'<%= folder.adminTemplate %>/scss',
+				'<%= folder.siteTemplate %>/scss',
 			],
 			options: {
 				config: 'scss-lint.yml',
-				reporterOutput: '<%= folder.adminTemplate %>/scss/scss-lint-report.xml'
+				reporterOutput: 'scss-lint-report.xml'
 			}
 		},
 
@@ -240,6 +243,7 @@ module.exports = function(grunt) {
 					{
 						src: [
 							'<%= folder.adminTemplate %>/*.js',
+							'<%= folder.siteTemplate %>/*.js',
 						],
 						dest: '',
 						expand: true,
@@ -258,7 +262,10 @@ module.exports = function(grunt) {
 				],
 			},
 			dist: {
-				src: '<%= folder.adminTemplate %>/css/template.css'
+				src: [
+					'<%= folder.adminTemplate %>/css/template.css',
+					'<%= folder.siteTemplate %>/css/template.css'
+				]
 			}
 		},
 
@@ -274,14 +281,32 @@ module.exports = function(grunt) {
 					dest: 'media/vendor/codemirror',
 				}]
 			},
-			templates: {
+			adminTemplate: {
 				files: [{
 					expand: true,
 					matchBase: true,
 					ext: '.min.css',
 					cwd: '<%= folder.adminTemplate %>/css',
-					src: ['*.css', '!*.min.css', '!theme/*.css'],
-					dest: '<%= folder.adminTemplate %>/css',
+					src: [
+						'*.css',
+						'!*.min.css',
+						'!theme/*.css'
+					],
+					dest: '<%= folder.adminTemplate %>/css' 
+				}]
+			},
+			siteTemplate: {
+				files: [{
+					expand: true,
+					matchBase: true,
+					ext: '.min.css',
+					cwd: '<%= folder.siteTemplate %>/css',
+					src: [
+						'*.css',
+						'!*.min.css',
+						'!theme/*.css'
+					],
+					dest: '<%= folder.siteTemplate %>/css' 
 				}]
 			}
 		},
@@ -308,7 +333,8 @@ module.exports = function(grunt) {
 			'uglify:allJs',
 			'cssmin:allCss',
 			'postcss',
-			'cssmin:templates',
+			'cssmin:adminTemplate',
+			'cssmin:siteTemplate',
 			'updateXML',
 			'clean:temp'
 		]
@@ -346,7 +372,8 @@ module.exports = function(grunt) {
 			'scsslint',
 			'sass:dist',
 			'postcss',
-			'cssmin:templates'
+			'cssmin:adminTemplate',
+			'cssmin:siteTemplate'
 		]);
 	 });
 

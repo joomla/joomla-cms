@@ -1,0 +1,64 @@
+// Variables
+@import "variables";
+
+// Flying Focus
+@import "../../../media/vendor/flying-focus-a11y/scss/flying-focus";
+
+// Bootstrap
+@import "../../../media/vendor/bootstrap/scss/variables";
+@import "../../../media/vendor/bootstrap/scss/bootstrap";
+
+// FontAwesome
+@import "../../../media/vendor/font-awesome/scss/font-awesome";
+
+// B/C for Icomoon
+@import "../../../media/system/scss/icomoon";
+
+// Alert
+@import "../../../media/system/scss/jalert";
+
+// Blocks
+@import "blocks/global"; // Leave this first
+@import "blocks/alerts";
+@import "blocks/footer";
+@import "blocks/form";
+@import "blocks/header";
+@import "blocks/icons";
+@import "blocks/iframe";
+@import "blocks/modals";
+@import "blocks/switcher";
+@import "blocks/utilities";
+
+// Vendor overrides
+@import "vendor/awesomplete";
+@import "vendor/bootstrap/buttons";
+@import "vendor/bootstrap/card";
+@import "vendor/bootstrap/custom-forms";
+@import "vendor/bootstrap/collapse";
+@import "vendor/bootstrap/dropdown";
+@import "vendor/bootstrap/lists";
+@import "vendor/bootstrap/modal";
+@import "vendor/bootstrap/nav";
+@import "vendor/bootstrap/pagination";
+@import "vendor/bootstrap/table";
+@import "vendor/chosen";
+@import "vendor/dragula";
+@import "vendor/minicolors";
+@import "vendor/tinymce";
+
+
+// Chosen (TEMPORARY)
+.chzn-container-single {
+  width: auto !important;
+}
+
+// Bootstrap (TEMPORARY)
+// This fixes odd stacking when 2 buttons are used in an input group
+.input-group-btn {
+  flex-direction: row;
+}
+// This adds the correct cursor on hover for buttons
+.btn:hover,
+.btn:focus {
+  cursor: pointer;
+}

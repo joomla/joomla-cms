@@ -25,22 +25,9 @@ JHtml::_('bootstrap.framework');
 // Add template js
 JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
 
-// Add html5 shiv
-JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
-
 // Add Stylesheets
 JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', 'offline.css', array('version' => 'auto', 'relative' => true));
-
-// Use of Google Font
-if ($this->params->get('googleFont'))
-{
-	JHtml::_('stylesheet', '//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
-	$this->addStyleDeclaration("
-	h1, h2, h3, h4, h5, h6, .site-title {
-		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
-	}");
-}
 
 // Template color
 if ($this->params->get('templateColor'))
@@ -107,7 +94,7 @@ else
 					<h1><?php echo htmlspecialchars($app->get('sitename')); ?></h1>
 				<?php endif; ?>
 				<?php if ($app->get('offline_image') && file_exists($app->get('offline_image'))) : ?>
-					<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename')); ?>" />
+					<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename')); ?>">
 				<?php endif; ?>
 				<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
 					<p><?php echo $app->get('offline_message'); ?></p>
@@ -119,21 +106,21 @@ else
 				<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
 					<fieldset>
 						<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-						<input name="username" id="username" type="text" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" />
+						<input name="username" id="username" type="text" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>">
 
 						<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-						<input type="password" name="password" id="password" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" />
+						<input type="password" name="password" id="password" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>">
 
 						<?php if (count($twofactormethods) > 1) : ?>
 						<label for="secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
-						<input type="text" name="secretkey" id="secretkey" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" />
+						<input type="text" name="secretkey" id="secretkey" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>">
 						<?php endif; ?>
 
-						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo JText::_('JLOGIN'); ?>" />
+						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo JText::_('JLOGIN'); ?>">
 
-						<input type="hidden" name="option" value="com_users" />
-						<input type="hidden" name="task" value="user.login" />
-						<input type="hidden" name="return" value="<?php echo base64_encode(JUri::base()); ?>" />
+						<input type="hidden" name="option" value="com_users">
+						<input type="hidden" name="task" value="user.login">
+						<input type="hidden" name="return" value="<?php echo base64_encode(JUri::base()); ?>">
 						<?php echo JHtml::_('form.token'); ?>
 					</fieldset>
 				</form>
