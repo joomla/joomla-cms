@@ -70,8 +70,8 @@ class FOFRenderJoomla3 extends FOFRenderStrapper
 		{
 			// Wrap output in various classes
 			$version = new JVersion;
-			$versionParts = explode('.', $version->RELEASE);
-			$minorVersion = str_replace('.', '', $version->RELEASE);
+			$versionParts = explode('.', $version::RELEASE);
+			$minorVersion = str_replace('.', '', $version::RELEASE);
 			$majorVersion = array_shift($versionParts);
 
 			$option = $input->getCmd('option', '');
