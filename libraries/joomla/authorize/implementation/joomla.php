@@ -34,9 +34,16 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 */
 	protected $assetId_ = 1;
 
-	const IMPLEMENTATION = 'Joomla';
-
 	const APPENDSUPPORT = true;
+
+	/**
+	 * If number of ids passed in one go surpasses this
+	 * all permissions will be loaded as query runs much faster this way
+	 *
+	 * @var    integer
+	 * @since  4.0
+	 */
+	protected $optimizeLimit = 100;
 
 	/**
 	 * Instantiate the access class
