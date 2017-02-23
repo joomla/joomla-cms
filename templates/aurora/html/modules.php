@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  Templates.protostar
+ * @subpackage  Templates.aurora
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -34,24 +34,98 @@ function modChrome_no($module, &$params, &$attribs)
 	}
 }
 
-function modChrome_well($module, &$params, &$attribs)
+function modChrome_card($module, &$params, &$attribs)
 {
 	$moduleTag     = $params->get('module_tag', 'div');
-	$bootstrapSize = (int) $params->get('bootstrap_size', 0);
-	$moduleClass   = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
-	$headerTag     = htmlspecialchars($params->get('header_tag', 'h3'), ENT_COMPAT, 'UTF-8');
-	$headerClass   = htmlspecialchars($params->get('header_class', 'page-header'), ENT_COMPAT, 'UTF-8');
+	$bootstrapSize = (int) $params->get('bootstrap_size', 12);
+	$moduleClass   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
+	$headerTag     = htmlspecialchars($params->get('header_tag', 'h4'));
+	$headerClass   = htmlspecialchars($params->get('header_class', ''));
 
 	if ($module->content)
 	{
-		echo '<' . $moduleTag . ' class="well ' . htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass . '">';
+		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-1">';
+		echo '<div class="card">';
+		echo '<div class="card-block">';
+		if ($module->showtitle)
+		{
+			echo '<' . $headerTag . ' class="card-title ' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
+		}
+		echo $module->content;
+		echo '</div>';
+		echo '</div>';
+		echo '</' . $moduleTag . '>';
+	}
+}
 
-			if ($module->showtitle)
-			{
-				echo '<' . $headerTag . ' class="' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
-			}
+function modChrome_cardDark($module, &$params, &$attribs)
+{
+	$moduleTag     = $params->get('module_tag', 'div');
+	$bootstrapSize = (int) $params->get('bootstrap_size', 12);
+	$moduleClass   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
+	$headerTag     = htmlspecialchars($params->get('header_tag', 'h4'));
+	$headerClass   = htmlspecialchars($params->get('header_class', ''));
 
-			echo $module->content;
+	if ($module->content)
+	{
+		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-1">';
+		echo '<div class="card card-light">';
+		echo '<div class="card-block">';
+		if ($module->showtitle)
+		{
+			echo '<' . $headerTag . ' class="card-title ' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
+		}
+		echo $module->content;
+		echo '</div>';
+		echo '</div>';
+		echo '</' . $moduleTag . '>';
+	}
+}
+
+function modChrome_cardBlue($module, &$params, &$attribs)
+{
+	$moduleTag     = $params->get('module_tag', 'div');
+	$bootstrapSize = (int) $params->get('bootstrap_size', 12);
+	$moduleClass   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
+	$headerTag     = htmlspecialchars($params->get('header_tag', 'h4'));
+	$headerClass   = htmlspecialchars($params->get('header_class', ''));
+
+	if ($module->content)
+	{
+		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-1">';
+		echo '<div class="card card-blue">';
+		echo '<div class="card-block">';
+		if ($module->showtitle)
+		{
+			echo '<' . $headerTag . ' class="card-title ' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
+		}
+		echo $module->content;
+		echo '</div>';
+		echo '</div>';
+		echo '</' . $moduleTag . '>';
+	}
+}
+
+function modChrome_default($module, &$params, &$attribs)
+{
+	$moduleTag     = $params->get('module_tag', 'div');
+	$bootstrapSize = (int) $params->get('bootstrap_size', 12);
+	$moduleClass   = ($bootstrapSize) ? ' col-md-' . $bootstrapSize : ' col-md-12';
+	$headerTag     = htmlspecialchars($params->get('header_tag', 'h4'));
+	$headerClass   = htmlspecialchars($params->get('header_class', ''));
+
+	if ($module->content)
+	{
+		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-1">';
+		echo '<div class="card">';
+		echo '<div class="card-block">';
+		if ($module->showtitle)
+		{
+			echo '<' . $headerTag . ' class="card-title ' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
+		}
+		echo $module->content;
+		echo '</div>';
+		echo '</div>';
 		echo '</' . $moduleTag . '>';
 	}
 }
