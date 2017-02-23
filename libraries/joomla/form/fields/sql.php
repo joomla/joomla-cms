@@ -283,7 +283,6 @@ class JFormFieldSQL extends JFormFieldList
 			$items = $db->loadObjectlist();
 		}
 		catch (Exception $e)
-		
 		{
 			try
 			{
