@@ -44,7 +44,7 @@ function modChrome_card($module, &$params, &$attribs)
 
 	if ($module->content)
 	{
-		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-1">';
+		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-3">';
 		echo '<div class="card">';
 		echo '<div class="card-block">';
 		if ($module->showtitle)
@@ -68,7 +68,7 @@ function modChrome_cardDark($module, &$params, &$attribs)
 
 	if ($module->content)
 	{
-		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-1">';
+		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-3">';
 		echo '<div class="card card-light">';
 		echo '<div class="card-block">';
 		if ($module->showtitle)
@@ -92,7 +92,7 @@ function modChrome_cardBlue($module, &$params, &$attribs)
 
 	if ($module->content)
 	{
-		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-1">';
+		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-3">';
 		echo '<div class="card card-blue">';
 		echo '<div class="card-block">';
 		if ($module->showtitle)
@@ -116,7 +116,7 @@ function modChrome_default($module, &$params, &$attribs)
 
 	if ($module->content)
 	{
-		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-1">';
+		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-3">';
 		echo '<div class="card">';
 		echo '<div class="card-block">';
 		if ($module->showtitle)
