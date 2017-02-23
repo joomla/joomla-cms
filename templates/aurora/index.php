@@ -115,7 +115,7 @@ $doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</a>
 
 			<?php if ($this->params->get('sitedescription')) : ?>
-				<?php echo '<div class="site-description">' . htmlspecialchars($this->params->get('sitedescription')) . '</div>'; ?>
+				<div class="site-description"><?php echo htmlspecialchars($this->params->get('sitedescription')); ?></div>
 			<?php endif; ?>
 
 		</div>
