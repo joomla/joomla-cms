@@ -30,14 +30,13 @@ abstract class En_GBLocalise
 		{
 			return array('0');
 		}
-		elseif ($count == 1)
+
+		if ($count == 1)
 		{
 			return array('1');
 		}
-		else
-		{
-			return array('MORE');
-		}
+
+		return array('MORE');
 	}
 
 	/**
