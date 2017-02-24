@@ -121,7 +121,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 			array_unshift($identities, $id * -1);
 		}
 
-		$action = $this->cleanAction($action);
+		$action = JAuthorizeHelper::cleanAction($action);
 
 		// Clean and filter - run trough setter
 		$this->assetId = $target;
@@ -145,10 +145,6 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 
 			foreach ($this->assetId_ AS $assetId)
 			{
-				/*if (empty(self::$assetRules[$assetId]))
-				{
-					self::$assetRules[$assetId] =
-				}*/
 				$result[$assetId] = $rules->allow($action, $identities);
 			}
 

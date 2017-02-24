@@ -176,7 +176,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 			array_unshift($identities, $id * -1);
 		}
 
-		$action = $this->cleanAction($action);
+		$action = JAuthorizeHelper::cleanAction($action);
 
 		// Clean and filter - run trough setter
 		$this->assetId = $target;
