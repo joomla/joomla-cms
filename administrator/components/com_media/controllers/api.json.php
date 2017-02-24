@@ -153,7 +153,7 @@ class MediaControllerApi extends JControllerLegacy
 
 					$this->adapter->updateFile($name, str_replace($name, '', $path), $mediaContent);
 
-					$data = $this->adapter->getFiles($path . '/' . $name);
+					$data = $this->adapter->getFile($path . '/' . $name);
 					break;
 				default:
 					throw new BadMethodCallException('Method not supported yet!');
@@ -162,9 +162,13 @@ class MediaControllerApi extends JControllerLegacy
 			// Return the data
 			$this->sendResponse($data);
 		}
+		catch (MediaFileAdapterFilenotfoundexception $e)
+		{
+			$this->sendResponse($e, 404);
+		}
 		catch (Exception $e)
 		{
-			$this->sendResponse($e);
+			$this->sendResponse($e, 500);
 		}
 	}
 
@@ -173,14 +177,22 @@ class MediaControllerApi extends JControllerLegacy
 	 *
 	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//"}]}
 	 *
-	 * @param   mixed  $data  The data to send
+	 * @param   mixed   $data          The data to send
+	 * @param   number  $responseCode  The response code
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function sendResponse($data = null)
+	protected function sendResponse($data = null, $responseCode = 200)
 	{
+		// Set the correct content type
+		JFactory::getApplication()->setHeader('Content-Type', 'application/json');
+
+		// Set the status code for the response
+		http_response_code($responseCode);
+
+		// Send the data
 		echo new JResponseJson($data);
 	}
 }

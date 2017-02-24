@@ -58,6 +58,56 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFolder::delete($this->root);
 	}
 
+
+	/**
+	 * Test MediaFileAdapterLocal::getFile
+	 *
+	 * @return  void
+	 */
+	public function testGetFile()
+	{
+		// Make some test files
+		JFile::write($this->root . 'test.txt', 'test');
+
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Fetch the file from the root folder
+		$file = $adapter->getFile('test.txt');
+
+		// Check if the array is big enough
+		$this->assertNotEmpty($file);
+
+		// Check the file
+		$this->assertInstanceOf('stdClass', $file);
+		$this->assertEquals('file', $file->type);
+		$this->assertEquals('test.txt', $file->name);
+		$this->assertEquals('/test.txt', $file->path);
+		$this->assertEquals('txt', $file->extension);
+		$this->assertGreaterThan(1, $file->size);
+		$this->assertNotEmpty($file->create_date);
+		$this->assertNotEmpty($file->modified_date);
+		$this->assertEquals('text/plain', $file->mime_type);
+		$this->assertEquals(0, $file->width);
+		$this->assertEquals(0, $file->height);
+	}
+
+	/**
+	 * Test MediaFileAdapterLocal::getFile with an invalid path
+	 *
+	 * @expectedException MediaFileAdapterFilenotfoundexception
+	 *
+	 * @return  void
+	 */
+	public function testGetFileInvalidPath()
+	{
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Fetch the file from the root folder
+		$adapter->getFile('invalid');
+	}
+
 	/**
 	 * Test MediaFileAdapterLocal::getFiles
 	 *
@@ -179,21 +229,17 @@ class LocalAdapterTest extends TestCaseDatabase
 	/**
 	 * Test MediaFileAdapterLocal::getFiles with an invalid path
 	 *
+	 * @expectedException MediaFileAdapterFilenotfoundexception
+	 *
 	 * @return  void
 	 */
 	public function testGetFilesInvalidPath()
 	{
-		// Make some test files
-		JFile::write($this->root . 'test.txt', 'test');
-
 		// Create the adapter
 		$adapter = new MediaFileAdapterLocal($this->root);
 
-		// Fetch the files from the root folder
-		$files = $adapter->getFiles('/test1.txt');
-
-		// Check if the array is empty
-		$this->assertEmpty($files);
+		// Fetch the file from the root folder
+		$adapter->getFiles('invalid');
 	}
 
 	/**
