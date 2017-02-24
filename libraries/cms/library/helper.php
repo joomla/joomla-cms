@@ -38,15 +38,16 @@ class JLibraryHelper
 	 */
 	public static function getLibrary($element, $strict = false)
 	{
-		// Is already cached ?
-		if (isset(static::$libraries[$element]))
-		{
-			return static::$libraries[$element];
-		}
-
-		if (static::_load($element))
+		// Is already cached?
+		if (isset(static::$libraries[$element]) || static::_load($element))
 		{
 			$result = static::$libraries[$element];
+
+			// Convert the params to an object.
+			if (is_string($result->params))
+			{
+				$result->params = new Registry($result->params);
+			}
 		}
 		else
 		{
@@ -127,36 +128,71 @@ class JLibraryHelper
 	}
 
 	/**
-	 * Load the installed libraryes into the libraries property.
+	 * Load the installed libraries into the libraries property.
 	 *
 	 * @param   string  $element  The element value for the extension
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  Use JLibraryHelper::load() instead
 	 */
 	protected static function _load($element)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-			->where($db->quoteName('element') . ' = ' . $db->quote($element));
-		$db->setQuery($query);
+		return static::load($element);
+	}
 
+	/**
+	 * Load the installed libraries into the libraries property.
+	 *
+	 * @param   string  $element  The element value for the extension [deprecated]
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @note    As of 4.0 this method will be restructured to only load the data into memory
+	 */
+	protected static function load($element)
+	{
+		try
+		{
+			JLog::add(
+				sprintf(
+					'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$libraries directly after loading the data.',
+					__METHOD__,
+					__CLASS__
+				),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $e)
+		{
+			// Informational log only
+		}
+
+		$loader = function ()
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('library'));
+			$db->setQuery($query);
+
+			return $db->loadObjectList('option');
+		};
+
+		/** @var JCacheControllerCallback $cache */
 		$cache = JFactory::getCache('_system', 'callback');
 
 		try
 		{
-			static::$libraries[$element] = $cache->get(array($db, 'loadObject'), null, $element, false);
+			static::$libraries = $cache->get($loader, array(), __METHOD__);
 		}
-		catch (RuntimeException $e)
+		catch (JCacheException $e)
 		{
-			// Fatal error.
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_LIBRARY_NOT_LOADING', $element, $e->getMessage()), JLog::WARNING, 'jerror');
-
-			return false;
+			static::$libraries = $loader();
 		}
 
 		if (empty(static::$libraries[$element]))
@@ -166,12 +202,6 @@ class JLibraryHelper
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_LIBRARY_NOT_LOADING', $element, $error), JLog::WARNING, 'jerror');
 
 			return false;
-		}
-
-		// Convert the params to an object.
-		if (is_string(static::$libraries[$element]->params))
-		{
-			static::$libraries[$element]->params = new Registry(static::$libraries[$element]->params);
 		}
 
 		return true;
