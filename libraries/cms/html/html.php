@@ -613,9 +613,9 @@ abstract class JHtml
 			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
 		}
 
-		if ($file === '' && isset($attribs['content']))
+		if ($file === '' && isset($options['inline']))
 		{
-			JFactory::getDocument()->addStyleDeclaration($attribs['content']);
+			JFactory::getDocument()->addStyleDeclaration($options['inline']);
 		}
 		else
 		{
@@ -694,9 +694,9 @@ abstract class JHtml
 			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
 		}
 
-		if ($file === '' && isset($attribs['content']))
+		if ($file === '' && isset($options['inline']))
 		{
-			JFactory::getDocument()->addScriptDeclaration($attribs['content']);
+			JFactory::getDocument()->addScriptDeclaration($options['inline']);
 		}
 		else
 		{

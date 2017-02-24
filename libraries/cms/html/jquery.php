@@ -56,7 +56,7 @@ abstract class JHtmlJquery
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			JHtml::_('script', '', [], ['content' => 'jQuery.noConflict();']);
+			JHtml::_('script', '', ['inline' => 'jQuery.noConflict();']);
 		}
 
 		// Check if we are loading Migrate
