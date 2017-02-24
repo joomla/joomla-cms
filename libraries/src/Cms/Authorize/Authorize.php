@@ -9,6 +9,7 @@
 namespace Joomla\Cms\Authorize;
 
 use Joomla\String\StringHelper;
+use Joomla\Cms\Authorize\AuthorizeInterface;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -40,8 +41,8 @@ final class Authorize implements AuthorizeInterface
 			\JFactory::getApplication()->triggerEvent('onAuthorizationInitalize', array(&$implementationName));
 		}
 
-		$implementationClass = empty($implementationName) ? 'AuthorizeImplementationJoomla' :
-			'AuthorizeImplementation' . StringHelper::ucfirst($implementationName);
+		$implementationClass = empty($implementationName) ? __NAMESPACE__ . '\Implementation\AuthorizeImplementationJoomla' :
+			__NAMESPACE__ . '\Implementation\AuthorizeImplementation' . StringHelper::ucfirst($implementationName);
 
 		if (!isset(self::$instance[$implementationClass]))
 		{
@@ -143,37 +144,6 @@ final class Authorize implements AuthorizeInterface
 		return $this->implementation->check($actor, $target, $action, $actorType);
 	}
 
-	/**
-	 * Set actor as authorised to perform an action
-	 *
-	 * @param   integer  $actor       Id of the actor for which to check authorisation.
-	 * @param   mixed    $target      Subject of the check
-	 * @param   string   $action      The name of the action to authorise.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0
-	 */
-	public function allow($actor, $target, $action)
-	{
-		$this->implementation->allow($actor, $target, $action);
-	}
-
-	/**
-	 * Set actor as not authorised to perform an action
-	 *
-	 * @param   integer  $actor       Id of the actor for which to check authorisation.
-	 * @param   mixed    $target      Subject of the check
-	 * @param   string   $action      The name of the action to authorise.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0
-	 */
-	public function deny($actor, $target, $action)
-	{
-		$this->implementation->deny($actor, $target, $action);
-	}
 
 	/** Inject permissions filter in the database object
 	 *

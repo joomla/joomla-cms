@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Cms\Authorize\Authorize;
 
 /**
  * User class.  Handles all application interaction with a user
@@ -376,7 +377,7 @@ class JUser extends JObject
 			}
 			elseif ($this->id > 0)
 			{
-				if (JAuthorize::getInstance()->check($this->id, 1, 'core.admin', 'user'))
+				if (Authorize::getInstance()->check($this->id, 1, 'core.admin', 'user'))
 				{
 					$this->isRoot = true;
 
@@ -385,7 +386,7 @@ class JUser extends JObject
 			}
 		}
 
-		return $this->isRoot ? true : (bool) JAuthorize::getInstance()->check($this->id, $assetname, $action, 'user');
+		return $this->isRoot ? true : (bool) Authorize::getInstance()->check($this->id, $assetname, $action, 'user');
 	}
 
 	/**

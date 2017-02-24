@@ -49,33 +49,6 @@ interface AuthorizeInterface
 	 */
 	public function check($actor, $target, $action, $actorType = null);
 
-	/**
-	 * Set actor as authorised to perform an action.
-	 * Implementation might choose to disable this function for security reasons.
-	 *
-	 * @param   integer  $actor       Id of the actor for which to check authorisation.
-	 * @param   mixed    $target      Subject of the check
-	 * @param   string   $action      The name of the action to authorise.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0
-	 */
-	public function allow($actor, $target, $action);
-
-	/**
-	 * Set actor as not authorised to perform an action.
-	 * Implementation might choose to disable this function for security reasons.
-	 *
-	 * @param   integer  $actor       Id of the actor for which to check authorisation.
-	 * @param   mixed    $target      Subject of the check
-	 * @param   string   $action      The name of the action to authorise.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0
-	 */
-	public function deny($actor, $target, $action);
 
 	/** Inject permissions filter in database object
 	 *

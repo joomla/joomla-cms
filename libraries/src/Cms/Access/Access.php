@@ -10,8 +10,8 @@ namespace Joomla\Cms\Access;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Utilities\ArrayHelper;
-use Joomla\Cms\Table\Asset;
+use Joomla\Cms\Authorize\Authorize;
+use Joomla\Cms\Authorize\AuthorizeHelper;
 
 /**
  * Class that handles all access authorisation routines.
@@ -39,7 +39,7 @@ class Access
 	{
 		self::$viewLevels = array();
 
-		$access = JAuthorize::getInstance('Joomlalegacy');
+		$access = Authorize::getInstance('Joomlalegacy');
 		$access->clearStatics();
 	}
 
@@ -146,13 +146,13 @@ class Access
 	 */
 	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/")
 	{
-		return JAuthorizeHelper::getActionsFromFile($file, $xpath);
+		return AuthorizeHelper::getActionsFromFile($file, $xpath);
 	}
 
 	/**
 	 * Method to return a list of actions from a string or from an xml for which permissions can be set.
 	 *
-	 * @param   string|SimpleXMLElement  $data   The XML string or an XML element.
+	 * @param   string|\SimpleXMLElement  $data   The XML string or an XML element.
 	 * @param   string                   $xpath  An optional xpath to search for the fields.
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
@@ -161,7 +161,7 @@ class Access
 	 */
 	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{
-		return JAuthorizeHelper::getActionsFromData($data, $xpath);
+		return AuthorizeHelper::getActionsFromData($data, $xpath);
 	}
 
 	/**
@@ -175,7 +175,7 @@ class Access
 	 */
 	public static function getExtensionNameFromAsset($asset)
 	{
-		return JAuthorizeHelper::getExtensionNameFromAsset($asset);
+		return AuthorizeHelper::getExtensionNameFromAsset($asset);
 	}
 
 	/**
@@ -192,7 +192,7 @@ class Access
 	 */
 	public static function check($userId, $action, $asset = 1)
 	{
-		$access = JAuthorize::getInstance('Joomlalegacy');
+		$access = Authorize::getInstance('Joomlalegacy');
 		$access->assetId = $asset;
 
 		return $access->check($userId, $asset, $action, 'user');
@@ -212,7 +212,7 @@ class Access
 	 */
 	public static function checkGroup($groupId, $action, $asset = 1)
 	{
-		$access = JAuthorize::getInstance('Joomlalegacy');
+		$access = Authorize::getInstance('Joomlalegacy');
 		$access->assetId = $asset;
 
 		return $access->check($groupId, $asset, $action, 'group');
@@ -227,14 +227,14 @@ class Access
 	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
 	 * @param   boolean  $recursiveParentAsset  True to calculate the rule also based on inherited component/extension rules.
 	 *
-	 * @return  JAccessRules   JAccessRules object for the asset.
+	 * @return  Rules   JAccessRules object for the asset.
 	 *
 	 * @since   11.1
 	 * @deprecated  No replacement. To be removed in 4.1.
 	 */
 	public static function getAssetRules($asset, $recursive = false, $recursiveParentAsset = false)
 	{
-		$access = JAuthorize::getInstance('Joomlalegacy');
+		$access = Authorize::getInstance('Joomlalegacy');
 		$access->assetId = $asset;
 
 		return $access->getRules($recursive, null, null);

@@ -142,7 +142,7 @@ abstract class AuthorizeImplementation
 	{
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
 
-		if ($trace['function'] == '__set' && $trace['class'] == 'AuthorizeImplementation')
+		if ($trace['function'] == '__set' && $trace['class'] == 'Joomla\Cms\Authorize\AuthorizeImplementation')
 		{
 			self::$authorizationMatrix[$class] = $value;
 		}

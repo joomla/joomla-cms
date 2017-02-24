@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Cms\Authorize\Authorize;
 
 /**
  * This models supports retrieving lists of articles.
@@ -588,7 +589,7 @@ class ContentModelArticles extends JModelList
 
 			$profiler = JProfiler::getInstance('Application');
 			JDEBUG ? $profiler->mark('Start Article multiple access check') : null;
-			$editChecks = JAuthorize::getInstance()->check($userId, $assetsForEditCheck, 'core.edit', 'user');
+			$editChecks = Authorize::getInstance()->check($userId, $assetsForEditCheck, 'core.edit', 'user');
 			JDEBUG ? $profiler->mark('Stop Article multiple access check') : null;
 		}
 
@@ -677,7 +678,7 @@ class ContentModelArticles extends JModelList
 
 				// Now check if edit.own is available.
 				elseif (!empty($userId) && $userId == $item->created_by
-						&& JAuthorize::getInstance()->check($userId, $asset, 'core.edit.own', 'user'))
+						&& Authorize::getInstance()->check($userId, $asset, 'core.edit.own', 'user'))
 				{
 					// Check for a valid user and that they are the owner.
 						$item->params->set('access-edit', true);
