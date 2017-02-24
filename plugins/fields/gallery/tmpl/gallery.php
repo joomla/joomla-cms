@@ -23,18 +23,16 @@ JHtml::_('jquery.framework');
 
 $doc = JFactory::getDocument();
 
-// Adding the javascript gallery library
-JHtml::_('script', 'plg_fields_gallery/fotorama.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'plg_fields_gallery/fotorama.min.css', array('version' => 'auto', 'relative' => true));
-
 $value = (array) $value;
 
 $thumbWidth     = $fieldParams->get('thumbnail_width', '64');
 $maxImageWidth  = $fieldParams->get('max_width', 0);
 $maxImageHeight = $fieldParams->get('max_height', 0);
+$thumbsRow      = $fieldParams->get('thumbs_row', 6);
+$spanClass      = 'span' . 12/$thumbsRow;
 
-// Main container
-$buffer = '<div class="fotorama" data-nav="thumbs" data-width="100%" ' . ($maxImageHeight ? 'data-height="' . $maxImageHeight . '"' : '') . '>';
+$html        = '<ul class="thumbnails">';
+$thumbsCount = 0;
 
 foreach ($value as $path)
 {
@@ -46,24 +44,10 @@ foreach ($value as $path)
 
 	// The root folder
 	$root = $fieldParams->get('directory', 'images');
+	$filter = '\.jpg$|\.png$|\.bmp$|\.gif$';
 
-	foreach (JFolder::files(JPATH_ROOT . '/' . $root . '/' . $path, '.', $fieldParams->get('recursive', '1'), true) as $file)
+	foreach (JFolder::files(JPATH_ROOT . '/' . $root . '/' . $path, $filter, $fieldParams->get('recursive', true), true) as $file)
 	{
-		// Skip none image files
-		if (!in_array(
-				strtolower(JFile::getExt($file)),
-				array(
-					'jpg',
-					'png',
-					'bmp',
-					'gif',
-				)
-			)
-		)
-		{
-			continue;
-		}
-
 		// Getting the properties of the image
 		$properties = JImage::getImageFileProperties($file);
 
@@ -147,19 +131,29 @@ foreach ($value as $path)
 			}
 		}
 
+		$thumbsCount++;
+
+		if ($thumbsCount > $thumbsRow)
+		{
+			$thumbsCount = 1;
+			$html .= '</ul><ul class="thumbnails">';
+		}
+
 		if (JFile::exists($thumb))
 		{
 			// Linking to the real image and loading only the thumbnail
-			$buffer .= '<a href="' . $webImagePath . '"><img src="' . JUri::base(true) . str_replace(JPATH_ROOT, '', $thumb) . '" /></a>';
+			$html .= '<li class="' . $spanClass . '"><a href="' . $webImagePath . '" class="thumbnail">'
+						. '<img src="' . JUri::base(true) . str_replace(JPATH_ROOT, '', $thumb) . '" />'
+					. '</a></li>';
 		}
 		else
 		{
 			// Thumbnail doesn't exist, loading the full image
-			$buffer .= '<img src="' . $webImagePath . '"/>';
+			$html .= '<li class="' . $spanClass . '"><img src="' . $webImagePath . '"/></li>';
 		}
 	}
 }
 
-$buffer .= '</div>';
+$html .= '</ul>';
 
-echo $buffer;
+echo $html;

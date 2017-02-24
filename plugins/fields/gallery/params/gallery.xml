@@ -8,6 +8,7 @@
 				label="PLG_FIELDS_GALLERY_PARAMS_THUMBNAIL_WIDTH_LABEL"
 				description="PLG_FIELDS_GALLERY_PARAMS_THUMBNAIL_WIDTH_DESC"
 				size="5"
+				default="64"
 			/>
 
 			<field
@@ -25,6 +26,21 @@
 				description="PLG_FIELDS_GALLERY_PARAMS_MAX_HEIGHT_DESC"
 				size="5"
 			/>
+
+			<field
+				name="thumbs_row"
+				type="list"
+				label="PLG_FIELDS_GALLERY_PARAMS_THUMBS_ROW_LABEL"
+				description="PLG_FIELDS_GALLERY_PARAMS_THUMBS_ROW_DESC"
+				default="6"
+				>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="6">6</option>
+				<option value="12">12</option>
+			</field>
 
 			<field
 				name="recursive"

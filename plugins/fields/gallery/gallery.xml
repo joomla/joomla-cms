@@ -11,7 +11,9 @@
 	<description>PLG_FIELDS_GALLERY_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="gallery">gallery.php</filename>
+		<folder>fields</folder>
 		<folder>params</folder>
+		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_fields_gallery.ini</language>
