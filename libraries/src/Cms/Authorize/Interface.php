@@ -1,14 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Authorize
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Authorize;
+
 defined('JPATH_PLATFORM') or die;
 
-interface JAuthorizeInterface
+interface AuthorizeInterface
 {
 	/**
 	 * Method to allow controlled property value setting;

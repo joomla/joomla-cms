@@ -1,11 +1,18 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Authorize
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Authorize\Implementation;
+
+use Joomla\Cms\Authorize\AuthorizeInterface;
+use Joomla\Cms\Authorize\AuthorizeHelper;
+use Joomla\Cms\Table\Table;
+use Joomla\Cms\Access\Rules;
+
 
 defined('JPATH_PLATFORM') or die;
 
@@ -15,7 +22,7 @@ defined('JPATH_PLATFORM') or die;
  * @since  4.0.
  * @deprecated No replacement, to be removed in 4.2
  */
-class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJoomla implements JAuthorizeInterface
+class AuthorizeImplementationJoomlalegacy extends AuthorizeImplementationJoomla implements AuthorizeInterface
 {
 
 	/**
@@ -45,15 +52,15 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 	 * Instantiate the access class
 	 *
 	 * @param   mixed            $assetId Assets id, can be integer id or string name or array of string/integer values
-	 * @param   JDatabaseDriver  $db      Database object
+	 * @param   \JDatabaseDriver  $db      Database object
 	 *
 	 *
 	 * @since  4.0
 	 */
-	public function __construct($assetId = 1, JDatabaseDriver $db = null)
+	public function __construct($assetId = 1, \JDatabaseDriver $db = null)
 	{
 		$this->assetId = $assetId;
-		$this->db = isset($db) ? $db : JFactory::getDbo();
+		$this->db = isset($db) ? $db : \JFactory::getDbo();
 	}
 
 	/**
@@ -71,7 +78,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 		switch ($name)
 		{
 			default:
-				JAuthorizeImplementationJoomla::__set($name, $value);
+				AuthorizeImplementationJoomla::__set($name, $value);
 		}
 
 		return $this;
@@ -93,7 +100,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 		$this->authorizationMatrix = null;
 
 		// Legacy
-		JUserHelper::clearStatics();
+		\JUserHelper::clearStatics();
 	}
 
 	/**
@@ -115,16 +122,16 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 
 		if ($actorType == 'group')
 		{
-			$identities = JUserHelper::getGroupPath($id);
+			$identities = \JUserHelper::getGroupPath($id);
 		}
 		else
 		{
 			// Get all groups against which the user is mapped.
-			$identities = JUserHelper::getGroupsByUser($id);
+			$identities = \JUserHelper::getGroupsByUser($id);
 			array_unshift($identities, $id * -1);
 		}
 
-		$action = JAuthorizeHelper::cleanAction($action);
+		$action = AuthorizeHelper::cleanAction($action);
 
 		// Clean and filter - run trough setter
 		$this->assetId = $target;
@@ -135,7 +142,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 		// Default to the root asset node.
 		if (empty($target))
 		{
-			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $this->db));
+			$assets = Table::getInstance('Asset', 'Table', array('dbo' => $this->db));
 			$this->assetId = $assets->getRootId();
 		}
 
@@ -174,7 +181,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 	 * @param   array    $groups     Array of group ids to get permissions for
 	 * @param   string   $action     Action name to limit results
 	 *
-	 * @return  JAccessRules   JAccessRules object for the asset.
+	 * @return  Rules   AccessRules object for the asset.
 	 *
 	 * @since  4.0.
 	 */
@@ -204,7 +211,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 		}
 
 		// Instantiate and return the JAccessRules object for the asset rules.
-		$rules = new JAccessRules();
+		$rules = new Rules();
 		$rules->mergeCollection(self::$permCache[$cacheId]);
 
 		// If action was set return only this action's result
@@ -213,7 +220,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 		if (isset($action) && isset($data[$action]))
 		{
 			$data = array($action => $data[$action]);
-			$rules = new JAccessRules($data);
+			$rules = new Rules($data);
 		}
 
 		return $rules;

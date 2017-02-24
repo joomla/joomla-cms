@@ -1,15 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Authorize
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Authorize;
+
 defined('JPATH_PLATFORM') or die;
 
-abstract class JAuthorizeImplementation
+abstract class AuthorizeImplementation
 {
 	/**
 	 * A multidimensional array with authorization matryx [authorizationclass][assetid][action1][group] = value
@@ -49,7 +50,7 @@ abstract class JAuthorizeImplementation
 		{
 			case 'authorizationMatrix':
 				$class = get_class($this);
-				return JAuthorizeImplementation::getMatrix($class);
+				return AuthorizeImplementation::getMatrix($class);
 
 				break;
 
@@ -64,7 +65,7 @@ abstract class JAuthorizeImplementation
 				}
 				else
 				{
-					throw new UnexpectedValueException(sprintf('%s does not exist in %s', $key, get_class($this)));
+					throw new \UnexpectedValueException(sprintf('%s does not exist in %s', $key, get_class($this)));
 				}
 				break;
 		}
@@ -101,11 +102,11 @@ abstract class JAuthorizeImplementation
 		{
 			case 'authorizationMatrix':
 				$class = get_class($this);
-				JAuthorizeImplementation::setMatrix($value, $class);
+				AuthorizeImplementation::setMatrix($value, $class);
 				break;
 
 			case 'db':
-				if ($value instanceof JDatabaseDriver)
+				if ($value instanceof \JDatabaseDriver)
 				{
 					$this->db = $value;
 				}
@@ -118,7 +119,7 @@ abstract class JAuthorizeImplementation
 				}
 				else
 				{
-					throw new UnexpectedValueException(sprintf('%s does not exist in %s', $name, get_class($this)));
+					throw new \UnexpectedValueException(sprintf('%s does not exist in %s', $name, get_class($this)));
 				}
 				break;
 		}
@@ -141,13 +142,13 @@ abstract class JAuthorizeImplementation
 	{
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
 
-		if ($trace['function'] == '__set' && $trace['class'] == 'JAuthorizeImplementation')
+		if ($trace['function'] == '__set' && $trace['class'] == 'AuthorizeImplementation')
 		{
 			self::$authorizationMatrix[$class] = $value;
 		}
 		else
 		{
-			throw new BadMethodCallException('setMatrix should not be called from child classes directly, use $this->authorizationMatrix');
+			throw new \BadMethodCallException('setMatrix should not be called from child classes directly, use $this->authorizationMatrix');
 		}
 	}
 

@@ -1,16 +1,19 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Authorize
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Authorize;
+
+use Joomla\String\StringHelper;
 
 defined('JPATH_PLATFORM') or die;
 
 
-final class JAuthorize implements JAuthorizeInterface
+final class Authorize implements AuthorizeInterface
 {
 	private static $instance = null;
 
@@ -24,7 +27,7 @@ final class JAuthorize implements JAuthorizeInterface
 	private $implementation_ = null;
 
 
-	public function __construct(JAuthorizeInterface $implementation)
+	public function __construct(AuthorizeInterface $implementation)
 	{
 			$this->implementation = $implementation;
 	}
@@ -33,17 +36,18 @@ final class JAuthorize implements JAuthorizeInterface
 	{
 		if ($implementationName == null)
 		{
-			JEventDispatcher::getInstance()->trigger('onAuthorizationInitalize', array(&$implementationName));
+			\JPluginHelper::importPlugin('authorize');
+			\JFactory::getApplication()->triggerEvent('onAuthorizationInitalize', array(&$implementationName));
 		}
 
-		$implementationClass = empty($implementationName) ? 'JAuthorizeImplementationJoomla' :
-			'JAuthorizeImplementation' . JString::ucfirst($implementationName);
+		$implementationClass = empty($implementationName) ? 'AuthorizeImplementationJoomla' :
+			'AuthorizeImplementation' . StringHelper::ucfirst($implementationName);
 
 		if (!isset(self::$instance[$implementationClass]))
 		{
 			$implementation = new $implementationClass();
 
-			self::$instance[$implementationClass] = new JAuthorize($implementation);
+			self::$instance[$implementationClass] = new Authorize($implementation);
 		}
 
 		return self::$instance[$implementationClass];
@@ -64,7 +68,7 @@ final class JAuthorize implements JAuthorizeInterface
 		switch ($name)
 		{
 			case 'implementation':
-				if ($value instanceof JAuthorizeInterface && $value instanceof JAuthorizeImplementation)
+				if ($value instanceof AuthorizeInterface && $value instanceof AuthorizeImplementation)
 				{
 					$this->implementation_ = $value;
 				}
@@ -115,6 +119,10 @@ final class JAuthorize implements JAuthorizeInterface
 		if (method_exists($this->implementation, $method))
 		{
 			return call_user_func_array(array($this->implementation, $method), $parameters);
+		}
+		else
+		{
+			throw new \BadMethodCallException(sprintf('%s does not exist in %s', $method, get_class($this)));
 		}
 	}
 

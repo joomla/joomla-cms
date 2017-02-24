@@ -1,20 +1,26 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Authorize
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Authorize\Implementation;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Cms\Authorize\AuthorizeImplementation;
+use Joomla\Cms\Authorize\AuthorizeInterface;
+use Joomla\Cms\Authorize\AuthorizeHelper;
+use Joomla\Cms\Table\Table;
 
 /**
  * Class that handles default Joomla authorisation routines.
  *
  * @since  4.0.
  */
-class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements JAuthorizeInterface
+class AuthorizeImplementationJoomla extends AuthorizeImplementation implements AuthorizeInterface
 {
 
 	/**
@@ -53,17 +59,16 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 * Instantiate the access class
 	 *
 	 * @param   mixed            $assetId  Assets id, can be integer or string or array of string/integer values
-	 * @param   JAccessRules     $rules    Rules object
-	 * @param   JDatabaseDriver  $db       Database object
+	 * @param   \JDatabaseDriver  $db       Database object
 	 *
 	 *
 	 * @since  4.0
 	 */
 
-	public function __construct($assetId = 1, JDatabaseDriver $db = null)
+	public function __construct($assetId = 1, \JDatabaseDriver $db = null)
 	{
 		$this->assetId = $assetId;
-		$this->db = isset($db) ? $db : JFactory::getDbo();
+		$this->db = isset($db) ? $db : \JFactory::getDbo();
 	}
 
 	/**
@@ -83,7 +88,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 			case 'assetId':
 				if (is_numeric($value))
 				{
-					$this->assetId_ = (int) JAuthorizeHelper::cleanAssetId($value);
+					$this->assetId_ = (int) AuthorizeHelper::cleanAssetId($value);
 				}
 				elseif (is_array($value))
 				{
@@ -91,12 +96,12 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 
 					foreach ($value AS $val)
 					{
-						$this->assetId_[] = is_numeric($val) ? (int) JAuthorizeHelper::cleanAssetId($val) : (string) JAuthorizeHelper::cleanAssetId($val);
+						$this->assetId_[] = is_numeric($val) ? (int) AuthorizeHelper::cleanAssetId($val) : (string) AuthorizeHelper::cleanAssetId($val);
 					}
 				}
 				else
 				{
-					$this->assetId_ = (string) JAuthorizeHelper::cleanAssetId($value);
+					$this->assetId_ = (string) AuthorizeHelper::cleanAssetId($value);
 				}
 				break;
 
@@ -131,7 +136,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 				break;
 
 			default:
-				return JAuthorizeImplementation::__get($key);
+				return AuthorizeImplementation::__get($key);
 				break;
 		}
 
@@ -171,16 +176,16 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 
 		if ($actorType == 'group')
 		{
-			$identities = JUserHelper::getGroupPath($id);
+			$identities = \JUserHelper::getGroupPath($id);
 		}
 		else
 		{
 			// Get all groups against which the user is mapped.
-			$identities = JUserHelper::getGroupsByUser($id);
+			$identities = \JUserHelper::getGroupsByUser($id);
 			array_unshift($identities, $id * -1);
 		}
 
-		$action = JAuthorizeHelper::cleanAction($action);
+		$action = AuthorizeHelper::cleanAction($action);
 
 		// Clean and filter - run trough setter
 		$this->assetId = $target;
@@ -191,7 +196,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 		// Default to the root asset node.
 		if (empty($target))
 		{
-			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $this->db));
+			$assets = Table::getInstance('Asset', 'Table', array('dbo' => $this->db));
 			$target = $this->assetId = $assets->getRootId();
 		}
 
@@ -544,8 +549,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	{
 		if (!isset($groups))
 		{
-			$user   = JFactory::getUser();
-			$groups = $user->getAuthorisedGroups();
+			$groups = \JFactory::getUser()->getAuthorisedGroups();
 		}
 
 		$query->select('ass.id AS assid, bs.id AS bssid, bs.rules, p.permission, p.value, p.group');
