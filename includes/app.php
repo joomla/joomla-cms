@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 $startTime = microtime(1);
 $startMem  = memory_get_usage();
 
-if (file_exists(__DIR__ . '/defines.php'))
+if (file_exists(dirname(__DIR__) . '/defines.php'))
 {
-	include_once __DIR__ . '/defines.php';
+	include_once dirname(__DIR__) . '/defines.php';
 }
 
 if (!defined('_JDEFINES'))
 {
-	define('JPATH_BASE', __DIR__);
+	define('JPATH_BASE', dirname(__DIR__));
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
