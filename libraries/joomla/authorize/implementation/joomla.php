@@ -208,6 +208,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 			}
 
 			$this->assetId = $newAssetIds;
+
 			$this->loadPermissions(true, array(), $action);
 
 			// Revert ids after loading

@@ -583,7 +583,6 @@ class ContentModelArticles extends JModelList
 		{
 			foreach ($items as &$item)
 			{
-				//$assetsForEditCheck[] = 'com_content.article.' . $item->id;
 				$assetsForEditCheck[] = $item->asset_id;
 			}
 
@@ -668,7 +667,6 @@ class ContentModelArticles extends JModelList
 			// Technically guest could edit an article, but lets not check that to improve performance a little.
 			if (!$guest)
 			{
-				//$asset = 'com_content.article.' . $item->id;
 				$asset = $item->asset_id;
 
 				// Check general edit permission first.
