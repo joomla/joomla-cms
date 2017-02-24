@@ -678,13 +678,11 @@ class ContentModelArticles extends JModelList
 				}
 
 				// Now check if edit.own is available.
-				elseif (!empty($userId) && JAuthorize::getInstance()->check($userId, $asset, 'core.edit.own', 'user'))
+				elseif (!empty($userId) && $userId == $item->created_by
+						&& JAuthorize::getInstance()->check($userId, $asset, 'core.edit.own', 'user'))
 				{
 					// Check for a valid user and that they are the owner.
-					if ($userId == $item->created_by)
-					{
 						$item->params->set('access-edit', true);
-					}
 				}
 			}
 
