@@ -222,7 +222,7 @@ class JApplicationAdministrator extends JApplicationCms
 
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+//			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
 			$template->template = 'atum';
 		}
