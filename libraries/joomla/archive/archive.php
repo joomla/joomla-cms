@@ -53,7 +53,7 @@ class JArchive
 		if (in_array($extension, array('gz', 'gzip', 'bz2', 'bzip2')) && stripos($archivename, '.tar') === false)
 		{
 			// Set up the file name based on the archive without extension
-			$extractdir = $extractdir . '/' . JFile::stripExt(basename(strtolower($archivename)));echo $archivename;die;
+			$extractdir = $extractdir . '/' . JFile::stripExt(basename(strtolower($archivename)));
 		}
 
 		// Extract the archive
