@@ -383,14 +383,14 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		{
 			$query->where('p.permission = ' . $this->db->quote((string) $action));
 		}
-		else
+		/*else
 		{
 			$query->where('p.value=1');
-		}
+		}*/
 
 		if ($useIds && $recursive)
 		{
-			$query->where('a.lft > 0 AND b.lft > 0 AND b.rgt > 0');
+			$query->where('a.lft > -1 AND b.lft > -1 AND b.rgt > -1');
 		}
 
 		if ($useIds)

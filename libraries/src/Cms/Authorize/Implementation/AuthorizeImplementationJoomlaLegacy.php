@@ -330,12 +330,12 @@ class AuthorizeImplementationJoomlalegacy extends AuthorizeImplementationJoomla 
 		}
 		else
 		{
-			$query->where('p.value=1');
+			//$query->where('p.value=1');
 		}
 
 		if ($useIds && $recursive)
 		{
-			$query->where('a.lft > 0 AND b.lft > 0 AND b.rgt > 0');
+			$query->where('a.lft > -1 AND b.lft > -1 AND b.rgt > -1');
 		}
 
 		if ($useIds)
@@ -343,7 +343,7 @@ class AuthorizeImplementationJoomlalegacy extends AuthorizeImplementationJoomla 
 			$assetwhere = $this->assetWhere();
 			$query->where($assetwhere);
 		}
-
+		$test = (string)$query;
 		$this->db->setQuery($query);
 		$result = $this->db->loadObjectList();
 
