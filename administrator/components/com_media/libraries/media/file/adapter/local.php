@@ -57,7 +57,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * - width:         The width, when available
 	 * - height:        The height, when available
 	 *
-	 * @param   string  $path    The folder
+	 * If the path doesn't exist a MediaFileAdapterFilenotfoundexception is thrown.
+	 *
+	 * @param   string  $path  The path to the file or folder
 	 *
 	 * @return  stdClass[]
 	 *
@@ -73,7 +75,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		// Check if file exists
 		if (!file_exists($basePath))
 		{
-			return array();
+			throw new MediaFileAdapterFilenotfoundexception();
 		}
 
 		return $this->getPathInformation($basePath);
@@ -93,6 +95,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * - width:         The width, when available
 	 * - height:        The height, when available
 	 *
+	 * If the path doesn't exist a MediaFileAdapterFilenotfoundexception is thrown.
+	 *
 	 * @param   string  $path    The folder
 	 * @param   string  $filter  The filter
 	 *
@@ -110,7 +114,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		// Check if file exists
 		if (!file_exists($basePath))
 		{
-			return array();
+			throw new MediaFileAdapterFilenotfoundexception();
 		}
 
 		// Check if the path points to a file
