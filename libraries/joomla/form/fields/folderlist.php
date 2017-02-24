@@ -189,6 +189,9 @@ class JFormFieldFolderList extends JFormFieldList
 		{
 			$path = JPATH_ROOT . '/' . $path;
 		}
+		
+		// Clean input path, fix DS issue on windows
+		$path = JPath::clean($path);
 
 		// Prepend some default options based on field attributes.
 		if (!$this->hideNone)
