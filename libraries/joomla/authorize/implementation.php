@@ -45,7 +45,8 @@ abstract class JAuthorizeImplementation
 		{
 			case 'authorizationMatrix':
 				$class = get_class($this);
-				return isset(static::$authorizationMatrix[$class]) ? static::$authorizationMatrix[$class] : array();
+				return JAuthorizeImplementation::getMatrix($class);
+
 				break;
 
 			case 'appendsupport':
@@ -56,6 +57,21 @@ abstract class JAuthorizeImplementation
 				return isset($this->$key) ? $this->$key : null;
 				break;
 		}
+	}
+
+	/**
+	 * A workaround method to get value of the authorization matrix.
+	 * Can be removed/changed when there is support for static getters
+	 *
+	 * @param   string   $class  Child class name
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0
+	 */
+	protected static function getMatrix($class)
+	{
+		return isset(self::$authorizationMatrix[$class]) ? self::$authorizationMatrix[$class] : array();
 	}
 
 	/**
@@ -74,7 +90,7 @@ abstract class JAuthorizeImplementation
 		{
 			case 'authorizationMatrix':
 				$class = get_class($this);
-				self::$authorizationMatrix[$class] = $value;
+				JAuthorizeImplementation::setMatrix($value, $class);
 				break;
 
 			case 'db':
@@ -95,8 +111,45 @@ abstract class JAuthorizeImplementation
 		return $this;
 	}
 
+	/**
+	 * A workaround method to set value of the authorization matrix. Even that it is protected it will
+	 * throw exception when called from child classes. Can be removed/changed when there is support for static setters
+	 *
+	 * @param   mixed    $value  Value to assign to the property
+	 * @param   string   $class  Child class name
+	 *
+	 * @return  self
+	 *
+	 * @since   4.0
+	 */
+	protected static function setMatrix($value, $class)
+	{
+		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
 
-	public function allow($actor, $target, $action){
+		if ($trace['function'] == '__set' && $trace['class'] == 'JAuthorizeImplementation')
+		{
+			self::$authorizationMatrix[$class] = $value;
+		}
+		else
+		{
+			throw new BadMethodCallException('setMatrix should not be called from child classes directly, use $this->authorizationMatrix');
+		}
+	}
+
+
+	/**
+	 * Set actor as authorised to perform an action
+	 *
+	 * @param   integer  $actor       Id of the actor for which to check authorisation.
+	 * @param   mixed    $target      Subject of the check
+	 * @param   string   $action      The name of the action to authorise.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function allow($actor, $target, $action)
+	{
 
 		$class = get_class($this);
 
@@ -107,6 +160,17 @@ abstract class JAuthorizeImplementation
 
 	}
 
+	/**
+	 * Set actor as not authorised to perform an action
+	 *
+	 * @param   integer  $actor       Id of the actor for which to check authorisation.
+	 * @param   mixed    $target      Subject of the check
+	 * @param   string   $action      The name of the action to authorise.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
 	public function deny($actor, $target, $action)
 	{
 		$class = get_class($this);
@@ -118,20 +182,23 @@ abstract class JAuthorizeImplementation
 
 	}
 
-
-	public function appendFilterQuery(&$query, $joinfield, $permission, $orWhere = null, $groups = null)
+	/** Inject permissions filter in the database object
+	 *
+	 * @param   object $query     Database query object to append to
+	 * @param   string $joincolumn Name of the database column used for join ON
+	 * @param   string $action    The name of the action to authorise.
+	 * @param   string $orWhere   Appended to generated where condition with OR clause.
+	 * @param   array  $groups    Array of group ids to get permissions for
+	 *
+	 * @param   object $query database query object to append to
+	 *
+	 * @return  mixed database query object or false if this function is not implemented
+	 *                 	 *
+	 * @since   4.0
+	 */
+	public function appendFilterQuery(&$query, $joincolumn, $action, $orWhere = null, $groups = null)
 	{
-		return $query;
+		return false;
 	}
 
-
-	protected function cleanAssetId($assetId)
-	{
-		return  strtolower(preg_replace('#[\s\-]+#', '.', trim($assetId)));
-	}
-
-	protected function cleanAction($action)
-	{
-		return  $this->cleanAssetId($action);
-	}
 }

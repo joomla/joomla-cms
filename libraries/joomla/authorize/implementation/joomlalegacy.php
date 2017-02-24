@@ -284,7 +284,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 		{
 			$useIds = true;
 			$forceIndex = 'FORCE INDEX FOR JOIN (`lft_rgt_id`)';
-			$straightJoin = 'STRAIGHT_JOIN DISTINCT ';
+			$straightJoin = 'STRAIGHT_JOIN ';
 		}
 
 		$query = $this->db->getQuery(true);
@@ -305,7 +305,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 		}
 
 		$query->select(
-					$straightJoin . $prefix . '.id,' . $prefix . '.name,' . $prefix
+					$straightJoin . 'DISTINCT ' . $prefix . '.id,' . $prefix . '.name,' . $prefix
 					. '.rules, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group')
 				);
 

@@ -136,4 +136,48 @@ class JAuthorizeHelper
 
 		return $loaded[$asset];
 	}
+
+	/**
+	 * Get cleaned asset id
+	 *
+	 * @param   int|string  $assetId  Asset Id
+	 *
+	 * @return  int|string  Asset Id
+	 *
+	 * @since    4.0
+	 */
+	public static function cleanAssetId($assetId)
+	{
+		$assetId = self::cleanRegex($assetId);
+
+		return empty($assetId) ? (is_numeric($assetId) ? 1 : 'root.1') : $assetId;
+	}
+
+	/**
+	 * Get cleaned action name
+	 *
+	 * @param   string  $action  Action
+	 *
+	 * @return  string  Action
+	 *
+	 * @since    4.0
+	 */
+	public static function cleanAction($action)
+	{
+		return  self::cleanRegex($action);
+	}
+
+	/**
+	 * Clean using regex
+	 *
+	 * @param   int|string  $idToClean Variable to clean
+	 *
+	 * @return  int|string  Cleaned variable
+	 *
+	 * @since    4.0
+	 */
+	private static function cleanRegex($idToClean)
+	{
+		return strtolower(preg_replace('#[\s\-]+#', '.', trim($idToClean)));
+	}
 }

@@ -187,7 +187,7 @@ class ContentModelArticles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
+				'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
 					'a.checked_out, a.checked_out_time, ' .
 					'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 					// Use created if modified is 0
@@ -577,6 +577,24 @@ class ContentModelArticles extends JModelList
 		// Get the global params
 		$globalParams = JComponentHelper::getParams('com_content', true);
 
+		$assetsForEditCheck = array();
+
+		if (!$guest)
+		{
+			foreach ($items as &$item)
+			{
+				//$assetsForEditCheck[] = 'com_content.article.' . $item->id;
+				$assetsForEditCheck[] = $item->asset_id;
+			}
+
+			$profiler = JProfiler::getInstance('Application');
+			JDEBUG ? $profiler->mark('Start Article multiple access check') : null;
+			$editChecks = JAuthorize::getInstance()->check($userId, $assetsForEditCheck, 'core.edit', 'user');
+			JDEBUG ? $profiler->mark('Stop Article multiple access check') : null;
+		}
+
+
+
 		// Convert the parameter fields into objects.
 		foreach ($items as &$item)
 		{
@@ -650,16 +668,17 @@ class ContentModelArticles extends JModelList
 			// Technically guest could edit an article, but lets not check that to improve performance a little.
 			if (!$guest)
 			{
-				$asset = 'com_content.article.' . $item->id;
+				//$asset = 'com_content.article.' . $item->id;
+				$asset = $item->asset_id;
 
 				// Check general edit permission first.
-				if ($user->authorise('core.edit', $asset))
+				if ($editChecks[$asset])
 				{
 					$item->params->set('access-edit', true);
 				}
 
 				// Now check if edit.own is available.
-				elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+				elseif (!empty($userId) && JAuthorize::getInstance()->check($userId, $asset, 'core.edit.own', 'user'))
 				{
 					// Check for a valid user and that they are the owner.
 					if ($userId == $item->created_by)

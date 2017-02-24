@@ -84,8 +84,7 @@ final class JAuthorize implements JAuthorizeInterface
 	/**
 	 * Method to get the value
 	 *
-	 * @param   string  $key           Key to search for in the data array
-	 * @param   mixed   $defaultValue  Default value to return if the key is not set
+	 * @param   string  $key   Key to search for in the data array
 	 *
 	 * @return  mixed   Value | null if doesn't exist
 	 *
@@ -136,18 +135,59 @@ final class JAuthorize implements JAuthorizeInterface
 		return $this->implementation->check($actor, $target, $action, $actorType);
 	}
 
+	/**
+	 * Set actor as authorised to perform an action
+	 *
+	 * @param   integer  $actor       Id of the actor for which to check authorisation.
+	 * @param   mixed    $target      Subject of the check
+	 * @param   string   $action      The name of the action to authorise.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
 	public function allow($actor, $target, $action)
 	{
-		return $this->implementation->allow($actor, $target, $action);
+		$this->implementation->allow($actor, $target, $action);
 	}
 
+	/**
+	 * Set actor as not authorised to perform an action
+	 *
+	 * @param   integer  $actor       Id of the actor for which to check authorisation.
+	 * @param   mixed    $target      Subject of the check
+	 * @param   string   $action      The name of the action to authorise.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
 	public function deny($actor, $target, $action)
 	{
-		return $this->implementation->deny($actor, $target, $action);
+		$this->implementation->deny($actor, $target, $action);
 	}
 
-	public function appendFilterQuery(&$query, $joinfield, $permission, $orWhere = null, $groups = null)
+	/** Inject permissions filter in the database object
+	 *
+	 * @param   object $query     Database query object to append to
+	 * @param   string $joincolumn Name of the database column used for join ON
+	 * @param   string $action    The name of the action to authorise.
+	 * @param   string $orWhere   Appended to generated where condition with OR clause.
+	 * @param   array  $groups    Array of group ids to get permissions for
+	 *
+	 * @param   object $query database query object to append to
+	 *
+	 * @return  mixed database query object or false if this function is not implemented
+	 *                 	 *
+	 * @since   4.0
+	 */
+	public function appendFilterQuery(&$query, $joincolumn, $action, $orWhere = null, $groups = null)
 	{
-		return $this->implementation->appendFilterQuery($query, $joinfield, $permission, $orWhere, $groups);
+		if ($this->implementation->appendsupport)
+		{
+			return $this->implementation->appendFilterQuery($query, $joincolumn, $action, $orWhere, $groups);
+		}
+
+		return false;
 	}
 }
