@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Error
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Error;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,12 +15,12 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.0
  */
-class JErrorPage
+class ErrorPage
 {
 	/**
 	 * Render the error page based on an exception.
 	 *
-	 * @param   Exception|Throwable  $error  An Exception or Throwable (PHP 7+) object for which to render the error page.
+	 * @param   \Exception|\Throwable  $error  An Exception or Throwable (PHP 7+) object for which to render the error page.
 	 *
 	 * @return  void
 	 *
@@ -27,10 +28,10 @@ class JErrorPage
 	 */
 	public static function render($error)
 	{
-		$expectedClass = PHP_MAJOR_VERSION >= 7 ? 'Throwable' : 'Exception';
+		$expectedClass = PHP_MAJOR_VERSION >= 7 ? '\Throwable' : '\Exception';
 		$isException   = $error instanceof $expectedClass;
 
-		// In PHP 5, the $error object should be an instance of Exception; PHP 7 should be a Throwable implementation
+		// In PHP 5, the $error object should be an instance of \Exception; PHP 7 should be a Throwable implementation
 		if ($isException)
 		{
 			try
@@ -38,27 +39,27 @@ class JErrorPage
 				// Try to log the error, but don't let the logging cause a fatal error
 				try
 				{
-					JLog::add(
+					\JLog::add(
 						sprintf(
 							'Uncaught %1$s of type %2$s thrown. Stack trace: %3$s',
 							$expectedClass,
 							get_class($error),
 							$error->getTraceAsString()
 						),
-						JLog::CRITICAL,
+						\JLog::CRITICAL,
 						'error'
 					);
 				}
-				catch (Throwable $e)
+				catch (\Throwable $e)
 				{
 					// Logging failed, don't make a stink about it though
 				}
-				catch (Exception $e)
+				catch (\Exception $e)
 				{
 					// Logging failed, don't make a stink about it though
 				}
 
-				$app = JFactory::getApplication();
+				$app = \JFactory::getApplication();
 
 				// If site is offline and it's a 404 error, just go to index (to see offline message, instead of 404)
 				if ($error->getCode() == '404' && $app->get('offline') == 1)
@@ -74,14 +75,14 @@ class JErrorPage
 					'direction' => 'ltr',
 				);
 
-				// If there is a JLanguage instance in JFactory then let's pull the language and direction from its metadata
-				if (JFactory::$language)
+				// If there is a \JLanguage instance in \JFactory then let's pull the language and direction from its metadata
+				if (\JFactory::$language)
 				{
-					$attributes['language']  = JFactory::getLanguage()->getTag();
-					$attributes['direction'] = JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr';
+					$attributes['language']  = \JFactory::getLanguage()->getTag();
+					$attributes['direction'] = \JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr';
 				}
 
-				$document = JDocument::getInstance('error', $attributes);
+				$document = \JDocument::getInstance('error', $attributes);
 
 				if (!$document)
 				{
@@ -100,7 +101,7 @@ class JErrorPage
 					ob_end_clean();
 				}
 
-				$document->setTitle(JText::_('ERROR') . ': ' . $error->getCode());
+				$document->setTitle(\JText::_('ERROR') . ': ' . $error->getCode());
 
 				$data = $document->render(
 					false,
@@ -129,11 +130,11 @@ class JErrorPage
 				// This return is needed to ensure the test suite does not trigger the non-Exception handling below
 				return;
 			}
-			catch (Throwable $e)
+			catch (\Throwable $e)
 			{
 				// Pass the error down
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				// Pass the error down
 			}

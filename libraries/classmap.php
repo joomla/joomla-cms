@@ -60,3 +60,5 @@ JLoader::registerAlias('JHelp',                        '\\Joomla\\Cms\\Help\\Hel
 
 JLoader::registerAlias('JLanguageAssociations',        '\\Joomla\\Cms\\Language\\Associations', '4.0');
 JLoader::registerAlias('JLanguageMultilang',           '\\Joomla\\Cms\\Language\\Multilanguage', '4.0');
+
+JLoader::registerAlias('JErrorPage',                   '\\Joomla\\Cms\\Error\\ErrorPage', '4.0');
