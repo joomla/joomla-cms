@@ -12,12 +12,6 @@ defined('_JEXEC') or die;
 $startTime = microtime(1);
 $startMem  = memory_get_usage();
 
-/**
- * Constant that is checked in included files to prevent direct access.
- * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
- */
-define('_JEXEC', 1);
-
 if (file_exists(__DIR__ . '/defines.php'))
 {
 	include_once __DIR__ . '/defines.php';
