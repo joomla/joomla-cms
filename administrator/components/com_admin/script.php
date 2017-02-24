@@ -344,6 +344,11 @@ class JoomlaInstallerScript
 					->where($db->quoteName('location') . ' = ' . $db->quote('https://update.joomla.org/jed/list.xml'))
 			)->loadResult();
 
+            if (!$id)
+            {
+                return;
+            }
+
 			// Delete from update sites
 			$db->setQuery(
 				$db->getQuery(true)
