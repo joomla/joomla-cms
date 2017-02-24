@@ -27,7 +27,7 @@ class Api {
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + dir;
             jQuery.getJSON(url)
-                .success((json) => resolve(this._normalizeArray(json.data)))
+                .done((json) => resolve(this._normalizeArray(json.data)))
                 .fail((xhr, status, error) => {
                     reject(xhr)
                 })
