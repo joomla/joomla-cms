@@ -19,9 +19,10 @@
         computed: {
             /* Get the item url */
             itemUrl() {
-                const filePath = Joomla.getOptions('com_media').filePath || 'images';
+                // TODO should we use relative urls here?
+                const fileBaseUrl = Joomla.getOptions('com_media').fileBaseUrl || '/images';
 
-                return '/' + filePath + this.item.path;
+                return fileBaseUrl + this.item.path;
             }
         }
     }
