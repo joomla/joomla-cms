@@ -1,18 +1,16 @@
 <template>
     <media-modal v-if="$store.state.showCreateFolderModal" :size="'sm'" @close="close()">
-        <h3 slot="header">Create a new folder</h3>
+        <h3 slot="header" class="modal-title">Create a new folder</h3>
         <div slot="body">
-            <form class="form-horizontal">
-                <div class="control-group">
-                    <label class="control-label" for="folder">Folder</label>
-                    <div class="controls">
-                        <input type="text" id="folder" placeholder="Folder" v-model="folder">
-                    </div>
+            <form class="form">
+                <div class="form-group">
+                    <label for="folder">Folder</label>
+                    <input type="text" id="folder" class="form-control" placeholder="Folder" v-model="folder">
                 </div>
             </form>
         </div>
         <div slot="footer">
-            <button class="btn btn-danger" @click="close()">Cancel</button>
+            <button class="btn btn-link" @click="close()">Cancel</button>
             <button class="btn btn-success" @click="save()">Save</button>
         </div>
     </media-modal>

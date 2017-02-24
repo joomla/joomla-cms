@@ -17,7 +17,7 @@
         methods: {
             /* Set the full height on the app container */
             setFullHeight() {
-                this.fullHeight = window.innerHeight - this.$el.offsetTop + 'px';
+                this.fullHeight = window.innerHeight + this.$el.offsetTop + 'px';
             },
         },
         data() {

@@ -4,7 +4,7 @@
             <a @click.stop.prevent="goTo('/')">Home</a>
         </li>
         <li v-for="crumb in crumbs">
-            <span class="divider material-icons">keyboard_arrow_right</span>
+            <span class="divider">/</span>
             <a @click.stop.prevent="goTo(crumb.path)">{{ crumb.name }}</a>
         </li>
     </ul>

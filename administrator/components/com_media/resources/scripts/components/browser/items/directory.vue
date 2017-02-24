@@ -3,7 +3,7 @@
          @click="select(item)"
          @dblclick="goTo(item.path)">
         <div class="media-browser-item-preview">
-            <span class="icon material-icons">folder</span>
+            <span class="fa fa-folder"></span>
         </div>
         <div class="media-browser-item-info">
             {{ item.name }}

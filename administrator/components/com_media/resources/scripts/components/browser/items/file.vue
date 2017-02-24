@@ -1,7 +1,7 @@
 <template>
     <div class="media-browser-item-file">
         <div class="media-browser-item-preview">
-            <span class="icon material-icons">insert_drive_file</span>
+            <span class="fa fa-file-text-o"></span>
         </div>
         <div class="media-browser-item-info">{{ item.name }}</div>
     </div>

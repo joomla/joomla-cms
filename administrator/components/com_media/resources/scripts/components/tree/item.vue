@@ -1,7 +1,7 @@
 <template>
     <li class="media-tree-item" :class="{active: isActive}">
         <a @click.stop.prevent="toggleItem()" :style="{'paddingLeft': 15 * level + 'px'}">
-            <span class="item-icon material-icons">folder</span>
+            <span class="item-icon"><span :class="iconClass"></span></span>
             <span class="item-name">{{ item.name }}</span>
         </a>
         <transition name="slide-fade">
@@ -31,6 +31,13 @@
             hasChildren() {
                 return this.item.directories.length > 0;
             },
+            iconClass() {
+                return {
+                    fa: true,
+                    'fa-folder': !this.isOpen,
+                    'fa-folder-open': this.isOpen,
+                }
+            }
         },
         methods: {
             /* Toggle an item open state */

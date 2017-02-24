@@ -33,9 +33,6 @@ JHtml::_('script', 'media/com_media/js/mediamanager.js');
 
 // Add stylesheets
 JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
-
-// TODO include the font in the component media (self hosted)
-JHtml::_('stylesheet', 'https://fonts.googleapis.com/icon?family=Material+Icons');
 ?>
 <div id="com-media"></div>
 

@@ -1,15 +1,21 @@
 <template>
     <div class="media-modal-backdrop" @click="close()">
-        <div class="modal" :class="modalClass" @click.stop>
-            <div class="modal-header">
-                <button v-if="showCloseButton" type="button" class="close" @click="close()">×</button>
-                <slot name="header"></slot>
-            </div>
-            <div class="modal-body">
-                <slot name="body"></slot>
-            </div>
-            <div class="modal-footer">
-                <slot name="footer"></slot>
+        <div class="modal" @click.stop>
+            <div class="modal-dialog" :class="modalClass" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <slot name="header"></slot>
+                        <button type="button" v-if="showCloseButton" class="close" @click="close()" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <slot name="body"></slot>
+                    </div>
+                    <div class="modal-footer">
+                        <slot name="footer"></slot>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -17,23 +23,15 @@
 
 <style>
     /** TODO DN extract styles **/
+    .modal {
+        display: block;
+    }
 
-    /** modal-sm styles **/
-    .modal.modal-sm {
-        width: 450px;
-        margin-left: -225px;
-    }
-    @media (max-width: 767px) {
-        .modal.modal-sm {
-            width: auto;
-            margin: 0;
-        }
-    }
     .modal-body {
         width: auto;
         padding: 15px;
-        overflow-y: auto;
     }
+
     .media-modal-backdrop {
         position: fixed;
         z-index: 1040;
@@ -41,7 +39,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, .8);
+        background-color: rgba(0, 0, 0, .5);
         display: table;
         transition: opacity .3s ease;
     }
