@@ -133,10 +133,11 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= '>' . $lnEnd;
 		}
 
-		$defaultCssMimes = array('text/css');
+		$defaultCssMimes       = array('text/css');
+		$enumarateInlineStyles = 0;
 
 		// Generate stylesheet links
-		foreach ($document->_styleSheets as $src => $attribs)
+		foreach ($document->styleSheets as $src => $attribs)
 		{
 			// Check if stylesheet uses IE conditional statements.
 			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
@@ -156,7 +157,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 				$buffer .= '<!--[if ' . $conditional . ']>';
 			}
 
-			$buffer .= '<link href="' . $src . '" rel="stylesheet"';
+			$buffer .= $src !== 'inlineStyles_' . $enumarateInlineStyles ? '<link href="' . $src . '" rel="stylesheet"' : '<style>';
 
 			// Add script tag attributes.
 			foreach ($attribs as $attrib => $value)
@@ -180,15 +181,18 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 				}
 
 				// Add attribute to script tag output.
-				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
+				$buffer .= $src !== 'inlineStyles_' . $enumarateInlineStyles ? ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8') : '';
 
 				// Json encode value if it's an array.
 				$value = !is_scalar($value) ? json_encode($value) : $value;
 
-				$buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+				$buffer .= $src !== 'inlineStyles_' . $enumarateInlineStyles ? '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' : htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
 			}
 
-			$buffer .= $tagEnd;
+			$buffer .= $src !== 'inlineStyles_' . $enumarateInlineStyles ? $tagEnd : $lnEnd . $tab . '</style>';
+
+			// Bump the number of inline style
+			$enumarateInlineStyles = preg_match('#inlineStyles_#', $src) ? $enumarateInlineStyles + 1 : $enumarateInlineStyles;
 
 			// This is for IE conditional statements support.
 			if (!is_null($conditional))
@@ -197,35 +201,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			}
 
 			$buffer .= $lnEnd;
-		}
-
-		// Generate stylesheet declarations
-		foreach ($document->_style as $type => $content)
-		{
-			$buffer .= $tab . '<style';
-
-			if (!is_null($type) && (!$document->isHtml5() || !in_array($type, $defaultCssMimes)))
-			{
-				$buffer .= ' type="' . $type . '"';
-			}
-
-			$buffer .= '>' . $lnEnd;
-
-			// This is for full XHTML support.
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '/*<![CDATA[*/' . $lnEnd;
-			}
-
-			$buffer .= $content . $lnEnd;
-
-			// See above note
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
-			}
-
-			$buffer .= $tab . '</style>' . $lnEnd;
 		}
 
 		// Generate scripts options
@@ -246,9 +221,10 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		$defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
 		$html5NoValueAttributes = array('defer', 'async');
 		$mediaVersion           = $document->getMediaVersion();
+		$enumarateInlineScripts = 0;
 
 		// Generate script file links
-		foreach ($document->_scripts as $src => $attribs)
+		foreach ($document->scripts as $src => $attribs)
 		{
 			// Check if script uses IE conditional statements.
 			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
@@ -268,7 +244,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 				$buffer .= '<!--[if ' . $conditional . ']>';
 			}
 
-			$buffer .= '<script src="' . $src . '"';
+			$buffer .= $src !== 'inlineScript_' . $enumarateInlineScripts ? '<script src="' . $src . '"' : '<script>';
 
 			// Add script tag attributes.
 			foreach ($attribs as $attrib => $value)
@@ -303,18 +279,21 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 				}
 
 				// Add attribute to script tag output.
-				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
+				$buffer .= $src !== 'inlineScript_' . $enumarateInlineScripts ? ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8') : '';
 
 				if (!($document->isHtml5() && in_array($attrib, $html5NoValueAttributes)))
 				{
 					// Json encode value if it's an array.
 					$value = !is_scalar($value) ? json_encode($value) : $value;
 
-					$buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+					$buffer .= $src !== 'inlineScript_' . $enumarateInlineScripts ? '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' : $lnEnd . $tab . $value;
 				}
 			}
 
-			$buffer .= '></script>';
+			$buffer .= $src !== 'inlineScript_' . $enumarateInlineScripts ? '></script>' : $lnEnd . $tab . '</script>';
+
+			// Bump the number of inline script
+			$enumarateInlineScripts = preg_match('#inlineScript_#', $src) ? $enumarateInlineScripts + 1 : $enumarateInlineScripts;
 
 			// This is for IE conditional statements support.
 			if (!is_null($conditional))
@@ -323,35 +302,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			}
 
 			$buffer .= $lnEnd;
-		}
-
-		// Generate script declarations
-		foreach ($document->_script as $type => $content)
-		{
-			$buffer .= $tab . '<script';
-
-			if (!is_null($type) && (!$document->isHtml5() || !in_array($type, $defaultJsMimes)))
-			{
-				$buffer .= ' type="' . $type . '"';
-			}
-
-			$buffer .= '>' . $lnEnd;
-
-			// This is for full XHTML support.
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
-			}
-
-			$buffer .= $content . $lnEnd;
-
-			// See above note
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
-			}
-
-			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
 		// Output the custom tags - array_unique makes sure that we don't output the same tags twice

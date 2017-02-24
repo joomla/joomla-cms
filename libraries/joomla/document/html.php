@@ -133,10 +133,8 @@ class JDocumentHtml extends JDocument
 		$data['link']        = $this->link;
 		$data['metaTags']    = $this->_metaTags;
 		$data['links']       = $this->_links;
-		$data['styleSheets'] = $this->_styleSheets;
-		$data['style']       = $this->_style;
-		$data['scripts']     = $this->_scripts;
-		$data['script']      = $this->_script;
+		$data['styleSheets'] = $this->styleSheets;
+		$data['scripts']     = $this->scripts;
 		$data['custom']      = $this->_custom;
 		$data['scriptText']  = JText::script();
 
@@ -164,10 +162,8 @@ class JDocumentHtml extends JDocument
 		$this->link         = (isset($data['link']) && !empty($data['link'])) ? $data['link'] : $this->link;
 		$this->_metaTags    = (isset($data['metaTags']) && !empty($data['metaTags'])) ? $data['metaTags'] : $this->_metaTags;
 		$this->_links       = (isset($data['links']) && !empty($data['links'])) ? $data['links'] : $this->_links;
-		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets'])) ? $data['styleSheets'] : $this->_styleSheets;
-		$this->_style       = (isset($data['style']) && !empty($data['style'])) ? $data['style'] : $this->_style;
-		$this->_scripts     = (isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->_scripts;
-		$this->_script      = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
+		$this->styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets'])) ? $data['styleSheets'] : $this->styleSheets;
+		$this->scripts     = (isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->scripts;
 		$this->_custom      = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
 
 		if (isset($data['scriptText']) && !empty($data['scriptText']))
@@ -221,35 +217,13 @@ class JDocumentHtml extends JDocument
 		$this->_links = (isset($data['links']) && !empty($data['links']) && is_array($data['links']))
 			? array_unique(array_merge($this->_links, $data['links']), SORT_REGULAR)
 			: $this->_links;
-		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets']))
-			? array_merge($this->_styleSheets, $data['styleSheets'])
-			: $this->_styleSheets;
+		$this->styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets']))
+			? array_merge($this->styleSheets, $data['styleSheets'])
+			: $this->styleSheets;
 
-		if (isset($data['style']))
-		{
-			foreach ($data['style'] as $type => $stdata)
-			{
-				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)], $stdata))
-				{
-					$this->addStyleDeclaration($stdata, $type);
-				}
-			}
-		}
-
-		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts']) && is_array($data['scripts']))
-			? array_merge($this->_scripts, $data['scripts'])
-			: $this->_scripts;
-
-		if (isset($data['script']))
-		{
-			foreach ($data['script'] as $type => $sdata)
-			{
-				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)], $sdata))
-				{
-					$this->addScriptDeclaration($sdata, $type);
-				}
-			}
-		}
+		$this->scripts = (isset($data['scripts']) && !empty($data['scripts']) && is_array($data['scripts']))
+			? array_merge($this->scripts, $data['scripts'])
+			: $this->scripts;
 
 		$this->_custom = (isset($data['custom']) && !empty($data['custom']) && is_array($data['custom']))
 			? array_unique(array_merge($this->_custom, $data['custom']))

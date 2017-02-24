@@ -613,36 +613,43 @@ abstract class JHtml
 			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
 		}
 
-		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
-
-		// If only path is required
-		if ($options['pathOnly'])
+		if ($file === '' && isset($attribs['content']))
 		{
-			if (count($includes) === 0)
-			{
-				return;
-			}
-
-			if (count($includes) === 1)
-			{
-				return $includes[0];
-			}
-
-			return $includes;
+			JFactory::getDocument()->addStyleDeclaration($attribs['content']);
 		}
-
-		// If inclusion is required
-		$document = JFactory::getDocument();
-
-		foreach ($includes as $include)
+		else
 		{
-			// If there is already a version hash in the script reference (by using deprecated MD5SUM).
-			if ($pos = strpos($include, '?') !== false)
+			$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
+
+			// If only path is required
+			if ($options['pathOnly'])
 			{
-				$options['version'] = substr($include, $pos + 1);
+				if (count($includes) === 0)
+				{
+					return;
+				}
+
+				if (count($includes) === 1)
+				{
+					return $includes[0];
+				}
+
+				return $includes;
 			}
 
-			$document->addStyleSheet($include, $options, $attribs);
+			// If inclusion is required
+			$document = JFactory::getDocument();
+
+			foreach ($includes as $include)
+			{
+				// If there is already a version hash in the script reference (by using deprecated MD5SUM).
+				if ($pos = strpos($include, '?') !== false)
+				{
+					$options['version'] = substr($include, $pos + 1);
+				}
+
+				$document->addStyleSheet($include, $options, $attribs);
+			}
 		}
 	}
 
@@ -687,42 +694,46 @@ abstract class JHtml
 			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
 		}
 
-		// Include MooTools framework
-		if ($options['framework'])
+		if ($file === '' && isset($attribs['content']))
 		{
-			static::_('behavior.framework');
+			JFactory::getDocument()->addScriptDeclaration($attribs['content']);
 		}
-
-		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
-
-		// If only path is required
-		if ($options['pathOnly'])
+		else
 		{
-			if (count($includes) === 0)
+			// Include MooTools framework
+			if ($options['framework'])
 			{
-				return;
+				static::_('behavior.framework');
 			}
 
-			if (count($includes) === 1)
+			$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
+
+			// If only path is required
+			if ($options['pathOnly'])
 			{
-				return $includes[0];
+				if (count($includes) === 0)
+				{
+					return;
+				}
+
+				if (count($includes) === 1)
+				{
+					return $includes[0];
+				}
+
+				return $includes;
 			}
 
-			return $includes;
-		}
-
-		// If inclusion is required
-		$document = JFactory::getDocument();
-
-		foreach ($includes as $include)
-		{
-			// If there is already a version hash in the script reference (by using deprecated MD5SUM).
-			if ($pos = strpos($include, '?') !== false)
+			foreach ($includes as $include)
 			{
-				$options['version'] = substr($include, $pos + 1);
-			}
+				// If there is already a version hash in the script reference (by using deprecated MD5SUM).
+				if ($pos = strpos($include, '?') !== false)
+				{
+					$options['version'] = substr($include, $pos + 1);
+				}
 
-			$document->addScript($include, $options, $attribs);
+				JFactory::getDocument()->addScript($include, $options, $attribs);
+			}
 		}
 	}
 

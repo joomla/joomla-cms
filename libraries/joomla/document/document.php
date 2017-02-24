@@ -133,15 +133,7 @@ class JDocument
 	 * @var    array
 	 * @since  11.1
 	 */
-	public $_scripts = array();
-
-	/**
-	 * Array of scripts placed in the header
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	public $_script = array();
+	public $scripts = array();
 
 	/**
 	 * Array of scripts options
@@ -151,20 +143,12 @@ class JDocument
 	protected $scriptOptions = array();
 
 	/**
-	 * Array of linked style sheets
+	 * Array of style sheets and inline styles
 	 *
 	 * @var    array
 	 * @since  11.1
 	 */
-	public $_styleSheets = array();
-
-	/**
-	 * Array of included style declarations
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	public $_style = array();
+	public $styleSheets = array();
 
 	/**
 	 * Array of meta tags
@@ -213,6 +197,22 @@ class JDocument
 	 * @since  3.2
 	 */
 	protected $mediaVersion = null;
+
+	/**
+	 * Pointer for the inline script
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERION__
+	 */
+	protected $inlineScriptsEnum = 0;
+
+	/**
+	 * Pointer for the inline stylesheet
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERION__
+	 */
+	protected $inlineStyleSheetsEnum = 0;
 
 	/**
 	 * Class constructor.
@@ -503,8 +503,8 @@ class JDocument
 			$attribs['type'] = 'text/javascript';
 		}
 
-		$this->_scripts[$url]            = isset($this->_scripts[$url]) ? array_replace($this->_scripts[$url], $attribs) : $attribs;
-		$this->_scripts[$url]['options'] = isset($this->_scripts[$url]['options']) ? array_replace($this->_scripts[$url]['options'], $options) : $options;
+		$this->scripts[$url]            = isset($this->scripts[$url]) ? array_replace($this->scripts[$url], $attribs) : $attribs;
+		$this->scripts[$url]['options'] = isset($this->scripts[$url]['options']) ? array_replace($this->scripts[$url]['options'], $options) : $options;
 
 		return $this;
 	}
@@ -573,16 +573,10 @@ class JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function addScriptDeclaration($content, $type = 'text/javascript')
+	public function addScriptDeclaration($content)
 	{
-		if (!isset($this->_script[strtolower($type)]))
-		{
-			$this->_script[strtolower($type)] = $content;
-		}
-		else
-		{
-			$this->_script[strtolower($type)] .= chr(13) . $content;
-		}
+		$this->scripts['inlineScript_' . $this->inlineScriptsEnum]['content'] = $content;
+		$this->inlineScriptsEnum = $this->inlineScriptsEnum + 1;
 
 		return $this;
 	}
@@ -686,15 +680,15 @@ class JDocument
 			$attribs['type'] = 'text/css';
 		}
 
-		$this->_styleSheets[$url] = isset($this->_styleSheets[$url]) ? array_replace($this->_styleSheets[$url], $attribs) : $attribs;
+		$this->styleSheets[$url] = isset($this->styleSheets[$url]) ? array_replace($this->styleSheets[$url], $attribs) : $attribs;
 
-		if (isset($this->_styleSheets[$url]['options']))
+		if (isset($this->styleSheets[$url]['options']))
 		{
-			$this->_styleSheets[$url]['options'] = array_replace($this->_styleSheets[$url]['options'], $options);
+			$this->styleSheets[$url]['options'] = array_replace($this->styleSheets[$url]['options'], $options);
 		}
 		else
 		{
-			$this->_styleSheets[$url]['options'] = $options;
+			$this->styleSheets[$url]['options'] = $options;
 		}
 
 		return $this;
@@ -766,14 +760,8 @@ class JDocument
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{
-		if (!isset($this->_style[strtolower($type)]))
-		{
-			$this->_style[strtolower($type)] = $content;
-		}
-		else
-		{
-			$this->_style[strtolower($type)] .= chr(13) . $content;
-		}
+		$this->styleSheets['inlineStyles_' . $this->inlineStyleSheetsEnum]['content'] = $content;
+		$this->inlineStyleSheetsEnum = $this->inlineStyleSheetsEnum + 1;
 
 		return $this;
 	}
