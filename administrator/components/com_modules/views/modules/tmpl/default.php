@@ -8,10 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-
-JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.multiselect');
-
+// Load the default behaviours for plural form
+JHtml::_('formbehavior.plural');
 
 $clientId  = (int) $this->state->get('client_id', 0);
 $user      = JFactory::getUser();

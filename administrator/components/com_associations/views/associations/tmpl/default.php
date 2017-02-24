@@ -11,9 +11,10 @@ defined('_JEXEC') or die;
 
 JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
 
+// Load the default behaviours for plural form
+JHtml::_('formbehavior.plural');
+
 JHtml::_('jquery.framework');
-JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
 $listOrder        = $this->escape($this->state->get('list.ordering'));

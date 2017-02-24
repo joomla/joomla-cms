@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JHtml::_('bootstrap.tooltip');
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');

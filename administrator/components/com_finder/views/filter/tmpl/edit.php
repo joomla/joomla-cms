@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
+// Load the default behaviours for singular form
+JHtml::_('formbehavior.singular');
 
+JHtml::_('jquery.framework');
 
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)

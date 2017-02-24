@@ -12,10 +12,8 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.core');
-JHtml::_('behavior.tabstate');
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
+// Load the default behaviours for singular form
+JHtml::_('formbehavior.singular');
 
 JText::script('ERROR');
 JText::script('JGLOBAL_VALIDATION_FORM_FAILED');

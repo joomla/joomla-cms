@@ -11,21 +11,19 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
+// Load the default behaviours for singular form
+JHtml::_('formbehavior.singular');
 
+JHtml::_('jquery.framework');
+JHtml::_('script', 'overrider/overrider.min.js', array('version' => 'auto', 'relative' => true));
 
 $expired = ($this->state->get('cache_expired') == 1 ) ? '1' : '';
 
 JHtml::_('stylesheet', 'overrider/overrider.css', array('version' => 'auto', 'relative' => true));
 
-JHtml::_('behavior.core');
-JHtml::_('jquery.framework');
-JHtml::_('script', 'overrider/overrider.min.js', array('version' => 'auto', 'relative' => true));
-
 JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function($) {
-		$("#jform_searchstring").on("focus", function() {
+	document.addEventListener("DOMContentLoaded", function($) {
+		document.getElementById("jform_searchstring").addEventListener("focus", function(e) {
 			if (!Joomla.overrider.states.refreshed)
 			{
 				var expired = "' . $expired . '";
@@ -35,7 +33,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					Joomla.overrider.states.refreshed = true;
 				}
 			}
-			$(this).removeClass("invalid");
+			e.target.classList.remove("invalid");
 		});
 	});
 

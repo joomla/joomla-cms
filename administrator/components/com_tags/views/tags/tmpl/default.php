@@ -14,8 +14,8 @@ use Joomla\String\Inflector;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.multiselect');
+// Load the default behaviours for plural form
+JHtml::_('formbehavior.plural');
 
 $app       = JFactory::getApplication();
 $user      = JFactory::getUser();

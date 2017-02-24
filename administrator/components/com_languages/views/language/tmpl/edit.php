@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.tabstate');
+// Load the default behaviours for singular form
+JHtml::_('formbehavior.singular');
 
 JFactory::getDocument()->addScriptDeclaration(
 	'
@@ -24,15 +24,16 @@ JFactory::getDocument()->addScriptDeclaration(
 		}
 	};
 
-	jQuery(document).ready(function() {
-		jQuery("#jform_image").on("change", function() {
-			var flag = this.value;
+	document.addEventListener("DOMContentLoaded", function() {
+		document.getElementById("jform_image").addEventListener("change", function(event) {
+			
+			var flag = event.target.value;
 			if (flag) {
-				jQuery("#flag img").attr("src", "' . JUri::root(true) . '" + "/media/mod_languages/images/" + flag + ".gif").attr("alt", flag);
+				document.querySelector("#flag img").setAttribute("src", "' . JUri::root(true) . '" + "/media/mod_languages/images/" + flag + ".gif").setAttribute("alt", flag);
 			}
 			else
 			{
-				jQuery("#flag img").removeAttr("src").removeAttr("alt");
+				document.querySelector("#flag img").removeAttribute("src").removeAttribute("alt");
 			}
 	});
 });'

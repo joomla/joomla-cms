@@ -25,6 +25,35 @@ abstract class JHtmlFormbehavior
 	protected static $loaded = array();
 
 	/**
+	 * Load all the required scripts/css for a singular form
+	 *
+	 * @since  4.0
+	 */
+	public static function singular()
+	{
+		JHtml::_('behavior.core');
+		JHtml::_('behavior.formvalidator');
+		JHtml::_('behavior.keepalive');
+		JHtml::_('bootstrap.tooltip');
+		JHtml::_('behavior.tabstate');
+	}
+
+	/**
+	 * Load all the required scripts/css for a plural form
+	 *
+	 * @since  4.0
+	 */
+	public static function plural()
+	{
+		JHtml::_('behavior.core');
+		JHtml::_('behavior.formvalidator');
+		JHtml::_('behavior.keepalive');
+		JHtml::_('bootstrap.tooltip');
+		JHtml::_('behavior.multiselect');
+		JHtml::_('behavior.tabstate');
+	}
+
+	/**
 	 * Method to load the Chosen JavaScript framework and supporting CSS into the document head
 	 *
 	 * If debugging mode is on an uncompressed version of Chosen is included for easier debugging.

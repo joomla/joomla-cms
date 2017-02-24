@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JHtml::_('bootstrap.tooltip');
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
