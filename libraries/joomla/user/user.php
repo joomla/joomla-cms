@@ -376,11 +376,7 @@ class JUser extends JObject
 			}
 			elseif ($this->id > 0)
 			{
-				// Get all groups against which the user is mapped.
-				$identities = $this->getAuthorisedGroups();
-				array_unshift($identities, $this->id * -1);
-
-				if (JAccess::getAssetRules(1)->allow('core.admin', $identities))
+				if (JAuthorize::getInstance()->check($this->id, 1, 'core.admin', 'user'))
 				{
 					$this->isRoot = true;
 
@@ -389,7 +385,7 @@ class JUser extends JObject
 			}
 		}
 
-		return $this->isRoot ? true : (bool) JAccess::check($this->id, $action, $assetname);
+		return $this->isRoot ? true : (bool) JAuthorize::getInstance()->check($this->id, $assetname, $action, 'user');
 	}
 
 	/**
