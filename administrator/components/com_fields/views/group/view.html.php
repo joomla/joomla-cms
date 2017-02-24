@@ -164,5 +164,7 @@ class FieldsViewGroup extends JViewLegacy
 		{
 			JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 		}
+
+		JToolbarHelper::help('JHELP_FIELDS_FIELD_GROUPS_EDIT');
 	}
 }

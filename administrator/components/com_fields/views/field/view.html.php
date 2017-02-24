@@ -140,5 +140,7 @@ class FieldsViewField extends JViewLegacy
 		{
 			JToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CLOSE');
 		}
+
+		JToolbarHelper::help('JHELP_FIELDS_FIELDS_EDIT');
 	}
 }
