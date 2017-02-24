@@ -324,8 +324,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	/**
 	 * Handler for the `onExtensionAfterInstall` event
 	 *
-	 * @param   Event            $event  The event
-	 * @param   integer|boolean  $eid    The extension ID of the installed extension on success, boolean false on install failure
+	 * @param   Event  $event  The event
 	 *
 	 * @return  void
 	 *
