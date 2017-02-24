@@ -34,6 +34,10 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 	 */
 	protected static $permCache = array();
 
+	/**
+	 * @const  boolean is append query supported?
+	 * @since  4.0
+	 */
 	const APPENDSUPPORT = false;
 
 
@@ -41,12 +45,11 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 	 * Instantiate the access class
 	 *
 	 * @param   mixed            $assetId Assets id, can be integer id or string name or array of string/integer values
-	 * @param   JDatabaseDriver  $db       Database object
+	 * @param   JDatabaseDriver  $db      Database object
 	 *
 	 *
 	 * @since  4.0
 	 */
-
 	public function __construct($assetId = 1, JDatabaseDriver $db = null)
 	{
 		$this->assetId = $assetId;
@@ -87,7 +90,7 @@ class JAuthorizeImplementationJoomlalegacy extends JAuthorizeImplementationJooml
 		self::$permCache = array();
 		self::$rootAsset = null;
 
-		$this->authorizationMatrix =  null;
+		$this->authorizationMatrix = null;
 
 		// Legacy
 		JUserHelper::clearStatics();

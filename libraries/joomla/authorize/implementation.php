@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 abstract class JAuthorizeImplementation
 {
 	/**
-	 * A multidimensional array with authorization matryx [authorizationclass][assetid][action1][group] = valuem
+	 * A multidimensional array with authorization matryx [authorizationclass][assetid][action1][group] = value
 	 *
 	 * @var    array
 	 * @since  4.0
@@ -27,6 +27,10 @@ abstract class JAuthorizeImplementation
 	 */
 	private $db = null;
 
+	/**
+	 * @const  boolean is append query supported?
+	 * @since  4.0
+	 */
 	const APPENDSUPPORT = false;
 
 	/**
@@ -54,7 +58,14 @@ abstract class JAuthorizeImplementation
 				break;
 
 			default:
-				return isset($this->$key) ? $this->$key : null;
+				if (isset($this->$key))
+				{
+					return $this->$key;
+				}
+				else
+				{
+					throw new UnexpectedValueException(sprintf('%s does not exist in %s', $key, get_class($this)));
+				}
 				break;
 		}
 	}
@@ -105,6 +116,10 @@ abstract class JAuthorizeImplementation
 				{
 					$this->$name = $value;
 				}
+				else
+				{
+					throw new UnexpectedValueException(sprintf('%s does not exist in %s', $name, get_class($this)));
+				}
 				break;
 		}
 
@@ -148,14 +163,16 @@ abstract class JAuthorizeImplementation
 	 *
 	 * @since   4.0
 	 */
-	public function allow($actor, $target, $action)
+	protected function allow($actor, $target, $action)
 	{
 
 		$class = get_class($this);
 
-		if (isset(static::$authorizationMatrix[$class]))
+		$authorizationMatrix = $this->authorizationMatrix;
+
+		if (isset($authorizationMatrix[$class]))
 		{
-			static::$authorizationMatrix[$class][$target][$action][$actor] = 1;
+			$this->authorizationMatrix[$class][$target][$action][$actor] = 1;
 		}
 
 	}
@@ -171,13 +188,15 @@ abstract class JAuthorizeImplementation
 	 *
 	 * @since   4.0
 	 */
-	public function deny($actor, $target, $action)
+	protected function deny($actor, $target, $action)
 	{
 		$class = get_class($this);
 
-		if (isset(static::$authorizationMatrix[$class]))
+		$authorizationMatrix = $this->authorizationMatrix;
+
+		if (isset($authorizationMatrix[$class]))
 		{
-			static::$authorizationMatrix[$class][$target][$action][$actor] = 0;
+			$this->authorizationMatrix[$class][$target][$action][$actor] = 0;
 		}
 
 	}
@@ -200,5 +219,4 @@ abstract class JAuthorizeImplementation
 	{
 		return false;
 	}
-
 }

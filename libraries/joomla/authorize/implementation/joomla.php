@@ -34,10 +34,14 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 */
 	protected $assetId_ = 1;
 
+	/**
+	 * @const  boolean is append query supported?
+	 * @since  4.0
+	 */
 	const APPENDSUPPORT = true;
 
 	/**
-	 * If number of ids passed in one go surpasses this
+	 * If number of ids passed in one call surpasses this limit,
 	 * all permissions will be loaded as query runs much faster this way
 	 *
 	 * @var    integer
@@ -273,47 +277,6 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 *
 	 * @since   4.0
 	 */
-
-
-	/*protected function calculate($asset, $action, $identities)
-	{
-		// Implicit deny by default.
-		$result = null;
-
-		// isset & empty don't work with getters
-		$authorizationMatrix = $this->authorizationMatrix;
-
-		// Check that the inputs are valid.
-		if (!empty($identities))
-		{
-			if (!is_array($identities))
-			{
-				$identities = array($identities);
-			}
-
-			if (isset($authorizationMatrix[$asset][$action]))
-			{
-				$authorizedaArr = array_keys($authorizationMatrix[$asset][$action]);
-				$matched = array_intersect($identities, $authorizedaArr);
-
-				foreach ($matched as $identity)
-				{
-					$identity = (int) $identity;
-					$result = (boolean) $authorizationMatrix[$asset][$action][$identity];
-
-					// An explicit deny wins.
-					if ($result === false)
-					{
-							break;
-					}
-				}
-			}
-		}
-
-		return $result;
-	}*/
-
-
 	protected function calculate($asset, $action, $identities)
 	{
 		// Implicit deny by default.
@@ -363,7 +326,7 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 	 * @param   string   $action     Action name to limit results
 	 *
 	 * @return mixed   Db query result - the return value or null if the query failed.
-	 *                 	 *
+	 *
 	 * @since   4.0
 	 */
 	private function getAssetPermissions($recursive = false, $groups = array(), $action = null)
@@ -584,11 +547,6 @@ class JAuthorizeImplementationJoomla extends JAuthorizeImplementation implements
 			$user   = JFactory::getUser();
 			$groups = $user->getAuthorisedGroups();
 		}
-
-		/*if ($user->isAdmin((int) $user->id) == true)
-		{
-			return; // No filter for admins
-		}*/
 
 		$query->select('ass.id AS assid, bs.id AS bssid, bs.rules, p.permission, p.value, p.group');
 		$query->leftJoin('#__assets AS ass ON ass.id = ' . $joincolumn);
