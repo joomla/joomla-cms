@@ -992,6 +992,12 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 				{
 					unset($orderColumns[$i]);
 				}
+
+				if (str_ireplace($aFuncs, '', $column) != $column)
+				{
+					// Do not add aggregate expression
+					unset($orderColumns[$i]);
+				}
 			}
 
 			$groupColumns = array_merge($groupColumns, $orderColumns);

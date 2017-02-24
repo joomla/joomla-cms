@@ -439,18 +439,37 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 			(string) $this->_instance
 		);
 
+		// Column from ORDER BY will be added to GROUP BY
+		$this->_instance
+			->clear()
+			->select('id, catid AS acatid, COUNT(*)')
+			->from('#__content')
+			->group('acatid')
+			->order('hits');
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT id,catid AS acatid,COUNT(*) AS [columnAlias2]' .
+			PHP_EOL . 'FROM #__content' .
+			PHP_EOL . 'GROUP BY catid,id,hits' .
+			PHP_EOL . 'ORDER BY hits',
+			(string) $this->_instance
+		);
+
+		// Aggregate expression from ORDER BY will not be added to GROUP BY
 		$this->_instance
 			->clear()
 			->select('[a].[id], c.id AS catid,c.name AS     [ x ]   , COUNT(*)  count')
 			->from('#__content AS a')
 			->innerJoin('(SELECT * FROM #__categories) c ON a.catid = c.id')
-			->group('catid,[ x ]');
+			->group('catid,[ x ]')
+			->order('COUNT(*)');
 
 		$this->assertEquals(
 			PHP_EOL . 'SELECT [a].[id],c.id AS catid,c.name AS [ x ],COUNT(*) AS count' .
 			PHP_EOL . 'FROM #__content AS a' .
 			PHP_EOL . 'INNER JOIN (SELECT * FROM #__categories) c ON a.catid = c.id' .
-			PHP_EOL . 'GROUP BY c.id,c.name,[a].[id]',
+			PHP_EOL . 'GROUP BY c.id,c.name,[a].[id]' .
+			PHP_EOL . 'ORDER BY COUNT(*)',
 			(string) $this->_instance
 		);
 	}
