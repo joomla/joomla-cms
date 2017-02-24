@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\Cms\Error;
+namespace Joomla\Cms\Exception;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.0
  */
-class ErrorPage
+class ExceptionHandler
 {
 	/**
 	 * Render the error page based on an exception.
