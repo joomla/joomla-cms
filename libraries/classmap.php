@@ -55,3 +55,4 @@ JLoader::registerAlias('JRule',                        '\\Joomla\\Cms\\Access\\R
 JLoader::registerAlias('JRules',                       '\\Joomla\\Cms\\Access\\Rules', '4.0');
 
 JLoader::registerAlias('JAuthenticationHelper',        '\\Joomla\\Cms\\Authentication\\AuthenticationHelper', '4.0');
+JLoader::registerAlias('JCaptcha',                     '\\Joomla\\Cms\\Captcha\\Captcha', '4.0');
