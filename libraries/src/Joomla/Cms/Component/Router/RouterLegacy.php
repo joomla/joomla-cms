@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Component
+ * Joomla! Content Management System
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Component\Router;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.3
  */
-class JComponentRouterLegacy implements JComponentRouterInterface
+class RouterLegacy implements RouterInterface
 {
 	/**
 	 * Name of the component

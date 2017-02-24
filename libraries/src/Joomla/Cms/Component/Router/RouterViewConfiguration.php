@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Component
+ * Joomla! Content Management System
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Component\Router;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.5
  */
-class JComponentRouterViewconfiguration
+class RouterViewConfiguration
 {
 	/**
 	 * Name of the view
@@ -35,7 +36,7 @@ class JComponentRouterViewconfiguration
 	/**
 	 * Parentview of this one
 	 *
-	 * @var    JComponentRouterViewconfiguration
+	 * @var    RouterViewconfiguration
 	 * @since  3.5
 	 */
 	public $parent = false;
@@ -67,7 +68,7 @@ class JComponentRouterViewconfiguration
 	/**
 	 * Child-views of this view
 	 *
-	 * @var    JComponentRouterViewconfiguration[]
+	 * @var    RouterViewconfiguration[]
 	 * @since  3.5
 	 */
 	public $children = array();
@@ -106,7 +107,7 @@ class JComponentRouterViewconfiguration
 	 *
 	 * @param   string  $name  Name of the view
 	 *
-	 * @return  JComponentRouterViewconfiguration  This object for chaining
+	 * @return  RouterViewconfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */
@@ -125,7 +126,7 @@ class JComponentRouterViewconfiguration
 	 *
 	 * @param   string  $key  Key of the view
 	 *
-	 * @return  JComponentRouterViewconfiguration  This object for chaining
+	 * @return  RouterViewconfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */
@@ -139,14 +140,14 @@ class JComponentRouterViewconfiguration
 	/**
 	 * Set the parent view of this view
 	 *
-	 * @param   JComponentRouterViewconfiguration  $parent      Parent view object
+	 * @param   RouterViewconfiguration  $parent      Parent view object
 	 * @param   string                             $parent_key  Key of the parent view in this context
 	 *
-	 * @return  JComponentRouterViewconfiguration  This object for chaining
+	 * @return  RouterViewconfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */
-	public function setParent(JComponentRouterViewconfiguration $parent, $parent_key = false)
+	public function setParent(RouterViewconfiguration $parent, $parent_key = false)
 	{
 		if ($this->parent)
 		{
@@ -185,7 +186,7 @@ class JComponentRouterViewconfiguration
 	 *
 	 * @param   bool  $isNestable  If set to true, the view is nestable
 	 *
-	 * @return  JComponentRouterViewconfiguration  This object for chaining
+	 * @return  RouterViewconfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */
@@ -201,7 +202,7 @@ class JComponentRouterViewconfiguration
 	 *
 	 * @param   string  $layout  Layouts that this view supports
 	 *
-	 * @return  JComponentRouterViewconfiguration  This object for chaining
+	 * @return  RouterViewconfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */
@@ -218,7 +219,7 @@ class JComponentRouterViewconfiguration
 	 *
 	 * @param   string  $layout  Layouts that this view supports
 	 *
-	 * @return  JComponentRouterViewconfiguration  This object for chaining
+	 * @return  RouterViewconfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */

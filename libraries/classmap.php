@@ -60,3 +60,15 @@ JLoader::registerAlias('JHelp',                        '\\Joomla\\Cms\\Help\\Hel
 
 JLoader::registerAlias('JLanguageAssociations',        '\\Joomla\\Cms\\Language\\Associations', '4.0');
 JLoader::registerAlias('JLanguageMultilang',           '\\Joomla\\Cms\\Language\\Multilanguage', '4.0');
+
+JLoader::registerAlias('JComponentHelper',                  '\\Joomla\\Cms\\Component\\ComponentHelper', '4.0');
+JLoader::registerAlias('JComponentExceptionMissing',        '\\Joomla\\Cms\\Component\\Exception\\MissingException', '4.0');
+JLoader::registerAlias('JComponentRouterBase',              '\\Joomla\\Cms\\Component\\Router\\RouterBase', '4.0');
+JLoader::registerAlias('JComponentRouterInterface',         '\\Joomla\\Cms\\Component\\Router\\RouterInterface', '4.0');
+JLoader::registerAlias('JComponentRouterLegacy',            '\\Joomla\\Cms\\Component\\Router\\RouterLegacy', '4.0');
+JLoader::registerAlias('JComponentRouterView',              '\\Joomla\\Cms\\Component\\Router\\RouterView', '4.0');
+JLoader::registerAlias('JComponentRouterViewconfiguration', '\\Joomla\\Cms\\Component\\Router\\RouterViewConfiguration', '4.0');
+JLoader::registerAlias('JComponentRouterRulesMenu',         '\\Joomla\\Cms\\Component\\Router\\Rules\\MenuRules', '4.0');
+JLoader::registerAlias('JComponentRouterRulesNomenu',       '\\Joomla\\Cms\\Component\\Router\\Rules\\NomenuRules', '4.0');
+JLoader::registerAlias('JComponentRouterRulesInterface',    '\\Joomla\\Cms\\Component\\Router\\Rules\\RulesInterface', '4.0');
+JLoader::registerAlias('JComponentRouterRulesStandard',     '\\Joomla\\Cms\\Component\\Router\\Rules\\StandardRules', '4.0');

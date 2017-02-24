@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Component
+ * Joomla! Content Management System
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Component\Router;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,12 +15,12 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.3
  */
-abstract class JComponentRouterBase implements JComponentRouterInterface
+abstract class RouterBase implements RouterInterface
 {
 	/**
 	 * Application object to use in the router
 	 *
-	 * @var    JApplicationCms
+	 * @var    \JApplicationCms
 	 * @since  3.4
 	 */
 	public $app;
@@ -27,7 +28,7 @@ abstract class JComponentRouterBase implements JComponentRouterInterface
 	/**
 	 * Menu object to use in the router
 	 *
-	 * @var    JMenu
+	 * @var    \JMenu
 	 * @since  3.4
 	 */
 	public $menu;
@@ -35,8 +36,8 @@ abstract class JComponentRouterBase implements JComponentRouterInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JApplicationCms  $app   Application-object that the router should use
-	 * @param   JMenu            $menu  Menu-object that the router should use
+	 * @param   \JApplicationCms  $app   Application-object that the router should use
+	 * @param   \JMenu            $menu  Menu-object that the router should use
 	 *
 	 * @since   3.4
 	 */
@@ -48,7 +49,7 @@ abstract class JComponentRouterBase implements JComponentRouterInterface
 		}
 		else
 		{
-			$this->app = JFactory::getApplication('site');
+			$this->app = \JFactory::getApplication('site');
 		}
 
 		if ($menu)
