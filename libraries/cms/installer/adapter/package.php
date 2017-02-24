@@ -324,7 +324,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	/**
 	 * Handler for the `onExtensionAfterInstall` event
 	 *
-	 * @param   Event            $event  The event
+	 * @param   Event  $event  The event
 	 *
 	 * @return  void
 	 *
