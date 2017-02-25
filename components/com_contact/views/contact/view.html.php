@@ -336,7 +336,7 @@ class ContactViewContact extends JViewLegacy
 	{
 		$app     = JFactory::getApplication();		
 		$pathway = $app->getPathway();
-		
+
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $app->getMenu()->getActive();

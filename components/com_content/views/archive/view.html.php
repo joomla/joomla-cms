@@ -151,7 +151,7 @@ class ContentViewArchive extends JViewLegacy
 	 * @return  void.
 	 */
 	protected function _prepareDocument()
-	{		
+	{
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = JFactory::getApplication()->getMenu()->getActive();
