@@ -346,7 +346,7 @@ class JoomlaInstallerScript
 			)->loadResult();
 
 			// Skip delete when id doesn’t exists
-			f (!$id)
+			if (!$id)
 			{
 				return;
 			}
