@@ -42,10 +42,9 @@ class SearchViewSearch extends JViewLegacy
 		$areas      = $this->get('areas');
 		$state      = $this->get('state');
 		$searchWord = $state->get('keyword');
-		$params     = $app->getParams();
-
-		$menus = $app->getMenu();
-		$menu  = $menus->getActive();
+		$params     = $app->getParams();		
+		
+		$menu  = $app->getMenu()->getActive();
 
 		// Because the application sets a default page title, we need to get it right from the menu item itself
 		if (is_object($menu))
