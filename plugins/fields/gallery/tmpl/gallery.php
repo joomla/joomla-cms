@@ -25,11 +25,9 @@ $doc = JFactory::getDocument();
 
 $value = (array) $value;
 
-$thumbWidth     = $fieldParams->get('thumbnail_width', '64');
-$maxImageWidth  = $fieldParams->get('max_width', 0);
-$maxImageHeight = $fieldParams->get('max_height', 0);
-$thumbsRow      = $fieldParams->get('thumbs_row', 6);
-$spanClass      = 'span' . 12/$thumbsRow;
+$thumbWidth = $fieldParams->get('thumbnail_width', '64');
+$thumbsRow  = $fieldParams->get('thumbs_row', 6);
+$spanClass  = 'span' . 12 / $thumbsRow;
 
 $html        = '<ul class="thumbnails">';
 $thumbsCount = 0;
@@ -54,52 +52,6 @@ foreach ($value as $path)
 		// Relative path
 		$localPath    = str_replace(JPath::clean(JPATH_ROOT . '/' . $root . '/'), '', $file);
 		$webImagePath = $root . '/' . $localPath;
-
-		if (($maxImageWidth && $properties->width > $maxImageWidth) || ($maxImageHeight && $properties->height > $maxImageHeight))
-		{
-			$resizeWidth  = $maxImageWidth ? $maxImageWidth : '';
-			$resizeHeight = $maxImageHeight ? $maxImageHeight : '';
-
-			if ($resizeWidth && $resizeHeight)
-			{
-				$resizeWidth .= 'x';
-			}
-
-			$resize = JPATH_CACHE . '/plg_fields_gallery/gallery/' . $field->id . '/' . $resizeWidth . $resizeHeight . '/' . $localPath;
-
-			if (!JFile::exists($resize))
-			{
-				// Creating the folder structure for the max sized image
-				if (!JFolder::exists(dirname($resize)))
-				{
-					JFolder::create(dirname($resize));
-				}
-
-				try
-				{
-					// Creating the max sized image for the image
-					$imgObject = new JImage($file);
-
-					$imgObject = $imgObject->resize(
-							$properties->width > $maxImageWidth ? $maxImageWidth : 0,
-							$properties->height > $maxImageHeight ? $maxImageHeight : 0,
-							true,
-							JImage::SCALE_INSIDE
-					);
-
-					$imgObject->toFile($resize);
-				}
-				catch (Exception $e)
-				{
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_FIELDS_GALLERY_IMAGE_ERROR', $file, $e->getMessage()));
-				}
-			}
-
-			if (JFile::exists($resize))
-			{
-				$webImagePath = JUri::base(true) . str_replace(JPATH_ROOT, '', $resize);
-			}
-		}
 
 		// Thumbnail path for the image
 		$thumb = JPATH_CACHE . '/plg_fields_gallery/gallery/' . $field->id . '/' . $thumbWidth . '/' . $localPath;
