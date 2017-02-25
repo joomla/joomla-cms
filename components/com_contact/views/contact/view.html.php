@@ -379,7 +379,7 @@ class ContactViewContact extends JViewLegacy
 				$pathway->addItem($item['title'], $item['link']);
 			}
 		}
-		
+
 		if (empty($title))
 		{
 			$title = $this->item->name;
