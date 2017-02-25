@@ -178,24 +178,28 @@
 				description="JGLOBAL_NUM_LEADING_ARTICLES_DESC"
 				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 				size="3"
+				useglobal="true"
 			/>
 
 			<field name="num_intro_articles" type="text"
 				description="JGLOBAL_NUM_INTRO_ARTICLES_DESC"
 				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 				size="3"
+				useglobal="true"
 			/>
 
 			<field name="num_columns" type="text"
 				description="JGLOBAL_NUM_COLUMNS_DESC"
 				label="JGLOBAL_NUM_COLUMNS_LABEL"
 				size="3"
+				useglobal="true"
 			/>
 
 			<field name="num_links" type="text"
 				description="JGLOBAL_NUM_LINKS_DESC"
 				label="JGLOBAL_NUM_LINKS_LABEL"
 				size="3"
+				useglobal="true"
 			/>
 
 			<field name="multi_column_order" type="list"
@@ -320,6 +324,7 @@
 				description="JGLOBAL_DATE_FORMAT_DESC"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
 				size="15"
+				useglobal="true"
 			/>
 
              <field name="list_show_hits" type="list"
@@ -444,8 +449,8 @@
 			</field>
 
 			<field name="show_author" type="list"
-				description="JGLOBAL_Show_Author_Desc"
-				label="JGLOBAL_Show_Author_Label"
+				description="JGLOBAL_SHOW_AUTHOR_DESC"
+				label="JGLOBAL_SHOW_AUTHOR_LABEL"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -453,8 +458,8 @@
 			</field>
 
 			<field name="link_author" type="list"
-				description="JGLOBAL_Link_Author_Desc"
-				label="JGLOBAL_Link_Author_Label"
+				description="JGLOBAL_LINK_AUTHOR_DESC"
+				label="JGLOBAL_LINK_AUTHOR_LABEL"
 				useglobal="true"
 				>
 				<option value="0">JNo</option>
@@ -462,8 +467,8 @@
 			</field>
 
 			<field name="show_create_date" type="list"
-				description="JGLOBAL_Show_Create_Date_Desc"
-				label="JGLOBAL_Show_Create_Date_Label"
+				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
+				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>

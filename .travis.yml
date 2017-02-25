@@ -5,9 +5,7 @@ language: php
 
 env:
   global:
-    - RUN_PHPCS="no"
     - RUN_UNIT_TESTS="yes"
-    - RUN_JAVASCRIPT_TESTS="no"
     - INSTALL_MEMCACHE="yes"
     - INSTALL_MEMCACHED="yes"
     - INSTALL_REDIS="yes"
@@ -15,8 +13,6 @@ env:
 matrix:
   fast_finish: true
   include:
-    - php: 5.6
-      env: RUN_PHPCS="yes" RUN_UNIT_TESTS="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no"
     - php: 5.3
       env: INSTALL_APC="yes"
     - php: 5.4
@@ -27,9 +23,6 @@ matrix:
       env: INSTALL_APCU="yes"
     - php: 7.0
       env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
-    - node_js: 6.1
-      sudo: true
-      env: RUN_JAVASCRIPT_TESTS="yes" RUN_UNIT_TESTS="no"
     - php: 7.1
       env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
     - php: hhvm
@@ -49,7 +42,6 @@ matrix:
       env: INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" # Disabled items that currently do not work in travis-ci hhvm
   allow_failures:
     - php: hhvm
-    - node_js: 6.1
 
 services:
   - memcache
@@ -57,15 +49,11 @@ services:
   - redis-server
 
 before_script:
-  # JavaScript tests
-  - if [[ $RUN_JAVASCRIPT_TESTS == "yes" ]]; then export DISPLAY=:99.0; bash build/travis/javascript-tests.sh $PWD; fi
   # Make sure all dev dependencies are installed
-  - if [[ ( $RUN_UNIT_TESTS == "yes" ) || ( $RUN_PHPCS == "yes" ) ]]; then bash build/travis/unit-tests.sh $PWD; fi
+  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then bash build/travis/unit-tests.sh $PWD; fi
 
 script:
-  - if [[ $RUN_PHPCS == "yes" ]]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
   - if [[ $RUN_UNIT_TESTS == "yes" ]]; then libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml; fi
-  - if [[ $RUN_JAVASCRIPT_TESTS == "yes" ]]; then tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run ; fi
 
 branches:
   except:

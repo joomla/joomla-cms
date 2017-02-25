@@ -9,7 +9,6 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>This Chinese Simplified language for the installation of Joomla 3.x.</description>
 	<files>
 		<filename>zh-CN.ini</filename>
 	</files>

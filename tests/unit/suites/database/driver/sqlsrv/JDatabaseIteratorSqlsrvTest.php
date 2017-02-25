@@ -52,8 +52,8 @@ class JDatabaseIteratorSqlsrvTest extends TestCaseDatabaseSqlsrv
 				2,
 				0,
 				array(
-					(object) array('title' => 'Testing', 'RowNumber' => '1'),
-					(object) array('title' => 'Testing2', 'RowNumber' => '2')
+					(object) array('title' => 'Testing'),
+					(object) array('title' => 'Testing2')
 				),
 				null
 			),

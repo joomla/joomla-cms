@@ -1,4 +1,4 @@
-/****** Object:  Table [#__fields] ******/
+/****** Object:  Table [#__fields] ******/
 
 SET QUOTED_IDENTIFIER ON;
 
@@ -52,15 +52,15 @@ CREATE NONCLUSTERED INDEX [idx_language] ON [#__fields](
 	[language] ASC)
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-/****** Object:  Table [#__fields_categories] ******/
+/****** Object:  Table [#__fields_categories] ******/
 
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__fields_categories] ( 
-	[field_id] [int] NOT NULL DEFAULT 0,   
-	[category_id] [int] NOT NULL DEFAULT 0,   
+CREATE TABLE [#__fields_categories] (
+	[field_id] [int] NOT NULL DEFAULT 0,
+	[category_id] [int] NOT NULL DEFAULT 0,
 CONSTRAINT [PK_#__fields_categories_id] PRIMARY KEY CLUSTERED(
-	[field_id] ASC, 
+	[field_id] ASC,
 	[category_id] ASC)
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON
 ) ON [PRIMARY]) ON [PRIMARY];
@@ -115,7 +115,7 @@ CREATE NONCLUSTERED INDEX [idx_language] ON [#__fields_groups](
 	[language] ASC)
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-/****** Object:  Table [#__fields_values] ******/
+/****** Object:  Table [#__fields_values] ******/
 
 SET QUOTED_IDENTIFIER ON;
 
@@ -138,7 +138,7 @@ CREATE NONCLUSTERED INDEX [idx_item_id] ON [#__fields_values](
 	[item_id] ASC)
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-SET IDENTITY_INSERT [#__extensions] ON;
+SET IDENTITY_INSERT [#__extensions] ON;
 
 INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 33, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -146,4 +146,4 @@ UNION ALL
 SELECT 461, 'plg_system_fields', 'plugin', 'fields', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 
 
-SET IDENTITY_INSERT [#__extensions] OFF; 
+SET IDENTITY_INSERT [#__extensions] OFF;

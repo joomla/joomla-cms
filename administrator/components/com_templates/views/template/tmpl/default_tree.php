@@ -46,7 +46,7 @@ ksort($this->files, SORT_STRING);
 			?>
 			<li class="<?php echo $class; ?>">
 				<a class='folder-url nowrap' href=''>
-					<span class='icon-folder-close'>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?></span>
+					<span class='icon-folder'>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?></span>
 				</a>
 				<?php echo $this->directoryTree($value); ?>
 			</li>

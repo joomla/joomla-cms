@@ -54,14 +54,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2;?>">
 				<td><?php echo JHtml::_('grid.id', $i, $item->extension_id); ?></td>
-				<td><span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span></td>
+				<td><span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span></td>
 				<td class="center"><?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?></td>
 				<td class="center"><?php echo @$item->version != '' ? $item->version : '&#160;'; ?></td>
 				<td class="center"><?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?></td>
 				<td class="center"><?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?></td>
 				<td class="center"><?php echo $item->client; ?></td>
 				<td class="center">
-					<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
+					<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
 						<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 					</span>
 				</td>
