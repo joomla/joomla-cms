@@ -34,12 +34,12 @@
 				description="PLG_FIELDS_GALLERY_PARAMS_THUMBS_ROW_DESC"
 				default="6"
 				>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="6">6</option>
-				<option value="12">12</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="6">J6</option>
+				<option value="12">J12</option>
 			</field>
 
 			<field
