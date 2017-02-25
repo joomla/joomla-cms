@@ -192,27 +192,13 @@ class ContentViewCategory extends JViewCategory
 		$title = $this->params->get('page_title', '');
 
 		$id = (int) @$menu->query['id'];
-
-		// Check for empty title and add site name if param is set
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
+		
 		if (empty($title))
 		{
 			$title = $this->category->title;
 		}
-
-		$this->document->setTitle($title);
+		
+		$this->setDocumentTitle($title);
 
 		if ($this->category->metadesc)
 		{
