@@ -59,19 +59,8 @@ class SearchViewSearch extends JViewLegacy
 		{
 			$params->set('page_title', JText::_('COM_SEARCH_SEARCH'));
 		}
-
-		$title = $params->get('page_title');
-
-		if ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		
+		$this->setDocumentTitle($params->get('page_title'));
 
 		if ($params->get('menu-meta_description'))
 		{
