@@ -53,7 +53,7 @@ abstract class Dispatcher implements DispatcherInterface
 	public function dispatch()
 	{
 		// Check the user has permission to access this component if in the backend
-		if ($this->app->isClient('admin') && !$this->app->getIdentity()->authorise('core.manage', $this->app->scope))
+		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $this->app->scope))
 		{
 			throw new \JAccessExceptionNotallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
