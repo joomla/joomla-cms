@@ -154,9 +154,9 @@ class ContactViewFeatured extends JViewLegacy
 		{
 			$this->params->def('page_heading', JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
-		
+
 		$this->setDocumentTitle($this->params->get('page_title', ''));
-		
+
 		if ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));

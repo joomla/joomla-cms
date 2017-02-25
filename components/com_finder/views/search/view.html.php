@@ -192,7 +192,7 @@ class FinderViewSearch extends JViewLegacy
 		{
 			$this->params->def('page_heading', JText::_('COM_FINDER_DEFAULT_PAGE_TITLE'));
 		}
-		
+
 		$this->setDocumentTitle($this->params->get('page_title', ''));
 
 		if ($layout = $this->params->get('article_layout'))

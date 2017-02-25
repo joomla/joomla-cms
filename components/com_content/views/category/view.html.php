@@ -191,7 +191,7 @@ class ContentViewCategory extends JViewCategory
 		{
 			$title = $this->category->title;
 		}
-		
+
 		$this->setDocumentTitle($title);
 
 		if ($this->category->metadesc)

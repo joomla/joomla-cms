@@ -203,9 +203,9 @@ class TagsViewTags extends JViewLegacy
 					$title .= $itemElement->title;
 				}
 			}
-			
+
 			$this->setDocumentTitle($title);
-			
+
 			foreach ($this->item as $itemElement)
 			{
 				if ($itemElement->metadesc)

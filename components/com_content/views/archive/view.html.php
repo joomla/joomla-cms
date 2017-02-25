@@ -164,9 +164,9 @@ class ContentViewArchive extends JViewLegacy
 		{
 			$this->params->def('page_heading', JText::_('JGLOBAL_ARTICLES'));
 		}
-		
+
 		$this->setDocumentTitle($this->params->get('page_title', ''));
-		
+
 		if ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));

@@ -384,7 +384,7 @@ class ContactViewContact extends JViewLegacy
 		{
 			$title = $this->item->name;
 		}
-		
+
 		$this->setDocumentTitle($title);
 
 		if ($this->item->metadesc)
