@@ -14,7 +14,7 @@ $startMem  = memory_get_usage();
 
 if (file_exists(dirname(__DIR__) . '/defines.php'))
 {
-	include_once dirname(__DIR__)  . '/defines.php';
+	include_once dirname(__DIR__) . '/defines.php';
 }
 
 if (!defined('_JDEFINES'))
