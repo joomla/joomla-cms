@@ -197,9 +197,7 @@ class TagsViewTag extends JViewLegacy
 	 * @return void
 	 */
 	protected function _prepareDocument()
-	{
-		$app   = JFactory::getApplication();
-		$menus = $app->getMenu();
+	{			
 		$title = null;
 
 		// Generate the tags title to use for page title, page heading and show tags title option
@@ -207,7 +205,7 @@ class TagsViewTag extends JViewLegacy
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = JFactory::getApplication()->getMenu()->getActive();
 
 		if ($this->tags_title)
 		{
