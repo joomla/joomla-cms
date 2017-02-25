@@ -214,7 +214,7 @@ class ContentViewArticle extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = JFactory::getApplication();		
+		$app     = JFactory::getApplication();
 		$pathway = $app->getPathway();
 
 		// Because the application sets a default page title,
@@ -261,7 +261,7 @@ class ContentViewArticle extends JViewLegacy
 		{
 			$title = $this->item->title;
 		}
-		
+
 		$this->setDocumentTitle($title);
 
 		if ($this->item->metadesc)

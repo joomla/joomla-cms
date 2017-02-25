@@ -224,9 +224,9 @@ class TagsViewTag extends JViewLegacy
 				$this->params->set('page_subheading', $menu->title);
 			}
 		}
-		
+
 		$this->setDocumentTitle($title);
-		
+
 		foreach ($this->item as $itemElement)
 		{
 			if ($itemElement->metadesc)

@@ -95,9 +95,9 @@ class UsersViewLogin extends JViewLegacy
 		{
 			$this->params->def('page_heading', $login ? JText::_('JLOGIN') : JText::_('JLOGOUT'));
 		}
-		
+
 		$this->setDocumentTitle($this->params->get('page_title', ''));
-		
+
 		if ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));

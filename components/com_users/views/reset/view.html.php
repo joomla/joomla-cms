@@ -97,7 +97,7 @@ class UsersViewReset extends JViewLegacy
 		{
 			$this->params->def('page_heading', JText::_('COM_USERS_RESET'));
 		}
-		
+
 		$this->setDocumentTitle($this->params->get('page_title', ''));
 
 		if ($this->params->get('menu-meta_description'))

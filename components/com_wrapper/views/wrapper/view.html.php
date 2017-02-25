@@ -31,7 +31,7 @@ class WrapperViewWrapper extends JViewLegacy
 		$params = $app->getParams();
 
 		// Because the application sets a default page title, we need to get it
-		// right from the menu item itself		
+		// right from the menu item itself
 		$this->setDocumentTitle($params->get('page_title', ''));
 
 		if ($params->get('menu-meta_description'))

@@ -154,7 +154,7 @@ class ContentViewForm extends JViewLegacy
 		}
 
 		$title = $this->params->def('page_title', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
-		
+
 		$this->setDocumentTitle($title);
 
 		$pathway = $app->getPathWay();
