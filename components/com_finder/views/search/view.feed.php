@@ -44,7 +44,6 @@ class FinderViewSearch extends JViewLegacy
 		$explained = JHtml::_('query.explained', $query);
 
 		// Set the document title.
-		
 		$this->setDocumentTitle($params->get('page_title', ''));
 
 		// Configure the document description.
