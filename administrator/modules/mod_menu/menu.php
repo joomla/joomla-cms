@@ -407,7 +407,11 @@ class JAdminCssMenu
 						$uri = clone JUri::getInstance();
 						$uri->setVar('recover_menu', 1);
 
-						$msg = JText::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', implode(', ', $missing), $uri->toString());
+						$table = JTable::getInstance('MenuType');
+						$table->load(array('menutype' => $menutype));
+						$mType = $table->get('title', $menutype);
+
+						$msg = JText::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $mType, implode(', ', $missing), $uri);
 
 						$app->enqueueMessage($msg, 'warning');
 					}
