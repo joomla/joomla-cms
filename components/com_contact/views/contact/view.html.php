@@ -381,26 +381,13 @@ class ContactViewContact extends JViewLegacy
 				$pathway->addItem($item['title'], $item['link']);
 			}
 		}
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
+		
 		if (empty($title))
 		{
 			$title = $this->item->name;
 		}
-
-		$this->document->setTitle($title);
+		
+		$this->setDocumentTitle($title);
 
 		if ($this->item->metadesc)
 		{
