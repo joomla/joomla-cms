@@ -224,22 +224,9 @@ class TagsViewTag extends JViewLegacy
 				$this->params->set('page_subheading', $menu->title);
 			}
 		}
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
-
+		
+		$this->setDocumentTitle($title);
+		
 		foreach ($this->item as $itemElement)
 		{
 			if ($itemElement->metadesc)
