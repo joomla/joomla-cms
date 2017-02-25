@@ -197,7 +197,7 @@ class TagsViewTag extends JViewLegacy
 	 * @return void
 	 */
 	protected function _prepareDocument()
-	{			
+	{
 		$title = null;
 
 		// Generate the tags title to use for page title, page heading and show tags title option
