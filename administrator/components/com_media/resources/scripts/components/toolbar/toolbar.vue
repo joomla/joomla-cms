@@ -3,17 +3,17 @@
         <div class="media-toolbar-create">
             <div class="btn-group">
                 <button class="btn btn-sm btn-success">
-                    <span class="icon-apply icon-white"></span> New
+                    <span class="icon-apply icon-white"></span> {{ translate('COM_MEDIA_NEW') }}
                 </button>
                 <button type="button" class="btn btn-sm btn-success dropdown-toggle dropdown-toggle-split"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                 <ul class="dropdown-menu">
                     <li class="dropdown-item">
-                        <a href="#" @click.prevent="showCreateFolderModal()">Create Folder</a>
+                        <a href="#" @click.prevent="showCreateFolderModal()">{{ translate('COM_MEDIA_CREATE_FOLDER') }}</a>
                     </li>
                     <li class="divider"></li>
-                    <li class="dropdown-item"><a href="#">Upload File</a></li>
-                    <li class="dropdown-item"><a href="#">Upload Folder</a></li>
+                    <li class="dropdown-item"><a href="#">{{ translate('COM_MEDIA_UPLOAD_FILE') }}</a></li>
+                    <li class="dropdown-item"><a href="#">{{ translate('COM_MEDIA_UPLOAD_FOLDER') }}</a></li>
                 </ul>
             </div>
         </div>

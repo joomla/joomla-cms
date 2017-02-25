@@ -25,11 +25,10 @@ $config = array(
 $doc->addScriptOptions('com_media', $config);
 
 // Populate the language
-// TODO use JText for all language strings used by the js application
+$this->loadTemplate('texts');
 
 // Add javascripts
 JHtml::_('script', 'media/com_media/js/mediamanager.js');
-
 
 // Add stylesheets
 JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');

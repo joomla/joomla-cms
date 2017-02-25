@@ -8,7 +8,11 @@ import Browser from "./components/browser/browser.vue";
 import BrowserItem from "./components/browser/items/item";
 import MediaModal from "./components/modals/modal.vue";
 import CreateFolderModal from "./components/modals/create-folder-modal.vue";
-import store from './store/store'
+import Translate from "./plugins/translate";
+import store from './store/store';
+
+// Add the plugins
+Vue.use(Translate);
 
 // Register the vue components
 Vue.component('media-tree', Tree);
