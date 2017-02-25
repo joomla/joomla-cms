@@ -251,12 +251,10 @@ class JViewCategory extends JViewLegacy
 	protected function prepareDocument()
 	{
 		$app           = JFactory::getApplication();
-		$menus         = $app->getMenu();
 		$this->pathway = $app->getPathway();
-		$title         = null;
 
 		// Because the application sets a default page title, we need to get it from the menu item itself
-		$this->menu = $menus->getActive();
+		$this->menu = $app->getMenu()->getActive();
 
 		if ($this->menu)
 		{

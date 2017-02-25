@@ -77,15 +77,12 @@ class UsersViewLogin extends JViewLegacy
 	 */
 	protected function prepareDocument()
 	{
-		$app   = JFactory::getApplication();
-		$menus = $app->getMenu();
 		$user  = JFactory::getUser();
 		$login = $user->get('guest') ? true : false;
-		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = JFactory::getApplication()->getMenu()->getActive();
 
 		if ($menu)
 		{

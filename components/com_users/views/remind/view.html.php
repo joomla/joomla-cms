@@ -71,13 +71,9 @@ class UsersViewRemind extends JViewLegacy
 	 */
 	protected function prepareDocument()
 	{
-		$app   = JFactory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
-
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = JFactory::getApplication()->getMenu()->getActive();
 
 		if ($menu)
 		{
