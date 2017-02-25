@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Cms\Authorize\Authorize;
+use Joomla\Cms\Access\Access;
 
 /**
  * User class.  Handles all application interaction with a user
@@ -446,7 +447,7 @@ class JUser extends JObject
 
 		if (empty($this->_authLevels))
 		{
-			$this->_authLevels = JAccess::getAuthorisedViewLevels($this->id);
+			$this->_authLevels = Access::getAuthorisedViewLevels($this->id);
 		}
 
 		return $this->_authLevels;
@@ -468,7 +469,7 @@ class JUser extends JObject
 
 		if (empty($this->_authGroups))
 		{
-			$this->_authGroups = JAccess::getGroupsByUser($this->id);
+			$this->_authGroups = Access::getGroupsByUser($this->id);
 		}
 
 		return $this->_authGroups;
@@ -486,7 +487,7 @@ class JUser extends JObject
 		$this->_authLevels = null;
 		$this->_authGroups = null;
 		$this->isRoot = null;
-		JAccess::clearStatics();
+		Access::clearStatics();
 	}
 
 	/**

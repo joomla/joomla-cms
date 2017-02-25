@@ -199,6 +199,59 @@ class Access
 	}
 
 	/**
+	 * Method to preload the JAccessRules object for the given asset type.
+	 *
+	 * @param   integer|string|array  $assetTypes  The type or name of the asset (e.g. 'com_content.article', 'com_menus.menu.2').
+	 *                                             Also accepts the asset id. An array of asset type or a special
+	 *                                             'components' string to load all component assets.
+	 * @param   boolean               $reload      Set to true to reload from database.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	public static function preload($assetTypes = 'components', $reload = false)
+	{
+		return;
+	}
+
+	/**
+	 * Method to retrieve the Asset Rule strings for this particular
+	 * Asset Type and stores them for later usage in getAssetRules().
+	 * Stores 2 arrays: one where the list has the Asset ID as the key
+	 * and a second one where the Asset Name is the key.
+	 *
+	 * @param   string   $assetType  The asset type, or the asset name, or the extension of the asset
+	 *                               (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
+	 * @param   boolean  $reload     Reload the preloaded assets.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected static function preloadPermissions($assetType, $reload = false)
+	{
+		return;
+	}
+
+	/**
+	 * Method to preload the JAccessRules objects for all components.
+	 *
+	 * Note: This will only get the base permissions for the component.
+	 * e.g. it will get 'com_content', but not 'com_content.article.1' or
+	 * any more specific asset type rules.
+	 *
+	 * @return   void
+	 *
+	 * @since    1.6
+	 */
+	protected static function preloadComponents()
+	{
+		return;
+	}
+
+
+	/**
 	 * Method to check if a group is authorised to perform an action, optionally on an asset.
 	 *
 	 * @param   integer  $groupId  The path to the group for which to check authorisation.
@@ -226,13 +279,14 @@ class Access
 	 * @param   mixed    $asset      Integer asset id or the name of the asset as a string.
 	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
 	 * @param   boolean  $recursiveParentAsset  True to calculate the rule also based on inherited component/extension rules.
+	 * @param   boolean  $preload               Unused
 	 *
 	 * @return  Rules   JAccessRules object for the asset.
 	 *
 	 * @since   11.1
 	 * @deprecated  No replacement. To be removed in 4.1.
 	 */
-	public static function getAssetRules($asset, $recursive = false, $recursiveParentAsset = false)
+	public static function getAssetRules($asset, $recursive = false, $recursiveParentAsset = false, $preload = true)
 	{
 		$access = Authorize::getInstance('Joomlalegacy');
 		$access->assetId = $asset;

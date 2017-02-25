@@ -69,6 +69,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	{
 		$this->assetId = $assetId;
 		$this->db = isset($db) ? $db : \JFactory::getDbo();
+		$this->getRootAssetPermissions();
 	}
 
 	/**
@@ -173,6 +174,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	{
 		// Sanitise inputs.
 		$id = (int) $actor;
+		$action = AuthorizeHelper::cleanAction($action);
 
 		if ($actorType == 'group')
 		{
@@ -185,18 +187,29 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			array_unshift($identities, $id * -1);
 		}
 
-		$action = AuthorizeHelper::cleanAction($action);
-
 		// Clean and filter - run trough setter
 		$this->assetId = $target;
 
 		// Copy value as empty does not fire getter
 		$target = $this->assetId;
 
+		$result = array();
+
+		// If actor is root skip all checks
+		if ($this->checkRootGroups($identities))
+		{
+			if (is_array($target))
+			{
+				return array_fill_keys($target, true);
+			}
+
+			return true;
+		}
+
 		// Default to the root asset node.
 		if (empty($target))
 		{
-			$assets = Table::getInstance('Asset', 'Table', array('dbo' => $this->db));
+			$assets = Table::getInstance('Asset', 'JTable', array('dbo' => $this->db));
 			$target = $this->assetId = $assets->getRootId();
 		}
 
@@ -223,8 +236,6 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			// Revert ids after loading
 			$this->assetId = $target;
 
-			$result = array();
-
 			foreach ($target AS $assetId)
 			{
 				$result[$assetId] = $this->calculate($assetId, $action, $identities);
@@ -233,13 +244,13 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			return $result;
 
 		}
-
 		elseif (!isset($authorizationMatrix[$target][$action]))
 		{
 			$this->loadPermissions(true, array(), $action);
+
+			return $this->calculate($target, $action, $identities);
 		}
 
-		return $this->calculate($target, $action, $identities);
 	}
 
 	/**
@@ -264,11 +275,11 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			{
 				$this->getRootAssetPermissions();
 			}
-
-			$result = self::$rootAsset;
 		}
-
-		$this->prefillMatrix($result);
+		else
+		{
+			$this->prefillMatrix($result);
+		}
 	}
 
 	/**
@@ -491,14 +502,19 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 */
 	public function getRootAssetPermissions()
 	{
-		$query = $this->db->getQuery(true);
-		$query  ->select('b.id, b.name, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group'))
+		if (!isset(self::$rootAsset))
+		{
+			$query = $this->db->getQuery(true);
+			$query  ->select('b.id, b.name, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group'))
 				->from($this->db->qn('#__assets', 'b'))
 				->leftJoin($this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
 				->where('b.parent_id=0');
-		$this->db->setQuery($query);
+			$this->db->setQuery($query);
 
-		self::$rootAsset  = $this->db->loadObjectList();
+			self::$rootAsset  = $this->db->loadObjectList();
+
+			$this->prefillMatrix(self::$rootAsset);
+		}
 
 		return self::$rootAsset;
 	}
@@ -535,7 +551,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			}
 		}
 
-		$this->authorizationMatrix = $authorizationMatrix;
+		$this->authorizationMatrix = array_merge_recursive($this->authorizationMatrix, $authorizationMatrix);
 	}
 
 	/** Inject permissions filter in database object
@@ -586,5 +602,34 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
  						 	WHERE (ass.lft BETWEEN fs.lft AND fs.rgt) AND pr.permission = ' . $this->db->quote($action) . ')');
 
 		return $query;
+	}
+
+	/**
+	 * Check if any group has core.admin permission
+	 *
+	 * @param   array  $groups groups to check
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0
+	 */
+	public function checkRootGroups($groups)
+	{
+		$root = false;
+		$rootAsset = $this->getRootAssetPermissions();
+
+		$authorizationMatrix = $this->authorizationMatrix;
+		$id = $rootAsset[0]->id;
+
+		foreach ($groups AS $group)
+		{
+			if (isset ($authorizationMatrix[$id]['core.admin'][$group]) && $authorizationMatrix[$id]['core.admin'][$group] == 1)
+			{
+				$root = true;
+				break;
+			}
+		}
+
+		return $root;
 	}
 }

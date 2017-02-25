@@ -61,6 +61,7 @@ class AuthorizeImplementationJoomlalegacy extends AuthorizeImplementationJoomla 
 	{
 		$this->assetId = $assetId;
 		$this->db = isset($db) ? $db : \JFactory::getDbo();
+		$this->getRootAssetPermissions();
 	}
 
 	/**
@@ -142,7 +143,7 @@ class AuthorizeImplementationJoomlalegacy extends AuthorizeImplementationJoomla 
 		// Default to the root asset node.
 		if (empty($target))
 		{
-			$assets = Table::getInstance('Asset', 'Table', array('dbo' => $this->db));
+			$assets = Table::getInstance('Asset', 'JTable', array('dbo' => $this->db));
 			$this->assetId = $assets->getRootId();
 		}
 
@@ -360,14 +361,19 @@ class AuthorizeImplementationJoomlalegacy extends AuthorizeImplementationJoomla 
 	 */
 	public function getRootAssetPermissions()
 	{
-		$query = $this->db->getQuery(true);
-		$query  ->select('b.id, b.rules, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group'))
+		if (!isset(self::$rootAsset))
+		{
+			$query = $this->db->getQuery(true);
+
+			$query  ->select('b.id, b.rules, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group'))
 			->from($this->db->qn('#__assets', 'b'))
 			->leftJoin($this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
 			->where('b.parent_id=0');
-		$this->db->setQuery($query);
+			$this->db->setQuery($query);
 
-		self::$rootAsset  = $this->db->loadObjectList();
+			self::$rootAsset  = $this->db->loadObjectList();
+		}
+
 
 		return self::$rootAsset;
 	}
