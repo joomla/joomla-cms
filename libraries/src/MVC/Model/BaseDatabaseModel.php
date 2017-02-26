@@ -619,22 +619,21 @@ abstract class BaseDatabaseModel extends CMSObject
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string  $group  The cache group
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null)
 	{
 		$conf = \JFactory::getConfig();
 
-		$options = array(
-			'defaultgroup' => $group ?: (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
-			'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
-			'result' => true,
-		);
+		$options = [
+			'defaultgroup' => $group ?: ($this->option ?? \JFactory::getApplication()->input->get('option')),
+			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+			'result'       => true,
+		];
 
 		try
 		{

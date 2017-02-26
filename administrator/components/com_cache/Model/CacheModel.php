@@ -181,20 +181,15 @@ class CacheModel extends ListModel
 	 *
 	 * @return \JCacheController
 	 */
-	public function getCache($clientId = null)
+	public function getCache()
 	{
 		$conf = \JFactory::getConfig();
-
-		if (is_null($clientId))
-		{
-			$clientId = $this->getState('client_id');
-		}
 
 		$options = array(
 			'defaultgroup' => '',
 			'storage'      => $conf->get('cache_handler', ''),
 			'caching'      => true,
-			'cachebase'    => (int) $clientId === 1 ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
+			'cachebase'    => $conf->get('cache_path', JPATH_CACHE)
 		);
 
 		return \JCache::getInstance('', $options);
