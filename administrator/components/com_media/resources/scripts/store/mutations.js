@@ -82,9 +82,27 @@ export default {
     },
 
     /**
+     * Select a browser item
+     * @param state
+     * @param payload the item
+     */
+    [types.SELECT_BROWSER_ITEM]: (state, payload) => {
+        state.selectedItems.push(payload);
+        const selectedItemIndex = state.selectedItems.indexOf(payload);
+    },
+
+    /**
+     * Unselect all browser items
+     * @param state
+     * @param payload the item
+     */
+    [types.UNSELECT_ALL_BROWSER_ITEMS]: (state, payload) => {
+        state.selectedItems = [];
+    },
+
+    /**
      * Show the create folder modal
      * @param state
-     * @todo: combine with the hide method and use toggle
      */
     [types.SHOW_CREATE_FOLDER_MODAL]: (state) => {
         state.showCreateFolderModal = true;
@@ -93,7 +111,6 @@ export default {
     /**
      * Show the create folder modal
      * @param state
-     * @todo: combine with the show method and use toggle
      */
     [types.HIDE_CREATE_FOLDER_MODAL]: (state) => {
         state.showCreateFolderModal = false;

@@ -6,4 +6,5 @@ export default {
     ],
     files: [],
     showCreateFolderModal: false,
+    selectedItems: [],
 }

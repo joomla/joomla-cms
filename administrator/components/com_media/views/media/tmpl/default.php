@@ -13,6 +13,7 @@ $params = JComponentHelper::getParams('com_media');
 
 // Make sure core.js is loaded before media scripts
 JHtml::_('behavior.core');
+JHtml::_('behavior.keepalive');
 
 // Populate the media config
 $config = array(

@@ -41,7 +41,7 @@ ul.media-tree ul {
 
 .media-tree-item.active > a {
   background-color: transparent;
-  border-color: #2384d3; }
+  border-color: #007eb7; }
 
 .media-tree-item .item-icon {
   display: inline-block;
@@ -52,7 +52,7 @@ ul.media-tree ul {
   font-size: 20px; }
 
 .media-tree-item.active > a .item-icon {
-  color: #2384d3; }
+  color: #007eb7; }
 
 .item-name {
   overflow: hidden;
@@ -89,7 +89,7 @@ ul.media-tree ul {
   align-items: center;
   justify-content: center;
   font-size: 60px;
-  color: #2384d3; }
+  color: #007eb7; }
 
 .media-browser-item-info {
   padding: 8px 5px;
@@ -97,6 +97,10 @@ ul.media-tree ul {
   white-space: nowrap;
   overflow: hidden;
   text-align: center; }
+
+.selected .media-browser-item-info {
+  background: #007eb7;
+  color: #fff; }
 
 @media only screen and (min-width: 979px) {
   .media-browser-item {

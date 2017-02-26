@@ -14,6 +14,7 @@ export const getContents = ({commit}, dir) => {
     api.getContents(dir)
         .then(contents => {
             commit(types.LOAD_CONTENTS_SUCCESS, contents);
+            commit(types.UNSELECT_ALL_BROWSER_ITEMS);
             commit(types.SELECT_DIRECTORY, dir);
         })
         .catch(error => {

@@ -23,9 +23,7 @@
         name: 'media-app',
         created() {
             // Listen to the on click create folder event
-            MediaManager.Event.$on('onClickCreateFolder', (e) => {
-                this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL);
-            });
+            MediaManager.Event.listen('onClickCreateFolder', () => this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL));
         },
         mounted() {
             // Initial load the data

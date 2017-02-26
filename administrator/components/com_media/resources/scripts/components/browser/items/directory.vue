@@ -1,6 +1,5 @@
 <template>
     <div class="media-browser-item-directory"
-         @click="select(item)"
          @dblclick="goTo(item.path)">
         <div class="media-browser-item-preview">
             <span class="fa fa-folder"></span>
@@ -19,10 +18,6 @@
             goTo: function (path) {
                 this.$store.dispatch('getContents', path);
             },
-            /* Select the directory */
-            select: function(item) {
-                // TODO implement
-            }
         }
     }
 </script>

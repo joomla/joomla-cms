@@ -9,6 +9,6 @@
 defined('_JEXEC') or die;
 $title = JText::_('COM_MEDIA_CREATE_NEW_FOLDER');
 ?>
-<button class="btn btn-sm btn-outline-info" onclick="MediaManager.Event.$emit('onClickCreateFolder');">
+<button class="btn btn-sm btn-outline-info" onclick="MediaManager.Event.fire('onClickCreateFolder');">
     <span class="icon-folder-close" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
 </button>

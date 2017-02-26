@@ -1,4 +1,5 @@
 import Vue from "vue";
+import Event from './app/Event';
 import App from "./components/app.vue";
 import Tree from "./components/tree/tree.vue";
 import TreeItem from "./components/tree/item.vue";
@@ -24,9 +25,10 @@ Vue.component('media-browser-item', BrowserItem);
 Vue.component('media-modal', MediaModal);
 Vue.component('create-folder-modal', CreateFolderModal);
 
-// Toolbar components
+// Register MediaManager namespace
 window.MediaManager = window.MediaManager || {};
-window.MediaManager.Event = new Vue();
+// Register the media manager event bus
+window.MediaManager.Event = new Event();
 
 // Create the root Vue instance
 document.addEventListener("DOMContentLoaded",

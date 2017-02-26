@@ -1,5 +1,5 @@
 <template>
-    <div class="media-browser-item-file">
+    <div class="media-browser-item-file" :class="{selected: isSelected}">
         <div class="media-browser-item-preview">
             <span class="fa fa-file-text-o"></span>
         </div>
