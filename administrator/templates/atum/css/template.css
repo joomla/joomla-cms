@@ -10176,6 +10176,12 @@ iframe {
 .admin.com_modules .js-stools-container-bar .btn-toolbar {
   float: left; }
 
+.com_users.view-debuggroup thead th, .com_users.view-debuguser thead th {
+  white-space: normal; }
+
+.com_users.view-debuggroup .legend, .com_users.view-debuguser .legend {
+  margin: 1rem 1rem 0; }
+
 .container-main,
 .system-debug {
   padding-bottom: 50px; }
