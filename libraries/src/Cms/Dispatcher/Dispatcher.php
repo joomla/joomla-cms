@@ -51,8 +51,8 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Method to get a dispatcher instance for a component.
 	 *
-	 * @param   string $option The component
-	 * @param   array  $config An array of optional constructor options.
+	 * @param   string  $option  The component
+	 * @param   array   $config  An array of optional constructor options.
 	 *
 	 * @return  static
 	 *
@@ -87,7 +87,7 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   array $config
+	 * @param   array  $config  An array of configuration issue
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -208,7 +208,7 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Set controller input
 	 *
-	 * @param mixed array]$input
+	 * @param   array|JInput  $input  An array or input object
 	 *
 	 * @return Input The original input, might be used for backup purpose
 	 *
@@ -237,8 +237,8 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Normalize provided component config data
 	 *
-	 * @param string $option
-	 * @param array  $config
+	 * @param   string  $option  The component name
+	 * @param   array   $config  An optional array of configuration information
 	 *
 	 * @return array
 	 */
