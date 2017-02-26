@@ -247,9 +247,9 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		elseif (!isset($authorizationMatrix[$target][$action]))
 		{
 			$this->loadPermissions(true, array(), $action);
-
-			return $this->calculate($target, $action, $identities);
 		}
+
+		return $this->calculate($target, $action, $identities);
 
 	}
 

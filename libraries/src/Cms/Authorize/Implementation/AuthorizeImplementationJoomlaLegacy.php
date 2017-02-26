@@ -145,16 +145,15 @@ class AuthorizeImplementationJoomlalegacy extends AuthorizeImplementationJoomla 
 		{
 			$assets = Table::getInstance('Asset', 'JTable', array('dbo' => $this->db));
 			$this->assetId = $assets->getRootId();
+			$target = $this->assetId;
 		}
 
-		$target = (array) $target;
-
-		if (is_array($this->assetId_))
+		if (is_array($target))
 		{
 			$result = array();
 			$rules = $this->getRules(true, null, $action);
 
-			foreach ($this->assetId_ AS $assetId)
+			foreach ($target AS $assetId)
 			{
 				$result[$assetId] = $rules->allow($action, $identities);
 			}
@@ -163,13 +162,13 @@ class AuthorizeImplementationJoomlalegacy extends AuthorizeImplementationJoomla 
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
-		if (empty(self::$assetRules[$this->assetId]))
+		if (empty(self::$assetRules[$target]))
 		{
 			// Cache ALL rules for this asset
-			self::$assetRules[$this->assetId] = $this->getRules(true, null, null);
+			self::$assetRules[$target] = $this->getRules(true, null, null);
 		}
 
-		return self::$assetRules[$this->assetId]->allow($action, $identities);
+		return self::$assetRules[$target]->allow($action, $identities);
 	}
 
 	/**
