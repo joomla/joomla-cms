@@ -10,5 +10,5 @@ defined('_JEXEC') or die;
 $title = JText::_('JTOOLBAR_UPLOAD');
 ?>
 <button class="btn btn-sm btn-success">
-	<span class="icon- fa fa-upload" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
+	<span class="icon-upload" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
 </button>

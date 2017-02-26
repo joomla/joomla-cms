@@ -10,5 +10,5 @@ defined('_JEXEC') or die;
 $title = JText::_('JTOOLBAR_DELETE');
 ?>
 <button class="btn btn-sm btn-outline-danger">
-    <span class="icon- fa fa-trash-o" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
+    <span class="icon-delete" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
 </button>
