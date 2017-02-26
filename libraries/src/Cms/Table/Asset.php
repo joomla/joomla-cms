@@ -2,8 +2,8 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Cms\Table;
@@ -228,5 +228,196 @@ class Asset extends Nested
 
 		// Return the right value of this node + 1.
 		return $rightId + 1;
+	}
+
+	/**
+	 * Method to load a row from the database by primary key and bind the fields
+	 * to the JTable instance properties.
+	 *
+	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.  If not
+	 *                           set the instance property value is used.
+	 * @param   boolean  $reset  True to reset the default values before loading the new row.
+	 *
+	 * @return  boolean  True if successful. False if row not found.
+	 *
+	 * @link    https://docs.joomla.org/JTable/load
+	 * @since   11.1
+	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
+	 * @throws  UnexpectedValueException
+	 */
+
+	public function load($keys = null, $reset = true)
+	{
+		$ret = parent::load($keys, $reset);
+
+		if ($ret !== false && is_string($this->rules))
+		{
+			$this->rules = json_decode($this->rules, true);
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * Method to bind an associative array or object to the JTable instance.This
+	 * method only binds properties that are publicly accessible and optionally
+	 * takes an array of properties to ignore when binding.
+	 *
+	 * @param   mixed  $src     An associative array or object to bind to the JTable instance.
+	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 * @throws  InvalidArgumentException
+	 */
+	public function bind($src, $ignore = '')
+	{
+		$query = $this->_db->getQuery(true);
+		$query->select('*');
+		$query->from('#__permissions');
+		$query->where('`assetid` = ' . (int) $src['id']);
+		$query->order('permission');
+		$this->_db->setQuery($query);
+
+		$permissions = $this->_db->loadObjectList();
+
+		$rules = array();
+
+		foreach ($permissions AS $permission)
+		{
+			if (!isset($rules[$permission->permission]))
+			{
+				$rules[$permission->permission] = array();
+			}
+
+			$rules[$permission->permission][$permission->group] = $permission->value;
+		}
+
+		if (isset($rules) && is_array($rules) && !empty($rules))
+		{
+			$src['rules'] = $rules;
+		}
+
+		if (empty($src['rules']))
+		{
+			$src['rules'] = array();
+		}
+
+		if (is_string($src['rules']))
+		{
+			$src['rules'] = json_decode($src['rules'], true);
+		}
+
+		return parent::bind($src, $ignore);
+	}
+
+	/**
+	 * Method to store a node in the database table.
+	 *
+	 * @param   boolean  $updateNulls  True to update null values as well.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @link    https://docs.joomla.org/JTableNested/store
+	 * @since   11.1
+	 */
+	public function store($updateNulls = false)
+	{
+		$rules       = $this->rules;
+		$this->rules = '{}';
+
+		$return = parent::store($updateNulls);
+
+		// Reset groups to the local object.
+		$this->rules = $rules;
+		unset($rules);
+
+		if (is_string($this->rules))
+		{
+			$this->rules = json_decode($this->rules, true);
+		}
+
+		$k = $this->_tbl_key;
+
+		if (empty($this->$k))
+		{
+			// Get the last id created by parent::store
+			$query = $this->_db->getQuery(true);
+			$query->select('id');
+			$query->from($this->_tbl);
+			$query->where('name = ' . $this->_db->quote($this->name));
+			$this->_db->setQuery($query);
+			$assetId = $this->_db->loadResult();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum())
+			{
+				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+				$this->setError($e);
+				$this->_unlock();
+
+				return false;
+			}
+		}
+		else
+		{
+			$assetId = $this->$k;
+		}
+
+		// Store the rules data if parent data was saved.
+		if ($return)
+		{
+			if (!is_array($this->rules) || count($this->rules) == 0)
+			{
+				// We have nothing to store, we are not storing empty values
+				return true;
+			}
+
+			// Delete the old permissions.
+			$query = $this->_db->getQuery(true);
+
+			$query->delete('#__permissions');
+			$query->where('assetid = ' . (int) $assetId);
+			$this->_db->setQuery($query);
+			$this->_db->execute();
+
+			// Insert new permissions
+			foreach ($this->rules AS $perName => $groups)
+			{
+				if (!empty($groups))
+				{
+					foreach ($groups AS $perGroup => $value)
+					{
+						$query->clear();
+						$query->insert('#__permissions');
+						$query->set('`permission` = ' . $this->_db->quote($perName));
+						$query->set('`value` = ' . $this->_db->quote($value));
+						$query->set('`group` = ' . $perGroup);
+						$query->set('`assetid` = ' . (int) $this->id);
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+
+					}
+				}
+			}
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum())
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
+		}
+		else
+		{
+			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED'));
+
+			return false;
+		}
+
+		return true;
 	}
 }
