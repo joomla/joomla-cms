@@ -348,47 +348,22 @@ class JAdminCssMenu
 		else
 		{
 			$items = ModMenuHelper::getMenuItems($menutype);
+			$types = ArrayHelper::getColumn($items, 'type');
 			$app   = JFactory::getApplication();
 			$me    = JFactory::getUser();
 
 			$authMenus   = $me->authorise('core.manage', 'com_menus');
 			$authModules = $me->authorise('core.manage', 'com_modules');
 
-			$types = ArrayHelper::getColumn($items, 'type');
-
-			if (!in_array('container', $types))
-			{
-				$container = array(
-					'id'                => 0,
-					'menutype'          => $menutype,
-					'title'             => JText::_('MOD_MENU_COMPONENTS'),
-					'link'              => '',
-					'type'              => 'container',
-					'published'         => '1',
-					'parent_id'         => '1',
-					'level'             => '1',
-					'component_id'      => '0',
-					'browserNav'        => '0',
-					'access'            => '0',
-					'img'               => ' ',
-					'template_style_id' => '0',
-					'params'            => new Registry(array('menu_text' => 1, 'menu_show' => 1)),
-					'home'              => '0',
-					'language'          => '*',
-					'client_id'         => '1',
-					'element'           => null,
-				);
-				$items[]   = (object) $container;
-			}
-
 			if ($enabled && $params->get('check') && ($authMenus || $authModules))
 			{
 				$elements = ArrayHelper::getColumn($items, 'element');
 
-				$rMenu   = $authMenus && !in_array('com_menus', $elements);
+				$rMenu = $authMenus && !in_array('com_menus', $elements);
 				$rModule = $authModules && !in_array('com_modules', $elements);
+				$rComponents = !in_array('container', $types);
 
-				if ($rMenu || $rModule)
+				if ($rMenu || $rModule || $rComponents)
 				{
 					$recovery = $app->getUserStateFromRequest('mod_menu.recovery', 'recover_menu', 0, 'int');
 
@@ -405,13 +380,24 @@ class JAdminCssMenu
 
 						$this->getParent();
 					}
-					elseif ($rMenu && $rModule)
-					{
-						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE'), 'warning');
-					}
 					else
 					{
-						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE_' . ($rMenu ? 'MENUS' : 'MODULES')), 'warning');
+						if ($rMenu)
+						{
+							$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE_MENUS'), 'warning');
+						}
+
+						if ($rModule)
+						{
+							$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE_MODULES'), 'warning');
+						}
+
+						if ($rComponents)
+						{
+							$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE_COMPONENTS'), 'warning');
+						}
+
+						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE_RECOVERYLINK'), 'warning');
 					}
 				}
 			}
