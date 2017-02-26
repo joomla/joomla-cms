@@ -242,9 +242,9 @@ class Asset extends Nested
 	 *
 	 * @link    https://docs.joomla.org/JTable/load
 	 * @since   11.1
-	 * @throws  InvalidArgumentException
-	 * @throws  RuntimeException
-	 * @throws  UnexpectedValueException
+	 * @throws  \InvalidArgumentException
+	 * @throws  \RuntimeException
+	 * @throws  \UnexpectedValueException
 	 */
 
 	public function load($keys = null, $reset = true)
@@ -270,7 +270,7 @@ class Asset extends Nested
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function bind($src, $ignore = '')
 	{
@@ -354,11 +354,8 @@ class Asset extends Nested
 			// Check for a database error.
 			if ($this->_db->getErrorNum())
 			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				$this->setError($e);
 				$this->_unlock();
-
-				return false;
+				throw new \UnexpectedValueException(sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			}
 		}
 		else
@@ -413,9 +410,7 @@ class Asset extends Nested
 		}
 		else
 		{
-			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED'));
-
-			return false;
+			throw new \UnexpectedValueException(sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 		}
 
 		return true;
