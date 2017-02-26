@@ -3,114 +3,27 @@ $sidebar-width: 16.666666%;
 
 /* General layout */
 .media-container {
-  height: 100%;
-  flex-direction: column;
-  margin-top: -57px;
-  margin-left: -15px;
-  margin-right: -15px;
 }
 
 .media-main {
-  min-height: 100%;
-  background: rgba(0,0,0,.03);
-  flex-grow: 1;
-  display: flex;
 }
 
 .media-sidebar {
-  width: $sidebar-width;
-  background: #f2f2f2;
-  border-right: 1px solid #e1e1e1;
-  padding-bottom: 50px;
-}
-
-/* Media toolbar */
-.media-toolbar {
-  background-color: #f2f2f2;
-  border-bottom: 1px solid transparent;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
-  padding: 15px;
-  position: relative;
-  display: flex;
-}
-
-.media-toolbar-create {
-  width: $sidebar-width;
-
-  .btn-success:not(.dropdown-toggle) {
-    width: 140px;
-    color: #fefefe;
-    background-color: #48b848;
-    border-color: rgba(0,0,0,.2);
-  }
-  .btn-success.dropdown-toggle {
-    background: #368c36;
-    border-color: #368c36;
-  }
-  .btn-sm {
-    padding: 0 10px;
-    line-height: 1.8rem;
-  }
 }
 
 /* Media breadcrumb */
-.media-breadcrumb {
-  margin: 0;
-  padding: 0 7.5px;
-  list-style: none;
-  flex-grow: 1;
-}
-
-.media-breadcrumb > li {
-  display: inline-block;
-  font-size: 16px;
-  line-height: 27px;
-}
-
-.media-breadcrumb > li > a {
-  cursor: pointer;
-  color: #555;
-  text-decoration: none;
-}
-
-.media-breadcrumb > li > .divider {
-  display: inline-block;
-  padding: 0 3px;
-  color: #7d7d7d;
-}
-
-.media-breadcrumb > li:last-child a {
-  font-weight: bold;
-}
-
-/* Media tools */
-.media-tools {
-  display: flex;
-  justify-content: flex-end;
-  margin: 0;
-  padding: 0;
-  margin-left: 15px;
-  list-style: none;
-}
-
-.media-tools a {
-  display: inline-block;
-  padding: 0 10px;
-  color: #7d7d7d;
-  text-decoration: none;
-  font-size: 20px;
-}
-
-.media-tools a:hover {
-  color: #333;
-}
-
-.media-tools-divider {
-  border-right: 1px solid #e5e5e5;
-  display: inline-block;
-  height: 53px;
-  margin: -10.5px 8px;
-  vertical-align: middle;
+.media-toolbar {
+  .breadcrumb {
+    margin: 0;
+    padding: 0 7.5px;
+    background: transparent;
+    & > li > a {
+      cursor: pointer;
+    }
+    & > li:last-child a {
+      font-weight: bold;
+    }
+  }
 }
 
 /* Media Tree */
@@ -179,19 +92,14 @@ ul.media-tree ul {
 }
 
 /* Media browser */
-.media-browser {
-  width: 83.5%;
-}
-
 .media-browser-items {
-  padding: 15px;
   display: flex;
   flex-wrap: wrap;
 }
 
 .media-browser-item {
   position: relative;
-  margin-top: 15px;
+  margin-bottom: 15px;
   margin-right: 15px;
   width: calc(25% - 15px);
   -moz-user-select: none;
@@ -267,5 +175,3 @@ ul.media-tree ul {
   transform: translateY(-10px);
   opacity: 0;
 }
-body {
-  background: red; }

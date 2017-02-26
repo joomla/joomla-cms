@@ -24,6 +24,10 @@ Vue.component('media-browser-item', BrowserItem);
 Vue.component('media-modal', MediaModal);
 Vue.component('create-folder-modal', CreateFolderModal);
 
+// Toolbar components
+window.MediaManager = window.MediaManager || {};
+window.MediaManager.Event = new Vue();
+
 // Create the root Vue instance
 document.addEventListener("DOMContentLoaded",
     (e) => new Vue({

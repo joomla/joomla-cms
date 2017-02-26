@@ -1,13 +1,12 @@
 <template>
-    <ul class="media-breadcrumb">
-        <li>
+    <ol class="media-breadcrumb breadcrumb">
+        <li class="breadcrumb-item">
             <a @click.stop.prevent="goTo('/')">Home</a>
         </li>
-        <li v-for="crumb in crumbs">
-            <span class="divider">/</span>
+        <li class="breadcrumb-item" v-for="crumb in crumbs">
             <a @click.stop.prevent="goTo(crumb.path)">{{ crumb.name }}</a>
         </li>
-    </ul>
+    </ol>
 </template>
 
 <script>

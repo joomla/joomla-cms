@@ -7,8 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
-
-JText::script('COM_MEDIA_CREATE_NEW_FOLDER', true);
-JText::script('COM_MEDIA_FOLDER', true);
-JText::script('JCANCEL', true);
-JText::script('JAPPLY', true);
+$title = JText::_('JTOOLBAR_DELETE');
+?>
+<button class="btn btn-sm btn-outline-danger">
+    <span class="icon- fa fa-trash-o" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
+</button>

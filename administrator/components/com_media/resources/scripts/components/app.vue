@@ -1,45 +1,35 @@
 <template>
-    <div class="media-container" :style="{minHeight: fullHeight}">
-        <media-toolbar></media-toolbar>
-        <div class="media-main">
-            <div class="media-sidebar">
-                <media-tree :root="'/'"></media-tree>
+    <div class="media-container row">
+        <div class="media-sidebar col-md-2 hidden-sm-down">
+            <media-tree :root="'/'"></media-tree>
+        </div>
+        <div class="media-main col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <media-toolbar></media-toolbar>
+                </div>
+                <div class="card-block">
+                    <media-browser></media-browser>
+                </div>
             </div>
-            <media-browser></media-browser>
         </div>
         <create-folder-modal></create-folder-modal>
     </div>
 </template>
 
 <script>
+    import * as types from "./../store/mutation-types";
     export default {
         name: 'media-app',
-        methods: {
-            /* Set the full height on the app container */
-            setFullHeight() {
-                this.fullHeight = window.innerHeight + this.$el.offsetTop + 'px';
-            },
-        },
-        data() {
-            return {
-                // The full height of the app in px
-                fullHeight: '',
-            };
+        created() {
+            // Listen to the on click create folder event
+            MediaManager.Event.$on('onClickCreateFolder', (e) => {
+                this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL);
+            });
         },
         mounted() {
             // Initial load the data
             this.$store.dispatch('getContents', this.$store.state.selectedDirectory);
-
-            // Set the full height and add event listener when dom is updated
-            this.$nextTick(() => {
-                this.setFullHeight();
-                // Add the global resize event listener
-                window.addEventListener('resize', this.setFullHeight)
-            });
-        },
-        beforeDestroy() {
-            // Remove the global resize event listener
-            window.removeEventListener('resize', this.setFullHeight)
-        },
+        }
     }
 </script>
