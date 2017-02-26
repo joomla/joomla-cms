@@ -347,6 +347,13 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 */
 	private function getAssetPermissions($recursive = false, $groups = array(), $action = null)
 	{
+		static $driverName = null;
+
+		if (!isset($driverName))
+		{
+			$driverName = $this->db->getName();
+		}
+
 		if (sizeof($this->assetId) > $this->optimizeLimit)
 		{
 			$useIds = false;
@@ -356,7 +363,12 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		{
 			$useIds = true;
 			$forceIndex = 'FORCE INDEX FOR JOIN (`lft_rgt_id`)';
-			$straightJoin = 'STRAIGHT_JOIN ';
+			$straightJoin = '';
+
+			if ($driverName == 'mysql' || $driverName == 'mysqli' || $driverName == 'pdomysql')
+			{
+				$straightJoin = 'STRAIGHT_JOIN ';
+			}
 		}
 
 		$query = $this->db->getQuery(true);
