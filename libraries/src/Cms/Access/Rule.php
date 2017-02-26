@@ -22,6 +22,7 @@ class Rule
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @deprecated No replacement, to be removed in 4.1.
 	 */
 	protected $data = array();
 

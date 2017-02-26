@@ -2124,12 +2124,13 @@ CREATE TABLE `#__permissions` (
   `permission` VARCHAR( 50 ) NOT NULL ,
   `value` BOOL NOT NULL ,
   `group` INT NOT NULL ,
-  `assetid` INT NOT NULL ,
+  `assetid` int(10) unsigned NOT NULL ,
   INDEX ( `assetid` ),
   INDEX ( `group` ),
   INDEX ( `value` ),
+  KEY `idx_aid_per_val`( `assetid`, `permission` , `value` ),
   UNIQUE KEY `uniq` ( `permission` , `group` , `assetid` )
-) ENGINE = InnoDB COMMENT = 'Joomla permission table' DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT = 'Joomla permission table';
 
 --
 -- Dumping data for table `#__viewlevels`
@@ -2189,10 +2190,9 @@ INSERT INTO `#__permissions` (`id`, `permission`, `value`, `group`, `assetid`) V
 
 
 -- To be moved to change sql later and merged with tables sql
--- ALTER TABLE `#__menu` ADD `asset_id` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.';
--- ALTER TABLE `#__extensions` ADD `asset_id` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.';
 ALTER TABLE `#__contact_details` ADD INDEX `idx_useri_id` ( `user_id` );
 ALTER TABLE `#__assets` ADD INDEX `idx_id_level` ( `level` , `id` );
+ALTER TABLE `#__assets` ADD INDEX `lft_rgt_id` ( `lft` ,`rgt` , `id` );
 
 -- TESTING ONLY
 UPDATE `#__assets` SET `rules`='{}';

@@ -734,7 +734,7 @@ class JUser extends JObject
 			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
 			{
 				// I am not a Super Admin, and this one is, so fail.
-				if (!$isNew && JAccess::check($this->id, 'core.admin'))
+				if (!$isNew && Access::check($this->id, 'core.admin'))
 				{
 					throw new RuntimeException('User not Super Administrator');
 				}
@@ -744,7 +744,7 @@ class JUser extends JObject
 					// I am not a Super Admin and I'm trying to make one.
 					foreach ($this->groups as $groupId)
 					{
-						if (JAccess::checkGroup($groupId, 'core.admin'))
+						if (Access::checkGroup($groupId, 'core.admin'))
 						{
 							throw new RuntimeException('User not Super Administrator');
 						}

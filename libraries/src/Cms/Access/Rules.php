@@ -14,6 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Access rules class.
  *
  * @since  11.4
+ * @deprecated No replacement, to be removed in 4.1.
  */
 class Rules
 {
