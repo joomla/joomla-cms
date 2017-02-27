@@ -708,7 +708,7 @@ CREATE TABLE [#__extensions](
 	[protected] [smallint] NOT NULL DEFAULT 0,
 	[manifest_cache] [nvarchar](max) NOT NULL,
 	[params] [nvarchar](max) NOT NULL,
-	[custom_data] [nvarchar](max) NOT NULL,
+	[custom_data] [nvarchar](max) NOT NULL DEFAULT '',
 	[system_data] [nvarchar](max) NOT NULL DEFAULT '',
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
 	[checked_out_time] [datetime2](0) NOT NULL DEFAULT '1900-01-01 00:00:00',

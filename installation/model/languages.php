@@ -1178,6 +1178,7 @@ class InstallationModelLanguages extends JModelBase
 			'featured'         => 1,
 			'attribs'          => array(),
 			'rules'            => array(),
+			'xreference'       => '',
 		);
 
 		// Bind the data to the table

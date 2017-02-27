@@ -291,6 +291,14 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		$row->set('client_id', $clientId);
 		$row->set('params', $this->parent->getParams());
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
+		if (!$row->custom_data)
+		{
+			$row->set('custom_data', '');	
+		}
+		if (!$row->system_data)
+		{
+			$row->set('system_data', '');
+		}
 
 		if (!$row->store())
 		{
@@ -560,6 +568,14 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		$row->set('type', 'language');
 		$row->set('element', $this->get('tag'));
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
+		if (!$row->custom_data)
+		{
+			$row->set('custom_data', '');	
+		}
+		if (!$row->system_data)
+		{
+			$row->set('system_data', '');
+		}
 
 		// Clean installed languages cache.
 		JFactory::getCache()->clean('com_languages');

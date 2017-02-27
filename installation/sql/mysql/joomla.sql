@@ -468,8 +468,8 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   `protected` tinyint(3) NOT NULL DEFAULT 0,
   `manifest_cache` text NOT NULL,
   `params` text NOT NULL,
-  `custom_data` text NOT NULL,
-  `system_data` text NOT NULL,
+  `custom_data` text NOT NULL DEFAULT '',
+  `system_data` text NOT NULL DEFAULT '',
   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` int(11) DEFAULT 0,
@@ -1308,7 +1308,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_types` (
 
 CREATE TABLE IF NOT EXISTS `#__languages` (
   `lang_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(11) NOT NULL,
+  `asset_id` int(11) NOT NULL DEFAULT 0,
   `lang_code` char(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `title` varchar(50) NOT NULL,
   `title_native` varchar(50) NOT NULL,
@@ -1412,7 +1412,7 @@ INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link
 
 CREATE TABLE IF NOT EXISTS `#__menu_types` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(11) NOT NULL,
+  `asset_id` int(11) NOT NULL DEFAULT 0,
   `menutype` varchar(24) NOT NULL,
   `title` varchar(48) NOT NULL,
   `description` varchar(255) NOT NULL DEFAULT '',
@@ -1889,7 +1889,7 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
   `folder` varchar(20) DEFAULT '',
   `client_id` tinyint(3) DEFAULT 0,
   `version` varchar(32) DEFAULT '',
-  `data` text NOT NULL,
+  `data` text NOT NULL DEFAULT '',
   `detailsurl` text NOT NULL,
   `infourl` text NOT NULL,
   `extra_query` varchar(1000) DEFAULT '',
