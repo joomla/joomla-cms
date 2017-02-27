@@ -122,19 +122,10 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$userData['params'] = json_decode($userData['params'], true);
-		$user               = JFactory::getUser($userData['id']);
+		$user = JFactory::getUser($userData['id']);
 
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);
-
-		// Save the user with the modified params
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)->update('#__users')
-			->set(array('params = ' . $db->quote($user->params)))
-			->where('id = ' . $user->id);
-		$db->setQuery($query);
-		$db->execute();
 
 		return true;
 	}
@@ -405,7 +396,7 @@ class PlgSystemFields extends JPlugin
 					$component = 'com_' . $component;
 				}
 
-				// Transofrm com_article to com_content
+				// Transform com_article to com_content
 				if ($component === 'com_article')
 				{
 					$component = 'com_content';
