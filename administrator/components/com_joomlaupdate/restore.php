@@ -37,7 +37,7 @@ if (!defined('_AKEEBA_IS_WINDOWS'))
 // Get the file's root
 if (!defined('KSROOTDIR'))
 {
-	define('KSROOTDIR', __DIR__);
+    define('KSROOTDIR', dirname(__FILE__));
 }
 if (!defined('KSLANGDIR'))
 {
@@ -7908,7 +7908,7 @@ if (!defined('KICKSTART'))
 				$postproc->unlink($basepath . 'restoration.php');
 
 				// Import a custom finalisation file
-				$filename = __DIR__ . '/restore_finalisation.php';
+                $filename = dirname(__FILE__) . '/restore_finalisation.php';
 				if (file_exists($filename))
 				{
 					// opcode cache busting before including the filename
