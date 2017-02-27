@@ -947,7 +947,7 @@ abstract class FOFView extends FOFUtilsObject
 
 		if (empty(self::$renderers) || !class_exists('FOFRenderJoomla', false))
 		{
-			$path = dirname(__FILE__) . '/../render/';
+			$path = __DIR__ . '/../render/';
 			$renderFiles = $filesystem->folderFiles($path, '.php');
 
 			if (!empty($renderFiles))

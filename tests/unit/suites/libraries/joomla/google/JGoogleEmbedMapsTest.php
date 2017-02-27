@@ -762,11 +762,11 @@ function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 	switch ($address)
 	{
 		case 'san francisco':
-		$data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'sanfrancisco.txt');
+		$data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'sanfrancisco.txt');
 		break;
 
 		case 'palo alto':
-		$data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'paloalto.txt');
+		$data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'paloalto.txt');
 		break;
 
 		default:
