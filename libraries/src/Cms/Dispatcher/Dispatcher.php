@@ -58,10 +58,10 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Method to get a dispatcher instance for a component.
 	 *
-	 * @param   string             $option  The component
-	 * @param   array              $config  An array of optional constructor options.
-	 * @param   Input              $input   The controller input
-	 * @param   \JApplicationCms   $app     The JApplication for the dispatcher
+	 * @param   string            $option  The component
+	 * @param   array             $config  An array of optional constructor options.
+	 * @param   Input             $input   The controller input
+	 * @param   \JApplicationCms  $app     The JApplication for the dispatcher
 	 *
 	 * @return static
 	 */
@@ -255,7 +255,7 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Set controller input
 	 *
-	 * @param   mixed array|Input The input data for the request
+	 * @param   mixed  $input  The input data for the request
 	 *
 	 * @return  Input The original input, might be used for backup purpose
 	 *
