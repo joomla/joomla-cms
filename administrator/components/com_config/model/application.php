@@ -587,48 +587,47 @@ class ConfigModelApplication extends ConfigModelForm
 
 		try
 		{
-			$asset = JTable::getInstance('asset');
+			$asset  = JTable::getInstance('asset');
 			$result = $asset->loadByName($permission['component']);
 
 			if ($result == false)
-		{
-			$data = array();
-				$data[$permission['action']] = array();
-			$data[$permission['action']] = array($permission['rule'] => $permission['value']);
-
-			$rules        = new JAccessRules($data);
-			$asset->rules = (string) $rules;
-			$asset->name  = (string) $permission['component'];
-			$asset->title = (string) $permission['title'];
-
-			// Get the parent asset id so we have a correct tree.
-			$parentAsset = JTable::getInstance('Asset');
-
-			if (strpos($asset->name, '.') !== false)
 			{
-				$assetParts = explode('.', $asset->name);
-				$parentAsset->loadByName($assetParts[0]);
-				$parentAssetId = $parentAsset->id;
+				$data                        = array();
+				$data[$permission['action']] = array();
+				$data[$permission['action']] = array($permission['rule'] => $permission['value']);
+
+				$rules        = new JAccessRules($data);
+				$asset->rules = (string) $rules;
+				$asset->name  = (string) $permission['component'];
+				$asset->title = (string) $permission['title'];
+
+				// Get the parent asset id so we have a correct tree.
+				$parentAsset = JTable::getInstance('Asset');
+
+				if (strpos($asset->name, '.') !== false)
+				{
+					$assetParts = explode('.', $asset->name);
+					$parentAsset->loadByName($assetParts[0]);
+					$parentAssetId = $parentAsset->id;
+				}
+				else
+				{
+					$parentAssetId = $parentAsset->getRootId();
+				}
+
+				/**
+				 * @to do: incorrect ACL stored
+				 * When changing a permission of an item that doesn't have a row in the asset table the row a new row is created.
+				 * This works fine for item <-> component <-> global config scenario and component <-> global config scenario.
+				 * But doesn't work properly for item <-> section(s) <-> component <-> global config scenario,
+				 * because a wrong parent asset id (the component) is stored.
+				 * Happens when there is no row in the asset table (ex: deleted or not created on update).
+				 */
+
+				$asset->setLocation($parentAssetId, 'last-child');
 			}
 			else
 			{
-				$parentAssetId = $parentAsset->getRootId();
-			}
-
-			/**
-			 * @to do: incorrect ACL stored
-			 * When changing a permission of an item that doesn't have a row in the asset table the row a new row is created.
-			 * This works fine for item <-> component <-> global config scenario and component <-> global config scenario.
-			 * But doesn't work properly for item <-> section(s) <-> component <-> global config scenario,
-			 * because a wrong parent asset id (the component) is stored.
-			 * Happens when there is no row in the asset table (ex: deleted or not created on update).
-			 */
-
-			$asset->setLocation($parentAssetId, 'last-child');
-
-		}
-		else
-		{
 				// Decode the rule settings
 				if (is_string($asset->rules))
 				{
@@ -636,34 +635,34 @@ class ConfigModelApplication extends ConfigModelForm
 				}
 
 				// Check if a new value is to be set
-			if (isset($permission['value']))
-			{
+				if (isset($permission['value']))
+				{
 					// Check if we already have an action entry
 					if (!isset($asset->rules[$permission['action']]))
-				{
+					{
 						$asset->rules[$permission['action']] = array();
-				}
+					}
 
 					// Check if we already have a rule entry
 					if (!isset($asset->rules[$permission['action']][$permission['rule']]))
-				{
+					{
 						$asset->rules[$permission['action']][$permission['rule']] = array();
-				}
+					}
 
 					// Set the new permission
 					$asset->rules[$permission['action']][$permission['rule']] = intval($permission['value']);
 
 					// Check if we have an inherited setting
 					if (strlen($permission['value']) == 0)
-				{
+					{
 						unset($asset->rules[$permission['action']][$permission['rule']]);
+					}
 				}
-			}
-			else
-			{
+				else
+				{
 					// There is no value so remove the action as it's not needed
 					unset($asset->rules[$permission['action']]);
-			}
+				}
 
 				$asset->rules = json_encode($asset->rules);
 			}
@@ -674,7 +673,6 @@ class ConfigModelApplication extends ConfigModelForm
 
 				return false;
 			}
-
 		}
 		catch (Exception $e)
 		{

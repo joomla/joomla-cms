@@ -3,7 +3,7 @@
  * Joomla! Content Management System
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Cms\Authorize\Implementation;
@@ -211,7 +211,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 		}
 
 		// Instantiate and return the JAccessRules object for the asset rules.
-		$rules = new Rules();
+		$rules = new Rules;
 		$rules->mergeCollection(self::$permCache[$cacheId]);
 
 		// If action was set return only this action's result
@@ -240,9 +240,10 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	private function getCacheId($recursive, $groups, &$action)
 	{
 		// We are optimizing only view for frontend, otherwise 1 query for all actions is faster globaly due to cache
-		/*if ($action == 'core.view')
+
+		/*
+		 if ($action == 'core.view')
 		{
-			// If we have all actions query already take data from cache
 			if (isset(self::$permCache[md5(serialize(array($this->assetId, $recursive, $groups, null)))]))
 			{
 				$action = null;
@@ -250,14 +251,14 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 		}
 		else
 		{
-			// Don't use action in cacheId calc and query - faster with multiple actions
 			$action = null;
-		}*/
+		}
+		*/
 
 		$assetid = $this->assetId;
 		static $overLimit = false;
 
-		if ($overLimit || sizeof($this->assetId) > $this->optimizeLimit)
+		if ($overLimit || count($this->assetId) > $this->optimizeLimit)
 		{
 			$assetid = array();
 			$overLimit = true;
@@ -288,7 +289,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 			$driverName = $this->db->getName();
 		}
 
-		if (sizeof($this->assetId) > $this->optimizeLimit)
+		if (count($this->assetId) > $this->optimizeLimit)
 		{
 			$useIds = false;
 			$forceIndex = $straightJoin = '';
@@ -351,7 +352,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 			$assetwhere = $this->assetWhere();
 			$query->where($assetwhere);
 		}
-		$test = (string)$query;
+
 		$this->db->setQuery($query);
 		$result = $this->db->loadObjectList();
 

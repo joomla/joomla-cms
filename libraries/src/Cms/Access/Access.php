@@ -3,7 +3,7 @@
  * Joomla! Content Management System
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Cms\Access;
@@ -16,7 +16,8 @@ use Joomla\Cms\Authorize\AuthorizeHelper;
 /**
  * Class that handles all access authorisation routines.
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  No replacement, to be removed in 4.2.
  */
 class Access
 {

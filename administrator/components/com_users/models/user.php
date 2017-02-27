@@ -214,12 +214,12 @@ class UsersModelUser extends JModelAdmin
 		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin)
 		{
 			if ($data['groups'] != null)
-		{
-			// Form was probably tampered with
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
+			{
+				// Form was probably tampered with
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
 
-			$data['groups'] = null;
-		}
+				$data['groups'] = null;
+			}
 		}
 
 		if ($data['block'] && $pk == $my->id && !$my->block)

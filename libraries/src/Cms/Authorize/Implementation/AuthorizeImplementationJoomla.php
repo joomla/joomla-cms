@@ -3,7 +3,7 @@
  * Joomla! Content Management System
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Cms\Authorize\Implementation;
@@ -120,7 +120,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	/**
 	 * Method to get the value
 	 *
-	 * @param   string  $key           Key to search for in the data array
+	 * @param   string  $key  Key to search for in the data array
 	 *
 	 * @return  mixed   Value | null if doesn't exist
 	 *
@@ -352,7 +352,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			$driverName = $this->db->getName();
 		}
 
-		if (sizeof($this->assetId) > $this->optimizeLimit)
+		if (count($this->assetId) > $this->optimizeLimit)
 		{
 			$useIds = false;
 			$forceIndex = $straightJoin = '';

@@ -13,7 +13,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Rule class.
  *
- * @since  11.4
+ * @since       11.4
+ * @deprecated  No replacement, to be removed in 4.2.
  */
 class Rule
 {
@@ -22,7 +23,7 @@ class Rule
 	 *
 	 * @var    array
 	 * @since  11.1
-	 * @deprecated No replacement, to be removed in 4.1.
+	 * @deprecated No replacement, to be removed in 4.2.
 	 */
 	protected $data = array();
 
