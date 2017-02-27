@@ -33,22 +33,41 @@ final class Authorize implements AuthorizeInterface
 			$this->implementation = $implementation;
 	}
 
+	/**
+	 * Get Authorize instance.
+	 *
+	 * Default $iNameStatic value be changed in 4.2 when legacy implementation is removed
+	 *
+	 * @param   string  $implementationName   Class name to instantiate
+	 *
+	 * @return  self
+	 *
+	 * @since   4.0
+	 */
 	public static function getInstance($implementationName = null)
 	{
-		if ($implementationName == null)
+		static $iNameStatic = 'JoomlaLegacy';
+
+		// Run plugins only once
+		if ($iNameStatic == null)
 		{
 			\JPluginHelper::importPlugin('authorize');
-			\JFactory::getApplication()->triggerEvent('onAuthorizationInitalize', array(&$implementationName));
+			\JFactory::getApplication()->triggerEvent('onAuthorizationInitalize', array(&$iNameStatic));
 		}
 
-		$implementationClass = empty($implementationName) ? __NAMESPACE__ . '\Implementation\AuthorizeImplementationJoomla' :
-			__NAMESPACE__ . '\Implementation\AuthorizeImplementation' . StringHelper::ucfirst($implementationName);
+
+		$implementationName = isset($implementationName) ? $implementationName : $iNameStatic;
+		$implementationClass = __NAMESPACE__ . '\Implementation\AuthorizeImplementation' . StringHelper::ucfirst($implementationName);
 
 		if (!isset(self::$instance[$implementationClass]))
 		{
 			$implementation = new $implementationClass();
 
 			self::$instance[$implementationClass] = new Authorize($implementation);
+		}
+		elseif(!class_exists($implementationClass))
+		{
+			throw new \RuntimeException('Unable to load Authorize Implementation: ' . $implementationClass, 500);
 		}
 
 		return self::$instance[$implementationClass];

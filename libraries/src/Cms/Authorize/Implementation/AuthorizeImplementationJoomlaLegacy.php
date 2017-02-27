@@ -22,7 +22,7 @@ defined('JPATH_PLATFORM') or die;
  * @since  4.0.
  * @deprecated No replacement, to be removed in 4.2
  */
-class AuthorizeImplementationJoomlalegacy extends AuthorizeImplementationJoomla implements AuthorizeInterface
+class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla implements AuthorizeInterface
 {
 
 	/**
