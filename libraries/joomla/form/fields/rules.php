@@ -184,8 +184,23 @@ class JFormFieldRules extends JFormField
 		$newItem       = empty($assetId) && $isGlobalConfig === false && $section !== 'component';
 		$parentAssetId = null;
 
+		if (!empty($assetId))
+		{
+			$namePrefix = $component . '.' . $section . '.';
+
+			$table = JTable::getInstance('Asset');
+			$table->load($assetId);
+
+			if (strncmp($table->name, $namePrefix, strlen($namePrefix)))
+			{
+				// This is not own asset.
+				$parentAssetId = $assetId;
+				$assetId = null;
+			}
+		}
+
 		// If the asset id is empty (component or new item).
-		if (empty($assetId))
+		if (empty($assetId) && !$parentAssetId)
 		{
 			// Get the component asset id as fallback.
 			$db = JFactory::getDbo();
@@ -207,7 +222,7 @@ class JFormFieldRules extends JFormField
 		}
 
 		// If not in global config we need the parent_id asset to calculate permissions.
-		if (!$isGlobalConfig)
+		if (!$isGlobalConfig && !$parentAssetId)
 		{
 			// In this case we need to get the component rules too.
 			$db = JFactory::getDbo();
@@ -224,8 +239,15 @@ class JFormFieldRules extends JFormField
 
 		// Full width format.
 
-		// Get the rules for just this asset (non-recursive).
-		$assetRules = JAccess::getAssetRules($assetId, false, false);
+		if ($assetId)
+		{
+			// Get the rules for just this asset (non-recursive).
+			$assetRules = JAccess::getAssetRules($assetId, false, false);
+		}
+		else
+		{
+			$assetRules = new JAccessRules;
+		}
 
 		// Get the available user groups.
 		$groups = $this->getUserGroups();

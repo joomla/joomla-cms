@@ -135,15 +135,22 @@ class JAccessRules
 	 */
 	public function mergeAction($action, $identities)
 	{
-		if (isset($this->data[$action]))
+		if ($identities)
 		{
-			// If exists, merge the action.
-			$this->data[$action]->mergeIdentities($identities);
+			if (isset($this->data[$action]))
+			{
+				// If exists, merge the action.
+				$this->data[$action]->mergeIdentities($identities);
+			}
+			else
+			{
+				// If new, add the action.
+				$this->data[$action] = new JAccessRule($identities);
+			}
 		}
 		else
 		{
-			// If new, add the action.
-			$this->data[$action] = new JAccessRule($identities);
+			unset($this->data[$action]);
 		}
 	}
 
@@ -214,6 +221,6 @@ class JAccessRules
 			$temp[$name] = json_decode((string) $rule);
 		}
 
-		return json_encode($temp);
+		return json_encode($temp, JSON_FORCE_OBJECT);
 	}
 }

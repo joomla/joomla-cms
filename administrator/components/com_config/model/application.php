@@ -646,13 +646,21 @@ class ConfigModelApplication extends ConfigModelForm
 					$temp[$permission['action']][$permission['rule']] = array();
 				}
 
-				// Set the new permission.
-				$temp[$permission['action']][$permission['rule']] = (int) $permission['value'];
-
-				// Check if we have an inherited setting.
-				if (strlen($permission['value']) === 0)
+				if ($permission['value'] !== '')
 				{
+					// Set the new permission.
+					$temp[$permission['action']][$permission['rule']] = (int) $permission['value'];
+				}
+				else
+				{
+					// We have an inherited setting only.
 					unset($temp[$permission['action']][$permission['rule']]);
+				}
+
+				// Check if we have any inherited settings.
+				if (empty($temp[$permission['action']]))
+				{
+					unset($temp[$permission['action']]);
 				}
 			}
 			else
@@ -666,7 +674,7 @@ class ConfigModelApplication extends ConfigModelForm
 			{
 				$query->clear()
 					->update($this->db->quoteName('#__assets'))
-					->set($this->db->quoteName('rules') . ' = ' . $this->db->quote(json_encode($temp)))
+					->set($this->db->quoteName('rules') . ' = ' . $this->db->quote(json_encode($temp, JSON_FORCE_OBJECT)))
 					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
 
 				$this->db->setQuery($query)->execute();
