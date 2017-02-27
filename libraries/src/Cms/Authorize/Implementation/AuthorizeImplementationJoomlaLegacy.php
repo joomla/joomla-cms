@@ -296,12 +296,12 @@ class AuthorizeImplementationJoomlalegacy extends AuthorizeImplementationJoomla 
 		else
 		{
 			$useIds = true;
-			$forceIndex = 'FORCE INDEX FOR JOIN (`lft_rgt_id`)';
-			$straightJoin = '';
+			$straightJoin = $forceIndex = '';
 
 			if ($driverName == 'mysql' || $driverName == 'mysqli' || $driverName == 'pdomysql')
 			{
 				$straightJoin = 'STRAIGHT_JOIN ';
+				$forceIndex = 'FORCE INDEX FOR JOIN (`lft_rgt_id`)';
 			}
 		}
 

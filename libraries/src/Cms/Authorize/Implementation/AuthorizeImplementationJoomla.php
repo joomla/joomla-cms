@@ -362,12 +362,12 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		else
 		{
 			$useIds = true;
-			$forceIndex = 'FORCE INDEX FOR JOIN (`lft_rgt_id`)';
-			$straightJoin = '';
+			$straightJoin = $forceIndex = '';
 
 			if ($driverName == 'mysql' || $driverName == 'mysqli' || $driverName == 'pdomysql')
 			{
 				$straightJoin = 'STRAIGHT_JOIN ';
+				$forceIndex = 'FORCE INDEX FOR JOIN (`lft_rgt_id`)';
 			}
 		}
 
@@ -631,7 +631,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		$rootAsset = $this->getRootAssetPermissions();
 
 		$authorizationMatrix = $this->authorizationMatrix;
-		$id = $rootAsset[0]->id;
+		$id = isset($rootAsset[0]->id) ? $rootAsset[0]->id : 0;
 
 		foreach ($groups AS $group)
 		{
