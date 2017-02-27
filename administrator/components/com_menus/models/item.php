@@ -1729,10 +1729,10 @@ class MenusModelItem extends JModelAdmin
 		{
 			foreach ($pks as $i => $pk)
 			{
-				if ($table->load($pk) && $table->home && $table->language == '*')
+				if ($table->load($pk) && $table->home)
 				{
 					// Prune items that you can't change.
-					JError::raiseWarning(403, JText::_('JLIB_DATABASE_ERROR_MENU_UNINHETITABLE_DEFAULT_HOME'));
+					JError::raiseWarning(403, JText::_('JLIB_DATABASE_ERROR_MENU_UNINHERITABLE_DEFAULT_HOME'));
 					unset($pks[$i]);
 					break;
 				}
