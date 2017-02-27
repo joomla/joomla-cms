@@ -17,10 +17,10 @@ use Joomla\Cms\Access\Rules;
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Class that handles authorisation in a backward (J3.x) compatible way
+ * Joomla Legacy authorization implementation
  *
- * @since  4.0.
- * @deprecated No replacement, to be removed in 4.2
+ * @since       4.0.
+ * @deprecated  No replacement, to be removed in 4.2. Use AuthorizeImplementationJoomla instead.
  */
 class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla implements AuthorizeInterface
 {
@@ -51,9 +51,8 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	/**
 	 * Instantiate the access class
 	 *
-	 * @param   mixed            $assetId Assets id, can be integer id or string name or array of string/integer values
-	 * @param   \JDatabaseDriver  $db      Database object
-	 *
+	 * @param   mixed             $assetId  Assets id, can be integer id or string name or array of string/integer values
+	 * @param   \JDatabaseDriver  $db       Database object
 	 *
 	 * @since  4.0
 	 */
@@ -107,10 +106,11 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	/**
 	 * Check if a user is authorised to perform an action, optionally on an asset.
 	 *
-	 * @param   integer  $actor    Id of the user/group for which to check authorisation.
-	 * @param   mixed    $target  Integer asset id or the name of the asset as a string or array with this values.  Defaults to the global asset node.
-	 * @param   string   $action  The name of the action to authorise.
-	 * @param   string   $actorType   Type of actor. User or group.
+	 * @param   integer  $actor      Id of the user/group for which to check authorisation.
+	 * @param   mixed    $target     Integer asset id or the name of the asset as a string or array with this values.
+	 *                               Defaults to the global asset node.
+	 * @param   string   $action     The name of the action to authorise.
+	 * @param   string   $actorType  Type of actor. User or group.
 	 *
 	 * @return  mixed  True if authorised and assetId is numeric/named. An array of boolean values if assetId is array.
 	 *

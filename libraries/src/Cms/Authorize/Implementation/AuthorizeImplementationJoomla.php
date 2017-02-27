@@ -16,7 +16,7 @@ use Joomla\Cms\Authorize\AuthorizeHelper;
 use Joomla\Cms\Table\Table;
 
 /**
- * Class that handles default Joomla authorisation routines.
+ * Joomla authorization implementation
  *
  * @since  4.0.
  */
@@ -58,9 +58,8 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	/**
 	 * Instantiate the access class
 	 *
-	 * @param   mixed            $assetId  Assets id, can be integer or string or array of string/integer values
+	 * @param   mixed             $assetId  Assets id, can be integer or string or array of string/integer values
 	 * @param   \JDatabaseDriver  $db       Database object
-	 *
 	 *
 	 * @since  4.0
 	 */
@@ -122,7 +121,6 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 * Method to get the value
 	 *
 	 * @param   string  $key           Key to search for in the data array
-	 * @param   mixed   $defaultValue  Default value to return if the key is not set
 	 *
 	 * @return  mixed   Value | null if doesn't exist
 	 *
@@ -160,11 +158,11 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	/**
 	 * Check if a user is authorised to perform an action, optionally on an asset.
 	 *
-	 * @param   integer  $actor       Id of the user/group for which to check authorisation.
-	 * @param   mixed    $target      Integer asset id or the name of the asset as a string or array with this values.
-	 *                                Defaults to the global asset node.
-	 * @param   string   $action      The name of the action to authorise.
-	 * @param   string   $actorType   Type of actor. User or group.
+	 * @param   integer  $actor      Id of the user/group for which to check authorisation.
+	 * @param   mixed    $target     Integer asset id or the name of the asset as a string or array with this values.
+	 *                               Defaults to the global asset node.
+	 * @param   string   $action     The name of the action to authorise.
+	 * @param   string   $actorType  Type of actor. User or group.
 	 *
 	 * @return  mixed  True if authorised and assetId is numeric/named. An array of boolean values if assetId is array.
 	 *
@@ -173,18 +171,18 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	public function check($actor, $target, $action, $actorType)
 	{
 		// Sanitise inputs.
-		$id = (int) $actor;
+		$uid = (int) $actor;
 		$action = AuthorizeHelper::cleanAction($action);
 
 		if ($actorType == 'group')
 		{
-			$identities = \JUserHelper::getGroupPath($id);
+			$identities = \JUserHelper::getGroupPath($uid);
 		}
 		else
 		{
 			// Get all groups against which the user is mapped.
-			$identities = \JUserHelper::getGroupsByUser($id);
-			array_unshift($identities, $id * -1);
+			$identities = \JUserHelper::getGroupsByUser($uid);
+			array_unshift($identities, $uid * -1);
 		}
 
 		// Clean and filter - run trough setter
@@ -283,11 +281,11 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	}
 
 	/**
+	 * Calculate authorization
 	 *
-	 *
-	 * @param   mixed   $asset   Integer asset id or the name of the asset as a string or array with this values.  Defaults to the global asset node.
-	 * @param   string  $action The name of the action to authorise.
-	 * @param   array   $identities user or group ids
+	 * @param   mixed   $asset       Integer asset id or the name of the asset as a string or array with this values.  Defaults to the global asset node.
+	 * @param   string  $action      The name of the action to authorise.
+	 * @param   array   $identities  user or group ids
 	 *
 	 * @return  boolean true if authorized
 	 *
@@ -298,7 +296,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		// Implicit deny by default.
 		$result = null;
 
-		// isset & empty don't work with getters
+		// Isset & empty don't work with getters
 		$authorizationMatrix = $this->authorizationMatrix;
 
 		// Check that the inputs are valid.
@@ -431,10 +429,10 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	/**
 	 * Build group part of the query for getAssetPermissions
 	 *
-	 * @param   array    $groups     Array of group ids to get permissions for
+	 * @param   array  $groups  Array of group ids to get permissions for
 	 *
 	 * @return mixed   Db query result - the return value or null if the query failed.
-	 *                 	 *
+	 *
 	 * @since   4.0
 	 */
 	protected function assetGroupQuery($groups)
@@ -464,7 +462,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 * Build where part of the query for getAssetPermissions
 	 *
 	 * @return mixed   Db query result - the return value or null if the query failed.
-	 *                 	 *
+	 *
 	 * @since   4.0
 	 */
 	protected function assetWhere()
@@ -566,11 +564,18 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		$this->authorizationMatrix = array_merge_recursive($this->authorizationMatrix, $authorizationMatrix);
 	}
 
-	/** Inject permissions filter in database object
+	/** Inject permissions filter in the database object
+	 *
+	 * @param   object  &$query      Database query object to append to
+	 * @param   string  $joincolumn  Name of the database column used for join ON
+	 * @param   string  $action      The name of the action to authorise.
+	 * @param   string  $orWhere     Appended to generated where condition with OR clause.
+	 * @param   array   $groups      Array of group ids to get permissions for
+	 *
+	 * @return  mixed database query object or false if this function is not implemented
 	 *
 	 * @TODO make filter usable by passing asset name
-	 * @return  object database query object
-	 *                 	 *
+	 *
 	 * @since   4.0
 	 */
 	public function appendFilterQuery(&$query, $joincolumn, $action, $orWhere = null, $groups = null)
@@ -619,7 +624,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	/**
 	 * Check if any group has core.admin permission
 	 *
-	 * @param   array  $groups groups to check
+	 * @param   array  $groups  groups to check
 	 *
 	 * @return  boolean
 	 *
@@ -631,11 +636,11 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		$rootAsset = $this->getRootAssetPermissions();
 
 		$authorizationMatrix = $this->authorizationMatrix;
-		$id = isset($rootAsset[0]->id) ? $rootAsset[0]->id : 0;
+		$rootId = isset($rootAsset[0]->id) ? $rootAsset[0]->id : 0;
 
 		foreach ($groups AS $group)
 		{
-			if (isset ($authorizationMatrix[$id]['core.admin'][$group]) && $authorizationMatrix[$id]['core.admin'][$group] == 1)
+			if (isset ($authorizationMatrix[$rootId]['core.admin'][$group]) && $authorizationMatrix[$rootId]['core.admin'][$group] == 1)
 			{
 				$root = true;
 				break;

@@ -153,7 +153,7 @@ class Access
 	 * Method to return a list of actions from a string or from an xml for which permissions can be set.
 	 *
 	 * @param   string|\SimpleXMLElement  $data   The XML string or an XML element.
-	 * @param   string                   $xpath  An optional xpath to search for the fields.
+	 * @param   string                    $xpath  An optional xpath to search for the fields.
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
@@ -276,8 +276,8 @@ class Access
 	 * only the rules explicitly set for the asset or the summation of all inherited rules from
 	 * parent assets and explicit rules.
 	 *
-	 * @param   mixed    $asset      Integer asset id or the name of the asset as a string.
-	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
+	 * @param   mixed    $asset                 Integer asset id or the name of the asset as a string.
+	 * @param   boolean  $recursive             True to return the rules object with inherited rules.
 	 * @param   boolean  $recursiveParentAsset  True to calculate the rule also based on inherited component/extension rules.
 	 * @param   boolean  $preload               Unused
 	 *

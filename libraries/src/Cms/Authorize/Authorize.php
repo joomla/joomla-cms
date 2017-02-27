@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,11 @@ use Joomla\Cms\Authorize\AuthorizeInterface;
 
 defined('JPATH_PLATFORM') or die;
 
-
+/**
+ * Authorize class
+ *
+ * @since  4.0
+ */
 final class Authorize implements AuthorizeInterface
 {
 	private static $instance = null;
@@ -27,10 +31,16 @@ final class Authorize implements AuthorizeInterface
 	 */
 	private $implementation_ = null;
 
-
+	/**
+	 * Constructor
+	 *
+	 * @param   AuthorizeInterface  $implementation  Implementation object
+	 *
+	 * @since  4.0
+	 */
 	public function __construct(AuthorizeInterface $implementation)
 	{
-			$this->implementation = $implementation;
+		$this->implementation = $implementation;
 	}
 
 	/**
@@ -38,7 +48,7 @@ final class Authorize implements AuthorizeInterface
 	 *
 	 * Default $iNameStatic value be changed in 4.2 when legacy implementation is removed
 	 *
-	 * @param   string  $implementationName   Class name to instantiate
+	 * @param   string  $implementationName  Class name to instantiate
 	 *
 	 * @return  self
 	 *
@@ -55,8 +65,9 @@ final class Authorize implements AuthorizeInterface
 			\JFactory::getApplication()->triggerEvent('onAuthorizationInitalize', array(&$iNameStatic));
 		}
 
-
-		$implementationName = isset($implementationName) ? $implementationName : $iNameStatic;
+		$implementationName  = isset($implementationName)
+			? $implementationName
+			: $iNameStatic;
 		$implementationClass = __NAMESPACE__ . '\Implementation\AuthorizeImplementation' . StringHelper::ucfirst($implementationName);
 
 		if (!isset(self::$instance[$implementationClass]))
@@ -65,7 +76,7 @@ final class Authorize implements AuthorizeInterface
 
 			self::$instance[$implementationClass] = new Authorize($implementation);
 		}
-		elseif(!class_exists($implementationClass))
+		elseif (!class_exists($implementationClass))
 		{
 			throw new \RuntimeException('Unable to load Authorize Implementation: ' . $implementationClass, 500);
 		}
@@ -92,11 +103,11 @@ final class Authorize implements AuthorizeInterface
 				{
 					$this->implementation_ = $value;
 				}
-			break;
+				break;
 
 			case 'authorizationMatrix':
 				$this->implementation->authorizationMatrix = $value;
-			break;
+				break;
 
 			default:
 				$this->implementation->$name = $value;
@@ -108,7 +119,7 @@ final class Authorize implements AuthorizeInterface
 	/**
 	 * Method to get the value
 	 *
-	 * @param   string  $key   Key to search for in the data array
+	 * @param   string  $key  Key to search for in the data array
 	 *
 	 * @return  mixed   Value | null if doesn't exist
 	 *
@@ -127,8 +138,8 @@ final class Authorize implements AuthorizeInterface
 	/**
 	 * Method to call otherwise inaccessible methods
 	 *
-	 * @param   string  $key           Key to search for in the data array
-	 * @param   mixed   $defaultValue  Default value to return if the key is not set
+	 * @param   string  $method      Method to run
+	 * @param   mixed   $parameters  Parameters
 	 *
 	 * @return  mixed   Value | null if doesn't exist
 	 *
@@ -149,10 +160,10 @@ final class Authorize implements AuthorizeInterface
 	/**
 	 * Check if actor is authorised to perform an action, optionally on an asset.
 	 *
-	 * @param   integer  $actor       Id of the actor for which to check authorisation.
-	 * @param   mixed    $target      Subject of the check
-	 * @param   string   $action      The name of the action to authorise.
-	 * @param   string   $actorType   Type of actor.
+	 * @param   integer  $actor      Id of the actor for which to check authorisation.
+	 * @param   mixed    $target     Subject of the check
+	 * @param   string   $action     The name of the action to authorise.
+	 * @param   string   $actorType  Type of actor.
 	 *
 	 * @return  mixed  True if authorised and assetId is numeric/named. An array of boolean values if assetId is array.
 	 *
@@ -163,19 +174,16 @@ final class Authorize implements AuthorizeInterface
 		return $this->implementation->check($actor, $target, $action, $actorType);
 	}
 
-
 	/** Inject permissions filter in the database object
 	 *
-	 * @param   object $query     Database query object to append to
-	 * @param   string $joincolumn Name of the database column used for join ON
-	 * @param   string $action    The name of the action to authorise.
-	 * @param   string $orWhere   Appended to generated where condition with OR clause.
-	 * @param   array  $groups    Array of group ids to get permissions for
-	 *
-	 * @param   object $query database query object to append to
+	 * @param   object  &$query      Database query object to append to
+	 * @param   string  $joincolumn  Name of the database column used for join ON
+	 * @param   string  $action      The name of the action to authorise.
+	 * @param   string  $orWhere     Appended to generated where condition with OR clause.
+	 * @param   array   $groups      Array of group ids to get permissions for
 	 *
 	 * @return  mixed database query object or false if this function is not implemented
-	 *                 	 *
+	 *
 	 * @since   4.0
 	 */
 	public function appendFilterQuery(&$query, $joincolumn, $action, $orWhere = null, $groups = null)

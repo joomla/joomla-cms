@@ -10,6 +10,11 @@ namespace Joomla\Cms\Authorize;
 
 defined('JPATH_PLATFORM') or die;
 
+/**
+ * AuthorizeImplementation class.
+ *
+ * @since  1.0
+ */
 abstract class AuthorizeImplementation
 {
 	/**
@@ -37,8 +42,7 @@ abstract class AuthorizeImplementation
 	/**
 	 * Method to get the value
 	 *
-	 * @param   string  $key           Key to search for in the data array
-	 * @param   mixed   $defaultValue  Default value to return if the key is not set
+	 * @param   string  $key            Key to search for in the data array
 	 *
 	 * @return  mixed   Value | null if doesn't exist
 	 *
@@ -75,7 +79,7 @@ abstract class AuthorizeImplementation
 	 * A workaround method to get value of the authorization matrix.
 	 * Can be removed/changed when there is support for static getters
 	 *
-	 * @param   string   $class  Child class name
+	 * @param   string  $class  Child class name
 	 *
 	 * @return  array
 	 *
@@ -131,8 +135,8 @@ abstract class AuthorizeImplementation
 	 * A workaround method to set value of the authorization matrix. Even that it is protected it will
 	 * throw exception when called from child classes. Can be removed/changed when there is support for static setters
 	 *
-	 * @param   mixed    $value  Value to assign to the property
-	 * @param   string   $class  Child class name
+	 * @param   mixed   $value  Value to assign to the property
+	 * @param   string  $class  Child class name
 	 *
 	 * @return  self
 	 *
@@ -156,9 +160,9 @@ abstract class AuthorizeImplementation
 	/**
 	 * Set actor as authorised to perform an action
 	 *
-	 * @param   integer  $actor       Id of the actor for which to check authorisation.
-	 * @param   mixed    $target      Subject of the check
-	 * @param   string   $action      The name of the action to authorise.
+	 * @param   integer  $actor   Id of the actor for which to check authorisation.
+	 * @param   mixed    $target  Subject of the check
+	 * @param   string   $action  The name of the action to authorise.
 	 *
 	 * @return  void
 	 *
@@ -181,9 +185,9 @@ abstract class AuthorizeImplementation
 	/**
 	 * Set actor as not authorised to perform an action
 	 *
-	 * @param   integer  $actor       Id of the actor for which to check authorisation.
-	 * @param   mixed    $target      Subject of the check
-	 * @param   string   $action      The name of the action to authorise.
+	 * @param   integer  $actor   Id of the actor for which to check authorisation.
+	 * @param   mixed    $target  Subject of the check
+	 * @param   string   $action  The name of the action to authorise.
 	 *
 	 * @return  void
 	 *
@@ -204,16 +208,14 @@ abstract class AuthorizeImplementation
 
 	/** Inject permissions filter in the database object
 	 *
-	 * @param   object $query     Database query object to append to
-	 * @param   string $joincolumn Name of the database column used for join ON
-	 * @param   string $action    The name of the action to authorise.
-	 * @param   string $orWhere   Appended to generated where condition with OR clause.
-	 * @param   array  $groups    Array of group ids to get permissions for
-	 *
-	 * @param   object $query database query object to append to
+	 * @param   object  &$query      Database query object to append to
+	 * @param   string  $joincolumn  Name of the database column used for join ON
+	 * @param   string  $action      The name of the action to authorise.
+	 * @param   string  $orWhere     Appended to generated where condition with OR clause.
+	 * @param   array   $groups      Array of group ids to get permissions for
 	 *
 	 * @return  mixed database query object or false if this function is not implemented
-	 *                 	 *
+	 *
 	 * @since   4.0
 	 */
 	public function appendFilterQuery(&$query, $joincolumn, $action, $orWhere = null, $groups = null)

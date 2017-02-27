@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,7 +44,7 @@ class AuthorizeHelper
 	 * Method to return a list of actions from a string or from an xml for which permissions can be set.
 	 *
 	 * @param   string|\SimpleXMLElement  $data   The XML string or an XML element.
-	 * @param   string                   $xpath  An optional xpath to search for the fields.
+	 * @param   string                    $xpath  An optional xpath to search for the fields.
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
@@ -90,8 +90,8 @@ class AuthorizeHelper
 			{
 				// Add the action to the actions array
 				$actions[] = (object) array(
-					'name' => (string) $action['name'],
-					'title' => (string) $action['title'],
+					'name'        => (string) $action['name'],
+					'title'       => (string) $action['title'],
 					'description' => (string) $action['description']
 				);
 			}
@@ -167,13 +167,13 @@ class AuthorizeHelper
 	 */
 	public static function cleanAction($action)
 	{
-		return  self::cleanRegex($action);
+		return self::cleanRegex($action);
 	}
 
 	/**
 	 * Clean using regex
 	 *
-	 * @param   int|string  $idToClean Variable to clean
+	 * @param   int|string  $idToClean  Variable to clean
 	 *
 	 * @return  int|string  Cleaned variable
 	 *
