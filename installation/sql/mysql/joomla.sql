@@ -441,6 +441,21 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__content_draft`
+--
+CREATE TABLE IF NOT EXISTS `#__content_draft` (
+  `id`         INT(10) UNSIGNED NOT NULL AUTO_INCREMENT
+  COMMENT 'Primary Key',
+  `articleId`  INT(10) UNSIGNED NOT NULL
+  COMMENT 'article ID',
+  `created`    DATETIME         NOT NULL,
+  `sharetoken` VARCHAR(32)     NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Contains shareable draft tokens for content items';
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__core_log_searches`
 --
 

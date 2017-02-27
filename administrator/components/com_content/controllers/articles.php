@@ -122,4 +122,35 @@ class ContentControllerArticles extends JControllerAdmin
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
+
+	/**
+	 * Method to generate and store share token.
+	 *
+	 * @return  void.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function shareDraft()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		try
+		{
+			$ids = $this->input->get('cid', array(), 'array');
+
+			// Get the model
+			/** @var ContentModelArticle $model */
+			$model = $this->getModel();
+			$model->createShareDrafts($ids);
+
+			$message = JText::plural('COM_CONTENT_DRAFT_LINKS_N_ITEMS_SAVED', count($ids));
+		}
+		catch (Exception $e)
+		{
+			$message = JText::_('COM_CONTENT_DRAFT_LINKS_ERROR');
+		}
+
+		$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles', false), $message);
+	}
 }

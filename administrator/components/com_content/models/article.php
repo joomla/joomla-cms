@@ -493,7 +493,7 @@ class ContentModelArticle extends JModelAdmin
 			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
-		// Save New Categoryg
+		// Save New Category
 		if ($catid == 0 && $this->canCreateCategory())
 		{
 			$table = array();
@@ -593,6 +593,9 @@ class ContentModelArticle extends JModelAdmin
 			{
 				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
 			}
+
+			// Check the draft URLs
+			$this->publish($this->getState($this->getName() . '.id'), $data['state']);
 
 			return true;
 		}
@@ -801,6 +804,278 @@ class ContentModelArticle extends JModelAdmin
 	private function canCreateCategory()
 	{
 		return JFactory::getUser()->authorise('core.create', 'com_content');
+	}
+
+	/**
+	 * Method to store the token generated.
+	 *
+	 * @param   int  $articleId  The ID of the shared article.
+	 *
+	 * @return  string  The generated token.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function createShareDraft($articleId)
+	{
+		/** @var ContentTableDraft $table */
+		$table = $this->getTable('Draft', 'ContentTable');
+
+		$token = $table->loadToken($articleId);
+
+		if ($token === null)
+		{
+			// Generate the token
+			$token = JUserHelper::genRandomPassword(32);
+
+			// Store the new token
+			$data = array('articleId' => $articleId, 'sharetoken' => $token);
+			$table->save($data);
+		}
+
+		// Load the article details
+		$query = $this->getDbo()->getQuery(true)
+			->select(
+				$this->getDbo()->quoteName(
+					array(
+						'alias',
+						'language',
+					)
+				)
+			)
+			->from($this->getDbo()->quoteName('#__content'))
+			->where($this->getDbo()->quoteName('id') . ' = ' . (int) $articleId);
+		$this->getDbo()->setQuery($query);
+
+		$article = $this->getDbo()->loadObject();
+
+		// Check if multi-language is enabled and get the language tag
+		$languageTag = '';
+
+		if (JLanguageMultilang::isEnabled())
+		{
+			// Set the language defaults
+			$jLanguage       = new JLanguage;
+			$languageCode    = $article->language;
+			$languageDefault = $jLanguage->getDefault();
+
+			// Get the default language if an article is set to All languages as we need a language code
+			if ($languageCode === '*')
+			{
+				$languageCode = $jLanguage->getDefault();
+			}
+
+			// Check if we need to attach the language tag
+			$languageFilter = JPluginHelper::getPlugin('system', 'languagefilter');
+			$languageFilterParameters = new Registry($languageFilter->params);
+
+			if (!$languageFilterParameters->get('remove_default_prefix', 0) || $languageDefault != $languageCode)
+			{
+				// Get the list of languages
+				$languages = JLanguageHelper::getLanguages();
+
+				foreach ($languages as $language)
+				{
+					if ($language->lang_code === $languageCode)
+					{
+						$languageTag = $language->sef;
+						break;
+					}
+				}
+			}
+		}
+
+		// Load JMenu for finding an item ID
+		$menu = JMenu::getInstance('site');
+
+		// Find the item ID for the article
+		$menuItem = $menu->getItems('link', 'index.php?option=com_content&view=article&id=' . $articleId, true);
+
+		// If we don't find a single article, look for the category
+		if (!$menuItem)
+		{
+			$contentTable = $this->getTable('Content', 'JTable');
+			$contentTable->load($articleId);
+			$menuItem = $this->findCategoryItemid($menu, $contentTable->get('catid'));
+		}
+
+		// Add the item ID if found
+		$itemId = '';
+
+		if ($menuItem)
+		{
+			$itemId = '&Itemid=' . $menuItem->id;
+		}
+
+		$url = JUri::root() . 'index.php?option=com_content&view=article&id=' . $articleId . '&token=' . $token . $itemId;
+
+		if ($languageTag)
+		{
+			$url .= '&lang=' . $languageTag;
+		}
+
+		// Store the share URL
+		$table->set('shareurl', $url);
+		$table->store();
+
+		// Store the URL as a redirect link if possible
+		if (JPluginHelper::isEnabled('system', 'redirect') && JFactory::getConfig()->get('sef'))
+		{
+			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redirect/tables');
+			$redirectTable = $this->getTable('Link', 'RedirectTable');
+
+			// Make sure we have the table
+			if ($redirectTable)
+			{
+				// Get the nice URL
+				$redirectUrl = JUri::root() . 'index.php/';
+
+				if ($languageTag)
+				{
+					$redirectUrl .= $languageTag . '/';
+				}
+
+				// Add the alias
+				$redirectUrl .= $article->alias;
+
+				// Check for existing name
+				$query->clear()
+					->select($this->getDbo()->quoteName('id'))
+					->from($this->getDbo()->quoteName('#__redirect_links'))
+					->where($this->getDbo()->quoteName('old_url') . ' = ' . $this->getDbo()->quote($redirectUrl));
+				$this->getDbo()->setQuery($query);
+
+				$rid = $this->getDbo()->loadResult();
+
+				if (!$rid)
+				{
+					$data = array(
+						'old_url'   => $redirectUrl,
+						'new_url'   => $url,
+						'published' => 1,
+						'header'    => 303,
+					);
+
+					if ($redirectTable->save($data))
+					{
+						$url = $redirectUrl;
+					}
+				}
+				else
+				{
+					$url = $redirectUrl;
+				}
+			}
+		}
+
+		return JHtml::_('link', $url, $url);
+	}
+
+	/**
+	 * Look for a menu item ID based on a content category.
+	 *
+	 * @param   JMenu  $menu        JMenu class for finding items.
+	 * @param   int    $categoryId  The category ID to find an item ID for.
+	 *
+	 * @return  mixed  Int when item ID has been found | false otherwise.
+	 *
+	 * @todo    Checking if a menu entry exists is tricky because the menu URL can change depending on a number of
+	 *          settings, including the Tag. Find a more resilient way for finding an existing item ID.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function findCategoryItemid($menu, $categoryId)
+	{
+		// Don't continue if category ID is 0
+		if ((int) $categoryId === 0)
+		{
+			return false;
+		}
+
+		// Find a menu item linked to this category list
+		$menuItem = $menu->getItems('link', 'index.php?option=com_content&view=category&id=' . $categoryId, true);
+
+		// Find a menu item linked to this category blog if no list item has been found
+		if (!$menuItem)
+		{
+			$menuItem = $menu->getItems('link', 'index.php?option=com_content&view=category&layout=blog&id=' . $categoryId, true);
+		}
+
+		// No menu item found, check the parent category ID
+		if (!$menuItem)
+		{
+			// Get the parent ID
+			$categoryTable = $this->getTable('Category', 'JTable');
+			$categoryTable->load($categoryId);
+
+			return $this->findCategoryItemid($menu, $categoryTable->get('parent_id'));
+		}
+
+		return $menuItem;
+	}
+
+	/**
+	 * Create a share token for multiple articles.
+	 *
+	 * @param   array  $pks  An array of article IDs to create tokens for.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function createShareDrafts($pks)
+	{
+		// Sanitize the ids.
+		$pks = (array) $pks;
+		$pks = ArrayHelper::toInteger($pks);
+
+		foreach ($pks as $pk)
+		{
+			// Get the alias
+			$table = $this->getTable();
+
+			if ($table->load($pk))
+			{
+				$this->createShareDraft($pk);
+			}
+		}
+	}
+
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function publish(&$pks, $value = 1)
+	{
+		// Remove any shared links if item is trashed
+		if (parent::publish($pks, $value) && $value === -2)
+		{
+			// Content draft to remove
+			$query = $this->getDbo()->getQuery(true)
+				->delete($this->getDbo()->quoteName('#__content_draft'));
+
+			// Redirect links to remove
+			$redirectQuery = $this->getDbo()->getQuery(true)
+				->delete($this->getDbo()->quoteName('#__redirect_links'));
+
+			foreach ($pks as $pk)
+			{
+				// Content draft removal
+				$query->clear('where')
+					->where($this->getDbo()->quoteName('articleId') . ' = ' . (int) $pk);
+				$this->getDbo()->setQuery($query)->execute();
+
+				// Redirect link removal
+				$redirectQuery->clear('where')
+					->where($this->getDbo()->quoteName('new_url') . ' LIKE ' . $this->getDbo()->quote('%view=article&id=' . (int) $pk . '&token%'));
+				$this->getDbo()->setQuery($redirectQuery)->execute();
+			}
+		}
 	}
 
 	/**

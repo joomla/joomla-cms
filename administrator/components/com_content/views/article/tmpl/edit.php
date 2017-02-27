@@ -67,6 +67,12 @@ JFactory::getDocument()->addScriptDeclaration('
 	{
 		if (task == "article.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
+			if (task === "article.shareDraft")
+			{
+				shareButton();
+				return false;
+			}
+			
 			jQuery("#permissions-sliders select").attr("disabled", "disabled");
 			' . $this->form->getField('articletext')->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
@@ -84,12 +90,25 @@ JFactory::getDocument()->addScriptDeclaration('
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+
+if ($this->item->id > 0)
+{
+	JHtml::_('script', 'system/share.js', array('version' => 'auto', 'relative' => true));
+	JFactory::getDocument()->addScriptDeclaration('
+	    var sharebuttonUrl = "'
+		. JRoute::_(
+			'index.php?option=com_content&task=article.shareDraft&articleId=' . $this->item->id . '&format=json&' . JSession::getFormToken() . '=1',
+			false
+		)
+		. '";
+	  ');
+}
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
-
+	<div id="shareId"></div>
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 

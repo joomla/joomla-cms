@@ -147,9 +147,19 @@ class ContentModelArticle extends JModelItem
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
-				$archived = $this->getState('filter.archived');
+				$archived  = $this->getState('filter.archived');
+				$token     = JFactory::getApplication()->input->get('token', false, 'raw');
+				$draftId   = false;
 
-				if (is_numeric($published))
+				// Check if the article is viewed using a valid token
+				if ($token)
+				{
+					/** @var ContentTableDraft $draftTable */
+					$draftTable = $this->getTable('Draft', 'ContentTable');
+					$draftId = $draftTable->loadDraftId($token, $pk);
+				}
+
+				if (!$draftId && is_numeric($published))
 				{
 					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
 				}
@@ -164,7 +174,7 @@ class ContentModelArticle extends JModelItem
 				}
 
 				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
+				if (((is_numeric($published)) || (is_numeric($archived))) && ((!$draftId && $data->state != $published) && ($data->state != $archived)))
 				{
 					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}

@@ -684,6 +684,20 @@ CREATE NONCLUSTERED INDEX [idx_core_content_id] ON [#__contentitem_tag_map]
 	[core_content_id] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
+/****** Object:  Table [#__content_draft] ******/
+SET QUOTED_IDENTIFIER ON;
+
+CREATE TABLE [#__content_draft] (
+  [id]         [bigint] IDENTITY(1,1) NOT NULL,
+  [articleId]  [int] NOT NULL,
+  [created]    [datetime]      NOT NULL,
+  [sharetoken] [nvarchar](32) NOT NULL,
+  CONSTRAINT [PK_#__id] PRIMARY KEY CLUSTERED
+    (
+      [id] ASC
+    )
+) ON [PRIMARY];
+
 /****** Object:  Table [#__core_log_searches] ******/
 SET QUOTED_IDENTIFIER ON;
 

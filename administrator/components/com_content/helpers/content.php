@@ -59,6 +59,11 @@ class ContentHelper extends JHelperContent
 			'index.php?option=com_content&view=featured',
 			$vName == 'featured'
 		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_CONTENT_SUBMENU_SHARED'),
+			'index.php?option=com_content&view=shared',
+			$vName == 'shared'
+		);
 	}
 
 	/**
