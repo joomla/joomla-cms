@@ -31,13 +31,11 @@ class Dispatcher implements DispatcherInterface
 	protected static $instances = array();
 
 	/**
-	 * The array store dispatcher/component config data
+	 * The application object
 	 *
-	 * @var array
-	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @var \JApplicationCms
 	 */
-	protected $config;
+	protected $app;
 
 	/**
 	 * The input object which will be passed to controller
@@ -49,36 +47,66 @@ class Dispatcher implements DispatcherInterface
 	protected $input;
 
 	/**
-	 * Method to get a dispatcher instance for a component.
+	 * The array store dispatcher/component config data
 	 *
-	 * @param   string  $option  The component
-	 * @param   array   $config  An array of optional constructor options.
-	 *
-	 * @return  static
+	 * @var array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getInstance($option, array $config = array())
+	protected $config;
+
+	/**
+	 * Method to get a dispatcher instance for a component.
+	 *
+	 * @param   string           $option  The component
+	 * @param   array            $config  An array of optional constructor options.
+	 * @param   Input            $input   The controller input
+	 * @param   \JApplicationCms $app     The JApplication for the dispatcher
+	 *
+	 * @return static
+	 */
+	public static function getInstance($option, array $config = array(), Input $input = null, \JApplicationCms $app = null)
 	{
 		if (!isset(self::$instances[$option]))
 		{
-			// Normalize component config data, populate default config data if needed
-			$config = self::normalizeConfig($option, $config);
+			$app   = $app ? $app : \JFactory::getApplication();
+			$input = $input ? $input : $app->input;
+
+			if (isset($config['component_namespace']))
+			{
+				$cNamespace = $config['component_namespace'];
+			}
+			else
+			{
+				$cNamespace = 'Joomla\\Component\\' . ucfirst(substr($option, 4));
+			}
+
+			if ($app->isClient('site'))
+			{
+				$namespace = $cNamespace . '\\Site\\';
+			}
+			else
+			{
+				$namespace = $cNamespace . '\\Admin\\';
+			}
+
+			$config['option']    = $option;
+			$config['namespace'] = $namespace;
 
 			// Register component auto-loader
 			$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
-			$autoLoader->setPsr4($config['frontend_namespace'] . '\\', JPATH_ROOT . '/components/' . $option);
-			$autoLoader->setPsr4($config['backend_namespace'] . '\\', JPATH_ADMINISTRATOR . '/components/' . $option);
+			$autoLoader->setPsr4($cNamespace . '\\Site\\', JPATH_ROOT . '/components/' . $option);
+			$autoLoader->setPsr4($cNamespace . '\\Admin\\', JPATH_ADMINISTRATOR . '/components/' . $option);
 
 			// If component has dispatcher class, use it. Otherwise, use default dispatcher
-			$class = $config['namespace'] . '\\Dispatcher\\Dispatcher';
+			$class = $namespace . '\\Dispatcher';
 
 			if (!class_exists($class))
 			{
 				$class = __CLASS__;
 			}
 
-			self::$instances[$option] = new $class($config);
+			self::$instances[$option] = new $class($app, $input, $config);
 		}
 
 		return self::$instances[$option];
@@ -87,28 +115,48 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   array  $config  An array of configuration issue
+	 * @param   \JApplicationCms  $app     The JApplication for the dispatcher
+	 * @param   Input             $input   The controller input
+	 * @param   array             $config  An array of optional constructor options
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws \InvalidArgumentException
 	 */
-	public function __construct(array $config = array())
+	public function __construct(\JApplicationCms $app, Input $input, array $config)
 	{
-		$this->config = $config;
-
-		if (isset($config['input']))
+		// If option is not provided in the config, try to get it from input
+		if (!isset($config['option']))
 		{
-			$this->setInput($config['input']);
-		}
-		else
-		{
-			$this->setInput(\JFactory::getApplication()->input);
+			$config['option'] = $input->getCmd('option');
 		}
 
-		// If component is not passed in the input, set it from config array
+		// To config keys option and namespace is important, we need to valid and make sure it is available in config array
+		if (empty($config['option']) || empty($config['namespace']))
+		{
+			throw new \InvalidArgumentException('option and namespace must be available for dispatcher constructor');
+		}
+
+		$this->app   = $app;
+		$this->input = $input;
+
+		// Populate default data if not propvided
 		$this->input->def('option', $config['option']);
 
+		if (!isset($config['load_language']))
+		{
+			$config['load_language'] = true;
+		}
+
+		if (!isset($config['redirect']))
+		{
+			$config['redirect'] = true;
+		}
+
+		$this->config = $config;
+
 		// Load common and local component language files.
-		if ($this->config['load_language'])
+		if (!empty($this->config['load_language']))
 		{
 			$option   = $this->input->getCmd('option');
 			$language = \JFactory::getApplication()->getLanguage();
@@ -128,11 +176,10 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function dispatch()
 	{
-		$app    = \JFactory::getApplication();
 		$option = $this->input->getCmd('option');
 
 		// Check the user has permission to access this component if in the backend
-		if ($app->isClient('administrator') && !$app->getIdentity()->authorise('core.manage', $option))
+		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $option))
 		{
 			throw new \Exception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -198,7 +245,7 @@ class Dispatcher implements DispatcherInterface
 
 			if (class_exists($class))
 			{
-				return new $class($this->input, $config);
+				return new $class($this->app, $this->input, $config);
 			}
 		}
 
@@ -208,11 +255,11 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Set controller input
 	 *
-	 * @param   array|JInput  $input  An array or input object
+	 * @param   mixed array]$input
 	 *
-	 * @return Input The original input, might be used for backup purpose
+	 * @return  Input The original input, might be used for backup purpose
 	 *
-	 * @throws \InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function setInput($input)
 	{
@@ -232,57 +279,5 @@ class Dispatcher implements DispatcherInterface
 		}
 
 		return $oldInput;
-	}
-
-	/**
-	 * Normalize provided component config data
-	 *
-	 * @param   string  $option  The component name
-	 * @param   array   $config  An optional array of configuration information
-	 *
-	 * @return array
-	 */
-	protected static function normalizeConfig($option, array $config = array())
-	{
-		$config['option'] = $option;
-
-		// Component namespace
-		if (!isset($config['component_namespace']))
-		{
-			$config['component_namespace'] = 'Joomla\\' . substr($option, 4);
-		}
-
-		if (!isset($config['frontend_namespace']))
-		{
-			$config['frontend_namespace'] = $config['component_namespace'] . '\\Site';
-		}
-
-		if (!isset($config['backend_namespace']))
-		{
-			$config['backend_namespace'] = $config['component_namespace'] . '\\Admin';
-		}
-
-		if (\JFactory::getApplication()->isClient('site'))
-		{
-			$config['namespace'] = $config['frontend_namespace'];
-		}
-		else
-		{
-			$config['namespace'] = $config['backend_namespace'];
-		}
-
-		// Redirect after executing a task?
-		if (!isset($config['redirect']))
-		{
-			$config['redirect'] = true;
-		}
-
-		// Load component language?
-		if (!isset($config['load_language']))
-		{
-			$config['load_language'] = true;
-		}
-
-		return $config;
 	}
 }
