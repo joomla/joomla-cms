@@ -23,7 +23,7 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 define('_JEXEC', 1);
 
 // Bootstrap the application
-require_once __DIR__ . '/application/bootstrap.php';
+require_once dirname(__FILE__) . '/application/bootstrap.php';
 
 // Get the application
 $app = JApplicationWeb::getInstance('InstallationApplicationWeb');
