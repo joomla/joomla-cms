@@ -39,7 +39,7 @@ class Access
 	{
 		self::$viewLevels = array();
 
-		$access = Authorize::getInstance('Joomlalegacy');
+		$access = Authorize::getInstance('JoomlaLegacy');
 		$access->clearStatics();
 	}
 
@@ -192,7 +192,7 @@ class Access
 	 */
 	public static function check($userId, $action, $asset = 1)
 	{
-		$access = Authorize::getInstance('Joomlalegacy');
+		$access = Authorize::getInstance('JoomlaLegacy');
 		$access->assetId = $asset;
 
 		return $access->check($userId, $asset, $action, 'user');
@@ -265,7 +265,7 @@ class Access
 	 */
 	public static function checkGroup($groupId, $action, $asset = 1)
 	{
-		$access = Authorize::getInstance('Joomlalegacy');
+		$access = Authorize::getInstance('JoomlaLegacy');
 		$access->assetId = $asset;
 
 		return $access->check($groupId, $asset, $action, 'group');
@@ -288,7 +288,7 @@ class Access
 	 */
 	public static function getAssetRules($asset, $recursive = false, $recursiveParentAsset = false, $preload = true)
 	{
-		$access = Authorize::getInstance('Joomlalegacy');
+		$access = Authorize::getInstance('JoomlaLegacy');
 		$access->assetId = $asset;
 
 		return $access->getRules($recursive, null, null);
