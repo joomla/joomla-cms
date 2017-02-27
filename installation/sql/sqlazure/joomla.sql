@@ -34,7 +34,7 @@ CREATE NONCLUSTERED INDEX [idx_parent_id] ON [#__assets]
 SET IDENTITY_INSERT [#__assets] ON;
 
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules])
-SELECT 1, 0, 0, 103, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
+SELECT 1, 0, 0, 101, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
 UNION ALL
 SELECT 2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'
 UNION ALL
@@ -60,83 +60,81 @@ SELECT 12, 1, 27, 28, 1, 'com_login', 'com_login', '{}'
 UNION ALL
 SELECT 13, 1, 29, 30, 1, 'com_mailto', 'com_mailto', '{}'
 UNION ALL
-SELECT 14, 1, 31, 32, 1, 'com_massmail', 'com_massmail', '{}'
+SELECT 14, 1, 31, 32, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'
 UNION ALL
-SELECT 15, 1, 33, 34, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'
+SELECT 15, 1, 33, 36, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 16, 1, 35, 38, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'
+SELECT 16, 1, 37, 38, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'
 UNION ALL
-SELECT 17, 1, 39, 40, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'
+SELECT 17, 1, 39, 70, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 18, 1, 41, 72, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'
+SELECT 18, 1, 71, 74, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 19, 1, 73, 76, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
+SELECT 19, 1, 75, 76, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 20, 1, 77, 78, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'
+SELECT 20, 1, 77, 78, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 21, 1, 79, 80, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'
+SELECT 21, 1, 79, 80, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 22, 1, 81, 82, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
+SELECT 22, 1, 81, 82, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 23, 1, 83, 84, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'
+SELECT 23, 1, 83, 86, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'
 UNION ALL
-SELECT 24, 1, 85, 88, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'
+SELECT 24, 1, 87, 88, 1, 'com_wrapper', 'com_wrapper', '{}'
 UNION ALL
-SELECT 26, 1, 89, 90, 1, 'com_wrapper', 'com_wrapper', '{}'
+SELECT 25, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{}'
 UNION ALL
-SELECT 27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{}'
+SELECT 26, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'
 UNION ALL
-SELECT 28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'
+SELECT 27, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'
 UNION ALL
-SELECT 29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'
+SELECT 28, 18, 72, 73, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'
 UNION ALL
-SELECT 30, 19, 74, 75, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'
+SELECT 29, 23, 84, 86, 2, 'com_users.category.7', 'Uncategorised', '{}'
 UNION ALL
-SELECT 32, 24, 86, 87, 2, 'com_users.category.7', 'Uncategorised', '{}'
+SELECT 30, 1, 89, 90, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 33, 1, 91, 92, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
+SELECT 31, 1, 91, 92, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'
 UNION ALL
-SELECT 34, 1, 93, 94, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'
+SELECT 32, 1, 93, 94, 1, 'com_tags', 'com_tags', '{}'
 UNION ALL
-SELECT 35, 1, 95, 96, 1, 'com_tags', 'com_tags', '{}'
+SELECT 33, 1, 95, 96, 1, 'com_contenthistory', 'com_contenthistory', '{}'
 UNION ALL
-SELECT 36, 1, 97, 98, 1, 'com_contenthistory', 'com_contenthistory', '{}'
+SELECT 34, 1, 97, 98, 1, 'com_ajax', 'com_ajax', '{}'
 UNION ALL
-SELECT 37, 1, 99, 100, 1, 'com_ajax', 'com_ajax', '{}'
+SELECT 35, 1, 99, 100, 1, 'com_postinstall', 'com_postinstall', '{}'
 UNION ALL
-SELECT 38, 1, 101, 102, 1, 'com_postinstall', 'com_postinstall', '{}'
+SELECT 36, 17, 40, 41, 2, 'com_modules.module.1', 'Main Menu', '{}'
 UNION ALL
-SELECT 39, 18, 42, 43, 2, 'com_modules.module.1', 'Main Menu', '{}'
+SELECT 37, 17, 42, 43, 2, 'com_modules.module.2', 'Login', '{}'
 UNION ALL
-SELECT 40, 18, 44, 45, 2, 'com_modules.module.2', 'Login', '{}'
+SELECT 38, 17, 44, 45, 2, 'com_modules.module.3', 'Popular Articles', '{}'
 UNION ALL
-SELECT 41, 18, 46, 47, 2, 'com_modules.module.3', 'Popular Articles', '{}'
+SELECT 39, 17, 46, 48, 2, 'com_modules.module.4', 'Recently Added Articles', '{}'
 UNION ALL
-SELECT 42, 18, 48, 49, 2, 'com_modules.module.4', 'Recently Added Articles', '{}'
+SELECT 40, 17, 48, 49, 2, 'com_modules.module.8', 'Toolbar', '{}'
 UNION ALL
-SELECT 43, 18, 50, 51, 2, 'com_modules.module.8', 'Toolbar', '{}'
+SELECT 41, 17, 50, 51, 2, 'com_modules.module.9', 'Quick Icons', '{}'
 UNION ALL
-SELECT 44, 18, 52, 53, 2, 'com_modules.module.9', 'Quick Icons', '{}'
+SELECT 42, 17, 52, 53, 2, 'com_modules.module.10', 'Logged-in Users', '{}'
 UNION ALL
-SELECT 45, 18, 54, 55, 2, 'com_modules.module.10', 'Logged-in Users', '{}'
+SELECT 43, 17, 54, 55, 2, 'com_modules.module.12', 'Admin Menu', '{}'
 UNION ALL
-SELECT 46, 18, 56, 57, 2, 'com_modules.module.12', 'Admin Menu', '{}'
+SELECT 44, 17, 56, 57, 2, 'com_modules.module.13', 'Admin Submenu', '{}'
 UNION ALL
-SELECT 47, 18, 58, 59, 2, 'com_modules.module.13', 'Admin Submenu', '{}'
+SELECT 45, 17, 58, 59, 2, 'com_modules.module.14', 'User Status', '{}'
 UNION ALL
-SELECT 48, 18, 60, 61, 2, 'com_modules.module.14', 'User Status', '{}'
+SELECT 46, 17, 60, 61, 2, 'com_modules.module.15', 'Title', '{}'
 UNION ALL
-SELECT 49, 18, 62, 63, 2, 'com_modules.module.15', 'Title', '{}'
+SELECT 47, 17, 62, 63, 2, 'com_modules.module.16', 'Login Form', '{}'
 UNION ALL
-SELECT 50, 18, 64, 65, 2, 'com_modules.module.16', 'Login Form', '{}'
+SELECT 48, 17, 64, 65, 2, 'com_modules.module.17', 'Breadcrumbs', '{}'
 UNION ALL
-SELECT 51, 18, 66, 67, 2, 'com_modules.module.17', 'Breadcrumbs', '{}'
+SELECT 49, 17, 66, 67, 2, 'com_modules.module.79', 'Multilanguage status', '{}'
 UNION ALL
-SELECT 52, 18, 68, 69, 2, 'com_modules.module.79', 'Multilanguage status', '{}'
+SELECT 50, 17, 68, 69, 2, 'com_modules.module.86', 'Joomla Version', '{}'
 UNION ALL
-SELECT 53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{}'
-UNION ALL
-SELECT 54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}';
+SELECT 51, 15, 34, 35, 2, 'com_menus.menu.1', 'Main Menu', '{}';
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
