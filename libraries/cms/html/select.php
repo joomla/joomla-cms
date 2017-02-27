@@ -3,11 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Utility class for creating HTML select lists
@@ -23,9 +25,20 @@ abstract class JHtmlSelect
 	 * @since   1.5
 	 */
 	protected static $optionDefaults = array(
-		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
-			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
-			'option.text.toHtml' => true, 'option.class' => 'class', 'option.onclick' => 'onclick'));
+		'option' => array(
+			'option.attr' => null,
+			'option.disable' => 'disable',
+			'option.id' => null,
+			'option.key' => 'value',
+			'option.key.toHtml' => true,
+			'option.label' => null,
+			'option.label.toHtml' => true,
+			'option.text' => 'text',
+			'option.text.toHtml' => true,
+			'option.class' => 'class',
+			'option.onclick' => 'onclick',
+		),
+	);
 
 	/**
 	 * Generates a yes/no radio list.
@@ -104,7 +117,7 @@ abstract class JHtmlSelect
 		{
 			if (is_array($options['list.attr']))
 			{
-				$attribs = JArrayHelper::toString($options['list.attr']);
+				$attribs = ArrayHelper::toString($options['list.attr']);
 			}
 			else
 			{
@@ -118,7 +131,7 @@ abstract class JHtmlSelect
 		}
 
 		$id = $options['id'] !== false ? $options['id'] : $name;
-		$id = str_replace(array('[', ']'), '', $id);
+		$id = str_replace(array('[', ']', ' '), '', $id);
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
@@ -229,7 +242,7 @@ abstract class JHtmlSelect
 		{
 			if (is_array($options['list.attr']))
 			{
-				$attribs = JArrayHelper::toString($options['list.attr']);
+				$attribs = ArrayHelper::toString($options['list.attr']);
 			}
 			else
 			{
@@ -243,7 +256,7 @@ abstract class JHtmlSelect
 		}
 
 		$id = $options['id'] !== false ? $options['id'] : $name;
-		$id = str_replace(array('[', ']'), '', $id);
+		$id = str_replace(array('[', ']', ' '), '', $id);
 
 		// Disable groups in the options.
 		$options['groups'] = false;
@@ -447,8 +460,15 @@ abstract class JHtmlSelect
 	 */
 	public static function option($value, $text = '', $optKey = 'value', $optText = 'text', $disable = false)
 	{
-		$options = array('attr' => null, 'disable' => false, 'option.attr' => null, 'option.disable' => 'disable', 'option.key' => 'value',
-			'option.label' => null, 'option.text' => 'text');
+		$options = array(
+			'attr' => null,
+			'disable' => false,
+			'option.attr' => null,
+			'option.disable' => 'disable',
+			'option.key' => 'value',
+			'option.label' => null,
+			'option.text' => 'text',
+		);
 
 		if (is_array($optKey))
 		{
@@ -666,7 +686,7 @@ abstract class JHtmlSelect
 				$splitText = explode(' - ', $text, 2);
 				$text = $splitText[0];
 
-				if (isset($splitText[1]) && $splitText[1] != "" && !preg_match('/^[\s]+$/', $splitText[1]))
+				if (isset($splitText[1]) && $splitText[1] != '' && !preg_match('/^[\s]+$/', $splitText[1]))
 				{
 					$text .= ' - ' . $splitText[1];
 				}
@@ -683,7 +703,7 @@ abstract class JHtmlSelect
 
 				if (is_array($attr))
 				{
-					$attr = JArrayHelper::toString($attr);
+					$attr = ArrayHelper::toString($attr);
 				}
 				else
 				{
@@ -748,10 +768,10 @@ abstract class JHtmlSelect
 
 		if (is_array($attribs))
 		{
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = ArrayHelper::toString($attribs);
 		}
 
-		$id_text = $idtag ? $idtag : $name;
+		$id_text = $idtag ?: $name;
 
 		$html = '<div class="controls">';
 

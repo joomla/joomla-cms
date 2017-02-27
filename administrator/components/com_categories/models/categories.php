@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ class CategoriesModelCategories extends JModelList
 				'alias', 'a.alias',
 				'published', 'a.published',
 				'access', 'a.access', 'access_level',
-				'language', 'a.language',
+				'language', 'a.language', 'language_title',
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
 				'created_time', 'a.created_time',
@@ -43,7 +43,7 @@ class CategoriesModelCategories extends JModelList
 				'rgt', 'a.rgt',
 				'level', 'a.level',
 				'path', 'a.path',
-				'tag'
+				'tag',
 			);
 		}
 
@@ -62,9 +62,11 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
 		$app = JFactory::getApplication();
+
+		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout'))
@@ -72,7 +74,13 @@ class CategoriesModelCategories extends JModelList
 			$this->context .= '.' . $layout;
 		}
 
-		$extension = $app->getUserStateFromRequest('com_categories.categories.filter.extension', 'extension', 'com_content', 'cmd');
+		// Adjust the context to support forced languages.
+		if ($forcedLanguage)
+		{
+			$this->context .= '.' . $forcedLanguage;
+		}
+
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$this->setState('filter.extension', $extension);
 		$parts = explode('.', $extension);
@@ -83,34 +91,20 @@ class CategoriesModelCategories extends JModelList
 		// Extract the optional section name
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
-		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
-		$this->setState('filter.level', $level);
-
-		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-		$this->setState('filter.access', $access);
-
-		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
-		$this->setState('filter.published', $published);
-
-		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
-		$this->setState('filter.language', $language);
-
-		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-		$this->setState('filter.tag', $tag);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.search', 'filter_search', '', 'string'));
+		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
+		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
+		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
+		$this->setState('filter.tag', $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '', 'string'));
+		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'string'));
 
 		// List state information.
-		parent::populateState('a.lft', 'asc');
+		parent::populateState($ordering, $direction);
 
-		// Force a language
-		$forcedLanguage = $app->input->get('forcedLanguage');
-
+		// Force a language.
 		if (!empty($forcedLanguage))
 		{
 			$this->setState('filter.language', $forcedLanguage);
-			$this->setState('filter.forcedLanguage', $forcedLanguage);
 		}
 	}
 
@@ -130,10 +124,13 @@ class CategoriesModelCategories extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.extension');
+		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.published');
+		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.level');
+		$id .= ':' . $this->getState('filter.tag');
 
 		return parent::getStoreId($id);
 	}
@@ -237,11 +234,6 @@ class CategoriesModelCategories extends JModelList
 			{
 				$query->where('a.id = ' . (int) substr($search, 3));
 			}
-			elseif (stripos($search, 'author:') === 0)
-			{
-				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
-				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
-			}
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
@@ -282,27 +274,27 @@ class CategoriesModelCategories extends JModelList
 		}
 
 		// Group by on Categories for JOIN with component tables to count items
-		$query->group('a.id, 
-				a.title, 
-				a.alias, 
-				a.note, 
-				a.published, 
-				a.access, 
-				a.checked_out, 
-				a.checked_out_time, 
-				a.created_user_id, 
-				a.path, 
-				a.parent_id, 
-				a.level, 
-				a.lft, 
-				a.rgt, 
-				a.language, 
+		$query->group('a.id,
+				a.title,
+				a.alias,
+				a.note,
+				a.published,
+				a.access,
+				a.checked_out,
+				a.checked_out_time,
+				a.created_user_id,
+				a.path,
+				a.parent_id,
+				a.level,
+				a.lft,
+				a.rgt,
+				a.language,
 				l.title,
 				l.image,
-				uc.name, 
-				ag.title, 
+				uc.name,
+				ag.title,
 				ua.name'
-			);
+		);
 
 		return $query;
 	}
@@ -368,7 +360,7 @@ class CategoriesModelCategories extends JModelList
 
 	/**
 	 * Method to load the countItems method from the extensions
-	 * 
+	 *
 	 * @param   stdClass[]  &$items     The category items
 	 * @param   string      $extension  The category extension
 	 *
@@ -378,7 +370,7 @@ class CategoriesModelCategories extends JModelList
 	 */
 	public function countItems(&$items, $extension)
 	{
-		$parts = explode('.', $extension);
+		$parts = explode('.', $extension, 2);
 		$component = $parts[0];
 		$section = null;
 
@@ -393,14 +385,14 @@ class CategoriesModelCategories extends JModelList
 
 		if (file_exists($file))
 		{
-			require_once $file;
-
-			$prefix = ucfirst(str_replace('com_', '', $component));
+			$prefix = ucfirst($eName);
 			$cName = $prefix . 'Helper';
+
+			JLoader::register($cName, $file);
 
 			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
 			{
-				call_user_func(array($cName, 'countItems'), $items, $section);
+				$cName::countItems($items, $section);
 			}
 		}
 	}

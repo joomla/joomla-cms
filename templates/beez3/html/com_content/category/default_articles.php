@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,10 +14,25 @@ $app = JFactory::getApplication();
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.framework');
 
+$params    = &$this->item->params;
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
+// Check for at least one editable article
+$isEditable = false;
+
+if (!empty($this->items))
+{
+	foreach ($this->items as $article)
+	{
+		if ($article->params->get('access-edit'))
+		{
+			$isEditable = true;
+			break;
+		}
+	}
+}
 ?>
 
 <?php if (empty($this->items)) : ?>
@@ -29,16 +44,26 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('filter_field') != 'hide') : ?>
+	<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 	<fieldset class="filters">
 		<legend class="hidelabeltxt">
 			<?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?>
 		</legend>
-
+		<?php if ($this->params->get('filter_field') !== 'tag') :?>
 		<div class="filter-search">
-			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
-			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
+			<label class="filter-search-lbl element-invisible" for="filter-search">
+				<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?>
+			</label>
+			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL'); ?>" />
 		</div>
+		<?php else :?>
+		<div class="filter-search">
+			<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
+				<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
+			</select>
+		</div>
+		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
@@ -48,28 +73,27 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('filter_field') != 'hide') :?>
+	<?php if ($this->params->get('filter_field') !== 'hide') :?>
 	</fieldset>
 	<?php endif; ?>
 
 	<div class="clr"></div>
 
 	<table class="category">
-		<?php if ($this->params->get('show_headings')) :?>
+		<?php if ($this->params->get('show_headings')) : ?>
 		<thead>
 			<tr>
-
 				<th class="list-title" id="tableOrdering">
 					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 				<th class="list-date" id="tableOrdering2">
-					<?php if ($date == "created") : ?>
+					<?php if ($date === 'created') : ?>
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.created', $listDirn, $listOrder); ?>
-					<?php elseif ($date == "modified") : ?>
+					<?php elseif ($date === 'modified') : ?>
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.modified', $listDirn, $listOrder); ?>
-					<?php elseif ($date == "published") : ?>
+					<?php elseif ($date === 'published') : ?>
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
 					<?php endif; ?>
 				</th>
@@ -85,6 +109,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<th class="list-hits" id="tableOrdering4">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 				</th>
+				<?php endif; ?>
+				<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
+					<th id="categorylist_header_votes">
+						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+					</th>
+				<?php endif; ?>
+				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
+					<th id="categorylist_header_ratings">
+						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
+					</th>
+				<?php endif; ?>
+				<?php if ($isEditable) : ?>
+					<th id="categorylist_header_edit"><?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?></th>
 				<?php endif; ?>
 			</tr>
 		</thead>
@@ -105,11 +142,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->params->get('list_show_date')) : ?>
 					<td class="list-date">
 						<?php
-						echo JHtml::_(
-							'date', $article->displayDate, $this->escape(
-								$this->params->get('date_format', JText::_('DATE_FORMAT_LC3'))
-							)
-						); ?>
+							echo JHtml::_(
+									'date', $article->displayDate, $this->escape(
+											$this->params->get('date_format', JText::_('DATE_FORMAT_LC3'))
+									)
+							);
+						?>
 					</td>
 					<?php endif; ?>
 
@@ -117,8 +155,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td class="list-author">
 						<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 							<?php $author = $article->author ?>
-							<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
-							<?php if (!empty($article->contact_link ) &&  $this->params->get('link_author') == true):?>
+							<?php $author = ($article->created_by_alias ?: $author); ?>
+							<?php if (!empty($article->contact_link) &&  $this->params->get('link_author') == true):?>
 								<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
 							<?php else :?>
 								<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
@@ -133,15 +171,32 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</td>
 					<?php endif; ?>
 
+					<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
+						<td class="list-votes">
+							<?php echo $article->rating_count; ?>
+						</td>
+					<?php endif; ?>
+					<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
+						<td class="list-ratings">
+							<?php echo $article->rating; ?>
+						</td>
+					<?php endif; ?>
+					<?php if ($isEditable) : ?>
+						<td class="list-edit">
+							<?php if ($article->params->get('access-edit')) : ?>
+								<?php echo JHtml::_('icon.edit', $article, $params, array(), true); ?>
+							<?php endif; ?>
+						</td>
+					<?php endif; ?>
 				<?php else : ?>
 				<td>
 					<?php
-						echo $this->escape($article->title) . ' : ';
-						$menu   = JFactory::getApplication()->getMenu();
+						echo $this->escape($article->title).' : ';
+						$menu = JFactory::getApplication()->getMenu();
 						$active = $menu->getActive();
 						$itemId = $active->id;
 						$link   = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
-						$link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false)));
+						$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)));
 					?>
 					<a href="<?php echo $link; ?>" class="register">
 					<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?></a>
@@ -165,7 +220,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<div class="pagination">
 
 		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-		 	<p class="counter">
+			 <p class="counter">
 				<?php echo $this->pagination->getPagesCounter(); ?>
 			</p>
 		<?php  endif; ?>

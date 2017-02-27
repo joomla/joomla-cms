@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,11 +30,12 @@ abstract class ModLanguagesHelper
 	 */
 	public static function getList(&$params)
 	{
-		$user      = JFactory::getUser();
-		$lang      = JFactory::getLanguage();
-		$languages = JLanguageHelper::getLanguages();
-		$app       = JFactory::getApplication();
-		$menu      = $app->getMenu();
+		$user		= JFactory::getUser();
+		$lang		= JFactory::getLanguage();
+		$languages	= JLanguageHelper::getLanguages();
+		$app		= JFactory::getApplication();
+		$menu		= $app->getMenu();
+		$active		= $menu->getActive();
 
 		// Get menu home items
 		$homes = array();
@@ -44,7 +45,7 @@ abstract class ModLanguagesHelper
 		{
 			$default = $menu->getDefault($item->lang_code);
 
-			if ($default && $default->language == $item->lang_code)
+			if ($default && $default->language === $item->lang_code)
 			{
 				$homes[$item->lang_code] = $default;
 			}
@@ -55,8 +56,6 @@ abstract class ModLanguagesHelper
 
 		if ($assoc)
 		{
-			$active = $menu->getActive();
-
 			if ($active)
 			{
 				$associations = MenusHelper::getAssociations($active->id);
@@ -73,7 +72,7 @@ abstract class ModLanguagesHelper
 		}
 
 		$levels    = $user->getAuthorisedViewLevels();
-		$sitelangs = JLanguageMultilang::getSiteLangs();
+		$sitelangs = JLanguageHelper::getInstalledLanguages(0);
 		$multilang = JLanguageMultilang::isEnabled();
 
 		// Filter allowed languages
@@ -96,7 +95,7 @@ abstract class ModLanguagesHelper
 			}
 			else
 			{
-				$language->active = ($language->lang_code == $lang->getTag());
+				$language->active = ($language->lang_code === $lang->getTag());
 
 				// Fetch language rtl
 				// If loaded language get from current JLanguage metadata
@@ -107,7 +106,7 @@ abstract class ModLanguagesHelper
 				// If not loaded language fetch metadata directly for performance
 				else
 				{
-					$languageMetadata = JLanguage::getMetadata($language->lang_code);
+					$languageMetadata = JLanguageHelper::getMetadata($language->lang_code);
 					$language->rtl    = $languageMetadata['rtl'];
 				}
 
@@ -121,6 +120,10 @@ abstract class ModLanguagesHelper
 					{
 						$itemid = $associations[$language->lang_code];
 						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
+					}
+					elseif ($active && $active->language == '*')
+					{
+						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $active->id);
 					}
 					else
 					{

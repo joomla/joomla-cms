@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -73,7 +73,7 @@ abstract class JApplicationBase extends AbstractApplication
 	 * Registers a handler to a particular event group.
 	 *
 	 * @param   string    $event    The event name.
-	 * @param   callable  $handler  The handler, a function or an instance of a event object.
+	 * @param   callable  $handler  The handler, a function or an instance of an event object.
 	 *
 	 * @return  JApplicationBase  The application to allow chaining.
 	 *
@@ -106,7 +106,7 @@ abstract class JApplicationBase extends AbstractApplication
 			return $this->dispatcher->trigger($event, $args);
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -156,6 +156,7 @@ abstract class JApplicationBase extends AbstractApplication
 	 * @return  void
 	 *
 	 * @since   3.4 (CMS)
+	 * @deprecated  4.0  The default concrete implementation of doExecute() will be removed, subclasses will need to provide their own implementation.
 	 */
 	protected function doExecute()
 	{

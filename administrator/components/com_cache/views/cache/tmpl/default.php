@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,13 +24,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<?php else : ?>
 	<div id="j-main-container">
 	<?php endif; ?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
-		<div class="clearfix"></div>
-		<?php if (empty($this->data)) : ?>
-		<div class="alert alert-no-items">
-			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
-		<?php else : ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php if ($this->total > 0) : ?>
 		<table class="table table-striped">
 			<thead>
 				<tr>

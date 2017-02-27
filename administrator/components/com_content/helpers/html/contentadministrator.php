@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
@@ -21,9 +23,11 @@ abstract class JHtmlContentAdministrator
 	/**
 	 * Render the list of associated items
 	 *
-	 * @param   int  $articleid  The article item id
+	 * @param   integer  $articleid  The article item id
 	 *
 	 * @return  string  The language HTML
+	 *
+	 * @throws  Exception
 	 */
 	public static function association($articleid)
 	{
@@ -43,6 +47,7 @@ abstract class JHtmlContentAdministrator
 			$query = $db->getQuery(true)
 				->select('c.*')
 				->select('l.sef as lang_sef')
+				->select('l.lang_code')
 				->from('#__content as c')
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
@@ -58,37 +63,26 @@ abstract class JHtmlContentAdministrator
 			}
 			catch (RuntimeException $e)
 			{
-				throw new Exception($e->getMessage(), 500);
+				throw new Exception($e->getMessage(), 500, $e);
 			}
 
 			if ($items)
 			{
 				foreach ($items as &$item)
 				{
-					$text = strtoupper($item->lang_sef);
-					$url = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
-					$tooltipParts = array(
-						JHtml::_('image', 'mod_languages/' . $item->image . '.gif',
-							$item->language_title,
-							array('title' => $item->language_title),
-							true
-						),
-						$item->title,
-						'(' . $item->category_title . ')'
-					);
+					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
+					$url     = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
 
-					$item->link = JHtml::_(
-						'tooltip',
-						implode(' ', $tooltipParts),
-						null,
-						null,
-						$text,
-						$url,
-						null,
-						'hasTooltip label label-association label-' . $item->lang_sef
-					);
+					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br />' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$classes = 'hasPopover label label-association label-' . $item->lang_sef;
+
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
+						. '" data-content="' . $tooltip . '" data-placement="top">'
+						. $text . '</a>';
 				}
 			}
+
+			JHtml::_('bootstrap.popover');
 
 			$html = JLayoutHelper::render('joomla.content.associations', $items);
 		}
@@ -99,8 +93,8 @@ abstract class JHtmlContentAdministrator
 	/**
 	 * Show the feature/unfeature links
 	 *
-	 * @param   int      $value      The state value
-	 * @param   int      $i          Row number
+	 * @param   integer  $value      The state value
+	 * @param   integer  $i          Row number
 	 * @param   boolean  $canChange  Is user allowed to change?
 	 *
 	 * @return  string       HTML code
@@ -114,18 +108,18 @@ abstract class JHtmlContentAdministrator
 			0 => array('unfeatured', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
 			1 => array('featured', 'articles.unfeatured', 'COM_CONTENT_FEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
 		);
-		$state = JArrayHelper::getValue($states, (int) $value, $states[1]);
+		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
 		$icon  = $state[0];
 
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[3]) . '"><span class="icon-' . $icon . '"></span></a>';
+				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3]) . '"><span class="icon-' . $icon . '"></span></a>';
 		}
 		else
 		{
 			$html = '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
-				. JHtml::tooltipText($state[2]) . '"><span class="icon-' . $icon . '"></span></a>';
+				. JHtml::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '"></span></a>';
 		}
 
 		return $html;

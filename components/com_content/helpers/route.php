@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,8 +16,6 @@ defined('_JEXEC') or die;
  */
 abstract class ContentHelperRoute
 {
-	protected static $lookup = array();
-
 	/**
 	 * Get the article route.
 	 *
@@ -31,35 +29,17 @@ abstract class ContentHelperRoute
 	 */
 	public static function getArticleRoute($id, $catid = 0, $language = 0)
 	{
-		$needles = array(
-			'article'  => array((int) $id)
-		);
-
 		// Create the link
 		$link = 'index.php?option=com_content&view=article&id=' . $id;
 
 		if ((int) $catid > 1)
 		{
-			$categories = JCategories::getInstance('Content');
-			$category   = $categories->get((int) $catid);
-
-			if ($category)
-			{
-				$needles['category']   = array_reverse($category->getPath());
-				$needles['categories'] = $needles['category'];
-				$link .= '&catid=' . $catid;
-			}
+			$link .= '&catid=' . $catid;
 		}
 
-		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 		{
 			$link .= '&lang=' . $language;
-			$needles['language'] = $language;
-		}
-
-		if ($item = self::_findItem($needles))
-		{
-			$link .= '&Itemid=' . $item;
 		}
 
 		return $link;
@@ -79,36 +59,24 @@ abstract class ContentHelperRoute
 	{
 		if ($catid instanceof JCategoryNode)
 		{
-			$id       = $catid->id;
-			$category = $catid;
+			$id = $catid->id;
 		}
 		else
 		{
-			$id       = (int) $catid;
-			$category = JCategories::getInstance('Content')->get($id);
+			$id = (int) $catid;
 		}
 
-		if ($id < 1 || !($category instanceof JCategoryNode))
+		if ($id < 1)
 		{
 			$link = '';
 		}
 		else
 		{
-			$needles               = array();
-			$link                  = 'index.php?option=com_content&view=category&id=' . $id;
-			$catids                = array_reverse($category->getPath());
-			$needles['category']   = $catids;
-			$needles['categories'] = $catids;
+			$link = 'index.php?option=com_content&view=category&id=' . $id;
 
-			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+			if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
-				$needles['language'] = $language;
-			}
-
-			if ($item = self::_findItem($needles))
-			{
-				$link .= '&Itemid=' . $item;
 			}
 		}
 
@@ -126,109 +94,6 @@ abstract class ContentHelperRoute
 	 */
 	public static function getFormRoute($id)
 	{
-		// Create the link
-		if ($id)
-		{
-			$link = 'index.php?option=com_content&task=article.edit&a_id=' . $id;
-		}
-		else
-		{
-			$link = 'index.php?option=com_content&task=article.edit&a_id=0';
-		}
-
-		return $link;
-	}
-
-	/**
-	 * Find an item ID.
-	 *
-	 * @param   array  $needles  An array of language codes.
-	 *
-	 * @return  mixed  The ID found or null otherwise.
-	 *
-	 * @since   1.5
-	 */
-	protected static function _findItem($needles = null)
-	{
-		$app      = JFactory::getApplication();
-		$menus    = $app->getMenu('site');
-		$language = isset($needles['language']) ? $needles['language'] : '*';
-
-		// Prepare the reverse lookup array.
-		if (!isset(self::$lookup[$language]))
-		{
-			self::$lookup[$language] = array();
-
-			$component  = JComponentHelper::getComponent('com_content');
-
-			$attributes = array('component_id');
-			$values     = array($component->id);
-
-			if ($language != '*')
-			{
-				$attributes[] = 'language';
-				$values[]     = array($needles['language'], '*');
-			}
-
-			$items = $menus->getItems($attributes, $values);
-
-			foreach ($items as $item)
-			{
-				if (isset($item->query) && isset($item->query['view']))
-				{
-					$view = $item->query['view'];
-
-					if (!isset(self::$lookup[$language][$view]))
-					{
-						self::$lookup[$language][$view] = array();
-					}
-
-					if (isset($item->query['id']))
-					{
-						/**
-						 * Here it will become a bit tricky
-						 * language != * can override existing entries
-						 * language == * cannot override existing entries
-						 */
-						if (!isset(self::$lookup[$language][$view][$item->query['id']]) || $item->language != '*')
-						{
-							self::$lookup[$language][$view][$item->query['id']] = $item->id;
-						}
-					}
-				}
-			}
-		}
-
-		if ($needles)
-		{
-			foreach ($needles as $view => $ids)
-			{
-				if (isset(self::$lookup[$language][$view]))
-				{
-					foreach ($ids as $id)
-					{
-						if (isset(self::$lookup[$language][$view][(int) $id]))
-						{
-							return self::$lookup[$language][$view][(int) $id];
-						}
-					}
-				}
-			}
-		}
-
-		// Check if the active menuitem matches the requested language
-		$active = $menus->getActive();
-
-		if ($active
-			&& $active->component == 'com_content'
-			&& ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
-		{
-			return $active->id;
-		}
-
-		// If not found, return language specific home link
-		$default = $menus->getDefault($language);
-
-		return !empty($default->id) ? $default->id : null;
+		return 'index.php?option=com_content&task=article.edit&a_id=' . (int) $id;
 	}
 }

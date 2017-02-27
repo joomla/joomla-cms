@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class NewsfeedsController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		require_once JPATH_COMPONENT . '/helpers/newsfeeds.php';
+		JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
 
 		$view   = $this->input->get('view', 'newsfeeds');
 		$layout = $this->input->get('layout', 'default');

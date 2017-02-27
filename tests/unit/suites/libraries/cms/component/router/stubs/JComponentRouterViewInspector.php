@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,7 +57,27 @@ class JComponentRouterViewInspector extends JComponentRouterView
 	public function getCategorySegment($id, $query)
 	{
 		$category = JCategories::getInstance($this->getName())->get($id);
-		return array_reverse($category->getPath());
+
+		if ($category)
+		{
+			return array_reverse($category->getPath(), true);
+		}
+
+		return array();
+	}
+
+	/**
+	* Get content items of the type categories
+	*
+	* @param int $id ID of the category to load
+	*
+	* @return array  Categories path identified by $id
+	*
+	* @since 3.4
+	*/
+	public function getCategoriesSegment($id, $query)
+	{
+		return $this->getCategorySegment($id, $query);
 	}
 
 	/**
@@ -71,7 +91,7 @@ class JComponentRouterViewInspector extends JComponentRouterView
 	*/
 	public function getArticleSegment($id, $query)
 	{
-		return array($id);
+		return array((int) $id => $id);
 	}
 }
 

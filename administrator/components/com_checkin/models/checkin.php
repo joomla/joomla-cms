@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,12 +64,12 @@ class CheckinModelCheckin extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'table', $direction = 'asc')
 	{
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
 
 		// List state information.
-		parent::populateState('table', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -196,6 +196,12 @@ class CheckinModelCheckin extends JModelList
 				if ($db->execute())
 				{
 					$results[$tn] = $db->loadResult();
+
+					// Show only tables with items to checkin.
+					if ((int) $results[$tn] === 0)
+					{
+						unset($results[$tn]);
+					}
 				}
 				else
 				{
@@ -232,6 +238,7 @@ class CheckinModelCheckin extends JModelList
 
 			// Pagination
 			$limit = (int) $this->getState('list.limit');
+
 			if ($limit !== 0)
 			{
 				$this->items = array_slice($results, $this->getState('list.start'), $limit);

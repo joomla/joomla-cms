@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Deprecated class placeholder. You should use JApplicationCli instead.
  *
- * @since       11.1
- * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationCli instead.
- * @codeCoverageIgnore
+ * @since       1.7
+ * @deprecated  2.5 Use JApplicationCli instead.
  */
 class JCli extends JApplicationCli
 {
@@ -35,8 +34,8 @@ class JCli extends JApplicationCli
 	 *                                         will be created based on the application's loadDispatcher() method.
 	 *
 	 * @see     JApplicationBase::loadDispatcher()
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationCli instead.
+	 * @since   1.7
+	 * @deprecated  2.5 Use JApplicationCli instead.
 	 */
 	public function __construct(JInputCli $input = null, Registry $config = null, JEventDispatcher $dispatcher = null)
 	{

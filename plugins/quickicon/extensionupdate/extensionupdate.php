@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Extensionupdate
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,7 @@ class PlgQuickiconExtensionupdate extends JPlugin
 			. '"ERROR": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true) . '",'
 			. '};';
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
-		JHtml::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', false, true);
+		JHtml::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', array('version' => 'auto', 'relative' => true));
 
 		return array(
 			array(

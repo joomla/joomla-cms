@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.5"
+	version="3.6"
 	client="installation">
-	<name>Macedonian Македонски (MК)</name>
-	<version>3.5.0</version>
-	<creationDate>August 2015</creationDate>
+	<name>Macedonian (Macedonia)</name>
+	<version>3.7.0</version>
+	<creationDate>February 2017</creationDate>
 	<author>Macedonian Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>mk-MK.ini</filename>
 	</files>
 	<metadata>
-		<name>Macedonian Македонски (MК)</name>
+		<name>Macedonian (mk-MK)</name>
+		<nativeName>Македонски (Macedonia)</nativeName>
 		<tag>mk-MK</tag>
 		<rtl>0</rtl>
 	</metadata>

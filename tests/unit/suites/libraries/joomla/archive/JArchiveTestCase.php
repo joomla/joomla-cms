@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,13 +62,14 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 		if (is_dir($this->outputPath))
 		{
 			// delete files in output directory
-			foreach(glob("{$this->outputPath}/*") as $file)
+			foreach (glob("{$this->outputPath}/*") as $file)
 			{
 				unlink($file);
 			}
 			rmdir($this->outputPath);
 		}
 
+		unset($this->outputPath);
 		parent::tearDown();
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,10 @@ defined('JPATH_PLATFORM') or die;
  * The Issue Comments API supports listing, viewing, editing, and creating comments
  * on issues and pull requests.
  *
- * @documentation http://developer.github.com/v3/issues/comments/
+ * @documentation https://developer.github.com/v3/issues/comments/
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageIssuesComments extends JGithubPackage
 {
@@ -137,7 +138,7 @@ class JGithubPackageIssuesComments extends JGithubPackage
 		// Build the request data.
 		$data = json_encode(
 			array(
-				'body' => $body
+				'body' => $body,
 			)
 		);
 

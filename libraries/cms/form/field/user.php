@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,21 +27,24 @@ class JFormFieldUser extends JFormField
 	/**
 	 * Filtering groups
 	 *
-	 * @var  array
+	 * @var   array
+	 * @since 3.5
 	 */
 	protected $groups = null;
 
 	/**
 	 * Users to exclude from the list of users
 	 *
-	 * @var  array
+	 * @var   array
+	 * @since 3.5
 	 */
 	protected $excluded = null;
 
 	/**
 	 * Layout to render
 	 *
-	 * @var  string
+	 * @var   string
+	 * @since 3.5
 	 */
 	protected $layout = 'joomla.form.field.user';
 
@@ -67,35 +70,44 @@ class JFormFieldUser extends JFormField
 	 * Get the data that is going to be passed to the layout
 	 *
 	 * @return  array
+	 *
+	 * @since   3.5
 	 */
 	public function getLayoutData()
 	{
 		// Get the basic field data
 		$data = parent::getLayoutData();
 
-		// Load the current username if available.
-		$table = JTable::getInstance('user');
+		// Initialize value
+		$name = JText::_('JLIB_FORM_SELECT_USER');
 
 		if (is_numeric($this->value))
 		{
-			$table->load($this->value);
+			$name = JUser::getInstance($this->value)->name;
 		}
 		// Handle the special case for "current".
 		elseif (strtoupper($this->value) == 'CURRENT')
 		{
 			// 'CURRENT' is not a reasonable value to be placed in the html
-			$this->value = JFactory::getUser()->id;
-			$table->load($this->value);
+			$current = JFactory::getUser();
+
+			$this->value = $current->id;
+
+			$data['value'] = $this->value;
+
+			$name = $current->name;
 		}
-		else
+
+		// User lookup went wrong, we assign the value instead.
+		if ($name === null && $this->value)
 		{
-			$table->name = JText::_('JLIB_FORM_SELECT_USER');
+			$name = $this->value;
 		}
 
 		$extraData = array(
-				'userName'  => $table->name,
-				'groups'    => $this->getGroups(),
-				'excluded'  => $this->getExcluded()
+			'userName'  => $name,
+			'groups'    => $this->getGroups(),
+			'excluded'  => $this->getExcluded(),
 		);
 
 		return array_merge($data, $extraData);
@@ -104,7 +116,7 @@ class JFormFieldUser extends JFormField
 	/**
 	 * Method to get the filtering groups (null means no filtering)
 	 *
-	 * @return  mixed  array of filtering groups or null.
+	 * @return  mixed  Array of filtering groups or null.
 	 *
 	 * @since   1.6
 	 */
@@ -115,7 +127,7 @@ class JFormFieldUser extends JFormField
 			return explode(',', $this->element['groups']);
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -127,6 +139,11 @@ class JFormFieldUser extends JFormField
 	 */
 	protected function getExcluded()
 	{
-		return explode(',', $this->element['exclude']);
+		if (isset($this->element['exclude']))
+		{
+			return explode(',', $this->element['exclude']);
+		}
+
+		return;
 	}
 }

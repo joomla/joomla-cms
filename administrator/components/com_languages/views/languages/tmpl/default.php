@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ if ($saveOrder)
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"></div>
 		<?php if (empty($this->items)) : ?>
@@ -48,28 +48,28 @@ if ($saveOrder)
 						<th width="1%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="20">
+						<th width="1%"  class="nowrap center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" style="min-width:55px" class="nowrap center">
+						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
-						<th class="title">
+						<th class="title nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th class="title hidden-phone">
+						<th class="title nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'a.title_native', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-phone hidden-tablet">
+						<th width="1%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'a.lang_code', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap">
+						<th width="1%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_CODE', 'a.sef', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap">
+						<th width="8%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.image', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap">
+						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="nowrap hidden-phone">
@@ -121,7 +121,7 @@ if ($saveOrder)
 							<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
 						</td>
 						<td>
-							<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('JGLOBAL_EDIT_ITEM'), $item->title, 0); ?>">
+							<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('JGLOBAL_EDIT_ITEM'), $item->title, 0); ?>">
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&lang_id=' . (int) $item->lang_id); ?>"><?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
@@ -129,19 +129,23 @@ if ($saveOrder)
 							<?php endif; ?>
 							</span>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-phone hidden-tablet">
 							<?php echo $this->escape($item->title_native); ?>
 						</td>
-						<td class="hidden-phone hidden-tablet">
+						<td>
 							<?php echo $this->escape($item->lang_code); ?>
 						</td>
 						<td>
 							<?php echo $this->escape($item->sef); ?>
 						</td>
-						<td>
-							<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, array('title' => $item->image), true); ?>&nbsp;<?php echo $this->escape($item->image); ?>
+						<td class="hidden-phone">
+							<?php if ($item->image) : ?>
+								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, null, true); ?>&nbsp;<?php echo $this->escape($item->image); ?>
+							<?php else : ?>
+								<?php echo JText::_('JNONE'); ?>
+							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="hidden-phone">
@@ -154,7 +158,7 @@ if ($saveOrder)
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>

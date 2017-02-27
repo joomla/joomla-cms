@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -128,7 +128,7 @@ class PlgExtensionJoomla extends JPlugin
 	 *
 	 * @param   JInstaller  $installer  Installer instance
 	 * @param   integer     $eid        Extension id
-	 * @param   integer     $result     Installation result
+	 * @param   boolean     $result     Installation result
 	 *
 	 * @return  void
 	 *
@@ -136,9 +136,10 @@ class PlgExtensionJoomla extends JPlugin
 	 */
 	public function onExtensionAfterUninstall($installer, $eid, $result)
 	{
-		if ($eid)
+		// If we have a valid extension ID and the extension was successfully uninstalled wipe out any
+		// update sites for it
+		if ($eid && $result)
 		{
-			// Wipe out any update_sites_extensions links
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__update_sites_extensions')

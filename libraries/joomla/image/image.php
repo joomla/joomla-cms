@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -89,6 +89,13 @@ class JImage
 	protected static $formats = array();
 
 	/**
+	 * @var    boolean  True for best quality. False for speed
+	 *
+	 * @since  3.7.0
+	 */
+	protected $generateBestQuality = true;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
@@ -171,7 +178,7 @@ class JImage
 			'channels'    => isset($info['channels']) ? $info['channels'] : null,
 			'mime'        => $info['mime'],
 			'filesize'    => filesize($path),
-			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1])
+			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1]),
 		);
 
 		return $properties;
@@ -192,7 +199,7 @@ class JImage
 			return self::getOrientationString($this->getWidth(), $this->getHeight());
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -205,7 +212,7 @@ class JImage
 	 *
 	 * @since   3.4.2
 	 */
-	static private function getOrientationString($width, $height)
+	private static function getOrientationString($width, $height)
 	{
 		if ($width > $height)
 		{
@@ -420,7 +427,10 @@ class JImage
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
+		}
 
+		if (!$this->generateBestQuality)
+		{
 			imagecopyresized($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
 		}
 		else
@@ -550,7 +560,7 @@ class JImage
 	/**
 	 * Method to determine whether or not the image has transparency.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   11.3
 	 * @throws  LogicException
@@ -563,7 +573,7 @@ class JImage
 			throw new LogicException('No valid image was loaded.');
 		}
 
-		return (imagecolortransparent($this->handle) >= 0);
+		return imagecolortransparent($this->handle) >= 0;
 	}
 
 	/**
@@ -668,15 +678,6 @@ class JImage
 
 				$this->handle = $handle;
 
-				// Set transparency for non-transparent PNGs.
-				if (!$this->isTransparent())
-				{
-					// Assign to black which is default for transparent PNGs
-					$transparency = imagecolorallocatealpha($handle, 0, 0, 0, 127);
-
-					imagecolortransparent($handle, $transparency);
-				}
-
 				break;
 
 			default:
@@ -758,7 +759,10 @@ class JImage
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
+		}
 
+		if (!$this->generateBestQuality)
+		{
 			imagecopyresized(
 				$handle,
 				$this->handle,
@@ -910,9 +914,8 @@ class JImage
 	/**
 	 * Method to flip the current image.
 	 *
-	 * @param   integer  $mode       The flip mode for flipping the image {@link http://php.net/imageflip#refsect1-function.imageflip-parameters}
-	 * @param   boolean  $createNew  If true the current image will be cloned, flipped and returned; else
-	 *                               the current image will be flipped and returned.
+	 * @param   integer  $mode       The flip mode for flipping the image {@link https://secure.php.net/imageflip#refsect1-function.imageflip-parameters}
+	 * @param   boolean  $createNew  If true the current image will be cloned, flipped and returned; else the current image will be flipped and returned.
 	 *
 	 * @return  JImage
 	 *
@@ -968,7 +971,7 @@ class JImage
 	 *
 	 * @return  boolean
 	 *
-	 * @see     http://www.php.net/manual/image.constants.php
+	 * @see     https://secure.php.net/manual/image.constants.php
 	 * @since   11.3
 	 * @throws  LogicException
 	 */
@@ -1187,5 +1190,19 @@ class JImage
 	public function __destruct()
 	{
 		$this->destroy();
+	}
+
+	/**
+	 * Method for set option of generate thumbnail method
+	 *
+	 * @param   boolean  $quality  True for best quality. False for best speed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function setThumbnailGenerate($quality = true)
+	{
+		$this->generateBestQuality = (boolean) $quality;
 	}
 }

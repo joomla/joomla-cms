@@ -1,17 +1,17 @@
 /**
-*  Ajax Autocomplete for jQuery, version 1.2.24
-*  (c) 2015 Tomas Kirda
+*  Ajax Autocomplete for jQuery, version 1.3.0
+*  (c) 2017 Tomas Kirda
 *
 *  Ajax Autocomplete for jQuery is freely distributable under the terms of an MIT-style license.
 *  For details, see the web site: https://github.com/devbridge/jQuery-Autocomplete
 */
 
-/*jslint  browser: true, white: true, plusplus: true, vars: true */
+/*jslint  browser: true, white: true, single: true, this: true, multivar: true */
 /*global define, window, document, jQuery, exports, require */
 
 // Expose plugin as an AMD module if AMD loader is present:
 (function (factory) {
-    'use strict';
+    "use strict";
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define(['jquery'], factory);
@@ -29,7 +29,7 @@
         utils = (function () {
             return {
                 escapeRegExChars: function (value) {
-                    return value.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+                    return value.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&");
                 },
                 createNode: function (containerClass) {
                     var div = document.createElement('div');
@@ -52,7 +52,7 @@
         };
 
     function Autocomplete(el, options) {
-        var noop = function () { },
+        var noop = $.noop,
             that = this,
             defaults = {
                 ajaxSettings: {},
@@ -67,6 +67,7 @@
                 deferRequestBy: 0,
                 params: {},
                 formatResult: Autocomplete.formatResult,
+                formatGroup: Autocomplete.formatGroup,
                 delimiter: null,
                 zIndex: 9999,
                 type: 'GET',
@@ -127,8 +128,13 @@
     $.Autocomplete = Autocomplete;
 
     Autocomplete.formatResult = function (suggestion, currentValue) {
-        var pattern = '(' + utils.escapeRegExChars(currentValue) + ')';
+        // Do not replace anything if there current value is empty
+        if (!currentValue) {
+            return suggestion.value;
+        }
         
+        var pattern = '(' + utils.escapeRegExChars(currentValue) + ')';
+
         return suggestion.value
             .replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>')
             .replace(/&/g, '&amp;')
@@ -136,6 +142,10 @@
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
             .replace(/&lt;(\/?strong)&gt;/g, '<$1>');
+    };
+
+    Autocomplete.formatGroup = function (suggestion, category) {
+        return '<div class="autocomplete-group"><strong>' + category + '</strong></div>';
     };
 
     Autocomplete.prototype = {
@@ -153,7 +163,7 @@
             that.element.setAttribute('autocomplete', 'off');
 
             that.killerFn = function (e) {
-                if ($(e.target).closest('.' + that.options.containerClass).length === 0) {
+                if (!$(e.target).closest('.' + that.options.containerClass).length) {
                     that.killSuggestions();
                     that.disableKillerFn();
                 }
@@ -171,7 +181,7 @@
 
             // Only set width if it was provided:
             if (options.width !== 'auto') {
-                container.width(options.width);
+                container.css('width', options.width);
             }
 
             // Listen for mouse over event on suggestions list:
@@ -188,6 +198,7 @@
             // Listen for click event on suggestions list:
             container.on('click.autocomplete', suggestionSelector, function () {
                 that.select($(this).data('index'));
+                return false;
             });
 
             that.fixPositionCapture = function () {
@@ -208,8 +219,10 @@
 
         onFocus: function () {
             var that = this;
+
             that.fixPosition();
-            if (that.options.minChars === 0 && that.el.val().length === 0) {
+
+            if (that.el.val().length >= that.options.minChars) {
                 that.onValueChange();
             }
         },
@@ -324,9 +337,8 @@
                 }
             }
 
-            // -2px to account for suggestions border.
             if (that.options.width === 'auto') {
-                styles.width = (that.el.outerWidth() - 2) + 'px';
+                styles.width = that.el.outerWidth() + 'px';
             }
 
             $container.css(styles);
@@ -347,7 +359,13 @@
             that.stopKillSuggestions();
             that.intervalId = window.setInterval(function () {
                 if (that.visible) {
-                    that.el.val(that.currentValue);
+                    // No need to restore value when 
+                    // preserveInput === true, 
+                    // because we did not change it
+                    if (!that.options.preserveInput) {
+                        that.el.val(that.currentValue);
+                    }
+
                     that.hide();
                 }
                 
@@ -628,7 +646,7 @@
         },
 
         suggest: function () {
-            if (this.suggestions.length === 0) {
+            if (!this.suggestions.length) {
                 if (this.options.showNoSuggestionNotice) {
                     this.noSuggestions();
                 } else {
@@ -658,7 +676,7 @@
 
                         category = currentCategory;
 
-                        return '<div class="autocomplete-group"><strong>' + category + '</strong></div>';
+                        return options.formatGroup(suggestion, category);
                     };
 
             if (options.triggerSelectOnValidInput && that.isExactMatch(value)) {
@@ -672,7 +690,7 @@
                     html += formatGroup(suggestion, value, i);
                 }
 
-                html += '<div class="' + className + '" data-index="' + i + '">' + formatResult(suggestion, value) + '</div>';
+                html += '<div class="' + className + '" data-index="' + i + '">' + formatResult(suggestion, value, i) + '</div>';
             });
 
             this.adjustContainerWidth();
@@ -681,7 +699,7 @@
             container.html(html);
 
             if ($.isFunction(beforeRender)) {
-                beforeRender.call(that.element, container);
+                beforeRender.call(that.element, container, that.suggestions);
             }
 
             that.fixPosition();
@@ -726,10 +744,13 @@
             // If width is auto, adjust width before displaying suggestions,
             // because if instance was created before input had width, it will be zero.
             // Also it adjusts if input width has changed.
-            // -2px to account for suggestions border.
             if (options.width === 'auto') {
-                width = that.el.outerWidth() - 2;
-                container.width(width > 0 ? width : 300);
+                width = that.el.outerWidth();
+                container.css('width', width > 0 ? width : 300);
+            } else if(options.width === 'flex') {
+                // Trust the source! Unset the width property so it will be the max length
+                // the containing elements.
+                container.css('width', '');
             }
         },
 
@@ -796,7 +817,7 @@
             // Cache results if cache is not disabled:
             if (!options.noCache) {
                 that.cachedResponse[cacheKey] = result;
-                if (options.preventBadQueries && result.suggestions.length === 0) {
+                if (options.preventBadQueries && !result.suggestions.length) {
                     that.badQueries.push(originalQuery);
                 }
             }
@@ -841,6 +862,7 @@
             var that = this;
             that.hide();
             that.onSelect(i);
+            that.disableKillerFn();
         },
 
         moveUp: function () {
@@ -954,7 +976,7 @@
         var dataKey = 'autocomplete';
         // If function invoked without argument return
         // instance of the first matched element:
-        if (arguments.length === 0) {
+        if (!arguments.length) {
             return this.first().data(dataKey);
         }
 

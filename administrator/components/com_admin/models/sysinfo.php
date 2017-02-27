@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'session.save_path',
 			'upload_tmp_dir',
 			'User/Group',
-			'open_basedir'
+			'open_basedir',
 		),
 		'other' => array(
 			'db',
@@ -126,7 +126,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'sitename',
 			'smtphost',
 			'tmp_path',
-			'open_basedir'
+			'open_basedir',
 		)
 	);
 
@@ -209,6 +209,7 @@ class AdminModelSysInfo extends JModelLegacy
 			{
 				$sectionValues = 'xxxxxx';
 			}
+
 			return strlen($sectionValues) ? 'xxxxxx' : '';
 		}
 
@@ -251,6 +252,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'zip'                => function_exists('zip_open') && function_exists('zip_read'),
 			'mbstring'           => extension_loaded('mbstring'),
 			'iconv'              => function_exists('iconv'),
+			'mcrypt'             => extension_loaded('mcrypt'),
 			'max_input_vars'     => ini_get('max_input_vars'),
 		);
 
@@ -273,7 +275,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		$registry = new Registry(new JConfig);
 		$this->config = $registry->toArray();
-		$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass');
+		$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass',);
 
 		foreach ($hidden as $key)
 		{
@@ -311,7 +313,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'sapi_name'             => php_sapi_name(),
 			'version'               => $version->getLongVersion(),
 			'platform'              => $platform->getLongVersion(),
-			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ""
+			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
 		);
 
 		return $this->info;
@@ -443,7 +445,17 @@ class AdminModelSysInfo extends JModelLegacy
 		}
 		catch (Exception $e)
 		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), JLog::WARNING, 'jerror');
+			try
+			{
+				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), JLog::WARNING, 'jerror');
+			}
+			catch (RuntimeException $exception)
+			{
+				JFactory::getApplication()->enqueueMessage(
+					JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
+					'warning'
+				);
+			}
 
 			return $installed;
 		}
@@ -463,10 +475,11 @@ class AdminModelSysInfo extends JModelLegacy
 			$installed[$extension->name] = array(
 				'name'         => $extension->name,
 				'type'         => $extension->type,
+				'state'        => $extension->enabled ? JText::_('JENABLED') : JText::_('JDISABLED'),
 				'author'       => 'unknown',
 				'version'      => 'unknown',
 				'creationDate' => 'unknown',
-				'authorUrl'    => 'unknown'
+				'authorUrl'    => 'unknown',
 			);
 
 			$manifest = json_decode($extension->manifest_cache);
@@ -480,7 +493,7 @@ class AdminModelSysInfo extends JModelLegacy
 				'author'       => $manifest->author,
 				'version'      => $manifest->version,
 				'creationDate' => $manifest->creationDate,
-				'authorUrl'    => $manifest->authorUrl
+				'authorUrl'    => $manifest->authorUrl,
 			);
 
 			$installed[$extension->name] = array_merge($installed[$extension->name], $extraData);
@@ -523,7 +536,10 @@ class AdminModelSysInfo extends JModelLegacy
 				continue;
 			}
 
-			$this->addDirectory('administrator/language/' . $folder->getFilename(), JPATH_ADMINISTRATOR . '/language/' . $folder->getFilename());
+			$this->addDirectory(
+				'administrator/language/' . $folder->getFilename(),
+				JPATH_ADMINISTRATOR . '/language/' . $folder->getFilename()
+			);
 		}
 
 		// List all manifests folders
@@ -536,7 +552,10 @@ class AdminModelSysInfo extends JModelLegacy
 				continue;
 			}
 
-			$this->addDirectory('administrator/manifests/' . $folder->getFilename(), JPATH_ADMINISTRATOR . '/manifests/' . $folder->getFilename());
+			$this->addDirectory(
+				'administrator/manifests/' . $folder->getFilename(),
+				JPATH_ADMINISTRATOR . '/manifests/' . $folder->getFilename()
+			);
 		}
 
 		$this->addDirectory('administrator/modules', JPATH_ADMINISTRATOR . '/modules');
@@ -556,7 +575,10 @@ class AdminModelSysInfo extends JModelLegacy
 				continue;
 			}
 
-			$this->addDirectory('images/' . $folder->getFilename(), JPATH_SITE . '/' . $cparams->get('image_path') . '/' . $folder->getFilename());
+			$this->addDirectory(
+				'images/' . $folder->getFilename(),
+				JPATH_SITE . '/' . $cparams->get('image_path') . '/' . $folder->getFilename()
+			);
 		}
 
 		$this->addDirectory('language', JPATH_SITE . '/language');
@@ -609,13 +631,29 @@ class AdminModelSysInfo extends JModelLegacy
 
 		if ($public)
 		{
-			$this->addDirectory('log', $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
-			$this->addDirectory('tmp', $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
+			$this->addDirectory(
+				'log',
+				$registry->get('log_path', JPATH_ADMINISTRATOR . '/logs'),
+				'COM_ADMIN_LOG_DIRECTORY'
+			);
+			$this->addDirectory(
+				'tmp',
+				$registry->get('tmp_path', JPATH_ROOT . '/tmp'),
+				'COM_ADMIN_TEMP_DIRECTORY'
+			);
 		}
 		else
 		{
-			$this->addDirectory($registry->get('log_path', JPATH_ROOT . '/log'), $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
-			$this->addDirectory($registry->get('tmp_path', JPATH_ROOT . '/tmp'), $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
+			$this->addDirectory(
+				$registry->get('log_path', JPATH_ADMINISTRATOR . '/logs'),
+				$registry->get('log_path', JPATH_ADMINISTRATOR . '/logs'),
+				'COM_ADMIN_LOG_DIRECTORY'
+			);
+			$this->addDirectory(
+				$registry->get('tmp_path', JPATH_ROOT . '/tmp'),
+				$registry->get('tmp_path', JPATH_ROOT . '/tmp'),
+				'COM_ADMIN_TEMP_DIRECTORY'
+			);
 		}
 
 		return $this->directories;
@@ -634,7 +672,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	private function addDirectory($name, $path, $message = '')
 	{
-		$this->directories[$name] = array('writable' => is_writable($path), 'message' => $message);
+		$this->directories[$name] = array('writable' => is_writable($path), 'message' => $message,);
 	}
 
 	/**
@@ -691,7 +729,7 @@ class AdminModelSysInfo extends JModelLegacy
 					// 3cols
 					if (preg_match($p2, $val, $matchs))
 					{
-						$r[$name][trim($matchs[1])] = array(trim($matchs[2]), trim($matchs[3]));
+						$r[$name][trim($matchs[1])] = array(trim($matchs[2]), trim($matchs[3]),);
 					}
 					// 2cols
 					elseif (preg_match($p3, $val, $matchs))

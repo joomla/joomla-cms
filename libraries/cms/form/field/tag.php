@@ -3,11 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 JFormHelper::loadFieldClass('list');
 
@@ -108,7 +110,9 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published']? $this->element['published'] : array(0,1);
+		$published = $this->element['published']?: array(0, 1);
+		$app       = JFactory::getApplication();
+		$tag       = $app->getLanguage()->getTag();
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -116,10 +120,29 @@ class JFormFieldTag extends JFormFieldList
 			->from('#__tags AS a')
 			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
-		// Filter language
-		if (!empty($this->element['language']))
+		// Limit Options in multilanguage
+		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 		{
-			$query->where('a.language = ' . $db->q($this->element['language']));
+			$lang = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
+
+			if ($lang == 'current_language')
+			{
+				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+			}
+		}
+		// Filter language
+		elseif (!empty($this->element['language']))
+		{
+			if (strpos($this->element['language'], ',') !== false)
+			{
+				$language = implode(',', $db->quote(explode(',', $this->element['language'])));
+			}
+			else
+			{
+				$language = $db->quote($this->element['language']);
+			}
+
+			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 		}
 
 		$query->where($db->qn('a.lft') . ' > 0');
@@ -131,7 +154,7 @@ class JFormFieldTag extends JFormFieldList
 		}
 		elseif (is_array($published))
 		{
-			JArrayHelper::toInteger($published);
+			$published = ArrayHelper::toInteger($published);
 			$query->where('a.published IN (' . implode(',', $published) . ')');
 		}
 

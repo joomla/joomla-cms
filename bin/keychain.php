@@ -3,9 +3,12 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
+ *
  */
+
+// @deprecated  4.0  Deprecated without replacement
 
 // Make sure we're being called from the command line, not a web interface
 if (PHP_SAPI !== 'cli')
@@ -43,15 +46,6 @@ $config = new JConfig;
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-// Load Library language
-$lang = JFactory::getLanguage();
-
-// Try the finder_cli file in the current language (without allowing the loading of the file in the default language)
-$lang->load('finder_cli', JPATH_SITE, null, false, false)
-
-// Fallback to the finder_cli file in the default language
-|| $lang->load('finder_cli', JPATH_SITE, null, true);
 
 /**
  * Keychain Manager.
@@ -321,7 +315,7 @@ class KeychainManager extends JApplicationCli
 		}
 
 		$this->updated = true;
-		$this->keychain->deleteValue($this->input->args[1], null);
+		$this->keychain->deleteValue($this->input->args[1]);
 	}
 
 	/**

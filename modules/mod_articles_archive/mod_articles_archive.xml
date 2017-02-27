@@ -3,7 +3,7 @@
 	<name>mod_articles_archive</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -25,9 +25,10 @@
 				<field
 					name="count"
 					type="text"
-					default="10"
 					label="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_LABEL"
-					description="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_DESC" />
+					description="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_DESC"
+					default="10"
+				/>
 			</fieldset>
 
 			<fieldset name="advanced">
@@ -35,22 +36,24 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
-					rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
 
 				<field
 					name="cache"
 					type="list"
-					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
-				>
+					default="1"
+					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
@@ -58,16 +61,17 @@
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
 
 				<field
 					name="cachemode"
 					type="hidden"
-					default="static">
-					<option
-						value="static"></option>
+					default="static"
+					>
+					<option value="static"></option>
 				</field>
 			</fieldset>
 		</fields>

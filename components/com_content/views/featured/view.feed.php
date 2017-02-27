@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class ContentViewFeatured extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -59,8 +59,18 @@ class ContentViewFeatured extends JViewLegacy
 			$db->setQuery($query);
 			$row->fulltext = $db->loadResult();
 
-			$description = ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
-			$author      = $row->created_by_alias ? $row->created_by_alias : $row->author;
+			$description = '';
+			$obj = json_decode($row->images);
+			$introImage = isset($obj->{'image_intro'}) ? $obj->{'image_intro'} : '';
+
+			if (isset($introImage) && ($introImage != ''))
+			{
+				$image = preg_match('/http/', $introImage)? $introImage : JURI::root() . $introImage;
+				$description = '<p><img src="' . $image . '" /></p>';
+			}
+
+			$description .= ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
+			$author      = $row->created_by_alias ?: $row->author;
 
 			// Load individual item creator class
 			$item           = new JFeedItem;
@@ -83,7 +93,7 @@ class ContentViewFeatured extends JViewLegacy
 
 			$item->author = $author;
 
-			if ($feedEmail == 'site')
+			if ($feedEmail === 'site')
 			{
 				$item->authorEmail = $siteEmail;
 			}

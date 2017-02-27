@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQL Server database driver
  *
- * @see    http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
+ * @see    https://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
  * @since  12.1
  */
 class JDatabaseDriverSqlsrv extends JDatabaseDriver
@@ -68,7 +68,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public static function isSupported()
 	{
-		return (function_exists('sqlsrv_connect'));
+		return function_exists('sqlsrv_connect');
 	}
 
 	/**
@@ -122,18 +122,19 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			'uid' => $this->options['user'],
 			'pwd' => $this->options['password'],
 			'CharacterSet' => 'UTF-8',
-			'ReturnDatesAsStrings' => true);
+			'ReturnDatesAsStrings' => true,
+		);
 
 		// Make sure the SQLSRV extension for PHP is installed and enabled.
-		if (!function_exists('sqlsrv_connect'))
+		if (!self::isSupported())
 		{
-			throw new RuntimeException('PHP extension sqlsrv_connect is not available.');
+			throw new JDatabaseExceptionUnsupported('PHP extension sqlsrv_connect is not available.');
 		}
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ sqlsrv_connect($this->options['host'], $config)))
 		{
-			throw new RuntimeException('Database sqlsrv_connect failed');
+			throw new JDatabaseExceptionConnecting('Database sqlsrv_connect failed');
 		}
 
 		// Make sure that DB warnings are not returned as errors.
@@ -147,6 +148,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		// Set charactersets.
 		$this->utf = $this->setUtf();
+
+		// Set QUOTED_IDENTIFIER always ON
+		sqlsrv_query($this->connection, 'SET QUOTED_IDENTIFIER ON');
 	}
 
 	/**
@@ -231,18 +235,51 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function escape($text, $extra = false)
 	{
-		$result = addslashes($text);
-		$result = str_replace("\'", "''", $result);
-		$result = str_replace('\"', '"', $result);
-		$result = str_replace('\/', '/', $result);
+		$result = str_replace("'", "''", $text);
+
+		// SQL Server does not accept NULL byte in query string
+		$result = str_replace("\0", "' + CHAR(0) + N'", $result);
+
+		// Fix for SQL Sever escape sequence, see https://support.microsoft.com/en-us/kb/164291
+		$result = str_replace(
+			array("\\\n",     "\\\r",     "\\\\\r\r\n"),
+			array("\\\\\n\n", "\\\\\r\r", "\\\\\r\n\r\n"),
+			$result
+		);
 
 		if ($extra)
 		{
-			// We need the below str_replace since the search in sql server doesn't recognize _ character.
-			$result = str_replace('_', '[_]', $result);
+			// Escape special chars
+			$result = str_replace(
+				array('[',   '_',   '%'),
+				array('[[]', '[_]', '[%]'),
+				$result
+			);
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Quotes and optionally escapes a string to database requirements for use in database queries.
+	 *
+	 * @param   mixed    $text    A string or an array of strings to quote.
+	 * @param   boolean  $escape  True (default) to escape the string, false to leave it unchanged.
+	 *
+	 * @return  string  The quoted input string.
+	 *
+	 * @note    Accepting an array of strings was added in 12.3.
+	 * @since   11.1
+	 */
+	public function quote($text, $escape = true)
+	{
+		if (is_array($text))
+		{
+			return parent::quote($text, $escape);
+		}
+
+		// To support unicode on MSSQL we have to add prefix N
+		return 'N\'' . ($escape ? $this->escape($text) : $text) . '\'';
 	}
 
 	/**
@@ -374,7 +411,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		// If we want the whole field data object add that to the list.
@@ -382,10 +419,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				if (stristr(strtolower($field->Type), "nvarchar"))
-				{
-					$field->Default = "";
-				}
+				$field->Default = preg_replace("/(^(\(\(|\('|\(N'|\()|(('\)|(?<!\()\)\)|\))$))/i", '', $field->Default);
 				$result[$field->Field] = $field;
 			}
 		}
@@ -546,39 +580,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	}
 
 	/**
-	 * Method to get the first field of the first row of the result set from the database query.
-	 *
-	 * @return  mixed  The return value or null if the query failed.
-	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
-	 */
-	public function loadResult()
-	{
-		$ret = null;
-
-		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
-		{
-			return null;
-		}
-
-		// Get the first row from the result set as an array.
-		if ($row = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_NUMERIC))
-		{
-			$ret = $row[0];
-		}
-
-		// Free up system resources and return.
-		$this->freeResult($cursor);
-
-		// For SQLServer - we need to strip slashes
-		$ret = stripslashes($ret);
-
-		return $ret;
-	}
-
-	/**
 	 * Execute the SQL statement.
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
@@ -591,18 +592,18 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	{
 		$this->connect();
 
-		if (!is_resource($this->connection))
-		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
-		}
-
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
 		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query = $this->limit($query, $this->limit, $this->offset);
+		}
+
+		if (!is_resource($this->connection))
+		{
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 		}
 
 		// Increment the query counter.
@@ -655,7 +656,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$errorNum = $this->getErrorNumber();
-			$errorMsg = $this->getErrorMessage($query);
+			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -671,12 +672,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				{
 					// Get the error number and message.
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage($query);
+					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
+					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -692,7 +693,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
+				throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -712,93 +713,28 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function replacePrefix($query, $prefix = '#__')
 	{
-		$startPos = 0;
-		$literal = '';
-
 		$query = trim($query);
-		$n = strlen($query);
 
-		while ($startPos < $n)
+		if (strpos($query, "'"))
 		{
-			$ip = strpos($query, $prefix, $startPos);
+			$parts = explode("'", $query);
 
-			if ($ip === false)
+			for ($nIndex = 0, $size = count($parts); $nIndex < $size; $nIndex = $nIndex + 2)
 			{
-				break;
-			}
-
-			$j = strpos($query, "N'", $startPos);
-			$k = strpos($query, '"', $startPos);
-
-			if (($k !== false) && (($k < $j) || ($j === false)))
-			{
-				$quoteChar = '"';
-				$j = $k;
-			}
-			else
-			{
-				$quoteChar = "'";
-			}
-
-			if ($j === false)
-			{
-				$j = $n;
-			}
-
-			$literal .= str_replace($prefix, $this->tablePrefix, substr($query, $startPos, $j - $startPos));
-			$startPos = $j;
-
-			$j = $startPos + 1;
-
-			if ($j >= $n)
-			{
-				break;
-			}
-
-			// Quote comes first, find end of quote
-			while (true)
-			{
-				$k = strpos($query, $quoteChar, $j);
-				$escaped = false;
-
-				if ($k === false)
+				if (strpos($parts[$nIndex], $prefix) !== false)
 				{
-					break;
+					$parts[$nIndex] = str_replace($prefix, $this->tablePrefix, $parts[$nIndex]);
 				}
-
-				$l = $k - 1;
-
-				while ($l >= 0 && $query{$l} == '\\')
-				{
-					$l--;
-					$escaped = !$escaped;
-				}
-
-				if ($escaped)
-				{
-					$j = $k + 1;
-					continue;
-				}
-
-				break;
 			}
 
-			if ($k === false)
-			{
-				// Error in the query - no end quote; ignore it
-				break;
-			}
-
-			$literal .= substr($query, $startPos, $k - $startPos + 1);
-			$startPos = $k + 1;
+			$query = implode("'", $parts);
+		}
+		else
+		{
+			$query = str_replace($prefix, $this->tablePrefix, $query);
 		}
 
-		if ($startPos < $n)
-		{
-			$literal .= substr($query, $startPos, $n - $startPos);
-		}
-
-		return $literal;
+		return $query;
 	}
 
 	/**
@@ -822,7 +758,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		if (!sqlsrv_query($this->connection, 'USE ' . $database, null, array('scrollable' => SQLSRV_CURSOR_STATIC)))
 		{
-			throw new RuntimeException('Could not connect to database');
+			throw new JDatabaseExceptionConnecting('Could not connect to database');
 		}
 
 		return true;
@@ -973,6 +909,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
+		// Class has to be loaded for sqlsrv on windows platform
+		class_exists($class);
+
 		return sqlsrv_fetch_object($cursor ? $cursor : $this->cursor, $class);
 	}
 
@@ -1005,8 +944,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$this->connect();
 
 		$table = $this->replacePrefix((string) $table);
-		$query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'" .
-			" ORDER BY ORDINAL_POSITION";
+		$query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field' ORDER BY ORDINAL_POSITION";
 		$this->setQuery($query);
 
 		if ($this->loadResult())
@@ -1032,28 +970,21 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	protected function limit($query, $limit, $offset)
 	{
-		if ($limit == 0 && $offset == 0)
+		if ($limit)
+		{
+			$total = $offset + $limit;
+			$query = substr_replace($query, 'SELECT TOP ' . (int) $total, stripos($query, 'SELECT'), 6);
+		}
+
+		if (!$offset)
 		{
 			return $query;
 		}
 
-		$start = $offset + 1;
-		$end   = $offset + $limit;
-
-		$orderBy = stristr($query, 'ORDER BY');
-
-		if (is_null($orderBy) || empty($orderBy))
-		{
-			$orderBy = 'ORDER BY (select 0)';
-		}
-
-		$query = str_ireplace($orderBy, '', $query);
-
-		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
-
-		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
-
-		return $query;
+		return PHP_EOL
+			. 'SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY (SELECT 0)) AS RowNumber FROM ('
+			. $query
+			. PHP_EOL . ') AS A) AS A WHERE RowNumber > ' . (int) $offset;
 	}
 
 	/**
@@ -1127,19 +1058,17 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	{
 		$errors = sqlsrv_errors();
 
-		return $errors[0]['SQLSTATE'];
+		return $errors[0]['code'];
 	}
 
 	/**
 	 * Return the actual SQL Error message
 	 *
-	 * @param   string  $query  The SQL Query that fails
-	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage($query)
+	protected function getErrorMessage()
 	{
 		$errors       = sqlsrv_errors();
 		$errorMessage = (string) $errors[0]['message'];
@@ -1148,10 +1077,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if (!$this->debug)
 		{
 			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			$query        = str_replace($this->tablePrefix, '#__', $query);
 		}
 
-		return $errorMessage . ' SQL=' . $query;
+		return $errorMessage;
 	}
 
 	/**

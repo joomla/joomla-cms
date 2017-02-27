@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -350,7 +350,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		$fName = (string) $field['Field'];
 		$fType = (string) $field['Type'];
 		$fNull = (string) $field['Null'];
-		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL' ) ?
+		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL') ?
 						preg_match('/^[0-9]$/', $field['Default']) ? $field['Default'] : $this->db->quote((string) $field['Default'])
 					: null;
 
@@ -404,7 +404,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		$fName = (string) $field['Field'];
 		$fType = (string) $field['Type'];
 		$fNull = (string) $field['Null'];
-		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL' ) ?
+		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL') ?
 						preg_match('/^[0-9]$/', $field['Default']) ? $field['Default'] : $this->db->quote((string) $field['Default'])
 					: null;
 

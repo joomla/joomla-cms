@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/helpers/debug.php';
+JLoader::register('UsersHelperDebug', JPATH_ADMINISTRATOR . '/components/com_users/helpers/debug.php');
 
 /**
  * Methods supporting a list of user records.
@@ -18,6 +18,30 @@ require_once JPATH_COMPONENT . '/helpers/debug.php';
  */
 class UsersModelDebugUser extends JModelList
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   3.6.0
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'a.title',
+				'component', 'a.name',
+				'a.lft',
+				'a.id',
+				'level_start', 'level_end', 'a.level',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
 	/**
 	 * Get a list of the actions.
 	 *
@@ -41,7 +65,7 @@ class UsersModelDebugUser extends JModelList
 	 */
 	public function getItems()
 	{
-		$userId = $this->getState('filter.user_id');
+		$userId = $this->getState('user_id');
 
 		if (($assets = parent::getItems()) && $userId)
 		{
@@ -86,7 +110,7 @@ class UsersModelDebugUser extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
 		$app = JFactory::getApplication('administrator');
 
@@ -99,16 +123,13 @@ class UsersModelDebugUser extends JModelList
 		}
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('user_id', $this->getUserStateFromRequest($this->context . '.user_id', 'user_id', 0, 'int', false));
 
-		$value = $this->getUserStateFromRequest($this->context . '.filter.user_id', 'user_id', 0, 'int');
-		$this->setState('filter.user_id', $value);
-
-		$levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', 0, 'int');
+		$levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', '', 'cmd');
 		$this->setState('filter.level_start', $levelStart);
 
-		$value = $this->getUserStateFromRequest($this->context . '.filter.level_end', 'filter_level_end', 0, 'int');
+		$value = $this->getUserStateFromRequest($this->context . '.filter.level_end', 'filter_level_end', '', 'cmd');
 
 		if ($value > 0 && $value < $levelStart)
 		{
@@ -117,15 +138,14 @@ class UsersModelDebugUser extends JModelList
 
 		$this->setState('filter.level_end', $value);
 
-		$component = $this->getUserStateFromRequest($this->context . '.filter.component', 'filter_component');
-		$this->setState('filter.component', $component);
+		$this->setState('filter.component', $this->getUserStateFromRequest($this->context . '.filter.component', 'filter_component', '', 'string'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.lft', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -142,8 +162,8 @@ class UsersModelDebugUser extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
+		$id .= ':' . $this->getState('user_id');
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.user_id');
 		$id .= ':' . $this->getState('filter.level_start');
 		$id .= ':' . $this->getState('filter.level_end');
 		$id .= ':' . $this->getState('filter.component');
@@ -160,7 +180,7 @@ class UsersModelDebugUser extends JModelList
 	 */
 	public function getUser()
 	{
-		$userId = $this->getState('filter.user_id');
+		$userId = $this->getState('user_id');
 
 		return JFactory::getUser($userId);
 	}
@@ -185,14 +205,7 @@ class UsersModelDebugUser extends JModelList
 				'a.id, a.name, a.title, a.level, a.lft, a.rgt'
 			)
 		);
-		$query->from($db->quoteName('#__assets') . ' AS a');
-
-		// Filter the items over the group id if set.
-		if ($groupId = $this->getState('filter.group_id'))
-		{
-			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
-				->where('map2.group_id = ' . (int) $groupId);
-		}
+		$query->from($db->quoteName('#__assets', 'a'));
 
 		// Filter the items over the search string if set.
 		if ($this->getState('filter.search'))

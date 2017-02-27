@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.5"
+	version="3.6"
 	client="installation">
 	<name>Português (pt-PT)</name>
 	<version>3.5.0.1</version>
 	<creationDate>2016-02-22</creationDate>
 	<author>Joomla! Project</author>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>pt-PT.ini</filename>

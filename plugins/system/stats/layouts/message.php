@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Stats
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ extract($displayData);
 	<h2><?php echo JText::_('PLG_SYSTEM_STATS_LABEL_MESSAGE_TITLE'); ?></h2>
 	<p>
 		<?php echo JText::_('PLG_SYSTEM_STATS_MSG_JOOMLA_WANTS_TO_SEND_DATA'); ?>
-		<a href="#" class="js-pstats-btn-details"><?php echo JText::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
+		<a href="#" class="js-pstats-btn-details alert-link"><?php echo JText::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
 	</p>
 	<?php
 		echo $plugin->render('stats', compact('statsData'));

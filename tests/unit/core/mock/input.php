@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,7 +44,7 @@ class TestMockInput
 	/**
 	 * Creates an instance of a mock JInput object.
 	 *
-	 * @param   array  $options  A associative array of options to configure the mock.
+	 * @param   array  $options  An associative array of options to configure the mock.
 	 *                           * methods => an array of additional methods to mock
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
@@ -72,17 +72,13 @@ class TestMockInput
 			$methods = array_merge($methods, $options['methods']);
 		}
 
-		// Create the mock.
-		$mockObject = self::$test->getMock(
-			'JInput',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = self::$test->getMockBuilder('JInput')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		self::$test->assignMockCallbacks(
 			$mockObject,

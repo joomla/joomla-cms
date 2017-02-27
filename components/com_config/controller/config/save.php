@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,17 +74,17 @@ class ConfigControllerConfigSave extends JControllerBase
 		// Attempt to save the configuration.
 		$data = $return;
 
-		// Access back-end com_config
+		// Access backend com_config
 		JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
 		$saveClass = new ConfigControllerApplicationSave;
 
 		// Get a document object
 		$document = JFactory::getDocument();
 
-		// Set back-end required params
+		// Set backend required params
 		$document->setType('json');
 
-		// Execute back-end controller
+		// Execute backend controller
 		$return = $saveClass->execute();
 
 		// Reset params back after requesting from service

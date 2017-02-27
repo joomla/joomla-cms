@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -89,7 +89,7 @@ class CategoriesController extends JControllerLegacy
 			$view->document = $document;
 
 			// Load the submenu.
-			require_once JPATH_COMPONENT . '/helpers/categories.php';
+			JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
 			CategoriesHelper::addSubmenu($model->getState('filter.extension'));
 			$view->display();

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ class FinderModelStatistics extends JModelLegacy
 	/**
 	 * Method to get the component statistics
 	 *
-	 * @return  object  The component statistics
+	 * @return  JObject  The component statistics
 	 *
 	 * @since   2.5
 	 */
@@ -60,7 +60,7 @@ class FinderModelStatistics extends JModelLegacy
 			->from($db->quoteName('#__finder_links') . ' AS a')
 			->join('INNER', $db->quoteName('#__finder_types') . ' AS t ON t.id = a.type_id')
 			->group('a.type_id, t.title')
-			->order($db->quoteName('type_title'), 'ASC');
+			->order($db->quoteName('type_title') . ' ASC');
 		$db->setQuery($query);
 		$data->type_list = $db->loadObjectList();
 

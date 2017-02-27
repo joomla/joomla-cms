@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,15 @@ $template = $app->getTemplate();
 // Load the tooltip behavior.
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.keepalive');
+JHtml::_('formbehavior.chosen', '.chzn-custom-value', null, array('disable_search_threshold' => 0));
 JHtml::_('formbehavior.chosen', 'select');
+
+// Load JS message titles
+JText::script('ERROR');
+JText::script('WARNING');
+JText::script('NOTICE');
+JText::script('MESSAGE');
 
 JFactory::getDocument()->addScriptDeclaration(
 	'
@@ -37,66 +45,65 @@ JFactory::getDocument()->addScriptDeclaration(
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
 	<div class="row-fluid">
+
 		<!-- Begin Sidebar -->
-		<div id="sidebar" class="span2">
+		<div class="span2" id="sidebar">
 			<div class="sidebar-nav">
 				<?php echo $this->loadTemplate('navigation'); ?>
 			</div>
-		</div>
-		<!-- End Sidebar -->
-		<div class="span10">
+		</div><!-- End Sidebar -->
+
+		<div class="span10" id="config">
+
 			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
+					<?php $dataShowOn = ''; ?>
+					<?php if (!empty($fieldSet->showon)) : ?>
+						<?php JHtml::_('jquery.framework'); ?>
+						<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
+						<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
+					<?php endif; ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
-					<li><a href="#<?php echo $name; ?>" data-toggle="tab"><?php echo JText::_($label); ?></a></li>
+					<li<?php echo $dataShowOn; ?>><a data-toggle="tab" href="#<?php echo $name; ?>"><?php echo JText::_($label); ?></a></li>
 				<?php endforeach; ?>
-			</ul>
-			<div class="tab-content">
+			</ul><!-- /configTabs -->
+
+			<div class="tab-content" id="configContent">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
-						<?php
-						if (isset($fieldSet->description) && !empty($fieldSet->description))
-						{
-							echo '<p class="tab-description">' . JText::_($fieldSet->description) . '</p>';
-						}
-						?>
-						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-							<?php
-							$datashowon = '';
-							if ($showonstring = $field->getAttribute('showon'))							{
-								JHtml::_('jquery.framework');
-								JHtml::_('script', 'jui/cms.js', false, true);
-								$showonarr = array();
-
-								foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield)
-								{
-									$showon   = explode(':', $showonfield, 2);
-									$showonarr[] = array(
-										'field'  => $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name') . ']',
-										'values' => explode(',', $showon[1]),
-										'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
-									);
-								}
-								$datashowon = ' data-showon=\'' . json_encode($showonarr) . '\'';
-							}
-							?>
-							<div class="control-group"<?php echo $datashowon; ?>>
-								<?php if (!$field->hidden && $name != "permissions") : ?>
-									<div class="control-label">
-										<?php echo $field->label; ?>
-									</div>
-								<?php endif; ?>
-								<div class="<?php if ($name != "permissions") : ?>controls<?php endif; ?>">
-									<?php echo $field->input; ?>
-								</div>
+						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)) : ?>
+							<div class="tab-description alert alert-info">
+								<span class="icon-info"></span> <?php echo JText::_($fieldSet->description); ?>
 							</div>
+						<?php endif; ?>
+						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+							<?php $dataShowOn = ''; ?>
+							<?php if ($field->showon) : ?>
+								<?php JHtml::_('jquery.framework'); ?>
+								<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
+								<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
+							<?php endif; ?>
+							<?php if ($field->hidden) : ?>
+								<?php echo $field->input; ?>
+							<?php else : ?>
+								<div class="control-group"<?php echo $dataShowOn; ?>>
+									<?php if ($name != 'permissions') : ?>
+										<div class="control-label">
+											<?php echo $field->label; ?>
+										</div>
+									<?php endif; ?>
+									<div class="<?php if ($name != 'permissions') : ?>controls<?php endif; ?>">
+										<?php echo $field->input; ?>
+									</div>
+								</div>
+							<?php endif; ?>
 						<?php endforeach; ?>
 					</div>
 				<?php endforeach; ?>
-			</div>
-		</div>
-	</div>
-	<div>
+			</div><!-- /configContent -->
+
+		</div><!-- /config -->
+
 		<input type="hidden" name="id" value="<?php echo $this->component->id; ?>" />
 		<input type="hidden" name="component" value="<?php echo $this->component->option; ?>" />
 		<input type="hidden" name="return" value="<?php echo $this->return; ?>" />

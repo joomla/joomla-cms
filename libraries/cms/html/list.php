@@ -3,11 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\String\StringHelper;
 
 /**
  * Utility class for creating different select lists
@@ -29,7 +31,7 @@ abstract class JHtmlList
 	 *
 	 * @since   1.5
 	 */
-	public static function images($name, $active = null, $javascript = null, $directory = null, $extensions = "bmp|gif|jpg|png")
+	public static function images($name, $active = null, $javascript = null, $directory = null, $extensions = 'bmp|gif|jpg|png')
 	{
 		if (!$directory)
 		{
@@ -67,7 +69,7 @@ abstract class JHtmlList
 			$name,
 			array(
 				'list.attr' => 'class="inputbox" size="1" ' . $javascript,
-				'list.select' => $active
+				'list.select' => $active,
 			)
 		);
 
@@ -105,9 +107,9 @@ abstract class JHtmlList
 		{
 			$items[$i]->text = JText::_($items[$i]->text);
 
-			if (JString::strlen($items[$i]->text) > $chop)
+			if (StringHelper::strlen($items[$i]->text) > $chop)
 			{
-				$text = JString::substr($items[$i]->text, 0, $chop) . "...";
+				$text = StringHelper::substr($items[$i]->text, 0, $chop) . '...';
 			}
 			else
 			{
@@ -205,7 +207,7 @@ abstract class JHtmlList
 			$name,
 			array(
 				'list.attr' => 'class="inputbox" size="1" ' . $javascript,
-				'list.select' => $active
+				'list.select' => $active,
 			)
 		);
 

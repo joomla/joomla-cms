@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,6 +78,17 @@ class TagsModelTags extends JModelList
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
+		$extension = $this->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+
+		$this->setState('filter.extension', $extension);
+		$parts = explode('.', $extension);
+
+		// Extract the component name
+		$this->setState('filter.component', $parts[0]);
+
+		// Extract the optional section name
+		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_tags');
 		$this->setState('params', $params);
@@ -102,6 +113,7 @@ class TagsModelTags extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
+		$id .= ':' . $this->getState('filter.extension');
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.level');
 		$id .= ':' . $this->getState('filter.access');
@@ -192,11 +204,6 @@ class TagsModelTags extends JModelList
 			if (stripos($search, 'id:') === 0)
 			{
 				$query->where('a.id = ' . (int) substr($search, 3));
-			}
-			elseif (stripos($search, 'author:') === 0)
-			{
-				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
-				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
 			}
 			else
 			{
@@ -314,5 +321,65 @@ class TagsModelTags extends JModelList
 	public function getTable($type = 'Tag', $prefix = 'TagsTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
+	}
+
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   12.2
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		if ($items != false)
+		{
+			$extension = $this->getState('filter.extension');
+
+			$this->countItems($items, $extension);
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Method to load the countItems method from the extensions
+	 *
+	 * @param   stdClass[]  &$items     The category items
+	 * @param   string      $extension  The category extension
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function countItems(&$items, $extension)
+	{
+		$parts = explode('.', $extension);
+		$component = $parts[0];
+		$section = null;
+
+		if (count($parts) < 2)
+		{
+			return;
+		}
+
+		// Try to find the component helper.
+		$eName = str_replace('com_', '', $component);
+		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+
+		if (file_exists($file))
+		{
+			$prefix = ucfirst(str_replace('com_', '', $component));
+			$cName = $prefix . 'Helper';
+
+			JLoader::register($cName, $file);
+
+			if (class_exists($cName) && is_callable(array($cName, 'countTagItems')))
+			{
+				$cName::countTagItems($items, $extension);
+			}
+		}
 	}
 }

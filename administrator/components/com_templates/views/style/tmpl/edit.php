@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS')); ?>
 
 		<div class="row-fluid">
 			<div class="span9">
@@ -41,7 +41,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php echo JText::_($this->item->template); ?>
 				</h3>
 				<div class="info-labels">
-					<span class="label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
+					<span class="label hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
 						<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 					</span>
 				</div>
@@ -53,7 +53,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					?>
 					<?php if ($description) : ?>
 						<p class="readmore">
-							<a href="#" onclick="jQuery('.nav-tabs a[href=#description]').tab('show');">
+							<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
 								<?php echo JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
 							</a>
 						</p>
@@ -80,7 +80,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php if ($description) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
 			<?php echo $description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
@@ -91,8 +91,8 @@ JFactory::getDocument()->addScriptDeclaration("
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 
-		<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'assignment', JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT', true)); ?>
+		<?php if ($user->authorise('core.edit', 'com_menus') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'assignment', JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
 			<?php echo $this->loadTemplate('assignment'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>

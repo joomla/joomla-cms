@@ -3,18 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Tree based class to render the admin menu
  *
  * @since  1.5
  */
-class JAdminCssMenu extends JObject
+class JAdminCssMenu
 {
 	/**
 	 * CSS string to add to document head
@@ -42,19 +45,19 @@ class JAdminCssMenu extends JObject
 	 */
 	public function __construct()
 	{
-		$this->_root = new JMenuNode('ROOT');
-		$this->_current = & $this->_root;
+		$this->_root    = new JMenuNode('ROOT');
+		$this->_current = &$this->_root;
 	}
 
 	/**
 	 * Method to add a child
 	 *
-	 * @param   JMenuNode  &$node       The node to process
+	 * @param   JMenuNode  $node        The node to process
 	 * @param   boolean    $setCurrent  True to set as current working node
 	 *
 	 * @return  void
 	 */
-	public function addChild(JMenuNode &$node, $setCurrent = false)
+	public function addChild(JMenuNode $node, $setCurrent = false)
 	{
 		$this->_current->addChild($node);
 
@@ -77,10 +80,17 @@ class JAdminCssMenu extends JObject
 	/**
 	 * Method to get the parent
 	 *
+	 * @param   bool  $clear  Whether to clear the existing menu items or just reset the pointer to root element
+	 *
 	 * @return  void
 	 */
-	public function reset()
+	public function reset($clear = false)
 	{
+		if ($clear)
+		{
+			$this->_root = new JMenuNode('ROOT');
+		}
+
 		$this->_current = &$this->_root;
 	}
 
@@ -119,7 +129,7 @@ class JAdminCssMenu extends JObject
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul " . $id . " " . $class . ">\n";
+			echo '<ul ' . $id . ' ' . $class . ">\n";
 
 			foreach ($this->_current->getChildren() as $child)
 			{
@@ -177,17 +187,17 @@ class JAdminCssMenu extends JObject
 		}
 
 		// Print the item
-		echo "<li" . $class . ">";
+		echo '<li' . $class . '>';
 
 		// Print a link if it exists
-		$linkClass = array();
-		$dataToggle = '';
+		$linkClass     = array();
+		$dataToggle    = '';
 		$dropdownCaret = '';
 
 		if ($this->_current->hasChildren())
 		{
 			$linkClass[] = 'dropdown-toggle';
-			$dataToggle = ' data-toggle="dropdown"';
+			$dataToggle  = ' data-toggle="dropdown"';
 
 			if (!$this->_current->getParent()->hasParent())
 			{
@@ -214,20 +224,20 @@ class JAdminCssMenu extends JObject
 
 		if ($this->_current->link != null && $this->_current->target != null)
 		{
-			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\" >"
-				. $this->_current->title . $dropdownCaret . "</a>";
+			echo '<a' . $linkClass . ' ' . $dataToggle . ' href="' . $this->_current->link . '" target="' . $this->_current->target . '">'
+				. $this->_current->title . $dropdownCaret . '</a>';
 		}
 		elseif ($this->_current->link != null && $this->_current->target == null)
 		{
-			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\">" . $this->_current->title . $dropdownCaret . "</a>";
+			echo '<a' . $linkClass . ' ' . $dataToggle . ' href="' . $this->_current->link . '">' . $this->_current->title . $dropdownCaret . '</a>';
 		}
 		elseif ($this->_current->title != null)
 		{
-			echo "<a" . $linkClass . " " . $dataToggle . ">" . $this->_current->title . $dropdownCaret . "</a>";
+			echo '<a' . $linkClass . ' ' . $dataToggle . '>' . $this->_current->title . $dropdownCaret . '</a>';
 		}
 		else
 		{
-			echo "<span></span>";
+			echo '<span></span>';
 		}
 
 		// Recurse through children if they exist
@@ -305,7 +315,7 @@ class JAdminCssMenu extends JObject
 				$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
 
 				$this->_css  .= "\n.menu-$class {\n" .
-						"\tbackground: url($identifier) no-repeat;\n" .
+						"	background: url($identifier) no-repeat;\n" .
 						"}\n";
 
 				$classes[$identifier] = "menu-$class";
@@ -313,6 +323,187 @@ class JAdminCssMenu extends JObject
 		}
 
 		return $classes[$identifier];
+	}
+
+	/**
+	 * Populate the menu items in the menu object for disabled state
+	 *
+	 * @param   Registry  $params   Menu configuration parameters
+	 * @param   bool      $enabled  Whether the menu should be enabled or disabled
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function load($params, $enabled)
+	{
+		$menutype = $params->get('menutype', '*');
+
+		$this->reset(true);
+
+		if ($menutype == '*')
+		{
+			require_once __DIR__ . '/preset/' . ($enabled ? 'enabled.php' : 'disabled.php');
+		}
+		else
+		{
+			$items = ModMenuHelper::getMenuItems($menutype);
+			$types = ArrayHelper::getColumn($items, 'type');
+			$app   = JFactory::getApplication();
+			$me    = JFactory::getUser();
+
+			$authMenus   = $me->authorise('core.manage', 'com_menus');
+			$authModules = $me->authorise('core.manage', 'com_modules');
+
+			if ($enabled && $params->get('check') && ($authMenus || $authModules))
+			{
+				$elements = ArrayHelper::getColumn($items, 'element');
+
+				$rMenu      = $authMenus && !in_array('com_menus', $elements);
+				$rModule    = $authModules && !in_array('com_modules', $elements);
+				$rContainer = !in_array('container', $types);
+
+				if ($rMenu || $rModule || $rContainer)
+				{
+					$recovery = $app->getUserStateFromRequest('mod_menu.recovery', 'recover_menu', 0, 'int');
+
+					if ($recovery)
+					{
+						$params->set('recovery', true);
+
+						// In recovery mode, load the preset inside a special root node.
+						$this->addChild(new JMenuNode(JText::_('MOD_MENU_RECOVERY_MENU_ROOT'), '#'), true);
+
+						require_once __DIR__ . '/preset/enabled.php';
+
+						$this->addSeparator();
+
+						$uri = clone JUri::getInstance();
+						$uri->setVar('recover_menu', 0);
+
+						$this->addChild(new JMenuNode(JText::_('MOD_MENU_RECOVERY_EXIT'), $uri->toString()));
+
+						$this->getParent();
+					}
+					else
+					{
+						$missing = array();
+
+						if ($rMenu)
+						{
+							$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_MENU_MANAGER');
+						}
+
+						if ($rModule)
+						{
+							$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_MODULE_MANAGER');
+						}
+
+						if ($rContainer)
+						{
+							$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_COMPONENTS_CONTAINER');
+						}
+
+						$uri = clone JUri::getInstance();
+						$uri->setVar('recover_menu', 1);
+
+						$table = JTable::getInstance('MenuType');
+						$table->load(array('menutype' => $menutype));
+						$mType = $table->get('title', $menutype);
+
+						$msg = JText::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $mType, implode(', ', $missing), $uri);
+
+						$app->enqueueMessage($msg, 'warning');
+					}
+				}
+			}
+
+			// Create levels
+			$items = ModMenuHelper::parseItems($items);
+
+			// Menu items for dynamic db driven setup to load here
+			$this->loadItems($items, $enabled);
+		}
+	}
+
+	/**
+	 * Load the menu items from an array
+	 *
+	 * @param   array  $items    Menu items loaded from database
+	 * @param   bool   $enabled  Whether the menu should be enabled or disabled
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function loadItems($items, $enabled = true)
+	{
+		foreach ($items as $item)
+		{
+			if ($item->type == 'separator')
+			{
+				$this->addSeparator();
+			}
+			elseif ($item->type == 'heading' && !count($item->submenu))
+			{
+				// Exclude if it is a heading type menu item, and has no children.
+			}
+			elseif ($item->type == 'container')
+			{
+				$exclude    = (array) $item->params->get('hideitems') ?: array();
+				$components = ModMenuHelper::getComponents(true, false, $exclude);
+
+				// Exclude if it is a container type menu item, and has no children.
+				if (count($item->submenu) || count($components))
+				{
+					$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
+
+					if ($enabled)
+					{
+						// Load explicitly assigned child items first.
+						$this->loadItems($item->submenu);
+
+						// Add a separator between dynamic menu items and components menu items
+						if (count($item->submenu) && count($components))
+						{
+							$this->addSeparator();
+						}
+
+						// Adding component submenu the old way, this assumes 2-level menu only
+						foreach ($components as $component)
+						{
+							if (empty($component->submenu))
+							{
+								$this->addChild(new JMenuNode($component->text, $component->link, $component->img));
+							}
+							else
+							{
+								$this->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
+
+								foreach ($component->submenu as $sub)
+								{
+									$this->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
+								}
+
+								$this->getParent();
+							}
+						}
+					}
+
+					$this->getParent();
+				}
+			}
+			elseif (!$enabled)
+			{
+				$this->addChild(new JMenuNode($item->text, $item->link, 'disabled'));
+			}
+			else
+			{
+				$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
+				$this->loadItems($item->submenu);
+				$this->getParent();
+			}
+		}
 	}
 }
 
@@ -322,7 +513,7 @@ class JAdminCssMenu extends JObject
  * @see    JAdminCssMenu
  * @since  1.5
  */
-class JMenuNode extends JObject
+class JMenuNode
 {
 	/**
 	 * Node Title
@@ -445,15 +636,15 @@ class JMenuNode extends JObject
 
 		if (!is_null($this->_parent))
 		{
-			unset($this->_parent->children[$hash]);
+			unset($this->_parent->_children[$hash]);
 		}
 
 		if (!is_null($parent))
 		{
-			$parent->_children[$hash] = & $this;
+			$parent->_children[$hash] = &$this;
 		}
 
-		$this->_parent = & $parent;
+		$this->_parent = &$parent;
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			$redirect = JUri::base();
 		}
 
-		// Access back-end com_module
+		// Access backend com_module
 		JLoader::register('ModulesController', JPATH_ADMINISTRATOR . '/components/com_modules/controller.php');
 		JLoader::register('ModulesViewModule', JPATH_ADMINISTRATOR . '/components/com_modules/views/module/view.json.php');
 		JLoader::register('ModulesModelModule', JPATH_ADMINISTRATOR . '/components/com_modules/models/module.php');
@@ -65,7 +65,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 		// Get the parameters of the module with Id
 		$document->setType('json');
 
-		// Execute back-end controller
+		// Execute backend controller
 		if (!($serviceData = json_decode($displayClass->display(), true)))
 		{
 			$app->redirect($redirect);

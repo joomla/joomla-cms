@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="package" version="3.0" method="upgrade">
+<extension type="package" version="3.6" method="upgrade">
 	<name>pkg_weblinks</name>
 	<packagename>weblinks</packagename>
 	<creationDate>December 2012</creationDate>
 	<packager>Joomla! Project</packager>
-	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<packageremail>admin@joomla.org</packageremail>
 	<packagerurl>www.joomla.org</packagerurl>
 	<author>Joomla! Project</author>

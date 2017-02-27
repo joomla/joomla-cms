@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<div id="j-main-container" class="span10">
 		<?php else : ?>
 		<div id="j-main-container">
-		<?php endif;?>
+		<?php endif; ?>
 			<?php if ($this->showMessage) : ?>
 				<?php echo $this->loadTemplate('message'); ?>
 			<?php endif; ?>
@@ -52,10 +52,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 						</th>
 						<th>
-							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 						</th>
 						<th>
-							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="hidden-phone">
 							<?php echo JText::_('JVERSION'); ?>
@@ -67,7 +67,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JText::_('JAUTHOR'); ?>
 						</th>
 						<th class="hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
+						</th>
+						<th class="hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_PACKAGE_ID', 'package_id', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
@@ -76,7 +79,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="10">
+						<td colspan="11">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -96,16 +99,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</td>
 						<td>
 							<label for="cb<?php echo $i; ?>">
-								<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
+								<span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>">
 									<?php echo $item->name; ?>
 								</span>
 							</label>
 						</td>
 						<td>
-							<?php echo $item->client; ?>
+							<?php echo $item->client_translated; ?>
 						</td>
 						<td>
-							<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
+							<?php echo $item->type_translated; ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
@@ -114,12 +117,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
-							<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
+							<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
 								<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 							</span>
 						</td>
 						<td class="hidden-phone">
-							<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
+							<?php echo $item->folder_translated; ?>
+						</td>
+						<td class="hidden-phone">
+							<?php echo $item->package_id ?: '&#160;'; ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo $item->extension_id; ?>

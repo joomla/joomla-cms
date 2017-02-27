@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,13 +27,14 @@ class TemplatesViewStyles extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
+		$this->total         = $this->get('Total');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->preview       = JComponentHelper::getParams('com_templates')->get('template_positions_display');
@@ -65,7 +66,15 @@ class TemplatesViewStyles extends JViewLegacy
 	{
 		$canDo = JHelperContent::getActions('com_templates');
 
-		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'eye thememanager');
+		// Set the title.
+		if ((int) $this->get('State')->get('client_id') === 1)
+		{
+			JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES_ADMIN'), 'eye thememanager');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'eye thememanager');
+		}
 
 		if ($canDo->get('core.edit.state'))
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,12 +52,10 @@ class PlgSystemCache extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		global $_PROFILER;
-
 		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator'))
 		{
 			return;
 		}
@@ -67,7 +65,7 @@ class PlgSystemCache extends JPlugin
 			return;
 		}
 
-		if ($user->get('guest') && $app->input->getMethod() == 'GET')
+		if ($user->get('guest') && $app->input->getMethod() === 'GET')
 		{
 			$this->_cache->setCaching(true);
 		}
@@ -83,7 +81,7 @@ class PlgSystemCache extends JPlugin
 
 			if (JDEBUG)
 			{
-				$_PROFILER->mark('afterCache');
+				JProfiler::getInstance('Application')->mark('afterCache');
 			}
 
 			$app->close();
@@ -101,7 +99,7 @@ class PlgSystemCache extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator'))
 		{
 			return;
 		}
@@ -134,7 +132,7 @@ class PlgSystemCache extends JPlugin
 		{
 			// Get the current menu item
 			$active = JFactory::getApplication()->getMenu()->getActive();
-			
+
 			if ($active && $active->id && in_array($active->id, (array) $exclusions))
 			{
 				return true;

@@ -3,15 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
 
-require_once __DIR__ . '/../../helpers/templates.php';
+JFormHelper::loadFieldClass('list');
 
 /**
  * Template Style Field class for the Joomla Framework.
@@ -37,10 +37,13 @@ class JFormFieldTemplateName extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$app = JFactory::getApplication();
-		$clientId = $app->getUserStateFromRequest('com_templates.styles.filter.client_id', 'filter_client_id', null);
+		// Get the client_id filter from the user state.
+		$clientId = JFactory::getApplication()->getUserStateFromRequest('com_templates.styles.client_id', 'client_id', '0', 'string');
+
+		// Get the templates for the selected client_id.
 		$options = TemplatesHelper::getTemplateOptions($clientId);
 
+		// Merge into the parent options.
 		return array_merge(parent::getOptions(), $options);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,12 +44,21 @@ class RedirectHelper
 	public static function getActions()
 	{
 		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions
-		$result = JHelperContent::getActions('com_redirect');
-
-		return $result;
+		return JHelperContent::getActions('com_redirect');
 	}
 
 	/**
@@ -84,7 +93,7 @@ class RedirectHelper
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('enabled'))
-			->from('#__extensions')
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('redirect'));
 		$db->setQuery($query);
@@ -92,6 +101,35 @@ class RedirectHelper
 		try
 		{
 			$result = (boolean) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Gets the redirect system plugin extension id.
+	 *
+	 * @return  int  The redirect system plugin extension id.
+	 *
+	 * @since   3.6.0
+	 */
+	public static function getRedirectPluginId()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('redirect'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
 		}
 		catch (RuntimeException $e)
 		{

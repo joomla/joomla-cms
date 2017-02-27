@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * HTML behavior class for Finder.
@@ -27,8 +29,6 @@ abstract class JHtmlFinder
 	 */
 	public static function typeslist()
 	{
-		$lang = JFactory::getLanguage();
-
 		// Load the finder types.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -44,18 +44,18 @@ abstract class JHtmlFinder
 		}
 		catch (RuntimeException $e)
 		{
-			return;
+			return array();
 		}
 
 		// Compile the options.
 		$options = array();
 
+		$lang = JFactory::getLanguage();
+
 		foreach ($rows as $row)
 		{
-			$key = $lang->hasKey(FinderHelperLanguage::branchPlural($row->text))
-					? FinderHelperLanguage::branchPlural($row->text) : $row->text;
-			$string = JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_($key));
-			$options[] = JHtml::_('select.option', $row->value, $string);
+			$key       = $lang->hasKey(FinderHelperLanguage::branchPlural($row->text)) ? FinderHelperLanguage::branchPlural($row->text) : $row->text;
+			$options[] = JHtml::_('select.option', $row->value, JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_($key)));
 		}
 
 		return $options;
@@ -70,36 +70,44 @@ abstract class JHtmlFinder
 	 */
 	public static function mapslist()
 	{
-		$lang = JFactory::getLanguage();
-
 		// Load the finder types.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('title AS text, id AS value')
+			->select($db->quoteName('title', 'text'))
+			->select($db->quoteName('id', 'value'))
 			->from($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('parent_id') . ' = 1')
-			->order('ordering, title ASC');
+			->where($db->quoteName('parent_id') . ' = 1');
 		$db->setQuery($query);
 
 		try
 		{
-			$rows = $db->loadObjectList();
+			$branches = $db->loadObjectList();
 		}
 		catch (RuntimeException $e)
 		{
-			return;
+			JError::raiseWarning(500, $db->getMessage());
 		}
+
+		// Translate.
+		$lang = JFactory::getLanguage();
+
+		foreach ($branches as $branch)
+		{
+			$key = FinderHelperLanguage::branchPlural($branch->text);
+			$branch->translatedText = $lang->hasKey($key) ? JText::_($key) : $branch->text;
+		}
+
+		// Order by title.
+		$branches = ArrayHelper::sortObjects($branches, 'translatedText', 1, true, true);
 
 		// Compile the options.
 		$options = array();
-		$options[] = JHtml::_('select.option', '1', JText::_('COM_FINDER_MAPS_SELECT_BRANCH'));
+		$options[] = JHtml::_('select.option', '', JText::_('COM_FINDER_MAPS_SELECT_BRANCH'));
 
-		foreach ($rows as $row)
+		// Convert the values to options.
+		foreach ($branches as $branch)
 		{
-			$key = $lang->hasKey(FinderHelperLanguage::branchPlural($row->text))
-					? FinderHelperLanguage::branchPlural($row->text) : $row->text;
-			$string = JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_($key));
-			$options[] = JHtml::_('select.option', $row->value, $string);
+			$options[] = JHtml::_('select.option', $branch->value, $branch->translatedText);
 		}
 
 		return $options;
@@ -114,10 +122,9 @@ abstract class JHtmlFinder
 	 */
 	public static function statelist()
 	{
-		$options = array();
-		$options[] = JHtml::_('select.option', '1', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JPUBLISHED')));
-		$options[] = JHtml::_('select.option', '0', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JUNPUBLISHED')));
-
-		return $options;
+		return array(
+			JHtml::_('select.option', '1', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JPUBLISHED'))),
+			JHtml::_('select.option', '0', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JUNPUBLISHED')))
+		);
 	}
 }

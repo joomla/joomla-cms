@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Observer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Observer updater pattern implementation for Joomla
  *
- * @link   https://docs.joomla.org/JObserverUpdater
  * @since  3.1.2
  */
 interface JObserverUpdaterInterface

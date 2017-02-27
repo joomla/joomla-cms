@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,8 +20,9 @@ $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
-$canOrder  = $user->authorise('core.edit.state',	'com_menus');
+$canOrder  = $user->authorise('core.edit.state', 'com_menus');
 $saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
+$menutypeid	= (int) $this->state->get('menutypeid');
 $assoc     = JLanguageAssociations::isEnabled();
 ?>
 
@@ -59,7 +60,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
 			</select>
 
-            <label class="selectlabel" for="filter_published">
+            		<label class="selectlabel" for="filter_published">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
 			<select name="filter_published" id="filter_published">
@@ -67,7 +68,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 
-            <label class="selectlabel" for="filter_access">
+            		<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
 			<select name="filter_access" id="filter_access">
@@ -103,7 +104,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 				</th>
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder); ?>
-					<?php if ($canOrder && $saveOrder) :?>
+					<?php if ($canOrder && $saveOrder) : ?>
 						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'items.saveorder'); ?>
 					<?php endif; ?>
 				</th>
@@ -113,12 +114,12 @@ $assoc     = JLanguageAssociations::isEnabled();
 				<th width="10%">
 					<?php echo JText::_('JGRID_HEADING_MENU_ITEM_TYPE'); ?>
 				</th>
+				<?php if ($this->state->get('filter.client_id') == 0): ?>
 				<th class="home-col">
 					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 				</th>
-				<?php
-				if ($assoc):
-				?>
+				<?php endif; ?>
+				<?php if ($assoc) : ?>
 				<th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 				</th>
@@ -136,10 +137,10 @@ $assoc     = JLanguageAssociations::isEnabled();
 		<?php
 		foreach ($this->items as $i => $item) :
 			$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
-			$canCreate  = $user->authorise('core.create',     'com_menus');
-			$canEdit    = $user->authorise('core.edit',       'com_menus');
+			$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $menutypeid);
+			$canEdit    = $user->authorise('core.edit',       'com_menus.menu.' . $menutypeid);
 			$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
-			$canChange  = $user->authorise('core.edit.state', 'com_menus') && $canCheckin;
+			$canChange  = $user->authorise('core.edit.state', 'com_menus.menu.' . $menutypeid) && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
@@ -190,19 +191,29 @@ $assoc     = JLanguageAssociations::isEnabled();
 					<span title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 						<?php echo $this->escape($item->item_type); ?></span>
 				</td>
+				<?php if ($this->state->get('filter.client_id') == 0): ?>
 				<td class="center">
 					<?php if ($item->type == 'component') : ?>
 						<?php if ($item->language == '*' || $item->home == '0'):?>
 							<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
 						<?php elseif ($canChange):?>
-							<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1');?>">
-								<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
+							<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1'); ?>">
+								<?php if ($item->language_image) : ?>
+									<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+								<?php else : ?>
+									<span class="label" title="<?php echo JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
+								<?php endif; ?>
 							</a>
 						<?php else:?>
-							<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
+							<?php if ($item->language_image) : ?>
+								<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+							<?php else : ?>
+								<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+							<?php endif; ?>
 						<?php endif;?>
 					<?php endif; ?>
 				</td>
+				<?php endif; ?>
 				<?php
 				if ($assoc):
 				?>
@@ -213,13 +224,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 				</td>
 				<?php endif;?>
 				<td class="center">
-					<?php if ($item->language == ''):?>
-						<?php echo JText::_('JDEFAULT'); ?>
-					<?php elseif ($item->language == '*'):?>
-						<?php echo JText::alt('JALL', 'language'); ?>
-					<?php else:?>
-						<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-					<?php endif;?>
+					<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 				</td>
 				<td class="center">
 					<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt);?>">
@@ -239,8 +244,8 @@ $assoc     = JLanguageAssociations::isEnabled();
 			'bootstrap.renderModal',
 			'collapseModal',
 			array(
-				'title' => JText::_('COM_MENUS_BATCH_OPTIONS'),
-				'footer' => $this->loadTemplate('batch_footer')
+				'title'  => JText::_('COM_MENUS_BATCH_OPTIONS'),
+				'footer' => $this->loadTemplate('batch_footer'),
 			),
 			$this->loadTemplate('batch_body')
 		); ?>

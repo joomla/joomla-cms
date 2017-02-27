@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,14 +32,19 @@ class ModLoginHelper
 		$app  = JFactory::getApplication();
 		$item = $app->getMenu()->getItem($params->get($type));
 
+		// Stay on the same page
+		$url = JUri::getInstance()->toString();
+
 		if ($item)
 		{
-			$url = 'index.php?Itemid=' . $item->id;
-		}
-		else
-		{
-			// Stay on the same page
-			$url = JUri::getInstance()->toString();
+			$lang = '';
+
+			if ($item->language !== '*' && JLanguageMultilang::isEnabled())
+			{
+				$lang = '&lang=' . $item->language;
+			}
+
+			$url = 'index.php?Itemid=' . $item->id . $lang;
 		}
 
 		return base64_encode($url);
@@ -61,11 +66,13 @@ class ModLoginHelper
 	 * Get list of available two factor methods
 	 *
 	 * @return array
+	 *
+	 * @deprecated  4.0  Use JAuthenticationHelper::getTwoFactorMethods() instead.
 	 */
 	public static function getTwoFactorMethods()
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
+		JLog::add(__METHOD__ . ' is deprecated, use JAuthenticationHelper::getTwoFactorMethods() instead.', JLog::WARNING, 'deprecated');
 
-		return UsersHelper::getTwoFactorMethods();
+		return JAuthenticationHelper::getTwoFactorMethods();
 	}
 }

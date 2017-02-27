@@ -6,7 +6,9 @@
 		name="client_id"
 		type="list"
 		label=""
-		onchange="jQuery('#filter_position, #filter_module, #filter_language').val('');this.form.submit();"
+		filtermode="selector"
+		layout="default"
+		onchange="jQuery('#filter_position, #filter_module, #filter_language, #filter_menuitem').val('');this.form.submit();"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
@@ -15,9 +17,10 @@
 		<field
 			name="search"
 			type="text"
-			label="JSEARCH_FILTER_LABEL"
+			label="COM_MODULES_MODULES_FILTER_SEARCH_LABEL"
 			description="COM_MODULES_MODULES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
+			noresults="COM_MODULES_MSG_MANAGE_NO_MODULES"
 		/>
 		<field
 			name="state"
@@ -43,6 +46,17 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_MODULE</option>
+		</field>
+		<field
+			name="menuitem"
+			type="menuitem"
+			label="COM_MODULES_OPTION_SELECT_PAGE"
+			disable="separator,alias,heading,url"
+			showon="client_id:0"
+			onchange="this.form.submit();"
+			>
+			<option	value="">COM_MODULES_OPTION_SELECT_PAGE</option>
+			<option	value="-1">COM_MODULES_NONE</option>
 		</field>
 		<field
 			name="access"
@@ -72,25 +86,25 @@
 			description="JGLOBAL_SORT_BY"
 			statuses="*,0,1,-2"
 			onchange="this.form.submit();"
-			default="position ASC"
+			default="a.position ASC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
-			<option value="ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="a.published ASC">JSTATUS_ASC</option>
 			<option value="a.published DESC">JSTATUS_DESC</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
-			<option value="position ASC">COM_MODULES_HEADING_POSITION_ASC</option>
-			<option value="position DESC">COM_MODULES_HEADING_POSITION_DESC</option>
+			<option value="a.position ASC">COM_MODULES_HEADING_POSITION_ASC</option>
+			<option value="a.position DESC">COM_MODULES_HEADING_POSITION_DESC</option>
 			<option value="name ASC">COM_MODULES_HEADING_MODULE_ASC</option>
 			<option value="name DESC">COM_MODULES_HEADING_MODULE_DESC</option>
 			<option value="pages ASC">COM_MODULES_HEADING_PAGES_ASC</option>
 			<option value="pages DESC">COM_MODULES_HEADING_PAGES_DESC</option>
-			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
-			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
-			<option value="language_title ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="language_title DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="ag.title ASC">JGRID_HEADING_ACCESS_ASC</option>
+			<option value="ag.title DESC">JGRID_HEADING_ACCESS_DESC</option>
+			<option value="l.title ASC">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="l.title DESC">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

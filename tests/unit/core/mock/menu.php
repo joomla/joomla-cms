@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,23 +41,23 @@ class TestMockMenu
 			'load'
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JMenu',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JMenu')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		self::createMenuSampleData();
 
 		$mockObject->expects($test->any())
 				->method('getItem')
 				->will($test->returnValueMap(self::prepareGetItemData()));
+
+		$mockObject->expects($test->any())
+				->method('getItems')
+				->will($test->returnCallback(array(__CLASS__, 'prepareGetItemsData')));
 
 		$mockObject->expects($test->any())
 				->method('getMenu')
@@ -87,7 +87,7 @@ class TestMockMenu
 		foreach (self::$data as $id => $item)
 		{
 			$return[] = array($id, $item);
-			$return[] = array((string)$id, $item);
+			$return[] = array((string) $id, $item);
 		}
 
 		return $return;
@@ -101,9 +101,43 @@ class TestMockMenu
 		return $return;
 	}
 
-	protected static function prepareGetItemsData()
+	public static function prepareGetItemsData($attributes, $values)
 	{
-		// Why this is clear here?
+		$items = array();
+		$attributes = (array) $attributes;
+		$values = (array) $values;
+
+		foreach (self::$data as $item)
+		{
+			$test = true;
+
+			for ($i = 0, $count = count($attributes); $i < $count; $i++)
+			{
+				if (is_array($values[$i]))
+				{
+					if (!in_array($item->{$attributes[$i]}, $values[$i]))
+					{
+						$test = false;
+						break;
+					}
+				}
+				else
+				{
+					if ($item->{$attributes[$i]} != $values[$i])
+					{
+						$test = false;
+						break;
+					}
+				}
+			}
+
+			if ($test)
+			{
+				$items[] = $item;
+			}
+		}
+
+		return $items;
 	}
 
 	protected static function createMenuSampleData()

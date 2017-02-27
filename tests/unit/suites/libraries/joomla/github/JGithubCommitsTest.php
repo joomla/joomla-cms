@@ -3,13 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/github/github.php';
-require_once JPATH_PLATFORM . '/joomla/github/http.php';
-require_once JPATH_PLATFORM . '/joomla/github/commits.php';
 
 /**
  * Test class for JGitHubCommits.
@@ -64,9 +60,27 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
+		$this->client = $this->getMockBuilder('JGithubHttp')
+			->setMethods(array('get', 'post', 'delete', 'patch', 'put'))
+			->getMock();
 
 		$this->object = new JGithubCommits($this->options, $this->client);
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options);
+		unset($this->client);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

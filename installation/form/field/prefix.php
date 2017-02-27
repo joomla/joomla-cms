@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,15 +18,15 @@ class InstallationFormFieldPrefix extends JFormField
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'Prefix';
 
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  string   The field input markup.
 	 *
 	 * @since   1.6
 	 */

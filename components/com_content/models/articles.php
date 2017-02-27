@@ -3,13 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * This models supports retrieving lists of articles.
@@ -49,6 +51,7 @@ class ContentModelArticles extends JModelList
 				'publish_down', 'a.publish_down',
 				'images', 'a.images',
 				'urls', 'a.urls',
+				'filter_tag'
 			);
 		}
 
@@ -81,6 +84,9 @@ class ContentModelArticles extends JModelList
 
 		$value = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $value);
+
+		$value = $app->input->get('filter_tag', 0, 'uint');
+		$this->setState('filter.tag', $value);
 
 		$orderCol = $app->input->get('filter_order', 'a.ordering');
 
@@ -213,8 +219,22 @@ class ContentModelArticles extends JModelList
 
 		$query->from('#__content AS a');
 
-		// Join over the frontpage articles.
-		if ($this->context != 'com_content.featured')
+		$params = $this->getState('params');
+		$orderby_sec = $params->get('orderby_sec');
+
+		// Join over the frontpage articles if required.
+		if ($this->getState('filter.frontpage'))
+		{
+			if ($orderby_sec === 'front')
+			{
+				$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
+			}
+			else
+			{
+				$query->where('a.featured = 1');
+			}
+		}
+		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
@@ -225,7 +245,7 @@ class ContentModelArticles extends JModelList
 
 		// Join over the users for the author and modified_by names.
 		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author")
-			->select("ua.email AS author_email")
+			->select('ua.email AS author_email')
 
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by')
 			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
@@ -234,9 +254,13 @@ class ContentModelArticles extends JModelList
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
 			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
-		// Join on voting table
-		$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
-			->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+		if (JPluginHelper::isEnabled('content', 'vote'))
+		{
+			// Join on voting table
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+		}
 
 		// Join to check for category published state in parent categories up the tree
 		$query->select('c.published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
@@ -283,7 +307,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($published))
 		{
-			JArrayHelper::toInteger($published);
+			$published = ArrayHelper::toInteger($published);
 			$published = implode(',', $published);
 
 			// Use article state if badcats.id is null, otherwise, force 0 for unpublished
@@ -320,7 +344,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($articleId))
 		{
-			JArrayHelper::toInteger($articleId);
+			$articleId = ArrayHelper::toInteger($articleId);
 			$articleId = implode(',', $articleId);
 			$type = $this->getState('filter.article_id.include', true) ? 'IN' : 'NOT IN';
 			$query->where('a.id ' . $type . ' (' . $articleId . ')');
@@ -354,7 +378,7 @@ class ContentModelArticles extends JModelList
 				}
 
 				// Add the subquery to the main query
-				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . $subQuery->__toString() . '))');
+				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . (string) $subQuery . '))');
 			}
 			else
 			{
@@ -363,7 +387,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($categoryId) && (count($categoryId) > 0))
 		{
-			JArrayHelper::toInteger($categoryId);
+			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 
 			if (!empty($categoryId))
@@ -384,7 +408,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($authorId))
 		{
-			JArrayHelper::toInteger($authorId);
+			$authorId = ArrayHelper::toInteger($authorId);
 			$authorId = implode(',', $authorId);
 
 			if ($authorId)
@@ -409,8 +433,6 @@ class ContentModelArticles extends JModelList
 
 			if (!empty($first))
 			{
-				JArrayHelper::toString($authorAlias);
-
 				foreach ($authorAlias as $key => $alias)
 				{
 					$authorAlias[$key] = $db->quote($alias);
@@ -481,12 +503,10 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Process the filter for list views with user-entered filters
-		$params = $this->getState('params');
-
-		if ((is_object($params)) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter')))
+		if (is_object($params) && ($params->get('filter_field') !== 'hide') && ($filter = $this->getState('list.filter')))
 		{
 			// Clean filter variable
-			$filter = JString::strtolower($filter);
+			$filter = StringHelper::strtolower($filter);
 			$hitsFilter = (int) $filter;
 			$filter = $db->quote('%' . $db->escape($filter, true) . '%', false);
 
@@ -515,6 +535,19 @@ class ContentModelArticles extends JModelList
 		if ($this->getState('filter.language'))
 		{
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+		}
+
+		// Filter by a single tag.
+		$tagId = $this->getState('filter.tag');
+
+		if (!empty($tagId) && is_numeric($tagId))
+		{
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
+				->join(
+					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+				);
 		}
 
 		// Add the list ordering clause.
@@ -547,8 +580,7 @@ class ContentModelArticles extends JModelList
 		// Convert the parameter fields into objects.
 		foreach ($items as &$item)
 		{
-			$articleParams = new Registry;
-			$articleParams->loadString($item->attribs);
+			$articleParams = new Registry($item->attribs);
 
 			// Unpack readmore and layout params
 			$item->alternative_readmore = $articleParams->get('alternative_readmore');
@@ -559,8 +591,8 @@ class ContentModelArticles extends JModelList
 			/*For blogs, article params override menu item params only if menu param = 'use_article'
 			Otherwise, menu item params control the layout
 			If menu item is 'use_article' and there is no article param, use global*/
-			if (($input->getString('layout') == 'blog') || ($input->getString('view') == 'featured')
-				|| ($this->getState('params')->get('layout_type') == 'blog'))
+			if (($input->getString('layout') === 'blog') || ($input->getString('view') === 'featured')
+				|| ($this->getState('params')->get('layout_type') === 'blog'))
 			{
 				// Create an array of just the params set to 'use_article'
 				$menuParamsArray = $this->getState('params')->toArray();
@@ -587,8 +619,7 @@ class ContentModelArticles extends JModelList
 				// Merge the selected article params
 				if (count($articleArray) > 0)
 				{
-					$articleParams = new Registry;
-					$articleParams->loadArray($articleArray);
+					$articleParams = new Registry($articleArray);
 					$item->params->merge($articleParams);
 				}
 			}
@@ -663,6 +694,11 @@ class ContentModelArticles extends JModelList
 			{
 				$item->tags = new JHelperTags;
 				$item->tags->getItemTags('com_content.article', $item->id);
+			}
+
+			if ($item->params->get('show_associations'))
+			{
+				$item->associations = ContentHelperAssociation::displayAssociations($item->id);
 			}
 		}
 

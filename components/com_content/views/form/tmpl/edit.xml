@@ -23,7 +23,17 @@
 				type="category"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				extension="com_content"
-				description="JGLOBAL_CHOOSE_CATEGORY_DESC" />
+				description="JGLOBAL_CHOOSE_CATEGORY_DESC" 
+				showon="enable_category:1" />
+
+			<field
+				name="redirect_menuitem"
+				type="modal_menu"
+				label="COM_CONTENT_CREATE_ARTICLE_REDIRECTMENU_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_REDIRECTMENU_DESC"
+			>
+				<option value="">JDEFAULT</option>
+			</field>
 		</fieldset>
 	</fields>
 </metadata>

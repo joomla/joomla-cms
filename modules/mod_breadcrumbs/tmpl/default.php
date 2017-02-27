@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ JHtml::_('bootstrap.tooltip');
 	// Get rid of duplicated entries on trail including home page when using multilanguage
 	for ($i = 0; $i < $count; $i++)
 	{
-		if ($i == 1 && !empty($list[$i]->link) && !empty($list[$i - 1]->link) && $list[$i]->link == $list[$i - 1]->link)
+		if ($i === 1 && !empty($list[$i]->link) && !empty($list[$i - 1]->link) && $list[$i]->link === $list[$i - 1]->link)
 		{
 			unset($list[$i]);
 		}
@@ -35,7 +35,7 @@ JHtml::_('bootstrap.tooltip');
 
 	// Find last and penultimate items in breadcrumbs list
 	end($list);
-	$last_item_key = key($list);
+	$last_item_key   = key($list);
 	prev($list);
 	$penult_item_key = key($list);
 
@@ -44,7 +44,7 @@ JHtml::_('bootstrap.tooltip');
 
 	// Generate the trail
 	foreach ($list as $key => $item) :
-		if ($key != $last_item_key) :
+		if ($key !== $last_item_key) :
 			// Render all but last item - along with separator ?>
 			<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
 				<?php if (!empty($item->link)) : ?>
@@ -55,7 +55,7 @@ JHtml::_('bootstrap.tooltip');
 					</span>
 				<?php endif; ?>
 
-				<?php if (($key != $penult_item_key) || $show_last) : ?>
+				<?php if (($key !== $penult_item_key) || $show_last) : ?>
 					<span class="divider">
 						<?php echo $separator; ?>
 					</span>

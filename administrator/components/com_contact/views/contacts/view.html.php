@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,13 +67,16 @@ class ContactViewContacts extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state      = $this->get('State');
+		if ($this->getLayout() !== 'modal')
+		{
+			ContactHelper::addSubmenu('contacts');
+		}
+
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-
-		ContactHelper::addSubmenu('contacts');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -91,8 +94,29 @@ class ContactViewContacts extends JViewLegacy
 			$item->order_dn = true;
 		}
 
-		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+			$this->sidebar = JHtmlSidebar::render();
+		}
+		else
+		{
+			// In article associations modal we need to remove language filter if forcing a language.
+			// We also need to change the category filter to show show categories with All or the forced language.
+			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			{
+				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
+				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
+				$this->filterForm->setField($languageXml, 'filter', true);
+
+				// Also, unset the active language filter so the search tools is not open by default with this filter.
+				unset($this->activeFilters['language']);
+
+				// One last changes needed is to change the category filter to just show categories with All language or with the forced language.
+				$this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
+			}
+		}
 
 		return parent::display($tpl);
 	}
@@ -125,14 +149,16 @@ class ContactViewContacts extends JViewLegacy
 		{
 			JToolbarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::custom('contacts.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
+			JToolbarHelper::custom('contacts.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
 			JToolbarHelper::archiveList('contacts.archive');
 			JToolbarHelper::checkin('contacts.checkin');
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_contacts')
-			&& $user->authorise('core.edit', 'com_contacts')
-			&& $user->authorise('core.edit.state', 'com_contacts'))
+		if ($user->authorise('core.create', 'com_contact')
+			&& $user->authorise('core.edit', 'com_contact')
+			&& $user->authorise('core.edit.state', 'com_contact'))
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 

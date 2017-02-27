@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class InstallerModelDatabase extends InstallerModel
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
 		$app = JFactory::getApplication();
 		$this->setState('message', $app->getUserState('com_installer.message'));
@@ -46,7 +46,7 @@ class InstallerModelDatabase extends InstallerModel
 		// Prepare the utf8mb4 conversion check table
 		$this->prepareUtf8mb4StatusTable();
 
-		parent::populateState('name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -56,9 +56,6 @@ class InstallerModelDatabase extends InstallerModel
 	 */
 	public function fix()
 	{
-		// Prepare the utf8mb4 conversion check table
-		$this->prepareUtf8mb4StatusTable();
-
 		if (!$changeSet = $this->getItems())
 		{
 			return false;
@@ -79,7 +76,7 @@ class InstallerModelDatabase extends InstallerModel
 
 		if (count($statusArray['error']) == 0)
 		{
-			$this->convertTablesToUtf8mb4();
+			$installer->convertTablesToUtf8mb4(false);
 		}
 	}
 
@@ -170,7 +167,11 @@ class InstallerModelDatabase extends InstallerModel
 			->values('700, ' . $db->quote($schema));
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -263,114 +264,6 @@ class InstallerModelDatabase extends InstallerModel
 				return true;
 			}
 		}
-	}
-
-	/**
-	 * Converts the site's database tables to support UTF-8 Multibyte
-	 *
-	 * @return  void
-	 *
-	 * @since   3.5
-	 */
-	public function convertTablesToUtf8mb4()
-	{
-		$db = JFactory::getDbo();
-
-		// Get the SQL file to convert the core tables. Yes, this is hardcoded because we have all sorts of index
-		// conversions and funky things we can't automate in core tables without an actual SQL file.
-		$serverType = $db->getServerType();
-
-		if ($serverType != 'mysql')
-		{
-			return;
-		}
-
-		// Set required conversion status
-		if ($db->hasUTF8mb4Support())
-		{
-			$converted = 2;
-		}
-		else
-		{
-			$converted = 1;
-		}
-
-		// Check conversion status in database
-		$db->setQuery('SELECT ' . $db->quoteName('converted')
-			. ' FROM ' . $db->quoteName('#__utf8_conversion')
-			);
-
-		try
-		{
-			$convertedDB = $db->loadResult();
-		}
-		catch (Exception $e)
-		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-			return;
-		}
-
-		// Nothing to do, saved conversion status from DB is equal to required
-		if ($convertedDB == $converted)
-		{
-			return;
-		}
-
-		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/$serverType/utf8mb4-conversion-01.sql";
-
-		if (is_file($fileName1))
-		{
-			$fileContents1 = @file_get_contents($fileName1);
-			$queries1 = $db->splitSql($fileContents1);
-
-			if (!empty($queries1))
-			{
-				foreach ($queries1 as $query1)
-				{
-					try
-					{
-						$db->setQuery($query1)->execute();
-					}
-					catch (Exception $e)
-					{
-						// If the query fails we will go on. It just means the index to be dropped does not exist.
-					}
-				}
-			}
-		}
-
-		// Step 2: Perform the index modifications and conversions
-		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/$serverType/utf8mb4-conversion-02.sql";
-
-		if (is_file($fileName2))
-		{
-			$fileContents2 = @file_get_contents($fileName2);
-			$queries2 = $db->splitSql($fileContents2);
-
-			if (!empty($queries2))
-			{
-				foreach ($queries2 as $query2)
-				{
-					try
-					{
-						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
-					}
-					catch (Exception $e)
-					{
-						$converted = 0;
-
-						// Still render the error message from the Exception object
-						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-					}
-				}
-			}
-		}
-
-		// Set flag in database if the update is done.
-		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
 	}
 
 	/**

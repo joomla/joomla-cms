@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,9 +48,29 @@ class JGoogleEmbedMapsTest extends TestCase
 
 		$this->options = new JRegistry;
 
-		$this->http = $this->getMock('JHttp', array('get'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('get'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$this->uri = new JUri;
 		$this->object = new JGoogleEmbedMaps($this->options, $this->uri, $this->http);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options);
+		unset($this->uri);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -419,7 +439,7 @@ class JGoogleEmbedMapsTest extends TestCase
 	 */
 	public function testDeleteMarkersException()
 	{
-		$marker = $this->object->deleteMarker();
+		$this->object->deleteMarker();
 	}
 
 	/**
@@ -733,7 +753,10 @@ class JGoogleEmbedMapsTest extends TestCase
  */
 function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 {
-	parse_str($url, $params);
+	$query = parse_url($url, PHP_URL_QUERY);
+	
+	parse_str($query, $params);
+	
 	$address = strtolower($params['address']);
 
 	switch ($address)

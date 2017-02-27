@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -25,7 +25,7 @@ $loggeduser = JFactory::getUser();
 		<div id="j-main-container" class="span10">
 	<?php else : ?>
 		<div id="j-main-container">
-	<?php endif;?>
+	<?php endif; ?>
 		<?php
 		// Search tools bar
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
@@ -41,7 +41,7 @@ $loggeduser = JFactory::getUser();
 						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th class="left">
+						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap">
@@ -56,13 +56,13 @@ $loggeduser = JFactory::getUser();
 						<th width="10%" class="nowrap">
 							<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 						</th>
-						<th width="15%" class="nowrap hidden-phone">
+						<th width="15%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
@@ -72,7 +72,7 @@ $loggeduser = JFactory::getUser();
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="15">
+						<td colspan="10">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -114,8 +114,8 @@ $loggeduser = JFactory::getUser();
 								<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 							<?php endif; ?>
 							<?php if (JDEBUG) : ?>
-								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id);?>">
-								<?php echo JText::_('COM_USERS_DEBUG_USER');?></a></div>
+								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
+								<?php echo JText::_('COM_USERS_DEBUG_USER'); ?></a></div>
 							<?php endif; ?>
 						</td>
 						<td class="break-word">
@@ -139,22 +139,22 @@ $loggeduser = JFactory::getUser();
 						</td>
 						<td>
 							<?php if (substr_count($item->group_names, "\n") > 1) : ?>
-								<span class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
+								<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 							<?php else : ?>
 								<?php echo nl2br($item->group_names); ?>
 							<?php endif; ?>
 						</td>
-						<td class="hidden-phone break-word">
+						<td class="hidden-phone break-word hidden-tablet">
 							<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 						</td>
-						<td class="hidden-phone">
-							<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'):?>
+						<td class="hidden-phone hidden-tablet">
+							<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
 								<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
-							<?php else:?>
+							<?php else : ?>
 								<?php echo JText::_('JNEVER'); ?>
-							<?php endif;?>
+							<?php endif; ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-phone hidden-tablet">
 							<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
 						</td>
 						<td class="hidden-phone">
@@ -177,7 +177,7 @@ $loggeduser = JFactory::getUser();
 					),
 					$this->loadTemplate('batch_body')
 				); ?>
-			<?php endif;?>
+			<?php endif; ?>
 		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />

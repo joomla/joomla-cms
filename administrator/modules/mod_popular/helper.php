@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_popular
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ abstract class ModPopularHelper
 				' a.created, a.hits');
 
 		// Set Ordering filter
-		$model->setState('list.ordering', 'a.hits');
+		$model->setState('list.fullordering', 'a.hits DESC');
 		$model->setState('list.direction', 'DESC');
 
 		// Set Category Filter
@@ -122,6 +122,6 @@ abstract class ModPopularHelper
 			$title = '';
 		}
 
-		return JText::plural('MOD_POPULAR_TITLE' . ($catid ? "_CATEGORY" : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
+		return JText::plural('MOD_POPULAR_TITLE' . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
 	}
 }

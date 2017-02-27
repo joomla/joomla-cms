@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @see         http://dev.mysql.com/doc/
  * @since       12.1
- * @deprecated  Will be removed when the minimum supported PHP version no longer includes the deprecated PHP `mysql` extension
+ * @deprecated  4.0  Use MySQLi or PDO MySQL instead
  */
 class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 {
@@ -38,14 +38,14 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// PHP's `mysql` extension is not present in PHP 7, block instantiation in this environment
 		if (PHP_MAJOR_VERSION >= 7)
 		{
-			throw new RuntimeException(
+			throw new JDatabaseExceptionUnsupported(
 				'This driver is unsupported in PHP 7, please use the MySQLi or PDO MySQL driver instead.'
 			);
 		}
 
 		// Get some basic values from the options.
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
-		$options['user'] = (isset($options['user'])) ? $options['user'] : 'root';
+		$options['user'] = (isset($options['user'])) ? $options['user'] : '';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 		$options['select'] = (isset($options['select'])) ? (bool) $options['select'] : true;
@@ -82,13 +82,13 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Make sure the MySQL extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('Could not connect to MySQL.');
+			throw new JDatabaseExceptionUnsupported('Could not connect to MySQL.');
 		}
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ mysql_connect($this->options['host'], $this->options['user'], $this->options['password'], true)))
 		{
-			throw new RuntimeException('Could not connect to MySQL.');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL.');
 		}
 
 		// Set sql_mode to non_strict mode
@@ -109,7 +109,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
 		{
-			mysql_query("SET profiling = 1;", $this->connection);
+			mysql_query('SET profiling = 1;', $this->connection);
 		}
 	}
 
@@ -169,7 +169,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	public static function isSupported()
 	{
-		return (function_exists('mysql_connect'));
+		return PHP_MAJOR_VERSION < 7 && function_exists('mysql_connect');
 	}
 
 	/**
@@ -206,7 +206,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
 	 * This command is only valid for statements like SELECT or SHOW that return an actual result set.
-	 * To retrieve the number of rows affected by a INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
+	 * To retrieve the number of rows affected by an INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
 	 *
 	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
 	 *
@@ -261,18 +261,18 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	{
 		$this->connect();
 
-		if (!is_resource($this->connection))
-		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
-		}
-
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
 		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
+		}
+
+		if (!is_resource($this->connection))
+		{
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 		}
 
 		// Increment the query counter.
@@ -315,7 +315,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		{
 			// Get the error number and message before we execute any more queries.
 			$this->errorNum = $this->getErrorNumber();
-			$this->errorMsg = $this->getErrorMessage($query);
+			$this->errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -331,12 +331,12 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 				{
 					// Get the error number and message.
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage($query);
+					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
+					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -348,7 +348,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
+				throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -376,7 +376,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 		if (!mysql_select_db($database, $this->connection))
 		{
-			throw new RuntimeException('Could not connect to database');
+			throw new JDatabaseExceptionConnecting('Could not connect to database');
 		}
 
 		return true;
@@ -548,13 +548,11 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	/**
 	 * Return the actual SQL Error message
 	 *
-	 * @param   string  $query  The SQL Query that fails
-	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage($query)
+	protected function getErrorMessage()
 	{
 		$errorMessage = (string) mysql_error($this->connection);
 
@@ -562,9 +560,8 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		if (!$this->debug)
 		{
 			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			$query        = str_replace($this->tablePrefix, '#__', $query);
 		}
 
-		return $errorMessage . ' SQL=' . $query;
+		return $errorMessage;
 	}
 }
