@@ -11,6 +11,8 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
+JFormHelper::loadFieldClass('List');
+
 /**
  * Text Filters form field.
  *
