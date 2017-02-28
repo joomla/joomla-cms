@@ -42,6 +42,86 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	}
 
 	/**
+	 * Get the SQL syntax to add a table.
+	 *
+	 * @param   SimpleXMLElement  $table  The table information.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 * @throws  RuntimeException
+	 */
+	protected function xmlToCreate(SimpleXMLElement $table)
+	{
+		$existingTables = $this->db->getTableList();
+		$tableName = (string) $table['name'];
+
+		if (in_array($tableName, $existingTables))
+		{
+			throw new RuntimeException('The table you are trying to create already exists');
+		}
+
+		$createTableStatement = 'CREATE TABLE ' . $this->db->quoteName($tableName) . ' (';
+
+		foreach ($table->xpath('field') as $field)
+		{
+			$createTableStatement .= $this->getColumnSQL($field) . ', ';
+		}
+
+		$createTableStatement = rtrim($createTableStatement, ', ');
+		$createTableStatement .= ');';
+
+		foreach ($table->xpath('sequence') as $seq)
+		{
+			$createTableStatement .= $this->getAddSequenceSql($seq) . '; ';
+		}
+
+		foreach ($table->xpath('key') as $key)
+		{
+			$createTableStatement .= $this->getAddIndexSql($key) . '; ';
+		}
+
+		return $createTableStatement;
+	}
+
+	/**
+	 * Get the details list of keys for a table.
+	 *
+	 * @param   array  $keys  An array of objects that comprise the keys for the table.
+	 *
+	 * @return  array  The lookup array. array({key name} => array(object, ...))
+	 *
+	 * @since   11.1
+	 * @throws  Exception
+	 */
+	protected function getKeyLookup($keys)
+	{
+		// First pass, create a lookup of the keys.
+		$lookup = array();
+
+		foreach ($keys as $key)
+		{
+			if ($key instanceof SimpleXMLElement)
+			{
+				$kName = (string) $key['Key_name'];
+			}
+			else
+			{
+				$kName = $key->Key_name;
+			}
+
+			if (empty($lookup[$kName]))
+			{
+				$lookup[$kName] = array();
+			}
+
+			$lookup[$kName][] = $key;
+		}
+
+		return $lookup;
+	}
+
+	/**
 	 * Get the SQL syntax to add a column.
 	 *
 	 * @param   string            $table  The table name.
