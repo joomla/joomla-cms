@@ -19,7 +19,7 @@ if (!defined('_JDEFINES'))
 {
 	define('JPATH_BASE', dirname(__DIR__));
 	require_once JPATH_BASE . '/includes/defines.php';
-}
+l}
 
 // Get the framework.
 require_once JPATH_LIBRARIES . '/import.legacy.php';
@@ -63,10 +63,10 @@ class DbImporterCli extends JApplicationCli
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 		$pathPart = JPATH_ROOT . '/cli/dbdump/';
-		$iall    = $this->input->getString('all', false);
-		$ihelp   = $this->input->getString('help', false);
-		$itable  = $this->input->getString('table', false);
-		$tables  = JFolder::files($pathPart, '\.xml$');
+		$iall     = $this->input->getString('all', null);
+		$ihelp    = $this->input->getString('help', null);
+		$itable   = $this->input->getString('table', null);
+		$tables   = JFolder::files($pathPart, '\.xml$');
 
 		if (!(($itable)||($iall)||($ihelp)))
 		{
@@ -94,7 +94,7 @@ class DbImporterCli extends JApplicationCli
 		foreach ($tables as $table)
 		{
 			$task_i_time = microtime(true);
-			$percorso = $pathPart . $table;
+			$percorso    = $pathPart . $table;
 
 			// Check file
 			if (!JFile::exists($percorso))
