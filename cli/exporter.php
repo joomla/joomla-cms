@@ -109,7 +109,7 @@ class DbExporterCli extends JApplicationCli
 			if (strpos(substr($table, 0, strlen($prefix)), $prefix) !== false)
 			{
 				$task_i_time = microtime(true);
-				$filename = $pathPart . $table . '.xml';
+				$filename    = $pathPart . $table . '.xml';
 				$this->out();
 				$this->out('Exporting ' . $table . '....');
 				$data = (string) $exp->from($table)->withData(true);
