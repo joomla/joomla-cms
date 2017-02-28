@@ -67,10 +67,10 @@ class DbExporterCli extends JApplicationCli
 		$zipfile  = 'jdata_exported_' . JFactory::getDate()->format('Y-m-d') . '.zip';
 
 		$exp     = JFactory::getDbo()->getExporter()->withStructure();
-		$iall    = $this->input->getString('all', false);
-		$ihelp   = $this->input->getString('help', false);
-		$itable  = $this->input->getString('table', false);
-		$imode   = $this->input->getString('mode', false);
+		$iall    = $this->input->getString('all', null);
+		$ihelp   = $this->input->getString('help', null);
+		$itable  = $this->input->getString('table', null);
+		$imode   = $this->input->getString('mode', null);
 
 		if (!(($itable)||($iall)||($ihelp)))
 		{
