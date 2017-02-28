@@ -153,6 +153,51 @@ abstract class JDatabaseImporter
 	}
 
 	/**
+	 * Import the data from the source into the existing tables.
+	 *
+	 * @return  void
+	 *
+	 * @note    Currently only supports XML format.
+	 * @since   3.6
+	 * @throws  RuntimeException on error.
+	 */
+	public function importData()
+	{
+		if ($this->from instanceof SimpleXMLElement)
+		{
+			$xml = $this->from;
+		}
+		else
+		{
+			$xml = new SimpleXMLElement($this->from);
+		}
+
+		// Get all the table definitions.
+		$xmlTables = $xml->xpath('database/table_data');
+
+		foreach ($xmlTables as $table)
+		{
+			$tableName = (string) $table['name'];
+			$rows = $table->children();
+
+			foreach ($rows as $row)
+			{
+				if ($row->getName() == 'row')
+				{
+					$entry = new stdClass;
+
+					foreach ($row->children() as $data)
+					{
+						$entry->{(string) $data['name']} = (string) $data;
+					}
+
+					$this->db->insertObject($tableName, $entry);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Merges the incoming structure definition with the existing structure.
 	 *
 	 * @return  void
