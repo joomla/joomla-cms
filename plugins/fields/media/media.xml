@@ -23,7 +23,10 @@
 			<fieldset name="basic">
 				<field
 					name="directory"
-					type="text"
+					type="folderlist"
+					directory="images"
+					hide_none="true"
+					recursive="true"
 					label="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_LABEL"
 					description="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_DESC"
 				/>
@@ -39,18 +42,6 @@
 					<option value="tooltip">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_TOOLTIP</option>
 					<option value="true">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_INLINE</option>
 					<option value="false">JNO</option>
-				</field>
-	
-				<field
-					name="home"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="PLG_FIELDS_MEDIA_PARAMS_HOME_LABEL"
-					description="PLG_FIELDS_MEDIA_PARAMS_HOME_DESC"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
 				</field>
 	
 				<field

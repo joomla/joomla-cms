@@ -2034,3 +2034,40 @@ textarea.noResize {
 		width: auto;
 	}
 }
+
+/* com_templates */
+.tree-holder {
+	.folder-url, .file {
+		position: relative;
+		background-color: #fefefe;
+		margin-bottom: 4px;
+    	padding: 0 10px;
+		line-height: 32px;
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		
+	}
+	.folder-url, .folder-url:hover, .folder-url:focus {
+		font-weight: bold;
+		background-color: #f5f5f5;
+		color: @linkColor;
+	}
+	.active {
+		background-color: @linkColor;
+		color: #fff;
+		box-shadow: -3px 0 0 #36a2ff !important;
+		&.folder-url {
+			background-color: #f5f5f5;
+			color: @linkColor;
+		}
+	}
+	ul {
+		ul {
+			box-shadow: -3px 0 0 rgba(0, 0, 0, 0.08);
+			padding-right: 0;
+			.folder-url, .file {
+				box-shadow: -3px 0 0 @linkColor;
+				border-left: 0;
+			}
+		}
+	}
+}

@@ -1656,7 +1656,7 @@ CREATE TABLE IF NOT EXISTS `#__redirect_links` (
   `old_url` varchar(2048) NOT NULL,
   `new_url` varchar(2048),
   `referer` varchar(2048) NOT NULL,
-  `comment` varchar(255) NOT NULL,
+  `comment` varchar(255) NOT NULL DEFAULT '',
   `hits` int(10) unsigned NOT NULL DEFAULT 0,
   `published` tinyint(4) NOT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
