@@ -34,7 +34,15 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 		$buffer[] = '<postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
 		$buffer[] = ' <database name="">';
 
-		$buffer = array_merge($buffer, $this->buildXmlStructure());
+		if ($this->options->withStructure)
+		{
+			$buffer = array_merge($buffer, $this->buildXmlStructure());
+		}
+
+		if ($this->options->withData)
+		{
+			$buffer = array_merge($buffer, $this->buildXmlData());
+		}
 
 		$buffer[] = ' </database>';
 		$buffer[] = '</postgresqldump>';
@@ -61,24 +69,29 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 
 			// Get the details columns information.
 			$fields = $this->db->getTableColumns($table, false);
-			$keys = $this->db->getTableKeys($table);
-			$sequences = $this->db->getTableSequences($table);
+			$prefix   = $this->db->getPrefix();
+			$table_name = str_replace('#__', $prefix, $table);
+			$keys = $this->db->getTableKeys($table_name);
+			$sequences = $this->db->getTableSequences($table_name);
 
 			$buffer[] = '  <table_structure name="' . $table . '">';
 
-			foreach ($sequences as $sequence)
+			if ($sequences)
 			{
-				if (version_compare($this->db->getVersion(), '9.1.0') < 0)
+				foreach ($sequences as $sequence)
 				{
-					$sequence->start_value = null;
-				}
+					if (version_compare($this->db->getVersion(), '9.1.0') < 0)
+					{
+						$sequence->start_value = null;
+					}
 
-				$buffer[] = '   <sequence Name="' . $sequence->sequence . '"' . ' Schema="' . $sequence->schema . '"' .
-					' Table="' . $sequence->table . '"' . ' Column="' . $sequence->column . '"' . ' Type="' . $sequence->data_type . '"' .
-					' Start_Value="' . $sequence->start_value . '"' . ' Min_Value="' . $sequence->minimum_value . '"' .
-					' Max_Value="' . $sequence->maximum_value . '"' . ' Increment="' . $sequence->increment . '"' .
-					' Cycle_option="' . $sequence->cycle_option . '"' .
-					' />';
+					$buffer[] = '   <sequence Name="' . $sequence->sequence . '"' . ' Schema="' . $sequence->schema . '"' .
+						' Table="' . $sequence->table . '"' . ' Column="' . $sequence->column . '"' . ' Type="' . $sequence->data_type . '"' .
+						' Start_Value="' . $sequence->start_value . '"' . ' Min_Value="' . $sequence->minimum_value . '"' .
+						' Max_Value="' . $sequence->maximum_value . '"' . ' Increment="' . $sequence->increment . '"' .
+						' Cycle_option="' . $sequence->cycle_option . '"' .
+						' />';
+				}
 			}
 
 			foreach ($fields as $field)
@@ -88,13 +101,66 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 					' />';
 			}
 
-			foreach ($keys as $key)
+			if ($keys)
 			{
-				$buffer[] = '   <key Index="' . $key->idxName . '"' . ' is_primary="' . $key->isPrimary . '"' . ' is_unique="' . $key->isUnique . '"' .
-					' Query="' . $key->Query . '" />';
+				foreach ($keys as $key)
+				{
+					$buffer[] = '   <key Index="' . $key->idxName . '"' . ' is_primary="' . $key->isPrimary . '"' . ' is_unique="' . $key->isUnique . '"' .
+						' Query="' . str_replace('"', '', $key->Query) . '" />';
+				}
 			}
 
 			$buffer[] = '  </table_structure>';
+		}
+
+		return $buffer;
+	}
+
+	/**
+	 * Builds the XML data to export.
+	 *
+	 * @return  array  An array of XML lines (strings).
+	 *
+	 * @since   3.6
+	 * @throws  Exception if an error occurs.
+	 */
+	protected function buildXmlData()
+	{
+		$buffer = array();
+
+		foreach ($this->from as $table)
+		{
+			// Replace the magic prefix if found.
+			$table = $this->getGenericTableName($table);
+
+			// Get the details columns information.
+			$fields = $this->db->getTableColumns($table, false);
+			$query = $this->db->getQuery(true);
+			$query->select($query->qn(array_keys($fields)))
+				->from($query->qn($table));
+			$this->db->setQuery($query);
+			$rows = $this->db->loadObjectList();
+
+			if (!count($rows))
+			{
+				continue;
+			}
+
+			$buffer[] = '  <table_data name="' . $table . '">';
+
+			foreach ($rows as $row)
+			{
+				$buffer[] = '   <row>';
+
+				foreach ($row as $key => $value)
+				{
+					$buffer[] = '    <field name="' . $key . '">' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '</field>';
+				}
+
+				$buffer[] = '   </row>';
+			}
+
+			$buffer[] = '  </table_data>';
 		}
 
 		return $buffer;
@@ -125,3 +191,4 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 		return $this;
 	}
 }
+v
