@@ -174,6 +174,10 @@ class View extends \JObject
 		{
 			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
 		}
+		elseif (is_dir($this->_basePath . '/resources/views'))
+		{
+			$this->_setPath('template', $this->_basePath . '/resources/views/' . $this->getName() . '/tmpl');
+		}
 		else
 		{
 			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName() . '/tmpl');
@@ -351,6 +355,9 @@ class View extends \JObject
 			{
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
+
+			// Strip the generic class name Html from the classname
+			$classname = str_replace('\\Html', '', $classname);
 
 			$this->_name = strtolower(substr($classname, $viewpos + 4));
 		}

@@ -349,7 +349,7 @@ class ListModel extends Model
 
 			if (count($classNameParts) == 2)
 			{
-				$this->filterFormName = 'filter_' . strtolower($classNameParts[1]);
+				$this->filterFormName = 'filter_' . str_replace('\\', '', strtolower($classNameParts[1]));
 			}
 		}
 
@@ -393,6 +393,8 @@ class ListModel extends Model
 		// Get the form.
 		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		\JForm::addFormPath(JPATH_COMPONENT . '/resources/forms');
+		\JForm::addFormPath(JPATH_COMPONENT . '/resources/fields');
 
 		try
 		{

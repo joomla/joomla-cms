@@ -534,4 +534,30 @@ class JComponentHelper
 
 		return static::$components;
 	}
+
+	/**
+	 * Returns the component name (eg. com_content) for the given object based on the class name.
+	 * If the object is not namespaced, then the alternative name is used.
+	 *
+	 * @param   object  $object           The object controller or model
+	 * @param   string  $alternativeName  Mostly the value of getName() from the object
+	 *
+	 * @return  string  The name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getComponentName($object, $alternativeName)
+	{
+		$reflect = new \ReflectionClass($object);
+
+		if (!$reflect->getNamespaceName())
+		{
+			return 'com_' . strtolower($alternativeName);
+		}
+
+		$from = strpos($reflect->getNamespaceName(), '\\Component');
+		$to   = strpos(substr($reflect->getNamespaceName(), $from + 11), '\\');
+
+		return 'com_' .  strtolower(substr($reflect->getNamespaceName(), $from + 11, $to));
+	}
 }

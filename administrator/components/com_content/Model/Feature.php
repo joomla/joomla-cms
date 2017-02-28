@@ -7,16 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Content\Admin\Model;
 
-JLoader::register('ContentModelArticle', __DIR__ . '/article.php');
+defined('_JEXEC') or die;
 
 /**
  * Feature model.
  *
  * @since  1.6
  */
-class ContentModelFeature extends ContentModelArticle
+class Feature extends Article
 {
 	/**
 	 * Returns a Table object, always creating it.
@@ -25,13 +25,13 @@ class ContentModelFeature extends ContentModelArticle
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable	A database object
+	 * @return  Joomla\Cms\Table\Table	A database object
 	 *
 	 * @since   1.6
 	 */
 	public function getTable($type = 'Featured', $prefix = 'ContentTable', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return \JTable::getInstance($type, $prefix, $config);
 	}
 
 	/**

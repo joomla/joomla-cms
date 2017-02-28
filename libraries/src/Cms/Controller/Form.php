@@ -75,7 +75,7 @@ class Form extends Controller
 		// Guess the option as com_NameOfController
 		if (empty($this->option))
 		{
-			$this->option = 'com_' . strtolower($this->getName());
+			$this->option = \JComponentHelper::getComponentName($this, $this->getName());
 		}
 
 		// Guess the \JText message prefix. Defaults to the option.
@@ -94,7 +94,7 @@ class Form extends Controller
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
-			$this->context = strtolower($r[2]);
+			$this->context = str_replace('\\', '', strtolower($r[2]));
 		}
 
 		// Guess the item view as the context.

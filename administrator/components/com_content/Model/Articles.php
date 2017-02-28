@@ -7,8 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Admin\Model;
+
 defined('_JEXEC') or die;
 
+use Joomla\Cms\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContentModelArticles extends JModelList
+class Articles extends ListModel
 {
 	/**
 	 * Constructor.
@@ -24,7 +27,7 @@ class ContentModelArticles extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
-	 * @see     JControllerLegacy
+	 * @see     \Joomla\Cms\Controller\Controller
 	 */
 	public function __construct($config = array())
 	{
@@ -55,7 +58,7 @@ class ContentModelArticles extends JModelList
 				'tag'
 			);
 
-			if (JLanguageAssociations::isEnabled())
+			if (\JLanguageAssociations::isEnabled())
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -78,7 +81,7 @@ class ContentModelArticles extends JModelList
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -158,7 +161,7 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -167,7 +170,7 @@ class ContentModelArticles extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -227,7 +230,7 @@ class ContentModelArticles extends JModelList
 			'ua.name',
 		);
 
-		if (JPluginHelper::isEnabled('content', 'vote'))
+		if (\JPluginHelper::isEnabled('content', 'vote'))
 		{
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
 					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
@@ -237,7 +240,7 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Join over the associations.
-		if (JLanguageAssociations::isEnabled())
+		if (\JLanguageAssociations::isEnabled())
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
@@ -277,7 +280,7 @@ class ContentModelArticles extends JModelList
 
 		if (is_numeric($categoryId))
 		{
-			$categoryTable= JTable::getInstance('Category', 'JTable');
+			$categoryTable= \JTable::getInstance('Category', '\JTable');
 			$categoryTable->load($categoryId);
 			$rgt = $categoryTable->rgt;
 			$lft = $categoryTable->lft;
@@ -400,9 +403,9 @@ class ContentModelArticles extends JModelList
 	{
 		$items = parent::getItems();
 
-		if (JFactory::getApplication()->isClient('site'))
+		if (\JFactory::getApplication()->isClient('site'))
 		{
-			$groups = JFactory::getUser()->getAuthorisedViewLevels();
+			$groups = \JFactory::getUser()->getAuthorisedViewLevels();
 
 			for ($x = 0, $count = count($items); $x < $count; $x++)
 			{

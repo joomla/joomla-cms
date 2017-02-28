@@ -7,16 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Admin\Controller;
+
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Cms\Controller\Form;
 
 /**
  * The article controller
  *
  * @since  1.6
  */
-class ContentControllerArticle extends JControllerForm
+class Article extends Form
 {
 	/**
 	 * Class constructor.
@@ -55,7 +58,7 @@ class ContentControllerArticle extends JControllerForm
 		if ($categoryId)
 		{
 			// If the category has been passed in the data or URL check it.
-			$allow = JFactory::getUser()->authorise('core.create', 'com_content.category.' . $categoryId);
+			$allow = \JFactory::getUser()->authorise('core.create', 'com_content.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -80,7 +83,7 @@ class ContentControllerArticle extends JControllerForm
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Zero record (id:0), return component edit permission by calling parent controller method
 		if (!$recordId)
@@ -123,14 +126,14 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
 		/** @var ContentModelArticle $model */
 		$model = $this->getModel('Article', '', array());
 
 		// Preset the redirect
-		$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(\JRoute::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}

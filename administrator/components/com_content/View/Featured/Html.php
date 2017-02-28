@@ -7,20 +7,25 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Admin\View\Featured;
+
 defined('_JEXEC') or die;
+
+use Joomla\Cms\View\View;
+use Joomla\Component\Content\Admin\Helper\ContentHelper;
 
 /**
  * View class for a list of featured articles.
  *
  * @since  1.6
  */
-class ContentViewFeatured extends JViewLegacy
+class Html extends View
 {
 	/**
 	 * List of authors. Each stdClass has two properties - value and text, containing the user id and user's name
 	 * respectively
 	 *
-	 * @var  stdClass
+	 * @var  \stdClass
 	 */
 	protected $authors;
 
@@ -34,21 +39,21 @@ class ContentViewFeatured extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var  JPagination
+	 * @var  \JPagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  JForm
+	 * @var  \JForm
 	 */
 	public $filterForm;
 
@@ -91,30 +96,30 @@ class ContentViewFeatured extends JViewLegacy
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->vote          = JPluginHelper::isEnabled('content', 'vote');
+		$this->vote          = \JPluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Levels filter - Used in Hathor.
 		$this->f_levels = array(
-			JHtml::_('select.option', '1', JText::_('J1')),
-			JHtml::_('select.option', '2', JText::_('J2')),
-			JHtml::_('select.option', '3', JText::_('J3')),
-			JHtml::_('select.option', '4', JText::_('J4')),
-			JHtml::_('select.option', '5', JText::_('J5')),
-			JHtml::_('select.option', '6', JText::_('J6')),
-			JHtml::_('select.option', '7', JText::_('J7')),
-			JHtml::_('select.option', '8', JText::_('J8')),
-			JHtml::_('select.option', '9', JText::_('J9')),
-			JHtml::_('select.option', '10', JText::_('J10')),
+			\JHtml::_('select.option', '1', \JText::_('J1')),
+			\JHtml::_('select.option', '2', \JText::_('J2')),
+			\JHtml::_('select.option', '3', \JText::_('J3')),
+			\JHtml::_('select.option', '4', \JText::_('J4')),
+			\JHtml::_('select.option', '5', \JText::_('J5')),
+			\JHtml::_('select.option', '6', \JText::_('J6')),
+			\JHtml::_('select.option', '7', \JText::_('J7')),
+			\JHtml::_('select.option', '8', \JText::_('J8')),
+			\JHtml::_('select.option', '9', \JText::_('J9')),
+			\JHtml::_('select.option', '10', \JText::_('J10')),
 		);
 
 		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -129,44 +134,44 @@ class ContentViewFeatured extends JViewLegacy
 	protected function addToolbar()
 	{
 		$state = $this->get('State');
-		$canDo = JHelperContent::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+		$canDo = \JHelperContent::getActions('com_content', 'category', $this->state->get('filter.category_id'));
 
-		JToolbarHelper::title(JText::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
+		\JToolbarHelper::title(\JText::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
 
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::addNew('article.add');
+			\JToolbarHelper::addNew('article.add');
 		}
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::editList('article.edit');
+			\JToolbarHelper::editList('article.edit');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
-			JToolbarHelper::archiveList('articles.archive');
-			JToolbarHelper::checkin('articles.checkin');
+			\JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
+			\JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			\JToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
+			\JToolbarHelper::archiveList('articles.archive');
+			\JToolbarHelper::checkin('articles.checkin');
 		}
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::trash('articles.trash');
+			\JToolbarHelper::trash('articles.trash');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			JToolbarHelper::preferences('com_content');
+			\JToolbarHelper::preferences('com_content');
 		}
 
-		JToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
+		\JToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
 	}
 
 	/**
@@ -179,15 +184,15 @@ class ContentViewFeatured extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'fp.ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.state' => JText::_('JSTATUS'),
-			'a.title' => JText::_('JGLOBAL_TITLE'),
-			'category_title' => JText::_('JCATEGORY'),
-			'access_level' => JText::_('JGRID_HEADING_ACCESS'),
-			'a.created_by' => JText::_('JAUTHOR'),
-			'language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.created' => JText::_('JDATE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'fp.ordering' => \JText::_('JGRID_HEADING_ORDERING'),
+			'a.state' => \JText::_('JSTATUS'),
+			'a.title' => \JText::_('JGLOBAL_TITLE'),
+			'category_title' => \JText::_('JCATEGORY'),
+			'access_level' => \JText::_('JGRID_HEADING_ACCESS'),
+			'a.created_by' => \JText::_('JAUTHOR'),
+			'language' => \JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.created' => \JText::_('JDATE'),
+			'a.id' => \JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

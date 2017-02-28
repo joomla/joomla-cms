@@ -7,16 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Content\Admin\Controller;
 
-JLoader::register('ContentControllerArticles', __DIR__ . '/articles.php');
+defined('_JEXEC') or die;
 
 /**
  * Featured content controller class.
  *
  * @since  1.6
  */
-class ContentControllerFeatured extends ContentControllerArticles
+class Featured extends Articles
 {
 	/**
 	 * Removes an item.
@@ -28,9 +28,9 @@ class ContentControllerFeatured extends ContentControllerArticles
 	public function delete()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$ids  = $this->input->get('cid', array(), 'array');
 
 		// Access checks.
@@ -40,13 +40,13 @@ class ContentControllerFeatured extends ContentControllerArticles
 			{
 				// Prune items that you can't delete.
 				unset($ids[$i]);
-				JError::raiseNotice(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+				\JError::raiseNotice(403, \JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 			}
 		}
 
 		if (empty($ids))
 		{
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			\JError::raiseWarning(500, \JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 		else
 		{
@@ -57,7 +57,7 @@ class ContentControllerFeatured extends ContentControllerArticles
 			// Remove the items.
 			if (!$model->featured($ids, 0))
 			{
-				JError::raiseWarning(500, $model->getError());
+				\JError::raiseWarning(500, $model->getError());
 			}
 		}
 
@@ -85,7 +85,7 @@ class ContentControllerFeatured extends ContentControllerArticles
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JModelLegacy  The model.
+	 * @return  Joomla\Cms\Model\Model  The model.
 	 *
 	 * @since   1.6
 	 */

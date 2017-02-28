@@ -7,25 +7,25 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Admin\Model;
+
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
-
-JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
  * Methods supporting a list of featured article records.
  *
  * @since  1.6
  */
-class ContentModelFeatured extends ContentModelArticles
+class Featured extends Articles
 {
 	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JControllerLegacy
+	 * @see     Joomla\Cms\Controller\Controller
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -65,7 +65,7 @@ class ContentModelFeatured extends ContentModelArticles
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -74,7 +74,7 @@ class ContentModelFeatured extends ContentModelArticles
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -111,9 +111,9 @@ class ContentModelFeatured extends ContentModelArticles
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join on voting table
-		if (JPluginHelper::isEnabled('content', 'vote'))
+		if (\JPluginHelper::isEnabled('content', 'vote'))
 		{
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
@@ -149,7 +149,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		if (is_numeric($categoryId))
 		{
-			$cat_tbl = JTable::getInstance('Category', 'JTable');
+			$cat_tbl = \JTable::getInstance('Category', 'JTable');
 			$cat_tbl->load($categoryId);
 			$rgt = $cat_tbl->rgt;
 			$lft = $cat_tbl->lft;

@@ -540,6 +540,13 @@ class Controller  implements ControllerInterface
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
+		$reflect = new \ReflectionClass($this);
+		if ($reflect->getNamespaceName())
+		{
+			$modelClass = str_replace('\\Controller', '\\Model', $reflect->getNamespaceName()) . '\\' . ucfirst($name);
+			return new $modelClass($config);
+		}
+
 		// Clean the model name
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
@@ -567,29 +574,38 @@ class Controller  implements ControllerInterface
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
-		// Clean the view name
-		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
-
-		// Build the view class name
-		$viewClass = $classPrefix . $viewName;
-
-		if (!class_exists($viewClass))
+		$reflect = new \ReflectionClass($this);
+		if ($reflect->getNamespaceName())
 		{
-			jimport('joomla.filesystem.path');
-			$path = \JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+			$viewClass = str_replace('\\Controller', '\\View', $reflect->getNamespaceName()) . '\\' . ucfirst($name) . '\\' . ucfirst($type);
+		}
+		else
+		{
+			// Legacy view set up
+			// Clean the view name
+			$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
+			$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+			$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
-			if (!$path)
-			{
-				return null;
-			}
-
-			\JLoader::register($viewClass, $path);
+			// Build the view class name
+			$viewClass = $classPrefix . $viewName;
 
 			if (!class_exists($viewClass))
 			{
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
+				jimport('joomla.filesystem.path');
+				$path = \JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+
+				if (!$path)
+				{
+					return null;
+				}
+
+				\JLoader::register($viewClass, $path);
+
+				if (!class_exists($viewClass))
+				{
+					throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
+				}
 			}
 		}
 
@@ -637,6 +653,9 @@ class Controller  implements ControllerInterface
 		if ($cachable && $viewType != 'feed' && \JFactory::getConfig()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
+
+			/** @var \JCacheControllerView $cache */
+			$cache = \JFactory::getCache($option, 'view');
 
 			if (is_array($urlparams))
 			{
@@ -775,9 +794,11 @@ class Controller  implements ControllerInterface
 	{
 		if (empty($this->name))
 		{
-			$r = null;
+			$reflect = new \ReflectionClass($this);
 
-			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
+			$r = array(0 => '', 1 => $reflect->getShortName());
+
+			if (!$reflect->getNamespaceName() && !preg_match('/(.*)Controller/i', $reflect->getShortName(), $r))
 			{
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}

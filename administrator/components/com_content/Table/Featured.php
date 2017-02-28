@@ -7,19 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Admin\Table;
+
 defined('_JEXEC') or die;
+
+use Joomla\Cms\Table\Table;
 
 /**
  * Featured Table class.
  *
  * @since  1.6
  */
-class ContentTableFeatured extends JTable
+class Featured extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object
+	 * @param   \JDatabaseDriver  &$db  Database connector object
 	 *
 	 * @since   1.6
 	 */

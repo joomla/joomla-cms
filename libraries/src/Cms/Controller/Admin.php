@@ -79,7 +79,7 @@ class Admin extends Controller
 		// Guess the option as com_NameOfController.
 		if (empty($this->option))
 		{
-			$this->option = 'com_' . strtolower($this->getName());
+			$this->option = \JComponentHelper::getComponentName($this, $this->getName());
 		}
 
 		// Guess the \JText message prefix. Defaults to the option.
