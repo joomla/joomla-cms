@@ -44,8 +44,9 @@ class ModWrapperHelper
 			// Adds 'http://' if none is set
 			if (strpos($url, '/') === 0)
 			{
-				// Relative url in component. use server http_host.
-				$url = 'http://' . $_SERVER['HTTP_HOST'] . $url;
+				// Relative url in component. use server http_host, if set.
+				$host = JFactory::getApplication()->input->server->getString('HTTP_HOST');
+				$url = 'http://' . $host . $url;
 			}
 			elseif (strpos($url, 'http') === false && strpos($url, 'https') === false)
 			{
