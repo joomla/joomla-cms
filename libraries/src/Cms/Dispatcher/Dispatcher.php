@@ -128,7 +128,7 @@ class Dispatcher implements DispatcherInterface
 		$this->app   = $app;
 		$this->input = $input;
 
-		// Populate default data if not propvided
+		// Populate default data if not provided
 		$this->input->def('option', $config['option']);
 
 		if (!isset($config['load_language']))
@@ -165,6 +165,12 @@ class Dispatcher implements DispatcherInterface
 	public function dispatch()
 	{
 		$option = $this->input->getCmd('option');
+		
+		// Check to make sure the component is enabled
+		if (!\JComponentHelper::isEnabled($option))
+		{
+			throw new \InvalidArgumentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+		}
 
 		// Check the user has permission to access this component if in the backend
 		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $option))
