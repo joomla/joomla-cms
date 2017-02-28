@@ -184,7 +184,7 @@ class JFormFieldRules extends JFormField
 		$newItem       = empty($assetId) && $isGlobalConfig === false && $section !== 'component';
 		$parentAssetId = null;
 
-		if (!empty($assetId))
+		if (!$isGlobalConfig && $section !== 'component' && !empty($assetId))
 		{
 			$namePrefix = $component . '.' . $section . '.';
 

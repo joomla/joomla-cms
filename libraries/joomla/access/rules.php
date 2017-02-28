@@ -135,22 +135,15 @@ class JAccessRules
 	 */
 	public function mergeAction($action, $identities)
 	{
-		if ($identities)
+		if (isset($this->data[$action]))
 		{
-			if (isset($this->data[$action]))
-			{
-				// If exists, merge the action.
-				$this->data[$action]->mergeIdentities($identities);
-			}
-			else
-			{
-				// If new, add the action.
-				$this->data[$action] = new JAccessRule($identities);
-			}
+			// If exists, merge the action.
+			$this->data[$action]->mergeIdentities($identities);
 		}
 		else
 		{
-			unset($this->data[$action]);
+			// If new, add the action.
+			$this->data[$action] = new JAccessRule($identities);
 		}
 	}
 
@@ -216,9 +209,10 @@ class JAccessRules
 
 		foreach ($this->data as $name => $rule)
 		{
-			// Convert the action to JSON, then back into an array otherwise
-			// re-encoding will quote the JSON for the identities in the action.
-			$temp[$name] = json_decode((string) $rule);
+			if ($data = $rule->getData())
+			{
+				$temp[$name] = $data;
+			}
 		}
 
 		return json_encode($temp, JSON_FORCE_OBJECT);

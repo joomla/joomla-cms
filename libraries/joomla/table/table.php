@@ -118,6 +118,14 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	protected $_jsonEncode = array();
 
 	/**
+	 * Allow to refer to the parent asset instead of creating own fully inherits permissions.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_allowForeignAsset = false;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -851,42 +859,15 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				$asset->rules = (string) $this->_rules;
 			}
 
-			/*
-			* There is some limitation when joomla can use that shortcut.
-			* It should be used only for leafs.
-			*/
-			$useDirectParentAsset = is_subclass_of($this, 'JTableNested') === false && substr_count($name, '.') > 1;
-
-			if ($useDirectParentAsset && (empty($asset->rules) || $asset->rules === '{}'))
+			// This is designed for JTable instances with childless asset, certainly not for JTableNested instances.
+			if ($this->_allowForeignAsset && (empty($asset->rules) || $asset->rules === '{}'))
 			{
-				if (!empty($asset->id))
+				// Use the parent asset instead of creating own fully inherits permissions.
+				$parentAsset = new JTableAsset($this->_db);
+
+				if ($parentAsset->load($parentId, false))
 				{
-					// To be sure to not delete parent of other asset.
-					$query = $this->_db->getQuery(true)
-						->select('1')
-						->from($this->_db->quoteName('#__assets'))
-						->where('parent_id = ' . (int) $asset->id);
-
-					if ($this->_db->setQuery($query, 0, 1)->loadResult())
-					{
-						// Current asset is not a leaf.
-						$useDirectParentAsset = false;
-					}
-				}
-			}
-			else
-			{
-				$useDirectParentAsset = false;
-			}
-
-			if ($useDirectParentAsset)
-			{
-				// Use a parent asset if current asset full inherits its parent
-				$parentAsset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
-
-				if ($parentAsset->load($parentId))
-				{
-					// Remove old asset.
+					// Remove own old asset.
 					if (!empty($asset->id))
 					{
 						$asset->delete();

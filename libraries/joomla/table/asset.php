@@ -101,6 +101,7 @@ class JTableAsset extends JTableNested
 		{
 			$this->rules = '{}';
 		}
+
 		// JTableNested does not allow parent_id = 0, override this.
 		if ($this->parent_id > 0)
 		{
