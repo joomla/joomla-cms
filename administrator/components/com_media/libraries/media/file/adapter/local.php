@@ -189,6 +189,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function updateFile($name, $path, $data)
 	{
+		if (!JFile::exists($this->rootPath . $path . '/' . $name))
+		{
+			throw new MediaFileAdapterFilenotfoundexception();
+		}
+
 		JFile::write($this->rootPath . $path . '/' . $name, $data);
 	}
 
@@ -209,10 +214,20 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		if (is_file($this->rootPath . $path))
 		{
+			if (!JFile::exists($this->rootPath . $path))
+			{
+				throw new MediaFileAdapterFilenotfoundexception();
+			}
+
 			$success = JFile::delete($this->rootPath . $path);
 		}
 		else
 		{
+			if (!JFolder::exists($this->rootPath . $path))
+			{
+				throw new MediaFileAdapterFilenotfoundexception();
+			}
+
 			$success = JFolder::delete($this->rootPath . $path);
 		}
 

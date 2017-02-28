@@ -287,7 +287,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testUpdateFile()
 	{
 		// Make some test files
-		JFile::write($this->root . 'test.txt', 'test');
+		JFile::write($this->root . 'unit.txt', 'test');
 
 		// Create the adapter
 		$adapter = new MediaFileAdapterLocal($this->root);
@@ -300,6 +300,22 @@ class LocalAdapterTest extends TestCaseDatabase
 
 		// Check if the contents is correct
 		$this->assertEquals('test 2', file_get_contents($this->root . 'unit.txt'));
+	}
+
+	/**
+	 * Test MediaFileAdapterLocal::getFile with an invalid path
+	 *
+	 * @expectedException MediaFileAdapterFilenotfoundexception
+	 *
+	 * @return  void
+	 */
+	public function testUpdateFileInvalidPath()
+	{
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Fetch the file from the root folder
+		$adapter->updateFile('invalid', '/', 'test');
 	}
 
 	/**
@@ -325,5 +341,21 @@ class LocalAdapterTest extends TestCaseDatabase
 
 		// Check if the files exists
 		$this->assertCount(1, JFolder::files($this->root));
+	}
+
+	/**
+	 * Test MediaFileAdapterLocal::getFile with an invalid path
+	 *
+	 * @expectedException MediaFileAdapterFilenotfoundexception
+	 *
+	 * @return  void
+	 */
+	public function testDeleteInvalidPath()
+	{
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Fetch the file from the root folder
+		$adapter->delete('invalid');
 	}
 }
