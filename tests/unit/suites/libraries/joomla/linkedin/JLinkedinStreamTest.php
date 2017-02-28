@@ -168,7 +168,7 @@ class JLinkedinStreamTest extends TestCase
 			$xml .= '<comment>' . $comment . '</comment>';
 		}
 
-		// Check if title and url are specified.
+		// Check if title and URL are specified.
 		if ($title && $url)
 		{
 			$xml .= '<content>
