@@ -194,6 +194,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 							&& ((string) $newLookup[$name][$i]['Column_name'] == $oldLookup[$name][$i]->Column_name)
 							&& ((string) $newLookup[$name][$i]['Seq_in_index'] == $oldLookup[$name][$i]->Seq_in_index)
 							&& ((string) $newLookup[$name][$i]['Collation'] == $oldLookup[$name][$i]->Collation)
+							&& ((string) $newLookup[$name][$i]['Sub_part'] == $oldLookup[$name][$i]->Sub_part)
 							&& ((string) $newLookup[$name][$i]['Index_type'] == $oldLookup[$name][$i]->Index_type));
 
 						/*
@@ -310,7 +311,14 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 			else
 			{
 				// TODO Don't quote numeric values.
-				$query .= ' NOT NULL DEFAULT ' . $this->db->quote($fDefault);
+				if (strpos($fDefault, 'CURRENT') !== false)
+				{
+					$query .= ' NOT NULL DEFAULT CURRENT_TIMESTAMP()';
+				}
+				else
+				{
+					$query .= ' NOT NULL DEFAULT ' . $this->db->quote($fDefault);
+				}
 			}
 		}
 		else
@@ -416,7 +424,8 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 		$kNonUnique = (string) $columns[0]['Non_unique'];
 		$kName = (string) $columns[0]['Key_name'];
 		$kColumn = (string) $columns[0]['Column_name'];
-
+		$kLength = (string) $columns[0]['Sub_part'];
+		$kLength = $kLength == '' ? '' : '(' . $kLength . ')';
 		$prefix = '';
 
 		if ($kName == 'PRIMARY')
@@ -433,13 +442,15 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 
 		if ($nColumns == 1)
 		{
-			$kColumns[] = $this->db->quoteName($kColumn);
+			$kColumns[] = $this->db->quoteName($kColumn) . $kLength;
 		}
 		else
 		{
 			foreach ($columns as $column)
 			{
-				$kColumns[] = (string) $column['Column_name'];
+				$kLength = (string) $column['Sub_part'];
+				$kLength = $kLength == '' ? '' : '(' . $kLength . ')';
+				$kColumns[] = (string) $column['Column_name'] . $kLength;
 			}
 		}
 
