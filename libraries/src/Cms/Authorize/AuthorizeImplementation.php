@@ -54,8 +54,8 @@ abstract class AuthorizeImplementation
 		{
 			case 'authorizationMatrix':
 				$class = get_class($this);
-				return AuthorizeImplementation::getMatrix($class);
 
+				return self::getMatrix($class);
 				break;
 
 			case 'appendsupport':
@@ -106,7 +106,7 @@ abstract class AuthorizeImplementation
 		{
 			case 'authorizationMatrix':
 				$class = get_class($this);
-				AuthorizeImplementation::setMatrix($value, $class);
+				self::setMatrix($value, $class);
 				break;
 
 			case 'db':
