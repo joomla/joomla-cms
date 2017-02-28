@@ -30,9 +30,7 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 	 */
 	protected function getAddColumnSql($table, SimpleXMLElement $field)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSql($field);
-
-		return $sql;
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSql($field);
 	}
 
 	/**
@@ -47,9 +45,7 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 	 */
 	protected function getAddKeySql($table, $keys)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD ' . $this->getKeySql($keys);
-
-		return $sql;
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD ' . $this->getKeySql($keys);
 	}
 
 	/**
@@ -133,6 +129,7 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 							&& ((string) $newLookup[$name][$i]['Column_name'] == $oldLookup[$name][$i]->Column_name)
 							&& ((string) $newLookup[$name][$i]['Seq_in_index'] == $oldLookup[$name][$i]->Seq_in_index)
 							&& ((string) $newLookup[$name][$i]['Collation'] == $oldLookup[$name][$i]->Collation)
+							&& ((string) $newLookup[$name][$i]['Sub_part'] == $oldLookup[$name][$i]->Sub_part)
 							&& ((string) $newLookup[$name][$i]['Index_type'] == $oldLookup[$name][$i]->Index_type));
 
 						/*
@@ -214,10 +211,8 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 	 */
 	protected function getChangeColumnSql($table, SimpleXMLElement $field)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' CHANGE COLUMN ' . $this->db->quoteName((string) $field['Field']) . ' '
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' CHANGE COLUMN ' . $this->db->quoteName((string) $field['Field']) . ' '
 			. $this->getColumnSql($field);
-
-		return $sql;
 	}
 
 	/**
@@ -241,39 +236,46 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 		$fDefault = isset($field['Default']) ? (string) $field['Default'] : null;
 		$fExtra   = (string) $field['Extra'];
 
-		$sql = $this->db->quoteName($fName) . ' ' . $fType;
+		$query = $this->db->quoteName($fName) . ' ' . $fType;
 
 		if ($fNull == 'NO')
 		{
 			if (in_array($fType, $blobs) || $fDefault === null)
 			{
-				$sql .= ' NOT NULL';
+				$query .= ' NOT NULL';
 			}
 			else
 			{
 				// TODO Don't quote numeric values.
-				$sql .= ' NOT NULL DEFAULT ' . $this->db->quote($fDefault);
+				if (strpos($fDefault, 'CURRENT') !== false)
+				{
+					$query .= ' NOT NULL DEFAULT CURRENT_TIMESTAMP()';
+				}
+				else
+				{
+					$query .= ' NOT NULL DEFAULT ' . $this->db->quote($fDefault);
+				}
 			}
 		}
 		else
 		{
 			if ($fDefault === null)
 			{
-				$sql .= ' DEFAULT NULL';
+				$query .= ' DEFAULT NULL';
 			}
 			else
 			{
 				// TODO Don't quote numeric values.
-				$sql .= ' DEFAULT ' . $this->db->quote($fDefault);
+				$query .= ' DEFAULT ' . $this->db->quote($fDefault);
 			}
 		}
 
 		if ($fExtra)
 		{
-			$sql .= ' ' . strtoupper($fExtra);
+			$query .= ' ' . strtoupper($fExtra);
 		}
 
-		return $sql;
+		return $query;
 	}
 
 	/**
@@ -288,9 +290,7 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 	 */
 	protected function getDropColumnSql($table, $name)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP COLUMN ' . $this->db->quoteName($name);
-
-		return $sql;
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP COLUMN ' . $this->db->quoteName($name);
 	}
 
 	/**
@@ -305,9 +305,7 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 	 */
 	protected function getDropKeySql($table, $name)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP KEY ' . $this->db->quoteName($name);
-
-		return $sql;
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP KEY ' . $this->db->quoteName($name);
 	}
 
 	/**
@@ -321,9 +319,7 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 	 */
 	protected function getDropPrimaryKeySql($table)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP PRIMARY KEY';
-
-		return $sql;
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP PRIMARY KEY';
 	}
 
 	/**
@@ -379,6 +375,8 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 		$kNonUnique = (string) $columns[0]['Non_unique'];
 		$kName      = (string) $columns[0]['Key_name'];
 		$kColumn    = (string) $columns[0]['Column_name'];
+		$kLength = (string) $columns[0]['Sub_part'];
+		$kLength = $kLength == '' ? '' : '(' . $kLength . ')';
 		$prefix     = '';
 
 		if ($kName == 'PRIMARY')
@@ -395,13 +393,15 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 
 		if ($nColumns == 1)
 		{
-			$kColumns[] = $this->db->quoteName($kColumn);
+			$kColumns[] = $this->db->quoteName($kColumn) . $kLength;
 		}
 		else
 		{
 			foreach ($columns as $column)
 			{
-				$kColumns[] = (string) $column['Column_name'];
+				$kLength = (string) $column['Sub_part'];
+				$kLength = $kLength == '' ? '' : '(' . $kLength . ')';
+				$kColumns[] = (string) $column['Column_name'] . $kLength;
 			}
 		}
 
@@ -433,5 +433,48 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Get the SQL syntax to add a table.
+	 *
+	 * @param   SimpleXMLElement  $table  The table information.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 * @throws  RuntimeException
+	 */
+	protected function xmlToCreate(SimpleXMLElement $table)
+	{
+		$existingTables = $this->db->getTableList();
+		$tableName = (string) $table['name'];
+
+		if (in_array($tableName, $existingTables))
+		{
+			throw new RuntimeException('The table you are trying to create already exists');
+		}
+
+		$createTableStatement = 'CREATE TABLE ' . $this->db->quoteName($tableName) . ' (';
+
+		foreach ($table->xpath('field') as $field)
+		{
+			$createTableStatement .= $this->getColumnSQL($field) . ', ';
+		}
+
+		$newLookup = $this->getKeyLookup($table->xpath('key'));
+
+		// Loop through each key in the new structure.
+		foreach ($newLookup as $key)
+		{
+			$createTableStatement .= $this->getKeySQL($key) . ', ';
+		}
+
+		// Remove the comma after the last key
+		$createTableStatement = rtrim($createTableStatement, ', ');
+
+		$createTableStatement .= ')';
+
+		return $createTableStatement;
 	}
 }
