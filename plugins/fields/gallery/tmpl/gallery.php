@@ -30,7 +30,9 @@ $thumbsRow  = $fieldParams->get('thumbs_row', 6);
 $spanClass  = 'span' . 12 / $thumbsRow;
 
 $html        = '<ul class="thumbnails">';
+$modals      = '';
 $thumbsCount = 0;
+$i           = 0;
 
 foreach ($value as $path)
 {
@@ -66,9 +68,6 @@ foreach ($value as $path)
 					JFolder::create(dirname($thumb));
 				}
 
-				// Getting the properties of the image
-				$properties = JImage::getImageFileProperties($file);
-
 				if ($properties->width > $thumbWidth)
 				{
 					// Creating the thumbnail for the image
@@ -84,6 +83,7 @@ foreach ($value as $path)
 		}
 
 		$thumbsCount++;
+		$i++;
 
 		if ($thumbsCount > $thumbsRow)
 		{
@@ -93,8 +93,20 @@ foreach ($value as $path)
 
 		if (JFile::exists($thumb))
 		{
+			$modals .= JHtml::_(
+				'bootstrap.renderModal',
+				'GalleryModal-' . $field->id . '-' . $i,
+				array(
+					'title'       => JText::_('PLG_FIELDS_GALLERY_MODAL_TITLE'),
+					'url'         => addslashes($webImagePath),
+					'height'      => $properties->height,
+					'width'       => $properties->width,
+					'footer'      => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+				)
+			);
+
 			// Linking to the real image and loading only the thumbnail
-			$html .= '<li class="' . $spanClass . '"><a href="' . $webImagePath . '" class="thumbnail">'
+			$html .= '<li class="' . $spanClass . '"><a href="#GalleryModal-' . $field->id . '-' . $i . '" data-toggle="modal" class="thumbnail">'
 						. '<img src="' . JUri::base(true) . str_replace(JPATH_ROOT, '', $thumb) . '" />'
 					. '</a></li>';
 		}
@@ -106,6 +118,6 @@ foreach ($value as $path)
 	}
 }
 
-$html .= '</ul>';
+$html .= '</ul>' . $modals;
 
 echo $html;
