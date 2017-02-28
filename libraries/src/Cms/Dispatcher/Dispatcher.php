@@ -24,13 +24,6 @@ defined('_JEXEC') or die;
 class Dispatcher implements DispatcherInterface
 {
 	/**
-	 * An array contains all created dispatchers
-	 *
-	 * @var array
-	 */
-	protected static $instances = array();
-
-	/**
 	 * The application object
 	 *
 	 * @var \JApplicationCms
@@ -67,49 +60,44 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public static function getInstance($option, array $config = array(), Input $input = null, \JApplicationCms $app = null)
 	{
-		if (!isset(self::$instances[$option]))
+		$app   = $app ? $app : \JFactory::getApplication();
+		$input = $input ? $input : $app->input;
+
+		if (isset($config['component_namespace']))
 		{
-			$app   = $app ? $app : \JFactory::getApplication();
-			$input = $input ? $input : $app->input;
-
-			if (isset($config['component_namespace']))
-			{
-				$cNamespace = $config['component_namespace'];
-			}
-			else
-			{
-				$cNamespace = 'Joomla\\Component\\' . ucfirst(substr($option, 4));
-			}
-
-			if ($app->isClient('site'))
-			{
-				$namespace = $cNamespace . '\\Site\\';
-			}
-			else
-			{
-				$namespace = $cNamespace . '\\Admin\\';
-			}
-
-			$config['option']    = $option;
-			$config['namespace'] = $namespace;
-
-			// Register component auto-loader
-			$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
-			$autoLoader->setPsr4($cNamespace . '\\Site\\', JPATH_ROOT . '/components/' . $option);
-			$autoLoader->setPsr4($cNamespace . '\\Admin\\', JPATH_ADMINISTRATOR . '/components/' . $option);
-
-			// If component has dispatcher class, use it. Otherwise, use default dispatcher
-			$class = $namespace . '\\Dispatcher';
-
-			if (!class_exists($class))
-			{
-				$class = __CLASS__;
-			}
-
-			self::$instances[$option] = new $class($app, $input, $config);
+			$cNamespace = $config['component_namespace'];
+		}
+		else
+		{
+			$cNamespace = 'Joomla\\Component\\' . ucfirst(substr($option, 4));
 		}
 
-		return self::$instances[$option];
+		if ($app->isClient('site'))
+		{
+			$namespace = $cNamespace . '\\Site\\';
+		}
+		else
+		{
+			$namespace = $cNamespace . '\\Admin\\';
+		}
+
+		$config['option']    = $option;
+		$config['namespace'] = $namespace;
+
+		// Register component auto-loader
+		$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
+		$autoLoader->setPsr4($cNamespace . '\\Site\\', JPATH_ROOT . '/components/' . $option);
+		$autoLoader->setPsr4($cNamespace . '\\Admin\\', JPATH_ADMINISTRATOR . '/components/' . $option);
+
+		// If component has dispatcher class, use it. Otherwise, use default dispatcher
+		$class = $namespace . '\\Dispatcher\\Dispatcher';
+
+		if (!class_exists($class))
+		{
+			$class = __CLASS__;
+		}
+
+		return new $class($app, $input, $config);
 	}
 
 	/**
@@ -159,7 +147,7 @@ class Dispatcher implements DispatcherInterface
 		if (!empty($this->config['load_language']))
 		{
 			$option   = $this->input->getCmd('option');
-			$language = \JFactory::getApplication()->getLanguage();
+			$language = $this->app->getLanguage();
 			$language->load($option, JPATH_BASE, null, false, true) ||
 			$language->load($option, JPATH_BASE . '/components/' . $option, null, false, true);
 		}
@@ -237,12 +225,6 @@ class Dispatcher implements DispatcherInterface
 		// Loop over possible create class and create the controller if class is found
 		foreach ($classes as $class)
 		{
-			// Check for a possible service from the container otherwise manually instantiate the class
-			if (\JFactory::getContainer()->exists($class))
-			{
-				return \JFactory::getContainer()->get($class);
-			}
-
 			if (class_exists($class))
 			{
 				return new $class($this->app, $this->input, $config);
