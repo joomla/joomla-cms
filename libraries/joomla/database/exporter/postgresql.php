@@ -191,4 +191,4 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 		return $this;
 	}
 }
-v
+
