@@ -71,8 +71,9 @@ abstract class JDatabaseExporter
 
 		// Set up the class defaults:
 
-		// Export with only structure
+		// Export not only structure
 		$this->withStructure();
+		$this->withData();
 
 		// Export as xml.
 		$this->asXml();
@@ -224,6 +225,22 @@ abstract class JDatabaseExporter
 	public function withStructure($setting = true)
 	{
 		$this->options->withStructure = (boolean) $setting;
+
+		return $this;
+	}
+
+	/**
+	 * Sets an internal option to export the data of the input table(s).
+	 *
+	 * @param   boolean  $setting  True to export the data, false to not.
+	 *
+	 * @return  JDatabaseExporter  Method supports chaining.
+	 *
+	 * @since   3.7
+	 */
+	public function withData($setting = false)
+	{
+		$this->options->withData = (boolean) $setting;
 
 		return $this;
 	}
