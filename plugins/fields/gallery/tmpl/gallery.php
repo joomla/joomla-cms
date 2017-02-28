@@ -42,7 +42,7 @@ foreach ($value as $path)
 
 	// The root folder
 	$root = $fieldParams->get('directory', 'images');
-	$filter = '\.jpg$|\.png$|\.bmp$|\.gif$';
+	$filter = '\.jpg$|\.jpeg$|\.png$|\.bmp$|\.gif$';
 
 	foreach (JFolder::files(JPATH_ROOT . '/' . $root . '/' . $path, $filter, $fieldParams->get('recursive', true), true) as $file)
 	{
