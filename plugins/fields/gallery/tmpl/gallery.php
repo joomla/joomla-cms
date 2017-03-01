@@ -20,6 +20,7 @@ if (!$value)
 JFactory::getLanguage()->load('plg_fields_gallery', JPATH_ADMINISTRATOR);
 
 JHtml::_('jquery.framework');
+JHtml::_('bootstrap.popover', '.galleryPopover', array('placement' => 'top'));
 
 $doc = JFactory::getDocument();
 
@@ -30,7 +31,6 @@ $thumbsRow  = $fieldParams->get('thumbs_row', 6);
 $spanClass  = 'span' . 12 / $thumbsRow;
 
 $html        = '<ul class="thumbnails">';
-$modals      = '';
 $thumbsCount = 0;
 $i           = 0;
 
@@ -93,31 +93,22 @@ foreach ($value as $path)
 
 		if (JFile::exists($thumb))
 		{
-			$modals .= JHtml::_(
-				'bootstrap.renderModal',
-				'GalleryModal-' . $field->id . '-' . $i,
-				array(
-					'title'       => JText::_('PLG_FIELDS_GALLERY_MODAL_TITLE'),
-					'url'         => addslashes($webImagePath),
-					'height'      => $properties->height,
-					'width'       => $properties->width,
-					'footer'      => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
-				)
-			);
-
 			// Linking to the real image and loading only the thumbnail
-			$html .= '<li class="' . $spanClass . '"><a href="#GalleryModal-' . $field->id . '-' . $i . '" data-toggle="modal" class="thumbnail">'
-						. '<img src="' . JUri::base(true) . str_replace(JPATH_ROOT, '', $thumb) . '" />'
-					. '</a></li>';
+			$html .= '<li class="' . $spanClass . ' galleryPopover" data-title="' . basename($file) . '"'
+					. ' data-content="<img src=\'' . JURI::root() . $webImagePath . '\'>">'
+						. '<div class="thumbnail">'
+							. '<img src="' . JUri::base(true) . str_replace(JPATH_ROOT, '', $thumb) . '" />'
+						. '</div>'
+					.'</li>';
 		}
 		else
 		{
 			// Thumbnail doesn't exist, loading the full image
-			$html .= '<li class="' . $spanClass . '"><img src="' . $webImagePath . '"/></li>';
+			$html .= '<li class="' . $spanClass . '"><div class="thumbnail"><img src="' . $webImagePath . '"/></div></li>';
 		}
 	}
 }
 
-$html .= '</ul>' . $modals;
+$html .= '</ul>';
 
 echo $html;
