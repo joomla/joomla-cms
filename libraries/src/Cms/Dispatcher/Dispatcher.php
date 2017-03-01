@@ -81,7 +81,7 @@ class Dispatcher implements DispatcherInterface
 		// If component dispatcher doesn't set it own namespace, use default
 		if (empty($this->cNamespace))
 		{
-			$this->cNamespace = 'Joomla\\Component\\' . ucfirst($option);
+			$this->cNamespace = 'Joomla\\Component\\' . ucfirst(substr($option, 4));
 		}
 
 		// Normalize dispatcher configuration data
