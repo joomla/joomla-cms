@@ -24,6 +24,13 @@ defined('_JEXEC') or die;
 class Dispatcher implements DispatcherInterface
 {
 	/**
+	 * The base namespace of the component
+	 *
+	 * @var string
+	 */
+	protected $cNamespace = null;
+
+	/**
 	 * The application object
 	 *
 	 * @var \JApplicationCms
@@ -49,58 +56,6 @@ class Dispatcher implements DispatcherInterface
 	protected $config;
 
 	/**
-	 * Method to get a dispatcher instance for a component.
-	 *
-	 * @param   string            $option  The component
-	 * @param   array             $config  An array of optional constructor options.
-	 * @param   Input             $input   The controller input
-	 * @param   \JApplicationCms  $app     The JApplication for the dispatcher
-	 *
-	 * @return static
-	 */
-	public static function getInstance($option, array $config = array(), Input $input = null, \JApplicationCms $app = null)
-	{
-		$app   = $app ? $app : \JFactory::getApplication();
-		$input = $input ? $input : $app->input;
-
-		if (isset($config['component_namespace']))
-		{
-			$cNamespace = $config['component_namespace'];
-		}
-		else
-		{
-			$cNamespace = 'Joomla\\Component\\' . ucfirst(substr($option, 4));
-		}
-
-		if ($app->isClient('site'))
-		{
-			$namespace = $cNamespace . '\\Site\\';
-		}
-		else
-		{
-			$namespace = $cNamespace . '\\Admin\\';
-		}
-
-		$config['option']    = $option;
-		$config['namespace'] = $namespace;
-
-		// Register component auto-loader
-		$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
-		$autoLoader->setPsr4($cNamespace . '\\Site\\', JPATH_ROOT . '/components/' . $option);
-		$autoLoader->setPsr4($cNamespace . '\\Admin\\', JPATH_ADMINISTRATOR . '/components/' . $option);
-
-		// If component has dispatcher class, use it. Otherwise, use default dispatcher
-		$class = $namespace . '\\Dispatcher\\Dispatcher';
-
-		if (!class_exists($class))
-		{
-			$class = __CLASS__;
-		}
-
-		return new $class($app, $input, $config);
-	}
-
-	/**
 	 * Constructor for Dispatcher
 	 *
 	 * @param   \JApplicationCms  $app     The JApplication for the dispatcher
@@ -111,29 +66,39 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function __construct(\JApplicationCms $app, Input $input, array $config)
+	public function __construct(\JApplicationCms $app = null, Input $input = null, array $config)
 	{
-		// If option is not provided in the config, try to get it from input
-		if (!isset($config['option']))
+		$this->app   = $app ? $app : \JFactory::getApplication();
+		$this->input = $input ? $input : $this->app->input;
+		$option      = $this->input->getCmd('option');
+
+		// Check to make sure the component is enabled
+		if (!\JComponentHelper::isEnabled($option))
 		{
-			$config['option'] = $input->getCmd('option');
+			throw new \InvalidArgumentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
-		// To config keys option and namespace is important, we need to valid and make sure it is available in config array
-		if (empty($config['option']) || empty($config['namespace']))
+		// If component dispatcher doesn't set it own namespace, use default
+		if (empty($this->cNamespace))
 		{
-			throw new \InvalidArgumentException('option and namespace must be available for dispatcher constructor');
+			$this->cNamespace = 'Joomla\\Component\\' . ucfirst($option);
 		}
 
-		$this->app   = $app;
-		$this->input = $input;
+		// Normalize dispatcher configuration data
+		$config['option'] = $option;
 
-		// Populate default data if not provided
-		$this->input->def('option', $config['option']);
+		if ($this->app->isClient('site'))
+		{
+			$config['namespace'] = $this->cNamespace . '\\Site';
+		}
+		else
+		{
+			$config['namespace'] = $this->cNamespace . '\\Admin';
+		}
 
 		if (!isset($config['load_language']))
 		{
-			$config['load_language'] = true;
+			$config['load_language'] = false;
 		}
 
 		if (!isset($config['redirect']))
@@ -143,10 +108,14 @@ class Dispatcher implements DispatcherInterface
 
 		$this->config = $config;
 
+		// Register component auto-loader
+		$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
+		$autoLoader->setPsr4($this->cNamespace . '\\Site\\', JPATH_ROOT . '/components/' . $option);
+		$autoLoader->setPsr4($this->cNamespace . '\\Admin\\', JPATH_ADMINISTRATOR . '/components/' . $option);
+
 		// Load common and local component language files.
 		if (!empty($this->config['load_language']))
 		{
-			$option   = $this->input->getCmd('option');
 			$language = $this->app->getLanguage();
 			$language->load($option, JPATH_BASE, null, false, true) ||
 			$language->load($option, JPATH_BASE . '/components/' . $option, null, false, true);
@@ -165,12 +134,6 @@ class Dispatcher implements DispatcherInterface
 	public function dispatch()
 	{
 		$option = $this->input->getCmd('option');
-		
-		// Check to make sure the component is enabled
-		if (!\JComponentHelper::isEnabled($option))
-		{
-			throw new \InvalidArgumentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
-		}
 
 		// Check the user has permission to access this component if in the backend
 		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $option))
