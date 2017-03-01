@@ -18,14 +18,6 @@ use Joomla\Registry\Registry;
 class FieldsTableField extends JTable
 {
 	/**
-	 * Allow to refer to the parent asset instead of creating own fully inherits permissions.
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $_allowForeignAsset = true;
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param   JDatabaseDriver  $db  JDatabaseDriver object.
