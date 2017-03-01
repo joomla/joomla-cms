@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\Registry\Registry;
 
 /**
  * Multilang status helper.
@@ -225,5 +226,96 @@ abstract class MultilangstatusHelper
 		}
 
 		return $warnings;
+	}
+
+	/**
+	 * Method to get the status of the module displaying the menutype of the default Home page set to All languages.
+	 *
+	 * @return  boolean True if the module is published, false otherwise.
+	 *
+	 * @since   3.7.0
+	 */
+	public static function getDefaultHomeModule()
+	{
+		// Find Default Home menutype.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('menutype'))
+			->from($db->qn('#__menu'))
+			->where($db->qn('home') . ' = ' . $db->q('1'))
+			->where($db->qn('published') . ' = ' . $db->q('1'))
+			->where($db->qn('client_id') . ' = ' . $db->q('0'))
+			->where($db->qn('language') . ' = ' . $db->q('*'));
+
+		$db->setQuery($query);
+
+		$menutype = $db->loadResult();
+
+		// Get published site menu modules titles.
+		$query->clear()
+			->select($db->qn('title'))
+			->from($db->qn('#__modules'))
+			->where($db->qn('module') . ' = ' . $db->q('mod_menu'))
+			->where($db->qn('published') . ' = ' . $db->q('1'))
+			->where($db->qn('client_id') . ' = ' . $db->q('0'));
+
+		$db->setQuery($query);
+
+		$menutitles = $db->loadColumn();
+
+		// Do we have a published menu module displaying the default Home menu item set to all languages?
+		foreach ($menutitles as $menutitle)
+		{
+			$module       = self::getModule('mod_menu', $menutitle);
+			$moduleParams = new JRegistry($module->params);
+			$param        = $moduleParams->get('menutype', '');
+
+			if ($param && $param != $menutype)
+			{
+				continue;
+			}
+
+			return true;
+		}
+	}
+
+	/**
+	 * Get module by name
+	 *
+	 * @param   string  $moduleName     The name of the module
+	 * @param   string  $instanceTitle  The title of the module, optional
+	 *
+	 * @return  stdClass  The Module object
+	 *
+	 * @since   3.7.0
+	 */
+	public static function getModule($moduleName, $instanceTitle = null)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('id, title, module, position, content, showtitle, params')
+			->from($db->qn('#__modules'))
+			->where($db->qn('module') . ' = ' . $db->q($moduleName))
+			->where($db->qn('published') . ' = ' . $db->q('1'))
+			->where($db->qn('client_id') . ' = ' . $db->q('0'));
+
+		if ($instanceTitle)
+		{
+			$query->where($db->qn('title') . ' = ' . $db->q($instanceTitle));
+		}
+
+		$db->setQuery($query);
+
+		try
+		{
+			$modules = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
+		}
+
+		return $modules;
 	}
 }

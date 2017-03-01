@@ -112,6 +112,26 @@ class JoomlaInstallerScript
 			if (!empty($this->fromVersion) && version_compare($this->fromVersion, '3.7.0', 'lt'))
 			{
 				/*
+				 * Do a check if the menu item exists, skip if it does. Only needed when we are in pre stable state.
+				 */
+				$db = JFactory::getDbo();
+
+				$query = $db->getQuery(true)
+					->select('id')
+					->from($db->quoteName('#__menu'))
+					->where($db->quoteName('menutype') . ' = ' . $db->quote('main'))
+					->where($db->quoteName('title') . ' = ' . $db->quote('com_associations'))
+					->where($db->quoteName('client_id') . ' = 1')
+					->where($db->quoteName('component_id') . ' = 34');
+
+				$result = $db->setQuery($query)->loadResult();
+
+				if (!empty($result))
+				{
+					return true;
+				}
+
+				/*
 				 * Add a menu item for com_associations, we need to do that here because with a plain sql statement we
 				 * damage the nested set structure for the menu table
 				 */
@@ -323,6 +343,11 @@ class JoomlaInstallerScript
 					->from($db->quoteName('#__update_sites'))
 					->where($db->quoteName('location') . ' = ' . $db->quote('https://update.joomla.org/jed/list.xml'))
 			)->loadResult();
+
+            if (!$id)
+            {
+                return;
+            }
 
 			// Delete from update sites
 			$db->setQuery(
@@ -1717,8 +1742,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default.php',
-			'/administrator/components/com_menus/layouts/joomla/searchtools/default/bar.php',
-			'/administrator/components/com_menus/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default/bar.php',
@@ -1846,8 +1869,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_languages/layouts/joomla/searchtools',
 			'/administrator/components/com_languages/layouts/joomla',
 			'/administrator/components/com_languages/layouts',
-			'/administrator/components/com_menus/layouts/joomla/searchtools/default',
-			'/administrator/components/com_menus/layouts/joomla/searchtools',
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default',
 			'/administrator/components/com_modules/layouts/joomla/searchtools',
 			'/administrator/components/com_modules/layouts/joomla',

@@ -6,7 +6,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>3.7.0-beta1</version>
+	<version>3.7.0-beta3</version>
 	<creationDate>February 2017</creationDate>
 	<description>FILES_JOOMLA_XML_DESCRIPTION</description>
 
@@ -15,7 +15,7 @@
 	<update>
 		<schemas>
 			<schemapath type="mysql">administrator/components/com_admin/sql/updates/mysql</schemapath>
-			<schemapath type="sqlsrv">administrator/components/com_admin/sql/updates/sqlsrv</schemapath>
+			<schemapath type="sqlsrv">administrator/components/com_admin/sql/updates/sqlazure</schemapath>
 			<schemapath type="sqlazure">administrator/components/com_admin/sql/updates/sqlazure</schemapath>
 			<schemapath type="postgresql">administrator/components/com_admin/sql/updates/postgresql</schemapath>
 		</schemas>

@@ -184,27 +184,6 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	}
 
 	/**
-	 * Find a value in a varchar used like a set.
-	 *
-	 * Ensure that the value is an integer before passing to the method.
-	 *
-	 * Usage:
-	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
-	 *
-	 * @param   string  $value  The value to search for.
-	 *
-	 * @param   string  $set    The set of values.
-	 *
-	 * @return  string  Returns the find_in_set() Mysql translation.
-	 *
-	 * @since   3.7.0
-	 */
-	public function findInSet($value, $set)
-	{
-		return ' find_in_set(' . $value . ', ' . $set . ')';
-	}
-
-	/**
 	 * Return the number of the current row.
 	 *
 	 * @param   string  $orderBy           An expression of ordering for window function.
