@@ -70,7 +70,7 @@ echo "Create list of changed files from git repository.\n";
  * So we add the index file for each top-level directory.
  * Note: If we add new top-level directories or files, be sure to include them here.
  */
-$filesArray = array(
+$filesToPackage = array(
 	"administrator/index.php\n" => true,
 	"bin/index.html\n" => true,
 	"cache/index.html\n" => true,
@@ -97,23 +97,25 @@ $filesArray = array(
 /*
  * Here we set the files/folders which should not be packaged at any time
  * These paths are from the repository root without the leading slash
+ *
+ * NOTE: Add trailing slash to folder path. e.g - 'test/' will match 'test' and its contents, but 'test' will also match 'testing'
  */
 $doNotPackage = array(
 	'.appveyor.yml',
 	'.drone.yml',
-	'.github',
+	'.github/',
 	'.gitignore',
 	'.php_cs',
 	'.travis.yml',
 	'README.md',
 	'appveyor-phpunit.xml',
-	'build',
+	'build/',
 	'build.xml',
 	'composer.json',
 	'composer.lock',
 	'karma.conf.js',
 	'phpunit.xml.dist',
-	'tests',
+	'tests/',
 	'travisci-phpunit.xml',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
@@ -124,17 +126,21 @@ $doNotPackage = array(
 /*
  * Here we set the files/folders which should not be packaged with patch packages only
  * These paths are from the repository root without the leading slash
+ *
+ * NOTE: Add trailing slash to folder path. e.g - 'test/' will match 'test' and its contents, but 'test' will also match 'testing'
  */
 $doNotPatch = array(
-	'administrator/logs',
-	'installation',
-	'images',
+	'administrator/logs/',
+	'docs/',
+	'installation/',
+	'images/',
+	'logs/',
 );
 
 // For the packages, replace spaces in stability (RC) with underscores
 $packageStability = str_replace(' ', '_', $stability);
 
-// Count down starting with the latest release and add diff files to this array
+// Count down starting with the latest release and add diff files to this array - without clearing list from previous iteration
 for ($num = $release - 1; $num >= 0; $num--)
 {
 	echo "Create version $num update packages.\n";
@@ -145,62 +151,60 @@ for ($num = $release - 1; $num >= 0; $num--)
 
 	system($command);
 
-	// $filesArray will hold the array of files to include in diff package
+	// $filesToPackage will hold the array of files to include in diff package
 	$deletedFiles = array();
 	$files        = file('diffdocs/' . $version . '.' . $num);
+
+	$doNotPackageOrPatch = array_merge($doNotPackage, $doNotPatch);
 
 	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
 	foreach ($files as $file)
 	{
-		$fileName   = substr($file, 2);
-		$folderPath = explode('/', $fileName);
-		$baseFolderName = $folderPath[0];
+		// Explode the file on the tab character; key 0 is the action (rename), key 1 is the old filename, and key 2 is the new filename
+		$diffData = explode("\t", $file);
+		$gitOp    = substr($diffData[0], 0, 1);
+		$fileName = rtrim($diffData[1]);
+		$newName  = isset($diffData[2]) ? rtrim($diffData[2]) : null;
 
-		$doNotPackageFile = in_array(trim($fileName), $doNotPackage);
-		$doNotPatchFile = in_array(trim($fileName), $doNotPatch);
-		$doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
-		$doNotPatchBaseFolder = in_array($baseFolderName, $doNotPatch);
-
-		if ($doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
+		foreach ($doNotPackageOrPatch as $skipPath)
 		{
-			continue;
+			if (($newName ?: $fileName) == $skipPath || (substr($skipPath, -1) == '/' && 0 === strpos($newName ?: $fileName, $skipPath)))
+			{
+				// Skip the file loop
+				continue 2;
+			}
 		}
 
+		// Newline is required at the end
+		$fileName .= "\n";
+		$newName  .= "\n";
+
 		// Act on the file based on the action
-		switch (substr($file, 0, 1))
+		if ($gitOp  == 'D')
 		{
-			// This is a new case with git 2.9 to handle renamed files
-			case 'R':
-				// Explode the file on the tab character; key 0 is the action (rename), key 1 is the old filename, and key 2 is the new filename
-				$renamedFileData = explode("\t", $file);
-
-				// Add the new file for packaging
-				$filesArray[$renamedFileData[2]] = true;
-
-				// And flag the old file as deleted
-				$deletedFiles[] = $renamedFileData[1];
-
-				break;
-
-			// Deleted files
-			case 'D':
-				$deletedFiles[] = $fileName;
-
-				break;
-
-			// Regular additions and modifications
-			default:
-				$filesArray[$fileName] = true;
-
-				break;
+			// Add the file as deleted
+			$deletedFiles[$fileName] = true;
+		}
+		elseif ($gitOp == 'R')
+		{
+			// Add the new file for packaging and old file as deleted
+			$deletedFiles[$fileName]  = true;
+			$filesToPackage[$newName] = true;
+		}
+		else
+		{
+			// Add the file for packaging
+			$filesToPackage[$fileName] = true;
 		}
 	}
 
 	// Write the file list to a text file.
-	$filePut = array_keys($filesArray);
-	sort($filePut);
-	file_put_contents('diffconvert/' . $version . '.' . $num, implode('', $filePut));
-	file_put_contents('diffconvert/' . $version . '.' . $num . '-deleted', $deletedFiles);
+	$filePutA = array_keys($filesToPackage);
+	$filePutD = array_keys($deletedFiles);
+	sort($filePutA);
+
+	file_put_contents('diffconvert/' . $version . '.' . $num, implode($filePutA));
+	file_put_contents('diffconvert/' . $version . '.' . $num . '-deleted', $filePutD);
 
 	// Only create archives for 0 and most recent versions. Skip other update versions.
 	if ($num != 0 && ($num != $release - 1))
@@ -211,12 +215,15 @@ for ($num = $release - 1; $num >= 0; $num--)
 	}
 
 	$fromName = $num == 0 ? 'x' : $num;
+
 	// Create the diff archive packages using the file name list.
-	system('tar --create --bzip2 --no-recursion --directory ' . $fullVersion . ' --file packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2 --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
-	system('tar --create --gzip  --no-recursion --directory ' . $fullVersion . ' --file packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.gz  --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+	$archiveName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package';
+
+	system('tar --create --bzip2 --no-recursion --directory ' . $fullVersion . ' --file packages' . $version . '/' . $archiveName . '.tar.bz2 --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+	system('tar --create --gzip  --no-recursion --directory ' . $fullVersion . ' --file packages' . $version . '/' . $archiveName . '.tar.gz  --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
 
 	chdir($fullVersion);
-	system('zip ../packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
+	system('zip ../packages' . $version . '/' . $archiveName . '.zip -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
 	chdir('..');
 }
 
@@ -237,11 +244,11 @@ chdir($fullVersion);
 system('mv administrator/manifests/packages/pkg_weblinks.xml ../pkg_weblinks.xml');
 
 // Create full archive packages.
-system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2 * > /dev/null');
+$archiveName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package';
 
-system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.gz * > /dev/null');
-
-system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip * > /dev/null');
+system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/' . $archiveName . '.tar.bz2 * > /dev/null');
+system('tar --create --gzip --file ../packages_full' . $fullVersion . '/' . $archiveName . '.tar.gz * > /dev/null');
+system('zip -r ../packages_full' . $fullVersion . '/' . $archiveName . '.zip * > /dev/null');
 
 // Create full update file without the default logs directory, installation folder, or sample images.
 echo "Build full update package.\n";
@@ -256,10 +263,10 @@ system('rm images/powered_by.png');
 // Move the weblinks manifest back
 system('mv ../pkg_weblinks.xml administrator/manifests/packages/pkg_weblinks.xml');
 
-system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2 * > /dev/null');
+$archiveName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package';
 
-system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz * > /dev/null');
+system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/' . $archiveName . '.tar.bz2 * > /dev/null');
+system('tar --create --gzip --file ../packages_full' . $fullVersion . '/' . $archiveName . '.tar.gz * > /dev/null');
+system('zip -r ../packages_full' . $fullVersion . '/' . $archiveName . '.zip * > /dev/null');
 
-system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip * > /dev/null');
-
-echo "Build of version $fullVersion complete!\n";
+echo "Build of version $fullVersion complete!\n\n";
