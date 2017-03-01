@@ -375,7 +375,8 @@ class Controller implements ControllerInterface
 		// If model class exists, create the model and build state
 		if (class_exists($modelClass))
 		{
-			$config['name'] = $name;
+			$config['option'] = $this->option;
+			$config['name']   = $name;
 			$config += $this->config;
 
 			$model = new $modelClass($config);
@@ -485,7 +486,8 @@ class Controller implements ControllerInterface
 
 		if (class_exists($viewClass))
 		{
-			$config['name'] = $viewName;
+			$config['option'] = $this->option;
+			$config['name']   = $viewName;
 			$config += $this->config;
 
 			return new $viewClass($config);
