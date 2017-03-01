@@ -85,7 +85,6 @@ class Dispatcher implements DispatcherInterface
 		}
 
 		// Normalize dispatcher configuration data
-		$config['option'] = $option;
 
 		if ($this->app->isClient('site'))
 		{
