@@ -99,7 +99,7 @@ foreach ($value as $path)
 						. '<div class="thumbnail">'
 							. '<img src="' . JUri::base(true) . str_replace(JPATH_ROOT, '', $thumb) . '" />'
 						. '</div>'
-					.'</li>';
+					. '</li>';
 		}
 		else
 		{
