@@ -92,16 +92,15 @@ class ContentModelForm extends ContentModelArticle
 		// Compute selected asset permissions.
 		$user   = JFactory::getUser();
 		$userId = $user->get('id');
-		$asset  = 'com_content.article.' . $value->id;
 
 		// Check general edit permission first.
-		if ($user->authorise('core.edit', $asset))
+		if ($user->authorise('core.edit', $value->asset_id))
 		{
 			$value->params->set('access-edit', true);
 		}
 
 		// Now check if edit.own is available.
-		elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+		elseif (!empty($userId) && $user->authorise('core.edit.own', $value->asset_id))
 		{
 			// Check for a valid user and that they are the owner.
 			if ($userId == $value->created_by)
@@ -114,7 +113,7 @@ class ContentModelForm extends ContentModelArticle
 		if ($itemId)
 		{
 			// Existing item
-			$value->params->set('access-change', $user->authorise('core.edit.state', $asset));
+			$value->params->set('access-change', $user->authorise('core.edit.state', $value->asset_id));
 		}
 		else
 		{

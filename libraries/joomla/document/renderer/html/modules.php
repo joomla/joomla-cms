@@ -41,7 +41,7 @@ class JDocumentRendererHtmlModules extends JDocumentRenderer
 		{
 			$moduleHtml = $renderer->render($mod, $params, $content);
 
-			if ($frontediting && trim($moduleHtml) != '' && $user->authorise('module.edit.frontend', 'com_modules.module.' . $mod->id))
+			if ($frontediting && trim($moduleHtml) != '' && $user->authorise('module.edit.frontend', $mod->asset_id))
 			{
 				$displayData = array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing);
 				JLayoutHelper::render('joomla.edit.frontediting_modules', $displayData);
