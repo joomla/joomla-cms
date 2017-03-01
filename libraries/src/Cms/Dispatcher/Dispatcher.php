@@ -66,7 +66,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function __construct(\JApplicationCms $app = null, Input $input = null, array $config)
+	public function __construct(\JApplicationCms $app = null, Input $input = null, array $config = array())
 	{
 		$this->app   = $app ? $app : \JFactory::getApplication();
 		$this->input = $input ? $input : $this->app->input;
