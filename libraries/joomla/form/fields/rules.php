@@ -180,7 +180,7 @@ class JFormFieldRules extends JFormField
 
 		// Get the asset id.
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
-		$assetId       = $this->form->getValue($assetField);
+		$assetId       = (int) $this->form->getValue($assetField);
 		$newItem       = empty($assetId) && $isGlobalConfig === false && $section !== 'component';
 		$parentAssetId = null;
 
@@ -195,12 +195,11 @@ class JFormFieldRules extends JFormField
 			{
 				// This is not own asset.
 				$parentAssetId = $assetId;
-				$assetId = null;
 			}
 		}
 
 		// If the asset id is empty (component or new item).
-		if (empty($assetId) && !$parentAssetId)
+		if (empty($assetId))
 		{
 			// Get the component asset id as fallback.
 			$db = JFactory::getDbo();
@@ -239,7 +238,7 @@ class JFormFieldRules extends JFormField
 
 		// Full width format.
 
-		if ($assetId)
+		if ($assetId && $assetId !== $parentAssetId)
 		{
 			// Get the rules for just this asset (non-recursive).
 			$assetRules = JAccess::getAssetRules($assetId, false, false);

@@ -21,6 +21,14 @@ use Joomla\Utilities\ArrayHelper;
 class JTableCorecontent extends JTable
 {
 	/**
+	 * Allow to refer to the parent asset instead of creating own fully inherits permissions.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_allowForeignAsset = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  A database connector object
