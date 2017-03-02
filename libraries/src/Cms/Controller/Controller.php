@@ -194,8 +194,8 @@ class Controller implements ControllerInterface
 	/**
 	 * Method to check whether an ID is in the edit list.
 	 *
-	 * @param   string  $context The context for the session storage.
-	 * @param   integer $id      The ID of the record to add to the edit list.
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
 	 *
 	 * @return  boolean  True if the ID is in the edit list.
 	 *
@@ -236,10 +236,10 @@ class Controller implements ControllerInterface
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @param   boolean $cachable  If true, the view output will be cached
-	 * @param   array   $urlParams An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlParams  An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  static  A \JControllerLegacy object to support chaining.
+	 * @return  static  A Controller object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -317,7 +317,7 @@ class Controller implements ControllerInterface
 	/**
 	 * Execute a task by triggering a method in the derived class.
 	 *
-	 * @param   string $task The task to perform. If no matching task is found, the '__default' task is executed, if defined.
+	 * @param   string  $task The task to perform. If no matching task is found, the '__default' task is executed, if defined.
 	 *
 	 * @return  mixed   The value returned by the called method.
 	 *
@@ -349,9 +349,9 @@ class Controller implements ControllerInterface
 	/**
 	 * Method to get a model object
 	 *
-	 * @param   string $name   The model name. Optional.
-	 * @param   string $namespace The base namespace to get model class. Optional.
-	 * @param   array  $config Configuration array for model. Optional.
+	 * @param   string  $name       The model name. Optional.
+	 * @param   string  $namespace  The base namespace to get model class. Optional.
+	 * @param   array   $config     Configuration array for model. Optional.
 	 *
 	 * @return  Model|boolean  Model object on success; otherwise false on failure.
 	 *
@@ -379,26 +379,12 @@ class Controller implements ControllerInterface
 			$config['name']   = $name;
 			$config += $this->config;
 
-			$model = new $modelClass($config);
-
-			// Task is a reserved state
-			$model->setState('task', $this->task);
-
-			// Let's get the application object and set menu information if it's available
-			$menu = $this->app->getMenu();
-
-			if (is_object($menu))
+			if (empty($config['ignore_request']))
 			{
-				if ($item = $menu->getActive())
-				{
-					$params = $menu->getParams($item->id);
-
-					// Set default state data
-					$model->setState('parameters.menu', $params);
-				}
+				$config['state'] = $this->buildModelState();
 			}
 
-			return $model;
+			return new $modelClass($config);
 		}
 
 		// Model class not found, return false
@@ -453,10 +439,10 @@ class Controller implements ControllerInterface
 	/**
 	 * Method to get a reference to the current view and load it if necessary.
 	 *
-	 * @param   string $name   The view name. Optional, defaults to the controller name.
-	 * @param   string $type   The view type. Optional.
-	 * @param   string $namespace   The base namespace to get the view class. Optional.
-	 * @param   array  $config Configuration array for view. Optional.
+	 * @param   string  $name       The view name. Optional, defaults to the controller name.
+	 * @param   string  $type       The view type. Optional.
+	 * @param   string  $namespace  The base namespace to get the view class. Optional.
+	 * @param   array   $config     Configuration array for view. Optional.
 	 *
 	 * @return  View  Reference to the view or an error.
 	 *
@@ -490,6 +476,25 @@ class Controller implements ControllerInterface
 			$config['name']   = $viewName;
 			$config += $this->config;
 
+			if (empty($config['template_path']))
+			{
+				$paths    = array();
+				$template = $this->app->getTemplate();
+
+				if ($this->app->isClient('site'))
+				{
+					$paths[] = JPATH_ROOT . '/templates/' . $template . '/html/' . $this->option . '/' . ucfirst($viewName);
+					$paths[] = JPATH_ROOT . '/components/' . $this->option . '/View/' . ucfirst($viewName) . '/tmpl';
+				}
+				else
+				{
+					$paths[] = JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/' . $this->option . '/' . ucfirst($viewName);
+					$paths[] = JPATH_ADMINISTRATOR . '/components/' . $this->option . '/View/' . ucfirst($viewName) . '/tmpl';
+				}
+
+				$config['template_path'] = $paths;
+			}
+
 			return new $viewClass($config);
 		}
 
@@ -512,8 +517,8 @@ class Controller implements ControllerInterface
 	/**
 	 * Method to add a record ID to the edit list.
 	 *
-	 * @param   string  $context The context for the session storage.
-	 * @param   integer $id      The ID of the record to add to the edit list.
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
 	 *
 	 * @return  void
 	 *
@@ -569,9 +574,9 @@ class Controller implements ControllerInterface
 	/**
 	 * Register the default task to perform if a mapping is not found.
 	 *
-	 * @param   string $method The name of the method in the derived class to perform if a named task is not found.
+	 * @param   string  $method  The name of the method in the derived class to perform if a named task is not found.
 	 *
-	 * @return  static  A \JControllerLegacy object to support chaining.
+	 * @return  static  A Controller object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -585,8 +590,8 @@ class Controller implements ControllerInterface
 	/**
 	 * Register (map) a task to a method in the class.
 	 *
-	 * @param   string $task   The task.
-	 * @param   string $method The name of the method in the derived class to perform for this task.
+	 * @param   string  $task    The task.
+	 * @param   string  $method  The name of the method in the derived class to perform for this task.
 	 *
 	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
@@ -605,7 +610,7 @@ class Controller implements ControllerInterface
 	/**
 	 * Unregister (unmap) a task in the class.
 	 *
-	 * @param   string $task The task.
+	 * @param   string  $task  The task.
 	 *
 	 * @return  static  This object to support chaining.
 	 *
@@ -621,8 +626,8 @@ class Controller implements ControllerInterface
 	/**
 	 * Method to check whether an ID is in the edit list.
 	 *
-	 * @param   string  $context The context for the session storage.
-	 * @param   integer $id      The ID of the record to add to the edit list.
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
 	 *
 	 * @return  void
 	 *
@@ -658,8 +663,8 @@ class Controller implements ControllerInterface
 	/**
 	 * Sets the internal message that is passed with a redirect
 	 *
-	 * @param   string $text Message to display on redirect.
-	 * @param   string $type Message type. Optional, defaults to 'message'.
+	 * @param   string  $text  Message to display on redirect.
+	 * @param   string  $type  Message type. Optional, defaults to 'message'.
 	 *
 	 * @return  string  Previous message
 	 *
@@ -679,8 +684,8 @@ class Controller implements ControllerInterface
 	 *
 	 * Use in conjunction with \JHtml::_('form.token') or \JSession::getFormToken.
 	 *
-	 * @param   string  $method   The request method in which to look for the token key.
-	 * @param   boolean $redirect Whether to implicitly redirect user to the referrer page on failure or simply return false.
+	 * @param   string   $method    The request method in which to look for the token key.
+	 * @param   boolean  $redirect  Whether to implicitly redirect user to the referrer page on failure or simply return false.
 	 *
 	 * @return  boolean  True if found and valid, otherwise return false or redirect to referrer page.
 	 *
@@ -710,9 +715,9 @@ class Controller implements ControllerInterface
 	/**
 	 * Set a URL for browser redirection.
 	 *
-	 * @param   string $url  URL to redirect to.
-	 * @param   string $msg  Message to display on redirect. Optional, defaults to value set internally by controller, if any.
-	 * @param   string $type Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
+	 * @param   string  $url   URL to redirect to.
+	 * @param   string  $msg   Message to display on redirect. Optional, defaults to value set internally by controller, if any.
+	 * @param   string  $type  Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
 	 *
 	 * @return  static  This object to support chaining.
 	 *
@@ -743,5 +748,34 @@ class Controller implements ControllerInterface
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Method to build model state
+	 *
+	 * @return \JObject
+	 */
+	protected function buildModelState()
+	{
+		$state = new \JObject;
+
+		// Task is a reserved state
+		$state->set('task', $this->task);
+
+		// Let's get the application object and set menu information if it's available
+		$menu = $this->app->getMenu();
+
+		if (is_object($menu))
+		{
+			if ($item = $menu->getActive())
+			{
+				$params = $menu->getParams($item->id);
+
+				// Set default state data
+				$state->set('parameters.menu', $params);
+			}
+		}
+
+		return $state;
 	}
 }
