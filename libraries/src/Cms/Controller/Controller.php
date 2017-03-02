@@ -317,7 +317,7 @@ class Controller implements ControllerInterface
 	/**
 	 * Execute a task by triggering a method in the derived class.
 	 *
-	 * @param   string  $task The task to perform. If no matching task is found, the '__default' task is executed, if defined.
+	 * @param   string  $task  The task to perform. If no matching task is found, the '__default' task is executed, if defined.
 	 *
 	 * @return  mixed   The value returned by the called method.
 	 *
