@@ -87,7 +87,7 @@ defined('_JEXEC') or die;
 	</dt>
 	<dd>
 		<span class="contact-telephone" itemprop="telephone">
-			<?php echo nl2br($this->contact->telephone); ?>
+			<?php echo $this->contact->telephone; ?>
 		</span>
 	</dd>
 <?php endif; ?>
@@ -99,7 +99,7 @@ defined('_JEXEC') or die;
 	</dt>
 	<dd>
 		<span class="contact-fax" itemprop="faxNumber">
-		<?php echo nl2br($this->contact->fax); ?>
+		<?php echo $this->contact->fax; ?>
 		</span>
 	</dd>
 <?php endif; ?>
@@ -111,7 +111,7 @@ defined('_JEXEC') or die;
 	</dt>
 	<dd>
 		<span class="contact-mobile" itemprop="telephone">
-			<?php echo nl2br($this->contact->mobile); ?>
+			<?php echo $this->contact->mobile; ?>
 		</span>
 	</dd>
 <?php endif; ?>

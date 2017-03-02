@@ -105,6 +105,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * Array with alias for "special" columns such as ordering, hits etc etc
 	 *
 	 * @var    array
+	 * @since  3.4.0
 	 */
 	protected $_columnAlias = array();
 
@@ -403,6 +404,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
 		// For simple cases, parent to the asset root.
+		/** @var JTableAsset $assets */
 		$assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$rootId = $assets->getRootId();
 
@@ -816,6 +818,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$name     = $this->_getAssetName();
 			$title    = $this->_getAssetTitle();
 
+			/** @var JTableAsset $asset */
 			$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 			$asset->loadByName($name);
 
@@ -979,6 +982,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		{
 			// Get the asset name
 			$name  = $this->_getAssetName();
+			/** @var JTableAsset $asset */
 			$asset = self::getInstance('Asset');
 
 			if ($asset->loadByName($name))
