@@ -1058,9 +1058,10 @@
 
 			if (!instance) {
 				instance = new JoomlaCalendar(element);
-				instance.inputField.form.addEventListener('submit', function () {
-					instance.setAltValue();
-				});
+				if (instance.inputField.form)
+					instance.inputField.form.addEventListener('submit', function () {
+						instance.setAltValue();
+					});
 			}
 		}
 	};

@@ -1026,6 +1026,7 @@ abstract class JHtml
 		$singleHeader = isset($attribs['singleHeader']) ? $attribs['singleHeader'] : false;
 		$hint         = isset($attribs['placeholder']) ? $attribs['placeholder'] : '';
 		$class        = isset($attribs['class']) ? $attribs['class'] : '';
+		$onchange     = isset($attribs['onChange']) ? $attribs['onChange'] : '';
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
@@ -1063,6 +1064,7 @@ abstract class JHtml
 			'helperPath'   => $helperPath,
 			'localesPath'  => $localesPath,
 			'direction'    => $direction,
+			'onchange'     => $onchange,
 			);
 
 		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
