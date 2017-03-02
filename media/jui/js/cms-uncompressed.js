@@ -53,6 +53,19 @@ if (!Array.prototype.indexOf)
 	window.jQuery && (function ($) {
 
 		/**
+		 * Method to remove something from each element of array
+		 * @param {String}  elemet
+		 * @param {Array} array
+		 */
+		function removeFromArray(element, array){
+            var result = [];
+            array.forEach(el =>{
+                result.push(el.replace(element, ""));
+            });
+            return result;
+        }
+
+		/**
 		 * Method to check condition and change the target visibility
 		 * @param {jQuery}  target
 		 * @param {Boolean} animate
@@ -60,13 +73,16 @@ if (!Array.prototype.indexOf)
 		function linkedoptions (target, animate) {
 			var showfield = true,
 				jsondata  = target.data('showon') || [],
-				itemval, condition, fieldName, $fields;
+				itemval, condition, fieldName, $fields, negation;
 
 			// Check if target conditions are satisfied
 			for (var j = 0, lj = jsondata.length; j < lj; j++) {
 				condition  = jsondata[j] || {};
 				fieldName  = condition.field;
 				$fields    = $('[name="' + fieldName + '"], [name="' + fieldName + '[]"]');
+
+				// Check if negation exist in array of values
+				negation = condition["values"][0].indexOf("!") !== -1 ? removeFromArray("!", condition["values"]) : false;
 
 				condition['valid'] = 0;
 
@@ -92,13 +108,15 @@ if (!Array.prototype.indexOf)
 					}
 
 					// Test if any of the values of the field exists in showon conditions
-					for (var i in itemval)
-					{
-						if (condition['values'].indexOf(itemval[i]) !== -1)
-						{
-							condition['valid'] = 1;
-						}
-					}
+                    if(itemval.indexOf("") === -1){
+                        for (var i in itemval) {
+                            if(negation && negation.indexOf(itemval[i]) === -1){
+                                condition["valid"] = 1
+                            }else if (!negation && condition["values"].indexOf(itemval[i]) !== -1) {
+                                condition["valid"] = 1
+                            }
+                        }
+                    }
 				});
 
 				// Verify conditions
