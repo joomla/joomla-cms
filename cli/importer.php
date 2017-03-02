@@ -19,7 +19,7 @@ if (!defined('_JDEFINES'))
 {
 	define('JPATH_BASE', dirname(__DIR__));
 	require_once JPATH_BASE . '/includes/defines.php';
-l}
+}
 
 // Get the framework.
 require_once JPATH_LIBRARIES . '/import.legacy.php';
