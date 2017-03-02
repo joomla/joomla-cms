@@ -13,8 +13,12 @@ class Api {
         if (options.apiBaseUrl === undefined) {
             throw new TypeError('Media api baseUrl is not defined');
         }
+        if (options.csrfToken === undefined) {
+            throw new TypeError('Media api csrf token is not defined');
+        }
 
         this._baseUrl = options.apiBaseUrl;
+        this._csrfToken = options.csrfToken;
     }
 
     /**
@@ -44,10 +48,11 @@ class Api {
         // Wrap the jquery call into a real promise
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + parent;
+            const data = {[this._csrfToken]: '1', name: name};
             jQuery.ajax({
                 url: url,
                 type: "POST",
-                data: JSON.stringify({'name': name}),
+                data: JSON.stringify(data),
                 contentType: "application/json",
             })
                 .done((json) => resolve(this._normalizeItem(json.data)))
@@ -64,7 +69,7 @@ class Api {
      * @private
      */
     _normalizeItem(item) {
-        if(item.type === 'dir') {
+        if (item.type === 'dir') {
             item.directories = [];
             item.files = [];
         }
@@ -97,6 +102,8 @@ class Api {
      * Handle errors
      * @param error
      * @private
+     *
+     * @TODO DN improve error handling
      */
     _handleError(error) {
         alert(error.status + ' ' + error.statusText);

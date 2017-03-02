@@ -18,6 +18,7 @@ JHtml::_('behavior.keepalive');
 // Populate the media config
 $config = array(
 	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
+	'csrfToken'               => JSession::getFormToken(),
 	'filePath'                => $params->get('file_path', 'images'),
 	'fileBaseUrl'             => JUri::root() . $params->get('file_path', 'images'),
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),

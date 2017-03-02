@@ -7515,6 +7515,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var path = require('path');
@@ -7535,8 +7537,12 @@ var Api = function () {
         if (options.apiBaseUrl === undefined) {
             throw new TypeError('Media api baseUrl is not defined');
         }
+        if (options.csrfToken === undefined) {
+            throw new TypeError('Media api csrf token is not defined');
+        }
 
         this._baseUrl = options.apiBaseUrl;
+        this._csrfToken = options.csrfToken;
     }
 
     /**
@@ -7576,11 +7582,14 @@ var Api = function () {
 
             // Wrap the jquery call into a real promise
             return new Promise(function (resolve, reject) {
+                var _data;
+
                 var url = _this2._baseUrl + '&task=api.files&path=' + parent;
+                var data = (_data = {}, _defineProperty(_data, _this2._csrfToken, '1'), _defineProperty(_data, 'name', name), _data);
                 jQuery.ajax({
                     url: url,
                     type: "POST",
-                    data: JSON.stringify({ 'name': name }),
+                    data: JSON.stringify(data),
                     contentType: "application/json"
                 }).done(function (json) {
                     return resolve(_this2._normalizeItem(json.data));
@@ -7643,6 +7652,8 @@ var Api = function () {
          * Handle errors
          * @param error
          * @private
+         *
+         * @TODO DN improve error handling
          */
 
     }, {

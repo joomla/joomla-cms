@@ -87,7 +87,7 @@ class MediaControllerApi extends Controller
 		try
 		{
 			// Check token for requests which do modify files (all except get requests)
-			if ($method != 'get' && !JSession::checkToken('request'))
+			if ($method != 'get' && !JSession::checkToken('json'))
 			{
 				throw new InvalidArgumentException(JText::_('JINVALID_TOKEN'), 403);
 			}
