@@ -525,7 +525,6 @@ class JoomlaInstallerScript
 			array('plugin', 'checkboxes', 'fields', 0),
 			array('plugin', 'color', 'fields', 0),
 			array('plugin', 'editor', 'fields', 0),
-			array('plugin', 'gallery', 'fields', 0),
 			array('plugin', 'imagelist', 'fields', 0),
 			array('plugin', 'integer', 'fields', 0),
 			array('plugin', 'list', 'fields', 0),
