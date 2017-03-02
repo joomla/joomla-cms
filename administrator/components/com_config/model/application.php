@@ -564,60 +564,86 @@ class ConfigModelApplication extends ConfigModelForm
 
 		try
 		{
-			// Load the current settings for this component.
-			$query = $this->db->getQuery(true)
-				->select($this->db->quoteName(array('name', 'rules')))
-				->from($this->db->quoteName('#__assets'))
-				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+			$asset  = JTable::getInstance('asset');
+			$result = $asset->loadByName($permission['component']);
 
-			$this->db->setQuery($query);
-
-			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
-			$results = $this->db->loadAssocList();
-		}
-		catch (Exception $e)
-		{
-			$app->enqueueMessage($e->getMessage(), 'error');
-
-			return false;
-		}
-
-		// No record found, let's create one.
-		if (empty($results))
-		{
-			$data = array();
-			$data[$permission['action']] = array($permission['rule'] => $permission['value']);
-
-			$rules        = new JAccessRules($data);
-			$asset        = JTable::getInstance('asset');
-			$asset->rules = (string) $rules;
-			$asset->name  = (string) $permission['component'];
-			$asset->title = (string) $permission['title'];
-
-			// Get the parent asset id so we have a correct tree.
-			$parentAsset = JTable::getInstance('Asset');
-
-			if (strpos($asset->name, '.') !== false)
+			if ($result === false)
 			{
-				$assetParts = explode('.', $asset->name);
-				$parentAsset->loadByName($assetParts[0]);
-				$parentAssetId = $parentAsset->id;
+				$data = array($permission['action'] => array($permission['rule'] => $permission['value']));
+
+				$rules        = new JAccessRules($data);
+				$asset->rules = (string) $rules;
+				$asset->name  = (string) $permission['component'];
+				$asset->title = (string) $permission['title'];
+
+				// Get the parent asset id so we have a correct tree.
+				$parentAsset = JTable::getInstance('Asset');
+
+				if (strpos($asset->name, '.') !== false)
+				{
+					$assetParts = explode('.', $asset->name);
+					$parentAsset->loadByName($assetParts[0]);
+					$parentAssetId = $parentAsset->id;
+				}
+				else
+				{
+					$parentAssetId = $parentAsset->getRootId();
+				}
+
+				/**
+				 * @to do: incorrect ACL stored
+				 * When changing a permission of an item that doesn't have a row in the asset table the row a new row is created.
+				 * This works fine for item <-> component <-> global config scenario and component <-> global config scenario.
+				 * But doesn't work properly for item <-> section(s) <-> component <-> global config scenario,
+				 * because a wrong parent asset id (the component) is stored.
+				 * Happens when there is no row in the asset table (ex: deleted or not created on update).
+				 */
+
+				$asset->setLocation($parentAssetId, 'last-child');
 			}
 			else
 			{
-				$parentAssetId = $parentAsset->getRootId();
+				// Decode the rule settings.
+				$temp = json_decode($asset->rules, true);
+
+				// Check if a new value is to be set.
+				if (isset($permission['value']))
+				{
+					// Check if we already have an action entry.
+					if (!isset($temp[$permission['action']]))
+					{
+						$temp[$permission['action']] = array();
+					}
+
+					// Check if we already have a rule entry.
+					if (!isset($temp[$permission['action']][$permission['rule']]))
+					{
+						$temp[$permission['action']][$permission['rule']] = array();
+					}
+
+					// Set the new permission.
+					$temp[$permission['action']][$permission['rule']] = (int) $permission['value'];
+
+					// Check if we have an inherited setting.
+					if ($permission['value'] === '')
+					{
+						unset($temp[$permission['action']][$permission['rule']]);
+					}
+
+					// Check if we have any rules.
+					if (!$temp[$permission['action']])
+					{
+						unset($temp[$permission['action']]);
+					}
+				}
+				else
+				{
+					// There is no value so remove the action as it's not needed.
+					unset($temp[$permission['action']]);
+				}
+
+				$asset->rules = json_encode($temp, JSON_FORCE_OBJECT);
 			}
-
-			/**
-			 * @to do: incorrect ACL stored
-			 * When changing a permission of an item that doesn't have a row in the asset table the row a new row is created.
-			 * This works fine for item <-> component <-> global config scenario and component <-> global config scenario.
-			 * But doesn't work properly for item <-> section(s) <-> component <-> global config scenario,
-			 * because a wrong parent asset id (the component) is stored.
-			 * Happens when there is no row in the asset table (ex: deleted or not created on update).
-			 */
-
-			$asset->setLocation($parentAssetId, 'last-child');
 
 			if (!$asset->check() || !$asset->store())
 			{
@@ -626,66 +652,13 @@ class ConfigModelApplication extends ConfigModelForm
 				return false;
 			}
 		}
-		else
+		catch (Exception $e)
 		{
-			// Decode the rule settings.
-			$temp = json_decode($results[0]['rules'], true);
+			$app->enqueueMessage($e->getMessage(), 'error');
 
-			// Check if a new value is to be set.
-			if (isset($permission['value']))
-			{
-				// Check if we already have an action entry.
-				if (!isset($temp[$permission['action']]))
-				{
-					$temp[$permission['action']] = array();
-				}
-
-				// Check if we already have a rule entry.
-				if (!isset($temp[$permission['action']][$permission['rule']]))
-				{
-					$temp[$permission['action']][$permission['rule']] = array();
-				}
-
-				if ($permission['value'] !== '')
-				{
-					// Set the new permission.
-					$temp[$permission['action']][$permission['rule']] = (int) $permission['value'];
-				}
-				else
-				{
-					// We have an inherited setting only.
-					unset($temp[$permission['action']][$permission['rule']]);
-				}
-
-				// Check if we have any inherited settings.
-				if (empty($temp[$permission['action']]))
-				{
-					unset($temp[$permission['action']]);
-				}
-			}
-			else
-			{
-				// There is no value so remove the action as it's not needed.
-				unset($temp[$permission['action']]);
-			}
-
-			// Store the new permissions.
-			try
-			{
-				$query->clear()
-					->update($this->db->quoteName('#__assets'))
-					->set($this->db->quoteName('rules') . ' = ' . $this->db->quote(json_encode($temp, JSON_FORCE_OBJECT)))
-					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
-
-				$this->db->setQuery($query)->execute();
-			}
-			catch (Exception $e)
-			{
-				$app->enqueueMessage($e->getMessage(), 'error');
-
-				return false;
-			}
+			return false;
 		}
+
 
 		// All checks done.
 		$result = array(
@@ -699,7 +672,7 @@ class ConfigModelApplication extends ConfigModelForm
 		try
 		{
 			// Get the asset id by the name of the component.
-			$query->clear()
+			$query = $this->db->getQuery(true)
 				->select($this->db->quoteName('id'))
 				->from($this->db->quoteName('#__assets'))
 				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
