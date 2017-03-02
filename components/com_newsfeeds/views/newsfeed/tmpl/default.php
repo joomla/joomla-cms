@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,36 +17,36 @@ else
 {
 	$lang      = JFactory::getLanguage();
 	$myrtl     = $this->newsfeed->rtl;
-	$direction = " ";
+	$direction = ' ';
 
 		if ($lang->isRtl() && $myrtl == 0)
 		{
-			$direction = " redirect-rtl";
+			$direction = ' redirect-rtl';
 		}
 		elseif ($lang->isRtl() && $myrtl == 1)
 		{
-			$direction = " redirect-ltr";
+			$direction = ' redirect-ltr';
 		}
 		elseif ($lang->isRtl() && $myrtl == 2)
 		{
-			$direction = " redirect-rtl";
+			$direction = ' redirect-rtl';
 		}
 		elseif ($myrtl == 0)
 		{
-			$direction = " redirect-ltr";
+			$direction = ' redirect-ltr';
 		}
 		elseif ($myrtl == 1)
 		{
-			$direction = " redirect-ltr";
+			$direction = ' redirect-ltr';
 		}
 		elseif ($myrtl == 2)
 		{
-			$direction = " redirect-rtl";
+			$direction = ' redirect-rtl';
 		}
 		$images = json_decode($this->item->images);
 	?>
-	<div class="newsfeed<?php echo $this->pageclass_sfx?><?php echo $direction; ?>">
-	<?php if ($this->params->get('display_num')) :  ?>
+	<div class="newsfeed<?php echo $this->pageclass_sfx; ?><?php echo $direction; ?>">
+	<?php if ($this->params->get('display_num')) : ?>
 	<h1 class="<?php echo $direction; ?>">
 		<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
@@ -65,19 +65,19 @@ else
 	<?php endif; ?>
 
 	<!-- Show Images from Component -->
-	<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
-	<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>
+	<?php if (isset($images->image_first) and !empty($images->image_first)) : ?>
+	<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
 	<div class="img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>"> <img
-		<?php if ($images->image_first_caption):
+		<?php if ($images->image_first_caption) :
 			echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') . '"';
 		endif; ?>
 		src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'); ?>"/> </div>
 	<?php endif; ?>
 
-	<?php  if (isset($images->image_second) and !empty($images->image_second)) : ?>
-	<?php $imgfloat = (empty($images->float_second)) ? $this->params->get('float_second') : $images->float_second; ?>
+	<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
+	<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
 	<div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image"> <img
-	<?php if ($images->image_second_caption):
+	<?php if ($images->image_second_caption) :
 		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_second_caption) . '"';
 	endif; ?>
 	src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8'); ?>"/> </div>
@@ -121,8 +121,8 @@ else
 					<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank">
 					<?php echo $title; ?></a></h3>
 				<?php else : ?>
-					<h3 class="feed-link"><?php  echo $title; ?></h3>
-				<?php  endif; ?>
+					<h3 class="feed-link"><?php echo $title; ?></h3>
+				<?php endif; ?>
 
 				<?php if ($this->params->get('show_item_description') && !empty($text)) : ?>
 					<div class="feed-item-description">

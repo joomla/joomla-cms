@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,7 @@ class JFormRuleEmail extends JFormRule
 	 * @since  11.1
 	 * @see    http://www.w3.org/TR/html-markup/input.email.html
 	 */
-	protected $regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
+	protected $regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
@@ -57,7 +57,7 @@ class JFormRuleEmail extends JFormRule
 
 		if ($tld)
 		{
-			$this->regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])'
+			$this->regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])"
 				. '?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$';
 		}
 

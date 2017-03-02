@@ -3,13 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Plugin class for redirect handling.
@@ -103,7 +104,7 @@ class PlgSystemRedirect extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin() || ((int) $error->getCode() !== 404))
+		if ($app->isClient('administrator') || ((int) $error->getCode() !== 404))
 		{
 			// Proxy to the previous exception handler if available, otherwise just render the error page
 			if (self::$previousExceptionHandler)
@@ -118,11 +119,11 @@ class PlgSystemRedirect extends JPlugin
 
 		$uri = JUri::getInstance();
 
-		$url = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
-		$urlRel = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
+		$url = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
+		$urlRel = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
 
-		$urlWithoutQuery = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment')));
-		$urlRelWithoutQuery = rawurldecode($uri->toString(array('path', 'fragment')));
+		$urlWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
+		$urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
 
 		// Why is this (still) here?
 		if ((strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http://') !== false))

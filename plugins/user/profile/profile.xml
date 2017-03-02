@@ -3,7 +3,7 @@
 	<name>plg_user_profile</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2008</creationDate>
-	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -12,7 +12,7 @@
 	<files>
 		<filename plugin="profile">profile.php</filename>
 		<folder>profiles</folder>
-		<folder>fields</folder>
+		<folder>field</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_user_profile.ini</language>

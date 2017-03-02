@@ -35,8 +35,8 @@
 			<field name="show_feed_image" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -44,8 +44,8 @@
 			<field name="show_feed_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -53,8 +53,8 @@
 			<field name="show_item_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -62,24 +62,24 @@
 			<field name="show_tags" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="feed_character_count" type="text"
-				default="0"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				size="6"
+				useglobal="true"
 			/>
 
 			<field name="feed_display_order" type="list"
 				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="asc">JGLOBAL_OLDEST_FIRST</option>
 			</field>

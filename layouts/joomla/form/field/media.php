@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,7 +54,7 @@ JHtml::_('behavior.modal');
 
 // Include jQuery
 JHtml::_('jquery.framework');
-JHtml::_('script', 'media/mediafield-mootools.min.js', true, true, false, false, true);
+JHtml::_('script', 'media/mediafield-mootools.min.js', array('version' => 'auto', 'relative' => true, 'framework' => true));
 
 // Tooltip for INPUT showing whole image path
 $options = array(
@@ -136,7 +136,7 @@ if ($showPreview)
 		'style' => $style,
 	);
 
-	$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
+	$img = JHtml::_('image', $src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 	$previewImg = '<div id="' . $id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
 	$previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
 		. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
@@ -151,7 +151,7 @@ if ($showPreview)
 					'class' => 'hasTipPreview'
 					);
 
-		echo JHtml::tooltip($tooltip, $options);
+		echo JHtml::_('tooltip', $tooltip, $options);
 		echo '</div>';
 	}
 	else

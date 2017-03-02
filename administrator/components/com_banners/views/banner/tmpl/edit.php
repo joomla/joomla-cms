@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('jquery.framework');
 JHtml::_('behavior.formvalidator');
-JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)

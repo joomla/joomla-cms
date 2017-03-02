@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ extract($displayData);
 
 if (in_array($format, array('rgb', 'rgba')) && $validate != 'color')
 {
-	$alpha = ($format == 'rgba') ? true : false;
+	$alpha = ($format === 'rgba');
 	$placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
 }
 else
@@ -60,6 +60,7 @@ $class        = ' class="' . trim('minicolors ' . $class) . ($validate == 'color
 $control      = $control ? ' data-control="' . $control . '"' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
+$disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
 $hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : ' placeholder="' . $placeholder . '"';
 $autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
@@ -69,10 +70,10 @@ $direction    = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', false, true);
-JHtml::_('script', 'jui/jquery.minicolors.min.js', false, true);
-JHtml::_('stylesheet', 'jui/jquery.minicolors.css', false, true);
-JHtml::_('script', 'system/color-field-adv-init.min.js', false, true, false, false, true);
+JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'jui/jquery.minicolors.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'jui/jquery.minicolors.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/color-field-adv-init.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
 echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $hint; ?><?php echo $class; ?><?php echo

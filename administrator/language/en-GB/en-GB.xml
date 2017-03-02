@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="3.6" client="administrator">
+<metafile version="3.7" client="administrator">
 	<name>English (en-GB)</name>
-	<version>3.6.4</version>
-	<creationDate>October 2016</creationDate>
+	<version>3.7.0</version>
+	<creationDate>February 2017</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description><![CDATA[en-GB administrator language]]></description>
 	<metadata>

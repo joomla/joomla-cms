@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 $menuTypes = MenusHelper::getMenuLinks();
 
-JHtml::_('script', 'jui/treeselectmenu.jquery.min.js', false, true);
+JHtml::_('script', 'jui/treeselectmenu.jquery.min.js', array('version' => 'auto', 'relative' => true));
 
 $script = "
 	jQuery(document).ready(function()
@@ -107,9 +107,12 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						?>
 							<li>
 								<div class="treeselect-item pull-left">
-									<input type="checkbox" class="pull-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; ?> />
+									<?php
+									$uselessMenuItem = (in_array($link->type, array('separator', 'heading', 'alias', 'url')));
+									?>
+									<input type="checkbox" class="pull-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
 									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
-										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span>
+										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias)); ?></span>
 										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*') : ?>
 											<?php if ($link->language_image) : ?>
 												<?php echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true); ?>
@@ -119,6 +122,9 @@ JFactory::getDocument()->addScriptDeclaration($script);
 										<?php endif; ?>
 										<?php if ($link->published == 0) : ?>
 											<?php echo ' <span class="label">' . JText::_('JUNPUBLISHED') . '</span>'; ?>
+										<?php endif; ?>
+										<?php if ($uselessMenuItem) : ?>
+											<?php echo ' <span class="label">' . JText::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
 										<?php endif; ?>
 									</label>
 								</div>

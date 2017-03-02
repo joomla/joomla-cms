@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -205,7 +205,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 			$this->width       = $this->element['width'] ? (string) $this->element['width'] : '100%';
 			$this->assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 			$this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-			$this->asset       = $this->form->getValue($this->assetField) ? $this->form->getValue($this->assetField) : (string) $this->element['asset_id'];
+			$this->asset       = $this->form->getValue($this->assetField) ?: (string) $this->element['asset_id'];
 
 			$buttons    = (string) $this->element['buttons'];
 			$hide       = (string) $this->element['hide'];

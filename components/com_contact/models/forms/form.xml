@@ -461,6 +461,17 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
+			
+		<field
+			name="show_user_custom_fields"
+			type="fieldgroups"
+			multiple="true"
+			context="com_users.user"
+			label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
+			description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
+			>
+			<option value="-1">JALL</option>
+		</field>
 
 		<field name="show_links" type="list"
 			description="CONTACT_SHOW_LINKS_DESC"

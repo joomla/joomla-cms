@@ -1,7 +1,7 @@
 /**
  * @package     Joomla.Installation
  * @subpackage  JavaScript
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -372,3 +372,125 @@ var Installation = function(_container, _base) {
         toggle : toggle
     }
 }
+
+/**
+ * Initializes the elements
+ */
+function initElements()
+{
+	(function($){
+		$('.hasTooltip').tooltip();
+
+		// Chosen select boxes
+		$('select').chosen({
+			disable_search_threshold : 10,
+			allow_single_deselect : true
+		});
+
+		// Turn radios into btn-group
+		$('.radio.btn-group label').addClass('btn');
+
+		$('fieldset.btn-group').each(function() {
+			var $self = $(this);
+			// Handle disabled, prevent clicks on the container, and add disabled style to each button
+			if ($self.prop('disabled'))
+			{
+				$self.css('pointer-events', 'none').off('click');
+				$self.find('.btn').addClass('disabled');
+			}
+		});
+
+		$('.btn-group label:not(.active)').click(function()
+		{
+			var label = $(this);
+			var input = $('#' + label.attr('for'));
+
+			if (!input.prop('checked'))
+			{
+				label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
+
+				if (label.closest('.btn-group').hasClass('btn-group-reverse'))
+				{
+					if (input.val() == '')
+					{
+						label.addClass('active btn-primary');
+					}
+					else if (input.val() == 0)
+					{
+						label.addClass('active btn-danger');
+					}
+					else
+					{
+						label.addClass('active btn-success');
+					}
+				}
+				else
+				{
+					if (input.val() == '')
+					{
+						label.addClass('active btn-primary');
+					}
+					else if (input.val() == 0)
+					{
+						label.addClass('active btn-success');
+					}
+					else
+					{
+						label.addClass('active btn-danger');
+					}
+				}
+				input.prop('checked', true);
+			}
+		});
+
+		$('.btn-group input[checked="checked"]').each(function()
+		{
+			var $self  = $(this);
+			var attrId = $self.attr('id');
+
+			if ($self.hasClass('btn-group-reverse'))
+			{
+				if ($self.val() == '')
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-primary');
+				}
+				else if ($self.val() == 0)
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-danger');
+				}
+				else
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-success');
+				}
+			}
+			else
+			{
+				if ($self.val() == '')
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-primary');
+				}
+				else if ($self.val() == 0)
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-success');
+				}
+				else
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-danger');
+				}
+			}
+		});
+	})(jQuery);
+}
+
+// Init on dom content loaded event
+document.addEventListener('DOMContentLoaded', function() {
+
+	// Init the elements
+	initElements();
+
+	// Init installation
+	var installOptions  = Joomla.getOptions('system.installation'),
+	    installurl = installOptions.url ? installOptions.url.replace(/&amp;/g, '&') : 'index.php';
+
+	window.Install = new Installation('container-installation', installurl);
+});
