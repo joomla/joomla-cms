@@ -10,7 +10,7 @@
 
 jQuery(function($) {
     var loadTabs = function() {
-        function saveActiveTab(href) {
+        function saveActiveTab(href, $session) {
             // Remove the old entry if exists, key is always dependant on the url
             // This should be removed in the future
             if (localStorage.getItem('active-tab')) {
@@ -24,7 +24,7 @@ jQuery(function($) {
             activeTabsHrefs.push(href);
 
             // Store the selected tabs hrefs in localStorage
-            localStorage.setItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, ''), JSON.stringify(activeTabsHrefs));
+            localStorage.setItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, '') + '&tabSession=' + $session, JSON.stringify(activeTabsHrefs));
         }
 
         function activateTab(href) {
@@ -35,14 +35,32 @@ jQuery(function($) {
             return $('a[data-toggle="tab"][href="' + href + '"]').length;
         }
 
+       // Do a clean up
+        function cleanUp($session) {
+            for(var i=0, len=localStorage.length; i<len; i++) {
+                var key = localStorage.key(i),
+                    reg = "&tabSession=" + $session;
+                console.log(!/reg/.test(key))
+                if (/&tabSession=/.test(key) && !/reg/.test(key)) {
+                   localStorage.removeItem(key);
+                }
+            }
+        }
+
+         // Is there a session data attribute?
+        var tabsUl = document.querySelector('ul.nav-tabs'), $session = '';
+        if (tabsUl) {
+           $session = document.querySelector('ul.nav-tabs').getAttribute('data-session');
+        }
+
         // Array with active tabs hrefs
-        var activeTabsHrefs = JSON.parse(localStorage.getItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, '')));
+        var activeTabsHrefs = JSON.parse(localStorage.getItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, '') + '&tabSession=' + $session));
 
         // jQuery object with all tabs links
         var $tabs = $('a[data-toggle="tab"]');
 
         $tabs.on('click', function(e) {
-            saveActiveTab($(e.target).attr('href'));
+            saveActiveTab($(e.target).attr('href'), $session);
         });
 
         if (activeTabsHrefs !== null) {
@@ -52,7 +70,7 @@ jQuery(function($) {
             // When moving from tab area to a different view
             $.each(activeTabsHrefs, function(index, tabHref) {
                 if (!hasTab(tabHref)) {
-                    localStorage.removeItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, ''));
+                    localStorage.removeItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, '') + '&tabSession=' + $session);
 
                     return true;
                 }
@@ -68,13 +86,15 @@ jQuery(function($) {
                     var plural = singular + "s";
                     activateTab(plural);
                 }
+                cleanUp($session);
             });
         } else {
             $tabs.parents('ul').each(function(index, ul) {
                 // If no tabs is saved, activate first tab from each tab set and save it
                 var href = $(ul).find('a').first().tab('show').attr('href');
-                saveActiveTab(href);
+                saveActiveTab(href, $session);
             });
+           cleanUp($session);
         }
     };
 

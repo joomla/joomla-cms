@@ -13,5 +13,5 @@ $selector = empty($displayData['selector']) ? '' : $displayData['selector'];
 
 ?>
 
-<ul class="nav nav-tabs" id="<?php echo $selector; ?>Tabs"></ul>
+<ul class="nav nav-tabs" id="<?php echo $selector; ?>Tabs" data-session="<?php echo JFactory::getApplication()->getSession()->getId(); ?>"></ul>
 <div class="tab-content" id="<?php echo $selector; ?>Content">
