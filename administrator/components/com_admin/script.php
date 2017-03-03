@@ -306,6 +306,7 @@ class JoomlaInstallerScript
 				->where('name = ' . $db->quote('PLG_EOSNOTIFY'))
 		)->loadResult();
 
+		// Skip update when id doesn’t exists
 		if (!$id)
 		{
 			return;
@@ -344,10 +345,11 @@ class JoomlaInstallerScript
 					->where($db->quoteName('location') . ' = ' . $db->quote('https://update.joomla.org/jed/list.xml'))
 			)->loadResult();
 
-            if (!$id)
-            {
-                return;
-            }
+			// Skip delete when id doesn’t exists
+			if (!$id)
+			{
+				return;
+			}
 
 			// Delete from update sites
 			$db->setQuery(

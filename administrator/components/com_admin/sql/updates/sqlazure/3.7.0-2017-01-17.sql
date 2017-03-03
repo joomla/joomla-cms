@@ -2,7 +2,9 @@
 UPDATE [#__menu] SET [client_id] = 1 WHERE [menutype] = 'main' OR [menutype] = 'menu';
 UPDATE [#__menu] SET [menutype] = 'main' WHERE [menutype] = 'main' OR [menutype] = 'menu';
 
-INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state]) VALUES
+SET IDENTITY_INSERT #__extensions  ON;
+
+INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 462, 'plg_fields_calendar', 'plugin', 'calendar', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 463, 'plg_fields_checkboxes', 'plugin', 'checkboxes', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -32,3 +34,6 @@ UNION ALL
 SELECT 475, 'plg_fields_user', 'plugin', 'user', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 476, 'plg_fields_usergrouplist', 'plugin', 'usergrouplist', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+
+SET IDENTITY_INSERT #__extensions  OFF;
+
