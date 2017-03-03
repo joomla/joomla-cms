@@ -491,7 +491,7 @@ CREATE TABLE "#__content" (
   "metadata" nvarchar(max) NOT NULL,
   "featured" tinyint NOT NULL DEFAULT 0,
   "language" nvarchar(7) NOT NULL,
-  "xreference" nvarchar(50) NOT NULL,
+  "xreference" nvarchar(50) NOT NULL DEFAULT '',
  CONSTRAINT "PK_#__content_id" PRIMARY KEY CLUSTERED
 (
   "id" ASC
@@ -671,7 +671,7 @@ CREATE TABLE "#__extensions" (
   "manifest_cache" nvarchar(max) NOT NULL,
   "params" nvarchar(max) NOT NULL,
   "custom_data" nvarchar(max) NOT NULL,
-  "system_data" nvarchar(max) NOT NULL DEFAULT '',
+  "system_data" nvarchar(max) NOT NULL,
   "checked_out" bigint NOT NULL DEFAULT 0,
   "checked_out_time" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "ordering" int NULL DEFAULT 0,
@@ -880,7 +880,7 @@ SET IDENTITY_INSERT "#__extensions" OFF;
 
 CREATE TABLE "#__fields" (
   "id" int IDENTITY(1,1) NOT NULL,
-  "asset_id" int NOT NULL DEFAULT 0,
+  "asset_id" bigint NOT NULL DEFAULT 0,
   "context" nvarchar(255) NOT NULL DEFAULT '',
   "group_id" int NOT NULL DEFAULT 0,
   "title" nvarchar(255) NOT NULL DEFAULT '',
@@ -949,7 +949,7 @@ WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW
 
 CREATE TABLE "#__fields_groups" (
   "id" int IDENTITY(1,1) NOT NULL,
-  "asset_id" int NOT NULL DEFAULT 0,
+  "asset_id" bigint NOT NULL DEFAULT 0,
   "context" nvarchar(255) NOT NULL DEFAULT '',
   "title" nvarchar(255) NOT NULL DEFAULT '',
   "note" nvarchar(255) NOT NULL DEFAULT '',
@@ -1890,20 +1890,14 @@ CREATE TABLE "#__languages" (
   "published" int NOT NULL DEFAULT 0,
   "access" bigint NOT NULL DEFAULT 0,
   "ordering" int NOT NULL DEFAULT 0,
- CONSTRAINT "PK_#__languages_lang_id" PRIMARY KEY CLUSTERED
-(
-  "lang_id" ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT "#__languages$idx_sef" UNIQUE NONCLUSTERED
-(
-  "sef" ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY];
+  CONSTRAINT "PK_#__languages_lang_id" PRIMARY KEY ("lang_id") ON [PRIMARY],
+  CONSTRAINT "#__languages$idx_sef" UNIQUE ("sef") ON [PRIMARY],
+  CONSTRAINT "#__languages$idx_langcode" UNIQUE ("lang_code") ON [PRIMARY]
+)
+ON [PRIMARY];
 
-CREATE UNIQUE INDEX "idx_access" ON "#__languages"
-(
-  "access" ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+CREATE INDEX "idx_ordering" ON "#__languages" ("ordering");
+CREATE INDEX "idx_access" ON "#__languages" ("access");
 
 --
 -- Dumping data for table `#__languages`
@@ -2247,7 +2241,7 @@ CREATE TABLE "#__newsfeeds" (
   "metakey" nvarchar(max) NOT NULL,
   "metadesc" nvarchar(max) NOT NULL,
   "metadata" nvarchar(max) NOT NULL,
-  "xreference" nvarchar(50) NOT NULL,
+  "xreference" nvarchar(50) NOT NULL DEFAULT '',
   "publish_up" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "publish_down" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "description" nvarchar(max) NOT NULL,
@@ -2735,7 +2729,7 @@ CREATE TABLE "#__updates" (
   "folder" nvarchar(20) DEFAULT '',
   "client_id" smallint DEFAULT 0,
   "version" nvarchar(32) DEFAULT '',
-  "data" nvarchar(max) NOT NULL DEFAULT '',
+  "data" nvarchar(max) NOT NULL,
   "detailsurl" nvarchar(max) NOT NULL,
   "infourl" nvarchar(max) NOT NULL,
   "extra_query" nvarchar(1000) NULL DEFAULT '',
