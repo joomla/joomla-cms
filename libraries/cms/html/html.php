@@ -1028,11 +1028,11 @@ abstract class JHtml
 		$class        = isset($attribs['class']) ? $attribs['class'] : '';
 		$onchange     = isset($attribs['onChange']) ? $attribs['onChange'] : '';
 
-		$showTime     = $showTime === true ? "1" : "0";
-		$todayBtn     = $todayBtn === true ? "1" : "0";
-		$weekNumbers  = $weekNumbers === true ? "1" : "0";
-		$fillTable    = $fillTable === true ? "1" : "0";
-		$singleHeader = $singleHeader === true ? "1" : "0";
+		$showTime     = !empty($showTime) ? ($showTime === true ? "1" : "0") : "1";
+		$todayBtn     = !empty($showTime) ? ($todayBtn === true ? "1" : "0") : "1";
+		$weekNumbers  = !empty($showTime) ? ($weekNumbers === true ? "1" : "0") : "0";
+		$fillTable    = !empty($showTime) ? ($fillTable === true ? "1" : "0") : "1";
+		$singleHeader = !empty($showTime) ? ($singleHeader === true ? "1" : "0") : "0";
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
@@ -1070,7 +1070,7 @@ abstract class JHtml
 			'helperPath'   => $helperPath,
 			'localesPath'  => $localesPath,
 			'direction'    => $direction,
-			'onchange'     => $onchange
+			'onchange'     => $onchange,
 
 			);
 
