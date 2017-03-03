@@ -20,21 +20,19 @@ if (!$value)
 JFactory::getLanguage()->load('plg_fields_gallery', JPATH_ADMINISTRATOR);
 
 JHtml::_('jquery.framework');
+JHtml::_('bootstrap.popover', '.galleryPopover', array('placement' => 'top'));
 
 $doc = JFactory::getDocument();
 
-// Adding the javascript gallery library
-JHtml::_('script', 'plg_fields_gallery/fotorama.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'plg_fields_gallery/fotorama.min.css', array('version' => 'auto', 'relative' => true));
-
 $value = (array) $value;
 
-$thumbWidth     = $fieldParams->get('thumbnail_width', '64');
-$maxImageWidth  = $fieldParams->get('max_width', 0);
-$maxImageHeight = $fieldParams->get('max_height', 0);
+$thumbWidth = $fieldParams->get('thumbnail_width', '64');
+$thumbsRow  = $fieldParams->get('thumbs_row', 6);
+$spanClass  = 'span' . 12 / $thumbsRow;
 
-// Main container
-$buffer = '<div class="fotorama" data-nav="thumbs" data-width="100%" ' . ($maxImageHeight ? 'data-height="' . $maxImageHeight . '"' : '') . '>';
+$html        = '<ul class="thumbnails">';
+$thumbsCount = 0;
+$i           = 0;
 
 foreach ($value as $path)
 {
@@ -46,76 +44,16 @@ foreach ($value as $path)
 
 	// The root folder
 	$root = $fieldParams->get('directory', 'images');
+	$filter = '\.jpg$|\.jpeg$|\.png$|\.bmp$|\.gif$';
 
-	foreach (JFolder::files(JPATH_ROOT . '/' . $root . '/' . $path, '.', $fieldParams->get('recursive', '1'), true) as $file)
+	foreach (JFolder::files(JPATH_ROOT . '/' . $root . '/' . $path, $filter, $fieldParams->get('recursive', true), true) as $file)
 	{
-		// Skip none image files
-		if (!in_array(
-				strtolower(JFile::getExt($file)),
-				array(
-					'jpg',
-					'png',
-					'bmp',
-					'gif',
-				)
-			)
-		)
-		{
-			continue;
-		}
-
 		// Getting the properties of the image
 		$properties = JImage::getImageFileProperties($file);
 
 		// Relative path
 		$localPath    = str_replace(JPath::clean(JPATH_ROOT . '/' . $root . '/'), '', $file);
 		$webImagePath = $root . '/' . $localPath;
-
-		if (($maxImageWidth && $properties->width > $maxImageWidth) || ($maxImageHeight && $properties->height > $maxImageHeight))
-		{
-			$resizeWidth  = $maxImageWidth ? $maxImageWidth : '';
-			$resizeHeight = $maxImageHeight ? $maxImageHeight : '';
-
-			if ($resizeWidth && $resizeHeight)
-			{
-				$resizeWidth .= 'x';
-			}
-
-			$resize = JPATH_CACHE . '/plg_fields_gallery/gallery/' . $field->id . '/' . $resizeWidth . $resizeHeight . '/' . $localPath;
-
-			if (!JFile::exists($resize))
-			{
-				// Creating the folder structure for the max sized image
-				if (!JFolder::exists(dirname($resize)))
-				{
-					JFolder::create(dirname($resize));
-				}
-
-				try
-				{
-					// Creating the max sized image for the image
-					$imgObject = new JImage($file);
-
-					$imgObject = $imgObject->resize(
-							$properties->width > $maxImageWidth ? $maxImageWidth : 0,
-							$properties->height > $maxImageHeight ? $maxImageHeight : 0,
-							true,
-							JImage::SCALE_INSIDE
-					);
-
-					$imgObject->toFile($resize);
-				}
-				catch (Exception $e)
-				{
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_FIELDS_GALLERY_IMAGE_ERROR', $file, $e->getMessage()));
-				}
-			}
-
-			if (JFile::exists($resize))
-			{
-				$webImagePath = JUri::base(true) . str_replace(JPATH_ROOT, '', $resize);
-			}
-		}
 
 		// Thumbnail path for the image
 		$thumb = JPATH_CACHE . '/plg_fields_gallery/gallery/' . $field->id . '/' . $thumbWidth . '/' . $localPath;
@@ -129,9 +67,6 @@ foreach ($value as $path)
 				{
 					JFolder::create(dirname($thumb));
 				}
-
-				// Getting the properties of the image
-				$properties = JImage::getImageFileProperties($file);
 
 				if ($properties->width > $thumbWidth)
 				{
@@ -147,19 +82,33 @@ foreach ($value as $path)
 			}
 		}
 
+		$thumbsCount++;
+		$i++;
+
+		if ($thumbsCount > $thumbsRow)
+		{
+			$thumbsCount = 1;
+			$html .= '</ul><ul class="thumbnails">';
+		}
+
 		if (JFile::exists($thumb))
 		{
 			// Linking to the real image and loading only the thumbnail
-			$buffer .= '<a href="' . $webImagePath . '"><img src="' . JUri::base(true) . str_replace(JPATH_ROOT, '', $thumb) . '" /></a>';
+			$html .= '<li class="' . $spanClass . ' galleryPopover" data-title="' . basename($file) . '"'
+					. ' data-content="<img src=\'' . JURI::root() . $webImagePath . '\'>">'
+						. '<div class="thumbnail">'
+							. '<img src="' . JUri::base(true) . str_replace(JPATH_ROOT, '', $thumb) . '" />'
+						. '</div>'
+					. '</li>';
 		}
 		else
 		{
 			// Thumbnail doesn't exist, loading the full image
-			$buffer .= '<img src="' . $webImagePath . '"/>';
+			$html .= '<li class="' . $spanClass . '"><div class="thumbnail"><img src="' . $webImagePath . '"/></div></li>';
 		}
 	}
 }
 
-$buffer .= '</div>';
+$html .= '</ul>';
 
-echo $buffer;
+echo $html;
