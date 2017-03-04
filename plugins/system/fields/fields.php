@@ -389,6 +389,27 @@ class PlgSystemFields extends JPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
+                if (strpos($parts[0],"com_")===0){
+                    $compparams = JComponentHelper::getParams($parts[0]);
+                    
+                    // should check if we want the custom fields displayed
+                    if (!$compparams->get("custom_fields_enable",1)){
+                        return;
+                    }
+                    
+                    $custom_fields_enabled_contexts = $compparams->get("custom_fields_enabled_contexts","");
+                    if (is_array($custom_fields_enabled_contexts)){
+                        if (in_array($parts[0] . '.' . $parts[1], $custom_fields_enabled_contexts)) {
+                            $context = $compparams->get("custom_fields_base_context", $context);
+                            $parts = FieldsHelper::extract($context);                        
+                        }
+                        else {
+                            // we have no contexts within which to show custom fields
+                            return;
+                        }                        
+                    }
+                }
+                
 		if (is_string($params) || !$params)
 		{
 			$params = new Registry($params);
@@ -446,6 +467,27 @@ class PlgSystemFields extends JPlugin
 			return;
 		}
 
+                if (strpos($parts[0],"com_")===0){
+                    $compparams = JComponentHelper::getParams($parts[0]);
+                    
+                    // should check if we want the custom fields displayed
+                    if (!$compparams->get("custom_fields_enable",1)){
+                        return;
+                    }
+                    
+                    $custom_fields_enabled_contexts = $compparams->get("custom_fields_enabled_contexts","");
+                    if (is_array($custom_fields_enabled_contexts)){
+                        if (in_array($parts[0] . '.' . $parts[1], $custom_fields_enabled_contexts)) {
+                            $context = $compparams->get("custom_fields_base_context", $context);
+                            $parts = FieldsHelper::extract($context);                        
+                        }
+                        else {
+                            // we have no contexts within which to show custom fields
+                            return;
+                        }                        
+                    }
+                }
+                
 		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);
 
 		// Adding the fields to the object
