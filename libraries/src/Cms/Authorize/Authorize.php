@@ -24,7 +24,7 @@ final class Authorize implements AuthorizeInterface
 
 	/**
 	 * Implementation object
-	 * _ suffixed to force usage of getters and setters, use property name without_ to get or set the value
+	 * _ suffixed to force usage of getters and setters even from within the class, use property name without_ to get or set the value
 	 *
 	 * @var    array
 	 * @since  4.0
@@ -99,7 +99,7 @@ final class Authorize implements AuthorizeInterface
 		switch ($name)
 		{
 			case 'implementation':
-				if ($value instanceof AuthorizeInterface && $value instanceof AuthorizeImplementation)
+				if ($value instanceof AuthorizeInterface)
 				{
 					$this->implementation_ = $value;
 				}
