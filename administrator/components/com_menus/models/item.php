@@ -1636,12 +1636,12 @@ class MenusModelItem extends JModelAdmin
 
 			if (!empty($pks))
 			{
-				$dbo = $table->getDbo();
-				$query = $dbo->getQuery(true);
-				$query->update($dbo->quoteName($table->getTableName()))
-					->set($dbo->qn($table->getColumnAlias('published')) . ' = ' . (int) $value)
+				$db = $table->getDbo();
+				$query = $db->getQuery(true);
+				$query->update($db->quoteName($table->getTableName()))
+					->set($db->qn($table->getColumnAlias('published')) . ' = ' . (int) $value)
 					->where('id in (' . implode(',', $pks) . ')');
-				$dbo->setQuery($query)->execute();
+				$db->setQuery($query)->execute();
 			}
 
 			$result = true;
