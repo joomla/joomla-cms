@@ -1050,25 +1050,25 @@
 			<option value="0">JNO</option>
 		</field>
 
-                <field
+		<field
 			name="custom_fields_base_context"
-                        type="hidden"
-                        default="com_content.article"
-                />
+			type="hidden"
+			default="com_content.article"
+		/>
 
 		<field
 			name="custom_fields_enabled_contexts"
 			type="list"
-                        multiple="multiple"
+			multiple="multiple"
 			label="JGLOBAL_CUSTOM_FIELDS_ENABLED_CONTEXTS_LABEL"
 			description="JGLOBAL_CUSTOM_FIELDS_ENABLED_CONTEXTS_DESC"
 			default="com_content.article"
-                        showon="custom_fields_enable:1"
+			showon="custom_fields_enable:1"
 		>
 			<option value="com_content.article">COM_CONTENT_ARTICLE_VIEW</option>
 			<option value="com_content.featured">COM_CONTENT_FEATURED_VIEW</option>
-                        <option value="com_content.category">COM_CONTENT_CATEGORY_VIEW</option>
-                        <option value="com_content.archive">COM_CONTENT_ARCHIVE_VIEW</option>
+			<option value="com_content.category">COM_CONTENT_CATEGORY_VIEW</option>
+			<option value="com_content.archive">COM_CONTENT_ARCHIVE_VIEW</option>
 		</field>
 
 	</fieldset>
