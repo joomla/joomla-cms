@@ -115,25 +115,23 @@ class ContentRouter extends JComponentRouterView
 	 */
 	public function getArticleSegment($id, $query)
 	{
+		if (!strpos($id, ':'))
+		{
+			$db = JFactory::getDbo();
+			$dbquery = $db->getQuery(true);
+			$dbquery->select($dbquery->qn('alias'))
+				->from($dbquery->qn('#__content'))
+				->where('id = ' . $dbquery->q($id));
+			$db->setQuery($dbquery);
+
+			$id .= ':' . $db->loadResult();
+		}
+
 		if ($this->noIDs)
 		{
-			if (strpos($id, ':'))
-			{
-				list($void, $segment) = explode(':', $id, 2);
+			list($void, $segment) = explode(':', $id, 2);
 
-				return array($void => $segment);
-			}
-			else
-			{
-				$db = JFactory::getDbo();
-				$dbquery = $db->getQuery(true);
-				$dbquery->select($dbquery->qn('alias'))
-					->from($dbquery->qn('#__content'))
-					->where('id = ' . $dbquery->q($id));
-				$db->setQuery($dbquery);
-
-				return array($id => $id . ':' . $db->loadResult());
-			}
+			return array($void => $segment);
 		}
 
 		return array((int) $id => $id);
