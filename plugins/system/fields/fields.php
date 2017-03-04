@@ -473,7 +473,7 @@ class PlgSystemFields extends JPlugin
 			return;
 		}
 
-		if (strpos($parts[0],'com_')===0)
+		if (strpos($parts[0],'com_') === 0)
 		{
 			$compParams = JComponentHelper::getParams($parts[0]);
 
