@@ -409,9 +409,11 @@ abstract class JModelAdmin extends JModelForm
 				$this->table->state = 0;
 			}
 
-			if (isset($this->table->hits))
+			$hitsAlias = $this->table->getColumnAlias('hits');
+
+			if (isset($this->table->$hitsAlias))
 			{
-				$this->table->hits = 0;
+				$this->table->$hitsAlias = 0;
 			}
 
 			// New category ID
