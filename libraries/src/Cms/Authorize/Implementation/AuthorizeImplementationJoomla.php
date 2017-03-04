@@ -41,12 +41,6 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	protected $assetId_ = 1;
 
 	/**
-	 * @const  boolean is append query supported?
-	 * @since  4.0
-	 */
-	const APPENDSUPPORT = true;
-
-	/**
 	 * If number of ids passed in one call surpasses this limit,
 	 * all permissions will be loaded as query runs much faster this way
 	 *

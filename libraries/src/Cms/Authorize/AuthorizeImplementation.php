@@ -33,11 +33,6 @@ abstract class AuthorizeImplementation
 	 */
 	private $db = null;
 
-	/**
-	 * @const  boolean is append query supported?
-	 * @since  4.0
-	 */
-	const APPENDSUPPORT = false;
 
 	/**
 	 * Method to get the value
@@ -56,10 +51,6 @@ abstract class AuthorizeImplementation
 				$class = get_class($this);
 
 				return self::getMatrix($class);
-				break;
-
-			case 'appendsupport':
-				return static::APPENDSUPPORT;
 				break;
 
 			default:

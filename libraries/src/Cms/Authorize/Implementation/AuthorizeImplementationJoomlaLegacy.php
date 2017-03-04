@@ -41,12 +41,6 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 */
 	protected static $permCache = array();
 
-	/**
-	 * @const  boolean is append query supported?
-	 * @since  4.0
-	 */
-	const APPENDSUPPORT = false;
-
 
 	/**
 	 * Instantiate the access class
