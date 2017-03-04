@@ -409,6 +409,11 @@ abstract class JModelAdmin extends JModelForm
 				$this->table->state = 0;
 			}
 
+			if (isset($this->table->hits))
+			{
+				$this->table->hits = 0;
+			}
+
 			// New category ID
 			$this->table->catid = $categoryId;
 
