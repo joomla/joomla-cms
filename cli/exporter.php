@@ -40,11 +40,11 @@ $lang->load('files_joomla.sys', JPATH_SITE, null, false, false)
 || $lang->load('files_joomla.sys', JPATH_SITE, null, true);
 
 /**
- * A command line cron job to import tables and data.
+ * A command line cron job to export tables and data.
  *
  * @since  3.7
  */
-class DbImporterCli extends JApplicationCli
+class DbExporterCli extends JApplicationCli
 {
 	/**
 	 * Entry point for CLI script
@@ -55,19 +55,23 @@ class DbImporterCli extends JApplicationCli
 	 */
 	public function doExecute()
 	{
-		$this->out(JText::_('DbImporterCli'));
+		$this->out(JText::_('DbExporterCli'));
 		$this->out('============================');
 		$total_time = microtime(true);
 
 		// Import the dependencies
 		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
 
-		$ipath  = $this->input->get('folder', null, 'folder');
-		$iall   = $this->input->getString('all', null);
-		$ihelp  = $this->input->getString('help', null);
-		$itable = $this->input->getString('table', null);
-		$tables = JFolder::files($ipath, '\.xml$');
+		$tables   = JFactory::getDbo()->getTableList();
+		$prefix   = JFactory::getDbo()->getPrefix();
+		$exp      = JFactory::getDbo()->getExporter()->withStructure();
+
+		$iall    = $this->input->getString('all', null);
+		$ihelp   = $this->input->getString('help', null);
+		$itable  = $this->input->getString('table', null);
+		$imode   = $this->input->getString('mode', null);
+		$ipath   = $this->input->get('folder', null, 'folder');
+		$zipfile = $ipath . 'jdata_exported_' . JFactory::getDate()->format('Y-m-d') . '.zip';
 
 		if (!(($itable)||($iall)||($ihelp)))
 		{
@@ -77,88 +81,56 @@ class DbImporterCli extends JApplicationCli
 				$this->out();
 			}
 
-			$this->out('Usage: php importer.php <options>');
-			$this->out('php importer.php --all                  import all files');
-			$this->out('php importer.php --table <table_name>   import <table_name>');
-			$this->out('php importer.php --folder <folder_path> import from <folder_path>');
+			$this->out('Usage: php exporter.php <options>');
+			$this->out('php exporter.php --all                  dump all tables');
+			$this->out('php exporter.php --mode zip             dump in zip format');
+			$this->out('php exporter.php --table <table_name>   dump <table_name>');
+			$this->out('php exporter.php --folder <folder_path> dump in <folder_path>');
 
 			return;
 		}
 
-		if ($this->input->getString('table', false))
+		if (($itable))
 		{
-			$tables = array($itable . '.xml');
+			if (!in_array($itable, $tables))
+			{
+				$this->out('Not Found ' . $itable . '....');
+				$this->out();
+
+				return;
+			}
+
+			$tables = array($itable);
 		}
 
-		$db       = JFactory::getDbo();
-		$prefix   = $db->getPrefix();
+		$zip = JArchive::getAdapter('zip');
 
 		foreach ($tables as $table)
 		{
-			$task_i_time = microtime(true);
-			$percorso    = $ipath . $table;
-
-			// Check file
-			if (!JFile::exists($percorso))
+			if (strpos(substr($table, 0, strlen($prefix)), $prefix) !== false)
 			{
-				$this->out('Not Found ' . $table);
+				$task_i_time = microtime(true);
+				$filename    = $ipath . $table . '.xml';
+				$this->out();
+				$this->out('Exporting ' . $table . '....');
+				$data = (string) $exp->from($table)->withData(true);
 
-				return false;
+				if (JFile::exists($filename))
+				{
+					JFile::delete($filename);
+				}
+
+				JFile::write($filename, $data);
+
+				if (($imode) && ($imode === 'zip'))
+				{
+					$zipFilesArray[] = array('name' => $table . '.xml', 'data' => $data);
+					$zip->create($zipfile, $zipFilesArray);
+					JFile::delete($filename);
+				}
+
+				$this->out('Exported in ' . round(microtime(true) - $task_i_time, 3));
 			}
-
-			$table_name = str_replace('.xml', '', $table);
-			$this->out('Importing ' . $table_name . ' from ' . $table);
-
-			try
-			{
-				$imp = JFactory::getDbo()->getImporter()->from(JFile::read($percorso))->withStructure()->asXml();
-			}
-			catch (JDatabaseExceptionExecuting $e)
-			{
-				$this->out('Error on getImporter' . $table . ' ' . $e);
-
-				return false;
-			}
-
-			$this->out('Reading data from ' . $table);
-
-			try
-			{
-				$this->out('Drop ' . $table_name);
-				$db->dropTable($table_name, true);
-			}
-			catch (JDatabaseExceptionExecuting $e)
-			{
-				$this->out(' Error in DROP TABLE ' . $table_name . ' ' . $e);
-
-				return false;
-			}
-
-			try
-			{
-				$imp->mergeStructure();
-			}
-			catch (JDatabaseExceptionExecuting $e)
-			{
-				$this->out('Error on mergeStructure' . $table . ' ' . $e);
-
-				return false;
-			}
-
-			$this->out('Checked structure ' . $table);
-
-			try
-			{
-				$imp->importData();
-			}
-			catch (JDatabaseExceptionExecuting $e)
-			{
-				$this->out('Error on importData' . $table . ' ' . $e);
-
-				return false;
-			}
-			$this->out('Data loaded ' . $table . ' in ' . round(microtime(true) - $task_i_time, 3));
-			$this->out();
 		}
 
 		$this->out('Total time:' . round(microtime(true) - $total_time, 3));
@@ -167,4 +139,4 @@ class DbImporterCli extends JApplicationCli
 
 // Instantiate the application object, passing the class name to JCli::getInstance
 // and use chaining to execute the application.
-JApplicationCli::getInstance('DbImporterCli')->execute();
+JApplicationCli::getInstance('DbExporterCli')->execute();
