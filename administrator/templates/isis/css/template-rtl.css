@@ -9019,6 +9019,9 @@ textarea.noResize {
 	box-shadow: -3px 0 0 #3071a9;
 	border-left: 0;
 }
+.com_media .tree-holder {
+	padding: 0 10px;
+}
 .pull-right {
 	float: left;
 }
