@@ -389,7 +389,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 
 		if (isset($groups) && $groups != array())
 		{
-			$conditions .= $this->assetGroupQuery($groups);
+			$conditions .= ' AND ' . $this->assetGroupQuery($groups);
 		}
 
 		$query->leftJoin($this->db->qn('#__permissions', 'p') . ' ' . $conditions);
@@ -398,10 +398,6 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		{
 			$query->where('p.permission = ' . $this->db->quote((string) $action));
 		}
-		/*else
-		{
-			$query->where('p.value=1');
-		}*/
 
 		if ($useIds && $recursive)
 		{
@@ -436,17 +432,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			$groups = array($groups);
 		}
 
-		$counter   = 1;
-		$allGroups = count($groups);
-
-		$groupQuery = ' AND (';
-
-		foreach ($groups AS $group)
-		{
-			$groupQuery .= 'p.group = ' . $this->db->quote((string) $group);
-			$groupQuery .= ($counter < $allGroups) ? ' OR ' : ' ) ';
-			$counter++;
-		}
+		$groupQuery = 'p.group IN (' . implode(',', $groups) . ')';
 
 		return $groupQuery;
 	}
@@ -580,7 +566,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		}
 
 		$query->select('ass.id AS assid, bs.id AS bssid, bs.rules, p.permission, p.value, p.group');
-		$query->leftJoin('#__assets AS ass ON ass.id = ' . $joincolumn);
+		$query->innerJoin('#__assets AS ass ON ass.id = ' . $joincolumn);
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
 		$query->innerJoin('#__assets AS bs');
@@ -591,11 +577,11 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 
 		if (isset($groups))
 		{
-			$conditions .= $this->assetGroupQuery($groups);
+			$conditions .= ' AND ' . $this->assetGroupQuery($groups);
 		}
 
 		$conditions .= ' AND p.permission = ' . $this->db->quote($action) . ' ';
-		$query->leftJoin('#__permissions AS p ' . $conditions);
+		$query->innerJoin('#__permissions AS p ' . $conditions);
 
 		// Magic
 		$basicwhere = 'p.permission = ' . $this->db->quote($action) . ' AND p.value=1';

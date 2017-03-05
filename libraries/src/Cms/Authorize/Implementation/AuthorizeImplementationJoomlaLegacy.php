@@ -326,7 +326,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 
 		if (isset($groups) && $groups != array())
 		{
-			$conditions .= $this->assetGroupQuery($groups);
+			$conditions .= ' AND ' . $this->assetGroupQuery($groups);
 		}
 
 		$query->leftJoin($this->db->qn('#__permissions', 'p') . ' ' . $conditions);
