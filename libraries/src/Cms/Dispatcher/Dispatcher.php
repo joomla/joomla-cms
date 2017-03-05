@@ -85,7 +85,6 @@ class Dispatcher implements DispatcherInterface
 		}
 
 		// Normalize dispatcher configuration data
-
 		if ($this->app->isClient('site'))
 		{
 			$config['namespace'] = $this->cNamespace . '\\Site';
@@ -186,16 +185,12 @@ class Dispatcher implements DispatcherInterface
 
 		$classes[] = $this->config['namespace'] . '\\Controller\\' . ucfirst($name);
 
-		// Controller config array, base on component config
-		$config         = $this->config;
-		$config['name'] = $name;
-
 		// Loop over possible create class and create the controller if class is found
 		foreach ($classes as $class)
 		{
 			if (class_exists($class))
 			{
-				return new $class($this->app, $this->input, $config);
+				return new $class($this->config, $this->input);
 			}
 		}
 
