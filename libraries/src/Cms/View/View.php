@@ -174,6 +174,10 @@ class View extends \JObject
 		{
 			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
 		}
+		elseif (is_dir($this->_basePath . '/View'))
+		{
+			$this->_setPath('template', $this->_basePath . '/View/' . ucfirst($this->getName()) . '/tmpl');
+		}
 		else
 		{
 			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName() . '/tmpl');
@@ -344,6 +348,13 @@ class View extends \JObject
 	{
 		if (empty($this->_name))
 		{
+			$reflection = new \ReflectionClass($this);
+
+			if ($reflection->getNamespaceName())
+			{
+				return $reflection->getShortName();
+			}
+
 			$classname = get_class($this);
 			$viewpos = strpos($classname, 'View');
 
