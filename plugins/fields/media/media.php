@@ -21,7 +21,7 @@ class PlgFieldsMedia extends FieldsPlugin
 	/**
 	 * Transforms the field into an XML element and appends it as child on the given parent. This
 	 * is the default implementation of a field. Form fields which do support to be transformed into
-	 * an XML Element mut implemet the JFormDomfieldinterface.
+	 * an XML Element must implement the JFormDomfieldinterface.
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
@@ -41,26 +41,6 @@ class PlgFieldsMedia extends FieldsPlugin
 		}
 
 		$fieldNode->setAttribute('hide_default', 'true');
-
-		if ($field->fieldparams->get('home'))
-		{
-			$userName = JFactory::getUser()->username;
-			$root     = $field->fieldparams->get('directory');
-
-			if (!$root)
-			{
-				$root = 'images';
-			}
-
-			$directory = JPATH_ROOT . '/images/' . $root . '/' . $userName;
-
-			if (!JFolder::exists($directory))
-			{
-				JFolder::create($directory);
-			}
-
-			$fieldNode->setAttribute('directory', str_replace(JPATH_ROOT . '/images', '', $directory));
-		}
 
 		return $fieldNode;
 	}

@@ -100,14 +100,14 @@ JHtml::_('behavior.polyfill', array('event', 'classlist', 'map'), 'lte IE 11');
 // The static assets for the calendar
 JHtml::_('script', $localesPath, false, true, false, false, true);
 JHtml::_('script', $helperPath, false, true, false, false, true);
-JHtml::_('script', 'system/fields/calendar-vanilla.min.js', false, true, false, false, true);
-JHtml::_('stylesheet', 'system/fields/calendar-vanilla' . $cssFileExt, array(), true);
+JHtml::_('script', 'system/fields/calendar.min.js', false, true, false, false, true);
+JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>
 	<div class="input-append">
 		<?php endif; ?>
-		<input type="text" name="<?php
+		<input type="text" id="<?php echo $id; ?>" name="<?php
 		echo $name; ?>" value="<?php
 		echo htmlspecialchars(($value != "0000-00-00 00:00:00") ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?>
 		<?php !empty($hint) ? 'placeholder="' . $hint . '"' : ''; ?> data-alt-value="<?php

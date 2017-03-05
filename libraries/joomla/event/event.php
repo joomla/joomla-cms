@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JEvent Class
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  4.0  The CMS' Event classes will be replaced with the `joomla/event` package
  */
 abstract class JEvent extends JObject
 {

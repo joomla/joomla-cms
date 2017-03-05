@@ -257,7 +257,7 @@ final class JHelperUsergroups
 
 		$groups = $db->loadObjectList('id');
 
-		$this->groups = $groups ? $groups : array();
+		$this->groups = $groups ?: array();
 		$this->populateGroupsData();
 
 		return $this;

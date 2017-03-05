@@ -16,6 +16,7 @@ $template = $app->getTemplate();
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
+JHtml::_('formbehavior.chosen', '.chzn-custom-value', null, array('disable_search_threshold' => 0));
 JHtml::_('formbehavior.chosen', 'select');
 
 // Load JS message titles
@@ -54,6 +55,7 @@ JFactory::getDocument()->addScriptDeclaration(
 
 		<div class="span10" id="config">
 
+			<?php if ($this->fieldsets): ?>
 			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php $dataShowOn = ''; ?>
@@ -100,6 +102,9 @@ JFactory::getDocument()->addScriptDeclaration(
 					</div>
 				<?php endforeach; ?>
 			</div><!-- /configContent -->
+			<?php else: ?>
+				<div class="alert alert-info"><i class="icon-info"></i> <?php echo JText::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></div>
+			<?php endif; ?>
 
 		</div><!-- /config -->
 

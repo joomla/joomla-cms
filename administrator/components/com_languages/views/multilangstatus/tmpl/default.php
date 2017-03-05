@@ -23,6 +23,16 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 	<?php else : ?>
 	<table class="table table-striped table-condensed">
 		<tbody>
+		<?php if ($this->defaultHome == true) : ?>
+			<tr class="warning">
+				<td>
+					<span class="icon-pending"></span>
+				</td>
+				<td>
+					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_DEFAULT_HOME_MODULE_PUBLISHED'); ?>
+				</td>
+			</tr>
+		<?php endif; ?>
 		<?php if ($notice_homes) : ?>
 			<tr class="warning">
 				<td>

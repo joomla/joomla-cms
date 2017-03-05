@@ -692,6 +692,7 @@ class MenusModelItem extends JModelAdmin
 
 			case 'separator':
 			case 'heading':
+			case 'container':
 				$table->link = '';
 				$table->component_id = 0;
 				break;
@@ -891,7 +892,7 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'menutype = ' . $this->_db->quote($table->get('menutype'));
+		return array('menutype = ' . $this->_db->quote($table->get('menutype')));
 	}
 
 	/**
@@ -1608,7 +1609,7 @@ class MenusModelItem extends JModelAdmin
 						unset($pks[$i]);
 						JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
 					}
-					elseif ($table->menutype == 'main' || $table->menutype == 'menu')
+					elseif ($table->menutype == 'main')
 					{
 						// Prune items that you can't change.
 						unset($pks[$i]);

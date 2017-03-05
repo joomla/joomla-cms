@@ -161,8 +161,8 @@
 	text-align: right;
 }
 
-/* Dropdown toggle icon align */
-.btn-group > .btn + .dropdown-toggle {
+/* btn-group */
+.btn-group.btn-group-yesno > .btn, .btn-group > .btn + .dropdown-toggle {
 	float: none;
 }
 
@@ -384,4 +384,40 @@ a.grid_true {
     border-width: 1px 0 0 1px;
     left: auto;
     right: 0;
+}
+
+/* SubForms (Table) */
+.subform-table-layout {
+	td {
+		padding-left: 10px;
+		&::before {
+			content: attr(data-column);
+			left: auto;
+			right: 10px;
+			padding-left: 10px;
+			padding-right: 0;
+		}
+	}
+	.subform-repeatable tbody td:last-of-type {
+		text-align: left;
+	}
+	.form-horizontal .controls {
+		margin-top: 0;
+	}
+}
+
+/* com_templates */
+.tree-holder {
+	ul {
+		ul {
+			padding-right: 15px;
+			box-shadow: 3px 0 0 rgba(0, 0, 0, 0.08);
+			padding-left: 0;
+			.folder-url, .file {
+				box-shadow: 3px 0 0 @linkColor;
+				border-right: 0;
+				border-left: 1px solid rgba(0, 0, 0, 0.08);
+			}
+		}
+	}
 }

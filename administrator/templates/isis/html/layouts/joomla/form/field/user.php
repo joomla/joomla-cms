@@ -111,9 +111,9 @@ if (!$readonly)
 				'bootstrap.renderModal',
 				'userModal_' . $id,
 				array(
-					'title' => JText::_('JLIB_FORM_CHANGE_USER'),
+					'title'       => JText::_('JLIB_FORM_CHANGE_USER'),
 					'closeButton' => true,
-					'footer' => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
+					'footer'      => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>',
 				)
 			); ?>
 		<?php endif; ?>

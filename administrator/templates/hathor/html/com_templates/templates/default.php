@@ -91,7 +91,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php elseif ($item->client_id == '1') : ?>
 						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
 					<?php else: ?>
-						<span class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>">
+						<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>">
 							<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 					<?php endif; ?>
 					</p>

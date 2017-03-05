@@ -26,12 +26,13 @@ class FieldsHelper
 	 * be in the format component.context.
 	 *
 	 * @param   string  $contextString  contextString
+	 * @param   object  $item           optional item object
 	 *
 	 * @return  array|null
 	 *
 	 * @since   3.7.0
 	 */
-	public static function extract($contextString)
+	public static function extract($contextString, $item = null)
 	{
 		$parts = explode('.', $contextString, 2);
 
@@ -53,7 +54,7 @@ class FieldsHelper
 
 			if (class_exists($cName) && is_callable(array($cName, 'validateSection')))
 			{
-				$section = call_user_func_array(array($cName, 'validateSection'), array($parts[1]));
+				$section = call_user_func_array(array($cName, 'validateSection'), array($parts[1], $item));
 
 				if ($section)
 				{
@@ -141,9 +142,7 @@ class FieldsHelper
 		{
 			if (self::$fieldCache === null)
 			{
-				self::$fieldCache = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-					'ignore_request' => true)
-				);
+				self::$fieldCache = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 			}
 
 			$new = array();
@@ -305,7 +304,7 @@ class FieldsHelper
 			$uri = clone JUri::getInstance('index.php');
 
 			/*
-			 * Removing the catid parameter from the actual url and set it as
+			 * Removing the catid parameter from the actual URL and set it as
 			 * return
 			*/
 			$returnUri = clone JUri::getInstance();

@@ -82,7 +82,7 @@ if ($showPreview)
 	}
 }
 
-// The url for the modal
+// The URL for the modal
 $url    = ($readonly ? ''
 	: ($link ? $link
 		: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
@@ -107,12 +107,13 @@ $url    = ($readonly ? ''
 >
 	<?php
 	// Render the modal
-	echo JHtml::_('bootstrap.renderModal',
-		'imageModal_'. $id,
+	echo JHtml::_(
+		'bootstrap.renderModal',
+		'imageModal_' . $id,
 		array(
-			'title' => JText::_('JLIB_FORM_CHANGE_IMAGE'),
+			'title'       => JText::_('JLIB_FORM_CHANGE_IMAGE'),
 			'closeButton' => true,
-			'footer' => '<button class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
+			'footer'      => '<button class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>',
 		)
 	);
 

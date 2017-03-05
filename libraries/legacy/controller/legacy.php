@@ -605,7 +605,7 @@ class JControllerLegacy extends JObject
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
@@ -634,9 +634,6 @@ class JControllerLegacy extends JObject
 		{
 			$option = $this->input->get('option');
 
-			/** @var JCacheControllerView $cache */
-			$cache = JFactory::getCache($option, 'view');
-
 			if (is_array($urlparams))
 			{
 				$app = JFactory::getApplication();
@@ -652,14 +649,23 @@ class JControllerLegacy extends JObject
 
 				foreach ($urlparams as $key => $value)
 				{
-					// Add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
+					// Add your safe URL parameters with variable type as value {@see JFilterInput::clean()}.
 					$registeredurlparams->$key = $value;
 				}
 
 				$app->registeredurlparams = $registeredurlparams;
 			}
 
-			$cache->get($view, 'display');
+			try
+			{
+				/** @var JCacheControllerView $cache */
+				$cache = JFactory::getCache($option, 'view');
+				$cache->get($view, 'display');
+			}
+			catch (JCacheException $exception)
+			{
+				$view->display();
+			}
 		}
 		else
 		{

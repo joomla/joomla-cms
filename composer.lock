@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "126eeca3e1a2354c350bd5ad6fdb4f47",
+    "content-hash": "e9456e79cf2b897fb883c7e1e452741d",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -381,6 +381,43 @@
                 "joomla"
             ],
             "time": "2014-10-12T18:01:36+00:00"
+        },
+        {
+            "name": "joomla/ldap",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/ldap.git",
+                "reference": "91c3827a7f6d7164a3bf49eede27419321e4dcbc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/ldap/zipball/91c3827a7f6d7164a3bf49eede27419321e4dcbc",
+                "reference": "91c3827a7f6d7164a3bf49eede27419321e4dcbc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.10"
+            },
+            "type": "joomla-package",
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Ldap\\": "src/",
+                    "Joomla\\Ldap\\Tests\\": "Tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla LDAP Package",
+            "homepage": "https://github.com/joomla-framework/ldap",
+            "keywords": [
+                "framework",
+                "joomla",
+                "ldap"
+            ],
+            "time": "2014-04-10T03:07:59+00:00"
         },
         {
             "name": "joomla/registry",
@@ -1050,16 +1087,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.8.15",
+            "version": "v2.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "befb26a3713c97af90d25dd12e75621ef14d91ff"
+                "reference": "322a8c2dfbca15ad6b1b27e182899f98ec0e0153"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/befb26a3713c97af90d25dd12e75621ef14d91ff",
-                "reference": "befb26a3713c97af90d25dd12e75621ef14d91ff",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/322a8c2dfbca15ad6b1b27e182899f98ec0e0153",
+                "reference": "322a8c2dfbca15ad6b1b27e182899f98ec0e0153",
                 "shasum": ""
             },
             "require": {
@@ -1095,7 +1132,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-14T16:15:57+00:00"
+            "time": "2017-01-21T16:40:50+00:00"
         }
     ],
     "packages-dev": [

@@ -196,27 +196,6 @@ class JSessionTest extends TestCase
 	}
 
 	/**
-	 * Test getFormToken
-	 *
-	 * @covers  JSession::getFormToken
-	 *
-	 * @return void
-	 */
-	public function testGetFormToken()
-	{
-		// Set the factory session object for getting the token
-		JFactory::$session = $this->object;
-
-		$user = JFactory::getUser();
-
-		$expected = md5($user->get('id', 0) . $this->object->getToken(false));
-
-		$object = $this->object;
-
-		$this->assertEquals($expected, $object::getFormToken(false), 'Form token should be calculated as above.');
-	}
-
-	/**
 	 * Test getName
 	 *
 	 * @covers  JSession::getName
