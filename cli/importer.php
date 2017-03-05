@@ -62,11 +62,12 @@ class DbImporterCli extends JApplicationCli
 		// Import the dependencies
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
-		$pathPart = JPATH_ROOT . '/cli/dbdump/';
-		$iall     = $this->input->getString('all', null);
-		$ihelp    = $this->input->getString('help', null);
-		$itable   = $this->input->getString('table', null);
-		$tables   = JFolder::files($pathPart, '\.xml$');
+
+		$ipath  = $this->input->get('folder', null, 'folder');
+		$iall   = $this->input->getString('all', null);
+		$ihelp  = $this->input->getString('help', null);
+		$itable = $this->input->getString('table', null);
+		$tables = JFolder::files($ipath, '\.xml$');
 
 		if (!(($itable)||($iall)||($ihelp)))
 		{
@@ -77,8 +78,9 @@ class DbImporterCli extends JApplicationCli
 			}
 
 			$this->out('Usage: php importer.php <options>');
-			$this->out('[INFO] php importer.php --all                import all files');
-			$this->out('[INFO] php importer.php --table <table_name> import <table_name>');
+			$this->out('php importer.php --all                  import all files');
+			$this->out('php importer.php --table <table_name>   import <table_name>');
+			$this->out('php importer.php --folder <folder_path> import from <folder_path>');
 
 			return;
 		}
@@ -94,7 +96,7 @@ class DbImporterCli extends JApplicationCli
 		foreach ($tables as $table)
 		{
 			$task_i_time = microtime(true);
-			$percorso    = $pathPart . $table;
+			$percorso    = $ipath . $table;
 
 			// Check file
 			if (!JFile::exists($percorso))
