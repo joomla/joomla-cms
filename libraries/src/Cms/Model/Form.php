@@ -217,6 +217,20 @@ abstract class Form extends Model
 		\JForm::addFormPath(JPATH_COMPONENT . '/model/form');
 		\JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
 
+		// Admin model
+		if ($this->namespace && strpos($this->namespace, '\\Admin'))
+		{
+			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/Model/Forms');
+			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/Model/Fields');
+		}
+
+		// Site Model
+		if ($this->namespace && strpos($this->namespace, '\\Site'))
+		{
+			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/Model/Forms');
+			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/Model/Fields');
+		}
+
 		try
 		{
 			$form = \JForm::getInstance($name, $source, $options, false, $xpath);

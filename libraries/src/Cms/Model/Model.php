@@ -12,6 +12,7 @@ namespace Joomla\Cms\Model;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Cms\Table\Table;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Base class for a Joomla Model
@@ -69,6 +70,13 @@ abstract class Model extends \JObject
 	 * @since  3.0
 	 */
 	protected $event_clean_cache = null;
+
+	/**
+	 * Base namespace
+	 *
+	 * @var string
+	 */
+	protected $namespace;
 
 	/**
 	 * Add a directory where \JModelLegacy should search for models. You may
@@ -219,17 +227,23 @@ abstract class Model extends \JObject
 	 */
 	public function __construct($config = array())
 	{
+		// Calculate base component namespace of the model
+		if (empty($this->namespace))
+		{
+			$this->getNamespace();
+		}
+
 		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Model/i', get_class($this), $r))
+			if (isset($config['option']))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				$this->option = $config['option'];
 			}
-
-			$this->option = 'com_' . strtolower($r[1]);
+			else
+			{
+				$this->option = $this->getComponentName();
+			}
 		}
 
 		// Set the view name
@@ -411,14 +425,21 @@ abstract class Model extends \JObject
 	{
 		if (empty($this->name))
 		{
-			$r = null;
-
-			if (!preg_match('/Model(.*)/i', get_class($this), $r))
+			if ($this->namespace)
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				$this->name = (new \ReflectionClass($this))->getShortName();
 			}
+			else
+			{
+				$r = null;
 
-			$this->name = strtolower($r[1]);
+				if (!preg_match('/Model(.*)/i', get_class($this), $r))
+				{
+					throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				}
+
+				$this->name = strtolower($r[1]);
+			}
 		}
 
 		return $this->name;
@@ -467,6 +488,25 @@ abstract class Model extends \JObject
 			$name = $this->getName();
 		}
 
+		if ($this->namespace)
+		{
+			$tableClass = $this->namespace . '\\Table\\' . ucfirst($name);
+
+			if (class_exists($tableClass))
+			{
+				if (isset($options['dbo']) && $options['dbo'] instanceof \JDatabaseDriver)
+				{
+					$db = $options['dbo'];
+				}
+				else
+				{
+					$db = $this->getDbo();
+				}
+
+				return new $tableClass($db);
+			}
+		}
+
 		if ($table = $this->_createTable($name, $prefix, $options))
 		{
 			return $table;
@@ -503,7 +543,7 @@ abstract class Model extends \JObject
 			return false;
 		}
 
-		$rowArray = \JArrayHelper::fromObject(json_decode($historyTable->version_data));
+		$rowArray = ArrayHelper::fromObject(json_decode($historyTable->version_data));
 		$typeId   = Table::getInstance('Contenttype')->getTypeId($this->typeAlias);
 
 		if ($historyTable->ucm_type_id != $typeId)
@@ -604,5 +644,62 @@ abstract class Model extends \JObject
 
 		// Trigger the onContentCleanCache event.
 		\JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+	}
+
+	/**
+	 * Get base namespace of the component
+	 *
+	 * @return string
+	 */
+	protected function getNamespace()
+	{
+		if (empty($this->namespace))
+		{
+			$reflection = new \ReflectionClass($this);
+
+			if ($modelNamespace = $reflection->getNamespaceName())
+			{
+				$pos = strpos($modelNamespace, '\\Model');
+
+				if ($pos !== false)
+				{
+					$this->namespace = substr($modelNamespace, 0, $pos);
+				}
+			}
+
+		}
+
+		return $this->namespace;
+	}
+
+	/**
+	 * Method to get component name of the view
+	 *
+	 * @return string
+	 *
+	 * @throws \Exception
+	 */
+	protected function getComponentName()
+	{
+		if (empty($this->option))
+		{
+			if ($this->namespace)
+			{
+				// TODO: Detect option from class name
+			}
+			else
+			{
+				$r = null;
+
+				if (!preg_match('/(.*)Model/i', get_class($this), $r))
+				{
+					throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				}
+
+				$this->option = 'com_' . strtolower($r[1]);
+			}
+		}
+
+		return $this->option;
 	}
 }
