@@ -370,13 +370,8 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 	 */
 	protected function getKeySql($columns)
 	{
-		// TODO Error checking on array and element types.
-
 		$kNonUnique = (string) $columns[0]['Non_unique'];
 		$kName      = (string) $columns[0]['Key_name'];
-		$kColumn    = (string) $columns[0]['Column_name'];
-		$kLength = (string) $columns[0]['Sub_part'];
-		$kLength = $kLength == '' ? '' : '(' . $kLength . ')';
 		$prefix     = '';
 
 		if ($kName == 'PRIMARY')
@@ -388,26 +383,21 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 			$prefix = 'UNIQUE ';
 		}
 
-		$nColumns = count($columns);
 		$kColumns = array();
 
-		if ($nColumns == 1)
+		foreach ($columns as $column)
 		{
-			$kColumns[] = $this->db->quoteName($kColumn) . $kLength;
-		}
-		else
-		{
-			foreach ($columns as $column)
+			$kLength = '';
+
+			if (!empty($column['Sub_part']))
 			{
-				$kLength = (string) $column['Sub_part'];
-				$kLength = $kLength == '' ? '' : '(' . $kLength . ')';
-				$kColumns[] = (string) $column['Column_name'] . $kLength;
+				$kLength = '(' . $column['Sub_part'] . ')';
 			}
+
+			$kColumns[] = $this->db->quoteName((string) $column['Column_name']) . $kLength;
 		}
 
-		$sql = $prefix . 'KEY ' . ($kName != 'PRIMARY' ? $this->db->quoteName($kName) : '') . ' (' . implode(',', $kColumns) . ')';
-
-		return $sql;
+		return $prefix . 'KEY ' . ($kName != 'PRIMARY' ? $this->db->quoteName($kName) : '') . ' (' . implode(',', $kColumns) . ')';
 	}
 
 	/**
