@@ -188,8 +188,6 @@ final class Authorize implements AuthorizeInterface
 	 */
 	public function appendFilterQuery(&$query, $joincolumn, $action, $orWhere = null, $groups = null)
 	{
-
 		return $this->implementation->appendFilterQuery($query, $joincolumn, $action, $orWhere, $groups);
-
 	}
 }
