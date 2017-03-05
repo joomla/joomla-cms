@@ -8902,14 +8902,6 @@ textarea.noResize {
 		padding-right: 10px;
 	}
 }
-@media (max-width: 979px) {
-	.com_fields .row-fluid [class*="span"] {
-		margin-left: 2.12766%;
-	}
-	.com_fields .row-fluid [class*="span"]:first-of-type {
-		margin-left: 0;
-	}
-}
 .popover-content {
 	min-height: 33px;
 }
