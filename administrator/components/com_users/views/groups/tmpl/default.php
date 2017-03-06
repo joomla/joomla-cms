@@ -20,6 +20,23 @@ $user       = JFactory::getUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 
+
+// Create shortcut to parameters.
+$params = $this->state->get('params');
+
+$app = JFactory::getApplication();
+$input = $app->input;
+
+// This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
+$params = json_decode($params);
+$debugoptions = isset($params->debugGroups);
+
+if (!$debugoptions)
+{
+	$debugoptions = '1';
+}
+
+
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
 JFactory::getDocument()->addScriptDeclaration('
