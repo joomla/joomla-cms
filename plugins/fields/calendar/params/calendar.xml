@@ -6,6 +6,9 @@
 		weeknumbers="true"
 		showtime="true"
 		size="22"
+	 	todayBtn="true"
+		fillTable="true"
+		singleHeader="false"
 		filter="user_utc" />
 
 	<fields name="fieldparams">
