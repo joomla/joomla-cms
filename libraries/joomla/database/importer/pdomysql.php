@@ -432,7 +432,7 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  RuntimeException
 	 */
 	protected function xmlToCreate(SimpleXMLElement $table)
