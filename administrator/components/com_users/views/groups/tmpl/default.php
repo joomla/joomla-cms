@@ -129,7 +129,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
-							<?php if ($debugoptions == '1'): ?>
+							<?php if ($params->debugGroups == 1) : ?>
 								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
 								<?php echo JText::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
 							<?php endif; ?>
