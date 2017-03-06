@@ -21,7 +21,7 @@ class JDatabaseExporterSqlsrv extends JDatabaseExporter
 	 *
 	 * @return  string  An XML string
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXml()
@@ -53,7 +53,7 @@ class JDatabaseExporterSqlsrv extends JDatabaseExporter
 	 *
 	 * @return  array  An array of XML lines (strings).
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXmlStructure()
@@ -99,7 +99,7 @@ class JDatabaseExporterSqlsrv extends JDatabaseExporter
 	 *
 	 * @return  JDatabaseExporterSqlsrv  Method supports chaining.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
