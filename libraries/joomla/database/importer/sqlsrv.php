@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Sqlsrv import driver.
  *
- * @since  11.1
+ * @since  __DEPLOY_VERSION__
  */
 class JDatabaseImporterSqlsrv extends JDatabaseImporter
 {
@@ -21,7 +21,7 @@ class JDatabaseImporterSqlsrv extends JDatabaseImporter
 	 *
 	 * @return  JDatabaseImporterSqlsrv  Method supports chaining.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -48,7 +48,7 @@ class JDatabaseImporterSqlsrv extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  RuntimeException
 	 */
 	protected function xmlToCreate(SimpleXMLElement $table)
@@ -84,7 +84,7 @@ class JDatabaseImporterSqlsrv extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getAddColumnSql($table, SimpleXMLElement $field)
 	{
@@ -99,7 +99,7 @@ class JDatabaseImporterSqlsrv extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getAddKeySql($table, $keys)
 	{
@@ -113,7 +113,7 @@ class JDatabaseImporterSqlsrv extends JDatabaseImporter
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getAlterTableSql(SimpleXMLElement $structure)
 	{
@@ -263,7 +263,7 @@ class JDatabaseImporterSqlsrv extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getChangeColumnSql($table, SimpleXMLElement $field)
 	{
@@ -278,7 +278,7 @@ class JDatabaseImporterSqlsrv extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getColumnSql(SimpleXMLElement $field)
 	{
@@ -334,7 +334,7 @@ class JDatabaseImporterSqlsrv extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getDropKeySql($table, $name)
 	{
@@ -348,7 +348,7 @@ class JDatabaseImporterSqlsrv extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getDropPrimaryKeySql($table)
 	{
@@ -362,7 +362,7 @@ class JDatabaseImporterSqlsrv extends JDatabaseImporter
 	 *
 	 * @return  array  The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
 	protected function getKeyLookup($keys)
@@ -399,7 +399,7 @@ class JDatabaseImporterSqlsrv extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getKeySql($columns)
 	{
