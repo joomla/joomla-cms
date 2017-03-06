@@ -91,7 +91,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  array  The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
 	protected function getKeyLookup($keys)
