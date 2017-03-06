@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Sqlsrv export driver.
  *
- * @since  11.1
+ * @since  __DEPLOY_VERSION__
  */
 class JDatabaseExporterSqlsrv extends JDatabaseExporter
 {
