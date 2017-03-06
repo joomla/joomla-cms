@@ -265,7 +265,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 	public function getTemplateSuffixes()
 	{
 		$jversion = new JVersion;
-		$versionParts = explode('.', $jversion->RELEASE);
+		$versionParts = explode('.', $jversion::RELEASE);
 		$majorVersion = array_shift($versionParts);
 		$suffixes = array(
 			'.j' . str_replace('.', '', $jversion->getHelpVersion()),
