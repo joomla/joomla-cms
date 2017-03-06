@@ -130,7 +130,7 @@ if (!$debugoptions)
 							<?php if ($item->requireReset == '1') : ?>
 								<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 							<?php endif; ?>
-							<?php if (JDEBUG) : ?>
+							<?php if ($debugoptions == '1'): ?>
 								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
 								<?php echo JText::_('COM_USERS_DEBUG_USER'); ?></a></div>
 							<?php endif; ?>
