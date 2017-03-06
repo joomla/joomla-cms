@@ -19,20 +19,7 @@ $loggeduser = JFactory::getUser();
 
 
 // Create shortcut to parameters.
-$params = $this->state->get('params');
-
-$app = JFactory::getApplication();
-$input = $app->input;
-
-// This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
-$params = json_decode($params);
-$debugoptions = isset($params->debugUsers);
-
-if (!$debugoptions)
-{
-	$params->debugUsers = '1';
-}
-
+$debugUsers = $this->state->get('params')->get('debugUsers', 1);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
@@ -130,7 +117,7 @@ if (!$debugoptions)
 							<?php if ($item->requireReset == '1') : ?>
 								<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 							<?php endif; ?>
-							<?php if ($params->debugUsers == '1'): ?>
+							<?php if ($debugUsers) : ?>
 								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
 								<?php echo JText::_('COM_USERS_DEBUG_USER'); ?></a></div>
 							<?php endif; ?>
