@@ -92,6 +92,13 @@ class UsersViewDebuggroup extends JViewLegacy
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->group->title), 'users groups');
+		JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::preferences('com_users');
+			JToolbarHelper::divider();
+		}
 
 		JToolbarHelper::help('JHELP_USERS_DEBUG_GROUPS');
 	}
