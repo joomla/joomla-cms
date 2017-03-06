@@ -42,7 +42,7 @@ $lang->load('files_joomla.sys', JPATH_SITE, null, false, false)
 /**
  * A command line cron job to import tables and data.
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class DbImporterCli extends JApplicationCli
 {
@@ -51,7 +51,7 @@ class DbImporterCli extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function doExecute()
 	{
