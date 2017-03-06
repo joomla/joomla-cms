@@ -236,7 +236,7 @@ abstract class JDatabaseExporter
 	 *
 	 * @return  JDatabaseExporter  Method supports chaining.
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function withData($setting = false)
 	{
@@ -250,7 +250,7 @@ abstract class JDatabaseExporter
 	 *
 	 * @return  array  An array of XML lines (strings).
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXmlData()
