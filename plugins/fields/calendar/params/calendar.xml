@@ -9,7 +9,8 @@
 	 	todayBtn="true"
 		fillTable="true"
 		singleHeader="false"
-		filter="user_utc" />
+		filter="user_utc"
+	/>
 
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
