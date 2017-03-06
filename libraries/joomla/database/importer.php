@@ -158,7 +158,7 @@ abstract class JDatabaseImporter
 	 * @return  void
 	 *
 	 * @note    Currently only supports XML format.
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  RuntimeException on error.
 	 */
 	public function importData()
