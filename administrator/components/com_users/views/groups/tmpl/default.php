@@ -33,7 +33,7 @@ $debugoptions = isset($params->debugGroups);
 
 if (!$debugoptions)
 {
-	$debugoptions = '1';
+	$$params->debugGroups = '1';
 }
 
 
