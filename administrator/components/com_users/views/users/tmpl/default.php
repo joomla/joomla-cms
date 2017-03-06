@@ -16,6 +16,23 @@ JHtml::_('formbehavior.chosen', 'select');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
+
+
+// Create shortcut to parameters.
+$params = $this->state->get('params');
+
+$app = JFactory::getApplication();
+$input = $app->input;
+
+// This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
+$params = json_decode($params);
+$debugoptions = isset($params->debugUsers);
+
+if (!$debugoptions)
+{
+	$debugoptions = '1';
+}
+
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
