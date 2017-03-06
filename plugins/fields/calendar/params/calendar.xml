@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+	<field name="default_value" type="calendar" label="PLG_FIELDS_CALENDAR_DEFAULT_VALUE_LABEL"
+		description="PLG_FIELDS_CALENDAR_DEFAULT_VALUE_DESC"
+		translateformat="true"
+		weeknumbers="true"
+		showtime="true"
+		size="22"
+		filter="user_utc" />
+
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
 			<field
