@@ -8902,14 +8902,6 @@ textarea.noResize {
 		padding-right: 10px;
 	}
 }
-@media (max-width: 979px) {
-	.com_fields .row-fluid [class*="span"] {
-		margin-left: 2.12766%;
-	}
-	.com_fields .row-fluid [class*="span"]:first-of-type {
-		margin-left: 0;
-	}
-}
 .popover-content {
 	min-height: 33px;
 }
@@ -9018,6 +9010,9 @@ textarea.noResize {
 .tree-holder ul ul .file {
 	box-shadow: -3px 0 0 #3071a9;
 	border-left: 0;
+}
+.com_media .tree-holder {
+	padding: 0 10px;
 }
 .pull-right {
 	float: left;

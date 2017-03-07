@@ -1937,15 +1937,6 @@ textarea.noResize {
 		}
 	}
 }
-// Following can be removed if a solution is found for #13768
-@media (max-width: 979px) {
-	.com_fields .row-fluid [class*="span"] {
-		margin-left: 2.12766%;
-		&:first-of-type {
-			margin-left: 0;
-		}
-	} 
-}
 
 /* Popover minimum height - overwrite bootstrap default */
 .popover-content {
@@ -2035,7 +2026,7 @@ textarea.noResize {
 	}
 }
 
-/* com_templates */
+/* Folder/File Tree */
 .tree-holder {
 	.folder-url, .file {
 		position: relative;
@@ -2069,5 +2060,11 @@ textarea.noResize {
 				border-left: 0;
 			}
 		}
+	}
+}
+
+.com_media {
+	.tree-holder {
+		padding: 0 10px;
 	}
 }

@@ -50,7 +50,7 @@ if ($lang->isRtl())
 		<h3 style="padding-left: 10px;"><?php echo JText::_('COM_MEDIA_FOLDERS'); ?> </h3>
 		</div>
 		<div id="treeview" class="sidebar">
-			<div id="media-tree_tree" class="sidebar-nav">
+			<div id="media-tree_tree" class="tree-holder">
 				<?php echo $this->loadTemplate('folders'); ?>
 			</div>
 		</div>
