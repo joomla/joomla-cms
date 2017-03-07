@@ -73,20 +73,18 @@ class ContentRouter extends JComponentRouterView
 
 		if ($category)
 		{
+			$path = array_reverse($category->getPath(), true);
+			$path[0] = '1:root';
+
 			if ($this->noIDs)
 			{
-				$path = array_reverse($category->getPath(), true);
 				foreach ($path as &$segment)
 				{
 					list($id, $segment) = explode(':', $segment, 2);
 				}
+			}
 
-				return $path;
-			}
-			else
-			{
-				return array_reverse($category->getPath(), true);
-			}
+			return $path;
 		}
 
 		return array();
