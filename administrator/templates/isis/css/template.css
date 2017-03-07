@@ -8101,8 +8101,9 @@ td.nowrap.has-context {
 }
 .item-associations li {
 	list-style: none;
-	display: inline-block;
+	display: table-cell;
 	margin: 0 0 3px 0;
+	padding-right: 5px;
 }
 .item-associations li a {
 	color: #ffffff;
