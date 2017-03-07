@@ -37,11 +37,11 @@
 			/>
 
 			<field
-					name="filter"
-					type="list"
-					class="btn-group"
-					label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
-					description="PLG_FIELDS_TEXT_PARAMS_FILTER_DESC"
+				name="filter"
+				type="list"
+				class="btn-group"
+				label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
+				description="PLG_FIELDS_TEXT_PARAMS_FILTER_DESC"
 			>
 				<option value="">PLG_FIELDS_TEXT_PARAMS_USE_GLOBAL</option>
 				<option value="0">JNO</option>
