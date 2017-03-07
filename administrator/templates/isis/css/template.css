@@ -3193,7 +3193,13 @@ input[type="submit"].btn.btn-mini {
 	-moz-border-radius: 0;
 	border-radius: 0;
 }
-.navbar-fixed-top,
+.navbar-fixed-top {
+	position: static;
+	right: 0;
+	left: 0;
+	z-index: 1030;
+	margin-bottom: 0;
+}
 .navbar-fixed-bottom {
 	position: fixed;
 	right: 0;
@@ -7759,7 +7765,7 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 }
 @media (min-width: 768px) {
 	body {
-		padding-top: 30px;
+		padding-top: 0px;
 	}
 	.row-fluid .modal-batch [class*="span"] {
 		margin-left: 0;
@@ -7774,7 +7780,7 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 		text-align: center;
 	}
 	.subhead-fixed {
-		position: static;
+		position: fixed;
 		width: auto;
 	}
 	.container-fluid {
