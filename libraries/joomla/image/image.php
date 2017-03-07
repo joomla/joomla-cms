@@ -274,13 +274,11 @@ class JImage
 
 				switch ($creationMethod)
 				{
-					// Case for self::CROP
-					case 4:
+					case self::CROP:
 						$thumb = $this->crop($thumbWidth, $thumbHeight, null, null, true);
 						break;
 
-					// Case for self::CROP_RESIZE
-					case 5:
+					case self::CROP_RESIZE:
 						$thumb = $this->cropResize($thumbWidth, $thumbHeight, true);
 						break;
 
