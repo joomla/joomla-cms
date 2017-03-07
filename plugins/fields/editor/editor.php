@@ -41,7 +41,6 @@ class PlgFieldsEditor extends FieldsPlugin
 		}
 
 		$fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', 0) ? 'true' : 'false');
-		$fieldNode->setAttribute('filter', 'JComponentHelper::filterText');
 
 		return $fieldNode;
 	}
