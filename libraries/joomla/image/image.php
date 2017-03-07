@@ -116,12 +116,12 @@ class JImage
 		}
 
 		// Determine which image types are supported by GD, but only once.
-		if (!isset(self::$formats[IMAGETYPE_JPEG]))
+		if (!isset(static::$formats[IMAGETYPE_JPEG]))
 		{
 			$info = gd_info();
-			self::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
-			self::$formats[IMAGETYPE_PNG]  = ($info['PNG Support']) ? true : false;
-			self::$formats[IMAGETYPE_GIF]  = ($info['GIF Read Support']) ? true : false;
+			static::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
+			static::$formats[IMAGETYPE_PNG]  = ($info['PNG Support']) ? true : false;
+			static::$formats[IMAGETYPE_GIF]  = ($info['GIF Read Support']) ? true : false;
 		}
 
 		// If the source input is a resource, set it as the image handle.
@@ -178,7 +178,7 @@ class JImage
 			'channels'    => isset($info['channels']) ? $info['channels'] : null,
 			'mime'        => $info['mime'],
 			'filesize'    => filesize($path),
-			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1]),
+			'orientation' => static::getOrientationString((int) $info[0], (int) $info[1]),
 		);
 
 		return $properties;
@@ -196,7 +196,7 @@ class JImage
 	{
 		if ($this->isLoaded())
 		{
-			return self::getOrientationString($this->getWidth(), $this->getHeight());
+			return static::getOrientationString($this->getWidth(), $this->getHeight());
 		}
 
 		return;
@@ -216,15 +216,15 @@ class JImage
 	{
 		if ($width > $height)
 		{
-			return self::ORIENTATION_LANDSCAPE;
+			return static::ORIENTATION_LANDSCAPE;
 		}
 
 		if ($width < $height)
 		{
-			return self::ORIENTATION_PORTRAIT;
+			return static::ORIENTATION_PORTRAIT;
 		}
 
-		return self::ORIENTATION_SQUARE;
+		return static::ORIENTATION_SQUARE;
 	}
 
 	/**
@@ -274,11 +274,11 @@ class JImage
 
 				switch ($creationMethod)
 				{
-					case self::CROP:
+					case static::CROP:
 						$thumb = $this->crop($thumbWidth, $thumbHeight, null, null, true);
 						break;
 
-					case self::CROP_RESIZE:
+					case static::CROP_RESIZE:
 						$thumb = $this->cropResize($thumbWidth, $thumbHeight, true);
 						break;
 
@@ -335,7 +335,7 @@ class JImage
 		if ($thumbs = $this->generateThumbs($thumbSizes, $creationMethod))
 		{
 			// Parent image properties
-			$imgProperties = self::getImageFileProperties($this->getPath());
+			$imgProperties = static::getImageFileProperties($this->getPath());
 
 			foreach ($thumbs as $thumb)
 			{
@@ -597,14 +597,14 @@ class JImage
 		}
 
 		// Get the image properties.
-		$properties = self::getImageFileProperties($path);
+		$properties = static::getImageFileProperties($path);
 
 		// Attempt to load the image based on the MIME-Type
 		switch ($properties->mime)
 		{
 			case 'image/gif':
 				// Make sure the image type is supported.
-				if (empty(self::$formats[IMAGETYPE_GIF]))
+				if (empty(static::$formats[IMAGETYPE_GIF]))
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type GIF.', JLog::ERROR);
@@ -629,7 +629,7 @@ class JImage
 
 			case 'image/jpeg':
 				// Make sure the image type is supported.
-				if (empty(self::$formats[IMAGETYPE_JPEG]))
+				if (empty(static::$formats[IMAGETYPE_JPEG]))
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type JPG.', JLog::ERROR);
@@ -654,7 +654,7 @@ class JImage
 
 			case 'image/png':
 				// Make sure the image type is supported.
-				if (empty(self::$formats[IMAGETYPE_PNG]))
+				if (empty(static::$formats[IMAGETYPE_PNG]))
 				{
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type PNG.', JLog::ERROR);
@@ -724,7 +724,7 @@ class JImage
 		$offset->x = $offset->y = 0;
 
 		// Center image if needed and create the new truecolor image handle.
-		if ($scaleMethod == self::SCALE_FIT)
+		if ($scaleMethod == static::SCALE_FIT)
 		{
 			// Get the offsets
 			$offset->x = round(($width - $dimensions->width) / 2);
@@ -1056,18 +1056,18 @@ class JImage
 
 		switch ($scaleMethod)
 		{
-			case self::SCALE_FILL:
+			case static::SCALE_FILL:
 				$dimensions->width = (int) round($width);
 				$dimensions->height = (int) round($height);
 				break;
 
-			case self::SCALE_INSIDE:
-			case self::SCALE_OUTSIDE:
-			case self::SCALE_FIT:
+			case static::SCALE_INSIDE:
+			case static::SCALE_OUTSIDE:
+			case static::SCALE_FIT:
 				$rx = ($width > 0) ? ($this->getWidth() / $width) : 0;
 				$ry = ($height > 0) ? ($this->getHeight() / $height) : 0;
 
-				if ($scaleMethod != self::SCALE_OUTSIDE)
+				if ($scaleMethod != static::SCALE_OUTSIDE)
 				{
 					$ratio = max($rx, $ry);
 				}
