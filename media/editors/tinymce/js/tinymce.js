@@ -25,12 +25,13 @@
 		 */
 		setupEditors: function ( target ) {
 			target = target || document;
-			var pluginOptions = Joomla.getOptions ? Joomla.getOptions('plg_editor_tinymce', {})
-					:  (Joomla.optionsStorage.plg_editor_tinymce || {}),
-				editors = target.querySelectorAll('.js-editor-tinymce');
+			var editors = target.querySelectorAll('.js-editor-tinymce');
 
 			for(var i = 0, l = editors.length; i < l; i++) {
-				var editor = editors[i].querySelector('textarea');
+				var editor = editors[i].querySelector('textarea'),
+				    pluginOptions = Joomla.getOptions ? Joomla.getOptions('plg_editor_tinymce_' + editor.id, {})
+						:  (Joomla.optionsStorage['plg_editor_tinymce'] || {});
+
 				this.setupEditor(editor, pluginOptions);
 			}
 		},
