@@ -16,9 +16,6 @@ JHtml::_('formbehavior.chosen', 'select');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
-
-
-// Create shortcut to parameters.
 $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
