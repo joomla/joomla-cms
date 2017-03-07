@@ -1,0 +1,89 @@
+// Tree Select
+
+ul.treeselect,
+ul.treeselect li {
+	margin: 0;
+	padding: 0;
+}
+
+ul.treeselect {
+	margin-top: 8px;
+}
+
+ul.treeselect li {
+	padding: 2px 10px 2px;
+	list-style: none;
+}
+
+ul.treeselect i.treeselect-toggle {
+	line-height: 18px;
+}
+
+ul.treeselect label {
+	font-size: 1em;
+	margin-left: 8px;
+}
+
+ul.treeselect label.nav-header {
+	padding: 0;
+}
+
+ul.treeselect input {
+	margin: 2px 0 0 8px;
+}
+
+ul.treeselect .treeselect-menu {
+	margin: 0 6px;
+}
+
+ul.treeselect ul.dropdown-menu {
+	margin: 0;
+}
+
+ul.treeselect ul.dropdown-menu li {
+	padding: 0 5px;
+	border: none;
+}
+
+/* Folder/File Tree */
+.tree-holder {
+	.folder-url, .file {
+		position: relative;
+		background-color: #fefefe;
+		margin-bottom: 4px;
+    	padding: 0 10px;
+		line-height: 32px;
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		
+	}
+	.folder-url, .folder-url:hover, .folder-url:focus {
+		font-weight: bold;
+		background-color: #f5f5f5;
+		color: @linkColor;
+	}
+	.active {
+		background-color: @linkColor;
+		color: #fff;
+		box-shadow: -3px 0 0 #36a2ff !important;
+		&.folder-url {
+			background-color: #f5f5f5;
+			color: @linkColor;
+		}
+	}
+	ul {
+		ul {
+			box-shadow: -3px 0 0 rgba(0, 0, 0, 0.08);
+			padding-right: 0;
+			.folder-url, .file {
+				box-shadow: -3px 0 0 @linkColor;
+				border-left: 0;
+			}
+		}
+	}
+}
+
+.com_media {
+	.tree-holder {
+		padding: 0 10px;
+	}
+}
