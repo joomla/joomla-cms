@@ -190,7 +190,7 @@ class FieldsViewGroups extends JViewLegacy
 			JToolbarHelper::trash('groups.trash');
 		}
 
-		JToolbarHelper::help('JHELP_FIELDS_FIELD_GROUPS');
+		JToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS');
 	}
 
 	/**

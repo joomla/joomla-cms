@@ -188,7 +188,7 @@ class FieldsViewFields extends JViewLegacy
 			JToolbarHelper::trash('fields.trash');
 		}
 
-		JToolbarHelper::help('JHELP_FIELDS_FIELDS');
+		JToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELDS');
 	}
 
 	/**
