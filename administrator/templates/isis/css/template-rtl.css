@@ -8129,8 +8129,14 @@ th .tooltip-inner {
 	margin-top: -5px;
 	position: absolute;
 }
+#permissions-sliders span[id^="icon_"] {
+	margin-left: 0;
+	width: 16px;
+	display: inline-block;
+	margin-right: 120px;
+}
 #permissions-sliders .table td {
-	padding: 8px 8px 9px;
+	padding: 10px 8px;
 }
 .container-popup {
 	padding: 28px 10px 10px 10px;
