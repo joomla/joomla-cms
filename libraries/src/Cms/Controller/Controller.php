@@ -566,7 +566,7 @@ class Controller  implements ControllerInterface
 
 			if (!class_exists($modelClass))
 			{
-				return null;
+				return false;
 			}
 
 			return new $modelClass($config);
