@@ -543,7 +543,26 @@ class Controller  implements ControllerInterface
 		$reflect = new \ReflectionClass($this);
 		if ($reflect->getNamespaceName())
 		{
-			$modelClass = str_replace('\\Controller', '\\Model', $reflect->getNamespaceName()) . '\\' . ucfirst($name);
+			// The model namespace
+			$ns = str_replace('\\Controller', '\\Model', $reflect->getNamespaceName());
+
+			// Set up the prefix in the format we can use it
+			$prefix = ucfirst($prefix);
+
+			// If the admin class is needed, we replace Site with Admin
+			if ($prefix == 'Admin')
+			{
+				$ns = str_replace('\\Site\\', '\\' . $prefix . '\\', $ns);
+			}
+
+			// If the site class is needed, we replace Admin with Site
+			if ($prefix == 'Site')
+			{
+				$ns = str_replace('\\Admin\\', '\\' . $prefix . '\\', $ns);
+			}
+
+			// Compile the model class name
+			$modelClass = $ns . '\\' . ucfirst($name);
 
 			if (!class_exists($modelClass))
 			{
@@ -578,12 +597,31 @@ class Controller  implements ControllerInterface
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
-	protected function createView($name, $prefix = '', $type = '', $config = array())
+	protected function createView($name, $prefix = '', $type = 'html', $config = array())
 	{
 		$reflect = new \ReflectionClass($this);
 		if ($reflect->getNamespaceName())
 		{
-			$viewClass = str_replace('\\Controller', '\\View', $reflect->getNamespaceName()) . '\\' . ucfirst($name) . '\\' . ucfirst($type);
+			// The view namespace
+			$ns = str_replace('\\Controller', '\\View', $reflect->getNamespaceName());
+
+			// Set up the prefix in the format we can use it
+			$prefix = ucfirst($prefix);
+
+			// If the admin class is needed, we replace Site with Admin
+			if ($prefix == 'Admin')
+			{
+				$ns = str_replace('\\Site\\', '\\' . $prefix . '\\', $ns);
+			}
+
+			// If the site class is needed, we replace Admin with Site
+			if ($prefix == 'Site')
+			{
+				$ns = str_replace('\\Admin\\', '\\' . $prefix . '\\', $ns);
+			}
+
+			// Compile the model class name
+			$viewClass = $ns . '\\' . ucfirst($name) . '\\' . ucfirst($type);
 
 			if (!class_exists($viewClass))
 			{
