@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Language
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Language;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +17,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.1
  */
-class JLanguageAssociations
+class Associations
 {
 	/**
 	 * Get the associations.
@@ -46,7 +47,7 @@ class JLanguageAssociations
 		{
 			$multilanguageAssociations[$queryKey] = array();
 
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$categoriesExtraSql = (($tablename === '#__categories') ? ' AND c2.extension = ' . $db->quote($extension) : '');
 			$query = $db->getQuery(true)
 				->select($db->quoteName('c2.language'))
@@ -100,9 +101,9 @@ class JLanguageAssociations
 			{
 				$items = $db->loadObjectList('language');
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				throw new Exception($e->getMessage(), 500, $e);
+				throw new \Exception($e->getMessage(), 500, $e);
 			}
 
 			if ($items)
@@ -137,12 +138,12 @@ class JLanguageAssociations
 		// Status of language filter parameter.
 		static $enabled = false;
 
-		if (JLanguageMultilang::isEnabled())
+		if (Multilanguage::isEnabled())
 		{
 			// If already tested, don't test again.
 			if (!$tested)
 			{
-				$plugin = JPluginHelper::getPlugin('system', 'languagefilter');
+				$plugin = \JPluginHelper::getPlugin('system', 'languagefilter');
 
 				if (!empty($plugin))
 				{
