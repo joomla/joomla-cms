@@ -1191,12 +1191,38 @@ td.nowrap.has-context {
 /* Tweaking of tooltips */
 .tooltip {
 	max-width: 400px;
+  .opacity(0);
+  &.in     { .opacity(100); }
 }
 
 .tooltip-inner {
 	max-width: none;
 	text-align: left;
 	text-shadow: none;
+	padding: 6px 8px;
+	font-size: @baseFontSize;
+	border:1px solid #aaa;
+}
+.tooltip-inner strong{
+	display:block;
+	margin:-6px -8px -12px;
+	padding:6px 10px;
+	background:@tableBackgroundHover;
+	.border-radius(@baseBorderRadius @baseBorderRadius 0 0);
+}
+.tooltip {
+  &.top .tooltip-arrow {
+    border-top-color: @tooltipArrowColor;
+  }
+  &.right .tooltip-arrow {
+    border-right-color: @tooltipArrowColor;
+  }
+  &.left .tooltip-arrow {
+    border-left-color: @tooltipArrowColor;
+  }
+  &.bottom .tooltip-arrow {
+    border-bottom-color: @tooltipArrowColor;
+  }
 }
 
 th .tooltip-inner {
