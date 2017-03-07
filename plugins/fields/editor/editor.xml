@@ -63,14 +63,14 @@
 						name="filter"
 						type="list"
 						class="btn-group"
-						default="0"
+						default="JComponentHelper::filterText"
 						label="PLG_FIELDS_EDITOR_PARAMS_FILTER_LABEL"
 						description="PLG_FIELDS_EDITOR_PARAMS_FILTER_DESC"
 				>
 					<option value="0">JNO</option>
 					<option value="raw">PLG_FIELDS_EDITOR_PARAMS_FILTER_RAW</option>
 					<option value="safehtml">PLG_FIELDS_EDITOR_PARAMS_FILTER_SAFEHTML</option>
-					<option value="text">PLG_FIELDS_EDITOR_PARAMS_FILTER_TEXT</option>
+					<option value="JComponentHelper::filterText">PLG_FIELDS_EDITOR_PARAMS_FILTER_TEXT</option>
 					<option value="alnum">PLG_FIELDS_EDITOR_PARAMS_FILTER_ALNUM</option>
 					<option value="integer">PLG_FIELDS_EDITOR_PARAMS_FILTER_INTEGER</option>
 					<option value="float">PLG_FIELDS_EDITOR_PARAMS_FILTER_FLOAT</option>
