@@ -266,7 +266,14 @@ class PlgSystemFields extends JPlugin
 			$context = str_replace('com_categories.category', '', $context) . '.categories';
 
 			// Set the catid on the category to get only the fields which belong to this category
-			$data->catid = $data->id;
+			if (is_array($data) && key_exists('id', $data))
+			{
+				$data['catid'] = $data['id'];
+			}
+			if (is_object($data) && isset($data->id))
+			{
+				$data->catid = $data->id;
+			}
 		}
 
 		$parts = FieldsHelper::extract($context, $form);
