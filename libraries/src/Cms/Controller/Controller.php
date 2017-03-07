@@ -544,6 +544,12 @@ class Controller  implements ControllerInterface
 		if ($reflect->getNamespaceName())
 		{
 			$modelClass = str_replace('\\Controller', '\\Model', $reflect->getNamespaceName()) . '\\' . ucfirst($name);
+
+			if (!class_exists($modelClass))
+			{
+				return null;
+			}
+
 			return new $modelClass($config);
 		}
 
@@ -578,6 +584,11 @@ class Controller  implements ControllerInterface
 		if ($reflect->getNamespaceName())
 		{
 			$viewClass = str_replace('\\Controller', '\\View', $reflect->getNamespaceName()) . '\\' . ucfirst($name) . '\\' . ucfirst($type);
+
+			if (!class_exists($viewClass))
+			{
+				return null;
+			}
 		}
 		else
 		{
