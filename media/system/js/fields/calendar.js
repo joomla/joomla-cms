@@ -322,7 +322,7 @@
 		var self = this,
 			el = ev.currentTarget,
 			target = ev.target || ev.srcElement;
-		if (ev.srcElement.hasAttribute('data-action')) {
+		if (ev.srcElement && ev.srcElement.hasAttribute('data-action')) {
 			return;
 		}
 
