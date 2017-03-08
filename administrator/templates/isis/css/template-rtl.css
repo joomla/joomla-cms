@@ -9669,6 +9669,7 @@ input[type="url"] {
 	text-align: right;
 }
 .btn-group.btn-group-yesno > .btn,
+.btn-group > .btn,
 .btn-group > .btn + .dropdown-toggle {
 	float: none;
 }
