@@ -58,22 +58,6 @@ abstract class ModMenuHelper
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
-		// It detect multiple home pages per language inside the same menu type.
-		// This misconfiguration was allowed by older Joomla versions.
-		$previous = null;
-
-		foreach ($result as $i => $menu)
-		{
-			if ($previous !== null && $menu->id === $previous->id)
-			{
-				$previous->home += 1;
-				unset($result[$i]);
-				continue;
-			}
-
-			$previous = $menu;
-		}
-
 		return $result;
 	}
 
