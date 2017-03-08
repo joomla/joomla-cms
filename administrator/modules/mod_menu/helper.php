@@ -43,7 +43,8 @@ abstract class ModMenuHelper
 			->select('a.id, a.asset_id, a.menutype, a.title, a.description, a.client_id')
 			->select('c.home, c.language, c.image, c.sef, c.title_native')
 			->from('#__menu_types AS a')
-			->leftJoin('(' . (string) $subQuery . ') c ON c.menutype = a.menutype');
+			->leftJoin('(' . (string) $subQuery . ') c ON c.menutype = a.menutype')
+			->order('a.id');
 
 		$db->setQuery($query);
 
