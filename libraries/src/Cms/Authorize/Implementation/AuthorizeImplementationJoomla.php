@@ -356,7 +356,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			$useIds = true;
 			$straightJoin = $forceIndex = '';
 
-			if ($driverName == 'mysql' || $driverName == 'mysqli' || $driverName == 'pdomysql')
+			if ($this->db->getServerType() == 'mysql')
 			{
 				$straightJoin = 'STRAIGHT_JOIN ';
 				$forceIndex = 'FORCE INDEX FOR JOIN (`lft_rgt_id`)';
@@ -546,19 +546,17 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 
 	/** Inject permissions filter in the database object
 	 *
-	 * @param   object  &$query      Database query object to append to
-	 * @param   string  $joincolumn  Name of the database column used for join ON
-	 * @param   string  $action      The name of the action to authorise.
-	 * @param   string  $orWhere     Appended to generated where condition with OR clause.
-	 * @param   array   $groups      Array of group ids to get permissions for
+	 * @param   \JDatabaseQuery  &$query      Database query object to append to
+	 * @param   string           $joincolumn  Name of the database column used for join ON
+	 * @param   string           $action      The name of the action to authorise.
+	 * @param   string           $orWhere     Appended to generated where condition with OR clause.
+	 * @param   array            $groups      Array of group ids to get permissions for
 	 *
 	 * @return  mixed database query object or false if this function is not implemented
 	 *
-	 * @TODO make filter usable by passing asset name
-	 *
 	 * @since   4.0
 	 */
-	public function appendFilterQuery(&$query, $joincolumn, $action, $orWhere = null, $groups = null)
+	public function appendFilterQuery(\JDatabaseQuery &$query, $joincolumn, $action, $orWhere = null, $groups = null)
 	{
 		if (!isset($groups))
 		{
