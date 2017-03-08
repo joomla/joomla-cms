@@ -7112,7 +7112,7 @@ div.modal.jviewport-width100 {
 	padding: 0 !important;
 }
 #jform_tags_chzn.chzn-container {
-	max-width: 440px;
+	max-width: 220px;
 }
 .CodeMirror {
 	height: calc(100vh - 400px);
@@ -7975,6 +7975,14 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 }
 .form-vertical .controls {
 	margin-left: 0;
+}
+.form-vertical #jform_note,
+.form-vertical #jform_version_note {
+	max-width: 220px;
+}
+.form-vertical .field-calendar input#jform_publish_up,
+.form-vertical .field-calendar input#jform_publish_down {
+	max-width: 164px;
 }
 @media (max-width: 979px) {
 	.form-horizontal-desktop .control-label {
