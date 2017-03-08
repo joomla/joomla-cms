@@ -414,14 +414,6 @@
 				this.processCalendar();
 			}
 		} else {
-			if (el.navtype && el.navtype == 0) {
-				self.date.setLocalDateOnly('gregorian', new Date());                                  // TODAY
-				self.dateClicked = true;
-				this.callHandler();
-				this.close();
-				return;
-			}
-
 			date = new Date(self.date);
 			self.dateClicked = false;
 			var year = date.getOtherFullYear(self.params.dateType), mon = date.getLocalMonth(self.params.dateType);
@@ -824,7 +816,12 @@
 
 			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'a', '', 'js-btn btn btn-today', {"data-action": "today"});
 			var todaya = row.querySelector('[data-action="today"]');
-			todaya.addEventListener('click', function (e) { self.cellClick(self._nav_now, e.srcElement); });
+			todaya.addEventListener('click', function () {
+				self.date.setLocalDateOnly('gregorian', new Date());                                  // TODAY
+				self.dateClicked = true;
+				self.callHandler();
+				self.close();
+			});
 		}
 
 		this._nav_exit = hh(JoomlaCalLocale.exit, '', 999, 'a', '', 'js-btn btn btn-exit', {"data-action": "exit"});
