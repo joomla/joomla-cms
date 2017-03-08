@@ -1732,57 +1732,12 @@ class PlgSystemDebug extends JPlugin
 	{
 		$backtrace = $error->getTrace();
 
-		$html = array();
-
-		if (is_array($backtrace))
+		if (!$backtrace || !is_array($backtrace))
 		{
-			$j = 1;
-
-			$html[] = '<table cellpadding="0" cellspacing="0">';
-			$html[] = '<thead>';
-			$html[] = '<tr>';
-			$html[] = '<th colspan="3"><strong>Call stack</strong></th>';
-			$html[] = '</tr>';
-
-			$html[] = '<tr>';
-			$html[] = '<th>#</th>';
-			$html[] = '<th>Function</th>';
-			$html[] = '<th>Location</th>';
-			$html[] = '</tr>';
-			$html[] = '</thead>';
-			$html[] = '<tbody>';
-
-			for ($i = count($backtrace) - 1; $i >= 0; $i--)
-			{
-				$link = '&#160;';
-
-				if (isset($backtrace[$i]['file']))
-				{
-					$link = $this->formatLink($backtrace[$i]['file'], $backtrace[$i]['line']);
-				}
-
-				$html[] = '<tr>';
-				$html[] = '<td>' . $j . '</td>';
-
-				if (isset($backtrace[$i]['class']))
-				{
-					$html[] = '<td>' . $backtrace[$i]['class'] . $backtrace[$i]['type'] . $backtrace[$i]['function'] . '()</td>';
-				}
-				else
-				{
-					$html[] = '<td>' . $backtrace[$i]['function'] . '()</td>';
-				}
-
-				$html[] = '<td>' . $link . '</td>';
-
-				$html[] = '</tr>';
-				$j++;
-			}
-			$html[] = '</tbody>';
-			$html[] = '</table>';
+			return false;
 		}
 
-		return implode('', $html);
+		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $backtrace));
 	}
 
 	/**
