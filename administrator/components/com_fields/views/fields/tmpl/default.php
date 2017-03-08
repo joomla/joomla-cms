@@ -147,9 +147,10 @@ if ($saveOrder)
 									<div class="small">
 										<?php if ($category) : ?>
 											<?php echo JText::_('JCATEGORY') . ': '; ?>
-											<?php if ($categories = FieldsHelper::getAssignedCategoriesTitles($item->id)) : ?>
+											<?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
+											<?php if ($categories) : ?>
 												<?php echo implode(', ', $categories); ?>
-											<?php else: ?>
+											<?php else : ?>
 												<?php echo JText::_('JALL'); ?>
 											<?php endif; ?>
 										<?php endif; ?>
