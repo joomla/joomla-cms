@@ -133,7 +133,7 @@ abstract class AuthorizeImplementation
 	 *
 	 * @since   4.0
 	 */
-	protected static function setMatrix($value, $class)
+	final protected static function setMatrix($value, $class)
 	{
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
 
