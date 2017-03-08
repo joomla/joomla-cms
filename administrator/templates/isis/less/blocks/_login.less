@@ -1,0 +1,87 @@
+// Login
+
+.view-login {
+	background-color: @loginBackground;
+	padding-top: 0;
+
+	.container {
+		width: 300px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-top: -206px;
+		margin-left: -150px;
+	}
+	.navbar-fixed-bottom {
+		padding-left: 20px;
+		padding-right: 20px;
+		text-align: center;
+	}
+	.navbar-fixed-bottom,
+	.navbar-fixed-bottom a {
+		color: #FCFCFC;
+	}
+	.navbar-inverse.navbar-fixed-bottom,
+	.navbar-inverse.navbar-fixed-bottom a {
+		color: @gray;
+	}
+	.well {
+		padding-bottom: 0;
+	}
+	.login-joomla {
+		position: absolute;
+		left: 50%;
+		height: 24px;
+		width: 24px;
+		margin-left: -12px;
+		font-size: 22px;
+	}
+	.navbar-fixed-bottom {
+		position: absolute;
+	}
+	.input-medium {
+		width: 176px;
+	}
+	#lang_chzn {
+		width: 233px !important;
+		max-width: none;
+		.chzn-single div {
+			width:43px;
+		}
+	}
+	.input-prepend .add-on, .controls .btn-group > .btn {
+		margin-left:0;
+	}
+}
+
+.navbar-inverse {
+	color: @textColor;
+}
+
+.login {
+	.btn-large {
+		margin-top: 15px;
+	}
+	.form-inline .btn-group {
+		display:block;
+	}
+}
+
+@media (max-width: 480px) {
+	.login .chzn-single {
+		width: 222px !important;
+	}
+
+	.login .chzn-container,
+	.login .chzn-drop {
+		width: 230px !important;
+	}
+}
+
+
+@media (max-width: 320px) {
+	.view-login .navbar-fixed-bottom {
+		display: none;
+	}
+
+}
