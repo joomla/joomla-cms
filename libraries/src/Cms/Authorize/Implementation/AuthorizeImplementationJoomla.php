@@ -38,7 +38,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 * @var    mixed string or integer or array
 	 * @since  4.0
 	 */
-	protected $assetId_ = 1;
+	private $assetId_ = 1;
 
 	/**
 	 * If number of ids passed in one call surpasses this limit,
