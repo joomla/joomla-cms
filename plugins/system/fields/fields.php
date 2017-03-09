@@ -29,7 +29,7 @@ class PlgSystemFields extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * The save event.
+	 * The before save event.
 	 *
 	 * @param   string    $context  The context
 	 * @param   stdClass  $item     The item
@@ -39,7 +39,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentBeforeSave($context, $item, $isNew)
+	private function beforeSave($context, $item, $isNew)
 	{
 		if (!isset($item->params))
 		{
@@ -84,7 +84,39 @@ class PlgSystemFields extends JPlugin
 	}
 
 	/**
-	 * The save event.
+	 * Content before save event.
+	 *
+	 * @param   string    $context  The context
+	 * @param   stdClass  $item     The item
+	 * @param   boolean   $isNew    Is new
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function onContentBeforeSave($context, $item, $isNew)
+	{
+		return $this->beforeSave($context, $item, $isNew);
+	}
+
+	/**
+	 * Extension before save event.
+	 *
+	 * @param   string    $context  The context
+	 * @param   stdClass  $item     The item
+	 * @param   boolean   $isNew    Is new
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function onExtensionBeforeSave($context, $item, $isNew)
+	{
+		return $this->beforeSave($context, $item, $isNew);
+	}
+
+	/**
+	 * The after save event.
 	 *
 	 * @param   string   $context  The context
 	 * @param   JTable   $item     The table
@@ -95,7 +127,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentAfterSave($context, $item, $isNew, $data = array())
+	private function afterSave($context, $item, $isNew, $data = array())
 	{
 		if (!is_array($data) || empty($data['params']))
 		{
@@ -154,6 +186,40 @@ class PlgSystemFields extends JPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Content after save event.
+	 *
+	 * @param   string   $context  The context
+	 * @param   JTable   $item     The table
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function onContentAfterSave($context, $item, $isNew, $data = array())
+	{
+		return $this->afterSave($context, $item, $isNew, $data);
+	}
+
+	/**
+	 * Extension after save event.
+	 *
+	 * @param   string   $context  The context
+	 * @param   JTable   $item     The table
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function onExtensionAfterSave($context, $item, $isNew, $data = array())
+	{
+		return $this->afterSave($context, $item, $isNew, $data);
 	}
 
 	/**

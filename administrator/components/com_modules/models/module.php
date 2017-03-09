@@ -1040,7 +1040,7 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Trigger the after save event.
-		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
+		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew, $data));
 
 		// Compute the extension id of this module in case the controller wants it.
 		$query->clear()

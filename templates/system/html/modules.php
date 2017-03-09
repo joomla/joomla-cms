@@ -14,7 +14,9 @@ defined('_JEXEC') or die;
  */
 function modChrome_none($module, &$params, &$attribs)
 {
+	echo $module->event->beforeDisplayContent;
 	echo $module->content;
+	echo $module->event->afterDisplayContent;
 }
 
 /*
@@ -36,10 +38,11 @@ function modChrome_html5($module, &$params, &$attribs)
 
 		<?php if ((bool) $module->showtitle) :?>
 			<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
+			<?php echo $module->event->afterDisplayTitle; ?>
 		<?php endif; ?>
-
+			<?php echo $module->event->beforeDisplayContent; ?>
 			<?php echo $module->content; ?>
-
+			<?php echo $module->event->afterDisplayContent; ?>
 		</<?php echo $moduleTag; ?>>
 
 	<?php endif;
@@ -55,12 +58,15 @@ function modChrome_table($module, &$params, &$attribs)
 		<tr>
 			<th>
 				<?php echo $module->title; ?>
+				<?php echo $module->event->afterDisplayTitle; ?>
 			</th>
 		</tr>
 	<?php endif; ?>
 		<tr>
 			<td>
+				<?php echo $module->event->beforeDisplayContent; ?>
 				<?php echo $module->content; ?>
+				<?php echo $module->event->afterDisplayContent; ?>
 			</td>
 		</tr>
 		</table>
@@ -101,8 +107,11 @@ function modChrome_xhtml($module, &$params, &$attribs)
 		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass; ?>">
 			<?php if ((bool) $module->showtitle) : ?>
 				<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
+				<?php echo $module->event->afterDisplayTitle; ?>
 			<?php endif; ?>
+			<?php echo $module->event->beforeDisplayContent; ?>
 			<?php echo $module->content; ?>
+			<?php echo $module->event->afterDisplayContent; ?>
 		</<?php echo $moduleTag; ?>>
 	<?php endif;
 }
@@ -118,8 +127,11 @@ function modChrome_rounded($module, &$params, &$attribs)
 					<div>
 						<?php if ((bool) $module->showtitle) : ?>
 							<h3><?php echo $module->title; ?></h3>
+							<?php echo $module->event->afterDisplayTitle; ?>
 						<?php endif; ?>
+					<?php echo $module->event->beforeDisplayContent; ?>
 					<?php echo $module->content; ?>
+					<?php echo $module->event->afterDisplayContent; ?>
 					</div>
 				</div>
 			</div>

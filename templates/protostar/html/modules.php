@@ -30,7 +30,9 @@ function modChrome_no($module, &$params, &$attribs)
 {
 	if ($module->content)
 	{
+		echo $module->event->beforeDisplayContent;
 		echo $module->content;
+		echo $module->event->afterDisplayContent;
 	}
 }
 
@@ -49,9 +51,12 @@ function modChrome_well($module, &$params, &$attribs)
 			if ($module->showtitle)
 			{
 				echo '<' . $headerTag . ' class="' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
+				echo $module->event->afterDisplayTitle;
 			}
 
+			echo $module->event->beforeDisplayContent;
 			echo $module->content;
+			echo $module->event->afterDisplayContent;
 		echo '</' . $moduleTag . '>';
 	}
 }
