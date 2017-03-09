@@ -462,58 +462,146 @@ class PlgSystemFields extends JPlugin
 	/**
 	 * The finder event.
 	 *
-	 * @param   stdClass  $item  The item
+	 * @param   FinderIndexerResult  &$item      The item to index as a FinderIndexerResult object.
+	 * @param   string               $extension  The extension name.
 	 *
-	 * @return  boolean
+	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onPrepareFinderContent($item)
+	public function onPrepareFinderContent(FinderIndexerResult &$item, $extension = '')
 	{
-		$section = strtolower($item->layout);
-		$tax     = $item->getTaxonomy('Type');
+		$db = JFactory::getDbo();
+		$context = $extension . '.' . strtolower($item->layout);
 
-		if ($tax)
+		// Create a dummy object with the required fields
+		$tmp     = new stdClass;
+		$tmp->id = $item->id;
+		$tmp->catid = $item->catid;
+
+		// Getting the fields for the constructed context
+		$fields = FieldsHelper::getFields($context, $tmp, true);
+
+		// No extra data to add to this content item.
+		if (empty($fields))
 		{
-			foreach ($tax as $context => $value)
+			return true;
+		}
+
+		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+
+		// Add the extra custom fields to the item to be indexed.
+		foreach ($fields as $field)
+		{
+			// Get the raw value(s) of the field.
+			$values = (array) $model->getFieldValue($field->id, $context, $item->id);
+
+			if (empty($values))
 			{
-				// This is only a guess, needs to be improved
-				$component = strtolower($context);
+				continue;
+			}
 
-				if (strpos($context, 'com_') !== 0)
-				{
-					$component = 'com_' . $component;
-				}
+			switch ($field->type)
+			{
+				case 'calendar':
+				case 'editor':
+				case 'text':
+				case 'textarea':
+				case 'url':
+					// Add an instruction to index the field value as HTML.
+					$indexFieldName = 'jfield_' . $field->alias;
+					$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $indexFieldName);
+					$item->{$indexFieldName} = implode(' ', $values);
+					break;
 
-				// Transofrm com_article to com_content
-				if ($component === 'com_article')
-				{
-					$component = 'com_content';
-				}
+				case 'checkboxes':
+				case 'list':
+				case 'radio':
+					// Add enumerated fields to search taxonomies.
+					$options = array();
 
-				// Create a dummy object with the required fields
-				$tmp     = new stdClass;
-				$tmp->id = $item->__get('id');
-
-				if ($item->__get('catid'))
-				{
-					$tmp->catid = $item->__get('catid');
-				}
-
-				// Getting the fields for the constructed context
-				$fields = FieldsHelper::getFields($component . '.' . $section, $tmp, true);
-
-				if (is_array($fields))
-				{
-					foreach ($fields as $field)
+					// Construct a map of possible field name-value pairs.
+					foreach ($field->fieldparams->get('options', array()) as $option)
 					{
-						// Adding the instructions how to handle the text
-						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->alias);
-
-						// Adding the field value as a field
-						$item->{$field->alias} = $field->value;
+						$options[$option->value] = $option->name;
 					}
-				}
+
+					// Add the actual field values to the search taxonomy.
+					foreach ($values as $value)
+					{
+						$item->addTaxonomy($field->title, $options[$value]);
+					}
+
+					break;
+
+				case 'colour':
+				case 'color':
+				case 'integer':
+				case 'media':
+				case 'tel':
+				case 'timezone':
+					// Array of simple values to add to the search taxonomy.
+					foreach ($values as $value)
+					{
+						$item->addTaxonomy($field->title, $value);
+					}
+
+					break;
+
+				case 'sql':
+					// Get all the available options.
+					$options = $db->setQuery($field->fieldparams->get('query'))->loadObjectList('value');
+
+					// Nothing to index.
+					if (empty($options))
+					{
+						continue;
+					}
+
+					// Add the actual field values to the search taxonomy.
+					foreach ($values as $value)
+					{
+						if (!empty($options[$value]))
+						{
+							$item->addTaxonomy($field->title, $options[$value]->text);
+						}
+					}
+
+					break;
+
+				case 'user':
+					// Get the names of one or more users from the users table by user id.
+					$query = $db->getQuery(true)
+						->select('name')
+						->from('#__users')
+						->where('id IN (' . implode(',', $values) . ')');
+
+					// Add the actual field values to the search taxonomy.
+					foreach ($db->setQuery($query)->loadColumn() as $value)
+					{
+						$item->addTaxonomy($field->title, $value);
+					}
+
+					break;
+
+				case 'usergrouplist':
+					// Get the names of one or more usergroups by usergroup id.
+					$query = $db->getQuery(true)
+						->select('title')
+						->from('#__usergroups')
+						->where('id IN (' . implode(',', $values) . ')');
+
+					// Add the actual field values to the search taxonomy.
+					foreach ($db->setQuery($query)->loadColumn() as $value)
+					{
+						$item->addTaxonomy($field->title, $value);
+					}
+
+					break;
+
+				default:
+					// Non-searchable fields.
+					break;
 			}
 		}
 
