@@ -1,5 +1,6 @@
 .minicolors.minicolors-input {
     border: none;
+    padding-bottom: 6px;
 }
 .color-picker-group {
     display: inline-block;

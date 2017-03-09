@@ -36,16 +36,17 @@ extract($displayData);
  * @var   integer  $size            Size attribute of the input.
  * @var   boolean  $spellchec       Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
- * @var   string   $value           Value attribute of the field.
+ * @var   string   $color           Value attribute of the field.
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $checked         Is this field checked?
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
+ * @var   boolean  $changeFormat     Shows buttons to change between formats ?
  */
-$showbtns     = $format == '';
-if ($showbtns)
+
+if ($changeFormat)
 {
 	$format = $color[0] != '#' && strpos($color, 'rgb') === 0 ? (strpos($color, 'rgba') === 0 ? 'rgba' : 'rgb') : 'hex';
 }
@@ -85,7 +86,7 @@ JHtml::_('script', 'system/color-field-adv-init.min.js', array('version' => 'aut
 	$position; ?><?php echo $control; ?><?php echo $readonly; ?><?php echo $disabled; ?><?php echo
 	$required; ?><?php echo $onchange; ?><?php echo $autocomplete; ?><?php echo $autofocus; ?><?php echo
 	$dataformat; ?><?php echo $keywords; ?><?php echo $direction; ?><?php echo $validate; ?>/>
-	<?php if ($showbtns) : ?>
+	<?php if ($changeFormat) : ?>
 		<div class="color-format-group">
 			<button class="color-format-btn <?php echo ($format == 'hex' ? 'active' : ''); ?>" type="button" data-format="hex">HEX</button>
 			<button class="color-format-btn <?php echo ($format == 'rgb' ? 'active' : ''); ?>" type="button" data-format="rgb">RGB</button>

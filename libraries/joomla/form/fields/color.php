@@ -43,6 +43,14 @@ class JFormFieldColor extends JFormField
 	protected $format = '';
 
 	/**
+	 * Show buttons to change formats between hex, rgb, rgba.
+	 *
+	 * @var    boolean
+	 * @since  3.7.0
+	 */
+	protected $changeFormat = false;
+
+	/**
 	 * The keywords (transparent,initial,inherit).
 	 *
 	 * @var    string
@@ -100,6 +108,7 @@ class JFormFieldColor extends JFormField
 			case 'keywords':
 			case 'exclude':
 			case 'colors':
+			case 'changeFormat':
 			case 'split':
 				return $this->$name;
 		}
@@ -134,7 +143,9 @@ class JFormFieldColor extends JFormField
 			case 'colors':
 				$this->$name = (string) $value;
 				break;
-
+			case 'changeFormat':
+				$this->$name = (bool) json_decode($value);
+				break;
 			default:
 				parent::__set($name, $value);
 		}
@@ -166,6 +177,7 @@ class JFormFieldColor extends JFormField
 			$this->position = isset($this->element['position']) ? (string) $this->element['position'] : 'default';
 			$this->colors   = (string) $this->element['colors'];
 			$this->split    = isset($this->element['split']) ? (int) $this->element['split'] : 3;
+			$this->changeFormat = isset($this->element['changeformat']) ? (bool) json_decode($this->element['changeformat']) : false;
 		}
 
 		return $return;
@@ -204,11 +216,7 @@ class JFormFieldColor extends JFormField
 		// Position of the panel can be: right (default), left, top or bottom (default RTL is left)
 		$position = ' data-position="' . (($lang->isRTL() && $this->position == 'default') ? 'left' : $this->position) . '"';
 
-		if (!$color || in_array($color, array('none', 'transparent')))
-		{
-			$color = 'none';
-		}
-		elseif ($color['0'] != '#' && strpos($color, 'rgb') !== 0)
+		if (!!$color && $color[0] != '#' && strpos($color, 'in') !== 0 && $color != "transparent" && strpos($color, 'rgb') !== 0)
 		{
 			$color = '#' . $color;
 		}
@@ -221,7 +229,8 @@ class JFormFieldColor extends JFormField
 			'format'   => $this->format,
 			'keywords' => $this->keywords,
 			'position' => $position,
-			'validate' => $this->validate
+			'validate' => $this->validate,
+			'changeFormat' => $this->changeFormat
 		);
 
 		return array_merge($data, $extraData, $controlModeData);
