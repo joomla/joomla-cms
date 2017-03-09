@@ -18,49 +18,49 @@ use Joomla\Registry\Registry;
  */
 class JFormRuleColor extends JFormRule
 {
-	/**
-	 * Method to test for a valid color in hexadecimal, rgb and rgba.
-	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
-	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
-	 * @param   JForm             $form     The form object for which the field is being tested.
-	 *
-	 * @return  boolean  True if the value is valid, false otherwise.
-	 *
-	 * @since   11.2
-	 */
-	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
-	{
-		$value = trim($value);
+        /**
+         * Method to test for a valid color in hexadecimal, rgb and rgba.
+         *
+         * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+         * @param   mixed             $value    The form field value to validate.
+         * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+         *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+         *                                      full field name would end up being "bar[foo]".
+         * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+         * @param   JForm             $form     The form object for which the field is being tested.
+         *
+         * @return  boolean  True if the value is valid, false otherwise.
+         *
+         * @since   11.2
+         */
+        public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
+        {
+                $value = trim($value);
 
-		if (empty($value))
-		{
-			// A color field can't be empty
-			return false;
-		}
+                if (empty($value))
+                {
+                        // A color field can't be empty
+                        return false;
+                }
 
 
-		if($value[0] == "#") {
-            $value = ltrim($value, '#');
-            $value = str_split($value);
-        } else if(strpos($value, 'rgb') == 0) {
-            $value = strpos($value, 'rgba') == 0 ?  ltrim($value, 'rgba(') : ltrim($value, 'rgb(') ;
-            $value = str_replace(")", "", $value);
-            $value = explode(",", $value);
-        } else {
-		    return false;
+                if($value[0] == "#") {
+                        $value = ltrim($value, '#');
+                        $value = str_split($value);
+                } else if(strpos($value, 'rgb') == 0) {
+                        $value = strpos($value, 'rgba') == 0 ?  ltrim($value, 'rgba(') : ltrim($value, 'rgb(') ;
+                        $value = str_replace(")", "", $value);
+                        $value = explode(",", $value);
+                } else {
+                        return false;
+                }
+
+                // The array value must be 3, 4 or 6 long
+                if (!(count($value) == 3 || count($value) == 4 || (count($value) == 6 && ctype_xdigit($value))))
+                {
+                        return false;
+                }
+
+                return true;
         }
-
-		// The array value must be 3, 4 or 6 long
-		if (!(count($value) == 3 || count($value) == 4 || (count($value) == 6 && ctype_xdigit($value))))
-		{
-			return false;
-		}
-
-		return true;
-	}
 }

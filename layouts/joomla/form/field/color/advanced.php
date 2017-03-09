@@ -48,12 +48,12 @@ extract($displayData);
 $format       = $color[0] != '#' && strpos($color, 'rgb') === 0 ? (strpos($color, 'rgba') === 0 ? 'rgba' : 'rgb') : 'hex';
 if (in_array($format, array('rgb', 'rgba')) && $validate != 'color')
 {
-    $alpha = ($format === 'rgba');
-    $placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
+        $alpha = ($format === 'rgba');
+        $placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
 }
 else
 {
-    $placeholder = '#rrggbb';
+        $placeholder = '#rrggbb';
 }
 $inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $format;
 $class        = ' class="' . trim('minicolors ' . $class) . ($validate == 'color' ? '' : $inputclass) . '"';
