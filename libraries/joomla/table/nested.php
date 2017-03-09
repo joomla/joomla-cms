@@ -1555,19 +1555,19 @@ class JTableNested extends JTable
 
 		// Prepare a list of correct published states.
 		$subquery = (string) $query->clear()
-			->select("c2.$key")
+			->select("c2.$key AS newId")
 			->select("CASE WHEN MIN($newState) > 0 THEN MAX($newState) ELSE MIN($newState) END AS newPublished")
-			->from("$table AS c2")
-			->innerJoin("$table AS p2 ON (p2.lft <= c2.lft AND c2.rgt <= p2.rgt)")
+			->from("$table AS node")
+			->innerJoin("$table AS c2 ON node.lft <= c2.lft AND c2.rgt <= node.rgt")
+			->innerJoin("$table AS p2 ON p2.lft <= c2.lft AND c2.rgt <= p2.rgt")
+			->where("node.$key = " . (int) $pk)
 			->group("c2.$key");
 
 		// Update and cascade the publishing state.
 		$query->clear()
 			->update("$table AS c")
-			->innerJoin("$table AS node ON node.lft <= c.lft AND c.rgt <= node.rgt")
-			->innerJoin("($subquery) AS c2 ON c2.$key = c.$key")
-			->set("$published = c2.newPublished")
-			->where("node.$key = " . (int) $pk);
+			->innerJoin("($subquery) AS c2 ON c2.newId = c.$key")
+			->set("$published = c2.newPublished");
 
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 
