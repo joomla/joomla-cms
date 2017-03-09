@@ -19,6 +19,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $user       = JFactory::getUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
+$colSpan    = JDEBUG ? 6 : 5;
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
@@ -74,6 +75,11 @@ JFactory::getDocument()->addScriptDeclaration('
 							<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></i>
 							<span class="hidden-phone"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
 						</th>
+						<?php if (JDEBUG) : ?>
+							<th width="1%" class="center hidden-phone hidden-tablet">
+								<?php echo JText::_('COM_USERS_DEBUG_GROUP'); ?>
+							</th>
+						<?php endif; ?>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -81,7 +87,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="5">
+						<td colspan="<?php echo $colSpan; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -112,10 +118,6 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
-							<?php if (JDEBUG) : ?>
-								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
-								<?php echo JText::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
-							<?php endif; ?>
 						</td>
 						<td class="center btns">
 							<a class="badge <?php if ($item->count_enabled > 0) echo 'badge-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
@@ -125,6 +127,11 @@ JFactory::getDocument()->addScriptDeclaration('
 							<a class="badge <?php if ($item->count_disabled > 0) echo 'badge-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
 								<?php echo $item->count_disabled; ?></a>
 						</td>
+						<?php if (JDEBUG) : ?>
+							<td class="center hidden-phone hidden-tablet">
+								<a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>"><i class="icon-lock text-warning"></i></a>
+							</td>
+						<?php endif; ?>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
