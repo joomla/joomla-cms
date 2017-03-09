@@ -44,19 +44,24 @@ class JFormRuleColor extends JFormRule
 		}
 
 
-		if($value[0] == "#") {
+		if($value[0] == "#")
+		{
 			$value = ltrim($value, '#');
-			$value = str_split($value);
-		} else if(strpos($value, 'rgb') == 0) {
-			$value = strpos($value, 'rgba') == 0 ?  ltrim($value, 'rgba(') : ltrim($value, 'rgb(') ;
+		}
+		elseif(strpos($value, 'rgb') == 0)
+                {
+			$value = strpos($value, 'rgba') == 0 ?  ltrim($value, 'rgba(') : ltrim($value, 'rgb(');
 			$value = str_replace(")", "", $value);
 			$value = explode(",", $value);
-		} else {
+		}
+		else
+                {
 			return false;
 		}
 
-		// The array value must be 3, 4 or 6 long
-		if (!(count($value) == 3 || count($value) == 4 || (count($value) == 6 && ctype_xdigit($value))))
+
+		// The array value must be 3 or 4 long and if it's string, then must be 3 or 6 long with hex numbers
+		if (!((count($value) == 3 || count($value) == 4 ) || ((is_string($value) && (strlen($value) == 6 || strlen($value) == 3)) && ctype_xdigit($value))))
 		{
 			return false;
 		}
