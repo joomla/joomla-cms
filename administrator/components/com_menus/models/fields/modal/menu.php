@@ -222,14 +222,14 @@ class JFormFieldModal_Menu extends JFormField
 
 		// The current menu item display field.
 		$html  = '';
-		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
+		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
 			$html .= '<span class="input-group">';
 		}
 		
 		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35">';
 
-		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
+		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
 			$html .= '<span class="input-group-btn">';
 		}
@@ -288,7 +288,7 @@ class JFormFieldModal_Menu extends JFormField
 				. '</a>';
 		}
 
-		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
+		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
 			$html .= '</span></span>';
 		}
