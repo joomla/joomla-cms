@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<field
-		name="default_value"
-		type="calendar"
-		label="PLG_FIELDS_CALENDAR_DEFAULT_VALUE_LABEL"
-		description="PLG_FIELDS_CALENDAR_DEFAULT_VALUE_DESC"
-		translateformat="true"
-		weeknumbers="true"
-		showtime="true"
-		size="22"
-	 	todayBtn="true"
-		fillTable="true"
-		singleHeader="false"
-		filter="user_utc"
-	/>
-
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
 			<field
@@ -25,7 +10,7 @@
 				description="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_DESC"
 				size="20"
 				default="0"
-			>
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
