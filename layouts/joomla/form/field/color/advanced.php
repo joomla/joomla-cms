@@ -48,12 +48,12 @@ extract($displayData);
 $format       = $color[0] != '#' && strpos($color, 'rgb') === 0 ? (strpos($color, 'rgba') === 0 ? 'rgba' : 'rgb') : 'hex';
 if (in_array($format, array('rgb', 'rgba')) && $validate != 'color')
 {
-        $alpha = ($format === 'rgba');
-        $placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
+		$alpha = ($format === 'rgba');
+		$placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
 }
 else
 {
-        $placeholder = '#rrggbb';
+		$placeholder = '#rrggbb';
 }
 $inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $format;
 $class        = ' class="' . trim('minicolors ' . $class) . ($validate == 'color' ? '' : $inputclass) . '"';
@@ -77,14 +77,14 @@ JHtml::_('stylesheet', 'system/fields/color.min.css', array('version' => 'auto',
 JHtml::_('script', 'system/color-field-adv-init.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="color-picker-group">
-    <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
-    echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $hint; ?><?php echo $class; ?><?php echo
-    $position; ?><?php echo $control; ?><?php echo $readonly; ?><?php echo $disabled; ?><?php echo
-    $required; ?><?php echo $onchange; ?><?php echo $autocomplete; ?><?php echo $autofocus; ?><?php echo
-    $dataformat; ?><?php echo $keywords; ?><?php echo $direction; ?><?php echo $validate; ?>/>
-    <div class="color-format-group">
-        <button class="color-format-btn <?php echo $format == 'hex' ? 'active' : '' ?>" type="button" data-format="hex">HEX</button>
-        <button class="color-format-btn <?php echo $format == 'rgb' ? 'active' : '' ?>" type="button" data-format="rgb">RGB</button>
-        <button class="color-format-btn <?php echo $format == 'rgba' ? 'active' : '' ?>" type="button" data-format="rgba">RGBA</button>
-    </div>
+	<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
+	echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $hint; ?><?php echo $class; ?><?php echo
+	$position; ?><?php echo $control; ?><?php echo $readonly; ?><?php echo $disabled; ?><?php echo
+	$required; ?><?php echo $onchange; ?><?php echo $autocomplete; ?><?php echo $autofocus; ?><?php echo
+	$dataformat; ?><?php echo $keywords; ?><?php echo $direction; ?><?php echo $validate; ?>/>
+	<div class="color-format-group">
+		<button class="color-format-btn <?php echo $format == 'hex' ? 'active' : '' ?>" type="button" data-format="hex">HEX</button>
+		<button class="color-format-btn <?php echo $format == 'rgb' ? 'active' : '' ?>" type="button" data-format="rgb">RGB</button>
+		<button class="color-format-btn <?php echo $format == 'rgba' ? 'active' : '' ?>" type="button" data-format="rgba">RGBA</button>
+	</div>
 </div>
