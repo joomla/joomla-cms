@@ -40,7 +40,7 @@ class JFormFieldColor extends JFormField
 	 * @var    string
 	 * @since  3.6.0
 	 */
-	protected $format = 'hex';
+	protected $format = 'rgb';
 
 	/**
 	 * The keywords (transparent,initial,inherit).
@@ -208,10 +208,10 @@ class JFormFieldColor extends JFormField
 		{
 			$color = 'none';
 		}
-		elseif ($color['0'] != '#')
-		{
-			$color = '#' . $color;
-		}
+        elseif ($color['0'] != '#' && strpos($color, 'rgb') !== 0)
+        {
+            $color = '#' . $color;
+        }
 
 		// Assign data for simple/advanced mode
 		$controlModeData = $this->control === 'simple' ? $this->getSimpleModeLayoutData() : $this->getAdvancedModeLayoutData($lang);

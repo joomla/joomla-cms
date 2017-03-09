@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
 class JFormRuleColor extends JFormRule
 {
 	/**
-	 * Method to test for a valid color in hexadecimal.
+	 * Method to test for a valid color in hexadecimal, rgb and rgba.
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
@@ -43,16 +43,20 @@ class JFormRuleColor extends JFormRule
 			return false;
 		}
 
-		if ($value[0] != '#')
-		{
-			return false;
-		}
 
-		// Remove the leading # if present to validate the numeric part
-		$value = ltrim($value, '#');
+		if($value[0] == "#") {
+            $value = ltrim($value, '#');
+            $value = str_split($value);
+        } else if(strpos($value, 'rgb') == 0) {
+            $value = strpos($value, 'rgba') == 0 ?  ltrim($value, 'rgba(') : ltrim($value, 'rgb(') ;
+            $value = str_replace(")", "", $value);
+            $value = explode(",", $value);
+        } else {
+		    return false;
+        }
 
-		// The value must be 6 or 3 characters long
-		if (!((strlen($value) == 6 || strlen($value) == 3) && ctype_xdigit($value)))
+		// The array value must be 3, 4 or 6 long
+		if (!(count($value) == 3 || count($value) == 4 || (count($value) == 6 && ctype_xdigit($value))))
 		{
 			return false;
 		}
