@@ -3,7 +3,6 @@ jQuery(document).ready(function ($) {
 	var $miniColors = [],
 		lineNum, $input, format;
 
-
 	$('.minicolors').each(function () {
 		$miniColors.push($(this).minicolors({
 			control: $(this).attr('data-control') || 'hue',

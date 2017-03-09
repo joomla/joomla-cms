@@ -40,7 +40,7 @@ class JFormFieldColor extends JFormField
 	 * @var    string
 	 * @since  3.6.0
 	 */
-	protected $format = 'rgb';
+	protected $format = '';
 
 	/**
 	 * The keywords (transparent,initial,inherit).
@@ -161,7 +161,7 @@ class JFormFieldColor extends JFormField
 		if ($return)
 		{
 			$this->control  = isset($this->element['control']) ? (string) $this->element['control'] : 'hue';
-			$this->format   = isset($this->element['format']) ? (string) $this->element['format'] : 'hex';
+			$this->format   = isset($this->element['format']) ? (string) $this->element['format'] : '';
 			$this->keywords = isset($this->element['keywords']) ? (string) $this->element['keywords'] : '';
 			$this->position = isset($this->element['position']) ? (string) $this->element['position'] : 'default';
 			$this->colors   = (string) $this->element['colors'];

@@ -1,15 +1,15 @@
-.minicolors.minicolors-input{
+.minicolors.minicolors-input {
     border: none;
 }
-.color-picker-group{
+.color-picker-group {
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
-.color-format-group{
+.color-format-group {
     display: inline-block;
 }
-.color-format-group .color-format-btn{
+.color-format-group .color-format-btn {
     background-color: transparent;
     border: none;
     border-radius: 0;
@@ -18,10 +18,10 @@
 }
 .color-format-group .color-format-btn:focus,
 .color-format-group .color-format-btn:active,
-.color-format-group .color-format-btn:visited{
+.color-format-group .color-format-btn:visited {
     outline: none;
 }
-.color-format-group .color-format-btn.active{
+.color-format-group .color-format-btn.active {
     background-color: #46a546;
     color: white;
     pointer-events: none;

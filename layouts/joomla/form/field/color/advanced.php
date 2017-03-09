@@ -44,21 +44,24 @@ extract($displayData);
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
  */
-
-$format       = $color[0] != '#' && strpos($color, 'rgb') === 0 ? (strpos($color, 'rgba') === 0 ? 'rgba' : 'rgb') : 'hex';
+$showbtns     = $format == '';
+if ($showbtns)
+{
+	$format = $color[0] != '#' && strpos($color, 'rgb') === 0 ? (strpos($color, 'rgba') === 0 ? 'rgba' : 'rgb') : 'hex';
+}
 if (in_array($format, array('rgb', 'rgba')) && $validate != 'color')
 {
-		$alpha = ($format === 'rgba');
-		$placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
+	$alpha = ($format === 'rgba');
+	$placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
 }
 else
 {
-		$placeholder = '#rrggbb';
+	$placeholder = '#rrggbb';
 }
 $inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $format;
 $class        = ' class="' . trim('minicolors ' . $class) . ($validate == 'color' ? '' : $inputclass) . '"';
 $control      = $control ? ' data-control="' . $control . '"' : '';
-$dataformat       = $format ? ' data-format="' . $format . '"' : '';
+$dataformat   = $format ? ' data-format="' . $format . '"' : '';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
@@ -82,9 +85,11 @@ JHtml::_('script', 'system/color-field-adv-init.min.js', array('version' => 'aut
 	$position; ?><?php echo $control; ?><?php echo $readonly; ?><?php echo $disabled; ?><?php echo
 	$required; ?><?php echo $onchange; ?><?php echo $autocomplete; ?><?php echo $autofocus; ?><?php echo
 	$dataformat; ?><?php echo $keywords; ?><?php echo $direction; ?><?php echo $validate; ?>/>
-	<div class="color-format-group">
-		<button class="color-format-btn <?php echo $format == 'hex' ? 'active' : '' ?>" type="button" data-format="hex">HEX</button>
-		<button class="color-format-btn <?php echo $format == 'rgb' ? 'active' : '' ?>" type="button" data-format="rgb">RGB</button>
-		<button class="color-format-btn <?php echo $format == 'rgba' ? 'active' : '' ?>" type="button" data-format="rgba">RGBA</button>
-	</div>
+	<?php if ($showbtns) : ?>
+		<div class="color-format-group">
+			<button class="color-format-btn <?php echo ($format == 'hex' ? 'active' : ''); ?>" type="button" data-format="hex">HEX</button>
+			<button class="color-format-btn <?php echo ($format == 'rgb' ? 'active' : ''); ?>" type="button" data-format="rgb">RGB</button>
+			<button class="color-format-btn <?php echo ($format == 'rgba' ? 'active' : ''); ?>" type="button" data-format="rgba">RGBA</button>
+		</div>
+	<?php endif; ?>
 </div>
