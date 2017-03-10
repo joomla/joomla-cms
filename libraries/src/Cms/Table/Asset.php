@@ -328,7 +328,18 @@ class Asset extends Nested
 		$rules       = $this->rules;
 		$this->rules = '{}';
 
-		$return = parent::store($updateNulls);
+		try
+		{
+			parent::store($updateNulls);
+		}
+		catch (\Exception $e)
+		{
+			// Check for a database error.
+			if ($e->getMessage())
+			{
+				throw new \UnexpectedValueException(sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $e->getMessage()));
+			}
+		}
 
 		// Reset groups to the local object.
 		$this->rules = $rules;
@@ -349,13 +360,19 @@ class Asset extends Nested
 			$query->from($this->_tbl);
 			$query->where('name = ' . $this->_db->quote($this->name));
 			$this->_db->setQuery($query);
-			$assetId = $this->_db->loadResult();
 
-			// Check for a database error.
-			if ($this->_db->getErrorNum())
+			try
 			{
-				$this->_unlock();
-				throw new \UnexpectedValueException(sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+				$assetId = $this->_db->loadResult();
+			}
+			catch (\Exception $e)
+			{
+				// Check for a database error.
+				if ($e->getMessage())
+				{
+					$this->_unlock();
+					throw new \UnexpectedValueException(sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $e->getMessage()));
+				}
 			}
 		}
 		else
@@ -364,22 +381,22 @@ class Asset extends Nested
 		}
 
 		// Store the rules data if parent data was saved.
-		if ($return)
+		if (!is_array($this->rules) || count($this->rules) == 0)
 		{
-			if (!is_array($this->rules) || count($this->rules) == 0)
-			{
-				// We have nothing to store, we are not storing empty values
-				return true;
-			}
+			// We have nothing to store, we are not storing empty values
+			return true;
+		}
 
-			// Delete the old permissions.
-			$query = $this->_db->getQuery(true);
+		// Delete the old permissions.
+		$query = $this->_db->getQuery(true);
 
-			$query->delete('#__permissions');
-			$query->where('assetid = ' . (int) $assetId);
-			$this->_db->setQuery($query);
-			$this->_db->execute();
+		$query->delete('#__permissions');
+		$query->where('assetid = ' . (int) $assetId);
+		$this->_db->setQuery($query);
+		$this->_db->execute();
 
+		try
+		{
 			// Insert new permissions
 			foreach ($this->rules AS $perName => $groups)
 			{
@@ -395,22 +412,18 @@ class Asset extends Nested
 						$query->set('`assetid` = ' . (int) $this->id);
 						$this->_db->setQuery($query);
 						$this->_db->execute();
-
 					}
 				}
 			}
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
 		}
-		else
+		catch (\Exception $e)
 		{
-			throw new \UnexpectedValueException(sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			// Check for a database error.
+			if ($e->getMessage())
+			{
+				$this->_unlock();
+				throw new \UnexpectedValueException(sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $e->getMessage()));
+			}
 		}
 
 		return true;
