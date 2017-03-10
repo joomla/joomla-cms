@@ -381,7 +381,7 @@ class JFormFieldRules extends JFormField
 
 					/**
 					 * @to do: incorrect info
-					 * If a component as a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
+					 * If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 					 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 					 */
 
