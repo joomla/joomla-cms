@@ -35,8 +35,9 @@
 
 				<field
 					name="hide"
-					type="text"
-					default="pagebreak,readmore"
+					type="plugins"
+					folder="editors-xtd"
+					multiple="true"
 					label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
 					description="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_DESC"
 				/>

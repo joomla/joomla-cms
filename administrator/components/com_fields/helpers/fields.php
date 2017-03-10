@@ -430,7 +430,7 @@ class FieldsHelper
 						$key = 'JGLOBAL_FIELDS';
 					}
 
-					$label = JText::_($key);
+					$label = $key;
 				}
 
 				if (!$description)
@@ -439,7 +439,7 @@ class FieldsHelper
 
 					if ($lang->hasKey($key))
 					{
-						$description = JText::_($key);
+						$description = $key;
 					}
 				}
 			}
