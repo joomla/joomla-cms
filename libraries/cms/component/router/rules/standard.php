@@ -29,8 +29,6 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 	 *
 	 * @param   JComponentRouterView  $router  Router this rule belongs to
 	 *
-	 * @return  void
-	 *
 	 * @since   3.4
 	 */
 	public function __construct(JComponentRouterView $router)
