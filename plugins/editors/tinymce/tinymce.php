@@ -711,6 +711,7 @@ class PlgEditorTinymce extends JPlugin
 		if (!$this->defaultParamsLoaded)
 		{
 			$doc->addScriptOptions('plg_editor_tinymce', $options);
+			$this->defaultParamsLoaded = true;
 		}
 
 		$doc->addStyleDeclaration('.mce-in { padding: 5px 10px !important;}');
@@ -2017,6 +2018,12 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$options['tinyMCE']['default'] = $scriptOptions;
+
+		if (!$this->defaultParamsLoaded)
+		{
+			$doc->addScriptOptions('plg_editor_tinymce', $options);
+			$this->defaultParamsLoaded = true;
+		}
 
 		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
 		$doc->addScriptOptions('plg_editor_tinymce_' . $id, $options);
