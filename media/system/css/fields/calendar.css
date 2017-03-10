@@ -128,10 +128,13 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 .calendar-container table tbody .emptyrow { /* Empty row (some months need less than 6 rows) */
 	display: none;
 }
-
-a.js-btn.btn.btn-danger.btn-exit, a.js-btn.btn.btn-primary.btn-today, a.js-btn.btn.btn-clear {
-	cursor : pointer;
+.buttons-wrapper {
+	padding: 5px 5px;
+}
+a.js-btn.btn.btn-exit, a.js-btn.btn.btn-today, a.js-btn.btn.btn-clear {
+	cursor: pointer;
 	text-decoration: none;
+	min-width: 60px;
 }
 .calendar-container .calendar-head-row td {
     padding: 4px 0 !important;
@@ -143,12 +146,4 @@ a.js-btn.btn.btn-danger.btn-exit, a.js-btn.btn.btn-primary.btn-today, a.js-btn.b
 .calendar-container .time td {
 	padding: 8px 0 8px 8px;
 }
-.calendar-container .btn-row td {
-	padding: 8px 4px;
-}
-.calendar-container .btn-row td:first-of-type {
-	padding-left: 8px;
-}
-.calendar-container .btn-row td:last-of-type {
-	padding-right: 8px;
-}
+

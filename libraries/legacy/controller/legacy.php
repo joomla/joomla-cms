@@ -449,7 +449,7 @@ class JControllerLegacy extends JObject
 		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
-			$dir = rtrim(JPath::check($dir, '/'), '/') . '/';
+			$dir = rtrim(JPath::check($dir), '/') . '/';
 
 			// Add to the top of the search dirs
 			array_unshift($this->paths[$type], $dir);

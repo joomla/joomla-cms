@@ -1071,8 +1071,7 @@ abstract class JHtml
 			'localesPath'  => $localesPath,
 			'direction'    => $direction,
 			'onchange'     => $onchange,
-
-			);
+		);
 
 		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
 	}
