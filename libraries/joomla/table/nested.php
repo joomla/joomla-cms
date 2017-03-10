@@ -298,14 +298,14 @@ class JTableNested extends JTable
 	 * @param   integer  $referenceId      The primary key of the node to reference new location by.
 	 * @param   string   $position         Location type string. ['before', 'after', 'first-child', 'last-child']
 	 * @param   integer  $pk               The primary key of the node to move.
-	 * @param   boolean  $updatePublished  Flag indicate that method updatePublishedColumn should be call.
+	 * @param   boolean  $recursiveUpdate  Flag indicate that method recursiveUpdatePublishedColumn should be call.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException on database error.
 	 */
-	public function moveByReference($referenceId, $position = 'after', $pk = null, $updatePublished = true)
+	public function moveByReference($referenceId, $position = 'after', $pk = null, $recursiveUpdate = true)
 	{
 		// @codeCoverageIgnoreStart
 		if ($this->_debug)
@@ -503,15 +503,15 @@ class JTableNested extends JTable
 			$this->_db->setQuery($query);
 
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
-
-			if ($updatePublished)
-			{
-				$this->updatePublishedColumn($node->$k);
-			}
 		}
 
 		// Unlock the table for writing.
 		$this->_unlock();
+
+		if (property_exists($this, 'published') && $recursiveUpdate)
+		{
+			$this->recursiveUpdatePublishedColumn($node->$k);
+		}
 
 		// Set the object values.
 		$this->parent_id = $repositionData->new_parent_id;
@@ -839,7 +839,7 @@ class JTableNested extends JTable
 			// If the location has been set, move the node to its new location.
 			if ($this->_location_id > 0)
 			{
-				// Skip updatePublishedColumn method, it will be called later.
+				// Skip recursiveUpdatePublishedColumn method, it will be called later.
 				if (!$this->moveByReference($this->_location_id, $this->_location, $this->$k, false))
 				{
 					// Error message set in move method.
@@ -883,13 +883,13 @@ class JTableNested extends JTable
 			// @codeCoverageIgnoreEnd
 		}
 
-		if (property_exists($this, 'published'))
-		{
-			$this->updatePublishedColumn($this->$k);
-		}
-
 		// Unlock the table for writing.
 		$this->_unlock();
+
+		if (property_exists($this, 'published'))
+		{
+			$this->recursiveUpdatePublishedColumn($this->$k);
+		}
 
 		// Implement JObservableInterface: Post-processing by observers
 		// 2.5 upgrade issue - check if property_exists before executing
@@ -1015,7 +1015,7 @@ class JTableNested extends JTable
 				}
 			}
 
-			$this->updatePublishedColumn($pk, $state);
+			$this->recursiveUpdatePublishedColumn($pk, $state);
 
 			// If checkout support exists for the object, check the row in.
 			if ($checkoutSupport)
@@ -1508,7 +1508,7 @@ class JTableNested extends JTable
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  RuntimeException on database error.
 	 */
-	protected function updatePublishedColumn($pk, $newState = null)
+	protected function recursiveUpdatePublishedColumn($pk, $newState = null)
 	{
 		$query     = $this->_db->getQuery(true);
 		$table     = $this->_db->quoteName($this->_tbl);
