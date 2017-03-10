@@ -1669,7 +1669,6 @@ CREATE TABLE "#__finder_terms_common" (
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
-<<<<<<< 0c478899e4350e4c890f7624d54b0fefd3c490dc
 CREATE NONCLUSTERED INDEX "idx_lang" ON "#__finder_terms_common"
 (
   "language" ASC
@@ -1694,7 +1693,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 ('am', 'en'),
 ('an', 'en'),
 ('and', 'en'),
-('ani', 'en'),
 ('any', 'en'),
 ('are', 'en'),
 ('aren''t', 'en'),
@@ -1724,7 +1722,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 ('no', 'en'),
 ('none', 'en'),
 ('not', 'en'),
-('noth', 'en'),
 ('nothing', 'en'),
 ('of', 'en'),
 ('off', 'en'),
@@ -1733,7 +1730,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 ('on', 'en'),
 ('onc', 'en'),
 ('once', 'en'),
-('onli', 'en'),
 ('only', 'en'),
 ('or', 'en'),
 ('other', 'en'),
@@ -1773,7 +1769,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 ('use', 'en'),
 ('user', 'en'),
 ('users', 'en'),
-('veri', 'en'),
 ('version', 'en'),
 ('very', 'en'),
 ('via', 'en'),
@@ -1784,7 +1779,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 ('what', 'en'),
 ('when', 'en'),
 ('where', 'en'),
-('whi', 'en'),
 ('which', 'en'),
 ('who', 'en'),
 ('whom', 'en'),
@@ -1865,300 +1859,6 @@ CREATE TABLE "#__finder_types" (
  CONSTRAINT "PK_#__finder_types_id" PRIMARY KEY CLUSTERED
 (
   "id" ASC
-=======
-CREATE NONCLUSTERED INDEX [idx_lang] ON [#__finder_terms_common]
-(
-	[language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-CREATE NONCLUSTERED INDEX [idx_word_lang] ON [#__finder_terms_common]
-(
-	[term] ASC,
-	[language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-INSERT INTO [#__finder_terms_common] ([term], [language])
-SELECT 'a', 'en'
-UNION ALL
-SELECT 'about', 'en'
-UNION ALL
-SELECT 'after', 'en'
-UNION ALL
-SELECT 'ago', 'en'
-UNION ALL
-SELECT 'all', 'en'
-UNION ALL
-SELECT 'am', 'en'
-UNION ALL
-SELECT 'an', 'en'
-UNION ALL
-SELECT 'and', 'en'
-UNION ALL
-SELECT 'any', 'en'
-UNION ALL
-SELECT 'are', 'en'
-UNION ALL
-SELECT 'aren''t', 'en'
-UNION ALL
-SELECT 'as', 'en'
-UNION ALL
-SELECT 'at', 'en'
-UNION ALL
-SELECT 'be', 'en'
-UNION ALL
-SELECT 'but', 'en'
-UNION ALL
-SELECT 'by', 'en'
-UNION ALL
-SELECT 'for', 'en'
-UNION ALL
-SELECT 'from', 'en'
-UNION ALL
-SELECT 'get', 'en'
-UNION ALL
-SELECT 'go', 'en'
-UNION ALL
-SELECT 'how', 'en'
-UNION ALL
-SELECT 'if', 'en'
-UNION ALL
-SELECT 'in', 'en'
-UNION ALL
-SELECT 'into', 'en'
-UNION ALL
-SELECT 'is', 'en'
-UNION ALL
-SELECT 'isn''t', 'en'
-UNION ALL
-SELECT 'it', 'en'
-UNION ALL
-SELECT 'its', 'en'
-UNION ALL
-SELECT 'me', 'en'
-UNION ALL
-SELECT 'more', 'en'
-UNION ALL
-SELECT 'most', 'en'
-UNION ALL
-SELECT 'must', 'en'
-UNION ALL
-SELECT 'my', 'en'
-UNION ALL
-SELECT 'new', 'en'
-UNION ALL
-SELECT 'no', 'en'
-UNION ALL
-SELECT 'none', 'en'
-UNION ALL
-SELECT 'not', 'en'
-UNION ALL
-SELECT 'nothing', 'en'
-UNION ALL
-SELECT 'of', 'en'
-UNION ALL
-SELECT 'off', 'en'
-UNION ALL
-SELECT 'often', 'en'
-UNION ALL
-SELECT 'old', 'en'
-UNION ALL
-SELECT 'on', 'en'
-UNION ALL
-SELECT 'onc', 'en'
-UNION ALL
-SELECT 'once', 'en'
-UNION ALL
-SELECT 'only', 'en'
-UNION ALL
-SELECT 'or', 'en'
-UNION ALL
-SELECT 'other', 'en'
-UNION ALL
-SELECT 'our', 'en'
-UNION ALL
-SELECT 'ours', 'en'
-UNION ALL
-SELECT 'out', 'en'
-UNION ALL
-SELECT 'over', 'en'
-UNION ALL
-SELECT 'page', 'en'
-UNION ALL
-SELECT 'she', 'en'
-UNION ALL
-SELECT 'should', 'en'
-UNION ALL
-SELECT 'small', 'en'
-UNION ALL
-SELECT 'so', 'en'
-UNION ALL
-SELECT 'some', 'en'
-UNION ALL
-SELECT 'than', 'en'
-UNION ALL
-SELECT 'thank', 'en'
-UNION ALL
-SELECT 'that', 'en'
-UNION ALL
-SELECT 'the', 'en'
-UNION ALL
-SELECT 'their', 'en'
-UNION ALL
-SELECT 'theirs', 'en'
-UNION ALL
-SELECT 'them', 'en'
-UNION ALL
-SELECT 'then', 'en'
-UNION ALL
-SELECT 'there', 'en'
-UNION ALL
-SELECT 'these', 'en'
-UNION ALL
-SELECT 'they', 'en'
-UNION ALL
-SELECT 'this', 'en'
-UNION ALL
-SELECT 'those', 'en'
-UNION ALL
-SELECT 'thus', 'en'
-UNION ALL
-SELECT 'time', 'en'
-UNION ALL
-SELECT 'times', 'en'
-UNION ALL
-SELECT 'to', 'en'
-UNION ALL
-SELECT 'too', 'en'
-UNION ALL
-SELECT 'true', 'en'
-UNION ALL
-SELECT 'under', 'en'
-UNION ALL
-SELECT 'until', 'en'
-UNION ALL
-SELECT 'up', 'en'
-UNION ALL
-SELECT 'upon', 'en'
-UNION ALL
-SELECT 'use', 'en'
-UNION ALL
-SELECT 'user', 'en'
-UNION ALL
-SELECT 'users', 'en'
-UNION ALL
-SELECT 'version', 'en'
-UNION ALL
-SELECT 'very', 'en'
-UNION ALL
-SELECT 'via', 'en'
-UNION ALL
-SELECT 'want', 'en'
-UNION ALL
-SELECT 'was', 'en'
-UNION ALL
-SELECT 'way', 'en'
-UNION ALL
-SELECT 'were', 'en'
-UNION ALL
-SELECT 'what', 'en'
-UNION ALL
-SELECT 'when', 'en'
-UNION ALL
-SELECT 'where', 'en'
-UNION ALL
-SELECT 'which', 'en'
-UNION ALL
-SELECT 'who', 'en'
-UNION ALL
-SELECT 'whom', 'en'
-UNION ALL
-SELECT 'whose', 'en'
-UNION ALL
-SELECT 'why', 'en'
-UNION ALL
-SELECT 'wide', 'en'
-UNION ALL
-SELECT 'will', 'en'
-UNION ALL
-SELECT 'with', 'en'
-UNION ALL
-SELECT 'within', 'en'
-UNION ALL
-SELECT 'without', 'en'
-UNION ALL
-SELECT 'would', 'en'
-UNION ALL
-SELECT 'yes', 'en'
-UNION ALL
-SELECT 'yet', 'en'
-UNION ALL
-SELECT 'you', 'en'
-UNION ALL
-SELECT 'your', 'en'
-UNION ALL
-SELECT 'yours', 'en';
-
-/****** Object:  Table [#__finder_tokens] ******/
-SET QUOTED_IDENTIFIER ON;
-
-CREATE TABLE [#__finder_tokens](
-	[term] [nvarchar](75) NOT NULL,
-	[stem] [nvarchar](75) NOT NULL,
-	[common] [tinyint] NOT NULL DEFAULT 0,
-	[phrase] [tinyint] NOT NULL DEFAULT 0,
-	[weight] [real] NOT NULL DEFAULT 0,
-	[context] [tinyint] NOT NULL DEFAULT 2,
-	[language] [nvarchar](3) NOT NULL DEFAULT ''
-) ON [PRIMARY];
-
-CREATE NONCLUSTERED INDEX [idx_context] ON [#__finder_tokens]
-(
-	[context] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-CREATE NONCLUSTERED INDEX [idx_word] ON [#__finder_tokens]
-(
-	[term] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-/****** Object:  Table [#__finder_tokens_aggregate] ******/
-SET QUOTED_IDENTIFIER ON;
-
-CREATE TABLE [#__finder_tokens_aggregate](
-	[term_id] [bigint] NOT NULL,
-	[map_suffix] [nchar](1) NULL,
-	[term] [nvarchar](75) NOT NULL,
-	[stem] [nvarchar](75) NOT NULL,
-	[common] [tinyint] NOT NULL DEFAULT 0,
-	[phrase] [tinyint] NOT NULL DEFAULT 0,
-	[term_weight] [real] NOT NULL,
-	[context] [tinyint] NOT NULL DEFAULT 2,
-	[context_weight] [real] NOT NULL,
-	[total_weight] [real] NOT NULL,
-	[language] [nvarchar](3) NOT NULL DEFAULT ''
-) ON [PRIMARY];
-
-CREATE NONCLUSTERED INDEX [keyword_id] ON [#__finder_tokens_aggregate]
-(
-	[term_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-CREATE NONCLUSTERED INDEX [token] ON [#__finder_tokens_aggregate]
-(
-	[term] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-/****** Object:  Table [#__finder_types] ******/
-SET QUOTED_IDENTIFIER ON;
-
-CREATE TABLE [#__finder_types](
-	[id] [bigint] IDENTITY(1,1) NOT NULL,
-	[title] [nvarchar](100) NOT NULL,
-	[mime] [nvarchar](100) NOT NULL,
- CONSTRAINT [PK_#__finder_types_id] PRIMARY KEY CLUSTERED
-(
-	[id] ASC
->>>>>>> acb4996d31ec9d86225146a4e904e5ff150fad53
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
  CONSTRAINT "#__finder_types$title" UNIQUE NONCLUSTERED
 (
