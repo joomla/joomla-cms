@@ -29,7 +29,7 @@
 					description="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_DESC"
 					size="5"
 				/>
-	
+
 				<field
 					name="cols"
 					type="text"
@@ -37,6 +37,14 @@
 					label="PLG_FIELDS_TEXTAREA_PARAMS_COLS_LABEL"
 					description="PLG_FIELDS_TEXTAREA_PARAMS_COLS_DESC"
 					size="5"
+				/>
+
+				<field
+					name="maxlength"
+					type="text"
+					filter="integer"
+					label="PLG_FIELDS_TEXTAREA_PARAMS_MAXLENGTH_LABEL"
+					description="PLG_FIELDS_TEXTAREA_PARAMS_MAXLENGTH_DESC"
 				/>
 			</fieldset>
 		</fields>

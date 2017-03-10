@@ -32,6 +32,14 @@
 					<option value="0">JNO</option>
 					<option value="raw">PLG_FIELDS_TEXT_PARAMS_FILTER_RAW</option>
 				</field>
+
+				<field
+					name="maxlength"
+					type="text"
+					filter="integer"
+					label="PLG_FIELDS_TEXT_PARAMS_MAXLENGTH_LABEL"
+					description="PLG_FIELDS_TEXT_PARAMS_MAXLENGTH_DESC"
+				/>
 			</fieldset>
 		</fields>
 	</config>
