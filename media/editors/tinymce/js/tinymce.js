@@ -28,9 +28,16 @@
 			var editors = target.querySelectorAll('.js-editor-tinymce');
 
 			for(var i = 0, l = editors.length; i < l; i++) {
-				var editor = editors[i].querySelector('textarea'),
-				    pluginOptions = Joomla.getOptions ? Joomla.getOptions('plg_editor_tinymce_' + editor.id, {})
-						:  (Joomla.optionsStorage['plg_editor_tinymce'] || {});
+				var pluginOptions, editor = editors[i].querySelector('textarea');
+
+				// Fallback for subform
+				if (Joomla.getOptions && Joomla.optionsStorage['plg_editor_tinymce_' + editor.id]) {
+					pluginOptions = Joomla.getOptions('plg_editor_tinymce_' + editor.id, {});
+				} else if (Joomla.getOptions && Joomla.optionsStorage['plg_editor_tinymce']) {
+					pluginOptions = Joomla.getOptions('plg_editor_tinymce', {});
+				} else {
+					pluginOptions = {};
+				}
 
 				this.setupEditor(editor, pluginOptions);
 			}

@@ -32,6 +32,14 @@ class PlgEditorTinymce extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Set the default parameters.
+	 *
+	 * @var    boolean
+	 * @since  3.7
+	 */
+	protected $defaultParamsLoaded = false;
+
+	/**
 	 * Loads the application object
 	 *
 	 * @var    JApplicationCms
@@ -699,6 +707,11 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$options['tinyMCE']['default'] = $scriptOptions;
+
+		if (!$this->defaultParamsLoaded)
+		{
+			$doc->addScriptOptions('plg_editor_tinymce', $options);
+		}
 
 		$doc->addStyleDeclaration('.mce-in { padding: 5px 10px !important;}');
 		$doc->addScriptOptions('plg_editor_tinymce_' . $id, $options);
