@@ -26,16 +26,57 @@
     position: relative;
     display: inline-block;
     padding: 0;
+    margin-right: 3rem;
     font-size: 2rem;
     color: $white-offset;
 
     img {
       width: 200px;
+      min-width: 200px;
     }
 
     &:hover,
     &:focus {
       color: darken($white-offset, 6%);
+    }
+  }
+
+  .navbar-nav.flex-column {
+    flex-direction: row !important;
+  }
+
+  .navbar-nav li {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 3px;
+    margin-right: 20px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &::after {
+      display: block;
+      width: 0;
+      height: 3px;
+      margin: auto;
+      content: "";
+      background: transparent;
+      transition: width .5s ease, background-color .5s ease;
+    }
+
+    &.active::after,
+    &:hover::after {
+      width: 100%;
+      background: $white;
+    }
+
+    a {
+      position: relative;
+      display: block;
+      padding: .5rem 0;
+      color: $white;
+      text-decoration: none;
     }
   }
 

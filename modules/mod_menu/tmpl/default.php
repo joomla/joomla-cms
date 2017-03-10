@@ -21,7 +21,7 @@ if ($tagId = $params->get('tag_id', ''))
 <ul<?php echo $id; ?> class="nav flex-column<?php echo $class_sfx; ?>">
 <?php foreach ($list as $i => &$item)
 {
-	$class = '';
+	$class = 'nav-item';
 
 	if ($item->id == $default_id)
 	{

@@ -8963,12 +8963,41 @@ legend {
     position: relative;
     display: inline-block;
     padding: 0;
+    margin-right: 3rem;
     font-size: 2rem;
     color: #fefefe; }
     .header .navbar-brand img {
-      width: 200px; }
+      width: 200px;
+      min-width: 200px; }
     .header .navbar-brand:hover, .header .navbar-brand:focus {
       color: #efefef; }
+  .header .navbar-nav.flex-column {
+    -ms-flex-direction: row !important;
+        flex-direction: row !important; }
+  .header .navbar-nav li {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 3px;
+    margin-right: 20px; }
+    .header .navbar-nav li:last-child {
+      margin-right: 0; }
+    .header .navbar-nav li::after {
+      display: block;
+      width: 0;
+      height: 3px;
+      margin: auto;
+      content: "";
+      background: transparent;
+      transition: width .5s ease, background-color .5s ease; }
+    .header .navbar-nav li.active::after, .header .navbar-nav li:hover::after {
+      width: 100%;
+      background: #fff; }
+    .header .navbar-nav li a {
+      position: relative;
+      display: block;
+      padding: .5rem 0;
+      color: #fff;
+      text-decoration: none; }
 
 .container-title {
   padding-top: 13px;

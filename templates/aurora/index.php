@@ -98,51 +98,43 @@ $doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>">
 
 	<header class="header">
+		<nav class="navbar navbar-toggleable-md navbar-full">
+			<div class="<?php echo $container; ?>">
 
-		<div class="<?php echo $container; ?>">
-
-			<a class="navbar-brand" href="<?php echo $this->baseurl; ?>/">
-				<?php echo $logo; ?>
-			</a>
-
-			<?php if ($this->params->get('sitedescription')) : ?>
-				<div class="site-description"><?php echo htmlspecialchars($this->params->get('sitedescription')); ?></div>
-			<?php endif; ?>
-
-		</div>
-
-		<?php if ($this->countModules('menu')) : ?>
-			<nav class="navbar navbar-full navbar-dark bg-inverse">
-				<div class="<?php echo $container; ?>">
-					<button class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse" data-target="#navbar">
-						<span></span>
-						<span></span>
-						<span></span>
-					</button>
-					<?php if ($this->countModules('search')) : ?>
-						<div class="hidden-md-up float-right">
-							<jdoc:include type="modules" name="search" style="none" />
-						</div>
+				<div class="navbar-brand">
+					<a href="<?php echo $this->baseurl; ?>/">
+						<?php echo $logo; ?>
+					</a>
+					<?php if ($this->params->get('sitedescription')) : ?>
+						<div class="site-description"><?php echo htmlspecialchars($this->params->get('sitedescription')); ?></div>
 					<?php endif; ?>
-					<div class="collapse navbar-toggleable-sm" id="navbar">
+				</div>
+
+				<?php if ($this->countModules('menu')) : ?>
+					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbar">
 						<jdoc:include type="modules" name="menu" style="none" />
 						<?php if ($this->countModules('search')) : ?>
-							<div class="float-right hidden-sm-down">
+							<div class="form-inline">
 								<jdoc:include type="modules" name="search" style="none" />
 							</div>
 						<?php endif; ?>
 					</div>
-				</div>
-			</nav>
-		<?php endif; ?>
+				<?php endif; ?>
 
-		<?php if ($this->countModules('banner')) : ?>
-			<jdoc:include type="modules" name="banner" style="xhtml" />
-		<?php endif; ?>
-
+			</div>
+		</nav>
 	</header>
 
 	<div class="<?php echo $container; ?>">
+
+		<?php if ($this->countModules('banner')) : ?>
+			<div class="banner">
+				<jdoc:include type="modules" name="banner" style="xhtml" />
+			</div>
+		<?php endif; ?>
 
 		<?php if ($this->countModules('top-a')) : ?>
 			<div class="row">
