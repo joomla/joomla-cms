@@ -16,27 +16,8 @@ $brand-info:                         #5bc0de;
 $brand-warning:                      #f0ad4e;
 $brand-danger:                       #d9534f;
 
-// Header
-$header-height:                      48px;
-
 // Toolbar
 $aurora-toolbar-line-height:         1.8rem;
-
-// Menu Toggle
-$aurora-button-width:                30px;
-$aurora-button-height:               $header-height;
-$aurora-bar-thickness:               3px;
-$aurora-button-pad:                  5px;
-$aurora-button-bar-space:            3px;
-$aurora-button-transistion-duration: .3s;
-
-// Sidebar
-$aurora-sidebar-bg:                  darken($aurora-template-color, 4%);
-$aurora-sidebar-item-title:          .9rem;
-$aurora-sidebar-hover:               #59daff;
-$aurora-sidebar-active:              #59afff;
-$aurora-level-1-bg:                  rgba(0,0,0,.65);
-$aurora-level-2-bg:                  rgba(0,0,0,.05);
 
 // Fonts
 $font-family-base:                   Arial, sans-serif;

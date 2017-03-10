@@ -3,8 +3,8 @@
 .header {
   position: relative;
   z-index: 5;
-  height: $header-height;
-  margin-bottom: 3px;
+  padding: 15px 0;
+  margin-bottom: 40px;
   background: $aurora-template-color-light;
 
   &::after {
@@ -17,126 +17,26 @@
     background-image: linear-gradient(to right, $aurora-hl-grad-inner 0%, $aurora-hl-grad-outer 100%);
   }
 
-  .page-title {
-    display: inline-block;
-    margin: 0 0 0 25px;
-    font-size: 1.25rem;
-    font-weight: normal;
-    line-height: $header-height;
-    color: $aurora-inverted-text-color;
-    border-bottom: 1px solid #20252e;
-
-    .icon-list {
-      color: $aurora-inverted-text-color;
-    }
-
-    [class^="icon-"] {
-      margin-right: 15px;
-    }
-
+  .site-description {
+    font-size: 1rem;
+    color: $white-offset;
   }
 
   .navbar-brand {
     position: relative;
     display: inline-block;
-    float: none;
     padding: 0;
-    font-size: 1.3rem;
-    line-height: $header-height;
+    font-size: 2rem;
     color: $white-offset;
+
+    img {
+      width: 200px;
+    }
 
     &:hover,
     &:focus {
       color: darken($white-offset, 6%);
     }
-
-    @include media-breakpoint-only(sm) {
-      margin-right: 0;
-      margin-left: 10px;
-    }
-
-  }
-
-  nav {
-    position: absolute;
-    top: 0;
-    right: 15px;
-  }
-
-  .nav-item + .nav-item {
-    margin-left: 1px;
-  }
-
-  .nav-link {
-    position: relative;
-    padding: 0;
-    margin-left: 4px;
-    line-height: $header-height;
-
-    .fa {
-      width: 30px;
-      height: 23px;
-      font-size: 1.1rem;
-      line-height: 23px;
-      color: $white-offset;
-      background-color: lighten($aurora-template-color-light, 10%);
-      border-radius: 2px;
-    }
-
-    .badge {
-      position: absolute;
-      top: 4px;
-      right: -5px;
-    }
-
-    &.dropdown-toggle::after {
-      display: none;
-    }
-
-  }
-
-  .dropdown-notifications {
-    min-width: 280px;
-    padding: 0;
-    border: 0;
-  }
-
-  .dropdown-menu {
-
-    &::after {
-      left: .65rem;
-    }
-
-  }
-
-  .dropdown-menu-right {
-
-    &::after {
-      right: .65rem;
-      left: auto;
-    }
-
-  }
-
-  .header-profile {
-
-    .dropdown-menu {
-      padding-top: 0;
-
-      &::after {
-        color: $aurora-container-main-bg;
-      }
-    }
-
-  }
-
-  .header-profile-user {
-    padding-top: .5rem;
-    padding-bottom: .5rem;
-    margin-bottom: .3rem;
-    background-color: $aurora-container-main-bg;
-    border-bottom: 1px solid rgba(0,0,0,.1);
-    border-radius: $border-radius $border-radius 0 0;
   }
 
 }
@@ -166,38 +66,6 @@
       color: lighten($aurora-template-color-light, 10%);
     }
 
-  }
-
-}
-
-@include media-breakpoint-down(md) {
-
-  .header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-
-    + .container-title {
-      margin-top: $header-height;
-    }
-
-  }
-
-}
-
-// Mobile Toggle
-.menu-collapse {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 2rem;
-  text-align: center;
-
-  a {
-    display: block;
-    width: $header-height;
-    line-height: $header-height;
-    color: $white;
   }
 
 }

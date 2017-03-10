@@ -72,11 +72,11 @@ if ($this->params->get('logoFile'))
 }
 elseif ($this->params->get('sitetitle'))
 {
-	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($this->params->get('sitetitle'), ENT_COMPAT, 'UTF-8') . '</span>';
+	$logo = '<span title="' . $sitename . '">' . htmlspecialchars($this->params->get('sitetitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 }
 else
 {
-	$logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
+	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg' . '" class="logo d-inline-block align-top" alt="' . $sitename . '">';
 }
 
 $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
@@ -101,7 +101,7 @@ $doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 		<div class="<?php echo $container; ?>">
 
-			<a class="brand" href="<?php echo $this->baseurl; ?>/">
+			<a class="navbar-brand" href="<?php echo $this->baseurl; ?>/">
 				<?php echo $logo; ?>
 			</a>
 
@@ -157,7 +157,7 @@ $doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		<?php endif; ?>
 
 		<div class="row">
-			
+
 			<?php if ($this->countModules('sidebar-left')) : ?>
 				<div id="sidebar-left" class="col-md-<?php echo $this->params->get('sidebarLeftWidth', 3); ?>">
 					<div class="row">
@@ -175,7 +175,7 @@ $doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<?php endif; ?>
 
 				<jdoc:include type="message" />
-				<jdoc:include type="component" />			
+				<jdoc:include type="component" />
 				<jdoc:include type="modules" name="breadcrumbs" style="none" />
 
 				<?php if ($this->countModules('main-bottom')) : ?>
@@ -208,7 +208,7 @@ $doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</div>
 		<?php endif; ?>
 
-	</div>	
+	</div>
 
 	<footer class="footer" role="contentinfo">
 		<div class="<?php echo $container; ?>">

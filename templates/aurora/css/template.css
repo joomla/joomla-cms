@@ -8789,8 +8789,7 @@ body {
   padding: 0;
   margin: 0;
   line-height: 1.6;
-  background: #fefefe;
-  border-top: 3px solid #0d1321; }
+  background: #fefefe; }
 
 img {
   display: block;
@@ -8946,8 +8945,8 @@ legend {
 .header {
   position: relative;
   z-index: 5;
-  height: 48px;
-  margin-bottom: 3px;
+  padding: 15px 0;
+  margin-bottom: 40px;
   background: #1c3d5c; }
   .header::after {
     position: absolute;
@@ -8957,78 +8956,19 @@ legend {
     content: "";
     background-color: #007eb7;
     background-image: linear-gradient(to right, #59afff 0%, #59daff 100%); }
-  .header .page-title {
-    display: inline-block;
-    margin: 0 0 0 25px;
-    font-size: 1.25rem;
-    font-weight: normal;
-    line-height: 48px;
-    color: #0d1321;
-    border-bottom: 1px solid #20252e; }
-    .header .page-title .icon-list {
-      color: #0d1321; }
-    .header .page-title [class^="icon-"] {
-      margin-right: 15px; }
+  .header .site-description {
+    font-size: 1rem;
+    color: #fefefe; }
   .header .navbar-brand {
     position: relative;
     display: inline-block;
-    float: none;
     padding: 0;
-    font-size: 1.3rem;
-    line-height: 48px;
+    font-size: 2rem;
     color: #fefefe; }
+    .header .navbar-brand img {
+      width: 200px; }
     .header .navbar-brand:hover, .header .navbar-brand:focus {
       color: #efefef; }
-
-@media (min-width: 576px) and (max-width: 767px) {
-  .header .navbar-brand {
-    margin-right: 0;
-    margin-left: 10px; } }
-  .header nav {
-    position: absolute;
-    top: 0;
-    right: 15px; }
-  .header .nav-item + .nav-item {
-    margin-left: 1px; }
-  .header .nav-link {
-    position: relative;
-    padding: 0;
-    margin-left: 4px;
-    line-height: 48px; }
-    .header .nav-link .fa {
-      width: 30px;
-      height: 23px;
-      font-size: 1.1rem;
-      line-height: 23px;
-      color: #fefefe;
-      background-color: #285783;
-      border-radius: 2px; }
-    .header .nav-link .badge {
-      position: absolute;
-      top: 4px;
-      right: -5px; }
-    .header .nav-link.dropdown-toggle::after {
-      display: none; }
-  .header .dropdown-notifications {
-    min-width: 280px;
-    padding: 0;
-    border: 0; }
-  .header .dropdown-menu::after {
-    left: .65rem; }
-  .header .dropdown-menu-right::after {
-    right: .65rem;
-    left: auto; }
-  .header .header-profile .dropdown-menu {
-    padding-top: 0; }
-    .header .header-profile .dropdown-menu::after {
-      color: #f2f2f2; }
-  .header .header-profile-user {
-    padding-top: .5rem;
-    padding-bottom: .5rem;
-    margin-bottom: .3rem;
-    background-color: #f2f2f2;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 0.25rem 0.25rem 0 0; }
 
 .container-title {
   padding-top: 13px;
@@ -9049,26 +8989,6 @@ legend {
       margin-left: 5px;
       font-size: 1.857rem;
       color: #285783; }
-
-@media (max-width: 991px) {
-  .header {
-    position: fixed;
-    top: 0;
-    width: 100%; }
-    .header + .container-title {
-      margin-top: 48px; } }
-
-.menu-collapse {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 2rem;
-  text-align: center; }
-  .menu-collapse a {
-    display: block;
-    width: 48px;
-    line-height: 48px;
-    color: #fff; }
 
 .icon-back::before {
   content: "\e008"; }
