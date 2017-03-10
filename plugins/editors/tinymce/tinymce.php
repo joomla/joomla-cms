@@ -653,6 +653,28 @@ class PlgEditorTinymce extends JPlugin
 			'setupCallbackString' => $tinyBtns,
 		);
 
+		// Custom formats, styles
+		$customStyles  = $levelParams->get('styles_custom', '');
+		$customFormats = $levelParams->get('formats_custom', '');
+
+		if (!empty($customStyles) && is_file(JPATH_ROOT . '/' . ltrim($customStyles, '/'))) {
+			$jsonStyles = json_decode(file_get_contents(JPATH_ROOT . '/' . ltrim($customStyles, '/')));
+
+			if (!empty($jsonStyles))
+			{
+				$scriptOptions['style_formats'] = $jsonStyles;
+			}
+		}
+
+		if (!empty($customFormats) && is_file(JPATH_ROOT . '/' . ltrim($customFormats, '/'))) {
+			$jsonFormats = json_decode(file_get_contents(JPATH_ROOT . '/' . ltrim($customFormats, '/')));
+
+			if (!empty($jsonFormats))
+			{
+				$scriptOptions['formats'] = $jsonFormats;
+			}
+		}
+
 		if ($levelParams->get('newlines'))
 		{
 			// Break

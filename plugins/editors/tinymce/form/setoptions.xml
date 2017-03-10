@@ -136,6 +136,22 @@
     />
 
     <field
+            name="styles_custom"
+            type="text"
+            label="PLG_TINY_FIELD_CUSTOM_STYLES_LABEL"
+            description="PLG_TINY_FIELD_CUSTOM_STYLES_DESC"
+            class="input-xxlarge"
+    />
+
+    <field
+            name="formats_custom"
+            type="text"
+            label="PLG_TINY_FIELD_CUSTOM_FORMAT_LABEL"
+            description="PLG_TINY_FIELD_CUSTOM_FORMAT_DESC"
+            class="input-xxlarge"
+    />
+
+    <field
             name="relative_urls"
             type="list"
             label="PLG_TINY_FIELD_URLS_LABEL"
