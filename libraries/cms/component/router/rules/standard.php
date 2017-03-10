@@ -268,19 +268,22 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 			{
 				array_shift($path);
 			}
-			elseif (!$views[$view]->nestable)
-			{
-				array_shift($path);
-			}
 			else
 			{
-				$i--;
-				$found2 = false;
-			}
+				if (!$views[$view]->nestable)
+				{
+					array_shift($path);
+				}
+				else
+				{
+					$i--;
+					$found2 = false;
+				}
 
-			if (count($views[$view]->children))
-			{
-				$found = true;
+				if (count($views[$view]->children))
+				{
+					$found = true;
+				}
 			}
 
 			unset($query[$views[$view]->parent_key]);
