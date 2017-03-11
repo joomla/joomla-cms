@@ -18,19 +18,4 @@
 		<language tag="en-GB">en-GB.plg_fields_calendar.ini</language>
 		<language tag="en-GB">en-GB.plg_fields_calendar.sys.ini</language>
 	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="format"
-					type="text"
-					default="%Y-%m-%d"
-					class="input-xxlarge"
-					label="PLG_FIELDS_CALENDAR_PARAMS_FORMAT_LABEL"
-					description="PLG_FIELDS_CALENDAR_PARAMS_FORMAT_DESC"
-					size="20"
-				/>
-			</fieldset>
-		</fields>
-	</config>
 </extension>

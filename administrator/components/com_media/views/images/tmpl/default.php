@@ -41,7 +41,7 @@ JFactory::getDocument()->addScriptDeclaration(
 /**
  * Mootools compatibility
  *
- * There is an extra option passed in the url for the iframe &ismoo=0 for the bootstrap fields.
+ * There is an extra option passed in the URL for the iframe &ismoo=0 for the bootstrap fields.
  * By default the value will be 1 or defaults to mootools behaviour
  *
  * This should be removed when mootools won't be shipped by Joomla.

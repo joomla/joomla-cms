@@ -306,6 +306,7 @@ class JoomlaInstallerScript
 				->where('name = ' . $db->quote('PLG_EOSNOTIFY'))
 		)->loadResult();
 
+		// Skip update when id doesn’t exists
 		if (!$id)
 		{
 			return;
@@ -344,10 +345,11 @@ class JoomlaInstallerScript
 					->where($db->quoteName('location') . ' = ' . $db->quote('https://update.joomla.org/jed/list.xml'))
 			)->loadResult();
 
-            if (!$id)
-            {
-                return;
-            }
+			// Skip delete when id doesn’t exists
+			if (!$id)
+			{
+				return;
+			}
 
 			// Delete from update sites
 			$db->setQuery(
@@ -525,7 +527,6 @@ class JoomlaInstallerScript
 			array('plugin', 'checkboxes', 'fields', 0),
 			array('plugin', 'color', 'fields', 0),
 			array('plugin', 'editor', 'fields', 0),
-			array('plugin', 'gallery', 'fields', 0),
 			array('plugin', 'imagelist', 'fields', 0),
 			array('plugin', 'integer', 'fields', 0),
 			array('plugin', 'list', 'fields', 0),
@@ -1750,6 +1751,7 @@ class JoomlaInstallerScript
 			'/administrator/modules/mod_menu/tmpl/default_enabled.php',
 			'/administrator/modules/mod_menu/tmpl/default_disabled.php',
 			'/administrator/templates/hathor/html/mod_menu/default_enabled.php',
+			'/administrator/components/com_users/models/fields/components.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
