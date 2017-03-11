@@ -533,20 +533,34 @@ class TemplatesModelTemplate extends JModelForm
 	/**
 	 * Get overrides folder.
 	 *
-	 * @param   string  $name  The name of override.
-	 * @param   string  $path  Location of override.
+	 * @param   string   $name    The name of override.
+	 * @param   string   $path    Location of override.
+	 * @param   boolean  $plugin  Are we in plugin mode?
 	 *
 	 * @return  object  containing override name and path.
 	 *
 	 * @since   3.2
 	 */
-	public function getOverridesFolder($name,$path)
+	public function getOverridesFolder($name, $path, $plugin = false)
 	{
+		if ($plugin === false)
+		{
+			$folder = new stdClass;
+			$folder->name = $name;
+			$folder->path = base64_encode($path . $name);
+
+			return $folder;
+		}
+
+		$pluginFolderName = explode('_', $name);
+		$pluginFolderName = end($pluginFolderName);
+
 		$folder = new stdClass;
 		$folder->name = $name;
-		$folder->path = base64_encode($path . $name);
+		$folder->path = base64_encode($path . $pluginFolderName);
 
 		return $folder;
+
 	}
 
 	/**
@@ -564,6 +578,7 @@ class TemplatesModelTemplate extends JModelForm
 			$componentPath = JPath::clean($client->path . '/components/');
 			$modulePath    = JPath::clean($client->path . '/modules/');
 			$layoutPath    = JPath::clean(JPATH_ROOT . '/layouts/joomla/');
+			$pluginPath    = JPath::clean(JPATH_ROOT . '/plugins/');
 			$components    = JFolder::folders($componentPath);
 
 			foreach ($components as $component)
@@ -609,6 +624,24 @@ class TemplatesModelTemplate extends JModelForm
 			{
 				$result['layouts'][] = $this->getOverridesFolder($layout, $layoutPath);
 			}
+
+			$pluginTypes = JFolder::folders($pluginPath);
+
+			foreach ($pluginTypes as $pluginType)
+			{
+				$pluginTypesPath = JPath::clean($pluginPath . $pluginType . '/');
+				$plugins         = JFolder::folders($pluginTypesPath);
+
+				foreach ($plugins as $plugin)
+				{
+					// Only if the plugin supports views
+					if (file_exists($pluginTypesPath . $plugin . '/tmpl'))
+					{
+						$pluginName = 'plg_' . $pluginType . '_' . $plugin;
+						$result['plugins'][]= $this->getOverridesFolder($pluginName, $pluginTypesPath, true);
+					}
+				}				
+			}
 		}
 
 		if (!empty($result))
@@ -637,9 +670,16 @@ class TemplatesModelTemplate extends JModelForm
 			$name           = end($explodeArray);
 			$client 	    = JApplicationHelper::getClientInfo($template->client_id);
 
-			if (stristr($name, 'mod_') != false)
+			// Something special is needed for the plugins
+			if (strpos($override, 'plugins') != false)
 			{
-				$htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
+				$i        = count($explodeArray) - 2;
+				$name     = 'plg_' . $explodeArray[$i] . '_' . $name;
+				$htmlPath = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
+			}
+			elseif (stristr($name, 'mod_') != false)
+			{
+				$htmlPath = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
 			}
 			elseif (stristr($override, 'com_') != false)
 			{
@@ -666,7 +706,11 @@ class TemplatesModelTemplate extends JModelForm
 				}
 			}
 
-			if (stristr($name, 'mod_') != false)
+			if (stristr($name, 'plg_') != false)
+			{
+				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
+			}
+			elseif (stristr($name, 'mod_') != false)
 			{
 				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}

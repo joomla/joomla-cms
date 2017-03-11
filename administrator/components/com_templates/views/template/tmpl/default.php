@@ -344,7 +344,7 @@ if ($this->type == 'font')
 
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row-fluid">
-	<div class="span4">
+	<div class="span3">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
@@ -361,7 +361,7 @@ if ($this->type == 'font')
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div class="span4">
+	<div class="span3">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
@@ -387,7 +387,24 @@ if ($this->type == 'font')
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div class="span4">
+	<div class="span3">
+		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_PLUGINS'); ?></legend>
+		<ul class="nav nav-list">
+			<?php $token = JSession::getFormToken() . '=' . 1; ?>
+			<?php foreach ($this->overridesList['plugins'] as $plugin) : ?>
+				<li>
+					<?php
+					$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $plugin->path
+							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+					?>
+					<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
+						<span class="icon-copy"></span>&nbsp;<?php echo $plugin->name; ?>
+					</a>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+	<div class="span3">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
