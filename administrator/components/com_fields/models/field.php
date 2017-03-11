@@ -570,6 +570,48 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
+	 * Returning the values for the given field ids, context and item id.
+	 *
+	 * @param   string  $fieldIds  The field Ids.
+	 * @param   string  $context   The context.
+	 * @param   string  $itemId    The ID of the item.
+	 *
+	 * @return  NULL|array
+	 *
+	 * @since  3.7.0
+	 */
+	public function getFieldValues($fieldIds, $context, $itemId)
+	{
+		$key = md5($fieldIds . $context . $itemId);
+
+		if (!key_exists($key, $this->valueCache))
+		{
+			$this->valueCache[$key] = null;
+
+			$query = $this->getDbo()->getQuery(true);
+
+			$query->select(array($query->qn('field_id'), $query->qn('value')))
+				->from($query->qn('#__fields_values'))
+				->where($query->qn('field_id') . ' in (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
+				->where($query->qn('context') . ' = ' . $query->q($context))
+				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+
+			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
+
+			$data = array();
+
+			foreach ($rows as $row)
+			{
+				$data[$row->field_id] = $row->value;
+			}
+
+			$this->valueCache[$key] = $data;
+		}
+
+		return $this->valueCache[$key];
+	}
+
+	/**
 	 * Cleaning up the values for the given item on the context.
 	 *
 	 * @param   string  $context  The context.
