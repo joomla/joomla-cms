@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
+$canChange = false;
 ?>
 <div class="row-striped">
 	<?php foreach ($users as $user) : ?>
