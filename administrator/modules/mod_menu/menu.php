@@ -499,7 +499,9 @@ class JAdminCssMenu
 			}
 			else
 			{
-				$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
+				$target = $item->browserNav ? '_blank' : null;
+
+				$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:', false, $target), true);
 				$this->loadItems($item->submenu);
 				$this->getParent();
 			}

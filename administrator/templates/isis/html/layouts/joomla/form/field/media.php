@@ -82,7 +82,7 @@ if ($showPreview)
 	}
 }
 
-// The url for the modal
+// The URL for the modal
 $url    = ($readonly ? ''
 	: ($link ? $link
 		: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
