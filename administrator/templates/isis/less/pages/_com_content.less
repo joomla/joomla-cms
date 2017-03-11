@@ -1,0 +1,64 @@
+// com_content
+
+/* Article Manager Responsive Adjustments */
+.com_content {
+	
+	/* Toolbar Container Responsive Adjustments */
+	@media (min-width: 1200px) {
+		.subhead .container-fluid {
+			padding-right:5px;
+			padding-left:5px;
+		}
+		 
+		.btn-toolbar .btn-wrapper {
+			margin: 0 0 8px 0px;
+		}
+		
+	}
+
+	@media (min-width: 481px) and (max-width: 1199px) {
+		/* Toolbar Container Responsive Adjustments */
+		#toolbar {
+			
+			.btn {
+			    padding-right: 5px;
+			    padding-left: 0;
+			}
+				
+			.btn-success {
+				width: 100px;
+			}
+				
+			.btn-primary,
+			.btn-warning,
+			.btn-danger,
+			.btn-success,
+			.btn-info,
+			.btn-inverse {
+				[class^="icon-"], [class*=" icon-"] {
+					width: 14px;
+				}
+			}
+			
+			[class^="icon-"], [class*=" icon-"] {
+			    margin: 0 2px 0 0;
+			    padding: 0 2px;
+			    width: 14px;
+				&:before {
+					font-size: 80%;
+				}
+			}
+		}
+	}
+	
+	/* Hide Edit, Featured & Unfeatured Under 980px */
+	@media (min-width: 481px) and (max-width: 979px) {
+		#toolbar-edit, #toolbar-featured, #toolbar-unfeatured, {display:none;}
+	}
+	
+	/* Hide Archive & Trash Under 767px */
+	@media (min-width: 481px) and (max-width: 768px) {
+		 #toolbar-archive, #toolbar-trash {display:none;}
+	}
+
+} // end content
