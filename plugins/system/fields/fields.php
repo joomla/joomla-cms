@@ -364,10 +364,8 @@ class PlgSystemFields extends JPlugin
 
 		foreach ($fields as $key => $field)
 		{
-			$item->fields[$field->id] = $field;
+			$item->jcfields[$field->id] = $field;
 		}
-
-		return;
 	}
 
 	/**
