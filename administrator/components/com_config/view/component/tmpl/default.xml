@@ -6,10 +6,10 @@
 		</message>
 	</layout>
 	<fields name="request">
-		<fieldset name="request">
+		<fieldset name="request" addfieldpath="administrator/components/com_config/model/field">
 			<field
 				name="component"
-				type="components"
+				type="configComponents"
 				label="JGLOBAL_CHOOSE_COMPONENT_LABEL"
 				description="JGLOBAL_CHOOSE_COMPONENT_DESC"
 				required="true"

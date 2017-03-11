@@ -539,7 +539,7 @@ class JRouterSite extends JRouter
 	}
 
 	/**
-	 * Cleanup the URL build
+	 * Create a uri based on a full or partial URL string
 	 *
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process

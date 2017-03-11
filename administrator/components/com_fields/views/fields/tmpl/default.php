@@ -24,6 +24,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 
+// The category object of the component
+$category = JCategories::getInstance(str_replace('com_', '', $component));
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_fields&task=fields.saveOrderAjax&tmpl=component';
@@ -136,14 +139,17 @@ if ($saveOrder)
 													<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 												<?php endif; ?>
 											</span>
-											<div class="small">
-												<?php echo JText::_('JCATEGORY') . ': '; ?>
-												<?php if ($categories = FieldsHelper::getAssignedCategoriesTitles($item->id)) : ?>
-													<?php echo implode(', ', $categories); ?>
-												<?php else: ?>
-													<?php echo JText::_('JALL'); ?>
-												<?php endif; ?>
-											</div>
+                                            <?php if ($category) : ?>
+                                                <div class="small">
+                                                    <?php echo JText::_('JCATEGORY') . ': '; ?>
+                                                    <?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
+                                                    <?php if ($categories) : ?>
+                                                        <?php echo implode(', ', $categories); ?>
+                                                    <?php else: ?>
+                                                        <?php echo JText::_('JALL'); ?>
+                                                    <?php endif; ?>
+                                                </div>
+                                            <?php endif; ?>
 										</div>
 									</td>
 									<td class="small text-center">

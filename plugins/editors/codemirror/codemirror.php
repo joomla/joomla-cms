@@ -101,6 +101,8 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Code executes directly on submit
 	 */
 	public function onSave($id)
 	{
@@ -113,6 +115,8 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onGetContent($id)
 	{
@@ -126,6 +130,8 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string  $content  The content to set.
 	 *
 	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onSetContent($id, $content)
 	{
@@ -135,7 +141,9 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Adds the editor specific insert method.
 	 *
-	 * @return  boolean
+	 * @return  void
+	 *
+	 * @deprecated 4.0 Code is loaded in the init script
 	 */
 	public function onGetInsertMethod()
 	{
@@ -149,9 +157,9 @@ class PlgEditorCodemirror extends JPlugin
 
 		$done = true;
 
-		JFactory::getDocument()->addScriptDeclaration('
+		JFactory::getDocument()->addScriptDeclaration("
 		;function jInsertEditorText(text, editor) { Joomla.editors.instances[editor].replaceSelection(text); }
-		');
+		");
 
 		return true;
 	}

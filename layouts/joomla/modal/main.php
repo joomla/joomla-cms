@@ -31,7 +31,7 @@ extract($displayData);
  *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
  *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
  *                             - footer       string   Optional markup for the modal footer
- * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
+ * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
  *
  */
 

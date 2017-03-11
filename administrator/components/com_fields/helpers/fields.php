@@ -308,7 +308,7 @@ class FieldsHelper
 			$uri = clone JUri::getInstance('index.php');
 
 			/*
-			 * Removing the catid parameter from the actual url and set it as
+			 * Removing the catid parameter from the actual URL and set it as
 			 * return
 			*/
 			$returnUri = clone JUri::getInstance();
@@ -434,7 +434,7 @@ class FieldsHelper
 						$key = 'JGLOBAL_FIELDS';
 					}
 
-					$label = JText::_($key);
+					$label = $key;
 				}
 
 				if (!$description)
@@ -443,7 +443,7 @@ class FieldsHelper
 
 					if ($lang->hasKey($key))
 					{
-						$description = JText::_($key);
+						$description = $key;
 					}
 				}
 			}

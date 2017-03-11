@@ -464,7 +464,7 @@ class Controller  implements ControllerInterface
 		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
-			$dir = rtrim(\JPath::check($dir, '/'), '/') . '/';
+			$dir = rtrim(\JPath::check($dir), '/') . '/';
 
 			// Add to the top of the search dirs
 			array_unshift($this->paths[$type], $dir);
@@ -653,7 +653,7 @@ class Controller  implements ControllerInterface
 
 				foreach ($urlparams as $key => $value)
 				{
-					// Add your safe url parameters with variable type as value {@see \JFilterInput::clean()}.
+					// Add your safe URL parameters with variable type as value {@see JFilterInput::clean()}.
 					$registeredurlparams->$key = $value;
 				}
 

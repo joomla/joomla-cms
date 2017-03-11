@@ -9,8 +9,9 @@
 	// This line is for Mootools b/c
 	window.getSize = window.getSize || function(){return {x: window.innerWidth, y: window.innerHeight};};
 
+	// @deprecated 4.0 Use directly Joomla.editors.instances[editor].replaceSelection(text);
 	window.jInsertEditorText = function ( text, editor ) {
-		tinyMCE.activeEditor.execCommand('mceInsertContent', false, text);
+		Joomla.editors.instances[editor].replaceSelection(text);
 	};
 
 	var JoomlaTinyMCE = {
@@ -29,7 +30,8 @@
 				editors = target.querySelectorAll('.joomla-editor-tinymce');
 
 			for(var i = 0, l = editors.length; i < l; i++) {
-				this.setupEditor(editors[i], pluginOptions);
+				var editor = editors[i].querySelector('textarea');
+				this.setupEditor(editor, pluginOptions);
 			}
 		},
 
@@ -43,9 +45,9 @@
 		 */
 		setupEditor: function ( element, pluginOptions ) {
 			var name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default', // Get Editor name
-				tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
-				defaultOptions = tinyMCEOptions['default'] || {},
-				options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
+			    tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
+			    defaultOptions = tinyMCEOptions['default'] || {},
+			    options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
 
 			// Avoid unexpected changes
 			options = Joomla.extend({}, options);
@@ -74,14 +76,33 @@
 			}
 
 
-			tinyMCE.init(options);
+			// Create a new instance
+			var ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
+			ed.render();
+
+			/** Register the editor's instance to Joomla Object */
+			Joomla.editors.instances[element.id] = {
+				// Required by Joomla's API for the XTD-Buttons
+				'getValue': function () { return this.instance.getContent(); },
+				'setValue': function (text) { return this.instance.setContent(text); },
+				'replaceSelection': function (text) { return this.instance.execCommand('mceInsertContent', false, text); },
+				// Some extra instance dependent
+				'id': element.id,
+				'instance': ed,
+				'onSave': function() { if (this.instance.isHidden()) { this.instance.show()}; return '';},
+			};
+
+			/** On save **/
+			document.getElementById(ed.id).form.addEventListener('submit', function() {
+				Joomla.editors.instances[ed.targetElm.id].onSave();
+			})
 		}
 
 	};
 
 	Joomla.JoomlaTinyMCE = JoomlaTinyMCE;
 
-	// Init on doomready
+	// Init on DOMContentLoaded
 	document.addEventListener('DOMContentLoaded', function () {
 		Joomla.JoomlaTinyMCE.setupEditors();
 

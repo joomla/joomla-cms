@@ -56,6 +56,7 @@ JFactory::getDocument()->addScriptDeclaration(
 
 		<div class="col-md-10" id="config">
 
+			<?php if ($this->fieldsets): ?>
 			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php $dataShowOn = ''; ?>
@@ -102,6 +103,9 @@ JFactory::getDocument()->addScriptDeclaration(
 					</div>
 				<?php endforeach; ?>
 			</div>
+			<?php else: ?>
+				<div class="alert alert-info"><i class="icon-info"></i> <?php echo JText::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></div>
+			<?php endif; ?>
 
 		</div>
 

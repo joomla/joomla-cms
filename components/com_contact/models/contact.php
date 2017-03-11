@@ -316,10 +316,7 @@ class ContactModelContact extends JModelForm
 			// Filter per language if plugin published
 			if (JLanguageMultilang::isEnabled())
 			{
-				$query->where(
-					('a.created_by = ' . (int) $contact->user_id) . ' AND ' .
-					('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*'))
-				);
+				$query->where('a.language IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}
 
 			if (is_numeric($published))

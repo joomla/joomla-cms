@@ -22,6 +22,7 @@ $buttons = $displayData->buttons;
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery(function () {
 		var id = ' . json_encode($id) . ', options = ' . json_encode($options) . ';
+		/** Register Editor */
 		Joomla.editors.instances[id] = CodeMirror.fromTextArea(document.getElementById(id), options);
 	});
 ');
