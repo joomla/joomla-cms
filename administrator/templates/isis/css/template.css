@@ -1,6 +1,3 @@
-@import "blocks/_com_cpanel.less";
-@import "blocks/_com_postinstall.less";
-@import "blocks/_com_templates.less";
 article,
 aside,
 details,
@@ -8920,4 +8917,80 @@ input:focus,
 .hero-unit,
 .hero-unit .lead {
 	font-weight: 400;
+}
+.com_cpanel .well {
+	padding: 8px 14px;
+	border: 1px solid rgba(0,0,0,0.05);
+}
+.com_cpanel .well .module-title.nav-header {
+	color: #555;
+}
+.com_cpanel .well > .row-striped,
+.com_cpanel .well > .list-striped {
+	margin: 0 -14px;
+}
+.com_cpanel .well > .row-striped > .row-fluid,
+.com_cpanel .well > .list-striped > .row-fluid {
+	padding: 8px 14px;
+}
+.com_cpanel .well > .row-striped > .row-fluid [class*="span"],
+.com_cpanel .well > .list-striped > .row-fluid [class*="span"] {
+	margin-left: 0;
+}
+.com_cpanel .well > .row-striped > li,
+.com_cpanel .well > .list-striped > li {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.com_postinstall fieldset {
+	background-color: #fafafa;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin: 0 0 18px;
+	padding: 4px 18px 18px;
+}
+.com_postinstall fieldset .btn {
+	margin-top: 10px;
+}
+.com_postinstall legend {
+	border: 0 none;
+	display: inline-block;
+	padding: 0 5px;
+	margin-bottom: 0;
+	width: auto;
+}
+#menu-assignment {
+	position: relative;
+}
+#menu-assignment .menu-links {
+	margin-top: 15px;
+	margin-left: 0;
+	-webkit-column-count: 3;
+	-moz-column-count: 3;
+	column-count: 3;
+	-moz-column-gap: 15px;
+	-webkit-column-gap: 15px;
+	column-gap: 15px;
+}
+#menu-assignment .menu-links > li {
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom: 15px;
+	width: 100%;
+	list-style: none;
+	-webkit-column-break-inside: avoid;
+	-webkit-backface-visibility: hidden;
+}
+#menu-assignment .menu-links-block {
+	background-color: #fafafa;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 15px;
+}
+@media (max-width: 767px) {
+	#menu-assignment .menu-links {
+		-webkit-column-count: auto;
+		-moz-column-count: auto;
+		column-count: auto;
+	}
 }
