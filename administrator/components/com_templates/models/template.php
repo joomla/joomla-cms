@@ -552,6 +552,7 @@ class TemplatesModelTemplate extends JModelForm
 			return $folder;
 		}
 
+		// Something special is needed for the plugins
 		$pluginFolderName = explode('_', $name);
 		$pluginFolderName = end($pluginFolderName);
 
