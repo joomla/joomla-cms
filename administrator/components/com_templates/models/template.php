@@ -669,7 +669,7 @@ class TemplatesModelTemplate extends JModelForm
 			$app            = JFactory::getApplication();
 			$explodeArray   = explode(DIRECTORY_SEPARATOR, $override);
 			$name           = end($explodeArray);
-			$client 	    = JApplicationHelper::getClientInfo($template->client_id);
+			$client         = JApplicationHelper::getClientInfo($template->client_id);
 
 			// Something special is needed for the plugins
 			if (strpos($override, 'plugins') != false)
