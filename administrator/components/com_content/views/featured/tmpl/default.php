@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.multiselect');
+// Load the default behaviours for plural form
+JHtml::_('formbehavior.plural');
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');

@@ -12,10 +12,12 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
+// Load the default behaviours for singular form
+JHtml::_('formbehavior.singular');
+
+JHtml::_('jquery.framework');
 JHtml::_('formbehavior.chosen', '.advancedSelect');
-JHtml::_('behavior.tabstate');
+
 
 $app = JFactory::getApplication();
 $input = $app->input;
@@ -30,14 +32,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
 			jQuery("#permissions-sliders select").attr("disabled", "disabled");
-			' . $this->form->getField('description')->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
-
-			// @deprecated 4.0  The following js is not needed since 3.7.0.
-			if (task !== "category.apply")
-			{
-				window.parent.jQuery("#categoryEdit' . $this->item->id . 'Modal").modal("hide");
-			}
 		}
 	};
 ');

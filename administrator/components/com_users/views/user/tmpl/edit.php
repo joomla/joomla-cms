@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidator');
-
+// Load the default behaviours for singular form
+JHtml::_('formbehavior.singular');
 
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
@@ -26,18 +26,16 @@ JFactory::getDocument()->addScriptDeclaration("
 
 	Joomla.twoFactorMethodChange = function(e)
 	{
-		var selectedPane = 'com_users_twofactor_' + jQuery('#jform_twofactor_method').val();
+		var selectedPane = 'com_users_twofactor_' + document.getElementById('jform_twofactor_method').value;
 
-		jQuery.each(jQuery('#com_users_twofactor_forms_container>div'), function(i, el) {
-			if (el.id != selectedPane)
-			{
-				jQuery('#' + el.id).hide(0);
+		var nodes = document.querySelectorAll('#com_users_twofactor_forms_container>div');
+		for (var i = 0, k = nodes.length; i < k; i++) {
+			if (nodes[i].id != selectedPane) {
+				nodes[i].style.display = 'none';
+			} else {
+				nodes[i].style.display = 'block';
 			}
-			else
-			{
-				jQuery('#' + el.id).show(0);
-			}
-		});
+		}
 	};
 ");
 

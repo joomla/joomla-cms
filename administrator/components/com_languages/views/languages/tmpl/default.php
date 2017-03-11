@@ -11,9 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.multiselect');
-
-JHtml::_('bootstrap.tooltip');
+// Load the default behaviours for plural form
+JHtml::_('formbehavior.plural');
 
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));

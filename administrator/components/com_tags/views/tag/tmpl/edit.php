@@ -9,15 +9,13 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tabstate');
+// Load the default behaviours for singular form
+JHtml::_('formbehavior.singular');
 
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'tag.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
-			" . $this->form->getField('description')->save() . "
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
 	};

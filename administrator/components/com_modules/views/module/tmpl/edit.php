@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidator');
+// Load the default behaviours for singular form
+JHtml::_('formbehavior.singular');
+
 JHtml::_('behavior.combobox');
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tabstate');
 JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0 ));
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);

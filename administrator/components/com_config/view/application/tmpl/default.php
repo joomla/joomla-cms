@@ -11,11 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-// Load tooltips behavior
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.tabstate');
+// Load the default behavours for singular form
+JHtml::_('formbehavior.singular');
 
 // Load JS message titles
 JText::script('ERROR');

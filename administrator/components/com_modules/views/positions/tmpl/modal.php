@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-
-
 $function  = JFactory::getApplication()->input->getCmd('function', 'jSelectPosition');
 $lang      = JFactory::getLanguage();
 $ordering  = $this->escape($this->state->get('list.ordering'));

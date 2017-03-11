@@ -12,11 +12,10 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $template = $app->getTemplate();
 
-// Load the tooltip behavior.
-JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tabstate');
+// Load the default behaviours for singular form
+JHtml::_('formbehavior.singular');
+
+JHtml::_('jquery.framework');
 JHtml::_('formbehavior.chosen', '.chzn-custom-value', null, array('disable_search_threshold' => 0));
 
 // Load JS message titles

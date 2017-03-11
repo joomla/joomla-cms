@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.formvalidator');
-
+// Load the default behaviours for singular form
+JHtml::_('formbehavior.singular');
 
 JFactory::getDocument()->addScriptDeclaration('
 jQuery(document).ready(function() {
@@ -18,7 +18,6 @@ jQuery(document).ready(function() {
 	{
 		if (task == "note.cancel" || document.formvalidator.isValid(document.getElementById("note-form")))
 		{
-			' . $this->form->getField('body')->save() . '
 			Joomla.submitform(task, document.getElementById("note-form"));
 		}
 	}
