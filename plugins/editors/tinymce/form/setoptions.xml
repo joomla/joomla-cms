@@ -272,18 +272,6 @@
     </field>
 
     <field
-            name="autosave"
-            type="radio"
-            label="PLG_TINY_FIELD_SAVEWARNING_LABEL"
-            description="PLG_TINY_FIELD_SAVEWARNING_DESC"
-            class="btn-group btn-group-yesno"
-            default="1"
-    >
-        <option value="1">JON</option>
-        <option value="0">JOFF</option>
-    </field>
-
-    <field
             name="contextmenu"
             type="radio"
             label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
