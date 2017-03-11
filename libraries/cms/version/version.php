@@ -46,7 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'dev';
+	const DEV_STATUS = 'Development';
 
 	/**
 	 * Build number.
