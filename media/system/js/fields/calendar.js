@@ -1098,16 +1098,14 @@
 			}
 		}
 
-	window.JoomlaCalendar = JoomlaCalendar;
-
 		var onSubmit = function () {
 			var elements = (container || document).querySelectorAll(".field-calendar");
 
 			for (i = 0; i < elements.length; i++) {
 				var element  = elements[i],
-					inputs   = element.getElementsByTagName('input')[0],
-					buttton  = element.getElementsByTagName('button')[0],
-					instance = element._joomlaCalendar;
+				    inputs   = element.getElementsByTagName('input')[0],
+				    buttton  = element.getElementsByTagName('button')[0],
+				    instance = element._joomlaCalendar;
 
 				if (instance) {
 					instance.setAltValue();
@@ -1115,13 +1113,15 @@
 			}
 		};
 
-		if (elements[0].getElementsByTagName('input')[0].form) {
+		if (elements[0] && elements[0].getElementsByTagName('input')[0] && elements[0].getElementsByTagName('input')[0].form) {
 			elements[0].getElementsByTagName('input')[0].form.addEventListener('submit', onSubmit);
 		}
 	};
 
+	window.JoomlaCalendar = JoomlaCalendar;
+
 	/** Instantiate all the calendar fields when the document is ready */
-	document.addEventListener("DOMContentLoaded", function () {
+	document.addEventListener("DOMContentLoaded", function() {
 		JoomlaCalendar.init(".field-calendar");
 
 		window.jQuery && jQuery(document).on("subform-row-add", function (event, row) {

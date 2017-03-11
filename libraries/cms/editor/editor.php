@@ -499,7 +499,7 @@ class JEditor extends JObject
 	/**
 	 * Load the editor
 	 *
-	 * @param   array  $config  Associative array of editor config paramaters
+	 * @param   array  $config  Associative array of editor config parameters
 	 *
 	 * @return  mixed
 	 *
