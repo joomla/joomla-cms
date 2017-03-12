@@ -186,17 +186,30 @@ ul.manager .height-50 .icon-folder-2 {
 }
 
 // Media Manager
+.com_media {
+	.media a + a {
+		margin-left: -1px;
+	}
+	.tree-holder {
+		padding: 0 15px;
+	}
+}
 #folderframe.thumbnail {
 	border: 0;
 	box-shadow: none;
 	padding: 0;
 }
 #mediamanager-form {
+	margin: 0 -10px;
 	> .muted {
 		padding: 0px;
 	}
 	.checkbox {
+		padding-left: 30px;
 		margin-bottom: 15px;
+		input {
+			margin-top: 3px;
+		}
 	}
 	.thumbnails {
 		.thumbnail {
@@ -204,10 +217,8 @@ ul.manager .height-50 .icon-folder-2 {
 			width: 120px;
 			margin: 0 18px 18px 0;
 		}
-		.imgThumb {
-			label {
-				line-height: 120px;
-			}
+		.imgThumb label, .imgTotal {
+			line-height: 120px;
 		}
 	}
 

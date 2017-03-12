@@ -7852,23 +7852,37 @@ ul.manager .height-50 .icon-folder-2 {
 .thumbnails-media .imgFolder + .imgDetails {
 	color: inherit;
 }
+.com_media .media a + a {
+	margin-left: -1px;
+}
+.com_media .tree-holder {
+	padding: 0 15px;
+}
 #folderframe.thumbnail {
 	border: 0;
 	box-shadow: none;
 	padding: 0;
 }
+#mediamanager-form {
+	margin: 0 -10px;
+}
 #mediamanager-form > .muted {
 	padding: 0px;
 }
 #mediamanager-form .checkbox {
+	padding-left: 30px;
 	margin-bottom: 15px;
+}
+#mediamanager-form .checkbox input {
+	margin-top: 3px;
 }
 #mediamanager-form .thumbnails .thumbnail {
 	height: 120px;
 	width: 120px;
 	margin: 0 18px 18px 0;
 }
-#mediamanager-form .thumbnails .imgThumb label {
+#mediamanager-form .thumbnails .imgThumb label,
+#mediamanager-form .thumbnails .imgTotal {
 	line-height: 120px;
 }
 #mediamanager-form .height-50 {
@@ -8262,6 +8276,10 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 }
 .j-sidebar-container .filter-select {
 	padding: 0 14px;
+}
+.j-toggle-sidebar-header h3 {
+	font-weight: normal;
+	padding: 0 15px;
 }
 .j-toggle-button-wrapper {
 	position: absolute;
@@ -8663,9 +8681,6 @@ ul.treeselect ul.dropdown-menu li {
 .tree-holder ul ul .file {
 	box-shadow: -3px 0 0 #3071a9;
 	border-left: 0;
-}
-.com_media .tree-holder {
-	padding: 0 10px;
 }
 .break-word {
 	word-break: break-all;
