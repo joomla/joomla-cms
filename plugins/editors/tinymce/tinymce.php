@@ -232,11 +232,29 @@ class PlgEditorTinymce extends JPlugin
 		// List the skins
 		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
-		// Set the selected skin
-		$skin = 'lightgray';
-		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
+		// First we check for a skin in the current template
+		$template = $app->getTemplate();
+		$isAdmin  = $app->isClient('administrator');
+		$path     = JPATH_ROOT . '/' . ($isAdmin ? 'administrator' : '') . '/templates/' . $template . '/css/editors/tinymce/skins';
+		$skinUrl  = '';
+		$skin     = '';
 
-		if ((int) $levelParams->get($side, 0) < count($skindirs))
+		if (is_dir($path))
+		{
+			$directories = glob($path . '/*', GLOB_ONLYDIR);
+			if (is_array($directories))
+			{
+				$skinUrl = JUri::root(false) . ($isAdmin ? 'administrator' : '') . '/templates/' . $template . '/css/editors/tinymce/skins/' . basename($directories[0]);
+			}
+		}
+
+		// Set the selected skin
+		// Deprecated 4.0
+		// Place the skin in your template's css folder
+		$skin    = 'lightgray';
+		$side    = $isAdmin ? 'skin_admin' : 'skin';
+
+		if ((int) $levelParams->get($side, 0) < count($skindirs) && empty($skinUrl))
 		{
 			$skin = basename($skindirs[(int) $levelParams->get($side, 0)]);
 		}
@@ -441,9 +459,10 @@ class PlgEditorTinymce extends JPlugin
 			$levelParams->loadArray($preset);
 		}
 
-		$menubar  = (array) $levelParams->get('menu', array());
-		$toolbar1 = (array) $levelParams->get('toolbar1', array());
-		$toolbar2 = (array) $levelParams->get('toolbar2', array());
+		$menubar          = (array) $levelParams->get('menu', array());
+		$toolbar1         = (array) $levelParams->get('toolbar1', array());
+		$toolbar2         = (array) $levelParams->get('toolbar2', array());
+		$externalPlugins  = array();
 
 		// Make an easy way to check which button is enabled
 		$allButtons = array_merge($toolbar1, $toolbar2);
@@ -452,9 +471,15 @@ class PlgEditorTinymce extends JPlugin
 		// Check for button-specific plugins
 		foreach ($allButtons as $btnName)
 		{
-			if (!empty($knownButtons[$btnName]['plugin']))
+			if (!empty($knownButtons[$btnName]['plugin']) && $knownButtons[$btnName]['plugin'] !== 'pagebreak')
 			{
 				$plugins[] = $knownButtons[$btnName]['plugin'];
+			}
+			else if ($knownButtons[$btnName] !== 'pagebreak')
+			{
+				JText::script('PLG_TINY_PAGEBREAK_ERROR');
+
+				$externalPlugins['pagebreak'] = ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', '', JUri::root(false))) . '/media/editors/tinymce/js/plugins/pagebreak/plugin.min.js';
 			}
 		}
 
@@ -565,7 +590,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$plugins[]     = 'jdragdrop';
+			$externalPlugins['jdragdrop'] = ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', '', JUri::root(false))) . '/media/editors/tinymce/js/plugins/jdragdrop/plugin.min.js';
 			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
@@ -612,6 +637,7 @@ class PlgEditorTinymce extends JPlugin
 			'language' => $langPrefix,
 			'autosave_restore_when_empty' => false,
 			'skin'   => $skin,
+			'skin_url' => $skinUrl,
 			'theme'  => $theme,
 			'schema' => 'html5',
 
@@ -647,10 +673,12 @@ class PlgEditorTinymce extends JPlugin
 			'resize'             => $resizing,
 			'templates'          => $templates,
 			'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
+			'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
 
 			// @TODO make it better, do not generate JavaScript in PHP !!!
 			'setupCallbackString' => $tinyBtns,
 		);
+
 
 		if ($levelParams->get('newlines'))
 		{
@@ -1459,7 +1487,6 @@ class PlgEditorTinymce extends JPlugin
 			'print',
 			'preview',
 			'anchor',
-			'pagebreak',
 			'code',
 			'save',
 			'textcolor',
@@ -1869,6 +1896,12 @@ class PlgEditorTinymce extends JPlugin
 			);
 		}
 
+		$externalPlugins = array(
+			array('jdragdrop' => ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', JUri::root(false))) . '/media/editors/tinymce/js/plugins/jdragdrop/plugin.min.js'),
+			array('pagebreak' => ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', JUri::root(false))) . '/media/editors/tinymce/js/plugins/pagebreak/plugin.min.js'),
+
+		);
+
 		// Prepare config variables
 		$plugins  = implode(',', $plugins);
 		$elements = implode(',', $elements);
@@ -1948,7 +1981,8 @@ class PlgEditorTinymce extends JPlugin
 			case 0: /* Simple mode*/
 				$scriptOptions['menubar']  = false;
 				$scriptOptions['toolbar1'] = 'bold italic underline strikethrough | undo redo | bullist numlist | code | ' . $toolbar5;
-				$scriptOptions['plugins']  = $dragDropPlg . ' code';
+				$scriptOptions['plugins']  = ' code';
+				$scriptOptions['external_plugins']  = $externalPlugins;
 
 				break;
 
@@ -1960,7 +1994,8 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
-				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ' . $dragDropPlg;
+				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ';
+				$scriptOptions['external_plugins']  = $externalPlugins;
 				$scriptOptions['toolbar1'] = $toolbar1 . ' | ' . $toolbar5;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['importcss_append']  = true;
@@ -1974,7 +2009,8 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
-				$scriptOptions['plugins']  = $plugins . ' ' . $dragDropPlg;
+				$scriptOptions['plugins']  = $plugins;
+				$scriptOptions['external_plugins']  = $externalPlugins;
 				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['rel_list'] = array(

@@ -4,7 +4,7 @@ tinymce.PluginManager.add('jdragdrop', function(editor) {
 	tinyMCE.DOM.bind(document, 'dragleave', function(e) {
 		e.stopPropagation();
 		e.preventDefault();
-		tinyMCE.activeEditor.contentAreaContainer.style.borderWidth='';
+		tinyMCE.activeEditor.contentAreaContainer.style.borderWidth = '1px 0 0';
 
 		return false;
 	});
@@ -24,9 +24,10 @@ tinymce.PluginManager.add('jdragdrop', function(editor) {
 
 		removeProgessBar = function(){
 			setTimeout(function(){
-				document.querySelector('#jloader').outerHTML = "";
-				delete document.querySelector('#jloader');
-				editor.contentAreaContainer.style.borderWidth = '';
+				//document.querySelector('#jloader').outerHTML = "";
+				var loader = document.querySelector('#jloader');
+				loader.parentNode.removeChild(loader);
+				editor.contentAreaContainer.style.borderWidth = '1px 0 0 0';
 			}, 200);
 		};
 
@@ -36,9 +37,7 @@ tinymce.PluginManager.add('jdragdrop', function(editor) {
 			if (xhr.status == 200) {
 				if (resp.status == '0') {
 					removeProgessBar();
-
-					tinyMCE.activeEditor.windowManager.alert(resp.message + ': ' + setCustomDir + resp.location);
-
+					editor.windowManager.alert(resp.message + ': ' + setCustomDir + resp.location);
 				}
 
 				if (resp.status == '1') {
@@ -77,8 +76,8 @@ tinymce.PluginManager.add('jdragdrop', function(editor) {
 		// Notify user when file is over the drop area
 		editor.on('dragover', function(e) {
 			e.preventDefault();
-			tinyMCE.activeEditor.contentAreaContainer.style.borderStyle = 'dashed';
-			tinyMCE.activeEditor.contentAreaContainer.style.borderWidth = '5px';
+			editor.contentAreaContainer.style.borderStyle = 'dashed';
+			editor.contentAreaContainer.style.borderWidth = '5px';
 
 			return false;
 		});
@@ -93,14 +92,23 @@ tinymce.PluginManager.add('jdragdrop', function(editor) {
 					// Only images allowed
 					if (f.name.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
 
-						// Display a progress bar
-						document.querySelector('.mce-toolbar-grp').innerHTML +=
-							'<div id=\"jloader\">' +
-							'   <div class=\"progress progress-success progress-striped active\" style=\"width:100%;height:30px;\">' +
-							'       <div class=\"bar\" style=\"width: 0%\"></div>' +
-							'   </div>' +
-							'</div>';
-						editor.contentAreaContainer.style.borderWidth = '';
+						// Create and display the progress bar
+						var container, innerDiv, progressBar = '';
+						container = document.createElement('div');
+						container.id = 'jloader';
+						innerDiv = document.createElement('div');
+						innerDiv.classList.add('progress');
+						innerDiv.classList.add('progress-success');
+						innerDiv.classList.add('progress-striped');
+						innerDiv.classList.add('active');
+						innerDiv.style.width = '100%';
+						innerDiv.style.height = '30px';
+						progressBar = document.createElement('div');
+						progressBar.classList.add('bar');
+						progressBar.style.width = '0';
+						innerDiv.appendChild(progressBar);
+						container.appendChild(innerDiv);
+						document.querySelector('.mce-toolbar-grp').appendChild(container);
 
 						// Upload the file(s)
 						UploadFile(f);
@@ -109,7 +117,7 @@ tinymce.PluginManager.add('jdragdrop', function(editor) {
 					e.preventDefault();
 				}
 			}
-			editor.contentAreaContainer.style.borderWidth = '';
+			editor.contentAreaContainer.style.borderWidth = '1px 0 0';
 		});
 	} else {
 		Joomla.renderMessages({'error': [Joomla.JText._("PLG_TINY_ERR_UNSUPPORTEDBROWSER")]});
