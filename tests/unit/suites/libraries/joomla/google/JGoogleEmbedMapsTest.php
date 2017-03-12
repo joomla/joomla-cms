@@ -62,7 +62,7 @@ class JGoogleEmbedMapsTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -754,9 +754,9 @@ class JGoogleEmbedMapsTest extends TestCase
 function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 {
 	$query = parse_url($url, PHP_URL_QUERY);
-	
+
 	parse_str($query, $params);
-	
+
 	$address = strtolower($params['address']);
 
 	switch ($address)

@@ -12,7 +12,7 @@
  *
  * @since  11.1
  */
-class JSessionStorageMemcacheTest extends PHPUnit_Framework_TestCase
+class JSessionStorageMemcacheTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JSessionStorageMemcache

@@ -14,7 +14,7 @@
 * @subpackage  Microdata
 * @since       3.2
 */
-class JMicrodataTest extends PHPUnit_Framework_TestCase
+class JMicrodataTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * The default fallback Type
@@ -50,7 +50,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
