@@ -346,15 +346,15 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			$driverName = $this->db->getName();
 		}
 
+		$forceIndex = $straightJoin = '';
+
 		if (count($this->assetId) > $this->optimizeLimit)
 		{
 			$useIds = false;
-			$forceIndex = $straightJoin = '';
 		}
 		else
 		{
 			$useIds = true;
-			$straightJoin = $forceIndex = '';
 
 			if ($this->db->getServerType() == 'mysql')
 			{
