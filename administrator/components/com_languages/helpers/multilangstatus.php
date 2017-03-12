@@ -233,7 +233,7 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  boolean True if the module is published, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getDefaultHomeModule()
 	{
@@ -287,7 +287,7 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  stdClass  The Module object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getModule($moduleName, $instanceTitle = null)
 	{

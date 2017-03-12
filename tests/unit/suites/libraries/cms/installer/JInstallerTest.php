@@ -137,7 +137,7 @@ class JInstallerTest extends TestCaseDatabase
 		$this->assertEquals(
 			$this->object->getRedirectUrl(),
 			'http://www.example.com',
-			'Get or Set Redirect Url failed'
+			'Get or Set Redirect URL failed'
 		);
 	}
 
