@@ -170,13 +170,13 @@ class View extends \JObject
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		}
-		elseif (is_dir($this->_basePath . '/view'))
-		{
-			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
-		}
 		elseif (is_dir($this->_basePath . '/resources/views'))
 		{
 			$this->_setPath('template', $this->_basePath . '/resources/views/' . $this->getName() . '/tmpl');
+		}
+		elseif (is_dir($this->_basePath . '/view'))
+		{
+			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
 		}
 		else
 		{
