@@ -422,6 +422,7 @@ class AssociationsHelper extends JHelperContent
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('sef', 'lang_code', 'image', 'title', 'published')))
 			->from($db->quoteName('#__languages'))
+			->where($db->quoteName('published') . ' != -2')
 			->order($db->quoteName('ordering') . ' ASC');
 
 		$db->setQuery($query);
