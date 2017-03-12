@@ -417,7 +417,6 @@ class FieldsModelField extends JModelAdmin
 	 * Setting the value for the gven field id, context and item id.
 	 *
 	 * @param   string  $fieldId  The field ID.
-	 * @param   string  $context  The context.
 	 * @param   string  $itemId   The ID of the item.
 	 * @param   string  $value    The value.
 	 *
@@ -425,7 +424,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @since   3.7.0
 	 */
-	public function setFieldValue($fieldId, $context, $itemId, $value)
+	public function setFieldValue($fieldId, $itemId, $value)
 	{
 		$field  = $this->getItem($fieldId);
 		$params = $field->params;
@@ -452,7 +451,7 @@ class FieldsModelField extends JModelAdmin
 		}
 		else
 		{
-			$oldValue = $this->getFieldValue($fieldId, $context, $itemId);
+			$oldValue = $this->getFieldValue($fieldId, $itemId);
 			$value    = (array) $value;
 
 			if ($oldValue === null)
@@ -481,7 +480,6 @@ class FieldsModelField extends JModelAdmin
 
 			$query->delete($query->qn('#__fields_values'))
 				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('context') . ' = ' . $query->q($context))
 				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
 			$this->getDbo()->setQuery($query)->execute();
@@ -492,7 +490,6 @@ class FieldsModelField extends JModelAdmin
 			$newObj = new stdClass;
 
 			$newObj->field_id = (int) $fieldId;
-			$newObj->context  = $context;
 			$newObj->item_id  = $itemId;
 
 			foreach ($value as $v)
@@ -508,11 +505,10 @@ class FieldsModelField extends JModelAdmin
 			$updateObj = new stdClass;
 
 			$updateObj->field_id = (int) $fieldId;
-			$updateObj->context  = $context;
 			$updateObj->item_id  = $itemId;
 			$updateObj->value    = reset($value);
 
-			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'context', 'item_id'));
+			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'item_id'));
 		}
 
 		$this->valueCache = array();
@@ -524,16 +520,15 @@ class FieldsModelField extends JModelAdmin
 	 * Returning the value for the given field id, context and item id.
 	 *
 	 * @param   string  $fieldId  The field ID.
-	 * @param   string  $context  The context.
 	 * @param   string  $itemId   The ID of the item.
 	 *
 	 * @return  NULL|string
 	 *
 	 * @since  3.7.0
 	 */
-	public function getFieldValue($fieldId, $context, $itemId)
+	public function getFieldValue($fieldId, $itemId)
 	{
-		$key = md5($fieldId . $context . $itemId);
+		$key = md5($fieldId . $itemId);
 
 		if (!key_exists($key, $this->valueCache))
 		{
@@ -544,7 +539,6 @@ class FieldsModelField extends JModelAdmin
 			$query->select($query->qn('value'))
 				->from($query->qn('#__fields_values'))
 				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('context') . ' = ' . $query->q($context))
 				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
 			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
@@ -580,9 +574,9 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @since  3.7.0
 	 */
-	public function getFieldValues($fieldIds, $context, $itemId)
+	public function getFieldValues($fieldIds, $itemId)
 	{
-		$key = md5($fieldIds . $context . $itemId);
+		$key = md5($fieldIds . $itemId);
 
 		if (!key_exists($key, $this->valueCache))
 		{
@@ -593,7 +587,6 @@ class FieldsModelField extends JModelAdmin
 			$query->select(array($query->qn('field_id'), $query->qn('value')))
 				->from($query->qn('#__fields_values'))
 				->where($query->qn('field_id') . ' in (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
-				->where($query->qn('context') . ' = ' . $query->q($context))
 				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
 			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
@@ -623,10 +616,16 @@ class FieldsModelField extends JModelAdmin
 	 */
 	public function cleanupValues($context, $itemId)
 	{
+		// Delete with inner join is not possible so we need to do a subquery
+		$fieldsQuery = $this->getDbo()->getQuery(true);
+		$fieldsQuery->select($fieldsQuery->qn('id'))
+			->from($fieldsQuery->qn('#__fields'))
+			->where($fieldsQuery->qn('context') . ' = ' . $fieldsQuery->q($context));
+
 		$query = $this->getDbo()->getQuery(true);
 
 		$query->delete($query->qn('#__fields_values'))
-			->where($query->qn('context') . ' = ' . $query->q($context))
+			->where($query->qn('field_id') . ' IN (' . $fieldsQuery . ')')
 			->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
 		$this->getDbo()->setQuery($query)->execute();

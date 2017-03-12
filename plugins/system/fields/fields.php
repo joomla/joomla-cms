@@ -95,7 +95,7 @@ class PlgSystemFields extends JPlugin
 			}
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $fieldsData[$field->alias]);
+			$model->setFieldValue($field->id, $id, $fieldsData[$field->alias]);
 		}
 
 		return true;

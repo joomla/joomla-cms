@@ -147,7 +147,7 @@ class FieldsHelper
 
 			$fieldIds = array_map(function($f) { return $f->id; }, $fields);
 
-			$fieldValues = self::$fieldCache->getFieldValues($fieldIds, $context, $item->id);
+			$fieldValues = self::$fieldCache->getFieldValues($fieldIds, $item->id);
 
 			$new = array();
 
@@ -362,9 +362,7 @@ class FieldsHelper
 		$fieldsNode->setAttribute('name', 'com_fields');
 
 		// Organizing the fields according to their group
-		$fieldsPerGroup = array(
-			0 => array()
-		);
+		$fieldsPerGroup = array(0 => array());
 
 		foreach ($fields as $field)
 		{
@@ -483,9 +481,7 @@ class FieldsHelper
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-				'ignore_request' => true)
-		);
+		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
 			&& JFactory::getApplication()->isClient('site'))
@@ -502,7 +498,7 @@ class FieldsHelper
 
 		foreach ($fields as $field)
 		{
-			$value = $model->getFieldValue($field->id, $field->context, $data->id);
+			$value = $model->getFieldValue($field->id, $data->id);
 
 			if ($value === null)
 			{
