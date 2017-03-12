@@ -492,6 +492,18 @@ if ($this->type == 'font')
 			<?php endforeach; ?>
 		</ul>
 	</fieldset>
+	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_PLUGINS'), 'override-module'); ?>
+	<fieldset class="panelform">
+		<ul class="adminformlist">
+			<?php foreach ($this->overridesList['plugins'] as $plugins): ?>
+				<li>
+					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $plugins->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+						<span class="icon-copy"></span>&nbsp;<?php echo $plugins->name; ?>
+					</a>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</fieldset>
 	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'), 'override-layout'); ?>
 	<fieldset class="panelform">
 		<ul class="adminformlist">

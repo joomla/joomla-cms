@@ -635,7 +635,7 @@ class TemplatesModelTemplate extends JModelForm
 
 				foreach ($plugins as $plugin)
 				{
-					// Only if the plugin supports views
+					// Only if the plugin implements overrides
 					if (file_exists($pluginTypesPath . $plugin . '/tmpl'))
 					{
 						$pluginName          = 'plg_' . $pluginType . '_' . $plugin;
