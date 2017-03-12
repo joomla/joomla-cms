@@ -576,7 +576,7 @@ class Controller  implements ControllerInterface
 		}
 
 		// Basic model configuration data
-		$config['name']   = $modelName;
+		$config['name']   = strtolower($modelName);
 		$config['option'] = $this->option;
 
 		return Model::getInstance($modelName, $classPrefix, $config);
@@ -608,7 +608,7 @@ class Controller  implements ControllerInterface
 		$viewType    = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
 		// Basic view configuration data
-		$config['name']   = $viewName;
+		$config['name']   = strtolower($viewName);
 		$config['option'] = $this->option;
 
 		// If this is a namespace controller, create namespace view class
