@@ -263,7 +263,7 @@ class JUpdater extends JAdapter
 
 		// Get the update information from the remote update XML document
 		/** @var JUpdateAdapter $adapter */
-		$adapter       = $this->_adapters[ $updateSite['type']];
+		$adapter       = $this->_adapters[$updateSite['type']];
 		$update_result = $adapter->findUpdate($updateSite);
 
 		// Version comparison operator.
@@ -303,6 +303,11 @@ class JUpdater extends JAdapter
 				foreach ($update_result['updates'] as $current_update)
 				{
 					$current_update->extra_query = $updateSite['extra_query'];
+
+					if (!isset($current_update->data)
+					{
+						$current_update->data = '';
+					}
 
 					/** @var JTableUpdate $update */
 					$update = JTable::getInstance('update');
