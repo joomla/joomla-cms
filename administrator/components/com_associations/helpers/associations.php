@@ -158,18 +158,18 @@ class AssociationsHelper extends JHelperContent
 	/**
 	 * Get the associated language edit links Html.
 	 *
-	 * @param   string   $extensionName  Extension Name
-	 * @param   string   $typeName       ItemType
-	 * @param   integer  $itemId         Item id.
-	 * @param   string   $itemLanguage   Item language code.
-	 * @param   boolean  $addLink        True for adding edit links. False for just text.
-	 * @param   boolean  $allLanguages   True for showing all content languages. False only languages with associations.
+	 * @param   string   $extensionName   Extension Name
+	 * @param   string   $typeName        ItemType
+	 * @param   integer  $itemId          Item id.
+	 * @param   string   $itemLanguage    Item language code.
+	 * @param   boolean  $addLink         True for adding edit links. False for just text.
+	 * @param   boolean  $assocLanguages  True for showing non associated content languages. False only languages with associations.
 	 *
 	 * @return  string   The language HTML
 	 *
 	 * @since   3.7.0
 	 */
-	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $allLanguages = true)
+	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $assocLanguages = true)
 	{
 		// Get the associations list for this item.
 		$items = self::getAssociationList($extensionName, $typeName, $itemId);
@@ -191,8 +191,14 @@ class AssociationsHelper extends JHelperContent
 				continue;
 			}
 
+			// Don't show languages with associations, if we don't want to show them.
+			if ($assocLanguages && isset($items[$langCode]))
+			{
+				continue;
+			}
+
 			// Don't show languages without associations, if we don't want to show them.
-			if (!$allLanguages && !isset($items[$langCode]))
+			if (!$assocLanguages && !isset($items[$langCode]))
 			{
 				continue;
 			}
