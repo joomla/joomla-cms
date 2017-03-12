@@ -359,13 +359,7 @@ class Controller  implements ControllerInterface
 
 		$this->input  = $input ? $input : \JFactory::getApplication()->input;
 		$this->option = $this->input->getCmd('option');
-
-		// Check to make sure the component is enabled
-		if (!\JComponentHelper::isEnabled($this->option))
-		{
-			throw new \InvalidArgumentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
-		}
-
+		
 		// Determine the methods to exclude from the base class.
 		$xMethods = get_class_methods('\\Joomla\\Cms\\Controller\\Controller');
 
@@ -430,6 +424,10 @@ class Controller  implements ControllerInterface
 			{
 				// User-defined prefix
 				$this->model_prefix = $config['model_prefix'];
+			}
+			elseif ($this->namespace)
+			{
+				$this->model_prefix = $this->namespace . '\\Model\\';
 			}
 			else
 			{
@@ -569,24 +567,17 @@ class Controller  implements ControllerInterface
 	{
 		// Clean the model name
 		$modelName   = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$classPrefix = preg_replace('/[^A-Z0-9_\\\\]/i', '', $prefix);
+
+		// If this is a namespace controller, change model name to support auto-loader
+		if ($this->namespace)
+		{
+			$modelName = ucfirst($modelName);
+		}
 
 		// Basic model configuration data
 		$config['name']   = $modelName;
 		$config['option'] = $this->option;
-
-		// If this is a namespace controller, create namespace model class
-		if ($this->namespace)
-		{
-			$modelClass = $this->namespace . '\\Model\\' . ucfirst($name);
-
-			if (class_exists($modelClass))
-			{
-				return new $modelClass($config);
-			}
-
-			return false;
-		}
 
 		return Model::getInstance($modelName, $classPrefix, $config);
 	}
