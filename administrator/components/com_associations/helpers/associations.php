@@ -194,6 +194,7 @@ class AssociationsHelper extends JHelperContent
 			// Don't show languages with associations, if we don't want to show them.
 			if ($assocLanguages && isset($items[$langCode]))
 			{
+				unset($items[$langCode]);
 				continue;
 			}
 
