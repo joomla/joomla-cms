@@ -244,7 +244,8 @@ class PlgEditorTinymce extends JPlugin
 			$directories = glob($path . '/*', GLOB_ONLYDIR);
 			if (is_array($directories))
 			{
-				$skinUrl = JUri::root(false) . ($isAdmin ? 'administrator' : '') . '/templates/' . $template . '/css/editors/tinymce/skins/' . basename($directories[0]);
+				$skinUrl = JUri::root(false) . ($isAdmin ? 'administrator' : '')
+					. '/templates/' . $template . '/css/editors/tinymce/skins/' . basename($directories[0]);
 			}
 		}
 
@@ -475,11 +476,12 @@ class PlgEditorTinymce extends JPlugin
 			{
 				$plugins[] = $knownButtons[$btnName]['plugin'];
 			}
-			else if ($knownButtons[$btnName] !== 'pagebreak')
+			elseif ($knownButtons[$btnName] !== 'pagebreak')
 			{
 				JText::script('PLG_TINY_PAGEBREAK_ERROR');
 
-				$externalPlugins['pagebreak'] = ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', '', JUri::root(false))) . '/media/editors/tinymce/js/plugins/pagebreak/plugin.min.js';
+				$externalPlugins['pagebreak'] = ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', '', JUri::root(false)))
+					. '/media/editors/tinymce/js/plugins/pagebreak/plugin.min.js';
 			}
 		}
 
@@ -590,7 +592,8 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragdrop'] = ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', '', JUri::root(false))) . '/media/editors/tinymce/js/plugins/jdragdrop/plugin.min.js';
+			$externalPlugins['jdragdrop'] = ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', '', JUri::root(false)))
+				. '/media/editors/tinymce/js/plugins/jdragdrop/plugin.min.js';
 			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
@@ -1897,8 +1900,10 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$externalPlugins = array(
-			array('jdragdrop' => ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', JUri::root(false))) . '/media/editors/tinymce/js/plugins/jdragdrop/plugin.min.js'),
-			array('pagebreak' => ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', JUri::root(false))) . '/media/editors/tinymce/js/plugins/pagebreak/plugin.min.js'),
+			array('jdragdrop' => ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', JUri::root(false)))
+				. '/media/editors/tinymce/js/plugins/jdragdrop/plugin.min.js'),
+			array('pagebreak' => ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', JUri::root(false)))
+				. '/media/editors/tinymce/js/plugins/pagebreak/plugin.min.js'),
 
 		);
 
