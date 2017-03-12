@@ -53,7 +53,7 @@
 			if (options.joomlaMergeDefaults) {
 				options = Joomla.extend(Joomla.extend({}, defaultOptions), options);
 			} else {
-                options = Joomla.extend({}, options);
+				options = Joomla.extend({}, options);
 			}
 
 			if (element) {
@@ -64,11 +64,11 @@
 
 			// @TODO: the ext-buttons should be as TinyMCE plugins, not the callback hack
 			if (options.joomlaExtButtons && options.joomlaExtButtons.names && options.joomlaExtButtons.names.length) {
-                options.toolbar1 += ' | ' + options.joomlaExtButtons.names.join(' ');
-                var callbackString = options.joomlaExtButtons.script.join(';');
-                options.setupCallbackString = options.setupCallbackString || '';
-                options.setupCallbackString = options.setupCallbackString + ';' + callbackString;
-                options.joomlaExtButtons = null;
+				options.toolbar1 += ' | ' + options.joomlaExtButtons.names.join(' ');
+				var callbackString = options.joomlaExtButtons.script.join(';');
+				options.setupCallbackString = options.setupCallbackString || '';
+				options.setupCallbackString = options.setupCallbackString + ';' + callbackString;
+				options.joomlaExtButtons = null;
 			}
 
 			if (options.setupCallbackString && !options.setup) {
