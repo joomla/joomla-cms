@@ -31,14 +31,15 @@ form:not(.form-no-margin) {
 
     .control-label {
       float: left;
-      width: auto;
+      width: 220px;
       padding-top: 5px;
       padding-right: 5px;
       text-align: left;
     }
 
     .controls {
-      margin-left: 220px;
+      margin-left: 0;
+      overflow: hidden;
     }
 
   }
