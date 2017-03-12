@@ -15,9 +15,7 @@ if (!empty($items)) : ?>
 	<ul class="item-associations">
 		<?php foreach ($items as $id => $item) : ?>
 			<li>
-				<?php if (isset($item['link']) || isset($item->link)) : ?>
-					<?php echo is_array($item) ? $item['link'] : $item->link; ?>
-				<?php endif; ?>
+				<?php echo is_array($item) ? $item['link'] : $item->link; ?>
 			</li>
 		<?php endforeach; ?>
 	</ul>
