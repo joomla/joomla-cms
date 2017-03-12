@@ -91,19 +91,31 @@ class FieldsTableField extends JTable
 			return false;
 		}
 
-		if (empty($this->alias))
+		if (empty($this->name))
 		{
-			$this->alias = $this->title;
+			$this->name = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->name = JApplicationHelper::stringURLSafe($this->name);
 
-		if (trim(str_replace('-', '', $this->alias)) == '')
+		if (trim(str_replace('-', '', $this->name)) == '')
 		{
-			$this->alias = Joomla\String\StringHelper::increment($this->alias, 'dash');
+			$this->name = Joomla\String\StringHelper::increment($this->name, 'dash');
 		}
 
-		$this->alias = str_replace(',', '-', $this->alias);
+		$this->name = str_replace(',', '-', $this->name);
+
+ 		// Verify that the name is unique
+ 		$table = JTable::getInstance('Field', 'FieldsTable', array('dbo' => $this->_db));
+
+		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
+ 		{
+ 			$this->setError(JText::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
+
+ 			return false;
+ 		}
+
+		$this->name = str_replace(',', '-', $this->name);
 
 		if (empty($this->type))
 		{
@@ -135,7 +147,7 @@ class FieldsTableField extends JTable
 		if (empty($this->group_id))
 		{
 			$this->group_id = 0;
-		}	
+		}
 
 		return true;
 	}
