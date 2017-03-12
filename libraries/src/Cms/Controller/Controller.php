@@ -572,7 +572,7 @@ class Controller  implements ControllerInterface
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		// Basic model configuration data
-		$config['name']   = $name;
+		$config['name']   = $modelName;
 		$config['option'] = $this->option;
 
 		// If this is a namespace controller, create namespace model class
@@ -617,7 +617,7 @@ class Controller  implements ControllerInterface
 		$viewType    = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
 		// Basic view configuration data
-		$config['name']   = $name;
+		$config['name']   = $viewName;
 		$config['option'] = $this->option;
 
 		// If this is a namespace controller, create namespace view class
