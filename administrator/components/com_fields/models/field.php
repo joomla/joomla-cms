@@ -566,7 +566,7 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Returning the values for the given field ids, context and item id.
 	 *
-	 * @param   string  $fieldIds  The field Ids.
+	 * @param   array   $fieldIds  The field Ids.
 	 * @param   string  $context   The context.
 	 * @param   string  $itemId    The ID of the item.
 	 *
@@ -574,9 +574,9 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @since  3.7.0
 	 */
-	public function getFieldValues($fieldIds, $itemId)
+	public function getFieldValues(array $fieldIds, $itemId)
 	{
-		$key = md5($fieldIds . $itemId);
+		$key = md5(implode(',', $fieldIds) . $itemId);
 
 		if (!key_exists($key, $this->valueCache))
 		{

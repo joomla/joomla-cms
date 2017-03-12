@@ -167,9 +167,13 @@ class FieldsHelper
 				{
 					$field->value = $valuesToOverride[$field->id];
 				}
-				else
+				elseif (key_exists($field->id, $fieldValues))
 				{
 					$field->value = $fieldValues[$field->id];
+				}
+				else
+				{
+					$field->value = null;
 				}
 
 				if ($field->value === '' || $field->value === null)
