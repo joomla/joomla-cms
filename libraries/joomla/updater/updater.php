@@ -304,7 +304,7 @@ class JUpdater extends JAdapter
 				{
 					$current_update->extra_query = $updateSite['extra_query'];
 
-					if (!isset($current_update->data)
+					if (!isset($current_update->data))
 					{
 						$current_update->data = '';
 					}
