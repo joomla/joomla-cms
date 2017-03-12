@@ -2,7 +2,6 @@
 <phpunit bootstrap="tests/unit/bootstrap.php" colors="false">
 	<!-- These constants help setup environment configurations for running optional tests.
 	<php>
-		<const name="JTEST_DATABASE_MYSQL_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
 		<const name="JTEST_DATABASE_MYSQLI_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
 		<const name="JTEST_DATABASE_PDO_MYSQL_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
 		<const name="JTEST_DATABASE_POSTGRESQL_DSN" value="host=localhost;port=5432;dbname=joomla_ut;user=utuser;pass=ut1234" />
