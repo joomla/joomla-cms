@@ -674,7 +674,7 @@ class TemplatesModelTemplate extends JModelForm
 			// Something special is needed for the plugins
 			if (strpos($override, 'plugins') != false)
 			{
-				// We need to get the plugin type it can be found in the override path at the second spot from behind
+				// We need to get the plugin type it is the folder after the /plugins/ in the override path
 				$i        = count($explodeArray) - 2;
 				$name     = 'plg_' . $explodeArray[$i] . '_' . $name;
 				$htmlPath = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
