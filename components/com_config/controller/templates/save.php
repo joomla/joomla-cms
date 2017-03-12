@@ -28,13 +28,13 @@ class ConfigControllerTemplatesSave extends JControllerBase
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
+			$this->getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
 		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 
 			return;
 		}
@@ -42,7 +42,7 @@ class ConfigControllerTemplatesSave extends JControllerBase
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$app = JFactory::getApplication();
+		$app = $this->getApplication();
 
 		// Access backend com_templates
 		JLoader::register('TemplatesControllerStyle', JPATH_ADMINISTRATOR . '/components/com_templates/controllers/style.php');
@@ -55,7 +55,7 @@ class ConfigControllerTemplatesSave extends JControllerBase
 
 		// Set backend required params
 		$document->setType('json');
-		$this->input->set('id', $app->getTemplate('template')->id);
+		$this->getInput()->set('id', $app->getTemplate('template')->id);
 
 		// Execute backend controller
 		$return = $controllerClass->save();

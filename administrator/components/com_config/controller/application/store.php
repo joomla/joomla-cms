@@ -25,20 +25,20 @@ class ConfigControllerApplicationStore extends JControllerBase
 	public function execute()
 	{
 		// Send json mime type.
-		$this->app->mimeType = 'application/json';
-		$this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
-		$this->app->sendHeaders();
+		$this->getApplication()->mimeType = 'application/json';
+		$this->getApplication()->setHeader('Content-Type', $this->getApplication()->mimeType . '; charset=' . $this->getApplication()->charSet);
+		$this->getApplication()->sendHeaders();
 
 		// Check if user token is valid.
 		if (!JSession::checkToken('get'))
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
+			$this->getApplication()->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
 			echo new JResponseJson;
-			$this->app->close();
+			$this->getApplication()->close();
 		}
 
 		$model = new ConfigModelApplication;
 		echo new JResponseJson($model->storePermissions());
-		$this->app->close();
+		$this->getApplication()->close();
 	}
 }
