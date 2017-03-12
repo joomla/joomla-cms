@@ -492,7 +492,7 @@ if ($this->type == 'font')
 			<?php endforeach; ?>
 		</ul>
 	</fieldset>
-	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_PLUGINS'), 'override-module'); ?>
+	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_PLUGINS'), 'override-plugins'); ?>
 	<fieldset class="panelform">
 		<ul class="adminformlist">
 			<?php foreach ($this->overridesList['plugins'] as $plugins): ?>
