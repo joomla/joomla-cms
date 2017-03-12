@@ -622,7 +622,9 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// Build the final options set
-		$scriptOptions = array_merge($scriptOptions, array(
+		$scriptOptions = array_merge(
+			$scriptOptions,
+			array(
 			'suffix'  => '.min',
 			'baseURL' => JUri::root(true) . '/media/editors/tinymce',
 			'directionality' => $text_direction,
@@ -664,7 +666,8 @@ class PlgEditorTinymce extends JPlugin
 			'resize'             => $resizing,
 			'templates'          => $templates,
 			'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
-		));
+		)
+		);
 
 		if ($levelParams->get('newlines'))
 		{
@@ -1917,7 +1920,9 @@ class PlgEditorTinymce extends JPlugin
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
 
-		$scriptOptions = array_merge($scriptOptions, array(
+		$scriptOptions = array_merge(
+			$scriptOptions,
+			array(
 			'suffix'  => '.min',
 			'baseURL' => JUri::root(true) . '/media/editors/tinymce',
 			'directionality' => $text_direction,
@@ -1941,7 +1946,8 @@ class PlgEditorTinymce extends JPlugin
 			'content_css'        => $content_css,
 			'document_base_url'  => JUri::root(true) . '/',
 			'paste_data_images'  => $allowImgPaste,
-		));
+		)
+		);
 
 		if ($this->params->get('newlines'))
 		{
