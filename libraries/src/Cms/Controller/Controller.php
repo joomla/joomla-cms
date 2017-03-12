@@ -11,6 +11,7 @@ namespace Joomla\Cms\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Input\Input;
 use Joomla\Cms\Model\Model;
 use Joomla\Cms\View\View;
 
@@ -143,6 +144,21 @@ class Controller  implements ControllerInterface
 	 * @since  3.4
 	 */
 	protected static $views;
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  1.6
+	 */
+	protected $option;
+
+	/**
+	 * The base namespace of the component
+	 *
+	 * @var string
+	 */
+	protected $namespace = null;
 
 	/**
 	 * Adds to the stack of model paths in LIFO order.
@@ -323,30 +339,38 @@ class Controller  implements ControllerInterface
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   Input  $input  The controller input
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), Input $input = null)
 	{
-		$this->methods = array();
-		$this->message = null;
+		$this->methods     = array();
+		$this->message     = null;
 		$this->messageType = 'message';
-		$this->paths = array();
-		$this->redirect = null;
-		$this->taskMap = array();
+		$this->paths       = array();
+		$this->redirect    = null;
+		$this->taskMap     = array();
 
 		if (defined('JDEBUG') && JDEBUG)
 		{
 			\JLog::addLogger(array('text_file' => 'jcontroller.log.php'), \JLog::ALL, array('controller'));
 		}
 
-		$this->input = \JFactory::getApplication()->input;
+		$this->input  = $input ? $input : \JFactory::getApplication()->input;
+		$this->option = $this->input->getCmd('option');
+
+		// Check to make sure the component is enabled
+		if (!\JComponentHelper::isEnabled($this->option))
+		{
+			throw new \InvalidArgumentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+		}
 
 		// Determine the methods to exclude from the base class.
-		$xMethods = get_class_methods('\JControllerLegacy');
+		$xMethods = get_class_methods('\\Joomla\\Cms\\Controller\\Controller');
 
 		// Get the public methods in this class using reflection.
-		$r = new \ReflectionClass($this);
+		$r        = new \ReflectionClass($this);
 		$rMethods = $r->getMethods(\ReflectionMethod::IS_PUBLIC);
 
 		foreach ($rMethods as $rMethod)
@@ -395,6 +419,9 @@ class Controller  implements ControllerInterface
 		{
 			$this->registerDefaultTask('display');
 		}
+
+		// Calculate component base namespace from controller class name
+		$this->getNamespace();
 
 		// Set the models prefix
 		if (empty($this->model_prefix))
@@ -541,8 +568,25 @@ class Controller  implements ControllerInterface
 	protected function createModel($name, $prefix = '', $config = array())
 	{
 		// Clean the model name
-		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$modelName   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
+		// Basic model configuration data
+		$config['name']   = $name;
+		$config['option'] = $this->option;
+
+		// If this is a namespace controller, create namespace model class
+		if ($this->namespace)
+		{
+			$modelClass = $this->namespace . '\\Model\\' . ucfirst($name);
+
+			if (class_exists($modelClass))
+			{
+				return new $modelClass($config);
+			}
+
+			return false;
+		}
 
 		return Model::getInstance($modelName, $classPrefix, $config);
 	}
@@ -568,11 +612,27 @@ class Controller  implements ControllerInterface
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
 		// Clean the view name
-		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$viewName    = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
+		$viewType    = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
-		// Build the view class name
+		// Basic view configuration data
+		$config['name']   = $name;
+		$config['option'] = $this->option;
+
+		// If this is a namespace controller, create namespace view class
+		if ($this->namespace)
+		{
+			$viewClass = $this->namespace . '\\View\\' . ucfirst($viewName) . '\\' . ucfirst($viewType);
+
+			if (class_exists($viewClass))
+			{
+				return new $viewClass($config);
+			}
+
+			return null;
+		}
+
 		$viewClass = $classPrefix . $viewName;
 
 		if (!class_exists($viewClass))
@@ -653,7 +713,7 @@ class Controller  implements ControllerInterface
 
 				foreach ($urlparams as $key => $value)
 				{
-					// Add your safe URL parameters with variable type as value {@see JFilterInput::clean()}.
+					// Add your safe URL parameters with variable type as value {@see \JFilterInput::clean()}.
 					$registeredurlparams->$key = $value;
 				}
 
@@ -761,7 +821,7 @@ class Controller  implements ControllerInterface
 	}
 
 	/**
-	 * Method to get the controller name
+	 * Method to get the component name without com_ prefix, ie content, contact
 	 *
 	 * The dispatcher name is set by default parsed using the classname, or it can be set
 	 * by passing a $config['name'] in the class constructor
@@ -775,14 +835,7 @@ class Controller  implements ControllerInterface
 	{
 		if (empty($this->name))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
-
-			$this->name = strtolower($r[1]);
+			$this->name = strtolower(substr($this->option, 4));
 		}
 
 		return $this->name;
@@ -1128,5 +1181,54 @@ class Controller  implements ControllerInterface
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Get base namespace of the component, ie Joomla\Component\Content\Admin or Joomla\Component\Content\Site
+	 *
+	 * @return string
+	 */
+	protected function getNamespace()
+	{
+		if (empty($this->namespace))
+		{
+			$reflection = new \ReflectionClass($this);
+
+			if ($controllerNamespace = $reflection->getNamespaceName())
+			{
+				$pos = strpos($controllerNamespace, '\\Controller');
+
+				if ($pos !== false)
+				{
+					$this->namespace = substr($controllerNamespace, 0, $pos);
+				}
+			}
+
+		}
+
+		return $this->namespace;
+	}
+
+	/**
+	 * Method to get name of the controller, this should be the role of getName() method, but it was implemented wrong
+	 * and we still have to keep it to keep it backward compatible
+	 *
+	 * @return string
+	 */
+	protected function getControllerName()
+	{
+		if ($this->namespace)
+		{
+			return (new \ReflectionClass($this))->getShortName();
+		}
+
+		$r = null;
+
+		if (preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
+		{
+			return strtolower($r[2]);
+		}
+
+		return 'Controller';
 	}
 }
