@@ -249,9 +249,11 @@ class PlgEditorTinymce extends JPlugin
 			}
 		}
 
-		// Set the selected skin
-		// Deprecated 4.0
-		// Place the skin in your template's css folder
+		/**
+		 * Set the selected skin
+		 * Deprecated 4.0
+		 * Place the skin in your template's css folder
+		 */
 		$skin    = 'lightgray';
 		$side    = $isAdmin ? 'skin_admin' : 'skin';
 
