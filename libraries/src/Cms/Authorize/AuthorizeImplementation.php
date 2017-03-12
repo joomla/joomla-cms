@@ -48,9 +48,18 @@ abstract class AuthorizeImplementation
 		switch ($key)
 		{
 			case 'authorizationMatrix':
-				$class = get_class($this);
 
-				return self::getMatrix($class);
+				if ($this instanceof AuthorizeInterface)
+				{
+					$class = get_class($this);
+
+					return self::getMatrix($class);
+				}
+				else
+				{
+					throw new \UnexpectedValueException('authorizationMatrix can only be read from classes implementing AuthorizeInterface');
+				}
+
 				break;
 
 			default:
@@ -76,7 +85,7 @@ abstract class AuthorizeImplementation
 	 *
 	 * @since   4.0
 	 */
-	protected static function getMatrix($class)
+	final private static function getMatrix($class)
 	{
 		return isset(self::$authorizationMatrix[$class]) ? self::$authorizationMatrix[$class] : array();
 	}
@@ -96,8 +105,18 @@ abstract class AuthorizeImplementation
 		switch ($name)
 		{
 			case 'authorizationMatrix':
-				$class = get_class($this);
-				self::setMatrix($value, $class);
+
+				if ($this instanceof AuthorizeInterface)
+				{
+					$class = get_class($this);
+
+					self::setMatrix($value, $class);
+				}
+				else
+				{
+					throw new \UnexpectedValueException('authorizationMatrix can only be set from classes implementing AuthorizeInterface');
+				}
+
 				break;
 
 			case 'db':
@@ -129,22 +148,13 @@ abstract class AuthorizeImplementation
 	 * @param   mixed   $value  Value to assign to the property
 	 * @param   string  $class  Child class name
 	 *
-	 * @return  self
+	 * @return  void
 	 *
 	 * @since   4.0
 	 */
-	final protected static function setMatrix($value, $class)
+	final private static function setMatrix($value, $class)
 	{
-		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
-
-		if ($trace['function'] == '__set' && $trace['class'] == 'Joomla\Cms\Authorize\AuthorizeImplementation')
-		{
-			self::$authorizationMatrix[$class] = $value;
-		}
-		else
-		{
-			throw new \BadMethodCallException('setMatrix should not be called from child classes directly, use $this->authorizationMatrix');
-		}
+		self::$authorizationMatrix[$class] = $value;
 	}
 
 
@@ -161,7 +171,6 @@ abstract class AuthorizeImplementation
 	 */
 	protected function allow($actor, $target, $action)
 	{
-
 		$class = get_class($this);
 
 		$authorizationMatrix = $this->authorizationMatrix;
@@ -170,7 +179,6 @@ abstract class AuthorizeImplementation
 		{
 			$this->authorizationMatrix[$class][$target][$action][$actor] = 1;
 		}
-
 	}
 
 	/**
@@ -194,7 +202,6 @@ abstract class AuthorizeImplementation
 		{
 			$this->authorizationMatrix[$class][$target][$action][$actor] = 0;
 		}
-
 	}
 
 	/** Inject permissions filter in the database object
