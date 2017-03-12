@@ -70,11 +70,11 @@ JFactory::getDocument()->addScriptDeclaration('
 			<div id="config-document" class="tab-content">
 				<div id="page-site" class="tab-pane active">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-lg-12 col-xl-6">
 							<?php echo $this->loadTemplate('site'); ?>
 							<?php echo $this->loadTemplate('metadata'); ?>
 						</div>
-						<div class="col-md-6">
+						<div class="col-lg-12 col-xl-6">
 							<?php echo $this->loadTemplate('seo'); ?>
 							<?php echo $this->loadTemplate('cookie'); ?>
 						</div>
@@ -92,13 +92,13 @@ JFactory::getDocument()->addScriptDeclaration('
 				</div>
 				<div id="page-server" class="tab-pane">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-lg-12 col-xl-6">
 							<?php echo $this->loadTemplate('server'); ?>
 							<?php echo $this->loadTemplate('locale'); ?>
 							<?php echo $this->loadTemplate('ftp'); ?>
 							<?php echo $this->loadTemplate('proxy'); ?>
 						</div>
-						<div class="col-md-6">
+						<div class="col-lg-12 col-xl-6">
 							<?php echo $this->loadTemplate('database'); ?>
 							<?php echo $this->loadTemplate('mail'); ?>
 						</div>

@@ -8874,12 +8874,13 @@ form:not(.form-no-margin) .control-group {
   margin-bottom: 18px; }
   form:not(.form-no-margin) .control-group .control-label {
     float: left;
-    width: auto;
+    width: 220px;
     padding-top: 5px;
     padding-right: 5px;
     text-align: left; }
   form:not(.form-no-margin) .control-group .controls {
-    margin-left: 220px; }
+    margin-left: 0;
+    overflow: hidden; }
 
 form .form-no-margin .control-group .controls {
   margin-left: 0; }
