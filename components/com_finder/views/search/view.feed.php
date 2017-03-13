@@ -76,6 +76,12 @@ class FinderViewSearch extends JViewLegacy
 			return;
 		}
 
+		// If we don't have any results, we are done.
+		if (empty($results))
+		{
+			return;
+		}
+
 		// Convert the results to feed entries.
 		foreach ($results as $result)
 		{
