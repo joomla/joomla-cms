@@ -11,8 +11,8 @@ namespace Joomla\Cms\Model;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Cms\Table\Table;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Cms\Table\Table;
 
 /**
  * Base class for a Joomla Model
@@ -70,6 +70,13 @@ abstract class Model extends \JObject
 	 * @since  3.0
 	 */
 	protected $event_clean_cache = null;
+
+	/**
+	 * The base namespace of the component model belong to
+	 *
+	 * @var string
+	 */
+	protected $namespace = null;
 
 	/**
 	 * Add a directory where \JModelLegacy should search for models. You may
@@ -133,7 +140,7 @@ abstract class Model extends \JObject
 	 */
 	public static function addTablePath($path)
 	{
-		\JTable::addIncludePath($path);
+		Table::addIncludePath($path);
 	}
 
 	/**
@@ -220,17 +227,20 @@ abstract class Model extends \JObject
 	 */
 	public function __construct($config = array())
 	{
+		// Calculate component base namespace from model class name
+		$this->getNamespace();
+
 		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Model/i', get_class($this), $r))
+			if (isset($config['option']))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				$this->option = $config['option'];
 			}
-
-			$this->option = 'com_' . strtolower($r[1]);
+			else
+			{
+				$this->option =  $this->getComponentName();
+			}
 		}
 
 		// Set the view name
@@ -374,7 +384,7 @@ abstract class Model extends \JObject
 	{
 		// Clean the model name
 		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$prefix = preg_replace('/[^A-Z0-9_\\\\]/i', '', $prefix);
 
 		// Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))
@@ -412,14 +422,21 @@ abstract class Model extends \JObject
 	{
 		if (empty($this->name))
 		{
-			$r = null;
-
-			if (!preg_match('/Model(.*)/i', get_class($this), $r))
+			if ($this->namespace)
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				$this->name = strtolower((new \ReflectionClass($this))->getShortName());
 			}
+			else
+			{
+				$r = null;
 
-			$this->name = strtolower($r[1]);
+				if (!preg_match('/Model(.*)/i', get_class($this), $r))
+				{
+					throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				}
+
+				$this->name = strtolower($r[1]);
+			}
 		}
 
 		return $this->name;
@@ -461,11 +478,24 @@ abstract class Model extends \JObject
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
-	public function getTable($name = '', $prefix = 'Table', $options = array())
+	public function getTable($name = '', $prefix = '', $options = array())
 	{
 		if (empty($name))
 		{
 			$name = $this->getName();
+		}
+
+		if (empty($prefix))
+		{
+			if ($this->namespace)
+			{
+				$adminNamespace = str_replace('\\Site\\', '\\Admin\\', $this->namespace);
+				$prefix         = $adminNamespace . '\\Table\\';
+			}
+			else
+			{
+				$prefix = 'Table';
+			}
 		}
 
 		if ($table = $this->_createTable($name, $prefix, $options))
@@ -587,7 +617,7 @@ abstract class Model extends \JObject
 		$conf = \JFactory::getConfig();
 
 		$options = array(
-			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
+			'defaultgroup' => ($group) ? $group : $this->option,
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
 			'result' => true,
 		);
@@ -605,5 +635,75 @@ abstract class Model extends \JObject
 
 		// Trigger the onContentCleanCache event.
 		\JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+	}
+
+	/**
+	 * Get base namespace of the component
+	 *
+	 * @return string
+	 */
+	protected function getNamespace()
+	{
+		if (empty($this->namespace))
+		{
+			$reflection = new \ReflectionClass($this);
+
+			if ($modelNamespace = $reflection->getNamespaceName())
+			{
+				$pos = strpos($modelNamespace, '\\Model');
+
+				if ($pos !== false)
+				{
+					$this->namespace = substr($modelNamespace, 0, $pos);
+				}
+			}
+
+		}
+
+		return $this->namespace;
+	}
+
+	/**
+	 * Method to get component name of the model
+	 *
+	 * @return string
+	 *
+	 * @throws \Exception
+	 */
+	protected function getComponentName()
+	{
+		if (empty($this->option))
+		{
+			if ($this->namespace)
+			{
+				// In a namespace model class, the component name will be the part before Site/Admin
+				$parts = explode('\\', $this->namespace);
+
+				$index = array_search('Site', $parts) ?: array_search('Admin', $parts);
+
+				if ($index !== false && isset($parts[$index - 1]))
+				{
+					$this->option = 'com_' . strtolower($parts[$index - 1]);
+				}
+
+				if (empty($this->option))
+				{
+					throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				}
+			}
+			else
+			{
+				$r = null;
+
+				if (!preg_match('/(.*)Model/i', get_class($this), $r))
+				{
+					throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				}
+
+				$this->option = 'com_' . strtolower($r[1]);
+			}
+		}
+
+		return $this->option;
 	}
 }
