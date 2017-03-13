@@ -638,6 +638,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				if (isset($src[$k]))
 				{
 					$this->$k = $src[$k];
+				}elseif(isset($this->$k)){
+				  $this->$k = '';
 				}
 			}
 		}
