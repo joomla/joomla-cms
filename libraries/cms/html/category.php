@@ -121,7 +121,7 @@ abstract class JHtmlCategory
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
-				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title . " (" . $item->id . ")");
 			}
 		}
 
