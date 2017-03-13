@@ -30,6 +30,7 @@
 	<field
 		name="parent_id"
 		type="categoryedit"
+		default="1"
 		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
 		description="COM_CATEGORIES_FIELD_PARENT_DESC"
 	/>
