@@ -119,7 +119,10 @@ class ContentViewCategory extends JViewCategory
 			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
-
+		// Increment the hit counter of the category.
+			$model = $this->getModel();
+			$model->hit();
+		
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
 		$app     = JFactory::getApplication();
