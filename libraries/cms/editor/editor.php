@@ -261,6 +261,9 @@ class JEditor extends JObject
 
 		$document = JFactory::getDocument();
 
+		/**
+		 * @deprecated 4.0 Use JHtml::_('script', ...) instead
+		 */
 		if (method_exists($document, 'addCustomTag') && !empty($return))
 		{
 			$document->addCustomTag($return);
@@ -338,6 +341,8 @@ class JEditor extends JObject
 	 * @return  string
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 Bind any particular functionality to form submit 
 	 */
 	public function save($editor)
 	{
@@ -374,6 +379,8 @@ class JEditor extends JObject
 	 * @return  string
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 Use the API: Joomla.editors.instances['jform_articletext'].getValue();
 	 */
 	public function getContent($editor)
 	{
@@ -405,6 +412,8 @@ class JEditor extends JObject
 	 * @return  string
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 Use the API: Joomla.editors.instances['jform_articletext'].setValue('Joomla! rocks');
 	 */
 	public function setContent($editor, $html)
 	{
