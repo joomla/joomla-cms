@@ -163,6 +163,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 	// Menu Types
 	$menuTypes = ModMenuHelper::getMenus();
 	$menuTypes = ArrayHelper::sortObjects($menuTypes, array('client_id', 'title'), 1, false);
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER_SITE_MENUS'), null, null, false));
 
 	foreach ($menuTypes as $mti => $menuType)
 	{
@@ -200,6 +201,8 @@ if ($user->authorise('core.manage', 'com_menus'))
 		if (isset($menuTypes[$mti - 1]) && $menuTypes[$mti - 1]->client_id != $menuType->client_id)
 		{
 			$this->addSeparator();
+			$this->addChild(new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER_ADMIN_MENUS'), null, null, false));
+
 		}
 
 		$this->addChild(
