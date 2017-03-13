@@ -1181,9 +1181,10 @@ class Controller  implements ControllerInterface
 	 */
 	protected function getNamespace()
 	{
-		if (empty($this->namespace))
+		if ($this->namespace === null)
 		{
-			$reflection = new \ReflectionClass($this);
+			$this->namespace = '';
+			$reflection      = new \ReflectionClass($this);
 
 			if ($controllerNamespace = $reflection->getNamespaceName())
 			{
@@ -1192,6 +1193,12 @@ class Controller  implements ControllerInterface
 				if ($pos !== false)
 				{
 					$this->namespace = substr($controllerNamespace, 0, $pos);
+
+					// In case model class not in score of component, set it to empty for now
+					if (strpos($this->namespace, 'Site') === false && strpos($this->namespace, 'Admin') === false)
+					{
+						$this->namespace = '';
+					}
 				}
 			}
 
