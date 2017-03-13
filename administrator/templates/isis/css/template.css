@@ -2573,7 +2573,7 @@ input[type="submit"].btn.btn-mini {
 	margin-left: 0;
 }
 .btn-large .caret {
-	margin-top: 6px;
+	margin-top: 5px;
 }
 .btn-large .caret {
 	border-left-width: 5px;
@@ -5614,7 +5614,10 @@ a.disabled:hover {
 	line-height: 27px;
 }
 .btn .caret {
-	margin-bottom: 7px;
+	margin-bottom: 5px;
+}
+.table td.has-context {
+	line-height: 20px;
 }
 .btn.btn-micro .caret {
 	margin: 5px 0;
