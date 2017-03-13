@@ -172,7 +172,7 @@ class FieldsHelper
 					$field->value = $fieldValues[$field->id];
 				}
 
-				if (!isset($field->value) || $field->value === '' || $field->value === null)
+				if (!isset($field->value) || $field->value === '')
 				{
 					$field->value = $field->default_value;
 				}
