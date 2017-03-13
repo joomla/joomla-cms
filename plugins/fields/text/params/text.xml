@@ -12,6 +12,12 @@
 				<option value="">PLG_FIELDS_TEXT_PARAMS_USE_GLOBAL</option>
 				<option value="0">JNO</option>
 				<option value="raw">PLG_FIELDS_TEXT_PARAMS_FILTER_RAW</option>
+				<option value="safehtml">PLG_FIELDS_TEXT_PARAMS_FILTER_SAFEHTML</option>
+				<option value="JComponentHelper::filterText">PLG_FIELDS_TEXT_PARAMS_FILTER_TEXT</option>
+				<option value="alnum">PLG_FIELDS_TEXT_PARAMS_FILTER_ALNUM</option>
+				<option value="integer">PLG_FIELDS_TEXT_PARAMS_FILTER_INTEGER</option>
+				<option value="float">PLG_FIELDS_TEXT_PARAMS_FILTER_FLOAT</option>
+				<option value="tel">PLG_FIELDS_TEXT_PARAMS_FILTER_TEL</option>
 			</field>
 		</fieldset>
 	</fields>
