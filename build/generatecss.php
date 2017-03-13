@@ -45,6 +45,10 @@ class GenerateCss extends JApplicationCli
 	public function doExecute()
 	{
 		$templates = array(
+			JPATH_SITE . '/media/jui/less/bootstrap.less' => JPATH_SITE . '/media/jui/css/bootstrap.css',
+			JPATH_SITE . '/media/jui/less/responsive.less' => JPATH_SITE . '/media/jui/css/bootstrap-responsive.css',
+			JPATH_SITE . '/media/jui/less/bootstrap-rtl.less' => JPATH_SITE . '/media/jui/css/bootstrap-rtl.css',				
+			JPATH_SITE . '/media/jui/less/bootstrap-extended.less' => JPATH_SITE . '/media/jui/css/bootstrap-extended.css',				
 			JPATH_ADMINISTRATOR . '/templates/isis/less/template.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template.css',
 			JPATH_ADMINISTRATOR . '/templates/isis/less/template-rtl.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template-rtl.css',
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/template.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/template.css',
