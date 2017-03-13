@@ -200,7 +200,7 @@ class AssociationsHelper extends JHelperContent
 			// Get html parameters.
 			if (isset($items[$langCode]))
 			{
-				$title       = '<br/><br/>' . $items[$langCode][$titleFieldName];
+				$title       = '$items[$langCode][$titleFieldName];
 				$additional  = '';
 
 				if (isset($items[$langCode]['category_title']))
@@ -218,7 +218,7 @@ class AssociationsHelper extends JHelperContent
 								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
 								&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
 
-				$additional .= $addLink && $allow ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
+				$additional .= $addLink && $allow ? JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 			}
 			else
 			{
