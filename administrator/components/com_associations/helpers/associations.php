@@ -200,7 +200,7 @@ class AssociationsHelper extends JHelperContent
 			// Get html parameters.
 			if (isset($items[$langCode]))
 			{
-				$title       = '$items[$langCode][$titleFieldName];
+				$title       = $items[$langCode][$titleFieldName];
 				$additional  = '';
 
 				if (isset($items[$langCode]['category_title']))
@@ -245,10 +245,10 @@ class AssociationsHelper extends JHelperContent
 			$url     = JRoute::_('index.php?' . http_build_query($options));
 			$url     = $allow && $addLink ? $url : '';
 			$text    = strtoupper($language->sef);
-			
+
 			$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br /><br />' . $additional;
 			$classes = 'hasPopover label ' . $labelClass . ' label-' . $language->sef;
-			
+
 			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes
 						. '" data-content="' . $tooltip . '" data-placement="top">'
 						. $text . '</a>';
