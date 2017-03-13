@@ -4640,10 +4640,6 @@ a.badge:focus {
 	.thumbnails {
 		margin-left: 0;
 	}
-	.thumbnails > li {
-		float: none;
-		margin-left: 0;
-	}
 	[class*="span"],
 	.uneditable-input[class*="span"],
 	.row-fluid [class*="span"] {
