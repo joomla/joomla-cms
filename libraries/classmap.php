@@ -58,3 +58,7 @@ JLoader::registerAlias('JAuthenticationHelper',        '\\Joomla\\Cms\\Authentic
 
 JLoader::registerAlias('JHelp',                        '\\Joomla\\Cms\\Help\\Help', '4.0');
 JLoader::registerAlias('JCaptcha',                     '\\Joomla\\Cms\\Captcha\\Captcha', '4.0');
+
+JLoader::registerAlias('JLanguageAssociations',        '\\Joomla\\Cms\\Language\\Associations', '4.0');
+JLoader::registerAlias('JLanguageMultilang',           '\\Joomla\\Cms\\Language\\Multilanguage', '4.0');
+
