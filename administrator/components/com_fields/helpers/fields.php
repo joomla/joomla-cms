@@ -75,7 +75,7 @@ class FieldsHelper
 	 * Should the value being prepared to be shown in an HTML context then
 	 * prepareValue must be set to true. No further escaping needs to be done.
 	 * The values of the fields can be overridden by an associative array where the keys
-	 * has to be a name and it's corresponding value.
+	 * have to be a name and it's corresponding value.
 	 *
 	 * @param   string    $context           The context of the content passed to the helper
 	 * @param   stdClass  $item              item
