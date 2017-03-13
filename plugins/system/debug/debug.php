@@ -1457,9 +1457,7 @@ class PlgSystemDebug extends JPlugin
 
 		$this->totalQueries = $db->getCount();
 
-		$dbVersion5037 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.0.37', '>=');
-
-		if ($dbVersion5037)
+		if ($db->getServerType() === 'mysql')
 		{
 			try
 			{
