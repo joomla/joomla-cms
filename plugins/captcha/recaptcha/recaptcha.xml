@@ -99,7 +99,7 @@
 					>
 					<option value="normal">PLG_RECAPTCHA_THEME_NORMAL</option>
 					<option value="compact">PLG_RECAPTCHA_THEME_COMPACT</option>
-					<option value="compact">PLG_RECAPTCHA_THEME_INVISIBLE</option>
+					<option value="invisible">PLG_RECAPTCHA_THEME_INVISIBLE</option>
 				</field>
 			</fieldset>
 		</fields>
