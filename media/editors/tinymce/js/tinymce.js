@@ -9,11 +9,6 @@
 	// This line is for Mootools b/c
 	window.getSize = window.getSize || function(){return {x: window.innerWidth, y: window.innerHeight};};
 
-	// @deprecated 4.0 Use directly Joomla.editors.instances[editor].replaceSelection(text);
-	window.jInsertEditorText = function ( text, editor ) {
-		Joomla.editors.instances[editor].replaceSelection(text);
-	};
-
 	var JoomlaTinyMCE = {
 
 		/**
@@ -27,7 +22,7 @@
 			target = target || document;
 			var pluginOptions = Joomla.getOptions ? Joomla.getOptions('plg_editor_tinymce', {})
 					:  (Joomla.optionsStorage.plg_editor_tinymce || {}),
-				editors = target.querySelectorAll('.joomla-editor-tinymce');
+				editors = target.querySelectorAll('.js-editor-tinymce');
 
 			for(var i = 0, l = editors.length; i < l; i++) {
 				var editor = editors[i].querySelector('textarea');
@@ -61,20 +56,6 @@
 			if (options.setupCallbackString && !options.setup) {
 				options.setup = new Function('editor', options.setupCallbackString);
 			}
-
-			// Check if control-s is enabled and map it
-			if (window.parent.Joomla.getOptions('keySave')) {
-				options.plugins = 'save';
-				options.toolbar = 'save';
-				options.save_onsavecallback = function() { window.parent.Joomla.submitbutton(window.parent.Joomla.getOptions('keySave').task) };
-			}
-
-			// Check if drag and drop is enabled
-			if (window.parent.Joomla.getOptions('dnd-enabled')) {
-				// Loads a plugin from an external URL
-				tinymce.PluginManager.load('jdragdrop', window.parent.Joomla.getOptions('dnd-path'));
-			}
-
 
 			// Create a new instance
 			var ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);

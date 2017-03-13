@@ -26,11 +26,6 @@
 		}
 	}
 
-	// @deprecated 4.0 Use directly Joomla.editors.instances[editor].replaceSelection(text);
-	window.jInsertEditorText = function(text, editor) {
-		Joomla.editors.instances[editor].replaceSelection(text);
-	};
-
 	document.addEventListener('DOMContentLoaded', function() {
 		var editors = document.querySelectorAll('.js-editor-none');
 

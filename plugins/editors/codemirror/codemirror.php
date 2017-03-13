@@ -331,7 +331,7 @@ class PlgEditorCodemirror extends JPlugin
 			$buttonsEvent = new Event(
 				'getButtons',
 				[
-					'name'    => $this->_name,
+					'editor'  => $name,
 					'buttons' => $buttons,
 				]
 			);

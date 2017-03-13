@@ -25,13 +25,14 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
+// @todo move this inline to a file
 JFactory::getDocument()->addScriptDeclaration('
 fieldIns = function(id) {
-	window.parent.jInsertEditorText("{field " + id + "}", "' . $editor . '");
+	window.parent.Joomla.editors.instances[' . $editor . '].replaceSelection("{field " + id + "}");
 	window.parent.jModalClose();
 };
 fieldgroupIns = function(id) {
-	window.parent.jInsertEditorText("{fieldgroup " + id + "}", "' . $editor . '");
+	window.parent.Joomla.editors.instances[' . $editor . '].replaceSelection("{fieldgroup " + id + "}");
 	window.parent.jModalClose();
 };');
 ?>

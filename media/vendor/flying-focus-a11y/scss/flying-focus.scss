@@ -13,7 +13,7 @@
   &.flying-focus_visible {visibility: visible;
     z-index: 9999;
   }
-  
+
   @media screen and (-webkit-min-device-pixel-ratio: 0) {
     #flying-focus {
       box-shadow: none;
@@ -24,7 +24,7 @@
 }
 .flying-focus_target {
   outline: none !important;
-  
+
   &::-moz-focus-inner {
     border: 0 !important;
   }
