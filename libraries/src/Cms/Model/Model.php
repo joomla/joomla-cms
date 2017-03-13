@@ -644,8 +644,9 @@ abstract class Model extends \JObject
 	 */
 	protected function getNamespace()
 	{
-		if (empty($this->namespace))
+		if ($this->namespace === null)
 		{
+			$this->namespace = '';
 			$reflection = new \ReflectionClass($this);
 
 			if ($modelNamespace = $reflection->getNamespaceName())
@@ -655,9 +656,14 @@ abstract class Model extends \JObject
 				if ($pos !== false)
 				{
 					$this->namespace = substr($modelNamespace, 0, $pos);
+
+					// In case model class not in score of component, set it to empty for now
+					if (strpos($this->namespace, 'Site') === false && strpos($this->namespace, 'Admin') === false)
+					{
+						$this->namespace = '';
+					}
 				}
 			}
-
 		}
 
 		return $this->namespace;
