@@ -71,7 +71,14 @@ class Admin extends Controller
 		// Guess the \JText message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
-			$this->text_prefix = strtoupper($this->option);
+			if (isset($config['text_prefix']))
+			{
+				$this->text_prefix = strtoupper($config['text_prefix']);
+			}
+			else
+			{
+				$this->text_prefix = strtoupper($this->option);
+			}
 		}
 
 		// Guess the list view as the suffix, eg: OptionControllerSuffix.
