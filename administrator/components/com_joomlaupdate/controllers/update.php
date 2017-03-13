@@ -130,19 +130,6 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			return false;
 		}
 
-		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-		$options['text_file'] = 'joomla_update.php';
-		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
-
-		try
-		{
-			JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), JLog::INFO, 'Update');
-		}
-		catch (RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
 		$this->_applyCredentials();
 
 		/** @var JoomlaupdateModelDefault $model */
@@ -172,19 +159,6 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
 			return false;
-		}
-
-		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-		$options['text_file'] = 'joomla_update.php';
-		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
-
-		try
-		{
-			JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), JLog::INFO, 'Update');
-		}
-		catch (RuntimeException $exception)
-		{
-			// Informational log only
 		}
 
 		$this->_applyCredentials();
