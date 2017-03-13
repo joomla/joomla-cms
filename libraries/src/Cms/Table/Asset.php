@@ -350,9 +350,9 @@ class Asset extends Nested
 			$this->rules = json_decode($this->rules, true);
 		}
 
-		$k = $this->_tbl_key;
+		$key = $this->_tbl_key;
 
-		if (empty($this->$k))
+		if (empty($this->$key))
 		{
 			// Get the last id created by parent::store
 			$query = $this->_db->getQuery(true);
@@ -371,13 +371,13 @@ class Asset extends Nested
 				if ($e->getMessage())
 				{
 					$this->_unlock();
-					throw new \UnexpectedValueException(sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $e->getMessage()));
+					throw new \UnexpectedValueException(sprintf('JLIB_DATABASE_QUERY_FAILED', $e->getMessage(), get_class($this)));
 				}
 			}
 		}
 		else
 		{
-			$assetId = $this->$k;
+			$assetId = $this->$key;
 		}
 
 		// Store the rules data if parent data was saved.
@@ -387,13 +387,28 @@ class Asset extends Nested
 			return true;
 		}
 
-		// Delete the old permissions.
-		$query = $this->_db->getQuery(true);
+		// Only delete on update
+		if (!empty($this->$key))
+		{
+			try
+			{    // Delete the old permissions.
+				$query = $this->_db->getQuery(true);
 
-		$query->delete('#__permissions');
-		$query->where('assetid = ' . (int) $assetId);
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+				$query->delete('#__permissions');
+				$query->where('assetid = ' . (int) $assetId);
+				$this->_db->setQuery($query);
+				$this->_db->execute();
+			}
+			catch (\Exception $e)
+			{
+				// Check for a database error.
+				if ($e->getMessage())
+				{
+					$this->_unlock();
+					throw new \UnexpectedValueException(sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $e->getMessage()));
+				}
+			}
+		}
 
 		try
 		{
