@@ -74,7 +74,7 @@ class MenusViewItems extends JViewLegacy
 		// Preprocess the list of items to find ordering divisions.
 		foreach ($this->items as $item)
 		{
-			$this->ordering[$item->parent_id][] = $item->id;
+			$this->ordering[$item->parent_id][$item->lft] = $item->id;
 
 			// Item type text
 			switch ($item->type)
