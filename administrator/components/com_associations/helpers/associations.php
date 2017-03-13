@@ -244,7 +244,8 @@ class AssociationsHelper extends JHelperContent
 
 			$url       = JRoute::_('index.php?' . http_build_query($options));
 			$text      = strtoupper($language->sef);
-
+			
+			// Check if we have an image for the content language
 			if ($language->image == '')
 			{
 				$langImage = '';
@@ -255,7 +256,7 @@ class AssociationsHelper extends JHelperContent
 			}
 			elseif ( $language->image)
 			{
-						$langImage = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title, array('title' => $language->title), true);
+				$langImage = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title, array('title' => $language->title), true);
 			}
 			else
 			{
