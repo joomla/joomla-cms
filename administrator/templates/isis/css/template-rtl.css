@@ -7028,6 +7028,9 @@ h6 {
 	width: 100% !important;
 	max-width: 220px;
 }
+.control-group .chzn-container .chzn-choices .search-field input {
+	width: 100% !important;
+}
 .chzn-container-single .chzn-single {
 	background-color: #fff;
 	background-clip: inherit;
