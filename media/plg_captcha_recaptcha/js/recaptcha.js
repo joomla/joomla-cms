@@ -8,6 +8,8 @@ window.JoomlaInitReCaptcha2 = function() {
 	'use strict';
 
 	var items = document.getElementsByClassName('g-recaptcha'), item, options;
+	grecaptcha.execute();
+
 	for (var i = 0, l = items.length; i < l; i++) {
 		item = items[i];
 		options = item.dataset ? item.dataset : {
