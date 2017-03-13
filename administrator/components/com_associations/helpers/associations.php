@@ -244,7 +244,24 @@ class AssociationsHelper extends JHelperContent
 
 			$url       = JRoute::_('index.php?' . http_build_query($options));
 			$text      = strtoupper($language->sef);
-			$langImage = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title, array('title' => $language->title), true);
+
+			if ($language->image == '')
+			{
+				$langImage = '';
+			}
+			elseif ( $language->image == '*')
+			{
+				$langImage =  JText::alt('JALL', 'language');
+			}
+			elseif ( $language->image)
+			{
+						$langImage = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title, array('title' => $language->title), true);
+			}
+			else
+			{
+				$langImage =  JText::_('JUNDEFINED');
+			}
+
 			$tooltip   = implode(' ', array($langImage, $language->title, $title, $additional));
 
 			$items[$langCode]['link'] = JHtml::_('tooltip', $tooltip, null, null, $text, $allow && $addLink ? $url : '', null, 'hasTooltip ' . $labelClass);
