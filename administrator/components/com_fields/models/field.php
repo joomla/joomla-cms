@@ -567,7 +567,6 @@ class FieldsModelField extends JModelAdmin
 	 * Returning the values for the given field ids, context and item id.
 	 *
 	 * @param   array   $fieldIds  The field Ids.
-	 * @param   string  $context   The context.
 	 * @param   string  $itemId    The ID of the item.
 	 *
 	 * @return  NULL|array
@@ -576,7 +575,7 @@ class FieldsModelField extends JModelAdmin
 	 */
 	public function getFieldValues(array $fieldIds, $itemId)
 	{
-		$key = md5(implode(',', $fieldIds) . $itemId);
+		$key = md5(serialize($fieldIds) . $itemId);
 
 		if (!key_exists($key, $this->valueCache))
 		{

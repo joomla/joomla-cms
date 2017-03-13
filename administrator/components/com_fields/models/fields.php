@@ -109,7 +109,7 @@ class FieldsModelFields extends JModelList
 		$id .= ':' . serialize($this->getState('filter.assigned_cat_ids'));
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.group_id');
-		$id .= ':' . print_r($this->getState('filter.language'), true);
+		$id .= ':' . serialize($this->getState('filter.language'), true);
 
 		return parent::getStoreId($id);
 	}
